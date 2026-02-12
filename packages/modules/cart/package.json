@@ -1,0 +1,15 @@
+{
+  "name": "@payload-shop/cart",
+  "version": "1.0.0",
+  "description": "Cart module - Shopping cart with B2B/B2C support",
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "dependencies": {
+    "@payload-shop/types": "workspace:*",
+    "payload": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

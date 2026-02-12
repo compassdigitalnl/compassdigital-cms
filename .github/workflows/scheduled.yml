@@ -1,0 +1,227 @@
+name: Scheduled Checks
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    name: Daily Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        id: audit
+        run: |
+          npm audit --json > audit-report.json || true
+          npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Analyze audit results
+        run: |
+          if [ -f audit-report.json ]; then
+            echo "Security Audit Results:"
+            echo "======================"
+            
+            VULNERABILITIES=$(cat audit-report.json | grep -o '"total":[0-9]*' | head -1 | cut -d':' -f2 || echo "0")
+            HIGH=$(cat audit-report.json | grep -o '"high":[0-9]*' | cut -d':' -f2 || echo "0")
+            CRITICAL=$(cat audit-report.json | grep -o '"critical":[0-9]*' | cut -d':' -f2 || echo "0")
+            
+            echo "Total vulnerabilities: $VULNERABILITIES"
+            echo "High severity: $HIGH"
+            echo "Critical severity: $CRITICAL"
+            
+            if [ "$CRITICAL" -gt "0" ]; then
+              echo "🚨 CRITICAL vulnerabilities found!"
+              echo "Please address these immediately!"
+            fi
+            
+            if [ "$HIGH" -gt "5" ]; then
+              echo "⚠️  High number of HIGH severity vulnerabilities!"
+            fi
+          fi
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: daily-security-audit-${{ github.run_number }}
+          path: audit-report.json
+          retention-days: 90
+
+  dependency-check:
+    name: Check Outdated Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for outdated packages
+        run: |
+          echo "Checking for outdated packages..."
+          npm outdated --json > outdated-report.json || true
+          
+          if [ -s outdated-report.json ]; then
+            echo "Outdated packages found:"
+            cat outdated-report.json | jq -r 'to_entries[] | "\(.key): \(.value.current) → \(.value.latest)"' || true
+          else
+            echo "✅ All packages are up to date!"
+          fi
+
+      - name: Upload outdated report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: outdated-dependencies-${{ github.run_number }}
+          path: outdated-report.json
+          retention-days: 30
+
+  health-check:
+    name: Production Health Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check production health
+        run: |
+          PRODUCTION_URL="https://yourdomain.com"
+          HEALTH_ENDPOINT="$PRODUCTION_URL/api/health"
+          
+          echo "Checking production health..."
+          echo "URL: $HEALTH_ENDPOINT"
+          
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" $HEALTH_ENDPOINT || echo "000")
+          
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Production is healthy!"
+            echo "Status code: $STATUS"
+          else
+            echo "❌ Production health check failed!"
+            echo "Status code: $STATUS"
+            exit 1
+          fi
+
+      - name: Check response time
+        run: |
+          PRODUCTION_URL="https://yourdomain.com"
+          
+          echo "Checking response time..."
+          TIME=$(curl -o /dev/null -s -w '%{time_total}' $PRODUCTION_URL || echo "999")
+          
+          echo "Response time: ${TIME}s"
+          
+          # Alert if response time > 3 seconds
+          if (( $(echo "$TIME > 3.0" | bc -l) )); then
+            echo "⚠️  Slow response time detected!"
+          else
+            echo "✅ Response time is good!"
+          fi
+
+  build-health:
+    name: Verify Build Health
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify TypeScript compilation
+        run: npx tsc --noEmit
+
+      - name: Test build
+        run: npm run build
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+
+      - name: Build success
+        run: echo "✅ Build is healthy!"
+
+  license-check:
+    name: License Compliance Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check licenses
+        run: |
+          npx license-checker --json --out licenses.json || true
+          
+          echo "License check completed"
+          echo "Report saved to licenses.json"
+
+      - name: Upload license report
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-report-${{ github.run_number }}
+          path: licenses.json
+          retention-days: 30
+
+  summary:
+    name: Daily Check Summary
+    runs-on: ubuntu-latest
+    needs: [security-audit, dependency-check, health-check, build-health, license-check]
+    if: always()
+
+    steps:
+      - name: Summary
+        run: |
+          echo "Daily Checks Summary"
+          echo "==================="
+          echo "Security Audit: ${{ needs.security-audit.result }}"
+          echo "Dependency Check: ${{ needs.dependency-check.result }}"
+          echo "Health Check: ${{ needs.health-check.result }}"
+          echo "Build Health: ${{ needs.build-health.result }}"
+          echo "License Check: ${{ needs.license-check.result }}"
+          
+          if [ "${{ needs.health-check.result }}" = "failure" ]; then
+            echo ""
+            echo "🚨 CRITICAL: Production health check failed!"
+            echo "Immediate attention required!"
+          fi
+          
+          if [ "${{ needs.security-audit.result }}" = "failure" ]; then
+            echo ""
+            echo "⚠️  Security vulnerabilities detected!"
+          fi

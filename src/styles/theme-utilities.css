@@ -1,0 +1,185 @@
+/**
+ * Theme Utilities CSS
+ *
+ * Design system utility classes driven by Theme global CSS variables
+ * These classes make it easy to use theme colors without hardcoding values
+ *
+ * Framework principle: "Use design tokens" - payload-website-framework-b2b-b2c.md
+ */
+
+/* ============================================
+   COLOR UTILITIES
+   ============================================ */
+
+/* Background Colors */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+/* Text Colors */
+.text-primary-color {
+  color: var(--color-primary);
+}
+
+.text-secondary-color {
+  color: var(--color-secondary);
+}
+
+.text-accent-color {
+  color: var(--color-accent);
+}
+
+/* Border Colors */
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+.border-secondary {
+  border-color: var(--color-secondary);
+}
+
+.border-default {
+  border-color: var(--color-border);
+}
+
+/* ============================================
+   BUTTON UTILITIES
+   ============================================ */
+
+.btn {
+  border-radius: var(--border-radius);
+  transition-duration: var(--transition-duration);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: white;
+  border: none;
+}
+
+.btn-secondary:hover {
+  opacity: 0.9;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* ============================================
+   GRADIENT UTILITIES
+   ============================================ */
+
+.gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+.container-theme {
+  max-width: var(--container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.shadow-theme {
+  box-shadow: var(--shadow);
+}
+
+.rounded-theme {
+  border-radius: var(--border-radius);
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* ============================================
+   CARD UTILITIES
+   ============================================ */
+
+.card {
+  background-color: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition-duration: var(--transition-duration);
+}
+
+.card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   SECTION UTILITIES
+   ============================================ */
+
+.section-default {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+.section-surface {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.section-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.section-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: white;
+}

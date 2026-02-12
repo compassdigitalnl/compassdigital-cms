@@ -1,0 +1,24 @@
+{
+  "name": "@payload-shop/types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for Payload shop platform",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./wizard": {
+      "types": "./dist/wizard.d.ts",
+      "default": "./dist/wizard.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

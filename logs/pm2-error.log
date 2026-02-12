@@ -1,0 +1,253 @@
+2026-02-10T20:25:06: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T20:25:06: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T20:25:07: (node:15677) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T20:25:52: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T20:25:52: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T20:25:53: (node:16857) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T20:43:31: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T20:43:31: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T20:43:32: (node:24051) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T20:50:48: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T20:50:48: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T20:50:48: (node:27326) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T20:57:36: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T20:57:36: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T20:57:36: (node:30200) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T20:59:13: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T20:59:13: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T20:59:14: (node:31126) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T21:01:48: Error sending initial message: TypeError: b.write is not a function
+    at Object.start (.next/server/app/api/ai/stream/[connectionId]/route.js:3:219)
+    at j (.next/server/app/api/ai/stream/[connectionId]/route.js:3:151)
+2026-02-10T21:01:49: Error sending SSE message: TypeError: c.write is not a function
+    at i (.next/server/app/api/ai/stream/[connectionId]/route.js:1:7809)
+    at l (.next/server/app/api/wizard/generate-site/route.js:1:1262)
+2026-02-10T21:01:49: Site generation error: h: The following fields are invalid: Pagina-inhoud > Block 1 (Hero) > Titel, Pagina-inhoud > Block 4 (Call to Action) > Titel
+    at g (.next/server/chunks/7687.js:3:70207)
+    at async R (.next/server/chunks/7687.js:15:294729)
+    at async l (.next/server/app/api/wizard/generate-site/route.js:1:2477) {
+  data: [Object],
+  isOperational: true,
+  isPublic: true,
+  status: 400,
+  [cause]: [Object]
+}
+2026-02-10T21:02:03: Error sending heartbeat: TypeError: b.write is not a function
+    at Timeout._onTimeout (.next/server/app/api/ai/stream/[connectionId]/route.js:5:93)
+2026-02-10T21:08:13: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T21:08:13: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T21:08:13: (node:46262) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T21:08:23: Site generation error: h: The following field is invalid: Pagina-inhoud > Block 3 (Call to Action) > Titel
+    at g (.next/server/chunks/7687.js:3:70207)
+    at async R (.next/server/chunks/7687.js:15:294729)
+    at async l (.next/server/app/api/wizard/generate-site/route.js:1:2690) {
+  data: [Object],
+  isOperational: true,
+  isPublic: true,
+  status: 400,
+  [cause]: [Object]
+}
+2026-02-10T21:12:42: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T21:12:42: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T21:12:43: (node:48168) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T21:21:04: Site generation error: h: The following field is invalid: slug
+    at y (.next/server/chunks/2340.js:162:142941)
+    at B (.next/server/chunks/2340.js:162:150968)
+    at async Object.g [as create] (.next/server/chunks/2340.js:79:19998)
+    at async R (.next/server/chunks/7687.js:15:295624)
+    at async l (.next/server/app/api/wizard/generate-site/route.js:1:2577) {
+  data: [Object],
+  isOperational: true,
+  isPublic: true,
+  status: 400,
+  [cause]: [Object]
+}
+2026-02-10T21:33:02: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T21:33:02: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T21:33:03: (node:59864) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-10T21:43:07:  ⨯ Failed to start server
+2026-02-10T21:43:08:  ⨯ Failed to start server
+2026-02-10T21:43:08:  ⨯ Failed to start server
+2026-02-10T21:43:08:  ⨯ Failed to start server
+2026-02-10T21:43:09:  ⨯ Failed to start server
+2026-02-10T21:43:09:  ⨯ Failed to start server
+2026-02-10T21:43:09:  ⨯ Failed to start server
+2026-02-10T21:43:09:  ⨯ Failed to start server
+2026-02-10T21:43:10:  ⨯ Failed to start server
+2026-02-10T21:43:10:  ⨯ Failed to start server
+2026-02-10T21:43:10:  ⨯ Failed to start server
+2026-02-10T21:43:10:  ⨯ Failed to start server
+2026-02-10T21:43:11:  ⨯ Failed to start server
+2026-02-10T21:43:11:  ⨯ Failed to start server
+2026-02-10T21:43:11:  ⨯ Failed to start server
+2026-02-10T21:43:12:  ⨯ Failed to start server
+2026-02-10T21:44:32:  ⨯ Failed to start server
+2026-02-10T21:44:32:  ⨯ Failed to start server
+2026-02-10T21:44:33:  ⨯ Failed to start server
+2026-02-10T21:44:33:  ⨯ Failed to start server
+2026-02-10T21:44:33:  ⨯ Failed to start server
+2026-02-10T21:44:34:  ⨯ Failed to start server
+2026-02-10T21:44:34:  ⨯ Failed to start server
+2026-02-10T21:44:34:  ⨯ Failed to start server
+2026-02-10T21:44:35:  ⨯ Failed to start server
+2026-02-10T21:44:35:  ⨯ Failed to start server
+2026-02-10T21:44:35:  ⨯ Failed to start server
+2026-02-10T21:44:36:  ⨯ Failed to start server
+2026-02-10T21:44:36:  ⨯ Failed to start server
+2026-02-10T21:44:36:  ⨯ Failed to start server
+2026-02-10T21:44:38:  ⨯ Failed to start server
+2026-02-10T21:44:38:  ⨯ Failed to start server
+2026-02-10T21:44:38:  ⨯ Failed to start server
+2026-02-10T21:45:22:  ⨯ Failed to start server
+2026-02-10T21:45:23:  ⨯ Failed to start server
+2026-02-10T21:45:23:  ⨯ Failed to start server
+2026-02-10T21:45:23:  ⨯ Failed to start server
+2026-02-10T21:45:24:  ⨯ Failed to start server
+2026-02-10T21:45:24:  ⨯ Failed to start server
+2026-02-10T21:45:25:  ⨯ Failed to start server
+2026-02-10T21:45:25:  ⨯ Failed to start server
+2026-02-10T21:45:25:  ⨯ Failed to start server
+2026-02-10T21:45:26:  ⨯ Failed to start server
+2026-02-10T21:45:26:  ⨯ Failed to start server
+2026-02-10T21:45:26:  ⨯ Failed to start server
+2026-02-10T21:45:26:  ⨯ Failed to start server
+2026-02-10T21:45:27:  ⨯ Failed to start server
+2026-02-10T21:45:27:  ⨯ Failed to start server
+2026-02-10T21:45:27:  ⨯ Failed to start server
+2026-02-10T21:55:58:  ⨯ Failed to start server
+2026-02-10T21:55:58:  ⨯ Failed to start server
+2026-02-10T21:55:59:  ⨯ Failed to start server
+2026-02-10T21:55:59:  ⨯ Failed to start server
+2026-02-10T21:55:59:  ⨯ Failed to start server
+2026-02-10T21:55:59:  ⨯ Failed to start server
+2026-02-10T21:56:00:  ⨯ Failed to start server
+2026-02-10T21:56:00:  ⨯ Failed to start server
+2026-02-10T21:56:00:  ⨯ Failed to start server
+2026-02-10T21:56:00:  ⨯ Failed to start server
+2026-02-10T21:56:01:  ⨯ Failed to start server
+2026-02-10T21:56:01:  ⨯ Failed to start server
+2026-02-10T21:56:01:  ⨯ Failed to start server
+2026-02-10T21:56:01:  ⨯ Failed to start server
+2026-02-10T21:56:02:  ⨯ Failed to start server
+2026-02-10T21:56:02:  ⨯ Failed to start server
+2026-02-10T21:56:25:  ⨯ Failed to start server
+2026-02-10T21:56:25:  ⨯ Failed to start server
+2026-02-10T21:56:25:  ⨯ Failed to start server
+2026-02-10T21:56:25:  ⨯ Failed to start server
+2026-02-10T21:56:25:  ⨯ Failed to start server
+2026-02-10T21:56:26:  ⨯ Failed to start server
+2026-02-10T21:56:26:  ⨯ Failed to start server
+2026-02-10T21:56:26:  ⨯ Failed to start server
+2026-02-10T21:56:26:  ⨯ Failed to start server
+2026-02-10T21:56:27:  ⨯ Failed to start server
+2026-02-10T21:56:27:  ⨯ Failed to start server
+2026-02-10T21:56:27:  ⨯ Failed to start server
+2026-02-10T21:56:27:  ⨯ Failed to start server
+2026-02-10T21:56:28:  ⨯ Failed to start server
+2026-02-10T21:56:28:  ⨯ Failed to start server
+2026-02-10T21:56:28:  ⨯ Failed to start server
+2026-02-10T21:58:39:  ⨯ Failed to start server
+2026-02-10T21:58:40:  ⨯ Failed to start server
+2026-02-10T21:58:40:  ⨯ Failed to start server
+2026-02-10T21:58:40:  ⨯ Failed to start server
+2026-02-10T21:58:40:  ⨯ Failed to start server
+2026-02-10T21:58:41:  ⨯ Failed to start server
+2026-02-10T21:58:41:  ⨯ Failed to start server
+2026-02-10T21:58:41:  ⨯ Failed to start server
+2026-02-10T21:58:41:  ⨯ Failed to start server
+2026-02-10T21:58:42:  ⨯ Failed to start server
+2026-02-10T21:58:42:  ⨯ Failed to start server
+2026-02-10T21:58:42:  ⨯ Failed to start server
+2026-02-10T21:58:42:  ⨯ Failed to start server
+2026-02-10T21:58:43:  ⨯ Failed to start server
+2026-02-10T21:58:43:  ⨯ Failed to start server
+2026-02-10T21:58:43:  ⨯ Failed to start server
+2026-02-10T22:00:24:  ⨯ Failed to start server
+2026-02-10T22:00:25:  ⨯ Failed to start server
+2026-02-10T22:00:25:  ⨯ Failed to start server
+2026-02-10T22:00:25:  ⨯ Failed to start server
+2026-02-10T22:00:25:  ⨯ Failed to start server
+2026-02-10T22:00:26:  ⨯ Failed to start server
+2026-02-10T22:00:26:  ⨯ Failed to start server
+2026-02-10T22:00:26:  ⨯ Failed to start server
+2026-02-10T22:00:27:  ⨯ Failed to start server
+2026-02-10T22:00:27:  ⨯ Failed to start server
+2026-02-10T22:00:27:  ⨯ Failed to start server
+2026-02-10T22:00:27:  ⨯ Failed to start server
+2026-02-10T22:00:28:  ⨯ Failed to start server
+2026-02-10T22:00:28:  ⨯ Failed to start server
+2026-02-10T22:00:28:  ⨯ Failed to start server
+2026-02-10T22:00:29:  ⨯ Failed to start server
+2026-02-10T22:02:20:  ⨯ Failed to start server
+2026-02-10T22:02:20:  ⨯ Failed to start server
+2026-02-10T22:02:20:  ⨯ Failed to start server
+2026-02-10T22:02:20:  ⨯ Failed to start server
+2026-02-10T22:02:21:  ⨯ Failed to start server
+2026-02-10T22:02:21:  ⨯ Failed to start server
+2026-02-10T22:02:21:  ⨯ Failed to start server
+2026-02-10T22:02:21:  ⨯ Failed to start server
+2026-02-10T22:02:22:  ⨯ Failed to start server
+2026-02-10T22:02:22:  ⨯ Failed to start server
+2026-02-10T22:02:22:  ⨯ Failed to start server
+2026-02-10T22:02:22:  ⨯ Failed to start server
+2026-02-10T22:02:23:  ⨯ Failed to start server
+2026-02-10T22:02:23:  ⨯ Failed to start server
+2026-02-10T22:02:23:  ⨯ Failed to start server
+2026-02-10T22:02:23:  ⨯ Failed to start server
+2026-02-10T22:04:22:  ⨯ Failed to start server
+2026-02-10T22:04:23:  ⨯ Failed to start server
+2026-02-10T22:04:23:  ⨯ Failed to start server
+2026-02-10T22:04:23:  ⨯ Failed to start server
+2026-02-10T22:04:23:  ⨯ Failed to start server
+2026-02-10T22:04:24:  ⨯ Failed to start server
+2026-02-10T22:04:24:  ⨯ Failed to start server
+2026-02-10T22:04:24:  ⨯ Failed to start server
+2026-02-10T22:04:24:  ⨯ Failed to start server
+2026-02-10T22:04:25:  ⨯ Failed to start server
+2026-02-10T22:04:25:  ⨯ Failed to start server
+2026-02-10T22:04:25:  ⨯ Failed to start server
+2026-02-10T22:04:25:  ⨯ Failed to start server
+2026-02-10T22:04:26:  ⨯ Failed to start server
+2026-02-10T22:04:26:  ⨯ Failed to start server
+2026-02-10T22:04:26:  ⨯ Failed to start server
+2026-02-10T22:04:55:  ⨯ Failed to start server
+2026-02-10T22:04:55:  ⨯ Failed to start server
+2026-02-10T22:04:56:  ⨯ Failed to start server
+2026-02-10T22:04:56:  ⨯ Failed to start server
+2026-02-10T22:04:56:  ⨯ Failed to start server
+2026-02-10T22:04:56:  ⨯ Failed to start server
+2026-02-10T22:04:57:  ⨯ Failed to start server
+2026-02-10T22:04:57:  ⨯ Failed to start server
+2026-02-10T22:04:57:  ⨯ Failed to start server
+2026-02-10T22:04:57:  ⨯ Failed to start server
+2026-02-10T22:04:58:  ⨯ Failed to start server
+2026-02-10T22:04:58:  ⨯ Failed to start server
+2026-02-10T22:04:58:  ⨯ Failed to start server
+2026-02-10T22:04:58:  ⨯ Failed to start server
+2026-02-10T22:04:59:  ⨯ Failed to start server
+2026-02-10T22:04:59:  ⨯ Failed to start server
+2026-02-10T22:05:43: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-10T22:05:43: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-10T22:05:43: (node:9034) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-11T10:24:38: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-11T10:24:38: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-11T10:24:38: (node:46991) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-11T11:01:40: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-11T11:01:40: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-11T11:01:41: (node:60489) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-02-11T11:05:45: [@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+2026-02-11T11:05:45: [@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+2026-02-11T11:05:45: (node:63491) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

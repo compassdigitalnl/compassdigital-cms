@@ -1,0 +1,596 @@
+/**
+ * Payload CMS Integration Service
+ * Handles writing generated content to Payload database
+ */
+
+import type { GeneratedPage, WizardState } from './types'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import { imageService } from '@/lib/images/ImageService'
+
+export class PayloadService {
+  /**
+   * Save all generated pages to Payload CMS
+   */
+  async saveGeneratedSite(
+    pages: GeneratedPage[],
+    wizardData: WizardState,
+  ): Promise<{ pages: any[]; previewUrl: string }> {
+    console.log('[PayloadService] Starting to save generated site...')
+    console.log(`[PayloadService] ${pages.length} pages to save`)
+
+    const payload = await getPayload({ config })
+    const savedPages: any[] = []
+
+    try {
+      // First, delete any existing pages with the same slugs to avoid unique constraint errors
+      console.log('[PayloadService] Checking for existing pages with duplicate slugs...')
+      for (const page of pages) {
+        const existing = await payload.find({
+          collection: 'pages',
+          where: {
+            slug: {
+              equals: page.slug,
+            },
+          },
+          limit: 1,
+        })
+
+        if (existing.docs.length > 0) {
+          console.log(`[PayloadService] Deleting existing page with slug: ${page.slug} (ID: ${existing.docs[0].id})`)
+          await payload.delete({
+            collection: 'pages',
+            id: existing.docs[0].id,
+          })
+        }
+      }
+
+      for (const page of pages) {
+        console.log(`[PayloadService] Saving page: ${page.title}`)
+        console.log(`[PayloadService] Page slug: "${page.slug}"`)
+        console.log(`[PayloadService] Page data:`, JSON.stringify(page, null, 2))
+
+        // Convert generated blocks to Payload format
+        const layoutBlocks = this.convertBlocksToPayloadFormat(page.blocks, wizardData)
+
+        console.log(`[PayloadService] Converted ${layoutBlocks.length} blocks for ${page.slug}:`)
+        layoutBlocks.forEach((b, i) => {
+          console.log(`  Block ${i + 1}: ${b.blockType}`)
+        })
+
+        // Create page in Payload
+        const createdPage = await payload.create({
+          collection: 'pages',
+          data: {
+            title: page.title,
+            slug: page.slug,
+            status: 'published',
+            publishedOn: new Date().toISOString(),
+            layout: layoutBlocks,
+            // Color scheme from wizard
+            colorScheme: {
+              primary: wizardData.design.colorScheme.primary,
+              secondary: wizardData.design.colorScheme.secondary,
+              accent: wizardData.design.colorScheme.accent,
+            },
+            // SEO metadata (will be handled by SEO plugin if installed)
+            meta: {
+              title: page.meta.title,
+              description: page.meta.description,
+              // @ts-ignore - SEO plugin fields
+              keywords: page.meta.keywords?.join(', '),
+            },
+            // @ts-ignore - Payload's internal draft/publish status
+            _status: 'published',
+          },
+        })
+
+        console.log(`[PayloadService] ✓ Saved page: ${page.title} (ID: ${createdPage.id})`)
+        savedPages.push(createdPage)
+      }
+
+      // Get preview URL (home page or first page)
+      const homePage = savedPages.find((p) => p.slug === '' || p.slug === 'home')
+      const previewUrl = homePage
+        ? `/${homePage.slug}`
+        : `/${savedPages[0]?.slug || ''}`
+
+      console.log(`[PayloadService] ✅ All pages saved successfully!`)
+      console.log(`[PayloadService] Preview URL: ${previewUrl}`)
+
+      return {
+        pages: savedPages,
+        previewUrl,
+      }
+    } catch (error) {
+      console.error('[PayloadService] Error saving pages:', error)
+      console.error('[PayloadService] Error details:', JSON.stringify(error, null, 2))
+      if (error && typeof error === 'object' && 'data' in error) {
+        console.error('[PayloadService] Validation errors:', JSON.stringify((error as any).data, null, 2))
+      }
+      throw error
+    }
+  }
+
+  /**
+   * Convert AI-generated blocks to Payload block format
+   */
+  private convertBlocksToPayloadFormat(blocks: any[], wizardData: WizardState): any[] {
+    console.log(`[PayloadService] Converting ${blocks.length} AI blocks to Payload format...`)
+
+    return blocks
+      .map((block, index) => {
+      const blockType = block.blockType
+      console.log(`[PayloadService]   Block ${index + 1}: ${blockType}`)
+
+      switch (blockType) {
+        case 'hero':
+          // Generate background image URL based on company name + industry
+          const heroImageKeyword = `${wizardData.companyInfo.name}-${wizardData.companyInfo.industry}`.replace(/\s+/g, '-')
+          const heroImageUrl = imageService.getHeroImage(heroImageKeyword)
+
+          return {
+            blockType: 'hero',
+            style: 'image', // Always use image style for AI-generated heroes
+            title: block.headline || block.title || '',
+            subtitle: block.subheadline || block.subtitle || '',
+            primaryCTA: {
+              text: block.primaryCTA || 'Neem contact op',
+              link: '/contact',
+            },
+            secondaryCTA: block.secondaryCTA
+              ? {
+                  text: block.secondaryCTA,
+                  link: '/about',
+                }
+              : undefined,
+            backgroundImageUrl: heroImageUrl,
+          }
+
+        case 'features':
+        case 'services':
+          return {
+            blockType: 'services',
+            heading: block.heading || 'Onze diensten',
+            intro: block.intro || block.description || '',
+            services: (block.features || block.services || []).map((feature: any) => ({
+              name: feature.title || feature.name || '',
+              description: feature.description || '',
+              link: feature.link || '',
+            })),
+            layout: 'grid-3',
+          }
+
+        case 'cta':
+          return {
+            blockType: 'cta',
+            title: block.headline || block.title || '',
+            text: block.description || block.text || '',
+            buttonText: block.buttonText || 'Neem contact op',
+            buttonLink: '/contact',
+            style: 'primary',
+          }
+
+        case 'about-preview':
+        case 'story':
+          // Handle story content which can be an array of paragraphs
+          const storyContent = block.content || block.description || ''
+          const contentArray = Array.isArray(storyContent) ? storyContent : [{ paragraph: storyContent }]
+
+          return {
+            blockType: 'content',
+            columns: [
+              {
+                size: 'full',
+                richText: [
+                  {
+                    type: 'h2',
+                    children: [{ text: block.title || block.subtitle || 'Over ons' }],
+                  },
+                  ...contentArray.map((item: any) => ({
+                    type: 'p',
+                    children: [{ text: item.paragraph || item.text || item.content || item }],
+                  })),
+                ],
+              },
+            ],
+          }
+
+        case 'values':
+          return {
+            blockType: 'services',
+            heading: 'Onze kernwaarden',
+            intro: 'Deze waarden drijven ons dagelijks werk',
+            services: wizardData.companyInfo.coreValues.map((value) => ({
+              name: value,
+              description: `Bij ${wizardData.companyInfo.name} staat ${value.toLowerCase()} centraal in alles wat we doen.`,
+            })),
+            layout: 'grid-3',
+          }
+
+        case 'testimonials':
+        case 'testimonials-list':
+          // Use AI-generated testimonials if available
+          const testimonials = block.testimonials || []
+          return {
+            blockType: 'testimonials',
+            heading: block.title || block.heading || 'Wat onze klanten zeggen',
+            intro: block.introduction || block.intro || '',
+            source: 'manual',
+            manualTestimonials: testimonials.map((t: any) => {
+              // Ensure company field is always present and not empty
+              const company = t.company || `${wizardData.companyInfo.name} Klant`
+              return {
+                name: t.name || 'Klant',
+                role: t.position || t.role || 'Client',
+                company: company,
+                quote: t.testimonial || t.quote || '',
+                rating: t.rating || 5,
+              }
+            }),
+            layout: 'grid-3',
+          }
+
+        case 'contact-form':
+          // Skip contact form for now (requires form relationship)
+          // Instead, use a simple content block with contact info
+          return {
+            blockType: 'content',
+            columns: [
+              {
+                size: 'full',
+                richText: [
+                  {
+                    type: 'h2',
+                    children: [{ text: 'Neem contact met ons op' }],
+                  },
+                  {
+                    type: 'p',
+                    children: [
+                      {
+                        text: 'Vul het formulier in en we nemen zo snel mogelijk contact met u op.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'p',
+                    children: [
+                      {
+                        text: `E-mail: info@${wizardData.companyInfo.name.toLowerCase().replace(/\s+/g, '')}.nl`,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          }
+
+        case 'contact-info':
+          // Use user-provided contact info (FASE 2 enhanced)
+          const contactInfo = wizardData.companyInfo.contactInfo
+          const contactBlocks = []
+
+          // Heading
+          contactBlocks.push({
+            type: 'h2',
+            children: [{ text: block.heading || 'Neem contact met ons op' }],
+          })
+
+          // Intro
+          if (block.intro) {
+            contactBlocks.push({
+              type: 'p',
+              children: [{ text: block.intro }],
+            })
+          }
+
+          // Email (always from block or contactInfo)
+          if (block.email || contactInfo?.email) {
+            contactBlocks.push({
+              type: 'p',
+              children: [{ text: `📧 E-mail: ${block.email || contactInfo?.email}` }],
+            })
+          }
+
+          // Phone
+          if (block.phone || contactInfo?.phone) {
+            contactBlocks.push({
+              type: 'p',
+              children: [{ text: `📞 Telefoon: ${block.phone || contactInfo?.phone}` }],
+            })
+          }
+
+          // Address
+          const address = block.address || contactInfo?.address
+          if (address && (address.street || address.city)) {
+            const addressParts = [
+              address.street,
+              address.postalCode && address.city ? `${address.postalCode} ${address.city}` : (address.postalCode || address.city),
+              address.country
+            ].filter(Boolean)
+
+            if (addressParts.length > 0) {
+              contactBlocks.push({
+                type: 'p',
+                children: [{ text: `📍 Adres: ${addressParts.join(', ')}` }],
+              })
+            }
+          }
+
+          // Opening hours
+          if (block.openingHours || contactInfo?.openingHours) {
+            contactBlocks.push({
+              type: 'p',
+              children: [{ text: `🕒 Openingstijden: ${block.openingHours || contactInfo?.openingHours}` }],
+            })
+          }
+
+          // Response time
+          if (block.responseTime) {
+            contactBlocks.push({
+              type: 'p',
+              children: [{ text: `⏱️ ${block.responseTime}` }],
+            })
+          }
+
+          // Social media
+          const socialMedia = block.socialMedia || contactInfo?.socialMedia
+          if (socialMedia) {
+            const socialLinks = []
+            if (socialMedia.facebook) socialLinks.push(`Facebook: ${socialMedia.facebook}`)
+            if (socialMedia.twitter) socialLinks.push(`Twitter: ${socialMedia.twitter}`)
+            if (socialMedia.linkedin) socialLinks.push(`LinkedIn: ${socialMedia.linkedin}`)
+            if (socialMedia.instagram) socialLinks.push(`Instagram: ${socialMedia.instagram}`)
+            if (socialMedia.youtube) socialLinks.push(`YouTube: ${socialMedia.youtube}`)
+
+            if (socialLinks.length > 0) {
+              contactBlocks.push({
+                type: 'p',
+                children: [{ text: `🌐 Social media: ${socialLinks.join(' | ')}` }],
+              })
+            }
+          }
+
+          return {
+            blockType: 'content',
+            columns: [
+              {
+                size: 'full',
+                richText: contactBlocks,
+              },
+            ],
+          }
+
+        case 'team':
+          // Generate team block with placeholder photos
+          const teamMembers = block.team || block.members || []
+          return {
+            blockType: 'team',
+            heading: block.heading || block.title || 'Ons Team',
+            intro: block.intro || block.introduction || '',
+            members: teamMembers.map((member: any) => {
+              // Generate photo URL for each team member
+              const photoUrl = imageService.getTeamMemberImage(member.name || 'team-member')
+              return {
+                name: member.name || '',
+                role: member.role || member.position || '',
+                bio: member.bio || member.description || '',
+                email: member.email || '',
+                linkedin: member.linkedin || member.linkedinUrl || '',
+                photoUrl,
+              }
+            }),
+            layout: 'grid-3',
+          }
+
+        case 'faq':
+          // Use AI-generated FAQ items if available
+          const faqItems = block.items || []
+          return {
+            blockType: 'faq',
+            heading: block.heading || 'Veelgestelde vragen',
+            items: faqItems.map((item: any) => ({
+              question: item.question || '',
+              answer: [
+                {
+                  type: 'p',
+                  children: [
+                    {
+                      text: item.answer || '',
+                    },
+                  ],
+                },
+              ],
+            })),
+            generateSchema: true,
+          }
+
+        case 'pricing':
+          // Use AI-generated pricing plans (FASE 2 enhanced)
+          const pricingPlans = block.plans || []
+          return {
+            blockType: 'pricing',
+            heading: block.heading || 'Kies uw pakket',
+            intro: block.intro || '',
+            plans: pricingPlans.map((plan: any) => ({
+              name: plan.name || '',
+              price: plan.price || '',
+              currency: plan.currency || '€',
+              period: plan.period || '/maand',
+              description: plan.description || '',
+              features: (plan.features || []).map((f: any) =>
+                typeof f === 'string' ? f : (f.feature || f.text || '')
+              ),
+              ctaText: plan.ctaText || 'Start nu',
+              ctaLink: plan.ctaLink || '/contact',
+              highlighted: plan.highlighted || false,
+              badge: plan.badge || '',
+            })),
+            style: 'cards',
+          }
+
+        case 'portfolio-grid':
+          // Use AI-generated portfolio cases (FASE 2 enhanced)
+          const portfolioCases = block.cases || block.portfolioGrid?.projects || block.projects || []
+          return {
+            blockType: 'portfolio',
+            heading: block.heading || block.portfolioGrid?.title || block.title || 'Ons Portfolio',
+            intro: block.intro || block.portfolioGrid?.description || block.description || '',
+            cases: portfolioCases.map((portfolioCase: any) => ({
+              projectName: portfolioCase.projectName || portfolioCase.name || portfolioCase.title || '',
+              client: portfolioCase.client || '',
+              industry: portfolioCase.industry || '',
+              tagline: portfolioCase.tagline || '',
+              description: portfolioCase.description || '',
+              challenge: portfolioCase.challenge || '',
+              solution: portfolioCase.solution || '',
+              results: portfolioCase.results || '',
+              technologies: portfolioCase.technologies || [],
+              duration: portfolioCase.duration || '',
+              imageUrl: portfolioCase.imageUrl || portfolioCase.image || '',
+            })),
+            layout: 'grid-3',
+          }
+
+        case 'services-grid':
+          // Use AI-generated services if available
+          const aiServices = block.services || []
+          return {
+            blockType: 'services',
+            heading: block.heading || block.title || 'Onze Diensten',
+            intro: block.intro || block.description || '',
+            services: aiServices.map((service: any) => ({
+              name: service.title || service.name || '',
+              description: service.description || '',
+              link: service.link || '',
+            })),
+            layout: 'grid-3',
+          }
+
+        case 'why-choose-us':
+          // Use AI-generated reasons if available
+          const reasons = block.reasons || wizardData.companyInfo.usps
+          return {
+            blockType: 'services',
+            heading: block.title || block.heading || 'Waarom kiezen voor ons?',
+            intro: block.introduction || block.intro || '',
+            services: reasons.map((reason: any) => {
+              if (typeof reason === 'string') {
+                return { name: reason, description: `${reason} - een van onze unieke sterke punten` }
+              }
+              return {
+                name: reason.title || reason.name || '',
+                description: reason.description || '',
+                link: reason.link || '',
+              }
+            }),
+            layout: 'grid-3',
+          }
+
+        case 'map':
+          // Use user-provided address for map embed
+          const addressData = block.address || wizardData.companyInfo.contactInfo?.address
+
+          // Build full address string
+          const addressParts = []
+          if (addressData) {
+            if (addressData.street) addressParts.push(addressData.street)
+            if (addressData.postalCode) addressParts.push(addressData.postalCode)
+            if (addressData.city) addressParts.push(addressData.city)
+            if (addressData.country) addressParts.push(addressData.country)
+          }
+
+          const fullAddress = addressParts.join(', ')
+
+          // Only create map block if we have an address
+          if (!fullAddress) {
+            console.log('[PayloadService] Skipping map block - no address data available')
+            return null
+          }
+
+          // Encode address for Google Maps embed URL
+          const encodedAddress = encodeURIComponent(fullAddress)
+          const mapEmbedUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${encodedAddress}`
+
+          return {
+            blockType: 'map',
+            heading: block.heading || 'Locatie',
+            address: fullAddress,
+            embedUrl: mapEmbedUrl,
+            showDirections: true,
+            height: 400,
+          }
+
+        default:
+          // Fallback to generic content block
+          return {
+            blockType: 'content',
+            columns: [
+              {
+                size: 'full',
+                richText: [
+                  {
+                    type: 'p',
+                    children: [
+                      {
+                        text: block.content || block.description || 'Content wordt binnenkort toegevoegd.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          }
+      }
+    })
+      .filter((b) => {
+        const kept = Boolean(b)
+        if (!kept) console.log(`[PayloadService]     → Skipped (returned null)`)
+        return kept
+      })
+  }
+
+  /**
+   * Check if a page with this slug already exists
+   */
+  async pageExists(slug: string): Promise<boolean> {
+    const payload = await getPayload({ config })
+
+    const existing = await payload.find({
+      collection: 'pages',
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      limit: 1,
+    })
+
+    return existing.docs.length > 0
+  }
+
+  /**
+   * Delete a page by slug (useful for testing)
+   */
+  async deletePage(slug: string): Promise<void> {
+    const payload = await getPayload({ config })
+
+    const existing = await payload.find({
+      collection: 'pages',
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      limit: 1,
+    })
+
+    if (existing.docs.length > 0) {
+      await payload.delete({
+        collection: 'pages',
+        id: existing.docs[0].id,
+      })
+      console.log(`[PayloadService] Deleted page: ${slug}`)
+    }
+  }
+}
