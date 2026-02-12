@@ -153,6 +153,15 @@ function extractSubdomain(hostname: string): string | null {
     return null
   }
 
+  // Skip Vercel preview URLs (these are NOT tenant subdomains!)
+  // Format: projectname-hash-teamname.vercel.app
+  // Example: compassdigital-abc123-compass-digital.vercel.app
+  if (hostname.includes('vercel.app')) {
+    // Only treat as subdomain if it's explicitly a subdomain like: tenant.yourproject.vercel.app
+    // For now, skip all vercel.app URLs (they're platform admin, not tenants)
+    return null
+  }
+
   // Split hostname
   const parts = hostname.split('.')
 
@@ -181,9 +190,17 @@ async function getTenant(subdomain: string): Promise<any | null> {
     return cached.data
   }
 
+  // Check if database URL is configured
+  const databaseUrl = process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL
+  if (!databaseUrl) {
+    console.warn('[MIDDLEWARE] No database URL configured - skipping tenant lookup')
+    console.warn('[MIDDLEWARE] Set DATABASE_URL or PLATFORM_DATABASE_URL environment variable')
+    return null
+  }
+
   // Query database
   const client = new Client({
-    connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
+    connectionString: databaseUrl,
     ssl: { rejectUnauthorized: false },
   })
 
@@ -214,10 +231,20 @@ async function getTenant(subdomain: string): Promise<any | null> {
 
     return tenant
   } catch (error) {
-    console.error('Error fetching tenant:', error)
+    console.error('[MIDDLEWARE] Error fetching tenant:', error)
+    // Cache error result (1 min TTL) to prevent repeated failed lookups
+    tenantCache.set(cacheKey, {
+      data: null,
+      expiresAt: Date.now() + 60 * 1000,
+    })
     return null
   } finally {
-    await client.end()
+    try {
+      await client.end()
+    } catch (endError) {
+      // Ignore errors when closing connection
+      console.warn('[MIDDLEWARE] Error closing database connection:', endError)
+    }
   }
 }
 
