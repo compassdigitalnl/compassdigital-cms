@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { Client } from 'pg'
 
 // Rate limiting store (in-memory, consider Redis for production multi-instance)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
+
+// Tenant cache (to avoid DB lookups on every request)
+const tenantCache = new Map<string, { data: any; expiresAt: number }>()
 
 // Rate limit configuration
 const RATE_LIMIT_CONFIG = {
@@ -138,8 +142,88 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   return response
 }
 
-export function middleware(request: NextRequest) {
+// Extract subdomain from hostname
+function extractSubdomain(hostname: string): string | null {
+  // localhost:3020 → null (no subdomain)
+  // test-bedrijf-a.cms.compassdigital.nl → 'test-bedrijf-a'
+  // cms.compassdigital.nl → null (main platform)
+
+  // Development: localhost
+  if (hostname.includes('localhost') || hostname.includes('127.0.0.1')) {
+    return null
+  }
+
+  // Split hostname
+  const parts = hostname.split('.')
+
+  // Need at least 3 parts for subdomain (subdomain.domain.tld)
+  if (parts.length < 3) {
+    return null
+  }
+
+  const subdomain = parts[0]
+
+  // Skip www and platform subdomains
+  if (subdomain === 'www' || subdomain === 'cms') {
+    return null
+  }
+
+  return subdomain
+}
+
+// Get tenant from database (with caching)
+async function getTenant(subdomain: string): Promise<any | null> {
+  const cacheKey = `tenant:${subdomain}`
+  const cached = tenantCache.get(cacheKey)
+
+  // Check cache (5 min TTL)
+  if (cached && Date.now() < cached.expiresAt) {
+    return cached.data
+  }
+
+  // Query database
+  const client = new Client({
+    connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  })
+
+  try {
+    await client.connect()
+
+    const result = await client.query(
+      'SELECT * FROM tenants WHERE subdomain = $1 AND status = $2',
+      [subdomain, 'active']
+    )
+
+    if (result.rows.length === 0) {
+      // Cache negative result (1 min TTL)
+      tenantCache.set(cacheKey, {
+        data: null,
+        expiresAt: Date.now() + 60 * 1000,
+      })
+      return null
+    }
+
+    const tenant = result.rows[0]
+
+    // Cache positive result (5 min TTL)
+    tenantCache.set(cacheKey, {
+      data: tenant,
+      expiresAt: Date.now() + 5 * 60 * 1000,
+    })
+
+    return tenant
+  } catch (error) {
+    console.error('Error fetching tenant:', error)
+    return null
+  } finally {
+    await client.end()
+  }
+}
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const hostname = request.headers.get('host') || ''
 
   // Skip middleware for static files and Next.js internals
   if (
@@ -149,6 +233,89 @@ export function middleware(request: NextRequest) {
   ) {
     return NextResponse.next()
   }
+
+  // ========================================
+  // MULTI-TENANT SUBDOMAIN ROUTING
+  // ========================================
+
+  // Extract subdomain
+  const subdomain = extractSubdomain(hostname)
+
+  // If subdomain detected, this is a tenant request
+  if (subdomain) {
+    console.log(`[MIDDLEWARE] Subdomain detected: ${subdomain}`)
+
+    // Fetch tenant from database
+    const tenant = await getTenant(subdomain)
+
+    if (!tenant) {
+      // Tenant not found or inactive
+      return new NextResponse(
+        `
+        <!DOCTYPE html>
+        <html>
+          <head><title>Site Not Found</title></head>
+          <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+            <h1>Site Not Found</h1>
+            <p>The subdomain "${subdomain}" does not exist or is inactive.</p>
+            <p><a href="https://cms.compassdigital.nl">Go to Platform</a></p>
+          </body>
+        </html>
+        `,
+        {
+          status: 404,
+          headers: { 'Content-Type': 'text/html' },
+        }
+      )
+    }
+
+    console.log(`[MIDDLEWARE] Tenant found: ${tenant.name} (${tenant.type})`)
+
+    // Check if tenant has database configured
+    if (tenant.database_url === 'PENDING_DATABASE_CREATION') {
+      return new NextResponse(
+        `
+        <!DOCTYPE html>
+        <html>
+          <head><title>Site Being Set Up</title></head>
+          <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+            <h1>Site is Being Set Up</h1>
+            <p>Your site "${tenant.name}" is currently being configured.</p>
+            <p>Please check back in a few minutes.</p>
+          </body>
+        </html>
+        `,
+        {
+          status: 503,
+          headers: { 'Content-Type': 'text/html' },
+        }
+      )
+    }
+
+    // Inject tenant context into request headers
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('x-tenant-id', tenant.id)
+    requestHeaders.set('x-tenant-subdomain', tenant.subdomain)
+    requestHeaders.set('x-tenant-database-url', tenant.database_url)
+    requestHeaders.set('x-tenant-type', tenant.type)
+
+    // Rewrite to tenant-specific route
+    const url = request.nextUrl.clone()
+    url.pathname = `/tenant${pathname}`
+
+    console.log(`[MIDDLEWARE] Rewriting ${pathname} → /tenant${pathname}`)
+
+    const response = NextResponse.rewrite(url, {
+      request: {
+        headers: requestHeaders,
+      },
+    })
+
+    return addSecurityHeaders(response)
+  }
+
+  // No subdomain = platform admin routes
+  console.log(`[MIDDLEWARE] Platform admin request: ${pathname}`)
 
   // SKIP rate limiting for wizard and SSE endpoints during development (early return)
   if (pathname.startsWith('/api/wizard/') || pathname.startsWith('/api/ai/stream/')) {
@@ -217,7 +384,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - public folder
+     * - api/admin/* (platform admin APIs - skip tenant routing)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|api/admin|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

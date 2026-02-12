@@ -82,6 +82,8 @@ export interface Config {
     'customer-groups': CustomerGroup;
     orderLists: OrderList;
     orders: Order;
+    clients: Client;
+    deployments: Deployment;
     forms: Form;
     'form-submissions': FormSubmission;
     redirects: Redirect;
@@ -107,6 +109,8 @@ export interface Config {
     'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
     orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    clients: ClientsSelect<false> | ClientsSelect<true>;
+    deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -276,9 +280,25 @@ export interface Page {
     title?: string | null;
     description?: string | null;
     /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -1180,9 +1200,25 @@ export interface Case {
     title?: string | null;
     description?: string | null;
     /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -1578,9 +1614,25 @@ export interface BlogPost {
     title?: string | null;
     description?: string | null;
     /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -1722,6 +1774,214 @@ export interface Order {
    * Gegenereerde factuur
    */
   invoicePDF?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage client sites and deployments
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * Name of the client/company
+   */
+  name: string;
+  /**
+   * Subdomain for the client (e.g., "clientA" for clientA.yourplatform.com)
+   */
+  domain: string;
+  /**
+   * Primary contact email for the client
+   */
+  contactEmail: string;
+  contactName?: string | null;
+  contactPhone?: string | null;
+  /**
+   * Base template for the client site
+   */
+  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
+  /**
+   * Additional features to enable for this client
+   */
+  enabledFeatures?:
+    | {
+        feature?: ('ecommerce' | 'blog' | 'forms' | 'authentication' | 'multiLanguage' | 'ai') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Collections from template to disable for this client
+   */
+  disabledCollections?:
+    | {
+        collection?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Current deployment status
+   */
+  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
+  /**
+   * Full URL to the deployed site
+   */
+  deploymentUrl?: string | null;
+  /**
+   * URL to the client admin panel
+   */
+  adminUrl?: string | null;
+  /**
+   * Vercel project identifier
+   */
+  vercelProjectId?: string | null;
+  /**
+   * PostgreSQL connection string (encrypted)
+   */
+  databaseUrl?: string | null;
+  /**
+   * Additional environment variables for this client
+   */
+  customEnvironment?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Client-specific settings and configuration
+   */
+  customSettings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
+  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
+  /**
+   * Monthly subscription cost
+   */
+  monthlyFee?: number | null;
+  nextBillingDate?: string | null;
+  lastHealthCheck?: string | null;
+  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
+  /**
+   * 30-day uptime percentage
+   */
+  uptimePercentage?: number | null;
+  /**
+   * Notes for platform administrators (not visible to client)
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Deployment history and audit trail
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "deployments".
+ */
+export interface Deployment {
+  id: number;
+  /**
+   * The client this deployment belongs to
+   */
+  client: number | Client;
+  status: 'pending' | 'in_progress' | 'success' | 'failed' | 'rolled_back' | 'cancelled';
+  environment: 'production' | 'staging' | 'development';
+  type: 'initial' | 'update' | 'hotfix' | 'rollback' | 'migration';
+  /**
+   * Semantic version (e.g., 1.2.3)
+   */
+  version?: string | null;
+  /**
+   * Git commit SHA
+   */
+  gitCommit?: string | null;
+  gitBranch?: string | null;
+  vercelDeploymentId?: string | null;
+  vercelDeploymentUrl?: string | null;
+  vercelProjectId?: string | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  /**
+   * Total deployment time in seconds
+   */
+  duration?: number | null;
+  /**
+   * Full deployment log output
+   */
+  logs?: string | null;
+  /**
+   * Error message if deployment failed
+   */
+  errorMessage?: string | null;
+  /**
+   * Full error stack trace
+   */
+  errorStack?: string | null;
+  /**
+   * Snapshot of client configuration when deployed
+   */
+  configSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Environment variables used (sensitive values redacted)
+   */
+  environmentSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * User or system that triggered the deployment
+   */
+  triggeredBy?: string | null;
+  /**
+   * Why this deployment was triggered
+   */
+  reason?: string | null;
+  /**
+   * Additional notes about this deployment
+   */
+  notes?: string | null;
+  /**
+   * Did post-deployment health checks pass?
+   */
+  healthCheckPassed?: boolean | null;
+  /**
+   * Detailed health check results
+   */
+  healthCheckResults?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2003,6 +2263,14 @@ export interface PayloadLockedDocument {
         value: number | Order;
       } | null)
     | ({
+        relationTo: 'clients';
+        value: number | Client;
+      } | null)
+    | ({
+        relationTo: 'deployments';
+        value: number | Deployment;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
@@ -2156,7 +2424,11 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        focusKeyword?: T;
         image?: T;
+        canonicalUrl?: T;
+        noIndex?: T;
+        noFollow?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2677,7 +2949,11 @@ export interface BlogPostsSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        focusKeyword?: T;
         image?: T;
+        canonicalUrl?: T;
+        noIndex?: T;
+        noFollow?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2746,7 +3022,11 @@ export interface CasesSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        focusKeyword?: T;
         image?: T;
+        canonicalUrl?: T;
+        noIndex?: T;
+        noFollow?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2974,6 +3254,78 @@ export interface OrdersSelect<T extends boolean = true> {
   notes?: T;
   trackingCode?: T;
   invoicePDF?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients_select".
+ */
+export interface ClientsSelect<T extends boolean = true> {
+  name?: T;
+  domain?: T;
+  contactEmail?: T;
+  contactName?: T;
+  contactPhone?: T;
+  template?: T;
+  enabledFeatures?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  disabledCollections?:
+    | T
+    | {
+        collection?: T;
+        id?: T;
+      };
+  status?: T;
+  deploymentUrl?: T;
+  adminUrl?: T;
+  vercelProjectId?: T;
+  databaseUrl?: T;
+  customEnvironment?: T;
+  customSettings?: T;
+  plan?: T;
+  billingStatus?: T;
+  monthlyFee?: T;
+  nextBillingDate?: T;
+  lastHealthCheck?: T;
+  healthStatus?: T;
+  uptimePercentage?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "deployments_select".
+ */
+export interface DeploymentsSelect<T extends boolean = true> {
+  client?: T;
+  status?: T;
+  environment?: T;
+  type?: T;
+  version?: T;
+  gitCommit?: T;
+  gitBranch?: T;
+  vercelDeploymentId?: T;
+  vercelDeploymentUrl?: T;
+  vercelProjectId?: T;
+  startedAt?: T;
+  completedAt?: T;
+  duration?: T;
+  logs?: T;
+  errorMessage?: T;
+  errorStack?: T;
+  configSnapshot?: T;
+  environmentSnapshot?: T;
+  triggeredBy?: T;
+  reason?: T;
+  notes?: T;
+  healthCheckPassed?: T;
+  healthCheckResults?: T;
   updatedAt?: T;
   createdAt?: T;
 }
