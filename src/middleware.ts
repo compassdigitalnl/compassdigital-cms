@@ -389,3 +389,7 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|api/admin|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
+
+// Force Node.js runtime (required for pg database client)
+// Edge Runtime does not support Node.js APIs like process.nextTick, crypto, etc.
+export const runtime = 'nodejs'
