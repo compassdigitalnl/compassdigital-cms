@@ -1,7 +1,7 @@
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+// import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob' // TODO: Install package and configure
 import { Plugin } from 'payload'
 import { GenerateTitle, GenerateURL, GenerateDescription } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -208,12 +208,13 @@ export const plugins: Plugin[] = [
     },
   }),
   // Vercel Blob Storage - For production file uploads on Vercel
+  // TODO: Uncomment when @payloadcms/storage-vercel-blob is installed
   // Falls back to local storage in development (when BLOB_READ_WRITE_TOKEN is not set)
-  vercelBlobStorage({
-    enabled: true,
-    collections: {
-      media: true, // Enable for 'media' collection
-    },
-    token: process.env.BLOB_READ_WRITE_TOKEN || '', // Required for Vercel
-  }),
+  // vercelBlobStorage({
+  //   enabled: true,
+  //   collections: {
+  //     media: true, // Enable for 'media' collection
+  //   },
+  //   token: process.env.BLOB_READ_WRITE_TOKEN || '', // Required for Vercel
+  // }),
 ]
