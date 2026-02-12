@@ -42,11 +42,8 @@ export const ecommerceTemplate: TemplateConfig = {
     'product-categories',
     'product-brands',
     'orders',
-    'customers',
     // Optional
     'blog-posts',
-    'blog-categories',
-    'forms',
     'form-submissions',
   ],
   blocks: [
@@ -103,10 +100,7 @@ export const blogTemplate: TemplateConfig = {
     'users',
     // Blog specific
     'blog-posts',
-    'blog-categories',
-    'authors',
     // Optional
-    'forms',
     'form-submissions',
   ],
   blocks: [
@@ -144,7 +138,7 @@ export const blogTemplate: TemplateConfig = {
 export const b2bTemplate: TemplateConfig = {
   id: 'b2b',
   name: 'B2B Platform',
-  description: 'Professional B2B platform with quotes, bulk ordering, and customer accounts',
+  description: 'Professional B2B platform with bulk ordering and customer accounts',
   collections: [
     // Core
     'pages',
@@ -153,12 +147,9 @@ export const b2bTemplate: TemplateConfig = {
     // B2B specific
     'products',
     'product-categories',
-    'quotes',
-    'customers',
     'orders',
     // Optional
     'blog-posts',
-    'forms',
     'form-submissions',
   ],
   blocks: [
@@ -204,7 +195,7 @@ export const b2bTemplate: TemplateConfig = {
 export const portfolioTemplate: TemplateConfig = {
   id: 'portfolio',
   name: 'Portfolio & Agency',
-  description: 'Showcase your work with cases, projects, services, and team',
+  description: 'Showcase your work with cases, projects, and services',
   collections: [
     // Core
     'pages',
@@ -213,10 +204,8 @@ export const portfolioTemplate: TemplateConfig = {
     // Portfolio specific
     'cases',
     'services',
-    'team',
     // Optional
     'blog-posts',
-    'forms',
     'form-submissions',
   ],
   blocks: [
@@ -255,7 +244,7 @@ export const portfolioTemplate: TemplateConfig = {
 export const corporateTemplate: TemplateConfig = {
   id: 'corporate',
   name: 'Corporate Website',
-  description: 'Professional corporate site with services, team, and company information',
+  description: 'Professional corporate site with services and company information',
   collections: [
     // Core
     'pages',
@@ -263,11 +252,9 @@ export const corporateTemplate: TemplateConfig = {
     'users',
     // Corporate specific
     'services',
-    'team',
     // Optional
     'blog-posts',
     'cases',
-    'forms',
     'form-submissions',
   ],
   blocks: [

@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Inter } from 'next/font/google'
-import '@/app/(payload)/admin/globals.css'
+import '@/app/(app)/globals.css'
 import PlatformSidebar from '@/platform/components/PlatformSidebar'
 
 const inter = Inter({ subsets: ['latin'] })

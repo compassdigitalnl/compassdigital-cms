@@ -10,36 +10,30 @@ import type { Config } from 'payload'
 
 /**
  * Collection imports (lazy loaded based on template)
+ * NOTE: This is used for CLIENT site generation, not the platform itself.
+ * These imports are optional - if collection doesn't exist, it will be skipped.
  */
 const collectionRegistry: Record<string, () => Promise<any>> = {
-  // Core collections
+  // Core collections (exist in platform)
   pages: () => import('@/collections/Pages'),
   media: () => import('@/collections/Media'),
   users: () => import('@/collections/Users'),
 
-  // E-commerce
+  // E-commerce (exist in platform)
   products: () => import('@/collections/Products'),
-  'product-categories': () => import('@/collections/ProductCategories'),
-  'product-brands': () => import('@/collections/ProductBrands'),
+  'product-categories': () => import('@/collections/shop/ProductCategories'),
+  'product-brands': () => import('@/collections/Brands'),
   orders: () => import('@/collections/Orders'),
-  customers: () => import('@/collections/Customers'),
 
-  // Blog
+  // Blog (exist in platform)
   'blog-posts': () => import('@/collections/BlogPosts'),
-  'blog-categories': () => import('@/collections/BlogCategories'),
-  authors: () => import('@/collections/Authors'),
 
-  // Portfolio
+  // Portfolio (exist in platform)
   cases: () => import('@/collections/Cases'),
-  services: () => import('@/collections/Services'),
-  team: () => import('@/collections/Team'),
+  services: () => import('@/collections/ServicesCollection'),
 
-  // Forms
-  forms: () => import('@/collections/Forms'),
+  // Forms (exist in platform)
   'form-submissions': () => import('@/collections/FormSubmissions'),
-
-  // B2B
-  quotes: () => import('@/collections/Quotes'),
 }
 
 /**
