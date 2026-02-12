@@ -17,32 +17,17 @@ import configPromise from '@payload-config'
 import React from 'react'
 import './globals.css'
 
+// Force dynamic rendering to avoid database queries during build
+export const dynamic = 'force-dynamic'
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const payload = await getPayload({ config: configPromise })
 
-  // Fetch globals for layout (with error handling)
-  let topBarSettings = null
-  let shopSettings = null
+  // Fetch consolidated globals for layout (with error handling)
+  // Note: TopBarSettings, ShopSettings, SiteSettings, Navigation are now consolidated into Header and Settings
   let themeGlobal = null
-  let siteSettings = null
-  let headerGlobal = null
-  let navigationGlobal = null
-
-  try {
-    topBarSettings = await payload.findGlobal({
-      slug: 'topBarSettings',
-    })
-  } catch (error) {
-    console.warn('TopBarSettings global not found, skipping TopBar')
-  }
-
-  try {
-    shopSettings = await payload.findGlobal({
-      slug: 'shopSettings',
-    })
-  } catch (error) {
-    console.warn('ShopSettings global not found')
-  }
+  let settingsGlobal = null // Combines SiteSettings + ShopSettings
+  let headerGlobal = null // Combines TopBarSettings + AlertBarSettings + Navigation
 
   try {
     themeGlobal = await payload.findGlobal({
@@ -53,11 +38,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   }
 
   try {
-    siteSettings = await payload.findGlobal({
-      slug: 'siteSettings',
+    settingsGlobal = await payload.findGlobal({
+      slug: 'settings',
     })
   } catch (error) {
-    console.warn('SiteSettings global not found')
+    console.warn('Settings global not found')
   }
 
   try {
@@ -66,14 +51,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     })
   } catch (error) {
     console.warn('Header global not found')
-  }
-
-  try {
-    navigationGlobal = await payload.findGlobal({
-      slug: 'navigation',
-    })
-  } catch (error) {
-    console.warn('Navigation global not found')
   }
 
   return (
@@ -94,18 +71,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <AdminBar />
             <LivePreviewListener />
 
-            {/* Top Bar (optional, CMS-driven) */}
-            {topBarSettings?.enabled && <PlastimedTopBar settings={topBarSettings} />}
+            {/* Top Bar (optional, CMS-driven) - Now part of Header global */}
+            {headerGlobal?.topBar?.enabled && <PlastimedTopBar settings={headerGlobal.topBar} />}
 
-            {/* Dynamic Header (CMS-driven) */}
-            <DynamicHeader
-              header={headerGlobal}
-              siteSettings={siteSettings}
-              shopSettings={shopSettings}
-            />
+            {/* Dynamic Header (CMS-driven) - Now includes Navigation */}
+            <DynamicHeader header={headerGlobal} settings={settingsGlobal} />
 
-            {/* Dynamic Navigation (CMS-driven) */}
-            <DynamicNav navigation={navigationGlobal} />
+            {/* Dynamic Navigation (CMS-driven) - Now part of Header global */}
+            <DynamicNav navigation={headerGlobal?.navigation} />
 
             {/* Main Content */}
             <main className="bg-gray-50">{children}</main>

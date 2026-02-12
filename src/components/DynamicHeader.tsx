@@ -1,12 +1,11 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import type { SiteSettings, ShopSettings, Header as HeaderType, Media } from '@/payload-types'
+import type { Settings, Header as HeaderType, Media } from '@/payload-types'
 
 type Props = {
   header?: HeaderType | null
-  siteSettings?: SiteSettings | null
-  shopSettings?: ShopSettings | null
+  settings?: Settings | null // Consolidated: combines SiteSettings + ShopSettings
 }
 
 /**
@@ -14,22 +13,21 @@ type Props = {
  *
  * 100% CMS-driven header component
  * Uses Header global for header-specific settings (logo, search, buttons)
- * Falls back to SiteSettings and ShopSettings
+ * Falls back to Settings global (consolidated SiteSettings + ShopSettings)
  *
  * Framework principle: "Build reusable components" - payload-website-framework-b2b-b2c.md
  */
-export function DynamicHeader({ header, siteSettings, shopSettings }: Props) {
+export function DynamicHeader({ header, settings }: Props) {
   const [cartCount] = useState(0) // TODO: Get from cart context
 
-  // Get logo (Header override > SiteSettings)
+  // Get logo (Header override > Settings)
   const logoOverride = header?.logoOverride as Media | null
-  const siteLogoObj = siteSettings?.logo as Media | null
-  const logoUrl = logoOverride?.url || siteLogoObj?.url || null
+  const settingsLogoObj = settings?.logo as Media | null
+  const logoUrl = logoOverride?.url || settingsLogoObj?.url || null
 
-  // Get site name (Header override > SiteSettings > fallback)
+  // Get site name (Header override > Settings.companyName > fallback)
   // Use consistent fallback to prevent hydration mismatch
-  const siteName =
-    header?.siteNameOverride || siteSettings?.siteName || 'Your Site Name'
+  const siteName = header?.siteNameOverride || settings?.companyName || 'Your Site Name'
 
   // Search settings
   const enableSearch = header?.enableSearch !== false
@@ -82,12 +80,12 @@ export function DynamicHeader({ header, siteSettings, shopSettings }: Props) {
           {/* Actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
             {/* Phone button */}
-            {showPhone && shopSettings?.phone && (
+            {showPhone && settings?.phone && (
               <Link
-                href={`tel:${shopSettings.phone}`}
+                href={`tel:${settings.phone}`}
                 className="px-4 h-11 bg-surface text-primary rounded-lg font-semibold text-sm hover:bg-primary/10 transition-colors flex items-center gap-2"
               >
-                📞 {shopSettings.phone}
+                📞 {settings.phone}
               </Link>
             )}
 

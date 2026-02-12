@@ -5,6 +5,9 @@ import React from 'react'
 
 import { LogoutPage } from './LogoutPage'
 
+// Force dynamic rendering (don't prerender at build time)
+export const dynamic = 'force-dynamic'
+
 export default async function Logout() {
   return (
     <div className="container max-w-lg my-16">

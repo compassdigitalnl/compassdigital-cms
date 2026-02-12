@@ -4,6 +4,8 @@
  * Perfect for initializing workers and background services
  */
 
+import * as Sentry from '@sentry/nextjs'
+
 export async function register() {
   // Initialize Sentry for error tracking
   if (process.env.NEXT_RUNTIME === 'nodejs') {
@@ -65,4 +67,24 @@ export async function register() {
   } else {
     console.log('[INSTRUMENTATION] Skipping worker initialization (not Node.js runtime)')
   }
+}
+
+/**
+ * onRequestError Hook - Capture errors from nested React Server Components
+ * Required for proper Sentry error reporting in Next.js App Router
+ */
+export function onRequestError(
+  err: Error,
+  request: {
+    path: string
+    method: string
+    headers: Record<string, string | string[] | undefined>
+  },
+  context: {
+    routerKind: 'Pages Router' | 'App Router'
+    routePath: string
+    routeType: 'render' | 'route' | 'middleware'
+  }
+) {
+  Sentry.captureRequestError(err, request, context)
 }
