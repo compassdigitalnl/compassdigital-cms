@@ -1,17 +1,16 @@
 'use client'
 
-/**
- * Platform Statistics Cards
- * Shows key metrics for the platform
- */
-
 import React, { useEffect, useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Users, Globe, Activity, DollarSign, TrendingUp, AlertCircle } from 'lucide-react'
 
 interface Stats {
   totalClients: number
   activeClients: number
-  suspendedClients: number
-  failedDeployments: number
+  totalRevenue: number
+  monthlyRevenue: number
+  healthyClients: number
+  criticalClients: number
 }
 
 export default function PlatformStats() {
@@ -19,82 +18,148 @@ export default function PlatformStats() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/platform/stats')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setStats(data.data)
-        }
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error('Failed to load stats:', err)
-        setLoading(false)
-      })
+    fetchStats()
   }, [])
 
-  const statCards = [
-    {
-      name: 'Total Clients',
-      value: stats?.totalClients || 0,
-      icon: '👥',
-      color: 'blue',
-    },
-    {
-      name: 'Active Clients',
-      value: stats?.activeClients || 0,
-      icon: '✅',
-      color: 'green',
-    },
-    {
-      name: 'Suspended',
-      value: stats?.suspendedClients || 0,
-      icon: '⏸️',
-      color: 'yellow',
-    },
-    {
-      name: 'Failed Deployments',
-      value: stats?.failedDeployments || 0,
-      icon: '❌',
-      color: 'red',
-    },
-  ]
+  async function fetchStats() {
+    try {
+      // Fetch clients from Payload API
+      const response = await fetch('/api/clients?limit=1000')
+      const data = await response.json()
+
+      if (data.docs) {
+        const clients = data.docs
+
+        // Calculate stats
+        const totalClients = clients.length
+        const activeClients = clients.filter((c: any) => c.status === 'active').length
+        const healthyClients = clients.filter((c: any) => c.healthStatus === 'healthy').length
+        const criticalClients = clients.filter(
+          (c: any) => c.healthStatus === 'critical' || c.healthStatus === 'warning',
+        ).length
+
+        // Calculate revenue
+        const totalRevenue = clients.reduce((sum: number, c: any) => {
+          return sum + (c.monthlyFee || 0)
+        }, 0)
+
+        const activeRevenue = clients
+          .filter((c: any) => c.billingStatus === 'active')
+          .reduce((sum: number, c: any) => {
+            return sum + (c.monthlyFee || 0)
+          }, 0)
+
+        setStats({
+          totalClients,
+          activeClients,
+          totalRevenue,
+          monthlyRevenue: activeRevenue,
+          healthyClients,
+          criticalClients,
+        })
+      }
+    } catch (error) {
+      console.error('Failed to fetch stats:', error)
+      // Set default stats on error
+      setStats({
+        totalClients: 0,
+        activeClients: 0,
+        totalRevenue: 0,
+        monthlyRevenue: 0,
+        healthyClients: 0,
+        criticalClients: 0,
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className="bg-white rounded-lg shadow p-6 animate-pulse"
-          >
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-            <div className="h-8 bg-gray-200 rounded w-1/3"></div>
-          </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {[...Array(6)].map((_, i) => (
+          <Card key={i}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
+            </CardContent>
+          </Card>
         ))}
       </div>
     )
   }
 
+  if (!stats) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        <AlertCircle className="mx-auto h-12 w-12 mb-2" />
+        <p>Failed to load platform statistics</p>
+      </div>
+    )
+  }
+
+  const statCards = [
+    {
+      title: 'Total Clients',
+      value: stats.totalClients,
+      description: 'All registered clients',
+      icon: Users,
+      color: 'text-blue-600',
+    },
+    {
+      title: 'Active Clients',
+      value: stats.activeClients,
+      description: `${Math.round((stats.activeClients / Math.max(stats.totalClients, 1)) * 100)}% of total`,
+      icon: Globe,
+      color: 'text-green-600',
+    },
+    {
+      title: 'Monthly Revenue',
+      value: `€${stats.monthlyRevenue.toLocaleString()}`,
+      description: 'Active subscriptions',
+      icon: DollarSign,
+      color: 'text-emerald-600',
+    },
+    {
+      title: 'Total Revenue',
+      value: `€${stats.totalRevenue.toLocaleString()}`,
+      description: 'All clients combined',
+      icon: TrendingUp,
+      color: 'text-purple-600',
+    },
+    {
+      title: 'Healthy Clients',
+      value: stats.healthyClients,
+      description: `${Math.round((stats.healthyClients / Math.max(stats.totalClients, 1)) * 100)}% uptime`,
+      icon: Activity,
+      color: 'text-green-600',
+    },
+    {
+      title: 'Needs Attention',
+      value: stats.criticalClients,
+      description: 'Critical or warning status',
+      icon: AlertCircle,
+      color: stats.criticalClients > 0 ? 'text-red-600' : 'text-gray-400',
+    },
+  ]
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {statCards.map((stat) => (
-        <div
-          key={stat.name}
-          className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">{stat.name}</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">{stat.value}</p>
-            </div>
-            <div
-              className={`text-4xl bg-${stat.color}-100 w-16 h-16 rounded-full flex items-center justify-center`}
-            >
-              {stat.icon}
-            </div>
-          </div>
-        </div>
+        <Card key={stat.title}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+            <stat.icon className={`h-4 w-4 ${stat.color}`} />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stat.value}</div>
+            <p className="text-xs text-muted-foreground">{stat.description}</p>
+          </CardContent>
+        </Card>
       ))}
     </div>
   )
