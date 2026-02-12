@@ -1,0 +1,95 @@
+
+> payload-business-website@1.0.0 build
+> cross-env NODE_OPTIONS="--no-deprecation --max-old-space-size=8000" next build
+
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+[@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/markkokkelkoren/package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * /Users/markkokkelkoren/Projects/ai-sitebuilder/payload-app/package-lock.json
+
+   ▲ Next.js 15.5.12
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · clientTraceMetadata
+
+   Creating an optimized production build ...
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (189kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (139kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled successfully in 42s
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+   Generating static pages (0/18) ...
+   Generating static pages (4/18) 
+   Generating static pages (8/18) 
+   Generating static pages (13/18) 
+ ✓ Generating static pages (18/18)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                    Size  First Load JS
+┌ ƒ /                                         445 B         469 kB
+├ ○ /_not-found                             1.16 kB         218 kB
+├ ƒ /[slug]                                 2.83 kB         471 kB
+├ ƒ /admin/[[...segments]]                    342 B        1.03 MB
+├ ƒ /ai-playground                          12.3 kB         264 kB
+├ ƒ /api/[...slug]                            363 B         218 kB
+├ ƒ /api/admin/tenants/[id]                   399 B         218 kB
+├ ƒ /api/admin/tenants/create                 399 B         218 kB
+├ ƒ /api/admin/tenants/list                   398 B         218 kB
+├ ƒ /api/ai/stream/[connectionId]             399 B         218 kB
+├ ƒ /api/contact                              399 B         218 kB
+├ ƒ /api/graphql                              398 B         218 kB
+├ ƒ /api/graphql-playground                   364 B         218 kB
+├ ƒ /api/health                               399 B         218 kB
+├ ƒ /api/og                                   398 B         218 kB
+├ ƒ /api/platform/clients                     398 B         218 kB
+├ ƒ /api/platform/clients/[id]                399 B         218 kB
+├ ƒ /api/platform/clients/[id]/actions        400 B         218 kB
+├ ƒ /api/platform/clients/[id]/deployments    399 B         218 kB
+├ ƒ /api/platform/clients/[id]/health         399 B         218 kB
+├ ƒ /api/platform/cron/health-checks          399 B         218 kB
+├ ƒ /api/platform/stats                       399 B         218 kB
+├ ƒ /api/seed-homepage                        399 B         218 kB
+├ ƒ /api/wizard/generate-site                 398 B         218 kB
+├ ƒ /cart                                   3.47 kB         222 kB
+├ ƒ /checkout                               4.58 kB         224 kB
+├ ƒ /create-account                         3.61 kB         241 kB
+├ ƒ /docs                                     398 B         218 kB
+├ ƒ /find-order                             2.95 kB         238 kB
+├ ƒ /forgot-password                        2.47 kB         240 kB
+├ ƒ /login                                   3.4 kB         241 kB
+├ ƒ /logout                                 1.41 kB         220 kB
+├ ƒ /next/exit-preview                        400 B         218 kB
+├ ƒ /next/preview                             399 B         218 kB
+├ ƒ /next/seed                                398 B         218 kB
+├ ƒ /overview                                 399 B         218 kB
+├ ○ /platform                               1.47 kB         219 kB
+├ ○ /platform/clients                       3.33 kB         222 kB
+├ ƒ /platform/clients/[id]                  2.51 kB         222 kB
+├ ○ /platform/deployments                   1.66 kB         219 kB
+├ ○ /platform/monitoring                    1.71 kB         219 kB
+├ ƒ /robots.txt                               399 B         218 kB
+├ ƒ /setup                                    399 B         218 kB
+├ ƒ /shop                                     354 B         219 kB
+├ ƒ /shop-demo                                354 B         219 kB
+├ ƒ /shop/[slug]                            2.47 kB         221 kB
+├ ƒ /site-generator                         27.7 kB         284 kB
+├ ƒ /sitemap.xml                              398 B         218 kB
+└ ƒ /tenant/[[...path]]                       398 B         218 kB
++ First Load JS shared by all                217 kB
+  ├ chunks/1157-a797a0f8f0e2a9bd.js          121 kB
+  ├ chunks/4bd1b696-e54248d7df166844.js     54.4 kB
+  ├ chunks/52774a7f-b26b6f7fdeb9c2ad.js     37.2 kB
+  └ other shared chunks (total)             4.36 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
