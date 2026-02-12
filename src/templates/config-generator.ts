@@ -38,21 +38,26 @@ const collectionRegistry: Record<string, () => Promise<any>> = {
 
 /**
  * Block imports (lazy loaded based on template)
+ * NOTE: These imports are for CLIENT site generation, not the platform.
+ * Blocks are imported from config.ts files or direct .ts files.
  */
 const blockRegistry: Record<string, () => Promise<any>> = {
+  // Core blocks (exist in platform)
   hero: () => import('@/blocks/Hero'),
-  content: () => import('@/blocks/Content'),
-  grid: () => import('@/blocks/Grid'),
-  'feature-grid': () => import('@/blocks/FeatureGrid'),
+  content: () => import('@/blocks/Content/config'),
   spacer: () => import('@/blocks/Spacer'),
   cta: () => import('@/blocks/CTA'),
-  testimonials: () => import('@/blocks/Testimonials'),
   faq: () => import('@/blocks/FAQ'),
+
+  // E-commerce blocks (exist in platform)
   'product-grid': () => import('@/blocks/ProductGrid'),
   'category-grid': () => import('@/blocks/CategoryGrid'),
   'search-bar': () => import('@/blocks/SearchBar'),
   'quick-order': () => import('@/blocks/QuickOrder'),
   'top-bar': () => import('@/blocks/TopBar'),
+
+  // Social proof (exist in platform)
+  testimonials: () => import('@/blocks/TestimonialsBlock'),
 }
 
 /**
@@ -61,16 +66,15 @@ const blockRegistry: Record<string, () => Promise<any>> = {
 const globalRegistry: Record<string, () => Promise<any>> = {
   header: () => import('@/globals/Header'),
   footer: () => import('@/globals/Footer'),
-  'site-settings': () => import('@/globals/SiteSettings'),
+  settings: () => import('@/globals/Settings'),
 }
 
 /**
  * Plugin imports
+ * NOTE: These are optional and may not exist
  */
 const pluginRegistry: Record<string, () => Promise<any>> = {
-  seo: () => import('@/plugins/seo'),
-  'form-builder': () => import('@/plugins/form-builder'),
-  redirects: () => import('@/plugins/redirects'),
+  // Plugins are typically loaded dynamically, skip for now
 }
 
 /**

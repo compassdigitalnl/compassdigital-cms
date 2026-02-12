@@ -50,8 +50,6 @@ export const ecommerceTemplate: TemplateConfig = {
     // Layout
     'hero',
     'content',
-    'grid',
-    'feature-grid',
     'spacer',
     'cta',
     // E-commerce
@@ -65,8 +63,8 @@ export const ecommerceTemplate: TemplateConfig = {
     // Utility
     'faq',
   ],
-  plugins: ['seo', 'form-builder', 'redirects'],
-  globals: ['header', 'footer', 'site-settings'],
+  plugins: [],
+  globals: ['header', 'footer', 'settings'],
   features: {
     ecommerce: true,
     blog: true,
@@ -107,15 +105,14 @@ export const blogTemplate: TemplateConfig = {
     // Layout
     'hero',
     'content',
-    'grid',
     'spacer',
     'cta',
     // Content
     'testimonials',
     'faq',
   ],
-  plugins: ['seo', 'form-builder', 'redirects'],
-  globals: ['header', 'footer', 'site-settings'],
+  plugins: [],
+  globals: ['header', 'footer', 'settings'],
   features: {
     ecommerce: false,
     blog: true,
@@ -156,8 +153,6 @@ export const b2bTemplate: TemplateConfig = {
     // Layout
     'hero',
     'content',
-    'grid',
-    'feature-grid',
     'spacer',
     'cta',
     // B2B
@@ -170,8 +165,8 @@ export const b2bTemplate: TemplateConfig = {
     // Utility
     'faq',
   ],
-  plugins: ['seo', 'form-builder', 'redirects'],
-  globals: ['header', 'footer', 'site-settings'],
+  plugins: [],
+  globals: ['header', 'footer', 'settings'],
   features: {
     ecommerce: true,
     blog: true,
@@ -212,8 +207,6 @@ export const portfolioTemplate: TemplateConfig = {
     // Layout
     'hero',
     'content',
-    'grid',
-    'feature-grid',
     'spacer',
     'cta',
     // Social proof
@@ -221,8 +214,8 @@ export const portfolioTemplate: TemplateConfig = {
     // Utility
     'faq',
   ],
-  plugins: ['seo', 'form-builder', 'redirects'],
-  globals: ['header', 'footer', 'site-settings'],
+  plugins: [],
+  globals: ['header', 'footer', 'settings'],
   features: {
     ecommerce: false,
     blog: true,
@@ -261,8 +254,6 @@ export const corporateTemplate: TemplateConfig = {
     // Layout
     'hero',
     'content',
-    'grid',
-    'feature-grid',
     'spacer',
     'cta',
     // Social proof
@@ -270,8 +261,8 @@ export const corporateTemplate: TemplateConfig = {
     // Utility
     'faq',
   ],
-  plugins: ['seo', 'form-builder', 'redirects'],
-  globals: ['header', 'footer', 'site-settings'],
+  plugins: [],
+  globals: ['header', 'footer', 'settings'],
   features: {
     ecommerce: false,
     blog: true,
