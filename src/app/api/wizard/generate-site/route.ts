@@ -11,6 +11,8 @@ import { WizardState } from '@/lib/siteGenerator/types'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 300 // 5 minutes for AI processing
+export const runtime = 'nodejs' // Use Node.js runtime for OpenAI SDK
+export const preferredRegion = 'auto' // Auto-select best region
 
 interface GenerateSiteRequest {
   wizardData: WizardState

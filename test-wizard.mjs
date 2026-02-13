@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import { EventSource } from 'eventsource'
 
-const BASE_URL = 'http://localhost:3015'
+const BASE_URL = 'http://localhost:3020'
 
 // Test wizard data
 const testWizardData = {

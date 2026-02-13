@@ -4,5 +4,15 @@
       "path": "/api/platform/cron/health-checks",
       "schedule": "*/5 * * * *"
     }
-  ]
+  ],
+  "functions": {
+    "api/wizard/**/*.ts": {
+      "maxDuration": 300,
+      "memory": 3008
+    },
+    "api/ai/**/*.ts": {
+      "maxDuration": 300,
+      "memory": 1024
+    }
+  }
 }
