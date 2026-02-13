@@ -208,11 +208,43 @@ export const Clients: CollectionConfig = {
           },
         },
         {
-          name: 'vercelProjectId',
-          type: 'text',
-          label: 'Vercel Project ID',
+          name: 'deploymentProvider',
+          type: 'select',
+          label: 'Deployment Provider',
+          options: [
+            { label: 'Vercel', value: 'vercel' },
+            { label: 'Ploi', value: 'ploi' },
+            { label: 'Custom', value: 'custom' },
+          ],
           admin: {
-            description: 'Vercel project identifier',
+            description: 'Deployment platform used for this client',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'deploymentProviderId',
+          type: 'text',
+          label: 'Provider Project ID',
+          admin: {
+            description: 'Project/site identifier from deployment provider (Vercel, Ploi, etc.)',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'lastDeploymentId',
+          type: 'text',
+          label: 'Last Deployment ID',
+          admin: {
+            description: 'Most recent deployment identifier',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'lastDeployedAt',
+          type: 'date',
+          label: 'Last Deployed',
+          admin: {
+            description: 'Timestamp of most recent deployment',
             readOnly: true,
           },
         },
