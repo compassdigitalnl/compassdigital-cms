@@ -6,11 +6,11 @@
     }
   ],
   "functions": {
-    "api/wizard/**/*.ts": {
+    "src/app/api/wizard/**/route.ts": {
       "maxDuration": 300,
       "memory": 3008
     },
-    "api/ai/**/*.ts": {
+    "src/app/api/ai/**/route.ts": {
       "maxDuration": 300,
       "memory": 1024
     }
