@@ -85,12 +85,29 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
 
     setDeploying(true)
     try {
-      // TODO: Actual Vercel API integration
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      alert('Deployment triggered! (This is a placeholder)')
-    } catch (error) {
+      const response = await fetch(`/api/platform/clients/${params.id}/actions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'redeploy' }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        alert(
+          result.message +
+            (result.deploymentUrl
+              ? `\n\nDeployment URL: ${result.deploymentUrl}\nState: ${result.state || 'pending'}`
+              : ''),
+        )
+        // Refresh client data to show updated status
+        fetchClient()
+      } else {
+        alert(`Deployment failed: ${result.error || 'Unknown error'}`)
+      }
+    } catch (error: any) {
       console.error('Deployment failed:', error)
-      alert('Deployment failed')
+      alert(`Deployment failed: ${error.message || 'Unknown error'}`)
     } finally {
       setDeploying(false)
     }
