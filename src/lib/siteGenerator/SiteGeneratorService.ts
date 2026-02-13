@@ -15,14 +15,26 @@ import type OpenAI from 'openai'
 import { PayloadService } from './PayloadService'
 
 export class SiteGeneratorService {
-  private ai: OpenAI
+  private ai: OpenAI | null = null
   private payloadService: PayloadService
   private onProgress?: (progress: number, message: string) => void
 
   constructor(onProgress?: (progress: number, message: string) => void) {
-    this.ai = getAIClient()
+    // Don't initialize AI client here to avoid build-time errors
+    // It will be initialized lazily when needed
     this.payloadService = new PayloadService()
     this.onProgress = onProgress
+  }
+
+  /**
+   * Get AI client (lazy initialization)
+   * Only initializes when actually needed (runtime, not build time)
+   */
+  private getAI(): OpenAI {
+    if (!this.ai) {
+      this.ai = getAIClient()
+    }
+    return this.ai
   }
 
   /**
@@ -111,7 +123,7 @@ Content Preferences:
 Create a 2-3 paragraph business context summary that captures the essence of this company, their market position, unique value propositions, and target audience. This will be used as context for generating all website content.
     `.trim()
 
-    const response = await this.ai.chat.completions.create({
+    const response = await this.getAI().chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [
         {
@@ -230,7 +242,7 @@ Respond in JSON format:
 }
     `.trim()
 
-    const response = await this.ai.chat.completions.create({
+    const response = await this.getAI().chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [
         {
@@ -262,7 +274,7 @@ Respond in JSON format:
   ): Promise<any> {
     const prompt = this.getBlockPrompt(blockType, context, businessContext)
 
-    const response = await this.ai.chat.completions.create({
+    const response = await this.getAI().chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [
         {
