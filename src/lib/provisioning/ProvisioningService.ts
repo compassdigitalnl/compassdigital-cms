@@ -345,14 +345,25 @@ export class ProvisioningService {
 }
 
 /**
- * Factory function to create ProvisioningService with Vercel adapter
+ * Factory function to create ProvisioningService with specified adapter
+ *
+ * @param provider - Deployment provider ('vercel' or 'ploi')
+ * @param options - Provisioning options
  */
 export async function createProvisioningService(
+  provider: 'vercel' | 'ploi' = 'vercel',
   options?: ProvisioningOptions,
 ): Promise<ProvisioningService> {
   // Lazy import adapter to avoid build-time initialization
-  const { createVercelAdapter } = await import('./adapters/VercelAdapter')
-  const adapter = createVercelAdapter()
+  let adapter
+
+  if (provider === 'ploi') {
+    const { createPloiAdapter } = await import('./adapters/PloiAdapter')
+    adapter = createPloiAdapter()
+  } else {
+    const { createVercelAdapter } = await import('./adapters/VercelAdapter')
+    adapter = createVercelAdapter()
+  }
 
   return new ProvisioningService(adapter, options)
 }

@@ -72,18 +72,21 @@ async function provisionClientSite(
 
     const { createProvisioningService } = await import('@/lib/provisioning/ProvisioningService')
 
-    // Create provisioning service
-    const provisioningService = await createProvisioningService({
-      onProgress: async (provProgress: ProvisioningProgress) => {
-        // Provisioning takes 55-100% of total progress
-        const totalProgress = 55 + (provProgress.percentage * 0.45)
-        await sendProgressUpdate(
-          totalProgress,
-          `🚀 ${provProgress.message}`,
-          provProgress.metadata,
-        )
+    // Create provisioning service with specified provider
+    const provisioningService = await createProvisioningService(
+      deploymentProvider, // 'vercel' or 'ploi'
+      {
+        onProgress: async (provProgress: ProvisioningProgress) => {
+          // Provisioning takes 55-100% of total progress
+          const totalProgress = 55 + (provProgress.percentage * 0.45)
+          await sendProgressUpdate(
+            totalProgress,
+            `🚀 ${provProgress.message}`,
+            provProgress.metadata,
+          )
+        },
       },
-    })
+    )
 
     // Get client details
     const client = await payload.findByID({
