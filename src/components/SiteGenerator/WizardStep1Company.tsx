@@ -48,10 +48,19 @@ export function WizardStep1Company({ data, onChange }: Props) {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">📋 Bedrijfsinformatie</h2>
-        <p className="mt-1 text-sm text-gray-600">
+    <div className="space-y-8">
+      {/* Modern section header with gradient accent */}
+      <div className="space-y-3 pb-6 border-b-2 border-gray-100">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30">
+            <span className="text-2xl">📋</span>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Bedrijfsinformatie</h2>
+            <p className="text-sm text-gray-500 font-medium">Stap 1 van 5</p>
+          </div>
+        </div>
+        <p className="text-base text-gray-600 pl-15">
           Vertel ons over uw bedrijf om gepersonaliseerde content te genereren
         </p>
       </div>
@@ -105,7 +114,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
           onChange={(e) => onChange({ ...data, industry: e.target.value })}
           required
         />
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 font-medium mt-1.5">
           Dit helpt ons bij het genereren van relevante content en voorbeelden
         </p>
       </div>
@@ -151,11 +160,11 @@ export function WizardStep1Company({ data, onChange }: Props) {
         {data.coreValues.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {data.coreValues.map((value, index) => (
-              <Badge key={index} variant="secondary" className="px-3 py-1">
+              <Badge key={index} variant="secondary" className="px-3 py-1.5 font-medium bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 transition-colors">
                 {value}
                 <button
                   onClick={() => removeCoreValue(index)}
-                  className="ml-2 hover:text-red-600"
+                  className="ml-2 hover:text-red-600 transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -163,7 +172,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
             ))}
           </div>
         )}
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 font-medium mt-1.5">
           Voeg 3-5 kernwaarden toe die uw bedrijf definiëren
         </p>
       </div>
@@ -197,16 +206,16 @@ export function WizardStep1Company({ data, onChange }: Props) {
         {data.usps.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {data.usps.map((usp, index) => (
-              <Badge key={index} variant="secondary" className="px-3 py-1">
+              <Badge key={index} variant="secondary" className="px-3 py-1.5 font-medium bg-green-50 text-green-700 border-green-200 hover:bg-green-100 transition-colors">
                 {usp}
-                <button onClick={() => removeUSP(index)} className="ml-2 hover:text-red-600">
+                <button onClick={() => removeUSP(index)} className="ml-2 hover:text-red-600 transition-colors">
                   <X className="w-3 h-3" />
                 </button>
               </Badge>
             ))}
           </div>
         )}
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 font-medium mt-1.5">
           Wat maakt uw bedrijf uniek? Voeg 3-5 USPs toe
         </p>
       </div>
