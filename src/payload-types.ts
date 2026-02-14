@@ -1834,9 +1834,21 @@ export interface Client {
    */
   adminUrl?: string | null;
   /**
-   * Vercel project identifier
+   * Deployment platform used for this client
    */
-  vercelProjectId?: string | null;
+  deploymentProvider?: ('vercel' | 'ploi' | 'custom') | null;
+  /**
+   * Project/site identifier from deployment provider (Vercel, Ploi, etc.)
+   */
+  deploymentProviderId?: string | null;
+  /**
+   * Most recent deployment identifier
+   */
+  lastDeploymentId?: string | null;
+  /**
+   * Timestamp of most recent deployment
+   */
+  lastDeployedAt?: string | null;
   /**
    * PostgreSQL connection string (encrypted)
    */
@@ -3283,7 +3295,10 @@ export interface ClientsSelect<T extends boolean = true> {
   status?: T;
   deploymentUrl?: T;
   adminUrl?: T;
-  vercelProjectId?: T;
+  deploymentProvider?: T;
+  deploymentProviderId?: T;
+  lastDeploymentId?: T;
+  lastDeployedAt?: T;
   databaseUrl?: T;
   customEnvironment?: T;
   customSettings?: T;

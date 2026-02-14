@@ -257,6 +257,15 @@ export const Clients: CollectionConfig = {
             readOnly: true,
           },
         },
+        {
+          name: 'databaseProviderId',
+          type: 'text',
+          label: 'Database Provider ID',
+          admin: {
+            description: 'Railway service ID for the client database',
+            readOnly: true,
+          },
+        },
       ],
     },
 
@@ -336,6 +345,125 @@ export const Clients: CollectionConfig = {
           name: 'nextBillingDate',
           type: 'date',
           label: 'Next Billing Date',
+        },
+      ],
+    },
+
+    // Stripe Connect Payments
+    {
+      type: 'collapsible',
+      label: 'Stripe Connect Payments',
+      admin: {
+        initCollapsed: true,
+        description: 'Payment processing setup for e-commerce clients',
+      },
+      fields: [
+        {
+          name: 'paymentsEnabled',
+          type: 'checkbox',
+          label: 'Payments Enabled',
+          defaultValue: false,
+          admin: {
+            description: 'Enable Stripe Connect payment processing for this client',
+          },
+        },
+        {
+          name: 'stripeAccountId',
+          type: 'text',
+          label: 'Stripe Account ID',
+          admin: {
+            description: 'Connected Stripe account ID (acct_...)',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'stripeAccountStatus',
+          type: 'select',
+          label: 'Stripe Account Status',
+          options: [
+            { label: 'Not Started', value: 'not_started' },
+            { label: 'Pending', value: 'pending' },
+            { label: 'Enabled', value: 'enabled' },
+            { label: 'Rejected', value: 'rejected' },
+            { label: 'Restricted', value: 'restricted' },
+          ],
+          defaultValue: 'not_started',
+          admin: {
+            description: 'Current onboarding status',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'paymentPricingTier',
+          type: 'select',
+          label: 'Payment Pricing Tier',
+          options: [
+            { label: 'Standard (2.4% + €0.25)', value: 'standard' },
+            { label: 'Professional (1.9% + €0.25)', value: 'professional' },
+            { label: 'Enterprise (1.6% + €0.20)', value: 'enterprise' },
+            { label: 'Custom', value: 'custom' },
+          ],
+          defaultValue: 'standard',
+          admin: {
+            description: 'Transaction fee tier for this client',
+            condition: (data) => data.paymentsEnabled === true,
+          },
+        },
+        {
+          name: 'customTransactionFee',
+          type: 'group',
+          label: 'Custom Transaction Fee',
+          admin: {
+            description: 'Custom pricing (only if tier is "custom")',
+            condition: (data) => data.paymentPricingTier === 'custom',
+          },
+          fields: [
+            {
+              name: 'percentage',
+              type: 'number',
+              label: 'Percentage (%)',
+              admin: {
+                description: 'e.g., 1.5 for 1.5%',
+                step: 0.1,
+              },
+            },
+            {
+              name: 'fixed',
+              type: 'number',
+              label: 'Fixed Fee (EUR)',
+              admin: {
+                description: 'e.g., 0.25 for €0.25',
+                step: 0.01,
+              },
+            },
+          ],
+        },
+        {
+          name: 'totalPaymentVolume',
+          type: 'number',
+          label: 'Total Payment Volume (EUR)',
+          admin: {
+            description: 'Lifetime transaction volume processed',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'totalPaymentRevenue',
+          type: 'number',
+          label: 'Total Payment Revenue (EUR)',
+          admin: {
+            description: 'Lifetime platform fees earned from payments',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'lastPaymentAt',
+          type: 'date',
+          label: 'Last Payment',
+          admin: {
+            description: 'Most recent payment processed',
+            readOnly: true,
+          },
         },
       ],
     },
