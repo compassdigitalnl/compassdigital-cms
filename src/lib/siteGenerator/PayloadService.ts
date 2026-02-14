@@ -95,9 +95,13 @@ export class PayloadService {
 
       // Get preview URL (home page or first page)
       const homePage = savedPages.find((p) => p.slug === '' || p.slug === 'home')
-      const previewUrl = homePage
+      const relativePath = homePage
         ? `/${homePage.slug}`
         : `/${savedPages[0]?.slug || ''}`
+
+      // Use frontend URL for preview (defaults to NEXT_PUBLIC_SERVER_URL if not set)
+      const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || process.env.NEXT_PUBLIC_SERVER_URL || ''
+      const previewUrl = `${frontendUrl}${relativePath}`
 
       console.log(`[PayloadService] ✅ All pages saved successfully!`)
       console.log(`[PayloadService] Preview URL: ${previewUrl}`)
