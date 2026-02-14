@@ -7,43 +7,11 @@ import type { GeneratedPage, WizardState } from './types'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { imageService } from '@/lib/images/ImageService'
+import { IconService } from './IconService'
+import { LexicalHelpers } from './LexicalHelpers'
+import { CollectionService } from './CollectionService'
 
 export class PayloadService {
-  /**
-   * Convert plain text to Lexical richText format
-   * Lexical expects a specific JSON structure with root, paragraphs, and text nodes
-   */
-  private convertTextToLexical(text: string): any {
-    return {
-      root: {
-        type: 'root',
-        format: '',
-        indent: 0,
-        version: 1,
-        children: [
-          {
-            type: 'paragraph',
-            format: '',
-            indent: 0,
-            version: 1,
-            children: [
-              {
-                mode: 'normal',
-                text: text || '',
-                type: 'text',
-                style: '',
-                detail: 0,
-                format: 0,
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-          },
-        ],
-        direction: 'ltr',
-      },
-    }
-  }
 
   /**
    * Save all generated pages to Payload CMS
@@ -87,7 +55,7 @@ export class PayloadService {
         console.log(`[PayloadService] Page data:`, JSON.stringify(page, null, 2))
 
         // Convert generated blocks to Payload format
-        const layoutBlocks = this.convertBlocksToPayloadFormat(page.blocks, wizardData)
+        const layoutBlocks = await this.convertBlocksToPayloadFormat(page.blocks, wizardData)
 
         console.log(`[PayloadService] Converted ${layoutBlocks.length} blocks for ${page.slug}:`)
         layoutBlocks.forEach((b, i) => {
@@ -150,14 +118,19 @@ export class PayloadService {
 
   /**
    * Convert AI-generated blocks to Payload block format
+   * ASYNC - Creates collection entries where needed (Cases)
    */
-  private convertBlocksToPayloadFormat(blocks: any[], wizardData: WizardState): any[] {
+  private async convertBlocksToPayloadFormat(blocks: any[], wizardData: WizardState): Promise<any[]> {
     console.log(`[PayloadService] Converting ${blocks.length} AI blocks to Payload format...`)
 
-    return blocks
-      .map((block, index) => {
-      const blockType = block.blockType
+    const convertedBlocks: any[] = []
+
+    for (let index = 0; index < blocks.length; index++) {
+      const block = blocks[index]
+      const blockType = block.type || block.blockType // Support both 'type' and 'blockType'
       console.log(`[PayloadService]   Block ${index + 1}: ${blockType}`)
+
+      let convertedBlock: any = null
 
       switch (blockType) {
         case 'hero':
@@ -165,9 +138,9 @@ export class PayloadService {
           const heroImageKeyword = `${wizardData.companyInfo.name}-${wizardData.companyInfo.industry}`.replace(/\s+/g, '-')
           const heroImageUrl = imageService.getHeroImage(heroImageKeyword)
 
-          return {
+          convertedBlock = {
             blockType: 'hero',
-            style: 'image', // Always use image style for AI-generated heroes
+            style: 'image',
             title: block.headline || block.title || '',
             subtitle: block.subheadline || block.subtitle || '',
             primaryCTA: {
@@ -182,23 +155,46 @@ export class PayloadService {
               : undefined,
             backgroundImageUrl: heroImageUrl,
           }
+          break
 
         case 'features':
         case 'services':
-          return {
-            blockType: 'services',
-            heading: block.heading || 'Onze diensten',
-            intro: block.intro || block.description || '',
-            services: (block.features || block.services || []).map((feature: any) => ({
-              name: feature.title || feature.name || '',
-              description: feature.description || '',
-              link: feature.link || '',
-            })),
+        case 'services-grid':
+        case 'values':
+        case 'why-choose-us':
+          // Extract features from various field names
+          const featuresData = block.features || block.services || block.reasons || wizardData.companyInfo.coreValues || []
+
+          // Convert to proper format with icons
+          const formattedFeatures = featuresData.map((feature: any) => {
+            const name = typeof feature === 'string' ? feature : (feature.title || feature.name || '')
+            const description = typeof feature === 'string'
+              ? `Bij ${wizardData.companyInfo.name} staat ${feature.toLowerCase()} centraal in alles wat we doen.`
+              : (feature.description || '')
+
+            return {
+              iconType: 'lucide',
+              iconName: IconService.generateIcon(name),
+              name,
+              description,
+              link: typeof feature === 'object' ? (feature.link || '') : '',
+            }
+          })
+
+          convertedBlock = {
+            blockType: 'features', // ✅ CORRECT slug!
+            heading: block.heading || block.title || 'Onze diensten',
+            intro: block.intro || block.introduction || block.description || '',
+            source: 'manual',
+            features: formattedFeatures, // ✅ CORRECT field name!
             layout: 'grid-3',
+            style: 'cards',
+            showHoverEffect: true,
           }
+          break
 
         case 'cta':
-          return {
+          convertedBlock = {
             blockType: 'cta',
             title: block.headline || block.title || '',
             text: block.description || block.text || '',
@@ -206,49 +202,36 @@ export class PayloadService {
             buttonLink: '/contact',
             style: 'primary',
           }
+          break
 
         case 'about-preview':
         case 'story':
           // Handle story content which can be an array of paragraphs
           const storyContent = block.content || block.description || ''
           const contentArray = Array.isArray(storyContent) ? storyContent : [{ paragraph: storyContent }]
+          const paragraphs = contentArray.map((item: any) =>
+            item.paragraph || item.text || item.content || String(item)
+          )
 
-          return {
+          convertedBlock = {
             blockType: 'content',
             columns: [
               {
                 size: 'full',
-                richText: [
-                  {
-                    type: 'h2',
-                    children: [{ text: block.title || block.subtitle || 'Over ons' }],
-                  },
-                  ...contentArray.map((item: any) => ({
-                    type: 'p',
-                    children: [{ text: item.paragraph || item.text || item.content || item }],
-                  })),
-                ],
+                richText: LexicalHelpers.contentToLexical(
+                  block.title || block.subtitle || 'Over ons',
+                  paragraphs
+                ),
               },
             ],
           }
-
-        case 'values':
-          return {
-            blockType: 'services',
-            heading: 'Onze kernwaarden',
-            intro: 'Deze waarden drijven ons dagelijks werk',
-            services: wizardData.companyInfo.coreValues.map((value) => ({
-              name: value,
-              description: `Bij ${wizardData.companyInfo.name} staat ${value.toLowerCase()} centraal in alles wat we doen.`,
-            })),
-            layout: 'grid-3',
-          }
+          break
 
         case 'testimonials':
         case 'testimonials-list':
           // Use AI-generated testimonials if available
           const testimonials = block.testimonials || []
-          return {
+          convertedBlock = {
             blockType: 'testimonials',
             heading: block.title || block.heading || 'Wat onze klanten zeggen',
             intro: block.introduction || block.intro || '',
@@ -266,73 +249,46 @@ export class PayloadService {
             }),
             layout: 'grid-3',
           }
+          break
 
         case 'contact-form':
-          // Skip contact form for now (requires form relationship)
-          // Instead, use a simple content block with contact info
-          return {
+          // Phase 2: Integrate with actual Form collection
+          // For now, return simple content block
+          convertedBlock = {
             blockType: 'content',
             columns: [
               {
                 size: 'full',
-                richText: [
-                  {
-                    type: 'h2',
-                    children: [{ text: 'Neem contact met ons op' }],
-                  },
-                  {
-                    type: 'p',
-                    children: [
-                      {
-                        text: 'Vul het formulier in en we nemen zo snel mogelijk contact met u op.',
-                      },
-                    ],
-                  },
-                  {
-                    type: 'p',
-                    children: [
-                      {
-                        text: `E-mail: info@${wizardData.companyInfo.name.toLowerCase().replace(/\s+/g, '')}.nl`,
-                      },
-                    ],
-                  },
-                ],
+                richText: LexicalHelpers.contentToLexical(
+                  'Neem contact met ons op',
+                  [
+                    'Vul het formulier in en we nemen zo snel mogelijk contact met u op.',
+                    `E-mail: ${wizardData.companyInfo.contactInfo?.email || `info@${wizardData.companyInfo.name.toLowerCase().replace(/\s+/g, '')}.nl`}`,
+                  ]
+                ),
               },
             ],
           }
+          break
 
         case 'contact-info':
           // Use user-provided contact info (FASE 2 enhanced)
           const contactInfo = wizardData.companyInfo.contactInfo
-          const contactBlocks = []
-
-          // Heading
-          contactBlocks.push({
-            type: 'h2',
-            children: [{ text: block.heading || 'Neem contact met ons op' }],
-          })
-
-          // Intro
-          if (block.intro) {
-            contactBlocks.push({
-              type: 'p',
-              children: [{ text: block.intro }],
-            })
-          }
+          const contactDetails: Array<{ label: string; value: string }> = []
 
           // Email (always from block or contactInfo)
           if (block.email || contactInfo?.email) {
-            contactBlocks.push({
-              type: 'p',
-              children: [{ text: `📧 E-mail: ${block.email || contactInfo?.email}` }],
+            contactDetails.push({
+              label: '📧 E-mail',
+              value: block.email || contactInfo?.email || '',
             })
           }
 
           // Phone
           if (block.phone || contactInfo?.phone) {
-            contactBlocks.push({
-              type: 'p',
-              children: [{ text: `📞 Telefoon: ${block.phone || contactInfo?.phone}` }],
+            contactDetails.push({
+              label: '📞 Telefoon',
+              value: block.phone || contactInfo?.phone || '',
             })
           }
 
@@ -346,26 +302,26 @@ export class PayloadService {
             ].filter(Boolean)
 
             if (addressParts.length > 0) {
-              contactBlocks.push({
-                type: 'p',
-                children: [{ text: `📍 Adres: ${addressParts.join(', ')}` }],
+              contactDetails.push({
+                label: '📍 Adres',
+                value: addressParts.join(', '),
               })
             }
           }
 
           // Opening hours
           if (block.openingHours || contactInfo?.openingHours) {
-            contactBlocks.push({
-              type: 'p',
-              children: [{ text: `🕒 Openingstijden: ${block.openingHours || contactInfo?.openingHours}` }],
+            contactDetails.push({
+              label: '🕒 Openingstijden',
+              value: block.openingHours || contactInfo?.openingHours || '',
             })
           }
 
           // Response time
           if (block.responseTime) {
-            contactBlocks.push({
-              type: 'p',
-              children: [{ text: `⏱️ ${block.responseTime}` }],
+            contactDetails.push({
+              label: '⏱️ Reactietijd',
+              value: block.responseTime,
             })
           }
 
@@ -380,27 +336,32 @@ export class PayloadService {
             if (socialMedia.youtube) socialLinks.push(`YouTube: ${socialMedia.youtube}`)
 
             if (socialLinks.length > 0) {
-              contactBlocks.push({
-                type: 'p',
-                children: [{ text: `🌐 Social media: ${socialLinks.join(' | ')}` }],
+              contactDetails.push({
+                label: '🌐 Social media',
+                value: socialLinks.join(' | '),
               })
             }
           }
 
-          return {
+          convertedBlock = {
             blockType: 'content',
             columns: [
               {
                 size: 'full',
-                richText: contactBlocks,
+                richText: LexicalHelpers.contactInfoToLexical(
+                  block.heading || 'Neem contact met ons op',
+                  block.intro || 'Neem gerust contact met ons op. We staan klaar om u te helpen.',
+                  contactDetails
+                ),
               },
             ],
           }
+          break
 
         case 'team':
           // Generate team block with placeholder photos
           const teamMembers = block.team || block.members || []
-          return {
+          convertedBlock = {
             blockType: 'team',
             heading: block.heading || block.title || 'Ons Team',
             intro: block.intro || block.introduction || '',
@@ -418,26 +379,28 @@ export class PayloadService {
             }),
             layout: 'grid-3',
           }
+          break
 
         case 'faq':
           // Use AI-generated FAQ items if available
           const faqItems = block.items || []
-          return {
+          convertedBlock = {
             blockType: 'faq',
             heading: block.heading || 'Veelgestelde vragen',
             intro: block.intro || '',
             source: 'manual',
             items: faqItems.map((item: any) => ({
               question: item.question || '',
-              answer: this.convertTextToLexical(item.answer || ''),
+              answer: LexicalHelpers.textToLexical(item.answer || ''),
             })),
             generateSchema: true,
           }
+          break
 
         case 'pricing':
           // Use AI-generated pricing plans (FASE 2 enhanced)
           const pricingPlans = block.plans || []
-          return {
+          convertedBlock = {
             blockType: 'pricing',
             heading: block.heading || 'Kies uw pakket',
             intro: block.intro || '',
@@ -447,9 +410,9 @@ export class PayloadService {
               currency: plan.currency || '€',
               period: plan.period || '/maand',
               description: plan.description || '',
-              features: (plan.features || []).map((f: any) =>
-                typeof f === 'string' ? f : (f.feature || f.text || '')
-              ),
+              features: (plan.features || []).map((f: any) => ({
+                feature: typeof f === 'string' ? f : (f.feature || f.text || ''),
+              })),
               ctaText: plan.ctaText || 'Start nu',
               ctaLink: plan.ctaLink || '/contact',
               highlighted: plan.highlighted || false,
@@ -457,64 +420,29 @@ export class PayloadService {
             })),
             style: 'cards',
           }
+          break
 
         case 'portfolio-grid':
-          // Use AI-generated portfolio cases (FASE 2 enhanced)
+          // Create Cases in collection first, then use relationships
           const portfolioCases = block.cases || block.portfolioGrid?.projects || block.projects || []
-          return {
-            blockType: 'portfolio',
+
+          // Initialize CollectionService
+          const collectionService = new CollectionService()
+          const caseIds = await collectionService.createCases(portfolioCases, wizardData)
+
+          convertedBlock = {
+            blockType: 'cases', // ✅ CORRECT slug!
             heading: block.heading || block.portfolioGrid?.title || block.title || 'Ons Portfolio',
             intro: block.intro || block.portfolioGrid?.description || block.description || '',
-            cases: portfolioCases.map((portfolioCase: any) => ({
-              projectName: portfolioCase.projectName || portfolioCase.name || portfolioCase.title || '',
-              client: portfolioCase.client || '',
-              industry: portfolioCase.industry || '',
-              tagline: portfolioCase.tagline || '',
-              description: portfolioCase.description || '',
-              challenge: portfolioCase.challenge || '',
-              solution: portfolioCase.solution || '',
-              results: portfolioCase.results || '',
-              technologies: portfolioCase.technologies || [],
-              duration: portfolioCase.duration || '',
-              imageUrl: portfolioCase.imageUrl || portfolioCase.image || '',
-            })),
+            source: 'manual',
+            cases: caseIds, // ✅ Relationships, not inline data!
             layout: 'grid-3',
+            showExcerpt: true,
+            showClient: true,
+            showServices: true,
+            showViewAllButton: false,
           }
-
-        case 'services-grid':
-          // Use AI-generated services if available
-          const aiServices = block.services || []
-          return {
-            blockType: 'services',
-            heading: block.heading || block.title || 'Onze Diensten',
-            intro: block.intro || block.description || '',
-            services: aiServices.map((service: any) => ({
-              name: service.title || service.name || '',
-              description: service.description || '',
-              link: service.link || '',
-            })),
-            layout: 'grid-3',
-          }
-
-        case 'why-choose-us':
-          // Use AI-generated reasons if available
-          const reasons = block.reasons || wizardData.companyInfo.usps
-          return {
-            blockType: 'services',
-            heading: block.title || block.heading || 'Waarom kiezen voor ons?',
-            intro: block.introduction || block.intro || '',
-            services: reasons.map((reason: any) => {
-              if (typeof reason === 'string') {
-                return { name: reason, description: `${reason} - een van onze unieke sterke punten` }
-              }
-              return {
-                name: reason.title || reason.name || '',
-                description: reason.description || '',
-                link: reason.link || '',
-              }
-            }),
-            layout: 'grid-3',
-          }
+          break
 
         case 'map':
           // Use user-provided address for map embed
@@ -534,49 +462,50 @@ export class PayloadService {
           // Only create map block if we have an address
           if (!fullAddress) {
             console.log('[PayloadService] Skipping map block - no address data available')
-            return null
+            convertedBlock = null
+            break
           }
 
           // Encode address for Google Maps embed URL
           const encodedAddress = encodeURIComponent(fullAddress)
           const mapEmbedUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${encodedAddress}`
 
-          return {
+          convertedBlock = {
             blockType: 'map',
             heading: block.heading || 'Locatie',
             address: fullAddress,
-            embedUrl: mapEmbedUrl,
-            showDirections: true,
-            height: 400,
+            zoom: 15,
+            height: 'medium', // ✅ Use enum, not number
           }
+          break
 
         default:
           // Fallback to generic content block
-          return {
+          const fallbackBlock = {
             blockType: 'content',
             columns: [
               {
                 size: 'full',
-                richText: [
-                  {
-                    type: 'p',
-                    children: [
-                      {
-                        text: block.content || block.description || 'Content wordt binnenkort toegevoegd.',
-                      },
-                    ],
-                  },
-                ],
+                richText: LexicalHelpers.textToLexical(
+                  block.content || block.description || 'Content wordt binnenkort toegevoegd.',
+                ),
               },
             ],
           }
+          convertedBlocks.push(fallbackBlock)
+          break
       }
-    })
-      .filter((b) => {
-        const kept = Boolean(b)
-        if (!kept) console.log(`[PayloadService]     → Skipped (returned null)`)
-        return kept
-      })
+
+      // Add non-null blocks to array
+      if (convertedBlock) {
+        convertedBlocks.push(convertedBlock)
+      } else {
+        console.log(`[PayloadService]     → Skipped (null/invalid block)`)
+      }
+    }
+
+    console.log(`[PayloadService] Converted ${convertedBlocks.length}/${blocks.length} blocks successfully`)
+    return convertedBlocks
   }
 
   /**
