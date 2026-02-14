@@ -193,17 +193,17 @@ export default function SiteGeneratorPage() {
 
   return (
     <div
-      className="min-h-screen bg-gray-50"
+      className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"
       data-theme="light"
       style={{
         // Force light theme colors regardless of system preference
         '--background': 'oklch(100% 0 0deg)',
         '--foreground': 'oklch(14.5% 0 0deg)',
-        '--card': 'oklch(96.5% 0.005 265deg)',
+        '--card': 'oklch(100% 0 0deg)',
         '--card-foreground': 'oklch(14.5% 0 0deg)',
         '--popover': 'oklch(100% 0 0deg)',
         '--popover-foreground': 'oklch(14.5% 0 0deg)',
-        '--primary': 'oklch(20.5% 0 0deg)',
+        '--primary': 'oklch(50% 0.2 250deg)',
         '--primary-foreground': 'oklch(98.5% 0 0deg)',
         '--secondary': 'oklch(97% 0 0deg)',
         '--secondary-foreground': 'oklch(20.5% 0 0deg)',
@@ -212,32 +212,41 @@ export default function SiteGeneratorPage() {
         '--accent': 'oklch(97% 0 0deg)',
         '--accent-foreground': 'oklch(20.5% 0 0deg)',
         '--border': 'oklch(92.2% 0 0deg)',
-        '--input': 'oklch(92.2% 0 0deg)',
-        '--ring': 'oklch(70.8% 0 0deg)',
+        '--input': 'oklch(98% 0 0deg)',
+        '--ring': 'oklch(50% 0.2 250deg)',
       } as React.CSSProperties}
     >
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Header with Gradient */}
+      <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 border-b border-blue-700/20 shadow-lg">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE0YzMuMzEgMCA2IDIuNjkgNiA2cy0yLjY5IDYtNiA2LTYtMi42OS02LTYgMi42OS02IDYtNnpNNiAzNGMzLjMxIDAgNiAyLjY5IDYgNnMtMi42OSA2LTYgNi02LTIuNjktNi02IDIuNjktNiA2LTZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20" />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                🚀 Site Generator Wizard
-              </h1>
-              <p className="mt-1 text-sm text-gray-600">
-                Genereer een complete, productie-klare website in 5 minuten
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center text-2xl">
+                  🚀
+                </div>
+                <h1 className="text-4xl font-bold text-white tracking-tight">
+                  Site Generator Wizard
+                </h1>
+              </div>
+              <p className="text-blue-100 text-base ml-15">
+                Genereer een complete, productie-klare website met AI in 5 minuten
               </p>
             </div>
-            <Badge variant="default" className="text-sm">
-              Stap {currentStep?.number || 1} van {totalSteps}
+            <Badge
+              variant="secondary"
+              className="bg-white/20 backdrop-blur-sm text-white border-white/30 text-sm px-4 py-2 shadow-lg"
+            >
+              Stap {currentStep?.number || 1} / {totalSteps}
             </Badge>
           </div>
         </div>
       </div>
 
-      {/* Progress Steps */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Progress Steps - Modern Design */}
+      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 shadow-sm">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => {
               const isPast = index < currentStepIndex
@@ -247,30 +256,42 @@ export default function SiteGeneratorPage() {
 
               return (
                 <React.Fragment key={step.id}>
-                  <div className="flex flex-col items-center flex-1">
+                  <div className="flex flex-col items-center flex-1 group">
                     <button
                       onClick={() => canNavigate && goToStep(step.id)}
                       disabled={!canNavigate && !isCurrent}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
+                      className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-base transition-all duration-300 shadow-md relative ${
                         isPast
-                          ? 'bg-green-500 text-white cursor-pointer hover:bg-green-600'
+                          ? 'bg-gradient-to-br from-green-500 to-emerald-600 text-white cursor-pointer hover:shadow-xl hover:scale-110 transform'
                           : isCurrent
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                          ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-xl scale-110 ring-4 ring-blue-200'
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                       }`}
                     >
-                      {isPast ? <Check className="w-5 h-5" /> : step.number}
+                      {isPast ? (
+                        <Check className="w-6 h-6" strokeWidth={3} />
+                      ) : (
+                        step.number
+                      )}
+                      {isCurrent && (
+                        <span className="absolute -inset-1 rounded-full bg-blue-400 animate-ping opacity-30" />
+                      )}
                     </button>
-                    <div className="mt-2 text-center">
-                      <p className="text-xs font-medium text-gray-900">{step.title}</p>
-                      <p className="text-xs text-gray-500">{step.description}</p>
+                    <div className="mt-3 text-center max-w-[100px]">
+                      <p className={`text-xs font-semibold ${isCurrent ? 'text-blue-700' : isPast ? 'text-green-700' : 'text-gray-500'}`}>
+                        {step.title}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5">{step.description}</p>
                     </div>
                   </div>
                   {index < steps.length - 1 && (
-                    <div
-                      className={`flex-1 h-1 mx-2 ${isPast ? 'bg-green-500' : 'bg-gray-200'}`}
-                      style={{ maxWidth: '60px', marginTop: '-30px' }}
-                    />
+                    <div className="flex-1 mx-3" style={{ marginTop: '-45px' }}>
+                      <div className={`h-1.5 rounded-full transition-all duration-500 ${
+                        isPast
+                          ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+                          : 'bg-gray-200'
+                      }`} style={{ maxWidth: '80px' }} />
+                    </div>
                   )}
                 </React.Fragment>
               )
@@ -279,10 +300,11 @@ export default function SiteGeneratorPage() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Card>
-          <CardContent className="pt-6">
+      {/* Main Content - Beautiful Card */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <Card className="shadow-2xl border-0 overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+          <CardContent className="pt-8 pb-8 px-8 bg-gradient-to-br from-white to-gray-50/30">
             {currentStepId === 'company' && (
               <WizardStep1Company
                 data={wizardData.companyInfo}
@@ -360,19 +382,31 @@ export default function SiteGeneratorPage() {
           </CardContent>
         </Card>
 
-        {/* Navigation Buttons */}
+        {/* Navigation Buttons - Beautiful Design */}
         {currentStepId !== 'generate' && (
-          <div className="mt-6 flex items-center justify-between">
+          <div className="mt-8 flex items-center justify-between gap-4">
             <Button
               onClick={prevStep}
               disabled={currentStepIndex === 0}
               variant="outline"
               size="lg"
+              className="group bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 shadow-md hover:shadow-lg transition-all duration-200 px-8 py-6 text-base font-semibold"
             >
-              ← Vorige
+              <span className="inline-flex items-center gap-2">
+                <span className="group-hover:-translate-x-1 transition-transform duration-200">←</span>
+                Vorige
+              </span>
             </Button>
-            <Button onClick={nextStep} disabled={!isStepValid(currentStepId)} size="lg">
-              Volgende →
+            <Button
+              onClick={nextStep}
+              disabled={!isStepValid(currentStepId)}
+              size="lg"
+              className="group bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 px-8 py-6 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span className="inline-flex items-center gap-2">
+                Volgende
+                <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+              </span>
             </Button>
           </div>
         )}

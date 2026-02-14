@@ -10,6 +10,42 @@ import { imageService } from '@/lib/images/ImageService'
 
 export class PayloadService {
   /**
+   * Convert plain text to Lexical richText format
+   * Lexical expects a specific JSON structure with root, paragraphs, and text nodes
+   */
+  private convertTextToLexical(text: string): any {
+    return {
+      root: {
+        type: 'root',
+        format: '',
+        indent: 0,
+        version: 1,
+        children: [
+          {
+            type: 'paragraph',
+            format: '',
+            indent: 0,
+            version: 1,
+            children: [
+              {
+                mode: 'normal',
+                text: text || '',
+                type: 'text',
+                style: '',
+                detail: 0,
+                format: 0,
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+          },
+        ],
+        direction: 'ltr',
+      },
+    }
+  }
+
+  /**
    * Save all generated pages to Payload CMS
    */
   async saveGeneratedSite(
@@ -389,18 +425,11 @@ export class PayloadService {
           return {
             blockType: 'faq',
             heading: block.heading || 'Veelgestelde vragen',
+            intro: block.intro || '',
+            source: 'manual',
             items: faqItems.map((item: any) => ({
               question: item.question || '',
-              answer: [
-                {
-                  type: 'p',
-                  children: [
-                    {
-                      text: item.answer || '',
-                    },
-                  ],
-                },
-              ],
+              answer: this.convertTextToLexical(item.answer || ''),
             })),
             generateSchema: true,
           }
