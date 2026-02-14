@@ -468,6 +468,134 @@ export const Clients: CollectionConfig = {
       ],
     },
 
+    // MultiSafePay Connect Payments
+    {
+      type: 'collapsible',
+      label: 'MultiSafePay Connect Payments',
+      admin: {
+        initCollapsed: true,
+        description: 'Payment processing via MultiSafePay (recommended for NL/EU markets)',
+      },
+      fields: [
+        {
+          name: 'multiSafepayEnabled',
+          type: 'checkbox',
+          label: 'MultiSafePay Enabled',
+          defaultValue: false,
+          admin: {
+            description: 'Enable MultiSafePay Connect payment processing for this client',
+          },
+        },
+        {
+          name: 'multiSafepayAffiliateId',
+          type: 'text',
+          label: 'MultiSafePay Affiliate ID',
+          admin: {
+            description: 'Affiliate/sub-merchant ID',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'multiSafepayAccountStatus',
+          type: 'select',
+          label: 'MultiSafePay Account Status',
+          options: [
+            { label: 'Not Started', value: 'not_started' },
+            { label: 'Pending Verification', value: 'pending' },
+            { label: 'Active', value: 'active' },
+            { label: 'Suspended', value: 'suspended' },
+            { label: 'Rejected', value: 'rejected' },
+          ],
+          defaultValue: 'not_started',
+          admin: {
+            description: 'Current account status',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'multiSafepayPricingTier',
+          type: 'select',
+          label: 'MultiSafePay Pricing Tier',
+          options: [
+            { label: 'Standard (iDEAL €0.35, Cards 1.8%)', value: 'standard' },
+            { label: 'Professional (iDEAL €0.30, Cards 1.6%)', value: 'professional' },
+            { label: 'Enterprise (iDEAL €0.28, Cards 1.5%)', value: 'enterprise' },
+            { label: 'Custom Partner Rates', value: 'custom' },
+          ],
+          defaultValue: 'standard',
+          admin: {
+            description: 'Transaction fee tier for this client (lower = better deal)',
+            condition: (data) => data.multiSafepayEnabled === true,
+          },
+        },
+        {
+          name: 'multiSafepayCustomRates',
+          type: 'group',
+          label: 'Custom MultiSafePay Rates',
+          admin: {
+            description: 'Custom partner pricing (requires partner approval)',
+            condition: (data) => data.multiSafepayPricingTier === 'custom',
+          },
+          fields: [
+            {
+              name: 'idealFee',
+              type: 'number',
+              label: 'iDEAL Fee (EUR)',
+              admin: {
+                description: 'e.g., 0.25 for €0.25 per transaction',
+                step: 0.01,
+              },
+            },
+            {
+              name: 'cardPercentage',
+              type: 'number',
+              label: 'Card Percentage (%)',
+              admin: {
+                description: 'e.g., 1.5 for 1.5%',
+                step: 0.1,
+              },
+            },
+            {
+              name: 'cardFixed',
+              type: 'number',
+              label: 'Card Fixed Fee (EUR)',
+              admin: {
+                description: 'e.g., 0.25 for €0.25',
+                step: 0.01,
+              },
+            },
+          ],
+        },
+        {
+          name: 'multiSafepayTotalVolume',
+          type: 'number',
+          label: 'Total MultiSafePay Volume (EUR)',
+          admin: {
+            description: 'Lifetime transaction volume via MultiSafePay',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'multiSafepayTotalRevenue',
+          type: 'number',
+          label: 'Total MultiSafePay Revenue (EUR)',
+          admin: {
+            description: 'Lifetime platform fees earned from MultiSafePay payments',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'multiSafepayLastPaymentAt',
+          type: 'date',
+          label: 'Last MultiSafePay Payment',
+          admin: {
+            description: 'Most recent payment via MultiSafePay',
+            readOnly: true,
+          },
+        },
+      ],
+    },
+
     // Health & Monitoring
     {
       type: 'collapsible',

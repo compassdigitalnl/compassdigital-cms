@@ -41,6 +41,7 @@
     "pm2:delete": "pm2 delete payload-app"
   },
   "dependencies": {
+    "@multisafepay/api-wrapper": "^1.0.1",
     "@payloadcms/admin-bar": "^3.75.0",
     "@payloadcms/db-mongodb": "^3.75.0",
     "@payloadcms/db-postgres": "^3.75.0",
