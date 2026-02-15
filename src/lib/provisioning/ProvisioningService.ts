@@ -174,11 +174,32 @@ export class ProvisioningService {
 
       logs.push(`Deployment completed: ${deploymentResult.url}`)
 
-      await reportProgress('deploying', 'Deployment completed successfully', 90, {
+      await reportProgress('deploying', 'Deployment completed successfully', 85, {
         deploymentUrl: deploymentResult.url,
       })
 
-      // Step 5: Update client record in database
+      // Step 5: Configure DNS (Cloudflare)
+      await reportProgress('configuring_dns', 'Configuring DNS records...', 90)
+
+      try {
+        const dnsResult = await this.configureDNS(projectId, input.domain)
+        logs.push(`DNS configured: ${dnsResult.record.name} → ${dnsResult.record.content}`)
+
+        await reportProgress('configuring_dns', 'DNS records configured successfully', 92, {
+          dnsRecord: `${dnsResult.record.name} → ${dnsResult.record.content}`,
+        })
+      } catch (dnsError: any) {
+        // Log DNS error but don't fail the deployment
+        // The site is still accessible via IP or Ploi test domain
+        logs.push(`⚠️  DNS configuration failed: ${dnsError.message}`)
+        console.error('DNS configuration error:', dnsError)
+
+        await reportProgress('configuring_dns', '⚠️ DNS configuration skipped (not critical)', 92, {
+          warning: 'DNS not configured - manual setup required',
+        })
+      }
+
+      // Step 6: Update client record in database
       await reportProgress('completed', 'Updating client record...', 95)
 
       const payload = await getPayload({ config })
@@ -329,6 +350,68 @@ export class ProvisioningService {
     }
 
     throw new Error('Deployment monitoring exceeded maximum attempts')
+  }
+
+  /**
+   * Configure DNS via Cloudflare
+   */
+  private async configureDNS(
+    projectId: string,
+    subdomain: string,
+  ): Promise<{ success: boolean; record: { name: string; content: string } }> {
+    // Check if adapter supports domain configuration
+    if (!this.adapter.configureDomain) {
+      throw new Error('Deployment adapter does not support domain configuration')
+    }
+
+    // Get domain configuration from adapter
+    const domainConfig = await this.adapter.configureDomain({
+      projectId,
+      domain: `${subdomain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`,
+    })
+
+    if (!domainConfig.serverIp) {
+      throw new Error('Server IP not available from deployment adapter')
+    }
+
+    // Store server IP for later use
+    const serverIp = domainConfig.serverIp
+
+    // Initialize Cloudflare service
+    const { createCloudflareService } = await import('@/lib/cloudflare/CloudflareService')
+    const cloudflare = createCloudflareService()
+
+    // Construct full domain name
+    const fullDomain = `${subdomain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`
+
+    // Create or update A record pointing to server IP
+    const record = await cloudflare.createOrUpdateARecord(
+      fullDomain,
+      serverIp,
+      false, // Don't proxy through Cloudflare (for now)
+    )
+
+    // Verify DNS propagation (optional, non-blocking)
+    setTimeout(async () => {
+      try {
+        const verified = await cloudflare.verifyDNSRecord(fullDomain, serverIp, 5)
+        if (verified) {
+          console.log(`✅ DNS verified for ${fullDomain}`)
+        } else {
+          console.warn(`⚠️  DNS not yet propagated for ${fullDomain} (this is normal, may take a few minutes)`)
+        }
+      } catch (error) {
+        console.error('DNS verification error:', error)
+      }
+    }, 5000)
+
+    return {
+      success: true,
+      record: {
+        name: record.name,
+        content: record.content,
+      },
+    }
   }
 
   /**

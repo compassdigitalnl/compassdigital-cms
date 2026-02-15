@@ -192,17 +192,22 @@ export class PloiAdapter implements DeploymentAdapter {
     const service = await this.getService()
     const { serverId, siteId } = this.parseProjectId(input.projectId)
 
+    // Get server details to retrieve IP address
+    const serverResponse = await service.getServer(serverId)
+    const serverIp = serverResponse.data.ip_address
+
     // Create SSL certificate (Let's Encrypt)
     await service.createCertificate(serverId, siteId)
 
     return {
       domain: input.domain,
       configured: true,
+      serverIp, // Return server IP for DNS configuration
       dnsRecords: [
         {
           type: 'A',
           name: input.domain,
-          value: 'Your server IP', // Would need to get from server details
+          value: serverIp,
         },
       ],
     }

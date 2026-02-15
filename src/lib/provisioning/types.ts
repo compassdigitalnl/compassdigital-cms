@@ -7,10 +7,12 @@
 
 export type ProvisioningStatus =
   | 'pending'
+  | 'creating_database'
   | 'creating_project'
   | 'deploying'
   | 'configuring_env'
   | 'configuring_domains'
+  | 'configuring_dns'
   | 'completed'
   | 'failed'
   | 'rolling_back'
@@ -143,6 +145,7 @@ export interface DeploymentAdapter {
   }): Promise<{
     domain: string
     configured: boolean
+    serverIp?: string // Server IP address for DNS configuration
     dnsRecords?: Array<{ type: string; name: string; value: string }>
   }>
 
