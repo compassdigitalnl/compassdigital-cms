@@ -1854,6 +1854,10 @@ export interface Client {
    */
   databaseUrl?: string | null;
   /**
+   * Railway service ID for the client database
+   */
+  databaseProviderId?: string | null;
+  /**
    * Additional environment variables for this client
    */
   customEnvironment?:
@@ -1884,6 +1888,92 @@ export interface Client {
    */
   monthlyFee?: number | null;
   nextBillingDate?: string | null;
+  /**
+   * Enable Stripe Connect payment processing for this client
+   */
+  paymentsEnabled?: boolean | null;
+  /**
+   * Connected Stripe account ID (acct_...)
+   */
+  stripeAccountId?: string | null;
+  /**
+   * Current onboarding status
+   */
+  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
+  /**
+   * Transaction fee tier for this client
+   */
+  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  /**
+   * Custom pricing (only if tier is "custom")
+   */
+  customTransactionFee?: {
+    /**
+     * e.g., 1.5 for 1.5%
+     */
+    percentage?: number | null;
+    /**
+     * e.g., 0.25 for €0.25
+     */
+    fixed?: number | null;
+  };
+  /**
+   * Lifetime transaction volume processed
+   */
+  totalPaymentVolume?: number | null;
+  /**
+   * Lifetime platform fees earned from payments
+   */
+  totalPaymentRevenue?: number | null;
+  /**
+   * Most recent payment processed
+   */
+  lastPaymentAt?: string | null;
+  /**
+   * Enable MultiSafePay Connect payment processing for this client
+   */
+  multiSafepayEnabled?: boolean | null;
+  /**
+   * Affiliate/sub-merchant ID
+   */
+  multiSafepayAffiliateId?: string | null;
+  /**
+   * Current account status
+   */
+  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
+  /**
+   * Transaction fee tier for this client (lower = better deal)
+   */
+  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  /**
+   * Custom partner pricing (requires partner approval)
+   */
+  multiSafepayCustomRates?: {
+    /**
+     * e.g., 0.25 for €0.25 per transaction
+     */
+    idealFee?: number | null;
+    /**
+     * e.g., 1.5 for 1.5%
+     */
+    cardPercentage?: number | null;
+    /**
+     * e.g., 0.25 for €0.25
+     */
+    cardFixed?: number | null;
+  };
+  /**
+   * Lifetime transaction volume via MultiSafePay
+   */
+  multiSafepayTotalVolume?: number | null;
+  /**
+   * Lifetime platform fees earned from MultiSafePay payments
+   */
+  multiSafepayTotalRevenue?: number | null;
+  /**
+   * Most recent payment via MultiSafePay
+   */
+  multiSafepayLastPaymentAt?: string | null;
   lastHealthCheck?: string | null;
   healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
   /**
@@ -3300,12 +3390,40 @@ export interface ClientsSelect<T extends boolean = true> {
   lastDeploymentId?: T;
   lastDeployedAt?: T;
   databaseUrl?: T;
+  databaseProviderId?: T;
   customEnvironment?: T;
   customSettings?: T;
   plan?: T;
   billingStatus?: T;
   monthlyFee?: T;
   nextBillingDate?: T;
+  paymentsEnabled?: T;
+  stripeAccountId?: T;
+  stripeAccountStatus?: T;
+  paymentPricingTier?: T;
+  customTransactionFee?:
+    | T
+    | {
+        percentage?: T;
+        fixed?: T;
+      };
+  totalPaymentVolume?: T;
+  totalPaymentRevenue?: T;
+  lastPaymentAt?: T;
+  multiSafepayEnabled?: T;
+  multiSafepayAffiliateId?: T;
+  multiSafepayAccountStatus?: T;
+  multiSafepayPricingTier?: T;
+  multiSafepayCustomRates?:
+    | T
+    | {
+        idealFee?: T;
+        cardPercentage?: T;
+        cardFixed?: T;
+      };
+  multiSafepayTotalVolume?: T;
+  multiSafepayTotalRevenue?: T;
+  multiSafepayLastPaymentAt?: T;
   lastHealthCheck?: T;
   healthStatus?: T;
   uptimePercentage?: T;

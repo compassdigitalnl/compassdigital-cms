@@ -54,6 +54,8 @@ export class ProvisioningService {
     const logs: string[] = []
     let projectId: string | undefined
     let deploymentId: string | undefined
+    let databaseId: string | undefined
+    let databaseUrl: string | undefined
 
     // Progress callback helper
     const reportProgress = async (
@@ -84,8 +86,29 @@ export class ProvisioningService {
     }
 
     try {
-      // Step 1: Create project
-      await reportProgress('creating_project', 'Creating deployment project...', 10)
+      // Step 1: Provision Database (Railway)
+      await reportProgress('creating_database', 'Provisioning PostgreSQL database...', 5)
+
+      const { createRailwayDatabase } = await import('@/platform/integrations/railway')
+
+      const dbResult = await createRailwayDatabase({
+        name: input.clientName,
+        domain: input.domain,
+      })
+
+      databaseId = dbResult.id
+      databaseUrl = dbResult.url
+      logs.push(`Database provisioned: ${databaseId}`)
+
+      await reportProgress(
+        'creating_database',
+        'Database provisioned successfully',
+        10,
+        { databaseId, databaseUrl: 'postgresql://***:***@***' }, // Masked for security
+      )
+
+      // Step 2: Create project on Ploi
+      await reportProgress('creating_project', 'Creating deployment project on Ploi...', 15)
 
       const project = await this.adapter.createProject({
         name: input.domain,
@@ -103,10 +126,10 @@ export class ProvisioningService {
         { projectId, projectUrl: project.projectUrl },
       )
 
-      // Step 2: Prepare environment variables
-      await reportProgress('configuring_env', 'Configuring environment variables...', 30)
+      // Step 3: Prepare environment variables (with database URL)
+      await reportProgress('configuring_env', 'Configuring environment variables...', 25)
 
-      const environmentVariables = this.buildEnvironmentVariables(input)
+      const environmentVariables = this.buildEnvironmentVariables(input, databaseUrl!)
 
       await this.adapter.updateEnvironmentVariables({
         projectId,
@@ -171,10 +194,12 @@ export class ProvisioningService {
           deploymentProviderId: projectId,
           lastDeploymentId: deploymentId,
           lastDeployedAt: new Date().toISOString(),
+          databaseUrl: databaseUrl, // ✅ Store encrypted database URL
+          databaseProviderId: databaseId, // ✅ Railway service ID
         },
       })
 
-      logs.push('Client record updated')
+      logs.push('Client record updated with database info')
 
       // Step 6: Complete!
       await reportProgress('completed', 'Provisioning completed successfully!', 100, {
@@ -201,8 +226,8 @@ export class ProvisioningService {
       })
 
       // Rollback if configured
-      if (this.options.rollbackOnError && projectId) {
-        await this.rollback(projectId, input, logs)
+      if (this.options.rollbackOnError) {
+        await this.rollback(projectId, databaseId, input, logs)
       }
 
       return {
@@ -218,14 +243,15 @@ export class ProvisioningService {
   /**
    * Build environment variables for deployment
    */
-  private buildEnvironmentVariables(input: ProvisioningInput): Record<string, string> {
+  private buildEnvironmentVariables(input: ProvisioningInput, databaseUrl: string): Record<string, string> {
     const baseUrl = `https://${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`
 
     return {
       // Payload configuration
       PAYLOAD_SECRET: this.generateSecret(),
-      DATABASE_URL: process.env.DATABASE_URL || '',
+      DATABASE_URL: databaseUrl, // ✅ Client-specific database!
       NEXT_PUBLIC_SERVER_URL: baseUrl,
+      NODE_ENV: 'production',
 
       // Platform configuration
       PLATFORM_BASE_URL: process.env.PLATFORM_BASE_URL || 'compassdigital.nl',
@@ -309,18 +335,28 @@ export class ProvisioningService {
    * Rollback failed provisioning
    */
   private async rollback(
-    projectId: string,
+    projectId: string | undefined,
+    databaseId: string | undefined,
     input: ProvisioningInput,
     logs: string[],
   ): Promise<void> {
     logs.push('ROLLBACK: Starting rollback...')
 
     try {
-      if (this.options.rollbackConfig?.deleteProject) {
+      // Delete Ploi project
+      if (this.options.rollbackConfig?.deleteProject && projectId) {
         await this.adapter.deleteProject(projectId)
-        logs.push('ROLLBACK: Deleted deployment project')
+        logs.push('ROLLBACK: Deleted Ploi site')
       }
 
+      // Delete Railway database
+      if (this.options.rollbackConfig?.deleteDatabase && databaseId) {
+        const { deleteRailwayDatabase } = await import('@/platform/integrations/railway')
+        await deleteRailwayDatabase(databaseId)
+        logs.push('ROLLBACK: Deleted Railway database')
+      }
+
+      // Delete client record
       if (this.options.rollbackConfig?.deleteClient) {
         const payload = await getPayload({ config })
         await payload.delete({

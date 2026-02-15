@@ -40,7 +40,8 @@ export function WizardStep5Generate({ wizardData }: Props) {
         } else if (update.type === 'complete') {
           setStatus('completed')
           setProgress(100)
-          setPreviewUrl(update.data?.previewUrl || null)
+          // Use deploymentUrl from provisioning, fallback to previewUrl
+          setPreviewUrl(update.data?.deploymentUrl || update.data?.previewUrl || null)
           eventSource.close()
         } else if (update.type === 'error') {
           setStatus('failed')
@@ -53,20 +54,46 @@ export function WizardStep5Generate({ wizardData }: Props) {
         eventSource.close()
       }
 
-      // Start the generation job
-      const response = await fetch('/api/wizard/generate-site', {
+      // STEP 1: Create Client record first
+      setCurrentStep('Client aanmaken...')
+      const clientResponse = await fetch('/api/platform/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: wizardData.companyInfo.name,
+          domain: wizardData.companyInfo.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+          contactEmail: wizardData.companyInfo.contactInfo?.email || 'info@example.com',
+          contactName: wizardData.companyInfo.name,
+          template: 'corporate', // Default template
+          status: 'pending',
+        }),
+      })
+
+      if (!clientResponse.ok) {
+        const errorData = await clientResponse.json()
+        throw new Error(errorData.message || 'Failed to create client')
+      }
+
+      const clientData = await clientResponse.json()
+      const clientId = clientData.id
+
+      // STEP 2: Start the provisioning job (AI + Ploi deployment)
+      setCurrentStep('Provisioning starten...')
+      const response = await fetch('/api/wizard/provision-site', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           wizardData,
+          clientId,
           sseConnectionId: connectionId,
+          deploymentProvider: 'ploi', // Always deploy to Ploi!
         }),
       })
 
       const data = await response.json()
 
       if (!data.success) {
-        throw new Error(data.message || 'Site generation failed')
+        throw new Error(data.message || 'Site provisioning failed')
       }
 
       setJobId(data.jobId)
@@ -77,14 +104,15 @@ export function WizardStep5Generate({ wizardData }: Props) {
   }
 
   const progressSteps = [
-    { min: 0, max: 10, label: 'Site generatie starten...' },
-    { min: 10, max: 20, label: 'Bedrijfscontext analyseren...' },
-    { min: 20, max: 40, label: 'Home pagina genereren...' },
-    { min: 40, max: 60, label: 'Overige pagina\'s genereren...' },
-    { min: 60, max: 75, label: 'Content blocks creëren...' },
-    { min: 75, max: 85, label: 'SEO optimaliseren...' },
-    { min: 85, max: 95, label: 'Afbeeldingen genereren...' },
-    { min: 95, max: 100, label: 'Opslaan in database...' },
+    { min: 0, max: 5, label: 'Client aanmaken...' },
+    { min: 5, max: 15, label: 'Bedrijfscontext analyseren...' },
+    { min: 15, max: 35, label: 'Content genereren met AI...' },
+    { min: 35, max: 50, label: 'Pagina\'s aanmaken...' },
+    { min: 50, max: 60, label: 'Database provisioning...' },
+    { min: 60, max: 75, label: 'Ploi project aanmaken...' },
+    { min: 75, max: 85, label: 'Code deployen...' },
+    { min: 85, max: 95, label: 'Omgeving configureren...' },
+    { min: 95, max: 100, label: 'Deployment voltooien...' },
   ]
 
   const getCurrentProgressLabel = () => {
@@ -96,9 +124,9 @@ export function WizardStep5Generate({ wizardData }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">🚀 Genereer Uw Website!</h2>
+        <h2 className="text-2xl font-bold text-gray-900">🚀 Genereer & Deploy Uw Website!</h2>
         <p className="mt-1 text-sm text-gray-600">
-          Klaar om uw website te genereren? Dit duurt ongeveer 3-5 minuten.
+          Klaar om uw website te genereren en live te zetten? Dit duurt ongeveer 5-8 minuten.
         </p>
       </div>
 
@@ -186,7 +214,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
               {/* Estimated Time */}
               <div className="p-3 bg-blue-50 rounded-lg text-sm">
                 <p className="text-gray-600">
-                  ⏱️ Geschatte tijd: 3-5 minuten{' '}
+                  ⏱️ Geschatte tijd: 5-8 minuten (content generatie + deployment){' '}
                   {jobId && (
                     <span className="text-xs text-gray-500">
                       (Job ID: {jobId.substring(0, 12)}...)
@@ -210,10 +238,10 @@ export function WizardStep5Generate({ wizardData }: Props) {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-xl text-green-900">
-                    Website succesvol gegenereerd! 🎉
+                    Website succesvol gedeployed! 🎉
                   </h3>
                   <p className="text-sm text-green-700 mt-1">
-                    Uw website is klaar en kan nu bekeken worden
+                    Uw website is live en volledig geconfigureerd op Ploi
                   </p>
                 </div>
               </div>
@@ -223,7 +251,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
                   <Button asChild className="flex-1" size="lg">
                     <a href={previewUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Bekijk Website
+                      Bekijk Live Website
                     </a>
                   </Button>
                   <Button asChild variant="outline" size="lg">
@@ -278,8 +306,9 @@ export function WizardStep5Generate({ wizardData }: Props) {
             <div className="text-sm text-gray-700">
               <p className="font-semibold mb-1">Let op:</p>
               <ul className="list-disc list-inside space-y-1 text-xs">
-                <li>Dit proces kan 3-5 minuten duren</li>
-                <li>Sluit deze pagina niet tijdens het genereren</li>
+                <li>Dit proces kan 5-8 minuten duren (content + deployment)</li>
+                <li>Sluit deze pagina niet tijdens het provisioning</li>
+                <li>Uw website wordt automatisch gedeployed op Ploi</li>
                 <li>U kunt de gegenereerde content later aanpassen in het CMS</li>
               </ul>
             </div>
