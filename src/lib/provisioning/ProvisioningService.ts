@@ -126,8 +126,29 @@ export class ProvisioningService {
         { projectId, projectUrl: project.projectUrl },
       )
 
-      // Step 3: Prepare environment variables (with database URL)
-      await reportProgress('configuring_env', 'Configuring environment variables...', 25)
+      // Step 3: Configure DNS (Cloudflare) - Do this EARLY so DNS propagates during deployment!
+      await reportProgress('configuring_dns', 'Configuring DNS records...', 22)
+
+      try {
+        const dnsResult = await this.configureDNS(projectId, input.domain)
+        logs.push(`DNS configured: ${dnsResult.record.name} → ${dnsResult.record.content}`)
+
+        await reportProgress('configuring_dns', 'DNS records configured successfully', 25, {
+          dnsRecord: `${dnsResult.record.name} → ${dnsResult.record.content}`,
+        })
+      } catch (dnsError: any) {
+        // Log DNS error but don't fail the deployment
+        // The site is still accessible via IP or Ploi test domain
+        logs.push(`⚠️  DNS configuration failed: ${dnsError.message}`)
+        console.error('DNS configuration error:', dnsError)
+
+        await reportProgress('configuring_dns', '⚠️ DNS configuration skipped (not critical)', 25, {
+          warning: 'DNS not configured - manual setup required',
+        })
+      }
+
+      // Step 4: Prepare environment variables (with database URL)
+      await reportProgress('configuring_env', 'Configuring environment variables...', 30)
 
       const environmentVariables = this.buildEnvironmentVariables(input, databaseUrl!)
 
@@ -138,10 +159,10 @@ export class ProvisioningService {
 
       logs.push(`Environment variables configured: ${Object.keys(environmentVariables).length} vars`)
 
-      await reportProgress('configuring_env', 'Environment variables configured', 40)
+      await reportProgress('configuring_env', 'Environment variables configured', 35)
 
-      // Step 3: Deploy site
-      await reportProgress('deploying', 'Starting deployment...', 50)
+      // Step 5: Deploy site
+      await reportProgress('deploying', 'Starting deployment...', 40)
 
       const deployment = await this.adapter.deploy({
         projectId,
@@ -154,17 +175,17 @@ export class ProvisioningService {
       await reportProgress(
         'deploying',
         'Deployment in progress...',
-        60,
+        50,
         { deploymentId, deploymentUrl: deployment.deploymentUrl },
       )
 
-      // Step 4: Monitor deployment
-      await reportProgress('deploying', 'Monitoring deployment status...', 70)
+      // Step 6: Monitor deployment
+      await reportProgress('deploying', 'Monitoring deployment status...', 60)
 
       const deploymentResult = await this.monitorDeployment(
         deploymentId,
         (percentage) => {
-          reportProgress('deploying', `Building site... ${percentage}%`, 70 + percentage * 0.2)
+          reportProgress('deploying', `Building site... ${percentage}%`, 60 + percentage * 0.3)
         },
       )
 
@@ -174,32 +195,11 @@ export class ProvisioningService {
 
       logs.push(`Deployment completed: ${deploymentResult.url}`)
 
-      await reportProgress('deploying', 'Deployment completed successfully', 85, {
+      await reportProgress('deploying', 'Deployment completed successfully', 90, {
         deploymentUrl: deploymentResult.url,
       })
 
-      // Step 5: Configure DNS (Cloudflare)
-      await reportProgress('configuring_dns', 'Configuring DNS records...', 90)
-
-      try {
-        const dnsResult = await this.configureDNS(projectId, input.domain)
-        logs.push(`DNS configured: ${dnsResult.record.name} → ${dnsResult.record.content}`)
-
-        await reportProgress('configuring_dns', 'DNS records configured successfully', 92, {
-          dnsRecord: `${dnsResult.record.name} → ${dnsResult.record.content}`,
-        })
-      } catch (dnsError: any) {
-        // Log DNS error but don't fail the deployment
-        // The site is still accessible via IP or Ploi test domain
-        logs.push(`⚠️  DNS configuration failed: ${dnsError.message}`)
-        console.error('DNS configuration error:', dnsError)
-
-        await reportProgress('configuring_dns', '⚠️ DNS configuration skipped (not critical)', 92, {
-          warning: 'DNS not configured - manual setup required',
-        })
-      }
-
-      // Step 6: Update client record in database
+      // Step 7: Update client record in database
       await reportProgress('completed', 'Updating client record...', 95)
 
       const payload = await getPayload({ config })

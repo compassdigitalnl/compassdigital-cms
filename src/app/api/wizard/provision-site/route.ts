@@ -24,7 +24,7 @@ export const maxDuration = 300 // 5 minutes for full provisioning
 
 interface ProvisionSiteRequest {
   wizardData: WizardState
-  clientId: string
+  clientId?: string // Optional - will be created if not provided
   sseConnectionId: string
   deploymentProvider?: 'vercel' | 'ploi'
 }
@@ -34,7 +34,7 @@ interface ProvisionSiteRequest {
  */
 async function provisionClientSite(
   wizardData: WizardState,
-  clientId: string,
+  clientIdInput: string | undefined,
   sseConnectionId: string,
   deploymentProvider: 'vercel' | 'ploi' = 'vercel',
 ) {
@@ -42,13 +42,37 @@ async function provisionClientSite(
     const payload = await getPayload({ config })
 
     // Progress callback for SSE updates
-    const sendProgressUpdate = async (progress: number, message: string, metadata?: any) => {
+    const sendProgressUpdate = async (progress: number, message: string, data?: any) => {
       await sendProgress(sseConnectionId, {
         type: 'progress',
         progress,
         message,
-        metadata,
+        data,
       })
+    }
+
+    // ===== STEP 0: Create Client record if not provided =====
+    let clientId = clientIdInput
+
+    if (!clientId) {
+      await sendProgressUpdate(2, '📝 Creating client record...')
+
+      const clientDomain = wizardData.companyInfo.name.toLowerCase().replace(/[^a-z0-9]/g, '-')
+
+      const newClient = await payload.create({
+        collection: 'clients',
+        data: {
+          name: wizardData.companyInfo.name,
+          domain: clientDomain,
+          contactEmail: wizardData.companyInfo.contactInfo?.email || 'info@example.com',
+          contactName: wizardData.companyInfo.name,
+          template: 'corporate' as const,
+          status: 'pending',
+        },
+      })
+
+      clientId = String(newClient.id)
+      await sendProgressUpdate(3, `✅ Client created: ${newClient.name}`)
     }
 
     // ===== STEP 1: Generate Site Content with AI =====
@@ -96,13 +120,13 @@ async function provisionClientSite(
 
     // ===== STEP 3: Provision & Deploy =====
     const provisioningResult = await provisioningService.provision({
-      clientId,
+      clientId: String(clientId),
       clientName: client.name,
       domain: client.domain,
       siteData: {
-        siteName: wizardData.siteName,
-        industry: wizardData.industry,
-        primaryColor: wizardData.styling?.primaryColor,
+        siteName: wizardData.companyInfo.name,
+        industry: wizardData.companyInfo.industry,
+        primaryColor: wizardData.design?.colorScheme?.primary || '#3B82F6',
         pages: siteResult.pages,
       },
       provider: deploymentProvider,
@@ -154,19 +178,20 @@ export async function POST(request: NextRequest) {
   try {
     const body: ProvisionSiteRequest = await request.json()
 
-    if (!body.wizardData || !body.clientId || !body.sseConnectionId) {
+    if (!body.wizardData || !body.sseConnectionId) {
       return NextResponse.json(
-        { error: 'Missing required fields: wizardData, clientId, sseConnectionId' },
+        { error: 'Missing required fields: wizardData, sseConnectionId' },
         { status: 400 },
       )
     }
 
     // Start provisioning in background (fire and forget)
+    // clientId is optional - will be created if not provided
     provisionClientSite(
       body.wizardData,
-      body.clientId,
+      body.clientId, // Can be undefined
       body.sseConnectionId,
-      body.deploymentProvider || 'vercel',
+      body.deploymentProvider || 'ploi', // Default to Ploi!
     ).catch((error) => {
       console.error('[Provisioning] Background error:', error)
     })

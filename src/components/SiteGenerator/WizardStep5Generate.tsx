@@ -54,37 +54,14 @@ export function WizardStep5Generate({ wizardData }: Props) {
         eventSource.close()
       }
 
-      // STEP 1: Create Client record first
-      setCurrentStep('Client aanmaken...')
-      const clientResponse = await fetch('/api/platform/clients', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: wizardData.companyInfo.name,
-          domain: wizardData.companyInfo.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-          contactEmail: wizardData.companyInfo.contactInfo?.email || 'info@example.com',
-          contactName: wizardData.companyInfo.name,
-          template: 'corporate', // Default template
-          status: 'pending',
-        }),
-      })
-
-      if (!clientResponse.ok) {
-        const errorData = await clientResponse.json()
-        throw new Error(errorData.message || 'Failed to create client')
-      }
-
-      const clientData = await clientResponse.json()
-      const clientId = clientData.id
-
-      // STEP 2: Start the provisioning job (AI + Ploi deployment)
+      // STEP 1: Start the provisioning job (AI + Ploi deployment)
+      // This will create the client record automatically as part of provisioning
       setCurrentStep('Provisioning starten...')
       const response = await fetch('/api/wizard/provision-site', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           wizardData,
-          clientId,
           sseConnectionId: connectionId,
           deploymentProvider: 'ploi', // Always deploy to Ploi!
         }),
@@ -104,15 +81,16 @@ export function WizardStep5Generate({ wizardData }: Props) {
   }
 
   const progressSteps = [
-    { min: 0, max: 5, label: 'Client aanmaken...' },
-    { min: 5, max: 15, label: 'Bedrijfscontext analyseren...' },
-    { min: 15, max: 35, label: 'Content genereren met AI...' },
-    { min: 35, max: 50, label: 'Pagina\'s aanmaken...' },
+    { min: 0, max: 3, label: 'Client record aanmaken...' },
+    { min: 3, max: 10, label: 'Bedrijfscontext analyseren...' },
+    { min: 10, max: 30, label: 'Content genereren met AI...' },
+    { min: 30, max: 50, label: 'Pagina\'s aanmaken...' },
     { min: 50, max: 60, label: 'Database provisioning...' },
-    { min: 60, max: 75, label: 'Ploi project aanmaken...' },
+    { min: 60, max: 70, label: 'Ploi project aanmaken...' },
+    { min: 70, max: 75, label: 'DNS configureren...' },
     { min: 75, max: 85, label: 'Code deployen...' },
-    { min: 85, max: 95, label: 'Omgeving configureren...' },
-    { min: 95, max: 100, label: 'Deployment voltooien...' },
+    { min: 85, max: 95, label: 'Deployment monitoring...' },
+    { min: 95, max: 100, label: 'Voltooien...' },
   ]
 
   const getCurrentProgressLabel = () => {
