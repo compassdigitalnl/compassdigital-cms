@@ -111,9 +111,9 @@ Company Information:
 - Name: ${companyInfo.name}
 - Type: ${companyInfo.businessType}
 - Industry: ${companyInfo.industry}
-- Target Audience: ${companyInfo.targetAudience}
-- Core Values: ${companyInfo.coreValues.join(', ')}
-- USPs: ${companyInfo.usps.join(', ')}${servicesInfo}
+- Target Audience: ${companyInfo.targetAudience || 'General audience'}
+${companyInfo.coreValues?.length ? `- Core Values: ${companyInfo.coreValues.join(', ')}` : ''}
+${companyInfo.usps?.length ? `- USPs: ${companyInfo.usps.join(', ')}` : ''}${servicesInfo}
 
 Content Preferences:
 - Language: ${content.language}
@@ -438,7 +438,7 @@ Respond in JSON:
       `
         : `
 ${baseInfo}
-USPs: ${context.companyInfo.usps.join(', ')}
+${context.companyInfo.usps?.length ? `USPs: ${context.companyInfo.usps.join(', ')}` : ''}
 
 Create a features section with 3 key features/benefits. For each feature:
 1. Title (3-5 words)
@@ -478,7 +478,7 @@ Respond in JSON:
       `
         : `
 ${baseInfo}
-USPs: ${context.companyInfo.usps.join(', ')}
+${context.companyInfo.usps?.length ? `USPs: ${context.companyInfo.usps.join(', ')}` : ''}
 
 Create a services section with 3-4 services based on the company's industry and USPs. For each service:
 1. Title (2-5 words)
@@ -671,7 +671,7 @@ Respond in JSON:
       `,
       'why-choose-us': `
 ${baseInfo}
-USPs: ${context.companyInfo.usps.join(', ')}
+${context.companyInfo.usps?.length ? `USPs: ${context.companyInfo.usps.join(', ')}` : ''}
 
 Create a "Why Choose Us" section that differentiates from competitors.
 
@@ -825,8 +825,8 @@ Respond in JSON:
       `,
       faq: `
 ${baseInfo}
-Target Audience: ${context.companyInfo.targetAudience}
-Services: ${context.companyInfo.services?.map(s => s.name).join(', ') || context.companyInfo.usps.join(', ')}
+Target Audience: ${context.companyInfo.targetAudience || 'General audience'}
+Services: ${context.companyInfo.services?.map(s => s.name).join(', ') || context.companyInfo.usps?.join(', ') || 'General services'}
 
 Create a comprehensive FAQ section with 6-8 high-quality questions and answers.
 

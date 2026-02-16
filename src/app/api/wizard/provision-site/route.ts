@@ -38,11 +38,20 @@ async function provisionClientSite(
   sseConnectionId: string,
   deploymentProvider: 'vercel' | 'ploi' = 'vercel',
 ) {
+  console.log('🎬 [Provisioning] provisionClientSite started', {
+    sseConnectionId,
+    deploymentProvider,
+    hasClientId: !!clientIdInput,
+  })
+
   try {
+    console.log('🔌 [Provisioning] Getting Payload instance...')
     const payload = await getPayload({ config })
+    console.log('✅ [Provisioning] Payload instance ready')
 
     // Progress callback for SSE updates
     const sendProgressUpdate = async (progress: number, message: string, data?: any) => {
+      console.log(`📊 [Provisioning] Progress ${progress}%: ${message}`)
       await sendProgress(sseConnectionId, {
         type: 'progress',
         progress,
@@ -53,11 +62,19 @@ async function provisionClientSite(
 
     // ===== STEP 0: Create Client record if not provided =====
     let clientId = clientIdInput
+    console.log('👤 [Provisioning] Client ID check:', clientId ? 'Using existing' : 'Creating new')
 
     if (!clientId) {
+      console.log('📝 [Provisioning] Creating new client...')
       await sendProgressUpdate(2, '📝 Creating client record...')
 
-      const clientDomain = wizardData.companyInfo.name.toLowerCase().replace(/[^a-z0-9]/g, '-')
+      const clientDomain = wizardData.companyInfo.name
+        .toLowerCase()
+        .replace(/[^a-z0-9-]/g, '-') // Replace non-alphanumeric (except hyphens) with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+        .replace(/^-|-$/g, '') // Remove leading/trailing hyphens
+
+      console.log('🔍 [Provisioning] Generated domain:', clientDomain, 'from name:', wizardData.companyInfo.name)
 
       // Create client with overrideAccess to bypass authentication
       const newClient = await payload.create({
@@ -178,15 +195,28 @@ async function provisionClientSite(
  * Returns immediately, provisioning happens in background
  */
 export async function POST(request: NextRequest) {
+  console.log('🚀 [Provisioning API] POST handler called')
+
   try {
+    console.log('📦 [Provisioning API] Parsing request body...')
     const body: ProvisionSiteRequest = await request.json()
 
+    console.log('📋 [Provisioning API] Body:', {
+      hasWizardData: !!body.wizardData,
+      hasSseConnectionId: !!body.sseConnectionId,
+      sseConnectionId: body.sseConnectionId,
+      deploymentProvider: body.deploymentProvider,
+    })
+
     if (!body.wizardData || !body.sseConnectionId) {
+      console.error('❌ [Provisioning API] Missing required fields')
       return NextResponse.json(
         { error: 'Missing required fields: wizardData, sseConnectionId' },
         { status: 400 },
       )
     }
+
+    console.log('✅ [Provisioning API] Starting provisioning in background...')
 
     // Start provisioning in background (fire and forget)
     // clientId is optional - will be created if not provided
@@ -198,6 +228,8 @@ export async function POST(request: NextRequest) {
     ).catch((error) => {
       console.error('[Provisioning] Background error:', error)
     })
+
+    console.log('✅ [Provisioning API] Returning success response')
 
     // Return immediately with job accepted
     return NextResponse.json({
