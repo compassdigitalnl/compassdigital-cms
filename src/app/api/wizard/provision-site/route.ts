@@ -59,6 +59,7 @@ async function provisionClientSite(
 
       const clientDomain = wizardData.companyInfo.name.toLowerCase().replace(/[^a-z0-9]/g, '-')
 
+      // Create client with overrideAccess to bypass authentication
       const newClient = await payload.create({
         collection: 'clients',
         data: {
@@ -69,6 +70,7 @@ async function provisionClientSite(
           template: 'corporate' as const,
           status: 'pending',
         },
+        overrideAccess: true, // Bypass access control for system operation
       })
 
       clientId = String(newClient.id)
@@ -112,10 +114,11 @@ async function provisionClientSite(
       },
     )
 
-    // Get client details
+    // Get client details (with overrideAccess for system operation)
     const client = await payload.findByID({
       collection: 'clients',
       id: clientId,
+      overrideAccess: true,
     })
 
     // ===== STEP 3: Provision & Deploy =====
