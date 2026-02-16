@@ -243,11 +243,19 @@ export class PayloadService {
             manualTestimonials: testimonials.map((t: any) => {
               // Ensure company field is always present and not empty
               const company = t.company || `${wizardData.companyInfo.name} Klant`
+
+              // Get quote with multiple fallbacks, handle "undefined" string from AI
+              const rawQuote = t.testimonial || t.quote || t.text || ''
+              const quote =
+                !rawQuote || rawQuote === 'undefined' || rawQuote.trim() === ''
+                  ? `Uitstekende service en producten! Zeer tevreden met ${wizardData.companyInfo.name}.`
+                  : rawQuote
+
               return {
                 name: t.name || 'Klant',
                 role: t.position || t.role || 'Client',
                 company: company,
-                quote: t.testimonial || t.quote || '',
+                quote: quote,
                 rating: t.rating || 5,
               }
             }),

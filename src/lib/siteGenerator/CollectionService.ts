@@ -35,14 +35,21 @@ export class CollectionService {
 
     console.log(`[CollectionService] Creating ${portfolioCases.length} cases in collection...`)
 
+    let index = 0
     for (const portfolioCase of portfolioCases) {
       try {
-        // Generate slug from project name
-        const title = portfolioCase.projectName || 'Portfolio Case'
+        // Generate slug from project name (handle "undefined" string from AI)
+        const rawTitle = portfolioCase.projectName || portfolioCase.title || ''
+        const title =
+          !rawTitle || rawTitle === 'undefined' || rawTitle.trim() === ''
+            ? `${portfolioCase.client || 'Client'} Project ${index + 1}`
+            : rawTitle
+
         const slug = title
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-+|-+$/g, '')
+          .replace(/^-+|-+$/g, '') // Extra safety: remove leading/trailing hyphens
 
         // Get description or fallback
         const description = portfolioCase.description || 'Een succesvol project uitgevoerd voor onze klant.'
@@ -76,6 +83,7 @@ export class CollectionService {
         console.error(`[CollectionService] Error creating case "${portfolioCase.projectName}":`, error)
         // Continue with other cases - don't fail completely
       }
+      index++
     }
 
     console.log(`[CollectionService] Successfully created ${caseIds.length}/${portfolioCases.length} cases`)
