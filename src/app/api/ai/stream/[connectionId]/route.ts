@@ -17,12 +17,15 @@ export async function sendProgress(
 
   if (controller && encoder) {
     try {
+      console.log(`📡 [SSE] Sending to ${connectionId}:`, data.type, data.progress)
       controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`))
     } catch (error) {
-      console.error('Error sending SSE message:', error)
+      console.error('❌ [SSE] Error sending message:', error)
       connections.delete(connectionId)
       encoders.delete(connectionId)
     }
+  } else {
+    console.warn(`⚠️  [SSE] No connection found for ${connectionId}`)
   }
 }
 
@@ -33,17 +36,22 @@ export async function GET(
   const { connectionId } = await params
   const encoder = new TextEncoder()
 
+  console.log(`🔌 [SSE] New connection: ${connectionId}`)
+
   const stream = new ReadableStream({
     start(controller) {
       // Store the controller and encoder
       connections.set(connectionId, controller)
       encoders.set(connectionId, encoder)
 
+      console.log(`✅ [SSE] Connection stored for ${connectionId}`)
+
       // Send initial connection message
       try {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'connected' })}\n\n`))
+        console.log(`📡 [SSE] Sent 'connected' message to ${connectionId}`)
       } catch (error) {
-        console.error('Error sending initial message:', error)
+        console.error('❌ [SSE] Error sending initial message:', error)
       }
 
       // Keep connection alive with heartbeat

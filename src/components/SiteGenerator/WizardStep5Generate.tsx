@@ -31,32 +31,51 @@ export function WizardStep5Generate({ wizardData }: Props) {
       // Start listening to SSE updates
       const eventSource = new EventSource(`/api/ai/stream/${connectionId}`)
 
-      eventSource.onmessage = (event) => {
-        const update = JSON.parse(event.data)
+      // Wait for SSE connection to be established
+      await new Promise<void>((resolve) => {
+        eventSource.onopen = () => {
+          console.log('✅ SSE connection established')
+          resolve()
+        }
 
-        if (update.type === 'progress') {
-          setProgress(update.progress || 0)
-          setCurrentStep(update.message || '')
-        } else if (update.type === 'complete') {
-          setStatus('completed')
-          setProgress(100)
-          // Use deploymentUrl from provisioning, fallback to previewUrl
-          setPreviewUrl(update.data?.deploymentUrl || update.data?.previewUrl || null)
-          eventSource.close()
-        } else if (update.type === 'error') {
-          setStatus('failed')
-          setError(update.error || 'Er is een fout opgetreden')
+        eventSource.onmessage = (event) => {
+          const update = JSON.parse(event.data)
+          console.log('📨 SSE message received:', update.type, update.progress)
+
+          if (update.type === 'connected') {
+            // Initial connection message, ignore
+            return
+          }
+
+          if (update.type === 'progress') {
+            setProgress(update.progress || 0)
+            setCurrentStep(update.message || '')
+          } else if (update.type === 'complete') {
+            setStatus('completed')
+            setProgress(100)
+            // Use deploymentUrl from provisioning, fallback to previewUrl
+            setPreviewUrl(update.data?.deploymentUrl || update.data?.previewUrl || null)
+            eventSource.close()
+          } else if (update.type === 'error') {
+            setStatus('failed')
+            setError(update.error || 'Er is een fout opgetreden')
+            eventSource.close()
+          }
+        }
+
+        eventSource.onerror = (error) => {
+          console.error('❌ SSE connection error:', error)
           eventSource.close()
         }
-      }
 
-      eventSource.onerror = () => {
-        eventSource.close()
-      }
+        // Timeout fallback
+        setTimeout(() => resolve(), 2000)
+      })
 
       // STEP 1: Start the provisioning job (AI + Ploi deployment)
       // This will create the client record automatically as part of provisioning
       setCurrentStep('Provisioning starten...')
+      console.log('🚀 Starting provisioning with connectionId:', connectionId)
       const response = await fetch('/api/wizard/provision-site', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
