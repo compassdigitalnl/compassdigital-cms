@@ -41,6 +41,7 @@ export const Pages: CollectionConfig = {
     group: 'Website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
+    hidden: ({ user }) => checkRole(['admin'], user),
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({

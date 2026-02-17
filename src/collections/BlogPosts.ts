@@ -7,6 +7,7 @@ export const BlogPosts: CollectionConfig = {
     group: 'Website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'publishedAt', 'updatedAt'],
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: ({ req: { user } }) => {

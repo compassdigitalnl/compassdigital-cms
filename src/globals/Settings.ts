@@ -7,6 +7,7 @@ export const Settings: GlobalConfig = {
   admin: {
     group: 'Instellingen',
     description: 'Alle website en webshop instellingen op één plek',
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true,

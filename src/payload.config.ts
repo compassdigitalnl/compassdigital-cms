@@ -40,6 +40,7 @@ import { ProductCategories } from '@/collections/shop/ProductCategories'
 import { CustomerGroups } from '@/collections/shop/CustomerGroups'
 
 // Platform Collections (Multi-Tenant)
+import { ClientRequests } from '@/platform/collections/ClientRequests'
 import { Clients } from '@/platform/collections/Clients'
 import { Deployments } from '@/platform/collections/Deployments'
 
@@ -168,6 +169,7 @@ export default buildConfig({
     Orders, // 6. Uiteindelijke bestellingen
 
     // Platform Management (Multi-Tenant)
+    ClientRequests, // Onboarding aanvragen van nieuwe klanten
     Clients, // Platform clients
     Deployments, // Deployment history
 

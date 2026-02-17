@@ -7,6 +7,7 @@ export const Partners: CollectionConfig = {
     group: 'Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'featured', 'updatedAt'],
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true, // Publiek leesbaar (frontend)

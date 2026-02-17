@@ -7,6 +7,7 @@ export const Cases: CollectionConfig = {
     group: 'Marketing',
     useAsTitle: 'title',
     defaultColumns: ['title', 'client', 'updatedAt'],
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true, // Publiek leesbaar

@@ -11,6 +11,8 @@ export const Products: CollectionConfig = {
     useAsTitle: 'title',
     group: 'E-commerce',
     defaultColumns: ['title', 'price', 'stock', 'status', 'updatedAt'],
+    // Hide from admins (platform managers) and website-type editors (no webshop)
+    hidden: ({ user }) => !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
   },
   access: {
     read: () => true, // Products are publicly accessible (webshop catalog)

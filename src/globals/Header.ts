@@ -7,10 +7,11 @@ export const Header: GlobalConfig = {
   admin: {
     group: 'Ontwerp',
     description: 'Alle header-gerelateerde instellingen: TopBar, AlertBar, Navigatie, Branding',
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true,
-    update: ({ req: { user } }) => checkRole(['admin'], user),
+    update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
   },
   fields: [
     {

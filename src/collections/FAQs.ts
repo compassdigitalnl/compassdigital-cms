@@ -7,6 +7,7 @@ export const FAQs: CollectionConfig = {
     group: 'Website',
     useAsTitle: 'question',
     defaultColumns: ['question', 'category', 'featured', 'updatedAt'],
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true, // Publiek leesbaar (frontend)

@@ -10,6 +10,7 @@ export const CustomerGroups: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'E-commerce',
+    hidden: ({ user }) => !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
   },
   access: {
     read: () => true, // Customer groups are publicly readable (for pricing tiers)

@@ -210,5 +210,38 @@ export const Users: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'clientType',
+      type: 'select',
+      label: 'Type website',
+      access: {
+        create: adminOnlyFieldAccess,
+        read: adminOnlyFieldAccess,
+        update: adminOnlyFieldAccess,
+      },
+      options: [
+        { label: 'Website (informatief)', value: 'website' },
+        { label: 'Webshop (e-commerce)', value: 'webshop' },
+      ],
+      admin: {
+        description: 'Bepaalt welke functies en collecties zichtbaar zijn voor deze klant',
+        condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
+      },
+    },
+    {
+      name: 'client',
+      type: 'relationship',
+      relationTo: 'clients',
+      label: 'Gekoppelde klant',
+      access: {
+        create: adminOnlyFieldAccess,
+        read: adminOnlyFieldAccess,
+        update: adminOnlyFieldAccess,
+      },
+      admin: {
+        description: 'De client-omgeving die bij deze gebruiker hoort',
+        condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
+      },
+    },
   ],
 }

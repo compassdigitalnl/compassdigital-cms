@@ -15,6 +15,7 @@ const dirname = path.dirname(filename)
 export const Media: CollectionConfig = {
   admin: {
     group: 'Website',
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   slug: 'media',
   access: {

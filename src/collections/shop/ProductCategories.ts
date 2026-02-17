@@ -10,6 +10,7 @@ export const ProductCategories: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'E-commerce',
+    hidden: ({ user }) => !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
   },
   access: {
     read: () => true, // Categories are publicly accessible (webshop navigation)

@@ -6,6 +6,7 @@ export const Footer: GlobalConfig = {
   label: 'Footer',
   admin: {
     group: 'Ontwerp',
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true,

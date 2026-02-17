@@ -12,6 +12,7 @@ export const Brands: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['name', 'featured', 'updatedAt'],
     description: 'Product merken zoals Hartmann, BSN Medical, 3M, etc.',
+    hidden: ({ user }) => !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
   },
   access: {
     read: () => true, // Brands are publicly accessible (webshop catalog)

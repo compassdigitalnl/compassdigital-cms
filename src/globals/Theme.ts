@@ -6,6 +6,7 @@ export const Theme: GlobalConfig = {
   label: 'Theme & Design System',
   admin: {
     group: 'Ontwerp',
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true,

@@ -7,6 +7,7 @@ export const Testimonials: CollectionConfig = {
     group: 'Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'company', 'rating', 'updatedAt'],
+    hidden: ({ user }) => checkRole(['admin'], user),
   },
   access: {
     read: () => true,
