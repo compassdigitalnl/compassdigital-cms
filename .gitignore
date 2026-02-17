@@ -48,3 +48,6 @@ payload.db-wal
 
 # Ploi deployment scripts (auto-generated, not needed in repo)
 ploi-*.sh
+
+# Sensitive env docs - keep locally only, never commit real credentials
+VERCEL_ENV_VARS_REQUIRED.md
