@@ -1,8 +1,19 @@
 /**
  * 👥 Clients Collection
  *
- * Manages all client sites in the multi-tenant platform.
- * Each client represents a separate deployed site.
+ * Beheert alle klant-sites in het multi-tenant platform.
+ * Elke client vertegenwoordigt een aparte gedeployde site.
+ *
+ * FORMULIER STRUCTUUR:
+ * - Sidebar: Status + Plan (altijd zichtbaar)
+ * - Hoofd: Naam + Domein (altijd zichtbaar)
+ * - Ingeklapt: Contactgegevens, Template, Deployment, Billing, etc.
+ *
+ * TOEKOMSTIGE UITBREIDINGEN (reeds voorbereid, nog niet actief):
+ * - Stripe Connect: automatische betalingsverwerking per klant
+ * - MultiSafePay: iDEAL/Cards voor NL markt
+ * - Health Monitoring: automatische uptime checks
+ * - Auto-deployment: via Ploi API
  */
 
 import type { CollectionConfig } from 'payload'
@@ -13,20 +24,56 @@ export const Clients: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Platform Management',
-    defaultColumns: ['name', 'domain', 'template', 'status', 'createdAt'],
-    description: 'Manage client sites and deployments',
-    // Hide from non-admin users in the sidebar
+    defaultColumns: ['name', 'domain', 'status', 'plan', 'createdAt'],
+    description: 'Klanten beheren en sites deployen',
     hidden: ({ user }) => !checkRole(['admin'], user),
   },
   access: {
-    // Only admins (CompassDigital) can manage clients - never expose to editors/klanten
     read: ({ req: { user } }) => checkRole(['admin'], user),
     create: ({ req: { user } }) => checkRole(['admin'], user),
     update: ({ req: { user } }) => checkRole(['admin'], user),
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
-    // Basic Information
+    // ─── Sidebar: Status & Plan ─────────────────────────
+    {
+      name: 'status',
+      type: 'select',
+      required: true,
+      defaultValue: 'pending',
+      label: 'Status',
+      options: [
+        { label: '⏳ Nieuw / Nog niet gedeployed', value: 'pending' },
+        { label: '🔄 Wordt ingericht...', value: 'provisioning' },
+        { label: '🚀 Wordt gedeployed...', value: 'deploying' },
+        { label: '✅ Actief', value: 'active' },
+        { label: '❌ Deploy mislukt', value: 'failed' },
+        { label: '⏸️ Geblokkeerd', value: 'suspended' },
+        { label: '📦 Gearchiveerd', value: 'archived' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Huidige status van de klantsite',
+      },
+    },
+    {
+      name: 'plan',
+      type: 'select',
+      label: 'Abonnement',
+      defaultValue: 'starter',
+      options: [
+        { label: 'Gratis (demo)', value: 'free' },
+        { label: 'Starter', value: 'starter' },
+        { label: 'Professional', value: 'professional' },
+        { label: 'Enterprise', value: 'enterprise' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Huidig abonnement',
+      },
+    },
+
+    // ─── Basisgegevens (altijd zichtbaar) ───────────────
     {
       type: 'row',
       fields: [
@@ -34,9 +81,9 @@ export const Clients: CollectionConfig = {
           name: 'name',
           type: 'text',
           required: true,
-          label: 'Client Name',
+          label: 'Bedrijfsnaam',
           admin: {
-            description: 'Name of the client/company',
+            description: 'Naam van de klant / het bedrijf',
           },
         },
         {
@@ -44,14 +91,14 @@ export const Clients: CollectionConfig = {
           type: 'text',
           required: true,
           unique: true,
-          label: 'Domain',
+          label: 'Subdomein',
           admin: {
-            description: 'Subdomain for the client (e.g., "clientA" for clientA.yourplatform.com)',
+            description: 'Bijv. "bakkerij-dejong" → bakkerij-dejong.compassdigital.nl',
           },
-          validate: (val) => {
-            if (!val) return 'Domain is required'
+          validate: (val: string | null | undefined) => {
+            if (!val) return 'Subdomein is verplicht'
             if (!/^[a-z0-9-]+$/.test(val)) {
-              return 'Domain must contain only lowercase letters, numbers, and hyphens'
+              return 'Alleen kleine letters, cijfers en koppeltekens toegestaan'
             }
             return true
           },
@@ -59,10 +106,13 @@ export const Clients: CollectionConfig = {
       ],
     },
 
-    // Contact Information
+    // ─── Contactgegevens (ingeklapt) ─────────────────────
     {
       type: 'collapsible',
-      label: 'Contact Information',
+      label: 'Contactgegevens',
+      admin: {
+        initCollapsed: true,
+      },
       fields: [
         {
           type: 'row',
@@ -71,32 +121,33 @@ export const Clients: CollectionConfig = {
               name: 'contactEmail',
               type: 'email',
               required: true,
-              label: 'Contact Email',
-              admin: {
-                description: 'Primary contact email for the client',
-              },
+              label: 'E-mailadres',
             },
             {
               name: 'contactName',
               type: 'text',
-              label: 'Contact Name',
+              label: 'Contactpersoon',
             },
           ],
         },
         {
           name: 'contactPhone',
           type: 'text',
-          label: 'Phone Number',
+          label: 'Telefoonnummer',
+          admin: {
+            placeholder: '+31 6 1234 5678',
+          },
         },
       ],
     },
 
-    // Template Configuration
+    // ─── Template & Functies (ingeklapt) ─────────────────
     {
       type: 'collapsible',
-      label: 'Template & Features',
+      label: 'Template & Functies',
       admin: {
-        initCollapsed: false,
+        initCollapsed: true,
+        description: 'Bepaalt welk startpunt en welke features deze klant krijgt',
       },
       fields: [
         {
@@ -104,35 +155,36 @@ export const Clients: CollectionConfig = {
           type: 'select',
           required: true,
           label: 'Site Template',
+          defaultValue: 'corporate',
           options: [
-            { label: 'E-commerce Store', value: 'ecommerce' },
+            { label: 'Webshop (e-commerce)', value: 'ecommerce' },
             { label: 'Blog & Magazine', value: 'blog' },
             { label: 'B2B Platform', value: 'b2b' },
             { label: 'Portfolio & Agency', value: 'portfolio' },
-            { label: 'Corporate Website', value: 'corporate' },
+            { label: 'Zakelijke website', value: 'corporate' },
           ],
           admin: {
-            description: 'Base template for the client site',
+            description: 'Basistemplate voor de klantsite',
           },
         },
         {
           name: 'enabledFeatures',
           type: 'array',
-          label: 'Enabled Features',
+          label: 'Extra functies inschakelen',
           admin: {
-            description: 'Additional features to enable for this client',
+            description: 'Functies die bovenop het template actief zijn',
           },
           fields: [
             {
               name: 'feature',
               type: 'select',
               options: [
-                { label: 'E-commerce', value: 'ecommerce' },
+                { label: 'E-commerce / webshop', value: 'ecommerce' },
                 { label: 'Blog', value: 'blog' },
-                { label: 'Forms', value: 'forms' },
-                { label: 'Authentication', value: 'authentication' },
-                { label: 'Multi-language', value: 'multiLanguage' },
-                { label: 'AI Features', value: 'ai' },
+                { label: 'Contactformulier', value: 'forms' },
+                { label: 'Inloggen voor klanten', value: 'authentication' },
+                { label: 'Meertalig', value: 'multiLanguage' },
+                { label: 'AI contentgeneratie', value: 'ai' },
               ],
             },
           ],
@@ -140,100 +192,96 @@ export const Clients: CollectionConfig = {
         {
           name: 'disabledCollections',
           type: 'array',
-          label: 'Disabled Collections',
+          label: 'Uitgeschakelde modules',
           admin: {
-            description: 'Collections from template to disable for this client',
+            description: 'Modules uit het template die voor deze klant niet nodig zijn',
           },
           fields: [
             {
               name: 'collection',
               type: 'text',
+              admin: {
+                placeholder: 'bijv. orders, products',
+              },
             },
           ],
         },
       ],
     },
 
-    // Deployment Information
+    // ─── Deployment Info (ingeklapt, read-only) ──────────
     {
       type: 'collapsible',
-      label: 'Deployment',
+      label: 'Deployment details',
+      admin: {
+        initCollapsed: true,
+        description: 'Worden automatisch ingevuld bij deployment — niet handmatig invullen',
+      },
       fields: [
         {
-          name: 'status',
-          type: 'select',
-          required: true,
-          defaultValue: 'pending',
-          label: 'Deployment Status',
-          options: [
-            { label: 'Pending', value: 'pending' },
-            { label: 'Provisioning', value: 'provisioning' },
-            { label: 'Deploying', value: 'deploying' },
-            { label: 'Active', value: 'active' },
-            { label: 'Failed', value: 'failed' },
-            { label: 'Suspended', value: 'suspended' },
-            { label: 'Archived', value: 'archived' },
+          type: 'row',
+          fields: [
+            {
+              name: 'deploymentUrl',
+              type: 'text',
+              label: 'Site URL',
+              admin: {
+                readOnly: true,
+                description: 'Automatisch ingevuld',
+              },
+            },
+            {
+              name: 'adminUrl',
+              type: 'text',
+              label: 'Admin Panel URL',
+              admin: {
+                readOnly: true,
+                description: 'Automatisch ingevuld',
+              },
+            },
           ],
-          admin: {
-            description: 'Current deployment status',
-          },
         },
         {
-          name: 'deploymentUrl',
-          type: 'text',
-          label: 'Deployment URL',
-          admin: {
-            description: 'Full URL to the deployed site',
-            readOnly: true,
-          },
-        },
-        {
-          name: 'adminUrl',
-          type: 'text',
-          label: 'Admin Panel URL',
-          admin: {
-            description: 'URL to the client admin panel',
-            readOnly: true,
-          },
-        },
-        {
-          name: 'deploymentProvider',
-          type: 'select',
-          label: 'Deployment Provider',
-          options: [
-            { label: 'Vercel', value: 'vercel' },
-            { label: 'Ploi', value: 'ploi' },
-            { label: 'Custom', value: 'custom' },
+          type: 'row',
+          fields: [
+            {
+              name: 'deploymentProvider',
+              type: 'select',
+              label: 'Hosting provider',
+              options: [
+                { label: 'Ploi (VPS)', value: 'ploi' },
+                { label: 'Vercel (serverless)', value: 'vercel' },
+                { label: 'Anders', value: 'custom' },
+              ],
+              admin: {
+                readOnly: true,
+                description: 'Automatisch ingevuld',
+              },
+            },
+            {
+              name: 'lastDeployedAt',
+              type: 'date',
+              label: 'Laatste deployment',
+              admin: {
+                readOnly: true,
+              },
+            },
           ],
-          admin: {
-            description: 'Deployment platform used for this client',
-            readOnly: true,
-          },
         },
         {
           name: 'deploymentProviderId',
           type: 'text',
-          label: 'Provider Project ID',
+          label: 'Provider Site ID',
           admin: {
-            description: 'Project/site identifier from deployment provider (Vercel, Ploi, etc.)',
             readOnly: true,
+            description: 'Ploi site ID of Vercel project ID',
           },
         },
         {
           name: 'lastDeploymentId',
           type: 'text',
-          label: 'Last Deployment ID',
+          label: 'Laatste Deployment ID',
           admin: {
-            description: 'Most recent deployment identifier',
-            readOnly: true,
-          },
-        },
-        {
-          name: 'lastDeployedAt',
-          type: 'date',
-          label: 'Last Deployed',
-          admin: {
-            description: 'Timestamp of most recent deployment',
             readOnly: true,
           },
         },
@@ -242,8 +290,8 @@ export const Clients: CollectionConfig = {
           type: 'text',
           label: 'Database URL',
           admin: {
-            description: 'PostgreSQL connection string (encrypted)',
             readOnly: true,
+            description: 'PostgreSQL connection string (versleuteld opgeslagen)',
           },
         },
         {
@@ -251,386 +299,292 @@ export const Clients: CollectionConfig = {
           type: 'text',
           label: 'Database Provider ID',
           admin: {
-            description: 'Railway service ID for the client database',
             readOnly: true,
+            description: 'Railway service ID voor de database',
           },
         },
       ],
     },
 
-    // Configuration & Settings
+    // ─── Configuratie (ingeklapt) ────────────────────────
     {
       type: 'collapsible',
-      label: 'Configuration',
+      label: 'Aangepaste configuratie',
       admin: {
         initCollapsed: true,
+        description: 'Geavanceerde instellingen voor deze klant',
       },
       fields: [
         {
           name: 'customEnvironment',
           type: 'json',
-          label: 'Custom Environment Variables',
+          label: 'Omgevingsvariabelen (custom)',
           admin: {
-            description: 'Additional environment variables for this client',
+            description: 'Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)',
           },
         },
         {
           name: 'customSettings',
           type: 'json',
-          label: 'Custom Settings',
+          label: 'Platforminstellingen (custom)',
           admin: {
-            description: 'Client-specific settings and configuration',
+            description: 'Klantspecifieke platform-instellingen',
           },
         },
       ],
     },
 
-    // Billing & Subscription
+    // ─── Facturering (ingeklapt) — FASE 2 ────────────────
     {
       type: 'collapsible',
-      label: 'Billing',
+      label: 'Facturering [toekomstig]',
       admin: {
         initCollapsed: true,
+        description: 'Fase 2: Automatische facturering via Stripe Billing',
       },
       fields: [
         {
-          type: 'row',
-          fields: [
-            {
-              name: 'plan',
-              type: 'select',
-              label: 'Subscription Plan',
-              options: [
-                { label: 'Free', value: 'free' },
-                { label: 'Starter', value: 'starter' },
-                { label: 'Professional', value: 'professional' },
-                { label: 'Enterprise', value: 'enterprise' },
-              ],
-              defaultValue: 'starter',
-            },
-            {
-              name: 'billingStatus',
-              type: 'select',
-              label: 'Billing Status',
-              options: [
-                { label: 'Active', value: 'active' },
-                { label: 'Past Due', value: 'past_due' },
-                { label: 'Cancelled', value: 'cancelled' },
-                { label: 'Trial', value: 'trial' },
-              ],
-              defaultValue: 'active',
-            },
+          name: 'billingStatus',
+          type: 'select',
+          label: 'Factuurstatus',
+          options: [
+            { label: 'Actief', value: 'active' },
+            { label: 'Achterstallig', value: 'past_due' },
+            { label: 'Opgezegd', value: 'cancelled' },
+            { label: 'Proefperiode', value: 'trial' },
           ],
+          defaultValue: 'active',
         },
         {
           name: 'monthlyFee',
           type: 'number',
-          label: 'Monthly Fee (EUR)',
-          admin: {
-            description: 'Monthly subscription cost',
-          },
+          label: 'Maandelijks bedrag (EUR)',
         },
         {
           name: 'nextBillingDate',
           type: 'date',
-          label: 'Next Billing Date',
+          label: 'Volgende factuurdatum',
         },
       ],
     },
 
-    // Stripe Connect Payments
+    // ─── Stripe Betalingen (ingeklapt) — FASE 3 ─────────
     {
       type: 'collapsible',
-      label: 'Stripe Connect Payments',
+      label: 'Stripe Connect [toekomstig]',
       admin: {
         initCollapsed: true,
-        description: 'Payment processing setup for e-commerce clients',
+        description: 'Fase 3: Betalingsverwerking voor e-commerce klanten via Stripe Connect',
       },
       fields: [
         {
           name: 'paymentsEnabled',
           type: 'checkbox',
-          label: 'Payments Enabled',
+          label: 'Stripe betalingen ingeschakeld',
           defaultValue: false,
-          admin: {
-            description: 'Enable Stripe Connect payment processing for this client',
-          },
         },
         {
           name: 'stripeAccountId',
           type: 'text',
           label: 'Stripe Account ID',
-          admin: {
-            description: 'Connected Stripe account ID (acct_...)',
-            readOnly: true,
-          },
+          admin: { readOnly: true, description: 'acct_... — automatisch ingevuld' },
         },
         {
           name: 'stripeAccountStatus',
           type: 'select',
           label: 'Stripe Account Status',
           options: [
-            { label: 'Not Started', value: 'not_started' },
-            { label: 'Pending', value: 'pending' },
-            { label: 'Enabled', value: 'enabled' },
-            { label: 'Rejected', value: 'rejected' },
-            { label: 'Restricted', value: 'restricted' },
+            { label: 'Niet gestart', value: 'not_started' },
+            { label: 'In behandeling', value: 'pending' },
+            { label: 'Actief', value: 'enabled' },
+            { label: 'Afgewezen', value: 'rejected' },
+            { label: 'Beperkt', value: 'restricted' },
           ],
           defaultValue: 'not_started',
-          admin: {
-            description: 'Current onboarding status',
-            readOnly: true,
-          },
+          admin: { readOnly: true },
         },
         {
           name: 'paymentPricingTier',
           type: 'select',
-          label: 'Payment Pricing Tier',
+          label: 'Tarief transacties',
           options: [
-            { label: 'Standard (2.4% + €0.25)', value: 'standard' },
+            { label: 'Standaard (2.4% + €0.25)', value: 'standard' },
             { label: 'Professional (1.9% + €0.25)', value: 'professional' },
             { label: 'Enterprise (1.6% + €0.20)', value: 'enterprise' },
-            { label: 'Custom', value: 'custom' },
+            { label: 'Maatwerk', value: 'custom' },
           ],
           defaultValue: 'standard',
           admin: {
-            description: 'Transaction fee tier for this client',
             condition: (data) => data.paymentsEnabled === true,
           },
         },
         {
           name: 'customTransactionFee',
           type: 'group',
-          label: 'Custom Transaction Fee',
+          label: 'Maatwerkpercentage',
           admin: {
-            description: 'Custom pricing (only if tier is "custom")',
             condition: (data) => data.paymentPricingTier === 'custom',
           },
           fields: [
-            {
-              name: 'percentage',
-              type: 'number',
-              label: 'Percentage (%)',
-              admin: {
-                description: 'e.g., 1.5 for 1.5%',
-                step: 0.1,
-              },
-            },
-            {
-              name: 'fixed',
-              type: 'number',
-              label: 'Fixed Fee (EUR)',
-              admin: {
-                description: 'e.g., 0.25 for €0.25',
-                step: 0.01,
-              },
-            },
+            { name: 'percentage', type: 'number', label: 'Percentage (%)', admin: { step: 0.1 } },
+            { name: 'fixed', type: 'number', label: 'Vast bedrag (EUR)', admin: { step: 0.01 } },
           ],
         },
         {
           name: 'totalPaymentVolume',
           type: 'number',
-          label: 'Total Payment Volume (EUR)',
-          admin: {
-            description: 'Lifetime transaction volume processed',
-            readOnly: true,
-          },
+          label: 'Totaal transactievolume (EUR)',
+          admin: { readOnly: true },
         },
         {
           name: 'totalPaymentRevenue',
           type: 'number',
-          label: 'Total Payment Revenue (EUR)',
-          admin: {
-            description: 'Lifetime platform fees earned from payments',
-            readOnly: true,
-          },
+          label: 'Totale platformfee (EUR)',
+          admin: { readOnly: true },
         },
         {
           name: 'lastPaymentAt',
           type: 'date',
-          label: 'Last Payment',
-          admin: {
-            description: 'Most recent payment processed',
-            readOnly: true,
-          },
+          label: 'Laatste betaling',
+          admin: { readOnly: true },
         },
       ],
     },
 
-    // MultiSafePay Connect Payments
+    // ─── MultiSafePay (ingeklapt) — FASE 3 ──────────────
     {
       type: 'collapsible',
-      label: 'MultiSafePay Connect Payments',
+      label: 'MultiSafePay [toekomstig]',
       admin: {
         initCollapsed: true,
-        description: 'Payment processing via MultiSafePay (recommended for NL/EU markets)',
+        description: 'Fase 3: iDEAL / Cards via MultiSafePay (aanbevolen voor NL/EU)',
       },
       fields: [
         {
           name: 'multiSafepayEnabled',
           type: 'checkbox',
-          label: 'MultiSafePay Enabled',
+          label: 'MultiSafePay ingeschakeld',
           defaultValue: false,
-          admin: {
-            description: 'Enable MultiSafePay Connect payment processing for this client',
-          },
         },
         {
           name: 'multiSafepayAffiliateId',
           type: 'text',
-          label: 'MultiSafePay Affiliate ID',
-          admin: {
-            description: 'Affiliate/sub-merchant ID',
-            readOnly: true,
-          },
+          label: 'Affiliate ID',
+          admin: { readOnly: true },
         },
         {
           name: 'multiSafepayAccountStatus',
           type: 'select',
-          label: 'MultiSafePay Account Status',
+          label: 'Account Status',
           options: [
-            { label: 'Not Started', value: 'not_started' },
-            { label: 'Pending Verification', value: 'pending' },
-            { label: 'Active', value: 'active' },
-            { label: 'Suspended', value: 'suspended' },
-            { label: 'Rejected', value: 'rejected' },
+            { label: 'Niet gestart', value: 'not_started' },
+            { label: 'In verificatie', value: 'pending' },
+            { label: 'Actief', value: 'active' },
+            { label: 'Geblokkeerd', value: 'suspended' },
+            { label: 'Afgewezen', value: 'rejected' },
           ],
           defaultValue: 'not_started',
-          admin: {
-            description: 'Current account status',
-            readOnly: true,
-          },
+          admin: { readOnly: true },
         },
         {
           name: 'multiSafepayPricingTier',
           type: 'select',
-          label: 'MultiSafePay Pricing Tier',
+          label: 'Tarieftier',
           options: [
-            { label: 'Standard (iDEAL €0.35, Cards 1.8%)', value: 'standard' },
+            { label: 'Standaard (iDEAL €0.35, Cards 1.8%)', value: 'standard' },
             { label: 'Professional (iDEAL €0.30, Cards 1.6%)', value: 'professional' },
             { label: 'Enterprise (iDEAL €0.28, Cards 1.5%)', value: 'enterprise' },
-            { label: 'Custom Partner Rates', value: 'custom' },
+            { label: 'Maatwerk partnertarieven', value: 'custom' },
           ],
           defaultValue: 'standard',
           admin: {
-            description: 'Transaction fee tier for this client (lower = better deal)',
             condition: (data) => data.multiSafepayEnabled === true,
           },
         },
         {
           name: 'multiSafepayCustomRates',
           type: 'group',
-          label: 'Custom MultiSafePay Rates',
+          label: 'Maatwerktarieven',
           admin: {
-            description: 'Custom partner pricing (requires partner approval)',
             condition: (data) => data.multiSafepayPricingTier === 'custom',
           },
           fields: [
-            {
-              name: 'idealFee',
-              type: 'number',
-              label: 'iDEAL Fee (EUR)',
-              admin: {
-                description: 'e.g., 0.25 for €0.25 per transaction',
-                step: 0.01,
-              },
-            },
+            { name: 'idealFee', type: 'number', label: 'iDEAL fee (EUR)', admin: { step: 0.01 } },
             {
               name: 'cardPercentage',
               type: 'number',
-              label: 'Card Percentage (%)',
-              admin: {
-                description: 'e.g., 1.5 for 1.5%',
-                step: 0.1,
-              },
+              label: 'Cards percentage (%)',
+              admin: { step: 0.1 },
             },
             {
               name: 'cardFixed',
               type: 'number',
-              label: 'Card Fixed Fee (EUR)',
-              admin: {
-                description: 'e.g., 0.25 for €0.25',
-                step: 0.01,
-              },
+              label: 'Cards vast bedrag (EUR)',
+              admin: { step: 0.01 },
             },
           ],
         },
         {
           name: 'multiSafepayTotalVolume',
           type: 'number',
-          label: 'Total MultiSafePay Volume (EUR)',
-          admin: {
-            description: 'Lifetime transaction volume via MultiSafePay',
-            readOnly: true,
-          },
+          label: 'Totaal volume (EUR)',
+          admin: { readOnly: true },
         },
         {
           name: 'multiSafepayTotalRevenue',
           type: 'number',
-          label: 'Total MultiSafePay Revenue (EUR)',
-          admin: {
-            description: 'Lifetime platform fees earned from MultiSafePay payments',
-            readOnly: true,
-          },
+          label: 'Totale platformfee (EUR)',
+          admin: { readOnly: true },
         },
         {
           name: 'multiSafepayLastPaymentAt',
           type: 'date',
-          label: 'Last MultiSafePay Payment',
-          admin: {
-            description: 'Most recent payment via MultiSafePay',
-            readOnly: true,
-          },
+          label: 'Laatste betaling',
+          admin: { readOnly: true },
         },
       ],
     },
 
-    // Health & Monitoring
+    // ─── Health & Monitoring (ingeklapt) — FASE 2 ────────
     {
       type: 'collapsible',
-      label: 'Health & Monitoring',
+      label: 'Health & Monitoring [toekomstig]',
       admin: {
         initCollapsed: true,
+        description: 'Fase 2: Automatische uptime monitoring — wordt gevuld door het systeem',
       },
       fields: [
         {
           name: 'lastHealthCheck',
           type: 'date',
-          label: 'Last Health Check',
-          admin: {
-            readOnly: true,
-          },
+          label: 'Laatste health check',
+          admin: { readOnly: true },
         },
         {
           name: 'healthStatus',
           type: 'select',
           label: 'Health Status',
           options: [
-            { label: 'Healthy', value: 'healthy' },
-            { label: 'Warning', value: 'warning' },
-            { label: 'Critical', value: 'critical' },
-            { label: 'Unknown', value: 'unknown' },
+            { label: '✅ Gezond', value: 'healthy' },
+            { label: '⚠️ Waarschuwing', value: 'warning' },
+            { label: '🔴 Kritiek', value: 'critical' },
+            { label: '❓ Onbekend', value: 'unknown' },
           ],
-          admin: {
-            readOnly: true,
-          },
+          admin: { readOnly: true },
         },
         {
           name: 'uptimePercentage',
           type: 'number',
-          label: 'Uptime %',
-          admin: {
-            description: '30-day uptime percentage',
-            readOnly: true,
-          },
+          label: 'Uptime % (30 dagen)',
+          admin: { readOnly: true },
         },
       ],
     },
 
-    // Notes & Internal
+    // ─── Interne notities ────────────────────────────────
     {
       type: 'collapsible',
-      label: 'Internal Notes',
+      label: 'Interne notities',
       admin: {
         initCollapsed: true,
       },
@@ -638,9 +592,10 @@ export const Clients: CollectionConfig = {
         {
           name: 'notes',
           type: 'textarea',
-          label: 'Internal Notes',
+          label: 'Notities (intern)',
           admin: {
-            description: 'Notes for platform administrators (not visible to client)',
+            description: 'Alleen zichtbaar voor admins van CompassDigital — niet voor de klant',
+            rows: 4,
           },
         },
       ],
@@ -650,9 +605,9 @@ export const Clients: CollectionConfig = {
   hooks: {
     beforeChange: [
       async ({ data, operation }) => {
-        // Auto-generate URLs on creation
+        // Auto-genereer URLs bij aanmaken
         if (operation === 'create' && data.domain) {
-          const baseUrl = process.env.PLATFORM_BASE_URL || 'yourplatform.com'
+          const baseUrl = process.env.PLATFORM_BASE_URL || 'compassdigital.nl'
           data.deploymentUrl = `https://${data.domain}.${baseUrl}`
           data.adminUrl = `https://${data.domain}.${baseUrl}/admin`
         }
@@ -661,9 +616,8 @@ export const Clients: CollectionConfig = {
     ],
     afterChange: [
       async ({ doc, operation }) => {
-        // Log client creation
         if (operation === 'create') {
-          console.log(`[Platform] New client created: ${doc.name} (${doc.domain})`)
+          console.log(`[Platform] Nieuwe klant aangemaakt: ${doc.name} (${doc.domain})`)
         }
       },
     ],

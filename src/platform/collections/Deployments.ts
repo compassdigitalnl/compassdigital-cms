@@ -1,8 +1,8 @@
 /**
  * 🚀 Deployments Collection
  *
- * Tracks deployment history for all client sites.
- * Maintains audit trail of all deployment activities.
+ * Bijhoudt deployment history voor alle klant-sites.
+ * Wordt automatisch aangemaakt door het platform — handmatig aanmaken is niet nodig.
  */
 
 import type { CollectionConfig } from 'payload'
@@ -12,33 +12,33 @@ export const Deployments: CollectionConfig = {
   slug: 'deployments',
   admin: {
     useAsTitle: 'id',
-    group: 'Platform Management',
-    defaultColumns: ['client', 'status', 'environment', 'createdAt'],
-    description: 'Deployment history and audit trail',
-    // Hide from non-admin users in the sidebar
+    group: 'Platform Beheer',
+    defaultColumns: ['client', 'status', 'environment', 'type', 'createdAt'],
+    description:
+      'Automatisch bijgehouden deployment history. Alleen-lezen — wordt aangemaakt door het systeem.',
+    // Verberg voor niet-admins
     hidden: ({ user }) => !checkRole(['admin'], user),
   },
   access: {
-    // Only admins (CompassDigital) can view deployment history - never expose to editors/klanten
     read: ({ req: { user } }) => checkRole(['admin'], user),
     create: ({ req: { user } }) => checkRole(['admin'], user),
     update: ({ req: { user } }) => checkRole(['admin'], user),
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
-    // Client Reference
+    // ─── Altijd zichtbaar: Klant + Status + Omgeving ─────────────────────────
+
     {
       name: 'client',
       type: 'relationship',
       relationTo: 'clients',
       required: true,
-      label: 'Client',
+      label: 'Klant',
       admin: {
-        description: 'The client this deployment belongs to',
+        description: 'Voor welke klant is deze deployment uitgevoerd?',
       },
     },
 
-    // Deployment Info
     {
       type: 'row',
       fields: [
@@ -49,48 +49,54 @@ export const Deployments: CollectionConfig = {
           defaultValue: 'pending',
           label: 'Status',
           options: [
-            { label: '⏳ Pending', value: 'pending' },
-            { label: '🔄 In Progress', value: 'in_progress' },
-            { label: '✅ Success', value: 'success' },
-            { label: '❌ Failed', value: 'failed' },
-            { label: '🔙 Rolled Back', value: 'rolled_back' },
-            { label: '🚫 Cancelled', value: 'cancelled' },
+            { label: '⏳ Wachtrij', value: 'pending' },
+            { label: '🔄 Bezig', value: 'in_progress' },
+            { label: '✅ Geslaagd', value: 'success' },
+            { label: '❌ Mislukt', value: 'failed' },
+            { label: '🔙 Teruggedraaid', value: 'rolled_back' },
+            { label: '🚫 Geannuleerd', value: 'cancelled' },
           ],
+          admin: {
+            description: 'Huidige status van deze deployment',
+          },
         },
         {
           name: 'environment',
           type: 'select',
           required: true,
           defaultValue: 'production',
-          label: 'Environment',
+          label: 'Omgeving',
           options: [
-            { label: 'Production', value: 'production' },
+            { label: 'Productie', value: 'production' },
             { label: 'Staging', value: 'staging' },
-            { label: 'Development', value: 'development' },
+            { label: 'Ontwikkeling', value: 'development' },
+          ],
+        },
+        {
+          name: 'type',
+          type: 'select',
+          required: true,
+          label: 'Type',
+          options: [
+            { label: 'Eerste installatie', value: 'initial' },
+            { label: 'Update', value: 'update' },
+            { label: 'Hotfix', value: 'hotfix' },
+            { label: 'Rollback', value: 'rollback' },
+            { label: 'Migratie', value: 'migration' },
           ],
         },
       ],
     },
 
-    // Deployment Type
-    {
-      name: 'type',
-      type: 'select',
-      required: true,
-      label: 'Deployment Type',
-      options: [
-        { label: 'Initial Provision', value: 'initial' },
-        { label: 'Update', value: 'update' },
-        { label: 'Hotfix', value: 'hotfix' },
-        { label: 'Rollback', value: 'rollback' },
-        { label: 'Migration', value: 'migration' },
-      ],
-    },
+    // ─── Versie & Git informatie ──────────────────────────────────────────────
 
-    // Version & Git Info
     {
       type: 'collapsible',
-      label: 'Version Information',
+      label: 'Versie-informatie',
+      admin: {
+        initCollapsed: true,
+        description: 'Git commit en versienummer — automatisch ingevuld',
+      },
       fields: [
         {
           type: 'row',
@@ -98,65 +104,43 @@ export const Deployments: CollectionConfig = {
             {
               name: 'version',
               type: 'text',
-              label: 'Version',
+              label: 'Versienummer',
               admin: {
-                description: 'Semantic version (e.g., 1.2.3)',
+                description: 'Bijv. 1.2.3',
+                readOnly: true,
               },
             },
             {
-              name: 'gitCommit',
+              name: 'gitBranch',
               type: 'text',
-              label: 'Git Commit Hash',
+              label: 'Git Branch',
               admin: {
-                description: 'Git commit SHA',
+                readOnly: true,
               },
             },
           ],
         },
         {
-          name: 'gitBranch',
+          name: 'gitCommit',
           type: 'text',
-          label: 'Git Branch',
-        },
-      ],
-    },
-
-    // Vercel Integration
-    {
-      type: 'collapsible',
-      label: 'Vercel Deployment',
-      fields: [
-        {
-          name: 'vercelDeploymentId',
-          type: 'text',
-          label: 'Vercel Deployment ID',
+          label: 'Git Commit Hash',
           admin: {
-            readOnly: true,
-          },
-        },
-        {
-          name: 'vercelDeploymentUrl',
-          type: 'text',
-          label: 'Vercel Deployment URL',
-          admin: {
-            readOnly: true,
-          },
-        },
-        {
-          name: 'vercelProjectId',
-          type: 'text',
-          label: 'Vercel Project ID',
-          admin: {
+            description: 'SHA van de gedeployde commit',
             readOnly: true,
           },
         },
       ],
     },
 
-    // Timing
+    // ─── Timing ──────────────────────────────────────────────────────────────
+
     {
       type: 'collapsible',
-      label: 'Timing',
+      label: 'Tijdregistratie',
+      admin: {
+        initCollapsed: true,
+        description: 'Start- en eindtijd — automatisch bijgehouden',
+      },
       fields: [
         {
           type: 'row',
@@ -164,21 +148,19 @@ export const Deployments: CollectionConfig = {
             {
               name: 'startedAt',
               type: 'date',
-              label: 'Started At',
+              label: 'Gestart om',
               admin: {
-                date: {
-                  pickerAppearance: 'dayAndTime',
-                },
+                date: { pickerAppearance: 'dayAndTime' },
+                readOnly: true,
               },
             },
             {
               name: 'completedAt',
               type: 'date',
-              label: 'Completed At',
+              label: 'Afgerond om',
               admin: {
-                date: {
-                  pickerAppearance: 'dayAndTime',
-                },
+                date: { pickerAppearance: 'dayAndTime' },
+                readOnly: true,
               },
             },
           ],
@@ -186,21 +168,60 @@ export const Deployments: CollectionConfig = {
         {
           name: 'duration',
           type: 'number',
-          label: 'Duration (seconds)',
+          label: 'Duur (seconden)',
           admin: {
-            description: 'Total deployment time in seconds',
+            description: 'Totale deployduur in seconden — automatisch berekend',
             readOnly: true,
           },
         },
       ],
     },
 
-    // Logs & Output
+    // ─── Notities (handmatig invulbaar) ──────────────────────────────────────
+
     {
       type: 'collapsible',
-      label: 'Logs & Output',
+      label: 'Notities',
       admin: {
         initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'reason',
+          type: 'textarea',
+          label: 'Reden',
+          admin: {
+            description: 'Waarom is deze deployment uitgevoerd?',
+          },
+        },
+        {
+          name: 'notes',
+          type: 'textarea',
+          label: 'Opmerkingen',
+          admin: {
+            description: 'Extra opmerkingen over deze deployment',
+          },
+        },
+        {
+          name: 'triggeredBy',
+          type: 'text',
+          label: 'Gestart door',
+          admin: {
+            description: 'Gebruiker of systeem dat de deployment heeft gestart',
+            readOnly: true,
+          },
+        },
+      ],
+    },
+
+    // ─── Logs & Foutmeldingen ─────────────────────────────────────────────────
+
+    {
+      type: 'collapsible',
+      label: 'Logs & Foutmeldingen',
+      admin: {
+        initCollapsed: true,
+        description: 'Technische uitvoer van de deployment — automatisch gevuld',
       },
       fields: [
         {
@@ -208,7 +229,7 @@ export const Deployments: CollectionConfig = {
           type: 'textarea',
           label: 'Deployment Logs',
           admin: {
-            description: 'Full deployment log output',
+            description: 'Volledige log-uitvoer',
             rows: 15,
             readOnly: true,
           },
@@ -216,109 +237,124 @@ export const Deployments: CollectionConfig = {
         {
           name: 'errorMessage',
           type: 'textarea',
-          label: 'Error Message',
+          label: 'Foutmelding',
           admin: {
-            description: 'Error message if deployment failed',
+            description: 'Foutmelding als de deployment mislukt is',
             condition: (data) => data.status === 'failed',
           },
         },
         {
           name: 'errorStack',
           type: 'textarea',
-          label: 'Error Stack Trace',
+          label: 'Stack Trace',
           admin: {
-            description: 'Full error stack trace',
+            description: 'Volledige technische stack trace',
             condition: (data) => data.status === 'failed',
             rows: 10,
+            readOnly: true,
           },
         },
       ],
     },
 
-    // Configuration Snapshot
+    // ─── Ploi/Vercel integratie [toekomstig] ──────────────────────────────────
+
     {
       type: 'collapsible',
-      label: 'Configuration Snapshot',
+      label: 'Ploi Deployment Details [toekomstig]',
       admin: {
         initCollapsed: true,
+        description:
+          'Fase 2: Technische Ploi/Vercel deployment-IDs — automatisch ingevuld door de deployment-API',
+      },
+      fields: [
+        {
+          name: 'vercelDeploymentId',
+          type: 'text',
+          label: 'Deployment ID',
+          admin: {
+            description: 'Externe deployment-ID van Ploi of Vercel',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'vercelDeploymentUrl',
+          type: 'text',
+          label: 'Deployment URL',
+          admin: {
+            description: 'URL van de gedeployde site',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'vercelProjectId',
+          type: 'text',
+          label: 'Project ID',
+          admin: {
+            description: 'Extern project-ID in Ploi of Vercel',
+            readOnly: true,
+          },
+        },
+      ],
+    },
+
+    // ─── Configuratie snapshot [technisch] ────────────────────────────────────
+
+    {
+      type: 'collapsible',
+      label: 'Configuratie Snapshot [technisch]',
+      admin: {
+        initCollapsed: true,
+        description: 'Snapshot van de klantconfiguratie op het moment van deployment',
       },
       fields: [
         {
           name: 'configSnapshot',
           type: 'json',
-          label: 'Configuration at Deploy Time',
+          label: 'Configuratie',
           admin: {
-            description: 'Snapshot of client configuration when deployed',
+            description: 'Snapshot van de klantconfiguratie op het moment van deployment',
+            readOnly: true,
           },
         },
         {
           name: 'environmentSnapshot',
           type: 'json',
-          label: 'Environment Variables',
+          label: 'Omgevingsvariabelen',
           admin: {
-            description: 'Environment variables used (sensitive values redacted)',
+            description: 'Gebruikte environment variables (gevoelige waarden zijn verborgen)',
+            readOnly: true,
           },
         },
       ],
     },
 
-    // Metadata
-    {
-      type: 'collapsible',
-      label: 'Metadata',
-      admin: {
-        initCollapsed: true,
-      },
-      fields: [
-        {
-          name: 'triggeredBy',
-          type: 'text',
-          label: 'Triggered By',
-          admin: {
-            description: 'User or system that triggered the deployment',
-          },
-        },
-        {
-          name: 'reason',
-          type: 'textarea',
-          label: 'Deployment Reason',
-          admin: {
-            description: 'Why this deployment was triggered',
-          },
-        },
-        {
-          name: 'notes',
-          type: 'textarea',
-          label: 'Notes',
-          admin: {
-            description: 'Additional notes about this deployment',
-          },
-        },
-      ],
-    },
+    // ─── Health check resultaten [toekomstig] ─────────────────────────────────
 
-    // Health Check Results
     {
       type: 'collapsible',
-      label: 'Post-Deployment Health',
+      label: 'Health Check Resultaten [toekomstig]',
       admin: {
         initCollapsed: true,
+        description: 'Fase 2: Automatische health checks na deployment',
       },
       fields: [
         {
           name: 'healthCheckPassed',
           type: 'checkbox',
-          label: 'Health Check Passed',
+          label: 'Health check geslaagd',
           admin: {
-            description: 'Did post-deployment health checks pass?',
+            description: 'Zijn de post-deployment health checks geslaagd?',
+            readOnly: true,
           },
         },
         {
           name: 'healthCheckResults',
           type: 'json',
-          label: 'Health Check Results',
+          label: 'Health check details',
           admin: {
-            description: 'Detailed health check results',
+            description: 'Gedetailleerde resultaten van de health checks',
+            readOnly: true,
           },
         },
       ],
@@ -328,19 +364,19 @@ export const Deployments: CollectionConfig = {
   hooks: {
     beforeChange: [
       async ({ data, operation }) => {
-        // Calculate duration if completed
+        // Bereken duur als completedAt + startedAt beschikbaar zijn
         if (data.completedAt && data.startedAt) {
           const start = new Date(data.startedAt).getTime()
           const end = new Date(data.completedAt).getTime()
-          data.duration = Math.round((end - start) / 1000) // seconds
+          data.duration = Math.round((end - start) / 1000)
         }
 
-        // Auto-set startedAt if status changes to in_progress
+        // Zet startedAt automatisch bij status → in_progress
         if (operation === 'update' && data.status === 'in_progress' && !data.startedAt) {
           data.startedAt = new Date().toISOString()
         }
 
-        // Auto-set completedAt if status changes to success/failed
+        // Zet completedAt automatisch bij status → success / failed
         if (
           operation === 'update' &&
           (data.status === 'success' || data.status === 'failed') &&
@@ -354,17 +390,14 @@ export const Deployments: CollectionConfig = {
     ],
     afterChange: [
       async ({ doc, operation }) => {
-        // Log deployment status changes
         if (operation === 'create') {
-          console.log(`[Deployment] New deployment started for client ID: ${doc.client}`)
+          console.log(`[Deployment] Nieuwe deployment gestart voor klant ID: ${doc.client}`)
         }
-
         if (doc.status === 'success') {
-          console.log(`[Deployment] Deployment ${doc.id} completed successfully in ${doc.duration}s`)
+          console.log(`[Deployment] Deployment ${doc.id} geslaagd in ${doc.duration}s`)
         }
-
         if (doc.status === 'failed') {
-          console.error(`[Deployment] Deployment ${doc.id} failed: ${doc.errorMessage}`)
+          console.error(`[Deployment] Deployment ${doc.id} mislukt: ${doc.errorMessage}`)
         }
       },
     ],
