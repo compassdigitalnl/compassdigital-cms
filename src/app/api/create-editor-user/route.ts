@@ -1,3 +1,4 @@
+// v2 - trigger redeploy
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
