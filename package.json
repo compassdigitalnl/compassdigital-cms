@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "prebuild_disabled": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/pre-build-check.ts",
-    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build && cross-env NODE_OPTIONS=\"--no-deprecation\" payload migrate",
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "migrate": "cross-env NODE_OPTIONS=\"--no-deprecation\" payload migrate",
     "pre-build-check": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/pre-build-check.ts",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3020",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
