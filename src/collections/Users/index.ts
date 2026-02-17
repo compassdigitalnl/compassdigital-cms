@@ -21,6 +21,7 @@ export const Users: CollectionConfig = {
     group: 'Systeem',
     defaultColumns: ['name', 'email', 'roles'],
     useAsTitle: 'name',
+    hidden: ({ user }) => !checkRole(['admin'], user),
   },
   auth: {
     tokenExpiration: 1209600, // 14 dagen

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '@/access/utilities'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -11,6 +12,7 @@ export const Orders: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['orderNumber', 'customer', 'total', 'status', 'createdAt'],
     description: 'Klantbestellingen en order management',
+    hidden: ({ user }) => !checkRole(['admin'], user),
   },
   access: {
     read: ({ req: { user } }) => {
