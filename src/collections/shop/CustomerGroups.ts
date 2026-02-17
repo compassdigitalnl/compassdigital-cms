@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '../../access/utilities'
 
 export const CustomerGroups: CollectionConfig = {
   slug: 'customer-groups',
@@ -11,7 +12,10 @@ export const CustomerGroups: CollectionConfig = {
     group: 'E-commerce',
   },
   access: {
-    read: () => true,
+    read: () => true, // Customer groups are publicly readable (for pricing tiers)
+    create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     {

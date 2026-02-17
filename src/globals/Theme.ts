@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { checkRole } from '../access/utilities'
 
 export const Theme: GlobalConfig = {
   slug: 'theme',
@@ -8,6 +9,7 @@ export const Theme: GlobalConfig = {
   },
   access: {
     read: () => true,
+    update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
   },
   fields: [
     {

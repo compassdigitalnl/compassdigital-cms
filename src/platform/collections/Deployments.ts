@@ -6,6 +6,7 @@
  */
 
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '../../access/utilities'
 
 export const Deployments: CollectionConfig = {
   slug: 'deployments',
@@ -14,26 +15,15 @@ export const Deployments: CollectionConfig = {
     group: 'Platform Management',
     defaultColumns: ['client', 'status', 'environment', 'createdAt'],
     description: 'Deployment history and audit trail',
+    // Hide from non-admin users in the sidebar
+    hidden: ({ user }) => !checkRole(['admin'], user),
   },
   access: {
-    // Only platform admins can manage deployments
-    // For now, allow all authenticated users
-    read: ({ req: { user } }) => {
-      return !!user // Must be logged in
-      // TODO: Add role check when Users collection supports custom roles
-    },
-    create: ({ req: { user } }) => {
-      return !!user
-      // TODO: Add role check
-    },
-    update: ({ req: { user } }) => {
-      return !!user
-      // TODO: Add role check
-    },
-    delete: ({ req: { user } }) => {
-      return !!user
-      // TODO: Add role check
-    },
+    // Only admins (CompassDigital) can view deployment history - never expose to editors/klanten
+    read: ({ req: { user } }) => checkRole(['admin'], user),
+    create: ({ req: { user } }) => checkRole(['admin'], user),
+    update: ({ req: { user } }) => checkRole(['admin'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     // Client Reference

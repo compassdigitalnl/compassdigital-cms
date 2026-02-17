@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '../access/utilities'
 
 export const Brands: CollectionConfig = {
   slug: 'brands',
@@ -13,7 +14,10 @@ export const Brands: CollectionConfig = {
     description: 'Product merken zoals Hartmann, BSN Medical, 3M, etc.',
   },
   access: {
-    read: () => true, // Public brands
+    read: () => true, // Brands are publicly accessible (webshop catalog)
+    create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     {

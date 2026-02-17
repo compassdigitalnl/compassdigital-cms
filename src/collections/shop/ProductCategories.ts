@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '../../access/utilities'
 
 export const ProductCategories: CollectionConfig = {
   slug: 'product-categories',
@@ -9,6 +10,12 @@ export const ProductCategories: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'E-commerce',
+  },
+  access: {
+    read: () => true, // Categories are publicly accessible (webshop navigation)
+    create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     {

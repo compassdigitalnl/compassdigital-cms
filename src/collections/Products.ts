@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '../access/utilities'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -12,7 +13,10 @@ export const Products: CollectionConfig = {
     defaultColumns: ['title', 'price', 'stock', 'status', 'updatedAt'],
   },
   access: {
-    read: () => true, // Public products
+    read: () => true, // Products are publicly accessible (webshop catalog)
+    create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     {

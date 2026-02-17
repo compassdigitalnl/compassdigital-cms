@@ -6,6 +6,7 @@
  */
 
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '../../access/utilities'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',
@@ -14,27 +15,15 @@ export const Clients: CollectionConfig = {
     group: 'Platform Management',
     defaultColumns: ['name', 'domain', 'template', 'status', 'createdAt'],
     description: 'Manage client sites and deployments',
+    // Hide from non-admin users in the sidebar
+    hidden: ({ user }) => !checkRole(['admin'], user),
   },
   access: {
-    // Only platform admins can manage clients
-    // For now, allow all authenticated users (we'll add role check later)
-    read: ({ req: { user } }) => {
-      return !!user // Must be logged in
-      // TODO: Add role check when Users collection supports custom roles
-      // return user && user.role === 'platform-admin'
-    },
-    create: ({ req: { user } }) => {
-      return !!user
-      // TODO: Add role check
-    },
-    update: ({ req: { user } }) => {
-      return !!user
-      // TODO: Add role check
-    },
-    delete: ({ req: { user } }) => {
-      return !!user
-      // TODO: Add role check
-    },
+    // Only admins (CompassDigital) can manage clients - never expose to editors/klanten
+    read: ({ req: { user } }) => checkRole(['admin'], user),
+    create: ({ req: { user } }) => checkRole(['admin'], user),
+    update: ({ req: { user } }) => checkRole(['admin'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     // Basic Information
