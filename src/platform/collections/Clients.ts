@@ -23,7 +23,7 @@ export const Clients: CollectionConfig = {
   slug: 'clients',
   admin: {
     useAsTitle: 'name',
-    group: 'Platform Management',
+    group: 'Platform Beheer',
     defaultColumns: ['name', 'domain', 'status', 'plan', 'createdAt'],
     description: 'Klanten beheren en sites deployen',
     hidden: ({ user }) => !checkRole(['admin'], user),
@@ -169,41 +169,42 @@ export const Clients: CollectionConfig = {
         },
         {
           name: 'enabledFeatures',
-          type: 'array',
-          label: 'Extra functies inschakelen',
+          type: 'select',
+          hasMany: true,
+          label: 'Extra functies',
           admin: {
-            description: 'Functies die bovenop het template actief zijn',
+            description: 'Selecteer alle extra modules die voor deze klant actief zijn',
           },
-          fields: [
-            {
-              name: 'feature',
-              type: 'select',
-              options: [
-                { label: 'E-commerce / webshop', value: 'ecommerce' },
-                { label: 'Blog', value: 'blog' },
-                { label: 'Contactformulier', value: 'forms' },
-                { label: 'Inloggen voor klanten', value: 'authentication' },
-                { label: 'Meertalig', value: 'multiLanguage' },
-                { label: 'AI contentgeneratie', value: 'ai' },
-              ],
-            },
+          options: [
+            { label: 'E-commerce / webshop', value: 'ecommerce' },
+            { label: 'Blog', value: 'blog' },
+            { label: 'Contactformulier', value: 'forms' },
+            { label: 'Inloggen voor klanten', value: 'authentication' },
+            { label: 'Meertalig', value: 'multiLanguage' },
+            { label: 'AI contentgeneratie', value: 'ai' },
           ],
         },
         {
           name: 'disabledCollections',
-          type: 'array',
+          type: 'select',
+          hasMany: true,
           label: 'Uitgeschakelde modules',
           admin: {
-            description: 'Modules uit het template die voor deze klant niet nodig zijn',
+            description: 'Modules die voor deze klant verborgen zijn (niet nodig)',
           },
-          fields: [
-            {
-              name: 'collection',
-              type: 'text',
-              admin: {
-                placeholder: 'bijv. orders, products',
-              },
-            },
+          options: [
+            { label: 'Webshop / Orders', value: 'orders' },
+            { label: 'Producten', value: 'products' },
+            { label: 'Productcategorieën', value: 'product-categories' },
+            { label: 'Blog', value: 'blog-posts' },
+            { label: 'Klantengroepen', value: 'customer-groups' },
+            { label: 'Bestellijsten', value: 'order-lists' },
+            { label: 'Cases / Portfolio', value: 'cases' },
+            { label: 'Testimonials', value: 'testimonials' },
+            { label: 'Partners', value: 'partners' },
+            { label: 'Merken', value: 'brands' },
+            { label: 'Diensten', value: 'services' },
+            { label: 'FAQ', value: 'faqs' },
           ],
         },
       ],
