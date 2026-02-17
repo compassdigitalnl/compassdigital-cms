@@ -1,6 +1,5 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { migrations } from '@/migrations'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 import {
@@ -72,8 +71,6 @@ const databaseAdapter = isPostgreSQL
       client: {
         url: databaseURL,
       },
-      // Auto-run migrations on startup in production (adds missing tables like users_sessions)
-      prodMigrations: migrations,
     })
 
 export default buildConfig({
