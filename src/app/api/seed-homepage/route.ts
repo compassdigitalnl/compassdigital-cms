@@ -1,7 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { NextResponse } from 'next/server'
-import { NextRequest } from 'next/server'
 
 /**
  * Seed Homepage API
@@ -10,54 +9,8 @@ import { NextRequest } from 'next/server'
  * This is a FRAMEWORK EXAMPLE - customize via CMS admin!
  *
  * Framework principle: "Keep CMS schema clean and reusable" - payload-website-framework-b2b-b2c.md
- *
- * Also supports: ?createUser=true&secret=PAYLOAD_SECRET to create editor user
  */
-export async function GET(req: NextRequest) {
-  // Support creating editor user via query param
-  const createUser = req.nextUrl.searchParams.get('createUser')
-  const secret = req.nextUrl.searchParams.get('secret')
-
-  if (createUser === 'true') {
-    if (secret !== process.env.PAYLOAD_SECRET) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-    try {
-      const payload = await getPayload({ config })
-      const email = req.nextUrl.searchParams.get('email') || 'editor@compassdigital.nl'
-      const password = req.nextUrl.searchParams.get('password') || 'Editor1234!'
-      const name = req.nextUrl.searchParams.get('name') || 'Editor User'
-
-      const existing = await payload.find({
-        collection: 'users',
-        where: { email: { equals: email } },
-        limit: 1,
-      })
-
-      if (existing.docs.length > 0) {
-        return NextResponse.json({
-          success: false,
-          message: `User ${email} already exists`,
-          user: { id: existing.docs[0].id, email: existing.docs[0].email, roles: existing.docs[0].roles },
-        })
-      }
-
-      const newUser = await payload.create({
-        collection: 'users',
-        data: { email, password, name, roles: ['editor'] },
-      })
-
-      return NextResponse.json({
-        success: true,
-        message: 'Editor user created successfully!',
-        user: { id: newUser.id, email: newUser.email, roles: newUser.roles },
-        loginUrl: `${process.env.NEXT_PUBLIC_SERVER_URL}/admin`,
-        credentials: { email, password },
-      })
-    } catch (error: any) {
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 })
-    }
-  }
+export async function GET() {
   try {
     console.log('🌱 Starting Homepage Seed...')
 
