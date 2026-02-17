@@ -79,6 +79,7 @@ export default buildConfig({
     components: {
       beforeLogin: ['@/components/BeforeLogin#BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard#BeforeDashboard'],
+      beforeNavLinks: ['@/components/platform/ClientSwitcher#ClientSwitcher'],
       graphics: {
         Logo: '@/components/AdminLogo#AdminLogo',
         Icon: '@/components/AdminLogo#AdminLogo',

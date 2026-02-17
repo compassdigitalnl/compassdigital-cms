@@ -1,0 +1,306 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// ClientSwitcher — Admin Navigatie Component
+// Stijlen voor de client-selector in de Payload admin sidebar
+// ─────────────────────────────────────────────────────────────────────────────
+
+.cd-cs {
+  position: relative;
+  padding: 0.75rem 0.75rem 0;
+  margin-bottom: 0;
+
+  // ─── Loading state ──────────────────────────────────────────────
+  &--loading {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--theme-elevation-400, #888);
+    font-style: italic;
+  }
+
+  // ─── Sectie label ───────────────────────────────────────────────
+  &__label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--theme-elevation-500, #666);
+    margin-bottom: 0.4rem;
+    padding: 0 0.25rem;
+  }
+
+  // ─── Trigger button ─────────────────────────────────────────────
+  &__trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--theme-elevation-150, #e0e0e0);
+    background: var(--theme-elevation-50, #f5f5f5);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    text-align: left;
+
+    &:hover {
+      background: var(--theme-elevation-100, #ebebeb);
+      border-color: var(--theme-elevation-250, #ccc);
+    }
+
+    &--active {
+      background: color-mix(in srgb, var(--theme-success-500, #00796b) 8%, transparent);
+      border-color: color-mix(in srgb, var(--theme-success-500, #00796b) 40%, transparent);
+
+      &:hover {
+        background: color-mix(in srgb, var(--theme-success-500, #00796b) 14%, transparent);
+      }
+    }
+  }
+
+  // ─── Avatar ─────────────────────────────────────────────────────
+  &__avatar {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 6px;
+    background: var(--theme-success-500, #00796b);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.02em;
+
+    &--empty {
+      background: var(--theme-elevation-200, #ddd);
+      color: var(--theme-elevation-500, #888);
+    }
+  }
+
+  // ─── Info blok naast avatar ──────────────────────────────────────
+  &__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  &__name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--theme-text, #1a1a1a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  &__domain {
+    font-size: 0.68rem;
+    color: var(--theme-elevation-500, #888);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  // ─── Chevron ────────────────────────────────────────────────────
+  &__chevron {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--theme-elevation-400, #999);
+    transition: transform 0.15s;
+
+    &--up {
+      transform: rotate(180deg);
+    }
+  }
+
+  // ─── Dropdown ───────────────────────────────────────────────────
+  &__dropdown {
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    top: calc(100% - 0.75rem + 0.25rem);
+    z-index: 9999;
+    background: var(--theme-bg, #fff);
+    border: 1px solid var(--theme-elevation-150, #e0e0e0);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    max-height: 340px;
+    overflow-y: auto;
+  }
+
+  // ─── Dropdown optie ─────────────────────────────────────────────
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.1s;
+    font-family: inherit;
+
+    &:hover {
+      background: var(--theme-elevation-50, #f5f5f5);
+    }
+
+    &--selected {
+      background: color-mix(in srgb, var(--theme-success-500, #00796b) 8%, transparent);
+
+      &:hover {
+        background: color-mix(in srgb, var(--theme-success-500, #00796b) 14%, transparent);
+      }
+    }
+
+    &--clear {
+      border-bottom: 1px solid var(--theme-elevation-100, #eee);
+      color: var(--theme-elevation-500, #888);
+      font-size: 0.78rem;
+      padding: 0.45rem 0.75rem;
+    }
+
+    &--new {
+      border-top: 1px solid var(--theme-elevation-100, #eee);
+      color: var(--theme-success-600, #00796b);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.5rem 0.75rem;
+      text-decoration: none;
+    }
+  }
+
+  &__option-icon {
+    width: 1.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--theme-elevation-400, #999);
+    flex-shrink: 0;
+  }
+
+  &__option-avatar {
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 5px;
+    background: var(--theme-success-500, #00796b);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__option-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+  }
+
+  &__option-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--theme-text, #1a1a1a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  &__option-domain {
+    font-size: 0.65rem;
+    color: var(--theme-elevation-500, #888);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  &__empty {
+    padding: 0.75rem;
+    font-size: 0.78rem;
+    color: var(--theme-elevation-400, #999);
+    font-style: italic;
+    text-align: center;
+  }
+
+  // ─── Status badge ────────────────────────────────────────────────
+  &__badge {
+    flex-shrink: 0;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+
+    &--active {
+      background: color-mix(in srgb, #22c55e 15%, transparent);
+      color: #15803d;
+    }
+
+    &--suspended {
+      background: color-mix(in srgb, #f97316 15%, transparent);
+      color: #c2410c;
+    }
+
+    &--trial {
+      background: color-mix(in srgb, #8b5cf6 15%, transparent);
+      color: #6d28d9;
+    }
+
+    &--unknown {
+      background: var(--theme-elevation-100, #eee);
+      color: var(--theme-elevation-500, #888);
+    }
+  }
+
+  // ─── Snelkoppelingen ────────────────────────────────────────────
+  &__actions {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  &__action {
+    flex: 1;
+    min-width: 0;
+    padding: 0.3rem 0.4rem;
+    border-radius: 5px;
+    background: var(--theme-elevation-50, #f5f5f5);
+    border: 1px solid var(--theme-elevation-100, #eee);
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--theme-elevation-700, #444);
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.1s, border-color 0.1s;
+
+    &:hover {
+      background: var(--theme-elevation-100, #ebebeb);
+      border-color: var(--theme-elevation-200, #ddd);
+      color: var(--theme-text, #1a1a1a);
+      text-decoration: none;
+    }
+  }
+
+  // ─── Divider onderaan ────────────────────────────────────────────
+  &__divider {
+    height: 1px;
+    background: var(--theme-elevation-100, #eee);
+    margin: 0.75rem -0.75rem 0;
+  }
+}
