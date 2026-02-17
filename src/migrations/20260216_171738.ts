@@ -1,7 +1,7 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-sqlite'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
-  await db.run(sql`CREATE TABLE \`users_addresses\` (
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`users_addresses\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -16,9 +16,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`users_addresses_order_idx\` ON \`users_addresses\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`users_addresses_parent_id_idx\` ON \`users_addresses\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`users_roles\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_addresses_order_idx\` ON \`users_addresses\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_addresses_parent_id_idx\` ON \`users_addresses\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`users_roles\` (
   	\`order\` integer NOT NULL,
   	\`parent_id\` integer NOT NULL,
   	\`value\` text,
@@ -26,9 +26,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`users_roles_order_idx\` ON \`users_roles\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`users_roles_parent_idx\` ON \`users_roles\` (\`parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`users_sessions\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_roles_order_idx\` ON \`users_roles\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_roles_parent_idx\` ON \`users_roles\` (\`parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`users_sessions\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -37,9 +37,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`users_sessions_order_idx\` ON \`users_sessions\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`users_sessions_parent_id_idx\` ON \`users_sessions\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`users\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_sessions_order_idx\` ON \`users_sessions\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_sessions_parent_id_idx\` ON \`users_sessions\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`users\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`first_name\` text,
@@ -61,10 +61,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`lock_until\` text
   );
   `)
-  await db.run(sql`CREATE INDEX \`users_updated_at_idx\` ON \`users\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`users_created_at_idx\` ON \`users\` (\`created_at\`);`)
-  await db.run(sql`CREATE UNIQUE INDEX \`users_email_idx\` ON \`users\` (\`email\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_top_bar_left_messages\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_updated_at_idx\` ON \`users\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`users_created_at_idx\` ON \`users\` (\`created_at\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`users_email_idx\` ON \`users\` (\`email\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_top_bar_left_messages\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -74,9 +74,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_top_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_top_bar_left_messages_order_idx\` ON \`pages_blocks_top_bar_left_messages\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_top_bar_left_messages_parent_id_idx\` ON \`pages_blocks_top_bar_left_messages\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_top_bar_right_links\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_top_bar_left_messages_order_idx\` ON \`pages_blocks_top_bar_left_messages\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_top_bar_left_messages_parent_id_idx\` ON \`pages_blocks_top_bar_left_messages\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_top_bar_right_links\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -85,9 +85,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_top_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_top_bar_right_links_order_idx\` ON \`pages_blocks_top_bar_right_links\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_top_bar_right_links_parent_id_idx\` ON \`pages_blocks_top_bar_right_links\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_top_bar\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_top_bar_right_links_order_idx\` ON \`pages_blocks_top_bar_right_links\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_top_bar_right_links_parent_id_idx\` ON \`pages_blocks_top_bar_right_links\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_top_bar\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -100,10 +100,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_top_bar_order_idx\` ON \`pages_blocks_top_bar\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_top_bar_parent_id_idx\` ON \`pages_blocks_top_bar\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_top_bar_path_idx\` ON \`pages_blocks_top_bar\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_breadcrumb_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_top_bar_order_idx\` ON \`pages_blocks_top_bar\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_top_bar_parent_id_idx\` ON \`pages_blocks_top_bar\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_top_bar_path_idx\` ON \`pages_blocks_top_bar\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_breadcrumb_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -112,9 +112,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_breadcrumb\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_breadcrumb_items_order_idx\` ON \`pages_blocks_breadcrumb_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_breadcrumb_items_parent_id_idx\` ON \`pages_blocks_breadcrumb_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_breadcrumb\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_breadcrumb_items_order_idx\` ON \`pages_blocks_breadcrumb_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_breadcrumb_items_parent_id_idx\` ON \`pages_blocks_breadcrumb_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_breadcrumb\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -128,10 +128,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_breadcrumb_order_idx\` ON \`pages_blocks_breadcrumb\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_breadcrumb_parent_id_idx\` ON \`pages_blocks_breadcrumb\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_breadcrumb_path_idx\` ON \`pages_blocks_breadcrumb\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_spacer\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_breadcrumb_order_idx\` ON \`pages_blocks_breadcrumb\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_breadcrumb_parent_id_idx\` ON \`pages_blocks_breadcrumb\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_breadcrumb_path_idx\` ON \`pages_blocks_breadcrumb\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_spacer\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -141,10 +141,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_spacer_order_idx\` ON \`pages_blocks_spacer\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_spacer_parent_id_idx\` ON \`pages_blocks_spacer\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_spacer_path_idx\` ON \`pages_blocks_spacer\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_hero\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_spacer_order_idx\` ON \`pages_blocks_spacer\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_spacer_parent_id_idx\` ON \`pages_blocks_spacer\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_spacer_path_idx\` ON \`pages_blocks_spacer\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_hero\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -163,11 +163,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_hero_order_idx\` ON \`pages_blocks_hero\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_hero_parent_id_idx\` ON \`pages_blocks_hero\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_hero_path_idx\` ON \`pages_blocks_hero\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_hero_background_image_idx\` ON \`pages_blocks_hero\` (\`background_image_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_content_columns\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_hero_order_idx\` ON \`pages_blocks_hero\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_hero_parent_id_idx\` ON \`pages_blocks_hero\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_hero_path_idx\` ON \`pages_blocks_hero\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_hero_background_image_idx\` ON \`pages_blocks_hero\` (\`background_image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_content_columns\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -182,9 +182,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_content\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_content_columns_order_idx\` ON \`pages_blocks_content_columns\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_content_columns_parent_id_idx\` ON \`pages_blocks_content_columns\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_content\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_content_columns_order_idx\` ON \`pages_blocks_content_columns\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_content_columns_parent_id_idx\` ON \`pages_blocks_content_columns\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_content\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -193,10 +193,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_content_order_idx\` ON \`pages_blocks_content\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_content_parent_id_idx\` ON \`pages_blocks_content\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_content_path_idx\` ON \`pages_blocks_content\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_two_column\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_content_order_idx\` ON \`pages_blocks_content\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_content_parent_id_idx\` ON \`pages_blocks_content\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_content_path_idx\` ON \`pages_blocks_content\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_two_column\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -209,10 +209,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_two_column_order_idx\` ON \`pages_blocks_two_column\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_two_column_parent_id_idx\` ON \`pages_blocks_two_column\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_two_column_path_idx\` ON \`pages_blocks_two_column\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_product_grid\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_two_column_order_idx\` ON \`pages_blocks_two_column\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_two_column_parent_id_idx\` ON \`pages_blocks_two_column\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_two_column_path_idx\` ON \`pages_blocks_two_column\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_product_grid\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -238,12 +238,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_grid_order_idx\` ON \`pages_blocks_product_grid\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_grid_parent_id_idx\` ON \`pages_blocks_product_grid\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_grid_path_idx\` ON \`pages_blocks_product_grid\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_grid_category_idx\` ON \`pages_blocks_product_grid\` (\`category_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_grid_brand_idx\` ON \`pages_blocks_product_grid\` (\`brand_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_category_grid\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_grid_order_idx\` ON \`pages_blocks_product_grid\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_grid_parent_id_idx\` ON \`pages_blocks_product_grid\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_grid_path_idx\` ON \`pages_blocks_product_grid\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_grid_category_idx\` ON \`pages_blocks_product_grid\` (\`category_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_grid_brand_idx\` ON \`pages_blocks_product_grid\` (\`brand_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_category_grid\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -259,10 +259,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_category_grid_order_idx\` ON \`pages_blocks_category_grid\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_category_grid_parent_id_idx\` ON \`pages_blocks_category_grid\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_category_grid_path_idx\` ON \`pages_blocks_category_grid\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_features_features\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_category_grid_order_idx\` ON \`pages_blocks_category_grid\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_category_grid_parent_id_idx\` ON \`pages_blocks_category_grid\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_category_grid_path_idx\` ON \`pages_blocks_category_grid\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_features_features\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -276,10 +276,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_features\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_features_features_order_idx\` ON \`pages_blocks_features_features\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_features_features_parent_id_idx\` ON \`pages_blocks_features_features\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_features_features_icon_upload_idx\` ON \`pages_blocks_features_features\` (\`icon_upload_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_features\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_features_features_order_idx\` ON \`pages_blocks_features_features\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_features_features_parent_id_idx\` ON \`pages_blocks_features_features\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_features_features_icon_upload_idx\` ON \`pages_blocks_features_features\` (\`icon_upload_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_features\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -297,10 +297,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_features_order_idx\` ON \`pages_blocks_features\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_features_parent_id_idx\` ON \`pages_blocks_features\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_features_path_idx\` ON \`pages_blocks_features\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_quick_order\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_features_order_idx\` ON \`pages_blocks_features\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_features_parent_id_idx\` ON \`pages_blocks_features\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_features_path_idx\` ON \`pages_blocks_features\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_quick_order\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -322,10 +322,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_quick_order_order_idx\` ON \`pages_blocks_quick_order\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_quick_order_parent_id_idx\` ON \`pages_blocks_quick_order\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_quick_order_path_idx\` ON \`pages_blocks_quick_order\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_product_filters\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_quick_order_order_idx\` ON \`pages_blocks_quick_order\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_quick_order_parent_id_idx\` ON \`pages_blocks_quick_order\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_quick_order_path_idx\` ON \`pages_blocks_quick_order\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_product_filters\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -348,10 +348,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_filters_order_idx\` ON \`pages_blocks_product_filters\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_filters_parent_id_idx\` ON \`pages_blocks_product_filters\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_product_filters_path_idx\` ON \`pages_blocks_product_filters\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_search_bar_popular_searches\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_filters_order_idx\` ON \`pages_blocks_product_filters\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_filters_parent_id_idx\` ON \`pages_blocks_product_filters\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_product_filters_path_idx\` ON \`pages_blocks_product_filters\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_search_bar_popular_searches\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -359,9 +359,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_search_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_search_bar_popular_searches_order_idx\` ON \`pages_blocks_search_bar_popular_searches\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_search_bar_popular_searches_parent_id_idx\` ON \`pages_blocks_search_bar_popular_searches\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_search_bar\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_search_bar_popular_searches_order_idx\` ON \`pages_blocks_search_bar_popular_searches\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_search_bar_popular_searches_parent_id_idx\` ON \`pages_blocks_search_bar_popular_searches\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_search_bar\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -382,10 +382,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_search_bar_order_idx\` ON \`pages_blocks_search_bar\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_search_bar_parent_id_idx\` ON \`pages_blocks_search_bar\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_search_bar_path_idx\` ON \`pages_blocks_search_bar\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_cta\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_search_bar_order_idx\` ON \`pages_blocks_search_bar\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_search_bar_parent_id_idx\` ON \`pages_blocks_search_bar\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_search_bar_path_idx\` ON \`pages_blocks_search_bar\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_cta\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -401,11 +401,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_cta_order_idx\` ON \`pages_blocks_cta\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_cta_parent_id_idx\` ON \`pages_blocks_cta\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_cta_path_idx\` ON \`pages_blocks_cta\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_cta_background_image_idx\` ON \`pages_blocks_cta\` (\`background_image_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_contact_form\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_cta_order_idx\` ON \`pages_blocks_cta\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_cta_parent_id_idx\` ON \`pages_blocks_cta\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_cta_path_idx\` ON \`pages_blocks_cta\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_cta_background_image_idx\` ON \`pages_blocks_cta\` (\`background_image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_contact_form\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -416,10 +416,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_contact_form_order_idx\` ON \`pages_blocks_contact_form\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_contact_form_parent_id_idx\` ON \`pages_blocks_contact_form\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_contact_form_path_idx\` ON \`pages_blocks_contact_form\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_testimonials_manual_testimonials\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_contact_form_order_idx\` ON \`pages_blocks_contact_form\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_contact_form_parent_id_idx\` ON \`pages_blocks_contact_form\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_contact_form_path_idx\` ON \`pages_blocks_contact_form\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_testimonials_manual_testimonials\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -433,10 +433,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_testimonials\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_testimonials_manual_testimonials_order_idx\` ON \`pages_blocks_testimonials_manual_testimonials\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_testimonials_manual_testimonials_parent_id_idx\` ON \`pages_blocks_testimonials_manual_testimonials\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_testimonials_manual_testimonials_photo_idx\` ON \`pages_blocks_testimonials_manual_testimonials\` (\`photo_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_testimonials\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_testimonials_manual_testimonials_order_idx\` ON \`pages_blocks_testimonials_manual_testimonials\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_testimonials_manual_testimonials_parent_id_idx\` ON \`pages_blocks_testimonials_manual_testimonials\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_testimonials_manual_testimonials_photo_idx\` ON \`pages_blocks_testimonials_manual_testimonials\` (\`photo_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_testimonials\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -449,10 +449,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_testimonials_order_idx\` ON \`pages_blocks_testimonials\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_testimonials_parent_id_idx\` ON \`pages_blocks_testimonials\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_testimonials_path_idx\` ON \`pages_blocks_testimonials\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_cases\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_testimonials_order_idx\` ON \`pages_blocks_testimonials\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_testimonials_parent_id_idx\` ON \`pages_blocks_testimonials\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_testimonials_path_idx\` ON \`pages_blocks_testimonials\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_cases\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -472,10 +472,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_cases_order_idx\` ON \`pages_blocks_cases\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_cases_parent_id_idx\` ON \`pages_blocks_cases\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_cases_path_idx\` ON \`pages_blocks_cases\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_logo_bar_logos\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_cases_order_idx\` ON \`pages_blocks_cases\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_cases_parent_id_idx\` ON \`pages_blocks_cases\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_cases_path_idx\` ON \`pages_blocks_cases\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_logo_bar_logos\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -486,10 +486,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_logo_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_logo_bar_logos_order_idx\` ON \`pages_blocks_logo_bar_logos\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_logo_bar_logos_parent_id_idx\` ON \`pages_blocks_logo_bar_logos\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_logo_bar_logos_image_idx\` ON \`pages_blocks_logo_bar_logos\` (\`image_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_logo_bar\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_logo_bar_logos_order_idx\` ON \`pages_blocks_logo_bar_logos\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_logo_bar_logos_parent_id_idx\` ON \`pages_blocks_logo_bar_logos\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_logo_bar_logos_image_idx\` ON \`pages_blocks_logo_bar_logos\` (\`image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_logo_bar\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -504,10 +504,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_logo_bar_order_idx\` ON \`pages_blocks_logo_bar\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_logo_bar_parent_id_idx\` ON \`pages_blocks_logo_bar\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_logo_bar_path_idx\` ON \`pages_blocks_logo_bar\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_stats_stats\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_logo_bar_order_idx\` ON \`pages_blocks_logo_bar\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_logo_bar_parent_id_idx\` ON \`pages_blocks_logo_bar\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_logo_bar_path_idx\` ON \`pages_blocks_logo_bar\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_stats_stats\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -517,9 +517,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_stats\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_stats_stats_order_idx\` ON \`pages_blocks_stats_stats\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_stats_stats_parent_id_idx\` ON \`pages_blocks_stats_stats\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_stats\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_stats_stats_order_idx\` ON \`pages_blocks_stats_stats\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_stats_stats_parent_id_idx\` ON \`pages_blocks_stats_stats\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_stats\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -530,10 +530,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_stats_order_idx\` ON \`pages_blocks_stats\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_stats_parent_id_idx\` ON \`pages_blocks_stats\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_stats_path_idx\` ON \`pages_blocks_stats\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_faq_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_stats_order_idx\` ON \`pages_blocks_stats\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_stats_parent_id_idx\` ON \`pages_blocks_stats\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_stats_path_idx\` ON \`pages_blocks_stats\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_faq_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -542,9 +542,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_faq\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_faq_items_order_idx\` ON \`pages_blocks_faq_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_faq_items_parent_id_idx\` ON \`pages_blocks_faq_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_faq\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_faq_items_order_idx\` ON \`pages_blocks_faq_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_faq_items_parent_id_idx\` ON \`pages_blocks_faq_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_faq\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -560,10 +560,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_faq_order_idx\` ON \`pages_blocks_faq\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_faq_parent_id_idx\` ON \`pages_blocks_faq\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_faq_path_idx\` ON \`pages_blocks_faq\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_team_members\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_faq_order_idx\` ON \`pages_blocks_faq\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_faq_parent_id_idx\` ON \`pages_blocks_faq\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_faq_path_idx\` ON \`pages_blocks_faq\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_team_members\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -578,10 +578,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_team\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_team_members_order_idx\` ON \`pages_blocks_team_members\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_team_members_parent_id_idx\` ON \`pages_blocks_team_members\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_team_members_photo_idx\` ON \`pages_blocks_team_members\` (\`photo_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_team\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_team_members_order_idx\` ON \`pages_blocks_team_members\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_team_members_parent_id_idx\` ON \`pages_blocks_team_members\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_team_members_photo_idx\` ON \`pages_blocks_team_members\` (\`photo_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_team\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -593,10 +593,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_team_order_idx\` ON \`pages_blocks_team\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_team_parent_id_idx\` ON \`pages_blocks_team\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_team_path_idx\` ON \`pages_blocks_team\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_accordion_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_team_order_idx\` ON \`pages_blocks_team\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_team_parent_id_idx\` ON \`pages_blocks_team\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_team_path_idx\` ON \`pages_blocks_team\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_accordion_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -605,9 +605,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_accordion\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_accordion_items_order_idx\` ON \`pages_blocks_accordion_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_accordion_items_parent_id_idx\` ON \`pages_blocks_accordion_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_accordion\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_accordion_items_order_idx\` ON \`pages_blocks_accordion_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_accordion_items_parent_id_idx\` ON \`pages_blocks_accordion_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_accordion\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -618,10 +618,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_accordion_order_idx\` ON \`pages_blocks_accordion\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_accordion_parent_id_idx\` ON \`pages_blocks_accordion\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_accordion_path_idx\` ON \`pages_blocks_accordion\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_blog_preview\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_accordion_order_idx\` ON \`pages_blocks_accordion\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_accordion_parent_id_idx\` ON \`pages_blocks_accordion\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_accordion_path_idx\` ON \`pages_blocks_accordion\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_blog_preview\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -639,11 +639,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_blog_preview_order_idx\` ON \`pages_blocks_blog_preview\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_blog_preview_parent_id_idx\` ON \`pages_blocks_blog_preview\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_blog_preview_path_idx\` ON \`pages_blocks_blog_preview\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_blog_preview_category_idx\` ON \`pages_blocks_blog_preview\` (\`category_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_image_gallery_images\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_blog_preview_order_idx\` ON \`pages_blocks_blog_preview\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_blog_preview_parent_id_idx\` ON \`pages_blocks_blog_preview\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_blog_preview_path_idx\` ON \`pages_blocks_blog_preview\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_blog_preview_category_idx\` ON \`pages_blocks_blog_preview\` (\`category_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_image_gallery_images\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -653,10 +653,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_image_gallery\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_image_gallery_images_order_idx\` ON \`pages_blocks_image_gallery_images\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_image_gallery_images_parent_id_idx\` ON \`pages_blocks_image_gallery_images\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_image_gallery_images_image_idx\` ON \`pages_blocks_image_gallery_images\` (\`image_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_image_gallery\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_image_gallery_images_order_idx\` ON \`pages_blocks_image_gallery_images\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_image_gallery_images_parent_id_idx\` ON \`pages_blocks_image_gallery_images\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_image_gallery_images_image_idx\` ON \`pages_blocks_image_gallery_images\` (\`image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_image_gallery\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -668,10 +668,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_image_gallery_order_idx\` ON \`pages_blocks_image_gallery\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_image_gallery_parent_id_idx\` ON \`pages_blocks_image_gallery\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_image_gallery_path_idx\` ON \`pages_blocks_image_gallery\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_video\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_image_gallery_order_idx\` ON \`pages_blocks_image_gallery\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_image_gallery_parent_id_idx\` ON \`pages_blocks_image_gallery\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_image_gallery_path_idx\` ON \`pages_blocks_image_gallery\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_video\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -686,11 +686,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_video_order_idx\` ON \`pages_blocks_video\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_video_parent_id_idx\` ON \`pages_blocks_video\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_video_path_idx\` ON \`pages_blocks_video\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_video_poster_image_idx\` ON \`pages_blocks_video\` (\`poster_image_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_map\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_video_order_idx\` ON \`pages_blocks_video\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_video_parent_id_idx\` ON \`pages_blocks_video\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_video_path_idx\` ON \`pages_blocks_video\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_video_poster_image_idx\` ON \`pages_blocks_video\` (\`poster_image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_blocks_map\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -703,10 +703,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_blocks_map_order_idx\` ON \`pages_blocks_map\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_map_parent_id_idx\` ON \`pages_blocks_map\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_blocks_map_path_idx\` ON \`pages_blocks_map\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`pages\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_map_order_idx\` ON \`pages_blocks_map\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_map_parent_id_idx\` ON \`pages_blocks_map\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_blocks_map_path_idx\` ON \`pages_blocks_map\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text,
   	\`generate_slug\` integer DEFAULT true,
@@ -729,12 +729,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`meta_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_slug_idx\` ON \`pages\` (\`slug\`);`)
-  await db.run(sql`CREATE INDEX \`pages_meta_meta_image_idx\` ON \`pages\` (\`meta_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_updated_at_idx\` ON \`pages\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`pages_created_at_idx\` ON \`pages\` (\`created_at\`);`)
-  await db.run(sql`CREATE INDEX \`pages__status_idx\` ON \`pages\` (\`_status\`);`)
-  await db.run(sql`CREATE TABLE \`pages_rels\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`pages_slug_idx\` ON \`pages\` (\`slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_meta_meta_image_idx\` ON \`pages\` (\`meta_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_updated_at_idx\` ON \`pages\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_created_at_idx\` ON \`pages\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages__status_idx\` ON \`pages\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`pages_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -758,18 +758,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`faqs_id\`) REFERENCES \`faqs\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`pages_rels_order_idx\` ON \`pages_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_parent_idx\` ON \`pages_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_path_idx\` ON \`pages_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_pages_id_idx\` ON \`pages_rels\` (\`pages_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_products_id_idx\` ON \`pages_rels\` (\`products_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_product_categories_id_idx\` ON \`pages_rels\` (\`product_categories_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_services_id_idx\` ON \`pages_rels\` (\`services_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_testimonials_id_idx\` ON \`pages_rels\` (\`testimonials_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_cases_id_idx\` ON \`pages_rels\` (\`cases_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_partners_id_idx\` ON \`pages_rels\` (\`partners_id\`);`)
-  await db.run(sql`CREATE INDEX \`pages_rels_faqs_id_idx\` ON \`pages_rels\` (\`faqs_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_top_bar_left_messages\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_order_idx\` ON \`pages_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_parent_idx\` ON \`pages_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_path_idx\` ON \`pages_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_pages_id_idx\` ON \`pages_rels\` (\`pages_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_products_id_idx\` ON \`pages_rels\` (\`products_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_product_categories_id_idx\` ON \`pages_rels\` (\`product_categories_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_services_id_idx\` ON \`pages_rels\` (\`services_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_testimonials_id_idx\` ON \`pages_rels\` (\`testimonials_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_cases_id_idx\` ON \`pages_rels\` (\`cases_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_partners_id_idx\` ON \`pages_rels\` (\`partners_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`pages_rels_faqs_id_idx\` ON \`pages_rels\` (\`faqs_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_top_bar_left_messages\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -780,9 +780,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_top_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_top_bar_left_messages_order_idx\` ON \`_pages_v_blocks_top_bar_left_messages\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_top_bar_left_messages_parent_id_idx\` ON \`_pages_v_blocks_top_bar_left_messages\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_top_bar_right_links\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_top_bar_left_messages_order_idx\` ON \`_pages_v_blocks_top_bar_left_messages\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_top_bar_left_messages_parent_id_idx\` ON \`_pages_v_blocks_top_bar_left_messages\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_top_bar_right_links\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -792,9 +792,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_top_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_top_bar_right_links_order_idx\` ON \`_pages_v_blocks_top_bar_right_links\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_top_bar_right_links_parent_id_idx\` ON \`_pages_v_blocks_top_bar_right_links\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_top_bar\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_top_bar_right_links_order_idx\` ON \`_pages_v_blocks_top_bar_right_links\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_top_bar_right_links_parent_id_idx\` ON \`_pages_v_blocks_top_bar_right_links\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_top_bar\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -808,10 +808,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_top_bar_order_idx\` ON \`_pages_v_blocks_top_bar\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_top_bar_parent_id_idx\` ON \`_pages_v_blocks_top_bar\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_top_bar_path_idx\` ON \`_pages_v_blocks_top_bar\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_breadcrumb_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_top_bar_order_idx\` ON \`_pages_v_blocks_top_bar\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_top_bar_parent_id_idx\` ON \`_pages_v_blocks_top_bar\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_top_bar_path_idx\` ON \`_pages_v_blocks_top_bar\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_breadcrumb_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -821,9 +821,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_breadcrumb\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_breadcrumb_items_order_idx\` ON \`_pages_v_blocks_breadcrumb_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_breadcrumb_items_parent_id_idx\` ON \`_pages_v_blocks_breadcrumb_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_breadcrumb\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_breadcrumb_items_order_idx\` ON \`_pages_v_blocks_breadcrumb_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_breadcrumb_items_parent_id_idx\` ON \`_pages_v_blocks_breadcrumb_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_breadcrumb\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -838,10 +838,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_breadcrumb_order_idx\` ON \`_pages_v_blocks_breadcrumb\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_breadcrumb_parent_id_idx\` ON \`_pages_v_blocks_breadcrumb\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_breadcrumb_path_idx\` ON \`_pages_v_blocks_breadcrumb\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_spacer\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_breadcrumb_order_idx\` ON \`_pages_v_blocks_breadcrumb\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_breadcrumb_parent_id_idx\` ON \`_pages_v_blocks_breadcrumb\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_breadcrumb_path_idx\` ON \`_pages_v_blocks_breadcrumb\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_spacer\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -852,10 +852,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_spacer_order_idx\` ON \`_pages_v_blocks_spacer\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_spacer_parent_id_idx\` ON \`_pages_v_blocks_spacer\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_spacer_path_idx\` ON \`_pages_v_blocks_spacer\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_hero\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_spacer_order_idx\` ON \`_pages_v_blocks_spacer\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_spacer_parent_id_idx\` ON \`_pages_v_blocks_spacer\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_spacer_path_idx\` ON \`_pages_v_blocks_spacer\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_hero\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -875,11 +875,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_hero_order_idx\` ON \`_pages_v_blocks_hero\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_hero_parent_id_idx\` ON \`_pages_v_blocks_hero\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_hero_path_idx\` ON \`_pages_v_blocks_hero\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_hero_background_image_idx\` ON \`_pages_v_blocks_hero\` (\`background_image_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_content_columns\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_hero_order_idx\` ON \`_pages_v_blocks_hero\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_hero_parent_id_idx\` ON \`_pages_v_blocks_hero\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_hero_path_idx\` ON \`_pages_v_blocks_hero\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_hero_background_image_idx\` ON \`_pages_v_blocks_hero\` (\`background_image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_content_columns\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -895,9 +895,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_content\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_content_columns_order_idx\` ON \`_pages_v_blocks_content_columns\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_content_columns_parent_id_idx\` ON \`_pages_v_blocks_content_columns\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_content\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_content_columns_order_idx\` ON \`_pages_v_blocks_content_columns\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_content_columns_parent_id_idx\` ON \`_pages_v_blocks_content_columns\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_content\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -907,10 +907,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_content_order_idx\` ON \`_pages_v_blocks_content\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_content_parent_id_idx\` ON \`_pages_v_blocks_content\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_content_path_idx\` ON \`_pages_v_blocks_content\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_two_column\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_content_order_idx\` ON \`_pages_v_blocks_content\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_content_parent_id_idx\` ON \`_pages_v_blocks_content\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_content_path_idx\` ON \`_pages_v_blocks_content\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_two_column\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -924,10 +924,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_two_column_order_idx\` ON \`_pages_v_blocks_two_column\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_two_column_parent_id_idx\` ON \`_pages_v_blocks_two_column\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_two_column_path_idx\` ON \`_pages_v_blocks_two_column\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_product_grid\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_two_column_order_idx\` ON \`_pages_v_blocks_two_column\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_two_column_parent_id_idx\` ON \`_pages_v_blocks_two_column\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_two_column_path_idx\` ON \`_pages_v_blocks_two_column\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_product_grid\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -954,12 +954,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_grid_order_idx\` ON \`_pages_v_blocks_product_grid\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_grid_parent_id_idx\` ON \`_pages_v_blocks_product_grid\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_grid_path_idx\` ON \`_pages_v_blocks_product_grid\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_grid_category_idx\` ON \`_pages_v_blocks_product_grid\` (\`category_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_grid_brand_idx\` ON \`_pages_v_blocks_product_grid\` (\`brand_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_category_grid\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_grid_order_idx\` ON \`_pages_v_blocks_product_grid\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_grid_parent_id_idx\` ON \`_pages_v_blocks_product_grid\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_grid_path_idx\` ON \`_pages_v_blocks_product_grid\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_grid_category_idx\` ON \`_pages_v_blocks_product_grid\` (\`category_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_grid_brand_idx\` ON \`_pages_v_blocks_product_grid\` (\`brand_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_category_grid\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -976,10 +976,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_category_grid_order_idx\` ON \`_pages_v_blocks_category_grid\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_category_grid_parent_id_idx\` ON \`_pages_v_blocks_category_grid\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_category_grid_path_idx\` ON \`_pages_v_blocks_category_grid\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_features_features\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_category_grid_order_idx\` ON \`_pages_v_blocks_category_grid\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_category_grid_parent_id_idx\` ON \`_pages_v_blocks_category_grid\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_category_grid_path_idx\` ON \`_pages_v_blocks_category_grid\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_features_features\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -994,10 +994,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_features\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_features_features_order_idx\` ON \`_pages_v_blocks_features_features\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_features_features_parent_id_idx\` ON \`_pages_v_blocks_features_features\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_features_features_icon_upload_idx\` ON \`_pages_v_blocks_features_features\` (\`icon_upload_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_features\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_features_features_order_idx\` ON \`_pages_v_blocks_features_features\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_features_features_parent_id_idx\` ON \`_pages_v_blocks_features_features\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_features_features_icon_upload_idx\` ON \`_pages_v_blocks_features_features\` (\`icon_upload_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_features\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1016,10 +1016,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_features_order_idx\` ON \`_pages_v_blocks_features\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_features_parent_id_idx\` ON \`_pages_v_blocks_features\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_features_path_idx\` ON \`_pages_v_blocks_features\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_quick_order\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_features_order_idx\` ON \`_pages_v_blocks_features\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_features_parent_id_idx\` ON \`_pages_v_blocks_features\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_features_path_idx\` ON \`_pages_v_blocks_features\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_quick_order\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1042,10 +1042,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_quick_order_order_idx\` ON \`_pages_v_blocks_quick_order\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_quick_order_parent_id_idx\` ON \`_pages_v_blocks_quick_order\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_quick_order_path_idx\` ON \`_pages_v_blocks_quick_order\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_product_filters\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_quick_order_order_idx\` ON \`_pages_v_blocks_quick_order\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_quick_order_parent_id_idx\` ON \`_pages_v_blocks_quick_order\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_quick_order_path_idx\` ON \`_pages_v_blocks_quick_order\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_product_filters\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1069,10 +1069,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_filters_order_idx\` ON \`_pages_v_blocks_product_filters\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_filters_parent_id_idx\` ON \`_pages_v_blocks_product_filters\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_product_filters_path_idx\` ON \`_pages_v_blocks_product_filters\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_search_bar_popular_searches\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_filters_order_idx\` ON \`_pages_v_blocks_product_filters\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_filters_parent_id_idx\` ON \`_pages_v_blocks_product_filters\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_product_filters_path_idx\` ON \`_pages_v_blocks_product_filters\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_search_bar_popular_searches\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1081,9 +1081,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_search_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_search_bar_popular_searches_order_idx\` ON \`_pages_v_blocks_search_bar_popular_searches\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_search_bar_popular_searches_parent_id_idx\` ON \`_pages_v_blocks_search_bar_popular_searches\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_search_bar\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_search_bar_popular_searches_order_idx\` ON \`_pages_v_blocks_search_bar_popular_searches\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_search_bar_popular_searches_parent_id_idx\` ON \`_pages_v_blocks_search_bar_popular_searches\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_search_bar\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1105,10 +1105,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_search_bar_order_idx\` ON \`_pages_v_blocks_search_bar\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_search_bar_parent_id_idx\` ON \`_pages_v_blocks_search_bar\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_search_bar_path_idx\` ON \`_pages_v_blocks_search_bar\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_cta\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_search_bar_order_idx\` ON \`_pages_v_blocks_search_bar\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_search_bar_parent_id_idx\` ON \`_pages_v_blocks_search_bar\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_search_bar_path_idx\` ON \`_pages_v_blocks_search_bar\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_cta\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1125,11 +1125,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_cta_order_idx\` ON \`_pages_v_blocks_cta\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_cta_parent_id_idx\` ON \`_pages_v_blocks_cta\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_cta_path_idx\` ON \`_pages_v_blocks_cta\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_cta_background_image_idx\` ON \`_pages_v_blocks_cta\` (\`background_image_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_contact_form\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_cta_order_idx\` ON \`_pages_v_blocks_cta\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_cta_parent_id_idx\` ON \`_pages_v_blocks_cta\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_cta_path_idx\` ON \`_pages_v_blocks_cta\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_cta_background_image_idx\` ON \`_pages_v_blocks_cta\` (\`background_image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_contact_form\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1141,10 +1141,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_contact_form_order_idx\` ON \`_pages_v_blocks_contact_form\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_contact_form_parent_id_idx\` ON \`_pages_v_blocks_contact_form\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_contact_form_path_idx\` ON \`_pages_v_blocks_contact_form\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_testimonials_manual_testimonials\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_contact_form_order_idx\` ON \`_pages_v_blocks_contact_form\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_contact_form_parent_id_idx\` ON \`_pages_v_blocks_contact_form\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_contact_form_path_idx\` ON \`_pages_v_blocks_contact_form\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_testimonials_manual_testimonials\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1159,10 +1159,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_testimonials\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_testimonials_manual_testimonials_order_idx\` ON \`_pages_v_blocks_testimonials_manual_testimonials\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_testimonials_manual_testimonials_parent_id_idx\` ON \`_pages_v_blocks_testimonials_manual_testimonials\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_testimonials_manual_testimonials_photo_idx\` ON \`_pages_v_blocks_testimonials_manual_testimonials\` (\`photo_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_testimonials\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_testimonials_manual_testimonials_order_idx\` ON \`_pages_v_blocks_testimonials_manual_testimonials\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_testimonials_manual_testimonials_parent_id_idx\` ON \`_pages_v_blocks_testimonials_manual_testimonials\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_testimonials_manual_testimonials_photo_idx\` ON \`_pages_v_blocks_testimonials_manual_testimonials\` (\`photo_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_testimonials\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1176,10 +1176,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_testimonials_order_idx\` ON \`_pages_v_blocks_testimonials\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_testimonials_parent_id_idx\` ON \`_pages_v_blocks_testimonials\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_testimonials_path_idx\` ON \`_pages_v_blocks_testimonials\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_cases\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_testimonials_order_idx\` ON \`_pages_v_blocks_testimonials\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_testimonials_parent_id_idx\` ON \`_pages_v_blocks_testimonials\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_testimonials_path_idx\` ON \`_pages_v_blocks_testimonials\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_cases\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1200,10 +1200,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_cases_order_idx\` ON \`_pages_v_blocks_cases\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_cases_parent_id_idx\` ON \`_pages_v_blocks_cases\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_cases_path_idx\` ON \`_pages_v_blocks_cases\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_logo_bar_logos\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_cases_order_idx\` ON \`_pages_v_blocks_cases\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_cases_parent_id_idx\` ON \`_pages_v_blocks_cases\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_cases_path_idx\` ON \`_pages_v_blocks_cases\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_logo_bar_logos\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1215,10 +1215,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_logo_bar\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_logo_bar_logos_order_idx\` ON \`_pages_v_blocks_logo_bar_logos\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_logo_bar_logos_parent_id_idx\` ON \`_pages_v_blocks_logo_bar_logos\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_logo_bar_logos_image_idx\` ON \`_pages_v_blocks_logo_bar_logos\` (\`image_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_logo_bar\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_logo_bar_logos_order_idx\` ON \`_pages_v_blocks_logo_bar_logos\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_logo_bar_logos_parent_id_idx\` ON \`_pages_v_blocks_logo_bar_logos\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_logo_bar_logos_image_idx\` ON \`_pages_v_blocks_logo_bar_logos\` (\`image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_logo_bar\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1234,10 +1234,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_logo_bar_order_idx\` ON \`_pages_v_blocks_logo_bar\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_logo_bar_parent_id_idx\` ON \`_pages_v_blocks_logo_bar\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_logo_bar_path_idx\` ON \`_pages_v_blocks_logo_bar\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_stats_stats\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_logo_bar_order_idx\` ON \`_pages_v_blocks_logo_bar\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_logo_bar_parent_id_idx\` ON \`_pages_v_blocks_logo_bar\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_logo_bar_path_idx\` ON \`_pages_v_blocks_logo_bar\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_stats_stats\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1248,9 +1248,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_stats\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_stats_stats_order_idx\` ON \`_pages_v_blocks_stats_stats\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_stats_stats_parent_id_idx\` ON \`_pages_v_blocks_stats_stats\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_stats\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_stats_stats_order_idx\` ON \`_pages_v_blocks_stats_stats\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_stats_stats_parent_id_idx\` ON \`_pages_v_blocks_stats_stats\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_stats\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1262,10 +1262,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_stats_order_idx\` ON \`_pages_v_blocks_stats\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_stats_parent_id_idx\` ON \`_pages_v_blocks_stats\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_stats_path_idx\` ON \`_pages_v_blocks_stats\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_faq_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_stats_order_idx\` ON \`_pages_v_blocks_stats\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_stats_parent_id_idx\` ON \`_pages_v_blocks_stats\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_stats_path_idx\` ON \`_pages_v_blocks_stats\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_faq_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1275,9 +1275,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_faq\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_faq_items_order_idx\` ON \`_pages_v_blocks_faq_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_faq_items_parent_id_idx\` ON \`_pages_v_blocks_faq_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_faq\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_faq_items_order_idx\` ON \`_pages_v_blocks_faq_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_faq_items_parent_id_idx\` ON \`_pages_v_blocks_faq_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_faq\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1294,10 +1294,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_faq_order_idx\` ON \`_pages_v_blocks_faq\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_faq_parent_id_idx\` ON \`_pages_v_blocks_faq\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_faq_path_idx\` ON \`_pages_v_blocks_faq\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_team_members\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_faq_order_idx\` ON \`_pages_v_blocks_faq\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_faq_parent_id_idx\` ON \`_pages_v_blocks_faq\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_faq_path_idx\` ON \`_pages_v_blocks_faq\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_team_members\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1313,10 +1313,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_team\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_team_members_order_idx\` ON \`_pages_v_blocks_team_members\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_team_members_parent_id_idx\` ON \`_pages_v_blocks_team_members\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_team_members_photo_idx\` ON \`_pages_v_blocks_team_members\` (\`photo_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_team\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_team_members_order_idx\` ON \`_pages_v_blocks_team_members\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_team_members_parent_id_idx\` ON \`_pages_v_blocks_team_members\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_team_members_photo_idx\` ON \`_pages_v_blocks_team_members\` (\`photo_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_team\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1329,10 +1329,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_team_order_idx\` ON \`_pages_v_blocks_team\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_team_parent_id_idx\` ON \`_pages_v_blocks_team\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_team_path_idx\` ON \`_pages_v_blocks_team\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_accordion_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_team_order_idx\` ON \`_pages_v_blocks_team\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_team_parent_id_idx\` ON \`_pages_v_blocks_team\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_team_path_idx\` ON \`_pages_v_blocks_team\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_accordion_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1342,9 +1342,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_accordion\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_accordion_items_order_idx\` ON \`_pages_v_blocks_accordion_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_accordion_items_parent_id_idx\` ON \`_pages_v_blocks_accordion_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_accordion\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_accordion_items_order_idx\` ON \`_pages_v_blocks_accordion_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_accordion_items_parent_id_idx\` ON \`_pages_v_blocks_accordion_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_accordion\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1356,10 +1356,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_accordion_order_idx\` ON \`_pages_v_blocks_accordion\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_accordion_parent_id_idx\` ON \`_pages_v_blocks_accordion\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_accordion_path_idx\` ON \`_pages_v_blocks_accordion\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_blog_preview\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_accordion_order_idx\` ON \`_pages_v_blocks_accordion\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_accordion_parent_id_idx\` ON \`_pages_v_blocks_accordion\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_accordion_path_idx\` ON \`_pages_v_blocks_accordion\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_blog_preview\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1378,11 +1378,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_blog_preview_order_idx\` ON \`_pages_v_blocks_blog_preview\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_blog_preview_parent_id_idx\` ON \`_pages_v_blocks_blog_preview\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_blog_preview_path_idx\` ON \`_pages_v_blocks_blog_preview\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_blog_preview_category_idx\` ON \`_pages_v_blocks_blog_preview\` (\`category_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_image_gallery_images\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_blog_preview_order_idx\` ON \`_pages_v_blocks_blog_preview\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_blog_preview_parent_id_idx\` ON \`_pages_v_blocks_blog_preview\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_blog_preview_path_idx\` ON \`_pages_v_blocks_blog_preview\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_blog_preview_category_idx\` ON \`_pages_v_blocks_blog_preview\` (\`category_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_image_gallery_images\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -1393,10 +1393,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_image_gallery\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_image_gallery_images_order_idx\` ON \`_pages_v_blocks_image_gallery_images\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_image_gallery_images_parent_id_idx\` ON \`_pages_v_blocks_image_gallery_images\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_image_gallery_images_image_idx\` ON \`_pages_v_blocks_image_gallery_images\` (\`image_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_image_gallery\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_image_gallery_images_order_idx\` ON \`_pages_v_blocks_image_gallery_images\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_image_gallery_images_parent_id_idx\` ON \`_pages_v_blocks_image_gallery_images\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_image_gallery_images_image_idx\` ON \`_pages_v_blocks_image_gallery_images\` (\`image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_image_gallery\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1409,10 +1409,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_image_gallery_order_idx\` ON \`_pages_v_blocks_image_gallery\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_image_gallery_parent_id_idx\` ON \`_pages_v_blocks_image_gallery\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_image_gallery_path_idx\` ON \`_pages_v_blocks_image_gallery\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_video\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_image_gallery_order_idx\` ON \`_pages_v_blocks_image_gallery\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_image_gallery_parent_id_idx\` ON \`_pages_v_blocks_image_gallery\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_image_gallery_path_idx\` ON \`_pages_v_blocks_image_gallery\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_video\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1428,11 +1428,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_video_order_idx\` ON \`_pages_v_blocks_video\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_video_parent_id_idx\` ON \`_pages_v_blocks_video\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_video_path_idx\` ON \`_pages_v_blocks_video\` (\`_path\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_video_poster_image_idx\` ON \`_pages_v_blocks_video\` (\`poster_image_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_map\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_video_order_idx\` ON \`_pages_v_blocks_video\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_video_parent_id_idx\` ON \`_pages_v_blocks_video\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_video_path_idx\` ON \`_pages_v_blocks_video\` (\`_path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_video_poster_image_idx\` ON \`_pages_v_blocks_video\` (\`poster_image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_blocks_map\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -1446,10 +1446,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_map_order_idx\` ON \`_pages_v_blocks_map\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_map_parent_id_idx\` ON \`_pages_v_blocks_map\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_blocks_map_path_idx\` ON \`_pages_v_blocks_map\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_map_order_idx\` ON \`_pages_v_blocks_map\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_map_parent_id_idx\` ON \`_pages_v_blocks_map\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_blocks_map_path_idx\` ON \`_pages_v_blocks_map\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`parent_id\` integer,
   	\`version_title\` text,
@@ -1478,17 +1478,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`version_meta_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_parent_idx\` ON \`_pages_v\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_version_version_slug_idx\` ON \`_pages_v\` (\`version_slug\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_version_meta_version_meta_image_idx\` ON \`_pages_v\` (\`version_meta_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_version_version_updated_at_idx\` ON \`_pages_v\` (\`version_updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_version_version_created_at_idx\` ON \`_pages_v\` (\`version_created_at\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_version_version__status_idx\` ON \`_pages_v\` (\`version__status\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_created_at_idx\` ON \`_pages_v\` (\`created_at\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_updated_at_idx\` ON \`_pages_v\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_latest_idx\` ON \`_pages_v\` (\`latest\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_autosave_idx\` ON \`_pages_v\` (\`autosave\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_rels\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_parent_idx\` ON \`_pages_v\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_version_version_slug_idx\` ON \`_pages_v\` (\`version_slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_version_meta_version_meta_image_idx\` ON \`_pages_v\` (\`version_meta_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_version_version_updated_at_idx\` ON \`_pages_v\` (\`version_updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_version_version_created_at_idx\` ON \`_pages_v\` (\`version_created_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_version_version__status_idx\` ON \`_pages_v\` (\`version__status\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_created_at_idx\` ON \`_pages_v\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_updated_at_idx\` ON \`_pages_v\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_latest_idx\` ON \`_pages_v\` (\`latest\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_autosave_idx\` ON \`_pages_v\` (\`autosave\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_pages_v_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -1512,18 +1512,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`faqs_id\`) REFERENCES \`faqs\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_order_idx\` ON \`_pages_v_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_parent_idx\` ON \`_pages_v_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_path_idx\` ON \`_pages_v_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_pages_id_idx\` ON \`_pages_v_rels\` (\`pages_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_products_id_idx\` ON \`_pages_v_rels\` (\`products_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_product_categories_id_idx\` ON \`_pages_v_rels\` (\`product_categories_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_services_id_idx\` ON \`_pages_v_rels\` (\`services_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_testimonials_id_idx\` ON \`_pages_v_rels\` (\`testimonials_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_cases_id_idx\` ON \`_pages_v_rels\` (\`cases_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_partners_id_idx\` ON \`_pages_v_rels\` (\`partners_id\`);`)
-  await db.run(sql`CREATE INDEX \`_pages_v_rels_faqs_id_idx\` ON \`_pages_v_rels\` (\`faqs_id\`);`)
-  await db.run(sql`CREATE TABLE \`blog_posts\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_order_idx\` ON \`_pages_v_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_parent_idx\` ON \`_pages_v_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_path_idx\` ON \`_pages_v_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_pages_id_idx\` ON \`_pages_v_rels\` (\`pages_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_products_id_idx\` ON \`_pages_v_rels\` (\`products_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_product_categories_id_idx\` ON \`_pages_v_rels\` (\`product_categories_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_services_id_idx\` ON \`_pages_v_rels\` (\`services_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_testimonials_id_idx\` ON \`_pages_v_rels\` (\`testimonials_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_cases_id_idx\` ON \`_pages_v_rels\` (\`cases_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_partners_id_idx\` ON \`_pages_v_rels\` (\`partners_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_pages_v_rels_faqs_id_idx\` ON \`_pages_v_rels\` (\`faqs_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`blog_posts\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text,
   	\`slug\` text,
@@ -1548,14 +1548,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`meta_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`blog_posts_slug_idx\` ON \`blog_posts\` (\`slug\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_featured_image_idx\` ON \`blog_posts\` (\`featured_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_author_idx\` ON \`blog_posts\` (\`author_id\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_meta_meta_image_idx\` ON \`blog_posts\` (\`meta_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_updated_at_idx\` ON \`blog_posts\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_created_at_idx\` ON \`blog_posts\` (\`created_at\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts__status_idx\` ON \`blog_posts\` (\`_status\`);`)
-  await db.run(sql`CREATE TABLE \`blog_posts_rels\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`blog_posts_slug_idx\` ON \`blog_posts\` (\`slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_featured_image_idx\` ON \`blog_posts\` (\`featured_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_author_idx\` ON \`blog_posts\` (\`author_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_meta_meta_image_idx\` ON \`blog_posts\` (\`meta_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_updated_at_idx\` ON \`blog_posts\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_created_at_idx\` ON \`blog_posts\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts__status_idx\` ON \`blog_posts\` (\`_status\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`blog_posts_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -1565,11 +1565,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`product_categories_id\`) REFERENCES \`product_categories\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`blog_posts_rels_order_idx\` ON \`blog_posts_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_rels_parent_idx\` ON \`blog_posts_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_rels_path_idx\` ON \`blog_posts_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`blog_posts_rels_product_categories_id_idx\` ON \`blog_posts_rels\` (\`product_categories_id\`);`)
-  await db.run(sql`CREATE TABLE \`_blog_posts_v\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_rels_order_idx\` ON \`blog_posts_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_rels_parent_idx\` ON \`blog_posts_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_rels_path_idx\` ON \`blog_posts_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`blog_posts_rels_product_categories_id_idx\` ON \`blog_posts_rels\` (\`product_categories_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_blog_posts_v\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`parent_id\` integer,
   	\`version_title\` text,
@@ -1600,19 +1600,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`version_meta_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_parent_idx\` ON \`_blog_posts_v\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_version_version_slug_idx\` ON \`_blog_posts_v\` (\`version_slug\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_version_version_featured_image_idx\` ON \`_blog_posts_v\` (\`version_featured_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_version_version_author_idx\` ON \`_blog_posts_v\` (\`version_author_id\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_version_meta_version_meta_image_idx\` ON \`_blog_posts_v\` (\`version_meta_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_version_version_updated_at_idx\` ON \`_blog_posts_v\` (\`version_updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_version_version_created_at_idx\` ON \`_blog_posts_v\` (\`version_created_at\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_version_version__status_idx\` ON \`_blog_posts_v\` (\`version__status\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_created_at_idx\` ON \`_blog_posts_v\` (\`created_at\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_updated_at_idx\` ON \`_blog_posts_v\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_latest_idx\` ON \`_blog_posts_v\` (\`latest\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_autosave_idx\` ON \`_blog_posts_v\` (\`autosave\`);`)
-  await db.run(sql`CREATE TABLE \`_blog_posts_v_rels\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_parent_idx\` ON \`_blog_posts_v\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_version_version_slug_idx\` ON \`_blog_posts_v\` (\`version_slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_version_version_featured_image_idx\` ON \`_blog_posts_v\` (\`version_featured_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_version_version_author_idx\` ON \`_blog_posts_v\` (\`version_author_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_version_meta_version_meta_image_idx\` ON \`_blog_posts_v\` (\`version_meta_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_version_version_updated_at_idx\` ON \`_blog_posts_v\` (\`version_updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_version_version_created_at_idx\` ON \`_blog_posts_v\` (\`version_created_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_version_version__status_idx\` ON \`_blog_posts_v\` (\`version__status\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_created_at_idx\` ON \`_blog_posts_v\` (\`created_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_updated_at_idx\` ON \`_blog_posts_v\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_latest_idx\` ON \`_blog_posts_v\` (\`latest\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_autosave_idx\` ON \`_blog_posts_v\` (\`autosave\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`_blog_posts_v_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -1622,11 +1622,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`product_categories_id\`) REFERENCES \`product_categories\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_rels_order_idx\` ON \`_blog_posts_v_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_rels_parent_idx\` ON \`_blog_posts_v_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_rels_path_idx\` ON \`_blog_posts_v_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`_blog_posts_v_rels_product_categories_id_idx\` ON \`_blog_posts_v_rels\` (\`product_categories_id\`);`)
-  await db.run(sql`CREATE TABLE \`faqs\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_rels_order_idx\` ON \`_blog_posts_v_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_rels_parent_idx\` ON \`_blog_posts_v_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_rels_path_idx\` ON \`_blog_posts_v_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`_blog_posts_v_rels_product_categories_id_idx\` ON \`_blog_posts_v_rels\` (\`product_categories_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`faqs\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`question\` text NOT NULL,
   	\`answer\` text NOT NULL,
@@ -1638,9 +1638,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE INDEX \`faqs_updated_at_idx\` ON \`faqs\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`faqs_created_at_idx\` ON \`faqs\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`media\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`faqs_updated_at_idx\` ON \`faqs\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`faqs_created_at_idx\` ON \`faqs\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`media\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`alt\` text NOT NULL,
   	\`caption\` text,
@@ -1657,10 +1657,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`focal_y\` numeric
   );
   `)
-  await db.run(sql`CREATE INDEX \`media_updated_at_idx\` ON \`media\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`media_created_at_idx\` ON \`media\` (\`created_at\`);`)
-  await db.run(sql`CREATE UNIQUE INDEX \`media_filename_idx\` ON \`media\` (\`filename\`);`)
-  await db.run(sql`CREATE TABLE \`cases_services\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`media_updated_at_idx\` ON \`media\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`media_created_at_idx\` ON \`media\` (\`created_at\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`media_filename_idx\` ON \`media\` (\`filename\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`cases_services\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -1668,9 +1668,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`cases\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`cases_services_order_idx\` ON \`cases_services\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`cases_services_parent_id_idx\` ON \`cases_services\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`cases_gallery\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_services_order_idx\` ON \`cases_services\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_services_parent_id_idx\` ON \`cases_services\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`cases_gallery\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -1679,10 +1679,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`cases\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`cases_gallery_order_idx\` ON \`cases_gallery\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`cases_gallery_parent_id_idx\` ON \`cases_gallery\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`cases_gallery_image_idx\` ON \`cases_gallery\` (\`image_id\`);`)
-  await db.run(sql`CREATE TABLE \`cases\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_gallery_order_idx\` ON \`cases_gallery\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_gallery_parent_id_idx\` ON \`cases_gallery\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_gallery_image_idx\` ON \`cases_gallery\` (\`image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`cases\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text NOT NULL,
   	\`slug\` text NOT NULL,
@@ -1705,12 +1705,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`meta_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`cases_slug_idx\` ON \`cases\` (\`slug\`);`)
-  await db.run(sql`CREATE INDEX \`cases_featured_image_idx\` ON \`cases\` (\`featured_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`cases_meta_meta_image_idx\` ON \`cases\` (\`meta_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`cases_updated_at_idx\` ON \`cases\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`cases_created_at_idx\` ON \`cases\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`testimonials\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`cases_slug_idx\` ON \`cases\` (\`slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_featured_image_idx\` ON \`cases\` (\`featured_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_meta_meta_image_idx\` ON \`cases\` (\`meta_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_updated_at_idx\` ON \`cases\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`cases_created_at_idx\` ON \`cases\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`testimonials\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`role\` text,
@@ -1725,10 +1725,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`photo_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`testimonials_photo_idx\` ON \`testimonials\` (\`photo_id\`);`)
-  await db.run(sql`CREATE INDEX \`testimonials_updated_at_idx\` ON \`testimonials\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`testimonials_created_at_idx\` ON \`testimonials\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`services\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`testimonials_photo_idx\` ON \`testimonials\` (\`photo_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`testimonials_updated_at_idx\` ON \`testimonials\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`testimonials_created_at_idx\` ON \`testimonials\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`services\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`description\` text NOT NULL,
@@ -1745,10 +1745,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`icon_upload_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`services_icon_upload_idx\` ON \`services\` (\`icon_upload_id\`);`)
-  await db.run(sql`CREATE INDEX \`services_updated_at_idx\` ON \`services\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`services_created_at_idx\` ON \`services\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`partners\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`services_icon_upload_idx\` ON \`services\` (\`icon_upload_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`services_updated_at_idx\` ON \`services\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`services_created_at_idx\` ON \`services\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`partners\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`logo_id\` integer NOT NULL,
@@ -1763,10 +1763,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`logo_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`partners_logo_idx\` ON \`partners\` (\`logo_id\`);`)
-  await db.run(sql`CREATE INDEX \`partners_updated_at_idx\` ON \`partners\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`partners_created_at_idx\` ON \`partners\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`product_categories\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`partners_logo_idx\` ON \`partners\` (\`logo_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`partners_updated_at_idx\` ON \`partners\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`partners_created_at_idx\` ON \`partners\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`product_categories\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`slug\` text NOT NULL,
@@ -1782,12 +1782,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`product_categories_slug_idx\` ON \`product_categories\` (\`slug\`);`)
-  await db.run(sql`CREATE INDEX \`product_categories_parent_idx\` ON \`product_categories\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`product_categories_image_idx\` ON \`product_categories\` (\`image_id\`);`)
-  await db.run(sql`CREATE INDEX \`product_categories_updated_at_idx\` ON \`product_categories\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`product_categories_created_at_idx\` ON \`product_categories\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`brands\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`product_categories_slug_idx\` ON \`product_categories\` (\`slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`product_categories_parent_idx\` ON \`product_categories\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`product_categories_image_idx\` ON \`product_categories\` (\`image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`product_categories_updated_at_idx\` ON \`product_categories\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`product_categories_created_at_idx\` ON \`product_categories\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`brands\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`slug\` text NOT NULL,
@@ -1805,12 +1805,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`meta_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`brands_slug_idx\` ON \`brands\` (\`slug\`);`)
-  await db.run(sql`CREATE INDEX \`brands_logo_idx\` ON \`brands\` (\`logo_id\`);`)
-  await db.run(sql`CREATE INDEX \`brands_meta_meta_image_idx\` ON \`brands\` (\`meta_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`brands_updated_at_idx\` ON \`brands\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`brands_created_at_idx\` ON \`brands\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`products_specifications\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`brands_slug_idx\` ON \`brands\` (\`slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`brands_logo_idx\` ON \`brands\` (\`logo_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`brands_meta_meta_image_idx\` ON \`brands\` (\`meta_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`brands_updated_at_idx\` ON \`brands\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`brands_created_at_idx\` ON \`brands\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`products_specifications\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -1819,9 +1819,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`products\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`products_specifications_order_idx\` ON \`products_specifications\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`products_specifications_parent_id_idx\` ON \`products_specifications\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`products\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_specifications_order_idx\` ON \`products_specifications\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_specifications_parent_id_idx\` ON \`products_specifications\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`products\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text NOT NULL,
   	\`slug\` text NOT NULL,
@@ -1843,13 +1843,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`meta_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`products_slug_idx\` ON \`products\` (\`slug\`);`)
-  await db.run(sql`CREATE UNIQUE INDEX \`products_sku_idx\` ON \`products\` (\`sku\`);`)
-  await db.run(sql`CREATE INDEX \`products_brand_idx\` ON \`products\` (\`brand_id\`);`)
-  await db.run(sql`CREATE INDEX \`products_meta_meta_image_idx\` ON \`products\` (\`meta_image_id\`);`)
-  await db.run(sql`CREATE INDEX \`products_updated_at_idx\` ON \`products\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`products_created_at_idx\` ON \`products\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`products_rels\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`products_slug_idx\` ON \`products\` (\`slug\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`products_sku_idx\` ON \`products\` (\`sku\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_brand_idx\` ON \`products\` (\`brand_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_meta_meta_image_idx\` ON \`products\` (\`meta_image_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_updated_at_idx\` ON \`products\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_created_at_idx\` ON \`products\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`products_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -1863,13 +1863,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`products_id\`) REFERENCES \`products\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`products_rels_order_idx\` ON \`products_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`products_rels_parent_idx\` ON \`products_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`products_rels_path_idx\` ON \`products_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`products_rels_media_id_idx\` ON \`products_rels\` (\`media_id\`);`)
-  await db.run(sql`CREATE INDEX \`products_rels_product_categories_id_idx\` ON \`products_rels\` (\`product_categories_id\`);`)
-  await db.run(sql`CREATE INDEX \`products_rels_products_id_idx\` ON \`products_rels\` (\`products_id\`);`)
-  await db.run(sql`CREATE TABLE \`customer_groups\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_rels_order_idx\` ON \`products_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_rels_parent_idx\` ON \`products_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_rels_path_idx\` ON \`products_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_rels_media_id_idx\` ON \`products_rels\` (\`media_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_rels_product_categories_id_idx\` ON \`products_rels\` (\`product_categories_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`products_rels_products_id_idx\` ON \`products_rels\` (\`products_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`customer_groups\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`slug\` text NOT NULL,
@@ -1888,11 +1888,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`customer_groups_name_idx\` ON \`customer_groups\` (\`name\`);`)
-  await db.run(sql`CREATE UNIQUE INDEX \`customer_groups_slug_idx\` ON \`customer_groups\` (\`slug\`);`)
-  await db.run(sql`CREATE INDEX \`customer_groups_updated_at_idx\` ON \`customer_groups\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`customer_groups_created_at_idx\` ON \`customer_groups\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`order_lists_items\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`customer_groups_name_idx\` ON \`customer_groups\` (\`name\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`customer_groups_slug_idx\` ON \`customer_groups\` (\`slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`customer_groups_updated_at_idx\` ON \`customer_groups\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`customer_groups_created_at_idx\` ON \`customer_groups\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`order_lists_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -1903,10 +1903,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`order_lists\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`order_lists_items_order_idx\` ON \`order_lists_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`order_lists_items_parent_id_idx\` ON \`order_lists_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`order_lists_items_product_idx\` ON \`order_lists_items\` (\`product_id\`);`)
-  await db.run(sql`CREATE TABLE \`order_lists_share_with\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_items_order_idx\` ON \`order_lists_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_items_parent_id_idx\` ON \`order_lists_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_items_product_idx\` ON \`order_lists_items\` (\`product_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`order_lists_share_with\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -1916,10 +1916,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`order_lists\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`order_lists_share_with_order_idx\` ON \`order_lists_share_with\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`order_lists_share_with_parent_id_idx\` ON \`order_lists_share_with\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`order_lists_share_with_user_idx\` ON \`order_lists_share_with\` (\`user_id\`);`)
-  await db.run(sql`CREATE TABLE \`order_lists\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_share_with_order_idx\` ON \`order_lists_share_with\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_share_with_parent_id_idx\` ON \`order_lists_share_with\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_share_with_user_idx\` ON \`order_lists_share_with\` (\`user_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`order_lists\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`owner_id\` integer NOT NULL,
@@ -1931,10 +1931,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`owner_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`order_lists_owner_idx\` ON \`order_lists\` (\`owner_id\`);`)
-  await db.run(sql`CREATE INDEX \`order_lists_updated_at_idx\` ON \`order_lists\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`order_lists_created_at_idx\` ON \`order_lists\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`orders_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_owner_idx\` ON \`order_lists\` (\`owner_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_updated_at_idx\` ON \`order_lists\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`order_lists_created_at_idx\` ON \`order_lists\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`orders_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -1946,10 +1946,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`orders\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`orders_items_order_idx\` ON \`orders_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`orders_items_parent_id_idx\` ON \`orders_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`orders_items_product_idx\` ON \`orders_items\` (\`product_id\`);`)
-  await db.run(sql`CREATE TABLE \`orders\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`orders_items_order_idx\` ON \`orders_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`orders_items_parent_id_idx\` ON \`orders_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`orders_items_product_idx\` ON \`orders_items\` (\`product_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`orders\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order_number\` text NOT NULL,
   	\`customer_id\` integer NOT NULL,
@@ -1984,12 +1984,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`invoice_p_d_f_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`orders_order_number_idx\` ON \`orders\` (\`order_number\`);`)
-  await db.run(sql`CREATE INDEX \`orders_customer_idx\` ON \`orders\` (\`customer_id\`);`)
-  await db.run(sql`CREATE INDEX \`orders_invoice_p_d_f_idx\` ON \`orders\` (\`invoice_p_d_f_id\`);`)
-  await db.run(sql`CREATE INDEX \`orders_updated_at_idx\` ON \`orders\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`orders_created_at_idx\` ON \`orders\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`clients_enabled_features\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`orders_order_number_idx\` ON \`orders\` (\`order_number\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`orders_customer_idx\` ON \`orders\` (\`customer_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`orders_invoice_p_d_f_idx\` ON \`orders\` (\`invoice_p_d_f_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`orders_updated_at_idx\` ON \`orders\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`orders_created_at_idx\` ON \`orders\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`clients_enabled_features\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -1997,9 +1997,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`clients\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`clients_enabled_features_order_idx\` ON \`clients_enabled_features\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`clients_enabled_features_parent_id_idx\` ON \`clients_enabled_features\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`clients_disabled_collections\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`clients_enabled_features_order_idx\` ON \`clients_enabled_features\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`clients_enabled_features_parent_id_idx\` ON \`clients_enabled_features\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`clients_disabled_collections\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2007,9 +2007,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`clients\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`clients_disabled_collections_order_idx\` ON \`clients_disabled_collections\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`clients_disabled_collections_parent_id_idx\` ON \`clients_disabled_collections\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`clients\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`clients_disabled_collections_order_idx\` ON \`clients_disabled_collections\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`clients_disabled_collections_parent_id_idx\` ON \`clients_disabled_collections\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`clients\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text NOT NULL,
   	\`domain\` text NOT NULL,
@@ -2059,10 +2059,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`clients_domain_idx\` ON \`clients\` (\`domain\`);`)
-  await db.run(sql`CREATE INDEX \`clients_updated_at_idx\` ON \`clients\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`clients_created_at_idx\` ON \`clients\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`deployments\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`clients_domain_idx\` ON \`clients\` (\`domain\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`clients_updated_at_idx\` ON \`clients\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`clients_created_at_idx\` ON \`clients\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`deployments\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`client_id\` integer NOT NULL,
   	\`status\` text DEFAULT 'pending' NOT NULL,
@@ -2092,10 +2092,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`client_id\`) REFERENCES \`clients\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`deployments_client_idx\` ON \`deployments\` (\`client_id\`);`)
-  await db.run(sql`CREATE INDEX \`deployments_updated_at_idx\` ON \`deployments\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`deployments_created_at_idx\` ON \`deployments\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_checkbox\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`deployments_client_idx\` ON \`deployments\` (\`client_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`deployments_updated_at_idx\` ON \`deployments\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`deployments_created_at_idx\` ON \`deployments\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_checkbox\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -2109,10 +2109,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_checkbox_order_idx\` ON \`forms_blocks_checkbox\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_checkbox_parent_id_idx\` ON \`forms_blocks_checkbox\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_checkbox_path_idx\` ON \`forms_blocks_checkbox\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_email\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_checkbox_order_idx\` ON \`forms_blocks_checkbox\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_checkbox_parent_id_idx\` ON \`forms_blocks_checkbox\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_checkbox_path_idx\` ON \`forms_blocks_checkbox\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_email\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -2125,10 +2125,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_email_order_idx\` ON \`forms_blocks_email\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_email_parent_id_idx\` ON \`forms_blocks_email\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_email_path_idx\` ON \`forms_blocks_email\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_message\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_email_order_idx\` ON \`forms_blocks_email\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_email_parent_id_idx\` ON \`forms_blocks_email\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_email_path_idx\` ON \`forms_blocks_email\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_message\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -2138,10 +2138,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_message_order_idx\` ON \`forms_blocks_message\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_message_parent_id_idx\` ON \`forms_blocks_message\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_message_path_idx\` ON \`forms_blocks_message\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_number\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_message_order_idx\` ON \`forms_blocks_message\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_message_parent_id_idx\` ON \`forms_blocks_message\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_message_path_idx\` ON \`forms_blocks_message\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_number\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -2155,10 +2155,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_number_order_idx\` ON \`forms_blocks_number\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_number_parent_id_idx\` ON \`forms_blocks_number\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_number_path_idx\` ON \`forms_blocks_number\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_select_options\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_number_order_idx\` ON \`forms_blocks_number\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_number_parent_id_idx\` ON \`forms_blocks_number\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_number_path_idx\` ON \`forms_blocks_number\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_select_options\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2167,9 +2167,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms_blocks_select\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_select_options_order_idx\` ON \`forms_blocks_select_options\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_select_options_parent_id_idx\` ON \`forms_blocks_select_options\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_select\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_select_options_order_idx\` ON \`forms_blocks_select_options\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_select_options_parent_id_idx\` ON \`forms_blocks_select_options\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_select\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -2184,10 +2184,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_select_order_idx\` ON \`forms_blocks_select\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_select_parent_id_idx\` ON \`forms_blocks_select\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_select_path_idx\` ON \`forms_blocks_select\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_text\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_select_order_idx\` ON \`forms_blocks_select\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_select_parent_id_idx\` ON \`forms_blocks_select\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_select_path_idx\` ON \`forms_blocks_select\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_text\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -2201,10 +2201,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_text_order_idx\` ON \`forms_blocks_text\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_text_parent_id_idx\` ON \`forms_blocks_text\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_text_path_idx\` ON \`forms_blocks_text\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`forms_blocks_textarea\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_text_order_idx\` ON \`forms_blocks_text\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_text_parent_id_idx\` ON \`forms_blocks_text\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_text_path_idx\` ON \`forms_blocks_text\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_blocks_textarea\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
@@ -2218,10 +2218,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_blocks_textarea_order_idx\` ON \`forms_blocks_textarea\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_textarea_parent_id_idx\` ON \`forms_blocks_textarea\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`forms_blocks_textarea_path_idx\` ON \`forms_blocks_textarea\` (\`_path\`);`)
-  await db.run(sql`CREATE TABLE \`forms_emails\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_textarea_order_idx\` ON \`forms_blocks_textarea\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_textarea_parent_id_idx\` ON \`forms_blocks_textarea\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_blocks_textarea_path_idx\` ON \`forms_blocks_textarea\` (\`_path\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms_emails\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2235,9 +2235,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_emails_order_idx\` ON \`forms_emails\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`forms_emails_parent_id_idx\` ON \`forms_emails\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`forms\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_emails_order_idx\` ON \`forms_emails\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_emails_parent_id_idx\` ON \`forms_emails\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`forms\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text NOT NULL,
   	\`submit_button_label\` text,
@@ -2248,9 +2248,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE INDEX \`forms_updated_at_idx\` ON \`forms\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`forms_created_at_idx\` ON \`forms\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`form_submissions_submission_data\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_updated_at_idx\` ON \`forms\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`forms_created_at_idx\` ON \`forms\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`form_submissions_submission_data\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2259,9 +2259,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`form_submissions_submission_data_order_idx\` ON \`form_submissions_submission_data\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`form_submissions_submission_data_parent_id_idx\` ON \`form_submissions_submission_data\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`form_submissions\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`form_submissions_submission_data_order_idx\` ON \`form_submissions_submission_data\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`form_submissions_submission_data_parent_id_idx\` ON \`form_submissions_submission_data\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`form_submissions\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`form_id\` integer NOT NULL,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
@@ -2269,10 +2269,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`form_submissions_form_idx\` ON \`form_submissions\` (\`form_id\`);`)
-  await db.run(sql`CREATE INDEX \`form_submissions_updated_at_idx\` ON \`form_submissions\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`form_submissions_created_at_idx\` ON \`form_submissions\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`redirects\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`form_submissions_form_idx\` ON \`form_submissions\` (\`form_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`form_submissions_updated_at_idx\` ON \`form_submissions\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`form_submissions_created_at_idx\` ON \`form_submissions\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`redirects\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`from\` text NOT NULL,
   	\`to_type\` text DEFAULT 'reference',
@@ -2281,10 +2281,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`redirects_from_idx\` ON \`redirects\` (\`from\`);`)
-  await db.run(sql`CREATE INDEX \`redirects_updated_at_idx\` ON \`redirects\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`redirects_created_at_idx\` ON \`redirects\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`redirects_rels\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`redirects_from_idx\` ON \`redirects\` (\`from\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`redirects_updated_at_idx\` ON \`redirects\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`redirects_created_at_idx\` ON \`redirects\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`redirects_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -2294,28 +2294,28 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`redirects_rels_order_idx\` ON \`redirects_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`redirects_rels_parent_idx\` ON \`redirects_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`redirects_rels_path_idx\` ON \`redirects_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`redirects_rels_pages_id_idx\` ON \`redirects_rels\` (\`pages_id\`);`)
-  await db.run(sql`CREATE TABLE \`payload_kv\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`redirects_rels_order_idx\` ON \`redirects_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`redirects_rels_parent_idx\` ON \`redirects_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`redirects_rels_path_idx\` ON \`redirects_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`redirects_rels_pages_id_idx\` ON \`redirects_rels\` (\`pages_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`payload_kv\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`key\` text NOT NULL,
   	\`data\` text NOT NULL
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`payload_kv_key_idx\` ON \`payload_kv\` (\`key\`);`)
-  await db.run(sql`CREATE TABLE \`payload_locked_documents\` (
+  await db.run(sql`CREATE UNIQUE INDEX IF NOT EXISTS \`payload_kv_key_idx\` ON \`payload_kv\` (\`key\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`payload_locked_documents\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`global_slug\` text,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_global_slug_idx\` ON \`payload_locked_documents\` (\`global_slug\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_updated_at_idx\` ON \`payload_locked_documents\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_created_at_idx\` ON \`payload_locked_documents\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`payload_locked_documents_rels\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_global_slug_idx\` ON \`payload_locked_documents\` (\`global_slug\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_updated_at_idx\` ON \`payload_locked_documents\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_created_at_idx\` ON \`payload_locked_documents\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`payload_locked_documents_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -2363,30 +2363,30 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`redirects_id\`) REFERENCES \`redirects\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_order_idx\` ON \`payload_locked_documents_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_parent_idx\` ON \`payload_locked_documents_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_path_idx\` ON \`payload_locked_documents_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_users_id_idx\` ON \`payload_locked_documents_rels\` (\`users_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_pages_id_idx\` ON \`payload_locked_documents_rels\` (\`pages_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_blog_posts_id_idx\` ON \`payload_locked_documents_rels\` (\`blog_posts_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_faqs_id_idx\` ON \`payload_locked_documents_rels\` (\`faqs_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_media_id_idx\` ON \`payload_locked_documents_rels\` (\`media_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_cases_id_idx\` ON \`payload_locked_documents_rels\` (\`cases_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_testimonials_id_idx\` ON \`payload_locked_documents_rels\` (\`testimonials_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_services_id_idx\` ON \`payload_locked_documents_rels\` (\`services_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_partners_id_idx\` ON \`payload_locked_documents_rels\` (\`partners_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_product_categories_id_idx\` ON \`payload_locked_documents_rels\` (\`product_categories_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_brands_id_idx\` ON \`payload_locked_documents_rels\` (\`brands_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_products_id_idx\` ON \`payload_locked_documents_rels\` (\`products_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_customer_groups_id_idx\` ON \`payload_locked_documents_rels\` (\`customer_groups_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_order_lists_id_idx\` ON \`payload_locked_documents_rels\` (\`order_lists_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_orders_id_idx\` ON \`payload_locked_documents_rels\` (\`orders_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_clients_id_idx\` ON \`payload_locked_documents_rels\` (\`clients_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_deployments_id_idx\` ON \`payload_locked_documents_rels\` (\`deployments_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_forms_id_idx\` ON \`payload_locked_documents_rels\` (\`forms_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_form_submissions_id_idx\` ON \`payload_locked_documents_rels\` (\`form_submissions_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_redirects_id_idx\` ON \`payload_locked_documents_rels\` (\`redirects_id\`);`)
-  await db.run(sql`CREATE TABLE \`payload_preferences\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_order_idx\` ON \`payload_locked_documents_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_parent_idx\` ON \`payload_locked_documents_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_path_idx\` ON \`payload_locked_documents_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_users_id_idx\` ON \`payload_locked_documents_rels\` (\`users_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_pages_id_idx\` ON \`payload_locked_documents_rels\` (\`pages_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_blog_posts_id_idx\` ON \`payload_locked_documents_rels\` (\`blog_posts_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_faqs_id_idx\` ON \`payload_locked_documents_rels\` (\`faqs_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_media_id_idx\` ON \`payload_locked_documents_rels\` (\`media_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_cases_id_idx\` ON \`payload_locked_documents_rels\` (\`cases_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_testimonials_id_idx\` ON \`payload_locked_documents_rels\` (\`testimonials_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_services_id_idx\` ON \`payload_locked_documents_rels\` (\`services_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_partners_id_idx\` ON \`payload_locked_documents_rels\` (\`partners_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_product_categories_id_idx\` ON \`payload_locked_documents_rels\` (\`product_categories_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_brands_id_idx\` ON \`payload_locked_documents_rels\` (\`brands_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_products_id_idx\` ON \`payload_locked_documents_rels\` (\`products_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_customer_groups_id_idx\` ON \`payload_locked_documents_rels\` (\`customer_groups_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_order_lists_id_idx\` ON \`payload_locked_documents_rels\` (\`order_lists_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_orders_id_idx\` ON \`payload_locked_documents_rels\` (\`orders_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_clients_id_idx\` ON \`payload_locked_documents_rels\` (\`clients_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_deployments_id_idx\` ON \`payload_locked_documents_rels\` (\`deployments_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_forms_id_idx\` ON \`payload_locked_documents_rels\` (\`forms_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_form_submissions_id_idx\` ON \`payload_locked_documents_rels\` (\`form_submissions_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_locked_documents_rels_redirects_id_idx\` ON \`payload_locked_documents_rels\` (\`redirects_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`payload_preferences\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`key\` text,
   	\`value\` text,
@@ -2394,10 +2394,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE INDEX \`payload_preferences_key_idx\` ON \`payload_preferences\` (\`key\`);`)
-  await db.run(sql`CREATE INDEX \`payload_preferences_updated_at_idx\` ON \`payload_preferences\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`payload_preferences_created_at_idx\` ON \`payload_preferences\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`payload_preferences_rels\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_preferences_key_idx\` ON \`payload_preferences\` (\`key\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_preferences_updated_at_idx\` ON \`payload_preferences\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_preferences_created_at_idx\` ON \`payload_preferences\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`payload_preferences_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -2407,11 +2407,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`payload_preferences_rels_order_idx\` ON \`payload_preferences_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`payload_preferences_rels_parent_idx\` ON \`payload_preferences_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_preferences_rels_path_idx\` ON \`payload_preferences_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`payload_preferences_rels_users_id_idx\` ON \`payload_preferences_rels\` (\`users_id\`);`)
-  await db.run(sql`CREATE TABLE \`payload_migrations\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_preferences_rels_order_idx\` ON \`payload_preferences_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_preferences_rels_parent_idx\` ON \`payload_preferences_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_preferences_rels_path_idx\` ON \`payload_preferences_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_preferences_rels_users_id_idx\` ON \`payload_preferences_rels\` (\`users_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`payload_migrations\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`name\` text,
   	\`batch\` numeric,
@@ -2419,9 +2419,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
   `)
-  await db.run(sql`CREATE INDEX \`payload_migrations_updated_at_idx\` ON \`payload_migrations\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`payload_migrations_created_at_idx\` ON \`payload_migrations\` (\`created_at\`);`)
-  await db.run(sql`CREATE TABLE \`settings_hours\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_migrations_updated_at_idx\` ON \`payload_migrations\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`payload_migrations_created_at_idx\` ON \`payload_migrations\` (\`created_at\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`settings_hours\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2432,9 +2432,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`settings\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`settings_hours_order_idx\` ON \`settings_hours\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`settings_hours_parent_id_idx\` ON \`settings_hours\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`settings_sitemap_exclude\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_hours_order_idx\` ON \`settings_hours\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_hours_parent_id_idx\` ON \`settings_hours\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`settings_sitemap_exclude\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2442,9 +2442,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`settings\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`settings_sitemap_exclude_order_idx\` ON \`settings_sitemap_exclude\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`settings_sitemap_exclude_parent_id_idx\` ON \`settings_sitemap_exclude\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`settings_robots_disallow\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_sitemap_exclude_order_idx\` ON \`settings_sitemap_exclude\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_sitemap_exclude_parent_id_idx\` ON \`settings_sitemap_exclude\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`settings_robots_disallow\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2452,9 +2452,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`settings\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`settings_robots_disallow_order_idx\` ON \`settings_robots_disallow\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`settings_robots_disallow_parent_id_idx\` ON \`settings_robots_disallow\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`settings\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_robots_disallow_order_idx\` ON \`settings_robots_disallow\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_robots_disallow_parent_id_idx\` ON \`settings_robots_disallow\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`settings\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`company_name\` text NOT NULL,
   	\`tagline\` text,
@@ -2528,11 +2528,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`default_o_g_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`settings_logo_idx\` ON \`settings\` (\`logo_id\`);`)
-  await db.run(sql`CREATE INDEX \`settings_logo_white_idx\` ON \`settings\` (\`logo_white_id\`);`)
-  await db.run(sql`CREATE INDEX \`settings_favicon_idx\` ON \`settings\` (\`favicon_id\`);`)
-  await db.run(sql`CREATE INDEX \`settings_default_o_g_image_idx\` ON \`settings\` (\`default_o_g_image_id\`);`)
-  await db.run(sql`CREATE TABLE \`settings_rels\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_logo_idx\` ON \`settings\` (\`logo_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_logo_white_idx\` ON \`settings\` (\`logo_white_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_favicon_idx\` ON \`settings\` (\`favicon_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_default_o_g_image_idx\` ON \`settings\` (\`default_o_g_image_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`settings_rels\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
@@ -2542,11 +2542,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`settings_rels_order_idx\` ON \`settings_rels\` (\`order\`);`)
-  await db.run(sql`CREATE INDEX \`settings_rels_parent_idx\` ON \`settings_rels\` (\`parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`settings_rels_path_idx\` ON \`settings_rels\` (\`path\`);`)
-  await db.run(sql`CREATE INDEX \`settings_rels_media_id_idx\` ON \`settings_rels\` (\`media_id\`);`)
-  await db.run(sql`CREATE TABLE \`theme\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_rels_order_idx\` ON \`settings_rels\` (\`order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_rels_parent_idx\` ON \`settings_rels\` (\`parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_rels_path_idx\` ON \`settings_rels\` (\`path\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`settings_rels_media_id_idx\` ON \`settings_rels\` (\`media_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`theme\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`primary_color\` text DEFAULT '#00796B',
   	\`secondary_color\` text DEFAULT '#0A1628',
@@ -2571,7 +2571,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`created_at\` text
   );
   `)
-  await db.run(sql`CREATE TABLE \`header_top_bar_left_messages\` (
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`header_top_bar_left_messages\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2581,9 +2581,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`header\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`header_top_bar_left_messages_order_idx\` ON \`header_top_bar_left_messages\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`header_top_bar_left_messages_parent_id_idx\` ON \`header_top_bar_left_messages\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`header_top_bar_right_links\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_top_bar_left_messages_order_idx\` ON \`header_top_bar_left_messages\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_top_bar_left_messages_parent_id_idx\` ON \`header_top_bar_left_messages\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`header_top_bar_right_links\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2592,9 +2592,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`header\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`header_top_bar_right_links_order_idx\` ON \`header_top_bar_right_links\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`header_top_bar_right_links_parent_id_idx\` ON \`header_top_bar_right_links\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`header_custom_buttons\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_top_bar_right_links_order_idx\` ON \`header_top_bar_right_links\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_top_bar_right_links_parent_id_idx\` ON \`header_top_bar_right_links\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`header_custom_buttons\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2605,9 +2605,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`header\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`header_custom_buttons_order_idx\` ON \`header_custom_buttons\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`header_custom_buttons_parent_id_idx\` ON \`header_custom_buttons\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`header_navigation_items_children\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_custom_buttons_order_idx\` ON \`header_custom_buttons\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_custom_buttons_parent_id_idx\` ON \`header_custom_buttons\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`header_navigation_items_children\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2617,10 +2617,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`header_navigation_items\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`header_navigation_items_children_order_idx\` ON \`header_navigation_items_children\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`header_navigation_items_children_parent_id_idx\` ON \`header_navigation_items_children\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`header_navigation_items_children_page_idx\` ON \`header_navigation_items_children\` (\`page_id\`);`)
-  await db.run(sql`CREATE TABLE \`header_navigation_items\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_navigation_items_children_order_idx\` ON \`header_navigation_items_children\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_navigation_items_children_parent_id_idx\` ON \`header_navigation_items_children\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_navigation_items_children_page_idx\` ON \`header_navigation_items_children\` (\`page_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`header_navigation_items\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2632,10 +2632,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`header\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`header_navigation_items_order_idx\` ON \`header_navigation_items\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`header_navigation_items_parent_id_idx\` ON \`header_navigation_items\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`header_navigation_items_page_idx\` ON \`header_navigation_items\` (\`page_id\`);`)
-  await db.run(sql`CREATE TABLE \`header\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_navigation_items_order_idx\` ON \`header_navigation_items\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_navigation_items_parent_id_idx\` ON \`header_navigation_items\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_navigation_items_page_idx\` ON \`header_navigation_items\` (\`page_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`header\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`top_bar_enabled\` integer DEFAULT true,
   	\`top_bar_background_color\` text DEFAULT '#0A1628',
@@ -2672,8 +2672,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`logo_override_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
-  await db.run(sql`CREATE INDEX \`header_logo_override_idx\` ON \`header\` (\`logo_override_id\`);`)
-  await db.run(sql`CREATE TABLE \`footer_columns_links\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`header_logo_override_idx\` ON \`header\` (\`logo_override_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`footer_columns_links\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2685,10 +2685,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`footer_columns\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`footer_columns_links_order_idx\` ON \`footer_columns_links\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`footer_columns_links_parent_id_idx\` ON \`footer_columns_links\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE INDEX \`footer_columns_links_page_idx\` ON \`footer_columns_links\` (\`page_id\`);`)
-  await db.run(sql`CREATE TABLE \`footer_columns\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`footer_columns_links_order_idx\` ON \`footer_columns_links\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`footer_columns_links_parent_id_idx\` ON \`footer_columns_links\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`footer_columns_links_page_idx\` ON \`footer_columns_links\` (\`page_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`footer_columns\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
@@ -2696,9 +2696,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`footer\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE INDEX \`footer_columns_order_idx\` ON \`footer_columns\` (\`_order\`);`)
-  await db.run(sql`CREATE INDEX \`footer_columns_parent_id_idx\` ON \`footer_columns\` (\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`footer\` (
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`footer_columns_order_idx\` ON \`footer_columns\` (\`_order\`);`)
+  await db.run(sql`CREATE INDEX IF NOT EXISTS \`footer_columns_parent_id_idx\` ON \`footer_columns\` (\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE IF NOT EXISTS \`footer\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`bottom_text\` text,
   	\`show_social_links\` integer DEFAULT true,
