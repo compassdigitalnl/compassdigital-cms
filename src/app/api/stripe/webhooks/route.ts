@@ -12,11 +12,15 @@ import config from '@payload-config'
 
 export const dynamic = 'force-dynamic'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-08-27.basil',
-})
+// Lazy init: instantiate inside handler to avoid build-time failure when env var is missing
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2025-08-27.basil',
+  })
+}
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripe()
   try {
     const body = await request.text()
     const signature = request.headers.get('stripe-signature')

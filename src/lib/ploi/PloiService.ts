@@ -50,6 +50,7 @@ interface CreateSiteRequest {
   project_type?: 'php' | 'nodejs' | 'python' | 'static' | 'wordpress'
   web_directory?: string // e.g., "/public" or "/dist"
   system_user?: string
+  nodejs_port?: number // Port Nginx should proxy to (Node.js sites only)
 }
 
 interface UpdateEnvironmentRequest {
@@ -89,6 +90,13 @@ export class PloiService {
       throw new Error(
         errorData.message || `Ploi API error: ${response.status} ${response.statusText}`,
       )
+    }
+
+    // Some Ploi endpoints return plain text (e.g., "ok") instead of JSON
+    const contentType = response.headers.get('content-type') || ''
+    if (!contentType.includes('application/json')) {
+      const text = await response.text()
+      return text as unknown as T
     }
 
     return response.json()
@@ -152,11 +160,12 @@ export class PloiService {
 
   /**
    * Trigger site deployment
+   * Note: Ploi API returns {"message":"..."} on success, not {"data":{"id":...}}
    */
   async deploySite(
     serverId: number,
     siteId: number,
-  ): Promise<{ data: PloiDeployment }> {
+  ): Promise<{ message: string } | { data: PloiDeployment }> {
     return this.request(`/api/servers/${serverId}/sites/${siteId}/deploy`, {
       method: 'POST',
     })
@@ -174,6 +183,7 @@ export class PloiService {
 
   /**
    * Update deployment script
+   * Note: Ploi API uses 'deploy_script' field (not 'script')
    */
   async updateDeploymentScript(
     serverId: number,
@@ -182,7 +192,7 @@ export class PloiService {
   ): Promise<void> {
     return this.request(`/api/servers/${serverId}/sites/${siteId}/deploy/script`, {
       method: 'PATCH',
-      body: JSON.stringify({ script }),
+      body: JSON.stringify({ deploy_script: script }),
     })
   }
 
@@ -190,11 +200,12 @@ export class PloiService {
 
   /**
    * Get environment file (.env)
+   * NOTE: Ploi returns { data: "env-content-string" } — data is a string, NOT { data: { content } }
    */
   async getEnvironment(
     serverId: number,
     siteId: number,
-  ): Promise<{ data: { content: string } }> {
+  ): Promise<{ data: string }> {
     return this.request(`/api/servers/${serverId}/sites/${siteId}/env`)
   }
 
@@ -251,6 +262,71 @@ export class PloiService {
    */
   async disableTestDomain(serverId: number, siteId: number): Promise<void> {
     return this.request(`/api/servers/${serverId}/sites/${siteId}/test-domain`, {
+      method: 'DELETE',
+    })
+  }
+
+  // ===== Repository =====
+
+  /**
+   * Install git repository on a site
+   */
+  async installRepository(
+    serverId: number,
+    siteId: number,
+    data: {
+      provider: 'github' | 'gitlab' | 'bitbucket' | 'custom'
+      branch: string
+      name: string // e.g. "username/repo"
+    },
+  ): Promise<{ data: any }> {
+    return this.request(`/api/servers/${serverId}/sites/${siteId}/repository`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  /**
+   * Get repository info for a site
+   */
+  async getRepository(serverId: number, siteId: number): Promise<{ data: any }> {
+    return this.request(`/api/servers/${serverId}/sites/${siteId}/repository`)
+  }
+
+  // ===== Scripts =====
+
+  /**
+   * Create a server script (runs as a specified user)
+   */
+  async createScript(data: {
+    label: string
+    content: string
+    user?: string // default 'ploi', use 'root' for privileged operations
+  }): Promise<{ data: { id: number; label: string; user: string; content: string } }> {
+    return this.request('/api/scripts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  /**
+   * Run a script on one or more servers
+   */
+  async runScript(
+    scriptId: number,
+    serverIds: number[],
+  ): Promise<{ data: { running_on_servers: Array<{ id: number; name: string; ip: string }> } }> {
+    return this.request(`/api/scripts/${scriptId}/run`, {
+      method: 'POST',
+      body: JSON.stringify({ servers: serverIds }),
+    })
+  }
+
+  /**
+   * Delete a script
+   */
+  async deleteScript(scriptId: number): Promise<void> {
+    return this.request(`/api/scripts/${scriptId}`, {
       method: 'DELETE',
     })
   }

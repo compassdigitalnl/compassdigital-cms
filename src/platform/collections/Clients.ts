@@ -304,6 +304,15 @@ export const Clients: CollectionConfig = {
             description: 'Railway service ID voor de database',
           },
         },
+        {
+          name: 'port',
+          type: 'number',
+          label: 'Node.js Port',
+          admin: {
+            readOnly: true,
+            description: 'Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.',
+          },
+        },
       ],
     },
 
@@ -616,9 +625,40 @@ export const Clients: CollectionConfig = {
       },
     ],
     afterChange: [
-      async ({ doc, operation }) => {
+      async ({ doc, previousDoc, operation, req }) => {
         if (operation === 'create') {
           console.log(`[Platform] Nieuwe klant aangemaakt: ${doc.name} (${doc.domain})`)
+        }
+
+        // Trigger provisioning when status changes TO 'provisioning'
+        // BUT: skip if this update was made by provisionClient itself
+        // (to prevent double-execution when provisionClient calls payload.update)
+        const skipHook = (req as any)?.context?.skipProvisioningHook === true
+        const statusChanged = previousDoc?.status !== doc.status
+        const shouldProvision = doc.status === 'provisioning' && statusChanged && !skipHook
+
+        if (shouldProvision) {
+          console.log(`[Platform] Provisioning gestart voor: ${doc.name} (${doc.domain}) — ID: ${doc.id}`)
+
+          // Fire-and-forget: run in background so the Payload save completes immediately
+          setImmediate(async () => {
+            try {
+              const { provisionClient } = await import('@/lib/provisioning/provisionClient')
+              const result = await provisionClient({
+                clientId: String(doc.id),
+                provider: 'ploi',
+                verbose: true,
+              })
+
+              if (result.success) {
+                console.log(`[Platform] Provisioning voltooid voor ${doc.name}: ${result.deploymentUrl}`)
+              } else {
+                console.error(`[Platform] Provisioning mislukt voor ${doc.name}: ${result.error}`)
+              }
+            } catch (err: any) {
+              console.error(`[Platform] Onverwachte fout bij provisioning van ${doc.name}:`, err)
+            }
+          })
         }
       },
     ],

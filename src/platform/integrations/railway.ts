@@ -65,7 +65,8 @@ export async function createRailwayDatabase(data: {
     const project = projectData.data.projectCreate
     console.log(`[Railway] Project created: ${project.id}`)
 
-    // 2. Create PostgreSQL service
+    // 2. Create PostgreSQL service using Railway's managed Postgres template
+    // Note: Using templateDeploy with Railway's official Postgres template
     const serviceRes = await fetch('https://backboard.railway.app/graphql/v2', {
       method: 'POST',
       headers: {
@@ -77,7 +78,8 @@ export async function createRailwayDatabase(data: {
           mutation CreateService($projectId: String!) {
             serviceCreate(input: {
               projectId: $projectId
-              source: { image: "postgres:16-alpine" }
+              name: "postgres"
+              source: { image: "ghcr.io/railwayapp-templates/postgres-ssl:edge" }
             }) {
               id
             }
@@ -98,10 +100,8 @@ export async function createRailwayDatabase(data: {
     const service = serviceData.data.serviceCreate
     console.log(`[Railway] PostgreSQL service created: ${service.id}`)
 
-    // 3. Get connection string (wait a bit for service to initialize)
-    await new Promise((resolve) => setTimeout(resolve, 5000))
-
-    const connectionRes = await fetch('https://backboard.railway.app/graphql/v2', {
+    // 3. Get environment ID for this project (needed for variables query)
+    const envRes = await fetch('https://backboard.railway.app/graphql/v2', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -109,41 +109,45 @@ export async function createRailwayDatabase(data: {
       },
       body: JSON.stringify({
         query: `
-          query ServiceDetails($serviceId: String!) {
-            service(id: $serviceId) {
-              id
-              variables
+          query GetEnvironments($projectId: String!) {
+            project(id: $projectId) {
+              environments {
+                edges {
+                  node {
+                    id
+                    name
+                  }
+                }
+              }
             }
           }
         `,
-        variables: {
-          serviceId: service.id,
-        },
+        variables: { projectId: project.id },
       }),
     })
 
-    const connectionData = await connectionRes.json()
-    console.log('[Railway] Connection data response:', JSON.stringify(connectionData, null, 2))
+    const envData = await envRes.json()
+    const environments = envData.data?.project?.environments?.edges || []
+    const productionEnv = environments.find((e: any) => e.node.name === 'production') || environments[0]
+    const environmentId = productionEnv?.node?.id
 
-    // Check for API errors
-    if (connectionData.errors) {
-      throw new Error(`Railway connection error: ${JSON.stringify(connectionData.errors)}`)
+    if (!environmentId) {
+      throw new Error('Could not find Railway environment for database project')
     }
 
-    // Check if data exists
-    if (!connectionData.data || !connectionData.data.service) {
-      throw new Error(`Railway service not found or not ready. Response: ${JSON.stringify(connectionData)}`)
-    }
+    console.log(`[Railway] Environment ID: ${environmentId}`)
 
-    const variables = connectionData.data.service.variables
+    // 4. Wait for service to initialize and get connection variables
+    // Railway's variables query: variables(environmentId, serviceId, projectId)
+    const maxAttempts = 10
+    let attempt = 0
+    let dbUrl: string | null = null
 
-    // Check if variables exist (service might still be initializing)
-    if (!variables || !variables.PGHOST) {
-      console.log('[Railway] Variables not ready yet, waiting 10 more seconds...')
-      await new Promise((resolve) => setTimeout(resolve, 10000))
+    while (attempt < maxAttempts && !dbUrl) {
+      await new Promise((resolve) => setTimeout(resolve, 5000))
+      attempt++
 
-      // Retry once
-      const retryRes = await fetch('https://backboard.railway.app/graphql/v2', {
+      const variablesRes = await fetch('https://backboard.railway.app/graphql/v2', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -151,41 +155,48 @@ export async function createRailwayDatabase(data: {
         },
         body: JSON.stringify({
           query: `
-            query ServiceDetails($serviceId: String!) {
-              service(id: $serviceId) {
-                id
-                variables
-              }
+            query GetVariables($environmentId: String!, $serviceId: String!, $projectId: String!) {
+              variables(
+                environmentId: $environmentId
+                serviceId: $serviceId
+                projectId: $projectId
+              )
             }
           `,
           variables: {
+            environmentId,
             serviceId: service.id,
+            projectId: project.id,
           },
         }),
       })
 
-      const retryData = await retryRes.json()
-      console.log('[Railway] Retry response:', JSON.stringify(retryData, null, 2))
+      const variablesData = await variablesRes.json()
+      console.log(`[Railway] Variables attempt ${attempt}:`, JSON.stringify(variablesData).substring(0, 200))
 
-      if (retryData.errors || !retryData.data?.service?.variables?.PGHOST) {
-        throw new Error(`Railway database variables not available after retry. Response: ${JSON.stringify(retryData)}`)
+      if (variablesData.errors) {
+        console.log(`[Railway] Variables query error: ${JSON.stringify(variablesData.errors)}`)
+        continue
       }
 
-      const retryVariables = retryData.data.service.variables
-      const dbUrl = `postgresql://${retryVariables.PGUSER}:${retryVariables.PGPASSWORD}@${retryVariables.PGHOST}:${retryVariables.PGPORT}/${retryVariables.PGDATABASE}`
+      const vars = variablesData.data?.variables || {}
 
-      console.log(`[Railway] Database provisioned successfully (after retry)`)
-
-      return {
-        url: dbUrl,
-        id: service.id,
+      if (vars.PGHOST && vars.PGPASSWORD) {
+        // Build connection string from PostgreSQL variables
+        dbUrl = `postgresql://${vars.PGUSER || 'postgres'}:${vars.PGPASSWORD}@${vars.PGHOST}:${vars.PGPORT || '5432'}/${vars.PGDATABASE || 'railway'}`
+        console.log(`[Railway] Database provisioned successfully (attempt ${attempt})`)
+      } else if (vars.DATABASE_URL) {
+        // Some templates provide DATABASE_URL directly
+        dbUrl = vars.DATABASE_URL
+        console.log(`[Railway] Database URL found directly (attempt ${attempt})`)
       }
     }
 
-    // Build connection string from variables
-    const dbUrl = `postgresql://${variables.PGUSER}:${variables.PGPASSWORD}@${variables.PGHOST}:${variables.PGPORT}/${variables.PGDATABASE}`
-
-    console.log(`[Railway] Database provisioned successfully`)
+    if (!dbUrl) {
+      // Railway per-project provisioning failed. Fall back to the shared Railway PostgreSQL.
+      console.warn('[Railway] Per-project provisioning timed out. Falling back to shared PostgreSQL...')
+      return await createSharedDatabase({ name: data.name, domain: data.domain, serviceId: service.id })
+    }
 
     return {
       url: dbUrl,
@@ -193,7 +204,76 @@ export async function createRailwayDatabase(data: {
     }
   } catch (error: any) {
     console.error('[Railway] Error provisioning database:', error)
+
+    // If Railway project/service creation fails entirely, try the shared fallback
+    const platformUrl = process.env.PLATFORM_DATABASE_URL
+    if (platformUrl) {
+      console.warn('[Railway] Falling back to shared PostgreSQL after error:', error.message)
+      return await createSharedDatabase({ name: data.name, domain: data.domain })
+    }
+
     throw error
+  }
+}
+
+/**
+ * Create a database on the shared Railway PostgreSQL server.
+ * Used as fallback when per-project provisioning fails.
+ *
+ * Requires PLATFORM_DATABASE_URL to point to the shared Railway PostgreSQL instance.
+ * The DB name is derived from the client domain: "client_[domain]" (e.g., "client_plastimed01").
+ */
+async function createSharedDatabase(data: {
+  name: string
+  domain: string
+  serviceId?: string
+}): Promise<{ url: string; id: string }> {
+  const platformUrl = process.env.PLATFORM_DATABASE_URL
+
+  if (!platformUrl) {
+    throw new Error(
+      'Railway per-project provisioning failed and PLATFORM_DATABASE_URL is not set as fallback.',
+    )
+  }
+
+  // Derive safe database name: lowercase, alphanumeric + underscores only
+  const dbName = `client_${data.domain.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`
+
+  console.log(`[Railway] Creating database '${dbName}' on shared PostgreSQL server...`)
+
+  // Use Node.js pg module to create the database
+  const { Client } = await import('pg')
+
+  // Connect to the shared server (database 'postgres' or 'railway')
+  const adminUrl = platformUrl.replace(/\/[^/]*$/, '/postgres')
+
+  const adminClient = new Client({ connectionString: adminUrl })
+  await adminClient.connect()
+
+  try {
+    // Check if database already exists
+    const existing = await adminClient.query(
+      `SELECT 1 FROM pg_database WHERE datname = $1`,
+      [dbName],
+    )
+
+    if (existing.rowCount === 0) {
+      // CREATE DATABASE cannot be run in a transaction, so use direct query
+      await adminClient.query(`CREATE DATABASE "${dbName}"`)
+      console.log(`[Railway] Database '${dbName}' created on shared server`)
+    } else {
+      console.log(`[Railway] Database '${dbName}' already exists on shared server`)
+    }
+  } finally {
+    await adminClient.end()
+  }
+
+  // Build connection URL pointing to the new database
+  const clientDbUrl = platformUrl.replace(/\/[^/?]*(\?.*)?$/, `/${dbName}$1`)
+
+  return {
+    url: clientDbUrl,
+    id: data.serviceId || `shared-${dbName}`, // Synthetic ID for shared databases
   }
 }
 

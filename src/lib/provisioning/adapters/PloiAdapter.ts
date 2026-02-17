@@ -64,17 +64,41 @@ export class PloiAdapter implements DeploymentAdapter {
     domain: string
     environmentVariables?: Record<string, string>
     region?: string
+    port?: number // Assigned Node.js port (unique per site on the server)
+    gitRepo?: string // e.g. "org/repo"
+    gitBranch?: string // default "main"
   }) {
     const service = await this.getService()
+    const port = input.port || 3000
+    const gitRepo = input.gitRepo || process.env.PLOI_GIT_REPO || 'compassdigitalnl/compassdigital-cms'
+    const gitBranch = input.gitBranch || process.env.PLOI_GIT_BRANCH || 'main'
 
     // Create site on Ploi
     const siteResponse = await service.createSite(this.serverId, {
       root_domain: input.domain,
-      project_type: 'nodejs', // Default to Node.js for Payload CMS
-      web_directory: '/public', // Standard Payload public directory
+      project_type: 'nodejs', // Payload CMS runs on Node.js
+      web_directory: '/', // '/' prevents Ploi from creating a /public dir that blocks git clone
+      nodejs_port: port, // Tell Ploi which port Nginx should proxy to
     })
 
     const site = siteResponse.data
+    console.log(`[PloiAdapter] Site created: ${site.id} (${site.domain}) on port ${port}`)
+
+    // Remove Ploi's root-owned placeholder file so git clone can succeed
+    await this.clearSitePlaceholder(site.domain)
+
+    // Install git repository
+    try {
+      await service.installRepository(this.serverId, site.id, {
+        provider: 'github',
+        branch: gitBranch,
+        name: gitRepo,
+      })
+      console.log(`[PloiAdapter] Repository installed: ${gitRepo}@${gitBranch}`)
+    } catch (repoError: any) {
+      console.warn(`[PloiAdapter] Repository installation warning: ${repoError.message}`)
+      // Non-fatal: site may already have a repo, or user can set it manually
+    }
 
     // Setup environment variables if provided
     if (input.environmentVariables) {
@@ -82,8 +106,8 @@ export class PloiAdapter implements DeploymentAdapter {
       await service.updateEnvironment(this.serverId, site.id, envContent)
     }
 
-    // Setup deployment script for Payload CMS
-    const deploymentScript = this.generateDeploymentScript(input.environmentVariables || {})
+    // Setup deployment script for Payload CMS (using the assigned port)
+    const deploymentScript = this.generateDeploymentScript(port)
     await service.updateDeploymentScript(this.serverId, site.id, deploymentScript)
 
     return {
@@ -111,14 +135,15 @@ export class PloiAdapter implements DeploymentAdapter {
     }
 
     // Trigger deployment
-    const deploymentResponse = await service.deploySite(serverId, siteId)
+    // Note: Ploi API returns {"message":"..."} not {"data":{"id":...}}
+    await service.deploySite(serverId, siteId)
 
     // Get site info for URL
     const siteResponse = await service.getSite(serverId, siteId)
     const site = siteResponse.data
 
     return {
-      deploymentId: `${deploymentResponse.data.id}`,
+      deploymentId: `${serverId}-${siteId}`, // Use composite ID for monitoring
       deploymentUrl: `https://${site.domain}`,
       status: 'building' as const,
     }
@@ -138,26 +163,46 @@ export class PloiAdapter implements DeploymentAdapter {
     const siteId = parseInt(parts[1])
 
     try {
-      // Get latest logs
-      const logsResponse = await service.getLogs(serverId, siteId)
-      const latestLog = logsResponse.data[0]
+      // Primary check: site.status from Ploi tells us if deployment succeeded
+      // Ploi sets status='active' when the site is up, 'deploy-failed' on failure
+      const siteResponse = await service.getSite(serverId, siteId)
+      const site = siteResponse.data
+      const siteStatus = site.status?.toLowerCase() || ''
 
-      if (!latestLog) {
+      if (siteStatus === 'active') {
         return {
-          status: 'queued' as const,
-          url: undefined,
+          status: 'ready' as const,
+          url: `https://${site.domain}`,
           error: undefined,
         }
       }
 
-      // Check log description for deployment status
-      const description = latestLog.description?.toLowerCase() || ''
+      if (siteStatus === 'deploy-failed') {
+        // Try to get failure details from latest log
+        try {
+          const logsResponse = await service.getLogs(serverId, siteId)
+          const latestLog = logsResponse.data[0]
+          const description = latestLog?.description || 'Deploy failed'
+          return {
+            status: 'error' as const,
+            url: undefined,
+            error: description,
+          }
+        } catch {
+          return { status: 'error' as const, url: undefined, error: 'deploy-failed' }
+        }
+      }
+
+      // Fallback: check log descriptions for explicit success/failure keywords
+      // (covers edge cases where site.status may not update immediately)
+      const logsResponse = await service.getLogs(serverId, siteId)
+      const latestLog = logsResponse.data[0]
+      const description = latestLog?.description?.toLowerCase() || ''
 
       if (description.includes('deployed successfully') || description.includes('deployment successful')) {
-        const siteResponse = await service.getSite(serverId, siteId)
         return {
           status: 'ready' as const,
-          url: `https://${siteResponse.data.domain}`,
+          url: `https://${site.domain}`,
           error: undefined,
         }
       }
@@ -170,7 +215,7 @@ export class PloiAdapter implements DeploymentAdapter {
         }
       }
 
-      // Still building
+      // Still building / installing
       return {
         status: 'building' as const,
         url: undefined,
@@ -186,23 +231,22 @@ export class PloiAdapter implements DeploymentAdapter {
   }
 
   /**
-   * Configure custom domain and SSL
+   * Get server IP for DNS configuration.
+   * NOTE: SSL certificate is NOT requested here — the ProvisioningService
+   * handles SSL separately after verifying DNS propagation.
    */
   async configureDomain(input: { projectId: string; domain: string }) {
     const service = await this.getService()
-    const { serverId, siteId } = this.parseProjectId(input.projectId)
+    const { serverId } = this.parseProjectId(input.projectId)
 
     // Get server details to retrieve IP address
     const serverResponse = await service.getServer(serverId)
     const serverIp = serverResponse.data.ip_address
 
-    // Create SSL certificate (Let's Encrypt)
-    await service.createCertificate(serverId, siteId)
-
     return {
       domain: input.domain,
       configured: true,
-      serverIp, // Return server IP for DNS configuration
+      serverIp, // Return server IP for DNS A-record creation
       dnsRecords: [
         {
           type: 'A',
@@ -224,8 +268,9 @@ export class PloiAdapter implements DeploymentAdapter {
     const { serverId, siteId } = this.parseProjectId(input.projectId)
 
     // Get existing env content
+    // Ploi returns { data: "env-string" } — data is directly the string content
     const envResponse = await service.getEnvironment(serverId, siteId)
-    const existingEnv = PloiService.envStringToObject(envResponse.data.content)
+    const existingEnv = PloiService.envStringToObject(envResponse.data as string)
 
     // Merge with new variables
     const mergedEnv = { ...existingEnv, ...input.variables }
@@ -266,6 +311,58 @@ export class PloiAdapter implements DeploymentAdapter {
   // ===== Helper Methods =====
 
   /**
+   * Remove the root-owned placeholder file Ploi creates when a site is provisioned.
+   *
+   * When Ploi creates a Node.js site it drops a root-owned `index.html` in the
+   * site's home directory. This causes `git clone` to fail with:
+   *   "rm: cannot remove '.../index.html': Permission denied"
+   *
+   * We work around it by creating a one-shot Ploi Script that runs as root,
+   * executing it on our server, waiting briefly, then deleting the script.
+   */
+  private async clearSitePlaceholder(domain: string): Promise<void> {
+    const service = await this.getService()
+    const siteDir = `/home/ploi/${domain}`
+    const scriptLabel = `clear-placeholder-${domain}-${Date.now()}`
+    const scriptContent = `#!/bin/bash
+# Remove root-owned placeholder files created by Ploi so git clone can succeed
+rm -f "${siteDir}/index.html"
+rm -f "${siteDir}/index.php"
+echo "Placeholder files removed from ${siteDir}"`
+
+    let scriptId: number | null = null
+
+    try {
+      const created = await service.createScript({
+        label: scriptLabel,
+        content: scriptContent,
+        user: 'root',
+      })
+      scriptId = created.data.id
+      console.log(`[PloiAdapter] Created placeholder-removal script: ${scriptId}`)
+
+      await service.runScript(scriptId, [this.serverId])
+      console.log(`[PloiAdapter] Running placeholder-removal script on server ${this.serverId}`)
+
+      // Give Ploi ~5 seconds to execute the script before we proceed
+      await new Promise((resolve) => setTimeout(resolve, 5000))
+    } catch (err: any) {
+      console.warn(`[PloiAdapter] clearSitePlaceholder warning: ${err.message}`)
+      // Non-fatal: if it fails we still attempt the clone
+    } finally {
+      // Always clean up the temporary script
+      if (scriptId) {
+        try {
+          await service.deleteScript(scriptId)
+          console.log(`[PloiAdapter] Deleted placeholder-removal script: ${scriptId}`)
+        } catch {
+          // Ignore cleanup errors
+        }
+      }
+    }
+  }
+
+  /**
    * Parse composite project ID (serverId-siteId)
    */
   private parseProjectId(projectId: string): { serverId: number; siteId: number } {
@@ -278,30 +375,40 @@ export class PloiAdapter implements DeploymentAdapter {
 
   /**
    * Generate deployment script for Payload CMS
+   * @param port - The unique Node.js port assigned to this site
+   *
+   * NOTE: Ploi automatically does `git clone` (first time) or `git pull` (subsequent)
+   * BEFORE running this script. Do NOT include git operations here.
    */
-  private generateDeploymentScript(env: Record<string, string>): string {
+  private generateDeploymentScript(port: number): string {
     return `#!/bin/bash
 set -e
 
-echo "🚀 Starting Payload CMS deployment..."
+echo "Starting Payload CMS deployment (port ${port})..."
 
-# Pull latest code from Git
-echo "📥 Pulling latest code..."
-git pull origin main
-
-# Install dependencies
-echo "📦 Installing dependencies..."
-npm ci --production=false
+# Install dependencies (pnpm preferred, npm fallback)
+echo "Installing dependencies..."
+if command -v pnpm &>/dev/null; then
+  pnpm install --frozen-lockfile
+else
+  npm ci --production=false
+fi
 
 # Build application
-echo "🔨 Building application..."
-npm run build
+echo "Building application..."
+NODE_OPTIONS="--no-deprecation --max-old-space-size=2048" npm run build
 
-# Restart application (using PM2)
-echo "🔄 Restarting application..."
-pm2 restart payload-cms || pm2 start ecosystem.config.js --env production
+# Restart application via PM2 on the assigned port
+echo "Restarting application on port ${port}..."
 
-echo "✅ Deployment completed successfully!"
+if pm2 describe payload-cms &>/dev/null; then
+  PORT=${port} pm2 restart payload-cms --update-env
+else
+  PORT=${port} pm2 start npm --name "payload-cms" -- start
+  pm2 save
+fi
+
+echo "Deployment completed on port ${port}!"
 `
   }
 }

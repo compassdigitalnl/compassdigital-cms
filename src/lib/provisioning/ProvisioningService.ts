@@ -2,12 +2,15 @@
  * Provisioning Service
  *
  * Orchestrates the complete client provisioning workflow:
- * 1. Create Vercel/Ploi project
- * 2. Deploy site code
- * 3. Configure environment variables
- * 4. Setup custom domains
- * 5. Monitor deployment
- * 6. Update client record
+ * 1. Allocate unique server port
+ * 2. Provision Railway PostgreSQL database
+ * 3. Create Ploi site (with git repo + deploy script)
+ * 4. Configure DNS (Cloudflare A-record) — early, so propagation starts
+ * 5. Set environment variables (with DATABASE_URL + PORT)
+ * 6. Trigger first deployment
+ * 7. Monitor deployment
+ * 8. Wait for DNS propagation, then request SSL certificate
+ * 9. Update client record
  *
  * Supports multiple deployment providers via adapter pattern
  */
@@ -50,12 +53,12 @@ export class ProvisioningService {
    * Main provisioning workflow
    */
   async provision(input: ProvisioningInput): Promise<ProvisioningResult> {
-    const startTime = Date.now()
     const logs: string[] = []
     let projectId: string | undefined
     let deploymentId: string | undefined
     let databaseId: string | undefined
     let databaseUrl: string | undefined
+    let assignedPort: number | undefined
 
     // Progress callback helper
     const reportProgress = async (
@@ -74,20 +77,28 @@ export class ProvisioningService {
 
       logs.push(`[${status}] ${message}`)
 
-      // Call user-provided callback
       if (input.onProgress) {
         await input.onProgress(progress)
       }
 
-      // Call service-level callback
       if (this.options.onProgress) {
         await this.options.onProgress(progress)
       }
     }
 
     try {
-      // Step 1: Provision Database (Railway)
-      await reportProgress('creating_database', 'Provisioning PostgreSQL database...', 5)
+      // ── Step 1: Allocate unique port ──────────────────────────────────────
+      await reportProgress('creating_project', 'Allocating unique server port...', 3)
+
+      const { getNextAvailablePort } = await import('./portAllocator')
+      assignedPort = await getNextAvailablePort()
+      logs.push(`Port allocated: ${assignedPort}`)
+      console.log(`[ProvisioningService] Assigned port: ${assignedPort}`)
+
+      await reportProgress('creating_project', `Port ${assignedPort} allocated`, 5, { port: assignedPort })
+
+      // ── Step 2: Provision Railway PostgreSQL database ─────────────────────
+      await reportProgress('creating_database', 'Provisioning PostgreSQL database on Railway...', 7)
 
       const { createRailwayDatabase } = await import('@/platform/integrations/railway')
 
@@ -103,89 +114,79 @@ export class ProvisioningService {
       await reportProgress(
         'creating_database',
         'Database provisioned successfully',
-        10,
-        { databaseId, databaseUrl: 'postgresql://***:***@***' }, // Masked for security
+        12,
+        { databaseId, databaseUrl: 'postgresql://***:***@***' },
       )
 
-      // Step 2: Create project on Ploi
-      await reportProgress('creating_project', 'Creating deployment project on Ploi...', 15)
+      // ── Step 3: Build environment variables (needed before site creation) ─
+      const environmentVariables = this.buildEnvironmentVariables(input, databaseUrl!, assignedPort)
+
+      // ── Step 4: Create Ploi site (with repo + deploy script + env vars) ───
+      await reportProgress('creating_project', 'Creating site on Ploi...', 15)
 
       const project = await this.adapter.createProject({
         name: input.domain,
-        domain: input.domain,
+        domain: `${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`,
         region: input.region,
-      })
+        port: assignedPort,
+        environmentVariables,
+        // gitRepo / gitBranch come from env vars in PloiAdapter
+      } as any)
 
       projectId = project.projectId
       logs.push(`Project created: ${projectId}`)
 
       await reportProgress(
         'creating_project',
-        `Project created: ${project.projectUrl}`,
-        20,
+        `Site created: ${project.projectUrl}`,
+        22,
         { projectId, projectUrl: project.projectUrl },
       )
 
-      // Step 3: Configure DNS (Cloudflare) - Do this EARLY so DNS propagates during deployment!
-      await reportProgress('configuring_dns', 'Configuring DNS records...', 22)
+      // ── Step 5: Configure Cloudflare DNS — early, so it propagates ────────
+      await reportProgress('configuring_dns', 'Configuring Cloudflare DNS A-record...', 25)
+
+      let serverIp: string | undefined
 
       try {
         const dnsResult = await this.configureDNS(projectId, input.domain)
+        serverIp = dnsResult.serverIp
         logs.push(`DNS configured: ${dnsResult.record.name} → ${dnsResult.record.content}`)
 
-        await reportProgress('configuring_dns', 'DNS records configured successfully', 25, {
+        await reportProgress('configuring_dns', `DNS A-record created: ${dnsResult.record.name}`, 30, {
           dnsRecord: `${dnsResult.record.name} → ${dnsResult.record.content}`,
         })
       } catch (dnsError: any) {
-        // Log DNS error but don't fail the deployment
-        // The site is still accessible via IP or Ploi test domain
-        logs.push(`⚠️  DNS configuration failed: ${dnsError.message}`)
-        console.error('DNS configuration error:', dnsError)
+        logs.push(`⚠️ DNS configuration failed: ${dnsError.message}`)
+        console.error('[ProvisioningService] DNS error:', dnsError)
 
-        await reportProgress('configuring_dns', '⚠️ DNS configuration skipped (not critical)', 25, {
-          warning: 'DNS not configured - manual setup required',
+        await reportProgress('configuring_dns', '⚠️ DNS configuration skipped (manual setup required)', 30, {
+          warning: dnsError.message,
         })
       }
 
-      // Step 4: Prepare environment variables (with database URL)
-      await reportProgress('configuring_env', 'Configuring environment variables...', 30)
+      // ── Step 6: Trigger deployment ────────────────────────────────────────
+      await reportProgress('deploying', 'Triggering first deployment...', 35)
 
-      const environmentVariables = this.buildEnvironmentVariables(input, databaseUrl!)
-
-      await this.adapter.updateEnvironmentVariables({
-        projectId,
-        variables: environmentVariables,
-      })
-
-      logs.push(`Environment variables configured: ${Object.keys(environmentVariables).length} vars`)
-
-      await reportProgress('configuring_env', 'Environment variables configured', 35)
-
-      // Step 5: Deploy site
-      await reportProgress('deploying', 'Starting deployment...', 40)
-
-      const deployment = await this.adapter.deploy({
-        projectId,
-        environmentVariables,
-      })
+      const deployment = await this.adapter.deploy({ projectId })
 
       deploymentId = deployment.deploymentId
       logs.push(`Deployment started: ${deploymentId}`)
 
       await reportProgress(
         'deploying',
-        'Deployment in progress...',
-        50,
+        'Deployment in progress (this can take 5-15 minutes)...',
+        40,
         { deploymentId, deploymentUrl: deployment.deploymentUrl },
       )
 
-      // Step 6: Monitor deployment
-      await reportProgress('deploying', 'Monitoring deployment status...', 60)
+      // ── Step 7: Monitor deployment ────────────────────────────────────────
+      await reportProgress('deploying', 'Monitoring build & deployment status...', 50)
 
       const deploymentResult = await this.monitorDeployment(
         deploymentId,
         (percentage) => {
-          reportProgress('deploying', `Building site... ${percentage}%`, 60 + percentage * 0.3)
+          reportProgress('deploying', `Building... ${percentage}%`, 50 + percentage * 0.3)
         },
       )
 
@@ -195,12 +196,20 @@ export class ProvisioningService {
 
       logs.push(`Deployment completed: ${deploymentResult.url}`)
 
-      await reportProgress('deploying', 'Deployment completed successfully', 90, {
+      await reportProgress('deploying', 'Deployment completed successfully', 80, {
         deploymentUrl: deploymentResult.url,
       })
 
-      // Step 7: Update client record in database
-      await reportProgress('completed', 'Updating client record...', 95)
+      // ── Step 8: Wait for DNS propagation, then request SSL ────────────────
+      // DNS propagation takes 1-5 minutes after record creation.
+      // We do this AFTER deployment finishes so time has passed already.
+      await reportProgress('configuring_domains', 'Waiting for DNS propagation before requesting SSL...', 82)
+
+      const fullDomain = `${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`
+      await this.waitForDNSAndRequestSSL(projectId, fullDomain, serverIp, logs, reportProgress)
+
+      // ── Step 9: Save port + URLs to client record ─────────────────────────
+      await reportProgress('completed', 'Updating client record in database...', 95)
 
       const payload = await getPayload({ config })
 
@@ -208,33 +217,34 @@ export class ProvisioningService {
         collection: 'clients',
         id: input.clientId,
         data: {
-          deploymentUrl: deploymentResult.url,
-          adminUrl: `${deploymentResult.url}/admin`,
+          deploymentUrl: deploymentResult.url || `https://${fullDomain}`,
+          adminUrl: `${deploymentResult.url || `https://${fullDomain}`}/admin`,
           status: 'active',
           deploymentProvider: this.adapter.provider,
           deploymentProviderId: projectId,
           lastDeploymentId: deploymentId,
           lastDeployedAt: new Date().toISOString(),
-          databaseUrl: databaseUrl, // ✅ Store encrypted database URL
-          databaseProviderId: databaseId, // ✅ Railway service ID
+          databaseUrl: databaseUrl,
+          databaseProviderId: databaseId,
+          port: assignedPort,
         },
       })
 
-      logs.push('Client record updated with database info')
+      logs.push('Client record updated')
 
-      // Step 6: Complete!
       await reportProgress('completed', 'Provisioning completed successfully!', 100, {
         deploymentUrl: deploymentResult.url,
         adminUrl: `${deploymentResult.url}/admin`,
+        port: assignedPort,
       })
 
       return {
         success: true,
         clientId: input.clientId,
-        deploymentUrl: deploymentResult.url,
-        adminUrl: `${deploymentResult.url}/admin`,
+        deploymentUrl: deploymentResult.url || `https://${fullDomain}`,
+        adminUrl: `${deploymentResult.url || `https://${fullDomain}`}/admin`,
         providerId: projectId,
-        deploymentId: deploymentId,
+        deploymentId,
         status: 'completed',
         completedAt: new Date(),
         logs,
@@ -246,7 +256,16 @@ export class ProvisioningService {
         error: error.message,
       })
 
-      // Rollback if configured
+      // Update client record to 'failed' status
+      try {
+        const payload = await getPayload({ config })
+        await payload.update({
+          collection: 'clients',
+          id: input.clientId,
+          data: { status: 'failed' },
+        })
+      } catch (_) { /* ignore */ }
+
       if (this.options.rollbackOnError) {
         await this.rollback(projectId, databaseId, input, logs)
       }
@@ -262,20 +281,26 @@ export class ProvisioningService {
   }
 
   /**
-   * Build environment variables for deployment
+   * Build environment variables for the client site deployment
    */
-  private buildEnvironmentVariables(input: ProvisioningInput, databaseUrl: string): Record<string, string> {
-    const baseUrl = `https://${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`
+  private buildEnvironmentVariables(
+    input: ProvisioningInput,
+    databaseUrl: string,
+    port: number,
+  ): Record<string, string> {
+    const baseDomain = process.env.PLATFORM_BASE_URL || 'compassdigital.nl'
+    const baseUrl = `https://${input.domain}.${baseDomain}`
 
     return {
-      // Payload configuration
+      // Core Payload / Next.js
       PAYLOAD_SECRET: this.generateSecret(),
-      DATABASE_URL: databaseUrl, // ✅ Client-specific database!
+      DATABASE_URL: databaseUrl,
       NEXT_PUBLIC_SERVER_URL: baseUrl,
       NODE_ENV: 'production',
+      PORT: String(port),
 
-      // Platform configuration
-      PLATFORM_BASE_URL: process.env.PLATFORM_BASE_URL || 'compassdigital.nl',
+      // Platform metadata
+      PLATFORM_BASE_URL: baseDomain,
       CLIENT_ID: input.clientId,
       CLIENT_NAME: input.clientName,
 
@@ -283,13 +308,13 @@ export class ProvisioningService {
       SITE_NAME: input.siteData.siteName,
       PRIMARY_COLOR: input.siteData.primaryColor || '#3B82F6',
 
-      // Optional: User-provided variables
+      // Optional: user-provided overrides
       ...input.environmentVariables,
     }
   }
 
   /**
-   * Generate secure random secret
+   * Generate a secure random 32-char secret
    */
   private generateSecret(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -301,112 +326,45 @@ export class ProvisioningService {
   }
 
   /**
-   * Monitor deployment until completion
-   */
-  private async monitorDeployment(
-    deploymentId: string,
-    onProgress?: (percentage: number) => void,
-  ): Promise<{ status: string; url?: string; error?: string }> {
-    const startTime = Date.now()
-    const timeout = this.options.deploymentTimeout || 600000
-    let attempts = 0
-    const maxAttempts = 120 // Check every 5 seconds for 10 minutes
-
-    while (attempts < maxAttempts) {
-      // Check timeout
-      if (Date.now() - startTime > timeout) {
-        throw new Error('Deployment timeout exceeded')
-      }
-
-      try {
-        const status = await this.adapter.getDeploymentStatus(deploymentId)
-
-        // Calculate progress percentage
-        const percentage = Math.min(95, Math.floor((attempts / maxAttempts) * 100))
-        if (onProgress) {
-          onProgress(percentage)
-        }
-
-        // Check status
-        if (status.status === 'ready') {
-          return { status: 'ready', url: status.url }
-        }
-
-        if (status.status === 'error' || status.status === 'canceled') {
-          return { status: 'error', error: status.error || 'Deployment failed' }
-        }
-
-        // Still building, wait and retry
-        await this.sleep(5000)
-        attempts++
-      } catch (error: any) {
-        // Retry on error
-        if (attempts >= this.options.maxRetries!) {
-          throw error
-        }
-        await this.sleep(this.options.retryDelay!)
-        attempts++
-      }
-    }
-
-    throw new Error('Deployment monitoring exceeded maximum attempts')
-  }
-
-  /**
    * Configure DNS via Cloudflare
+   * Returns the server IP and the created record details
    */
   private async configureDNS(
     projectId: string,
     subdomain: string,
-  ): Promise<{ success: boolean; record: { name: string; content: string } }> {
-    // Check if adapter supports domain configuration
+  ): Promise<{ success: boolean; serverIp: string; record: { name: string; content: string } }> {
     if (!this.adapter.configureDomain) {
       throw new Error('Deployment adapter does not support domain configuration')
     }
 
-    // Get domain configuration from adapter
+    const baseDomain = process.env.PLATFORM_BASE_URL || 'compassdigital.nl'
+    const fullDomain = `${subdomain}.${baseDomain}`
+
+    // Get server IP from Ploi adapter
     const domainConfig = await this.adapter.configureDomain({
       projectId,
-      domain: `${subdomain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`,
+      domain: fullDomain,
     })
 
     if (!domainConfig.serverIp) {
       throw new Error('Server IP not available from deployment adapter')
     }
 
-    // Store server IP for later use
     const serverIp = domainConfig.serverIp
 
-    // Initialize Cloudflare service
+    // Create/update Cloudflare A record
     const { createCloudflareService } = await import('@/lib/cloudflare/CloudflareService')
     const cloudflare = createCloudflareService()
 
-    // Construct full domain name
-    const fullDomain = `${subdomain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`
-
-    // Create or update A record pointing to server IP
     const record = await cloudflare.createOrUpdateARecord(
       fullDomain,
       serverIp,
-      false, // Don't proxy through Cloudflare (for now)
+      false, // Don't proxy through Cloudflare (required for Let's Encrypt)
     )
-
-    // Verify DNS propagation (optional, non-blocking)
-    setTimeout(async () => {
-      try {
-        const verified = await cloudflare.verifyDNSRecord(fullDomain, serverIp, 5)
-        if (verified) {
-          console.log(`✅ DNS verified for ${fullDomain}`)
-        } else {
-          console.warn(`⚠️  DNS not yet propagated for ${fullDomain} (this is normal, may take a few minutes)`)
-        }
-      } catch (error) {
-        console.error('DNS verification error:', error)
-      }
-    }, 5000)
 
     return {
       success: true,
+      serverIp,
       record: {
         name: record.name,
         content: record.content,
@@ -415,7 +373,154 @@ export class ProvisioningService {
   }
 
   /**
-   * Rollback failed provisioning
+   * Wait for DNS to propagate, then request SSL certificate.
+   * Uses active DNS polling — max 10 minutes wait.
+   */
+  private async waitForDNSAndRequestSSL(
+    projectId: string,
+    fullDomain: string,
+    serverIp: string | undefined,
+    logs: string[],
+    reportProgress: (status: ProvisioningStatus, message: string, pct: number, meta?: any) => Promise<void>,
+  ): Promise<void> {
+    if (!serverIp) {
+      logs.push('⚠️ Skipping SSL: server IP unknown (DNS was not configured)')
+      return
+    }
+
+    const { createCloudflareService } = await import('@/lib/cloudflare/CloudflareService')
+    const cloudflare = createCloudflareService()
+
+    const MAX_WAIT_MS = 10 * 60 * 1000 // 10 minutes
+    const POLL_INTERVAL_MS = 30 * 1000  // check every 30 seconds
+    const startTime = Date.now()
+    let dnsVerified = false
+
+    console.log(`[ProvisioningService] Waiting for DNS propagation: ${fullDomain} → ${serverIp}`)
+
+    while (Date.now() - startTime < MAX_WAIT_MS) {
+      const elapsed = Math.round((Date.now() - startTime) / 1000)
+
+      await reportProgress(
+        'configuring_domains',
+        `Waiting for DNS propagation... (${elapsed}s elapsed)`,
+        84,
+      )
+
+      try {
+        dnsVerified = await cloudflare.verifyDNSRecord(fullDomain, serverIp, 1)
+      } catch (_) {
+        dnsVerified = false
+      }
+
+      if (dnsVerified) {
+        logs.push(`DNS propagated for ${fullDomain} after ~${elapsed}s`)
+        console.log(`[ProvisioningService] DNS verified for ${fullDomain} after ${elapsed}s`)
+        break
+      }
+
+      await this.sleep(POLL_INTERVAL_MS)
+    }
+
+    if (!dnsVerified) {
+      logs.push(`⚠️ DNS not verified after 10 minutes for ${fullDomain} — skipping SSL`)
+      await reportProgress('configuring_domains', '⚠️ DNS propagation timed out — SSL skipped', 88, {
+        warning: 'SSL certificate not provisioned. Request it manually once DNS is working.',
+      })
+      return
+    }
+
+    // Request Let's Encrypt SSL via Ploi
+    await reportProgress('configuring_domains', 'Requesting Let\'s Encrypt SSL certificate...', 88)
+
+    try {
+      const { serverId, siteId } = this.parsePloiProjectId(projectId)
+
+      // We need to call Ploi's certificate endpoint directly
+      const PloiServiceModule = await import('@/lib/ploi/PloiService')
+      const PloiServiceClass = PloiServiceModule.PloiService
+
+      const ploiService = new PloiServiceClass({
+        apiToken: process.env.PLOI_API_TOKEN!,
+      })
+
+      await ploiService.createCertificate(serverId, siteId)
+      logs.push(`SSL certificate requested for ${fullDomain}`)
+
+      await reportProgress('configuring_domains', 'SSL certificate requested (Let\'s Encrypt)', 92, {
+        domain: fullDomain,
+        ssl: true,
+      })
+    } catch (sslError: any) {
+      logs.push(`⚠️ SSL request failed: ${sslError.message}`)
+      console.error('[ProvisioningService] SSL error:', sslError)
+
+      await reportProgress('configuring_domains', `⚠️ SSL failed: ${sslError.message}`, 90, {
+        warning: sslError.message,
+      })
+    }
+  }
+
+  /**
+   * Parse Ploi composite project ID (serverId-siteId)
+   */
+  private parsePloiProjectId(projectId: string): { serverId: number; siteId: number } {
+    const parts = projectId.split('-')
+    return {
+      serverId: parseInt(parts[0]),
+      siteId: parseInt(parts[1]),
+    }
+  }
+
+  /**
+   * Monitor deployment until completion or timeout
+   */
+  private async monitorDeployment(
+    deploymentId: string,
+    onProgress?: (percentage: number) => void,
+  ): Promise<{ status: string; url?: string; error?: string }> {
+    const startTime = Date.now()
+    const timeout = this.options.deploymentTimeout || 600000
+    let attempts = 0
+    const maxAttempts = 120 // check every 5s for 10 min
+
+    while (attempts < maxAttempts) {
+      if (Date.now() - startTime > timeout) {
+        throw new Error('Deployment timeout exceeded')
+      }
+
+      try {
+        const status = await this.adapter.getDeploymentStatus(deploymentId)
+
+        const percentage = Math.min(95, Math.floor((attempts / maxAttempts) * 100))
+        if (onProgress) {
+          onProgress(percentage)
+        }
+
+        if (status.status === 'ready') {
+          return { status: 'ready', url: status.url }
+        }
+
+        if (status.status === 'error' || status.status === 'canceled') {
+          return { status: 'error', error: status.error || 'Deployment failed' }
+        }
+
+        await this.sleep(5000)
+        attempts++
+      } catch (error: any) {
+        if (attempts >= (this.options.maxRetries || 3)) {
+          throw error
+        }
+        await this.sleep(this.options.retryDelay || 5000)
+        attempts++
+      }
+    }
+
+    throw new Error('Deployment monitoring exceeded maximum attempts')
+  }
+
+  /**
+   * Rollback a failed provisioning
    */
   private async rollback(
     projectId: string | undefined,
@@ -426,20 +531,17 @@ export class ProvisioningService {
     logs.push('ROLLBACK: Starting rollback...')
 
     try {
-      // Delete Ploi project
       if (this.options.rollbackConfig?.deleteProject && projectId) {
         await this.adapter.deleteProject(projectId)
         logs.push('ROLLBACK: Deleted Ploi site')
       }
 
-      // Delete Railway database
       if (this.options.rollbackConfig?.deleteDatabase && databaseId) {
         const { deleteRailwayDatabase } = await import('@/platform/integrations/railway')
         await deleteRailwayDatabase(databaseId)
         logs.push('ROLLBACK: Deleted Railway database')
       }
 
-      // Delete client record
       if (this.options.rollbackConfig?.deleteClient) {
         const payload = await getPayload({ config })
         await payload.delete({
@@ -455,9 +557,6 @@ export class ProvisioningService {
     }
   }
 
-  /**
-   * Sleep helper
-   */
   private sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
@@ -465,15 +564,11 @@ export class ProvisioningService {
 
 /**
  * Factory function to create ProvisioningService with specified adapter
- *
- * @param provider - Deployment provider ('vercel' or 'ploi')
- * @param options - Provisioning options
  */
 export async function createProvisioningService(
-  provider: 'vercel' | 'ploi' = 'vercel',
+  provider: 'vercel' | 'ploi' = 'ploi',
   options?: ProvisioningOptions,
 ): Promise<ProvisioningService> {
-  // Lazy import adapter to avoid build-time initialization
   let adapter
 
   if (provider === 'ploi') {
