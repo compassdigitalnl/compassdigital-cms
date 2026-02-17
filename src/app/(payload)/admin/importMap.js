@@ -14,6 +14,8 @@ import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864
 import { IndentFeatureClient as IndentFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { TableFeatureClient as TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { IconPickerField as IconPickerField_96fa91b3a1147f26fe9c9a414cfa6358 } from '@/components/IconPickerField'
+import { SEOScorePanel as SEOScorePanel_6ccdf1604ea00b0dd3eb22dad6ce4df8 } from '@/components/seo/SEOScorePanel'
+import { SchemaPreviewPanel as SchemaPreviewPanel_778ef300d0f9e2079aa27a8b3c38813c } from '@/components/seo/SchemaPreviewPanel'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -22,6 +24,7 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { AdminLogo as AdminLogo_aa0a2d19d38a4839dbd373417e210b89 } from '@/components/AdminLogo'
 import { BeforeDashboard as BeforeDashboard_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
 import { BeforeLogin as BeforeLogin_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
+import { ClientSwitcher as ClientSwitcher_283e2bf920ec62b4c0ae6cc1e2109a71 } from '@/components/platform/ClientSwitcher'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -41,6 +44,8 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#IndentFeatureClient": IndentFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#TableFeatureClient": TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/IconPickerField#IconPickerField": IconPickerField_96fa91b3a1147f26fe9c9a414cfa6358,
+  "@/components/seo/SEOScorePanel#SEOScorePanel": SEOScorePanel_6ccdf1604ea00b0dd3eb22dad6ce4df8,
+  "@/components/seo/SchemaPreviewPanel#SchemaPreviewPanel": SchemaPreviewPanel_778ef300d0f9e2079aa27a8b3c38813c,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
@@ -49,5 +54,6 @@ export const importMap = {
   "@/components/AdminLogo#AdminLogo": AdminLogo_aa0a2d19d38a4839dbd373417e210b89,
   "@/components/BeforeDashboard#BeforeDashboard": BeforeDashboard_1a7510af427896d367a49dbf838d2de6,
   "@/components/BeforeLogin#BeforeLogin": BeforeLogin_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@/components/platform/ClientSwitcher#ClientSwitcher": ClientSwitcher_283e2bf920ec62b4c0ae6cc1e2109a71,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
