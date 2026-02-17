@@ -291,6 +291,20 @@ export class ProvisioningService {
     const baseDomain = process.env.PLATFORM_BASE_URL || 'compassdigital.nl'
     const baseUrl = `https://${input.domain}.${baseDomain}`
 
+    // Collect platform-level shared env vars (keys needed at build time and runtime)
+    const platformEnv: Record<string, string> = {}
+
+    // Stripe — needed at module load time in /api/stripe/webhooks/route.ts
+    if (process.env.STRIPE_SECRET_KEY) platformEnv.STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
+    if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) platformEnv.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    if (process.env.STRIPE_WEBHOOKS_SIGNING_SECRET) platformEnv.STRIPE_WEBHOOKS_SIGNING_SECRET = process.env.STRIPE_WEBHOOKS_SIGNING_SECRET
+
+    // AI APIs — needed if AI routes do SSG or early initialization
+    if (process.env.OPENAI_API_KEY) platformEnv.OPENAI_API_KEY = process.env.OPENAI_API_KEY
+
+    // Email
+    if (process.env.RESEND_API_KEY) platformEnv.RESEND_API_KEY = process.env.RESEND_API_KEY
+
     return {
       // Core Payload / Next.js
       PAYLOAD_SECRET: this.generateSecret(),
@@ -298,6 +312,7 @@ export class ProvisioningService {
       NEXT_PUBLIC_SERVER_URL: baseUrl,
       NODE_ENV: 'production',
       PORT: String(port),
+      NEXT_TELEMETRY_DISABLED: '1',
 
       // Platform metadata
       PLATFORM_BASE_URL: baseDomain,
@@ -308,7 +323,10 @@ export class ProvisioningService {
       SITE_NAME: input.siteData.siteName,
       PRIMARY_COLOR: input.siteData.primaryColor || '#3B82F6',
 
-      // Optional: user-provided overrides
+      // Platform-level shared keys (Stripe, OpenAI, etc.)
+      ...platformEnv,
+
+      // Optional: user-provided overrides (applied last, highest priority)
       ...input.environmentVariables,
     }
   }
