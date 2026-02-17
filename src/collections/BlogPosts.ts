@@ -18,7 +18,7 @@ export const BlogPosts: CollectionConfig = {
     },
     create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
     update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
-    delete: ({ req: { user } }) => checkRole(['admin'], user),
+    delete: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
   },
   versions: {
     drafts: {

@@ -21,7 +21,7 @@ export const Media: CollectionConfig = {
     read: () => true, // Media is always publicly accessible
     create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
     update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
-    delete: ({ req: { user } }) => checkRole(['admin'], user),
+    delete: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
   },
   fields: [
     {
