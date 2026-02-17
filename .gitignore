@@ -41,3 +41,10 @@ next-env.d.ts
 
 public/media
 
+# SQLite database (dev only - not for production)
+payload.db
+payload.db-shm
+payload.db-wal
+
+# Ploi deployment scripts (auto-generated, not needed in repo)
+ploi-*.sh
