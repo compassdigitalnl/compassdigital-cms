@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import { EventSource } from 'eventsource'
 
-const BASE_URL = 'http://localhost:3016'
+const BASE_URL = 'http://localhost:3020'
 
 // COMPLETE E-COMMERCE WIZARD DATA with ALL features
 const fullEcommerceData = {
@@ -239,14 +239,15 @@ async function generateFullEcommerce() {
 
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  console.log('🚀 Starting generation API call...\n')
+  console.log('🚀 Starting provisioning API call...\n')
   try {
-    const response = await fetch(`${BASE_URL}/api/wizard/generate-site`, {
+    const response = await fetch(`${BASE_URL}/api/wizard/provision-site`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         wizardData: fullEcommerceData,
         sseConnectionId: connectionId,
+        deploymentProvider: 'ploi',
       }),
     })
 
