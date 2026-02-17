@@ -11,8 +11,9 @@ import { ensureFirstUserIsAdmin } from './hooks/ensureFirstUserIsAdmin'
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    admin: ({ req: { user } }) => checkRole(['admin'], user),
-    create: adminOnly, // Alleen admin kan users aanmaken
+    // Both admin and editor roles can access the Payload admin panel
+    admin: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    create: adminOnly, // Only admins can create user accounts
     delete: adminOnly,
     read: adminOrSelf,
     update: adminOrSelf,
