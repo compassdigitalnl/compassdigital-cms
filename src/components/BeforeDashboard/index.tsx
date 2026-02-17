@@ -1,84 +1,312 @@
-import { Banner } from '@payloadcms/ui'
-import React from 'react'
+'use client'
 
-import { SeedButton } from './SeedButton'
+import { useAuth } from '@payloadcms/ui'
+import React from 'react'
 import './index.scss'
 
-const baseClass = 'before-dashboard'
+// ─────────────────────────────────────────────────────────────
+// Quick Action Card
+// ─────────────────────────────────────────────────────────────
+interface QuickActionProps {
+  href: string
+  icon: string
+  label: string
+  description: string
+  accent?: boolean
+  external?: boolean
+}
 
-export const BeforeDashboard: React.FC = () => {
+const QuickAction: React.FC<QuickActionProps> = ({
+  href,
+  icon,
+  label,
+  description,
+  accent = false,
+  external = false,
+}) => (
+  <a
+    href={href}
+    className={`cd-quick-action${accent ? ' cd-quick-action--accent' : ''}`}
+    target={external ? '_blank' : undefined}
+    rel={external ? 'noopener noreferrer' : undefined}
+  >
+    <span className="cd-quick-action__icon">{icon}</span>
+    <span className="cd-quick-action__label">{label}</span>
+    <span className="cd-quick-action__desc">{description}</span>
+    <span className="cd-quick-action__arrow">→</span>
+  </a>
+)
+
+// ─────────────────────────────────────────────────────────────
+// Stat Card
+// ─────────────────────────────────────────────────────────────
+interface StatCardProps {
+  value: string
+  label: string
+  icon: string
+  color: 'blue' | 'green' | 'orange' | 'purple'
+}
+
+const StatCard: React.FC<StatCardProps> = ({ value, label, icon, color }) => (
+  <div className={`cd-stat cd-stat--${color}`}>
+    <span className="cd-stat__icon">{icon}</span>
+    <span className="cd-stat__value">{value}</span>
+    <span className="cd-stat__label">{label}</span>
+  </div>
+)
+
+// ─────────────────────────────────────────────────────────────
+// Admin Dashboard
+// ─────────────────────────────────────────────────────────────
+const AdminDashboard: React.FC<{ userName: string }> = ({ userName }) => {
+  const firstName = userName?.split(' ')[0] || 'Admin'
+
   return (
-    <div className={baseClass}>
-      <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
-      </Banner>
-      Here&apos;s what to do next:
-      <ul className={`${baseClass}__instructions`}>
-        <li>
-          <SeedButton />
-          {' with a few products and pages to jump-start your new project, then '}
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-          <a href="/">visit your website</a>
-          {' to see the results.'}
-        </li>
-        <li>
-          {'Head over to '}
-          <a
-            href="https://dashboard.stripe.com/test/apikeys"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Stripe to obtain your API Keys
-          </a>
-          {
-            '. Create a new account if needed, then copy them into your environment variables and restart your server. See the '
-          }
-          <a
-            href="https://github.com/payloadcms/payload/blob/main/templates/ecommerce/README.md#stripe"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            README
-          </a>
-          {' for more details.'}
-        </li>
-        <li>
-          {'Modify your '}
-          <a
-            href="https://payloadcms.com/docs/configuration/collections"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            collections
-          </a>
-          {' and add more '}
-          <a
-            href="https://payloadcms.com/docs/fields/overview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            fields
-          </a>
-          {' as needed. If you are new to Payload, we also recommend you check out the '}
-          <a
-            href="https://payloadcms.com/docs/getting-started/what-is-payload"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Getting Started
-          </a>
-          {' docs.'}
-        </li>
-      </ul>
-      {'Pro Tip: This block is a '}
-      <a
-        href="https://payloadcms.com/docs/admin/components#base-component-overrides"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        custom component
-      </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
+    <div className="cd-dashboard">
+      {/* Hero */}
+      <div className="cd-hero cd-hero--admin">
+        <div className="cd-hero__content">
+          <p className="cd-hero__eyebrow">CompassDigital Platform</p>
+          <h1 className="cd-hero__title">Welkom terug, {firstName}</h1>
+          <p className="cd-hero__subtitle">
+            Beheer klant-sites, bekijk deployments en monitor het platform.
+          </p>
+        </div>
+        <div className="cd-hero__badge">CD</div>
+      </div>
+
+      {/* Stats row */}
+      <div className="cd-stats-row">
+        <StatCard value="—" label="Actieve klanten" icon="🏢" color="blue" />
+        <StatCard value="—" label="Deployments" icon="🚀" color="green" />
+        <StatCard value="—" label="Form inzendingen" icon="📬" color="orange" />
+        <StatCard value="—" label="Media bestanden" icon="🖼️" color="purple" />
+      </div>
+
+      {/* Platform acties */}
+      <div className="cd-section">
+        <h2 className="cd-section__title">Platform beheer</h2>
+        <div className="cd-grid cd-grid--3">
+          <QuickAction
+            href="/admin/collections/clients"
+            icon="🏢"
+            label="Klanten"
+            description="Bekijk en beheer alle klant-sites"
+            accent
+          />
+          <QuickAction
+            href="/admin/collections/deployments"
+            icon="🚀"
+            label="Deployments"
+            description="Deployment historie en status"
+          />
+          <QuickAction
+            href="/site-generator"
+            icon="✨"
+            label="Site Generator"
+            description="Genereer een nieuwe klant-site met AI"
+          />
+        </div>
+      </div>
+
+      {/* Content acties */}
+      <div className="cd-section">
+        <h2 className="cd-section__title">Content & design</h2>
+        <div className="cd-grid cd-grid--4">
+          <QuickAction
+            href="/admin/collections/pages"
+            icon="📄"
+            label="Pagina's"
+            description="Maak en bewerk pagina's"
+          />
+          <QuickAction
+            href="/admin/collections/blog-posts"
+            icon="✍️"
+            label="Blog"
+            description="Schrijf en publiceer artikelen"
+          />
+          <QuickAction
+            href="/admin/collections/media"
+            icon="🖼️"
+            label="Media"
+            description="Afbeeldingen en bestanden"
+          />
+          <QuickAction
+            href="/admin/globals/theme"
+            icon="🎨"
+            label="Theme"
+            description="Kleuren en typografie"
+          />
+        </div>
+      </div>
+
+      {/* Systeem */}
+      <div className="cd-section">
+        <h2 className="cd-section__title">Systeem</h2>
+        <div className="cd-grid cd-grid--3">
+          <QuickAction
+            href="/admin/collections/users"
+            icon="👥"
+            label="Gebruikers"
+            description="Beheer admin en editor accounts"
+          />
+          <QuickAction
+            href="/admin/collections/form-submissions"
+            icon="📬"
+            label="Formulieren"
+            description="Bekijk ingestuurde formulieren"
+          />
+          <QuickAction
+            href="/admin/globals/settings"
+            icon="⚙️"
+            label="Instellingen"
+            description="Site-brede configuratie"
+          />
+        </div>
+      </div>
     </div>
   )
+}
+
+// ─────────────────────────────────────────────────────────────
+// Editor Dashboard (Klant)
+// ─────────────────────────────────────────────────────────────
+const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
+  const firstName = userName?.split(' ')[0] || 'daar'
+
+  return (
+    <div className="cd-dashboard">
+      {/* Hero */}
+      <div className="cd-hero cd-hero--editor">
+        <div className="cd-hero__content">
+          <p className="cd-hero__eyebrow">Mijn website</p>
+          <h1 className="cd-hero__title">Hoi {firstName}! 👋</h1>
+          <p className="cd-hero__subtitle">
+            Alles wat je nodig hebt om jouw website te beheren staat hier. Kies hieronder waar je
+            mee aan de slag wil.
+          </p>
+        </div>
+        <a href="/" className="cd-hero__cta" target="_blank" rel="noopener noreferrer">
+          Bekijk mijn site →
+        </a>
+      </div>
+
+      {/* Meest gebruikt */}
+      <div className="cd-section">
+        <h2 className="cd-section__title">Snel aan de slag</h2>
+        <div className="cd-grid cd-grid--2">
+          <QuickAction
+            href="/admin/collections/pages/create"
+            icon="➕"
+            label="Nieuwe pagina"
+            description="Voeg een nieuwe pagina toe aan je website"
+            accent
+          />
+          <QuickAction
+            href="/admin/collections/pages"
+            icon="📄"
+            label="Pagina's beheren"
+            description="Bekijk en bewerk al je pagina's"
+            accent
+          />
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="cd-section">
+        <h2 className="cd-section__title">Content</h2>
+        <div className="cd-grid cd-grid--3">
+          <QuickAction
+            href="/admin/collections/blog-posts/create"
+            icon="✍️"
+            label="Nieuw artikel"
+            description="Schrijf een nieuw blog bericht"
+          />
+          <QuickAction
+            href="/admin/collections/blog-posts"
+            icon="📰"
+            label="Alle artikelen"
+            description="Beheer al je blog berichten"
+          />
+          <QuickAction
+            href="/admin/collections/media"
+            icon="🖼️"
+            label="Media uploaden"
+            description="Afbeeldingen en bestanden beheren"
+          />
+          <QuickAction
+            href="/admin/collections/testimonials"
+            icon="⭐"
+            label="Reviews"
+            description="Klantreviews beheren"
+          />
+          <QuickAction
+            href="/admin/collections/faqs"
+            icon="❓"
+            label="FAQ"
+            description="Veelgestelde vragen beheren"
+          />
+          <QuickAction
+            href="/admin/collections/cases"
+            icon="💼"
+            label="Projecten"
+            description="Portfolio projecten beheren"
+          />
+        </div>
+      </div>
+
+      {/* Design & instellingen */}
+      <div className="cd-section">
+        <h2 className="cd-section__title">Design & instellingen</h2>
+        <div className="cd-grid cd-grid--3">
+          <QuickAction
+            href="/admin/globals/theme"
+            icon="🎨"
+            label="Kleuren & stijl"
+            description="Pas het uiterlijk van je site aan"
+          />
+          <QuickAction
+            href="/admin/globals/footer"
+            icon="🔗"
+            label="Footer"
+            description="Bewerk de voettekst van je site"
+          />
+          <QuickAction
+            href="/admin/globals/settings"
+            icon="⚙️"
+            label="Instellingen"
+            description="Contactinfo en SEO instellingen"
+          />
+        </div>
+      </div>
+
+      {/* Tip box */}
+      <div className="cd-tip">
+        <span className="cd-tip__icon">💡</span>
+        <div className="cd-tip__content">
+          <strong>Tip:</strong> Gebruik de <strong>Live Preview</strong> knop bij het bewerken van
+          een pagina om direct te zien hoe wijzigingen er op je site uitzien — zonder te hoeven
+          opslaan.
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+// Main Export
+// ─────────────────────────────────────────────────────────────
+export const BeforeDashboard: React.FC = () => {
+  const { user } = useAuth()
+
+  if (!user) return null
+
+  const isAdmin = Array.isArray(user.roles) && user.roles.includes('admin')
+  const userName = (user as any).name || user.email || ''
+
+  if (isAdmin) {
+    return <AdminDashboard userName={userName} />
+  }
+
+  return <EditorDashboard userName={userName} />
 }
