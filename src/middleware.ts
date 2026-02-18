@@ -180,8 +180,11 @@ function extractSubdomain(hostname: string): string | null {
   return subdomain
 }
 
+// Sentinel value: the connected database is a client deployment DB (no tenants table)
+const CLIENT_DEPLOYMENT_DB = 'CLIENT_DEPLOYMENT_DB' as const
+
 // Get tenant from database (with caching)
-async function getTenant(subdomain: string): Promise<any | null> {
+async function getTenant(subdomain: string): Promise<any | null | typeof CLIENT_DEPLOYMENT_DB> {
   const cacheKey = `tenant:${subdomain}`
   const cached = tenantCache.get(cacheKey)
 
@@ -230,7 +233,19 @@ async function getTenant(subdomain: string): Promise<any | null> {
     })
 
     return tenant
-  } catch (error) {
+  } catch (error: any) {
+    // PostgreSQL error 42P01 = "undefined_table"
+    // If the tenants table doesn't exist, this is a client deployment database
+    // (not the platform DB which always has the tenants table).
+    // In that case, bypass tenant routing and serve the client site directly.
+    if (error?.code === '42P01' || (typeof error?.message === 'string' && error.message.includes('tenants') && error.message.includes('does not exist'))) {
+      console.log('[MIDDLEWARE] tenants table not found - client deployment DB detected, bypassing routing')
+      tenantCache.set(cacheKey, {
+        data: CLIENT_DEPLOYMENT_DB,
+        expiresAt: Date.now() + 5 * 60 * 1000, // Cache for 5 min
+      })
+      return CLIENT_DEPLOYMENT_DB
+    }
     console.error('[MIDDLEWARE] Error fetching tenant:', error)
     // Cache error result (1 min TTL) to prevent repeated failed lookups
     tenantCache.set(cacheKey, {
@@ -285,6 +300,14 @@ export async function middleware(request: NextRequest) {
 
     // Fetch tenant from database
     const tenant = await getTenant(subdomain)
+
+    // If the tenants table doesn't exist in the DB, this is a client deployment.
+    // The client's own database only has its own Payload schema, not the platform's tenants table.
+    // Serve the site directly without tenant routing.
+    if (tenant === CLIENT_DEPLOYMENT_DB) {
+      console.log(`[MIDDLEWARE] Client deployment detected for subdomain: ${subdomain} - serving directly`)
+      return addSecurityHeaders(NextResponse.next())
+    }
 
     if (!tenant) {
       // Tenant not found or inactive
