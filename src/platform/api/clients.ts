@@ -7,8 +7,15 @@
 
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { provisionClient, deprovisionClient } from '../services/provisioning'
-import type { ProvisioningRequest } from '../services/provisioning'
+/** Shape expected by POST /api/platform/clients */
+interface ProvisioningRequest {
+  clientName: string
+  contactEmail: string
+  domain: string
+  template: string
+  plan?: string
+  extraEnv?: Record<string, string>
+}
 
 /**
  * GET /api/platform/clients
@@ -83,9 +90,36 @@ export async function POST_Clients(request: NextRequest) {
       )
     }
 
-    // Start provisioning
+    // Create client record in Payload
+    console.log('[API] Creating client record:', body.clientName)
+    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const payload = await getPayloadClient()
+
+    const newClient = await payload.create({
+      collection: 'clients',
+      data: {
+        name: body.clientName,
+        domain: body.domain,
+        contactEmail: body.contactEmail,
+        template: body.template as any,
+        plan: (body.plan || 'starter') as any,
+        status: 'pending',
+        customEnvironment: body.extraEnv || {},
+      },
+      overrideAccess: true,
+      context: { skipProvisioningHook: true },
+    } as any)
+
+    // Provision via Ploi in background
     console.log('[API] Starting client provisioning:', body.clientName)
-    const result = await provisionClient(body)
+    const { provisionClient } = await import('@/lib/provisioning/provisionClient')
+
+    const result = await provisionClient({
+      clientId: String(newClient.id),
+      provider: 'ploi',
+      extraEnv: body.extraEnv || {},
+      verbose: true,
+    })
 
     if (!result.success) {
       return NextResponse.json(
@@ -172,18 +206,15 @@ export async function DELETE_Client(clientId: string) {
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
     const payload = await getPayloadClient()
 
-    // Deprovision resources
-    const result = await deprovisionClient(clientId)
+    // Mark as archived before deleting (so webhooks/hooks know this is intentional)
+    await payload.update({
+      collection: 'clients',
+      id: clientId,
+      data: { status: 'archived' },
+      context: { skipProvisioningHook: true },
+    } as any)
 
-    if (!result.success) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: result.error,
-        },
-        { status: 500 },
-      )
-    }
+    // TODO: Add Ploi site cleanup here when needed (delete site + database via Ploi API)
 
     // Delete from Payload
     await payload.delete({
