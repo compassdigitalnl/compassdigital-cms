@@ -87,9 +87,9 @@ export class PloiAdapter implements DeploymentAdapter {
     // Remove Ploi's root-owned placeholder file so git clone can succeed
     await this.clearSitePlaceholder(site.domain)
 
-    // Defensive: verify Nginx is configured with the correct port.
-    // Ploi should honor nodejs_port but we've seen cases where it defaults to 3000.
-    await this.ensureNginxPort(site.id, port)
+    // Defensief: controleer en corrigeer Nginx-config (proxy_pass poort + ACME webroot).
+    // Ploi honoreert nodejs_port niet altijd, en de ACME webroot klopt standaard niet.
+    await this.ensureNginxPort(site.id, port, site.domain)
 
     // Install git repository
     try {
@@ -367,16 +367,15 @@ echo "Placeholder files removed from ${siteDir}"`
   }
 
   /**
-   * Verify Nginx is configured to proxy to the correct port.
+   * Verify and correct the Nginx configuration after site creation.
    *
-   * Ploi should honor the nodejs_port parameter when creating a site, but we've
-   * observed it defaulting to 3000 in some cases (e.g., when a site was created
-   * via the Ploi dashboard or via an earlier API version).
-   *
-   * This method reads the Nginx config, checks the proxy_pass port, and updates
-   * it if needed — then restarts Nginx.
+   * Fixes two known Ploi issues:
+   * 1. proxy_pass port: Ploi may default to 3000 instead of the assigned port.
+   * 2. ACME challenge webroot: Ploi sets root to /var/www/html, but certbot writes
+   *    challenge files to the site directory (/home/ploi/{domain}). This mismatch
+   *    causes Let's Encrypt SSL validation to always fail with a 404.
    */
-  private async ensureNginxPort(siteId: number, expectedPort: number): Promise<void> {
+  private async ensureNginxPort(siteId: number, expectedPort: number, domain?: string): Promise<void> {
     const service = await this.getService()
 
     try {
@@ -389,26 +388,42 @@ echo "Placeholder files removed from ${siteDir}"`
         return
       }
 
+      let fixedConfig = currentConfig
+      let changed = false
+
+      // Fix 1: proxy_pass port
       const expectedProxy = `proxy_pass http://localhost:${expectedPort}`
-      if (currentConfig.includes(expectedProxy)) {
-        console.log(`[PloiAdapter] Nginx already proxying to port ${expectedPort} ✓`)
-        return
+      if (!currentConfig.includes(expectedProxy)) {
+        fixedConfig = fixedConfig.replace(
+          /proxy_pass http:\/\/localhost:\d+;/g,
+          `proxy_pass http://localhost:${expectedPort};`,
+        )
+        if (fixedConfig !== currentConfig) {
+          changed = true
+          console.log(`[PloiAdapter] Nginx proxy_pass corrected to port ${expectedPort} ✓`)
+        } else {
+          console.warn(`[PloiAdapter] ensureNginxPort: proxy_pass not found in Nginx config for site ${siteId}`)
+        }
       }
 
-      // Replace any proxy_pass localhost:<port> with the correct port
-      const fixedConfig = currentConfig.replace(
-        /proxy_pass http:\/\/localhost:\d+;/g,
-        `proxy_pass http://localhost:${expectedPort};`,
-      )
+      // Fix 2: ACME challenge webroot
+      // Ploi uses /var/www/html as webroot, but certbot writes challenge files to the site dir.
+      // Without this fix, Let's Encrypt SSL validation always fails with 404.
+      if (domain && fixedConfig.includes('root /var/www/html')) {
+        const siteDir = `/home/ploi/${domain}`
+        fixedConfig = fixedConfig.replace(/root \/var\/www\/html;/g, `root ${siteDir};`)
+        changed = true
+        console.log(`[PloiAdapter] ACME challenge webroot corrected to ${siteDir} ✓`)
+      }
 
-      if (fixedConfig === currentConfig) {
-        console.warn(`[PloiAdapter] ensureNginxPort: proxy_pass not found in Nginx config for site ${siteId}`)
+      if (!changed) {
+        console.log(`[PloiAdapter] Nginx config already correct for site ${siteId} ✓`)
         return
       }
 
       await service.updateNginxConfiguration(this.serverId, siteId, fixedConfig)
       await service.restartService(this.serverId, 'nginx')
-      console.log(`[PloiAdapter] Nginx port corrected to ${expectedPort} for site ${siteId} ✓`)
+      console.log(`[PloiAdapter] Nginx config updated and restarted for site ${siteId} ✓`)
     } catch (err: any) {
       // Non-fatal: Nginx may need a moment to be ready after site creation
       console.warn(`[PloiAdapter] ensureNginxPort warning: ${err.message}`)
