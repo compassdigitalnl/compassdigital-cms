@@ -94,7 +94,7 @@ export default function ClientsPage() {
         params.append('where[or][1][domain][contains]', search)
       }
 
-      const response = await fetch(`/api/clients?${params.toString()}`)
+      const response = await fetch(`/api/clients?${params.toString()}`, { credentials: 'include' })
       const data = await response.json()
 
       if (data.docs) {
