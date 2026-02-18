@@ -251,7 +251,6 @@ export const Clients: CollectionConfig = {
               label: 'Hosting provider',
               options: [
                 { label: 'Ploi (VPS)', value: 'ploi' },
-                { label: 'Vercel (serverless)', value: 'vercel' },
                 { label: 'Anders', value: 'custom' },
               ],
               admin: {
@@ -275,7 +274,7 @@ export const Clients: CollectionConfig = {
           label: 'Provider Site ID',
           admin: {
             readOnly: true,
-            description: 'Ploi site ID of Vercel project ID',
+            description: 'Ploi site ID',
           },
         },
         {

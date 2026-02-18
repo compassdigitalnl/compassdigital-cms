@@ -57,8 +57,11 @@ export const BlogPosts: CollectionConfig = {
       name: 'featuredImage',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      required: false,
       label: 'Hoofdafbeelding',
+      admin: {
+        description: 'Aanbevolen: voeg een afbeelding toe vóór publicatie',
+      },
     },
     {
       name: 'content',

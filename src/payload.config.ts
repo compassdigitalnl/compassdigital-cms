@@ -55,6 +55,25 @@ import { plugins } from './plugins'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// ─── Collection Filtering (per-client CMS customization) ──────────────────────
+//
+// DISABLED_COLLECTIONS bevat een komma-gescheiden lijst van collection slugs
+// die uitgeschakeld zijn voor deze specifieke klant-CMS instantie.
+//
+// De platform-instantie zelf heeft DISABLED_COLLECTIONS leeg → alle collections actief.
+// Klant-instanties op Ploi krijgen deze env var automatisch gezet via CMSConfigService.
+//
+// Slugs moeten exact overeenkomen met ALL_COLLECTION_SLUGS in CMSConfigService.ts.
+const _disabledCollectionsEnv = process.env.DISABLED_COLLECTIONS || ''
+const _disabledSet = new Set(
+  _disabledCollectionsEnv.split(',').map((s) => s.trim()).filter(Boolean),
+)
+const _isPlatform = _disabledSet.size === 0
+
+// Helper: geef de collection terug als hij NIET uitgeschakeld is
+const _col = <T extends { slug: string }>(collection: T): T | null =>
+  _disabledSet.has(collection.slug) ? null : collection
+
 // ─── Database Configuration ───────────────────────────
 // Automatically switch between SQLite (dev) and PostgreSQL (prod)
 const databaseURL = process.env.DATABASE_URL || 'file:./payload.db'
@@ -144,37 +163,37 @@ export default buildConfig({
   db: databaseAdapter,
 
   // ─── Collections ──────────────────────────
+  // Altijd aan (kern — nooit uitgeschakeld)
+  // Optioneel gefilterd via DISABLED_COLLECTIONS env var (zie boven)
+  // Platform-only collections (Clients, Deployments, ClientRequests) zijn
+  // alleen actief op de platform-instantie (_isPlatform === true).
   collections: [
-    // Systeem
+    // Kern — altijd actief
     Users,
-
-    // Website Content
     Pages,
-    BlogPosts,
-    FAQs,
     Media,
 
-    // Marketing
-    Cases,
-    Testimonials,
-    ServicesCollection,
-    Partners,
+    // Website content — optioneel per klant
+    _col(BlogPosts),
+    _col(FAQs),
+    _col(Cases),
+    _col(Testimonials),
+    _col(ServicesCollection),
+    _col(Partners),
 
-    // E-commerce (Logische volgorde: opbouwen → resultaat)
-    ProductCategories, // 1. Eerst categorieën opzetten
-    Brands, // 2. Dan merken toevoegen
-    Products, // 3. Dan producten aanmaken en koppelen
-    CustomerGroups, // 4. B2B klantgroepen instellen
-    OrderLists, // 5. Klant favorieten/bestellijsten
-    Orders, // 6. Uiteindelijke bestellingen
+    // E-commerce — optioneel per klant
+    _col(ProductCategories),
+    _col(Brands),
+    _col(Products),
+    _col(CustomerGroups),
+    _col(OrderLists),
+    _col(Orders),
 
-    // Platform Management (Multi-Tenant)
-    ClientRequests, // Onboarding aanvragen van nieuwe klanten
-    Clients, // Platform clients
-    Deployments, // Deployment history
+    // Platform Management — alleen op platform-instantie
+    ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),
 
     // FormSubmissions is provided by formBuilderPlugin
-  ],
+  ].filter(Boolean) as any[],
 
   // ─── Globals ──────────────────────────────
   // Consolidated from 8 → 4 globals for better UX!

@@ -15,8 +15,9 @@ export function WizardStep5Generate({ wizardData }: Props) {
   const [status, setStatus] = useState<'idle' | 'generating' | 'completed' | 'failed'>('idle')
   const [progress, setProgress] = useState(0)
   const [currentStep, setCurrentStep] = useState('')
-  const [jobId, setJobId] = useState<string | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [adminUrl, setAdminUrl] = useState<string | null>(null)
+  const [cmsConfigSummary, setCmsConfigSummary] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const startGeneration = async () => {
@@ -53,8 +54,9 @@ export function WizardStep5Generate({ wizardData }: Props) {
           } else if (update.type === 'complete') {
             setStatus('completed')
             setProgress(100)
-            // Use deploymentUrl from provisioning, fallback to previewUrl
             setPreviewUrl(update.data?.deploymentUrl || update.data?.previewUrl || null)
+            setAdminUrl(update.data?.adminUrl || null)
+            setCmsConfigSummary(update.data?.cmsConfig?.summary || null)
             eventSource.close()
           } else if (update.type === 'error') {
             setStatus('failed')
@@ -82,17 +84,14 @@ export function WizardStep5Generate({ wizardData }: Props) {
         body: JSON.stringify({
           wizardData,
           sseConnectionId: connectionId,
-          deploymentProvider: 'ploi', // Always deploy to Ploi!
         }),
       })
 
       const data = await response.json()
 
       if (!data.success) {
-        throw new Error(data.message || 'Site provisioning failed')
+        throw new Error(data.error || data.message || 'Site provisioning failed')
       }
-
-      setJobId(data.jobId)
     } catch (err: any) {
       setStatus('failed')
       setError(err.message || 'Er is een fout opgetreden')
@@ -100,16 +99,16 @@ export function WizardStep5Generate({ wizardData }: Props) {
   }
 
   const progressSteps = [
-    { min: 0, max: 3, label: 'Client record aanmaken...' },
-    { min: 3, max: 10, label: 'Bedrijfscontext analyseren...' },
-    { min: 10, max: 30, label: 'Content genereren met AI...' },
-    { min: 30, max: 50, label: 'Pagina\'s aanmaken...' },
-    { min: 50, max: 60, label: 'Database provisioning...' },
-    { min: 60, max: 70, label: 'Ploi project aanmaken...' },
-    { min: 70, max: 75, label: 'DNS configureren...' },
-    { min: 75, max: 85, label: 'Code deployen...' },
-    { min: 85, max: 95, label: 'Deployment monitoring...' },
-    { min: 95, max: 100, label: 'Voltooien...' },
+    { min: 0, max: 4, label: 'CMS-configuratie bepalen...' },
+    { min: 4, max: 10, label: 'Client record aanmaken...' },
+    { min: 10, max: 25, label: 'Database provisioning (Railway)...' },
+    { min: 25, max: 45, label: 'Ploi site aanmaken...' },
+    { min: 45, max: 60, label: 'Repository deployen...' },
+    { min: 60, max: 70, label: 'Omgevingsvariabelen instellen...' },
+    { min: 70, max: 80, label: 'DNS configureren (Cloudflare)...' },
+    { min: 80, max: 90, label: 'SSL certificaat activeren...' },
+    { min: 90, max: 99, label: 'CMS online brengen...' },
+    { min: 99, max: 100, label: 'Voltooien...' },
   ]
 
   const getCurrentProgressLabel = () => {
@@ -121,9 +120,9 @@ export function WizardStep5Generate({ wizardData }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">🚀 Genereer & Deploy Uw Website!</h2>
+        <h2 className="text-2xl font-bold text-gray-900">🚀 CMS Provisionen & Deployen</h2>
         <p className="mt-1 text-sm text-gray-600">
-          Klaar om uw website te genereren en live te zetten? Dit duurt ongeveer 5-8 minuten.
+          Klaar om uw gepersonaliseerde CMS live te zetten? Dit duurt ongeveer 5-10 minuten.
         </p>
       </div>
 
@@ -137,10 +136,16 @@ export function WizardStep5Generate({ wizardData }: Props) {
                 <span className="text-gray-600">Bedrijf:</span>
                 <span className="font-medium">{wizardData.companyInfo.name}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Type:</span>
-                <span className="font-medium">{wizardData.companyInfo.businessType}</span>
-              </div>
+              {wizardData.siteGoal?.primaryType && (
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Site type:</span>
+                  <span className="font-medium capitalize">
+                    {wizardData.siteGoal.primaryType}
+                    {wizardData.siteGoal.websiteSubType && ` — ${wizardData.siteGoal.websiteSubType}`}
+                    {wizardData.siteGoal.shopModel && ` — ${wizardData.siteGoal.shopModel}`}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span className="text-gray-600">Industrie:</span>
                 <span className="font-medium">{wizardData.companyInfo.industry}</span>
@@ -150,8 +155,8 @@ export function WizardStep5Generate({ wizardData }: Props) {
                 <span className="font-medium">{wizardData.content.language.toUpperCase()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Design Stijl:</span>
-                <span className="font-medium capitalize">{wizardData.design.style}</span>
+                <span className="text-gray-600">Design stijl:</span>
+                <span className="font-medium capitalize">{wizardData.design?.style}</span>
               </div>
               <div className="flex justify-between items-start">
                 <span className="text-gray-600">Pagina's:</span>
@@ -173,6 +178,11 @@ export function WizardStep5Generate({ wizardData }: Props) {
                         {key}
                       </Badge>
                     ))}
+                  {(wizardData.extraFeatures ?? []).map((f) => (
+                    <Badge key={f} variant="outline" className="text-xs border-purple-300 text-purple-700">
+                      {f}
+                    </Badge>
+                  ))}
                 </div>
               </div>
             </div>
@@ -211,12 +221,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
               {/* Estimated Time */}
               <div className="p-3 bg-blue-50 rounded-lg text-sm">
                 <p className="text-gray-600">
-                  ⏱️ Geschatte tijd: 5-8 minuten (content generatie + deployment){' '}
-                  {jobId && (
-                    <span className="text-xs text-gray-500">
-                      (Job ID: {jobId.substring(0, 12)}...)
-                    </span>
-                  )}
+                  ⏱️ Geschatte tijd: 5-10 minuten (database + Ploi deployment + DNS)
                 </p>
               </div>
             </div>
@@ -235,29 +240,32 @@ export function WizardStep5Generate({ wizardData }: Props) {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-xl text-green-900">
-                    Website succesvol gedeployed! 🎉
+                    CMS succesvol geprovisioned! 🎉
                   </h3>
                   <p className="text-sm text-green-700 mt-1">
-                    Uw website is live en volledig geconfigureerd op Ploi
+                    {cmsConfigSummary || 'Uw CMS is live en volledig geconfigureerd op Ploi'}
                   </p>
                 </div>
               </div>
 
-              {previewUrl && (
-                <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
+                {previewUrl && (
                   <Button asChild className="flex-1" size="lg">
                     <a href={previewUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Bekijk Live Website
                     </a>
                   </Button>
-                  <Button asChild variant="outline" size="lg">
-                    <a href="/admin/collections/pages" target="_blank" rel="noopener noreferrer">
-                      Bewerk in CMS
+                )}
+                {adminUrl && (
+                  <Button asChild variant="outline" size="lg" className="flex-1">
+                    <a href={adminUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Open CMS Admin
                     </a>
                   </Button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -295,7 +303,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
             className="w-full text-lg py-6 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
           >
             <Rocket className="w-5 h-5 mr-2" />
-            Genereer Mijn Website!
+            CMS Provisionen & Deployen
           </Button>
 
           <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-3">
@@ -303,10 +311,10 @@ export function WizardStep5Generate({ wizardData }: Props) {
             <div className="text-sm text-gray-700">
               <p className="font-semibold mb-1">Let op:</p>
               <ul className="list-disc list-inside space-y-1 text-xs">
-                <li>Dit proces kan 5-8 minuten duren (content + deployment)</li>
+                <li>Dit proces kan 5-10 minuten duren (database + deployment + DNS)</li>
                 <li>Sluit deze pagina niet tijdens het provisioning</li>
-                <li>Uw website wordt automatisch gedeployed op Ploi</li>
-                <li>U kunt de gegenereerde content later aanpassen in het CMS</li>
+                <li>Uw CMS wordt automatisch gedeployed via Ploi</li>
+                <li>Na deployment heeft u direct toegang tot de admin-omgeving</li>
               </ul>
             </div>
           </div>

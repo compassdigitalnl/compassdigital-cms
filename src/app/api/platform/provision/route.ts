@@ -55,18 +55,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required field: clientId' }, { status: 400 })
     }
 
-    if (provider !== 'ploi' && provider !== 'vercel') {
-      return NextResponse.json({ error: 'Invalid provider. Use "ploi" or "vercel".' }, { status: 400 })
+    if (provider !== 'ploi') {
+      return NextResponse.json({ error: 'Invalid provider. Only "ploi" is supported.' }, { status: 400 })
     }
 
     // ── Run provisioning ───────────────────────────────────────────────────
-    console.log(`[API /provision] Starting provisioning for client ${clientId} via ${provider}`)
+    console.log(`[API /provision] Starting provisioning for client ${clientId} via Ploi`)
 
     const { provisionClient } = await import('@/lib/provisioning/provisionClient')
 
     const result = await provisionClient({
       clientId,
-      provider: provider as 'ploi' | 'vercel',
+      provider: 'ploi',
       extraEnv: extraEnv || {},
       verbose: true,
     })
@@ -118,7 +118,7 @@ export async function GET() {
     description: 'Trigger full client site provisioning',
     body: {
       clientId: 'string (required) — Payload client document ID',
-      provider: '"ploi" | "vercel" (default: ploi)',
+      provider: '"ploi" (default: ploi)',
       extraEnv: 'Record<string, string> (optional) — extra env vars to merge',
     },
     auth: 'Admin session cookie OR x-platform-api-key header',

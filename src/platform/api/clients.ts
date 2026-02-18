@@ -292,53 +292,21 @@ export async function GET_ClientDeployments(clientId: string, request: NextReque
       )
     }
 
-    let deployments: any[] = []
-
-    // Try to fetch from Vercel if configured
-    if (process.env.VERCEL_API_TOKEN) {
-      try {
-        const { getVercelService } = await import('@/lib/vercel/VercelService')
-        const vercel = getVercelService()
-
-        const vercelProjectName = (client as any).vercelProjectId || client.domain
-        console.log('[API] Fetching deployments from Vercel for project:', vercelProjectName)
-
-        const result = await vercel.listDeployments(vercelProjectName, limit)
-
-        // Transform Vercel deployments to our format
-        deployments = result.deployments.map((d) => ({
-          id: d.uid,
-          deploymentId: d.uid,
-          deploymentUrl: `https://${d.url}`,
-          status: d.state.toLowerCase(),
-          environment: 'production',
-          createdAt: new Date(d.created).toISOString(),
-          state: d.state,
-          alias: d.alias,
-          meta: d.meta,
-        }))
-      } catch (vercelError: any) {
-        console.warn('[API] Failed to fetch from Vercel, falling back to Payload:', vercelError.message)
-      }
-    }
-
-    // If Vercel fetch failed or not configured, use Payload
-    if (deployments.length === 0) {
-      const result = await payload.find({
-        collection: 'deployments',
-        where: {
-          client: { equals: clientId },
-        },
-        limit,
-        sort: '-createdAt',
-      })
-      deployments = result.docs
-    }
+    // Fetch deployments from Payload
+    const result = await payload.find({
+      collection: 'deployments',
+      where: {
+        client: { equals: clientId },
+      },
+      limit,
+      sort: '-createdAt',
+    })
+    const deployments = result.docs
 
     return NextResponse.json({
       success: true,
       data: deployments,
-      source: deployments.length > 0 && deployments[0].state ? 'vercel' : 'payload',
+      source: 'payload',
     })
   } catch (error: any) {
     console.error('[API] Error fetching deployments:', error)
@@ -368,72 +336,35 @@ export async function POST_RedeployClient(clientId: string) {
       )
     }
 
-    // 2. Check if Vercel is configured
-    if (!process.env.VERCEL_API_TOKEN) {
-      console.warn('[API] Vercel API token not configured, returning mock deployment')
-      return NextResponse.json({
-        success: true,
-        message: 'Redeployment triggered (mock - configure VERCEL_API_TOKEN for real deployments)',
-        deploymentId: `dpl_mock_${Date.now()}`,
-        deploymentUrl: `https://${client.domain}-preview.vercel.app`,
-      })
-    }
+    // 2. Trigger Ploi re-provisioning
+    console.log(`[API] Triggering re-provisioning for client ${client.name} via Ploi`)
+    const { provisionClient } = await import('@/lib/provisioning/provisionClient')
 
-    // 3. Trigger Vercel deployment
-    const { getVercelService } = await import('@/lib/vercel/VercelService')
-    const vercel = getVercelService()
-
-    // Get the Vercel project name (typically the domain or a variation)
-    const vercelProjectName = (client as any).vercelProjectId || client.domain
-
-    console.log('[API] Triggering redeploy for project:', vercelProjectName)
-    const deployment = await vercel.redeploy(vercelProjectName)
-
-    // 4. Create deployment record in Payload
-    await payload.create({
-      collection: 'deployments',
-      data: {
-        client: clientId,
-        status: deployment.state === 'READY' ? 'success' : 'in_progress',
-        deploymentId: deployment.uid,
-        deploymentUrl: `https://${deployment.url}`,
-        environment: 'production',
-        triggeredBy: 'manual',
-      },
-    })
-
-    // 5. Update client status to deploying
+    // Fire and forget — update status first so the admin sees progress
     await payload.update({
       collection: 'clients',
       id: clientId,
-      data: {
-        status: 'deploying',
-        deploymentUrl: `https://${deployment.url}`,
-      },
+      data: { status: 'provisioning' },
+      context: { skipProvisioningHook: true },
+    } as any)
+
+    // Run provisioning in background
+    provisionClient({
+      clientId,
+      provider: 'ploi',
+      verbose: true,
+    }).catch((err: any) => {
+      console.error(`[API] Re-provisioning failed for ${client.name}:`, err)
     })
 
     return NextResponse.json({
       success: true,
-      message: 'Redeployment triggered successfully',
-      deploymentId: deployment.uid,
-      deploymentUrl: `https://${deployment.url}`,
-      state: deployment.state,
+      message: 'Re-provisioning gestart via Ploi',
+      clientId,
+      status: 'provisioning',
     })
   } catch (error: any) {
     console.error('[API] Error redeploying client:', error)
-
-    // Check if it's a Vercel API error
-    if (error.message?.includes('Vercel API error')) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Failed to trigger deployment on Vercel. Please check your Vercel API configuration.',
-          details: error.message
-        },
-        { status: 500 }
-      )
-    }
-
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }

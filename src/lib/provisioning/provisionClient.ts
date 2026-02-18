@@ -22,7 +22,7 @@ export interface ProvisionClientOptions {
   clientId: string
 
   /** Optional: override deployment provider (default: 'ploi') */
-  provider?: 'ploi' | 'vercel'
+  provider?: 'ploi'
 
   /** Optional: extra env vars to merge (on top of auto-generated ones) */
   extraEnv?: Record<string, string>

@@ -82,6 +82,7 @@ export interface Config {
     'customer-groups': CustomerGroup;
     orderLists: OrderList;
     orders: Order;
+    'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
     forms: Form;
@@ -109,6 +110,7 @@ export interface Config {
     'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
     orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -203,6 +205,14 @@ export interface User {
       }[]
     | null;
   roles?: ('admin' | 'editor')[] | null;
+  /**
+   * Bepaalt welke functies en collecties zichtbaar zijn voor deze klant
+   */
+  clientType?: ('website' | 'webshop') | null;
+  /**
+   * De client-omgeving die bij deze gebruiker hoort
+   */
+  client?: (number | null) | Client;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -221,6 +231,161 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * Klanten beheren en sites deployen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * Huidige status van de klantsite
+   */
+  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
+  /**
+   * Huidig abonnement
+   */
+  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
+  /**
+   * Naam van de klant / het bedrijf
+   */
+  name: string;
+  /**
+   * Bijv. "bakkerij-dejong" → bakkerij-dejong.compassdigital.nl
+   */
+  domain: string;
+  contactEmail: string;
+  contactName?: string | null;
+  contactPhone?: string | null;
+  /**
+   * Basistemplate voor de klantsite
+   */
+  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
+  /**
+   * Selecteer alle extra modules die voor deze klant actief zijn
+   */
+  enabledFeatures?: ('ecommerce' | 'blog' | 'forms' | 'authentication' | 'multiLanguage' | 'ai')[] | null;
+  /**
+   * Modules die voor deze klant verborgen zijn (niet nodig)
+   */
+  disabledCollections?:
+    | (
+        | 'orders'
+        | 'products'
+        | 'product-categories'
+        | 'blog-posts'
+        | 'customer-groups'
+        | 'order-lists'
+        | 'cases'
+        | 'testimonials'
+        | 'partners'
+        | 'brands'
+        | 'services'
+        | 'faqs'
+      )[]
+    | null;
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  adminUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentProvider?: ('ploi' | 'vercel' | 'custom') | null;
+  lastDeployedAt?: string | null;
+  /**
+   * Ploi site ID of Vercel project ID
+   */
+  deploymentProviderId?: string | null;
+  lastDeploymentId?: string | null;
+  /**
+   * PostgreSQL connection string (versleuteld opgeslagen)
+   */
+  databaseUrl?: string | null;
+  /**
+   * Railway service ID voor de database
+   */
+  databaseProviderId?: string | null;
+  /**
+   * Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.
+   */
+  port?: number | null;
+  /**
+   * Automatisch ingevuld bij provisioning (contactEmail van de klant)
+   */
+  adminEmail?: string | null;
+  /**
+   * Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login
+   */
+  initialAdminPassword?: string | null;
+  /**
+   * Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)
+   */
+  customEnvironment?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Klantspecifieke platform-instellingen
+   */
+  customSettings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
+  monthlyFee?: number | null;
+  nextBillingDate?: string | null;
+  paymentsEnabled?: boolean | null;
+  /**
+   * acct_... — automatisch ingevuld
+   */
+  stripeAccountId?: string | null;
+  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
+  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  customTransactionFee?: {
+    percentage?: number | null;
+    fixed?: number | null;
+  };
+  totalPaymentVolume?: number | null;
+  totalPaymentRevenue?: number | null;
+  lastPaymentAt?: string | null;
+  multiSafepayEnabled?: boolean | null;
+  multiSafepayAffiliateId?: string | null;
+  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
+  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  multiSafepayCustomRates?: {
+    idealFee?: number | null;
+    cardPercentage?: number | null;
+    cardFixed?: number | null;
+  };
+  multiSafepayTotalVolume?: number | null;
+  multiSafepayTotalRevenue?: number | null;
+  multiSafepayLastPaymentAt?: string | null;
+  lastHealthCheck?: string | null;
+  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
+  uptimePercentage?: number | null;
+  /**
+   * Alleen zichtbaar voor admins van CompassDigital — niet voor de klant
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1590,7 +1755,10 @@ export interface BlogPost {
    * Korte samenvatting (max 160 tekens)
    */
   excerpt: string;
-  featuredImage: number | Media;
+  /**
+   * Aanbevolen: voeg een afbeelding toe vóór publicatie
+   */
+  featuredImage?: (number | null) | Media;
   content: {
     root: {
       type: string;
@@ -1778,217 +1946,53 @@ export interface Order {
   createdAt: string;
 }
 /**
- * Manage client sites and deployments
+ * Inkomende onboarding-verzoeken van nieuwe klanten
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients".
+ * via the `definition` "client-requests".
  */
-export interface Client {
+export interface ClientRequest {
   id: number;
-  /**
-   * Name of the client/company
-   */
-  name: string;
-  /**
-   * Subdomain for the client (e.g., "clientA" for clientA.yourplatform.com)
-   */
-  domain: string;
-  /**
-   * Primary contact email for the client
-   */
+  status: 'pending' | 'reviewing' | 'approved' | 'rejected';
+  companyName: string;
+  contactName: string;
   contactEmail: string;
-  contactName?: string | null;
   contactPhone?: string | null;
   /**
-   * Base template for the client site
+   * Bepaalt welke CMS-functies worden geactiveerd
    */
-  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
+  siteType: 'website' | 'webshop';
   /**
-   * Additional features to enable for this client
+   * Selecteer de pagina's die je website nodig heeft
    */
-  enabledFeatures?:
-    | {
-        feature?: ('ecommerce' | 'blog' | 'forms' | 'authentication' | 'multiLanguage' | 'ai') | null;
-        id?: string | null;
-      }[]
-    | null;
+  websitePages?: ('home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact')[] | null;
+  expectedProducts?: ('small' | 'medium' | 'large') | null;
+  paymentMethods?: ('ideal' | 'creditcard' | 'invoice' | 'banktransfer' | 'paypal')[] | null;
   /**
-   * Collections from template to disable for this client
+   * Verdere wensen, vragen of opmerkingen
    */
-  disabledCollections?:
-    | {
-        collection?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  message?: string | null;
   /**
-   * Current deployment status
+   * bijv. mijnbedrijf.nl (optioneel)
    */
-  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
+  domain?: string | null;
   /**
-   * Full URL to the deployed site
+   * Interne notities — niet zichtbaar voor de aanvrager
    */
-  deploymentUrl?: string | null;
+  adminNotes?: string | null;
   /**
-   * URL to the client admin panel
+   * Ingevuld na goedkeuring — gekoppeld gebruikersaccount
    */
-  adminUrl?: string | null;
+  createdUser?: (number | null) | User;
   /**
-   * Deployment platform used for this client
+   * Ingevuld na goedkeuring — gekoppeld client record
    */
-  deploymentProvider?: ('vercel' | 'ploi' | 'custom') | null;
-  /**
-   * Project/site identifier from deployment provider (Vercel, Ploi, etc.)
-   */
-  deploymentProviderId?: string | null;
-  /**
-   * Most recent deployment identifier
-   */
-  lastDeploymentId?: string | null;
-  /**
-   * Timestamp of most recent deployment
-   */
-  lastDeployedAt?: string | null;
-  /**
-   * PostgreSQL connection string (encrypted)
-   */
-  databaseUrl?: string | null;
-  /**
-   * Railway service ID for the client database
-   */
-  databaseProviderId?: string | null;
-  /**
-   * Additional environment variables for this client
-   */
-  customEnvironment?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Client-specific settings and configuration
-   */
-  customSettings?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
-  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
-  /**
-   * Monthly subscription cost
-   */
-  monthlyFee?: number | null;
-  nextBillingDate?: string | null;
-  /**
-   * Enable Stripe Connect payment processing for this client
-   */
-  paymentsEnabled?: boolean | null;
-  /**
-   * Connected Stripe account ID (acct_...)
-   */
-  stripeAccountId?: string | null;
-  /**
-   * Current onboarding status
-   */
-  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
-  /**
-   * Transaction fee tier for this client
-   */
-  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  /**
-   * Custom pricing (only if tier is "custom")
-   */
-  customTransactionFee?: {
-    /**
-     * e.g., 1.5 for 1.5%
-     */
-    percentage?: number | null;
-    /**
-     * e.g., 0.25 for €0.25
-     */
-    fixed?: number | null;
-  };
-  /**
-   * Lifetime transaction volume processed
-   */
-  totalPaymentVolume?: number | null;
-  /**
-   * Lifetime platform fees earned from payments
-   */
-  totalPaymentRevenue?: number | null;
-  /**
-   * Most recent payment processed
-   */
-  lastPaymentAt?: string | null;
-  /**
-   * Enable MultiSafePay Connect payment processing for this client
-   */
-  multiSafepayEnabled?: boolean | null;
-  /**
-   * Affiliate/sub-merchant ID
-   */
-  multiSafepayAffiliateId?: string | null;
-  /**
-   * Current account status
-   */
-  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
-  /**
-   * Transaction fee tier for this client (lower = better deal)
-   */
-  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  /**
-   * Custom partner pricing (requires partner approval)
-   */
-  multiSafepayCustomRates?: {
-    /**
-     * e.g., 0.25 for €0.25 per transaction
-     */
-    idealFee?: number | null;
-    /**
-     * e.g., 1.5 for 1.5%
-     */
-    cardPercentage?: number | null;
-    /**
-     * e.g., 0.25 for €0.25
-     */
-    cardFixed?: number | null;
-  };
-  /**
-   * Lifetime transaction volume via MultiSafePay
-   */
-  multiSafepayTotalVolume?: number | null;
-  /**
-   * Lifetime platform fees earned from MultiSafePay payments
-   */
-  multiSafepayTotalRevenue?: number | null;
-  /**
-   * Most recent payment via MultiSafePay
-   */
-  multiSafepayLastPaymentAt?: string | null;
-  lastHealthCheck?: string | null;
-  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
-  /**
-   * 30-day uptime percentage
-   */
-  uptimePercentage?: number | null;
-  /**
-   * Notes for platform administrators (not visible to client)
-   */
-  notes?: string | null;
+  createdClient?: (number | null) | Client;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Deployment history and audit trail
+ * Automatisch bijgehouden deployment history. Alleen-lezen — wordt aangemaakt door het systeem.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "deployments".
@@ -1996,44 +2000,68 @@ export interface Client {
 export interface Deployment {
   id: number;
   /**
-   * The client this deployment belongs to
+   * Voor welke klant is deze deployment uitgevoerd?
    */
   client: number | Client;
+  /**
+   * Huidige status van deze deployment
+   */
   status: 'pending' | 'in_progress' | 'success' | 'failed' | 'rolled_back' | 'cancelled';
   environment: 'production' | 'staging' | 'development';
   type: 'initial' | 'update' | 'hotfix' | 'rollback' | 'migration';
   /**
-   * Semantic version (e.g., 1.2.3)
+   * Bijv. 1.2.3
    */
   version?: string | null;
+  gitBranch?: string | null;
   /**
-   * Git commit SHA
+   * SHA van de gedeployde commit
    */
   gitCommit?: string | null;
-  gitBranch?: string | null;
-  vercelDeploymentId?: string | null;
-  vercelDeploymentUrl?: string | null;
-  vercelProjectId?: string | null;
   startedAt?: string | null;
   completedAt?: string | null;
   /**
-   * Total deployment time in seconds
+   * Totale deployduur in seconden — automatisch berekend
    */
   duration?: number | null;
   /**
-   * Full deployment log output
+   * Waarom is deze deployment uitgevoerd?
+   */
+  reason?: string | null;
+  /**
+   * Extra opmerkingen over deze deployment
+   */
+  notes?: string | null;
+  /**
+   * Gebruiker of systeem dat de deployment heeft gestart
+   */
+  triggeredBy?: string | null;
+  /**
+   * Volledige log-uitvoer
    */
   logs?: string | null;
   /**
-   * Error message if deployment failed
+   * Foutmelding als de deployment mislukt is
    */
   errorMessage?: string | null;
   /**
-   * Full error stack trace
+   * Volledige technische stack trace
    */
   errorStack?: string | null;
   /**
-   * Snapshot of client configuration when deployed
+   * Externe deployment-ID van Ploi of Vercel
+   */
+  vercelDeploymentId?: string | null;
+  /**
+   * URL van de gedeployde site
+   */
+  vercelDeploymentUrl?: string | null;
+  /**
+   * Extern project-ID in Ploi of Vercel
+   */
+  vercelProjectId?: string | null;
+  /**
+   * Snapshot van de klantconfiguratie op het moment van deployment
    */
   configSnapshot?:
     | {
@@ -2045,7 +2073,7 @@ export interface Deployment {
     | boolean
     | null;
   /**
-   * Environment variables used (sensitive values redacted)
+   * Gebruikte environment variables (gevoelige waarden zijn verborgen)
    */
   environmentSnapshot?:
     | {
@@ -2057,23 +2085,11 @@ export interface Deployment {
     | boolean
     | null;
   /**
-   * User or system that triggered the deployment
-   */
-  triggeredBy?: string | null;
-  /**
-   * Why this deployment was triggered
-   */
-  reason?: string | null;
-  /**
-   * Additional notes about this deployment
-   */
-  notes?: string | null;
-  /**
-   * Did post-deployment health checks pass?
+   * Zijn de post-deployment health checks geslaagd?
    */
   healthCheckPassed?: boolean | null;
   /**
-   * Detailed health check results
+   * Gedetailleerde resultaten van de health checks
    */
   healthCheckResults?:
     | {
@@ -2365,6 +2381,10 @@ export interface PayloadLockedDocument {
         value: number | Order;
       } | null)
     | ({
+        relationTo: 'client-requests';
+        value: number | ClientRequest;
+      } | null)
+    | ({
         relationTo: 'clients';
         value: number | Client;
       } | null)
@@ -2458,6 +2478,8 @@ export interface UsersSelect<T extends boolean = true> {
         id?: T;
       };
   roles?: T;
+  clientType?: T;
+  client?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -3361,39 +3383,54 @@ export interface OrdersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "client-requests_select".
+ */
+export interface ClientRequestsSelect<T extends boolean = true> {
+  status?: T;
+  companyName?: T;
+  contactName?: T;
+  contactEmail?: T;
+  contactPhone?: T;
+  siteType?: T;
+  websitePages?: T;
+  expectedProducts?: T;
+  paymentMethods?: T;
+  message?: T;
+  domain?: T;
+  adminNotes?: T;
+  createdUser?: T;
+  createdClient?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "clients_select".
  */
 export interface ClientsSelect<T extends boolean = true> {
+  status?: T;
+  plan?: T;
   name?: T;
   domain?: T;
   contactEmail?: T;
   contactName?: T;
   contactPhone?: T;
   template?: T;
-  enabledFeatures?:
-    | T
-    | {
-        feature?: T;
-        id?: T;
-      };
-  disabledCollections?:
-    | T
-    | {
-        collection?: T;
-        id?: T;
-      };
-  status?: T;
+  enabledFeatures?: T;
+  disabledCollections?: T;
   deploymentUrl?: T;
   adminUrl?: T;
   deploymentProvider?: T;
+  lastDeployedAt?: T;
   deploymentProviderId?: T;
   lastDeploymentId?: T;
-  lastDeployedAt?: T;
   databaseUrl?: T;
   databaseProviderId?: T;
+  port?: T;
+  adminEmail?: T;
+  initialAdminPassword?: T;
   customEnvironment?: T;
   customSettings?: T;
-  plan?: T;
   billingStatus?: T;
   monthlyFee?: T;
   nextBillingDate?: T;
@@ -3441,22 +3478,22 @@ export interface DeploymentsSelect<T extends boolean = true> {
   environment?: T;
   type?: T;
   version?: T;
-  gitCommit?: T;
   gitBranch?: T;
-  vercelDeploymentId?: T;
-  vercelDeploymentUrl?: T;
-  vercelProjectId?: T;
+  gitCommit?: T;
   startedAt?: T;
   completedAt?: T;
   duration?: T;
+  reason?: T;
+  notes?: T;
+  triggeredBy?: T;
   logs?: T;
   errorMessage?: T;
   errorStack?: T;
+  vercelDeploymentId?: T;
+  vercelDeploymentUrl?: T;
+  vercelProjectId?: T;
   configSnapshot?: T;
   environmentSnapshot?: T;
-  triggeredBy?: T;
-  reason?: T;
-  notes?: T;
   healthCheckPassed?: T;
   healthCheckResults?: T;
   updatedAt?: T;

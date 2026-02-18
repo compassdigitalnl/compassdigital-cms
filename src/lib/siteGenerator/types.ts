@@ -1,14 +1,52 @@
 /**
  * Site Generator Wizard Types
- * Type definitions for the 5-step wizard flow
+ * Type definitions for the wizard flow
  */
 
+// ─── Site Goal Types ──────────────────────────────────────────────────────────
+
+export type PrimaryType = 'website' | 'webshop' | 'hybrid'
+
+export type WebsiteSubType = 'corporate' | 'portfolio' | 'agency' | 'blog' | 'landing'
+
+export type WebshopModel = 'b2c-simple' | 'b2c-advanced' | 'b2b' | 'hybrid'
+
+export type PricingModel = 'flat' | 'tiered' | 'customer-groups'
+
+export type ExtraFeature =
+  | 'paywall'
+  | 'ad-space'
+  | 'events-calendar'
+  | 'job-board'
+  | 'booking-system'
+  | 'live-chat'
+
+export interface SiteGoal {
+  primaryType: PrimaryType
+  // Website specifiek
+  websiteSubType?: WebsiteSubType
+  // Webshop specifiek
+  shopModel?: WebshopModel
+  pricingModel?: PricingModel
+  hasCustomerGroups?: boolean
+  requiresApproval?: boolean
+  hidePricesForGuests?: boolean
+  enableQuoteRequests?: boolean
+  enableBulkOrder?: boolean
+  // Hybrid: website-type naast de shop
+  hybridWebsiteType?: WebsiteSubType
+}
+
+// ─── Wizard State ─────────────────────────────────────────────────────────────
+
 export interface WizardState {
-  currentStep: 1 | 2 | 3 | 4 | 5
+  currentStep: number
+  siteGoal?: SiteGoal
   companyInfo: CompanyInfo
   design: DesignPreferences
   content: ContentSettings
   features: Features
+  extraFeatures?: ExtraFeature[]
   ecommerce?: EcommerceSettings
 }
 

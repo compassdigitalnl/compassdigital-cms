@@ -1,20 +1,18 @@
 /**
- * 1-Click Client Provisioning API Endpoint
+ * CMS Builder Provisioning API Endpoint
  *
  * Complete workflow:
- * 1. Generate site content with AI (SiteGeneratorService)
- * 2. Provision deployment (ProvisioningService)
- * 3. Deploy to Vercel/Ploi
- * 4. Configure environment & domains
- * 5. Monitor deployment
- * 6. Return live site URL
- *
- * Uses SSE for real-time progress updates
+ * 1. Bereken CMS-configuratie op basis van wizard-antwoorden (CMSConfigService)
+ * 2. Maak Client record aan in Payload (met juiste template + disabledCollections)
+ * 3. Start Ploi-provisioning (ProvisioningService)
+ * 4. Geef real-time progress via SSE
+ * 5. Return live adminUrl + credentials
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { sendProgress } from '@/app/api/ai/stream/[connectionId]/route'
 import { WizardState } from '@/lib/siteGenerator/types'
+import { computeCMSConfig } from '@/lib/provisioning/CMSConfigService'
 import type { ProvisioningProgress } from '@/lib/provisioning/types'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -24,9 +22,8 @@ export const maxDuration = 300 // 5 minutes for full provisioning
 
 interface ProvisionSiteRequest {
   wizardData: WizardState
-  clientId?: string // Optional - will be created if not provided
+  clientId?: string // Optioneel — wordt aangemaakt als niet opgegeven
   sseConnectionId: string
-  deploymentProvider?: 'vercel' | 'ploi'
 }
 
 /**
@@ -36,11 +33,9 @@ async function provisionClientSite(
   wizardData: WizardState,
   clientIdInput: string | undefined,
   sseConnectionId: string,
-  deploymentProvider: 'vercel' | 'ploi' = 'vercel',
 ) {
-  console.log('🎬 [Provisioning] provisionClientSite started', {
+  console.log('[Provisioning] provisionClientSite started', {
     sseConnectionId,
-    deploymentProvider,
     hasClientId: !!clientIdInput,
   })
 
@@ -60,23 +55,24 @@ async function provisionClientSite(
       })
     }
 
-    // ===== STEP 0: Create Client record if not provided =====
-    let clientId = clientIdInput
-    console.log('👤 [Provisioning] Client ID check:', clientId ? 'Using existing' : 'Creating new')
+    // ===== STAP 0: Bereken CMS-configuratie op basis van wizard-antwoorden =====
+    await sendProgressUpdate(2, 'CMS-configuratie bepalen...')
+    const cmsConfig = computeCMSConfig(wizardData)
+    console.log(`[Provisioning] CMS Config: ${cmsConfig.summary}`)
+    console.log(`[Provisioning] Disabled collections: ${cmsConfig.disabledCollections.join(', ') || 'geen'}`)
+    await sendProgressUpdate(4, `CMS-configuratie: ${cmsConfig.summary}`)
 
+    // ===== STAP 1: Maak Client record aan (of gebruik bestaande) =====
+    let clientId = clientIdInput
     if (!clientId) {
-      console.log('📝 [Provisioning] Creating new client...')
-      await sendProgressUpdate(2, '📝 Creating client record...')
+      await sendProgressUpdate(5, 'Client aanmaken...')
 
       const clientDomain = wizardData.companyInfo.name
         .toLowerCase()
-        .replace(/[^a-z0-9-]/g, '-') // Replace non-alphanumeric (except hyphens) with hyphens
-        .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-        .replace(/^-|-$/g, '') // Remove leading/trailing hyphens
+        .replace(/[^a-z0-9-]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
 
-      console.log('🔍 [Provisioning] Generated domain:', clientDomain, 'from name:', wizardData.companyInfo.name)
-
-      // Create client with overrideAccess to bypass authentication
       const newClient = await payload.create({
         collection: 'clients',
         data: {
@@ -84,73 +80,63 @@ async function provisionClientSite(
           domain: clientDomain,
           contactEmail: wizardData.companyInfo.contactInfo?.email || 'info@example.com',
           contactName: wizardData.companyInfo.name,
-          template: 'corporate' as const,
+          template: cmsConfig.templateId as any,
           status: 'pending',
+          // Sla CMS-configuratie op in het client record
+          disabledCollections: cmsConfig.disabledCollections as any,
+          customSettings: {
+            primaryColor: wizardData.design?.colorScheme?.primary || '#3B82F6',
+            siteGoal: wizardData.siteGoal,
+            cmsConfigSummary: cmsConfig.summary,
+          },
+          customEnvironment: cmsConfig.envVars,
         },
-        overrideAccess: true, // Bypass access control for system operation
-      })
+        overrideAccess: true,
+        context: { skipProvisioningHook: true }, // Wij starten provisioning zelf
+      } as any)
 
       clientId = String(newClient.id)
-      await sendProgressUpdate(3, `✅ Client created: ${newClient.name}`)
+      await sendProgressUpdate(8, `Client aangemaakt: ${newClient.name}`)
     }
 
-    // ===== STEP 1: Generate Site Content with AI =====
-    await sendProgressUpdate(5, '🎨 Generating site content with AI...')
-
-    const { SiteGeneratorService } = await import('@/lib/siteGenerator/SiteGeneratorService')
-
-    const onAIProgress = async (progress: number, message: string) => {
-      // AI generation takes 5-50% of total progress
-      const totalProgress = 5 + (progress * 0.45)
-      await sendProgressUpdate(totalProgress, `🎨 ${message}`)
-    }
-
-    const generator = new SiteGeneratorService(onAIProgress)
-    const siteResult = await generator.generateSite(wizardData)
-
-    await sendProgressUpdate(50, `✅ Site generated: ${siteResult.pages.length} pages created`)
-
-    // ===== STEP 2: Start Provisioning =====
-    await sendProgressUpdate(55, '🚀 Starting deployment provisioning...')
+    // ===== STAP 2: Start Provisioning via Ploi =====
+    await sendProgressUpdate(10, 'Deployment starten via Ploi...')
 
     const { createProvisioningService } = await import('@/lib/provisioning/ProvisioningService')
 
-    // Create provisioning service with specified provider
-    const provisioningService = await createProvisioningService(
-      deploymentProvider, // 'vercel' or 'ploi'
-      {
-        onProgress: async (provProgress: ProvisioningProgress) => {
-          // Provisioning takes 55-100% of total progress
-          const totalProgress = 55 + (provProgress.percentage * 0.45)
-          await sendProgressUpdate(
-            totalProgress,
-            `🚀 ${provProgress.message}`,
-            provProgress.metadata,
-          )
-        },
+    const provisioningService = await createProvisioningService('ploi', {
+      onProgress: async (provProgress: ProvisioningProgress) => {
+        // Provisioning neemt 10-100% van de totale progress
+        const totalProgress = 10 + (provProgress.percentage * 0.9)
+        await sendProgressUpdate(
+          Math.min(Math.round(totalProgress), 99),
+          provProgress.message,
+          provProgress.metadata,
+        )
       },
-    )
+    })
 
-    // Get client details (with overrideAccess for system operation)
+    // Haal client op voor provisioning
     const client = await payload.findByID({
       collection: 'clients',
       id: clientId,
       overrideAccess: true,
     })
 
-    // ===== STEP 3: Provision & Deploy =====
+    // ===== STAP 3: Provision & Deploy =====
     const provisioningResult = await provisioningService.provision({
       clientId: String(clientId),
       clientName: client.name,
       domain: client.domain,
+      contactEmail: (client as any).contactEmail,
       siteData: {
         siteName: wizardData.companyInfo.name,
         industry: wizardData.companyInfo.industry,
         primaryColor: wizardData.design?.colorScheme?.primary || '#3B82F6',
-        pages: siteResult.pages,
       },
-      provider: deploymentProvider,
-      region: 'iad1', // US East (default)
+      provider: 'ploi',
+      // Geef CMS env vars mee — DISABLED_COLLECTIONS wordt hiermee gezet op de Ploi-site
+      environmentVariables: cmsConfig.envVars,
     })
 
     // ===== STEP 4: Handle Result =====
@@ -165,11 +151,11 @@ async function provisionClientSite(
         deploymentUrl: provisioningResult.deploymentUrl,
         adminUrl: provisioningResult.adminUrl,
         previewUrl: provisioningResult.deploymentUrl,
-        pages: siteResult.pages.map((p) => ({
-          id: p.id,
-          title: p.title,
-          slug: p.slug,
-        })),
+        cmsConfig: {
+          template: cmsConfig.templateId,
+          summary: cmsConfig.summary,
+          enabledCollections: cmsConfig.enabledCollections,
+        },
         provisioningLogs: provisioningResult.logs,
       },
     })
@@ -205,7 +191,7 @@ export async function POST(request: NextRequest) {
       hasWizardData: !!body.wizardData,
       hasSseConnectionId: !!body.sseConnectionId,
       sseConnectionId: body.sseConnectionId,
-      deploymentProvider: body.deploymentProvider,
+      hasClientId: !!body.clientId,
     })
 
     if (!body.wizardData || !body.sseConnectionId) {
@@ -224,7 +210,6 @@ export async function POST(request: NextRequest) {
       body.wizardData,
       body.clientId, // Can be undefined
       body.sseConnectionId,
-      body.deploymentProvider || 'ploi', // Default to Ploi!
     ).catch((error) => {
       console.error('[Provisioning] Background error:', error)
     })
