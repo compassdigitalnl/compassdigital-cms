@@ -1,6 +1,6 @@
 # PROVISIONING - QUICK REFERENCE
-**Laatste update:** 18 Februari 2026 (sessie 2)
-**Status:** ✅ Volledig werkend — plastimed01.compassdigital.nl live (HTTP 200, SSL bezig)
+**Laatste update:** 18 Februari 2026 (sessie 3)
+**Status:** ✅ Volledig werkend — plastimed01.compassdigital.nl live (HTTPS 200, SSL actief t/m 19 mei 2026)
 
 ---
 
@@ -279,6 +279,32 @@ RESEND_API_KEY=re_...                    # Optioneel (email)
      'postgresql://...', 4001, 'starter');
    ```
 
+### Let's Encrypt SSL mislukt: ACME challenge webroot 404
+→ OPGELOST. Ploi zet Nginx `root` op `/var/www/html` voor de ACME challenge locatie,
+   maar certbot schrijft challenge-bestanden naar de site-map (`/home/ploi/{domain}/`).
+   Dit veroorzaakt HTTP 404 bij elke Let's Encrypt validatie.
+   **Foutmelding (certbot log in Ploi):**
+   ```
+   Certbot failed to authenticate some domains (authenticator: webroot).
+   Type: unauthorized
+   Detail: Invalid response from http://domain/.well-known/acme-challenge/<token>: 404
+   ```
+   **Handmatige fix (voor bestaande sites):**
+   ```bash
+   # 1. Lees huidige Nginx config
+   GET /api/servers/{serverId}/sites/{siteId}/nginx-configuration
+   # 2. Vervang: root /var/www/html;  →  root /home/ploi/{domain};
+   PATCH /api/servers/{serverId}/sites/{siteId}/nginx-configuration
+   Body: { "content": "<gecorrigeerde config>" }
+   # 3. Herstart Nginx
+   POST /api/servers/{serverId}/services/nginx/restart
+   # 4. Vraag nieuw SSL-certificaat aan
+   POST /api/servers/{serverId}/sites/{siteId}/certificates
+   Body: { "type": "letsencrypt", "certificate": "domain.com" }
+   ```
+   **Code fix (toekomstige sites):** `PloiAdapter.ensureNginxPort()` corrigeert nu
+   automatisch de ACME webroot na site-aanmaak. **Commit:** `1451dce`
+
 ### Env vars niet opgeslagen
 → Ploi's GET /env geeft `{"data": "string"}` terug, NIET `{"data": {"content": "..."}}`.
    OPGELOST in PloiService.getEnvironment() return type fix.
@@ -299,8 +325,9 @@ RESEND_API_KEY=re_...                    # Optioneel (email)
 - **Database:** client_plastimed01 op shared Railway PostgreSQL (gemigreerd)
 - **CLIENT_ID:** plastimed01 (middleware skip actief)
 - **Platform DB record:** ID 2 in `clients` tabel, status='active'
-- **HTTP Status:** 200 OK op zowel `/` als `/admin`
-- **SSL:** Let's Encrypt certificaat aangevraagd (ID 546859, bezig)
+- **HTTPS Status:** 200 OK op zowel `/` als `/admin`
+- **HTTP → HTTPS:** 301 redirect actief
+- **SSL:** Let's Encrypt actief (ID 546868, verloopt 19 mei 2026)
 
 ### Root cause analyse (18 feb 2026, sessie 2)
 
@@ -326,6 +353,11 @@ nooit de client-app bereikten.
 
 5. **Platform DB clients-tabel leeg** — Payload record aangemaakt via Node.js script
 
+6. **ACME challenge webroot onjuist** — Nginx webroot wees naar `/var/www/html` i.p.v. `/home/ploi/{domain}`
+   → Certbot kon challenge-bestanden niet bereiken → SSL mislukte keer op keer
+   Fix handmatig voor plastimed01: PATCH nginx-configuration + Nginx restart
+   Fix structureel: `PloiAdapter.ensureNginxPort()` uitgebreid in `1451dce`
+
 ### Commits (chronologisch)
 1. `73e017c` - Stripe lazy init + provisioning infrastructure (11 bestanden)
 2. `6a0b7a5` - Platform-level API keys in env vars (Stripe, OpenAI, Resend)
@@ -333,6 +365,7 @@ nooit de client-app bereikten.
 4. `280d01f` - Middleware CLIENT_ID check (skip tenant routing voor client deployments)
 5. `5af8334` - Replace SQLite migrations with PostgreSQL-compatible migrations
 6. `92be8a5` - Fix Nginx port + SSL cert request in Ploi provisioning
+7. `1451dce` - Fix ACME challenge webroot in Nginx config voor Let's Encrypt SSL
 
 ---
 
