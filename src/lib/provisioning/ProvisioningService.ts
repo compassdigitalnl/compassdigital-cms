@@ -317,6 +317,8 @@ export class ProvisioningService {
       // Platform metadata
       PLATFORM_BASE_URL: baseDomain,
       CLIENT_ID: input.clientId,
+      // NEXT_PUBLIC_CLIENT_ID is inlined at build time → works in Edge + Node.js middleware
+      NEXT_PUBLIC_CLIENT_ID: input.clientId,
       CLIENT_NAME: input.clientName,
 
       // Site configuration

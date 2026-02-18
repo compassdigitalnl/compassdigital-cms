@@ -264,9 +264,10 @@ export async function middleware(request: NextRequest) {
   // ========================================
   // CLIENT DEPLOYMENT MODE
   // ========================================
-  // If CLIENT_ID is set, this is a standalone client deployment (not the platform).
-  // Skip tenant routing entirely and serve the Payload CMS app directly.
-  if (process.env.CLIENT_ID) {
+  // If this is a standalone client deployment (not the platform), skip tenant routing.
+  // We check NEXT_PUBLIC_CLIENT_ID (inlined at build time, works in Edge + Node.js runtimes)
+  // and CLIENT_ID (runtime env, works in Node.js runtime).
+  if (process.env.NEXT_PUBLIC_CLIENT_ID || process.env.CLIENT_ID) {
     const response = NextResponse.next()
     return addSecurityHeaders(response)
   }
