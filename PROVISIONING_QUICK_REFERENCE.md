@@ -82,6 +82,8 @@ X-Payload-Secret: <PAYLOAD_SECRET>
    └─> NODE_ENV, PORT, DATABASE_URL, PAYLOAD_SECRET
    └─> NEXT_PUBLIC_SERVER_URL (bijv. https://plastimed01.compassdigital.nl)
    └─> STRIPE_SECRET_KEY, OPENAI_API_KEY (gedeeld van platform)
+   └─> CLIENT_ID (subdomain, bijv. "plastimed01") ← CRUCIAAL voor middleware
+   └─> CLIENT_NAME, SITE_NAME, PRIMARY_COLOR
    └─> Klant-specifieke overrides via client.customEnvironment
 
 6. DEPLOYMENT SCRIPT INSTELLEN
@@ -108,6 +110,39 @@ X-Payload-Secret: <PAYLOAD_SECRET>
 
 ---
 
+## Middleware: CLIENT_ID mechanisme
+
+De platform-codebase bevat multi-tenant middleware (`src/middleware.ts`) die alle
+`*.compassdigital.nl` verzoeken onderschept en routeert naar de juiste tenant.
+
+**Probleem:** Wanneer dezelfde codebase als zelfstandige client-site draait (via Ploi),
+probeert de middleware `plastimed01` op te zoeken in de `tenants` tabel — die niet bestaat
+op die server → 404 "Site Not Found".
+
+**Oplossing:** De `CLIENT_ID` environment variable.
+
+```typescript
+// src/middleware.ts (regel 264-272)
+if (process.env.CLIENT_ID) {
+  // Dit is een client-deployment, geen platform.
+  // Sla tenant-routing over en serveer Payload CMS direct.
+  const response = NextResponse.next()
+  return addSecurityHeaders(response)
+}
+```
+
+**Hoe werkt het:**
+- Platform-site (`cms.compassdigital.nl`): `CLIENT_ID` is NIET gezet → normale tenant-routing
+- Client-site (`plastimed01.compassdigital.nl`): `CLIENT_ID=plastimed01` is gezet → skip tenant-routing
+
+`CLIENT_ID` wordt automatisch ingesteld door `ProvisioningService.buildEnvironmentVariables()`:
+```typescript
+CLIENT_ID: input.clientId,   // bijv. "plastimed01"
+CLIENT_NAME: input.clientName,
+```
+
+---
+
 ## Belangrijke bestanden
 
 ```
@@ -124,6 +159,8 @@ src/lib/ploi/
 
 src/lib/cloudflare/
 └── CloudflareService.ts      # Cloudflare DNS API wrapper
+
+src/middleware.ts             # Multi-tenant routing + CLIENT_ID check
 
 src/platform/collections/
 └── Clients.ts                # afterChange hook (auto-trigger)
@@ -149,9 +186,12 @@ PLATFORM_BASE_URL=compassdigital.nl      # Basis domein
 PLOI_GIT_REPO=compassdigitalnl/compassdigital-cms
 PLOI_GIT_BRANCH=main
 
-# Gedeeld naar client sites (voor build-tijd)
+# Gedeeld naar client sites (voor build-tijd én runtime)
 STRIPE_SECRET_KEY=sk_...                 # Nodig bij import van webhook route
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_... # Stripe publishable key
+STRIPE_WEBHOOKS_SIGNING_SECRET=whsec_... # Stripe webhooks
 OPENAI_API_KEY=sk-...                    # Optioneel
+RESEND_API_KEY=re_...                    # Optioneel (email)
 ```
 
 ---
@@ -165,14 +205,23 @@ OPENAI_API_KEY=sk-...                    # Optioneel
 ### "rm: cannot remove index.html: Permission denied" (git clone)
 → OPGELOST via `clearSitePlaceholder()` — verwijdert via Ploi Scripts API als root.
 
-### "Neither apiKey nor config.authenticator provided" (build fout)
+### "Neither apiKey nor config.authenticator provided" (Stripe build fout)
 → OPGELOST: Stripe lazy init fix + STRIPE_SECRET_KEY toegevoegd aan client env.
    De webhook route (`/api/stripe/webhooks/route.ts`) initialiseerde Stripe
    op module-niveau. Nu lazy (inside handler).
+   **Fix:** `src/app/api/stripe/webhooks/route.ts` - `getStripe()` functie.
+
+### "Site Not Found" (HTTP 404 ondanks werkende PM2)
+→ OPGELOST via `CLIENT_ID` env var + middleware check.
+   **Oorzaak:** Multi-tenant middleware in `src/middleware.ts` onderschept alle
+   `*.compassdigital.nl` verzoeken, zoekt subdomain op in `tenants` tabel → niet gevonden → 404.
+   **Fix:** `if (process.env.CLIENT_ID) { return NextResponse.next() }` aan begin van middleware.
+   **Commit:** `280d01f` - "fix(middleware): skip tenant routing for client deployments"
 
 ### Env vars niet opgeslagen
 → Ploi's GET /env geeft `{"data": "string"}` terug, NIET `{"data": {"content": "..."}}`.
    OPGELOST in PloiService.getEnvironment() return type fix.
+   PUT /env verwacht body: `{ content: "..." }` (NIET `environment`).
 
 ### Deployment monitoring time-out
 → De `site.status` field is de primaire bron: `active` = klaar, `deploy-failed` = fout.
@@ -187,7 +236,14 @@ OPENAI_API_KEY=sk-...                    # Optioneel
 - **Server:** 108942 (Ploi)
 - **Port:** 4001
 - **Database:** client_plastimed01 op shared Railway PostgreSQL
-- **Status:** Deployment in progress (build duurt ~10-15 min)
+- **CLIENT_ID:** plastimed01 (gezet, middleware fix actief)
+- **Status:** Deployment in progress na middleware fix (commit 280d01f)
+
+### Commits (chronologisch)
+1. `73e017c` - Stripe lazy init + provisioning infrastructure (11 bestanden)
+2. `6a0b7a5` - Platform-level API keys in env vars (Stripe, OpenAI, Resend)
+3. `ef7b4da` - Updated provisioning quick reference docs
+4. `280d01f` - Middleware CLIENT_ID check (skip tenant routing voor client deployments)
 
 ---
 
@@ -208,3 +264,12 @@ Je hoeft alleen:
 1. In Admin UI een nieuwe Client aanmaken met `name` en `domain`
 2. Status instellen op `provisioning`
 3. Opslaan → het systeem doet de rest (~15 min)
+
+### Wat de provisioner automatisch instelt per client-site:
+- `CLIENT_ID` = subdomain (zorgt dat middleware tenant-routing skippt)
+- `CLIENT_NAME` = klantnaam
+- `DATABASE_URL` = client-specifiek schema op Railway
+- `PAYLOAD_SECRET` = willekeurig gegenereerd (32 chars)
+- `NEXT_PUBLIC_SERVER_URL` = `https://<domain>.compassdigital.nl`
+- `PORT` = unieke poort (4001, 4002, ...)
+- `STRIPE_SECRET_KEY`, `OPENAI_API_KEY`, etc. (gedeeld van platform)
