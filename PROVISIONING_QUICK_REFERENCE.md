@@ -1,6 +1,6 @@
 # PROVISIONING - QUICK REFERENCE
-**Laatste update:** 18 Februari 2026
-**Status:** ✅ Volledig werkend (end-to-end getest met Plastimed)
+**Laatste update:** 18 Februari 2026 (sessie 2)
+**Status:** ✅ Volledig werkend — plastimed01.compassdigital.nl live (HTTP 200, SSL bezig)
 
 ---
 
@@ -218,6 +218,67 @@ RESEND_API_KEY=re_...                    # Optioneel (email)
    **Fix:** `if (process.env.CLIENT_ID) { return NextResponse.next() }` aan begin van middleware.
    **Commit:** `280d01f` - "fix(middleware): skip tenant routing for client deployments"
 
+### "Site Not Found" (HTTP 404 ondanks juiste CLIENT_ID env var en PM2)
+→ OPGELOST door Nginx proxy-poort te corrigeren.
+   **Werkelijke oorzaak:** Nginx was geconfigureerd met `proxy_pass http://localhost:3000;`
+   (de platform CMS poort) in plaats van `http://localhost:4001;` (de client deployment poort).
+   Alle CLIENT_ID middleware-fixes hadden geen effect omdat verzoeken nooit de client-app
+   bereikten — ze gingen naar de platform CMS op poort 3000.
+   **Diagnose:** Controleer altijd het Nginx-config op de server:
+   ```bash
+   cat /etc/nginx/sites-available/<domain>  # zoek proxy_pass
+   ```
+   **Fix via Ploi API:**
+   ```bash
+   # 1. Lees huidige config
+   GET /api/servers/{serverId}/sites/{siteId}/nginx-configuration
+   # 2. Vervang port 3000 → 4001 in response.nginx_config
+   PATCH /api/servers/{serverId}/sites/{siteId}/nginx-configuration
+   Body: { "content": "<gecorrigeerde config>" }
+   # 3. Herstart Nginx
+   POST /api/servers/{serverId}/services/nginx/restart
+   ```
+   **Code fix:** `PloiAdapter.ensureNginxPort()` - verifieert en corrigeert Nginx-poort
+   na site-aanmaak. **Commit:** `92be8a5`
+
+### SQLite migrations draaien op PostgreSQL ("db.run is not a function")
+→ OPGELOST door nieuwe PostgreSQL migrations te genereren.
+   **Oorzaak:** De `src/migrations/` bestanden waren gegenereerd voor `@payloadcms/db-sqlite`
+   (gebruikt `db.run()` syntax), maar de productie-database is PostgreSQL (vereist `db.execute()`).
+   **Fix:** Verwijder oude SQLite migration files. Genereer nieuwe met PostgreSQL DATABASE_URL:
+   ```bash
+   export DATABASE_URL="postgresql://postgres:<pw>@<host>:<port>/client_plastimed01"
+   export NODE_OPTIONS="--no-deprecation"
+   npx payload migrate:create --forceAcceptWarning
+   ```
+   Op de server: `git pull && npm run migrate`
+   **Commit:** `5af8334` - "replace SQLite migrations with PostgreSQL-compatible migrations"
+
+### Let's Encrypt SSL-certificaat mislukt (API geeft 422/400)
+→ OPGELOST. Ploi vereist specifiek body-formaat.
+   **Correct formaat:** `{ type: 'letsencrypt', certificate: 'domain.com' }`
+   **Foutieve pogingen:**
+   - `POST .../certificates/letsencrypt` → 405 Method Not Allowed
+   - `POST .../certificates` met `{ domain: '...' }` → "certificate field required"
+   - `POST .../certificates` met `{}` → "No valid input received"
+   **Code fix:** `PloiService.createCertificate()` stuurt nu altijd `type: 'letsencrypt'`.
+   `ProvisioningService` geeft nu de domain door als `certificate: fullDomain`.
+   **Commit:** `92be8a5`
+
+### Platform DB clients-tabel is leeg na provisioning
+→ LET OP: Het provisioning-systeem slaat de client-data op in de **Payload CMS database**
+   (via `payload.update({ collection: 'clients', ... })`), niet direct in de raw SQL-tabel.
+   Als de platform DB opnieuw is aangemaakt of gemigreerd, kan de clients-tabel leeg zijn.
+   **Handmatige fix (eenmalig):**
+   ```javascript
+   INSERT INTO clients (name, domain, contact_email, template, status, deployment_url,
+     admin_url, deployment_provider, deployment_provider_id, database_url, port, plan)
+   VALUES ('Plastimed', 'plastimed01.compassdigital.nl', 'info@plastimed.nl', 'corporate',
+     'active', 'https://plastimed01.compassdigital.nl',
+     'https://plastimed01.compassdigital.nl/admin', 'ploi', '349397',
+     'postgresql://...', 4001, 'starter');
+   ```
+
 ### Env vars niet opgeslagen
 → Ploi's GET /env geeft `{"data": "string"}` terug, NIET `{"data": {"content": "..."}}`.
    OPGELOST in PloiService.getEnvironment() return type fix.
@@ -234,16 +295,44 @@ RESEND_API_KEY=re_...                    # Optioneel (email)
 - **Domain:** plastimed01.compassdigital.nl
 - **Ploi site ID:** 349397
 - **Server:** 108942 (Ploi)
-- **Port:** 4001
-- **Database:** client_plastimed01 op shared Railway PostgreSQL
-- **CLIENT_ID:** plastimed01 (gezet, middleware fix actief)
-- **Status:** Deployment in progress na middleware fix (commit 280d01f)
+- **Port:** 4001 (PM2 process `payload-cms`)
+- **Database:** client_plastimed01 op shared Railway PostgreSQL (gemigreerd)
+- **CLIENT_ID:** plastimed01 (middleware skip actief)
+- **Platform DB record:** ID 2 in `clients` tabel, status='active'
+- **HTTP Status:** 200 OK op zowel `/` als `/admin`
+- **SSL:** Let's Encrypt certificaat aangevraagd (ID 546859, bezig)
+
+### Root cause analyse (18 feb 2026, sessie 2)
+
+Het lange traject van CLIENT_ID fixes werkte niet omdat **Nginx de verzoeken naar de
+verkeerde poort (3000) stuurde** — de platform CMS, niet de client deployment (4001).
+De middleware-fixes waren noodzakelijk maar hadden geen effect zolang de requests
+nooit de client-app bereikten.
+
+**Tijdlijn van problemen die ontdekt en opgelost zijn:**
+
+1. **Nginx proxy_pass: poort 3000 i.p.v. 4001** — hoofdoorzaak
+   Fix: PATCH /nginx-configuration via Ploi API (handmatig voor plastimed01)
+   Fix voor toekomst: `PloiAdapter.ensureNginxPort()` in `92be8a5`
+
+2. **Server 8 commits achter** — git pull uitvoeren op server was nodig
+   `0332bd6` → `aca28a8` na handmatige `git pull origin main` + `npm run build`
+
+3. **SQLite migrations incompatibel met PostgreSQL** — `db.run is not a function`
+   Fix: Nieuwe PostgreSQL migrations gegenereerd en gecommit in `5af8334`
+
+4. **SSL API formaat incorrect** — `createCertificate()` stuurde leeg body
+   Fix: `type: 'letsencrypt'` + `certificate: domain` toegevoegd in `92be8a5`
+
+5. **Platform DB clients-tabel leeg** — Payload record aangemaakt via Node.js script
 
 ### Commits (chronologisch)
 1. `73e017c` - Stripe lazy init + provisioning infrastructure (11 bestanden)
 2. `6a0b7a5` - Platform-level API keys in env vars (Stripe, OpenAI, Resend)
 3. `ef7b4da` - Updated provisioning quick reference docs
 4. `280d01f` - Middleware CLIENT_ID check (skip tenant routing voor client deployments)
+5. `5af8334` - Replace SQLite migrations with PostgreSQL-compatible migrations
+6. `92be8a5` - Fix Nginx port + SSL cert request in Ploi provisioning
 
 ---
 
