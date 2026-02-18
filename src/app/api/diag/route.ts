@@ -78,7 +78,13 @@ export async function GET(request: NextRequest) {
   try {
     const payload = await getPayload({ config })
     const data = await diagnose(payload)
-    return NextResponse.json({ ok: true, ...data, timestamp: new Date().toISOString() })
+    const envCheck = {
+      DISABLED_COLLECTIONS: process.env.DISABLED_COLLECTIONS || '(not set)',
+      DATABASE_URL: process.env.DATABASE_URL ? process.env.DATABASE_URL.replace(/:[^:@]+@/, ':***@') : '(not set)',
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT,
+    }
+    return NextResponse.json({ ok: true, envCheck, ...data, timestamp: new Date().toISOString() })
   } catch (error: any) {
     return NextResponse.json(
       { ok: false, error: error?.message || String(error), stack: error?.stack?.split('\n').slice(0, 10) },
