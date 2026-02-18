@@ -464,7 +464,8 @@ export class ProvisioningService {
         apiToken: process.env.PLOI_API_TOKEN!,
       })
 
-      await ploiService.createCertificate(serverId, siteId)
+      // Ploi requires { type: 'letsencrypt', certificate: 'domain.com' }
+      await ploiService.createCertificate(serverId, siteId, { certificate: fullDomain })
       logs.push(`SSL certificate requested for ${fullDomain}`)
 
       await reportProgress('configuring_domains', 'SSL certificate requested (Let\'s Encrypt)', 92, {

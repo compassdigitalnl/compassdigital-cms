@@ -87,6 +87,10 @@ export class PloiAdapter implements DeploymentAdapter {
     // Remove Ploi's root-owned placeholder file so git clone can succeed
     await this.clearSitePlaceholder(site.domain)
 
+    // Defensive: verify Nginx is configured with the correct port.
+    // Ploi should honor nodejs_port but we've seen cases where it defaults to 3000.
+    await this.ensureNginxPort(site.id, port)
+
     // Install git repository
     try {
       await service.installRepository(this.serverId, site.id, {
@@ -359,6 +363,55 @@ echo "Placeholder files removed from ${siteDir}"`
           // Ignore cleanup errors
         }
       }
+    }
+  }
+
+  /**
+   * Verify Nginx is configured to proxy to the correct port.
+   *
+   * Ploi should honor the nodejs_port parameter when creating a site, but we've
+   * observed it defaulting to 3000 in some cases (e.g., when a site was created
+   * via the Ploi dashboard or via an earlier API version).
+   *
+   * This method reads the Nginx config, checks the proxy_pass port, and updates
+   * it if needed — then restarts Nginx.
+   */
+  private async ensureNginxPort(siteId: number, expectedPort: number): Promise<void> {
+    const service = await this.getService()
+
+    try {
+      const configRes = await service.getNginxConfiguration(this.serverId, siteId)
+      // Ploi returns { nginx_config: "..." }
+      const currentConfig: string = configRes?.nginx_config || (configRes as any)?.content || ''
+
+      if (!currentConfig) {
+        console.warn(`[PloiAdapter] ensureNginxPort: could not read Nginx config for site ${siteId}`)
+        return
+      }
+
+      const expectedProxy = `proxy_pass http://localhost:${expectedPort}`
+      if (currentConfig.includes(expectedProxy)) {
+        console.log(`[PloiAdapter] Nginx already proxying to port ${expectedPort} ✓`)
+        return
+      }
+
+      // Replace any proxy_pass localhost:<port> with the correct port
+      const fixedConfig = currentConfig.replace(
+        /proxy_pass http:\/\/localhost:\d+;/g,
+        `proxy_pass http://localhost:${expectedPort};`,
+      )
+
+      if (fixedConfig === currentConfig) {
+        console.warn(`[PloiAdapter] ensureNginxPort: proxy_pass not found in Nginx config for site ${siteId}`)
+        return
+      }
+
+      await service.updateNginxConfiguration(this.serverId, siteId, fixedConfig)
+      await service.restartService(this.serverId, 'nginx')
+      console.log(`[PloiAdapter] Nginx port corrected to ${expectedPort} for site ${siteId} ✓`)
+    } catch (err: any) {
+      // Non-fatal: Nginx may need a moment to be ready after site creation
+      console.warn(`[PloiAdapter] ensureNginxPort warning: ${err.message}`)
     }
   }
 

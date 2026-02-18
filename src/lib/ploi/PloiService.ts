@@ -227,15 +227,16 @@ export class PloiService {
 
   /**
    * Create SSL certificate (Let's Encrypt)
+   * Ploi requires: { type: 'letsencrypt', certificate: 'domain.com' }
    */
   async createCertificate(
     serverId: number,
     siteId: number,
-    data?: { certificate?: string; key?: string },
+    data?: { type?: string; certificate?: string; key?: string },
   ): Promise<{ data: any }> {
     return this.request(`/api/servers/${serverId}/sites/${siteId}/certificates`, {
       method: 'POST',
-      body: JSON.stringify(data || {}),
+      body: JSON.stringify({ type: 'letsencrypt', ...data }),
     })
   }
 
@@ -291,6 +292,44 @@ export class PloiService {
    */
   async getRepository(serverId: number, siteId: number): Promise<{ data: any }> {
     return this.request(`/api/servers/${serverId}/sites/${siteId}/repository`)
+  }
+
+  // ===== Nginx Configuration =====
+
+  /**
+   * Get the Nginx configuration for a site
+   */
+  async getNginxConfiguration(
+    serverId: number,
+    siteId: number,
+  ): Promise<{ nginx_config: string }> {
+    return this.request(`/api/servers/${serverId}/sites/${siteId}/nginx-configuration`)
+  }
+
+  /**
+   * Update the Nginx configuration for a site
+   * NOTE: Must call restartService('nginx') after this to apply changes
+   */
+  async updateNginxConfiguration(
+    serverId: number,
+    siteId: number,
+    config: string,
+  ): Promise<void> {
+    return this.request(`/api/servers/${serverId}/sites/${siteId}/nginx-configuration`, {
+      method: 'PATCH',
+      body: JSON.stringify({ content: config }),
+    })
+  }
+
+  // ===== Services =====
+
+  /**
+   * Restart a server service (e.g., 'nginx', 'php', 'mysql')
+   */
+  async restartService(serverId: number, service: string): Promise<void> {
+    return this.request(`/api/servers/${serverId}/services/${service}/restart`, {
+      method: 'POST',
+    })
   }
 
   // ===== Scripts =====
