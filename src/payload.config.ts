@@ -1,3 +1,8 @@
+// Load .env file explicitly — needed when PM2 starts the process without Next.js
+// loading env files (e.g. when --update-env doesn't source the .env file).
+// dotenv is a no-op if the vars are already set (system env takes precedence).
+import 'dotenv/config'
+
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 
