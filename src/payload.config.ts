@@ -102,7 +102,10 @@ export default buildConfig({
     components: {
       beforeLogin: ['@/components/BeforeLogin#BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard#BeforeDashboard'],
-      beforeNavLinks: ['@/components/platform/ClientSwitcher#ClientSwitcher'],
+      beforeNavLinks: [
+        '@/components/platform/ClientSwitcher#ClientSwitcher',
+        '@/components/admin/HideCollections#HideCollections',
+      ],
       graphics: {
         Logo: '@/components/AdminLogo#AdminLogo',
         Icon: '@/components/AdminLogo#AdminLogo',
