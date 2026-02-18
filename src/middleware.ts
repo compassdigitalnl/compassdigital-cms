@@ -262,6 +262,16 @@ export async function middleware(request: NextRequest) {
   }
 
   // ========================================
+  // CLIENT DEPLOYMENT MODE
+  // ========================================
+  // If CLIENT_ID is set, this is a standalone client deployment (not the platform).
+  // Skip tenant routing entirely and serve the Payload CMS app directly.
+  if (process.env.CLIENT_ID) {
+    const response = NextResponse.next()
+    return addSecurityHeaders(response)
+  }
+
+  // ========================================
   // MULTI-TENANT SUBDOMAIN ROUTING
   // ========================================
 
