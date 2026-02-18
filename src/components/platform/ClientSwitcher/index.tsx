@@ -218,6 +218,15 @@ export const ClientSwitcher: React.FC = () => {
       {activeClient && (
         <div className="cd-cs__actions">
           <a
+            href={`https://${activeClient.domain}/admin`}
+            className="cd-cs__action cd-cs__action--primary"
+            title="Open client admin panel"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            🖥️ Open Admin
+          </a>
+          <a
             href={`/admin/collections/clients/${activeClient.id}`}
             className="cd-cs__action"
             title="Client bewerken"

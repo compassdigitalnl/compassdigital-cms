@@ -316,6 +316,41 @@ export const Clients: CollectionConfig = {
       ],
     },
 
+    // ─── Admin Toegang (ingeklapt) ───────────────────────
+    {
+      type: 'collapsible',
+      label: 'Admin toegang client-site',
+      admin: {
+        initCollapsed: false,
+        description: 'Inloggegevens die automatisch zijn aangemaakt tijdens provisioning',
+      },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'adminEmail',
+              type: 'email',
+              label: 'Admin e-mailadres',
+              admin: {
+                readOnly: true,
+                description: 'Automatisch ingevuld bij provisioning (contactEmail van de klant)',
+              },
+            },
+            {
+              name: 'initialAdminPassword',
+              type: 'text',
+              label: 'Tijdelijk wachtwoord',
+              admin: {
+                readOnly: true,
+                description: 'Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login',
+              },
+            },
+          ],
+        },
+      ],
+    },
+
     // ─── Configuratie (ingeklapt) ────────────────────────
     {
       type: 'collapsible',

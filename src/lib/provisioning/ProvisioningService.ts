@@ -200,6 +200,33 @@ export class ProvisioningService {
         deploymentUrl: deploymentResult.url,
       })
 
+      // ── Step 7b: Create first admin user in client CMS ────────────────────
+      // After deployment the Payload app boots — we create the first user via REST API
+      // (Payload allows unauthenticated first-user creation when no users exist yet)
+      await reportProgress('deploying', 'Creating admin user for client CMS...', 81)
+
+      let adminEmail: string | undefined
+      let initialAdminPassword: string | undefined
+
+      try {
+        const adminResult = await this.createClientAdminUser(
+          deploymentResult.url || `https://${fullDomain}`,
+          input.contactEmail || `admin@${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`,
+          input.clientName,
+        )
+        adminEmail = adminResult.email
+        initialAdminPassword = adminResult.password
+        logs.push(`Admin user created: ${adminEmail}`)
+
+        await reportProgress('deploying', `Admin user created: ${adminEmail}`, 82, {
+          adminEmail,
+        })
+      } catch (adminError: any) {
+        logs.push(`⚠️ Admin user creation failed: ${adminError.message}`)
+        console.warn('[ProvisioningService] Admin user creation warning:', adminError.message)
+        // Non-fatal: admin can still log in via Payload's create-first-user flow
+      }
+
       // ── Step 8: Wait for DNS propagation, then request SSL ────────────────
       // DNS propagation takes 1-5 minutes after record creation.
       // We do this AFTER deployment finishes so time has passed already.
@@ -227,6 +254,9 @@ export class ProvisioningService {
           databaseUrl: databaseUrl,
           databaseProviderId: databaseId,
           port: assignedPort,
+          // Admin credentials (created automatically during provisioning)
+          ...(adminEmail ? { adminEmail } : {}),
+          ...(initialAdminPassword ? { initialAdminPassword } : {}),
         },
       })
 
@@ -576,6 +606,73 @@ export class ProvisioningService {
     } catch (error: any) {
       logs.push(`ROLLBACK ERROR: ${error.message}`)
     }
+  }
+
+  /**
+   * Create the first admin user in a freshly deployed client CMS.
+   *
+   * Payload CMS allows unauthenticated creation of the FIRST user via POST /api/users.
+   * This endpoint is only open when no users exist yet — perfect for provisioning.
+   *
+   * We retry up to 8 times with 15-second delays because the PM2 process may
+   * need a moment to fully boot after deployment completes.
+   */
+  private async createClientAdminUser(
+    siteUrl: string,
+    email: string,
+    name: string,
+  ): Promise<{ email: string; password: string }> {
+    const password = this.generateAdminPassword()
+    const MAX_ATTEMPTS = 8
+    const RETRY_DELAY_MS = 15_000
+
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        console.log(`[ProvisioningService] Creating admin user (attempt ${attempt}/${MAX_ATTEMPTS})...`)
+
+        const res = await fetch(`${siteUrl}/api/users`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, name }),
+        })
+
+        if (res.ok) {
+          console.log(`[ProvisioningService] Admin user created: ${email}`)
+          return { email, password }
+        }
+
+        const body = await res.json().catch(() => ({}))
+
+        // If users already exist, Payload returns 403 — no point retrying
+        if (res.status === 403) {
+          throw new Error(`Admin user already exists or endpoint requires auth (403)`)
+        }
+
+        console.warn(`[ProvisioningService] Attempt ${attempt} failed: HTTP ${res.status}`, body)
+      } catch (err: any) {
+        // Network errors (site not yet up) — retry
+        if (attempt === MAX_ATTEMPTS) throw err
+        console.warn(`[ProvisioningService] Attempt ${attempt} error: ${err.message} — retrying in ${RETRY_DELAY_MS / 1000}s`)
+      }
+
+      if (attempt < MAX_ATTEMPTS) {
+        await this.sleep(RETRY_DELAY_MS)
+      }
+    }
+
+    throw new Error(`Failed to create admin user after ${MAX_ATTEMPTS} attempts`)
+  }
+
+  /**
+   * Generate a readable random password (16 chars, no ambiguous chars)
+   */
+  private generateAdminPassword(): string {
+    const chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789!@#$'
+    let password = ''
+    for (let i = 0; i < 16; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    return password
   }
 
   private sleep(ms: number): Promise<void> {

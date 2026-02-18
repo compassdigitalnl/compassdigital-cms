@@ -295,6 +295,20 @@
       color: var(--theme-text, #1a1a1a);
       text-decoration: none;
     }
+
+    &--primary {
+      background: color-mix(in srgb, var(--theme-success-500, #00796b) 12%, transparent);
+      border-color: color-mix(in srgb, var(--theme-success-500, #00796b) 35%, transparent);
+      color: var(--theme-success-600, #00796b);
+      font-weight: 600;
+
+      &:hover {
+        background: color-mix(in srgb, var(--theme-success-500, #00796b) 20%, transparent);
+        border-color: color-mix(in srgb, var(--theme-success-500, #00796b) 55%, transparent);
+        color: var(--theme-success-700, #005a4f);
+        text-decoration: none;
+      }
+    }
   }
 
   // ─── Divider onderaan ────────────────────────────────────────────

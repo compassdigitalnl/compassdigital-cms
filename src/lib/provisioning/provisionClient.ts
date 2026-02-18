@@ -102,6 +102,7 @@ export async function provisionClient(opts: ProvisionClientOptions): Promise<Pro
     clientId,
     clientName: client.name,
     domain: client.domain,
+    contactEmail: (client as any).contactEmail || undefined,
 
     siteData: {
       siteName: client.name,

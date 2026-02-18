@@ -40,6 +40,7 @@ export interface ProvisioningInput {
   clientId: string
   clientName: string
   domain: string // Subdomain (e.g., 'plastimed')
+  contactEmail?: string // Used for first admin user creation
 
   // Site Configuration
   siteData: {
