@@ -7,6 +7,12 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Expose CLIENT_ID at build time so it's available in middleware and all server-side code.
+  // Client deployments have CLIENT_ID set → middleware skips tenant routing.
+  // Platform CMS has CLIENT_ID unset → defaults to '' (falsy) → tenant routing proceeds.
+  env: {
+    CLIENT_ID: process.env.CLIENT_ID || '',
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
