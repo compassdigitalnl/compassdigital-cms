@@ -266,10 +266,10 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 5: E-COMMERCE (Verzending & Retour) ───────────────
+        // ─── TAB 5: TEMPLATES (Product & Blog Templates) ──────────
         {
-          label: 'E-commerce',
-          description: 'Verzending, retour en levering',
+          label: 'Templates',
+          description: 'Visuele templates voor producten en blog posts',
           fields: [
             {
               name: 'defaultProductTemplate',
@@ -282,7 +282,7 @@ export const Settings: GlobalConfig = {
                 { label: 'Template 3 - Luxury (Premium, elegant)', value: 'template3' },
               ],
               admin: {
-                description: 'Standaard template voor nieuwe producten (kan per product overschreven worden)',
+                description: 'Template voor product detail pagina\'s',
               },
             },
             {
@@ -296,9 +296,17 @@ export const Settings: GlobalConfig = {
                 { label: 'Blog Template 3 - Premium (Wide, elegant)', value: 'blogtemplate3' },
               ],
               admin: {
-                description: 'Standaard template voor blog posts',
+                description: 'Template voor blog post pagina\'s',
               },
             },
+          ],
+        },
+
+        // ─── TAB 6: E-COMMERCE (Verzending & Retour) ───────────────
+        {
+          label: 'E-commerce',
+          description: 'Verzending, retour en levering',
+          fields: [
             {
               name: 'freeShippingThreshold',
               type: 'number',
@@ -400,7 +408,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 6: B2B INSTELLINGEN ───────────────────────────────
+        // ─── TAB 7: B2B INSTELLINGEN ───────────────────────────────
         {
           label: 'B2B Instellingen',
           description: 'B2B specifieke instellingen',
@@ -444,7 +452,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 7: TRUST BADGES & CERTIFICATEN ────────────────────
+        // ─── TAB 8: TRUST BADGES & CERTIFICATEN ────────────────────
         {
           label: 'Trust Badges',
           description: 'Certificaten, keurmerken en vertrouwen',
@@ -512,7 +520,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 8: FUNCTIES (Feature Toggles) ─────────────────────
+        // ─── TAB 9: FUNCTIES (Feature Toggles) ─────────────────────
         {
           label: 'Functies',
           description: 'Features aan/uit zetten',
@@ -575,7 +583,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 9: BRANDING ───────────────────────────────────────
+        // ─── TAB 10: BRANDING ──────────────────────────────────────
         {
           label: 'Branding',
           description: "Logo's en kleuren (alleen admin)",
@@ -631,7 +639,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 10: TRACKING ──────────────────────────────────────
+        // ─── TAB 11: TRACKING ──────────────────────────────────────
         {
           label: 'Tracking',
           description: 'Analytics en tracking codes (alleen admin)',
@@ -666,7 +674,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 11: SEO ───────────────────────────────────────────
+        // ─── TAB 12: SEO ───────────────────────────────────────────
         {
           label: 'SEO',
           description: 'Zoekmachine optimalisatie instellingen',

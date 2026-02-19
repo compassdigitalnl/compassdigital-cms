@@ -4095,11 +4095,11 @@ export interface Setting {
     | null;
   hoursNote?: string | null;
   /**
-   * Standaard template voor nieuwe producten (kan per product overschreven worden)
+   * Template voor product detail pagina's
    */
   defaultProductTemplate?: ('template1' | 'template2' | 'template3') | null;
   /**
-   * Standaard template voor blog posts
+   * Template voor blog post pagina's
    */
   defaultBlogTemplate?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
   /**
