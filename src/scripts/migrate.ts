@@ -35,7 +35,9 @@ async function runMigrations() {
   }
 
   try {
-    await payload.db.migrate()
+    // Force migration without interactive prompt
+    // This is safe for production deployments where we want auto-migrations
+    await payload.db.migrate({ forceAcceptWarning: true })
     console.log('[migrate] ✅ Migrations completed successfully')
   } catch (err: any) {
     const msg = err?.message || ''
