@@ -82,7 +82,7 @@ export const BlogPosts: CollectionConfig = {
     {
       name: 'categories',
       type: 'relationship',
-      relationTo: 'product-categories',
+      relationTo: 'blog-categories',
       hasMany: true,
       label: 'Categorieën',
       admin: {

@@ -286,6 +286,20 @@ export const Settings: GlobalConfig = {
               },
             },
             {
+              name: 'defaultBlogTemplate',
+              type: 'select',
+              label: 'Standaard Blog Template',
+              defaultValue: 'blogtemplate1',
+              options: [
+                { label: 'Blog Template 1 - Magazine (2-kolom, sidebar)', value: 'blogtemplate1' },
+                { label: 'Blog Template 2 - Minimal (Centered, clean)', value: 'blogtemplate2' },
+                { label: 'Blog Template 3 - Premium (Wide, elegant)', value: 'blogtemplate3' },
+              ],
+              admin: {
+                description: 'Standaard template voor blog posts',
+              },
+            },
+            {
               name: 'freeShippingThreshold',
               type: 'number',
               required: true,

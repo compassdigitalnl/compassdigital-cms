@@ -25,6 +25,7 @@ import sharp from 'sharp'
 
 // Collections
 import { BlogPosts } from '@/collections/BlogPosts'
+import { BlogCategories } from '@/collections/BlogCategories'
 import { Brands } from '@/collections/Brands'
 import { Cases } from '@/collections/Cases'
 import { FAQs } from '@/collections/FAQs'
@@ -183,6 +184,7 @@ export default buildConfig({
 
     // Website content — optioneel per klant
     _col(BlogPosts),
+    _col(BlogCategories),
     _col(FAQs),
     _col(Cases),
     _col(Testimonials),

@@ -71,6 +71,7 @@ export interface Config {
     pages: Page;
     media: Media;
     'blog-posts': BlogPost;
+    'blog-categories': BlogCategory;
     faqs: Faq;
     cases: Case;
     testimonials: Testimonial;
@@ -99,6 +100,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     cases: CasesSelect<false> | CasesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
@@ -2000,7 +2002,7 @@ export interface BlogPost {
     [k: string]: unknown;
   };
   author?: (number | null) | User;
-  categories?: (number | ProductCategory)[] | null;
+  categories?: (number | BlogCategory)[] | null;
   publishedAt?: string | null;
   status?: ('published' | 'draft') | null;
   meta?: {
@@ -2030,6 +2032,32 @@ export interface BlogPost {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories".
+ */
+export interface BlogCategory {
+  id: number;
+  name: string;
+  /**
+   * Auto-gegenereerd uit categorie naam
+   */
+  slug: string;
+  /**
+   * Korte beschrijving van deze categorie (optioneel)
+   */
+  description?: string | null;
+  /**
+   * Kleur voor categorie badge
+   */
+  color?: ('blue' | 'green' | 'red' | 'purple' | 'orange' | 'pink' | 'gray') | null;
+  /**
+   * Optionele afbeelding voor categorie overzicht
+   */
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Opgeslagen bestellijsten voor snelle herbestellingen
@@ -2558,6 +2586,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog-posts';
         value: number | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'blog-categories';
+        value: number | BlogCategory;
       } | null)
     | ({
         relationTo: 'faqs';
@@ -3327,6 +3359,19 @@ export interface BlogPostsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories_select".
+ */
+export interface BlogCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  color?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs_select".
  */
 export interface FaqsSelect<T extends boolean = true> {
@@ -4054,6 +4099,10 @@ export interface Setting {
    */
   defaultProductTemplate?: ('template1' | 'template2' | 'template3') | null;
   /**
+   * Standaard template voor blog posts
+   */
+  defaultBlogTemplate?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
+  /**
    * Bestellingen boven dit bedrag krijgen gratis verzending
    */
   freeShippingThreshold: number;
@@ -4572,6 +4621,7 @@ export interface SettingsSelect<T extends boolean = true> {
       };
   hoursNote?: T;
   defaultProductTemplate?: T;
+  defaultBlogTemplate?: T;
   freeShippingThreshold?: T;
   shippingCost?: T;
   deliveryTime?: T;
