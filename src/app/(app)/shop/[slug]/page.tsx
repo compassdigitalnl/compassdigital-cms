@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import ProductTemplate1 from './ProductTemplate1'
+import ProductTemplate2 from './ProductTemplate2'
 import type { Product } from '@/payload-types'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -67,6 +68,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     notFound()
   }
 
+  // Determine which template to use
+  const template = (product as any).template || 'template1'
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Breadcrumb Header */}
@@ -83,9 +87,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </div>
 
-      {/* Product Template 1 */}
+      {/* Product Template Switcher */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <ProductTemplate1 product={product} />
+        {template === 'template2' ? (
+          <ProductTemplate2 product={product} />
+        ) : (
+          <ProductTemplate1 product={product} />
+        )}
       </div>
     </div>
   )

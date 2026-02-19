@@ -81,6 +81,20 @@ export const Products: CollectionConfig = {
                 description: 'Simple = normaal product, Grouped = multi-select parent',
               },
             },
+            {
+              name: 'template',
+              type: 'select',
+              label: 'Product Template',
+              defaultValue: 'template1',
+              options: [
+                { label: 'Template 1 - Enterprise (Volledig, B2B features)', value: 'template1' },
+                { label: 'Template 2 - Minimal (Clean, modern)', value: 'template2' },
+              ],
+              admin: {
+                position: 'sidebar',
+                description: 'Kies welke template gebruikt wordt voor dit product',
+              },
+            },
             // SKU, EAN, MPN row
             {
               type: 'row',

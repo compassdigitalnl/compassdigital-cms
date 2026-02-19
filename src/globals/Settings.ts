@@ -272,6 +272,19 @@ export const Settings: GlobalConfig = {
           description: 'Verzending, retour en levering',
           fields: [
             {
+              name: 'defaultProductTemplate',
+              type: 'select',
+              label: 'Standaard Product Template',
+              defaultValue: 'template1',
+              options: [
+                { label: 'Template 1 - Enterprise (Volledig, B2B features)', value: 'template1' },
+                { label: 'Template 2 - Minimal (Clean, modern)', value: 'template2' },
+              ],
+              admin: {
+                description: 'Standaard template voor nieuwe producten (kan per product overschreven worden)',
+              },
+            },
+            {
               name: 'freeShippingThreshold',
               type: 'number',
               required: true,
