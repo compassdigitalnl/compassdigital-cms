@@ -7,6 +7,7 @@
 
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../../access/utilities'
+import { isClientDeployment } from '../../lib/isClientDeployment'
 
 export const Deployments: CollectionConfig = {
   slug: 'deployments',
@@ -17,7 +18,12 @@ export const Deployments: CollectionConfig = {
     description:
       'Automatisch bijgehouden deployment history. Alleen-lezen — wordt aangemaakt door het systeem.',
     // Verberg voor niet-admins
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: ({ user }) => {
+      // Always hide in client/tenant deployments
+      if (isClientDeployment()) return true
+      // Otherwise hide for non-admin users
+      return !checkRole(['admin'], user)
+    },
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin'], user),

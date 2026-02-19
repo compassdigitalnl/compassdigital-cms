@@ -127,6 +127,13 @@ export const ClientSwitcher: React.FC = () => {
     setIsOpen(false)
   }, [])
 
+  // Hide in client/tenant deployments
+  const isClientDeployment = !!(
+    process.env.NEXT_PUBLIC_CLIENT_ID ||
+    typeof window !== 'undefined' && (window as any).__CLIENT_DEPLOYMENT__
+  )
+  if (isClientDeployment) return null
+
   if (!isAdmin) return null
   if (isLoading) return <div className="cd-cs cd-cs--loading">Klanten laden…</div>
 

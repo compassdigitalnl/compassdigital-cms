@@ -304,6 +304,18 @@ export const BeforeDashboard: React.FC = () => {
   const isAdmin = Array.isArray(user.roles) && user.roles.includes('admin')
   const userName = (user as any).name || user.email || ''
 
+  // Check if this is a client/tenant deployment
+  const isClientDeployment = !!(
+    process.env.NEXT_PUBLIC_CLIENT_ID ||
+    typeof window !== 'undefined' && (window as any).__CLIENT_DEPLOYMENT__
+  )
+
+  // In client deployments, always show tenant UI (even for admins)
+  if (isClientDeployment) {
+    return <EditorDashboard userName={userName} />
+  }
+
+  // In platform deployment, show admin UI for admin users
   if (isAdmin) {
     return <AdminDashboard userName={userName} />
   }

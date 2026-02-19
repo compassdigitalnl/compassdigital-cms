@@ -7,6 +7,7 @@
 
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../../access/utilities'
+import { isClientDeployment } from '../../lib/isClientDeployment'
 
 export const ClientRequests: CollectionConfig = {
   slug: 'client-requests',
@@ -20,7 +21,12 @@ export const ClientRequests: CollectionConfig = {
     defaultColumns: ['companyName', 'contactEmail', 'siteType', 'status', 'createdAt'],
     description: 'Inkomende onboarding-verzoeken van nieuwe klanten',
     // Only visible to admins
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: ({ user }) => {
+      // Always hide in client/tenant deployments
+      if (isClientDeployment()) return true
+      // Otherwise hide for non-admin users
+      return !checkRole(['admin'], user)
+    },
   },
   access: {
     // Only admins can read and manage requests

@@ -18,6 +18,7 @@
 
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../../access/utilities'
+import { isClientDeployment } from '../../lib/isClientDeployment'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',
@@ -26,7 +27,12 @@ export const Clients: CollectionConfig = {
     group: 'Platform Beheer',
     defaultColumns: ['name', 'domain', 'status', 'plan', 'createdAt'],
     description: 'Klanten beheren en sites deployen',
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: ({ user }) => {
+      // Always hide in client/tenant deployments
+      if (isClientDeployment()) return true
+      // Otherwise hide for non-admin users
+      return !checkRole(['admin'], user)
+    },
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin'], user),

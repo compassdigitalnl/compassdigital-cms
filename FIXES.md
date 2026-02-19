@@ -1,31 +1,45 @@
-Fix: DATABASE_URL mismatch bij PM2 client deployments                                                                                          
+Fix: Tenant dashboard toont platform admin UI                                                                                                  
                                                                                                                                                  
   Probleem                                                                                                                                       
+
+  Wanneer CLIENT_ID / NEXT_PUBLIC_CLIENT_ID gezet is (tenant deployment), toont het admin dashboard nog steeds de platform UI: "CompassDigital   
+  Platform" header, "Actieve klanten" stats, Platform Management menu, en de ClientSwitcher ("ACTIEVE KLANT" dropdown). Geen van de admin        
+  componenten checkt of het een client deployment is.
                                                                                                                                                  
-  In /home/ploi/cms.compassdigital.nl/src/lib/provisioning/adapters/PloiAdapter.ts, genereert generateDeploymentScript() een deploy script dat
-  alleen PORT exporteert naar PM2. De DATABASE_URL wordt niet expliciet geëxporteerd, waardoor PM2 de waarde van de parent shell erft (de        
-  platform database railway) in plaats van de tenant database uit .env.                                                                          
+  Betrokken bestanden (5 wijzigingen)                                                                                                            
+                                                                                                                                                 
+  1. src/components/BeforeDashboard/index.tsx                                                                                                    
+  - De component checkt alleen user.roles.includes('admin') en toont dan altijd <AdminDashboard> (platform UI)
+  - Fix: Check process.env.NEXT_PUBLIC_CLIENT_ID — als die gezet is, toon <EditorDashboard> (tenant UI) ook voor admin users, of maak een nieuw
+  <TenantAdminDashboard> component dat:
+    - "CompassDigital Platform" header vervangt door bijv. "Mijn Dashboard" of de client naam
+    - Platform stats verwijdert (Actieve klanten, Deployments)
+    - Platform management links verwijdert (Klanten, Deployments, Site Generator)
+    - Focust op content & e-commerce (Pagina's, Producten, Bestellingen, Media, Blog)
 
-  Wat moet er aangepast worden
+  2. src/components/platform/ClientSwitcher/index.tsx
+  - Toont de "ACTIEVE KLANT" dropdown voor alle admin users
+  - Fix: Voeg check toe: als process.env.NEXT_PUBLIC_CLIENT_ID gezet is, return null (niet renderen)
 
-  File: src/lib/provisioning/adapters/PloiAdapter.ts
+  3. Platform collections verbergen in sidebar
+  De hidden functie in deze 3 bestanden checkt alleen user role, niet deployment mode:
+  - src/platform/collections/Clients.ts
+  - src/platform/collections/Deployments.ts
+  - src/platform/collections/ClientRequests.ts
+  - Fix: In de hidden functie van elk: als process.env.CLIENT_ID gezet is, return true (altijd verbergen)
 
-  In de methode generateDeploymentScript(), voeg voor de pm2 restart/start commando's het volgende toe:
+  Optioneel: Utility functie
 
-  # Load and export all environment variables from .env
-  set -a
-  [ -f .env ] && source .env
-  set +a
+  Maak src/lib/isClientDeployment.ts:
+  export const isClientDeployment = (): boolean =>
+    !!(process.env.CLIENT_ID || process.env.NEXT_PUBLIC_CLIENT_ID)
+  Gebruik deze in alle bovenstaande componenten voor consistentie.
 
-  Dit zorgt ervoor dat alle variabelen uit .env (inclusief DATABASE_URL) als environment variabelen worden geëxporteerd, zodat pm2 restart
-  --update-env ze correct oppikt.
+  Verwacht resultaat na fix
 
-  Verificatie
-
-  Na de fix zou een nieuw geprovisioned client site (bijv. client01.compassdigital.nl) automatisch de juiste DATABASE_URL moeten gebruiken.
-  Controleerbaar met:
-  pm2 env <process-id> | grep DATABASE_URL
-
-  ---
-  Dat is de enige codewijziging die nodig is. De .env file wordt al correct gegenereerd door ProvisioningService.buildEnvironmentVariables() —
-  het probleem zit puur in het deploy script dat de .env niet sourced voor PM2.
+  Op plastimed01.compassdigital.nl/admin:
+  - Geen "COMPASSDIGITAL PLATFORM" header
+  - Geen "ACTIEVE KLANT" dropdown
+  - Geen Platform Management / Platform Beheer in sidebar
+  - Wel: Pagina's, Blog, Media, Theme, Products, Orders, Formulieren, Instellingen
+  - Dashboard gefocust op content & e-commerce quick actions
