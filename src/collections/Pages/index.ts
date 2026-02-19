@@ -35,6 +35,11 @@ import { SearchBar } from '@/blocks/SearchBar'
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 
+// Check for disabled collections to prevent invalid relationship errors
+const disabledCollections = new Set(
+  (process.env.DISABLED_COLLECTIONS || '').split(',').map(s => s.trim()).filter(Boolean)
+)
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -175,7 +180,8 @@ export const Pages: CollectionConfig = {
         // ── E-commerce blokken ──
         ProductGrid,
         CategoryGrid, // Product categorieën
-        Services, // Features/USPs
+        // Services block - only if services collection is enabled
+        ...(disabledCollections.has('services') ? [] : [Services]), // Features/USPs
         QuickOrder,
         ProductFilters,
         SearchBar,
@@ -186,7 +192,8 @@ export const Pages: CollectionConfig = {
 
         // ── Social proof & Portfolio ──
         TestimonialsBlock, // Klant reviews
-        CasesBlock, // Portfolio/projecten
+        // Cases block - only if cases collection is enabled
+        ...(disabledCollections.has('cases') ? [] : [CasesBlock]), // Portfolio/projecten
         LogoBar, // Partner/klant logo's
         Stats,
 
