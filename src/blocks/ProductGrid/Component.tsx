@@ -54,6 +54,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
           }
           break
 
+        case 'latest':
         case 'recent':
           // Fetch recently added products (sorted by creation date)
           apiUrl = `${baseUrl}/api/products?sort=-createdAt&limit=${limit}`
@@ -182,7 +183,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
                   </div>
                 )}
 
-                <Link href={`/producten/${slug}`} className="block">
+                <Link href={`/shop/${slug}`} className="block">
                   <div className="aspect-square bg-gray-100 relative overflow-hidden">
                     {firstImage && firstImage.url ? (
                       <img
@@ -205,7 +206,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
                     </div>
                   )}
 
-                  <Link href={`/producten/${slug}`}>
+                  <Link href={`/shop/${slug}`}>
                     <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-teal-600 transition-colors">
                       {title}
                     </h3>
