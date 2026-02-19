@@ -387,11 +387,15 @@ code {
   margin-bottom: 6px !important;
 }
 
-/* Field descriptions */
+/* Field descriptions - Better contrast */
 .field-description {
   font-size: 12px !important;
-  color: #94A3B8 !important;
+  color: #64748B !important; /* Darker for better readability */
   margin-top: 4px !important;
+}
+
+[data-theme="dark"] .field-description {
+  color: #94A3B8 !important;
 }
 
 /* Required indicator (blue instead of red) */
@@ -477,8 +481,12 @@ code {
   font-size: 12px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
-  color: #64748B !important;
+  color: #475569 !important; /* Darker for better contrast */
   padding: 12px 16px !important;
+}
+
+[data-theme="dark"] .table .row--header .sort-header {
+  color: #94A3B8 !important;
 }
 
 /* Table rows */
@@ -732,8 +740,12 @@ code {
 }
 
 .login p {
-  color: #64748B !important;
+  color: #475569 !important; /* Darker for better readability */
   font-size: 14px !important;
+}
+
+[data-theme="dark"] .login p {
+  color: #94A3B8 !important;
 }
 
 .login .btn--style-primary {
@@ -835,10 +847,11 @@ code {
   background: var(--cd-blue-bg) !important;
 }
 
-/* Breadcrumbs */
+/* Breadcrumbs - Goed leesbaar in light mode */
 .step-nav a {
-  color: #64748B !important;
+  color: #475569 !important; /* Darker slate for better contrast */
   font-size: 13px !important;
+  transition: color var(--cd-transition-fast) !important;
 }
 
 .step-nav a:hover {
@@ -847,14 +860,33 @@ code {
 
 .step-nav .step-nav__last {
   color: var(--theme-text) !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important; /* Slightly bolder for emphasis */
 }
 
-/* Empty state */
-.no-results {
+/* Breadcrumb separator */
+.step-nav .step-nav__separator {
   color: #94A3B8 !important;
+  opacity: 0.6;
+}
+
+/* Dark mode breadcrumbs */
+[data-theme="dark"] .step-nav a {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .step-nav .step-nav__separator {
+  color: #64748B !important;
+}
+
+/* Empty state - Better contrast in light mode */
+.no-results {
+  color: #64748B !important; /* Darker for better readability */
   font-size: 15px !important;
   padding: 48px 0 !important;
+}
+
+[data-theme="dark"] .no-results {
+  color: #94A3B8 !important;
 }
 
 /* Document header */
