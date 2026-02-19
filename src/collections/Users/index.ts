@@ -5,6 +5,7 @@ import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
 import { publicAccess } from '@/access/publicAccess'
 import { adminOrSelf } from '@/access/adminOrSelf'
 import { checkRole } from '@/access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 import { ensureFirstUserIsAdmin } from './hooks/ensureFirstUserIsAdmin'
 
@@ -228,20 +229,26 @@ export const Users: CollectionConfig = {
         condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
       },
     },
-    {
-      name: 'client',
-      type: 'relationship',
-      relationTo: 'clients',
-      label: 'Gekoppelde klant',
-      access: {
-        create: adminOnlyFieldAccess,
-        read: adminOnlyFieldAccess,
-        update: adminOnlyFieldAccess,
-      },
-      admin: {
-        description: 'De client-omgeving die bij deze gebruiker hoort',
-        condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
-      },
-    },
+    // Only include client relationship field in platform deployments
+    // In tenant deployments, the 'clients' collection doesn't exist
+    ...(!isClientDeployment()
+      ? [
+          {
+            name: 'client',
+            type: 'relationship' as const,
+            relationTo: 'clients' as const,
+            label: 'Gekoppelde klant',
+            access: {
+              create: adminOnlyFieldAccess,
+              read: adminOnlyFieldAccess,
+              update: adminOnlyFieldAccess,
+            },
+            admin: {
+              description: 'De client-omgeving die bij deze gebruiker hoort',
+              condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
+            },
+          },
+        ]
+      : []),
   ],
 }
