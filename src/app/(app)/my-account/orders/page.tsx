@@ -17,7 +17,15 @@ export default function OrdersPage() {
     date: `2026-0${2 - Math.floor(i / 20)}-${String(18 - Math.floor(i / 2)).padStart(2, '0')}`,
     productCount: Math.floor(Math.random() * 5) + 1,
     status:
-      i % 5 === 0 ? 'shipped' : i % 5 === 1 ? 'delivered' : i % 5 === 2 ? 'processing' : i % 5 === 3 ? 'paid' : 'pending',
+      i % 5 === 0
+        ? 'shipped'
+        : i % 5 === 1
+          ? 'delivered'
+          : i % 5 === 2
+            ? 'processing'
+            : i % 5 === 3
+              ? 'paid'
+              : 'pending',
     statusLabel:
       i % 5 === 0
         ? 'Onderweg'
@@ -61,73 +69,57 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4 lg:space-y-6">
+      {/* Page Header - Mobile First */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
         <div>
-          <h1
-            className="font-extrabold mb-2"
-            style={{
-              fontSize: '28px',
-              color: '#0A1628',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-            }}
-          >
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">
             Bestellingen
           </h1>
-          <p style={{ fontSize: '14px', color: '#94A3B8' }}>
+          <p className="text-sm lg:text-base text-gray-500">
             {filteredOrders.length} bestellingen gevonden
           </p>
         </div>
 
         <Link
           href="/my-account"
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:bg-gray-100"
-          style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
+          className="flex items-center justify-center gap-2 px-4 py-2.5 lg:py-3 rounded-xl text-sm lg:text-base font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
         >
           <ChevronLeft className="w-4 h-4" />
-          Terug naar dashboard
+          <span className="hidden lg:inline">Terug naar dashboard</span>
+          <span className="lg:hidden">Dashboard</span>
         </Link>
       </div>
 
-      {/* Filters */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Filters - Mobile First */}
+      <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
           {/* Search */}
           <div className="relative">
             <Search
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4.5 h-4.5"
-              style={{ color: '#94A3B8' }}
+              className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
             />
             <input
               type="text"
-              placeholder="Zoek op bestelnummer of datum..."
+              placeholder="Zoek op bestelnummer..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl outline-none transition-all"
-              style={{
-                border: '1.5px solid #E8ECF1',
-                fontSize: '14px',
-                background: '#FAFBFC',
-              }}
+              className="w-full pl-10 lg:pl-12 pr-3 lg:pr-4 py-3 lg:py-3.5 rounded-xl text-sm lg:text-base outline-none transition-all bg-gray-50 border border-gray-200 focus:border-gray-300"
             />
           </div>
 
           {/* Status Filter */}
           <div className="relative">
-            <Filter
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4.5 h-4.5"
-              style={{ color: '#94A3B8' }}
-            />
+            <Filter className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full pl-12 pr-10 py-3 rounded-xl outline-none appearance-none cursor-pointer transition-all"
+              className="w-full pl-10 lg:pl-12 pr-10 py-3 lg:py-3.5 rounded-xl text-sm lg:text-base outline-none appearance-none cursor-pointer transition-all bg-gray-50 border border-gray-200"
               style={{
-                border: '1.5px solid #E8ECF1',
-                fontSize: '14px',
-                background: `#FAFBFC url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 16px center`,
-                backgroundSize: '16px 16px',
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 12px center',
+                backgroundSize: '16px',
               }}
             >
               <option value="all">Alle statussen</option>
@@ -140,70 +132,49 @@ export default function OrdersPage() {
           </div>
         </div>
 
-        <div className="mt-4 flex items-center justify-between">
+        <div className="mt-3 lg:mt-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2 lg:gap-0">
           <button
             onClick={() => {
               setSearchQuery('')
               setStatusFilter('all')
             }}
-            className="font-semibold transition-colors"
-            style={{ fontSize: '13px', color: '#00897B' }}
+            className="text-sm font-semibold transition-colors text-teal-700 py-2 lg:py-0"
           >
             Filters wissen
           </button>
 
-          <button
-            className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all hover:opacity-90"
-            style={{ background: '#00897B', color: 'white', fontSize: '13px' }}
-          >
+          <button className="flex items-center justify-center gap-2 px-4 py-2.5 lg:py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 bg-teal-700 text-white">
             <Download className="w-4 h-4" />
-            Exporteer naar CSV
+            <span className="hidden lg:inline">Exporteer naar CSV</span>
+            <span className="lg:hidden">Exporteer</span>
           </button>
         </div>
       </div>
 
-      {/* Orders Table */}
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      {/* Orders - Mobile First Cards, Desktop Table */}
+      <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm overflow-hidden">
         {/* Desktop Table */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full">
-            <thead style={{ background: '#F5F7FA', borderBottom: '1px solid #E8ECF1' }}>
+            <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th
-                  className="text-left px-6 py-4 font-bold"
-                  style={{ fontSize: '13px', color: '#94A3B8' }}
-                >
-                  BESTELNUMMER
+                <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  Bestelnummer
                 </th>
-                <th
-                  className="text-left px-6 py-4 font-bold"
-                  style={{ fontSize: '13px', color: '#94A3B8' }}
-                >
-                  DATUM
+                <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  Datum
                 </th>
-                <th
-                  className="text-left px-6 py-4 font-bold"
-                  style={{ fontSize: '13px', color: '#94A3B8' }}
-                >
-                  PRODUCTEN
+                <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  Producten
                 </th>
-                <th
-                  className="text-left px-6 py-4 font-bold"
-                  style={{ fontSize: '13px', color: '#94A3B8' }}
-                >
-                  STATUS
+                <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  Status
                 </th>
-                <th
-                  className="text-right px-6 py-4 font-bold"
-                  style={{ fontSize: '13px', color: '#94A3B8' }}
-                >
-                  TOTAAL
+                <th className="text-right px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  Totaal
                 </th>
-                <th
-                  className="text-right px-6 py-4 font-bold"
-                  style={{ fontSize: '13px', color: '#94A3B8' }}
-                >
-                  ACTIES
+                <th className="text-right px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  Acties
                 </th>
               </tr>
             </thead>
@@ -213,23 +184,15 @@ export default function OrdersPage() {
                 return (
                   <tr
                     key={order.id}
-                    style={{ borderBottom: idx !== paginatedOrders.length - 1 ? '1px solid #E8ECF1' : 'none' }}
-                    className="hover:bg-gray-50 transition-colors"
+                    className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
                   >
                     <td className="px-6 py-4">
-                      <span
-                        className="font-bold"
-                        style={{
-                          fontSize: '13px',
-                          color: '#0A1628',
-                          fontFamily: 'JetBrains Mono, monospace',
-                        }}
-                      >
+                      <span className="text-sm font-bold text-gray-900 font-mono">
                         {order.orderNumber}
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span style={{ fontSize: '13px', color: '#0A1628' }}>
+                      <span className="text-sm text-gray-900">
                         {new Date(order.date).toLocaleDateString('nl-NL', {
                           day: 'numeric',
                           month: 'short',
@@ -239,19 +202,18 @@ export default function OrdersPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <Package className="w-4 h-4" style={{ color: '#94A3B8' }} />
-                        <span style={{ fontSize: '13px', color: '#0A1628' }}>
+                        <Package className="w-4 h-4 text-gray-400" />
+                        <span className="text-sm text-gray-900">
                           {order.productCount} {order.productCount === 1 ? 'product' : 'producten'}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className="px-2.5 py-1 rounded-full font-semibold inline-block"
+                        className="px-2.5 py-1 rounded-full text-xs font-semibold inline-block"
                         style={{
                           background: statusColors.bg,
                           color: statusColors.text,
-                          fontSize: '12px',
                           border: `1px solid ${statusColors.border}`,
                         }}
                       >
@@ -259,22 +221,12 @@ export default function OrdersPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <span
-                        className="font-bold"
-                        style={{
-                          fontSize: '14px',
-                          color: '#0A1628',
-                          fontFamily: 'Plus Jakarta Sans, sans-serif',
-                        }}
-                      >
-                        €{order.total.toFixed(2)}
-                      </span>
+                      <span className="text-sm font-bold text-gray-900">€{order.total.toFixed(2)}</span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <Link
                         href={`/my-account/orders/${order.id}`}
-                        className="inline-block px-4 py-2 rounded-lg font-semibold transition-all hover:opacity-80"
-                        style={{ background: '#00897B', color: 'white', fontSize: '13px' }}
+                        className="inline-block px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:opacity-80 bg-teal-700 text-white"
                       >
                         Bekijk
                       </Link>
@@ -287,24 +239,17 @@ export default function OrdersPage() {
         </div>
 
         {/* Mobile Cards */}
-        <div className="md:hidden divide-y" style={{ borderColor: '#E8ECF1' }}>
+        <div className="lg:hidden divide-y divide-gray-100">
           {paginatedOrders.map((order) => {
             const statusColors = getStatusColor(order.status)
             return (
               <div key={order.id} className="p-4">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <span
-                      className="font-bold block"
-                      style={{
-                        fontSize: '13px',
-                        color: '#0A1628',
-                        fontFamily: 'JetBrains Mono, monospace',
-                      }}
-                    >
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1 min-w-0">
+                    <span className="text-xs font-bold text-gray-900 font-mono block mb-0.5">
                       {order.orderNumber}
                     </span>
-                    <span style={{ fontSize: '12px', color: '#94A3B8' }}>
+                    <span className="text-xs text-gray-500">
                       {new Date(order.date).toLocaleDateString('nl-NL', {
                         day: 'numeric',
                         month: 'short',
@@ -312,31 +257,23 @@ export default function OrdersPage() {
                       })}
                     </span>
                   </div>
-                  <span
-                    className="font-bold"
-                    style={{
-                      fontSize: '16px',
-                      color: '#0A1628',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
-                    }}
-                  >
+                  <span className="text-base font-bold text-gray-900 flex-shrink-0 ml-2">
                     €{order.total.toFixed(2)}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <Package className="w-4 h-4" style={{ color: '#94A3B8' }} />
-                    <span style={{ fontSize: '13px', color: '#0A1628' }}>
+                    <Package className="w-4 h-4 text-gray-400" />
+                    <span className="text-xs text-gray-900">
                       {order.productCount} {order.productCount === 1 ? 'product' : 'producten'}
                     </span>
                   </div>
                   <span
-                    className="px-2.5 py-1 rounded-full font-semibold"
+                    className="px-2 py-0.5 rounded-full text-xs font-semibold"
                     style={{
                       background: statusColors.bg,
                       color: statusColors.text,
-                      fontSize: '12px',
                       border: `1px solid ${statusColors.border}`,
                     }}
                   >
@@ -346,8 +283,7 @@ export default function OrdersPage() {
 
                 <Link
                   href={`/my-account/orders/${order.id}`}
-                  className="block w-full px-4 py-2 rounded-lg font-semibold text-center transition-all hover:opacity-80"
-                  style={{ background: '#00897B', color: 'white', fontSize: '13px' }}
+                  className="block w-full px-4 py-2.5 rounded-lg text-sm font-semibold text-center transition-all active:opacity-80 bg-teal-700 text-white"
                 >
                   Bekijk details
                 </Link>
@@ -357,20 +293,19 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      {/* Pagination */}
+      {/* Pagination - Mobile First */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
-            style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
+            className="flex items-center gap-1.5 lg:gap-2 px-3 lg:px-4 py-2.5 rounded-xl text-sm lg:text-base font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
           >
             <ChevronLeft className="w-4 h-4" />
-            Vorige
+            <span className="hidden lg:inline">Vorige</span>
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 lg:gap-2">
             {Array.from({ length: totalPages }, (_, i) => i + 1)
               .filter(
                 (page) =>
@@ -381,15 +316,14 @@ export default function OrdersPage() {
               .map((page, idx, arr) => (
                 <React.Fragment key={page}>
                   {idx > 0 && arr[idx - 1] !== page - 1 && (
-                    <span style={{ color: '#94A3B8' }}>...</span>
+                    <span className="text-gray-400 text-sm">...</span>
                   )}
                   <button
                     onClick={() => setCurrentPage(page)}
-                    className="w-10 h-10 rounded-xl font-bold transition-all"
+                    className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl text-sm lg:text-base font-bold transition-all"
                     style={{
                       background: currentPage === page ? '#00897B' : '#F5F7FA',
                       color: currentPage === page ? 'white' : '#0A1628',
-                      fontSize: '14px',
                     }}
                   >
                     {page}
@@ -401,10 +335,9 @@ export default function OrdersPage() {
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
-            style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
+            className="flex items-center gap-1.5 lg:gap-2 px-3 lg:px-4 py-2.5 rounded-xl text-sm lg:text-base font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
           >
-            Volgende
+            <span className="hidden lg:inline">Volgende</span>
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>

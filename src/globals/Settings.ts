@@ -266,10 +266,10 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 5: TEMPLATES (Product, Blog & Shop Archive Templates) ──────────
+        // ─── TAB 5: TEMPLATES (Product, Blog, Shop Archive, Cart, Checkout, My Account) ──────────
         {
           label: 'Templates',
-          description: 'Visuele templates voor product detail, blog en shop archive pagina\'s',
+          description: 'Visuele templates voor alle pagina types',
           fields: [
             {
               name: 'defaultProductTemplate',
@@ -310,6 +310,45 @@ export const Settings: GlobalConfig = {
               ],
               admin: {
                 description: 'Template voor shop/producten overzichtspagina',
+              },
+            },
+            {
+              name: 'defaultCartTemplate',
+              type: 'select',
+              label: 'Standaard Cart Template',
+              defaultValue: 'carttemplate1',
+              options: [
+                { label: 'Cart Template 1 - Enterprise (Uitgebreid, cross-sell, progress bar)', value: 'carttemplate1' },
+                // Template 2 will be simpler version
+              ],
+              admin: {
+                description: 'Template voor winkelwagen pagina',
+              },
+            },
+            {
+              name: 'defaultCheckoutTemplate',
+              type: 'select',
+              label: 'Standaard Checkout Template',
+              defaultValue: 'checkouttemplate1',
+              options: [
+                { label: 'Checkout Template 1 - Enterprise (Multi-step, volledig)', value: 'checkouttemplate1' },
+                // Template 2 will be one-page checkout
+              ],
+              admin: {
+                description: 'Template voor checkout/afrekenen pagina',
+              },
+            },
+            {
+              name: 'defaultMyAccountTemplate',
+              type: 'select',
+              label: 'Standaard My Account Template',
+              defaultValue: 'myaccounttemplate1',
+              options: [
+                { label: 'My Account Template 1 - Enterprise (Dashboard, stats, quick actions)', value: 'myaccounttemplate1' },
+                // Template 2 will be simpler list view
+              ],
+              admin: {
+                description: 'Template voor mijn account pagina\'s',
               },
             },
           ],

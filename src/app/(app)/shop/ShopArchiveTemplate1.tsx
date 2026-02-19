@@ -22,6 +22,9 @@ import {
   Euro,
   PackageCheck,
   Package,
+  SlidersHorizontal,
+  Minus,
+  Plus,
 } from 'lucide-react'
 
 interface ShopArchiveTemplate1Props {
@@ -39,6 +42,7 @@ export default function ShopArchiveTemplate1({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortBy, setSortBy] = useState('relevance')
   const [quantities, setQuantities] = useState<Record<string, number>>({})
+  const [showMobileFilters, setShowMobileFilters] = useState(false)
 
   // Filters state
   const [filters, setFilters] = useState({
@@ -52,6 +56,18 @@ export default function ShopArchiveTemplate1({
 
   // Active filters
   const [activeFilters, setActiveFilters] = useState<Array<{ key: string; value: string }>>([])
+
+  // Prevent body scroll when mobile filters are open
+  useEffect(() => {
+    if (showMobileFilters) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showMobileFilters])
 
   // Extract unique values for filters
   const brands = Array.from(
@@ -111,10 +127,328 @@ export default function ShopArchiveTemplate1({
     inStock: products.filter((p) => p.stock > 0).length,
   }
 
+  // Filters Component (reusable for sidebar and mobile drawer)
+  const FiltersContent = () => (
+    <div>
+      {/* Filter: Merken */}
+      {brands.length > 0 && (
+        <div
+          style={{
+            background: 'var(--color-surface, white)',
+            border: '1px solid var(--color-border)',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            marginBottom: '16px',
+          }}
+        >
+          <div
+            style={{
+              padding: '16px 18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              cursor: 'pointer',
+            }}
+          >
+            <h3
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '14px',
+                fontWeight: 700,
+                color: 'var(--color-text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <Award className="w-4 h-4" style={{ color: 'var(--color-primary)' }} /> Merk
+            </h3>
+            <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+          </div>
+          <div style={{ padding: '0 18px 16px' }}>
+            {brands.slice(0, 6).map((brand) => (
+              <div
+                key={brand}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '7px 0',
+                  fontSize: '14px',
+                  color: 'var(--color-text-primary)',
+                  cursor: 'pointer',
+                }}
+              >
+                <div
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    border: '2px solid var(--color-border)',
+                    borderRadius: '5px',
+                    flexShrink: 0,
+                  }}
+                />
+                {brand}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Filter: Materiaal */}
+      {materials.length > 0 && (
+        <div
+          style={{
+            background: 'var(--color-surface, white)',
+            border: '1px solid var(--color-border)',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            marginBottom: '16px',
+          }}
+        >
+          <div
+            style={{
+              padding: '16px 18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <h3
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '14px',
+                fontWeight: 700,
+                color: 'var(--color-text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <Layers className="w-4 h-4" style={{ color: 'var(--color-primary)' }} /> Materiaal
+            </h3>
+            <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+          </div>
+          <div style={{ padding: '0 18px 16px' }}>
+            {materials.slice(0, 4).map((material) => (
+              <div
+                key={material}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '7px 0',
+                  fontSize: '14px',
+                  color: 'var(--color-text-primary)',
+                  cursor: 'pointer',
+                }}
+              >
+                <div
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    border: '2px solid var(--color-border)',
+                    borderRadius: '5px',
+                    flexShrink: 0,
+                  }}
+                />
+                {material}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Filter: Beschikbaarheid */}
+      <div
+        style={{
+          background: 'var(--color-surface, white)',
+          border: '1px solid var(--color-border)',
+          borderRadius: '16px',
+          overflow: 'hidden',
+          marginBottom: '16px',
+        }}
+      >
+        <div
+          style={{
+            padding: '16px 18px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <h3
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '14px',
+              fontWeight: 700,
+              color: 'var(--color-text-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <PackageCheck className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />{' '}
+            Beschikbaarheid
+          </h3>
+          <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+        </div>
+        <div style={{ padding: '0 18px 16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '7px 0',
+              fontSize: '14px',
+              color: 'var(--color-text-primary)',
+              cursor: 'pointer',
+            }}
+          >
+            <div
+              style={{
+                width: '18px',
+                height: '18px',
+                border: '2px solid var(--color-border)',
+                borderRadius: '5px',
+                flexShrink: 0,
+              }}
+            />
+            Op voorraad
+            <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)' }}>
+              {stats.inStock}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Reset Filters */}
+      {activeFilters.length > 0 && (
+        <div
+          onClick={clearAllFilters}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            padding: '12px',
+            fontSize: '13px',
+            color: 'var(--color-text-muted)',
+            cursor: 'pointer',
+            transition: 'color 0.2s',
+          }}
+        >
+          <XCircle className="w-4 h-4" /> Alle filters wissen
+        </div>
+      )}
+    </div>
+  )
+
   return (
     <div style={{ fontFamily: 'var(--font-body)' }}>
-      {/* Category Hero */}
-      <section
+      {/* ========================================
+          MOBILE CATEGORY HERO
+          ======================================== */}
+      <section className="lg:hidden"
+        style={{
+          background: 'linear-gradient(135deg, #1A1F36 0%, #232942 50%, #0D2137 100%)',
+          padding: '32px 16px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(59,130,246,0.15)',
+              border: '1px solid rgba(59,130,246,0.3)',
+              padding: '5px 12px',
+              borderRadius: '100px',
+              fontSize: '11px',
+              fontWeight: 600,
+              color: '#60A5FA',
+              letterSpacing: '0.03em',
+              textTransform: 'uppercase',
+              marginBottom: '12px',
+            }}
+          >
+            <Package className="w-3 h-3" /> Categorie
+          </div>
+          <h1
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '28px',
+              fontWeight: 800,
+              color: 'white',
+              letterSpacing: '-0.02em',
+              marginBottom: '8px',
+            }}
+          >
+            {category?.name || 'Alle Producten'}
+          </h1>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, marginBottom: '20px' }}>
+            {category?.description || 'Professionele medische producten van topkwaliteit'}
+          </p>
+
+          {/* Mobile Stats */}
+          <div style={{ display: 'flex', gap: '20px' }}>
+            <div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '22px',
+                  fontWeight: 800,
+                  color: 'white',
+                }}
+              >
+                {stats.totalProducts}
+              </div>
+              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
+                Producten
+              </div>
+            </div>
+            <div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '22px',
+                  fontWeight: 800,
+                  color: 'white',
+                }}
+              >
+                {stats.brands}
+              </div>
+              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
+                Merken
+              </div>
+            </div>
+            <div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '22px',
+                  fontWeight: 800,
+                  color: 'white',
+                }}
+              >
+                {Math.round((stats.inStock / stats.totalProducts) * 100)}
+                <span style={{ color: '#60A5FA' }}>%</span>
+              </div>
+              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
+                Op voorraad
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================
+          DESKTOP CATEGORY HERO
+          ======================================== */}
+      <section className="hidden lg:block"
         style={{
           background: 'linear-gradient(135deg, #1A1F36 0%, #232942 50%, #0D2137 100%)',
           padding: '48px 0',
@@ -234,229 +568,51 @@ export default function ShopArchiveTemplate1({
       </section>
 
       {/* Shop Layout */}
-      <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '28px 24px 80px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '28px', alignItems: 'start' }}>
-          {/* Sidebar Filters */}
-          <aside style={{ position: 'sticky', top: '90px' }}>
-            {/* Filter: Merken */}
-            {brands.length > 0 && (
-              <div
-                style={{
-                  background: 'var(--color-surface, white)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  marginBottom: '16px',
-                }}
-              >
-                <div
-                  style={{
-                    padding: '16px 18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '14px',
-                      fontWeight: 700,
-                      color: 'var(--color-text-primary)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                    }}
-                  >
-                    <Award className="w-4 h-4" style={{ color: 'var(--color-primary)' }} /> Merk
-                  </h3>
-                  <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
-                </div>
-                <div style={{ padding: '0 18px 16px' }}>
-                  {brands.slice(0, 6).map((brand) => (
-                    <div
-                      key={brand}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        padding: '7px 0',
-                        fontSize: '14px',
-                        color: 'var(--color-text-primary)',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '18px',
-                          height: '18px',
-                          border: '2px solid var(--color-border)',
-                          borderRadius: '5px',
-                          flexShrink: 0,
-                        }}
-                      />
-                      {brand}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Filter: Materiaal */}
-            {materials.length > 0 && (
-              <div
-                style={{
-                  background: 'var(--color-surface, white)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  marginBottom: '16px',
-                }}
-              >
-                <div
-                  style={{
-                    padding: '16px 18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '14px',
-                      fontWeight: 700,
-                      color: 'var(--color-text-primary)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                    }}
-                  >
-                    <Layers className="w-4 h-4" style={{ color: 'var(--color-primary)' }} /> Materiaal
-                  </h3>
-                  <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
-                </div>
-                <div style={{ padding: '0 18px 16px' }}>
-                  {materials.slice(0, 4).map((material) => (
-                    <div
-                      key={material}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        padding: '7px 0',
-                        fontSize: '14px',
-                        color: 'var(--color-text-primary)',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '18px',
-                          height: '18px',
-                          border: '2px solid var(--color-border)',
-                          borderRadius: '5px',
-                          flexShrink: 0,
-                        }}
-                      />
-                      {material}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Filter: Beschikbaarheid */}
-            <div
-              style={{
-                background: 'var(--color-surface, white)',
-                border: '1px solid var(--color-border)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                marginBottom: '16px',
-              }}
-            >
-              <div
-                style={{
-                  padding: '16px 18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <h3
-                  style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    color: 'var(--color-text-primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  <PackageCheck className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />{' '}
-                  Beschikbaarheid
-                </h3>
-                <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
-              </div>
-              <div style={{ padding: '0 18px 16px' }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    padding: '7px 0',
-                    fontSize: '14px',
-                    color: 'var(--color-text-primary)',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '18px',
-                      height: '18px',
-                      border: '2px solid var(--color-border)',
-                      borderRadius: '5px',
-                      flexShrink: 0,
-                    }}
-                  />
-                  Op voorraad
-                  <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)' }}>
-                    {stats.inStock}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Reset Filters */}
-            {activeFilters.length > 0 && (
-              <div
-                onClick={clearAllFilters}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                  padding: '12px',
-                  fontSize: '13px',
-                  color: 'var(--color-text-muted)',
-                  cursor: 'pointer',
-                  transition: 'color 0.2s',
-                }}
-              >
-                <XCircle className="w-4 h-4" /> Alle filters wissen
-              </div>
-            )}
+      <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '28px 16px 100px' }} className="lg:px-24">
+        <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-7" style={{ display: 'block' }}>
+          {/* DESKTOP Sidebar Filters */}
+          <aside className="hidden lg:block" style={{ position: 'sticky', top: '90px' }}>
+            <FiltersContent />
           </aside>
 
           {/* Main Product Content */}
           <main>
-            {/* Toolbar */}
-            <div
+            {/* Mobile Toolbar */}
+            <div className="lg:hidden" style={{ marginBottom: '16px' }}>
+              <div style={{ marginBottom: '12px', fontSize: '13px', color: 'var(--color-text-muted)' }}>
+                <strong style={{ color: 'var(--color-text-primary)', fontWeight: 700 }}>
+                  {products.length}
+                </strong>{' '}
+                van {totalProducts} producten
+              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '12px 14px',
+                  background: 'var(--color-surface, white)',
+                  border: '1.5px solid var(--color-border)',
+                  borderRadius: '10px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  color: 'var(--color-text-primary)',
+                  cursor: 'pointer',
+                  outline: 'none',
+                }}
+              >
+                <option value="relevance">Relevantie</option>
+                <option value="price-asc">Prijs: laag → hoog</option>
+                <option value="price-desc">Prijs: hoog → laag</option>
+                <option value="newest">Nieuwste</option>
+                <option value="rating">Best beoordeeld</option>
+              </select>
+            </div>
+
+            {/* Desktop Toolbar */}
+            <div className="hidden lg:flex"
               style={{
-                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 marginBottom: '20px',
@@ -571,280 +727,311 @@ export default function ShopArchiveTemplate1({
               </div>
             </div>
 
-            {/* Product Grid */}
+            {/* Product Grid - Responsive */}
             <div
+              className="grid gap-3 lg:gap-5"
               style={{
-                display: 'grid',
-                gridTemplateColumns: viewMode === 'grid' ? 'repeat(3, 1fr)' : '1fr',
-                gap: viewMode === 'grid' ? '20px' : '12px',
+                gridTemplateColumns: viewMode === 'grid' ? '1fr' : '1fr',
               }}
             >
-              {products.map((product) => {
-                const imageUrl =
-                  typeof product.images?.[0]?.image === 'object' && product.images[0].image !== null
-                    ? product.images[0].image.url
-                    : null
-                const qty = quantities[product.id] || 1
+              <style>{`
+                @media (min-width: 640px) {
+                  .product-grid {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                  }
+                }
+                @media (min-width: 1024px) {
+                  .product-grid {
+                    grid-template-columns: ${viewMode === 'grid' ? 'repeat(3, 1fr)' : '1fr'} !important;
+                  }
+                }
+              `}</style>
+              <div
+                className="product-grid grid gap-3 lg:gap-5"
+                style={{
+                  gridTemplateColumns: '1fr',
+                }}
+              >
+                {products.map((product) => {
+                  const imageUrl =
+                    typeof product.images?.[0]?.image === 'object' && product.images[0].image !== null
+                      ? product.images[0].image.url
+                      : null
+                  const qty = quantities[product.id] || 1
 
-                return (
-                  <Link
-                    key={product.id}
-                    href={`/shop/${product.slug}`}
-                    style={{
-                      background: 'var(--color-surface, white)',
-                      borderRadius: '16px',
-                      overflow: 'hidden',
-                      border: '1px solid var(--color-border)',
-                      transition: 'all 0.35s',
-                      position: 'relative',
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      display: 'flex',
-                      flexDirection: viewMode === 'grid' ? 'column' : 'row',
-                    }}
-                  >
-                    {/* Product Image */}
-                    <div
+                  return (
+                    <Link
+                      key={product.id}
+                      href={`/shop/${product.slug}`}
                       style={{
-                        width: viewMode === 'grid' ? '100%' : '200px',
-                        height: viewMode === 'grid' ? '200px' : 'auto',
-                        minHeight: viewMode === 'list' ? '160px' : undefined,
-                        background: 'var(--color-background)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        background: 'var(--color-surface, white)',
+                        borderRadius: '16px',
+                        overflow: 'hidden',
+                        border: '1px solid var(--color-border)',
+                        transition: 'all 0.35s',
                         position: 'relative',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {imageUrl ? (
-                        <img
-                          src={imageUrl}
-                          alt={product.title}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      ) : (
-                        <Package className="w-16 h-16" style={{ color: 'var(--color-text-muted)' }} />
-                      )}
-                    </div>
-
-                    {/* Product Info */}
-                    <div
-                      style={{
-                        padding: '18px',
+                        textDecoration: 'none',
+                        color: 'inherit',
                         display: 'flex',
-                        flexDirection: 'column',
-                        flex: 1,
+                        flexDirection: viewMode === 'grid' ? 'column' : 'row',
                       }}
                     >
-                      {product.brand && (
-                        <div
-                          style={{
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            textTransform: 'uppercase',
-                            color: 'var(--color-primary)',
-                            letterSpacing: '0.05em',
-                            marginBottom: '6px',
-                          }}
-                        >
-                          {product.brand}
-                        </div>
-                      )}
+                      {/* Product Image */}
                       <div
                         style={{
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: 'var(--color-text-primary)',
-                          marginBottom: '4px',
-                          lineHeight: 1.4,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {product.title}
-                      </div>
-                      {product.sku && (
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '11px',
-                            color: 'var(--color-text-muted)',
-                            marginBottom: '8px',
-                          }}
-                        >
-                          Art. {product.sku}
-                        </div>
-                      )}
-
-                      <div
-                        style={{
+                          width: viewMode === 'grid' ? '100%' : '120px',
+                          height: viewMode === 'grid' ? '180px' : 'auto',
+                          minHeight: viewMode === 'list' ? '140px' : undefined,
+                          background: 'var(--color-background)',
                           display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'flex-end',
-                          marginTop: 'auto',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          position: 'relative',
+                          flexShrink: 0,
                         }}
+                        className="lg:w-auto lg:h-auto lg:min-h-0"
                       >
-                        <div>
+                        {imageUrl ? (
+                          <img
+                            src={imageUrl}
+                            alt={product.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        ) : (
+                          <Package className="w-12 h-12 lg:w-16 lg:h-16" style={{ color: 'var(--color-text-muted)' }} />
+                        )}
+                      </div>
+
+                      {/* Product Info */}
+                      <div
+                        style={{
+                          padding: '14px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          flex: 1,
+                        }}
+                        className="lg:p-18"
+                      >
+                        {product.brand && (
                           <div
                             style={{
-                              fontFamily: 'var(--font-heading)',
-                              fontSize: '20px',
-                              fontWeight: 800,
-                              color: 'var(--color-text-primary)',
+                              fontSize: '10px',
+                              fontWeight: 700,
+                              textTransform: 'uppercase',
+                              color: 'var(--color-primary)',
+                              letterSpacing: '0.05em',
+                              marginBottom: '5px',
                             }}
+                            className="lg:text-11 lg:mb-6"
                           >
-                            €{product.price.toFixed(2).replace('.', ',')}
+                            {product.brand}
                           </div>
-                          <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '1px' }}>
-                            excl. BTW
+                        )}
+                        <div
+                          style={{
+                            fontWeight: 600,
+                            fontSize: '13px',
+                            color: 'var(--color-text-primary)',
+                            marginBottom: '4px',
+                            lineHeight: 1.4,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                          }}
+                          className="lg:text-14"
+                        >
+                          {product.title}
+                        </div>
+                        {product.sku && (
+                          <div
+                            style={{
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '10px',
+                              color: 'var(--color-text-muted)',
+                              marginBottom: '8px',
+                            }}
+                            className="lg:text-11"
+                          >
+                            Art. {product.sku}
                           </div>
-                          {product.volumePricing && product.volumePricing.length > 0 && (
+                        )}
+
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-end',
+                            marginTop: 'auto',
+                          }}
+                        >
+                          <div>
                             <div
                               style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '4px',
-                                fontSize: '11px',
-                                color: 'var(--color-primary)',
-                                fontWeight: 600,
-                                marginTop: '3px',
+                                fontFamily: 'var(--font-heading)',
+                                fontSize: '18px',
+                                fontWeight: 800,
+                                color: 'var(--color-text-primary)',
                               }}
+                              className="lg:text-20"
                             >
-                              <Layers className="w-3 h-3" /> Staffelprijzen
+                              €{product.price.toFixed(2).replace('.', ',')}
                             </div>
-                          )}
-                        </div>
+                            <div style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '1px' }} className="lg:text-11">
+                              excl. BTW
+                            </div>
+                            {product.volumePricing && product.volumePricing.length > 0 && (
+                              <div
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '3px',
+                                  fontSize: '10px',
+                                  color: 'var(--color-primary)',
+                                  fontWeight: 600,
+                                  marginTop: '3px',
+                                }}
+                                className="lg:text-11 lg:gap-4"
+                              >
+                                <Layers className="w-3 h-3" /> Staffelprijzen
+                              </div>
+                            )}
+                          </div>
 
-                        {/* Quick Add */}
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                          }}
-                        >
+                          {/* Quick Add */}
                           <div
                             style={{
                               display: 'flex',
                               alignItems: 'center',
-                              border: '1.5px solid var(--color-border)',
-                              borderRadius: '8px',
-                              overflow: 'hidden',
+                              gap: '5px',
                             }}
+                            className="lg:gap-6"
                           >
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                stepQuantity(product.id, -1)
-                              }}
+                            <div
                               style={{
-                                width: '30px',
-                                height: '36px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                border: '1.5px solid var(--color-border)',
+                                borderRadius: '8px',
+                                overflow: 'hidden',
+                              }}
+                            >
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  e.stopPropagation()
+                                  stepQuantity(product.id, -1)
+                                }}
+                                style={{
+                                  minWidth: '32px',
+                                  minHeight: '32px',
+                                  border: 'none',
+                                  background: 'var(--color-background)',
+                                  cursor: 'pointer',
+                                  fontSize: '14px',
+                                  color: 'var(--color-text-primary)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                                aria-label="Decrease quantity"
+                              >
+                                <Minus className="w-3 h-3" />
+                              </button>
+                              <input
+                                type="number"
+                                value={qty}
+                                readOnly
+                                style={{
+                                  width: '28px',
+                                  height: '32px',
+                                  border: 'none',
+                                  textAlign: 'center',
+                                  fontFamily: 'var(--font-mono)',
+                                  fontSize: '12px',
+                                  color: 'var(--color-text-primary)',
+                                  outline: 'none',
+                                }}
+                              />
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  e.stopPropagation()
+                                  stepQuantity(product.id, 1)
+                                }}
+                                style={{
+                                  minWidth: '32px',
+                                  minHeight: '32px',
+                                  border: 'none',
+                                  background: 'var(--color-background)',
+                                  cursor: 'pointer',
+                                  fontSize: '14px',
+                                  color: 'var(--color-text-primary)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                                aria-label="Increase quantity"
+                              >
+                                <Plus className="w-3 h-3" />
+                              </button>
+                            </div>
+                            <button
+                              onClick={(e) => handleAddToCart(product, e)}
+                              style={{
+                                minWidth: '38px',
+                                minHeight: '38px',
+                                borderRadius: '10px',
+                                background: 'var(--color-primary)',
+                                color: 'white',
                                 border: 'none',
-                                background: 'var(--color-background)',
                                 cursor: 'pointer',
-                                fontSize: '14px',
-                                color: 'var(--color-text-primary)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
+                                transition: 'all 0.3s',
+                                boxShadow: '0 2px 8px rgba(59,130,246,0.3)',
                               }}
+                              aria-label="Add to cart"
                             >
-                              −
-                            </button>
-                            <input
-                              type="number"
-                              value={qty}
-                              readOnly
-                              style={{
-                                width: '32px',
-                                height: '36px',
-                                border: 'none',
-                                textAlign: 'center',
-                                fontFamily: 'var(--font-mono)',
-                                fontSize: '13px',
-                                color: 'var(--color-text-primary)',
-                                outline: 'none',
-                              }}
-                            />
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                stepQuantity(product.id, 1)
-                              }}
-                              style={{
-                                width: '30px',
-                                height: '36px',
-                                border: 'none',
-                                background: 'var(--color-background)',
-                                cursor: 'pointer',
-                                fontSize: '14px',
-                                color: 'var(--color-text-primary)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                              }}
-                            >
-                              +
+                              <ShoppingCart className="w-4 h-4" />
                             </button>
                           </div>
-                          <button
-                            onClick={(e) => handleAddToCart(product, e)}
-                            style={{
-                              width: '42px',
-                              height: '42px',
-                              borderRadius: '10px',
-                              background: 'var(--color-primary)',
-                              color: 'white',
-                              border: 'none',
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              transition: 'all 0.3s',
-                              boxShadow: '0 2px 8px rgba(59,130,246,0.3)',
-                            }}
-                          >
-                            <ShoppingCart className="w-4 h-4" />
-                          </button>
                         </div>
-                      </div>
 
-                      {/* Stock Status */}
-                      {product.stock > 0 && (
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            fontSize: '12px',
-                            color: product.stock > 20 ? '#10B981' : '#F59E0B',
-                            fontWeight: 500,
-                            marginTop: '12px',
-                            paddingTop: '12px',
-                            borderTop: '1px solid var(--color-border)',
-                          }}
-                        >
+                        {/* Stock Status */}
+                        {product.stock > 0 && (
                           <div
                             style={{
-                              width: '6px',
-                              height: '6px',
-                              background: product.stock > 20 ? '#10B981' : '#F59E0B',
-                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                              fontSize: '11px',
+                              color: product.stock > 20 ? '#10B981' : '#F59E0B',
+                              fontWeight: 500,
+                              marginTop: '10px',
+                              paddingTop: '10px',
+                              borderTop: '1px solid var(--color-border)',
                             }}
-                          />
-                          {product.stock > 20 ? 'Op voorraad — morgen geleverd' : `Nog ${product.stock} op voorraad`}
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-                )
-              })}
+                            className="lg:text-12 lg:mt-12 lg:pt-12"
+                          >
+                            <div
+                              style={{
+                                width: '5px',
+                                height: '5px',
+                                background: product.stock > 20 ? '#10B981' : '#F59E0B',
+                                borderRadius: '50%',
+                              }}
+                              className="lg:w-6 lg:h-6"
+                            />
+                            {product.stock > 20 ? 'Op voorraad' : `Nog ${product.stock} op voorraad`}
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
 
             {/* Pagination Placeholder */}
@@ -855,8 +1042,9 @@ export default function ShopArchiveTemplate1({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '6px',
-                  paddingTop: '40px',
+                  paddingTop: '32px',
                 }}
+                className="lg:pt-40"
               >
                 <button
                   disabled
@@ -919,6 +1107,203 @@ export default function ShopArchiveTemplate1({
           </main>
         </div>
       </div>
+
+      {/* ========================================
+          MOBILE FLOATING FILTER BUTTON
+          ======================================== */}
+      <button
+        onClick={() => setShowMobileFilters(true)}
+        className="lg:hidden"
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '16px',
+          width: '56px',
+          height: '56px',
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 85%, black) 100%)',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.15), 0 4px 12px rgba(59,130,246,0.3)',
+          zIndex: 999,
+          transition: 'all 0.3s',
+        }}
+        aria-label="Open filters"
+      >
+        <SlidersHorizontal className="w-5 h-5" />
+        {activeFilters.length > 0 && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '-4px',
+              right: '-4px',
+              minWidth: '22px',
+              height: '22px',
+              borderRadius: '50%',
+              background: '#EF4444',
+              color: 'white',
+              fontSize: '11px',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0 6px',
+              border: '2px solid white',
+            }}
+          >
+            {activeFilters.length}
+          </div>
+        )}
+      </button>
+
+      {/* ========================================
+          MOBILE FILTER DRAWER
+          ======================================== */}
+      {showMobileFilters && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999,
+          }}
+        >
+          {/* Backdrop */}
+          <div
+            onClick={() => setShowMobileFilters(false)}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.5)',
+              animation: 'fadeIn 0.2s',
+            }}
+          />
+
+          {/* Drawer */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: '85%',
+              maxWidth: '360px',
+              background: 'var(--color-background, #F9FAFB)',
+              boxShadow: '-4px 0 24px rgba(0,0,0,0.15)',
+              animation: 'slideInRight 0.3s',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                padding: '16px',
+                borderBottom: '1px solid var(--color-border)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: 'var(--color-surface, white)',
+              }}
+            >
+              <div>
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: 'var(--color-text-primary)',
+                  }}
+                >
+                  Filters
+                </h2>
+                {activeFilters.length > 0 && (
+                  <div style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                    {activeFilters.length} actief
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={() => setShowMobileFilters(false)}
+                style={{
+                  minWidth: '40px',
+                  minHeight: '40px',
+                  border: 'none',
+                  background: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--color-text-muted)',
+                }}
+                aria-label="Close filters"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Filters Content - Scrollable */}
+            <div
+              style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '16px',
+              }}
+            >
+              <FiltersContent />
+            </div>
+
+            {/* Footer - Apply Button */}
+            <div
+              style={{
+                padding: '16px',
+                borderTop: '1px solid var(--color-border)',
+                background: 'var(--color-surface, white)',
+              }}
+            >
+              <button
+                onClick={() => setShowMobileFilters(false)}
+                style={{
+                  width: '100%',
+                  minHeight: '48px',
+                  padding: '14px',
+                  background: 'var(--color-primary)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '10px',
+                  fontSize: '15px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-body)',
+                }}
+              >
+                Toon {products.length} producten
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Animations */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideInRight {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+        }
+      `}</style>
     </div>
   )
 }

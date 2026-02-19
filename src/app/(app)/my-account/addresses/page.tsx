@@ -107,38 +107,48 @@ export default function AddressesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4 lg:space-y-6">
+      {/* Header - Mobile First */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
         <div>
-          <h1
-            className="font-extrabold mb-2"
-            style={{
-              fontSize: '28px',
-              color: '#0A1628',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-            }}
-          >
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">
             Adressen
           </h1>
-          <p style={{ fontSize: '14px', color: '#94A3B8' }}>
+          <p className="text-sm lg:text-base text-gray-500">
             {addresses.length} {addresses.length === 1 ? 'adres' : 'adressen'} opgeslagen
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        {/* Mobile: Stacked buttons */}
+        <div className="flex gap-2 lg:hidden">
           <Link
             href="/my-account"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:bg-gray-100"
-            style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900 flex-1"
           >
             <ChevronLeft className="w-4 h-4" />
             Dashboard
           </Link>
           <button
             onClick={() => setShowNewAddressModal(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:opacity-90"
-            style={{ background: '#00897B', color: 'white', fontSize: '14px' }}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:opacity-80 bg-teal-700 text-white flex-1"
+          >
+            <Plus className="w-4 h-4" />
+            Nieuw adres
+          </button>
+        </div>
+
+        {/* Desktop: Horizontal buttons */}
+        <div className="hidden lg:flex lg:gap-2">
+          <Link
+            href="/my-account"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Dashboard
+          </Link>
+          <button
+            onClick={() => setShowNewAddressModal(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 bg-teal-700 text-white"
           >
             <Plus className="w-4 h-4" />
             Nieuw adres
@@ -146,76 +156,57 @@ export default function AddressesPage() {
         </div>
       </div>
 
-      {/* New/Edit Address Modal */}
+      {/* New/Edit Address Modal - Mobile First */}
       {(showNewAddressModal || editingAddress) && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
-          style={{ background: 'rgba(10,22,40,0.8)' }}
+          className="fixed inset-0 z-50 flex items-end lg:items-center justify-center lg:p-4 overflow-y-auto bg-black/80"
           onClick={() => {
             setShowNewAddressModal(false)
             setEditingAddress(null)
           }}
         >
           <div
-            className="bg-white rounded-2xl p-6 max-w-2xl w-full my-8"
+            className="bg-white rounded-t-2xl lg:rounded-2xl p-5 lg:p-6 max-w-2xl w-full lg:my-8 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2
-              className="font-extrabold mb-5"
-              style={{
-                fontSize: '20px',
-                color: '#0A1628',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-            >
+            <h2 className="text-lg lg:text-xl font-extrabold mb-4 lg:mb-5 text-gray-900">
               {editingAddress ? 'Adres bewerken' : 'Nieuw adres toevoegen'}
             </h2>
 
-            <div className="space-y-4 mb-5">
-              {/* Address Type */}
+            <div className="space-y-3 lg:space-y-4 mb-4 lg:mb-5">
+              {/* Address Type - Mobile First */}
               <div>
-                <label
-                  className="block font-semibold mb-2"
-                  style={{ fontSize: '14px', color: '#0A1628' }}
-                >
+                <label className="block text-sm font-semibold mb-2 text-gray-900">
                   Type adres
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2 lg:gap-3">
                   <button
                     onClick={() => setFormData({ ...formData, type: 'shipping' })}
-                    className="px-4 py-3 rounded-xl font-semibold transition-all"
-                    style={{
-                      background:
-                        formData.type === 'shipping' ? 'rgba(0,137,123,0.1)' : '#F5F7FA',
-                      color: formData.type === 'shipping' ? '#00897B' : '#0A1628',
-                      border: `1.5px solid ${formData.type === 'shipping' ? '#00897B' : '#E8ECF1'}`,
-                      fontSize: '14px',
-                    }}
+                    className={`px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm font-semibold transition-all ${
+                      formData.type === 'shipping'
+                        ? 'bg-teal-50 text-teal-700 border-teal-700'
+                        : 'bg-gray-50 text-gray-900 border-gray-200'
+                    } border`}
                   >
                     Bezorgadres
                   </button>
                   <button
                     onClick={() => setFormData({ ...formData, type: 'billing' })}
-                    className="px-4 py-3 rounded-xl font-semibold transition-all"
-                    style={{
-                      background: formData.type === 'billing' ? 'rgba(0,137,123,0.1)' : '#F5F7FA',
-                      color: formData.type === 'billing' ? '#00897B' : '#0A1628',
-                      border: `1.5px solid ${formData.type === 'billing' ? '#00897B' : '#E8ECF1'}`,
-                      fontSize: '14px',
-                    }}
+                    className={`px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm font-semibold transition-all ${
+                      formData.type === 'billing'
+                        ? 'bg-teal-50 text-teal-700 border-teal-700'
+                        : 'bg-gray-50 text-gray-900 border-gray-200'
+                    } border`}
                   >
                     Factuuradres
                   </button>
                 </div>
               </div>
 
-              {/* Name Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Name Fields - Mobile First */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
                 <div>
-                  <label
-                    className="block font-semibold mb-2"
-                    style={{ fontSize: '14px', color: '#0A1628' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">
                     Bedrijfsnaam
                   </label>
                   <input
@@ -223,15 +214,11 @@ export default function AddressesPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Plastimed B.V."
-                    className="w-full px-4 py-3 rounded-xl outline-none"
-                    style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                    className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                   />
                 </div>
                 <div>
-                  <label
-                    className="block font-semibold mb-2"
-                    style={{ fontSize: '14px', color: '#0A1628' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">
                     Contactpersoon
                   </label>
                   <input
@@ -239,72 +226,55 @@ export default function AddressesPage() {
                     value={formData.contactPerson}
                     onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
                     placeholder="Jan de Vries"
-                    className="w-full px-4 py-3 rounded-xl outline-none"
-                    style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                    className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                   />
                 </div>
               </div>
 
-              {/* Address Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="md:col-span-2">
-                  <label
-                    className="block font-semibold mb-2"
-                    style={{ fontSize: '14px', color: '#0A1628' }}
-                  >
-                    Straat
+              {/* Address Fields - Mobile First */}
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-900">
+                  Straat
+                </label>
+                <input
+                  type="text"
+                  value={formData.street}
+                  onChange={(e) => setFormData({ ...formData, street: e.target.value })}
+                  placeholder="Parallelweg"
+                  className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 lg:gap-3">
+                <div className="col-span-2">
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">
+                    Nr.
                   </label>
                   <input
                     type="text"
-                    value={formData.street}
-                    onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                    placeholder="Parallelweg"
-                    className="w-full px-4 py-3 rounded-xl outline-none"
-                    style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                    value={formData.houseNumber}
+                    onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
+                    placeholder="124"
+                    className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label
-                      className="block font-semibold mb-2"
-                      style={{ fontSize: '14px', color: '#0A1628' }}
-                    >
-                      Nr.
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.houseNumber}
-                      onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
-                      placeholder="124"
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      className="block font-semibold mb-2"
-                      style={{ fontSize: '14px', color: '#0A1628' }}
-                    >
-                      Tov.
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.addition}
-                      onChange={(e) => setFormData({ ...formData, addition: e.target.value })}
-                      placeholder="A"
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">
+                    Tov.
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.addition}
+                    onChange={(e) => setFormData({ ...formData, addition: e.target.value })}
+                    placeholder="A"
+                    className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
+                  />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
                 <div>
-                  <label
-                    className="block font-semibold mb-2"
-                    style={{ fontSize: '14px', color: '#0A1628' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">
                     Postcode
                   </label>
                   <input
@@ -312,15 +282,11 @@ export default function AddressesPage() {
                     value={formData.postalCode}
                     onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
                     placeholder="1948 NN"
-                    className="w-full px-4 py-3 rounded-xl outline-none"
-                    style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                    className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                   />
                 </div>
                 <div>
-                  <label
-                    className="block font-semibold mb-2"
-                    style={{ fontSize: '14px', color: '#0A1628' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">
                     Plaats
                   </label>
                   <input
@@ -328,20 +294,16 @@ export default function AddressesPage() {
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     placeholder="Beverwijk"
-                    className="w-full px-4 py-3 rounded-xl outline-none"
-                    style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                    className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                   />
                 </div>
               </div>
 
-              {/* B2B Fields for Billing Address */}
+              {/* B2B Fields for Billing Address - Mobile First */}
               {formData.type === 'billing' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3" style={{ borderTop: '1px solid #E8ECF1' }}>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 pt-3 border-t border-gray-200">
                   <div>
-                    <label
-                      className="block font-semibold mb-2"
-                      style={{ fontSize: '14px', color: '#0A1628' }}
-                    >
+                    <label className="block text-sm font-semibold mb-2 text-gray-900">
                       KVK-nummer
                     </label>
                     <input
@@ -349,15 +311,11 @@ export default function AddressesPage() {
                       value={formData.kvk}
                       onChange={(e) => setFormData({ ...formData, kvk: e.target.value })}
                       placeholder="12345678"
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                      className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                     />
                   </div>
                   <div>
-                    <label
-                      className="block font-semibold mb-2"
-                      style={{ fontSize: '14px', color: '#0A1628' }}
-                    >
+                    <label className="block text-sm font-semibold mb-2 text-gray-900">
                       BTW-nummer
                     </label>
                     <input
@@ -365,48 +323,43 @@ export default function AddressesPage() {
                       value={formData.vat}
                       onChange={(e) => setFormData({ ...formData, vat: e.target.value })}
                       placeholder="NL123456789B01"
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                      className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                     />
                   </div>
                 </div>
               )}
 
-              {/* Default Checkbox */}
-              <div className="flex items-center gap-3 pt-3" style={{ borderTop: '1px solid #E8ECF1' }}>
+              {/* Default Checkbox - Mobile First */}
+              <div className="flex items-center gap-3 pt-3 border-t border-gray-200">
                 <input
                   type="checkbox"
                   id="isDefault"
                   checked={formData.isDefault}
                   onChange={(e) => setFormData({ ...formData, isDefault: e.target.checked })}
-                  className="w-5 h-5 rounded cursor-pointer"
-                  style={{ accentColor: '#00897B' }}
+                  className="w-5 h-5 rounded cursor-pointer accent-teal-700"
                 />
                 <label
                   htmlFor="isDefault"
-                  className="font-semibold cursor-pointer"
-                  style={{ fontSize: '14px', color: '#0A1628' }}
+                  className="text-sm font-semibold cursor-pointer text-gray-900"
                 >
                   Instellen als standaard {formData.type === 'shipping' ? 'bezorgadres' : 'factuuradres'}
                 </label>
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 lg:gap-3">
               <button
                 onClick={() => {
                   setShowNewAddressModal(false)
                   setEditingAddress(null)
                 }}
-                className="flex-1 px-4 py-3 rounded-xl font-semibold transition-all hover:bg-gray-100"
-                style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
+                className="flex-1 px-4 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
               >
                 Annuleren
               </button>
               <button
                 onClick={handleSaveAddress}
-                className="flex-1 px-4 py-3 rounded-xl font-semibold transition-all hover:opacity-90"
-                style={{ background: '#00897B', color: 'white', fontSize: '14px' }}
+                className="flex-1 px-4 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 bg-teal-700 text-white"
               >
                 Opslaan
               </button>
@@ -415,25 +368,18 @@ export default function AddressesPage() {
         </div>
       )}
 
-      {/* Addresses Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Addresses Grid - Mobile First */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
         {addresses.map((address) => (
-          <div key={address.id} className="bg-white rounded-2xl p-5 shadow-sm">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 flex-shrink-0" style={{ color: '#00897B' }} />
-                <span className="font-bold" style={{ fontSize: '15px', color: '#0A1628' }}>
+          <div key={address.id} className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
+            <div className="flex items-start justify-between mb-3 lg:mb-4">
+              <div className="flex items-center gap-2 flex-wrap">
+                <MapPin className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0 text-teal-700" />
+                <span className="text-sm lg:text-base font-bold text-gray-900">
                   {address.typeLabel}
                 </span>
                 {address.isDefault && (
-                  <span
-                    className="flex items-center gap-1 px-2 py-0.5 rounded-full font-semibold"
-                    style={{
-                      background: 'rgba(0,137,123,0.1)',
-                      color: '#00897B',
-                      fontSize: '11px',
-                    }}
-                  >
+                  <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-50 text-teal-700">
                     <Star className="w-3 h-3 fill-current" />
                     Standaard
                   </span>
@@ -441,7 +387,7 @@ export default function AddressesPage() {
               </div>
             </div>
 
-            <div style={{ fontSize: '13px', color: '#0A1628', lineHeight: '1.6' }} className="mb-4">
+            <div className="text-xs lg:text-sm text-gray-900 leading-relaxed mb-3 lg:mb-4">
               <div className="font-semibold">{address.name}</div>
               {address.contactPerson && <div>{address.contactPerson}</div>}
               <div>
@@ -453,7 +399,7 @@ export default function AddressesPage() {
               </div>
               <div>{address.country}</div>
               {address.kvk && (
-                <div className="mt-2 pt-2" style={{ borderTop: '1px solid #E8ECF1', color: '#94A3B8' }}>
+                <div className="mt-2 pt-2 border-t border-gray-200 text-gray-500">
                   <div>KVK: {address.kvk}</div>
                   <div>BTW: {address.vat}</div>
                 </div>
@@ -464,25 +410,22 @@ export default function AddressesPage() {
               {!address.isDefault && (
                 <button
                   onClick={() => handleSetDefault(address.id)}
-                  className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-semibold transition-all hover:bg-gray-100"
-                  style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '13px' }}
+                  className="flex-1 flex items-center justify-center gap-1.5 lg:gap-2 px-2.5 lg:px-3 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
                 >
-                  <Star className="w-3.5 h-3.5" />
-                  Standaard
+                  <Star className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
+                  <span className="hidden lg:inline">Standaard</span>
                 </button>
               )}
               <button
                 onClick={() => setEditingAddress(address.id)}
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-semibold transition-all hover:bg-gray-100"
-                style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '13px' }}
+                className="flex-1 flex items-center justify-center gap-1.5 lg:gap-2 px-2.5 lg:px-3 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
               >
-                <Edit2 className="w-3.5 h-3.5" />
-                Bewerken
+                <Edit2 className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
+                <span className="hidden lg:inline">Bewerken</span>
               </button>
               <button
                 onClick={() => handleDeleteAddress(address.id)}
-                className="px-3 py-2 rounded-lg font-semibold transition-all hover:bg-red-50"
-                style={{ background: '#F5F7FA', color: '#FF6B6B', fontSize: '13px' }}
+                className="px-2.5 lg:px-3 py-2 rounded-lg font-semibold transition-all active:bg-red-50 lg:hover:bg-red-50 bg-gray-50 text-red-600"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

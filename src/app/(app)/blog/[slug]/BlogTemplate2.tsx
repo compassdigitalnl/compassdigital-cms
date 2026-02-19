@@ -14,7 +14,9 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
       : null
 
   const authorName =
-    typeof post.author === 'object' && post.author !== null ? post.author.name || 'Anonymous' : 'Anonymous'
+    typeof post.author === 'object' && post.author !== null
+      ? post.author.name || 'Anonymous'
+      : 'Anonymous'
 
   const publishDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('nl-NL', {
@@ -32,23 +34,19 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
       .filter((c) => c !== null)
 
   return (
-    <div style={{ fontFamily: 'var(--font-body)' }}>
+    <div className="px-4 lg:px-0" style={{ fontFamily: 'var(--font-body)' }}>
       {/* Minimal: Single Column, Centered */}
-      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      <article className="max-w-2xl mx-auto">
         {/* Categories */}
         {categoryBadges && categoryBadges.length > 0 && (
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', justifyContent: 'center' }}>
+          <div className="flex flex-wrap justify-center gap-2 mb-4 lg:mb-6">
             {categoryBadges.map((cat, idx) => (
               <span
                 key={idx}
+                className="inline-block px-3 py-1 rounded-lg text-xs font-medium"
                 style={{
-                  display: 'inline-block',
-                  padding: '4px 12px',
                   background: 'var(--color-surface, #F3F4F6)',
                   color: 'var(--color-text-muted)',
-                  borderRadius: '6px',
-                  fontSize: '12px',
-                  fontWeight: 500,
                 }}
               >
                 {cat.name}
@@ -59,14 +57,10 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
 
         {/* Title */}
         <h1
+          className="text-3xl lg:text-5xl font-bold leading-tight mb-6 lg:mb-8 text-center"
           style={{
-            fontSize: '42px',
-            fontWeight: 700,
-            lineHeight: 1.3,
-            marginBottom: '24px',
             color: 'var(--color-text-primary)',
             fontFamily: 'var(--font-heading)',
-            textAlign: 'center',
           }}
         >
           {post.title}
@@ -74,45 +68,30 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
 
         {/* Meta - Centered */}
         <div
-          style={{
-            display: 'flex',
-            gap: '16px',
-            justifyContent: 'center',
-            marginBottom: '40px',
-            paddingBottom: '24px',
-            borderBottom: '1px solid var(--color-border)',
-            flexWrap: 'wrap',
-          }}
+          className="flex flex-wrap justify-center gap-3 lg:gap-4 mb-8 lg:mb-10 pb-4 lg:pb-6"
+          style={{ borderBottom: '1px solid var(--color-border)' }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-muted)' }}>
+          <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
             <User className="w-4 h-4" />
-            <span style={{ fontSize: '14px' }}>{authorName}</span>
+            <span className="text-sm">{authorName}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-muted)' }}>
+          <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
             <Calendar className="w-4 h-4" />
-            <span style={{ fontSize: '14px' }}>{publishDate}</span>
+            <span className="text-sm">{publishDate}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-muted)' }}>
+          <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
             <Clock className="w-4 h-4" />
-            <span style={{ fontSize: '14px' }}>5 min</span>
+            <span className="text-sm">5 min</span>
           </div>
         </div>
 
         {/* Featured Image */}
         {featuredImageUrl && (
-          <div
-            style={{
-              width: '100%',
-              aspectRatio: '16/9',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              marginBottom: '40px',
-            }}
-          >
+          <div className="w-full aspect-video rounded-xl lg:rounded-2xl overflow-hidden mb-8 lg:mb-10">
             <img
               src={featuredImageUrl}
               alt={post.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              className="w-full h-full object-cover"
             />
           </div>
         )}
@@ -120,14 +99,8 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
         {/* Excerpt */}
         {post.excerpt && (
           <div
-            style={{
-              fontSize: '19px',
-              lineHeight: 1.7,
-              color: 'var(--color-text-secondary)',
-              marginBottom: '40px',
-              textAlign: 'center',
-              fontStyle: 'italic',
-            }}
+            className="text-base lg:text-xl leading-relaxed mb-8 lg:mb-10 text-center italic"
+            style={{ color: 'var(--color-text-secondary)' }}
           >
             {post.excerpt}
           </div>
@@ -135,15 +108,11 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
 
         {/* Content */}
         <div
-          style={{
-            fontSize: '18px',
-            lineHeight: 1.8,
-            color: 'var(--color-text-secondary)',
-          }}
-          className="blog-content-minimal"
+          className="text-base lg:text-lg leading-relaxed lg:leading-loose blog-content-minimal"
+          style={{ color: 'var(--color-text-secondary)' }}
           dangerouslySetInnerHTML={{ __html: post.content || '' }}
         />
-      </div>
+      </article>
     </div>
   )
 }

@@ -14,7 +14,9 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
       : null
 
   const authorName =
-    typeof post.author === 'object' && post.author !== null ? post.author.name || 'Anonymous' : 'Anonymous'
+    typeof post.author === 'object' && post.author !== null
+      ? post.author.name || 'Anonymous'
+      : 'Anonymous'
 
   const publishDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('nl-NL', {
@@ -32,31 +34,23 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
       .filter((c) => c !== null)
 
   return (
-    <div style={{ fontFamily: 'var(--font-body)' }}>
-      {/* Premium: Wide Layout */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="px-4 lg:px-0" style={{ fontFamily: 'var(--font-body)' }}>
+      {/* Premium: Wide Mobile-First Layout */}
+      <div className="max-w-7xl mx-auto">
         {/* Categories - Premium Badge */}
         {categoryBadges && categoryBadges.length > 0 && (
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', justifyContent: 'center' }}>
+          <div className="flex flex-wrap justify-center gap-3 mb-6 lg:mb-8">
             {categoryBadges.map((cat, idx) => (
               <span
                 key={idx}
+                className="inline-flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl text-xs lg:text-sm font-semibold uppercase tracking-wide"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 20px',
                   background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                   color: 'white',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
                   boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
                 }}
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-3 h-3 lg:w-4 lg:h-4" />
                 {cat.name}
               </span>
             ))}
@@ -65,14 +59,10 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
 
         {/* Title - Extra Large */}
         <h1
+          className="text-3xl lg:text-6xl font-extrabold leading-tight mb-6 lg:mb-10 text-center"
           style={{
-            fontSize: '64px',
-            fontWeight: 800,
-            lineHeight: 1.1,
-            marginBottom: '32px',
             color: 'var(--color-text-primary)',
             fontFamily: 'var(--font-heading)',
-            textAlign: 'center',
             letterSpacing: '-0.02em',
           }}
         >
@@ -80,66 +70,51 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
         </h1>
 
         {/* Meta - Premium */}
-        <div
-          style={{
-            display: 'flex',
-            gap: '32px',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: '64px',
-          }}
-        >
+        <div className="flex flex-col lg:flex-row gap-3 lg:gap-8 justify-center items-center mb-8 lg:mb-16">
           <div
+            className="flex items-center gap-3 px-4 lg:px-6 py-2.5 lg:py-3 rounded-xl"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '12px 24px',
               background: 'var(--color-surface, white)',
               border: '1px solid var(--color-border)',
-              borderRadius: '12px',
             }}
           >
-            <User className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
-            <span style={{ fontSize: '15px', fontWeight: 500, color: 'var(--color-text-primary)' }}>
+            <User className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-primary)' }} />
+            <span
+              className="text-sm lg:text-base font-medium"
+              style={{ color: 'var(--color-text-primary)' }}
+            >
               {authorName}
             </span>
           </div>
           <div
+            className="flex items-center gap-3 px-4 lg:px-6 py-2.5 lg:py-3 rounded-xl"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '12px 24px',
               background: 'var(--color-surface, white)',
               border: '1px solid var(--color-border)',
-              borderRadius: '12px',
             }}
           >
-            <Calendar className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
-            <span style={{ fontSize: '15px', fontWeight: 500, color: 'var(--color-text-primary)' }}>
+            <Calendar className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-primary)' }} />
+            <span
+              className="text-sm lg:text-base font-medium"
+              style={{ color: 'var(--color-text-primary)' }}
+            >
               {publishDate}
             </span>
           </div>
         </div>
 
-        {/* Featured Image - Full Width */}
+        {/* Featured Image - Full Width on mobile, extra wide on desktop */}
         {featuredImageUrl && (
           <div
+            className="w-full lg:w-[calc(100%+5rem)] lg:-ml-10 aspect-video lg:aspect-[21/9] rounded-2xl lg:rounded-3xl overflow-hidden mb-8 lg:mb-16"
             style={{
-              width: 'calc(100% + 80px)',
-              marginLeft: '-40px',
-              aspectRatio: '21/9',
-              borderRadius: '24px',
-              overflow: 'hidden',
-              marginBottom: '64px',
               boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
             }}
           >
             <img
               src={featuredImageUrl}
               alt={post.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              className="w-full h-full object-cover"
             />
           </div>
         )}
@@ -147,19 +122,12 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
         {/* Excerpt - Large Quote Style */}
         {post.excerpt && (
           <div
+            className="max-w-4xl mx-auto mb-10 lg:mb-16 text-lg lg:text-2xl leading-relaxed lg:leading-loose font-medium italic text-center p-6 lg:p-10 rounded-2xl"
             style={{
-              maxWidth: '900px',
-              margin: '0 auto 64px',
-              fontSize: '24px',
-              lineHeight: 1.7,
               color: 'var(--color-text-primary)',
-              fontWeight: 500,
-              textAlign: 'center',
-              fontStyle: 'italic',
-              padding: '40px',
-              background: 'linear-gradient(135deg, rgba(var(--color-primary-rgb, 59, 130, 246), 0.03) 0%, rgba(var(--color-primary-rgb, 59, 130, 246), 0.08) 100%)',
-              border: '2px solid color-mix(in srgb, var(--color-primary) 15%, white)',
-              borderRadius: '20px',
+              background:
+                'linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(59, 130, 246, 0.08) 100%)',
+              border: '2px solid rgba(59, 130, 246, 0.15)',
             }}
           >
             "{post.excerpt}"
@@ -168,55 +136,30 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
 
         {/* Content - Wide */}
         <div
-          style={{
-            maxWidth: '900px',
-            margin: '0 auto',
-            fontSize: '19px',
-            lineHeight: 1.9,
-            color: 'var(--color-text-secondary)',
-          }}
-          className="blog-content-premium"
+          className="max-w-4xl mx-auto text-base lg:text-lg leading-relaxed lg:leading-loose blog-content-premium"
+          style={{ color: 'var(--color-text-secondary)' }}
           dangerouslySetInnerHTML={{ __html: post.content || '' }}
         />
 
         {/* Premium Footer */}
         <div
-          style={{
-            maxWidth: '900px',
-            margin: '80px auto 0',
-            paddingTop: '40px',
-            borderTop: '2px solid var(--color-border)',
-            textAlign: 'center',
-          }}
+          className="max-w-4xl mx-auto mt-12 lg:mt-20 pt-8 lg:pt-10 text-center"
+          style={{ borderTop: '2px solid var(--color-border)' }}
         >
           <div
+            className="inline-flex items-center gap-3 px-6 lg:px-8 py-3 lg:py-4 rounded-2xl text-sm lg:text-base font-semibold"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '16px 32px',
-              background: 'linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 85%, black) 100%)',
+              background:
+                'linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 85%, black) 100%)',
               color: 'white',
-              borderRadius: '16px',
-              fontSize: '16px',
-              fontWeight: 600,
-              boxShadow: '0 8px 24px rgba(var(--color-primary-rgb, 59, 130, 246), 0.3)',
+              boxShadow: '0 8px 24px rgba(59, 130, 246, 0.3)',
             }}
           >
-            <Sparkles className="w-5 h-5" />
+            <Sparkles className="w-4 h-4 lg:w-5 lg:h-5" />
             Premium Content
           </div>
         </div>
       </div>
-
-      {/* Responsive */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          h1 {
-            font-size: 36px !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }

@@ -129,49 +129,38 @@ export default function OrderDetailPage() {
   const statusColors = getStatusColor(order.status)
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4 lg:space-y-6">
+      {/* Header - Mobile First */}
+      <div className="space-y-3 lg:space-y-0 lg:flex lg:items-center lg:justify-between lg:gap-4">
         <div>
           <Link
             href="/my-account/orders"
-            className="flex items-center gap-2 font-semibold mb-3 transition-colors"
-            style={{ fontSize: '14px', color: '#00897B' }}
+            className="flex items-center gap-2 text-sm font-semibold mb-3 transition-colors text-teal-700"
           >
             <ChevronLeft className="w-4 h-4" />
             Terug naar bestellingen
           </Link>
-          <h1
-            className="font-extrabold mb-2"
-            style={{
-              fontSize: '28px',
-              color: '#0A1628',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-            }}
-          >
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-2 text-gray-900">
             Bestelling{' '}
-            <span
-              style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '24px', color: '#00897B' }}
-            >
+            <span className="font-mono text-xl lg:text-2xl text-teal-700 block lg:inline mt-1 lg:mt-0">
               {order.orderNumber}
             </span>
           </h1>
-          <div className="flex items-center gap-3 flex-wrap">
-            <span style={{ fontSize: '14px', color: '#94A3B8' }}>
+          <div className="flex items-center gap-2 lg:gap-3 flex-wrap">
+            <span className="text-xs lg:text-sm text-gray-500">
               {new Date(order.date).toLocaleDateString('nl-NL', {
                 day: 'numeric',
-                month: 'long',
+                month: 'short',
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
               })}
             </span>
             <span
-              className="px-3 py-1 rounded-full font-semibold"
+              className="px-2.5 py-1 rounded-full text-xs font-semibold"
               style={{
                 background: statusColors.bg,
                 color: statusColors.text,
-                fontSize: '13px',
                 border: `1px solid ${statusColors.border}`,
               }}
             >
@@ -180,136 +169,117 @@ export default function OrderDetailPage() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:opacity-90"
-            style={{ background: '#00897B', color: 'white', fontSize: '14px' }}
-          >
+        {/* Mobile: Full-width stacked buttons */}
+        <div className="grid grid-cols-1 gap-2 lg:hidden">
+          <button className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 bg-teal-700 text-white">
             <RotateCcw className="w-4 h-4" />
             Bestel opnieuw
           </button>
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:bg-gray-100"
-            style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
-          >
+          <div className="grid grid-cols-2 gap-2">
+            <button className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900">
+              <Download className="w-4 h-4" />
+              Factuur
+            </button>
+            <button className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900">
+              <Printer className="w-4 h-4" />
+              Print
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop: Horizontal buttons */}
+        <div className="hidden lg:flex lg:flex-wrap lg:gap-2">
+          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 bg-teal-700 text-white">
+            <RotateCcw className="w-4 h-4" />
+            Bestel opnieuw
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900">
             <Download className="w-4 h-4" />
             Factuur
           </button>
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:bg-gray-100"
-            style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
-          >
+          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900">
             <Printer className="w-4 h-4" />
             Print
           </button>
         </div>
       </div>
 
-      {/* Track & Trace Banner */}
+      {/* Track & Trace Banner - Mobile First */}
       {order.trackingUrl && (
         <a
           href={order.trackingUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block bg-white rounded-2xl p-5 shadow-sm transition-all hover:scale-[1.01]"
+          className="block bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm transition-all active:opacity-80 lg:hover:scale-[1.01]"
         >
-          <div className="flex items-center gap-4">
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: 'rgba(33,150,243,0.1)' }}
-            >
-              <Truck className="w-6 h-6" style={{ color: '#2196F3' }} />
+          <div className="flex items-center gap-3 lg:gap-4">
+            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center flex-shrink-0 bg-blue-50">
+              <Truck className="w-5 h-5 lg:w-6 lg:h-6 text-blue-500" />
             </div>
-            <div className="flex-1">
-              <div className="font-bold mb-1" style={{ fontSize: '15px', color: '#0A1628' }}>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm lg:text-base font-bold mb-0.5 lg:mb-1 text-gray-900">
                 Track & trace je bestelling
               </div>
-              <div style={{ fontSize: '13px', color: '#94A3B8' }}>
-                Trackingnummer:{' '}
-                <span
-                  className="font-mono"
-                  style={{ color: '#0A1628', fontFamily: 'JetBrains Mono, monospace' }}
-                >
+              <div className="text-xs lg:text-sm text-gray-500">
+                <span className="hidden lg:inline">Trackingnummer: </span>
+                <span className="font-mono text-gray-900">
                   {order.trackingNumber}
                 </span>
               </div>
             </div>
-            <ChevronLeft className="w-5 h-5 rotate-180" style={{ color: '#2196F3' }} />
+            <ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 rotate-180 text-blue-500 flex-shrink-0" />
           </div>
         </a>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-4 lg:gap-6">
         {/* Main Content */}
-        <div className="space-y-6">
-          {/* Timeline */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h2
-              className="font-extrabold mb-5"
-              style={{
-                fontSize: '18px',
-                color: '#0A1628',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-            >
+        <div className="space-y-4 lg:space-y-6">
+          {/* Timeline - Mobile First */}
+          <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
+            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
               Status tijdlijn
             </h2>
 
-            <div className="space-y-4">
+            <div className="space-y-3 lg:space-y-4">
               {order.timeline.map((step, idx) => {
                 const isLast = idx === order.timeline.length - 1
                 const Icon = step.completed ? CheckCircle2 : Clock
                 return (
-                  <div key={step.status} className="flex gap-4">
+                  <div key={step.status} className="flex gap-3 lg:gap-4">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          step.completed ? 'bg-gradient-to-br' : ''
+                        className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          step.completed ? 'bg-gradient-to-br from-teal-700 to-teal-500' : 'bg-gray-50 border-2 border-gray-200'
                         }`}
-                        style={{
-                          background: step.completed
-                            ? 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)'
-                            : '#F5F7FA',
-                          border: step.completed ? 'none' : '2px solid #E8ECF1',
-                        }}
                       >
                         <Icon
-                          className="w-5 h-5"
-                          style={{ color: step.completed ? 'white' : '#94A3B8' }}
+                          className={`w-4 h-4 lg:w-5 lg:h-5 ${step.completed ? 'text-white' : 'text-gray-400'}`}
                         />
                       </div>
                       {!isLast && (
                         <div
-                          className="w-0.5 flex-1 my-2"
-                          style={{
-                            background: step.completed ? '#00897B' : '#E8ECF1',
-                            minHeight: '24px',
-                          }}
+                          className={`w-0.5 flex-1 my-1.5 lg:my-2 ${step.completed ? 'bg-teal-700' : 'bg-gray-200'}`}
+                          style={{ minHeight: '20px' }}
                         />
                       )}
                     </div>
-                    <div className="flex-1 pb-6">
-                      <div
-                        className="font-bold mb-1"
-                        style={{
-                          fontSize: '14px',
-                          color: step.completed ? '#0A1628' : '#94A3B8',
-                        }}
-                      >
+                    <div className="flex-1 pb-4 lg:pb-6">
+                      <div className={`text-xs lg:text-sm font-bold mb-0.5 lg:mb-1 ${step.completed ? 'text-gray-900' : 'text-gray-400'}`}>
                         {step.label}
                       </div>
                       {step.date && (
-                        <div style={{ fontSize: '13px', color: '#94A3B8' }}>
+                        <div className="text-xs text-gray-500">
                           {new Date(step.date).toLocaleDateString('nl-NL', {
                             day: 'numeric',
-                            month: 'long',
+                            month: 'short',
                             hour: '2-digit',
                             minute: '2-digit',
                           })}
                         </div>
                       )}
                       {!step.date && !step.completed && (
-                        <div style={{ fontSize: '13px', color: '#94A3B8' }}>Verwacht binnenkort</div>
+                        <div className="text-xs text-gray-500">Verwacht binnenkort</div>
                       )}
                     </div>
                   </div>
@@ -318,73 +288,43 @@ export default function OrderDetailPage() {
             </div>
           </div>
 
-          {/* Items */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h2
-              className="font-extrabold mb-5"
-              style={{
-                fontSize: '18px',
-                color: '#0A1628',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-            >
+          {/* Items - Mobile First */}
+          <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
+            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
               Bestelde producten
             </h2>
 
-            <div className="space-y-3">
+            <div className="space-y-2 lg:space-y-3">
               {order.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-start gap-4 p-4 rounded-xl"
-                  style={{ border: '1.5px solid #E8ECF1' }}
+                  className="flex items-start gap-3 lg:gap-4 p-3 lg:p-4 rounded-lg lg:rounded-xl border border-gray-200"
                 >
-                  <div
-                    className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{ background: '#F5F7FA', fontSize: '32px' }}
-                  >
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg flex items-center justify-center flex-shrink-0 bg-gray-50 text-2xl lg:text-3xl">
                     {item.emoji}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-bold mb-1" style={{ fontSize: '14px', color: '#0A1628' }}>
+                    <div className="text-xs lg:text-sm font-bold mb-1 text-gray-900">
                       {item.name}
                     </div>
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <span
-                        style={{
-                          fontSize: '12px',
-                          color: '#94A3B8',
-                          fontFamily: 'JetBrains Mono, monospace',
-                        }}
-                      >
+                    <div className="flex items-center gap-2 lg:gap-3 flex-wrap">
+                      <span className="text-xs font-mono text-gray-500">
                         SKU: {item.sku}
                       </span>
-                      <span
-                        style={{
-                          fontSize: '12px',
-                          color: '#94A3B8',
-                          fontFamily: 'JetBrains Mono, monospace',
-                        }}
-                      >
+                      <span className="hidden lg:inline text-xs font-mono text-gray-500">
                         EAN: {item.ean}
                       </span>
                     </div>
-                    <div className="mt-2 flex items-center gap-4">
-                      <span style={{ fontSize: '13px', color: '#0A1628' }}>
+                    <div className="mt-1.5 lg:mt-2 flex items-center gap-2 lg:gap-4 text-xs lg:text-sm text-gray-900">
+                      <span>
                         Aantal: <span className="font-bold">{item.quantity}x</span>
                       </span>
-                      <span style={{ fontSize: '13px', color: '#0A1628' }}>
+                      <span>
                         Prijs: <span className="font-bold">€{item.price.toFixed(2)}</span>
                       </span>
                     </div>
                   </div>
-                  <div
-                    className="font-extrabold"
-                    style={{
-                      fontSize: '16px',
-                      color: '#0A1628',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
-                    }}
-                  >
+                  <div className="text-sm lg:text-base font-extrabold text-gray-900 flex-shrink-0">
                     €{item.subtotal.toFixed(2)}
                   </div>
                 </div>
@@ -392,23 +332,16 @@ export default function OrderDetailPage() {
             </div>
           </div>
 
-          {/* Addresses */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-2xl p-5 shadow-sm">
-              <div className="flex items-center gap-2 mb-4">
-                <MapPin className="w-5 h-5" style={{ color: '#00897B' }} />
-                <h3
-                  className="font-extrabold"
-                  style={{
-                    fontSize: '16px',
-                    color: '#0A1628',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
-                  }}
-                >
+          {/* Addresses - Mobile First */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
+            <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
+              <div className="flex items-center gap-2 mb-3 lg:mb-4">
+                <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-teal-700" />
+                <h3 className="text-sm lg:text-base font-extrabold text-gray-900">
                   Bezorgadres
                 </h3>
               </div>
-              <div style={{ fontSize: '13px', color: '#0A1628', lineHeight: '1.6' }}>
+              <div className="text-xs lg:text-sm text-gray-900 leading-relaxed">
                 <div className="font-semibold">{order.shippingAddress.name}</div>
                 <div>{order.shippingAddress.contactPerson}</div>
                 <div>{order.shippingAddress.street}</div>
@@ -419,139 +352,91 @@ export default function OrderDetailPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-5 shadow-sm">
-              <div className="flex items-center gap-2 mb-4">
-                <CreditCard className="w-5 h-5" style={{ color: '#00897B' }} />
-                <h3
-                  className="font-extrabold"
-                  style={{
-                    fontSize: '16px',
-                    color: '#0A1628',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
-                  }}
-                >
+            <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
+              <div className="flex items-center gap-2 mb-3 lg:mb-4">
+                <CreditCard className="w-4 h-4 lg:w-5 lg:h-5 text-teal-700" />
+                <h3 className="text-sm lg:text-base font-extrabold text-gray-900">
                   Factuuradres
                 </h3>
               </div>
-              <div style={{ fontSize: '13px', color: '#0A1628', lineHeight: '1.6' }}>
+              <div className="text-xs lg:text-sm text-gray-900 leading-relaxed">
                 <div className="font-semibold">{order.billingAddress.name}</div>
                 <div>{order.billingAddress.street}</div>
                 <div>
                   {order.billingAddress.postalCode} {order.billingAddress.city}
                 </div>
                 <div>{order.billingAddress.country}</div>
-                <div className="mt-3 pt-3" style={{ borderTop: '1px solid #E8ECF1' }}>
-                  <div style={{ color: '#94A3B8' }}>KVK: {order.billingAddress.kvk}</div>
-                  <div style={{ color: '#94A3B8' }}>BTW: {order.billingAddress.vat}</div>
+                <div className="mt-2 lg:mt-3 pt-2 lg:pt-3 border-t border-gray-200">
+                  <div className="text-gray-500">KVK: {order.billingAddress.kvk}</div>
+                  <div className="text-gray-500">BTW: {order.billingAddress.vat}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
+        {/* Sidebar - Mobile First */}
+        <div className="space-y-4 lg:space-y-6">
           {/* Order Summary */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm sticky top-8">
-            <h2
-              className="font-extrabold mb-5"
-              style={{
-                fontSize: '18px',
-                color: '#0A1628',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-            >
+          <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm lg:sticky lg:top-8">
+            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
               Bestelling overzicht
             </h2>
 
-            <div className="space-y-3 mb-4">
+            <div className="space-y-2 lg:space-y-3 mb-4">
               <div className="flex items-center justify-between">
-                <span style={{ fontSize: '14px', color: '#94A3B8' }}>Subtotaal</span>
-                <span className="font-semibold" style={{ fontSize: '14px', color: '#0A1628' }}>
+                <span className="text-xs lg:text-sm text-gray-500">Subtotaal</span>
+                <span className="text-xs lg:text-sm font-semibold text-gray-900">
                   €{order.subtotal.toFixed(2)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span style={{ fontSize: '14px', color: '#94A3B8' }}>Verzendkosten</span>
-                <span className="font-semibold" style={{ fontSize: '14px', color: '#0A1628' }}>
+                <span className="text-xs lg:text-sm text-gray-500">Verzendkosten</span>
+                <span className="text-xs lg:text-sm font-semibold text-gray-900">
                   {order.shipping === 0 ? (
-                    <span style={{ color: '#00C853' }}>Gratis</span>
+                    <span className="text-green-600">Gratis</span>
                   ) : (
                     `€${order.shipping.toFixed(2)}`
                   )}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span style={{ fontSize: '14px', color: '#94A3B8' }}>BTW (21%)</span>
-                <span className="font-semibold" style={{ fontSize: '14px', color: '#0A1628' }}>
+                <span className="text-xs lg:text-sm text-gray-500">BTW (21%)</span>
+                <span className="text-xs lg:text-sm font-semibold text-gray-900">
                   €{order.tax.toFixed(2)}
                 </span>
               </div>
             </div>
 
-            <div
-              className="flex items-center justify-between pt-4 mb-5"
-              style={{ borderTop: '2px solid #E8ECF1' }}
-            >
-              <span
-                className="font-extrabold"
-                style={{
-                  fontSize: '18px',
-                  color: '#0A1628',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
-                }}
-              >
+            <div className="flex items-center justify-between pt-3 lg:pt-4 mb-4 lg:mb-5 border-t-2 border-gray-200">
+              <span className="text-base lg:text-lg font-extrabold text-gray-900">
                 Totaal
               </span>
-              <span
-                className="font-extrabold"
-                style={{
-                  fontSize: '24px',
-                  color: '#00897B',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
-                }}
-              >
+              <span className="text-xl lg:text-2xl font-extrabold text-teal-700">
                 €{order.total.toFixed(2)}
               </span>
             </div>
 
-            <div className="space-y-2 mb-5">
+            <div className="space-y-1.5 lg:space-y-2 mb-4 lg:mb-5">
               <div className="flex items-center justify-between">
-                <span style={{ fontSize: '13px', color: '#94A3B8' }}>Betaalmethode</span>
-                <span className="font-semibold" style={{ fontSize: '13px', color: '#0A1628' }}>
+                <span className="text-xs text-gray-500">Betaalmethode</span>
+                <span className="text-xs font-semibold text-gray-900">
                   {order.paymentMethod}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span style={{ fontSize: '13px', color: '#94A3B8' }}>Betaalstatus</span>
-                <span
-                  className="px-2 py-0.5 rounded-full font-semibold"
-                  style={{
-                    background: 'rgba(0,200,83,0.1)',
-                    color: '#00C853',
-                    fontSize: '12px',
-                  }}
-                >
+                <span className="text-xs text-gray-500">Betaalstatus</span>
+                <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-green-50 text-green-600">
                   {order.paymentStatus}
                 </span>
               </div>
             </div>
 
-            <button
-              className="w-full px-4 py-3 rounded-xl font-bold transition-all hover:opacity-90 mb-2"
-              style={{
-                background: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
-                color: 'white',
-                fontSize: '14px',
-              }}
-            >
+            <button className="w-full px-4 py-3 rounded-xl text-sm font-bold transition-all active:opacity-80 lg:hover:opacity-90 mb-2 bg-gradient-to-br from-teal-700 to-teal-500 text-white">
               Bestel opnieuw
             </button>
 
-            <button
-              className="w-full px-4 py-3 rounded-xl font-semibold transition-all hover:bg-gray-100"
-              style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
-            >
+            <button className="w-full px-4 py-3 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900">
               Download factuur
             </button>
           </div>

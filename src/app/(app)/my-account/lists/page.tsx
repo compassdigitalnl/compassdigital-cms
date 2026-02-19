@@ -85,38 +85,48 @@ export default function OrderListsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4 lg:space-y-6">
+      {/* Header - Mobile First */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
         <div>
-          <h1
-            className="font-extrabold mb-2"
-            style={{
-              fontSize: '28px',
-              color: '#0A1628',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-            }}
-          >
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">
             Bestellijsten
           </h1>
-          <p style={{ fontSize: '14px', color: '#94A3B8' }}>
+          <p className="text-sm lg:text-base text-gray-500">
             {orderLists.length} bestellijsten opgeslagen
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        {/* Mobile: Stacked buttons */}
+        <div className="flex gap-2 lg:hidden">
           <Link
             href="/my-account"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:bg-gray-100"
-            style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900 flex-1"
           >
             <ChevronLeft className="w-4 h-4" />
             Dashboard
           </Link>
           <button
             onClick={() => setShowNewListModal(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:opacity-90"
-            style={{ background: '#00897B', color: 'white', fontSize: '14px' }}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:opacity-80 bg-teal-700 text-white flex-1"
+          >
+            <Plus className="w-4 h-4" />
+            Nieuwe lijst
+          </button>
+        </div>
+
+        {/* Desktop: Horizontal buttons */}
+        <div className="hidden lg:flex lg:gap-2">
+          <Link
+            href="/my-account"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Dashboard
+          </Link>
+          <button
+            onClick={() => setShowNewListModal(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 bg-teal-700 text-white"
           >
             <Plus className="w-4 h-4" />
             Nieuwe lijst
@@ -124,30 +134,22 @@ export default function OrderListsPage() {
         </div>
       </div>
 
-      {/* New List Modal */}
+      {/* New List Modal - Mobile First */}
       {showNewListModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(10,22,40,0.8)' }}
+          className="fixed inset-0 z-50 flex items-end lg:items-center justify-center lg:p-4 bg-black/80"
           onClick={() => setShowNewListModal(false)}
         >
           <div
-            className="bg-white rounded-2xl p-6 max-w-md w-full"
+            className="bg-white rounded-t-2xl lg:rounded-2xl p-5 lg:p-6 max-w-md w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2
-              className="font-extrabold mb-4"
-              style={{
-                fontSize: '20px',
-                color: '#0A1628',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-            >
+            <h2 className="text-lg lg:text-xl font-extrabold mb-4 text-gray-900">
               Nieuwe bestellijst
             </h2>
 
-            <div className="mb-5">
-              <label className="block font-semibold mb-2" style={{ fontSize: '14px', color: '#0A1628' }}>
+            <div className="mb-4 lg:mb-5">
+              <label className="block text-sm font-semibold mb-2 text-gray-900">
                 Naam van de lijst
               </label>
               <input
@@ -155,25 +157,22 @@ export default function OrderListsPage() {
                 value={newListName}
                 onChange={(e) => setNewListName(e.target.value)}
                 placeholder="Bijv. Maandelijkse voorraad"
-                className="w-full px-4 py-3 rounded-xl outline-none"
-                style={{ border: '1.5px solid #E8ECF1', fontSize: '14px' }}
+                className="w-full px-4 py-3 rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
                 autoFocus
               />
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 lg:gap-3">
               <button
                 onClick={() => setShowNewListModal(false)}
-                className="flex-1 px-4 py-3 rounded-xl font-semibold transition-all hover:bg-gray-100"
-                style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
+                className="flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
               >
                 Annuleren
               </button>
               <button
                 onClick={handleCreateList}
                 disabled={!newListName.trim()}
-                className="flex-1 px-4 py-3 rounded-xl font-semibold transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: '#00897B', color: 'white', fontSize: '14px' }}
+                className="flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed bg-teal-700 text-white"
               >
                 Aanmaken
               </button>
@@ -182,36 +181,29 @@ export default function OrderListsPage() {
         </div>
       )}
 
-      {/* Order Lists */}
-      <div className="grid grid-cols-1 gap-6">
+      {/* Order Lists - Mobile First */}
+      <div className="grid grid-cols-1 gap-4 lg:gap-6">
         {orderLists.map((list) => (
-          <div key={list.id} className="bg-white rounded-2xl shadow-sm overflow-hidden">
-            {/* List Header */}
-            <div className="p-6 pb-4" style={{ borderBottom: '1px solid #E8ECF1' }}>
+          <div key={list.id} className="bg-white rounded-xl lg:rounded-2xl shadow-sm overflow-hidden">
+            {/* List Header - Mobile First */}
+            <div className="p-4 lg:p-6 lg:pb-4 border-b border-gray-200">
               <div className="flex items-start justify-between mb-2">
-                <div className="flex-1">
-                  <h3
-                    className="font-extrabold mb-1"
-                    style={{
-                      fontSize: '18px',
-                      color: '#0A1628',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
-                    }}
-                  >
+                <div className="flex-1 min-w-0 pr-3">
+                  <h3 className="text-base lg:text-lg font-extrabold mb-0.5 lg:mb-1 text-gray-900">
                     {list.name}
                   </h3>
                   {list.description && (
-                    <p style={{ fontSize: '13px', color: '#94A3B8' }}>{list.description}</p>
+                    <p className="text-xs lg:text-sm text-gray-500">{list.description}</p>
                   )}
-                  <div className="flex items-center gap-4 mt-3">
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-1 lg:gap-4 mt-2 lg:mt-3">
                     <div className="flex items-center gap-2">
-                      <Package className="w-4 h-4" style={{ color: '#94A3B8' }} />
-                      <span style={{ fontSize: '13px', color: '#94A3B8' }}>
+                      <Package className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-gray-400" />
+                      <span className="text-xs lg:text-sm text-gray-500">
                         {list.productCount} producten
                       </span>
                     </div>
-                    <span style={{ fontSize: '12px', color: '#94A3B8' }}>
-                      Laatst gewijzigd:{' '}
+                    <span className="text-xs text-gray-400">
+                      <span className="hidden lg:inline">Laatst gewijzigd: </span>
                       {new Date(list.updatedAt).toLocaleDateString('nl-NL', {
                         day: 'numeric',
                         month: 'short',
@@ -221,49 +213,32 @@ export default function OrderListsPage() {
                   </div>
                 </div>
 
-                <div
-                  className="font-extrabold"
-                  style={{
-                    fontSize: '24px',
-                    color: '#00897B',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
-                  }}
-                >
+                <div className="text-lg lg:text-2xl font-extrabold text-teal-700 flex-shrink-0">
                   €{list.total.toFixed(2)}
                 </div>
               </div>
             </div>
 
-            {/* Products Grid */}
-            <div className="p-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+            {/* Products Grid - Mobile First */}
+            <div className="p-4 lg:p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-3 mb-3 lg:mb-4">
                 {list.products.map((product) => (
                   <div
                     key={product.id}
-                    className="flex items-center gap-3 p-3 rounded-xl"
-                    style={{ background: '#F5F7FA' }}
+                    className="flex items-center gap-2.5 lg:gap-3 p-2.5 lg:p-3 rounded-lg lg:rounded-xl bg-gray-50"
                   >
-                    <div
-                      className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: 'white', fontSize: '24px' }}
-                    >
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-white text-xl lg:text-2xl">
                       {product.emoji}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div
-                        className="font-semibold truncate"
-                        style={{ fontSize: '13px', color: '#0A1628' }}
-                      >
+                      <div className="text-xs lg:text-sm font-semibold truncate text-gray-900">
                         {product.name}
                       </div>
                       <div className="flex items-center gap-2">
-                        <span style={{ fontSize: '12px', color: '#94A3B8' }}>
+                        <span className="text-xs text-gray-500">
                           {product.quantity}x
                         </span>
-                        <span
-                          className="font-semibold"
-                          style={{ fontSize: '12px', color: '#00897B' }}
-                        >
+                        <span className="text-xs font-semibold text-teal-700">
                           €{product.price.toFixed(2)}
                         </span>
                       </div>
@@ -272,62 +247,48 @@ export default function OrderListsPage() {
                 ))}
               </div>
 
-              {/* Actions */}
-              <div className="flex flex-wrap gap-2">
+              {/* Actions - Mobile First */}
+              <div className="flex flex-col lg:flex-row gap-2">
                 <button
                   onClick={() => handleOrderAll(list.id)}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all hover:opacity-90"
-                  style={{ background: '#00897B', color: 'white', fontSize: '14px' }}
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 lg:px-5 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 bg-teal-700 text-white"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   Bestel alles
                 </button>
-                <button
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:bg-gray-100"
-                  style={{ background: '#F5F7FA', color: '#0A1628', fontSize: '14px' }}
-                >
-                  <Edit2 className="w-4 h-4" />
-                  Bewerken
-                </button>
-                <button
-                  onClick={() => handleDeleteList(list.id)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all hover:bg-red-50"
-                  style={{ background: '#F5F7FA', color: '#FF6B6B', fontSize: '14px' }}
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Verwijderen
-                </button>
+                <div className="grid grid-cols-2 lg:flex gap-2">
+                  <button className="flex items-center justify-center gap-2 px-3 lg:px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900">
+                    <Edit2 className="w-4 h-4" />
+                    <span className="hidden lg:inline">Bewerken</span>
+                  </button>
+                  <button
+                    onClick={() => handleDeleteList(list.id)}
+                    className="flex items-center justify-center gap-2 px-3 lg:px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-red-50 lg:hover:bg-red-50 bg-gray-50 text-red-600"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    <span className="hidden lg:inline">Verwijderen</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Empty State */}
+        {/* Empty State - Mobile First */}
         {orderLists.length === 0 && (
-          <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
-            <div
-              className="w-20 h-20 rounded-full mx-auto mb-5 flex items-center justify-center"
-              style={{ background: 'rgba(0,137,123,0.1)' }}
-            >
-              <Package className="w-10 h-10" style={{ color: '#00897B' }} />
+          <div className="bg-white rounded-xl lg:rounded-2xl p-8 lg:p-12 text-center shadow-sm">
+            <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full mx-auto mb-4 lg:mb-5 flex items-center justify-center bg-teal-50">
+              <Package className="w-8 h-8 lg:w-10 lg:h-10 text-teal-700" />
             </div>
-            <h3
-              className="font-extrabold mb-2"
-              style={{
-                fontSize: '20px',
-                color: '#0A1628',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-              }}
-            >
+            <h3 className="text-lg lg:text-xl font-extrabold mb-2 text-gray-900">
               Nog geen bestellijsten
             </h3>
-            <p className="mb-6" style={{ fontSize: '14px', color: '#94A3B8' }}>
+            <p className="text-sm lg:text-base mb-5 lg:mb-6 text-gray-500">
               Maak een bestellijst aan om producten te groeperen voor snelle herhaalbestellingen.
             </p>
             <button
               onClick={() => setShowNewListModal(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all hover:opacity-90"
-              style={{ background: '#00897B', color: 'white', fontSize: '14px' }}
+              className="inline-flex items-center gap-2 px-5 lg:px-6 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 bg-teal-700 text-white"
             >
               <Plus className="w-4 h-4" />
               Maak je eerste lijst

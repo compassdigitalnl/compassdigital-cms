@@ -1,8 +1,9 @@
 'use client'
 
 import type { BlogPost } from '@/payload-types'
-import { Calendar, User, Clock, Share2, ArrowRight } from 'lucide-react'
+import { Calendar, User, Clock, Share2, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
+import { useState } from 'react'
 
 interface BlogTemplate1Props {
   post: BlogPost
@@ -10,13 +11,17 @@ interface BlogTemplate1Props {
 }
 
 export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1Props) {
+  const [showRelated, setShowRelated] = useState(false)
+
   const featuredImageUrl =
     typeof post.featuredImage === 'object' && post.featuredImage !== null
       ? post.featuredImage.url
       : null
 
   const authorName =
-    typeof post.author === 'object' && post.author !== null ? post.author.name || 'Anonymous' : 'Anonymous'
+    typeof post.author === 'object' && post.author !== null
+      ? post.author.name || 'Anonymous'
+      : 'Anonymous'
 
   const publishDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('nl-NL', {
@@ -34,35 +39,21 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
       .filter((c) => c !== null)
 
   return (
-    <div style={{ fontFamily: 'var(--font-body)' }}>
-      {/* Magazine: 2-Column Layout */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr',
-          gap: '64px',
-          marginBottom: '64px',
-        }}
-        className="blog-magazine-layout"
-      >
+    <div className="pb-24 lg:pb-8" style={{ fontFamily: 'var(--font-body)' }}>
+      {/* Magazine: Mobile-first Layout */}
+      <div className="flex flex-col lg:grid lg:grid-cols-[2fr,1fr] gap-8 lg:gap-16">
         {/* Main Content */}
-        <div>
+        <article>
           {/* Categories */}
           {categoryBadges && categoryBadges.length > 0 && (
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+            <div className="flex flex-wrap gap-2 mb-4 lg:mb-6">
               {categoryBadges.map((cat, idx) => (
                 <span
                   key={idx}
+                  className="inline-block px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-semibold uppercase tracking-wide"
                   style={{
-                    display: 'inline-block',
-                    padding: '6px 16px',
                     background: 'var(--color-primary)',
                     color: 'white',
-                    borderRadius: '6px',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
                   }}
                 >
                   {cat.name}
@@ -73,11 +64,8 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
 
           {/* Title */}
           <h1
+            className="text-3xl lg:text-5xl font-extrabold leading-tight mb-4 lg:mb-6"
             style={{
-              fontSize: '48px',
-              fontWeight: 800,
-              lineHeight: 1.2,
-              marginBottom: '24px',
               color: 'var(--color-text-primary)',
               fontFamily: 'var(--font-heading)',
             }}
@@ -87,43 +75,30 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
 
           {/* Meta */}
           <div
-            style={{
-              display: 'flex',
-              gap: '24px',
-              marginBottom: '32px',
-              paddingBottom: '24px',
-              borderBottom: '2px solid var(--color-border)',
-            }}
+            className="flex flex-wrap gap-3 lg:gap-6 mb-6 lg:mb-8 pb-4 lg:pb-6"
+            style={{ borderBottom: '2px solid var(--color-border)' }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-text-muted)' }}>
+            <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
               <User className="w-4 h-4" />
-              <span style={{ fontSize: '14px', fontWeight: 500 }}>{authorName}</span>
+              <span className="text-sm font-medium">{authorName}</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-text-muted)' }}>
+            <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
               <Calendar className="w-4 h-4" />
-              <span style={{ fontSize: '14px' }}>{publishDate}</span>
+              <span className="text-sm">{publishDate}</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-text-muted)' }}>
+            <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
               <Clock className="w-4 h-4" />
-              <span style={{ fontSize: '14px' }}>5 min read</span>
+              <span className="text-sm">5 min lezen</span>
             </div>
           </div>
 
           {/* Featured Image */}
           {featuredImageUrl && (
-            <div
-              style={{
-                width: '100%',
-                aspectRatio: '16/9',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                marginBottom: '40px',
-              }}
-            >
+            <div className="w-full aspect-video rounded-xl lg:rounded-2xl overflow-hidden mb-6 lg:mb-10">
               <img
                 src={featuredImageUrl}
                 alt={post.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                className="w-full h-full object-cover"
               />
             </div>
           )}
@@ -131,17 +106,11 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
           {/* Excerpt */}
           {post.excerpt && (
             <div
+              className="text-base lg:text-xl leading-relaxed font-medium italic mb-6 lg:mb-10 p-4 lg:p-6 rounded-xl lg:rounded-2xl"
               style={{
-                fontSize: '20px',
-                lineHeight: 1.7,
                 color: 'var(--color-text-secondary)',
-                fontWeight: 500,
-                marginBottom: '40px',
-                fontStyle: 'italic',
-                padding: '24px',
                 background: 'var(--color-surface, #F9FAFB)',
                 borderLeft: '4px solid var(--color-primary)',
-                borderRadius: '8px',
               }}
             >
               {post.excerpt}
@@ -150,72 +119,52 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
 
           {/* Content */}
           <div
-            style={{
-              fontSize: '17px',
-              lineHeight: 1.9,
-              color: 'var(--color-text-secondary)',
-            }}
-            className="blog-content"
+            className="text-base lg:text-lg leading-relaxed lg:leading-loose blog-content"
+            style={{ color: 'var(--color-text-secondary)' }}
             dangerouslySetInnerHTML={{ __html: post.content || '' }}
           />
 
-          {/* Share Buttons */}
+          {/* Desktop Share Buttons */}
           <div
-            style={{
-              marginTop: '64px',
-              paddingTop: '32px',
-              borderTop: '2px solid var(--color-border)',
-            }}
+            className="hidden lg:flex mt-16 pt-8 items-center gap-4"
+            style={{ borderTop: '2px solid var(--color-border)' }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <span style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
-                Deel dit artikel:
-              </span>
-              <button
-                style={{
-                  padding: '10px 20px',
-                  background: 'var(--color-primary)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
-              >
-                <Share2 className="w-4 h-4" />
-                Delen
-              </button>
-            </div>
+            <span
+              className="text-base font-semibold"
+              style={{ color: 'var(--color-text-primary)' }}
+            >
+              Deel dit artikel:
+            </span>
+            <button
+              className="px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-opacity hover:opacity-90"
+              style={{
+                background: 'var(--color-primary)',
+                color: 'white',
+              }}
+            >
+              <Share2 className="w-4 h-4" />
+              Delen
+            </button>
           </div>
-        </div>
+        </article>
 
         {/* Sidebar */}
-        <div>
+        <aside className="space-y-4 lg:space-y-6">
           {/* Author Card */}
           <div
+            className="p-4 lg:p-6 rounded-xl lg:rounded-2xl"
             style={{
-              padding: '24px',
               background: 'var(--color-surface, white)',
               border: '1px solid var(--color-border)',
-              borderRadius: '16px',
-              marginBottom: '32px',
             }}
           >
             <h3
-              style={{
-                fontSize: '16px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--color-text-primary)',
-              }}
+              className="text-sm lg:text-base font-bold mb-2 lg:mb-3"
+              style={{ color: 'var(--color-text-primary)' }}
             >
               Over de auteur
             </h3>
-            <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'var(--color-text-muted)' }}>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>
               Geschreven door <strong>{authorName}</strong>
             </p>
           </div>
@@ -223,24 +172,41 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
           {/* Related Posts */}
           {relatedPosts && relatedPosts.length > 0 && (
             <div
+              className="rounded-xl lg:rounded-2xl overflow-hidden"
               style={{
-                padding: '24px',
                 background: 'var(--color-surface, white)',
                 border: '1px solid var(--color-border)',
-                borderRadius: '16px',
               }}
             >
+              {/* Mobile: Collapsible Header */}
+              <button
+                onClick={() => setShowRelated(!showRelated)}
+                className="lg:hidden w-full p-4 flex items-center justify-between"
+              >
+                <h3
+                  className="text-base font-bold"
+                  style={{ color: 'var(--color-text-primary)' }}
+                >
+                  Gerelateerde artikelen
+                </h3>
+                {showRelated ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+              </button>
+
+              {/* Desktop: Always visible header */}
               <h3
-                style={{
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  marginBottom: '20px',
-                  color: 'var(--color-text-primary)',
-                }}
+                className="hidden lg:block text-lg font-bold p-6 pb-4"
+                style={{ color: 'var(--color-text-primary)' }}
               >
                 Gerelateerde artikelen
               </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+              {/* Related Posts List */}
+              <div
+                className={`
+                  ${showRelated ? 'block' : 'hidden'} lg:block
+                  px-4 pb-4 lg:px-6 lg:pb-6 space-y-3 lg:space-y-4
+                `}
+              >
                 {relatedPosts.slice(0, 3).map((relPost) => {
                   const relImg =
                     typeof relPost.featuredImage === 'object' && relPost.featuredImage !== null
@@ -250,52 +216,29 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
                     <Link
                       key={relPost.id}
                       href={`/blog/${relPost.slug}`}
-                      style={{
-                        display: 'flex',
-                        gap: '12px',
-                        textDecoration: 'none',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        transition: 'background 0.2s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'var(--color-surface, #F9FAFB)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent'
-                      }}
+                      className="flex gap-3 p-2 lg:p-3 rounded-lg transition-colors hover:bg-gray-50"
                     >
                       {relImg && (
-                        <div
-                          style={{
-                            width: '80px',
-                            height: '80px',
-                            borderRadius: '8px',
-                            overflow: 'hidden',
-                            flexShrink: 0,
-                          }}
-                        >
+                        <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-lg overflow-hidden flex-shrink-0">
                           <img
                             src={relImg}
                             alt={relPost.title}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            className="w-full h-full object-cover"
                           />
                         </div>
                       )}
-                      <div>
+                      <div className="flex-1 min-w-0">
                         <h4
-                          style={{
-                            fontSize: '14px',
-                            fontWeight: 600,
-                            lineHeight: 1.4,
-                            marginBottom: '4px',
-                            color: 'var(--color-text-primary)',
-                          }}
+                          className="text-sm lg:text-base font-semibold leading-snug mb-1 line-clamp-2"
+                          style={{ color: 'var(--color-text-primary)' }}
                         >
                           {relPost.title}
                         </h4>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <span style={{ fontSize: '12px', color: 'var(--color-primary)', fontWeight: 500 }}>
+                        <div className="flex items-center gap-1">
+                          <span
+                            className="text-xs lg:text-sm font-medium"
+                            style={{ color: 'var(--color-primary)' }}
+                          >
                             Lees meer
                           </span>
                           <ArrowRight className="w-3 h-3" style={{ color: 'var(--color-primary)' }} />
@@ -307,18 +250,29 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
               </div>
             </div>
           )}
-        </div>
+        </aside>
       </div>
 
-      {/* Responsive */}
-      <style jsx>{`
-        @media (max-width: 1024px) {
-          .blog-magazine-layout {
-            grid-template-columns: 1fr !important;
-            gap: 48px !important;
-          }
-        }
-      `}</style>
+      {/* MOBILE: Sticky Share Button */}
+      <div
+        className="lg:hidden fixed bottom-0 left-0 right-0 p-4 z-50"
+        style={{
+          background: 'white',
+          borderTop: '1px solid var(--color-border)',
+          boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
+        }}
+      >
+        <button
+          className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2 transition-opacity active:opacity-80"
+          style={{
+            background: 'var(--color-primary)',
+            color: 'white',
+          }}
+        >
+          <Share2 className="w-5 h-5" />
+          Deel dit artikel
+        </button>
+      </div>
     </div>
   )
 }
