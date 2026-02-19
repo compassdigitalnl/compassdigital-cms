@@ -28,6 +28,8 @@ echo "✓ Dependencies installed"
 # 4. Build Next.js application
 echo ""
 echo "=== 🔨 Building application ==="
+# Clear Next.js cache to ensure fresh build (prevents cached middleware issues)
+rm -rf .next
 npm run build
 echo "✓ Build completed"
 
