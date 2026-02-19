@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 export const Header: GlobalConfig = {
   slug: 'header',
@@ -7,7 +8,7 @@ export const Header: GlobalConfig = {
   admin: {
     group: 'Ontwerp',
     description: 'Alle header-gerelateerde instellingen: TopBar, AlertBar, Navigatie, Branding',
-    hidden: ({ user }) => checkRole(['admin'], user),
+    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
   },
   access: {
     read: () => true,
