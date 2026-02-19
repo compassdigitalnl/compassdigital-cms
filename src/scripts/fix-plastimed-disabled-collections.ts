@@ -62,7 +62,6 @@ async function main() {
     id: String(client.id),
     data: {
       disabledCollections: disabledCollections as any,
-      template: 'b2b' as any,
     },
     overrideAccess: true,
     context: { skipProvisioningHook: true } as any,
