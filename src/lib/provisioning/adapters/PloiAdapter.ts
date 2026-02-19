@@ -462,15 +462,15 @@ else
   npm ci --production=false
 fi
 
-# Build application
-echo "Building application..."
-NODE_OPTIONS="--no-deprecation --max-old-space-size=2048" npm run build
-
 # Load and export all environment variables from .env
-# This ensures PM2 picks up DATABASE_URL and other tenant-specific variables
+# MUST happen BEFORE build so NEXT_PUBLIC_* vars are inlined by Next.js
 set -a
 [ -f .env ] && source .env
 set +a
+
+# Build application
+echo "Building application..."
+NODE_OPTIONS="--no-deprecation --max-old-space-size=2048" npm run build
 
 # Restart application via PM2 on the assigned port
 echo "Restarting application on port ${port}..."
