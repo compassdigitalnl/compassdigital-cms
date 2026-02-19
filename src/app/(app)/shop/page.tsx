@@ -29,9 +29,31 @@ export default async function ShopPage({
   const { docs: products } = await payload.find({
     collection: 'products',
     where,
-    depth: 2, // Resolve childProducts
+    depth: 1, // Alleen directe relationships resolven (images, brand, categories)
     limit: 50,
     sort: '-createdAt',
+    select: {
+      title: true,
+      slug: true,
+      price: true,
+      salePrice: true,
+      compareAtPrice: true,
+      sku: true,
+      ean: true,
+      stock: true,
+      stockStatus: true,
+      status: true,
+      featured: true,
+      badge: true,
+      productType: true,
+      images: true,
+      brand: true,
+      categories: true,
+      shortDescription: true,
+      childProducts: true,
+      volumePricing: true,
+      trackStock: true,
+    },
   })
 
   // Fetch categories for filter

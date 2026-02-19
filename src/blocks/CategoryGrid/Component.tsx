@@ -28,7 +28,7 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
       let apiUrl = `${baseUrl}/api/product-categories?sort=name&limit=${limit}`
 
       const response = await fetch(apiUrl, {
-        cache: 'no-store', // Always fetch fresh data
+        next: { revalidate: 300 }, // Cache categorieën 5 minuten (veranderen zelden)
         headers: {
           'Content-Type': 'application/json',
         },

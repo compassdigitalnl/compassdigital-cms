@@ -17,7 +17,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         equals: slug,
       },
     },
+    depth: 0,
     limit: 1,
+    select: {
+      title: true,
+      shortDescription: true,
+      meta: true,
+    },
   })
 
   const product = products[0]

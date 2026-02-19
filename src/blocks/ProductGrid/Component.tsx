@@ -72,8 +72,12 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
       }
 
       if (apiUrl) {
-        const response = await fetch(apiUrl, {
-          cache: 'no-store', // Always fetch fresh data
+        // Voeg depth en select params toe aan de URL
+        const separator = apiUrl.includes('?') ? '&' : '?'
+        const optimizedUrl = `${apiUrl}${separator}depth=1&select[title]=true&select[slug]=true&select[price]=true&select[salePrice]=true&select[compareAtPrice]=true&select[sku]=true&select[stock]=true&select[stockStatus]=true&select[status]=true&select[badge]=true&select[productType]=true&select[images]=true&select[brand]=true&select[shortDescription]=true`
+
+        const response = await fetch(optimizedUrl, {
+          next: { revalidate: 60 }, // Cache voor 60 seconden, dan revalideren
           headers: {
             'Content-Type': 'application/json',
           },
