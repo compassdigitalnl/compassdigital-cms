@@ -91,14 +91,16 @@ export const Clients: CollectionConfig = {
           type: 'text',
           required: true,
           unique: true,
-          label: 'Subdomein',
+          label: 'Domein',
           admin: {
-            description: 'Bijv. "bakkerij-dejong" → bakkerij-dejong.compassdigital.nl',
+            description:
+              'Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")',
           },
           validate: (val: string | null | undefined) => {
-            if (!val) return 'Subdomein is verplicht'
-            if (!/^[a-z0-9-]+$/.test(val)) {
-              return 'Alleen kleine letters, cijfers en koppeltekens toegestaan'
+            if (!val) return 'Domein is verplicht'
+            // Accept both subdomain-only (e.g., "plastimed01") AND full hostname (e.g., "plastimed01.compassdigital.nl")
+            if (!/^[a-z0-9-]+(\.[a-z0-9-]+)*$/.test(val)) {
+              return 'Alleen kleine letters, cijfers, koppeltekens en punten toegestaan'
             }
             return true
           },
