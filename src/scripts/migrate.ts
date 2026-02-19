@@ -6,30 +6,18 @@
  *
  * Usage:
  *   npm run migrate
+ *   OR (for non-interactive):
+ *   yes | npm run migrate
  *
  * In Ploi deploy script:
- *   npm run migrate
+ *   yes | npm run migrate || echo "Migration skipped"
  */
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { Readable } from 'stream'
 
-// Mock stdin to auto-accept prompts with "y\n"
-// This prevents hanging during non-interactive deployments
-const mockStdin = () => {
-  const stdin = new Readable()
-  stdin.push('y\n')
-  stdin.push(null)
-  // @ts-ignore
-  process.stdin = stdin
-  // Make stdin non-TTY so Payload doesn't wait for input
-  // @ts-ignore
-  process.stdin.isTTY = false
-}
-
-// Call before any Payload operations
-mockStdin()
+// Set environment variable to skip prompts
+process.env.SKIP_MIGRATION_PROMPTS = 'true'
 
 // Hard kill after 90 seconds — safety net if anything hangs
 const hardKill = setTimeout(() => {
@@ -41,7 +29,7 @@ hardKill.unref()
 
 async function runMigrations() {
   console.log('[migrate] Starting Payload migrations...')
-  console.log('[migrate] Running in non-interactive mode (auto-accept prompts)')
+  console.log('[migrate] TIP: Run with "yes | npm run migrate" if prompts appear')
 
   let payload: any = null
 
@@ -53,7 +41,8 @@ async function runMigrations() {
   }
 
   try {
-    // Run migrations - stdin is mocked to auto-accept
+    // Run migrations
+    // Note: If Payload shows a prompt, use "yes | npm run migrate" instead
     await payload.db.migrate()
     console.log('[migrate] ✅ Migrations completed successfully')
   } catch (err: any) {

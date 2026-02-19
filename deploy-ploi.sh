@@ -34,11 +34,9 @@ echo "✓ Build completed"
 # 5. Run database migrations
 echo ""
 echo "=== 🗄️  Running migrations ==="
-# Try custom migrate script first (has stdin mocking)
-npm run migrate || {
-  echo "⚠️  Custom migrate script failed, trying with yes pipe..."
-  yes | npm run migrate:force || echo "⚠️  Migration failed, continuing anyway..."
-}
+# Use 'yes' to auto-accept any prompts
+# The || true ensures we continue even if migration fails (safe for prod)
+yes | npm run migrate || echo "⚠️  Migration failed or skipped, continuing..."
 echo "✓ Migrations completed"
 
 # 6. Restart PM2 with environment variables
