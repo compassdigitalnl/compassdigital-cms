@@ -20,32 +20,47 @@ export function HideCollections() {
       return
     }
 
-    // Extract subdomain: "plastimed01.compassdigital.nl" → "plastimed01"
-    // Of gebruik volledige hostname als fallback voor custom domains
+    console.log('[HideCollections] Hostname:', fullHostname)
+
+    // Try both full hostname AND subdomain (voor backwards compatibility)
+    // Bijv: "plastimed01.compassdigital.nl" probeer beide:
+    //   1. "plastimed01.compassdigital.nl" (volledig)
+    //   2. "plastimed01" (alleen subdomain)
     const subdomain = fullHostname.endsWith('.compassdigital.nl')
       ? fullHostname.replace('.compassdigital.nl', '')
-      : fullHostname
+      : null
 
-    console.log('[HideCollections] Hostname:', fullHostname, '→ Searching domain:', subdomain)
+    const searchParams = new URLSearchParams()
+    searchParams.set('where[or][0][domain][equals]', fullHostname)
+    if (subdomain) {
+      searchParams.set('where[or][1][domain][equals]', subdomain)
+    }
 
-    // Haal client config op via API (zoek op subdomain OF full hostname)
-    fetch(
-      `/api/platform/clients?where[or][0][domain][equals]=${subdomain}&where[or][1][domain][equals]=${fullHostname}`,
-    )
+    console.log('[HideCollections] Searching for domains:', [fullHostname, subdomain].filter(Boolean))
+
+    // Haal client config op via API
+    fetch(`/api/platform/clients?${searchParams}`)
       .then((r) => r.json())
       .then((data) => {
         const client = data?.docs?.[0]
         if (!client) {
-          console.warn('[HideCollections] No client found for domain:', subdomain, '/', fullHostname)
+          console.warn(
+            '[HideCollections] No client found for domains:',
+            [fullHostname, subdomain].filter(Boolean),
+          )
           return
         }
 
-        console.log('[HideCollections] Found client:', client.name, '- Disabled:', client.disabledCollections)
+        console.log('[HideCollections] ✅ Found client:', client.name)
+        console.log('[HideCollections] Disabled collections:', client.disabledCollections || [])
 
         const disabled: string[] = client.disabledCollections ?? []
-        if (disabled.length === 0) return
+        if (disabled.length === 0) {
+          console.log('[HideCollections] No collections to hide')
+          return
+        }
 
-        // Genereer CSS
+        // Genereer CSS om collections te verbergen
         const styles = disabled
           .map(
             (slug) =>
@@ -55,11 +70,11 @@ export function HideCollections() {
           )
           .join('\n')
 
-        console.log('[HideCollections] Injecting CSS to hide:', disabled)
+        console.log('[HideCollections] ✅ Injecting CSS to hide collections')
         setCss(styles)
       })
       .catch((err) => {
-        console.error('[HideCollections] API error:', err)
+        console.error('[HideCollections] ❌ API error:', err)
         // Stille fail — nooit de admin breken
       })
   }, [])

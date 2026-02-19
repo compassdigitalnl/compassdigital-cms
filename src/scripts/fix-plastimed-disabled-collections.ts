@@ -15,16 +15,21 @@ async function main() {
   const { default: config } = await import('@payload-config')
   const payload = await getPayload({ config })
 
-  // Find plastimed01 client
-  const clients = await payload.find({
+  // Find plastimed01 client (try both subdomain and full hostname)
+  let clients = await payload.find({
     collection: 'clients',
-    where: { domain: { equals: 'plastimed01' } },
+    where: {
+      or: [
+        { domain: { equals: 'plastimed01' } },
+        { domain: { equals: 'plastimed01.compassdigital.nl' } },
+      ],
+    },
     limit: 1,
     depth: 0,
   })
 
   if (clients.docs.length === 0) {
-    console.error('❌ No client found with domain=plastimed01')
+    console.error('❌ No client found with domain=plastimed01 or plastimed01.compassdigital.nl')
     console.log('\nSearching all clients...\n')
 
     const all = await payload.find({
