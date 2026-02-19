@@ -466,6 +466,12 @@ fi
 echo "Building application..."
 NODE_OPTIONS="--no-deprecation --max-old-space-size=2048" npm run build
 
+# Load and export all environment variables from .env
+# This ensures PM2 picks up DATABASE_URL and other tenant-specific variables
+set -a
+[ -f .env ] && source .env
+set +a
+
 # Restart application via PM2 on the assigned port
 echo "Restarting application on port ${port}..."
 
