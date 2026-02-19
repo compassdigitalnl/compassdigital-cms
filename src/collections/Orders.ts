@@ -89,6 +89,49 @@ export const Orders: CollectionConfig = {
           required: true,
           label: 'Product',
         },
+        // Product snapshots (at order time) - preserved even if product is deleted
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          label: 'Product Naam',
+          admin: {
+            description: 'Productnaam op moment van bestelling',
+          },
+        },
+        {
+          name: 'sku',
+          type: 'text',
+          label: 'SKU',
+          admin: {
+            description: 'SKU op moment van bestelling',
+          },
+        },
+        {
+          name: 'ean',
+          type: 'text',
+          label: 'EAN / Barcode',
+          admin: {
+            description: 'EAN op moment van bestelling',
+          },
+        },
+        // Grouped product tracking
+        {
+          name: 'parentProductId',
+          type: 'text',
+          label: 'Parent Product ID',
+          admin: {
+            description: 'ID van grouped parent product (indien van toepassing)',
+          },
+        },
+        {
+          name: 'parentProductTitle',
+          type: 'text',
+          label: 'Parent Product Naam',
+          admin: {
+            description: 'Naam van grouped parent product (indien van toepassing)',
+          },
+        },
         {
           name: 'quantity',
           type: 'number',
