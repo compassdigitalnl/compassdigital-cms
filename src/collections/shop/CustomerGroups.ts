@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../../access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 export const CustomerGroups: CollectionConfig = {
   slug: 'customer-groups',
@@ -10,7 +11,10 @@ export const CustomerGroups: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'E-commerce',
-    hidden: ({ user }) => !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
+    hidden: ({ user }) =>
+      isClientDeployment()
+        ? false
+        : !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
   },
   access: {
     read: () => true, // Customer groups are publicly readable (for pricing tiers)

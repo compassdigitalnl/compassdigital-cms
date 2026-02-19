@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 export const Brands: CollectionConfig = {
   slug: 'brands',
@@ -12,7 +13,10 @@ export const Brands: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['name', 'featured', 'updatedAt'],
     description: 'Product merken zoals Hartmann, BSN Medical, 3M, etc.',
-    hidden: ({ user }) => !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
+    hidden: ({ user }) =>
+      isClientDeployment()
+        ? false
+        : !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
   },
   access: {
     read: () => true, // Brands are publicly accessible (webshop catalog)

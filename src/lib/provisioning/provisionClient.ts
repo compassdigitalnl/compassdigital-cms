@@ -95,7 +95,38 @@ export async function provisionClient(opts: ProvisionClientOptions): Promise<Pro
     })
   }
 
-  // Merge caller-provided overrides
+  // ── Derive env vars from client template & features ──────────────────
+  const template = (client as any).template || 'corporate'
+  const enabledFeatures: string[] = (client as any).enabledFeatures || []
+  const disabledCollections: string[] = (client as any).disabledCollections || []
+
+  // E-commerce detection: template is b2b/ecommerce OR ecommerce feature enabled
+  const isEcommerce =
+    ['b2b', 'ecommerce'].includes(template) || enabledFeatures.includes('ecommerce')
+
+  if (disabledCollections.length > 0) {
+    const disabled = disabledCollections.join(',')
+    customEnv.DISABLED_COLLECTIONS = disabled
+    customEnv.NEXT_PUBLIC_DISABLED_COLLECTIONS = disabled
+  }
+
+  if (isEcommerce) {
+    customEnv.ECOMMERCE_ENABLED = 'true'
+    customEnv.NEXT_PUBLIC_ECOMMERCE_ENABLED = 'true'
+
+    const shopModel = template === 'b2b' ? 'b2b' : 'b2c'
+    customEnv.SHOP_MODEL = shopModel
+    customEnv.NEXT_PUBLIC_SHOP_MODEL = shopModel
+
+    if (template === 'b2b') {
+      customEnv.PRICING_MODEL = 'tiered'
+      customEnv.CUSTOMER_GROUPS_ENABLED = 'true'
+    }
+  }
+
+  customEnv.TEMPLATE_ID = template
+
+  // Merge caller-provided overrides (these always win)
   Object.assign(customEnv, extraEnv)
 
   const provisioningInput = {

@@ -34,6 +34,7 @@ import { SearchBar } from '@/blocks/SearchBar'
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 // Check for disabled collections to prevent invalid relationship errors
 const disabledCollections = new Set(
@@ -46,7 +47,7 @@ export const Pages: CollectionConfig = {
     group: 'Website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
-    hidden: ({ user }) => checkRole(['admin'], user),
+    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({

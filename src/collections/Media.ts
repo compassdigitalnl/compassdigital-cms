@@ -8,6 +8,7 @@ import {
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { checkRole } from '../access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -15,7 +16,7 @@ const dirname = path.dirname(filename)
 export const Media: CollectionConfig = {
   admin: {
     group: 'Website',
-    hidden: ({ user }) => checkRole(['admin'], user),
+    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
   },
   slug: 'media',
   access: {

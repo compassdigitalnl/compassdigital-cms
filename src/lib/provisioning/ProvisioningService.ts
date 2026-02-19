@@ -209,10 +209,14 @@ export class ProvisioningService {
       let initialAdminPassword: string | undefined
 
       try {
+        // Determine clientType from environment variables built earlier
+        const isWebshop = environmentVariables.ECOMMERCE_ENABLED === 'true'
+
         const adminResult = await this.createClientAdminUser(
           deploymentResult.url || `https://${fullDomain}`,
           input.contactEmail || `admin@${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`,
           input.clientName,
+          isWebshop ? 'webshop' : 'website',
         )
         adminEmail = adminResult.email
         initialAdminPassword = adminResult.password
@@ -621,6 +625,7 @@ export class ProvisioningService {
     siteUrl: string,
     email: string,
     name: string,
+    clientType?: 'website' | 'webshop',
   ): Promise<{ email: string; password: string }> {
     const password = this.generateAdminPassword()
     const MAX_ATTEMPTS = 8
@@ -633,7 +638,12 @@ export class ProvisioningService {
         const res = await fetch(`${siteUrl}/api/users`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, name }),
+          body: JSON.stringify({
+            email,
+            password,
+            name,
+            ...(clientType ? { clientType } : {}),
+          }),
         })
 
         if (res.ok) {

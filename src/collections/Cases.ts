@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 export const Cases: CollectionConfig = {
   slug: 'cases',
@@ -7,7 +8,7 @@ export const Cases: CollectionConfig = {
     group: 'Marketing',
     useAsTitle: 'title',
     defaultColumns: ['title', 'client', 'updatedAt'],
-    hidden: ({ user }) => checkRole(['admin'], user),
+    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
   },
   access: {
     read: () => true, // Publiek leesbaar
