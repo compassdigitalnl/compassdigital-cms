@@ -1,58 +1,52 @@
-import { headers } from 'next/headers'
-import { getPayload } from 'payload'
-import config from '@payload-config'
+'use client'
+
+import { useEffect, useState } from 'react'
 
 /**
- * HideCollections — server component dat per-hostname collections verbergt
+ * HideCollections — client component dat per-hostname collections verbergt
  * in de Payload admin navigatie.
  *
- * Werkt via CSS injection: leest de Client.disabledCollections uit de database
+ * Werkt via CSS injection: haalt Client.disabledCollections op via API
  * en injecteert CSS die de nav-links voor die collections verbergt.
- *
- * Geen aparte PM2 processen nodig — werkt in het gedeelde process.
  */
-export async function HideCollections() {
-  try {
-    const headersList = await headers()
-    const host = (headersList.get('host') || '').split(':')[0] // strip port
+export function HideCollections() {
+  const [css, setCss] = useState('')
+
+  useEffect(() => {
+    const host = window.location.hostname
 
     // Platform zelf — nooit verbergen
     if (!host || host === 'cms.compassdigital.nl' || host === 'localhost') {
-      return null
+      return
     }
 
-    const payload = await getPayload({ config })
+    // Haal client config op via API
+    fetch(`/api/platform/clients?where[domain][equals]=${host}`)
+      .then((r) => r.json())
+      .then((data) => {
+        const client = data?.docs?.[0]
+        if (!client) return
 
-    // Zoek de Client op basis van domain
-    const result = await payload.find({
-      collection: 'clients',
-      where: {
-        domain: { equals: host },
-      },
-      limit: 1,
-      depth: 0,
-    })
+        const disabled: string[] = client.disabledCollections ?? []
+        if (disabled.length === 0) return
 
-    const client = result.docs[0]
-    if (!client) return null
+        // Genereer CSS
+        const styles = disabled
+          .map(
+            (slug) =>
+              `a[href="/admin/collections/${slug}"], ` +
+              `a[href*="/admin/collections/${slug}/"], ` +
+              `li:has(> a[href="/admin/collections/${slug}"]) { display: none !important; }`,
+          )
+          .join('\n')
 
-    // Haal disabledCollections op (kan string[] of object[] zijn)
-    const disabled: string[] = (client.disabledCollections as string[] | undefined) ?? []
-    if (disabled.length === 0) return null
+        setCss(styles)
+      })
+      .catch(() => {
+        // Stille fail — nooit de admin breken
+      })
+  }, [])
 
-    // Genereer CSS die de nav-links verbergt
-    const css = disabled
-      .map(
-        (slug) =>
-          `a[href="/admin/collections/${slug}"], ` +
-          `a[href*="/admin/collections/${slug}/"], ` +
-          `li:has(> a[href="/admin/collections/${slug}"]) { display: none !important; }`,
-      )
-      .join('\n')
-
-    return <style dangerouslySetInnerHTML={{ __html: css }} />
-  } catch {
-    // Nooit de admin breken door een fout in dit component
-    return null
-  }
+  if (!css) return null
+  return <style dangerouslySetInnerHTML={{ __html: css }} />
 }
