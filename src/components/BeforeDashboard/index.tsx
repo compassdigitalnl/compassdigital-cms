@@ -174,6 +174,19 @@ const AdminDashboard: React.FC<{ userName: string }> = ({ userName }) => {
 const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
   const firstName = userName?.split(' ')[0] || 'daar'
 
+  // Read client configuration from env vars
+  const ecommerceEnabled = process.env.NEXT_PUBLIC_ECOMMERCE_ENABLED === 'true'
+  const shopModel = process.env.NEXT_PUBLIC_SHOP_MODEL // 'b2b' | 'b2c' | undefined
+  const disabledCollections = new Set(
+    (process.env.NEXT_PUBLIC_DISABLED_COLLECTIONS || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean),
+  )
+
+  // Helper: check if a collection is enabled
+  const isEnabled = (slug: string) => !disabledCollections.has(slug)
+
   return (
     <div className="cd-dashboard">
       {/* Hero */}
@@ -212,6 +225,58 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         </div>
       </div>
 
+      {/* E-commerce sectie - alleen als ECOMMERCE_ENABLED=true */}
+      {ecommerceEnabled && (
+        <div className="cd-section">
+          <h2 className="cd-section__title">E-commerce</h2>
+          <div className="cd-grid cd-grid--3">
+            <QuickAction
+              href="/admin/collections/products"
+              icon="📦"
+              label="Producten"
+              description="Beheer je productcatalogus"
+              accent
+            />
+            <QuickAction
+              href="/admin/collections/product-categories"
+              icon="🏷️"
+              label="Categorieën"
+              description="Productcategorieën beheren"
+            />
+            {isEnabled('brands') && (
+              <QuickAction
+                href="/admin/collections/brands"
+                icon="🏭"
+                label="Merken"
+                description="Merken beheren"
+              />
+            )}
+            <QuickAction
+              href="/admin/collections/orders"
+              icon="🛒"
+              label="Bestellingen"
+              description="Bekijk en beheer bestellingen"
+            />
+            {shopModel === 'b2b' && (
+              <>
+                <QuickAction
+                  href="/admin/collections/order-lists"
+                  icon="📋"
+                  label="Bestelrondes"
+                  description="B2B bestelrondes beheren"
+                />
+                <QuickAction
+                  href="/admin/collections/customer-groups"
+                  icon="👥"
+                  label="Klantgroepen"
+                  description="B2B klantgroepen en prijzen"
+                />
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Content */}
       <div className="cd-section">
         <h2 className="cd-section__title">Content</h2>
@@ -246,12 +311,30 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
             label="FAQ"
             description="Veelgestelde vragen beheren"
           />
-          <QuickAction
-            href="/admin/collections/cases"
-            icon="💼"
-            label="Projecten"
-            description="Portfolio projecten beheren"
-          />
+          {isEnabled('cases') && (
+            <QuickAction
+              href="/admin/collections/cases"
+              icon="💼"
+              label="Projecten"
+              description="Portfolio projecten beheren"
+            />
+          )}
+          {isEnabled('partners') && (
+            <QuickAction
+              href="/admin/collections/partners"
+              icon="🤝"
+              label="Partners"
+              description="Partnerbedrijven beheren"
+            />
+          )}
+          {isEnabled('services') && (
+            <QuickAction
+              href="/admin/collections/services-collection"
+              icon="🔧"
+              label="Diensten"
+              description="Diensten beheren"
+            />
+          )}
         </div>
       </div>
 
@@ -266,6 +349,12 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
             description="Pas het uiterlijk van je site aan"
           />
           <QuickAction
+            href="/admin/globals/header"
+            icon="📋"
+            label="Header"
+            description="Bewerk de bovenkant van je site"
+          />
+          <QuickAction
             href="/admin/globals/footer"
             icon="🔗"
             label="Footer"
@@ -276,6 +365,25 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
             icon="⚙️"
             label="Instellingen"
             description="Contactinfo en SEO instellingen"
+          />
+        </div>
+      </div>
+
+      {/* Forms & Submissions */}
+      <div className="cd-section">
+        <h2 className="cd-section__title">Formulieren</h2>
+        <div className="cd-grid cd-grid--2">
+          <QuickAction
+            href="/admin/collections/forms"
+            icon="📝"
+            label="Formulieren"
+            description="Beheer contactformulieren"
+          />
+          <QuickAction
+            href="/admin/collections/form-submissions"
+            icon="📬"
+            label="Inzendingen"
+            description="Bekijk ingestuurde formulieren"
           />
         </div>
       </div>
