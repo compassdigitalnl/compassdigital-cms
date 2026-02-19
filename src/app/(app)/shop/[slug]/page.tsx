@@ -70,13 +70,20 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   }
 
   // Get global template setting from Settings
-  const settings = await payload.findGlobal({
-    slug: 'settings',
-    depth: 0,
-  })
+  let settings
+  let template = 'template1' // Default fallback
 
-  // Determine which template to use (from Settings global)
-  const template = (settings as any)?.defaultProductTemplate || 'template1'
+  try {
+    settings = await payload.findGlobal({
+      slug: 'settings',
+      depth: 0,
+    })
+    // Safely get template setting with fallback
+    template = (settings as any)?.defaultProductTemplate || 'template1'
+  } catch (error) {
+    console.error('⚠️ Error fetching settings, using default template:', error)
+    template = 'template1'
+  }
 
   // Debug: Log template selection
   console.log('🎨 Product:', product.title)
