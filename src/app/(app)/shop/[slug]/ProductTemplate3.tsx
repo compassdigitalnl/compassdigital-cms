@@ -723,7 +723,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
 
           {activeTab === 'specs' && (
             <div style={{ display: 'grid', gap: '32px' }}>
-              {product.specifications && product.specifications.length > 0 ? (
+              {Array.isArray(product.specifications) && product.specifications.length > 0 ? (
                 product.specifications.map((specGroup, idx) => (
                   <div
                     key={idx}

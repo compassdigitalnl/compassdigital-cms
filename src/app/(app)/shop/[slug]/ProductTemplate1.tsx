@@ -1182,20 +1182,37 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     >
                       Productspecificaties
                     </h3>
-                    {Object.entries(product.specifications).map(([key, value], idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          display: 'flex',
-                          padding: '12px 20px',
-                          borderBottom: '1px solid var(--color-border)',
-                          fontSize: '14px',
-                        }}
-                      >
-                        <span style={{ width: '160px', color: 'var(--color-text-muted)', fontWeight: 500, flexShrink: 0 }}>
-                          {key}
-                        </span>
-                        <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>{value}</span>
+                    {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
+                      <div key={groupIdx}>
+                        {specGroup.group && (
+                          <h4 style={{
+                            padding: '12px 20px',
+                            fontWeight: 700,
+                            fontSize: '14px',
+                            background: 'var(--color-background)',
+                            borderBottom: '1px solid var(--color-border)',
+                          }}>
+                            {specGroup.group}
+                          </h4>
+                        )}
+                        {specGroup.attributes?.map((attr: any, attrIdx: number) => (
+                          <div
+                            key={attrIdx}
+                            style={{
+                              display: 'flex',
+                              padding: '12px 20px',
+                              borderBottom: '1px solid var(--color-border)',
+                              fontSize: '14px',
+                            }}
+                          >
+                            <span style={{ width: '160px', color: 'var(--color-text-muted)', fontWeight: 500, flexShrink: 0 }}>
+                              {attr.name}
+                            </span>
+                            <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>
+                              {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </div>
@@ -1228,20 +1245,37 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               >
                 Technische specificaties
               </h3>
-              {Object.entries(product.specifications).map(([key, value], idx, arr) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: 'flex',
-                    padding: '12px 20px',
-                    borderBottom: idx < arr.length - 1 ? '1px solid var(--color-border)' : 'none',
-                    fontSize: '14px',
-                  }}
-                >
-                  <span style={{ width: '200px', color: 'var(--color-text-muted)', fontWeight: 500, flexShrink: 0 }}>
-                    {key}
-                  </span>
-                  <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>{value}</span>
+              {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
+                <div key={groupIdx}>
+                  {specGroup.group && (
+                    <h4 style={{
+                      padding: '12px 20px',
+                      fontWeight: 700,
+                      fontSize: '14px',
+                      background: 'var(--color-background)',
+                      borderBottom: '1px solid var(--color-border)',
+                    }}>
+                      {specGroup.group}
+                    </h4>
+                  )}
+                  {specGroup.attributes?.map((attr: any, attrIdx: number) => (
+                    <div
+                      key={attrIdx}
+                      style={{
+                        display: 'flex',
+                        padding: '12px 20px',
+                        borderBottom: '1px solid var(--color-border)',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <span style={{ width: '200px', color: 'var(--color-text-muted)', fontWeight: 500, flexShrink: 0 }}>
+                        {attr.name}
+                      </span>
+                      <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>
+                        {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>

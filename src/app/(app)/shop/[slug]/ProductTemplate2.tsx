@@ -703,35 +703,49 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
 
         {activeTab === 'specs' && product.specifications && (
           <div style={{ maxWidth: '600px' }}>
-            {Object.entries(product.specifications).map(([key, value], idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: 'flex',
-                  padding: '16px 0',
-                  borderBottom: '1px solid var(--color-border)',
-                }}
-              >
-                <div
-                  style={{
-                    width: '200px',
+            {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
+              <div key={groupIdx}>
+                {specGroup.group && (
+                  <div style={{
+                    padding: '16px 0 8px',
+                    fontWeight: 700,
                     fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'var(--color-text-muted)',
-                    flexShrink: 0,
-                  }}
-                >
-                  {key}
-                </div>
-                <div
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 600,
                     color: 'var(--color-text-primary)',
-                  }}
-                >
-                  {value}
-                </div>
+                  }}>
+                    {specGroup.group}
+                  </div>
+                )}
+                {specGroup.attributes?.map((attr: any, attrIdx: number) => (
+                  <div
+                    key={attrIdx}
+                    style={{
+                      display: 'flex',
+                      padding: '16px 0',
+                      borderBottom: '1px solid var(--color-border)',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '200px',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: 'var(--color-text-muted)',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {attr.name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: 'var(--color-text-primary)',
+                      }}
+                    >
+                      {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
