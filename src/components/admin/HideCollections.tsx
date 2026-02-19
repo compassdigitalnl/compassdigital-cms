@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react'
 
 /**
- * HideCollections — client component dat per-hostname collections verbergt
- * in de Payload admin navigatie.
+ * HideCollections — Server + Client hybrid component
  *
- * Werkt via CSS injection: haalt Client.disabledCollections op via API
- * en injecteert CSS die de nav-links voor die collections verbergt.
+ * NIEUW: Leest tenant context uit cookies (gezet door middleware via headers)
+ * OF valt terug op oude API-based methode voor backwards compatibility.
+ *
+ * Server-side: Middleware injecteert x-tenant-disabled-collections header
+ * Client-side: Leest cookie en injecteert CSS om collections te verbergen
  */
 export function HideCollections() {
   const [css, setCss] = useState('')
@@ -17,15 +19,57 @@ export function HideCollections() {
 
     // Platform zelf — nooit verbergen
     if (!fullHostname || fullHostname === 'cms.compassdigital.nl' || fullHostname === 'localhost') {
+      console.log('[HideCollections] Platform admin - no filtering')
       return
     }
 
-    console.log('[HideCollections] Hostname:', fullHostname)
+    console.log('[HideCollections] Tenant admin detected:', fullHostname)
 
-    // Try both full hostname AND subdomain (voor backwards compatibility)
-    // Bijv: "plastimed01.compassdigital.nl" probeer beide:
-    //   1. "plastimed01.compassdigital.nl" (volledig)
-    //   2. "plastimed01" (alleen subdomain)
+    // Try to read disabled collections from cookie (set by middleware/server)
+    const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split('=')
+      acc[key] = value
+      return acc
+    }, {} as Record<string, string>)
+
+    const disabledCollectionsFromCookie = cookies['x-tenant-disabled-collections']
+
+    if (disabledCollectionsFromCookie) {
+      try {
+        const disabled = JSON.parse(decodeURIComponent(disabledCollectionsFromCookie))
+        console.log('[HideCollections] ✅ Disabled collections from cookie:', disabled)
+        applyHiddenStyles(disabled)
+        return
+      } catch (e) {
+        console.error('[HideCollections] Failed to parse cookie:', e)
+      }
+    }
+
+    // Fallback: API-based lookup (old method)
+    console.log('[HideCollections] Cookie not found, falling back to API lookup')
+    fetchAndHideCollections(fullHostname)
+  }, [])
+
+  function applyHiddenStyles(disabled: string[]) {
+    if (disabled.length === 0) {
+      console.log('[HideCollections] No collections to hide')
+      return
+    }
+
+    const styles = disabled
+      .map(
+        (slug) =>
+          `a[href="/admin/collections/${slug}"], ` +
+          `a[href*="/admin/collections/${slug}/"], ` +
+          `li:has(> a[href="/admin/collections/${slug}"]) { display: none !important; }`,
+      )
+      .join('\n')
+
+    console.log('[HideCollections] ✅ Injecting CSS to hide:', disabled)
+    setCss(styles)
+  }
+
+  async function fetchAndHideCollections(fullHostname: string) {
     const subdomain = fullHostname.endsWith('.compassdigital.nl')
       ? fullHostname.replace('.compassdigital.nl', '')
       : null
@@ -36,48 +80,23 @@ export function HideCollections() {
       searchParams.set('where[or][1][domain][equals]', subdomain)
     }
 
-    console.log('[HideCollections] Searching for domains:', [fullHostname, subdomain].filter(Boolean))
+    try {
+      const response = await fetch(`/api/platform/clients?${searchParams}`)
+      const data = await response.json()
+      const client = data?.docs?.[0]
 
-    // Haal client config op via API
-    fetch(`/api/platform/clients?${searchParams}`)
-      .then((r) => r.json())
-      .then((data) => {
-        const client = data?.docs?.[0]
-        if (!client) {
-          console.warn(
-            '[HideCollections] No client found for domains:',
-            [fullHostname, subdomain].filter(Boolean),
-          )
-          return
-        }
+      if (!client) {
+        console.warn('[HideCollections] No client found for:', fullHostname)
+        return
+      }
 
-        console.log('[HideCollections] ✅ Found client:', client.name)
-        console.log('[HideCollections] Disabled collections:', client.disabledCollections || [])
-
-        const disabled: string[] = client.disabledCollections ?? []
-        if (disabled.length === 0) {
-          console.log('[HideCollections] No collections to hide')
-          return
-        }
-
-        // Genereer CSS om collections te verbergen
-        const styles = disabled
-          .map(
-            (slug) =>
-              `a[href="/admin/collections/${slug}"], ` +
-              `a[href*="/admin/collections/${slug}/"], ` +
-              `li:has(> a[href="/admin/collections/${slug}"]) { display: none !important; }`,
-          )
-          .join('\n')
-
-        console.log('[HideCollections] ✅ Injecting CSS to hide collections')
-        setCss(styles)
-      })
-      .catch((err) => {
-        console.error('[HideCollections] ❌ API error:', err)
-        // Stille fail — nooit de admin breken
-      })
-  }, [])
+      console.log('[HideCollections] ✅ Found client:', client.name)
+      const disabled: string[] = client.disabledCollections ?? []
+      applyHiddenStyles(disabled)
+    } catch (err) {
+      console.error('[HideCollections] ❌ API error:', err)
+    }
+  }
 
   if (!css) return null
   return <style dangerouslySetInnerHTML={{ __html: css }} />

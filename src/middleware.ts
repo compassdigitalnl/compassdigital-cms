@@ -183,7 +183,7 @@ function extractSubdomain(hostname: string): string | null {
 // Sentinel value: the connected database is a client deployment DB (no tenants table)
 const CLIENT_DEPLOYMENT_DB = 'CLIENT_DEPLOYMENT_DB' as const
 
-// Get tenant from database (with caching)
+// Get client (tenant) from database (with caching)
 async function getTenant(subdomain: string): Promise<any | null | typeof CLIENT_DEPLOYMENT_DB> {
   const cacheKey = `tenant:${subdomain}`
   const cached = tenantCache.get(cacheKey)
@@ -210,12 +210,22 @@ async function getTenant(subdomain: string): Promise<any | null | typeof CLIENT_
   try {
     await client.connect()
 
-    const result = await client.query(
-      'SELECT * FROM tenants WHERE subdomain = $1 AND status = $2',
+    // Try subdomain-only first (e.g., "plastimed01")
+    let result = await client.query(
+      'SELECT * FROM clients WHERE domain = $1 AND status = $2',
       [subdomain, 'active']
     )
 
+    // If not found, try full hostname (e.g., "plastimed01.compassdigital.nl")
     if (result.rows.length === 0) {
+      result = await client.query(
+        'SELECT * FROM clients WHERE domain = $1 AND status = $2',
+        [`${subdomain}.compassdigital.nl`, 'active']
+      )
+    }
+
+    if (result.rows.length === 0) {
+      console.log(`[MIDDLEWARE] No active client found for subdomain: ${subdomain}`)
       // Cache negative result (1 min TTL)
       tenantCache.set(cacheKey, {
         data: null,
@@ -235,18 +245,18 @@ async function getTenant(subdomain: string): Promise<any | null | typeof CLIENT_
     return tenant
   } catch (error: any) {
     // PostgreSQL error 42P01 = "undefined_table"
-    // If the tenants table doesn't exist, this is a client deployment database
-    // (not the platform DB which always has the tenants table).
+    // If the clients table doesn't exist, this is a client deployment database
+    // (not the platform DB which always has the clients table).
     // In that case, bypass tenant routing and serve the client site directly.
-    if (error?.code === '42P01' || (typeof error?.message === 'string' && error.message.includes('tenants') && error.message.includes('does not exist'))) {
-      console.log('[MIDDLEWARE] tenants table not found - client deployment DB detected, bypassing routing')
+    if (error?.code === '42P01' || (typeof error?.message === 'string' && error.message.includes('clients') && error.message.includes('does not exist'))) {
+      console.log('[MIDDLEWARE] clients table not found - client deployment DB detected, bypassing routing')
       tenantCache.set(cacheKey, {
         data: CLIENT_DEPLOYMENT_DB,
         expiresAt: Date.now() + 5 * 60 * 1000, // Cache for 5 min
       })
       return CLIENT_DEPLOYMENT_DB
     }
-    console.error('[MIDDLEWARE] Error fetching tenant:', error)
+    console.error('[MIDDLEWARE] Error fetching client:', error)
     // Cache error result (1 min TTL) to prevent repeated failed lookups
     tenantCache.set(cacheKey, {
       data: null,
@@ -330,10 +340,10 @@ export async function middleware(request: NextRequest) {
       )
     }
 
-    console.log(`[MIDDLEWARE] Tenant found: ${tenant.name} (${tenant.type})`)
+    console.log(`[MIDDLEWARE] Client found: ${tenant.name} (template: ${tenant.template || 'default'})`)
 
-    // Check if tenant has database configured
-    if (tenant.database_url === 'PENDING_DATABASE_CREATION') {
+    // Check if client is still being provisioned
+    if (tenant.status === 'provisioning') {
       return new NextResponse(
         `
         <!DOCTYPE html>
@@ -353,14 +363,45 @@ export async function middleware(request: NextRequest) {
       )
     }
 
-    // Inject tenant context into request headers
+    // Inject client (tenant) context into request headers
     const requestHeaders = new Headers(request.headers)
-    requestHeaders.set('x-tenant-id', tenant.id)
-    requestHeaders.set('x-tenant-subdomain', tenant.subdomain)
-    requestHeaders.set('x-tenant-database-url', tenant.database_url)
-    requestHeaders.set('x-tenant-type', tenant.type)
+    requestHeaders.set('x-tenant-id', String(tenant.id))
+    requestHeaders.set('x-tenant-domain', tenant.domain || subdomain)
+    requestHeaders.set('x-tenant-name', tenant.name || '')
+    requestHeaders.set('x-tenant-template', tenant.template || 'default')
+    // Pass disabled collections as JSON string
+    requestHeaders.set('x-tenant-disabled-collections', JSON.stringify(tenant.disabledCollections || []))
 
-    // Rewrite to tenant-specific route
+    // For /admin routes: pass through with tenant headers (don't rewrite)
+    // Payload admin will read tenant context and filter collections
+    if (pathname.startsWith('/admin')) {
+      console.log(`[MIDDLEWARE] Tenant admin request: ${pathname} (client: ${tenant.name})`)
+      const response = NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      })
+
+      // Set cookie with disabled collections for client-side filtering
+      const disabledCollections = tenant.disabledCollections || []
+      response.cookies.set('x-tenant-disabled-collections', JSON.stringify(disabledCollections), {
+        path: '/',
+        sameSite: 'lax',
+        // maxAge: 5 minutes (to match cache TTL)
+        maxAge: 5 * 60,
+      })
+
+      // Also set tenant name cookie for UI customization
+      response.cookies.set('x-tenant-name', tenant.name || '', {
+        path: '/',
+        sameSite: 'lax',
+        maxAge: 5 * 60,
+      })
+
+      return addSecurityHeaders(response)
+    }
+
+    // For other routes: rewrite to tenant-specific route
     const url = request.nextUrl.clone()
     url.pathname = `/tenant${pathname}`
 
