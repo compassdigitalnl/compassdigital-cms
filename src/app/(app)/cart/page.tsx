@@ -21,7 +21,8 @@ export default function CartPage() {
           </p>
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-lg transition-colors"
+            style={{ backgroundColor: 'var(--color-primary)' }}
           >
             <ArrowLeft className="w-4 h-4" />
             Verder winkelen
@@ -88,7 +89,8 @@ export default function CartPage() {
             </div>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium"
+              className="inline-flex items-center gap-2 font-medium"
+              style={{ color: 'var(--color-primary)' }}
             >
               <ArrowLeft className="w-4 h-4" />
               Verder winkelen
@@ -106,13 +108,21 @@ export default function CartPage() {
                 <div key={groupIndex}>
                   {/* Parent Product Header (if grouped) */}
                   {group.parentProduct && (
-                    <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-2">
+                    <div
+                      className="rounded-lg p-4 mb-2"
+                      style={{
+                        backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, white)',
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderColor: 'color-mix(in srgb, var(--color-primary) 30%, white)',
+                      }}
+                    >
                       <div className="flex items-center gap-2">
-                        <Package className="w-5 h-5 text-teal-700" />
-                        <h3 className="font-semibold text-teal-900">
+                        <Package className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                        <h3 className="font-semibold" style={{ color: 'var(--color-primary)' }}>
                           {group.parentProduct.title}
                         </h3>
-                        <span className="text-sm text-teal-700">
+                        <span className="text-sm" style={{ color: 'var(--color-primary)' }}>
                           ({group.items.length} product{group.items.length !== 1 ? 'en' : ''})
                         </span>
                       </div>
@@ -271,7 +281,12 @@ export default function CartPage() {
                 </div>
 
                 {shipping > 0 && (
-                  <div className="text-sm text-gray-600 bg-teal-50 p-3 rounded-lg">
+                  <div
+                    className="text-sm text-gray-600 p-3 rounded-lg"
+                    style={{
+                      backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, white)',
+                    }}
+                  >
                     Voeg nog €{(150 - total).toFixed(2)} toe voor gratis verzending
                   </div>
                 )}

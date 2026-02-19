@@ -88,8 +88,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     },
   })
 
+  // REDIRECT products to /shop/[slug] for full enterprise template with grouped support
   if (products.docs[0]) {
-    return <ProductDetailWrapper product={products.docs[0] as Product} />
+    const { redirect } = await import('next/navigation')
+    redirect(`/shop/${slug}`)
   }
 
   // Try to find a category (priority 2)

@@ -54,7 +54,8 @@ export default async function ShopPage({
             </div>
             <Link
               href="/cart"
-              className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-colors"
+              style={{ backgroundColor: 'var(--color-primary)' }}
             >
               <ShoppingCart className="w-5 h-5" />
               Winkelwagen
