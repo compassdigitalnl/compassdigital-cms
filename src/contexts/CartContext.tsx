@@ -6,15 +6,26 @@ export interface CartItem {
   id: number | string
   slug: string
   title: string
-  price: number
+  price: number // Base price (backward compatible)
+  unitPrice?: number // Calculated price after discounts (fallback to price if not set)
   quantity: number
   stock: number
   sku?: string
+  ean?: string // NEW: EAN barcode
+  image?: string // NEW: Product image URL
+  parentProductId?: number | string // NEW: For grouped products
+  parentProductTitle?: string // NEW: Parent product name
+  minOrderQuantity?: number // NEW: B2B MOQ
+  orderMultiple?: number // NEW: B2B order multiple
+  maxOrderQuantity?: number // NEW: B2B max quantity
 }
 
 interface CartContextType {
   items: CartItem[]
-  addItem: (item: Omit<CartItem, 'quantity'>) => void
+  addItem: (item: Omit<CartItem, 'quantity'> & { quantity?: number }) => void
+  addGroupedItems: (
+    items: Array<Omit<CartItem, 'quantity'> & { quantity?: number }>,
+  ) => void
   removeItem: (id: number | string) => void
   updateQuantity: (id: number | string, quantity: number) => void
   clearCart: () => void
@@ -48,18 +59,83 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isLoaded])
 
-  const addItem = (item: Omit<CartItem, 'quantity'>) => {
+  /**
+   * Add single item to cart
+   */
+  const addItem = (item: Omit<CartItem, 'quantity'> & { quantity?: number }) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.id === item.id)
+
       if (existing) {
         // Increase quantity if item exists
-        const newQuantity = Math.min(existing.quantity + 1, item.stock)
-        return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: newQuantity } : i
-        )
+        const increment = item.quantity || 1
+        let newQuantity = existing.quantity + increment
+
+        // Respect MOQ and order multiples
+        const minQty = item.minOrderQuantity || 1
+        const multiple = item.orderMultiple || 1
+        const maxQty = item.maxOrderQuantity || item.stock
+
+        // Ensure minimum
+        newQuantity = Math.max(newQuantity, minQty)
+
+        // Ensure multiple
+        if (multiple > 1) {
+          newQuantity = Math.ceil(newQuantity / multiple) * multiple
+        }
+
+        // Ensure max and stock
+        newQuantity = Math.min(newQuantity, maxQty, item.stock)
+
+        return prev.map((i) => (i.id === item.id ? { ...i, quantity: newQuantity } : i))
       }
-      // Add new item
-      return [...prev, { ...item, quantity: 1 }]
+
+      // Add new item with initial quantity
+      const initialQuantity = item.quantity || item.minOrderQuantity || 1
+      return [...prev, { ...item, quantity: initialQuantity }]
+    })
+  }
+
+  /**
+   * Add multiple items at once (for grouped products)
+   */
+  const addGroupedItems = (
+    newItems: Array<Omit<CartItem, 'quantity'> & { quantity?: number }>,
+  ) => {
+    if (newItems.length === 0) return
+
+    setItems((prev) => {
+      let updated = [...prev]
+
+      for (const item of newItems) {
+        const existing = updated.find((i) => i.id === item.id)
+        const quantity = item.quantity || item.minOrderQuantity || 1
+
+        if (existing) {
+          // Update existing item quantity
+          let newQuantity = existing.quantity + quantity
+
+          // Respect MOQ and order multiples
+          const minQty = item.minOrderQuantity || 1
+          const multiple = item.orderMultiple || 1
+          const maxQty = item.maxOrderQuantity || item.stock
+
+          newQuantity = Math.max(newQuantity, minQty)
+
+          if (multiple > 1) {
+            newQuantity = Math.ceil(newQuantity / multiple) * multiple
+          }
+
+          newQuantity = Math.min(newQuantity, maxQty, item.stock)
+
+          updated = updated.map((i) => (i.id === item.id ? { ...i, quantity: newQuantity } : i))
+        } else {
+          // Add new item
+          updated.push({ ...item, quantity })
+        }
+      }
+
+      return updated
     })
   }
 
@@ -67,13 +143,38 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => prev.filter((item) => item.id !== id))
   }
 
+  /**
+   * Update quantity with MOQ and order multiple validation
+   */
   const updateQuantity = (id: number | string, quantity: number) => {
     setItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(0, Math.min(quantity, item.stock)) }
-          : item
-      ).filter((item) => item.quantity > 0) // Remove items with 0 quantity
+      prev
+        .map((item) => {
+          if (item.id !== id) return item
+
+          let newQty = quantity
+          const minQty = item.minOrderQuantity || 1
+          const multiple = item.orderMultiple || 1
+          const maxQty = item.maxOrderQuantity || item.stock
+
+          // Ensure minimum
+          newQty = Math.max(newQty, minQty)
+
+          // Ensure multiple
+          if (multiple > 1) {
+            newQty = Math.round(newQty / multiple) * multiple
+            // If rounding down goes below MOQ, round up
+            if (newQty < minQty) {
+              newQty = multiple
+            }
+          }
+
+          // Ensure max and stock
+          newQty = Math.min(newQty, maxQty, item.stock)
+
+          return { ...item, quantity: newQty }
+        })
+        .filter((item) => item.quantity > 0), // Remove items with 0 quantity
     )
   }
 
@@ -81,7 +182,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems([])
   }
 
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  // Calculate total using unitPrice if available, fallback to price for backward compatibility
+  const total = items.reduce((sum, item) => {
+    const pricePerUnit = item.unitPrice ?? item.price
+    return sum + pricePerUnit * item.quantity
+  }, 0)
+
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
@@ -89,6 +195,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       value={{
         items,
         addItem,
+        addGroupedItems,
         removeItem,
         updateQuantity,
         clearCart,

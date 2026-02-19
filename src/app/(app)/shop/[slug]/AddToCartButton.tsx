@@ -7,27 +7,56 @@ import { useCart } from '@/contexts/CartContext'
 interface ProductData {
   id: number | string
   slug: string
-  name: string
+  title: string
   price: number
   stock: number
   sku?: string
+  ean?: string
+  image?: string
+  parentProductId?: number | string
+  parentProductTitle?: string
+  minOrderQuantity?: number
+  orderMultiple?: number
+  maxOrderQuantity?: number
 }
 
 export function AddToCartButton({ product }: { product: ProductData }) {
   const { addItem } = useCart()
-  const [quantity, setQuantity] = useState(1)
+  const minQty = product.minOrderQuantity || 1
+  const orderMultiple = product.orderMultiple || 1
+  const [quantity, setQuantity] = useState(minQty)
   const [added, setAdded] = useState(false)
 
-  const maxQuantity = product.stock || 10
+  const maxQuantity = product.maxOrderQuantity || product.stock || 10
+
+  const handleIncrement = () => {
+    let newQty = quantity + orderMultiple
+    newQty = Math.min(newQty, maxQuantity)
+    setQuantity(newQty)
+  }
+
+  const handleDecrement = () => {
+    let newQty = quantity - orderMultiple
+    newQty = Math.max(newQty, minQty)
+    setQuantity(newQty)
+  }
 
   const handleAddToCart = () => {
     addItem({
       id: product.id,
       slug: product.slug,
-      title: product.name,
+      title: product.title,
       price: product.price,
       stock: product.stock,
       sku: product.sku,
+      ean: product.ean,
+      image: product.image,
+      parentProductId: product.parentProductId,
+      parentProductTitle: product.parentProductTitle,
+      minOrderQuantity: product.minOrderQuantity,
+      orderMultiple: product.orderMultiple,
+      maxOrderQuantity: product.maxOrderQuantity,
+      quantity,
     })
 
     setAdded(true)
@@ -39,9 +68,9 @@ export function AddToCartButton({ product }: { product: ProductData }) {
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center border border-gray-300 rounded-lg">
           <button
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+            onClick={handleDecrement}
             className="p-3 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={quantity <= 1}
+            disabled={quantity <= minQty}
             aria-label="Decrease quantity"
           >
             <Minus className="w-4 h-4 text-gray-600" />
@@ -50,7 +79,7 @@ export function AddToCartButton({ product }: { product: ProductData }) {
             {quantity}
           </span>
           <button
-            onClick={() => setQuantity(Math.min(maxQuantity, quantity + 1))}
+            onClick={handleIncrement}
             className="p-3 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={quantity >= maxQuantity}
             aria-label="Increase quantity"
@@ -71,12 +100,12 @@ export function AddToCartButton({ product }: { product: ProductData }) {
           {added ? (
             <>
               <Check className="w-5 h-5" />
-              Added to Cart!
+              Toegevoegd aan winkelwagen!
             </>
           ) : (
             <>
               <ShoppingCart className="w-5 h-5" />
-              Add to Cart
+              Toevoegen aan winkelwagen
             </>
           )}
         </button>
@@ -84,11 +113,15 @@ export function AddToCartButton({ product }: { product: ProductData }) {
 
       <div className="text-sm text-gray-600">
         <p className="mb-1">
-          <strong>Total:</strong> €{(product.price * quantity).toFixed(2)}
+          <strong>Totaal:</strong> €{(product.price * quantity).toFixed(2)}
         </p>
-        {product.stock && (
-          <p className="text-gray-500">Maximum {product.stock} available</p>
+        {minQty > 1 && (
+          <p className="text-amber-600 mb-1">Minimum bestelhoeveelheid: {minQty} stuks</p>
         )}
+        {orderMultiple > 1 && (
+          <p className="text-amber-600 mb-1">Bestelbaar in veelvouden van {orderMultiple}</p>
+        )}
+        {product.stock && <p className="text-gray-500">Maximaal {product.stock} beschikbaar</p>}
       </div>
     </div>
   )

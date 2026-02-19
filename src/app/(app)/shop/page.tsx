@@ -5,8 +5,8 @@ import { ShoppingCart, Search, Filter } from 'lucide-react'
 import type { Product } from '@/payload-types'
 
 export const metadata = {
-  title: 'Shop - Medical Equipment',
-  description: 'Browse our complete medical equipment catalog',
+  title: 'Shop - Professional Equipment',
+  description: 'Browse our complete equipment catalog',
 }
 
 export default async function ShopPage({
@@ -17,25 +17,26 @@ export default async function ShopPage({
   const payload = await getPayload({ config })
 
   // Build query
-  const where: any = {}
+  const where: any = { status: { equals: 'published' } }
   if (searchParams.category) {
     where.categories = { equals: searchParams.category }
   }
   if (searchParams.search) {
-    where.name = { contains: searchParams.search }
+    where.title = { contains: searchParams.search }
   }
 
-  // Fetch products
+  // Fetch products with depth to resolve childProducts for grouped products
   const { docs: products } = await payload.find({
     collection: 'products',
     where,
+    depth: 2, // Resolve childProducts
     limit: 50,
     sort: '-createdAt',
   })
 
   // Fetch categories for filter
   const { docs: categories } = await payload.find({
-    collection: 'categories',
+    collection: 'product-categories',
     limit: 100,
   })
 
@@ -48,7 +49,7 @@ export default async function ShopPage({
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Shop</h1>
               <p className="text-gray-600 mt-1">
-                {products.length} product{products.length !== 1 ? 's' : ''} available
+                {products.length} product{products.length !== 1 ? 'en' : ''} beschikbaar
               </p>
             </div>
             <Link
@@ -56,7 +57,7 @@ export default async function ShopPage({
               className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
             >
               <ShoppingCart className="w-5 h-5" />
-              Cart
+              Winkelwagen
             </Link>
           </div>
 
@@ -67,7 +68,7 @@ export default async function ShopPage({
               <input
                 type="text"
                 name="search"
-                placeholder="Search products..."
+                placeholder="Zoek producten..."
                 defaultValue={searchParams.search}
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               />
@@ -76,7 +77,7 @@ export default async function ShopPage({
               type="submit"
               className="px-6 py-2.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
             >
-              Search
+              Zoeken
             </button>
           </form>
         </div>
@@ -95,7 +96,7 @@ export default async function ShopPage({
               {/* Categories */}
               {categories.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="font-semibold text-gray-900 mb-3">Categories</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3">Categorieën</h3>
                   <div className="space-y-2">
                     <Link
                       href="/shop"
@@ -105,7 +106,7 @@ export default async function ShopPage({
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}
                     >
-                      All Products
+                      Alle Producten
                     </Link>
                     {categories.map((category) => (
                       <Link
@@ -117,7 +118,7 @@ export default async function ShopPage({
                             : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
-                        {category.name}
+                        {category.title}
                       </Link>
                     ))}
                   </div>
@@ -127,12 +128,12 @@ export default async function ShopPage({
               {/* Active Filters */}
               {(searchParams.category || searchParams.search) && (
                 <div className="pt-4 border-t">
-                  <h3 className="font-semibold text-gray-900 mb-2">Active Filters</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">Actieve Filters</h3>
                   <Link
                     href="/shop"
                     className="text-sm text-teal-600 hover:text-teal-700 font-medium"
                   >
-                    Clear all filters
+                    Wis alle filters
                   </Link>
                 </div>
               )}
@@ -146,15 +147,17 @@ export default async function ShopPage({
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <ShoppingCart className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Geen producten gevonden
+                </h3>
                 <p className="text-gray-600 mb-4">
-                  Try adjusting your filters or search query
+                  Probeer je filters of zoekopdracht aan te passen
                 </p>
                 <Link
                   href="/shop"
                   className="inline-block px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
                 >
-                  View all products
+                  Bekijk alle producten
                 </Link>
               </div>
             ) : (
@@ -173,21 +176,77 @@ export default async function ShopPage({
 
 function ProductCard({ product }: { product: Product }) {
   const imageUrl =
-    typeof product.images?.[0]?.image === 'object' && product.images[0].image !== null
-      ? product.images[0].image.url
+    typeof product.images?.[0] === 'object' && product.images[0] !== null
+      ? product.images[0].url
       : null
+
+  const isGrouped = product.productType === 'grouped'
+
+  // For grouped products, calculate lowest price from childProducts
+  let displayPrice = product.price
+  let pricePrefix = ''
+
+  if (isGrouped && product.childProducts && product.childProducts.length > 0) {
+    const childPrices = product.childProducts
+      .map((child) => {
+        const childProduct = typeof child.product === 'object' ? child.product : null
+        return childProduct?.price || 0
+      })
+      .filter((price) => price > 0)
+
+    if (childPrices.length > 0) {
+      displayPrice = Math.min(...childPrices)
+      pricePrefix = 'Vanaf '
+    }
+  }
+
+  // Get first volume pricing tier hint
+  let volumeHint = ''
+  if (product.volumePricing && product.volumePricing.length > 0) {
+    const firstTier = product.volumePricing[0]
+    if (firstTier.discountPercentage) {
+      volumeHint = `Vanaf ${firstTier.minQuantity} stuks: -${firstTier.discountPercentage}%`
+    }
+  }
 
   return (
     <Link
       href={`/shop/${product.slug}`}
       className="group bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-200"
     >
-      {/* Image */}
-      <div className="aspect-square bg-gray-100 rounded-t-lg overflow-hidden">
+      {/* Image with Badge */}
+      <div className="aspect-square bg-gray-100 rounded-t-lg overflow-hidden relative">
+        {/* Badge */}
+        {product.badge && product.badge !== 'none' && (
+          <div className="absolute top-3 right-3 z-10">
+            <span
+              className={`px-3 py-1 text-xs font-bold rounded-full ${
+                product.badge === 'sale'
+                  ? 'bg-red-500 text-white'
+                  : product.badge === 'new'
+                    ? 'bg-blue-500 text-white'
+                    : product.badge === 'popular'
+                      ? 'bg-orange-500 text-white'
+                      : 'bg-gray-500 text-white'
+              }`}
+            >
+              {product.badge === 'sale'
+                ? 'SALE'
+                : product.badge === 'new'
+                  ? 'NIEUW'
+                  : product.badge === 'popular'
+                    ? 'POPULAIR'
+                    : product.badge === 'sold-out'
+                      ? 'UITVERKOCHT'
+                      : ''}
+            </span>
+          </div>
+        )}
+
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt={product.name}
+            alt={product.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
           />
         ) : (
@@ -203,23 +262,30 @@ function ProductCard({ product }: { product: Product }) {
         {typeof product.categories?.[0] === 'object' && product.categories[0] !== null && (
           <div className="mb-2">
             <span className="inline-block px-2 py-1 text-xs font-medium bg-teal-50 text-teal-700 rounded">
-              {product.categories[0].name}
+              {product.categories[0].title}
             </span>
           </div>
         )}
 
         <h3 className="font-semibold text-gray-900 group-hover:text-teal-600 transition-colors mb-1">
-          {product.name}
+          {product.title}
         </h3>
 
-        {product.sku && (
-          <p className="text-xs text-gray-500 mb-2">SKU: {product.sku}</p>
+        {/* Short Description */}
+        {product.shortDescription && (
+          <p className="text-sm text-gray-600 mb-2 line-clamp-2">{product.shortDescription}</p>
         )}
 
+        {/* SKU & EAN */}
+        <div className="text-xs text-gray-500 mb-2 space-y-0.5">
+          {product.sku && <div>SKU: {product.sku}</div>}
+          {product.ean && <div>EAN: {product.ean}</div>}
+        </div>
+
         {/* Price */}
-        <div className="flex items-baseline gap-2 mb-3">
+        <div className="flex items-baseline gap-2 mb-2">
           <span className="text-2xl font-bold text-gray-900">
-            €{product.price.toFixed(2)}
+            {pricePrefix}€{displayPrice.toFixed(2)}
           </span>
           {product.compareAtPrice && product.compareAtPrice > product.price && (
             <span className="text-sm text-gray-500 line-through">
@@ -228,20 +294,27 @@ function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
+        {/* Volume Pricing Hint */}
+        {volumeHint && (
+          <div className="mb-2">
+            <span className="inline-block px-2 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded">
+              {volumeHint}
+            </span>
+          </div>
+        )}
+
         {/* Stock Status */}
         {product.trackStock && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-3">
             {product.stock && product.stock > 0 ? (
               <>
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">
-                  {product.stock} in stock
-                </span>
+                <span className="text-sm text-gray-600">{product.stock} op voorraad</span>
               </>
             ) : (
               <>
                 <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">Out of stock</span>
+                <span className="text-sm text-gray-600">Uitverkocht</span>
               </>
             )}
           </div>
@@ -250,7 +323,7 @@ function ProductCard({ product }: { product: Product }) {
         {/* CTA */}
         <div className="mt-4 pt-4 border-t">
           <span className="text-teal-600 font-medium group-hover:text-teal-700 transition-colors">
-            View Details →
+            {isGrouped ? 'Bekijk opties →' : 'Bekijk details →'}
           </span>
         </div>
       </div>
