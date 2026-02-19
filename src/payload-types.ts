@@ -253,7 +253,7 @@ export interface Client {
    */
   name: string;
   /**
-   * Bijv. "bakkerij-dejong" → bakkerij-dejong.compassdigital.nl
+   * Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")
    */
   domain: string;
   contactEmail: string;
@@ -786,7 +786,31 @@ export interface ProductGridBlock {
 export interface Product {
   id: number;
   title: string;
+  /**
+   * Auto-gegenereerd uit productnaam
+   */
   slug: string;
+  /**
+   * Simple = normaal product, Grouped = multi-select parent
+   */
+  productType: 'simple' | 'grouped';
+  /**
+   * Kies welke template gebruikt wordt voor dit product
+   */
+  template?: ('template1' | 'template2') | null;
+  sku?: string | null;
+  /**
+   * European Article Number (13 cijfers)
+   */
+  ean?: string | null;
+  /**
+   * Manufacturer Part Number
+   */
+  mpn?: string | null;
+  /**
+   * Max 200 karakters, gebruikt in productlijsten
+   */
+  shortDescription?: string | null;
   description?: {
     root: {
       type: string;
@@ -802,68 +826,234 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
-  price: number;
-  /**
-   * Originele prijs voor doorstreepte prijzen
-   */
-  compareAtPrice?: number | null;
-  images?: (number | Media)[] | null;
-  stock?: number | null;
-  sku?: string | null;
-  categories?: (number | ProductCategory)[] | null;
   /**
    * Bijv: Hartmann, BSN Medical, 3M
    */
   brand?: (number | null) | Brand;
   /**
-   * Badge die op de productkaart verschijnt
+   * Als afwijkend van merk
    */
-  badge?: ('none' | 'new' | 'sale' | 'popular' | 'sold-out') | null;
+  manufacturer?: string | null;
+  categories?: (number | ProductCategory)[] | null;
+  /**
+   * Voor zoeken en filtering
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
   status: 'draft' | 'published' | 'sold-out' | 'archived';
   /**
-   * Toon dit product in featured secties
+   * Toon in featured secties
    */
   featured?: boolean | null;
+  condition?: ('new' | 'refurbished' | 'used') | null;
+  warranty?: string | null;
+  releaseDate?: string | null;
   /**
-   * Product specificaties (bijv: Afmetingen, Materiaal, etc.)
+   * Badge op productkaart
    */
-  specifications?:
+  badge?: ('none' | 'new' | 'sale' | 'popular' | 'sold-out') | null;
+  price: number;
+  /**
+   * Tijdelijke korting
+   */
+  salePrice?: number | null;
+  /**
+   * Voor "Was €X, nu €Y"
+   */
+  compareAtPrice?: number | null;
+  /**
+   * Voor winstmarge berekening
+   */
+  costPrice?: number | null;
+  /**
+   * Manufacturer Suggested Retail Price
+   */
+  msrp?: number | null;
+  taxClass?: ('standard' | 'reduced' | 'zero') | null;
+  /**
+   * Anders = excl. BTW
+   */
+  includesTax?: boolean | null;
+  /**
+   * Stel verschillende prijzen in voor verschillende klantengroepen (bijv. dealers, groothandel)
+   */
+  groupPrices?:
     | {
-        key: string;
-        value: string;
+        group: number | CustomerGroup;
+        price: number;
+        /**
+         * Minimale afname voor deze prijs
+         */
+        minQuantity?: number | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * PDF datasheets, handleidingen, certificaten, etc.
+   * Bijv: 1-9 stuks €10, 10-49 stuks €9, 50+ stuks €8
+   */
+  volumePricing?:
+    | {
+        minQuantity: number;
+        /**
+         * Leeg = onbeperkt
+         */
+        maxQuantity?: number | null;
+        price: number;
+        /**
+         * Of vul prijs in
+         */
+        discountPercentage?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Schakel uit voor virtuele/digitale producten
+   */
+  trackStock?: boolean | null;
+  stock?: number | null;
+  stockStatus?: ('in-stock' | 'out-of-stock' | 'on-backorder' | 'discontinued') | null;
+  /**
+   * Waarschuwing bij minder dan X stuks
+   */
+  lowStockThreshold?: number | null;
+  /**
+   * Verkopen bij uitverkocht
+   */
+  backordersAllowed?: boolean | null;
+  /**
+   * Bij backorder/pre-order
+   */
+  availabilityDate?: string | null;
+  weight?: number | null;
+  weightUnit?: ('kg' | 'g') | null;
+  dimensionsLength?: number | null;
+  dimensionsWidth?: number | null;
+  dimensionsHeight?: number | null;
+  /**
+   * Bijv: standard, fragile, hazmat
+   */
+  shippingClass?: string | null;
+  freeShipping?: boolean | null;
+  /**
+   * Eerste afbeelding = hoofdafbeelding
+   */
+  images?: (number | Media)[] | null;
+  /**
+   * YouTube, Vimeo of directe video links
+   */
+  videos?:
+    | {
+        url: string;
+        platform?: ('youtube' | 'vimeo' | 'custom') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * PDF datasheets, handleidingen, certificaten
    */
   downloads?: (number | Media)[] | null;
   /**
-   * Producten die vaak samen gekocht worden
+   * Alleen zichtbaar als Product Type = Grouped. Elk sub-product is een zelfstandig Simple product met eigen SKU, EAN, prijs en voorraad.
+   */
+  childProducts?:
+    | {
+        /**
+         * Alleen Simple producten
+         */
+        product: number | Product;
+        sortOrder?: number | null;
+        isDefault?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Minimale afname per order
+   */
+  minOrderQuantity?: number | null;
+  /**
+   * Maximale afname per order
+   */
+  maxOrderQuantity?: number | null;
+  /**
+   * Alleen bestelbaar in veelvouden van X
+   */
+  orderMultiple?: number | null;
+  /**
+   * Standaard levertijd
+   */
+  leadTime?: number | null;
+  customizable?: boolean | null;
+  /**
+   * Geen directe aankoop
+   */
+  quotationRequired?: boolean | null;
+  /**
+   * Prijs o.b.v. contract
+   */
+  contractPricing?: boolean | null;
+  meta?: {
+    /**
+     * Max 60 karakters. Standaard = product naam
+     */
+    title?: string | null;
+    /**
+     * Max 160 karakters
+     */
+    description?: string | null;
+    /**
+     * Standaard = eerste product afbeelding
+     */
+    image?: (number | null) | Media;
+    /**
+     * SEO keywords voor dit product
+     */
+    keywords?:
+      | {
+          keyword: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Groepeer specificaties logisch (bijv: Technische Specificaties, Afmetingen, Materialen)
+   */
+  specifications?:
+    | {
+        /**
+         * Bijv: "Technische Specificaties", "Afmetingen"
+         */
+        group: string;
+        attributes?:
+          | {
+              name: string;
+              value: string;
+              unit?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Producten die vaak samen bekeken worden
    */
   relatedProducts?: (number | Product)[] | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-categories".
- */
-export interface ProductCategory {
-  id: number;
-  name: string;
-  slug: string;
-  description?: string | null;
-  parent?: (number | null) | ProductCategory;
-  image?: (number | null) | Media;
-  level?: number | null;
-  order?: number | null;
-  visible?: boolean | null;
+  /**
+   * Vaak samen gekocht - toon in winkelwagen
+   */
+  crossSells?: (number | Product)[] | null;
+  /**
+   * Upgrade suggesties - betere/duurdere alternatieven
+   */
+  upSells?: (number | Product)[] | null;
+  /**
+   * Optionele accessoires en toebehoren
+   */
+  accessories?: (number | Product)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -928,6 +1118,45 @@ export interface Brand {
     description?: string | null;
     image?: (number | null) | Media;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories".
+ */
+export interface ProductCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  parent?: (number | null) | ProductCategory;
+  image?: (number | null) | Media;
+  level?: number | null;
+  order?: number | null;
+  visible?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-groups".
+ */
+export interface CustomerGroup {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  type: 'b2c' | 'b2b';
+  discount: number;
+  priority: number;
+  minOrderAmount?: number | null;
+  isDefault?: boolean | null;
+  canViewCatalog?: boolean | null;
+  canPlaceOrders?: boolean | null;
+  canRequestQuotes?: boolean | null;
+  canDownloadInvoices?: boolean | null;
+  canViewOrderHistory?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1807,28 +2036,6 @@ export interface BlogPost {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "customer-groups".
- */
-export interface CustomerGroup {
-  id: number;
-  name: string;
-  slug: string;
-  description?: string | null;
-  type: 'b2c' | 'b2b';
-  discount: number;
-  priority: number;
-  minOrderAmount?: number | null;
-  isDefault?: boolean | null;
-  canViewCatalog?: boolean | null;
-  canPlaceOrders?: boolean | null;
-  canRequestQuotes?: boolean | null;
-  canDownloadInvoices?: boolean | null;
-  canViewOrderHistory?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Opgeslagen bestellijsten voor snelle herbestellingen
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1896,6 +2103,26 @@ export interface Order {
   customer: number | User;
   items: {
     product: number | Product;
+    /**
+     * Productnaam op moment van bestelling
+     */
+    title: string;
+    /**
+     * SKU op moment van bestelling
+     */
+    sku?: string | null;
+    /**
+     * EAN op moment van bestelling
+     */
+    ean?: string | null;
+    /**
+     * ID van grouped parent product (indien van toepassing)
+     */
+    parentProductId?: string | null;
+    /**
+     * Naam van grouped parent product (indien van toepassing)
+     */
+    parentProductTitle?: string | null;
     quantity: number;
     /**
      * Prijs op moment van bestelling
@@ -3250,33 +3477,120 @@ export interface BrandsSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  description?: T;
-  price?: T;
-  compareAtPrice?: T;
-  images?: T;
-  stock?: T;
+  productType?: T;
+  template?: T;
   sku?: T;
-  categories?: T;
+  ean?: T;
+  mpn?: T;
+  shortDescription?: T;
+  description?: T;
   brand?: T;
-  badge?: T;
-  status?: T;
-  featured?: T;
-  specifications?:
+  manufacturer?: T;
+  categories?: T;
+  tags?:
     | T
     | {
-        key?: T;
-        value?: T;
+        tag?: T;
+        id?: T;
+      };
+  status?: T;
+  featured?: T;
+  condition?: T;
+  warranty?: T;
+  releaseDate?: T;
+  badge?: T;
+  price?: T;
+  salePrice?: T;
+  compareAtPrice?: T;
+  costPrice?: T;
+  msrp?: T;
+  taxClass?: T;
+  includesTax?: T;
+  groupPrices?:
+    | T
+    | {
+        group?: T;
+        price?: T;
+        minQuantity?: T;
+        id?: T;
+      };
+  volumePricing?:
+    | T
+    | {
+        minQuantity?: T;
+        maxQuantity?: T;
+        price?: T;
+        discountPercentage?: T;
+        id?: T;
+      };
+  trackStock?: T;
+  stock?: T;
+  stockStatus?: T;
+  lowStockThreshold?: T;
+  backordersAllowed?: T;
+  availabilityDate?: T;
+  weight?: T;
+  weightUnit?: T;
+  dimensionsLength?: T;
+  dimensionsWidth?: T;
+  dimensionsHeight?: T;
+  shippingClass?: T;
+  freeShipping?: T;
+  images?: T;
+  videos?:
+    | T
+    | {
+        url?: T;
+        platform?: T;
         id?: T;
       };
   downloads?: T;
-  relatedProducts?: T;
+  childProducts?:
+    | T
+    | {
+        product?: T;
+        sortOrder?: T;
+        isDefault?: T;
+        id?: T;
+      };
+  minOrderQuantity?: T;
+  maxOrderQuantity?: T;
+  orderMultiple?: T;
+  leadTime?: T;
+  customizable?: T;
+  quotationRequired?: T;
+  contractPricing?: T;
   meta?:
     | T
     | {
         title?: T;
         description?: T;
         image?: T;
+        keywords?:
+          | T
+          | {
+              keyword?: T;
+              id?: T;
+            };
       };
+  specifications?:
+    | T
+    | {
+        group?: T;
+        attributes?:
+          | T
+          | {
+              name?: T;
+              value?: T;
+              unit?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  relatedProducts?: T;
+  crossSells?: T;
+  upSells?: T;
+  accessories?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3340,6 +3654,11 @@ export interface OrdersSelect<T extends boolean = true> {
     | T
     | {
         product?: T;
+        title?: T;
+        sku?: T;
+        ean?: T;
+        parentProductId?: T;
+        parentProductTitle?: T;
         quantity?: T;
         price?: T;
         subtotal?: T;
@@ -3735,6 +4054,10 @@ export interface Setting {
       }[]
     | null;
   hoursNote?: string | null;
+  /**
+   * Standaard template voor nieuwe producten (kan per product overschreven worden)
+   */
+  defaultProductTemplate?: ('template1' | 'template2') | null;
   /**
    * Bestellingen boven dit bedrag krijgen gratis verzending
    */
@@ -4253,6 +4576,7 @@ export interface SettingsSelect<T extends boolean = true> {
         id?: T;
       };
   hoursNote?: T;
+  defaultProductTemplate?: T;
   freeShippingThreshold?: T;
   shippingCost?: T;
   deliveryTime?: T;
