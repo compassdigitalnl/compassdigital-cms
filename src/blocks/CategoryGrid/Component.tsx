@@ -24,8 +24,8 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
     try {
       const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3020'
 
-      // Try to fetch featured categories first, fallback to all categories
-      let apiUrl = `${baseUrl}/api/product-categories?where[featured][equals]=true&limit=${limit}`
+      // Fetch all categories sorted by name
+      let apiUrl = `${baseUrl}/api/product-categories?sort=name&limit=${limit}`
 
       const response = await fetch(apiUrl, {
         cache: 'no-store', // Always fetch fresh data
@@ -37,22 +37,6 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
       if (response.ok) {
         const data = await response.json()
         categories = data.docs || []
-
-        // If no featured categories, fetch all categories (sorted by name)
-        if (categories.length === 0) {
-          const fallbackUrl = `${baseUrl}/api/product-categories?sort=name&limit=${limit}`
-          const fallbackResponse = await fetch(fallbackUrl, {
-            cache: 'no-store',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-
-          if (fallbackResponse.ok) {
-            const fallbackData = await fallbackResponse.json()
-            categories = fallbackData.docs || []
-          }
-        }
       } else {
         console.error(`Failed to fetch categories: ${response.status} ${response.statusText}`)
         categories = (manualCategories as Category[]) || []
