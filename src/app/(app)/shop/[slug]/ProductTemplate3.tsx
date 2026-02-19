@@ -480,7 +480,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     justifyContent: 'center',
                     color: 'var(--color-text-primary)',
                     fontSize: '20px',
-                    fontWeight: 600',
+                    fontWeight: 600,
                   }}
                 >
                   +
