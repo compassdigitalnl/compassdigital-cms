@@ -4052,7 +4052,7 @@ export interface Setting {
   /**
    * Standaard template voor nieuwe producten (kan per product overschreven worden)
    */
-  defaultProductTemplate?: ('template1' | 'template2') | null;
+  defaultProductTemplate?: ('template1' | 'template2' | 'template3') | null;
   /**
    * Bestellingen boven dit bedrag krijgen gratis verzending
    */

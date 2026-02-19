@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import ProductTemplate1 from './ProductTemplate1'
 import ProductTemplate2 from './ProductTemplate2'
+import ProductTemplate3 from './ProductTemplate3'
 import type { Product } from '@/payload-types'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -82,6 +83,19 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   console.log('📋 Global template setting:', (settings as any)?.defaultProductTemplate)
   console.log('✅ Using template:', template)
 
+  // Badge color and label based on template
+  const getBadgeStyle = () => {
+    if (template === 'template2') {
+      return { background: '#10B981', label: '🎨 Template 2 - Minimal' }
+    } else if (template === 'template3') {
+      return { background: '#F59E0B', label: '✨ Template 3 - Luxury' }
+    } else {
+      return { background: '#3B82F6', label: '🏢 Template 1 - Enterprise' }
+    }
+  }
+
+  const badgeStyle = getBadgeStyle()
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* DEBUG: Template Indicator */}
@@ -91,7 +105,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           top: '80px',
           right: '20px',
           zIndex: 9999,
-          background: template === 'template2' ? '#10B981' : '#3B82F6',
+          background: badgeStyle.background,
           color: 'white',
           padding: '12px 20px',
           borderRadius: '8px',
@@ -100,7 +114,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
         }}
       >
-        {template === 'template2' ? '🎨 Template 2 - Minimal' : '🏢 Template 1 - Enterprise'}
+        {badgeStyle.label}
       </div>
 
       {/* Breadcrumb Header */}
@@ -119,7 +133,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
       {/* Product Template Switcher */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {template === 'template2' ? (
+        {template === 'template3' ? (
+          <ProductTemplate3 product={product} />
+        ) : template === 'template2' ? (
           <ProductTemplate2 product={product} />
         ) : (
           <ProductTemplate1 product={product} />
