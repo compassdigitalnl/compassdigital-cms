@@ -266,10 +266,10 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 5: TEMPLATES (Product & Blog Templates) ──────────
+        // ─── TAB 5: TEMPLATES (Product, Blog & Shop Archive Templates) ──────────
         {
           label: 'Templates',
-          description: 'Visuele templates voor producten en blog posts',
+          description: 'Visuele templates voor product detail, blog en shop archive pagina\'s',
           fields: [
             {
               name: 'defaultProductTemplate',
@@ -297,6 +297,19 @@ export const Settings: GlobalConfig = {
               ],
               admin: {
                 description: 'Template voor blog post pagina\'s',
+              },
+            },
+            {
+              name: 'defaultShopArchiveTemplate',
+              type: 'select',
+              label: 'Standaard Shop Archive Template',
+              defaultValue: 'shoparchivetemplate1',
+              options: [
+                { label: 'Shop Archive Template 1 - Enterprise (Volledig, filters, stats)', value: 'shoparchivetemplate1' },
+                // Template 2 and 3 will be added later
+              ],
+              admin: {
+                description: 'Template voor shop/producten overzichtspagina',
               },
             },
           ],

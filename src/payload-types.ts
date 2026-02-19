@@ -4103,6 +4103,10 @@ export interface Setting {
    */
   defaultBlogTemplate?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
   /**
+   * Template voor shop/producten overzichtspagina
+   */
+  defaultShopArchiveTemplate?: 'shoparchivetemplate1' | null;
+  /**
    * Bestellingen boven dit bedrag krijgen gratis verzending
    */
   freeShippingThreshold: number;
@@ -4622,6 +4626,7 @@ export interface SettingsSelect<T extends boolean = true> {
   hoursNote?: T;
   defaultProductTemplate?: T;
   defaultBlogTemplate?: T;
+  defaultShopArchiveTemplate?: T;
   freeShippingThreshold?: T;
   shippingCost?: T;
   deliveryTime?: T;
