@@ -71,8 +71,32 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   // Determine which template to use
   const template = (product as any).template || 'template1'
 
+  // Debug: Log template selection
+  console.log('🎨 Product:', product.title)
+  console.log('📋 Template field:', (product as any).template)
+  console.log('✅ Using template:', template)
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* DEBUG: Template Indicator */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '80px',
+          right: '20px',
+          zIndex: 9999,
+          background: template === 'template2' ? '#10B981' : '#3B82F6',
+          color: 'white',
+          padding: '12px 20px',
+          borderRadius: '8px',
+          fontSize: '14px',
+          fontWeight: 700,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        }}
+      >
+        {template === 'template2' ? '🎨 Template 2 - Minimal' : '🏢 Template 1 - Enterprise'}
+      </div>
+
       {/* Breadcrumb Header */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
