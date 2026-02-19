@@ -68,12 +68,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     notFound()
   }
 
-  // Determine which template to use
-  const template = (product as any).template || 'template1'
+  // Get global template setting from Settings
+  const settings = await payload.findGlobal({
+    slug: 'settings',
+    depth: 0,
+  })
+
+  // Determine which template to use (from Settings global)
+  const template = (settings as any)?.defaultProductTemplate || 'template1'
 
   // Debug: Log template selection
   console.log('🎨 Product:', product.title)
-  console.log('📋 Template field:', (product as any).template)
+  console.log('📋 Global template setting:', (settings as any)?.defaultProductTemplate)
   console.log('✅ Using template:', template)
 
   return (

@@ -794,10 +794,6 @@ export interface Product {
    * Simple = normaal product, Grouped = multi-select parent
    */
   productType: 'simple' | 'grouped';
-  /**
-   * Kies welke template gebruikt wordt voor dit product
-   */
-  template?: ('template1' | 'template2') | null;
   sku?: string | null;
   /**
    * European Article Number (13 cijfers)
@@ -3478,7 +3474,6 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   productType?: T;
-  template?: T;
   sku?: T;
   ean?: T;
   mpn?: T;
