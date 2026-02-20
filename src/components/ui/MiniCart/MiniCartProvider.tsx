@@ -77,11 +77,11 @@ export function MiniCartProvider({ children }: { children: ReactNode }) {
       cartContext.removeItem(id)
       return
     }
-    cartContext.updateItem(id, { quantity })
+    cartContext.updateQuantity(id, quantity)
   }, [cartContext])
 
-  const totalItems = cartContext.totalItems
-  const subtotal = cartContext.subtotal
+  const totalItems = cartContext.itemCount
+  const subtotal = cartContext.total
   const freeShippingProgress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)
 
   return (
