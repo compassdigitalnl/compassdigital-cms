@@ -1,25 +1,32 @@
 'use client'
 
 import React from 'react'
+import { SectionLabel } from '@/components/SectionLabel'
 import type { TestimonialsBlock } from '@/payload-types'
 
 export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
+  sectionLabel,
   heading,
   intro,
-  source,
+  source: dataSource,
   manualTestimonials,
   layout,
 }) => {
-  const testimonials = source === 'manual' ? manualTestimonials : []
+  const testimonials = dataSource === 'manual' ? manualTestimonials : []
 
   return (
-    <section className="testimonials py-16 px-4 bg-gray-50">
+    <section className="testimonials py-16 px-4 bg-white">
       <div className="container mx-auto">
-        {heading && <h2 className="text-3xl font-bold mb-4 text-center">{heading}</h2>}
-        {intro && <p className="text-center mb-12 max-w-2xl mx-auto text-gray-600">{intro}</p>}
+        {(sectionLabel || heading || intro) && (
+          <div className="text-center mb-12">
+            {sectionLabel && <SectionLabel label={sectionLabel} />}
+            {heading && <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>}
+            {intro && <p className="text-lg text-gray-600 max-w-2xl mx-auto">{intro}</p>}
+          </div>
+        )}
 
         <div
-          className={`grid gap-8 ${
+          className={`grid gap-6 ${
             layout === 'grid-2'
               ? 'md:grid-cols-2'
               : layout === 'carousel'
@@ -30,37 +37,27 @@ export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
           {testimonials?.map((testimonial, index) => (
             <div
               key={index}
-              className="testimonial-card p-6 bg-white rounded-lg shadow hover:shadow-xl transition-all duration-300"
-              style={{ borderTop: '4px solid var(--color-accent, #ec4899)' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-secondary, #8b5cf6)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '';
-                e.currentTarget.style.transform = '';
-              }}
+              className="testimonial-card p-6 bg-white border-2 border-gray-200 rounded-xl shadow hover:shadow-xl hover:border-teal-500 transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="flex mb-2">
+              <div className="flex mb-3">
                 {[...Array(testimonial.rating || 5)].map((_, i) => (
-                  <span key={i} style={{ color: 'var(--color-accent, #ec4899)' }}>
+                  <span key={i} className="text-teal-500 text-lg">
                     ★
                   </span>
                 ))}
               </div>
-              <p className="mb-4 italic text-gray-700">"{testimonial.quote}"</p>
-              <div className="flex items-center gap-3 pt-4 border-t">
-                <div>
-                  <p className="font-semibold">{testimonial.name}</p>
-                  {testimonial.role && (
-                    <p className="text-sm" style={{ color: 'var(--color-primary, #3b82f6)' }}>
-                      {testimonial.role}
-                    </p>
-                  )}
-                  {testimonial.company && (
-                    <p className="text-sm text-gray-600">{testimonial.company}</p>
-                  )}
-                </div>
+              <p className="mb-6 italic text-gray-700 leading-relaxed">"{testimonial.quote}"</p>
+              <div className="pt-4 border-t border-gray-200">
+                <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                {testimonial.role && (
+                  <p className="text-sm text-gray-600 mt-0.5">{testimonial.role}</p>
+                )}
+                {testimonial.company && (
+                  <p className="text-sm text-gray-600 mt-0.5">{testimonial.company}</p>
+                )}
+                {testimonial.source && (
+                  <p className="text-xs text-gray-500 mt-2">{testimonial.source}</p>
+                )}
               </div>
             </div>
           ))}

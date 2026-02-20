@@ -4,7 +4,7 @@ import React from 'react'
 import type { LogoBarBlock } from '@/payload-types'
 import Image from 'next/image'
 
-export const LogoBarBlockComponent: React.FC<LogoBarBlock> = ({ heading, source, partners, logos, layout }) => {
+export const LogoBarBlockComponent: React.FC<LogoBarBlock> = ({ heading, source, partners, logos, layout, displayMode = 'image' }) => {
   // Determine which data source to use
   const logoData = React.useMemo(() => {
     if (source === 'collection' && partners && Array.isArray(partners)) {
@@ -46,16 +46,16 @@ export const LogoBarBlockComponent: React.FC<LogoBarBlock> = ({ heading, source,
               }}
             >
               {logoData?.map((logo, index) => (
-                <LogoItem key={index} logo={logo} />
+                <LogoItem key={index} logo={logo} displayMode={displayMode} />
               ))}
               {/* Duplicate for seamless loop */}
               {logoData?.map((logo, index) => (
-                <LogoItem key={`dup-${index}`} logo={logo} />
+                <LogoItem key={`dup-${index}`} logo={logo} displayMode={displayMode} />
               ))}
             </div>
           ) : (
             logoData?.map((logo, index) => (
-              <LogoItem key={index} logo={logo} />
+              <LogoItem key={index} logo={logo} displayMode={displayMode} />
             ))
           )}
         </div>
@@ -76,7 +76,25 @@ export const LogoBarBlockComponent: React.FC<LogoBarBlock> = ({ heading, source,
   )
 }
 
-const LogoItem: React.FC<{ logo: any }> = ({ logo }) => {
+const LogoItem: React.FC<{ logo: any; displayMode?: string }> = ({ logo, displayMode = 'image' }) => {
+  // Text-only mode: render brand names as large bold text
+  if (displayMode === 'text') {
+    const content = (
+      <div className="logo-item opacity-40 hover:opacity-100 transition-opacity duration-300">
+        <span className="text-gray-900 font-extrabold text-2xl">{logo.name}</span>
+      </div>
+    )
+
+    return logo.link ? (
+      <a href={logo.link} target="_blank" rel="noopener noreferrer">
+        {content}
+      </a>
+    ) : (
+      content
+    )
+  }
+
+  // Image mode (default)
   const imageObj = typeof logo.image === 'object' && logo.image !== null ? logo.image : null
   const imageUrl = imageObj?.url || (typeof logo.image === 'string' ? logo.image : null)
 

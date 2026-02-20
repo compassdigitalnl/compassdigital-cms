@@ -120,6 +120,19 @@ export const LogoBar: Block = {
       ],
     },
     {
+      name: 'displayMode',
+      type: 'select',
+      label: 'Weergave modus',
+      defaultValue: 'image',
+      options: [
+        { label: 'Logo afbeeldingen', value: 'image' },
+        { label: 'Merknamen als tekst', value: 'text' },
+      ],
+      admin: {
+        description: 'Tekst modus toont merknamen als grote bold tekst',
+      },
+    },
+    {
       name: 'layout',
       type: 'select',
       label: 'Layout',

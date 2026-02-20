@@ -1,10 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/components/Icon'
+import { SectionLabel } from '@/components/SectionLabel'
 import type { ProductGridBlock as ProductGridType } from '@/payload-types'
 import type { Product } from '@/payload-types'
 
 export const ProductGrid: React.FC<ProductGridType> = async ({
+  sectionLabel,
   heading,
   intro,
   source = 'manual',
@@ -142,6 +144,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-end mb-10">
           <div>
+            {sectionLabel && <SectionLabel label={sectionLabel} />}
             {heading && (
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 {heading}
@@ -180,7 +183,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
             const firstImage = Array.isArray(images) && images[0] && typeof images[0] === 'object' ? images[0] : null
 
             return (
-              <div key={product.id} className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-teal-500/30 transition-all duration-300">
+              <div key={product.id} className="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-teal-500/30 transition-all duration-300">
                 {badge && (
                   <div className={`absolute top-3 left-3 z-10 px-3 py-1 rounded-lg text-xs font-bold ${getBadgeStyle(badge)}`}>
                     {getBadgeLabel(badge)}

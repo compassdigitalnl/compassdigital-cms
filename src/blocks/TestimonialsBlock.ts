@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { sectionLabelField } from '../fields/sectionLabel'
 
 export const TestimonialsBlock: Block = {
   slug: 'testimonials',
@@ -8,6 +9,7 @@ export const TestimonialsBlock: Block = {
     plural: 'Testimonials',
   },
   fields: [
+    sectionLabelField,
     {
       name: 'heading',
       type: 'text',
@@ -87,6 +89,14 @@ export const TestimonialsBlock: Block = {
           type: 'upload',
           relationTo: 'media',
           label: 'Foto',
+        },
+        {
+          name: 'source',
+          type: 'text',
+          label: 'Bron / Platform',
+          admin: {
+            description: 'Bijv. "Via Google Reviews", "Via Kiyoh", "Via Trustpilot"',
+          },
         },
       ],
     },

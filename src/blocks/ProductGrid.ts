@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { sectionLabelField } from '../fields/sectionLabel'
 
 export const ProductGrid: Block = {
   slug: 'productGrid',
@@ -8,6 +9,7 @@ export const ProductGrid: Block = {
     plural: 'Product Grids',
   },
   fields: [
+    sectionLabelField,
     {
       name: 'heading',
       type: 'text',

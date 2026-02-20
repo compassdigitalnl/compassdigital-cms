@@ -576,9 +576,25 @@ export interface HeroBlock {
    */
   style: 'default' | 'image' | 'gradient' | 'minimal';
   /**
+   * Kies de layout structuur
+   */
+  layout?: ('centered' | 'two-column') | null;
+  /**
+   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   */
+  sectionLabel?: string | null;
+  /**
+   * Kleine pill-shaped label boven de titel (bijv. "Sinds 1994 — 30+ jaar ervaring")
+   */
+  badge?: string | null;
+  /**
    * De grote koptekst (H1)
    */
   title: string;
+  /**
+   * Dit deel van de titel krijgt een gradient kleur (bijv. "medische" in "Uw partner in medische hulpmiddelen")
+   */
+  titleAccent?: string | null;
   /**
    * Korte tekst onder de titel
    */
@@ -591,6 +607,26 @@ export interface HeroBlock {
     text?: string | null;
     link?: string | null;
   };
+  /**
+   * Toon statistieken in een glasmorfisme kaart rechts (max 4 items)
+   */
+  stats?:
+    | {
+        /**
+         * Bijv. "4000" of "30"
+         */
+        number: string;
+        /**
+         * Bijv. "+" of "%" (optioneel)
+         */
+        suffix?: string | null;
+        /**
+         * Bijv. "Producten" of "Jaar ervaring"
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Alleen zichtbaar bij stijl "Met afbeelding"
    */
@@ -728,6 +764,10 @@ export interface TwoColumnBlock {
  * via the `definition` "ProductGridBlock".
  */
 export interface ProductGridBlock {
+  /**
+   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   */
+  sectionLabel?: string | null;
   heading?: string | null;
   intro?: string | null;
   /**
@@ -1186,6 +1226,10 @@ export interface CustomerGroup {
  * via the `definition` "CategoryGridBlock".
  */
 export interface CategoryGridBlock {
+  /**
+   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   */
+  sectionLabel?: string | null;
   heading?: string | null;
   intro?: string | null;
   /**
@@ -1209,6 +1253,11 @@ export interface CategoryGridBlock {
    * Maximaal aantal categorieën om te tonen
    */
   limit?: number | null;
+  /**
+   * Voegt een speciale Quick Order kaart toe met teal achtergrond
+   */
+  showQuickOrderCard?: boolean | null;
+  quickOrderLink?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'categoryGrid';
@@ -1218,8 +1267,16 @@ export interface CategoryGridBlock {
  * via the `definition` "FeaturesBlock".
  */
 export interface FeaturesBlock {
+  /**
+   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   */
+  sectionLabel?: string | null;
   heading?: string | null;
   intro?: string | null;
+  /**
+   * Donkere stijl toont glasmorfisme kaarten op navy achtergrond
+   */
+  backgroundStyle?: ('light' | 'dark') | null;
   /**
    * Kies tussen herbruikbare services of unieke features voor deze pagina
    */
@@ -1448,10 +1505,19 @@ export interface SearchBarBlock {
  * via the `definition` "CTABlock".
  */
 export interface CTABlock {
+  /**
+   * Kaart variant toont een afgeronde kaart binnen de container
+   */
+  variant?: ('full-width' | 'card') | null;
   title: string;
   text?: string | null;
   buttonText: string;
   buttonLink: string;
+  /**
+   * Optionele tweede knop met ghost stijl
+   */
+  secondaryButtonText?: string | null;
+  secondaryButtonLink?: string | null;
   style?: ('primary' | 'secondary' | 'outline') | null;
   backgroundImage?: (number | null) | Media;
   id?: string | null;
@@ -1477,6 +1543,10 @@ export interface ContactFormBlock {
  * via the `definition` "TestimonialsBlock".
  */
 export interface TestimonialsBlock {
+  /**
+   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   */
+  sectionLabel?: string | null;
   heading?: string | null;
   /**
    * Optionele introductie tekst voor de testimonials sectie
@@ -1492,6 +1562,10 @@ export interface TestimonialsBlock {
         quote: string;
         rating: number;
         photo?: (number | null) | Media;
+        /**
+         * Bijv. "Via Google Reviews", "Via Kiyoh", "Via Trustpilot"
+         */
+        source?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1675,6 +1749,10 @@ export interface LogoBarBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Tekst modus toont merknamen als grote bold tekst
+   */
+  displayMode?: ('image' | 'text') | null;
   layout?: ('grid' | 'carousel') | null;
   id?: string | null;
   blockName?: string | null;
@@ -2920,7 +2998,11 @@ export interface SpacerBlockSelect<T extends boolean = true> {
  */
 export interface HeroBlockSelect<T extends boolean = true> {
   style?: T;
+  layout?: T;
+  sectionLabel?: T;
+  badge?: T;
   title?: T;
+  titleAccent?: T;
   subtitle?: T;
   primaryCTA?:
     | T
@@ -2933,6 +3015,14 @@ export interface HeroBlockSelect<T extends boolean = true> {
     | {
         text?: T;
         link?: T;
+      };
+  stats?:
+    | T
+    | {
+        number?: T;
+        suffix?: T;
+        label?: T;
+        id?: T;
       };
   backgroundImage?: T;
   backgroundImageUrl?: T;
@@ -2982,6 +3072,7 @@ export interface TwoColumnBlockSelect<T extends boolean = true> {
  * via the `definition` "ProductGridBlock_select".
  */
 export interface ProductGridBlockSelect<T extends boolean = true> {
+  sectionLabel?: T;
   heading?: T;
   intro?: T;
   source?: T;
@@ -3006,6 +3097,7 @@ export interface ProductGridBlockSelect<T extends boolean = true> {
  * via the `definition` "CategoryGridBlock_select".
  */
 export interface CategoryGridBlockSelect<T extends boolean = true> {
+  sectionLabel?: T;
   heading?: T;
   intro?: T;
   source?: T;
@@ -3014,6 +3106,8 @@ export interface CategoryGridBlockSelect<T extends boolean = true> {
   showProductCount?: T;
   layout?: T;
   limit?: T;
+  showQuickOrderCard?: T;
+  quickOrderLink?: T;
   id?: T;
   blockName?: T;
 }
@@ -3022,8 +3116,10 @@ export interface CategoryGridBlockSelect<T extends boolean = true> {
  * via the `definition` "FeaturesBlock_select".
  */
 export interface FeaturesBlockSelect<T extends boolean = true> {
+  sectionLabel?: T;
   heading?: T;
   intro?: T;
+  backgroundStyle?: T;
   source?: T;
   services?: T;
   category?: T;
@@ -3128,10 +3224,13 @@ export interface SearchBarBlockSelect<T extends boolean = true> {
  * via the `definition` "CTABlock_select".
  */
 export interface CTABlockSelect<T extends boolean = true> {
+  variant?: T;
   title?: T;
   text?: T;
   buttonText?: T;
   buttonLink?: T;
+  secondaryButtonText?: T;
+  secondaryButtonLink?: T;
   style?: T;
   backgroundImage?: T;
   id?: T;
@@ -3152,6 +3251,7 @@ export interface ContactFormBlockSelect<T extends boolean = true> {
  * via the `definition` "TestimonialsBlock_select".
  */
 export interface TestimonialsBlockSelect<T extends boolean = true> {
+  sectionLabel?: T;
   heading?: T;
   intro?: T;
   source?: T;
@@ -3165,6 +3265,7 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
         quote?: T;
         rating?: T;
         photo?: T;
+        source?: T;
         id?: T;
       };
   layout?: T;
@@ -3210,6 +3311,7 @@ export interface LogoBarBlockSelect<T extends boolean = true> {
         link?: T;
         id?: T;
       };
+  displayMode?: T;
   layout?: T;
   id?: T;
   blockName?: T;
