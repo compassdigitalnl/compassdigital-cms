@@ -1,13 +1,18 @@
 'use client'
 
-import type { BlogPost } from '@/payload-types'
+import type { BlogPost, BlogCategory } from '@/payload-types'
 import { Calendar, User, Sparkles } from 'lucide-react'
+import { PrevNextNavigation } from '@/components/blog/PrevNextNavigation'
+import { ReadingProgressBar } from '@/components/blog/ReadingProgressBar'
 
 interface BlogTemplate3Props {
   post: BlogPost
+  prevPost?: BlogPost | null
+  nextPost?: BlogPost | null
+  category: BlogCategory
 }
 
-export default function BlogTemplate3({ post }: BlogTemplate3Props) {
+export default function BlogTemplate3({ post, prevPost, nextPost, category }: BlogTemplate3Props) {
   const featuredImageUrl =
     typeof post.featuredImage === 'object' && post.featuredImage !== null
       ? post.featuredImage.url
@@ -35,6 +40,9 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
 
   return (
     <div className="px-4 lg:px-0" style={{ fontFamily: 'var(--font-body)' }}>
+      {/* Reading Progress Bar */}
+      <ReadingProgressBar />
+
       {/* Premium: Wide Mobile-First Layout */}
       <div className="max-w-7xl mx-auto">
         {/* Categories - Premium Badge */}
@@ -140,6 +148,16 @@ export default function BlogTemplate3({ post }: BlogTemplate3Props) {
           style={{ color: 'var(--color-text-secondary)' }}
           dangerouslySetInnerHTML={{ __html: post.content || '' }}
         />
+
+        {/* Previous/Next Navigation */}
+        <div className="max-w-4xl mx-auto">
+          <PrevNextNavigation
+            prevPost={prevPost}
+            nextPost={nextPost}
+            category={category}
+            className="mt-12"
+          />
+        </div>
 
         {/* Premium Footer */}
         <div

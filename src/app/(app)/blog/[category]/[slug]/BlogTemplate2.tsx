@@ -1,13 +1,18 @@
 'use client'
 
-import type { BlogPost } from '@/payload-types'
+import type { BlogPost, BlogCategory } from '@/payload-types'
 import { Calendar, User, Clock } from 'lucide-react'
+import { PrevNextNavigation } from '@/components/blog/PrevNextNavigation'
+import { ReadingProgressBar } from '@/components/blog/ReadingProgressBar'
 
 interface BlogTemplate2Props {
   post: BlogPost
+  prevPost?: BlogPost | null
+  nextPost?: BlogPost | null
+  category: BlogCategory
 }
 
-export default function BlogTemplate2({ post }: BlogTemplate2Props) {
+export default function BlogTemplate2({ post, prevPost, nextPost, category }: BlogTemplate2Props) {
   const featuredImageUrl =
     typeof post.featuredImage === 'object' && post.featuredImage !== null
       ? post.featuredImage.url
@@ -35,6 +40,9 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
 
   return (
     <div className="px-4 lg:px-0" style={{ fontFamily: 'var(--font-body)' }}>
+      {/* Reading Progress Bar */}
+      <ReadingProgressBar />
+
       {/* Minimal: Single Column, Centered */}
       <article className="max-w-2xl mx-auto">
         {/* Categories */}
@@ -111,6 +119,14 @@ export default function BlogTemplate2({ post }: BlogTemplate2Props) {
           className="text-base lg:text-lg leading-relaxed lg:leading-loose blog-content-minimal"
           style={{ color: 'var(--color-text-secondary)' }}
           dangerouslySetInnerHTML={{ __html: post.content || '' }}
+        />
+
+        {/* Previous/Next Navigation */}
+        <PrevNextNavigation
+          prevPost={prevPost}
+          nextPost={nextPost}
+          category={category}
+          className="mt-12"
         />
       </article>
     </div>

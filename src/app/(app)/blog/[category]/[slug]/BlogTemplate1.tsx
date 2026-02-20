@@ -1,6 +1,6 @@
 'use client'
 
-import type { BlogPost, Product } from '@/payload-types'
+import type { BlogPost, Product, BlogCategory } from '@/payload-types'
 import { Icon } from '@/components/Icon'
 import Link from 'next/link'
 import { TableOfContents } from '@/components/blog/TableOfContents'
@@ -8,17 +8,22 @@ import { ShareButtons } from '@/components/blog/ShareButtons'
 import { AuthorBox } from '@/components/blog/AuthorBox'
 import { RelatedArticles } from '@/components/blog/RelatedArticles'
 import { RenderBlogContent } from '@/components/blog/RenderBlogContent'
+import { PrevNextNavigation } from '@/components/blog/PrevNextNavigation'
+import { ReadingProgressBar } from '@/components/blog/ReadingProgressBar'
 
 interface BlogTemplate1Props {
   post: BlogPost
   relatedPosts?: BlogPost[]
+  prevPost?: BlogPost | null
+  nextPost?: BlogPost | null
+  category: BlogCategory
 }
 
-export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1Props) {
-  // Get category info
-  const category = post.categories?.[0]
-  const categoryName = typeof category === 'object' && category !== null ? category.name : 'Blog'
-  const categorySlug = typeof category === 'object' && category !== null ? category.slug : 'blog'
+export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextPost, category }: BlogTemplate1Props) {
+  // Get category info (already passed as prop, but keep for backwards compatibility)
+  const firstCategory = post.categories?.[0]
+  const categoryName = typeof firstCategory === 'object' && firstCategory !== null ? firstCategory.name : 'Blog'
+  const categorySlug = typeof firstCategory === 'object' && firstCategory !== null ? firstCategory.slug : 'blog'
 
   // Format date
   const publishDate = post.publishedAt
@@ -57,6 +62,9 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
 
   return (
     <div className="min-h-screen">
+      {/* Reading Progress Bar */}
+      <ReadingProgressBar />
+
       {/* Two-column layout: Main content + Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start pb-16">
         {/* ═══ MAIN CONTENT ═══ */}
@@ -160,6 +168,14 @@ export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1
           {relatedPosts && relatedPosts.length > 0 && (
             <RelatedArticles posts={relatedPosts} className="mt-12" />
           )}
+
+          {/* Previous/Next Navigation */}
+          <PrevNextNavigation
+            prevPost={prevPost}
+            nextPost={nextPost}
+            category={category}
+            className="mt-8"
+          />
         </main>
 
         {/* ═══ SIDEBAR ═══ */}

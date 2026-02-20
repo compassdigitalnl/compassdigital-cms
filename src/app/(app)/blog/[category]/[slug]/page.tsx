@@ -181,6 +181,56 @@ export default async function BlogPostPage({
     }
   }
 
+  // Fetch previous and next posts in the same category
+  let prevPost: BlogPost | null = null
+  let nextPost: BlogPost | null = null
+
+  if (post.publishedAt) {
+    // Get previous post (older, before current publishedAt)
+    const { docs: prevDocs } = await payload.find({
+      collection: 'blog-posts',
+      where: {
+        and: [
+          {
+            status: { equals: 'published' },
+          },
+          {
+            categories: { in: [category.id] },
+          },
+          {
+            publishedAt: { less_than: post.publishedAt },
+          },
+        ],
+      },
+      limit: 1,
+      depth: 0,
+      sort: '-publishedAt', // Get the most recent one before this
+    })
+    prevPost = prevDocs[0] as BlogPost | undefined || null
+
+    // Get next post (newer, after current publishedAt)
+    const { docs: nextDocs } = await payload.find({
+      collection: 'blog-posts',
+      where: {
+        and: [
+          {
+            status: { equals: 'published' },
+          },
+          {
+            categories: { in: [category.id] },
+          },
+          {
+            publishedAt: { greater_than: post.publishedAt },
+          },
+        ],
+      },
+      limit: 1,
+      depth: 0,
+      sort: 'publishedAt', // Get the oldest one after this
+    })
+    nextPost = nextDocs[0] as BlogPost | undefined || null
+  }
+
   // Increment view count (fire and forget)
   payload
     .update({
@@ -265,11 +315,11 @@ export default async function BlogPostPage({
       {/* Blog Template Switcher */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {template === 'blogtemplate3' ? (
-          <BlogTemplate3 post={post} />
+          <BlogTemplate3 post={post} prevPost={prevPost} nextPost={nextPost} category={category} />
         ) : template === 'blogtemplate2' ? (
-          <BlogTemplate2 post={post} />
+          <BlogTemplate2 post={post} prevPost={prevPost} nextPost={nextPost} category={category} />
         ) : (
-          <BlogTemplate1 post={post} relatedPosts={relatedPosts} />
+          <BlogTemplate1 post={post} relatedPosts={relatedPosts} prevPost={prevPost} nextPost={nextPost} category={category} />
         )}
       </div>
     </div>
