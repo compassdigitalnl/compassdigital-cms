@@ -74,6 +74,13 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     lg: '1.125',
   }
 
+  // Map spacing scale values
+  const spacingMap = {
+    sm: '0.75',
+    md: '1',
+    lg: '1.25',
+  }
+
   const cssVariables = {
     // Colors
     '--color-primary': themeData.primaryColor,
@@ -95,6 +102,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     '--border-radius': radiusMap[themeData.borderRadius as keyof typeof radiusMap] || '12px',
     '--container-width': containerMap[themeData.containerWidth as keyof typeof containerMap] || '1792px',
     '--shadow': shadowMap[themeData.shadowSize as keyof typeof shadowMap] || shadowMap.md,
+    '--spacing-scale': spacingMap[themeData.spacing as keyof typeof spacingMap] || '1',
 
     // Effects
     '--transition-duration': themeData.enableAnimations ? '200ms' : '0ms',
@@ -142,7 +150,96 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
             transition-duration: var(--transition-duration);
           }
 
-          /* Utility classes using theme variables */
+          /* ===================================================================
+             CRITICAL: Override Tailwind .container with Theme settings
+             This makes container max-width CMS-driven instead of hardcoded
+             =================================================================== */
+          .container {
+            max-width: var(--container-width) !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
+
+          @media (min-width: 640px) {
+            .container {
+              padding-left: 1.5rem !important;
+              padding-right: 1.5rem !important;
+            }
+          }
+
+          /* ===================================================================
+             ROUNDED UTILITIES - Use theme border radius
+             =================================================================== */
+          .rounded-xl, .rounded-2xl, .rounded-3xl {
+            border-radius: var(--border-radius) !important;
+          }
+
+          /* ===================================================================
+             SHADOW UTILITIES - Use theme shadow
+             =================================================================== */
+          .shadow, .shadow-md, .shadow-lg, .shadow-xl {
+            box-shadow: var(--shadow) !important;
+          }
+
+          .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important;
+          }
+
+          /* ===================================================================
+             HOVER SHADOWS - Respects theme shadow
+             =================================================================== */
+          .hover\\:shadow-xl:hover {
+            box-shadow: var(--shadow) !important;
+          }
+
+          /* ===================================================================
+             FONT SCALE - Apply to headings and key text classes
+             Note: Only applies to headings to avoid breaking component layouts
+             =================================================================== */
+          .theme-provider h1 { font-size: calc(2.25rem * var(--font-scale)); line-height: 1.2; }
+          .theme-provider h2 { font-size: calc(1.875rem * var(--font-scale)); line-height: 1.3; }
+          .theme-provider h3 { font-size: calc(1.5rem * var(--font-scale)); line-height: 1.3; }
+          .theme-provider h4 { font-size: calc(1.25rem * var(--font-scale)); line-height: 1.4; }
+          .theme-provider h5 { font-size: calc(1.125rem * var(--font-scale)); line-height: 1.4; }
+          .theme-provider h6 { font-size: calc(1rem * var(--font-scale)); line-height: 1.5; }
+
+          /* Apply font scale to specific text size utilities */
+          .text-xl { font-size: calc(1.25rem * var(--font-scale)) !important; }
+          .text-2xl { font-size: calc(1.5rem * var(--font-scale)) !important; }
+          .text-3xl { font-size: calc(1.875rem * var(--font-scale)) !important; }
+          .text-4xl { font-size: calc(2.25rem * var(--font-scale)) !important; }
+          .text-5xl { font-size: calc(3rem * var(--font-scale)) !important; }
+          .text-6xl { font-size: calc(3.75rem * var(--font-scale)) !important; }
+
+          /* ===================================================================
+             SPACING SCALE - Apply to common section spacing
+             =================================================================== */
+          .py-12 {
+            padding-top: calc(3rem * var(--spacing-scale)) !important;
+            padding-bottom: calc(3rem * var(--spacing-scale)) !important;
+          }
+          .py-16 {
+            padding-top: calc(4rem * var(--spacing-scale)) !important;
+            padding-bottom: calc(4rem * var(--spacing-scale)) !important;
+          }
+          .py-20 {
+            padding-top: calc(5rem * var(--spacing-scale)) !important;
+            padding-bottom: calc(5rem * var(--spacing-scale)) !important;
+          }
+
+          /* ===================================================================
+             TRANSITIONS - Respect enableAnimations setting
+             Note: Only applies to interactive elements to avoid breaking animations
+             =================================================================== */
+          a, button, .btn, .card, [class*="hover:"] {
+            transition-duration: var(--transition-duration);
+          }
+
+          /* ===================================================================
+             COLOR UTILITY CLASSES
+             =================================================================== */
           .bg-primary { background-color: var(--color-primary) !important; }
           .bg-secondary { background-color: var(--color-secondary) !important; }
           .bg-surface { background-color: var(--color-surface) !important; }
@@ -151,9 +248,6 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-secondary-color { color: var(--color-secondary) !important; }
 
           .border-color { border-color: var(--color-border) !important; }
-
-          .shadow { box-shadow: var(--shadow) !important; }
-          .rounded { border-radius: var(--border-radius) !important; }
         `
       }} />
     </>
