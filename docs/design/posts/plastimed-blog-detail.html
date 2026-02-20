@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De complete gids voor medische handschoenen — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);
+    --white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;
+    --green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;
+    --amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;
+    --radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);
+    --transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* ═══ TOPBAR ═══ */
+  .topbar{background:var(--navy);color:rgba(255,255,255,0.6);font-size:12.5px;height:36px;}
+  .topbar .container{height:100%;display:flex;justify-content:space-between;align-items:center;}
+  .topbar-left{display:flex;gap:24px;}
+  .topbar-left span{display:flex;align-items:center;gap:6px;}
+  .topbar-left i{width:14px;height:14px;color:var(--teal-light);}
+  .topbar-right{display:flex;gap:16px;}
+  .topbar-right a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:12.5px;padding:4px 10px;border-radius:6px;transition:all var(--transition);}
+  .topbar-right a:hover{color:white;background:rgba(255,255,255,0.06);}
+
+  /* ═══ HEADER ═══ */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}
+  .header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}
+  .logo{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:36px;width:auto;display:block;}
+  .search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}
+  .search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);transition:all var(--transition);outline:none;}
+  .search-field::placeholder{color:var(--grey-mid);}
+  .search-field:focus{border-color:var(--teal);background:white;box-shadow:0 0 0 4px var(--teal-glow);}
+  .search-icon-left{position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;}
+  .search-icon-left i{width:18px;height:18px;color:var(--grey-mid);}
+  .header-actions{display:flex;align-items:center;gap:6px;}
+  .h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-family:'DM Sans',sans-serif;}
+  .h-btn i{width:19px;height:19px;}
+  .h-btn:hover{background:var(--teal-glow);color:var(--teal);}
+  .h-btn-icon{width:42px;}
+  .h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}
+  .h-btn-cart i{color:white;}
+  .h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}
+  .cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+
+  /* ═══ NAV ═══ */
+  .nav-bar{background:white;border-bottom:1px solid var(--grey);position:sticky;top:72px;z-index:190;}
+  .nav-bar .container{display:flex;align-items:stretch;height:48px;}
+  .nav-link{display:flex;align-items:center;gap:7px;padding:0 18px;font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;white-space:nowrap;transition:all var(--transition);border-bottom:2px solid transparent;}
+  .nav-link i{width:16px;height:16px;}
+  .nav-link:hover{color:var(--teal);border-bottom-color:var(--teal);}
+  .nav-link.menu-trigger{background:var(--navy);color:white;padding:0 20px;gap:8px;border-bottom:2px solid var(--navy);font-weight:700;margin-right:4px;}
+  .nav-link.menu-trigger i{color:white;}
+  .nav-spacer{flex:1;}
+  .nav-contact{display:flex;align-items:center;gap:20px;}
+  .nav-contact a{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--grey-dark);text-decoration:none;transition:color var(--transition);}
+  .nav-contact a i{width:15px;height:15px;color:var(--teal);}
+  .nav-contact a:hover{color:var(--teal);}
+  .nav-contact-sep{width:1px;height:16px;background:var(--grey);}
+
+  /* ═══ BREADCRUMB ═══ */
+  .breadcrumb-bar{padding:16px 0;}
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}
+  .breadcrumb a{color:var(--grey-mid);text-decoration:none;}
+  .breadcrumb a:hover{color:var(--teal);}
+  .breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}
+  .breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  /* ═══ ARTICLE LAYOUT ═══ */
+  .article-layout{display:grid;grid-template-columns:1fr 320px;gap:32px;padding-bottom:64px;align-items:start;}
+
+  /* ═══ ARTICLE HERO ═══ */
+  .article-hero-img{width:100%;height:360px;border-radius:20px;background:linear-gradient(135deg,#e0f2f1,#b2dfdb);display:flex;align-items:center;justify-content:center;font-size:100px;margin-bottom:28px;position:relative;overflow:hidden;}
+  .article-hero-tag{position:absolute;top:20px;left:20px;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;color:white;background:var(--blue);display:flex;align-items:center;gap:5px;}
+  .article-hero-tag i{width:13px;height:13px;}
+
+  /* ═══ ARTICLE META ═══ */
+  .article-meta-bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+  .article-cat-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal);background:var(--teal-glow);border:1px solid rgba(0,137,123,0.15);}
+  .article-cat-badge i{width:13px;height:13px;}
+  .meta-item{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--grey-mid);}
+  .meta-item i{width:14px;height:14px;}
+  .meta-sep{width:4px;height:4px;border-radius:50%;background:var(--grey);}
+
+  .article-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;color:var(--navy);line-height:1.25;margin-bottom:14px;}
+  .article-intro{font-size:17px;color:var(--grey-dark);line-height:1.7;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--grey);}
+
+  /* ═══ ARTICLE CONTENT ═══ */
+  .article-content h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin:36px 0 14px;padding-top:8px;}
+  .article-content h2:first-child{margin-top:0;}
+  .article-content h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin:24px 0 10px;}
+  .article-content p{font-size:15.5px;color:var(--grey-dark);line-height:1.75;margin-bottom:16px;}
+  .article-content ul,.article-content ol{margin:0 0 16px 20px;color:var(--grey-dark);font-size:15.5px;line-height:1.75;}
+  .article-content li{margin-bottom:6px;}
+  .article-content strong{color:var(--navy);font-weight:700;}
+  .article-content a{color:var(--teal);text-decoration:underline;text-underline-offset:2px;}
+  .article-content a:hover{color:var(--navy);}
+
+  /* Info box */
+  .info-box{background:var(--teal-glow);border:1px solid rgba(0,137,123,0.15);border-radius:14px;padding:20px 24px;margin:24px 0;display:flex;gap:14px;}
+  .info-box-icon{width:36px;height:36px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .info-box-icon i{width:18px;height:18px;color:var(--teal);}
+  .info-box-content{flex:1;}
+  .info-box-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+  .info-box-text{font-size:14px;color:var(--grey-dark);line-height:1.6;}
+
+  /* Warning box */
+  .warning-box{background:var(--amber-light);border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:20px 24px;margin:24px 0;display:flex;gap:14px;}
+  .warning-box .info-box-icon{background:white;}
+  .warning-box .info-box-icon i{color:var(--amber);}
+
+  /* Comparison table */
+  .comparison-table{width:100%;border-collapse:collapse;margin:24px 0;border-radius:14px;overflow:hidden;border:1px solid var(--grey);}
+  .comparison-table th{background:var(--navy);color:white;padding:12px 16px;font-size:13px;font-weight:700;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;}
+  .comparison-table td{padding:12px 16px;font-size:14px;color:var(--navy);border-bottom:1px solid var(--grey);background:white;}
+  .comparison-table tr:last-child td{border-bottom:none;}
+  .comparison-table tr:hover td{background:var(--teal-glow);}
+  .check{color:var(--green);font-weight:700;}
+  .cross{color:var(--coral);font-weight:700;}
+
+  /* Image within article */
+  .article-img-block{margin:28px 0;border-radius:14px;overflow:hidden;background:var(--grey-light);padding:24px;text-align:center;}
+  .article-img-block .img-placeholder{width:100%;height:220px;background:linear-gradient(135deg,#e0f2f1,#b2dfdb);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:64px;margin-bottom:10px;}
+  .article-img-block .img-caption{font-size:13px;color:var(--grey-mid);font-style:italic;}
+
+  /* ═══ INLINE PRODUCT CARDS ═══ */
+  .product-embed{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:20px;margin:24px 0;display:flex;gap:16px;align-items:center;transition:all .25s;}
+  .product-embed:hover{border-color:var(--teal);box-shadow:0 8px 28px rgba(0,0,0,0.04);}
+  .pe-img{width:80px;height:80px;background:var(--grey-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;}
+  .pe-info{flex:1;min-width:0;}
+  .pe-brand{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--teal);}
+  .pe-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);margin:2px 0;}
+  .pe-desc{font-size:13px;color:var(--grey-mid);line-height:1.4;}
+  .pe-right{text-align:right;flex-shrink:0;}
+  .pe-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);}
+  .pe-unit{font-size:11px;color:var(--grey-mid);}
+  .pe-btn{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:8px 16px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all var(--transition);}
+  .pe-btn:hover{background:var(--navy);}
+  .pe-btn i{width:13px;height:13px;}
+
+  /* ═══ SHARE & TAGS ═══ */
+  .article-bottom{padding-top:32px;border-top:1px solid var(--grey);margin-top:36px;}
+  .article-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .art-tag{padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--grey-dark);background:var(--grey-light);border:1px solid var(--grey);text-decoration:none;transition:all var(--transition);}
+  .art-tag:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow);}
+  .share-row{display:flex;align-items:center;gap:12px;}
+  .share-label{font-size:14px;font-weight:700;color:var(--navy);}
+  .share-btn{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--grey);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);}
+  .share-btn:hover{border-color:var(--teal);background:var(--teal-glow);color:var(--teal);}
+  .share-btn i{width:17px;height:17px;color:var(--navy);}
+  .share-btn:hover i{color:var(--teal);}
+
+  /* ═══ AUTHOR BOX ═══ */
+  .author-box{background:white;border:1px solid var(--grey);border-radius:16px;padding:24px;margin-top:28px;display:flex;gap:16px;align-items:center;}
+  .author-avatar{width:56px;height:56px;background:linear-gradient(135deg,var(--teal),var(--teal-light));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;flex-shrink:0;}
+  .author-info{flex:1;}
+  .author-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);}
+  .author-role{font-size:13px;color:var(--grey-mid);}
+  .author-desc{font-size:13px;color:var(--grey-dark);line-height:1.5;margin-top:4px;}
+
+  /* ═══ SIDEBAR ═══ */
+  .article-sidebar{display:flex;flex-direction:column;gap:20px;}
+
+  /* TOC */
+  .toc-card{background:white;border:1px solid var(--grey);border-radius:16px;padding:24px;position:sticky;top:140px;}
+  .toc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .toc-title i{width:16px;height:16px;color:var(--teal);}
+  .toc-list{list-style:none;display:flex;flex-direction:column;gap:2px;}
+  .toc-link{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius-sm);font-size:13px;color:var(--grey-dark);text-decoration:none;transition:all 0.12s;border-left:2px solid transparent;}
+  .toc-link:hover{background:var(--teal-glow);color:var(--teal);border-left-color:var(--teal);}
+  .toc-link.active{background:var(--teal-glow);color:var(--teal);font-weight:700;border-left-color:var(--teal);}
+  .toc-link i{width:4px;height:4px;background:var(--grey-mid);border-radius:50%;flex-shrink:0;}
+  .toc-link.active i,.toc-link:hover i{background:var(--teal);}
+
+  /* Related products sidebar */
+  .sidebar-card{background:white;border:1px solid var(--grey);border-radius:16px;padding:20px;}
+  .sidebar-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .sidebar-title i{width:16px;height:16px;color:var(--teal);}
+
+  .sp-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--grey);align-items:center;text-decoration:none;color:inherit;transition:opacity 0.15s;}
+  .sp-item:last-child{border-bottom:none;}
+  .sp-item:hover{opacity:0.8;}
+  .sp-img{width:52px;height:52px;background:var(--grey-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+  .sp-info{flex:1;min-width:0;}
+  .sp-brand{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--teal);}
+  .sp-name{font-size:13px;font-weight:600;color:var(--navy);line-height:1.3;}
+  .sp-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--navy);flex-shrink:0;}
+
+  /* CTA card */
+  .cta-card{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:24px;text-align:center;position:relative;overflow:hidden;}
+  .cta-card::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(0,137,123,0.12),transparent 70%);border-radius:50%;}
+  .cta-card h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:white;margin-bottom:6px;position:relative;}
+  .cta-card p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;margin-bottom:16px;position:relative;}
+  .cta-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 22px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--transition);text-decoration:none;position:relative;}
+  .cta-btn:hover{background:var(--teal-light);}
+  .cta-btn i{width:16px;height:16px;}
+
+  /* ═══ RELATED ARTICLES ═══ */
+  .related-section{margin-top:48px;padding-top:40px;border-top:1px solid var(--grey);}
+  .related-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .related-title i{width:22px;height:22px;color:var(--teal);}
+  .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+
+  .rel-card{background:white;border:1px solid var(--grey);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;transition:all .25s;display:flex;flex-direction:column;}
+  .rel-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.05);border-color:transparent;}
+  .rel-img{height:160px;display:flex;align-items:center;justify-content:center;font-size:44px;}
+  .rel-img.teal{background:linear-gradient(135deg,#e0f2f1,#b2dfdb);}
+  .rel-img.blue{background:linear-gradient(135deg,#e3f2fd,#bbdefb);}
+  .rel-img.amber{background:linear-gradient(135deg,#fff8e1,#ffecb3);}
+  .rel-body{padding:18px;flex:1;display:flex;flex-direction:column;}
+  .rel-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--teal);margin-bottom:4px;}
+  .rel-card h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);line-height:1.35;margin-bottom:8px;}
+  .rel-meta{display:flex;gap:12px;font-size:12px;color:var(--grey-mid);margin-top:auto;padding-top:12px;border-top:1px solid var(--grey);}
+  .rel-meta span{display:flex;align-items:center;gap:4px;}
+  .rel-meta i{width:12px;height:12px;}
+
+  /* ═══ NAV PREV/NEXT ═══ */
+  .article-nav{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px;}
+  .art-nav-link{display:flex;align-items:center;gap:12px;padding:16px 20px;background:white;border:1px solid var(--grey);border-radius:14px;text-decoration:none;color:inherit;transition:all .2s;}
+  .art-nav-link:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(0,0,0,0.04);}
+  .art-nav-link.next{text-align:right;flex-direction:row-reverse;}
+  .art-nav-icon{width:40px;height:40px;border-radius:10px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .art-nav-icon i{width:18px;height:18px;color:var(--grey-mid);}
+  .art-nav-link:hover .art-nav-icon{background:var(--teal-glow);}
+  .art-nav-link:hover .art-nav-icon i{color:var(--teal);}
+  .art-nav-label{font-size:11px;color:var(--grey-mid);font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+  .art-nav-title{font-size:14px;font-weight:700;color:var(--navy);line-height:1.3;}
+
+  /* ═══ FOOTER ═══ */
+  .footer{background:var(--navy);color:rgba(255,255,255,0.5);padding:64px 0 0;margin-top:48px;}
+  .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.06);}
+  .footer-brand .logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;margin-bottom:12px;color:white;}
+  .footer-brand .logo-text em{color:var(--teal-light);font-style:normal;}
+  .footer-brand p{font-size:14px;line-height:1.6;margin-bottom:16px;}
+  .footer h4{color:white;font-size:14px;font-weight:700;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;}
+  .footer-links{list-style:none;}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:14px;}
+  .footer-links a:hover{color:var(--teal-light);}
+  .footer-bottom{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+  .footer-badges{display:flex;gap:8px;}
+  .payment-badge{background:rgba(255,255,255,0.06);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;}
+
+  @media(max-width:900px){
+    .article-layout{grid-template-columns:1fr;}
+    .article-sidebar{order:-1;}
+    .toc-card{position:static;}
+    .related-grid{grid-template-columns:1fr 1fr;}
+    .article-title{font-size:26px;}
+    .article-hero-img{height:240px;}
+    .topbar-left{display:none;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .article-nav{grid-template-columns:1fr;}
+  }
+  @media(max-width:640px){
+    .related-grid{grid-template-columns:1fr;}
+    .article-hero-img{height:180px;font-size:64px;}
+    .header .container{gap:16px;}
+    .product-embed{flex-direction:column;text-align:center;}
+    .pe-right{text-align:center;}
+    .footer-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar"><div class="container"><div class="topbar-left"><span><i data-lucide="badge-check"></i> Voordelige B2B prijzen</span><span><i data-lucide="truck"></i> Gratis verzending vanaf €150</span><span><i data-lucide="clock"></i> Voor 16:00 besteld, morgen in huis</span></div><div class="topbar-right"><a href="#">Inloggen</a><a href="#">B2B portaal</a></div></div></div>
+
+<!-- HEADER -->
+<header class="header"><div class="container">
+  <a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a>
+  <div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek op product, merk of artikelnummer…"><div class="search-icon-left"><i data-lucide="search"></i></div></div>
+  <div class="header-actions">
+    <button class="h-btn h-btn-icon"><i data-lucide="clipboard-list"></i></button>
+    <button class="h-btn h-btn-icon"><i data-lucide="user"></i></button>
+    <button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">3</span></button>
+  </div>
+</div></header>
+
+<!-- NAV -->
+<nav class="nav-bar"><div class="container">
+  <a href="#" class="nav-link menu-trigger"><i data-lucide="menu"></i> Menu</a>
+  <a href="#" class="nav-link"><i data-lucide="award"></i> Merken</a>
+  <a href="#" class="nav-link"><i data-lucide="building-2"></i> Branches</a>
+  <a href="#" class="nav-link"><i data-lucide="user-plus"></i> Klant worden</a>
+  <div class="nav-spacer"></div>
+  <div class="nav-contact">
+    <a href="mailto:info@plastimed.nl"><i data-lucide="mail"></i> info@plastimed.nl</a>
+    <div class="nav-contact-sep"></div>
+    <a href="tel:0251247233"><i data-lucide="phone"></i> 0251‑247233</a>
+  </div>
+</div></nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb">
+  <li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li>
+  <li><a href="#">Kennisbank</a></li><li class="sep"><i data-lucide="chevron-right"></i></li>
+  <li class="current">Medische handschoenen kiezen</li>
+</ol></div></div>
+
+<div class="container">
+<div class="article-layout">
+
+  <!-- ═══ MAIN ARTICLE ═══ -->
+  <main>
+    <!-- Hero image -->
+    <div class="article-hero-img">
+      <span class="article-hero-tag"><i data-lucide="book-open"></i> Handleiding</span>
+      🧤
+    </div>
+
+    <!-- Meta -->
+    <div class="article-meta-bar">
+      <span class="article-cat-badge"><i data-lucide="book-open"></i> Handleiding</span>
+      <span class="meta-item"><i data-lucide="calendar"></i> 14 februari 2026</span>
+      <span class="meta-sep"></span>
+      <span class="meta-item"><i data-lucide="clock"></i> 8 min leestijd</span>
+      <span class="meta-sep"></span>
+      <span class="meta-item"><i data-lucide="eye"></i> 1.247 keer bekeken</span>
+    </div>
+
+    <h1 class="article-title">De complete gids voor het kiezen van medische handschoenen</h1>
+    <p class="article-intro">Nitrile, latex of vinyl? Gepoederd of poedervrij? Steriel of niet-steriel? In deze uitgebreide gids helpen we u bij het kiezen van de juiste handschoenen voor uw praktijk — afgestemd op materiaal, allergierisico's, comfort en toepassing.</p>
+
+    <!-- CONTENT -->
+    <div class="article-content">
+
+      <h2 id="sec-waarom">Waarom de juiste handschoen ertoe doet</h2>
+      <p>Medische handschoenen zijn een essentieel onderdeel van persoonlijke beschermingsmiddelen (PBM) in elke zorgsetting. Ze beschermen zowel de zorgverlener als de patiënt tegen kruisbesmetting. Toch wordt de keuze voor het juiste type handschoen vaak onderschat.</p>
+      <p>Een verkeerde keuze kan leiden tot <strong>allergische reacties</strong>, verminderde <strong>tastzin</strong>, of onvoldoende <strong>bescherming</strong> bij specifieke procedures. In deze gids bespreken we de drie meest voorkomende materialen en helpen we u de beste keuze te maken.</p>
+
+      <h2 id="sec-materialen">De drie materialen vergeleken</h2>
+
+      <h3 id="sec-nitrile">Nitrile handschoenen</h3>
+      <p>Nitrile is het meest populaire materiaal in de medische sector. Het biedt een uitstekende barrièrebescherming, is <strong>latexvrij</strong> (geen allergierisico) en beschikbaar in diverse diktes voor verschillende toepassingen.</p>
+
+      <div class="info-box">
+        <div class="info-box-icon"><i data-lucide="lightbulb"></i></div>
+        <div class="info-box-content">
+          <div class="info-box-title">Wist u dat?</div>
+          <div class="info-box-text">Nitrile handschoenen worden gemaakt van synthetisch rubber. Ze bieden 3x betere chemische bestendigheid dan latex en zijn geschikt voor patiënten met latexallergie.</div>
+        </div>
+      </div>
+
+      <!-- Product embed -->
+      <div class="product-embed">
+        <div class="pe-img">🧤</div>
+        <div class="pe-info">
+          <div class="pe-brand">Hartmann</div>
+          <div class="pe-name">Peha-soft Nitrile Fino — Doos 150 st.</div>
+          <div class="pe-desc">Extra dun, uitstekend tastgevoel. Poedervrij en latexvrij.</div>
+        </div>
+        <div class="pe-right">
+          <div class="pe-price">€8,95</div>
+          <div class="pe-unit">per doos</div>
+          <button class="pe-btn"><i data-lucide="shopping-cart"></i> Bestellen</button>
+        </div>
+      </div>
+
+      <h3 id="sec-latex">Latex handschoenen</h3>
+      <p>Latex biedt het beste <strong>draagcomfort en tastgevoel</strong>. Het materiaal past zich perfect aan de hand aan en is zeer elastisch. Het nadeel: een deel van de bevolking (6-8%) heeft een latexallergie.</p>
+
+      <div class="warning-box">
+        <div class="info-box-icon"><i data-lucide="alert-triangle"></i></div>
+        <div class="info-box-content">
+          <div class="info-box-title">Let op: latexallergie</div>
+          <div class="info-box-text">Informeer altijd naar mogelijke latexallergie bij patiënten. Houd nitrile handschoenen als alternatief beschikbaar. Bij herhaalde blootstelling kan ook de zorgverlener een allergie ontwikkelen.</div>
+        </div>
+      </div>
+
+      <h3 id="sec-vinyl">Vinyl handschoenen</h3>
+      <p>Vinyl is de meest <strong>voordelige optie</strong> en geschikt voor kortstondig gebruik met laag risico. Denk aan voedselbereiding, schoonmaakwerkzaamheden of korte patiëntcontacten. Vinyl biedt minder bescherming dan nitrile of latex.</p>
+
+      <h2 id="sec-vergelijking">Vergelijkingstabel</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Eigenschap</th><th>Nitrile</th><th>Latex</th><th>Vinyl</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Allergievrij</td><td class="check">✓</td><td class="cross">✗</td><td class="check">✓</td></tr>
+          <tr><td>Tastgevoel</td><td>Goed</td><td><strong>Uitstekend</strong></td><td>Matig</td></tr>
+          <tr><td>Chemische bestendigheid</td><td><strong>Uitstekend</strong></td><td>Goed</td><td>Beperkt</td></tr>
+          <tr><td>Scheurbestendigheid</td><td><strong>Hoog</strong></td><td>Hoog</td><td>Laag</td></tr>
+          <tr><td>Pasvorm</td><td>Goed</td><td><strong>Uitstekend</strong></td><td>Matig</td></tr>
+          <tr><td>Prijs</td><td>Midden</td><td>Midden-hoog</td><td><strong>Laag</strong></td></tr>
+          <tr><td>Aanbevolen voor</td><td>Algemeen medisch</td><td>Chirurgie</td><td>Laag risico</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="sec-kiezen">Hoe kiest u de juiste maat?</h2>
+      <p>Een goed passende handschoen is essentieel voor veiligheid en comfort. Meet de omtrek van uw hand (zonder duim) ter hoogte van de knokkels.</p>
+      <ul>
+        <li><strong>Maat S:</strong> handomtrek 17-18 cm</li>
+        <li><strong>Maat M:</strong> handomtrek 19-20 cm</li>
+        <li><strong>Maat L:</strong> handomtrek 21-22 cm</li>
+        <li><strong>Maat XL:</strong> handomtrek 23+ cm</li>
+      </ul>
+
+      <div class="article-img-block">
+        <div class="img-placeholder">📏🖐️</div>
+        <div class="img-caption">Figuur 1 — Meet de omtrek van uw hand ter hoogte van de knokkels.</div>
+      </div>
+
+      <h2 id="sec-staffel">Staffelprijzen en bulkvoordeel</h2>
+      <p>Bij Plastimed profiteert u van <strong>aantrekkelijke staffelprijzen</strong> bij grotere afnames. Hoe meer u bestelt, hoe voordeliger de stuksprijs. Ideaal voor praktijken die wekelijks handschoenen gebruiken.</p>
+
+      <div class="product-embed">
+        <div class="pe-img">🧤</div>
+        <div class="pe-info">
+          <div class="pe-brand">Hartmann</div>
+          <div class="pe-name">Peha-soft Nitrile Guard — Doos 180 st.</div>
+          <div class="pe-desc">Steviger variant voor intensief gebruik. AQL 1.5.</div>
+        </div>
+        <div class="pe-right">
+          <div class="pe-price">€9,75</div>
+          <div class="pe-unit">vanaf 10 dozen: €8,50</div>
+          <button class="pe-btn"><i data-lucide="shopping-cart"></i> Bestellen</button>
+        </div>
+      </div>
+
+      <h2 id="sec-conclusie">Conclusie</h2>
+      <p>Voor de meeste medische toepassingen is <strong>nitrile</strong> de beste alleskunner: allergievrij, chemisch bestendig en beschikbaar in elke dikte. Kiest u voor maximaal comfort bij chirurgische ingrepen? Dan blijft <strong>latex</strong> de gouden standaard (mits er geen allergie speelt). <strong>Vinyl</strong> is geschikt voor kort, laagrisico gebruik.</p>
+      <p>Twijfelt u nog? Neem gerust <a href="#">contact</a> op met ons team — wij helpen u graag bij het samenstellen van het juiste assortiment voor uw praktijk.</p>
+    </div>
+
+    <!-- Tags & Share -->
+    <div class="article-bottom">
+      <div class="article-tags">
+        <a href="#" class="art-tag">Handschoenen</a>
+        <a href="#" class="art-tag">Nitrile</a>
+        <a href="#" class="art-tag">Handleiding</a>
+        <a href="#" class="art-tag">Hygiëne</a>
+        <a href="#" class="art-tag">PBM</a>
+      </div>
+      <div class="share-row">
+        <span class="share-label">Delen:</span>
+        <button class="share-btn" title="LinkedIn"><i data-lucide="linkedin"></i></button>
+        <button class="share-btn" title="E-mail"><i data-lucide="mail"></i></button>
+        <button class="share-btn" title="Link kopiëren"><i data-lucide="link"></i></button>
+        <button class="share-btn" title="Printen"><i data-lucide="printer"></i></button>
+      </div>
+    </div>
+
+    <!-- Author -->
+    <div class="author-box">
+      <div class="author-avatar">PR</div>
+      <div class="author-info">
+        <div class="author-name">Plastimed Redactie</div>
+        <div class="author-role">Kennisbank team</div>
+        <div class="author-desc">Ons redactieteam bestaat uit productspecialisten en zorgprofessionals die praktische kennis delen over medische supplies.</div>
+      </div>
+    </div>
+
+    <!-- Prev/Next -->
+    <div class="article-nav">
+      <a href="#" class="art-nav-link prev">
+        <div class="art-nav-icon"><i data-lucide="arrow-left"></i></div>
+        <div><div class="art-nav-label">Vorig artikel</div><div class="art-nav-title">5 tips voor betere handhygiëne</div></div>
+      </a>
+      <a href="#" class="art-nav-link next">
+        <div class="art-nav-icon"><i data-lucide="arrow-right"></i></div>
+        <div><div class="art-nav-label">Volgend artikel</div><div class="art-nav-title">Zo kiest u de juiste stethoscoop</div></div>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="article-sidebar">
+
+    <!-- Table of contents -->
+    <div class="toc-card">
+      <div class="toc-title"><i data-lucide="list"></i> Inhoud</div>
+      <ul class="toc-list">
+        <li><a href="#sec-waarom" class="toc-link active"><i></i> Waarom de juiste handschoen ertoe doet</a></li>
+        <li><a href="#sec-materialen" class="toc-link"><i></i> De drie materialen vergeleken</a></li>
+        <li><a href="#sec-nitrile" class="toc-link" style="padding-left:24px;font-size:12px;"><i></i> Nitrile handschoenen</a></li>
+        <li><a href="#sec-latex" class="toc-link" style="padding-left:24px;font-size:12px;"><i></i> Latex handschoenen</a></li>
+        <li><a href="#sec-vinyl" class="toc-link" style="padding-left:24px;font-size:12px;"><i></i> Vinyl handschoenen</a></li>
+        <li><a href="#sec-vergelijking" class="toc-link"><i></i> Vergelijkingstabel</a></li>
+        <li><a href="#sec-kiezen" class="toc-link"><i></i> Hoe kiest u de juiste maat?</a></li>
+        <li><a href="#sec-staffel" class="toc-link"><i></i> Staffelprijzen en bulkvoordeel</a></li>
+        <li><a href="#sec-conclusie" class="toc-link"><i></i> Conclusie</a></li>
+      </ul>
+    </div>
+
+    <!-- Related products -->
+    <div class="sidebar-card">
+      <div class="sidebar-title"><i data-lucide="package"></i> Producten in dit artikel</div>
+      <a href="#" class="sp-item"><div class="sp-img">🧤</div><div class="sp-info"><div class="sp-brand">Hartmann</div><div class="sp-name">Peha-soft Nitrile Fino</div></div><div class="sp-price">€8,95</div></a>
+      <a href="#" class="sp-item"><div class="sp-img">🧤</div><div class="sp-info"><div class="sp-brand">Hartmann</div><div class="sp-name">Peha-soft Nitrile Guard</div></div><div class="sp-price">€9,75</div></a>
+      <a href="#" class="sp-item"><div class="sp-img">🧤</div><div class="sp-info"><div class="sp-brand">Ansell</div><div class="sp-name">Micro-Touch Nitrile</div></div><div class="sp-price">€11,25</div></a>
+      <a href="#" class="sp-item"><div class="sp-img">🧴</div><div class="sp-info"><div class="sp-brand">Hartmann</div><div class="sp-name">Baktolan Protect+ Handcrème</div></div><div class="sp-price">€5,95</div></a>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-card">
+      <h4>Hulp nodig bij kiezen?</h4>
+      <p>Onze productspecialisten helpen u graag bij het samenstellen van het juiste assortiment.</p>
+      <a href="#" class="cta-btn"><i data-lucide="phone"></i> Neem contact op</a>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- Related articles -->
+<div class="related-section">
+  <h2 class="related-title"><i data-lucide="newspaper"></i> Gerelateerde artikelen</h2>
+  <div class="related-grid">
+    <a href="#" class="rel-card">
+      <div class="rel-img teal">🩺</div>
+      <div class="rel-body">
+        <div class="rel-cat">Diagnostiek</div>
+        <h4>Zo kiest u de juiste stethoscoop voor uw specialisme</h4>
+        <div class="rel-meta"><span><i data-lucide="calendar"></i> 10 feb</span><span><i data-lucide="clock"></i> 6 min</span></div>
+      </div>
+    </a>
+    <a href="#" class="rel-card">
+      <div class="rel-img blue">🧴</div>
+      <div class="rel-body">
+        <div class="rel-cat">Hygiëne</div>
+        <h4>5 tips voor betere handhygiëne in de huisartsenpraktijk</h4>
+        <div class="rel-meta"><span><i data-lucide="calendar"></i> 3 feb</span><span><i data-lucide="clock"></i> 4 min</span></div>
+      </div>
+    </a>
+    <a href="#" class="rel-card">
+      <div class="rel-img amber">🩹</div>
+      <div class="rel-body">
+        <div class="rel-cat">Tips & tricks</div>
+        <h4>EHBO-koffer op orde? Controleer deze 10 punten</h4>
+        <div class="rel-meta"><span><i data-lucide="calendar"></i> 15 jan</span><span><i data-lucide="clock"></i> 4 min</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo-text">plasti<em>med</em></div><p>Sinds 1994 leverancier van professionele medische producten.</p></div>
+    <div><h4>Categorieën</h4><ul class="footer-links"><li><a href="#">Diagnostiek</a></li><li><a href="#">EHBO</a></li><li><a href="#">Handschoenen</a></li><li><a href="#">Verbandmiddelen</a></li></ul></div>
+    <div><h4>Klantenservice</h4><ul class="footer-links"><li><a href="#">Veelgestelde vragen</a></li><li><a href="#">Verzending & retour</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><h4>Over Plastimed</h4><ul class="footer-links"><li><a href="#">Over ons</a></li><li><a href="#">Kennisbank</a></li><li><a href="#">Privacybeleid</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div>© 2026 Plastimed B.V. — Alle rechten voorbehouden</div><div class="footer-badges"><span class="payment-badge">iDEAL</span><span class="payment-badge">Op rekening</span><span class="payment-badge">VISA</span><span class="payment-badge">Mastercard</span></div></div>
+</div></footer>
+
+<script>
+  lucide.createIcons();
+
+  // Simple TOC highlight on scroll
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = [];
+  tocLinks.forEach(link => {
+    const id = link.getAttribute('href')?.replace('#','');
+    const el = id ? document.getElementById(id) : null;
+    if (el) sections.push({ el, link });
+  });
+  window.addEventListener('scroll', () => {
+    let current = sections[0];
+    sections.forEach(s => { if (s.el.getBoundingClientRect().top < 180) current = s; });
+    tocLinks.forEach(l => l.classList.remove('active'));
+    if (current) current.link.classList.add('active');
+  }, { passive: true });
+</script>
+</body>
+</html>

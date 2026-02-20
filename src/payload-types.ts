@@ -2097,15 +2097,42 @@ export interface MapBlock {
 export interface BlogPost {
   id: number;
   title: string;
+  /**
+   * Gebruikt in URL: /blog/{categorie}/{slug}
+   */
   slug: string;
   /**
-   * Korte samenvatting (max 160 tekens)
+   * Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph
    */
   excerpt: string;
   /**
-   * Aanbevolen: voeg een afbeelding toe vóór publicatie
+   * Grote afbeelding bovenaan artikel (360px hoog)
    */
   featuredImage?: (number | null) | Media;
+  /**
+   * Als er geen afbeelding is: toon een emoji als placeholder (bijv: 🧤)
+   */
+  featuredImageEmoji?: string | null;
+  /**
+   * Selecteer 1 of meer categorieën. Eerste categorie wordt gebruikt in URL.
+   */
+  categories: (number | BlogCategory)[];
+  /**
+   * Badge getoond op hero image (top-left)
+   */
+  featuredTag?: ('none' | 'guide' | 'new' | 'featured' | 'tip' | 'news') | null;
+  /**
+   * Zoektermen en onderwerpen (getoond onderaan artikel)
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links)
+   */
   content: {
     root: {
       type: string;
@@ -2121,8 +2148,68 @@ export interface BlogPost {
     };
     [k: string]: unknown;
   };
+  /**
+   * Wordt getoond in author box
+   */
   author?: (number | null) | User;
-  categories?: (number | BlogCategory)[] | null;
+  /**
+   * Optioneel: overschrijf auteur bio voor dit artikel
+   */
+  authorBio?: string | null;
+  /**
+   * Automatisch berekend, maar kan handmatig overschreven worden
+   */
+  readingTime?: number | null;
+  /**
+   * Wordt automatisch bijgewerkt bij elke page view
+   */
+  viewCount?: number | null;
+  /**
+   * Toon als grote featured card bovenaan blog archive
+   */
+  featured?: boolean | null;
+  /**
+   * Layout template voor dit artikel
+   */
+  template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
+  /**
+   * Producten genoemd in artikel (getoond in sidebar + inline embeds)
+   */
+  relatedProducts?: (number | Product)[] | null;
+  /**
+   * Handmatig geselecteerde gerelateerde artikelen (max 3)
+   */
+  relatedPosts?: (number | BlogPost)[] | null;
+  /**
+   * Optioneel: overschrijf page title voor SEO (max 60 tekens)
+   */
+  metaTitle?: string | null;
+  /**
+   * Optioneel: overschrijf excerpt voor SEO (max 160 tekens)
+   */
+  metaDescription?: string | null;
+  /**
+   * Optioneel: voeg FAQ toe voor Google rich snippets
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Toon automatische inhoudsopgave in sidebar (Template 1)
+   */
+  enableTOC?: boolean | null;
+  /**
+   * Toon LinkedIn, Email, Link, Print buttons onderaan artikel
+   */
+  enableShare?: boolean | null;
+  /**
+   * Toon comment sectie onderaan artikel (toekomstige feature)
+   */
+  enableComments?: boolean | null;
   publishedAt?: string | null;
   status?: ('published' | 'draft') | null;
   meta?: {
@@ -2161,21 +2248,48 @@ export interface BlogCategory {
   id: number;
   name: string;
   /**
-   * Auto-gegenereerd uit categorie naam
+   * Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}
    */
   slug: string;
   /**
-   * Korte beschrijving van deze categorie (optioneel)
+   * Optioneel: maak dit een subcategorie van een andere categorie (hierarchisch)
+   */
+  parent?: (number | null) | BlogCategory;
+  /**
+   * Korte beschrijving van deze categorie (optioneel, gebruikt in SEO)
    */
   description?: string | null;
   /**
-   * Kleur voor categorie badge
+   * Lucide icon voor categorie badges en chips
    */
-  color?: ('blue' | 'green' | 'red' | 'purple' | 'orange' | 'pink' | 'gray') | null;
+  icon?:
+    | (
+        | 'BookOpen'
+        | 'Lightbulb'
+        | 'Sparkles'
+        | 'Stethoscope'
+        | 'ShieldCheck'
+        | 'Newspaper'
+        | 'GraduationCap'
+        | 'Microscope'
+        | 'Settings'
+        | 'TrendingUp'
+        | 'Target'
+        | 'Wrench'
+      )
+    | null;
   /**
-   * Optionele afbeelding voor categorie overzicht
+   * Kleur voor categorie badges en article cards (gebruikt CSS custom properties)
+   */
+  color?: ('teal' | 'blue' | 'green' | 'coral' | 'purple' | 'amber' | 'pink') | null;
+  /**
+   * Optionele header afbeelding voor categorie overzichtspagina
    */
   image?: (number | null) | Media;
+  /**
+   * Sorteervolgorde (lager = eerder)
+   */
+  displayOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -3503,9 +3617,36 @@ export interface BlogPostsSelect<T extends boolean = true> {
   slug?: T;
   excerpt?: T;
   featuredImage?: T;
+  featuredImageEmoji?: T;
+  categories?: T;
+  featuredTag?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
   content?: T;
   author?: T;
-  categories?: T;
+  authorBio?: T;
+  readingTime?: T;
+  viewCount?: T;
+  featured?: T;
+  template?: T;
+  relatedProducts?: T;
+  relatedPosts?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  enableTOC?: T;
+  enableShare?: T;
+  enableComments?: T;
   publishedAt?: T;
   status?: T;
   meta?:
@@ -3530,9 +3671,12 @@ export interface BlogPostsSelect<T extends boolean = true> {
 export interface BlogCategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  parent?: T;
   description?: T;
+  icon?: T;
   color?: T;
   image?: T;
+  displayOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

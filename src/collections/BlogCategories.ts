@@ -41,7 +41,7 @@ export const BlogCategories: CollectionConfig = {
       required: true,
       label: 'Categorie Naam',
       admin: {
-        placeholder: 'Bijv: Nieuws, Tips, Tutorials',
+        placeholder: 'Bijv: Handleidingen, Tips & tricks, Productnieuws',
       },
     },
     {
@@ -51,7 +51,16 @@ export const BlogCategories: CollectionConfig = {
       unique: true,
       label: 'URL Slug',
       admin: {
-        description: 'Auto-gegenereerd uit categorie naam',
+        description: 'Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}',
+      },
+    },
+    {
+      name: 'parent',
+      type: 'relationship',
+      relationTo: 'blog-categories',
+      label: 'Bovenliggende Categorie',
+      admin: {
+        description: 'Optioneel: maak dit een subcategorie van een andere categorie (hierarchisch)',
       },
     },
     {
@@ -59,26 +68,49 @@ export const BlogCategories: CollectionConfig = {
       type: 'textarea',
       label: 'Beschrijving',
       admin: {
-        description: 'Korte beschrijving van deze categorie (optioneel)',
+        description: 'Korte beschrijving van deze categorie (optioneel, gebruikt in SEO)',
         rows: 3,
+      },
+    },
+    {
+      name: 'icon',
+      type: 'select',
+      label: 'Icon',
+      defaultValue: 'BookOpen',
+      options: [
+        { label: '📖 Book Open (Handleidingen)', value: 'BookOpen' },
+        { label: '💡 Lightbulb (Tips & tricks)', value: 'Lightbulb' },
+        { label: '✨ Sparkles (Productnieuws)', value: 'Sparkles' },
+        { label: '🩺 Stethoscope (Praktijkinrichting)', value: 'Stethoscope' },
+        { label: '🛡️ Shield Check (Hygiëne & veiligheid)', value: 'ShieldCheck' },
+        { label: '📰 Newspaper (Nieuws)', value: 'Newspaper' },
+        { label: '🎓 GraduationCap (Educatie)', value: 'GraduationCap' },
+        { label: '🔬 Microscope (Onderzoek)', value: 'Microscope' },
+        { label: '⚙️ Settings (Techniek)', value: 'Settings' },
+        { label: '📊 TrendingUp (Trends)', value: 'TrendingUp' },
+        { label: '🎯 Target (Tips)', value: 'Target' },
+        { label: '🔧 Wrench (Onderhoud)', value: 'Wrench' },
+      ],
+      admin: {
+        description: 'Lucide icon voor categorie badges en chips',
       },
     },
     {
       name: 'color',
       type: 'select',
       label: 'Kleur',
-      defaultValue: 'blue',
+      defaultValue: 'teal',
       options: [
-        { label: 'Blauw', value: 'blue' },
-        { label: 'Groen', value: 'green' },
-        { label: 'Rood', value: 'red' },
-        { label: 'Paars', value: 'purple' },
-        { label: 'Oranje', value: 'orange' },
-        { label: 'Roze', value: 'pink' },
-        { label: 'Grijs', value: 'gray' },
+        { label: '🟦 Teal (Standaard)', value: 'teal' },
+        { label: '🔵 Blue', value: 'blue' },
+        { label: '🟢 Green', value: 'green' },
+        { label: '🔴 Coral (Rood)', value: 'coral' },
+        { label: '🟣 Purple', value: 'purple' },
+        { label: '🟠 Amber (Oranje)', value: 'amber' },
+        { label: '🌸 Pink', value: 'pink' },
       ],
       admin: {
-        description: 'Kleur voor categorie badge',
+        description: 'Kleur voor categorie badges en article cards (gebruikt CSS custom properties)',
       },
     },
     {
@@ -87,7 +119,16 @@ export const BlogCategories: CollectionConfig = {
       relationTo: 'media',
       label: 'Categorie Afbeelding',
       admin: {
-        description: 'Optionele afbeelding voor categorie overzicht',
+        description: 'Optionele header afbeelding voor categorie overzichtspagina',
+      },
+    },
+    {
+      name: 'displayOrder',
+      type: 'number',
+      label: 'Volgorde',
+      defaultValue: 0,
+      admin: {
+        description: 'Sorteervolgorde (lager = eerder)',
       },
     },
   ],
