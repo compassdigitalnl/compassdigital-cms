@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merken — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{display:flex;align-items:center;text-decoration:none;}.logo img{height:36px;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);transition:all var(--transition);outline:none;}.search-field::placeholder{color:var(--grey-mid);}.search-icon-left{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon-left i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  .nav-bar{background:white;border-bottom:1px solid var(--grey);position:sticky;top:72px;z-index:190;}.nav-bar .container{display:flex;align-items:stretch;height:48px;}.nav-link{display:flex;align-items:center;gap:7px;padding:0 18px;font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;white-space:nowrap;transition:all var(--transition);border-bottom:2px solid transparent;}.nav-link i{width:16px;height:16px;}.nav-link:hover{color:var(--teal);border-bottom-color:var(--teal);}.nav-link.menu-trigger{background:var(--navy);color:white;padding:0 20px;gap:8px;border-bottom:2px solid var(--navy);font-weight:700;margin-right:4px;}.nav-link.menu-trigger i{color:white;}.nav-spacer{flex:1;}.nav-contact{display:flex;align-items:center;gap:20px;}.nav-contact a{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--grey-dark);text-decoration:none;}.nav-contact a i{width:15px;height:15px;color:var(--teal);}.nav-contact-sep{width:1px;height:16px;background:var(--grey);}
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  .page-hero{margin-bottom:28px;}
+  .page-hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+  .page-hero p{font-size:15px;color:var(--grey-dark);max-width:600px;}
+
+  /* Search + stats */
+  .brand-toolbar{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+  .brand-search{position:relative;flex:1;min-width:260px;max-width:400px;}
+  .brand-search input{width:100%;height:44px;padding:0 16px 0 44px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);background:white;outline:none;transition:all var(--transition);}
+  .brand-search input:focus{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-glow);}
+  .brand-search input::placeholder{color:var(--grey-mid);}
+  .brand-search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--grey-mid);}
+  .brand-count{font-size:14px;color:var(--grey-mid);font-weight:600;}
+  .brand-count strong{color:var(--navy);}
+
+  /* Alphabet nav */
+  .alpha-nav{display:flex;gap:2px;flex-wrap:wrap;margin-bottom:24px;padding:12px 16px;background:white;border:1px solid var(--grey);border-radius:var(--radius);position:sticky;top:120px;z-index:100;}
+  .alpha-btn{width:34px;height:34px;border-radius:8px;border:none;background:none;cursor:pointer;font-size:14px;font-weight:700;color:var(--navy);transition:all .12s;font-family:'DM Sans',sans-serif;}
+  .alpha-btn:hover{background:var(--teal-glow);color:var(--teal);}
+  .alpha-btn.active{background:var(--teal);color:white;}
+  .alpha-btn.disabled{color:var(--grey);cursor:default;}
+
+  /* Brand sections */
+  .brand-section{margin-bottom:32px;}
+  .brand-letter{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--teal);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--teal);display:inline-block;}
+  .brand-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .brand-card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 16px;background:white;border:1.5px solid var(--grey);border-radius:14px;text-decoration:none;color:inherit;transition:all .25s;}
+  .brand-card:hover{border-color:var(--teal);transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.05);}
+  .brand-logo{width:80px;height:48px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--navy);background:var(--grey-light);border-radius:8px;}
+  .brand-name{font-size:14px;font-weight:700;color:var(--navy);text-align:center;}
+  .brand-products{font-size:12px;color:var(--grey-mid);}
+
+  /* Featured brands */
+  .featured-brands{margin-bottom:36px;}
+  .featured-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .featured-title i{width:20px;height:20px;color:var(--teal);}
+  .featured-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+  .featured-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px;background:white;border:1.5px solid var(--grey);border-radius:14px;text-decoration:none;color:inherit;transition:all .25s;}
+  .featured-card:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(0,0,0,0.04);}
+  .featured-card .brand-logo{width:100px;height:52px;font-size:18px;}
+  .featured-card .brand-name{font-size:13px;}
+  .featured-card .brand-products{font-size:11px;}
+
+  .footer{background:var(--navy);color:rgba(255,255,255,0.5);padding:64px 0 0;margin-top:48px;}
+  .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.06);}
+  .footer-brand .logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;margin-bottom:12px;color:white;}.footer-brand .logo-text em{color:var(--teal-light);font-style:normal;}.footer-brand p{font-size:14px;line-height:1.6;}
+  .footer h4{color:white;font-size:14px;font-weight:700;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;}.footer-links{list-style:none;}.footer-links li{margin-bottom:10px;}.footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:14px;}.footer-links a:hover{color:var(--teal-light);}.footer-bottom{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+
+  @media(max-width:900px){.brand-grid{grid-template-columns:repeat(3,1fr);}.featured-grid{grid-template-columns:repeat(3,1fr);}.footer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:640px){.brand-grid{grid-template-columns:1fr 1fr;}.featured-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek op product, merk of artikelnummer…"><div class="search-icon-left"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="clipboard-list"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">3</span></button></div></div></header>
+<nav class="nav-bar"><div class="container"><a href="#" class="nav-link menu-trigger"><i data-lucide="menu"></i> Menu</a><a href="#" class="nav-link"><i data-lucide="award"></i> Merken</a><a href="#" class="nav-link"><i data-lucide="building-2"></i> Branches</a><a href="#" class="nav-link"><i data-lucide="user-plus"></i> Klant worden</a><div class="nav-spacer"></div><div class="nav-contact"><a href="mailto:info@plastimed.nl"><i data-lucide="mail"></i> info@plastimed.nl</a><div class="nav-contact-sep"></div><a href="tel:0251247233"><i data-lucide="phone"></i> 0251‑247233</a></div></div></nav>
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Merken</li></ol></div></div>
+
+<div class="container">
+  <div class="page-hero"><h1>Merken</h1><p>Wij werken samen met de beste merken in medische supplies. Ontdek ons volledige aanbod per merk.</p></div>
+
+  <!-- Featured -->
+  <div class="featured-brands">
+    <div class="featured-title"><i data-lucide="star"></i> Populaire merken</div>
+    <div class="featured-grid">
+      <a href="#" class="featured-card"><div class="brand-logo">3M</div><div class="brand-name">3M / Littmann</div><div class="brand-products">142 producten</div></a>
+      <a href="#" class="featured-card"><div class="brand-logo">Hartmann</div><div class="brand-name">Hartmann</div><div class="brand-products">186 producten</div></a>
+      <a href="#" class="featured-card"><div class="brand-logo">BD</div><div class="brand-name">BD (Becton D.)</div><div class="brand-products">94 producten</div></a>
+      <a href="#" class="featured-card"><div class="brand-logo">Ansell</div><div class="brand-name">Ansell</div><div class="brand-products">68 producten</div></a>
+      <a href="#" class="featured-card"><div class="brand-logo">W. Allyn</div><div class="brand-name">Welch Allyn</div><div class="brand-products">56 producten</div></a>
+      <a href="#" class="featured-card"><div class="brand-logo">Braun</div><div class="brand-name">Braun</div><div class="brand-products">38 producten</div></a>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="brand-toolbar">
+    <div class="brand-search"><i data-lucide="search"></i><input type="text" placeholder="Zoek een merk…"></div>
+    <div class="brand-count"><strong>48</strong> merken gevonden</div>
+  </div>
+
+  <!-- Alphabet -->
+  <div class="alpha-nav">
+    <button class="alpha-btn active">A</button><button class="alpha-btn">B</button><button class="alpha-btn disabled">C</button><button class="alpha-btn">D</button><button class="alpha-btn disabled">E</button><button class="alpha-btn disabled">F</button><button class="alpha-btn disabled">G</button><button class="alpha-btn">H</button><button class="alpha-btn disabled">I</button><button class="alpha-btn disabled">J</button><button class="alpha-btn disabled">K</button><button class="alpha-btn">L</button><button class="alpha-btn">M</button><button class="alpha-btn disabled">N</button><button class="alpha-btn disabled">O</button><button class="alpha-btn">P</button><button class="alpha-btn disabled">Q</button><button class="alpha-btn">R</button><button class="alpha-btn">S</button><button class="alpha-btn disabled">T</button><button class="alpha-btn disabled">U</button><button class="alpha-btn disabled">V</button><button class="alpha-btn">W</button><button class="alpha-btn disabled">X</button><button class="alpha-btn disabled">Y</button><button class="alpha-btn disabled">Z</button>
+  </div>
+
+  <!-- Brand sections -->
+  <div class="brand-section"><div class="brand-letter">A</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">Abena</div><div class="brand-name">Abena</div><div class="brand-products">42 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Ansell</div><div class="brand-name">Ansell</div><div class="brand-products">68 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Atrauman</div><div class="brand-name">Atrauman</div><div class="brand-products">12 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">B</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">BD</div><div class="brand-name">BD (Becton Dickinson)</div><div class="brand-products">94 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Braun</div><div class="brand-name">B. Braun</div><div class="brand-products">78 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">BSN</div><div class="brand-name">BSN Medical</div><div class="brand-products">52 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">D</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">Dräger</div><div class="brand-name">Dräger</div><div class="brand-products">18 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">H</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">Hartmann</div><div class="brand-name">Hartmann</div><div class="brand-products">186 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Heine</div><div class="brand-name">Heine Optotechnik</div><div class="brand-products">34 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">L</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">3M</div><div class="brand-name">Littmann (3M)</div><div class="brand-products">142 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Leuko</div><div class="brand-name">Leukoplast</div><div class="brand-products">36 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Lohm.</div><div class="brand-name">Lohmann & Rauscher</div><div class="brand-products">64 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">M</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">Mölnl.</div><div class="brand-name">Mölnlycke</div><div class="brand-products">48 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Medela</div><div class="brand-name">Medela</div><div class="brand-products">22 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Micro-T</div><div class="brand-name">Micro-Touch</div><div class="brand-products">16 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">R</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">Riester</div><div class="brand-name">Riester</div><div class="brand-products">28 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">S</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">Semper</div><div class="brand-name">Sempermed</div><div class="brand-products">24 producten</div></a>
+      <a href="#" class="brand-card"><div class="brand-logo">Smith</div><div class="brand-name">Smith & Nephew</div><div class="brand-products">52 producten</div></a>
+    </div>
+  </div>
+  <div class="brand-section"><div class="brand-letter">W</div>
+    <div class="brand-grid">
+      <a href="#" class="brand-card"><div class="brand-logo">W. Allyn</div><div class="brand-name">Welch Allyn</div><div class="brand-products">56 producten</div></a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="logo-text">plasti<em>med</em></div><p>Sinds 1994 leverancier van professionele medische producten.</p></div><div><h4>Categorieën</h4><ul class="footer-links"><li><a href="#">Diagnostiek</a></li><li><a href="#">EHBO</a></li><li><a href="#">Handschoenen</a></li></ul></div><div><h4>Klantenservice</h4><ul class="footer-links"><li><a href="#">Veelgestelde vragen</a></li><li><a href="#">Verzending & retour</a></li><li><a href="#">Contact</a></li></ul></div><div><h4>Over Plastimed</h4><ul class="footer-links"><li><a href="#">Over ons</a></li><li><a href="#">Kennisbank</a></li></ul></div></div><div class="footer-bottom"><div>© 2026 Plastimed B.V.</div></div></div></footer>
+<script>lucide.createIcons();</script>
+</body>
+</html>

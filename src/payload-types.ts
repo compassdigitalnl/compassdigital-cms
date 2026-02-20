@@ -189,6 +189,23 @@ export interface User {
      * Email voor facturen (indien anders dan hoofdemail)
      */
     invoiceEmail?: string | null;
+    /**
+     * Branche/sector van het bedrijf
+     */
+    branch?:
+      | (
+          | 'healthcare'
+          | 'hospitality'
+          | 'construction'
+          | 'industry'
+          | 'education'
+          | 'business_services'
+          | 'retail'
+          | 'logistics'
+          | 'other'
+        )
+      | null;
+    website?: string | null;
   };
   /**
    * Verzend- en facturadressen
@@ -2789,6 +2806,8 @@ export interface UsersSelect<T extends boolean = true> {
         kvkNumber?: T;
         vatNumber?: T;
         invoiceEmail?: T;
+        branch?: T;
+        website?: T;
       };
   addresses?:
     | T
