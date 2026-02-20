@@ -30,6 +30,7 @@ import { Brands } from '@/collections/Brands'
 import { Cases } from '@/collections/Cases'
 import { FAQs } from '@/collections/FAQs'
 // Note: FormSubmissions is provided by formBuilderPlugin, no need to import manually
+import { Invoices } from '@/collections/Invoices'
 import { Media } from '@/collections/Media'
 import { OrderLists } from '@/collections/OrderLists'
 import { Orders } from '@/collections/Orders'
@@ -198,6 +199,7 @@ export default buildConfig({
     _col(CustomerGroups),
     _col(OrderLists),
     _col(Orders),
+    _col(Invoices),
 
     // Platform Management — alleen op platform-instantie
     ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),
