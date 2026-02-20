@@ -111,6 +111,33 @@ export const Users: CollectionConfig = {
             description: 'Email voor facturen (indien anders dan hoofdemail)',
           },
         },
+        {
+          name: 'branch',
+          type: 'select',
+          label: 'Branche',
+          options: [
+            { label: '🏥 Zorg & Welzijn', value: 'healthcare' },
+            { label: '🍽️ Horeca & Catering', value: 'hospitality' },
+            { label: '🏗️ Bouw & Techniek', value: 'construction' },
+            { label: '🏭 Industrie & Productie', value: 'industry' },
+            { label: '🏫 Onderwijs', value: 'education' },
+            { label: '🏢 Zakelijke Diensten', value: 'business_services' },
+            { label: '🛒 Retail & Groothandel', value: 'retail' },
+            { label: '🚚 Transport & Logistiek', value: 'logistics' },
+            { label: '💼 Overig', value: 'other' },
+          ],
+          admin: {
+            description: 'Branche/sector van het bedrijf',
+          },
+        },
+        {
+          name: 'website',
+          type: 'text',
+          label: 'Website',
+          admin: {
+            placeholder: 'https://www.bedrijf.nl',
+          },
+        },
       ],
     },
     {
