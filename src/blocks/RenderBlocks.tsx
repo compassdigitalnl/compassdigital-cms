@@ -24,11 +24,7 @@ import { MapBlockComponent } from '@/blocks/Map/Component'
 import { AccordionBlockComponent } from '@/blocks/Accordion/Component'
 import { SpacerBlockComponent } from '@/blocks/Spacer/Component'
 import { BlogPreviewBlockComponent } from '@/blocks/BlogPreview/Component'
-import { TopBar } from '@/blocks/TopBar/Component'
-import { Breadcrumb } from '@/blocks/Breadcrumb/Component'
 import { QuickOrderComponent } from '@/blocks/QuickOrder/Component'
-import { ProductFiltersComponent } from '@/blocks/ProductFilters/Component'
-import { SearchBarComponent } from '@/blocks/SearchBar/Component'
 
 const blockComponents = {
   // Oude (blijven)
@@ -54,11 +50,7 @@ const blockComponents = {
   accordion: AccordionBlockComponent,
   spacer: SpacerBlockComponent,
   'blog-preview': BlogPreviewBlockComponent,
-  topBar: TopBar, // New topbar block
-  breadcrumb: Breadcrumb, // New breadcrumb block
   quickOrder: QuickOrderComponent, // Phase 2: Quick order
-  productFilters: ProductFiltersComponent, // Phase 2: Product filters
-  searchBar: SearchBarComponent, // Phase 2: Search bar
 }
 
 export const RenderBlocks: React.FC<{

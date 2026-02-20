@@ -25,11 +25,7 @@ import { BlogPreview } from '@/blocks/BlogPreview'
 
 // E-commerce blocks
 import { ProductGrid } from '@/blocks/ProductGrid'
-import { TopBar } from '@/blocks/TopBar'
-import { Breadcrumb } from '@/blocks/Breadcrumb'
 import { QuickOrder } from '@/blocks/QuickOrder'
-import { ProductFilters } from '@/blocks/ProductFilters'
-import { SearchBar } from '@/blocks/SearchBar'
 
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
@@ -168,9 +164,7 @@ export const Pages: CollectionConfig = {
         initCollapsed: true,
       },
       blocks: [
-        // ── Navigatie & Layout ──
-        TopBar,
-        Breadcrumb,
+        // ── Layout ──
         Spacer,
 
         // ── Basis blokken ──
@@ -184,8 +178,6 @@ export const Pages: CollectionConfig = {
         // Services block - only if services collection is enabled
         ...(disabledCollections.has('services') ? [] : [Services]), // Features/USPs
         QuickOrder,
-        ProductFilters,
-        SearchBar,
 
         // ── Conversie blokken ──
         CTA,

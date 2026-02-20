@@ -92,4 +92,216 @@ Goede vraag! Je bouwt inderdaad een zeer uitgebreid e-commerce framework met ent
   5. Training: €500/dag on-site
   6. SEO Optimization: €149-299/maand extra
 
-  Wat denk je? Wil je lower starten om markt te testen (€1.500 + €199) of direct premium positioneren (€3.500 + €299)?
+  
+  🎯 Maatwerk E-commerce/CMS Project Pricing (Market Reality)
+
+  Volledig Maatwerk Project (wat je NU hebt gebouwd):
+
+  Features:
+  - Headless CMS (Payload 3.0)
+  - Complete e-commerce (checkout, orders, producten, categorieën)
+  - Blog systeem (3 templates, categories, SEO)
+  - 20+ content blocks
+  - API-first architecture
+  - Custom design
+  - Multi-tenant support
+  - Automated deployment
+
+  Tijdschatting bij Maatwerk Bureaus:
+
+  | Fase                     | Uren     | Tarief (€125/u) | Totaal            |
+  |--------------------------|----------|-----------------|-------------------|
+  | Discovery & Requirements | 40-60u   | €125/u          | €5.000 - €7.500   |
+  | Design (UI/UX)           | 60-80u   | €125/u          | €7.500 - €10.000  |
+  | Backend Development      | 100-140u | €125/u          | €12.500 - €17.500 |
+  | Frontend Development     | 140-180u | €125/u          | €17.500 - €22.500 |
+  | E-commerce Features      | 60-80u   | €125/u          | €7.500 - €10.000  |
+  | Blog System              | 40-60u   | €125/u          | €5.000 - €7.500   |
+  | API Integraties          | 40-80u   | €125/u          | €5.000 - €10.000  |
+  | Testing & Deployment     | 40-60u   | €125/u          | €5.000 - €7.500   |
+  | TOTAAL                   | 520-740u | €125/u          | €65.000 - €92.500 |
+
+  Plus:
+  - Hosting setup: €2.000 - €3.500
+  - 3 maanden support/onderhoud: €5.000 - €8.000
+  - Grand Total: €72.000 - €104.000 voor volledig maatwerk
+
+  ---
+  💡 Jouw Hybrid Model (Platform + Maatwerk)
+
+  Basis Offering (Standaard Platform):
+
+  €4.500 - €6.500 eenmalig (setup fee)
+  - Deployment platform CMS
+  - Keuze uit standaard templates
+  - Basis e-commerce setup
+  - Blog systeem
+  - 20+ standaard blocks
+  - SSL + hosting setup
+  - Training (4 uur)
+
+  €299 - €449/maand (recurring)
+  - Hosting + database
+  - Updates & security patches
+  - Email support
+  - Automatic backups
+  - SSL certificaten
+
+  Maatwerk Add-ons (Dit is waar je premium charged):
+
+  1. Custom Design
+  - Light branding: €2.500 - €4.000 (kleuren, logo, fonts)
+  - Medium custom design: €6.000 - €10.000 (custom template + styling)
+  - Volledig custom design: €12.000 - €20.000 (uniek ontwerp, 3+ templates)
+
+  2. Custom Blocks & Features
+  - Simple block (text/image variant): €750 - €1.500
+  - Medium block (form, slider, etc): €1.500 - €3.500
+  - Complex block (wizard, calculator): €3.500 - €7.500
+  - Custom page template: €2.000 - €5.000
+
+  3. API Integraties (dit is GOUD!)
+  - Standaard REST API: €1.500 - €3.000
+  - ERP integratie (Exact, Twinfield): €4.000 - €8.000
+  - CRM integratie (HubSpot, Salesforce): €3.500 - €7.000
+  - Payment gateway (custom): €2.500 - €5.000
+  - Shipping API (PostNL, DHL): €2.000 - €4.000
+  - Maandelijkse API maintenance: +€99-199/maand
+
+  4. Data Migration
+  - Small (< 500 producten): €1.500 - €2.500
+  - Medium (500-2000 producten): €3.500 - €6.000
+  - Large (2000+ producten): €7.000 - €12.000
+
+  5. Custom Workflows
+  - Order automation: €2.500 - €5.000
+  - Email workflows: €1.500 - €3.500
+  - Inventory sync: €3.000 - €6.000
+  - Multi-warehouse: €5.000 - €10.000
+
+  6. Advanced Features
+  - Multi-language: €3.500 - €6.000
+  - Multi-currency: €2.500 - €4.500
+  - B2B portal (prijsgroepen): €5.000 - €10.000
+  - Subscription/recurring: €4.000 - €8.000
+  - Marketplace (vendors): €10.000 - €20.000
+
+  7. Training & Support
+  - Basic training (4u): Included in setup
+  - Extended training (1 dag): €750
+  - On-site training: €1.250/dag + reiskosten
+  - Priority support (2h response): +€149/maand
+  - Dedicated account manager: +€299/maand
+
+  ---
+  🎯 Realistische Pricing Strategie
+
+  Tier 1: "Starter" (€6.500 + €299/m)
+
+  Setup: €6.500 eenmalig
+  - Platform deployment
+  - Standaard template (1 design)
+  - Basis e-commerce
+  - Blog met 1 template
+  - 4u training
+  - Basic support
+
+  Monthly: €299/maand
+  - Hosting + database
+  - Updates
+  - Email support (48u response)
+
+  Target: MKB webshops, startups (10-100 producten)
+
+  ---
+  Tier 2: "Professional" (€12.500 + €449/m)
+
+  Setup: €12.500 eenmalig
+  Includes Starter +
+  - Custom branding (kleuren, fonts, logo)
+  - 2 custom blocks
+  - 1 API integratie (bijv. payment gateway)
+  - Data migratie (< 500 producten)
+  - 8u training
+  - Priority support
+
+  Monthly: €449/maand
+  - All Starter features
+  - Priority support (24u response)
+  - Monthly reports
+  - Performance monitoring
+
+  Target: Groeiende webshops (100-1000 producten)
+
+  ---
+  Tier 3: "Enterprise" (€25.000 - €45.000 + €699/m)
+
+  Setup: €25.000 - €45.000 eenmalig
+  Includes Professional +
+  - Volledig custom design
+  - 5+ custom blocks
+  - 3-5 API integraties (ERP, CRM, shipping)
+  - Data migratie (unlimited)
+  - B2B features (prijsgroepen, offertes)
+  - Multi-language support
+  - 16u training + on-site visit
+  - Dedicated account manager
+
+  Monthly: €699/maand
+  - All Professional features
+  - Dedicated support (4u response)
+  - Monthly strategy calls
+  - Proactive monitoring
+  - Quarterly optimization
+
+  Target: Enterprise klanten (1000+ producten, complexe workflows)
+
+  ---
+  📊 Pricing Comparison: Jouw Platform vs Markt
+
+  | Feature           | Shopify Plus              | Maatwerk Bureau             | Jouw Platform                  |
+  |-------------------|---------------------------|-----------------------------|--------------------------------|
+  | Setup             | €0 (self-service)         | €65.000 - €100.000          | €6.500 - €45.000               |
+  | Monthly           | €2.000 + 0.15% transactie | €500-1500 (hosting/support) | €299 - €699                    |
+  | Custom Design     | Beperkt (themes)          | Volledig custom             | Volledig custom (vanaf Tier 2) |
+  | API Access        | Limited (GraphQL)         | Volledige controle          | Volledige REST API             |
+  | Source Code       | ❌ Proprietary             | ✅ Client owns               | ✅ Client owns                  |
+  | Vendor Lock-in    | ✅ Hoog                    | ❌ Geen                      | ❌ Geen (self-hosted)           |
+  | Maatwerk Mogelijk | ⚠️ Beperkt (apps)         | ✅ Alles                     | ✅ Alles (vanaf €750/feature)   |
+
+  ---
+  💰 Jouw Unique Selling Points (USP):
+
+  1. "No Vendor Lock-in" - Client owns de code, self-hosted
+  2. "Hybrid Model" - Snel starten met templates, uitbreiden met maatwerk
+  3. "API-First" - Integreer met ALLES (ERP, CRM, custom tools)
+  4. "Transparent Pricing" - Geen transactiekosten, vaste maandprijs
+  5. "Enterprise Features, SMB Price" - Multi-tenant, headless CMS, maar betaalbaar
+
+  ---
+  🎯 Mijn Advies: 3-Tier Pricing Model
+
+  Marketing Message:
+
+  "De vrijheid van maatwerk, de snelheid van een platform"
+
+  Start binnen 2 weken met een professionele webshop. Groei mee met custom features, API integraties en volledig eigen design. Geen vendor 
+  lock-in, volledige controle.
+
+  Pricing Strategy:
+
+  - Starter (€6.500 + €299/m): Voor snelle launches, basis webshops
+  - Professional (€12.500 + €449/m): Voor groeiende bedrijven met custom needs
+  - Enterprise (€25k-45k + €699/m): Voor complexe integraties en workflows
+
+  Upselling:
+
+  - Elke custom feature: €750 - €7.500
+  - Elke API integratie: €1.500 - €8.000
+  - Ongoing development: €125/uur (retainer vanaf 10u/maand)
+
+  ROI voor Klant:
+
+  - vs Shopify Plus: 60-70% goedkoper in jaar 1
+  - vs Maatwerk: 40-60% goedkoper, maar zelfde flexibiliteit
+  - Payback period: 3-6 maanden (vs custom build: 18-24 maanden)

@@ -5,6 +5,7 @@ import { JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/re
 import { InfoBoxComponent } from '@/blocks/InfoBox/Component'
 import { ProductEmbedComponent } from '@/blocks/ProductEmbed/Component'
 import { ComparisonTableComponent } from '@/blocks/ComparisonTable/Component'
+import { FAQBlockComponent } from '@/blocks/FAQ/Component'
 
 interface RenderBlogContentProps {
   content: SerializedEditorState
@@ -22,6 +23,9 @@ const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
     },
     comparisontable: ({ node }: any) => {
       return <ComparisonTableComponent {...node.fields} />
+    },
+    faq: ({ node }: any) => {
+      return <FAQBlockComponent {...node.fields} />
     },
   },
 })

@@ -17,6 +17,7 @@ import {
 import { InfoBox } from '@/blocks/InfoBox'
 import { ProductEmbed } from '@/blocks/ProductEmbed'
 import { ComparisonTable } from '@/blocks/ComparisonTable'
+import { FAQ } from '@/blocks/FAQ'
 
 export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
@@ -164,7 +165,7 @@ export const BlogPosts: CollectionConfig = {
       label: 'Content',
       admin: {
         description:
-          'Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen)',
+          'Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)',
       },
       editor: lexicalEditor({
         features: ({ defaultFeatures }) => [
@@ -179,7 +180,7 @@ export const BlogPosts: CollectionConfig = {
           OrderedListFeature(),
           UnorderedListFeature(),
           BlocksFeature({
-            blocks: [InfoBox, ProductEmbed, ComparisonTable],
+            blocks: [InfoBox, ProductEmbed, ComparisonTable, FAQ],
           }),
         ],
       }),

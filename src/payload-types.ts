@@ -416,8 +416,6 @@ export interface Page {
    */
   layout?:
     | (
-        | TopBarBlock
-        | BreadcrumbBlock
         | SpacerBlock
         | HeroBlock
         | ContentBlock
@@ -426,8 +424,6 @@ export interface Page {
         | CategoryGridBlock
         | FeaturesBlock
         | QuickOrderBlock
-        | ProductFiltersBlock
-        | SearchBarBlock
         | CTABlock
         | ContactFormBlock
         | TestimonialsBlock
@@ -470,110 +466,6 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TopBarBlock".
- */
-export interface TopBarBlock {
-  /**
-   * Schakel de TopBar in of uit op deze pagina
-   */
-  enabled?: boolean | null;
-  /**
-   * Gebruik de instellingen van TopBar Settings global
-   */
-  useGlobalSettings?: boolean | null;
-  /**
-   * Hex kleurcode (bijv: #0A1628)
-   */
-  backgroundColor?: string | null;
-  /**
-   * Hex kleurcode (bijv: #FFFFFF)
-   */
-  textColor?: string | null;
-  /**
-   * USP's en belangrijke berichten aan de linkerkant
-   */
-  leftMessages?:
-    | {
-        /**
-         * Kies een Lucide icon
-         */
-        icon?:
-          | (
-              | ''
-              | 'BadgeCheck'
-              | 'Truck'
-              | 'Shield'
-              | 'Award'
-              | 'Phone'
-              | 'Mail'
-              | 'Clock'
-              | 'MapPin'
-              | 'CheckCircle'
-              | 'CreditCard'
-              | 'Lock'
-              | 'Zap'
-              | 'Gift'
-              | 'RefreshCw'
-              | 'Users'
-            )
-          | null;
-        text: string;
-        link?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Actie links aan de rechterkant
-   */
-  rightLinks?:
-    | {
-        label: string;
-        link: string;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'topBar';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BreadcrumbBlock".
- */
-export interface BreadcrumbBlock {
-  /**
-   * Automatisch genereert breadcrumbs op basis van de huidige URL
-   */
-  mode?: ('auto' | 'manual') | null;
-  /**
-   * Handmatig geconfigureerde breadcrumbs
-   */
-  items?:
-    | {
-        label: string;
-        /**
-         * Laat leeg voor huidige/actieve item
-         */
-        link?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Toon "Home" als eerste item in breadcrumbs
-   */
-  showHome?: boolean | null;
-  homeLabel?: string | null;
-  separator?: ('arrow' | 'slash' | 'chevron' | 'double-chevron') | null;
-  /**
-   * Toon breadcrumbs ook op mobiele apparaten
-   */
-  showOnMobile?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'breadcrumb';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1444,83 +1336,6 @@ export interface QuickOrderBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductFiltersBlock".
- */
-export interface ProductFiltersBlock {
-  position?: ('left' | 'right') | null;
-  style?: ('sidebar' | 'accordion' | 'offcanvas') | null;
-  /**
-   * Product zoekbalk bovenaan filters
-   */
-  showSearch?: boolean | null;
-  enabledFilters?: {
-    categories?: boolean | null;
-    brands?: boolean | null;
-    priceRange?: boolean | null;
-    badges?: boolean | null;
-    stock?: boolean | null;
-    featured?: boolean | null;
-  };
-  priceRangeConfig?: {
-    min?: number | null;
-    max?: number | null;
-    /**
-     * Hoeveel de slider per stap verandert
-     */
-    step?: number | null;
-  };
-  /**
-   * Toon een overzicht van geselecteerde filters met "x" knoppen
-   */
-  showActiveFilters?: boolean | null;
-  clearAllText?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'productFilters';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SearchBarBlock".
- */
-export interface SearchBarBlock {
-  style?: ('standard' | 'hero' | 'compact') | null;
-  placeholder?: string | null;
-  /**
-   * Dropdown om te filteren op categorie
-   */
-  showCategoryFilter?: boolean | null;
-  /**
-   * Toon suggesties tijdens het typen
-   */
-  showAutocomplete?: boolean | null;
-  /**
-   * Max aantal suggesties te tonen
-   */
-  autocompleteLimit?: number | null;
-  /**
-   * Toon veelgebruikte zoektermen
-   */
-  showPopularSearches?: boolean | null;
-  popularSearches?:
-    | {
-        term: string;
-        id?: string | null;
-      }[]
-    | null;
-  searchIn?: {
-    products?: boolean | null;
-    categories?: boolean | null;
-    brands?: boolean | null;
-    blog?: boolean | null;
-    pages?: boolean | null;
-  };
-  buttonText?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'searchBar';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CTABlock".
  */
 export interface CTABlock {
@@ -2131,7 +1946,7 @@ export interface BlogPost {
       }[]
     | null;
   /**
-   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen)
+   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)
    */
   content: {
     root: {
@@ -3028,8 +2843,6 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        topBar?: T | TopBarBlockSelect<T>;
-        breadcrumb?: T | BreadcrumbBlockSelect<T>;
         spacer?: T | SpacerBlockSelect<T>;
         hero?: T | HeroBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -3038,8 +2851,6 @@ export interface PagesSelect<T extends boolean = true> {
         categoryGrid?: T | CategoryGridBlockSelect<T>;
         features?: T | FeaturesBlockSelect<T>;
         quickOrder?: T | QuickOrderBlockSelect<T>;
-        productFilters?: T | ProductFiltersBlockSelect<T>;
-        searchBar?: T | SearchBarBlockSelect<T>;
         cta?: T | CTABlockSelect<T>;
         contactForm?: T | ContactFormBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
@@ -3068,53 +2879,6 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TopBarBlock_select".
- */
-export interface TopBarBlockSelect<T extends boolean = true> {
-  enabled?: T;
-  useGlobalSettings?: T;
-  backgroundColor?: T;
-  textColor?: T;
-  leftMessages?:
-    | T
-    | {
-        icon?: T;
-        text?: T;
-        link?: T;
-        id?: T;
-      };
-  rightLinks?:
-    | T
-    | {
-        label?: T;
-        link?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BreadcrumbBlock_select".
- */
-export interface BreadcrumbBlockSelect<T extends boolean = true> {
-  mode?: T;
-  items?:
-    | T
-    | {
-        label?: T;
-        link?: T;
-        id?: T;
-      };
-  showHome?: T;
-  homeLabel?: T;
-  separator?: T;
-  showOnMobile?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3289,66 +3053,6 @@ export interface QuickOrderBlockSelect<T extends boolean = true> {
   submitButtonText?: T;
   showUpload?: T;
   uploadHelpText?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductFiltersBlock_select".
- */
-export interface ProductFiltersBlockSelect<T extends boolean = true> {
-  position?: T;
-  style?: T;
-  showSearch?: T;
-  enabledFilters?:
-    | T
-    | {
-        categories?: T;
-        brands?: T;
-        priceRange?: T;
-        badges?: T;
-        stock?: T;
-        featured?: T;
-      };
-  priceRangeConfig?:
-    | T
-    | {
-        min?: T;
-        max?: T;
-        step?: T;
-      };
-  showActiveFilters?: T;
-  clearAllText?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SearchBarBlock_select".
- */
-export interface SearchBarBlockSelect<T extends boolean = true> {
-  style?: T;
-  placeholder?: T;
-  showCategoryFilter?: T;
-  showAutocomplete?: T;
-  autocompleteLimit?: T;
-  showPopularSearches?: T;
-  popularSearches?:
-    | T
-    | {
-        term?: T;
-        id?: T;
-      };
-  searchIn?:
-    | T
-    | {
-        products?: T;
-        categories?: T;
-        brands?: T;
-        blog?: T;
-        pages?: T;
-      };
-  buttonText?: T;
   id?: T;
   blockName?: T;
 }
@@ -4734,9 +4438,28 @@ export interface Header {
     leftMessages?:
       | {
           /**
-           * Emoji of symbool
+           * Kies een Lucide icon
            */
-          icon?: string | null;
+          icon?:
+            | (
+                | ''
+                | 'BadgeCheck'
+                | 'Truck'
+                | 'Shield'
+                | 'Award'
+                | 'Phone'
+                | 'Mail'
+                | 'Clock'
+                | 'MapPin'
+                | 'CheckCircle'
+                | 'CreditCard'
+                | 'Lock'
+                | 'Zap'
+                | 'Gift'
+                | 'RefreshCw'
+                | 'Users'
+              )
+            | null;
           text: string;
           link?: string | null;
           id?: string | null;
@@ -4767,9 +4490,23 @@ export interface Header {
      */
     type?: ('info' | 'success' | 'warning' | 'error' | 'promo') | null;
     /**
-     * Lucide icon naam (bijv. "Gift", "Truck", "AlertCircle")
+     * Kies een Lucide icon
      */
-    icon?: string | null;
+    icon?:
+      | (
+          | ''
+          | 'BadgeCheck'
+          | 'Truck'
+          | 'Award'
+          | 'Gift'
+          | 'Zap'
+          | 'AlertCircle'
+          | 'Info'
+          | 'CheckCircle'
+          | 'Bell'
+          | 'Megaphone'
+        )
+      | null;
     link?: {
       enabled?: boolean | null;
       /**
@@ -4846,9 +4583,11 @@ export interface Header {
         label: string;
         url: string;
         /**
-         * Example: 📞 or "phone"
+         * Kies een Lucide icon
          */
-        icon?: string | null;
+        icon?:
+          | ('' | 'Phone' | 'Mail' | 'MapPin' | 'ShoppingCart' | 'User' | 'Clipboard' | 'CreditCard' | 'Search')
+          | null;
         style?: ('default' | 'primary' | 'secondary') | null;
         id?: string | null;
       }[]
@@ -4890,9 +4629,9 @@ export interface Header {
       | {
           label: string;
           /**
-           * Emoji of Lucide icon naam
+           * Kies een Lucide icon
            */
-          icon?: string | null;
+          icon?: ('' | 'Flame' | 'Star' | 'Gift' | 'Sparkles' | 'Package' | 'Tag' | 'Truck' | 'Zap') | null;
           url: string;
           /**
            * Toont in coral/rood kleur voor extra aandacht
@@ -4912,9 +4651,22 @@ export interface Header {
       | {
           label: string;
           /**
-           * Emoji of Lucide icon naam
+           * Kies een Lucide icon
            */
-          icon?: string | null;
+          icon?:
+            | (
+                | ''
+                | 'Package'
+                | 'Building2'
+                | 'Users'
+                | 'Award'
+                | 'FileText'
+                | 'ShoppingCart'
+                | 'Mail'
+                | 'Phone'
+                | 'Home'
+              )
+            | null;
           type?: ('page' | 'external') | null;
           page?: (number | null) | Page;
           url?: string | null;
