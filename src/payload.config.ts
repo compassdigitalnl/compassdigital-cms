@@ -49,6 +49,11 @@ import { Users } from '@/collections/Users'
 import { ProductCategories } from '@/collections/shop/ProductCategories'
 import { CustomerGroups } from '@/collections/shop/CustomerGroups'
 
+// Marketplace Collections (Sprint 5)
+import { Vendors } from '@/collections/Vendors'
+import { VendorReviews } from '@/collections/VendorReviews'
+import { Workshops } from '@/collections/Workshops'
+
 // Platform Collections (Multi-Tenant)
 import { ClientRequests } from '@/platform/collections/ClientRequests'
 import { Clients } from '@/platform/collections/Clients'
@@ -208,6 +213,11 @@ export default buildConfig({
     _col(Returns),
     _col(Notifications),
     _col(RecentlyViewed),
+
+    // Marketplace (Sprint 5) — optioneel per klant
+    _col(Vendors),
+    _col(VendorReviews),
+    _col(Workshops),
 
     // Platform Management — alleen op platform-instantie
     ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),

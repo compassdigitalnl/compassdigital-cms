@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leveranciers — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{display:flex;align-items:center;text-decoration:none;}.logo img{height:36px;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);outline:none;transition:all var(--transition);}.search-field::placeholder{color:var(--grey-mid);}.search-icon-left{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon-left i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  /* Hero */
+  .v-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:44px 48px;margin-bottom:28px;position:relative;overflow:hidden;}
+  .v-hero::before{content:'';position:absolute;top:-40px;right:100px;width:240px;height:240px;background:radial-gradient(circle,rgba(0,137,123,0.08),transparent 70%);border-radius:50%;}
+  .v-hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;color:white;margin-bottom:8px;position:relative;}
+  .v-hero p{font-size:15px;color:rgba(255,255,255,0.45);max-width:560px;line-height:1.5;position:relative;}
+  .v-hero-stats{display:flex;gap:24px;margin-top:18px;position:relative;}
+  .vhs{text-align:center;padding:12px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:12px;}
+  .vhs-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:white;}
+  .vhs-label{font-size:11px;color:rgba(255,255,255,0.35);}
+
+  /* Filters */
+  .v-toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+  .v-search{position:relative;flex:1;min-width:200px;max-width:360px;}
+  .v-search input{width:100%;height:44px;padding:0 16px 0 44px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);background:white;outline:none;transition:all var(--transition);}
+  .v-search input:focus{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-glow);}
+  .v-search input::placeholder{color:var(--grey-mid);}
+  .v-search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--grey-mid);}
+  .v-select{height:44px;padding:0 36px 0 14px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--navy);cursor:pointer;appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;}
+  .v-count{margin-left:auto;font-size:14px;color:var(--grey-mid);font-weight:600;}
+
+  /* Filter chips */
+  .v-chips{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+  .v-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:white;border:1.5px solid var(--grey);border-radius:100px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .15s;}
+  .v-chip:hover{border-color:var(--teal);color:var(--teal);}
+  .v-chip.active{background:var(--teal);color:white;border-color:var(--teal);}
+  .v-chip i{width:13px;height:13px;}
+
+  /* Featured vendors */
+  .v-featured{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
+  .vf-card{background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;transition:all .25s;text-decoration:none;color:inherit;position:relative;}
+  .vf-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.06);border-color:transparent;}
+  .vf-banner{height:100px;background:linear-gradient(135deg,var(--navy),var(--navy-light));position:relative;display:flex;align-items:center;justify-content:center;}
+  .vf-banner-badge{position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.12);padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;color:white;}
+  .vf-banner-badge i{width:11px;height:11px;color:var(--amber);}
+  .vf-logo{width:72px;height:72px;background:white;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--navy);box-shadow:0 4px 16px rgba(0,0,0,0.1);position:absolute;bottom:-28px;left:20px;border:3px solid white;}
+  .vf-body{padding:38px 20px 18px;}
+  .vf-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;color:var(--navy);margin-bottom:2px;}
+  .vf-tagline{font-size:13px;color:var(--grey-mid);margin-bottom:10px;line-height:1.3;}
+  .vf-meta{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+  .vf-meta-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--grey-dark);}
+  .vf-meta-item i{width:13px;height:13px;color:var(--teal);}
+  .vf-rating{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--amber);font-weight:700;}
+  .vf-rating span{color:var(--grey-mid);font-weight:400;}
+  .vf-tags{display:flex;gap:4px;flex-wrap:wrap;}
+  .vf-tag{padding:3px 8px;background:var(--grey-light);border-radius:5px;font-size:11px;font-weight:600;color:var(--grey-dark);}
+
+  /* Vendor list grid */
+  .v-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px;}
+  .vc{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:20px;display:flex;gap:16px;align-items:flex-start;transition:all .25s;text-decoration:none;color:inherit;}
+  .vc:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.04);}
+  .vc-logo{width:60px;height:60px;background:var(--grey-light);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:var(--navy);flex-shrink:0;text-align:center;line-height:1.1;}
+  .vc-body{flex:1;min-width:0;}
+  .vc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+  .vc-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);}
+  .vc-verified{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--green);font-weight:600;}
+  .vc-verified i{width:13px;height:13px;}
+  .vc-desc{font-size:13px;color:var(--grey-mid);line-height:1.3;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .vc-meta{display:flex;gap:14px;flex-wrap:wrap;}
+  .vc-mi{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--grey-dark);}
+  .vc-mi i{width:13px;height:13px;color:var(--teal);}
+  .vc-mi.rating{color:var(--amber);}
+  .vc-mi.rating i{color:var(--amber);}
+  .vc-arrow{width:36px;height:36px;border-radius:10px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;align-self:center;}
+  .vc:hover .vc-arrow{background:var(--teal);}.vc:hover .vc-arrow i{color:white;}
+  .vc-arrow i{width:16px;height:16px;color:var(--grey-mid);}
+
+  /* Pagination */
+  .pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px 0 48px;}
+  .page-btn{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--grey);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--navy);transition:all var(--transition);font-family:'DM Sans',sans-serif;}
+  .page-btn:hover{border-color:var(--teal);color:var(--teal);}
+  .page-btn.active{background:var(--teal);color:white;border-color:var(--teal);}
+  .page-btn i{width:16px;height:16px;}
+
+  /* CTA */
+  .v-cta{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:40px;text-align:center;margin-bottom:48px;position:relative;overflow:hidden;}
+  .v-cta::before{content:'';position:absolute;top:-30px;right:30%;width:200px;height:200px;background:radial-gradient(circle,rgba(0,137,123,0.06),transparent 70%);border-radius:50%;}
+  .v-cta h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:white;margin-bottom:6px;position:relative;}
+  .v-cta p{font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:18px;position:relative;}
+  .v-cta-btn{display:inline-flex;align-items:center;gap:7px;padding:14px 28px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:all var(--transition);position:relative;}.v-cta-btn:hover{background:var(--teal-light);}.v-cta-btn i{width:17px;height:17px;}
+
+  .footer{background:var(--navy);color:rgba(255,255,255,0.5);padding:48px 0 0;}.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.06);}.footer-brand .logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;margin-bottom:12px;color:white;}.footer-brand .logo-text em{color:var(--teal-light);font-style:normal;}.footer-brand p{font-size:14px;line-height:1.6;}.footer h4{color:white;font-size:14px;font-weight:700;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif;}.footer-links{list-style:none;}.footer-links li{margin-bottom:8px;}.footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:14px;}.footer-links a:hover{color:var(--teal-light);}.footer-bottom{padding:16px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+
+  @media(max-width:900px){.v-featured{grid-template-columns:1fr;}.v-grid{grid-template-columns:1fr;}.v-hero{padding:32px 24px;}.v-hero-stats{flex-wrap:wrap;}.footer-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek op product, merk of artikelnummer…"><div class="search-icon-left"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="clipboard-list"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">3</span></button></div></div></header>
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Leveranciers</li></ol></div></div>
+
+<div class="container">
+  <div class="v-hero">
+    <h1>Onze leveranciers & partners</h1>
+    <p>Plastimed werkt samen met toonaangevende leveranciers in de medische sector. Vind uw leverancier, bekijk hun assortiment en bestel direct via ons platform.</p>
+    <div class="v-hero-stats">
+      <div class="vhs"><div class="vhs-num">48</div><div class="vhs-label">Leveranciers</div></div>
+      <div class="vhs"><div class="vhs-num">4.200+</div><div class="vhs-label">Producten</div></div>
+      <div class="vhs"><div class="vhs-num">96%</div><div class="vhs-label">Op voorraad</div></div>
+      <div class="vhs"><div class="vhs-num">4.8</div><div class="vhs-label">Gem. beoordeling</div></div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="v-toolbar">
+    <div class="v-search"><i data-lucide="search"></i><input type="text" placeholder="Zoek leverancier op naam…"></div>
+    <select class="v-select"><option>Alle categorieën</option><option>Handschoenen</option><option>Diagnostiek</option><option>Verbandmiddelen</option><option>Desinfectie</option></select>
+    <select class="v-select"><option>Sorteren: Aanbevolen</option><option>Naam A-Z</option><option>Meeste producten</option><option>Hoogste beoordeling</option></select>
+    <div class="v-count">48 leveranciers</div>
+  </div>
+
+  <!-- Filter chips -->
+  <div class="v-chips">
+    <span class="v-chip active"><i data-lucide="grid-3x3"></i> Alle</span>
+    <span class="v-chip"><i data-lucide="award"></i> Premium partners</span>
+    <span class="v-chip"><i data-lucide="shield-check"></i> CE gecertificeerd</span>
+    <span class="v-chip"><i data-lucide="leaf"></i> Duurzaam</span>
+    <span class="v-chip"><i data-lucide="truck"></i> Direct leverbaar</span>
+    <span class="v-chip"><i data-lucide="graduation-cap"></i> Met workshops</span>
+  </div>
+
+  <!-- Featured -->
+  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i data-lucide="star" style="width:18px;height:18px;color:var(--amber);"></i> Uitgelichte partners</div>
+  <div class="v-featured">
+    <a href="#" class="vf-card">
+      <div class="vf-banner"><div class="vf-banner-badge"><i data-lucide="star"></i> Premium partner</div><div class="vf-logo">Hartmann</div></div>
+      <div class="vf-body">
+        <div class="vf-name">Paul Hartmann AG</div>
+        <div class="vf-tagline">Marktleider in wondverzorging, hygiëne en bescherming sinds 1818.</div>
+        <div class="vf-meta"><div class="vf-meta-item"><i data-lucide="package"></i> 186 producten</div><div class="vf-meta-item"><i data-lucide="map-pin"></i> Duitsland</div><div class="vf-rating">★ 4.9 <span>(124)</span></div></div>
+        <div class="vf-tags"><span class="vf-tag">Handschoenen</span><span class="vf-tag">Wondverzorging</span><span class="vf-tag">Desinfectie</span></div>
+      </div>
+    </a>
+    <a href="#" class="vf-card">
+      <div class="vf-banner" style="background:linear-gradient(135deg,#1a237e,#283593);"><div class="vf-banner-badge"><i data-lucide="star"></i> Premium partner</div><div class="vf-logo">BD</div></div>
+      <div class="vf-body">
+        <div class="vf-name">Becton Dickinson</div>
+        <div class="vf-tagline">Wereldleider in medische technologie: spuiten, naalden en diagnostiek.</div>
+        <div class="vf-meta"><div class="vf-meta-item"><i data-lucide="package"></i> 94 producten</div><div class="vf-meta-item"><i data-lucide="map-pin"></i> VS / Nederland</div><div class="vf-rating">★ 4.8 <span>(98)</span></div></div>
+        <div class="vf-tags"><span class="vf-tag">Injectiemateriaal</span><span class="vf-tag">Diagnostiek</span></div>
+      </div>
+    </a>
+    <a href="#" class="vf-card">
+      <div class="vf-banner" style="background:linear-gradient(135deg,#004d40,#00695c);"><div class="vf-banner-badge"><i data-lucide="star"></i> Premium partner</div><div class="vf-logo">3M</div></div>
+      <div class="vf-body">
+        <div class="vf-name">3M / Littmann</div>
+        <div class="vf-tagline">Iconen in auscultatie met de Littmann stethoscoop en 3M medische tape.</div>
+        <div class="vf-meta"><div class="vf-meta-item"><i data-lucide="package"></i> 142 producten</div><div class="vf-meta-item"><i data-lucide="map-pin"></i> VS</div><div class="vf-rating">★ 4.9 <span>(156)</span></div></div>
+        <div class="vf-tags"><span class="vf-tag">Stethoscopen</span><span class="vf-tag">Tape</span><span class="vf-tag">Verbandmiddelen</span></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Grid list -->
+  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:12px;">Alle leveranciers</div>
+  <div class="v-grid">
+    <a href="#" class="vc"><div class="vc-logo">Ansell</div><div class="vc-body"><div class="vc-top"><div class="vc-name">Ansell</div><div class="vc-verified"><i data-lucide="badge-check"></i> Geverifieerd</div></div><div class="vc-desc">Specialist in beschermende handschoenen voor medisch en industrieel gebruik.</div><div class="vc-meta"><div class="vc-mi"><i data-lucide="package"></i> 68 producten</div><div class="vc-mi rating"><i data-lucide="star"></i> 4.7 (52)</div><div class="vc-mi"><i data-lucide="truck"></i> 1-2 werkdagen</div></div></div><div class="vc-arrow"><i data-lucide="chevron-right"></i></div></a>
+
+    <a href="#" class="vc"><div class="vc-logo">Welch Allyn</div><div class="vc-body"><div class="vc-top"><div class="vc-name">Welch Allyn</div><div class="vc-verified"><i data-lucide="badge-check"></i> Geverifieerd</div></div><div class="vc-desc">Premium diagnostische instrumenten: otoscopen, bloeddrukmeters en thermometers.</div><div class="vc-meta"><div class="vc-mi"><i data-lucide="package"></i> 56 producten</div><div class="vc-mi rating"><i data-lucide="star"></i> 4.8 (67)</div><div class="vc-mi"><i data-lucide="truck"></i> 1-2 werkdagen</div></div></div><div class="vc-arrow"><i data-lucide="chevron-right"></i></div></a>
+
+    <a href="#" class="vc"><div class="vc-logo">Braun</div><div class="vc-body"><div class="vc-top"><div class="vc-name">B. Braun</div><div class="vc-verified"><i data-lucide="badge-check"></i> Geverifieerd</div></div><div class="vc-desc">Innovatieve oplossingen voor infusie, wondverzorging en chirurgie.</div><div class="vc-meta"><div class="vc-mi"><i data-lucide="package"></i> 78 producten</div><div class="vc-mi rating"><i data-lucide="star"></i> 4.6 (41)</div><div class="vc-mi"><i data-lucide="truck"></i> Volgende dag</div></div></div><div class="vc-arrow"><i data-lucide="chevron-right"></i></div></a>
+
+    <a href="#" class="vc"><div class="vc-logo">Mölnlycke</div><div class="vc-body"><div class="vc-top"><div class="vc-name">Mölnlycke Health Care</div><div class="vc-verified"><i data-lucide="badge-check"></i> Geverifieerd</div></div><div class="vc-desc">Zweedse specialist in operatiebenodigdheden en geavanceerde wondverbanden.</div><div class="vc-meta"><div class="vc-mi"><i data-lucide="package"></i> 48 producten</div><div class="vc-mi rating"><i data-lucide="star"></i> 4.7 (38)</div><div class="vc-mi"><i data-lucide="truck"></i> 2-3 werkdagen</div></div></div><div class="vc-arrow"><i data-lucide="chevron-right"></i></div></a>
+
+    <a href="#" class="vc"><div class="vc-logo">Heine</div><div class="vc-body"><div class="vc-top"><div class="vc-name">Heine Optotechnik</div><div class="vc-verified"><i data-lucide="badge-check"></i> Geverifieerd</div></div><div class="vc-desc">Duitse precisie-instrumenten: otoscopen, dermatoscopen en oftalmoscopen.</div><div class="vc-meta"><div class="vc-mi"><i data-lucide="package"></i> 34 producten</div><div class="vc-mi rating"><i data-lucide="star"></i> 4.9 (29)</div><div class="vc-mi"><i data-lucide="truck"></i> 1-2 werkdagen</div></div></div><div class="vc-arrow"><i data-lucide="chevron-right"></i></div></a>
+
+    <a href="#" class="vc"><div class="vc-logo">Smith &amp; Nephew</div><div class="vc-body"><div class="vc-top"><div class="vc-name">Smith & Nephew</div><div class="vc-verified"><i data-lucide="badge-check"></i> Geverifieerd</div></div><div class="vc-desc">Internationaal bedrijf gespecialiseerd in geavanceerde wondverzorging en orthopedie.</div><div class="vc-meta"><div class="vc-mi"><i data-lucide="package"></i> 52 producten</div><div class="vc-mi rating"><i data-lucide="star"></i> 4.5 (33)</div><div class="vc-mi"><i data-lucide="truck"></i> 2-3 werkdagen</div></div></div><div class="vc-arrow"><i data-lucide="chevron-right"></i></div></a>
+  </div>
+
+  <div class="pagination"><button class="page-btn"><i data-lucide="chevron-left"></i></button><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn"><i data-lucide="chevron-right"></i></button></div>
+
+  <div class="v-cta"><h2>Zelf leverancier worden bij Plastimed?</h2><p>Wij zijn altijd op zoek naar kwalitatieve partners. Neem contact op voor de mogelijkheden.</p><a href="#" class="v-cta-btn"><i data-lucide="handshake"></i> Partner worden</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="logo-text">plasti<em>med</em></div><p>Sinds 1994 leverancier van professionele medische producten.</p></div><div><h4>Categorieën</h4><ul class="footer-links"><li><a href="#">Diagnostiek</a></li><li><a href="#">Handschoenen</a></li><li><a href="#">Verbandmiddelen</a></li></ul></div><div><h4>Klantenservice</h4><ul class="footer-links"><li><a href="#">Veelgestelde vragen</a></li><li><a href="#">Contact</a></li></ul></div><div><h4>Over Plastimed</h4><ul class="footer-links"><li><a href="#">Over ons</a></li><li><a href="#">Leveranciers</a></li></ul></div></div><div class="footer-bottom"><div>© 2026 Plastimed B.V.</div></div></div></footer>
+<script>lucide.createIcons();</script>
+</body>
+</html>
