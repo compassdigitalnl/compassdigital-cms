@@ -191,3 +191,53 @@
 .article-content table tr:hover td {
   @apply bg-teal-50;
 }
+
+/* ═══════════════════════════════════════════════════════
+   PRINT STYLES (Order Confirmation)
+   ═══════════════════════════════════════════════════════ */
+
+@media print {
+  /* Hide interactive elements */
+  .print\\:hidden {
+    display: none !important;
+  }
+
+  /* Reset background */
+  body {
+    background: white !important;
+  }
+
+  /* Ensure content fits on page */
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Card borders for clarity */
+  .bg-white {
+    border: 1px solid #e5e7eb !important;
+    break-inside: avoid;
+  }
+
+  /* Remove shadows */
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-sm {
+    box-shadow: none !important;
+  }
+
+  /* Better timeline visibility */
+  .animate-spin {
+    animation: none !important;
+  }
+
+  /* Ensure text is readable */
+  .text-white {
+    color: #000 !important;
+  }
+
+  /* Remove gradients for print clarity */
+  .bg-gradient-to-br {
+    background: #f3f4f6 !important;
+  }
+}
