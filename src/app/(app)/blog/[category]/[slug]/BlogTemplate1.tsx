@@ -1,9 +1,13 @@
 'use client'
 
-import type { BlogPost } from '@/payload-types'
-import { Calendar, User, Clock, Share2, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react'
+import type { BlogPost, Product } from '@/payload-types'
+import { Icon } from '@/components/Icon'
 import Link from 'next/link'
-import { useState } from 'react'
+import { TableOfContents } from '@/components/blog/TableOfContents'
+import { ShareButtons } from '@/components/blog/ShareButtons'
+import { AuthorBox } from '@/components/blog/AuthorBox'
+import { RelatedArticles } from '@/components/blog/RelatedArticles'
+import { RenderBlogContent } from '@/components/blog/RenderBlogContent'
 
 interface BlogTemplate1Props {
   post: BlogPost
@@ -11,267 +15,227 @@ interface BlogTemplate1Props {
 }
 
 export default function BlogTemplate1({ post, relatedPosts = [] }: BlogTemplate1Props) {
-  const [showRelated, setShowRelated] = useState(false)
+  // Get category info
+  const category = post.categories?.[0]
+  const categoryName = typeof category === 'object' && category !== null ? category.name : 'Blog'
+  const categorySlug = typeof category === 'object' && category !== null ? category.slug : 'blog'
 
-  const featuredImageUrl =
-    typeof post.featuredImage === 'object' && post.featuredImage !== null
-      ? post.featuredImage.url
-      : null
-
-  const authorName =
-    typeof post.author === 'object' && post.author !== null
-      ? post.author.name || 'Anonymous'
-      : 'Anonymous'
-
+  // Format date
   const publishDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('nl-NL', {
-        year: 'numeric',
-        month: 'long',
         day: 'numeric',
+        month: 'long',
+        year: 'numeric',
       })
-    : 'No date'
+    : ''
 
-  const categoryBadges =
-    post.categories &&
-    Array.isArray(post.categories) &&
-    post.categories
-      .map((cat) => (typeof cat === 'object' && cat !== null ? cat : null))
-      .filter((c) => c !== null)
+  // Get current URL for sharing
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : ''
+
+  // Related products
+  const relatedProducts = post.relatedProducts || []
+
+  // Get featured tag info
+  const getFeaturedTagInfo = () => {
+    switch (post.featuredTag) {
+      case 'guide':
+        return { icon: 'BookOpen', label: 'Handleiding', color: '#2196F3' }
+      case 'new':
+        return { icon: 'Sparkles', label: 'Nieuw', color: '#00C853' }
+      case 'featured':
+        return { icon: 'Star', label: 'Uitgelicht', color: '#F59E0B' }
+      case 'tip':
+        return { icon: 'Lightbulb', label: 'Tip', color: '#8b5cf6' }
+      case 'news':
+        return { icon: 'Newspaper', label: 'Nieuws', color: '#2196F3' }
+      default:
+        return null
+    }
+  }
+
+  const featuredTag = getFeaturedTagInfo()
 
   return (
-    <div className="pb-24 lg:pb-8" style={{ fontFamily: 'var(--font-body)' }}>
-      {/* Magazine: Mobile-first Layout */}
-      <div className="flex flex-col lg:grid lg:grid-cols-[2fr,1fr] gap-8 lg:gap-16">
-        {/* Main Content */}
-        <article>
-          {/* Categories */}
-          {categoryBadges && categoryBadges.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4 lg:mb-6">
-              {categoryBadges.map((cat, idx) => (
-                <span
-                  key={idx}
-                  className="inline-block px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-semibold uppercase tracking-wide"
-                  style={{
-                    background: 'var(--color-primary)',
-                    color: 'white',
-                  }}
-                >
-                  {cat.name}
+    <div className="min-h-screen">
+      {/* Two-column layout: Main content + Sidebar */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start pb-16">
+        {/* ═══ MAIN CONTENT ═══ */}
+        <main>
+          {/* Hero Image/Emoji */}
+          <div className="relative w-full h-[360px] rounded-3xl bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center text-8xl mb-7 overflow-hidden">
+            {/* Featured Tag Badge */}
+            {featuredTag && (
+              <div
+                className="absolute top-5 left-5 px-4 py-2 rounded-xl text-xs font-bold text-white flex items-center gap-2"
+                style={{ background: featuredTag.color }}
+              >
+                <Icon name={featuredTag.icon as any} size={13} />
+                {featuredTag.label}
+              </div>
+            )}
+
+            {/* Emoji or Image */}
+            {post.featuredImageEmoji || '📄'}
+          </div>
+
+          {/* Meta Bar */}
+          <div className="flex items-center gap-4 flex-wrap mb-6">
+            {/* Category Badge */}
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold text-teal-600 bg-teal-50 border border-teal-100">
+              <Icon name="Tag" size={13} />
+              {categoryName}
+            </span>
+
+            {/* Date */}
+            {publishDate && (
+              <span className="flex items-center gap-2 text-sm text-gray-500">
+                <Icon name="Calendar" size={14} />
+                {publishDate}
+              </span>
+            )}
+
+            {/* Reading Time */}
+            {post.readingTime && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-gray-300" />
+                <span className="flex items-center gap-2 text-sm text-gray-500">
+                  <Icon name="Clock" size={14} />
+                  {post.readingTime} min leestijd
                 </span>
-              ))}
-            </div>
-          )}
+              </>
+            )}
+
+            {/* View Count */}
+            {post.viewCount && post.viewCount > 0 && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-gray-300" />
+                <span className="flex items-center gap-2 text-sm text-gray-500">
+                  <Icon name="Eye" size={14} />
+                  {post.viewCount.toLocaleString('nl-NL')} keer bekeken
+                </span>
+              </>
+            )}
+          </div>
 
           {/* Title */}
-          <h1
-            className="text-3xl lg:text-5xl font-extrabold leading-tight mb-4 lg:mb-6"
-            style={{
-              color: 'var(--color-text-primary)',
-              fontFamily: 'var(--font-heading)',
-            }}
-          >
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
             {post.title}
           </h1>
 
-          {/* Meta */}
-          <div
-            className="flex flex-wrap gap-3 lg:gap-6 mb-6 lg:mb-8 pb-4 lg:pb-6"
-            style={{ borderBottom: '2px solid var(--color-border)' }}
-          >
-            <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
-              <User className="w-4 h-4" />
-              <span className="text-sm font-medium">{authorName}</span>
-            </div>
-            <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
-              <Calendar className="w-4 h-4" />
-              <span className="text-sm">{publishDate}</span>
-            </div>
-            <div className="flex items-center gap-2" style={{ color: 'var(--color-text-muted)' }}>
-              <Clock className="w-4 h-4" />
-              <span className="text-sm">5 min lezen</span>
-            </div>
-          </div>
-
-          {/* Featured Image */}
-          {featuredImageUrl && (
-            <div className="w-full aspect-video rounded-xl lg:rounded-2xl overflow-hidden mb-6 lg:mb-10">
-              <img
-                src={featuredImageUrl}
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
-
-          {/* Excerpt */}
+          {/* Intro/Excerpt */}
           {post.excerpt && (
-            <div
-              className="text-base lg:text-xl leading-relaxed font-medium italic mb-6 lg:mb-10 p-4 lg:p-6 rounded-xl lg:rounded-2xl"
-              style={{
-                color: 'var(--color-text-secondary)',
-                background: 'var(--color-surface, #F9FAFB)',
-                borderLeft: '4px solid var(--color-primary)',
-              }}
-            >
+            <p className="text-lg text-gray-600 leading-relaxed mb-7 pb-7 border-b border-gray-200">
               {post.excerpt}
-            </div>
+            </p>
           )}
 
-          {/* Content */}
-          <div
-            className="text-base lg:text-lg leading-relaxed lg:leading-loose blog-content"
-            style={{ color: 'var(--color-text-secondary)' }}
-            dangerouslySetInnerHTML={{ __html: post.content || '' }}
-          />
+          {/* Article Content */}
+          {post.content && <RenderBlogContent content={post.content} className="mb-10" />}
 
-          {/* Desktop Share Buttons */}
-          <div
-            className="hidden lg:flex mt-16 pt-8 items-center gap-4"
-            style={{ borderTop: '2px solid var(--color-border)' }}
-          >
-            <span
-              className="text-base font-semibold"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              Deel dit artikel:
-            </span>
-            <button
-              className="px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-opacity hover:opacity-90"
-              style={{
-                background: 'var(--color-primary)',
-                color: 'white',
-              }}
-            >
-              <Share2 className="w-4 h-4" />
-              Delen
-            </button>
-          </div>
-        </article>
+          {/* Bottom Section: Tags + Share */}
+          <div className="pt-8 border-t border-gray-200 mt-10">
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex gap-2 flex-wrap mb-5">
+                {post.tags.map((tagItem, index) => (
+                  <Link
+                    key={index}
+                    href={`/blog?tag=${encodeURIComponent(tagItem.tag || '')}`}
+                    className="px-4 py-2 rounded-full text-xs font-semibold text-gray-600 bg-gray-100 border border-gray-200 hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50 transition-all"
+                  >
+                    {tagItem.tag}
+                  </Link>
+                ))}
+              </div>
+            )}
 
-        {/* Sidebar */}
-        <aside className="space-y-4 lg:space-y-6">
-          {/* Author Card */}
-          <div
-            className="p-4 lg:p-6 rounded-xl lg:rounded-2xl"
-            style={{
-              background: 'var(--color-surface, white)',
-              border: '1px solid var(--color-border)',
-            }}
-          >
-            <h3
-              className="text-sm lg:text-base font-bold mb-2 lg:mb-3"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              Over de auteur
-            </h3>
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>
-              Geschreven door <strong>{authorName}</strong>
-            </p>
+            {/* Share Buttons */}
+            {post.enableShare !== false && <ShareButtons title={post.title} url={currentUrl} />}
           </div>
 
-          {/* Related Posts */}
+          {/* Author Box */}
+          {post.author && <AuthorBox author={post.author} authorBio={post.authorBio} className="mt-7" />}
+
+          {/* Related Articles */}
           {relatedPosts && relatedPosts.length > 0 && (
-            <div
-              className="rounded-xl lg:rounded-2xl overflow-hidden"
-              style={{
-                background: 'var(--color-surface, white)',
-                border: '1px solid var(--color-border)',
-              }}
-            >
-              {/* Mobile: Collapsible Header */}
-              <button
-                onClick={() => setShowRelated(!showRelated)}
-                className="lg:hidden w-full p-4 flex items-center justify-between"
-              >
-                <h3
-                  className="text-base font-bold"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  Gerelateerde artikelen
-                </h3>
-                {showRelated ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-              </button>
+            <RelatedArticles posts={relatedPosts} className="mt-12" />
+          )}
+        </main>
 
-              {/* Desktop: Always visible header */}
-              <h3
-                className="hidden lg:block text-lg font-bold p-6 pb-4"
-                style={{ color: 'var(--color-text-primary)' }}
-              >
-                Gerelateerde artikelen
-              </h3>
+        {/* ═══ SIDEBAR ═══ */}
+        <aside className="flex flex-col gap-5">
+          {/* Table of Contents */}
+          {post.enableTOC !== false && <TableOfContents />}
 
-              {/* Related Posts List */}
-              <div
-                className={`
-                  ${showRelated ? 'block' : 'hidden'} lg:block
-                  px-4 pb-4 lg:px-6 lg:pb-6 space-y-3 lg:space-y-4
-                `}
-              >
-                {relatedPosts.slice(0, 3).map((relPost) => {
-                  const relImg =
-                    typeof relPost.featuredImage === 'object' && relPost.featuredImage !== null
-                      ? relPost.featuredImage.url
-                      : null
+          {/* Related Products Sidebar */}
+          {relatedProducts && relatedProducts.length > 0 && (
+            <div className="bg-white border border-gray-200 rounded-2xl p-5">
+              <div className="flex items-center gap-2 font-extrabold text-sm text-gray-900 mb-4">
+                <Icon name="Package" size={16} className="text-teal-600" />
+                Gerelateerde producten
+              </div>
+
+              <div className="flex flex-col gap-0">
+                {relatedProducts.slice(0, 3).map((product, index) => {
+                  if (typeof product === 'string') return null
+                  const prod = product as Product
+
                   return (
                     <Link
-                      key={relPost.id}
-                      href={`/blog/${relPost.slug}`}
-                      className="flex gap-3 p-2 lg:p-3 rounded-lg transition-colors hover:bg-gray-50"
+                      key={prod.id}
+                      href={`/products/${prod.slug}`}
+                      className={`flex gap-3 py-3 items-center hover:opacity-80 transition-opacity ${
+                        index < relatedProducts.length - 1 ? 'border-b border-gray-200' : ''
+                      }`}
                     >
-                      {relImg && (
-                        <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-lg overflow-hidden flex-shrink-0">
-                          <img
-                            src={relImg}
-                            alt={relPost.title}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      )}
+                      {/* Product Image/Emoji */}
+                      <div className="w-13 h-13 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
+                        🧤
+                      </div>
+
+                      {/* Product Info */}
                       <div className="flex-1 min-w-0">
-                        <h4
-                          className="text-sm lg:text-base font-semibold leading-snug mb-1 line-clamp-2"
-                          style={{ color: 'var(--color-text-primary)' }}
-                        >
-                          {relPost.title}
-                        </h4>
-                        <div className="flex items-center gap-1">
-                          <span
-                            className="text-xs lg:text-sm font-medium"
-                            style={{ color: 'var(--color-primary)' }}
-                          >
-                            Lees meer
-                          </span>
-                          <ArrowRight className="w-3 h-3" style={{ color: 'var(--color-primary)' }} />
+                        {prod.brand && (
+                          <div className="text-xs font-bold uppercase tracking-wide text-teal-600">
+                            {typeof prod.brand === 'object' ? prod.brand.name : prod.brand}
+                          </div>
+                        )}
+                        <div className="text-sm font-semibold text-gray-900 line-clamp-2">
+                          {prod.title}
                         </div>
                       </div>
+
+                      {/* Price */}
+                      {prod.price && (
+                        <div className="text-sm font-extrabold text-gray-900 flex-shrink-0">
+                          €{prod.price.toFixed(2).replace('.', ',')}
+                        </div>
+                      )}
                     </Link>
                   )
                 })}
               </div>
             </div>
           )}
-        </aside>
-      </div>
 
-      {/* MOBILE: Sticky Share Button */}
-      <div
-        className="lg:hidden fixed bottom-0 left-0 right-0 p-4 z-50"
-        style={{
-          background: 'white',
-          borderTop: '1px solid var(--color-border)',
-          boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
-        }}
-      >
-        <button
-          className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2 transition-opacity active:opacity-80"
-          style={{
-            background: 'var(--color-primary)',
-            color: 'white',
-          }}
-        >
-          <Share2 className="w-5 h-5" />
-          Deel dit artikel
-        </button>
+          {/* CTA Card */}
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-center relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-teal-500/10 rounded-full blur-2xl" />
+            <div className="relative z-10">
+              <h4 className="text-lg font-extrabold text-white mb-2">Producten nodig?</h4>
+              <p className="text-sm text-white/60 mb-4">
+                Bekijk ons complete assortiment medische supplies
+              </p>
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-teal-500 text-white rounded-xl font-bold text-sm hover:bg-teal-600 transition-colors"
+              >
+                <Icon name="ShoppingCart" size={16} />
+                Naar de shop
+              </Link>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   )
