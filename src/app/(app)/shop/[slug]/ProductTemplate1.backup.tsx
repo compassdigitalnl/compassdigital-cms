@@ -198,38 +198,72 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
   return (
     <>
-      <div className="product-template-1 pb-20 max-w-[100vw] overflow-x-hidden">
+      <div className="product-template-1" style={{ paddingBottom: '80px' }}>
         {/* MOBILE-FIRST: Product Header */}
-        <div className="px-4 md:px-6 py-4 bg-white">
+        <div style={{ padding: '16px', background: 'var(--color-surface, white)' }}>
           {/* Brand */}
           {product.brand && (
-            <div className="text-[11px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1.5 flex items-center gap-1">
+            <div
+              style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                color: 'var(--color-primary)',
+                letterSpacing: '0.05em',
+                marginBottom: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
               <Award className="w-3.5 h-3.5" />
               {product.brand}
             </div>
           )}
 
           {/* Title */}
-          <h1 className="font-heading text-[22px] md:text-3xl font-extrabold text-[var(--color-text-primary)] leading-tight tracking-tight mb-2">
+          <h1
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '22px',
+              fontWeight: 800,
+              color: 'var(--color-text-primary)',
+              lineHeight: 1.2,
+              letterSpacing: '-0.02em',
+              marginBottom: '8px',
+            }}
+            className="md:text-3xl"
+          >
             {product.title}
           </h1>
 
           {/* SKU / EAN / Packaging */}
-          <div className="font-mono text-[11px] text-[var(--color-text-muted)] mb-3 flex items-center gap-2 flex-wrap">
+          <div
+            style={{
+              fontFamily: 'monospace',
+              fontSize: '11px',
+              color: 'var(--color-text-muted)',
+              marginBottom: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              flexWrap: 'wrap',
+            }}
+          >
             {product.sku && (
-              <span className="flex items-center gap-1">
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Hash className="w-3 h-3" />
                 Art. {product.sku}
               </span>
             )}
             {product.ean && (
-              <span className="flex items-center gap-1">
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Barcode className="w-3 h-3" />
                 EAN {product.ean}
               </span>
             )}
             {product.packaging && (
-              <span className="flex items-center gap-1">
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Package className="w-3 h-3" />
                 {product.packaging}
               </span>
@@ -264,22 +298,66 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         </div>
 
         {/* MOBILE: Image Gallery - Swipeable */}
-        <div className="relative w-full h-[280px] md:h-96 lg:hidden bg-[var(--color-background,#F5F7FA)]">
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '280px',
+            background: 'var(--color-background, #F5F7FA)',
+          }}
+          className="md:h-96 lg:hidden"
+        >
           {/* Badges */}
           {(product.badge || product.salePrice) && (
-            <div className="absolute top-3 left-3 flex gap-1.5 z-10">
+            <div
+              style={{
+                position: 'absolute',
+                top: '12px',
+                left: '12px',
+                display: 'flex',
+                gap: '6px',
+                zIndex: 10,
+              }}
+            >
               {savingsPercent > 0 && (
-                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#FF6B6B] text-white">
+                <span
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    background: '#FF6B6B',
+                    color: 'white',
+                  }}
+                >
                   -{savingsPercent}%
                 </span>
               )}
               {product.badge === 'popular' && (
-                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[var(--color-primary)] text-white">
+                <span
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    background: 'var(--color-primary)',
+                    color: 'white',
+                  }}
+                >
                   Bestseller
                 </span>
               )}
               {product.badge === 'new' && (
-                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[var(--color-primary)] text-white">
+                <span
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    background: 'var(--color-primary)',
+                    color: 'white',
+                  }}
+                >
                   NIEUW
                 </span>
               )}
@@ -287,18 +365,47 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           )}
 
           {/* Actions */}
-          <div className="absolute top-3 right-3 flex gap-1.5 z-10">
+          <div
+            style={{
+              position: 'absolute',
+              top: '12px',
+              right: '12px',
+              display: 'flex',
+              gap: '6px',
+              zIndex: 10,
+            }}
+          >
             <button
-              className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer active:opacity-80"
+              style={{
+                width: '36px',
+                height: '36px',
+                background: 'rgba(255,255,255,0.95)',
+                border: '1px solid var(--color-border)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
               aria-label="Add to favorites"
             >
-              <Heart className="w-4 h-4 text-[var(--color-text-primary)]" />
+              <Heart className="w-4 h-4" style={{ color: 'var(--color-text-primary)' }} />
             </button>
             <button
-              className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer active:opacity-80"
+              style={{
+                width: '36px',
+                height: '36px',
+                background: 'rgba(255,255,255,0.95)',
+                border: '1px solid var(--color-border)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
               aria-label="Share product"
             >
-              <Share2 className="w-4 h-4 text-[var(--color-text-primary)]" />
+              <Share2 className="w-4 h-4" style={{ color: 'var(--color-text-primary)' }} />
             </button>
           </div>
 
@@ -1213,9 +1320,17 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         </div>
 
         {/* MOBILE: Price + Stock + Actions */}
-        <div className="px-4 md:px-6 lg:hidden">
+        <div style={{ padding: '16px' }} className="lg:hidden">
           {/* PRICE BLOCK */}
-          <div className="bg-white border border-[var(--color-border)] rounded-xl p-4 mb-4">
+          <div
+            style={{
+              background: 'var(--color-surface, white)',
+              border: '1px solid var(--color-border)',
+              borderRadius: '12px',
+              padding: '16px',
+              marginBottom: '16px',
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
               <span
                 style={{
@@ -1678,9 +1793,17 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         </div>
 
         {/* MOBILE: Accordion Tabs */}
-        <div className="px-4 md:px-6 pb-4 lg:hidden">
+        <div style={{ padding: '0 16px 16px' }} className="lg:hidden">
           {/* Description Accordion */}
-          <div className="border border-[var(--color-border)] rounded-xl mb-3 overflow-hidden bg-white">
+          <div
+            style={{
+              border: '1px solid var(--color-border)',
+              borderRadius: '12px',
+              marginBottom: '12px',
+              overflow: 'hidden',
+              background: 'var(--color-surface, white)',
+            }}
+          >
             <button
               onClick={() => setAccordionOpen(accordionOpen === 'description' ? null : 'description')}
               style={{
@@ -2639,7 +2762,23 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
       {/* STICKY ADD TO CART BAR - Mobile & Tablet */}
       {showStickyATC && (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[var(--color-border)] px-4 py-3 z-[1000] shadow-[0_-4px_20px_rgba(0,0,0,0.08)] flex items-center gap-3">
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            background: 'white',
+            borderTop: '1px solid var(--color-border)',
+            padding: '12px 16px',
+            zIndex: 1000,
+            boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          }}
+          className="lg:hidden"
+        >
           {/* Product Info */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div

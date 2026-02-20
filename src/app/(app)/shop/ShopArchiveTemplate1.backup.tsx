@@ -345,19 +345,51 @@ export default function ShopArchiveTemplate1({
   )
 
   return (
-    <div className="font-body max-w-[100vw] overflow-x-hidden">
+    <div style={{ fontFamily: 'var(--font-body)' }}>
       {/* ========================================
           MOBILE CATEGORY HERO
           ======================================== */}
-      <section className="lg:hidden bg-gradient-to-br from-[#1A1F36] via-[#232942] to-[#0D2137] px-4 md:px-6 py-8 relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-1.5 bg-blue-500/15 border border-blue-500/30 px-3 py-1 rounded-full text-[11px] font-semibold text-blue-400 tracking-wide uppercase mb-3">
+      <section className="lg:hidden"
+        style={{
+          background: 'linear-gradient(135deg, #1A1F36 0%, #232942 50%, #0D2137 100%)',
+          padding: '32px 16px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(59,130,246,0.15)',
+              border: '1px solid rgba(59,130,246,0.3)',
+              padding: '5px 12px',
+              borderRadius: '100px',
+              fontSize: '11px',
+              fontWeight: 600,
+              color: '#60A5FA',
+              letterSpacing: '0.03em',
+              textTransform: 'uppercase',
+              marginBottom: '12px',
+            }}
+          >
             <Package className="w-3 h-3" /> Categorie
           </div>
-          <h1 className="font-heading text-[28px] md:text-4xl font-extrabold text-white tracking-tight mb-2">
+          <h1
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '28px',
+              fontWeight: 800,
+              color: 'white',
+              letterSpacing: '-0.02em',
+              marginBottom: '8px',
+            }}
+          >
             {category?.name || 'Alle Producten'}
           </h1>
-          <p className="text-sm text-white/50 leading-relaxed mb-5">
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, marginBottom: '20px' }}>
             {category?.description || 'Professionele medische producten van topkwaliteit'}
           </p>
 
@@ -536,19 +568,19 @@ export default function ShopArchiveTemplate1({
       </section>
 
       {/* Shop Layout */}
-      <div className="max-w-[1240px] mx-auto px-4 md:px-6 lg:px-24 pt-7 pb-24">
-        <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-7">
+      <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '28px 16px 100px' }} className="lg:px-24">
+        <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-7" style={{ display: 'block' }}>
           {/* DESKTOP Sidebar Filters */}
-          <aside className="hidden lg:block lg:sticky lg:top-[90px]">
+          <aside className="hidden lg:block" style={{ position: 'sticky', top: '90px' }}>
             <FiltersContent />
           </aside>
 
           {/* Main Product Content */}
           <main>
             {/* Mobile Toolbar */}
-            <div className="lg:hidden mb-4">
-              <div className="mb-3 text-[13px] text-[var(--color-text-muted)]">
-                <strong className="text-[var(--color-text-primary)] font-bold">
+            <div className="lg:hidden" style={{ marginBottom: '16px' }}>
+              <div style={{ marginBottom: '12px', fontSize: '13px', color: 'var(--color-text-muted)' }}>
+                <strong style={{ color: 'var(--color-text-primary)', fontWeight: 700 }}>
                   {products.length}
                 </strong>{' '}
                 van {totalProducts} producten
@@ -556,7 +588,19 @@ export default function ShopArchiveTemplate1({
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-3.5 py-3 bg-white border-[1.5px] border-[var(--color-border)] rounded-lg font-body text-sm font-semibold text-[var(--color-text-primary)] cursor-pointer outline-none"
+                style={{
+                  width: '100%',
+                  padding: '12px 14px',
+                  background: 'var(--color-surface, white)',
+                  border: '1.5px solid var(--color-border)',
+                  borderRadius: '10px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  color: 'var(--color-text-primary)',
+                  cursor: 'pointer',
+                  outline: 'none',
+                }}
               >
                 <option value="relevance">Relevantie</option>
                 <option value="price-asc">Prijs: laag → hoog</option>
@@ -702,7 +746,12 @@ export default function ShopArchiveTemplate1({
                   }
                 }
               `}</style>
-              <div className="product-grid grid grid-cols-1 gap-3 lg:gap-5">
+              <div
+                className="product-grid grid gap-3 lg:gap-5"
+                style={{
+                  gridTemplateColumns: '1fr',
+                }}
+              >
                 {products.map((product) => {
                   const imageUrl =
                     typeof product.images?.[0]?.image === 'object' && product.images[0].image !== null
@@ -714,7 +763,18 @@ export default function ShopArchiveTemplate1({
                     <Link
                       key={product.id}
                       href={`/shop/${product.slug}`}
-                      className="bg-white rounded-2xl overflow-hidden border border-[var(--color-border)] transition-all duration-[350ms] relative no-underline text-inherit flex flex-col"
+                      style={{
+                        background: 'var(--color-surface, white)',
+                        borderRadius: '16px',
+                        overflow: 'hidden',
+                        border: '1px solid var(--color-border)',
+                        transition: 'all 0.35s',
+                        position: 'relative',
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        display: 'flex',
+                        flexDirection: viewMode === 'grid' ? 'column' : 'row',
+                      }}
                     >
                       {/* Product Image */}
                       <div

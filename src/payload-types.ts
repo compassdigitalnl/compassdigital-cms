@@ -4107,6 +4107,18 @@ export interface Setting {
    */
   defaultShopArchiveTemplate?: 'shoparchivetemplate1' | null;
   /**
+   * Template voor winkelwagen pagina
+   */
+  defaultCartTemplate?: 'carttemplate1' | null;
+  /**
+   * Template voor checkout/afrekenen pagina
+   */
+  defaultCheckoutTemplate?: 'checkouttemplate1' | null;
+  /**
+   * Template voor mijn account pagina's
+   */
+  defaultMyAccountTemplate?: 'myaccounttemplate1' | null;
+  /**
    * Bestellingen boven dit bedrag krijgen gratis verzending
    */
   freeShippingThreshold: number;
@@ -4627,6 +4639,9 @@ export interface SettingsSelect<T extends boolean = true> {
   defaultProductTemplate?: T;
   defaultBlogTemplate?: T;
   defaultShopArchiveTemplate?: T;
+  defaultCartTemplate?: T;
+  defaultCheckoutTemplate?: T;
+  defaultMyAccountTemplate?: T;
   freeShippingThreshold?: T;
   shippingCost?: T;
   deliveryTime?: T;
