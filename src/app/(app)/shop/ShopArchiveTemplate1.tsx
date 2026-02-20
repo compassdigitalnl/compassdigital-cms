@@ -132,62 +132,20 @@ export default function ShopArchiveTemplate1({
     <div>
       {/* Filter: Merken */}
       {brands.length > 0 && (
-        <div
-          style={{
-            background: 'var(--color-surface, white)',
-            border: '1px solid var(--color-border)',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            marginBottom: '16px',
-          }}
-        >
-          <div
-            style={{
-              padding: '16px 18px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              cursor: 'pointer',
-            }}
-          >
-            <h3
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: '14px',
-                fontWeight: 700,
-                color: 'var(--color-text-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              <Award className="w-4 h-4" style={{ color: 'var(--color-primary)' }} /> Merk
+        <div className="bg-white border border-[var(--color-border)] rounded-2xl overflow-hidden mb-4">
+          <div className="p-4 md:px-5 flex items-center justify-between cursor-pointer">
+            <h3 className="font-[var(--font-heading)] text-sm font-bold text-[var(--color-text-primary)] flex items-center gap-2">
+              <Award className="w-4 h-4 text-[var(--color-primary)]" /> Merk
             </h3>
-            <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+            <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
           </div>
-          <div style={{ padding: '0 18px 16px' }}>
+          <div className="px-4 md:px-5 pb-4">
             {brands.slice(0, 6).map((brand) => (
               <div
                 key={brand}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '7px 0',
-                  fontSize: '14px',
-                  color: 'var(--color-text-primary)',
-                  cursor: 'pointer',
-                }}
+                className="flex items-center gap-2.5 py-1.5 md:py-2 text-sm text-[var(--color-text-primary)] cursor-pointer"
               >
-                <div
-                  style={{
-                    width: '18px',
-                    height: '18px',
-                    border: '2px solid var(--color-border)',
-                    borderRadius: '5px',
-                    flexShrink: 0,
-                  }}
-                />
+                <div className="w-[18px] h-[18px] border-2 border-[var(--color-border)] rounded-md flex-shrink-0" />
                 {brand}
               </div>
             ))}
@@ -197,61 +155,20 @@ export default function ShopArchiveTemplate1({
 
       {/* Filter: Materiaal */}
       {materials.length > 0 && (
-        <div
-          style={{
-            background: 'var(--color-surface, white)',
-            border: '1px solid var(--color-border)',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            marginBottom: '16px',
-          }}
-        >
-          <div
-            style={{
-              padding: '16px 18px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <h3
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: '14px',
-                fontWeight: 700,
-                color: 'var(--color-text-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              <Layers className="w-4 h-4" style={{ color: 'var(--color-primary)' }} /> Materiaal
+        <div className="bg-white border border-[var(--color-border)] rounded-2xl overflow-hidden mb-4">
+          <div className="p-4 md:px-5 flex items-center justify-between">
+            <h3 className="font-[var(--font-heading)] text-sm font-bold text-[var(--color-text-primary)] flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[var(--color-primary)]" /> Materiaal
             </h3>
-            <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+            <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
           </div>
-          <div style={{ padding: '0 18px 16px' }}>
+          <div className="px-4 md:px-5 pb-4">
             {materials.slice(0, 4).map((material) => (
               <div
                 key={material}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '7px 0',
-                  fontSize: '14px',
-                  color: 'var(--color-text-primary)',
-                  cursor: 'pointer',
-                }}
+                className="flex items-center gap-2.5 py-1.5 md:py-2 text-sm text-[var(--color-text-primary)] cursor-pointer"
               >
-                <div
-                  style={{
-                    width: '18px',
-                    height: '18px',
-                    border: '2px solid var(--color-border)',
-                    borderRadius: '5px',
-                    flexShrink: 0,
-                  }}
-                />
+                <div className="w-[18px] h-[18px] border-2 border-[var(--color-border)] rounded-md flex-shrink-0" />
                 {material}
               </div>
             ))}
@@ -260,64 +177,18 @@ export default function ShopArchiveTemplate1({
       )}
 
       {/* Filter: Beschikbaarheid */}
-      <div
-        style={{
-          background: 'var(--color-surface, white)',
-          border: '1px solid var(--color-border)',
-          borderRadius: '16px',
-          overflow: 'hidden',
-          marginBottom: '16px',
-        }}
-      >
-        <div
-          style={{
-            padding: '16px 18px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <h3
-            style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '14px',
-              fontWeight: 700,
-              color: 'var(--color-text-primary)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            <PackageCheck className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />{' '}
-            Beschikbaarheid
+      <div className="bg-white border border-[var(--color-border)] rounded-2xl overflow-hidden mb-4">
+        <div className="p-4 md:px-5 flex items-center justify-between">
+          <h3 className="font-[var(--font-heading)] text-sm font-bold text-[var(--color-text-primary)] flex items-center gap-2">
+            <PackageCheck className="w-4 h-4 text-[var(--color-primary)]" /> Beschikbaarheid
           </h3>
-          <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+          <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
         </div>
-        <div style={{ padding: '0 18px 16px' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '7px 0',
-              fontSize: '14px',
-              color: 'var(--color-text-primary)',
-              cursor: 'pointer',
-            }}
-          >
-            <div
-              style={{
-                width: '18px',
-                height: '18px',
-                border: '2px solid var(--color-border)',
-                borderRadius: '5px',
-                flexShrink: 0,
-              }}
-            />
+        <div className="px-4 md:px-5 pb-4">
+          <div className="flex items-center gap-2.5 py-1.5 md:py-2 text-sm text-[var(--color-text-primary)] cursor-pointer">
+            <div className="w-[18px] h-[18px] border-2 border-[var(--color-border)] rounded-md flex-shrink-0" />
             Op voorraad
-            <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)' }}>
-              {stats.inStock}
-            </span>
+            <span className="ml-auto text-xs text-[var(--color-text-muted)]">{stats.inStock}</span>
           </div>
         </div>
       </div>
@@ -326,17 +197,7 @@ export default function ShopArchiveTemplate1({
       {activeFilters.length > 0 && (
         <div
           onClick={clearAllFilters}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '6px',
-            padding: '12px',
-            fontSize: '13px',
-            color: 'var(--color-text-muted)',
-            cursor: 'pointer',
-            transition: 'color 0.2s',
-          }}
+          className="flex items-center justify-center gap-1.5 p-3 text-[13px] text-[var(--color-text-muted)] cursor-pointer transition-colors hover:text-[var(--color-text-primary)]"
         >
           <XCircle className="w-4 h-4" /> Alle filters wissen
         </div>
@@ -362,52 +223,25 @@ export default function ShopArchiveTemplate1({
           </p>
 
           {/* Mobile Stats */}
-          <div style={{ display: 'flex', gap: '20px' }}>
+          <div className="flex gap-5 md:gap-8">
             <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '22px',
-                  fontWeight: 800,
-                  color: 'white',
-                }}
-              >
+              <div className="font-heading text-[20px] md:text-[22px] font-extrabold text-white">
                 {stats.totalProducts}
               </div>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                Producten
-              </div>
+              <div className="text-[11px] text-white/40 mt-0.5">Producten</div>
             </div>
             <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '22px',
-                  fontWeight: 800,
-                  color: 'white',
-                }}
-              >
+              <div className="font-heading text-[20px] md:text-[22px] font-extrabold text-white">
                 {stats.brands}
               </div>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                Merken
-              </div>
+              <div className="text-[11px] text-white/40 mt-0.5">Merken</div>
             </div>
             <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '22px',
-                  fontWeight: 800,
-                  color: 'white',
-                }}
-              >
+              <div className="font-heading text-[20px] md:text-[22px] font-extrabold text-white">
                 {Math.round((stats.inStock / stats.totalProducts) * 100)}
-                <span style={{ color: '#60A5FA' }}>%</span>
+                <span className="text-[#60A5FA]">%</span>
               </div>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                Op voorraad
-              </div>
+              <div className="text-[11px] text-white/40 mt-0.5">Op voorraad</div>
             </div>
           </div>
         </div>
@@ -416,120 +250,42 @@ export default function ShopArchiveTemplate1({
       {/* ========================================
           DESKTOP CATEGORY HERO
           ======================================== */}
-      <section className="hidden lg:block"
-        style={{
-          background: 'linear-gradient(135deg, #1A1F36 0%, #232942 50%, #0D2137 100%)',
-          padding: '48px 0',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            top: '-50%',
-            right: '-10%',
-            width: '500px',
-            height: '500px',
-            background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)',
-            borderRadius: '50%',
-          }}
-        />
-        <div
-          style={{
-            maxWidth: '1240px',
-            margin: '0 auto',
-            padding: '0 24px',
-            position: 'relative',
-            zIndex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '40px',
-          }}
-        >
+      <section className="hidden lg:block bg-gradient-to-br from-[#1A1F36] via-[#232942] to-[#0D2137] py-12 relative overflow-hidden">
+        {/* Decorative gradient */}
+        <div className="absolute -top-1/2 -right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-radial from-blue-500/10 to-transparent" />
+
+        <div className="max-w-[1240px] mx-auto px-6 relative z-10 flex items-center justify-between gap-10">
           <div>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(59,130,246,0.15)',
-                border: '1px solid rgba(59,130,246,0.3)',
-                padding: '6px 14px',
-                borderRadius: '100px',
-                fontSize: '12px',
-                fontWeight: 600,
-                color: '#60A5FA',
-                letterSpacing: '0.03em',
-                textTransform: 'uppercase',
-                marginBottom: '16px',
-              }}
-            >
+            <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-500/30 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#60A5FA] tracking-wider uppercase mb-4">
               <Package className="w-4 h-4" /> Categorie
             </div>
-            <h1
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: '36px',
-                fontWeight: 800,
-                color: 'white',
-                letterSpacing: '-0.02em',
-                marginBottom: '10px',
-              }}
-            >
+            <h1 className="font-heading text-4xl font-extrabold text-white tracking-tight mb-2.5">
               {category?.name || 'Alle Producten'}
             </h1>
-            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, maxWidth: '520px' }}>
+            <p className="text-base text-white/50 leading-relaxed max-w-[520px]">
               {category?.description || 'Professionele medische producten van topkwaliteit'}
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '32px' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '28px',
-                  fontWeight: 800,
-                  color: 'white',
-                }}
-              >
+
+          <div className="flex gap-8">
+            <div className="text-center">
+              <div className="font-heading text-[28px] font-extrabold text-white">
                 {stats.totalProducts}
               </div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                Producten
-              </div>
+              <div className="text-xs text-white/40 mt-0.5">Producten</div>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '28px',
-                  fontWeight: 800,
-                  color: 'white',
-                }}
-              >
+            <div className="text-center">
+              <div className="font-heading text-[28px] font-extrabold text-white">
                 {stats.brands}
               </div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                Merken
-              </div>
+              <div className="text-xs text-white/40 mt-0.5">Merken</div>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '28px',
-                  fontWeight: 800,
-                  color: 'white',
-                }}
-              >
+            <div className="text-center">
+              <div className="font-heading text-[28px] font-extrabold text-white">
                 {Math.round((stats.inStock / stats.totalProducts) * 100)}
-                <span style={{ color: '#60A5FA' }}>%</span>
+                <span className="text-[#60A5FA]">%</span>
               </div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                Op voorraad
-              </div>
+              <div className="text-xs text-white/40 mt-0.5">Op voorraad</div>
             </div>
           </div>
         </div>
@@ -567,42 +323,21 @@ export default function ShopArchiveTemplate1({
             </div>
 
             {/* Desktop Toolbar */}
-            <div className="hidden lg:flex"
-              style={{
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '20px',
-                gap: '16px',
-                flexWrap: 'wrap',
-              }}
-            >
+            <div className="hidden lg:flex items-center justify-between mb-5 gap-4 flex-wrap">
               <div>
-                <div style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-                  <strong style={{ color: 'var(--color-text-primary)', fontWeight: 700 }}>
+                <div className="text-sm text-[var(--color-text-muted)]">
+                  <strong className="text-[var(--color-text-primary)] font-bold">
                     {products.length}
                   </strong>{' '}
                   van {totalProducts} producten
                 </div>
                 {activeFilters.length > 0 && (
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
+                  <div className="flex gap-2 flex-wrap mt-2">
                     {activeFilters.map((filter, idx) => (
                       <div
                         key={idx}
                         onClick={() => handleRemoveFilter(filter.key, filter.value)}
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          padding: '6px 12px',
-                          background: 'rgba(59,130,246,0.08)',
-                          border: '1px solid rgba(59,130,246,0.2)',
-                          borderRadius: '8px',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          color: 'var(--color-primary)',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s',
-                        }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs font-semibold text-[var(--color-primary)] cursor-pointer transition-all hover:bg-blue-500/20"
                       >
                         {filter.value}
                         <X className="w-3 h-3" />
@@ -611,22 +346,12 @@ export default function ShopArchiveTemplate1({
                   </div>
                 )}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+
+              <div className="flex items-center gap-3">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  style={{
-                    padding: '10px 36px 10px 14px',
-                    background: 'var(--color-surface, white)',
-                    border: '1.5px solid var(--color-border)',
-                    borderRadius: '10px',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    color: 'var(--color-text-primary)',
-                    cursor: 'pointer',
-                    outline: 'none',
-                  }}
+                  className="py-2.5 px-3.5 pr-9 bg-white border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-[13px] font-semibold text-[var(--color-text-primary)] cursor-pointer outline-none"
                 >
                   <option value="relevance">Relevantie</option>
                   <option value="price-asc">Prijs: laag → hoog</option>
@@ -634,27 +359,13 @@ export default function ShopArchiveTemplate1({
                   <option value="newest">Nieuwste</option>
                   <option value="rating">Best beoordeeld</option>
                 </select>
-                <div
-                  style={{
-                    display: 'flex',
-                    border: '1.5px solid var(--color-border)',
-                    borderRadius: '10px',
-                    overflow: 'hidden',
-                  }}
-                >
+
+                <div className="flex border-[1.5px] border-[var(--color-border)] rounded-xl overflow-hidden">
                   <button
                     onClick={() => setViewMode('grid')}
-                    style={{
-                      width: '40px',
-                      height: '38px',
-                      border: 'none',
-                      background: viewMode === 'grid' ? 'rgba(59,130,246,0.08)' : 'var(--color-surface, white)',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRight: '1px solid var(--color-border)',
-                    }}
+                    className={`w-10 h-[38px] border-none flex items-center justify-center cursor-pointer border-r border-[var(--color-border)] ${
+                      viewMode === 'grid' ? 'bg-blue-500/10' : 'bg-white'
+                    }`}
                   >
                     <Grid3X3
                       className="w-4 h-4"
@@ -663,16 +374,9 @@ export default function ShopArchiveTemplate1({
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
-                    style={{
-                      width: '40px',
-                      height: '38px',
-                      border: 'none',
-                      background: viewMode === 'list' ? 'rgba(59,130,246,0.08)' : 'var(--color-surface, white)',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
+                    className={`w-10 h-[38px] border-none flex items-center justify-center cursor-pointer ${
+                      viewMode === 'list' ? 'bg-blue-500/10' : 'bg-white'
+                    }`}
                   >
                     <List
                       className="w-4 h-4"
@@ -684,12 +388,7 @@ export default function ShopArchiveTemplate1({
             </div>
 
             {/* Product Grid - Responsive */}
-            <div
-              className="grid gap-3 lg:gap-5"
-              style={{
-                gridTemplateColumns: viewMode === 'grid' ? '1fr' : '1fr',
-              }}
-            >
+            <div className="grid gap-3 lg:gap-5">
               <style>{`
                 @media (min-width: 640px) {
                   .product-grid {
@@ -714,166 +413,66 @@ export default function ShopArchiveTemplate1({
                     <Link
                       key={product.id}
                       href={`/shop/${product.slug}`}
-                      className="bg-white rounded-2xl overflow-hidden border border-[var(--color-border)] transition-all duration-[350ms] relative no-underline text-inherit flex flex-col"
+                      className="bg-white rounded-2xl overflow-hidden border border-[var(--color-border)] transition-all duration-[350ms] relative no-underline text-inherit flex flex-col hover:shadow-lg"
                     >
                       {/* Product Image */}
                       <div
-                        style={{
-                          width: viewMode === 'grid' ? '100%' : '120px',
-                          height: viewMode === 'grid' ? '180px' : 'auto',
-                          minHeight: viewMode === 'list' ? '140px' : undefined,
-                          background: 'var(--color-background)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          position: 'relative',
-                          flexShrink: 0,
-                        }}
-                        className="lg:w-auto lg:h-auto lg:min-h-0"
+                        className={`bg-[var(--color-background)] flex items-center justify-center relative flex-shrink-0 ${
+                          viewMode === 'grid' ? 'w-full h-[180px] md:h-[200px]' : 'w-[120px] min-h-[140px] lg:w-full lg:h-auto lg:min-h-0'
+                        }`}
                       >
                         {imageUrl ? (
                           <img
                             src={imageUrl}
                             alt={product.title}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            className="w-full h-full object-cover"
                           />
                         ) : (
-                          <Package className="w-12 h-12 lg:w-16 lg:h-16" style={{ color: 'var(--color-text-muted)' }} />
+                          <Package className="w-12 h-12 lg:w-16 lg:h-16 text-[var(--color-text-muted)]" />
                         )}
                       </div>
 
                       {/* Product Info */}
-                      <div
-                        style={{
-                          padding: '14px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          flex: 1,
-                        }}
-                        className="lg:p-18"
-                      >
+                      <div className="p-3.5 md:p-4 lg:p-[18px] flex flex-col flex-1">
                         {product.brand && (
-                          <div
-                            style={{
-                              fontSize: '10px',
-                              fontWeight: 700,
-                              textTransform: 'uppercase',
-                              color: 'var(--color-primary)',
-                              letterSpacing: '0.05em',
-                              marginBottom: '5px',
-                            }}
-                            className="lg:text-11 lg:mb-6"
-                          >
+                          <div className="text-[10px] lg:text-[11px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1 md:mb-1.5">
                             {product.brand}
                           </div>
                         )}
-                        <div
-                          style={{
-                            fontWeight: 600,
-                            fontSize: '13px',
-                            color: 'var(--color-text-primary)',
-                            marginBottom: '4px',
-                            lineHeight: 1.4,
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden',
-                          }}
-                          className="lg:text-14"
-                        >
+                        <div className="font-semibold text-[13px] lg:text-sm text-[var(--color-text-primary)] mb-1 leading-snug line-clamp-2">
                           {product.title}
                         </div>
                         {product.sku && (
-                          <div
-                            style={{
-                              fontFamily: 'var(--font-mono)',
-                              fontSize: '10px',
-                              color: 'var(--color-text-muted)',
-                              marginBottom: '8px',
-                            }}
-                            className="lg:text-11"
-                          >
+                          <div className="font-mono text-[10px] lg:text-[11px] text-[var(--color-text-muted)] mb-2">
                             Art. {product.sku}
                           </div>
                         )}
 
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'flex-end',
-                            marginTop: 'auto',
-                          }}
-                        >
+                        <div className="flex justify-between items-end mt-auto">
                           <div>
-                            <div
-                              style={{
-                                fontFamily: 'var(--font-heading)',
-                                fontSize: '18px',
-                                fontWeight: 800,
-                                color: 'var(--color-text-primary)',
-                              }}
-                              className="lg:text-20"
-                            >
+                            <div className="font-heading text-lg lg:text-xl font-extrabold text-[var(--color-text-primary)]">
                               €{product.price.toFixed(2).replace('.', ',')}
                             </div>
-                            <div style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '1px' }} className="lg:text-11">
+                            <div className="text-[10px] lg:text-[11px] text-[var(--color-text-muted)] mt-px">
                               excl. BTW
                             </div>
                             {product.volumePricing && product.volumePricing.length > 0 && (
-                              <div
-                                style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '3px',
-                                  fontSize: '10px',
-                                  color: 'var(--color-primary)',
-                                  fontWeight: 600,
-                                  marginTop: '3px',
-                                }}
-                                className="lg:text-11 lg:gap-4"
-                              >
+                              <div className="inline-flex items-center gap-1 text-[10px] lg:text-[11px] text-[var(--color-primary)] font-semibold mt-1">
                                 <Layers className="w-3 h-3" /> Staffelprijzen
                               </div>
                             )}
                           </div>
 
                           {/* Quick Add */}
-                          <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '5px',
-                            }}
-                            className="lg:gap-6"
-                          >
-                            <div
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                border: '1.5px solid var(--color-border)',
-                                borderRadius: '8px',
-                                overflow: 'hidden',
-                              }}
-                            >
+                          <div className="flex items-center gap-1.5 md:gap-2">
+                            <div className="flex items-center border-[1.5px] border-[var(--color-border)] rounded-lg overflow-hidden">
                               <button
                                 onClick={(e) => {
                                   e.preventDefault()
                                   e.stopPropagation()
                                   stepQuantity(product.id, -1)
                                 }}
-                                style={{
-                                  minWidth: '32px',
-                                  minHeight: '32px',
-                                  border: 'none',
-                                  background: 'var(--color-background)',
-                                  cursor: 'pointer',
-                                  fontSize: '14px',
-                                  color: 'var(--color-text-primary)',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
+                                className="min-w-[32px] min-h-[32px] border-none bg-[var(--color-background)] cursor-pointer text-sm text-[var(--color-text-primary)] flex items-center justify-center"
                                 aria-label="Decrease quantity"
                               >
                                 <Minus className="w-3 h-3" />
@@ -882,16 +481,7 @@ export default function ShopArchiveTemplate1({
                                 type="number"
                                 value={qty}
                                 readOnly
-                                style={{
-                                  width: '28px',
-                                  height: '32px',
-                                  border: 'none',
-                                  textAlign: 'center',
-                                  fontFamily: 'var(--font-mono)',
-                                  fontSize: '12px',
-                                  color: 'var(--color-text-primary)',
-                                  outline: 'none',
-                                }}
+                                className="w-7 h-8 border-none text-center font-mono text-xs text-[var(--color-text-primary)] outline-none"
                               />
                               <button
                                 onClick={(e) => {
@@ -899,18 +489,7 @@ export default function ShopArchiveTemplate1({
                                   e.stopPropagation()
                                   stepQuantity(product.id, 1)
                                 }}
-                                style={{
-                                  minWidth: '32px',
-                                  minHeight: '32px',
-                                  border: 'none',
-                                  background: 'var(--color-background)',
-                                  cursor: 'pointer',
-                                  fontSize: '14px',
-                                  color: 'var(--color-text-primary)',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
+                                className="min-w-[32px] min-h-[32px] border-none bg-[var(--color-background)] cursor-pointer text-sm text-[var(--color-text-primary)] flex items-center justify-center"
                                 aria-label="Increase quantity"
                               >
                                 <Plus className="w-3 h-3" />
@@ -918,20 +497,7 @@ export default function ShopArchiveTemplate1({
                             </div>
                             <button
                               onClick={(e) => handleAddToCart(product, e)}
-                              style={{
-                                minWidth: '38px',
-                                minHeight: '38px',
-                                borderRadius: '10px',
-                                background: 'var(--color-primary)',
-                                color: 'white',
-                                border: 'none',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                transition: 'all 0.3s',
-                                boxShadow: '0 2px 8px rgba(59,130,246,0.3)',
-                              }}
+                              className="min-w-[38px] min-h-[38px] rounded-xl bg-[var(--color-primary)] text-white border-none cursor-pointer flex items-center justify-center transition-all shadow-[0_2px_8px_rgba(59,130,246,0.3)] hover:shadow-[0_4px_12px_rgba(59,130,246,0.4)]"
                               aria-label="Add to cart"
                             >
                               <ShoppingCart className="w-4 h-4" />
@@ -942,27 +508,14 @@ export default function ShopArchiveTemplate1({
                         {/* Stock Status */}
                         {product.stock > 0 && (
                           <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '5px',
-                              fontSize: '11px',
-                              color: product.stock > 20 ? '#10B981' : '#F59E0B',
-                              fontWeight: 500,
-                              marginTop: '10px',
-                              paddingTop: '10px',
-                              borderTop: '1px solid var(--color-border)',
-                            }}
-                            className="lg:text-12 lg:mt-12 lg:pt-12"
+                            className={`flex items-center gap-1.5 text-[11px] lg:text-xs font-medium mt-2.5 md:mt-3 pt-2.5 md:pt-3 border-t border-[var(--color-border)] ${
+                              product.stock > 20 ? 'text-[#10B981]' : 'text-[#F59E0B]'
+                            }`}
                           >
                             <div
-                              style={{
-                                width: '5px',
-                                height: '5px',
-                                background: product.stock > 20 ? '#10B981' : '#F59E0B',
-                                borderRadius: '50%',
-                              }}
-                              className="lg:w-6 lg:h-6"
+                              className={`w-1.5 h-1.5 lg:w-[6px] lg:h-[6px] rounded-full ${
+                                product.stock > 20 ? 'bg-[#10B981]' : 'bg-[#F59E0B]'
+                              }`}
                             />
                             {product.stock > 20 ? 'Op voorraad' : `Nog ${product.stock} op voorraad`}
                           </div>
@@ -976,70 +529,17 @@ export default function ShopArchiveTemplate1({
 
             {/* Pagination Placeholder */}
             {products.length > 0 && (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                  paddingTop: '32px',
-                }}
-                className="lg:pt-40"
-              >
+              <div className="flex items-center justify-center gap-1.5 pt-8 lg:pt-10">
                 <button
                   disabled
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '10px',
-                    border: '1.5px solid var(--color-border)',
-                    background: 'var(--color-surface, white)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'var(--color-text-primary)',
-                    cursor: 'pointer',
-                    opacity: 0.3,
-                  }}
+                  className="w-[42px] h-[42px] rounded-xl border-[1.5px] border-[var(--color-border)] bg-white flex items-center justify-center text-sm font-semibold text-[var(--color-text-primary)] cursor-pointer opacity-30"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <button
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '10px',
-                    background: 'var(--color-primary)',
-                    border: '1.5px solid var(--color-primary)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
+                <button className="w-[42px] h-[42px] rounded-xl bg-[var(--color-primary)] border-[1.5px] border-[var(--color-primary)] text-white flex items-center justify-center text-sm font-semibold cursor-pointer">
                   1
                 </button>
-                <button
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '10px',
-                    border: '1.5px solid var(--color-border)',
-                    background: 'var(--color-surface, white)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'var(--color-text-primary)',
-                    cursor: 'pointer',
-                  }}
-                >
+                <button className="w-[42px] h-[42px] rounded-xl border-[1.5px] border-[var(--color-border)] bg-white flex items-center justify-center text-sm font-semibold text-[var(--color-text-primary)] cursor-pointer">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
@@ -1053,48 +553,12 @@ export default function ShopArchiveTemplate1({
           ======================================== */}
       <button
         onClick={() => setShowMobileFilters(true)}
-        className="lg:hidden"
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '16px',
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 85%, black) 100%)',
-          color: 'white',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.15), 0 4px 12px rgba(59,130,246,0.3)',
-          zIndex: 999,
-          transition: 'all 0.3s',
-        }}
+        className="lg:hidden fixed bottom-6 right-4 w-14 h-14 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[color-mix(in_srgb,var(--color-primary)_85%,black)] text-white border-none cursor-pointer flex items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.15),0_4px_12px_rgba(59,130,246,0.3)] z-[999] transition-all hover:scale-105"
         aria-label="Open filters"
       >
         <SlidersHorizontal className="w-5 h-5" />
         {activeFilters.length > 0 && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '-4px',
-              right: '-4px',
-              minWidth: '22px',
-              height: '22px',
-              borderRadius: '50%',
-              background: '#EF4444',
-              color: 'white',
-              fontSize: '11px',
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0 6px',
-              border: '2px solid white',
-            }}
-          >
+          <div className="absolute -top-1 -right-1 min-w-[22px] h-[22px] rounded-full bg-[#EF4444] text-white text-[11px] font-bold flex items-center justify-center px-1.5 border-2 border-white">
             {activeFilters.length}
           </div>
         )}
@@ -1104,87 +568,30 @@ export default function ShopArchiveTemplate1({
           MOBILE FILTER DRAWER
           ======================================== */}
       {showMobileFilters && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 9999,
-          }}
-        >
+        <div className="fixed top-0 left-0 right-0 bottom-0 z-[9999]">
           {/* Backdrop */}
           <div
             onClick={() => setShowMobileFilters(false)}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'rgba(0,0,0,0.5)',
-              animation: 'fadeIn 0.2s',
-            }}
+            className="absolute top-0 left-0 right-0 bottom-0 bg-black/50 animate-[fadeIn_0.2s]"
           />
 
           {/* Drawer */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              width: '85%',
-              maxWidth: '360px',
-              background: 'var(--color-background, #F9FAFB)',
-              boxShadow: '-4px 0 24px rgba(0,0,0,0.15)',
-              animation: 'slideInRight 0.3s',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
+          <div className="absolute top-0 right-0 bottom-0 w-[85%] max-w-[360px] bg-[var(--color-background,#F9FAFB)] shadow-[-4px_0_24px_rgba(0,0,0,0.15)] animate-[slideInRight_0.3s] flex flex-col">
             {/* Header */}
-            <div
-              style={{
-                padding: '16px',
-                borderBottom: '1px solid var(--color-border)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                background: 'var(--color-surface, white)',
-              }}
-            >
+            <div className="p-4 border-b border-[var(--color-border)] flex items-center justify-between bg-white">
               <div>
-                <h2
-                  style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '18px',
-                    fontWeight: 700,
-                    color: 'var(--color-text-primary)',
-                  }}
-                >
+                <h2 className="font-heading text-lg font-bold text-[var(--color-text-primary)]">
                   Filters
                 </h2>
                 {activeFilters.length > 0 && (
-                  <div style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                  <div className="text-xs text-[var(--color-text-muted)] mt-0.5">
                     {activeFilters.length} actief
                   </div>
                 )}
               </div>
               <button
                 onClick={() => setShowMobileFilters(false)}
-                style={{
-                  minWidth: '40px',
-                  minHeight: '40px',
-                  border: 'none',
-                  background: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--color-text-muted)',
-                }}
+                className="min-w-[40px] min-h-[40px] border-none bg-none cursor-pointer flex items-center justify-center text-[var(--color-text-muted)]"
                 aria-label="Close filters"
               >
                 <X className="w-6 h-6" />
@@ -1192,39 +599,15 @@ export default function ShopArchiveTemplate1({
             </div>
 
             {/* Filters Content - Scrollable */}
-            <div
-              style={{
-                flex: 1,
-                overflowY: 'auto',
-                padding: '16px',
-              }}
-            >
+            <div className="flex-1 overflow-y-auto p-4">
               <FiltersContent />
             </div>
 
             {/* Footer - Apply Button */}
-            <div
-              style={{
-                padding: '16px',
-                borderTop: '1px solid var(--color-border)',
-                background: 'var(--color-surface, white)',
-              }}
-            >
+            <div className="p-4 border-t border-[var(--color-border)] bg-white">
               <button
                 onClick={() => setShowMobileFilters(false)}
-                style={{
-                  width: '100%',
-                  minHeight: '48px',
-                  padding: '14px',
-                  background: 'var(--color-primary)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontSize: '15px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-body)',
-                }}
+                className="w-full min-h-[48px] px-3.5 py-3.5 bg-[var(--color-primary)] text-white border-none rounded-xl text-[15px] font-bold cursor-pointer font-body"
               >
                 Toon {products.length} producten
               </button>
