@@ -225,7 +225,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
   return (
     <>
-      <div className="product-template-1 max-w-[100vw] overflow-x-hidden pb-20">
+      <div className="product-template-1 overflow-x-hidden pb-20" style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}>
         {/* MOBILE-FIRST: Product Header */}
         <div className="p-4 bg-[var(--color-surface,white)]">
           {/* Brand */}

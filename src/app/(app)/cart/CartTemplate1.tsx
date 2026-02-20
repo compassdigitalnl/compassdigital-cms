@@ -157,7 +157,7 @@ export default function CartTemplate1() {
     <div className="min-h-screen pb-32 lg:pb-20" style={{ background: '#F5F7FA' }}>
       {/* Breadcrumb - Desktop only */}
       <div className="hidden lg:block" style={{ padding: '16px 0' }}>
-        <div className="max-w-[1240px] mx-auto px-6">
+        <div className="mx-auto px-6" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
           <div className="flex items-center gap-2" style={{ fontSize: '13px' }}>
             <Link href="/" className="transition-colors" style={{ color: '#94A3B8' }}>
               Home
@@ -168,7 +168,7 @@ export default function CartTemplate1() {
         </div>
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-4 lg:px-6">
+      <div className="mx-auto px-4 lg:px-6" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
         {/* Page Title */}
         <div className="flex items-center justify-between mb-5 lg:mb-7 pt-4 lg:pt-0">
           <h1

@@ -206,7 +206,7 @@ export default function ShopArchiveTemplate1({
   )
 
   return (
-    <div className="font-body max-w-[100vw] overflow-x-hidden">
+    <div className="font-body overflow-x-hidden" style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}>
       {/* ========================================
           MOBILE CATEGORY HERO
           ======================================== */}
@@ -254,7 +254,7 @@ export default function ShopArchiveTemplate1({
         {/* Decorative gradient */}
         <div className="absolute -top-1/2 -right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-radial from-blue-500/10 to-transparent" />
 
-        <div className="max-w-[1240px] mx-auto px-6 relative z-10 flex items-center justify-between gap-10">
+        <div className="mx-auto px-6 relative z-10 flex items-center justify-between gap-10" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
           <div>
             <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-500/30 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#60A5FA] tracking-wider uppercase mb-4">
               <Package className="w-4 h-4" /> Categorie
@@ -292,7 +292,7 @@ export default function ShopArchiveTemplate1({
       </section>
 
       {/* Shop Layout */}
-      <div className="max-w-[1240px] mx-auto px-4 md:px-6 lg:px-24 pt-7 pb-24">
+      <div className="mx-auto px-4 md:px-6 lg:px-24 pt-7 pb-24" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
         <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-7">
           {/* DESKTOP Sidebar Filters */}
           <aside className="hidden lg:block lg:sticky lg:top-[90px]">

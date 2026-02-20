@@ -103,7 +103,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
   }
 
   return (
-    <div className="product-template-3 max-w-[100vw] overflow-x-hidden" style={{ fontFamily: 'var(--font-body)' }}>
+    <div className="product-template-3 overflow-x-hidden" style={{ fontFamily: 'var(--font-body)', maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}>
       {/* ========================================
           MOBILE LAYOUT (default)
           ======================================== */}

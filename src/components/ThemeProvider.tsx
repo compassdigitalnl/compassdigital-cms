@@ -170,10 +170,47 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           }
 
           /* ===================================================================
+             Override hardcoded max-width utilities to use Theme containerWidth
+             =================================================================== */
+          .max-w-7xl, .max-w-6xl, .max-w-5xl {
+            max-width: var(--container-width) !important;
+          }
+
+          /* Keep smaller max-widths for specific use cases */
+          .max-w-4xl {
+            max-width: min(896px, var(--container-width)) !important;
+          }
+
+          .max-w-3xl {
+            max-width: min(768px, var(--container-width)) !important;
+          }
+
+          .max-w-2xl {
+            max-width: min(672px, var(--container-width)) !important;
+          }
+
+          .max-w-xl {
+            max-width: min(576px, var(--container-width)) !important;
+          }
+
+          .max-w-lg {
+            max-width: min(512px, var(--container-width)) !important;
+          }
+
+          /* ===================================================================
              ROUNDED UTILITIES - Use theme border radius
              =================================================================== */
-          .rounded-xl, .rounded-2xl, .rounded-3xl {
+          .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl {
             border-radius: var(--border-radius) !important;
+          }
+
+          /* Keep smaller rounded utilities untouched for fine control */
+          .rounded-sm {
+            border-radius: max(2px, calc(var(--border-radius) * 0.2)) !important;
+          }
+
+          .rounded-md {
+            border-radius: max(4px, calc(var(--border-radius) * 0.4)) !important;
           }
 
           /* ===================================================================
@@ -183,6 +220,10 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
             box-shadow: var(--shadow) !important;
           }
 
+          .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+          }
+
           .shadow-2xl {
             box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important;
           }
@@ -190,7 +231,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           /* ===================================================================
              HOVER SHADOWS - Respects theme shadow
              =================================================================== */
-          .hover\\:shadow-xl:hover {
+          .hover\\:shadow-xl:hover, .hover\\:shadow-lg:hover, .hover\\:shadow-md:hover {
             box-shadow: var(--shadow) !important;
           }
 
