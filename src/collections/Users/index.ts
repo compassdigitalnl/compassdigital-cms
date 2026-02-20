@@ -256,6 +256,35 @@ export const Users: CollectionConfig = {
         condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
       },
     },
+    {
+      name: 'favorites',
+      type: 'array',
+      label: 'Favorieten',
+      admin: {
+        description: 'Favoriete producten van deze gebruiker',
+      },
+      fields: [
+        {
+          name: 'product',
+          type: 'relationship',
+          relationTo: 'products',
+          required: true,
+          label: 'Product',
+        },
+        {
+          name: 'addedAt',
+          type: 'date',
+          label: 'Toegevoegd op',
+          defaultValue: () => new Date().toISOString(),
+          admin: {
+            readOnly: true,
+            date: {
+              pickerAppearance: 'dayAndTime',
+            },
+          },
+        },
+      ],
+    },
     // Only include client relationship field in platform deployments
     // In tenant deployments, the 'clients' collection doesn't exist
     ...(!isClientDeployment()
