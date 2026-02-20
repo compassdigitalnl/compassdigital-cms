@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import type { Settings, Header as HeaderType, Media } from '@/payload-types'
-import { useSearch } from '@/components/search/SearchProvider'
+import { useSearch } from '@/components/Search/SearchProvider'
 
 type Props = {
   header?: HeaderType | null
