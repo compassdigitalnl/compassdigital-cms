@@ -19,6 +19,7 @@ type Props = {
  */
 export function DynamicHeader({ header, settings }: Props) {
   const [cartCount] = useState(0) // TODO: Get from cart context
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // Get logo (Header override > Settings)
   const logoOverride = header?.logoOverride as Media | null
@@ -28,6 +29,7 @@ export function DynamicHeader({ header, settings }: Props) {
   // Get site name (Header override > Settings.companyName > fallback)
   // Use consistent fallback to prevent hydration mismatch
   const siteName = header?.siteNameOverride || settings?.companyName || 'Your Site Name'
+  const siteNameAccent = header?.siteNameAccent || null
 
   // Search settings
   const enableSearch = header?.enableSearch !== false
@@ -59,26 +61,48 @@ export function DynamicHeader({ header, settings }: Props) {
               </div>
             )}
             <div className="text-[22px] font-extrabold text-gray-900 tracking-tight">
-              {siteName}
+              {siteNameAccent && siteName.includes(siteNameAccent) ? (
+                <>
+                  {siteName.split(siteNameAccent)[0]}
+                  <span className="text-primary">{siteNameAccent}</span>
+                  {siteName.split(siteNameAccent).slice(1).join(siteNameAccent)}
+                </>
+              ) : (
+                siteName
+              )}
             </div>
           </Link>
 
           {/* Search - Centered */}
           {enableSearch && (
-            <div className="flex-1 max-w-[560px] mx-auto relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            <form
+              action="/shop"
+              method="GET"
+              className="flex-1 max-w-[560px] mx-auto relative"
+            >
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none">
                 🔍
               </span>
               <input
+                name="q"
                 type="text"
                 placeholder={searchPlaceholder}
                 className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl text-[15px] bg-gray-50 focus:bg-white focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"
               />
-            </div>
+            </form>
           )}
 
           {/* Actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Mobile Menu Button (hamburger) */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden w-11 h-11 bg-gray-100 rounded-lg flex items-center justify-center text-lg hover:bg-primary/10 hover:text-primary transition-colors"
+              aria-label="Menu"
+            >
+              {mobileMenuOpen ? '✕' : '☰'}
+            </button>
+
             {/* Phone button */}
             {showPhone && settings?.phone && (
               <Link
@@ -147,6 +171,28 @@ export function DynamicHeader({ header, settings }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Drawer (Placeholder - will be enhanced in Phase 5) */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t">
+          <div className="px-6 py-4">
+            {/* Search on mobile */}
+            {enableSearch && (
+              <form action="/shop" method="GET" className="mb-4">
+                <input
+                  name="q"
+                  type="text"
+                  placeholder={searchPlaceholder}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:border-primary focus:outline-none transition-all"
+                />
+              </form>
+            )}
+
+            {/* TODO: Add navigation items here in Phase 5 */}
+            <p className="text-sm text-gray-500">Mobile navigatie komt in Fase 5...</p>
+          </div>
+        </div>
+      )}
     </header>
   )
 }
