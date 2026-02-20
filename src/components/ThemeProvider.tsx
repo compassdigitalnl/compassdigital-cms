@@ -93,6 +93,18 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     '--color-text-secondary': themeData.textSecondary,
     '--color-text-muted': themeData.textMuted,
 
+    // Semantic colors (status indicators)
+    '--color-success': '#00C853',
+    '--color-warning': '#F59E0B',
+    '--color-error': '#EF4444',
+    '--color-info': '#2196F3',
+
+    // Semantic backgrounds (lighter versions)
+    '--color-success-bg': '#E8F5E9',
+    '--color-warning-bg': '#FFF8E1',
+    '--color-error-bg': '#FEE2E2',
+    '--color-info-bg': '#E3F2FD',
+
     // Typography
     '--font-heading': themeData.headingFont,
     '--font-body': themeData.bodyFont,
@@ -289,6 +301,22 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-secondary-color { color: var(--color-secondary) !important; }
 
           .border-color { border-color: var(--color-border) !important; }
+
+          /* Semantic color utilities */
+          .bg-success { background-color: var(--color-success-bg) !important; }
+          .bg-warning { background-color: var(--color-warning-bg) !important; }
+          .bg-error { background-color: var(--color-error-bg) !important; }
+          .bg-info { background-color: var(--color-info-bg) !important; }
+
+          .text-success { color: var(--color-success) !important; }
+          .text-warning { color: var(--color-warning) !important; }
+          .text-error { color: var(--color-error) !important; }
+          .text-info { color: var(--color-info) !important; }
+
+          .border-success { border-color: var(--color-success) !important; }
+          .border-warning { border-color: var(--color-warning) !important; }
+          .border-error { border-color: var(--color-error) !important; }
+          .border-info { border-color: var(--color-info) !important; }
         `
       }} />
     </>

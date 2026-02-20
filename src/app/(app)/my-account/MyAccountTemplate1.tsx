@@ -114,13 +114,13 @@ export default function MyAccountTemplate1() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'shipped':
-        return { bg: '#E3F2FD', text: '#2196F3', border: '#90CAF9' }
+        return { bg: 'var(--color-info-bg)', text: 'var(--color-info)', border: 'rgba(33, 150, 243, 0.4)' }
       case 'delivered':
-        return { bg: '#E8F5E9', text: '#00C853', border: '#A5D6A7' }
+        return { bg: 'var(--color-success-bg)', text: 'var(--color-success)', border: 'rgba(0, 200, 83, 0.4)' }
       case 'processing':
-        return { bg: '#FFF8E1', text: '#F59E0B', border: '#FFE082' }
+        return { bg: 'var(--color-warning-bg)', text: 'var(--color-warning)', border: 'rgba(245, 158, 11, 0.4)' }
       default:
-        return { bg: '#F5F7FA', text: '#94A3B8', border: '#E8ECF1' }
+        return { bg: 'var(--color-surface)', text: 'var(--color-text-muted)', border: 'var(--color-border)' }
     }
   }
 
@@ -143,9 +143,9 @@ export default function MyAccountTemplate1() {
           <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between lg:mb-3">
             <div
               className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg lg:rounded-xl flex items-center justify-center order-2 lg:order-1"
-              style={{ background: 'rgba(0,137,123,0.1)' }}
+              style={{ background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)' }}
             >
-              <Package className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: '#00897B' }} />
+              <Package className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-primary)' }} />
             </div>
             <div className="text-xl lg:text-2xl font-extrabold text-gray-900 order-1 lg:order-2">
               {stats.totalOrders}
@@ -164,7 +164,7 @@ export default function MyAccountTemplate1() {
               className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg lg:rounded-xl flex items-center justify-center order-2 lg:order-1"
               style={{ background: 'rgba(0,200,83,0.1)' }}
             >
-              <Truck className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: '#00C853' }} />
+              <Truck className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-success)' }} />
             </div>
             <div className="text-xl lg:text-2xl font-extrabold text-gray-900 order-1 lg:order-2">
               {stats.ordersInTransit}
@@ -183,7 +183,7 @@ export default function MyAccountTemplate1() {
               className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg lg:rounded-xl flex items-center justify-center order-2 lg:order-1"
               style={{ background: 'rgba(245,158,11,0.1)' }}
             >
-              <ClipboardList className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: '#F59E0B' }} />
+              <ClipboardList className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-warning)' }} />
             </div>
             <div className="text-xl lg:text-2xl font-extrabold text-gray-900 order-1 lg:order-2">
               {stats.orderLists}
@@ -202,7 +202,7 @@ export default function MyAccountTemplate1() {
               className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg lg:rounded-xl flex items-center justify-center order-2 lg:order-1"
               style={{ background: 'rgba(33,150,243,0.1)' }}
             >
-              <Euro className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: '#2196F3' }} />
+              <Euro className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-info)' }} />
             </div>
             <div className="text-xl lg:text-2xl font-extrabold text-gray-900 order-1 lg:order-2">
               €{stats.yearlySpend.toLocaleString('nl-NL')}
@@ -223,11 +223,11 @@ export default function MyAccountTemplate1() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
           <button
             className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 rounded-xl transition-all active:scale-95 lg:hover:scale-[1.02]"
-            style={{ background: 'rgba(0,137,123,0.08)', border: '1.5px solid #E8ECF1' }}
+            style={{ background: 'color-mix(in srgb, var(--color-primary) 8%, transparent)', border: '1.5px solid var(--color-border)' }}
           >
             <div
               className="w-11 h-11 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: '#00897B' }}
+              style={{ background: 'var(--color-primary)' }}
             >
               <RotateCcw className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
             </div>
@@ -239,11 +239,11 @@ export default function MyAccountTemplate1() {
 
           <button
             className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 rounded-xl transition-all active:scale-95 lg:hover:scale-[1.02]"
-            style={{ background: 'rgba(0,200,83,0.08)', border: '1.5px solid #E8ECF1' }}
+            style={{ background: 'rgba(0,200,83,0.08)', border: '1.5px solid var(--color-border)' }}
           >
             <div
               className="w-11 h-11 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: '#00C853' }}
+              style={{ background: 'var(--color-success)' }}
             >
               <FileText className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
             </div>
@@ -255,11 +255,11 @@ export default function MyAccountTemplate1() {
 
           <button
             className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 rounded-xl transition-all active:scale-95 lg:hover:scale-[1.02]"
-            style={{ background: 'rgba(33,150,243,0.08)', border: '1.5px solid #E8ECF1' }}
+            style={{ background: 'rgba(33,150,243,0.08)', border: '1.5px solid var(--color-border)' }}
           >
             <div
               className="w-11 h-11 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: '#2196F3' }}
+              style={{ background: 'var(--color-info)' }}
             >
               <MessageCircle className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
             </div>
@@ -280,7 +280,7 @@ export default function MyAccountTemplate1() {
           <Link
             href="/my-account/orders"
             className="flex items-center gap-1 lg:gap-2 text-sm font-semibold transition-colors"
-            style={{ color: '#00897B' }}
+            style={{ color: 'var(--color-primary)' }}
           >
             <span className="hidden lg:inline">Alle bestellingen</span>
             <span className="lg:hidden">Alle</span>
@@ -295,7 +295,7 @@ export default function MyAccountTemplate1() {
               <div
                 key={order.id}
                 className="p-3 lg:p-4 rounded-xl"
-                style={{ border: '1.5px solid #E8ECF1' }}
+                style={{ border: '1.5px solid var(--color-border)' }}
               >
                 {/* Order Header */}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 lg:gap-4 mb-3">
@@ -337,7 +337,7 @@ export default function MyAccountTemplate1() {
                     <div
                       key={idx}
                       className="flex items-center gap-2 px-2.5 lg:px-3 py-1.5 lg:py-2 rounded-lg flex-shrink-0"
-                      style={{ background: '#F5F7FA' }}
+                      style={{ background: 'var(--color-surface)' }}
                     >
                       <span className="text-base lg:text-xl">{product.emoji}</span>
                       <div className="hidden lg:block">
@@ -360,7 +360,7 @@ export default function MyAccountTemplate1() {
                   <Link
                     href={`/my-account/orders/${order.id}`}
                     className="px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-80"
-                    style={{ background: '#00897B', color: 'white' }}
+                    style={{ background: 'var(--color-primary)', color: 'white' }}
                   >
                     Details
                   </Link>
@@ -403,7 +403,7 @@ export default function MyAccountTemplate1() {
             <Link
               href="/my-account/lists"
               className="flex items-center gap-1 lg:gap-2 text-sm font-semibold transition-colors"
-              style={{ color: '#00897B' }}
+              style={{ color: 'var(--color-primary)' }}
             >
               <span className="hidden lg:inline">Alle lijsten</span>
               <span className="lg:hidden">Alle</span>
@@ -416,7 +416,7 @@ export default function MyAccountTemplate1() {
               <div
                 key={list.id}
                 className="p-3 lg:p-4 rounded-xl cursor-pointer transition-all active:scale-95 lg:hover:scale-[1.01]"
-                style={{ border: '1.5px solid #E8ECF1' }}
+                style={{ border: '1.5px solid var(--color-border)' }}
               >
                 <div className="flex items-start justify-between mb-2 lg:mb-3">
                   <div className="flex-1">
@@ -425,7 +425,7 @@ export default function MyAccountTemplate1() {
                       {list.productCount} producten
                     </div>
                   </div>
-                  <div className="text-base lg:text-lg font-bold" style={{ color: '#00897B' }}>
+                  <div className="text-base lg:text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
                     €{list.total.toFixed(2)}
                   </div>
                 </div>
@@ -443,7 +443,7 @@ export default function MyAccountTemplate1() {
 
                 <button
                   className="w-full px-4 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:opacity-90 lg:hover:opacity-90 text-white"
-                  style={{ background: '#00897B' }}
+                  style={{ background: 'var(--color-primary)' }}
                 >
                   Bestel alles
                 </button>
@@ -453,9 +453,9 @@ export default function MyAccountTemplate1() {
             <Link
               href="/my-account/lists"
               className="block p-3 lg:p-4 rounded-xl text-center transition-all active:bg-gray-50 lg:hover:bg-gray-50"
-              style={{ border: '1.5px dashed #E8ECF1' }}
+              style={{ border: '1.5px dashed var(--color-border)' }}
             >
-              <div className="text-sm font-semibold mb-0.5" style={{ color: '#00897B' }}>
+              <div className="text-sm font-semibold mb-0.5" style={{ color: 'var(--color-primary)' }}>
                 + Nieuwe bestellijst
               </div>
               <div className="text-xs text-gray-500">Maak een lijst voor herhaalbestellingen</div>
@@ -470,7 +470,7 @@ export default function MyAccountTemplate1() {
             <Link
               href="/my-account/addresses"
               className="flex items-center gap-1 lg:gap-2 text-sm font-semibold transition-colors"
-              style={{ color: '#00897B' }}
+              style={{ color: 'var(--color-primary)' }}
             >
               Beheer
               <ChevronRight className="w-4 h-4" />
@@ -482,18 +482,18 @@ export default function MyAccountTemplate1() {
               <div
                 key={address.id}
                 className="p-3 lg:p-4 rounded-xl"
-                style={{ border: '1.5px solid #E8ECF1' }}
+                style={{ border: '1.5px solid var(--color-border)' }}
               >
                 <div className="flex items-start justify-between mb-2 lg:mb-3">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: '#00897B' }} />
+                    <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-primary)' }} />
                     <span className="text-sm font-bold text-gray-900">{address.typeLabel}</span>
                     {address.isDefault && (
                       <span
                         className="px-2 py-0.5 rounded-full text-xs font-semibold"
                         style={{
-                          background: 'rgba(0,137,123,0.1)',
-                          color: '#00897B',
+                          background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)',
+                          color: 'var(--color-primary)',
                         }}
                       >
                         Standaard

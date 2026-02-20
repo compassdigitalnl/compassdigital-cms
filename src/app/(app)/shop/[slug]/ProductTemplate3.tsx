@@ -114,7 +114,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
             style={{
               width: '100%',
               aspectRatio: '4/5',
-              background: 'linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%)',
+              background: 'linear-gradient(135deg, var(--color-surface) 0%, #F3F4F6 100%)',
               borderRadius: '16px',
               border: '1px solid color-mix(in srgb, var(--color-primary) 10%, white)',
               display: 'flex',
@@ -132,7 +132,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   position: 'absolute',
                   top: '16px',
                   left: '16px',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, var(--color-warning) 0%, #D97706 100%)',
                   color: 'white',
                   padding: '8px 16px',
                   borderRadius: '8px',
@@ -171,7 +171,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                 gap: '4px',
               }}
             >
-              <Award className="w-3 h-3" style={{ color: '#F59E0B' }} />
+              <Award className="w-3 h-3" style={{ color: 'var(--color-warning)' }} />
               Premium
             </div>
 
@@ -274,7 +274,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
             <div style={{ display: 'flex', gap: '3px' }}>
               {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-4 h-4" fill="#F59E0B" style={{ color: '#F59E0B' }} />
+                <Star key={i} className="w-4 h-4" fill="var(--color-warning)" style={{ color: 'var(--color-warning)' }} />
               ))}
             </div>
             <span style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>
@@ -851,7 +851,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                         style={{
                           width: '100%',
                           aspectRatio: '1',
-                          background: '#F9FAFB',
+                          background: 'var(--color-surface)',
                           borderRadius: '12px',
                           marginBottom: '10px',
                           overflow: 'hidden',
@@ -913,7 +913,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
               style={{
                 width: '100%',
                 aspectRatio: '4/5',
-                background: 'linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%)',
+                background: 'linear-gradient(135deg, var(--color-surface) 0%, #F3F4F6 100%)',
                 borderRadius: '24px',
                 border: '1px solid color-mix(in srgb, var(--color-primary) 10%, white)',
                 display: 'flex',
@@ -931,7 +931,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     position: 'absolute',
                     top: '32px',
                     left: '32px',
-                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                    background: 'linear-gradient(135deg, var(--color-warning) 0%, #D97706 100%)',
                     color: 'white',
                     padding: '12px 24px',
                     borderRadius: '12px',
@@ -964,7 +964,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   border: '1px solid rgba(0,0,0,0.05)',
                 }}
               >
-                <Award className="w-4 h-4 inline mr-2" style={{ color: '#F59E0B' }} />
+                <Award className="w-4 h-4 inline mr-2" style={{ color: 'var(--color-warning)' }} />
                 Premium Quality
               </div>
 
@@ -1074,7 +1074,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   <Star
                     key={star}
                     className="w-5 h-5"
-                    style={{ fill: '#F59E0B', color: '#F59E0B' }}
+                    style={{ fill: 'var(--color-warning)', color: 'var(--color-warning)' }}
                   />
                 ))}
               </div>
@@ -1604,7 +1604,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                       style={{
                         width: '100%',
                         aspectRatio: '1',
-                        background: '#F9FAFB',
+                        background: 'var(--color-surface)',
                         borderRadius: '16px',
                         marginBottom: '16px',
                         overflow: 'hidden',

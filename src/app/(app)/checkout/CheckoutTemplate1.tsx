@@ -140,8 +140,8 @@ export default function CheckoutTemplate1() {
           onClick={() => setShowCartSummary(!showCartSummary)}
           className="w-full rounded-2xl p-4 flex items-center justify-between transition-all duration-200"
           style={{
-            background: 'var(--color-base-50, #F9FAFB)',
-            border: '1px solid var(--color-border, #E8ECF1)',
+            background: 'var(--color-base-50, var(--color-surface))',
+            border: '1px solid var(--color-border, var(--color-border))',
           }}
         >
           <div className="flex items-center gap-3">
@@ -170,7 +170,7 @@ export default function CheckoutTemplate1() {
             className="mt-3 rounded-2xl p-4 space-y-3"
             style={{
               background: 'var(--color-base-0, #FFFFFF)',
-              border: '1px solid var(--color-border, #E8ECF1)',
+              border: '1px solid var(--color-border, var(--color-border))',
             }}
           >
             {cart?.items?.map((item, index) => {
@@ -219,7 +219,7 @@ export default function CheckoutTemplate1() {
                       style={{
                         width: '56px',
                         height: '56px',
-                        border: '1px solid var(--color-border, #E8ECF1)',
+                        border: '1px solid var(--color-border, var(--color-border))',
                       }}
                     >
                       {image && typeof image !== 'string' && (
@@ -256,7 +256,7 @@ export default function CheckoutTemplate1() {
             })}
             <div
               className="pt-3 mt-3 flex justify-between items-center"
-              style={{ borderTop: '1px solid var(--color-border, #E8ECF1)' }}
+              style={{ borderTop: '1px solid var(--color-border, var(--color-border))' }}
             >
               <span className="font-bold text-sm uppercase">Totaal</span>
               <span className="font-extrabold text-xl">
@@ -289,8 +289,8 @@ export default function CheckoutTemplate1() {
               <div
                 className="rounded-xl lg:rounded-2xl p-4 lg:p-6"
                 style={{
-                  background: 'var(--color-base-50, #F9FAFB)',
-                  border: '1px solid var(--color-border, #E8ECF1)',
+                  background: 'var(--color-base-50, var(--color-surface))',
+                  border: '1px solid var(--color-border, var(--color-border))',
                 }}
               >
                 <div className="prose dark:prose-invert max-w-none">
@@ -318,7 +318,7 @@ export default function CheckoutTemplate1() {
                 className="rounded-xl lg:rounded-2xl p-4 lg:p-6"
                 style={{
                   background: 'var(--color-base-0, #FFFFFF)',
-                  border: '1px solid var(--color-border, #E8ECF1)',
+                  border: '1px solid var(--color-border, var(--color-border))',
                 }}
               >
                 <div className="flex items-center gap-3 mb-2">
@@ -337,7 +337,7 @@ export default function CheckoutTemplate1() {
                 className="rounded-xl lg:rounded-2xl p-4 lg:p-6 space-y-4"
                 style={{
                   background: 'var(--color-base-0, #FFFFFF)',
-                  border: '1px solid var(--color-border, #E8ECF1)',
+                  border: '1px solid var(--color-border, var(--color-border))',
                 }}
               >
                 <p className="text-sm lg:text-base opacity-80">
@@ -395,7 +395,7 @@ export default function CheckoutTemplate1() {
                 className="rounded-xl lg:rounded-2xl p-4 lg:p-6"
                 style={{
                   background: 'var(--color-base-0, #FFFFFF)',
-                  border: '1px solid var(--color-border, #E8ECF1)',
+                  border: '1px solid var(--color-border, var(--color-border))',
                 }}
               >
                 <div className="flex items-start gap-3 mb-3">
@@ -438,8 +438,8 @@ export default function CheckoutTemplate1() {
             <div
               className="flex gap-3 lg:gap-4 items-start p-4 rounded-xl lg:rounded-2xl"
               style={{
-                background: 'var(--color-base-50, #F9FAFB)',
-                border: '1px solid var(--color-border, #E8ECF1)',
+                background: 'var(--color-base-50, var(--color-surface))',
+                border: '1px solid var(--color-border, var(--color-border))',
               }}
             >
               <Checkbox
@@ -466,7 +466,7 @@ export default function CheckoutTemplate1() {
                     className="rounded-xl lg:rounded-2xl p-4 lg:p-6"
                     style={{
                       background: 'var(--color-base-0, #FFFFFF)',
-                      border: '1px solid var(--color-border, #E8ECF1)',
+                      border: '1px solid var(--color-border, var(--color-border))',
                     }}
                   >
                     <div className="flex items-start gap-3 mb-3">
@@ -533,8 +533,8 @@ export default function CheckoutTemplate1() {
             <div
               className="rounded-xl lg:rounded-2xl p-4 lg:p-6 space-y-4"
               style={{
-                background: '#FEE2E2',
-                border: '1px solid #EF4444',
+                background: 'var(--color-error-bg)',
+                border: '1px solid var(--color-error)',
               }}
             >
               <Message error={error} />
@@ -574,8 +574,8 @@ export default function CheckoutTemplate1() {
                   <div
                     className="rounded-xl lg:rounded-2xl p-4 lg:p-6"
                     style={{
-                      background: '#FEE2E2',
-                      border: '1px solid #EF4444',
+                      background: 'var(--color-error-bg)',
+                      border: '1px solid var(--color-error)',
                     }}
                   >
                     <p className="text-sm lg:text-base text-red-700">{`Fout: ${error}`}</p>
@@ -586,7 +586,7 @@ export default function CheckoutTemplate1() {
                   className="rounded-xl lg:rounded-2xl p-4 lg:p-6"
                   style={{
                     background: 'var(--color-base-0, #FFFFFF)',
-                    border: '1px solid var(--color-border, #E8ECF1)',
+                    border: '1px solid var(--color-border, var(--color-border))',
                   }}
                 >
                   <Elements
@@ -644,8 +644,8 @@ export default function CheckoutTemplate1() {
           <div
             className="hidden lg:block lg:w-96 lg:sticky lg:top-8 lg:self-start rounded-2xl p-6 space-y-6"
             style={{
-              background: 'var(--color-base-50, #F9FAFB)',
-              border: '1px solid var(--color-border, #E8ECF1)',
+              background: 'var(--color-base-50, var(--color-surface))',
+              border: '1px solid var(--color-border, var(--color-border))',
               maxHeight: 'calc(100vh - 4rem)',
               overflowY: 'auto',
             }}
@@ -699,7 +699,7 @@ export default function CheckoutTemplate1() {
                         style={{
                           width: '80px',
                           height: '80px',
-                          border: '1px solid var(--color-border, #E8ECF1)',
+                          border: '1px solid var(--color-border, var(--color-border))',
                         }}
                       >
                         {image && typeof image !== 'string' && (
@@ -740,7 +740,7 @@ export default function CheckoutTemplate1() {
 
             <div
               className="pt-4"
-              style={{ borderTop: '2px solid var(--color-border, #E8ECF1)' }}
+              style={{ borderTop: '2px solid var(--color-border, var(--color-border))' }}
             >
               <div className="flex justify-between items-center">
                 <span className="font-bold text-base uppercase">Totaal</span>

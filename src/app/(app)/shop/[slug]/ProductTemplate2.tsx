@@ -130,7 +130,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   position: 'absolute',
                   top: '12px',
                   right: '12px',
-                  background: '#EF4444',
+                  background: 'var(--color-error)',
                   color: 'white',
                   padding: '6px 12px',
                   borderRadius: '6px',
@@ -240,7 +240,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
             <div style={{ display: 'flex', gap: '2px' }}>
               {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-4 h-4" fill="#F59E0B" style={{ color: '#F59E0B' }} />
+                <Star key={i} className="w-4 h-4" fill="var(--color-warning)" style={{ color: 'var(--color-warning)' }} />
               ))}
             </div>
             <span style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>
@@ -276,8 +276,8 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     style={{
                       fontSize: '12px',
                       fontWeight: 600,
-                      color: '#EF4444',
-                      background: '#FEE2E2',
+                      color: 'var(--color-error)',
+                      background: 'var(--color-error-bg)',
                       padding: '3px 8px',
                       borderRadius: '4px',
                     }}
@@ -506,7 +506,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  background: selectedProduct.stock > 0 ? '#22C55E' : '#EF4444',
+                  background: selectedProduct.stock > 0 ? '#22C55E' : 'var(--color-error)',
                 }}
               />
               <span
@@ -931,7 +931,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     position: 'absolute',
                     top: '20px',
                     right: '20px',
-                    background: '#EF4444',
+                    background: 'var(--color-error)',
                     color: 'white',
                     padding: '8px 16px',
                     borderRadius: '8px',
@@ -1040,7 +1040,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
               <div style={{ display: 'flex', gap: '4px' }}>
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} className="w-5 h-5" fill="#F59E0B" style={{ color: '#F59E0B' }} />
+                  <Star key={i} className="w-5 h-5" fill="var(--color-warning)" style={{ color: 'var(--color-warning)' }} />
                 ))}
               </div>
               <span style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
@@ -1076,8 +1076,8 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                       style={{
                         fontSize: '14px',
                         fontWeight: 600,
-                        color: '#EF4444',
-                        background: '#FEE2E2',
+                        color: 'var(--color-error)',
+                        background: 'var(--color-error-bg)',
                         padding: '4px 12px',
                         borderRadius: '6px',
                       }}
@@ -1304,7 +1304,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     width: '8px',
                     height: '8px',
                     borderRadius: '50%',
-                    background: selectedProduct.stock > 0 ? '#22C55E' : '#EF4444',
+                    background: selectedProduct.stock > 0 ? '#22C55E' : 'var(--color-error)',
                   }}
                 />
                 <span

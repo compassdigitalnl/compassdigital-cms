@@ -509,12 +509,12 @@ export default function ShopArchiveTemplate1({
                         {product.stock > 0 && (
                           <div
                             className={`flex items-center gap-1.5 text-[11px] lg:text-xs font-medium mt-2.5 md:mt-3 pt-2.5 md:pt-3 border-t border-[var(--color-border)] ${
-                              product.stock > 20 ? 'text-[#10B981]' : 'text-[#F59E0B]'
+                              product.stock > 20 ? 'text-[#10B981]' : 'text-[var(--color-warning)]'
                             }`}
                           >
                             <div
                               className={`w-1.5 h-1.5 lg:w-[6px] lg:h-[6px] rounded-full ${
-                                product.stock > 20 ? 'bg-[#10B981]' : 'bg-[#F59E0B]'
+                                product.stock > 20 ? 'bg-[#10B981]' : 'bg-[var(--color-warning)]'
                               }`}
                             />
                             {product.stock > 20 ? 'Op voorraad' : `Nog ${product.stock} op voorraad`}
@@ -558,7 +558,7 @@ export default function ShopArchiveTemplate1({
       >
         <SlidersHorizontal className="w-5 h-5" />
         {activeFilters.length > 0 && (
-          <div className="absolute -top-1 -right-1 min-w-[22px] h-[22px] rounded-full bg-[#EF4444] text-white text-[11px] font-bold flex items-center justify-center px-1.5 border-2 border-white">
+          <div className="absolute -top-1 -right-1 min-w-[22px] h-[22px] rounded-full bg-[var(--color-error)] text-white text-[11px] font-bold flex items-center justify-center px-1.5 border-2 border-white">
             {activeFilters.length}
           </div>
         )}
@@ -576,7 +576,7 @@ export default function ShopArchiveTemplate1({
           />
 
           {/* Drawer */}
-          <div className="absolute top-0 right-0 bottom-0 w-[85%] max-w-[360px] bg-[var(--color-background,#F9FAFB)] shadow-[-4px_0_24px_rgba(0,0,0,0.15)] animate-[slideInRight_0.3s] flex flex-col">
+          <div className="absolute top-0 right-0 bottom-0 w-[85%] max-w-[360px] bg-[var(--color-background,var(--color-surface))] shadow-[-4px_0_24px_rgba(0,0,0,0.15)] animate-[slideInRight_0.3s] flex flex-col">
             {/* Header */}
             <div className="p-4 border-b border-[var(--color-border)] flex items-center justify-between bg-white">
               <div>

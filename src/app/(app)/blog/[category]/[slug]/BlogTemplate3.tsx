@@ -53,7 +53,7 @@ export default function BlogTemplate3({ post, prevPost, nextPost, category }: Bl
                 key={idx}
                 className="inline-flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl text-xs lg:text-sm font-semibold uppercase tracking-wide"
                 style={{
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, var(--color-warning) 0%, #D97706 100%)',
                   color: 'white',
                   boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
                 }}

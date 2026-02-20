@@ -44,15 +44,15 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
   const getFeaturedTagInfo = () => {
     switch (post.featuredTag) {
       case 'guide':
-        return { icon: 'BookOpen', label: 'Handleiding', color: '#2196F3' }
+        return { icon: 'BookOpen', label: 'Handleiding', color: 'var(--color-info)' }
       case 'new':
-        return { icon: 'Sparkles', label: 'Nieuw', color: '#00C853' }
+        return { icon: 'Sparkles', label: 'Nieuw', color: 'var(--color-success)' }
       case 'featured':
-        return { icon: 'Star', label: 'Uitgelicht', color: '#F59E0B' }
+        return { icon: 'Star', label: 'Uitgelicht', color: 'var(--color-warning)' }
       case 'tip':
         return { icon: 'Lightbulb', label: 'Tip', color: '#8b5cf6' }
       case 'news':
-        return { icon: 'Newspaper', label: 'Nieuws', color: '#2196F3' }
+        return { icon: 'Newspaper', label: 'Nieuws', color: 'var(--color-info)' }
       default:
         return null
     }
