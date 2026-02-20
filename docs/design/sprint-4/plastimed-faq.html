@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veelgestelde vragen — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{display:flex;align-items:center;text-decoration:none;}.logo img{height:36px;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);outline:none;transition:all var(--transition);}.search-field::placeholder{color:var(--grey-mid);}.search-icon-left{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon-left i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  .faq-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:48px;text-align:center;margin-bottom:32px;position:relative;overflow:hidden;}
+  .faq-hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(0,137,123,0.08),transparent 70%);border-radius:50%;}
+  .faq-hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;color:white;margin-bottom:10px;position:relative;}
+  .faq-hero p{font-size:15px;color:rgba(255,255,255,0.45);margin-bottom:24px;position:relative;}
+  .faq-search{max-width:500px;margin:0 auto;position:relative;}
+  .faq-search input{width:100%;height:50px;padding:0 20px 0 50px;border:2px solid rgba(255,255,255,0.1);border-radius:14px;font-family:'DM Sans',sans-serif;font-size:15px;color:white;background:rgba(255,255,255,0.06);outline:none;transition:all var(--transition);}
+  .faq-search input::placeholder{color:rgba(255,255,255,0.3);}
+  .faq-search input:focus{border-color:var(--teal);background:rgba(255,255,255,0.1);}
+  .faq-search i{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:rgba(255,255,255,0.4);}
+
+  .faq-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:36px;}
+  .faq-cat{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;}
+  .faq-cat:hover,.faq-cat.active{border-color:var(--teal);background:var(--teal-glow);}
+  .fc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:22px;}
+  .fc-name{font-size:13px;font-weight:700;color:var(--navy);}
+  .fc-count{font-size:11px;color:var(--grey-mid);}
+
+  .faq-layout{display:grid;grid-template-columns:1fr 320px;gap:28px;padding-bottom:64px;align-items:start;}
+  .faq-section{margin-bottom:28px;}
+  .faq-section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;}.faq-section-title i{width:18px;height:18px;color:var(--teal);}
+  .faq-card{background:white;border:1px solid var(--grey);border-radius:14px;overflow:hidden;}
+  .faq-item{border-bottom:1px solid var(--grey);}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;font-size:15px;font-weight:700;color:var(--navy);transition:color .15s;gap:12px;}
+  .faq-q:hover{color:var(--teal);}
+  .faq-q i{width:18px;height:18px;color:var(--grey-mid);transition:transform .25s;flex-shrink:0;}
+  .faq-item.open .faq-q i{transform:rotate(180deg);color:var(--teal);}
+  .faq-a{display:none;padding:0 20px 16px;font-size:14px;color:var(--grey-dark);line-height:1.7;}
+  .faq-item.open .faq-a{display:block;}
+  .faq-helpful{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--grey-mid);}
+  .faq-helpful-btn{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border:1px solid var(--grey);border-radius:100px;cursor:pointer;background:none;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--grey-mid);transition:all .15s;}
+  .faq-helpful-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow);}
+  .faq-helpful-btn i{width:12px;height:12px;}
+
+  .side-card{background:white;border:1px solid var(--grey);border-radius:16px;padding:22px;margin-bottom:14px;}
+  .side-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:7px;}.side-title i{width:16px;height:16px;color:var(--teal);}
+  .pop-link{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:14px;color:var(--navy);text-decoration:none;border-bottom:1px solid var(--grey);transition:color .12s;}.pop-link:last-child{border-bottom:none;}.pop-link:hover{color:var(--teal);}.pop-link i{width:15px;height:15px;color:var(--grey-mid);}
+  .help-card{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:24px;text-align:center;}.help-card h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:white;margin-bottom:6px;}.help-card p{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:14px;line-height:1.4;}
+  .help-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;transition:all var(--transition);}.help-btn:hover{background:var(--teal-light);}.help-btn i{width:16px;height:16px;}
+
+  .footer{background:var(--navy);color:rgba(255,255,255,0.5);padding:64px 0 0;margin-top:48px;}.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.06);}.footer-brand .logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;margin-bottom:12px;color:white;}.footer-brand .logo-text em{color:var(--teal-light);font-style:normal;}.footer-brand p{font-size:14px;line-height:1.6;}.footer h4{color:white;font-size:14px;font-weight:700;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;}.footer-links{list-style:none;}.footer-links li{margin-bottom:10px;}.footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:14px;}.footer-links a:hover{color:var(--teal-light);}.footer-bottom{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+  @media(max-width:900px){.faq-cats{grid-template-columns:1fr 1fr;}.faq-layout{grid-template-columns:1fr;}.faq-hero{padding:32px 24px;}.faq-hero h1{font-size:24px;}.footer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:640px){.faq-cats{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek op product, merk of artikelnummer…"><div class="search-icon-left"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="clipboard-list"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">3</span></button></div></div></header>
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Veelgestelde vragen</li></ol></div></div>
+<div class="container">
+  <div class="faq-hero"><h1>Hoe kunnen we u helpen?</h1><p>Zoek in onze kennisbank of bekijk de veelgestelde vragen per categorie.</p><div class="faq-search"><i data-lucide="search"></i><input type="text" placeholder="Zoek een vraag…"></div></div>
+  <div class="faq-cats">
+    <a class="faq-cat active"><div class="fc-icon" style="background:var(--teal-glow)">📦</div><div class="fc-name">Bestellen & betalen</div><div class="fc-count">8 vragen</div></a>
+    <a class="faq-cat"><div class="fc-icon" style="background:var(--green-light)">🚚</div><div class="fc-name">Verzending & levering</div><div class="fc-count">6 vragen</div></a>
+    <a class="faq-cat"><div class="fc-icon" style="background:var(--amber-light)">↩️</div><div class="fc-name">Retourneren</div><div class="fc-count">5 vragen</div></a>
+    <a class="faq-cat"><div class="fc-icon" style="background:var(--blue-light)">👤</div><div class="fc-name">Mijn account</div><div class="fc-count">4 vragen</div></a>
+  </div>
+  <div class="faq-layout">
+    <div>
+      <div class="faq-section">
+        <div class="faq-section-title"><i data-lucide="package"></i> Bestellen & betalen</div>
+        <div class="faq-card">
+          <div class="faq-item open" onclick="this.classList.toggle('open')"><div class="faq-q">Wat zijn de betaalmogelijkheden?<i data-lucide="chevron-down"></i></div><div class="faq-a">U kunt betalen via iDEAL, bankoverschrijving, creditcard (Visa/Mastercard) of op rekening (alleen voor B2B-klanten met goedgekeurd account). Bij betaling op rekening heeft u de keuze uit 14 of 30 dagen betaaltermijn.<div class="faq-helpful"><span>Was dit nuttig?</span><button class="faq-helpful-btn"><i data-lucide="thumbs-up"></i> Ja</button><button class="faq-helpful-btn"><i data-lucide="thumbs-down"></i> Nee</button></div></div></div>
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Hoe kan ik op rekening betalen?<i data-lucide="chevron-down"></i></div><div class="faq-a">Betalen op rekening is beschikbaar voor zakelijke klanten. Na registratie via "Klant worden" en goedkeuring van uw aanvraag kunt u deze optie selecteren bij het afrekenen.</div></div>
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Kan ik een offerte aanvragen?<i data-lucide="chevron-down"></i></div><div class="faq-a">Ja, voor grote bestellingen of specifieke wensen kunt u een offerte op maat aanvragen via onze offertepagina. U ontvangt binnen 24 uur een reactie op werkdagen.</div></div>
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Bieden jullie staffelprijzen aan?<i data-lucide="chevron-down"></i></div><div class="faq-a">Ja, bij veel producten profiteert u automatisch van staffelprijzen bij grotere afnames. De staffelprijzen worden op de productpagina getoond. Voor nog grotere volumes kunt u een offerte aanvragen.</div></div>
+        </div>
+      </div>
+      <div class="faq-section">
+        <div class="faq-section-title"><i data-lucide="truck"></i> Verzending & levering</div>
+        <div class="faq-card">
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Wat zijn de verzendkosten?<i data-lucide="chevron-down"></i></div><div class="faq-a">Bestellingen boven €150 (excl. BTW) worden gratis verzonden. Onder €150 rekenen we €7,50 verzendkosten. Spoedleveringen (volgende dag voor 10:00) kosten €14,95.</div></div>
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Wanneer wordt mijn bestelling geleverd?<i data-lucide="chevron-down"></i></div><div class="faq-a">Bestellingen voor 16:00 op werkdagen worden de volgende werkdag geleverd. U ontvangt een Track & Trace code per e-mail zodra uw pakket is verzonden.</div></div>
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Leveren jullie ook in België?<i data-lucide="chevron-down"></i></div><div class="faq-a">Op dit moment leveren wij uitsluitend binnen Nederland. Voor leveringen in België kunt u contact met ons opnemen voor een maatwerkoplossing.</div></div>
+        </div>
+      </div>
+      <div class="faq-section">
+        <div class="faq-section-title"><i data-lucide="undo-2"></i> Retourneren</div>
+        <div class="faq-card">
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Kan ik een product retourneren?<i data-lucide="chevron-down"></i></div><div class="faq-a">Ja, ongebruikte producten in originele verpakking kunnen binnen 14 dagen worden geretourneerd. Steriele en hygiëne-artikelen zijn uitgesloten van retour. Gebruik het retourformulier in uw account.</div></div>
+          <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Hoe lang duurt een terugbetaling?<i data-lucide="chevron-down"></i></div><div class="faq-a">Na ontvangst en controle van uw retourzending ontvangt u binnen 5 werkdagen uw geld terug op de oorspronkelijke betaalmethode. U ontvangt hiervan een bevestiging per e-mail.</div></div>
+        </div>
+      </div>
+    </div>
+    <aside>
+      <div class="side-card"><div class="side-title"><i data-lucide="trending-up"></i> Populaire vragen</div>
+        <a href="#" class="pop-link"><i data-lucide="chevron-right"></i> Wat zijn de verzendkosten?</a>
+        <a href="#" class="pop-link"><i data-lucide="chevron-right"></i> Kan ik op rekening betalen?</a>
+        <a href="#" class="pop-link"><i data-lucide="chevron-right"></i> Hoe maak ik een B2B account?</a>
+        <a href="#" class="pop-link"><i data-lucide="chevron-right"></i> Leveren jullie spoedorders?</a>
+      </div>
+      <div class="help-card"><h4>Staat uw vraag er niet bij?</h4><p>Neem contact met ons op — wij helpen u graag verder.</p><a href="#" class="help-btn"><i data-lucide="message-circle"></i> Contact opnemen</a></div>
+    </aside>
+  </div>
+</div>
+<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="logo-text">plasti<em>med</em></div><p>Sinds 1994 leverancier van professionele medische producten.</p></div><div><h4>Categorieën</h4><ul class="footer-links"><li><a href="#">Diagnostiek</a></li><li><a href="#">EHBO</a></li><li><a href="#">Handschoenen</a></li></ul></div><div><h4>Klantenservice</h4><ul class="footer-links"><li><a href="#">Veelgestelde vragen</a></li><li><a href="#">Verzending & retour</a></li><li><a href="#">Contact</a></li></ul></div><div><h4>Over Plastimed</h4><ul class="footer-links"><li><a href="#">Over ons</a></li><li><a href="#">Kennisbank</a></li></ul></div></div><div class="footer-bottom"><div>© 2026 Plastimed B.V.</div></div></div></footer>
+<script>lucide.createIcons();</script>
+</body>
+</html>

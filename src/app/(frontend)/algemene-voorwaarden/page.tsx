@@ -1,5 +1,6 @@
 import { FileText } from 'lucide-react'
 import { LegalLayout } from '@/components/LegalLayout'
+import '../legal.css'
 
 export const metadata = {
   title: 'Algemene voorwaarden - Plastimed',
@@ -31,37 +32,6 @@ export default function TermsPage() {
       tocItems={tocItems}
       breadcrumbItems={[{ label: 'Home', href: '/' }, { label: 'Algemene voorwaarden' }]}
     >
-      <style jsx global>{`
-        .legal-body h2 {
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 18px;
-          font-weight: 800;
-          margin: 32px 0 10px;
-          padding-top: 16px;
-          border-top: 1px solid #e8ecf1;
-        }
-        .legal-body h2:first-of-type {
-          border-top: none;
-          margin-top: 0;
-          padding-top: 0;
-        }
-        .legal-body p {
-          font-size: 15px;
-          color: #64748b;
-          line-height: 1.75;
-          margin-bottom: 12px;
-        }
-        .legal-body ol {
-          font-size: 15px;
-          color: #64748b;
-          line-height: 1.75;
-          margin: 0 0 12px 20px;
-        }
-        .legal-body li {
-          margin-bottom: 4px;
-        }
-      `}</style>
-
       <h2 id="art1">Artikel 1 — Definities</h2>
       <p>In deze algemene voorwaarden wordt verstaan onder:</p>
       <ol>

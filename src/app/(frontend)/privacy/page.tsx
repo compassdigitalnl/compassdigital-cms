@@ -1,5 +1,6 @@
 import { Shield } from 'lucide-react'
 import { LegalLayout } from '@/components/LegalLayout'
+import '../legal.css'
 
 export const metadata = {
   title: 'Privacybeleid - Plastimed',
@@ -30,62 +31,6 @@ export default function PrivacyPage() {
       tocItems={tocItems}
       breadcrumbItems={[{ label: 'Home', href: '/' }, { label: 'Privacybeleid' }]}
     >
-      <style jsx global>{`
-        .legal-body h2 {
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 18px;
-          font-weight: 800;
-          margin: 32px 0 10px;
-          padding-top: 16px;
-          border-top: 1px solid #e8ecf1;
-        }
-        .legal-body h2:first-of-type {
-          border-top: none;
-          margin-top: 0;
-          padding-top: 0;
-        }
-        .legal-body p {
-          font-size: 15px;
-          color: #64748b;
-          line-height: 1.75;
-          margin-bottom: 12px;
-        }
-        .legal-body ul {
-          font-size: 15px;
-          color: #64748b;
-          line-height: 1.75;
-          margin: 0 0 12px 20px;
-        }
-        .legal-body li {
-          margin-bottom: 4px;
-        }
-        .data-table {
-          width: 100%;
-          border-collapse: collapse;
-          margin: 12px 0 16px;
-          font-size: 14px;
-        }
-        .data-table th {
-          text-align: left;
-          font-size: 11px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #94a3b8;
-          padding: 10px 12px;
-          border-bottom: 2px solid #e8ecf1;
-          background: #f1f4f8;
-        }
-        .data-table td {
-          padding: 10px 12px;
-          border-bottom: 1px solid #e8ecf1;
-          color: #64748b;
-        }
-        .data-table tr:last-child td {
-          border-bottom: none;
-        }
-      `}</style>
-
       <h2 id="p1">1. Verantwoordelijke</h2>
       <p>
         Plastimed B.V. (KvK 12345678) is verantwoordelijk voor de verwerking van
