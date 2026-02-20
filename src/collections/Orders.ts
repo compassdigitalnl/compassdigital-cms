@@ -382,13 +382,22 @@ export const Orders: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    // Additional Info
+    // Shipping Information
     {
-      name: 'notes',
-      type: 'textarea',
-      label: 'Opmerkingen',
+      name: 'shippingProvider',
+      type: 'select',
+      label: 'Verzendpartij',
+      options: [
+        { label: 'PostNL', value: 'postnl' },
+        { label: 'DHL', value: 'dhl' },
+        { label: 'DPD', value: 'dpd' },
+        { label: 'UPS', value: 'ups' },
+        { label: 'Transmission', value: 'transmission' },
+        { label: 'Eigen bezorging', value: 'own' },
+        { label: 'Ophalen', value: 'pickup' },
+      ],
       admin: {
-        description: 'Interne notities of klant opmerkingen',
+        description: 'Verzendpartner voor deze bestelling',
       },
     },
     {
@@ -397,6 +406,127 @@ export const Orders: CollectionConfig = {
       label: 'Track & Trace Code',
       admin: {
         description: 'Verzend tracking nummer',
+      },
+    },
+    {
+      name: 'trackingUrl',
+      type: 'text',
+      label: 'Track & Trace URL',
+      admin: {
+        description: 'Directe link naar tracking pagina',
+      },
+    },
+    {
+      name: 'shippingMethod',
+      type: 'select',
+      label: 'Verzendmethode',
+      options: [
+        { label: 'Standaard (2-3 werkdagen)', value: 'standard' },
+        { label: 'Express (volgende werkdag)', value: 'express' },
+        { label: 'Same day delivery', value: 'same_day' },
+        { label: 'Ophalen in magazijn', value: 'pickup' },
+      ],
+      defaultValue: 'standard',
+      admin: {
+        description: 'Gekozen verzendmethode',
+      },
+    },
+    {
+      name: 'expectedDeliveryDate',
+      type: 'date',
+      label: 'Verwachte leverdatum',
+      admin: {
+        description: 'Geschatte leverdatum (bijv. "Verwacht vandaag")',
+        date: {
+          pickerAppearance: 'dayOnly',
+        },
+      },
+    },
+    {
+      name: 'actualDeliveryDate',
+      type: 'date',
+      label: 'Werkelijke leverdatum',
+      admin: {
+        description: 'Datum waarop bestelling is afgeleverd',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+      },
+    },
+    // Timeline Events (for order tracking page)
+    {
+      name: 'timeline',
+      type: 'array',
+      label: 'Tijdlijn Events',
+      admin: {
+        description: 'Chronologische events voor order tracking (automatisch + handmatig)',
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'event',
+          type: 'select',
+          required: true,
+          label: 'Event Type',
+          options: [
+            { label: '📦 Bestelling geplaatst', value: 'order_placed' },
+            { label: '💳 Betaling ontvangen', value: 'payment_received' },
+            { label: '✅ In behandeling', value: 'processing' },
+            { label: '📋 Factuur gegenereerd', value: 'invoice_generated' },
+            { label: '🚚 Verzonden', value: 'shipped' },
+            { label: '📍 In transit', value: 'in_transit' },
+            { label: '🏠 Afgeleverd', value: 'delivered' },
+            { label: '❌ Geannuleerd', value: 'cancelled' },
+            { label: '↩️ Retour aangevraagd', value: 'return_requested' },
+            { label: '💰 Terugbetaald', value: 'refunded' },
+            { label: '📝 Opmerking toegevoegd', value: 'note_added' },
+          ],
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Event Titel',
+          admin: {
+            description: 'Optioneel: custom titel (bijv. "Pakket onderweg naar sorteercentrum")',
+          },
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Beschrijving',
+          admin: {
+            description: 'Extra details over dit event',
+          },
+        },
+        {
+          name: 'timestamp',
+          type: 'date',
+          label: 'Tijdstip',
+          required: true,
+          defaultValue: () => new Date().toISOString(),
+          admin: {
+            date: {
+              pickerAppearance: 'dayAndTime',
+            },
+          },
+        },
+        {
+          name: 'location',
+          type: 'text',
+          label: 'Locatie',
+          admin: {
+            description: 'Optioneel: fysieke locatie (bijv. "Distributiecentrum Utrecht")',
+          },
+        },
+      ],
+    },
+    // Additional Info
+    {
+      name: 'notes',
+      type: 'textarea',
+      label: 'Opmerkingen',
+      admin: {
+        description: 'Interne notities of klant opmerkingen',
       },
     },
     {
@@ -409,6 +539,14 @@ export const Orders: CollectionConfig = {
       },
       admin: {
         description: 'Gegenereerde factuur',
+      },
+    },
+    {
+      name: 'invoiceNumber',
+      type: 'text',
+      label: 'Factuurnummer',
+      admin: {
+        description: 'Gekoppeld factuurnummer (bijv. F-2026-0187)',
       },
     },
   ],
