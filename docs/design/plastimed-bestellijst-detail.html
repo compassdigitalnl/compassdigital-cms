@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wekelijkse voorraad — Bestellijst — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.15);
+    --white:#FAFBFC;--grey:#E8ECF1;--grey-mid:#94A3B8;--grey-dark:#64748B;
+    --green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;
+    --amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}
+  .container{max-width:1240px;margin:0 auto;padding:0 24px;}
+
+  /* TOPBAR */
+  .topbar{background:var(--navy);color:rgba(255,255,255,0.7);font-size:13px;padding:8px 0;}
+  .topbar .container{display:flex;justify-content:space-between;align-items:center;}
+  .topbar-left{display:flex;gap:24px;}
+  .topbar-left span{display:flex;align-items:center;gap:6px;}
+  .topbar-left i{width:14px;height:14px;color:var(--teal-light);}
+  .topbar-right{display:flex;gap:20px;}
+  .topbar-right a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;}
+  .topbar-right a:hover{color:var(--teal-light);}
+
+  /* HEADER */
+  .header{background:white;border-bottom:1px solid var(--grey);position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(10,22,40,0.04);}
+  .header .container{display:flex;align-items:center;padding:16px 0;gap:32px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--teal),var(--teal-light));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 12px rgba(0,137,123,0.3);}
+  .logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;color:var(--navy);}
+  .logo-text em{color:var(--teal);font-style:normal;}
+  .search-bar{flex:1;max-width:560px;position:relative;}
+  .search-bar input{width:100%;padding:13px 20px 13px 48px;border:2px solid var(--grey);border-radius:12px;font-size:15px;font-family:'DM Sans',sans-serif;transition:all .3s;background:var(--bg);}
+  .search-bar input:focus{outline:none;border-color:var(--teal);background:white;box-shadow:0 0 0 4px var(--teal-glow);}
+  .search-bar .s-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--grey-mid);}
+  .search-bar .s-icon i{width:18px;height:18px;}
+  .header-actions{display:flex;align-items:center;gap:8px;}
+  .header-btn{width:44px;height:44px;border-radius:10px;border:none;background:var(--bg);color:var(--navy);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;position:relative;}
+  .header-btn i{width:20px;height:20px;}
+  .header-btn:hover{background:var(--teal-glow);color:var(--teal);}
+  .header-btn.active{background:var(--teal);color:white;}
+  .header-btn.phone-btn{width:auto;padding:0 16px;gap:8px;font-size:14px;font-weight:600;background:var(--teal-glow);color:var(--teal);font-family:'DM Sans',sans-serif;}
+  .cart-badge{position:absolute;top:4px;right:4px;width:18px;height:18px;background:var(--coral);border-radius:50%;font-size:10px;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;}
+
+  /* BREADCRUMB */
+  .breadcrumb-bar{padding:16px 0;}
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}
+  .breadcrumb a{color:var(--grey-mid);text-decoration:none;}
+  .breadcrumb a:hover{color:var(--teal);}
+  .breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}
+  .breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  /* PAGE HEADER */
+  .page-header{background:white;border:1px solid var(--grey);border-radius:16px;padding:28px;margin-bottom:20px;}
+  .ph-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:16px;flex-wrap:wrap;}
+  .ph-info{display:flex;gap:16px;align-items:center;}
+  .ph-icon{width:56px;height:56px;border-radius:14px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .ph-icon i{width:26px;height:26px;color:var(--teal);}
+  .ph-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);}
+  .ph-meta{font-size:13px;color:var(--grey-mid);display:flex;gap:16px;margin-top:4px;flex-wrap:wrap;}
+  .ph-meta span{display:flex;align-items:center;gap:4px;}
+  .ph-meta i{width:14px;height:14px;}
+  .ph-badges{display:flex;gap:6px;margin-top:6px;}
+  .shared-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:600;border-radius:6px;}
+  .shared-badge i{width:12px;height:12px;}
+  .pinned-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--amber-light);color:var(--amber);font-size:11px;font-weight:600;border-radius:6px;}
+  .pinned-badge i{width:12px;height:12px;}
+  .ph-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:linear-gradient(135deg,var(--teal),var(--teal-light));color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 4px 16px rgba(0,137,123,0.3);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,137,123,0.4);}
+  .btn-primary i{width:18px;height:18px;}
+  .btn-outline{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:white;color:var(--navy);border:1.5px solid var(--grey);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+  .btn-outline:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow);}
+  .btn-outline i{width:18px;height:18px;}
+  .btn-icon{width:42px;height:42px;border-radius:10px;border:1.5px solid var(--grey);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+  .btn-icon:hover{border-color:var(--teal);background:var(--teal-glow);}
+  .btn-icon i{width:18px;height:18px;color:var(--navy);}
+
+  /* Stats row */
+  .ph-stats{display:flex;gap:24px;padding-top:16px;border-top:1px solid var(--grey);}
+  .ph-stat{display:flex;align-items:center;gap:8px;}
+  .ph-stat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+  .ph-stat-icon i{width:16px;height:16px;}
+  .ph-stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);}
+  .ph-stat-label{font-size:12px;color:var(--grey-mid);}
+
+  /* ═══ QUICK ADD SEARCH ═══ */
+  .quick-add-section{background:white;border:1px solid var(--grey);border-radius:16px;padding:20px 24px;margin-bottom:20px;}
+  .qa-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .qa-title i{width:18px;height:18px;color:var(--teal);}
+  .qa-search-row{display:flex;gap:10px;}
+  .qa-search-wrap{flex:1;position:relative;}
+  .qa-search-wrap input{width:100%;padding:12px 16px 12px 44px;border:2px solid var(--grey);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;transition:all .2s;background:var(--bg);}
+  .qa-search-wrap input:focus{outline:none;border-color:var(--teal);background:white;box-shadow:0 0 0 4px var(--teal-glow);}
+  .qa-search-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--grey-mid);}
+  .qa-or{display:flex;align-items:center;font-size:13px;color:var(--grey-mid);font-weight:500;}
+  .qa-barcode{display:flex;align-items:center;gap:6px;padding:12px 18px;border:1.5px solid var(--grey);border-radius:12px;background:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .qa-barcode:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow);}
+  .qa-barcode i{width:18px;height:18px;}
+
+  /* Search dropdown results */
+  .qa-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:white;border:1.5px solid var(--grey);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.1);z-index:50;overflow:hidden;display:none;}
+  .qa-dropdown.show{display:block;}
+  .qa-dropdown-header{padding:12px 16px;font-size:12px;font-weight:700;color:var(--grey-mid);text-transform:uppercase;letter-spacing:.05em;background:var(--bg);border-bottom:1px solid var(--grey);}
+  .qa-result{display:flex;align-items:center;gap:14px;padding:12px 16px;cursor:pointer;transition:background .1s;border-bottom:1px solid var(--grey);}
+  .qa-result:last-child{border-bottom:none;}
+  .qa-result:hover{background:var(--teal-glow);}
+  .qa-result-img{width:44px;height:44px;background:var(--bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .qa-result-info{flex:1;min-width:0;}
+  .qa-result-name{font-size:14px;font-weight:600;color:var(--navy);}
+  .qa-result-meta{font-size:12px;color:var(--grey-mid);}
+  .qa-result-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);flex-shrink:0;}
+  .qa-result-add{width:34px;height:34px;border-radius:8px;background:var(--teal);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+  .qa-result-add:hover{background:var(--navy);}
+  .qa-result-add i{width:16px;height:16px;}
+
+  /* ═══ BULK ACTION BAR ═══ */
+  .bulk-bar{background:var(--navy);border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:16px;margin-bottom:16px;color:white;display:none;}
+  .bulk-bar.show{display:flex;}
+  .bulk-count{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;}
+  .bulk-count i{width:18px;height:18px;color:var(--teal-light);}
+  .bulk-count strong{color:var(--teal-light);}
+  .bulk-actions{display:flex;gap:8px;margin-left:auto;}
+  .bulk-btn{padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:white;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;}
+  .bulk-btn:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);}
+  .bulk-btn.danger{border-color:rgba(255,107,107,0.3);color:var(--coral);}
+  .bulk-btn.danger:hover{background:rgba(255,107,107,0.1);}
+  .bulk-btn.primary{background:var(--teal);border-color:var(--teal);}
+  .bulk-btn.primary:hover{background:var(--teal-light);}
+  .bulk-btn i{width:14px;height:14px;}
+  .bulk-close{width:32px;height:32px;border-radius:8px;border:none;background:rgba(255,255,255,0.06);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .bulk-close:hover{background:rgba(255,255,255,0.12);}
+  .bulk-close i{width:16px;height:16px;}
+
+  /* ═══ PRODUCT TABLE ═══ */
+  .list-table-wrap{background:white;border:1px solid var(--grey);border-radius:16px;overflow:hidden;margin-bottom:20px;}
+
+  /* Table toolbar */
+  .table-toolbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--grey);gap:12px;flex-wrap:wrap;}
+  .table-toolbar-left{display:flex;align-items:center;gap:12px;}
+  .select-all-wrap{display:flex;align-items:center;gap:8px;}
+  .checkbox{width:20px;height:20px;border:2px solid var(--grey);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0;}
+  .checkbox:hover{border-color:var(--teal);}
+  .checkbox.checked{background:var(--teal);border-color:var(--teal);}
+  .checkbox.checked::after{content:'✓';color:white;font-size:12px;font-weight:700;}
+  .checkbox.partial{background:var(--teal);border-color:var(--teal);}
+  .checkbox.partial::after{content:'–';color:white;font-size:14px;font-weight:700;}
+  .select-all-label{font-size:13px;color:var(--grey-mid);cursor:pointer;}
+  .tbl-search{position:relative;}
+  .tbl-search input{padding:8px 12px 8px 34px;border:1.5px solid var(--grey);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;width:200px;transition:all .2s;}
+  .tbl-search input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .tbl-search i{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--grey-mid);}
+
+  .table-toolbar-right{display:flex;gap:8px;}
+  .tbl-sort{padding:8px 28px 8px 12px;border:1.5px solid var(--grey);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;}
+
+  /* Table */
+  .list-table{width:100%;border-collapse:collapse;}
+  .list-table th{text-align:left;padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-mid);border-bottom:1px solid var(--grey);background:var(--bg);}
+  .list-table td{padding:14px 16px;border-bottom:1px solid var(--grey);vertical-align:middle;}
+  .list-table tr:last-child td{border-bottom:none;}
+  .list-table tr:hover td{background:rgba(0,137,123,0.015);}
+  .list-table tr.selected td{background:var(--teal-glow);}
+
+  .row-checkbox{width:20px;}
+  .row-product{display:flex;align-items:center;gap:12px;}
+  .row-img{width:48px;height:48px;background:var(--bg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:1px solid var(--grey);}
+  .row-info{min-width:0;}
+  .row-brand{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--teal);letter-spacing:.05em;}
+  .row-name{font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;}
+  .row-sku{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-mid);}
+  .row-size{font-size:13px;font-weight:600;color:var(--navy);}
+  .row-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);}
+  .row-unit{font-size:11px;color:var(--grey-mid);}
+  .row-stock{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:500;}
+  .row-stock.in{color:var(--green);}
+  .row-stock.low{color:var(--amber);}
+  .row-stock i{width:12px;height:12px;}
+  .stock-dot{width:6px;height:6px;border-radius:50%;}
+  .stock-dot.in{background:var(--green);}
+  .stock-dot.low{background:var(--amber);}
+
+  /* Qty input */
+  .qty-input{display:flex;border:1.5px solid var(--grey);border-radius:8px;overflow:hidden;}
+  .qty-input button{width:32px;height:36px;border:none;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--navy);transition:all .15s;}
+  .qty-input button:hover{background:var(--teal-glow);color:var(--teal);}
+  .qty-input input{width:40px;height:36px;border:none;text-align:center;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:var(--navy);outline:none;}
+  .qty-input input::-webkit-inner-spin-button{-webkit-appearance:none;}
+
+  .row-line-total{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);}
+  .row-actions{display:flex;gap:4px;}
+  .row-action{width:32px;height:32px;border-radius:6px;border:1px solid var(--grey);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+  .row-action:hover{border-color:var(--teal);background:var(--teal-glow);}
+  .row-action.danger:hover{border-color:var(--coral);background:var(--coral-light);}
+  .row-action i{width:14px;height:14px;color:var(--navy);}
+  .row-action.danger i{color:var(--coral);}
+
+  /* Drag handle */
+  .drag-handle{cursor:grab;color:var(--grey-mid);display:flex;align-items:center;}
+  .drag-handle:active{cursor:grabbing;}
+  .drag-handle i{width:16px;height:16px;}
+
+  /* ═══ SUMMARY FOOTER ═══ */
+  .list-summary{background:white;border:1px solid var(--grey);border-radius:16px;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .summary-left{display:flex;gap:32px;}
+  .summary-item{}
+  .summary-label{font-size:12px;color:var(--grey-mid);margin-bottom:2px;}
+  .summary-value{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);}
+  .summary-value.green{color:var(--green);}
+  .summary-right{display:flex;gap:10px;}
+
+  /* ═══ NOTES SECTION ═══ */
+  .notes-card{background:white;border:1px solid var(--grey);border-radius:16px;padding:20px 24px;margin-top:20px;}
+  .notes-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .notes-title i{width:16px;height:16px;color:var(--teal);}
+  .notes-text{width:100%;padding:12px 14px;border:1.5px solid var(--grey);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);resize:vertical;min-height:60px;outline:none;transition:border-color .2s;}
+  .notes-text:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+
+  /* ═══ FOOTER ═══ */
+  .footer{background:var(--navy);color:rgba(255,255,255,0.5);padding:64px 0 0;margin-top:40px;}
+  .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.06);}
+  .footer-brand .logo-text{font-size:20px;margin-bottom:12px;color:white;}
+  .footer-brand .logo-text em{color:var(--teal-light);}
+  .footer-brand p{font-size:14px;line-height:1.6;margin-bottom:16px;}
+  .footer-contact{display:flex;flex-direction:column;gap:8px;}
+  .footer-contact a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:8px;}
+  .footer-contact a:hover{color:var(--teal-light);}
+  .footer-contact a i{width:16px;height:16px;}
+  .footer h4{color:white;font-size:14px;font-weight:700;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;}
+  .footer-links{list-style:none;}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:14px;}
+  .footer-links a:hover{color:var(--teal-light);}
+  .footer-bottom{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+  .footer-badges{display:flex;gap:8px;}
+  .payment-badge{background:rgba(255,255,255,0.06);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;}
+
+  @media(max-width:900px){
+    .ph-stats{flex-wrap:wrap;}
+    .bulk-bar{flex-wrap:wrap;}
+    .list-table{font-size:12px;}
+    .topbar-left{display:none;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .summary-left{flex-wrap:wrap;gap:16px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar"><div class="container"><div class="topbar-left"><span><i data-lucide="truck"></i> Gratis verzending vanaf €150</span><span><i data-lucide="clock"></i> Voor 16:00 besteld, morgen in huis</span></div><div class="topbar-right"><a href="#">Klantenservice</a><a href="#">Jan de Vries</a></div></div></div>
+
+<!-- HEADER -->
+<header class="header"><div class="container">
+  <a href="#" class="logo"><div class="logo-icon">P</div><div class="logo-text">plasti<em>med</em></div></a>
+  <div class="search-bar"><span class="s-icon"><i data-lucide="search"></i></span><input type="text" placeholder="Zoek op product, merk of artikelnummer…"></div>
+  <div class="header-actions">
+    <button class="header-btn phone-btn"><i data-lucide="phone"></i> 0251-247233</button>
+    <button class="header-btn active"><i data-lucide="clipboard-list"></i></button>
+    <button class="header-btn"><i data-lucide="user"></i></button>
+    <button class="header-btn"><i data-lucide="shopping-cart"></i><span class="cart-badge">3</span></button>
+  </div>
+</div></header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb">
+  <li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li>
+  <li><a href="#">Mijn account</a></li><li class="sep"><i data-lucide="chevron-right"></i></li>
+  <li><a href="#">Bestellijsten</a></li><li class="sep"><i data-lucide="chevron-right"></i></li>
+  <li class="current">Wekelijkse voorraad</li>
+</ol></div></div>
+
+<div class="container">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="ph-top">
+      <div class="ph-info">
+        <div class="ph-icon"><i data-lucide="repeat"></i></div>
+        <div>
+          <h1 class="ph-title">Wekelijkse voorraad</h1>
+          <div class="ph-meta">
+            <span><i data-lucide="package"></i> 8 producten</span>
+            <span><i data-lucide="user"></i> Aangemaakt door Jan de Vries</span>
+            <span><i data-lucide="clock"></i> Laatst bijgewerkt 2 dagen geleden</span>
+          </div>
+          <div class="ph-badges">
+            <span class="pinned-badge"><i data-lucide="pin"></i> Vastgepind</span>
+            <span class="shared-badge"><i data-lucide="users"></i> Gedeeld met 3 collega's</span>
+          </div>
+        </div>
+      </div>
+      <div class="ph-actions">
+        <button class="btn-icon" title="Delen"><i data-lucide="share-2"></i></button>
+        <button class="btn-icon" title="Dupliceren"><i data-lucide="copy"></i></button>
+        <button class="btn-icon" title="Exporteren"><i data-lucide="download"></i></button>
+        <button class="btn-icon" title="Instellingen"><i data-lucide="settings"></i></button>
+        <button class="btn-outline"><i data-lucide="printer"></i> Print</button>
+        <button class="btn-primary"><i data-lucide="shopping-cart"></i> Alles in winkelwagen</button>
+      </div>
+    </div>
+    <div class="ph-stats">
+      <div class="ph-stat">
+        <div class="ph-stat-icon" style="background:var(--teal-glow);"><i data-lucide="package" style="color:var(--teal);"></i></div>
+        <div><div class="ph-stat-num">8</div><div class="ph-stat-label">Artikelen</div></div>
+      </div>
+      <div class="ph-stat">
+        <div class="ph-stat-icon" style="background:var(--green-light);"><i data-lucide="check-circle" style="color:var(--green);"></i></div>
+        <div><div class="ph-stat-num">7</div><div class="ph-stat-label">Op voorraad</div></div>
+      </div>
+      <div class="ph-stat">
+        <div class="ph-stat-icon" style="background:var(--amber-light);"><i data-lucide="alert-triangle" style="color:var(--amber);"></i></div>
+        <div><div class="ph-stat-num">1</div><div class="ph-stat-label">Beperkt</div></div>
+      </div>
+      <div class="ph-stat">
+        <div class="ph-stat-icon" style="background:var(--blue-light);"><i data-lucide="euro" style="color:var(--blue);"></i></div>
+        <div><div class="ph-stat-num">€87,40</div><div class="ph-stat-label">Totale waarde</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK ADD SEARCH -->
+  <div class="quick-add-section">
+    <div class="qa-title"><i data-lucide="plus-circle"></i> Product toevoegen aan lijst</div>
+    <div class="qa-search-row">
+      <div class="qa-search-wrap">
+        <i data-lucide="search"></i>
+        <input type="text" placeholder="Zoek op productnaam, artikelnummer of EAN…" id="qaInput" onfocus="document.getElementById('qaDropdown').classList.add('show')" onblur="setTimeout(()=>document.getElementById('qaDropdown').classList.remove('show'),200)">
+        <!-- Dropdown -->
+        <div class="qa-dropdown" id="qaDropdown">
+          <div class="qa-dropdown-header">Suggesties</div>
+          <div class="qa-result" onclick="alert('Toegevoegd!')">
+            <div class="qa-result-img">🩺</div>
+            <div class="qa-result-info"><div class="qa-result-name">Littmann Classic III Stethoscoop</div><div class="qa-result-meta">Art. 5622 · 3M · Op voorraad</div></div>
+            <div class="qa-result-price">€139,95</div>
+            <button class="qa-result-add"><i data-lucide="plus"></i></button>
+          </div>
+          <div class="qa-result" onclick="alert('Toegevoegd!')">
+            <div class="qa-result-img">🌡️</div>
+            <div class="qa-result-info"><div class="qa-result-name">Braun ThermoScan 7 Oorthermometer</div><div class="qa-result-meta">Art. 7833 · Braun · Op voorraad</div></div>
+            <div class="qa-result-price">€64,95</div>
+            <button class="qa-result-add"><i data-lucide="plus"></i></button>
+          </div>
+          <div class="qa-result" onclick="alert('Toegevoegd!')">
+            <div class="qa-result-img">🧤</div>
+            <div class="qa-result-info"><div class="qa-result-name">Peha-soft Nitrile Eco Plus — Doos 200</div><div class="qa-result-meta">Art. 942215 · Hartmann · Op voorraad</div></div>
+            <div class="qa-result-price">€12,50</div>
+            <button class="qa-result-add"><i data-lucide="plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <span class="qa-or">of</span>
+      <button class="qa-barcode"><i data-lucide="scan-line"></i> Scan barcode</button>
+    </div>
+  </div>
+
+  <!-- BULK ACTION BAR (shows when items selected) -->
+  <div class="bulk-bar show" id="bulkBar">
+    <div class="bulk-count"><i data-lucide="check-square"></i> <strong>3</strong> artikelen geselecteerd</div>
+    <div class="bulk-actions">
+      <button class="bulk-btn"><i data-lucide="shopping-cart"></i> In winkelwagen</button>
+      <button class="bulk-btn"><i data-lucide="copy"></i> Kopieer naar lijst</button>
+      <button class="bulk-btn"><i data-lucide="move"></i> Verplaats naar lijst</button>
+      <button class="bulk-btn"><i data-lucide="edit-3"></i> Aantal wijzigen</button>
+      <button class="bulk-btn danger"><i data-lucide="trash-2"></i> Verwijderen</button>
+    </div>
+    <button class="bulk-close" onclick="document.getElementById('bulkBar').classList.remove('show')"><i data-lucide="x"></i></button>
+  </div>
+
+  <!-- PRODUCT TABLE -->
+  <div class="list-table-wrap">
+    <div class="table-toolbar">
+      <div class="table-toolbar-left">
+        <div class="select-all-wrap">
+          <div class="checkbox partial" onclick="toggleSelectAll(this)"></div>
+          <span class="select-all-label">Alles selecteren</span>
+        </div>
+        <div class="tbl-search"><i data-lucide="search"></i><input type="text" placeholder="Filter in lijst…"></div>
+      </div>
+      <div class="table-toolbar-right">
+        <select class="tbl-sort"><option>Volgorde: handmatig</option><option>Naam A-Z</option><option>Prijs: laag → hoog</option><option>Prijs: hoog → laag</option><option>Voorraad</option></select>
+      </div>
+    </div>
+
+    <table class="list-table">
+      <thead><tr>
+        <th style="width:30px;"></th>
+        <th style="width:24px;"></th>
+        <th>Product</th>
+        <th>Maat</th>
+        <th>Stukprijs</th>
+        <th>Aantal</th>
+        <th>Totaal</th>
+        <th>Voorraad</th>
+        <th style="width:80px;"></th>
+      </tr></thead>
+      <tbody>
+        <tr class="selected">
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox checked" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">🧤</div><div class="row-info"><div class="row-brand">Hartmann</div><div class="row-name">Peha-soft Nitrile Fino Handschoenen</div><div class="row-sku">Art. 942210 · Doos 150 st.</div></div></div></td>
+          <td><span class="row-size">M</span></td>
+          <td><div class="row-price">€8,25</div><div class="row-unit">staffelprijs</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="5" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€41,25</span></td>
+          <td><div class="row-stock in"><span class="stock-dot in"></span> 512</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+        <tr class="selected">
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox checked" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">🧤</div><div class="row-info"><div class="row-brand">Hartmann</div><div class="row-name">Peha-soft Nitrile Fino Handschoenen</div><div class="row-sku">Art. 942210 · Doos 150 st.</div></div></div></td>
+          <td><span class="row-size">L</span></td>
+          <td><div class="row-price">€8,25</div><div class="row-unit">staffelprijs</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="3" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€24,75</span></td>
+          <td><div class="row-stock in"><span class="stock-dot in"></span> 287</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+        <tr class="selected">
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox checked" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">🧴</div><div class="row-info"><div class="row-brand">Hartmann</div><div class="row-name">Baktolan Protect+ Pure Handcrème 100ml</div><div class="row-sku">Art. 232451</div></div></div></td>
+          <td><span class="row-size">—</span></td>
+          <td><div class="row-price">€5,95</div><div class="row-unit">per stuk</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="2" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€11,90</span></td>
+          <td><div class="row-stock in"><span class="stock-dot in"></span> 89</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+        <tr>
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">💉</div><div class="row-info"><div class="row-brand">BD</div><div class="row-name">Discardit II Injectiespuit 10ml</div><div class="row-sku">Art. 309110 · Doos 100 st.</div></div></div></td>
+          <td><span class="row-size">—</span></td>
+          <td><div class="row-price">€4,25</div><div class="row-unit">per doos</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="2" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€8,50</span></td>
+          <td><div class="row-stock in"><span class="stock-dot in"></span> 1.240</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+        <tr>
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">🩹</div><div class="row-info"><div class="row-brand">BSN Medical</div><div class="row-name">Leukoplast Professional Wondpleister 5m x 2,5cm</div><div class="row-sku">Art. 76174</div></div></div></td>
+          <td><span class="row-size">—</span></td>
+          <td><div class="row-price">€6,50</div><div class="row-unit">per stuk</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="3" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€19,50</span></td>
+          <td><div class="row-stock in"><span class="stock-dot in"></span> 342</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+        <tr>
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">🧤</div><div class="row-info"><div class="row-brand">Hartmann</div><div class="row-name">Peha-soft Nitrile Fino Handschoenen</div><div class="row-sku">Art. 942210 · Doos 150 st.</div></div></div></td>
+          <td><span class="row-size">S</span></td>
+          <td><div class="row-price">€8,95</div><div class="row-unit">per doos</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="2" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€17,90</span></td>
+          <td><div class="row-stock in"><span class="stock-dot in"></span> 324</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+        <tr>
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">🧤</div><div class="row-info"><div class="row-brand">Hartmann</div><div class="row-name">Peha-soft Nitrile Fino Handschoenen</div><div class="row-sku">Art. 942210 · Doos 150 st.</div></div></div></td>
+          <td><span class="row-size">XL</span></td>
+          <td><div class="row-price">€8,95</div><div class="row-unit">per doos</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="1" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€8,95</span></td>
+          <td><div class="row-stock low"><span class="stock-dot low"></span> 12</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+        <tr>
+          <td><div class="drag-handle"><i data-lucide="grip-vertical"></i></div></td>
+          <td><div class="checkbox" onclick="toggleCheck(this)"></div></td>
+          <td><div class="row-product"><div class="row-img">🌡️</div><div class="row-info"><div class="row-brand">Braun</div><div class="row-name">ThermoScan 7 Oorthermometer</div><div class="row-sku">Art. 7833</div></div></div></td>
+          <td><span class="row-size">—</span></td>
+          <td><div class="row-price">€64,95</div><div class="row-unit">per stuk</div></td>
+          <td><div class="qty-input"><button onclick="stepQty(this,-1)">−</button><input type="number" value="1" min="1" onchange="updateRow(this)"><button onclick="stepQty(this,1)">+</button></div></td>
+          <td><span class="row-line-total">€64,95</span></td>
+          <td><div class="row-stock in"><span class="stock-dot in"></span> 45</div></td>
+          <td><div class="row-actions"><button class="row-action" title="In winkelwagen"><i data-lucide="shopping-cart"></i></button><button class="row-action danger" title="Verwijderen"><i data-lucide="trash-2"></i></button></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="list-summary">
+    <div class="summary-left">
+      <div class="summary-item"><div class="summary-label">Artikelen</div><div class="summary-value">8</div></div>
+      <div class="summary-item"><div class="summary-label">Totale waarde</div><div class="summary-value">€197,70</div></div>
+      <div class="summary-item"><div class="summary-label">Staffelkorting</div><div class="summary-value green">− €7,80</div></div>
+      <div class="summary-item"><div class="summary-label">Verwachte totaal</div><div class="summary-value">€189,90</div></div>
+    </div>
+    <div class="summary-right">
+      <button class="btn-outline"><i data-lucide="file-text"></i> Offerte aanvragen</button>
+      <button class="btn-primary"><i data-lucide="shopping-cart"></i> Alles in winkelwagen</button>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-card">
+    <div class="notes-title"><i data-lucide="message-square"></i> Notities bij deze lijst</div>
+    <textarea class="notes-text" placeholder="Bijv. instructies voor collega's, bestelmomenten, leveringsvoorkeuren…">Elke maandag bestellen. Controleer XL voorraad — loopt snel uit. Levervoorkeur: ochtend vóór 10:00.</textarea>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo-text">plasti<em>med</em></div><p>Sinds 1994 leverancier van professionele medische producten.</p><div class="footer-contact"><a href="#"><i data-lucide="phone"></i> 0251 - 247 233</a><a href="#"><i data-lucide="mail"></i> info@plastimed.nl</a><a href="#"><i data-lucide="map-pin"></i> Beverwijk, Nederland</a></div></div>
+    <div><h4>Categorieën</h4><ul class="footer-links"><li><a href="#">Diagnostiek</a></li><li><a href="#">EHBO</a></li><li><a href="#">Verbandmiddelen</a></li></ul></div>
+    <div><h4>Klantenservice</h4><ul class="footer-links"><li><a href="#">Veelgestelde vragen</a></li><li><a href="#">Verzending & retour</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><h4>Over Plastimed</h4><ul class="footer-links"><li><a href="#">Over ons</a></li><li><a href="#">Onze merken</a></li><li><a href="#">Privacybeleid</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div>© 2026 Plastimed B.V. — Alle rechten voorbehouden</div><div class="footer-badges"><span class="payment-badge">iDEAL</span><span class="payment-badge">Op rekening</span><span class="payment-badge">VISA</span><span class="payment-badge">Mastercard</span></div></div>
+</div></footer>
+
+<script>
+  lucide.createIcons();
+
+  function stepQty(btn, delta) {
+    const input = btn.parentElement.querySelector('input');
+    let val = parseInt(input.value)||1;
+    val = Math.max(1, val+delta);
+    input.value = val;
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    const row = el.closest('tr');
+    row && row.classList.toggle('selected');
+    updateBulkBar();
+  }
+
+  function toggleSelectAll(el) {
+    const isChecked = el.classList.contains('checked') || el.classList.contains('partial');
+    const allCheckboxes = document.querySelectorAll('.list-table tbody .checkbox');
+    if (isChecked) {
+      el.classList.remove('checked','partial');
+      allCheckboxes.forEach(cb => { cb.classList.remove('checked'); cb.closest('tr').classList.remove('selected'); });
+    } else {
+      el.classList.add('checked');
+      el.classList.remove('partial');
+      allCheckboxes.forEach(cb => { cb.classList.add('checked'); cb.closest('tr').classList.add('selected'); });
+    }
+    updateBulkBar();
+  }
+
+  function updateBulkBar() {
+    const checked = document.querySelectorAll('.list-table tbody .checkbox.checked').length;
+    const bar = document.getElementById('bulkBar');
+    if (checked > 0) {
+      bar.classList.add('show');
+      bar.querySelector('strong').textContent = checked;
+    } else {
+      bar.classList.remove('show');
+    }
+  }
+</script>
+</body>
+</html>

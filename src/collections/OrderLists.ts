@@ -16,13 +16,22 @@ export const OrderLists: CollectionConfig = {
   },
   access: {
     read: ({ req: { user } }) => {
-      // Users can only read their own lists, admins can read all
+      // Users can read their own lists, shared lists, or admins can read all
       if (!user) return false
       if (user.roles?.includes('admin')) return true
       return {
-        owner: {
-          equals: user.id,
-        },
+        or: [
+          {
+            owner: {
+              equals: user.id,
+            },
+          },
+          {
+            'shareWith.user': {
+              equals: user.id,
+            },
+          },
+        ],
       }
     },
     create: ({ req: { user } }) => {
@@ -30,13 +39,31 @@ export const OrderLists: CollectionConfig = {
       return !!user
     },
     update: ({ req: { user } }) => {
-      // Users can only update their own lists, admins can update all
+      // Users can update their own lists or shared lists (with canEdit), admins can update all
       if (!user) return false
       if (user.roles?.includes('admin')) return true
       return {
-        owner: {
-          equals: user.id,
-        },
+        or: [
+          {
+            owner: {
+              equals: user.id,
+            },
+          },
+          {
+            and: [
+              {
+                'shareWith.user': {
+                  equals: user.id,
+                },
+              },
+              {
+                'shareWith.canEdit': {
+                  equals: true,
+                },
+              },
+            ],
+          },
+        ],
       }
     },
     delete: ({ req: { user } }) => {
@@ -58,6 +85,48 @@ export const OrderLists: CollectionConfig = {
       label: 'Lijstnaam',
       admin: {
         description: 'Bijvoorbeeld: "Maandelijkse EHBO bestelling"',
+      },
+    },
+    {
+      name: 'icon',
+      type: 'select',
+      label: 'Icoon',
+      defaultValue: 'clipboard-list',
+      options: [
+        { label: 'Clipboard (standaard)', value: 'clipboard-list' },
+        { label: 'Repeat (herhaling)', value: 'repeat' },
+        { label: 'Stethoscope (medisch)', value: 'stethoscope' },
+        { label: 'Flask (lab)', value: 'flask-conical' },
+        { label: 'Plus Circle (EHBO)', value: 'plus-circle' },
+        { label: 'Building (gebouw)', value: 'building-2' },
+        { label: 'Package (pakket)', value: 'package' },
+      ],
+      admin: {
+        description: 'Icoon voor visuele identificatie',
+      },
+    },
+    {
+      name: 'color',
+      type: 'select',
+      label: 'Kleur',
+      defaultValue: 'teal',
+      options: [
+        { label: 'Teal (standaard)', value: 'teal' },
+        { label: 'Blue (blauw)', value: 'blue' },
+        { label: 'Amber (oranje)', value: 'amber' },
+        { label: 'Green (groen)', value: 'green' },
+      ],
+      admin: {
+        description: 'Achtergrondkleur van het icoon',
+      },
+    },
+    {
+      name: 'isPinned',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Vastgepind',
+      admin: {
+        description: 'Vastgepinde lijsten worden bovenaan getoond',
       },
     },
     {
@@ -152,6 +221,28 @@ export const OrderLists: CollectionConfig = {
       admin: {
         description: 'Optionele beschrijving van deze bestellijst',
         rows: 3,
+      },
+    },
+    {
+      name: 'notes',
+      type: 'textarea',
+      label: 'Notities',
+      admin: {
+        description: 'Notities bij deze lijst (bijv. instructies voor collega\'s, bestelmomenten)',
+        rows: 4,
+      },
+    },
+    {
+      name: 'lastOrderedAt',
+      type: 'date',
+      label: 'Laatst besteld op',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Wordt automatisch bijgewerkt wanneer producten uit deze lijst worden besteld',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
       },
     },
     {
