@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { ProductCategory } from '@/payload-types'
+import { ProductCategory, Product } from '@/payload-types'
+import { MegaMenu } from './MegaMenu'
 
 interface NavBarProps {
   categories: ProductCategory[]
@@ -26,28 +27,78 @@ export function NavBar({
   categorySettings,
   mode,
 }: NavBarProps) {
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
-  const [megaMenuData, setMegaMenuData] = useState<any>(null)
+  const [hoveredCategory, setHoveredCategory] = useState<ProductCategory | null>(null)
+  const [megaMenuData, setMegaMenuData] = useState<{
+    subcategories: ProductCategory[]
+    products?: Product[]
+  } | null>(null)
+  const [isLoadingMegaMenu, setIsLoadingMegaMenu] = useState(false)
 
-  // Handle category hover - fetch subcategories
-  const handleCategoryHover = async (categoryId: string) => {
-    setHoveredCategory(categoryId)
+  // Handle category hover - fetch subcategories and products
+  const handleCategoryHover = async (category: ProductCategory) => {
+    setHoveredCategory(category)
+    setIsLoadingMegaMenu(true)
 
-    // TODO: Fetch subcategories in Fase 3 (MegaMenu)
-    // For now, just set the hovered state
+    try {
+      // Fetch subcategories
+      const subcatParams = new URLSearchParams({
+        'where[parent][equals]': category.id,
+        'where[visible][equals]': 'true',
+        sort: 'order',
+        limit: '20',
+        depth: '0',
+      })
+
+      const subcatResponse = await fetch(`/api/product-categories?${subcatParams.toString()}`)
+      const subcatData = await subcatResponse.json()
+      const subcategories = subcatData.docs || []
+
+      // Fetch products if needed (for with-products or full style)
+      let products: Product[] = []
+      if (
+        categorySettings.megaMenuStyle === 'with-products' ||
+        categorySettings.megaMenuStyle === 'full'
+      ) {
+        const maxProducts = categorySettings.maxProductsInMegaMenu || 3
+        const productParams = new URLSearchParams({
+          'where[categories][in]': category.id,
+          'where[status][equals]': 'published',
+          'where[featured][equals]': 'true',
+          sort: '-createdAt',
+          limit: maxProducts.toString(),
+          depth: '2', // Populate images
+        })
+
+        const productResponse = await fetch(`/api/products?${productParams.toString()}`)
+        const productData = await productResponse.json()
+        products = productData.docs || []
+      }
+
+      setMegaMenuData({ subcategories, products })
+    } catch (error) {
+      console.error('Error fetching mega menu data:', error)
+      setMegaMenuData({ subcategories: [] })
+    } finally {
+      setIsLoadingMegaMenu(false)
+    }
+  }
+
+  const handleCloseMegaMenu = () => {
+    setHoveredCategory(null)
+    setMegaMenuData(null)
   }
 
   // Render category nav item
   const renderCategoryItem = (category: ProductCategory) => {
     const href = `/shop?category=${category.slug}`
-    const isHovered = hoveredCategory === category.id
+    const isHovered = hoveredCategory?.id === category.id
 
     return (
       <div
         key={category.id}
-        className="relative group"
-        onMouseEnter={() => handleCategoryHover(category.id)}
-        onMouseLeave={() => setHoveredCategory(null)}
+        className="relative"
+        onMouseEnter={() => handleCategoryHover(category)}
+        onMouseLeave={handleCloseMegaMenu}
       >
         <Link
           href={href}
@@ -57,14 +108,22 @@ export function NavBar({
             <span className="text-base">{category.icon}</span>
           )}
           <span>{category.name}</span>
-          {/* Indicator for categories with subcategories - will add in Fase 3 */}
+          {/* Show loading indicator while fetching */}
+          {isHovered && isLoadingMegaMenu && (
+            <span className="text-xs text-gray-400 animate-pulse">...</span>
+          )}
         </Link>
 
-        {/* Mega menu placeholder - will implement in Fase 3 */}
-        {isHovered && (
-          <div className="absolute left-0 top-full mt-0 bg-white border shadow-lg rounded-lg p-4 min-w-[250px] opacity-100 visible transition-all duration-200 z-50">
-            <p className="text-xs text-gray-500">Mega menu komt in Fase 3...</p>
-          </div>
+        {/* Mega menu */}
+        {isHovered && megaMenuData && !isLoadingMegaMenu && (
+          <MegaMenu
+            category={category}
+            subcategories={megaMenuData.subcategories}
+            products={megaMenuData.products}
+            style={categorySettings.megaMenuStyle || 'subcategories'}
+            showProductCount={categorySettings.showProductCount}
+            onClose={handleCloseMegaMenu}
+          />
         )}
       </div>
     )
