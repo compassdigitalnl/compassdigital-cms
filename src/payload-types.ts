@@ -498,9 +498,28 @@ export interface TopBarBlock {
   leftMessages?:
     | {
         /**
-         * Emoji of symbool
+         * Kies een Lucide icon
          */
-        icon?: string | null;
+        icon?:
+          | (
+              | ''
+              | 'BadgeCheck'
+              | 'Truck'
+              | 'Shield'
+              | 'Award'
+              | 'Phone'
+              | 'Mail'
+              | 'Clock'
+              | 'MapPin'
+              | 'CheckCircle'
+              | 'CreditCard'
+              | 'Lock'
+              | 'Zap'
+              | 'Gift'
+              | 'RefreshCw'
+              | 'Users'
+            )
+          | null;
         text: string;
         link?: string | null;
         id?: string | null;

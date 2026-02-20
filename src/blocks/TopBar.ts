@@ -61,11 +61,28 @@ export const TopBar: Block = {
       fields: [
         {
           name: 'icon',
-          type: 'text',
+          type: 'select',
           label: 'Icon',
+          options: [
+            { label: 'Geen icon', value: '' },
+            { label: '✓ Badge Check (verificatie)', value: 'BadgeCheck' },
+            { label: '🚚 Truck (verzending)', value: 'Truck' },
+            { label: '🛡️ Shield (veiligheid)', value: 'Shield' },
+            { label: '⭐ Award (kwaliteit)', value: 'Award' },
+            { label: '📞 Phone', value: 'Phone' },
+            { label: '✉️ Mail', value: 'Mail' },
+            { label: '🕐 Clock', value: 'Clock' },
+            { label: '📍 Map Pin', value: 'MapPin' },
+            { label: '✅ Check Circle', value: 'CheckCircle' },
+            { label: '💳 Credit Card', value: 'CreditCard' },
+            { label: '🔒 Lock (beveiligd)', value: 'Lock' },
+            { label: '⚡ Zap (snel)', value: 'Zap' },
+            { label: '🎁 Gift', value: 'Gift' },
+            { label: '🔄 Refresh (retour)', value: 'RefreshCw' },
+            { label: '👥 Users', value: 'Users' },
+          ],
           admin: {
-            placeholder: '✓ of 🚚',
-            description: 'Emoji of symbool',
+            description: 'Kies een Lucide icon',
           },
         },
         {

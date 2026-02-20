@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import type { TopBarBlock as TopBarType } from '@/payload-types'
+import { Icon } from '@/components/Icon'
 
 export const TopBar: React.FC<TopBarType> = async ({
   enabled = true,
@@ -60,7 +61,7 @@ export const TopBar: React.FC<TopBarType> = async ({
           <div className="flex items-center gap-6">
             {messages.map((message, index) => (
               <div key={index} className="flex items-center gap-2">
-                {message.icon && <span>{message.icon}</span>}
+                {message.icon && <Icon name={message.icon} size={16} className="flex-shrink-0" />}
                 {message.link ? (
                   <Link
                     href={message.link}
