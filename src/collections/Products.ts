@@ -806,9 +806,7 @@ export const Products: CollectionConfig = {
               admin: {
                 condition: (data) => data.productType !== 'grouped',
                 components: {
-                  Field: () => {
-                    return null
-                  },
+                  Field: '@/components/admin/NullField#NullField',
                 },
               },
             },
