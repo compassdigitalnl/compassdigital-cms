@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klant worden — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Simplified header */
+  .header{background:white;border-bottom:1px solid var(--grey);padding:20px 0;}
+  .header .container{display:flex;align-items:center;justify-content:space-between;}
+  .logo{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:36px;}
+  .header-help{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--grey-dark);text-decoration:none;}
+  .header-help i{width:16px;height:16px;color:var(--teal);}
+  .header-help:hover{color:var(--teal);}
+
+  /* Progress steps */
+  .reg-progress{background:white;border-bottom:1px solid var(--grey);padding:24px 0;}
+  .reg-steps{display:flex;align-items:center;justify-content:center;max-width:700px;margin:0 auto;}
+  .reg-step{display:flex;align-items:center;gap:10px;flex:1;}
+  .reg-step-circle{width:36px;height:36px;border-radius:50%;border:2px solid var(--grey);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--grey-mid);flex-shrink:0;transition:all .3s;}
+  .reg-step.active .reg-step-circle{background:var(--teal);border-color:var(--teal);color:white;box-shadow:0 0 0 4px var(--teal-glow);}
+  .reg-step.done .reg-step-circle{background:var(--green);border-color:var(--green);color:white;}
+  .reg-step-info{min-width:0;}
+  .reg-step-label{font-size:13px;font-weight:700;color:var(--navy);}
+  .reg-step.upcoming .reg-step-label{color:var(--grey-mid);}
+  .reg-step-desc{font-size:11px;color:var(--grey-mid);}
+  .reg-step-line{flex:0 0 48px;height:2px;background:var(--grey);margin:0 8px;}
+  .reg-step-line.done{background:var(--green);}
+
+  /* Layout */
+  .reg-layout{display:grid;grid-template-columns:1fr 380px;gap:32px;padding:40px 0 80px;align-items:start;}
+
+  /* Form card */
+  .form-card{background:white;border:1px solid var(--grey);border-radius:20px;padding:36px;margin-bottom:20px;}
+  .form-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+  .form-title i{width:22px;height:22px;color:var(--teal);}
+  .form-subtitle{font-size:15px;color:var(--grey-dark);margin-bottom:28px;line-height:1.5;}
+
+  /* Type selector */
+  .type-selector{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+  .type-option{padding:20px;border:2px solid var(--grey);border-radius:14px;cursor:pointer;transition:all .2s;text-align:center;}
+  .type-option:hover{border-color:var(--teal);background:var(--teal-glow);}
+  .type-option.active{border-color:var(--teal);background:var(--teal-glow);box-shadow:0 0 0 4px var(--teal-glow);}
+  .type-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;}
+  .type-option.active .type-icon{background:var(--teal);}
+  .type-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:2px;}
+  .type-desc{font-size:12px;color:var(--grey-mid);}
+
+  /* Form fields */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .form-row.full{grid-template-columns:1fr;}
+  .form-group{display:flex;flex-direction:column;gap:6px;}
+  .form-label{font-size:13px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:4px;}
+  .form-label .required{color:var(--coral);font-size:12px;}
+  .form-input{height:46px;padding:0 16px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);transition:all var(--transition);outline:none;}
+  .form-input:focus{border-color:var(--teal);background:white;box-shadow:0 0 0 4px var(--teal-glow);}
+  .form-input::placeholder{color:var(--grey-mid);}
+  .form-input.error{border-color:var(--coral);background:var(--coral-light);}
+  .form-input.success{border-color:var(--green);background:var(--green-light);}
+  .form-hint{font-size:12px;color:var(--grey-mid);display:flex;align-items:center;gap:4px;}
+  .form-hint i{width:13px;height:13px;}
+  .form-error{font-size:12px;color:var(--coral);display:flex;align-items:center;gap:4px;}
+  .form-error i{width:13px;height:13px;}
+  .form-success{font-size:12px;color:var(--green);display:flex;align-items:center;gap:4px;}
+  .form-success i{width:13px;height:13px;}
+  select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;}
+  textarea.form-input{height:auto;padding:14px 16px;min-height:80px;resize:vertical;font-family:'DM Sans',sans-serif;}
+
+  /* KVK lookup */
+  .kvk-lookup{display:flex;gap:8px;}
+  .kvk-lookup input{flex:1;}
+  .kvk-btn{padding:0 20px;background:var(--navy);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .kvk-btn:hover{background:var(--teal);}
+  .kvk-btn i{width:15px;height:15px;}
+  .kvk-result{background:var(--green-light);border:1px solid rgba(0,200,83,0.15);border-radius:var(--radius);padding:14px 18px;margin-top:8px;display:flex;gap:12px;align-items:center;}
+  .kvk-result-icon{width:36px;height:36px;background:white;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .kvk-result-icon i{width:18px;height:18px;color:var(--green);}
+  .kvk-result-name{font-size:14px;font-weight:700;color:var(--navy);}
+  .kvk-result-addr{font-size:12px;color:var(--grey-dark);}
+
+  /* Checkbox */
+  .form-check{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer;}
+  .form-check-box{width:20px;height:20px;border:2px solid var(--grey);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;margin-top:1px;}
+  .form-check.checked .form-check-box{background:var(--teal);border-color:var(--teal);}
+  .form-check-box i{width:12px;height:12px;color:white;}
+  .form-check-text{font-size:14px;color:var(--navy);line-height:1.4;}
+  .form-check-text a{color:var(--teal);text-decoration:underline;text-underline-offset:2px;}
+
+  /* Buttons */
+  .form-actions{display:flex;gap:12px;justify-content:space-between;margin-top:28px;padding-top:24px;border-top:1px solid var(--grey);}
+  .btn-back{display:inline-flex;align-items:center;gap:7px;padding:14px 24px;background:white;color:var(--navy);border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all var(--transition);text-decoration:none;}
+  .btn-back:hover{border-color:var(--teal);color:var(--teal);}
+  .btn-back i{width:16px;height:16px;}
+  .btn-next{display:inline-flex;align-items:center;gap:7px;padding:14px 28px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,0.3);}
+  .btn-next:hover{background:var(--teal-light);transform:translateY(-1px);}
+  .btn-next i{width:16px;height:16px;}
+
+  /* Sidebar */
+  .reg-sidebar{display:flex;flex-direction:column;gap:16px;}
+  .side-card{background:white;border:1px solid var(--grey);border-radius:16px;padding:24px;}
+  .side-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .side-title i{width:16px;height:16px;color:var(--teal);}
+
+  /* Benefits */
+  .benefit-list{display:flex;flex-direction:column;gap:12px;}
+  .benefit-item{display:flex;gap:12px;align-items:flex-start;}
+  .benefit-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .benefit-icon i{width:18px;height:18px;}
+  .benefit-text{font-size:14px;font-weight:700;color:var(--navy);line-height:1.3;}
+  .benefit-desc{font-size:12px;color:var(--grey-mid);line-height:1.4;}
+
+  /* Trust */
+  .trust-list{display:flex;flex-direction:column;gap:10px;}
+  .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--navy);}
+  .trust-item i{width:16px;height:16px;color:var(--green);flex-shrink:0;}
+
+  /* CTA card */
+  .help-card{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:24px;text-align:center;position:relative;overflow:hidden;}
+  .help-card::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(0,137,123,0.1),transparent 70%);border-radius:50%;}
+  .help-card h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:white;margin-bottom:6px;position:relative;}
+  .help-card p{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:14px;position:relative;}
+  .help-card a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--teal-light);text-decoration:none;position:relative;}
+  .help-card a:hover{color:white;}
+  .help-card a i{width:16px;height:16px;}
+
+  /* Branch selector */
+  .branch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+  .branch-opt{padding:12px;border:2px solid var(--grey);border-radius:10px;text-align:center;cursor:pointer;transition:all .15s;font-size:13px;font-weight:600;color:var(--navy);}
+  .branch-opt:hover{border-color:var(--teal);background:var(--teal-glow);}
+  .branch-opt.active{border-color:var(--teal);background:var(--teal-glow);}
+  .branch-opt .b-emoji{font-size:24px;display:block;margin-bottom:4px;}
+
+  /* Password strength */
+  .pw-strength{display:flex;gap:4px;margin-top:4px;}
+  .pw-bar{flex:1;height:4px;border-radius:2px;background:var(--grey);}
+  .pw-bar.filled.weak{background:var(--coral);}
+  .pw-bar.filled.med{background:var(--amber);}
+  .pw-bar.filled.strong{background:var(--green);}
+
+  @media(max-width:900px){
+    .reg-layout{grid-template-columns:1fr;}
+    .reg-sidebar{order:-1;}
+    .reg-steps{flex-wrap:wrap;gap:8px;}
+    .reg-step-line{display:none;}
+    .form-row{grid-template-columns:1fr;}
+    .branch-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header"><div class="container">
+  <a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a>
+  <a href="#" class="header-help"><i data-lucide="headphones"></i> Hulp nodig? 0251‑247233</a>
+</div></header>
+
+<!-- Progress -->
+<div class="reg-progress"><div class="container"><div class="reg-steps">
+  <div class="reg-step done">
+    <div class="reg-step-circle"><i data-lucide="check" style="width:16px;height:16px;"></i></div>
+    <div class="reg-step-info"><div class="reg-step-label">Account type</div><div class="reg-step-desc">B2B of B2C</div></div>
+  </div>
+  <div class="reg-step-line done"></div>
+  <div class="reg-step active">
+    <div class="reg-step-circle">2</div>
+    <div class="reg-step-info"><div class="reg-step-label">Bedrijfsgegevens</div><div class="reg-step-desc">KVK & BTW</div></div>
+  </div>
+  <div class="reg-step-line"></div>
+  <div class="reg-step upcoming">
+    <div class="reg-step-circle">3</div>
+    <div class="reg-step-info"><div class="reg-step-label">Contact & wachtwoord</div><div class="reg-step-desc">Inloggegevens</div></div>
+  </div>
+  <div class="reg-step-line"></div>
+  <div class="reg-step upcoming">
+    <div class="reg-step-circle">4</div>
+    <div class="reg-step-info"><div class="reg-step-label">Verificatie</div><div class="reg-step-desc">E-mail bevestigen</div></div>
+  </div>
+</div></div></div>
+
+<div class="container">
+<div class="reg-layout">
+
+  <!-- Form -->
+  <div>
+
+    <!-- Step 1: Account type (shown as completed reference) -->
+    <!-- We show step 2 as active -->
+
+    <div class="form-card">
+      <div class="form-title"><i data-lucide="building-2"></i> Bedrijfsgegevens</div>
+      <div class="form-subtitle">Vul uw KVK-nummer in voor automatische bedrijfsgegevens, of voer de gegevens handmatig in.</div>
+
+      <!-- KVK lookup -->
+      <div class="form-group" style="margin-bottom:20px;">
+        <div class="form-label">KVK-nummer <span class="required">*</span></div>
+        <div class="kvk-lookup">
+          <input type="text" class="form-input" placeholder="bijv. 12345678" value="12345678">
+          <button class="kvk-btn"><i data-lucide="search"></i> Opzoeken</button>
+        </div>
+        <div class="kvk-result">
+          <div class="kvk-result-icon"><i data-lucide="check-circle"></i></div>
+          <div>
+            <div class="kvk-result-name">Huisartsenpraktijk De Vries</div>
+            <div class="kvk-result-addr">Breestraat 42, 1941 EK Beverwijk</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <div class="form-label">Bedrijfsnaam <span class="required">*</span></div>
+          <input type="text" class="form-input success" value="Huisartsenpraktijk De Vries">
+          <span class="form-success"><i data-lucide="check-circle"></i> Automatisch ingevuld via KVK</span>
+        </div>
+        <div class="form-group">
+          <div class="form-label">BTW-nummer <span class="required">*</span></div>
+          <input type="text" class="form-input" placeholder="NL123456789B01" value="NL821456732B01">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <div class="form-label">Straat + huisnr. <span class="required">*</span></div>
+          <input type="text" class="form-input" value="Breestraat 42">
+        </div>
+        <div class="form-group">
+          <div class="form-label">Postcode + Plaats <span class="required">*</span></div>
+          <input type="text" class="form-input" value="1941 EK  Beverwijk">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <div class="form-label">Land <span class="required">*</span></div>
+          <select class="form-input"><option selected>Nederland</option><option>België</option><option>Duitsland</option></select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Telefoon bedrijf</div>
+          <input type="tel" class="form-input" placeholder="bijv. 0251-247233">
+        </div>
+      </div>
+
+      <!-- Branche -->
+      <div class="form-group" style="margin-top:8px;">
+        <div class="form-label">Branche <span class="required">*</span></div>
+        <div class="branch-grid">
+          <div class="branch-opt active" onclick="selectBranch(this)"><span class="b-emoji">🏥</span>Huisarts</div>
+          <div class="branch-opt" onclick="selectBranch(this)"><span class="b-emoji">🦷</span>Tandarts</div>
+          <div class="branch-opt" onclick="selectBranch(this)"><span class="b-emoji">👶</span>Verloskunde</div>
+          <div class="branch-opt" onclick="selectBranch(this)"><span class="b-emoji">💆</span>Fysiotherapie</div>
+          <div class="branch-opt" onclick="selectBranch(this)"><span class="b-emoji">🏠</span>Thuiszorg</div>
+          <div class="branch-opt" onclick="selectBranch(this)"><span class="b-emoji">📦</span>Anders</div>
+        </div>
+      </div>
+
+      <!-- Referentie -->
+      <div class="form-row full" style="margin-top:16px;">
+        <div class="form-group">
+          <div class="form-label">Hoe heeft u ons gevonden?</div>
+          <select class="form-input"><option value="">Maak een keuze…</option><option>Google</option><option>Collega / aanbeveling</option><option>Social media</option><option>Beurs / evenement</option><option>Bestaande leverancier</option><option>Anders</option></select>
+        </div>
+      </div>
+
+      <!-- Afwijkend factuuradres -->
+      <div class="form-check" style="margin-top:16px;" onclick="this.classList.toggle('checked')">
+        <div class="form-check-box"><i data-lucide="check"></i></div>
+        <div class="form-check-text">Afwijkend factuuradres</div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-back"><i data-lucide="arrow-left"></i> Vorige stap</button>
+        <button class="btn-next">Volgende <i data-lucide="arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- Trust note -->
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey-mid);padding:0 4px;">
+      <i data-lucide="lock" style="width:14px;height:14px;color:var(--teal);"></i>
+      Uw gegevens worden beveiligd verwerkt en nooit gedeeld met derden.
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="reg-sidebar">
+
+    <!-- Benefits -->
+    <div class="side-card">
+      <div class="side-title"><i data-lucide="gift"></i> Voordelen van een B2B account</div>
+      <div class="benefit-list">
+        <div class="benefit-item">
+          <div class="benefit-icon" style="background:var(--teal-glow)"><i data-lucide="tag" style="color:var(--teal)"></i></div>
+          <div><div class="benefit-text">Exclusieve B2B prijzen</div><div class="benefit-desc">Gemiddeld 15-25% voordeliger dan onze adviesprijzen</div></div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon" style="background:var(--blue-light)"><i data-lucide="credit-card" style="color:var(--blue)"></i></div>
+          <div><div class="benefit-text">Betaal achteraf</div><div class="benefit-desc">14 of 30 dagen betaaltermijn op factuur</div></div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon" style="background:var(--green-light)"><i data-lucide="clipboard-list" style="color:var(--green)"></i></div>
+          <div><div class="benefit-text">Bestellijsten & snel bestellen</div><div class="benefit-desc">Sla vaste bestellingen op en bestel met één klik</div></div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon" style="background:var(--amber-light)"><i data-lucide="users" style="color:var(--amber)"></i></div>
+          <div><div class="benefit-text">Meerdere gebruikers</div><div class="benefit-desc">Voeg collega's toe met eigen inlog en rechten</div></div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon" style="background:var(--coral-light)"><i data-lucide="headphones" style="color:var(--coral)"></i></div>
+          <div><div class="benefit-text">Persoonlijke accountmanager</div><div class="benefit-desc">Direct contact voor advies en offertes</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust -->
+    <div class="side-card">
+      <div class="side-title"><i data-lucide="shield-check"></i> Betrouwbaar & veilig</div>
+      <div class="trust-list">
+        <div class="trust-item"><i data-lucide="check"></i> 30+ jaar ervaring in medische supplies</div>
+        <div class="trust-item"><i data-lucide="check"></i> 4.000+ professionele producten</div>
+        <div class="trust-item"><i data-lucide="check"></i> Gratis verzending vanaf €150</div>
+        <div class="trust-item"><i data-lucide="check"></i> ISO-gecertificeerd en CE-gemarkeerd</div>
+        <div class="trust-item"><i data-lucide="check"></i> AVG / GDPR compliant</div>
+      </div>
+    </div>
+
+    <!-- Help -->
+    <div class="help-card">
+      <h4>Hulp bij aanmelden?</h4>
+      <p>Ons team helpt u graag door het registratieproces.</p>
+      <a href="tel:0251247233"><i data-lucide="phone"></i> 0251‑247233</a>
+    </div>
+
+  </aside>
+
+</div>
+</div>
+
+<script>
+  lucide.createIcons();
+  function selectBranch(el){
+    document.querySelectorAll('.branch-opt').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>

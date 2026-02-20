@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
+import { indexProduct, deleteProductFromIndex } from '@/lib/meilisearch/indexProducts'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -35,6 +36,26 @@ export const Products: CollectionConfig = {
             .replace(/(^-|-$)/g, '')
         }
         return data
+      },
+    ],
+    afterChange: [
+      async ({ doc, operation }) => {
+        // Index product in Meilisearch after create/update
+        // Fire and forget - don't block the request
+        if (operation === 'create' || operation === 'update') {
+          indexProduct(doc).catch((err) =>
+            console.error('Failed to index product in Meilisearch:', err)
+          )
+        }
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        // Remove product from Meilisearch index
+        // Fire and forget - don't block the request
+        deleteProductFromIndex(doc.id).catch((err) =>
+          console.error('Failed to delete product from Meilisearch:', err)
+        )
       },
     ],
   },

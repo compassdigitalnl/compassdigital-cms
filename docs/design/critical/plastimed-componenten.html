@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Componenten — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 4px 20px rgba(10,22,40,0.08);--shadow-lg:0 16px 56px rgba(10,22,40,0.14);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}
+  .header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}
+  .logo{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:36px;}
+  .search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}
+  .search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);transition:all var(--transition);outline:none;cursor:pointer;}
+  .search-field::placeholder{color:var(--grey-mid);}
+  .search-icon-left{position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;}
+  .search-icon-left i{width:18px;height:18px;color:var(--grey-mid);}
+  .search-shortcut{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--grey-mid);background:white;border:1px solid var(--grey);border-radius:5px;padding:2px 7px;}
+  .header-actions{display:flex;align-items:center;gap:6px;}
+  .h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-family:'DM Sans',sans-serif;}
+  .h-btn i{width:19px;height:19px;}
+  .h-btn:hover{background:var(--teal-glow);color:var(--teal);}
+  .h-btn-icon{width:42px;}
+  .h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);position:relative;}
+  .h-btn-cart i{color:white;}
+  .h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}
+  .cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+
+  /* Demo page */
+  .demo-page{padding:48px 0;}
+  .demo-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .demo-desc{font-size:15px;color:var(--grey-dark);margin-bottom:32px;}
+  .demo-section{margin-bottom:48px;}
+  .demo-section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .demo-section-title i{width:20px;height:20px;color:var(--teal);}
+  .demo-section-desc{font-size:14px;color:var(--grey-mid);margin-bottom:16px;}
+  .demo-trigger{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--transition);margin-right:10px;margin-bottom:10px;}
+  .demo-trigger:hover{background:var(--navy);transform:translateY(-1px);}
+  .demo-trigger i{width:16px;height:16px;}
+  .demo-trigger.outline{background:white;color:var(--navy);border:1.5px solid var(--grey);}
+  .demo-trigger.outline:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow);}
+
+  /* ═══════════════════════════════════════
+     C1: INSTANT SEARCH OVERLAY
+     ═══════════════════════════════════════ */
+  .is-overlay{position:fixed;inset:0;z-index:500;opacity:0;visibility:hidden;transition:all .25s;}
+  .is-overlay.open{opacity:1;visibility:visible;}
+  .is-backdrop{position:absolute;inset:0;background:rgba(10,22,40,0.5);backdrop-filter:blur(4px);}
+  .is-panel{position:relative;max-width:720px;margin:80px auto 0;background:white;border-radius:20px;box-shadow:var(--shadow-lg);overflow:hidden;transform:translateY(-12px);transition:transform .3s cubic-bezier(0.4,0,0.2,1);max-height:calc(100vh - 120px);display:flex;flex-direction:column;}
+  .is-overlay.open .is-panel{transform:translateY(0);}
+  .is-input-wrap{padding:20px 24px;border-bottom:1px solid var(--grey);display:flex;align-items:center;gap:12px;flex-shrink:0;}
+  .is-input-wrap i{width:20px;height:20px;color:var(--teal);flex-shrink:0;}
+  .is-input{flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:17px;color:var(--navy);}
+  .is-input::placeholder{color:var(--grey-mid);}
+  .is-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--grey-light);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .is-close i{width:16px;height:16px;color:var(--grey-mid);}
+  .is-close:hover{background:var(--grey);}
+  .is-esc{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--grey-mid);background:var(--grey-light);padding:2px 6px;border-radius:4px;margin-left:4px;}
+
+  .is-body{overflow-y:auto;padding:0;flex:1;}
+  .is-section{padding:16px 24px;}
+  .is-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-mid);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+  .is-section-title i{width:14px;height:14px;}
+
+  /* Product results */
+  .is-product{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:10px;cursor:pointer;transition:all .12s;text-decoration:none;color:inherit;}
+  .is-product:hover{background:var(--teal-glow);}
+  .is-product-img{width:48px;height:48px;background:var(--grey-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+  .is-product-info{flex:1;min-width:0;}
+  .is-product-brand{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--teal);}
+  .is-product-name{font-size:14px;font-weight:600;color:var(--navy);}
+  .is-product-name mark{background:var(--teal-glow);color:var(--teal);border-radius:2px;padding:0 2px;}
+  .is-product-sku{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-mid);}
+  .is-product-right{text-align:right;flex-shrink:0;}
+  .is-product-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);}
+  .is-product-stock{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px;justify-content:flex-end;}
+  .is-product-stock .dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+
+  /* Category/brand/article results */
+  .is-link{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all .12s;text-decoration:none;color:var(--navy);font-size:14px;font-weight:500;}
+  .is-link:hover{background:var(--teal-glow);color:var(--teal);}
+  .is-link i{width:16px;height:16px;color:var(--grey-mid);}
+  .is-link:hover i{color:var(--teal);}
+  .is-link .is-link-count{margin-left:auto;font-size:12px;color:var(--grey-mid);}
+  .is-link-badge{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-left:8px;}
+  .is-link-badge.cat{background:var(--teal-glow);color:var(--teal);}
+  .is-link-badge.brand{background:var(--blue-light);color:var(--blue);}
+  .is-link-badge.article{background:var(--amber-light);color:var(--amber);}
+
+  .is-footer{padding:12px 24px;border-top:1px solid var(--grey);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--grey-light);}
+  .is-footer-left{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--grey-mid);}
+  .is-footer-left kbd{background:white;border:1px solid var(--grey);border-radius:4px;padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:10px;}
+  .is-footer-all{font-size:13px;font-weight:700;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:4px;}
+  .is-footer-all i{width:14px;height:14px;}
+
+  /* ═══════════════════════════════════════
+     C2: MINI-CART SLIDE-OVER
+     ═══════════════════════════════════════ */
+  .mc-backdrop{position:fixed;inset:0;background:rgba(10,22,40,0.4);z-index:400;opacity:0;visibility:hidden;transition:all .3s;backdrop-filter:blur(2px);}
+  .mc-backdrop.open{opacity:1;visibility:visible;}
+  .mc-panel{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:90vw;background:white;z-index:410;transform:translateX(100%);transition:transform .35s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;box-shadow:-16px 0 48px rgba(10,22,40,0.1);}
+  .mc-panel.open{transform:translateX(0);}
+
+  .mc-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--grey);flex-shrink:0;}
+  .mc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;}
+  .mc-title i{width:20px;height:20px;color:var(--teal);}
+  .mc-count-badge{background:var(--teal-glow);color:var(--teal);font-size:13px;font-weight:700;padding:2px 10px;border-radius:100px;}
+  .mc-close{width:36px;height:36px;border-radius:8px;border:none;background:var(--grey-light);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .mc-close i{width:18px;height:18px;color:var(--navy);}
+  .mc-close:hover{background:var(--grey);}
+
+  /* Free shipping bar */
+  .mc-shipping{padding:12px 24px;background:var(--green-light);border-bottom:1px solid rgba(0,200,83,0.1);flex-shrink:0;}
+  .mc-shipping-text{font-size:13px;color:var(--navy);font-weight:600;display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .mc-shipping-text i{width:14px;height:14px;color:var(--green);}
+  .mc-shipping-text strong{color:var(--green);}
+  .mc-shipping-bar{height:6px;background:rgba(0,200,83,0.15);border-radius:100px;overflow:hidden;}
+  .mc-shipping-fill{height:100%;background:var(--green);border-radius:100px;transition:width .5s;}
+
+  .mc-body{flex:1;overflow-y:auto;padding:8px 0;}
+
+  /* Cart item */
+  .mc-item{display:flex;gap:14px;padding:14px 24px;border-bottom:1px solid var(--grey);position:relative;}
+  .mc-item:last-child{border-bottom:none;}
+  .mc-item-img{width:64px;height:64px;background:var(--grey-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;}
+  .mc-item-info{flex:1;min-width:0;}
+  .mc-item-brand{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--teal);}
+  .mc-item-name{font-size:14px;font-weight:600;color:var(--navy);line-height:1.3;margin:2px 0;}
+  .mc-item-variant{font-size:12px;color:var(--grey-mid);}
+  .mc-item-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+  .mc-qty{display:flex;align-items:center;border:1.5px solid var(--grey);border-radius:8px;overflow:hidden;}
+  .mc-qty button{width:30px;height:30px;border:none;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--navy);transition:background .1s;}
+  .mc-qty button:hover{background:var(--grey-light);}
+  .mc-qty span{width:32px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;}
+  .mc-item-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--navy);}
+  .mc-item-remove{position:absolute;top:12px;right:20px;width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .15s;}
+  .mc-item:hover .mc-item-remove{opacity:1;}
+  .mc-item-remove i{width:14px;height:14px;color:var(--grey-mid);}
+  .mc-item-remove:hover{background:var(--coral-light);}
+  .mc-item-remove:hover i{color:var(--coral);}
+
+  /* Cross-sell */
+  .mc-cross{padding:16px 24px;border-top:1px solid var(--grey);background:var(--grey-light);flex-shrink:0;}
+  .mc-cross-title{font-size:12px;font-weight:700;color:var(--grey-mid);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+  .mc-cross-item{display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;border:1px solid var(--grey);margin-bottom:6px;}
+  .mc-cross-img{width:40px;height:40px;background:var(--grey-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .mc-cross-info{flex:1;min-width:0;}
+  .mc-cross-name{font-size:12px;font-weight:600;color:var(--navy);}
+  .mc-cross-price{font-size:12px;font-weight:800;color:var(--navy);font-family:'Plus Jakarta Sans',sans-serif;}
+  .mc-cross-add{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--grey);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+  .mc-cross-add:hover{border-color:var(--teal);background:var(--teal-glow);}
+  .mc-cross-add i{width:14px;height:14px;color:var(--grey-mid);}
+  .mc-cross-add:hover i{color:var(--teal);}
+
+  /* Footer */
+  .mc-footer{padding:20px 24px;border-top:1px solid var(--grey);flex-shrink:0;background:white;}
+  .mc-subtotal{display:flex;justify-content:space-between;margin-bottom:4px;}
+  .mc-subtotal-label{font-size:14px;color:var(--grey-dark);}
+  .mc-subtotal-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);}
+  .mc-vat{font-size:12px;color:var(--grey-mid);margin-bottom:14px;}
+  .mc-checkout{width:100%;height:50px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(0,137,123,0.3);}
+  .mc-checkout:hover{background:var(--navy);}
+  .mc-checkout i{width:18px;height:18px;}
+  .mc-continue{width:100%;text-align:center;padding:10px;font-size:14px;color:var(--teal);font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;background:none;border:none;font-family:'DM Sans',sans-serif;}
+  .mc-continue:hover{text-decoration:underline;}
+
+  /* ═══════════════════════════════════════
+     C3: ADD-TO-CART TOAST
+     ═══════════════════════════════════════ */
+  .toast-container{position:fixed;top:20px;right:20px;z-index:600;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+  .toast{background:white;border:1px solid var(--grey);border-radius:14px;box-shadow:var(--shadow-lg);padding:16px 20px;display:flex;gap:14px;align-items:flex-start;width:380px;max-width:calc(100vw - 40px);transform:translateX(120%);transition:transform .4s cubic-bezier(0.175,0.885,0.32,1.275);pointer-events:auto;}
+  .toast.show{transform:translateX(0);}
+  .toast-img{width:52px;height:52px;background:var(--grey-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+  .toast-body{flex:1;min-width:0;}
+  .toast-success{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;}
+  .toast-success i{width:14px;height:14px;}
+  .toast-name{font-size:14px;font-weight:700;color:var(--navy);line-height:1.3;}
+  .toast-meta{font-size:12px;color:var(--grey-mid);margin-top:2px;}
+  .toast-actions{display:flex;gap:8px;margin-top:10px;}
+  .toast-btn{padding:7px 14px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;border:none;display:flex;align-items:center;gap:5px;}
+  .toast-btn.primary{background:var(--teal);color:white;}
+  .toast-btn.primary:hover{background:var(--navy);}
+  .toast-btn.outline{background:white;color:var(--navy);border:1.5px solid var(--grey);}
+  .toast-btn.outline:hover{border-color:var(--teal);color:var(--teal);}
+  .toast-btn i{width:13px;height:13px;}
+  .toast-close{position:absolute;top:10px;right:10px;width:24px;height:24px;border:none;background:none;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;}
+  .toast-close:hover{background:var(--grey-light);}
+  .toast-close i{width:14px;height:14px;color:var(--grey-mid);}
+  .toast-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--grey-light);border-radius:0 0 14px 14px;overflow:hidden;}
+  .toast-progress-bar{height:100%;background:var(--teal);border-radius:0 0 14px 14px;animation:toastTimer 5s linear forwards;}
+  @keyframes toastTimer{from{width:100%;}to{width:0%;}}
+  .toast{position:relative;overflow:hidden;}
+
+  /* ═══════════════════════════════════════
+     C4: STAFFELPRIJS CALCULATOR
+     ═══════════════════════════════════════ */
+  .staffel-card{background:white;border:1px solid var(--grey);border-radius:16px;padding:24px;max-width:480px;}
+  .staffel-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .staffel-header i{width:20px;height:20px;color:var(--teal);}
+  .staffel-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--navy);}
+
+  .staffel-tiers{display:flex;flex-direction:column;gap:4px;margin-bottom:20px;}
+  .staffel-tier{display:flex;align-items:center;padding:10px 14px;border-radius:10px;font-size:14px;transition:all .15s;cursor:pointer;border:1.5px solid transparent;}
+  .staffel-tier:hover{background:var(--grey-light);}
+  .staffel-tier.active{background:var(--teal-glow);border-color:rgba(0,137,123,0.15);}
+  .staffel-tier .tier-range{flex:1;font-weight:600;color:var(--navy);}
+  .staffel-tier .tier-price{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;color:var(--navy);}
+  .staffel-tier .tier-save{font-size:12px;font-weight:700;color:var(--green);background:var(--green-light);padding:2px 8px;border-radius:100px;margin-left:10px;}
+  .staffel-tier.active .tier-check{width:20px;height:20px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:10px;}
+  .staffel-tier.active .tier-check i{width:12px;height:12px;color:white;}
+  .staffel-tier .tier-check{width:20px;height:20px;border:2px solid var(--grey);border-radius:50%;margin-right:10px;flex-shrink:0;}
+
+  .staffel-calc{background:var(--grey-light);border-radius:12px;padding:16px;display:flex;align-items:center;gap:16px;}
+  .staffel-qty-wrap{display:flex;flex-direction:column;gap:4px;}
+  .staffel-qty-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--grey-mid);}
+  .staffel-qty{display:flex;align-items:center;border:2px solid var(--grey);border-radius:10px;overflow:hidden;background:white;}
+  .staffel-qty button{width:36px;height:38px;border:none;background:white;cursor:pointer;font-size:16px;color:var(--navy);transition:background .1s;display:flex;align-items:center;justify-content:center;}
+  .staffel-qty button:hover{background:var(--grey-light);}
+  .staffel-qty input{width:52px;text-align:center;border:none;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--navy);outline:none;}
+  .staffel-result{flex:1;}
+  .staffel-result-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);}
+  .staffel-result-unit{font-size:12px;color:var(--grey-mid);}
+  .staffel-result-save{font-size:13px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:4px;margin-top:4px;}
+  .staffel-result-save i{width:14px;height:14px;}
+
+  .staffel-hint{display:flex;align-items:center;gap:8px;margin-top:14px;padding:10px 14px;background:var(--teal-glow);border-radius:var(--radius-sm);font-size:13px;color:var(--teal);font-weight:600;}
+  .staffel-hint i{width:16px;height:16px;flex-shrink:0;}
+
+  @media(max-width:640px){
+    .mc-panel{width:100%;max-width:100%;}
+    .toast{width:calc(100vw - 40px);}
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header"><div class="container">
+  <a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a>
+  <div class="search-wrap" onclick="openSearch()">
+    <input class="search-field" type="text" placeholder="Zoek op product, merk of artikelnummer…" readonly>
+    <div class="search-icon-left"><i data-lucide="search"></i></div>
+    <div class="search-shortcut">⌘K</div>
+  </div>
+  <div class="header-actions">
+    <button class="h-btn h-btn-icon"><i data-lucide="user"></i></button>
+    <button class="h-btn h-btn-cart" onclick="openCart()"><i data-lucide="shopping-cart"></i><span class="cart-count">3</span></button>
+  </div>
+</div></header>
+
+<!-- Demo page -->
+<div class="container demo-page">
+  <h1 class="demo-title">UI Componenten</h1>
+  <p class="demo-desc">Interactieve componenten voor het Plastimed design systeem. Klik op de knoppen om ze te activeren.</p>
+
+  <!-- C1: Instant Search -->
+  <div class="demo-section">
+    <div class="demo-section-title"><i data-lucide="search"></i> C1: Instant Search Overlay</div>
+    <div class="demo-section-desc">Full-screen zoek-overlay met live resultaten gegroepeerd per type. Klik op de zoekbalk hierboven of:</div>
+    <button class="demo-trigger" onclick="openSearch()"><i data-lucide="search"></i> Open Instant Search</button>
+  </div>
+
+  <!-- C2: Mini-cart -->
+  <div class="demo-section">
+    <div class="demo-section-title"><i data-lucide="shopping-cart"></i> C2: Mini-cart Slide-over</div>
+    <div class="demo-section-desc">Slide-in panel van rechts met winkelwagen, free shipping bar en cross-sell. Klik op de cart-knop hierboven of:</div>
+    <button class="demo-trigger" onclick="openCart()"><i data-lucide="shopping-cart"></i> Open Mini-cart</button>
+  </div>
+
+  <!-- C3: Add-to-cart toast -->
+  <div class="demo-section">
+    <div class="demo-section-title"><i data-lucide="check-circle"></i> C3: Add-to-cart Toast</div>
+    <div class="demo-section-desc">Toast notification die verschijnt bij toevoegen aan winkelwagen. Auto-dismiss na 5 seconden.</div>
+    <button class="demo-trigger" onclick="showToast()"><i data-lucide="plus"></i> Simuleer "In winkelwagen"</button>
+  </div>
+
+  <!-- C4: Staffelprijs calculator -->
+  <div class="demo-section">
+    <div class="demo-section-title"><i data-lucide="calculator"></i> C4: Staffelprijs Calculator</div>
+    <div class="demo-section-desc">Live staffelprijs berekening met visuele tiers. Pas het aantal aan met de knoppen.</div>
+    <div class="staffel-card">
+      <div class="staffel-header"><i data-lucide="tag"></i><div class="staffel-title">Staffelprijzen — Peha-soft Nitrile Fino</div></div>
+      <div class="staffel-tiers">
+        <div class="staffel-tier" onclick="setTier(1,8.95)"><div class="tier-check"></div><span class="tier-range">1 – 4 dozen</span><span class="tier-price">€8,95</span></div>
+        <div class="staffel-tier active" onclick="setTier(5,8.25)"><div class="tier-check"><i data-lucide="check"></i></div><span class="tier-range">5 – 9 dozen</span><span class="tier-price">€8,25</span><span class="tier-save">−8%</span></div>
+        <div class="staffel-tier" onclick="setTier(10,7.50)"><div class="tier-check"></div><span class="tier-range">10 – 24 dozen</span><span class="tier-price">€7,50</span><span class="tier-save">−16%</span></div>
+        <div class="staffel-tier" onclick="setTier(25,6.95)"><div class="tier-check"></div><span class="tier-range">25+ dozen</span><span class="tier-price">€6,95</span><span class="tier-save">−22%</span></div>
+      </div>
+      <div class="staffel-calc">
+        <div class="staffel-qty-wrap">
+          <div class="staffel-qty-label">Aantal dozen</div>
+          <div class="staffel-qty">
+            <button onclick="staffelStep(-1)">−</button>
+            <input type="text" id="staffelQty" value="5" readonly>
+            <button onclick="staffelStep(1)">+</button>
+          </div>
+        </div>
+        <div class="staffel-result">
+          <div class="staffel-result-price" id="staffelTotal">€41,25</div>
+          <div class="staffel-result-unit">5 × €8,25 per doos</div>
+          <div class="staffel-result-save" id="staffelSave"><i data-lucide="trending-down"></i> U bespaart €3,50</div>
+        </div>
+      </div>
+      <div class="staffel-hint" id="staffelHint"><i data-lucide="zap"></i> Bestel er 5 meer en betaal €7,50 per doos (−16%)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INSTANT SEARCH OVERLAY ═══ -->
+<div class="is-overlay" id="searchOverlay">
+  <div class="is-backdrop" onclick="closeSearch()"></div>
+  <div class="is-panel">
+    <div class="is-input-wrap">
+      <i data-lucide="search"></i>
+      <input class="is-input" id="searchInput" type="text" placeholder="Zoek producten, merken of artikelen…" value="nitrile" autofocus>
+      <span class="is-esc">ESC</span>
+      <button class="is-close" onclick="closeSearch()"><i data-lucide="x"></i></button>
+    </div>
+    <div class="is-body">
+      <!-- Products -->
+      <div class="is-section">
+        <div class="is-section-title"><i data-lucide="package"></i> Producten</div>
+        <a href="#" class="is-product">
+          <div class="is-product-img">🧤</div>
+          <div class="is-product-info"><div class="is-product-brand">Hartmann</div><div class="is-product-name">Peha-soft <mark>Nitrile</mark> Fino</div><div class="is-product-sku">Art. 942210</div></div>
+          <div class="is-product-right"><div class="is-product-price">€8,25</div><div class="is-product-stock"><span class="dot"></span> Op voorraad</div></div>
+        </a>
+        <a href="#" class="is-product">
+          <div class="is-product-img">🧤</div>
+          <div class="is-product-info"><div class="is-product-brand">Hartmann</div><div class="is-product-name">Peha-soft <mark>Nitrile</mark> Guard</div><div class="is-product-sku">Art. 942215</div></div>
+          <div class="is-product-right"><div class="is-product-price">€9,75</div><div class="is-product-stock"><span class="dot"></span> Op voorraad</div></div>
+        </a>
+        <a href="#" class="is-product">
+          <div class="is-product-img">🧤</div>
+          <div class="is-product-info"><div class="is-product-brand">Ansell</div><div class="is-product-name">Micro-Touch <mark>Nitrile</mark></div><div class="is-product-sku">Art. AT7412</div></div>
+          <div class="is-product-right"><div class="is-product-price">€11,25</div><div class="is-product-stock"><span class="dot"></span> Op voorraad</div></div>
+        </a>
+        <a href="#" class="is-product">
+          <div class="is-product-img">🧤</div>
+          <div class="is-product-info"><div class="is-product-brand">Abena</div><div class="is-product-name">Classic <mark>Nitrile</mark> Poedervrij</div><div class="is-product-sku">Art. AB9920</div></div>
+          <div class="is-product-right"><div class="is-product-price">€7,95</div><div class="is-product-stock"><span class="dot"></span> Op voorraad</div></div>
+        </a>
+      </div>
+      <!-- Categories -->
+      <div class="is-section">
+        <div class="is-section-title"><i data-lucide="folder"></i> Categorieën</div>
+        <a href="#" class="is-link"><i data-lucide="hand"></i> Nitrile handschoenen <span class="is-link-badge cat">Categorie</span><span class="is-link-count">34</span></a>
+        <a href="#" class="is-link"><i data-lucide="shield"></i> Chemisch bestendige handschoenen <span class="is-link-badge cat">Categorie</span><span class="is-link-count">6</span></a>
+      </div>
+      <!-- Brands -->
+      <div class="is-section">
+        <div class="is-section-title"><i data-lucide="award"></i> Merken</div>
+        <a href="#" class="is-link"><i data-lucide="award"></i> Hartmann <span class="is-link-badge brand">Merk</span><span class="is-link-count">14</span></a>
+        <a href="#" class="is-link"><i data-lucide="award"></i> Ansell <span class="is-link-badge brand">Merk</span><span class="is-link-count">8</span></a>
+      </div>
+      <!-- Knowledge -->
+      <div class="is-section" style="border-top:1px solid var(--grey);padding-top:16px;">
+        <div class="is-section-title"><i data-lucide="book-open"></i> Kennisbank</div>
+        <a href="#" class="is-link"><i data-lucide="file-text"></i> De complete gids voor medische handschoenen <span class="is-link-badge article">Artikel</span></a>
+      </div>
+    </div>
+    <div class="is-footer">
+      <div class="is-footer-left"><kbd>↑</kbd> <kbd>↓</kbd> navigeren · <kbd>↵</kbd> openen · <kbd>esc</kbd> sluiten</div>
+      <a href="#" class="is-footer-all">Alle 34 resultaten <i data-lucide="arrow-right"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MINI-CART ═══ -->
+<div class="mc-backdrop" id="mcBackdrop" onclick="closeCart()"></div>
+<div class="mc-panel" id="mcPanel">
+  <div class="mc-header">
+    <div class="mc-title"><i data-lucide="shopping-cart"></i> Winkelwagen <span class="mc-count-badge">3 items</span></div>
+    <button class="mc-close" onclick="closeCart()"><i data-lucide="x"></i></button>
+  </div>
+
+  <div class="mc-shipping">
+    <div class="mc-shipping-text"><i data-lucide="truck"></i> Nog <strong>€88,35</strong> tot gratis verzending</div>
+    <div class="mc-shipping-bar"><div class="mc-shipping-fill" style="width:41%;"></div></div>
+  </div>
+
+  <div class="mc-body">
+    <div class="mc-item">
+      <div class="mc-item-img">🧤</div>
+      <div class="mc-item-info">
+        <div class="mc-item-brand">Hartmann</div>
+        <div class="mc-item-name">Peha-soft Nitrile Fino — Maat M</div>
+        <div class="mc-item-variant">Doos 150 st.</div>
+        <div class="mc-item-bottom">
+          <div class="mc-qty"><button>−</button><span>5</span><button>+</button></div>
+          <div class="mc-item-price">€41,25</div>
+        </div>
+      </div>
+      <button class="mc-item-remove"><i data-lucide="trash-2"></i></button>
+    </div>
+    <div class="mc-item">
+      <div class="mc-item-img">🧴</div>
+      <div class="mc-item-info">
+        <div class="mc-item-brand">Hartmann</div>
+        <div class="mc-item-name">Baktolan Protect+ Pure 100ml</div>
+        <div class="mc-item-variant">Per stuk</div>
+        <div class="mc-item-bottom">
+          <div class="mc-qty"><button>−</button><span>2</span><button>+</button></div>
+          <div class="mc-item-price">€11,90</div>
+        </div>
+      </div>
+      <button class="mc-item-remove"><i data-lucide="trash-2"></i></button>
+    </div>
+    <div class="mc-item">
+      <div class="mc-item-img">💉</div>
+      <div class="mc-item-info">
+        <div class="mc-item-brand">BD</div>
+        <div class="mc-item-name">Discardit II Spuit 10ml</div>
+        <div class="mc-item-variant">Doos 100 st.</div>
+        <div class="mc-item-bottom">
+          <div class="mc-qty"><button>−</button><span>2</span><button>+</button></div>
+          <div class="mc-item-price">€8,50</div>
+        </div>
+      </div>
+      <button class="mc-item-remove"><i data-lucide="trash-2"></i></button>
+    </div>
+  </div>
+
+  <div class="mc-cross">
+    <div class="mc-cross-title">Vaak samen gekocht</div>
+    <div class="mc-cross-item">
+      <div class="mc-cross-img">🩹</div>
+      <div class="mc-cross-info"><div class="mc-cross-name">Leukoplast Professional 5m</div><div class="mc-cross-price">€6,50</div></div>
+      <button class="mc-cross-add"><i data-lucide="plus"></i></button>
+    </div>
+  </div>
+
+  <div class="mc-footer">
+    <div class="mc-subtotal"><span class="mc-subtotal-label">Subtotaal</span><span class="mc-subtotal-price">€61,65</span></div>
+    <div class="mc-vat">Excl. BTW · Verzending wordt berekend bij checkout</div>
+    <button class="mc-checkout"><i data-lucide="lock"></i> Afrekenen</button>
+    <button class="mc-continue" onclick="closeCart()">Verder winkelen</button>
+  </div>
+</div>
+
+<!-- ═══ TOAST CONTAINER ═══ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+  lucide.createIcons();
+
+  // Instant Search
+  function openSearch(){
+    document.getElementById('searchOverlay').classList.add('open');
+    setTimeout(()=>document.getElementById('searchInput').focus(),100);
+  }
+  function closeSearch(){
+    document.getElementById('searchOverlay').classList.remove('open');
+  }
+
+  // Mini-cart
+  function openCart(){
+    document.getElementById('mcPanel').classList.add('open');
+    document.getElementById('mcBackdrop').classList.add('open');
+  }
+  function closeCart(){
+    document.getElementById('mcPanel').classList.remove('open');
+    document.getElementById('mcBackdrop').classList.remove('open');
+  }
+
+  // Toast
+  function showToast(){
+    const container=document.getElementById('toastContainer');
+    const toast=document.createElement('div');
+    toast.className='toast';
+    toast.innerHTML=`
+      <div class="toast-img">🧤</div>
+      <div class="toast-body">
+        <div class="toast-success"><i data-lucide="check-circle"></i> Toegevoegd aan winkelwagen</div>
+        <div class="toast-name">Peha-soft Nitrile Fino — Maat M</div>
+        <div class="toast-meta">5× €8,25 · €41,25</div>
+        <div class="toast-actions">
+          <button class="toast-btn primary" onclick="closeCart();openCart();"><i data-lucide="shopping-cart"></i> Bekijk wagen</button>
+          <button class="toast-btn outline" onclick="this.closest('.toast').remove()">Verder winkelen</button>
+        </div>
+      </div>
+      <div class="toast-progress"><div class="toast-progress-bar"></div></div>
+    `;
+    container.appendChild(toast);
+    lucide.createIcons();
+    requestAnimationFrame(()=>toast.classList.add('show'));
+    setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),400);},5000);
+  }
+
+  // Staffelprijs calculator
+  let staffelQty=5;
+  const tiers=[{min:1,max:4,price:8.95,save:0},{min:5,max:9,price:8.25,save:8},{min:10,max:24,price:7.50,save:16},{min:25,max:999,price:6.95,save:22}];
+
+  function updateStaffel(){
+    const tier=tiers.find(t=>staffelQty>=t.min&&staffelQty<=t.max);
+    const total=(staffelQty*tier.price).toFixed(2).replace('.',',');
+    const baseSave=((staffelQty*8.95)-(staffelQty*tier.price)).toFixed(2).replace('.',',');
+    document.getElementById('staffelQty').value=staffelQty;
+    document.getElementById('staffelTotal').textContent='€'+total;
+    document.querySelector('.staffel-result-unit').textContent=staffelQty+' × €'+tier.price.toFixed(2).replace('.',',')+' per doos';
+    const saveEl=document.getElementById('staffelSave');
+    if(tier.save>0){saveEl.innerHTML='<i data-lucide="trending-down"></i> U bespaart €'+baseSave;saveEl.style.display='flex';}
+    else{saveEl.style.display='none';}
+    document.querySelectorAll('.staffel-tier').forEach((el,i)=>{
+      el.classList.toggle('active',tiers[i]===tier);
+      const check=el.querySelector('.tier-check');
+      if(tiers[i]===tier){check.innerHTML='<i data-lucide="check"></i>';check.style.background='var(--teal)';check.style.borderColor='var(--teal)';}
+      else{check.innerHTML='';check.style.background='';check.style.borderColor='';}
+    });
+    // Hint
+    const nextTier=tiers.find(t=>t.min>staffelQty);
+    const hint=document.getElementById('staffelHint');
+    if(nextTier){const diff=nextTier.min-staffelQty;hint.innerHTML='<i data-lucide="zap"></i> Bestel er '+diff+' meer en betaal €'+nextTier.price.toFixed(2).replace('.',',')+' per doos (−'+nextTier.save+'%)';hint.style.display='flex';}
+    else{hint.innerHTML='<i data-lucide="check-circle"></i> U heeft de beste staffelprijs!';hint.style.display='flex';hint.style.background='var(--green-light)';hint.style.color='var(--green)';}
+    lucide.createIcons();
+  }
+  function staffelStep(d){staffelQty=Math.max(1,staffelQty+d);updateStaffel();}
+  function setTier(min,price){staffelQty=min;updateStaffel();}
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){closeSearch();closeCart();}
+    if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}
+  });
+</script>
+</body>
+</html>

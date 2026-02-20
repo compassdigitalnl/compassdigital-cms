@@ -7,6 +7,7 @@ import { GoogleAnalytics } from '@/components/Analytics/GoogleAnalytics'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { SearchProvider } from '@/components/search/SearchProvider'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { PlastimedTopBar } from '@/components/Plastimed/TopBar'
@@ -68,23 +69,25 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body className="antialiased">
         <Providers>
           <ThemeProvider theme={themeGlobal}>
-            <AdminBar />
-            <LivePreviewListener />
+            <SearchProvider>
+              <AdminBar />
+              <LivePreviewListener />
 
-            {/* Top Bar (optional, CMS-driven) - Now part of Header global */}
-            {headerGlobal?.topBar?.enabled && <PlastimedTopBar settings={headerGlobal.topBar} />}
+              {/* Top Bar (optional, CMS-driven) - Now part of Header global */}
+              {headerGlobal?.topBar?.enabled && <PlastimedTopBar settings={headerGlobal.topBar} />}
 
-            {/* Dynamic Header (CMS-driven) - Now includes Navigation */}
-            <DynamicHeader header={headerGlobal} settings={settingsGlobal} />
+              {/* Dynamic Header (CMS-driven) - Now includes Navigation */}
+              <DynamicHeader header={headerGlobal} settings={settingsGlobal} />
 
-            {/* Dynamic Navigation (CMS-driven) - Now part of Header global */}
-            <DynamicNav navigation={headerGlobal?.navigation} />
+              {/* Dynamic Navigation (CMS-driven) - Now part of Header global */}
+              <DynamicNav navigation={headerGlobal?.navigation} />
 
-            {/* Main Content */}
-            <main className="bg-gray-50">{children}</main>
+              {/* Main Content */}
+              <main className="bg-gray-50">{children}</main>
 
-            {/* Footer (CMS-driven) */}
-            <Footer />
+              {/* Footer (CMS-driven) */}
+              <Footer />
+            </SearchProvider>
           </ThemeProvider>
         </Providers>
       </body>
