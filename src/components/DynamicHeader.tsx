@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import type { Settings, Header as HeaderType, Media } from '@/payload-types'
 import { useSearch } from '@/components/Search/SearchProvider'
+import { useMiniCart } from '@/components/ui/MiniCart'
 
 type Props = {
   header?: HeaderType | null
@@ -19,9 +20,9 @@ type Props = {
  * Framework principle: "Build reusable components" - payload-website-framework-b2b-b2c.md
  */
 export function DynamicHeader({ header, settings }: Props) {
-  const [cartCount] = useState(0) // TODO: Get from cart context
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { openSearch } = useSearch()
+  const { openCart, totalItems } = useMiniCart()
 
   // Get logo (Header override > Settings)
   const logoOverride = header?.logoOverride as Media | null
@@ -155,18 +156,18 @@ export function DynamicHeader({ header, settings }: Props) {
 
             {/* Cart */}
             {showCart && (
-              <Link
-                href="/cart"
+              <button
+                onClick={openCart}
                 className="relative w-11 h-11 bg-gray-100 rounded-lg flex items-center justify-center text-lg hover:bg-primary/10 hover:text-primary transition-colors"
                 title="Winkelwagen"
               >
                 🛒
-                {cartCount > 0 && (
+                {totalItems > 0 && (
                   <span className="absolute top-1 right-1 w-[18px] h-[18px] bg-red-500 rounded-full text-[10px] text-white font-bold flex items-center justify-center">
-                    {cartCount}
+                    {totalItems}
                   </span>
                 )}
-              </Link>
+              </button>
             )}
           </div>
         </div>

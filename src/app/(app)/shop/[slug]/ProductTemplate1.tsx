@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
+import { useToast } from '@/components/ui/Toast'
+import { StaffelCalculator } from '@/components/ui/StaffelCalculator'
 import type { Product } from '@/payload-types'
 import {
   Heart,
@@ -43,6 +45,7 @@ interface ProductTemplate1Props {
 
 export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const { addItem } = useCart()
+  const { showAddToCartToast } = useToast()
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews' | 'downloads'>(
     'description',
   )
@@ -126,6 +129,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const handleAddToCart = () => {
     if (isGrouped) {
       // Add all selected sizes to cart
+      let addedCount = 0
       Object.entries(sizeQuantities).forEach(([productId, qty]) => {
         if (qty > 0) {
           const childProd = childProducts.find((p) => p.id === productId)
@@ -151,9 +155,22 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               parentProductId: product.id,
               parentProductTitle: product.title,
             })
+            addedCount += qty
           }
         }
       })
+
+      // Show toast for grouped products
+      if (addedCount > 0) {
+        showAddToCartToast({
+          emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
+          image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
+          brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
+          title: product.title,
+          quantity: addedCount,
+          price: totalPrice,
+        })
+      }
     } else {
       // Add simple product
       const unitPrice = product.salePrice || product.price
@@ -171,6 +188,16 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         sku: product.sku || undefined,
         ean: product.ean || undefined,
         stock: product.stock || 0,
+      })
+
+      // Show toast for simple product
+      showAddToCartToast({
+        emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
+        image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
+        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
+        title: product.title,
+        quantity: quantity,
+        price: unitPrice * quantity,
       })
     }
   }
@@ -504,54 +531,23 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 </div>
               )}
 
-              {/* Volume Pricing */}
-              {volumeTiers.length > 0 && (
+              {/* Volume Pricing - StaffelCalculator Component */}
+              {volumeTiers.length > 0 && !isGrouped && (
                 <div className="mt-4">
-                  <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-2 flex items-center gap-1.5">
-                    <Layers className="w-4 h-4 text-[var(--color-primary)]" />
-                    Staffelprijzen
-                  </div>
-
-                  {/* Volume Grid */}
-                  <div
-                    className="grid gap-2"
-                    style={{ gridTemplateColumns: `repeat(${Math.min(4, volumeTiers.length)}, 1fr)` }}
-                  >
-                    {volumeTiers.map((tier, idx) => {
-                      const tierPrice = tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100)
-                      const discount = tier.discountPercentage
-                        ? `-${tier.discountPercentage}%`
-                        : tier.discountPrice
-                          ? `-${Math.round(((product.price - tier.discountPrice) / product.price) * 100)}%`
-                          : 'standaard'
-
-                      return (
-                        <div
-                          key={idx}
-                          className="rounded-[10px] p-3 text-center cursor-pointer transition-all duration-200 relative"
-                          style={{
-                            background: activeTier === idx ? 'color-mix(in srgb, var(--color-primary) 10%, white)' : 'var(--color-background, #F5F7FA)',
-                            border: `1.5px solid ${activeTier === idx ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                          }}
-                        >
-                          {idx === volumeTiers.length - 1 && (
-                            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[10px] font-bold px-2 py-0.5 rounded whitespace-nowrap">
-                              Beste prijs
-                            </div>
-                          )}
-                          <div className="text-xs text-[var(--color-text-muted)] font-medium mb-1">
-                            {tier.minQuantity}+
-                          </div>
-                          <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
-                            €{tierPrice.toFixed(2)}
-                          </div>
-                          <div className="text-[11px] text-[var(--color-primary)] font-semibold mt-0.5">
-                            {discount}
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
+                  <StaffelCalculator
+                    productName={product.title}
+                    tiers={volumeTiers.map((tier) => ({
+                      minQty: tier.minQuantity,
+                      maxQty: tier.maxQuantity || undefined,
+                      price: tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100),
+                      savePercentage: tier.discountPercentage || undefined,
+                    }))}
+                    initialQuantity={quantity}
+                    unit="stuks"
+                    onQuantityChange={(newQty, price, total) => {
+                      setQuantity(newQty)
+                    }}
+                  />
                 </div>
               )}
             </div>
@@ -772,44 +768,23 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               </div>
             )}
 
-            {/* Volume Pricing - Mobile */}
-            {volumeTiers.length > 0 && (
+            {/* Volume Pricing - Mobile - StaffelCalculator */}
+            {volumeTiers.length > 0 && !isGrouped && (
               <div className="mt-3">
-                <div className="text-xs font-bold text-[var(--color-text-primary)] mb-2 flex items-center gap-1">
-                  <Layers className="w-3.5 h-3.5 text-[var(--color-primary)]" />
-                  Staffelprijzen
-                </div>
-
-                <div
-                  className="grid gap-1.5"
-                  style={{ gridTemplateColumns: `repeat(${Math.min(3, volumeTiers.length)}, 1fr)` }}
-                >
-                  {volumeTiers.slice(0, 3).map((tier, idx) => {
-                    const tierPrice = tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100)
-                    const discount = tier.discountPercentage
-                      ? `-${tier.discountPercentage}%`
-                      : tier.discountPrice
-                        ? `-${Math.round(((product.price - tier.discountPrice) / product.price) * 100)}%`
-                        : 'standaard'
-
-                    return (
-                      <div
-                        key={idx}
-                        className="bg-[var(--color-background,#F5F7FA)] border border-[var(--color-border)] rounded-lg p-2 text-center"
-                      >
-                        <div className="text-[10px] text-[var(--color-text-muted)] font-medium mb-0.5">
-                          {tier.minQuantity}+
-                        </div>
-                        <div className="font-heading text-sm font-extrabold text-[var(--color-text-primary)]">
-                          €{tierPrice.toFixed(2)}
-                        </div>
-                        <div className="text-[9px] text-[var(--color-primary)] font-semibold mt-[1px]">
-                          {discount}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
+                <StaffelCalculator
+                  productName={product.title}
+                  tiers={volumeTiers.map((tier) => ({
+                    minQty: tier.minQuantity,
+                    maxQty: tier.maxQuantity || undefined,
+                    price: tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100),
+                    savePercentage: tier.discountPercentage || undefined,
+                  }))}
+                  initialQuantity={quantity}
+                  unit="stuks"
+                  onQuantityChange={(newQty, price, total) => {
+                    setQuantity(newQty)
+                  }}
+                />
               </div>
             )}
           </div>
