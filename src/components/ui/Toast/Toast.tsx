@@ -62,24 +62,30 @@ export function Toast({
 
   return (
     <div
-      className={`relative bg-white border border-gray-200 rounded-2xl shadow-2xl p-4 flex gap-3.5 items-start w-96 max-w-[calc(100vw-40px)] transition-transform duration-400 pointer-events-auto overflow-hidden ${
+      className={`relative bg-white border rounded-2xl shadow-2xl p-4 flex gap-3.5 items-start w-96 max-w-[calc(100vw-40px)] transition-transform duration-400 pointer-events-auto overflow-hidden ${
         show ? 'translate-x-0' : 'translate-x-[120%]'
       }`}
       style={{
         transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        borderColor: 'var(--color-border)',
       }}
     >
       {/* Close Button */}
       <button
         onClick={handleClose}
-        className="absolute top-2.5 right-2.5 w-6 h-6 rounded hover:bg-gray-100 flex items-center justify-center transition-colors"
+        className="absolute top-2.5 right-2.5 w-6 h-6 rounded flex items-center justify-center transition-colors"
+        style={{
+          backgroundColor: show ? 'transparent' : 'transparent',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--color-surface)')}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
       >
-        <X className="w-3.5 h-3.5 text-gray-400" />
+        <X className="w-3.5 h-3.5" style={{ color: 'var(--color-text-muted)' }} />
       </button>
 
       {/* Icon/Image */}
       {type === 'addToCart' && (emoji || image) && (
-        <div className="w-13 h-13 bg-gray-50 rounded-lg flex items-center justify-center text-[26px] flex-shrink-0">
+        <div className="w-13 h-13 rounded-lg flex items-center justify-center text-[26px] flex-shrink-0" style={{ backgroundColor: 'var(--color-surface)' }}>
           {emoji || (image && <img src={image} alt="" className="w-full h-full object-cover rounded-lg" />)}
         </div>
       )}
@@ -88,7 +94,7 @@ export function Toast({
       <div className="flex-1 min-w-0">
         {/* Success/Error Indicator */}
         {type === 'addToCart' && (
-          <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold mb-1" style={{ color: 'var(--color-success)' }}>
             <CheckCircle className="w-3.5 h-3.5" />
             Toegevoegd aan winkelwagen
             {quantity && quantity > 1 && <span>({quantity}×)</span>}
@@ -96,24 +102,24 @@ export function Toast({
         )}
 
         {type === 'success' && !actions && (
-          <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold mb-1" style={{ color: 'var(--color-success)' }}>
             <CheckCircle className="w-3.5 h-3.5" />
             Gelukt
           </div>
         )}
 
         {type === 'error' && (
-          <div className="flex items-center gap-1.5 text-xs font-bold text-red-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold mb-1" style={{ color: 'var(--color-error)' }}>
             <AlertCircle className="w-3.5 h-3.5" />
             Fout
           </div>
         )}
 
         {/* Title */}
-        <div className="text-sm font-bold text-gray-900 leading-snug pr-6">{title}</div>
+        <div className="text-sm font-bold leading-snug pr-6" style={{ color: 'var(--color-text-primary)' }}>{title}</div>
 
         {/* Description */}
-        {description && <div className="text-xs text-gray-500 mt-0.5">{description}</div>}
+        {description && <div className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>{description}</div>}
 
         {/* Actions */}
         {actions && actions.length > 0 && (
@@ -127,17 +133,45 @@ export function Toast({
                 </>
               )
 
-              const className = `px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                action.variant === 'primary'
-                  ? 'bg-teal-600 text-white hover:bg-gray-900'
-                  : 'bg-white text-gray-900 border-1.5 border-gray-200 hover:border-teal-600 hover:text-teal-600'
-              }`
+              const baseClassName = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5'
+
+              const primaryStyle = {
+                backgroundColor: 'var(--color-primary)',
+                color: 'white',
+              }
+
+              const outlineStyle = {
+                backgroundColor: 'white',
+                color: 'var(--color-text-primary)',
+                borderWidth: '1.5px',
+                borderStyle: 'solid',
+                borderColor: 'var(--color-border)',
+              }
+
+              const className = `${baseClassName} ${action.variant === 'primary' ? '' : ''}`
 
               return action.href ? (
                 <Link
                   key={idx}
                   href={action.href}
                   className={className}
+                  style={action.variant === 'primary' ? primaryStyle : outlineStyle}
+                  onMouseEnter={(e) => {
+                    if (action.variant === 'primary') {
+                      e.currentTarget.style.backgroundColor = 'var(--color-secondary)'
+                    } else {
+                      e.currentTarget.style.borderColor = 'var(--color-primary)'
+                      e.currentTarget.style.color = 'var(--color-primary)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (action.variant === 'primary') {
+                      e.currentTarget.style.backgroundColor = 'var(--color-primary)'
+                    } else {
+                      e.currentTarget.style.borderColor = 'var(--color-border)'
+                      e.currentTarget.style.color = 'var(--color-text-primary)'
+                    }
+                  }}
                   onClick={() => {
                     action.onClick?.()
                     handleClose()
@@ -153,6 +187,23 @@ export function Toast({
                     handleClose()
                   }}
                   className={className}
+                  style={action.variant === 'primary' ? primaryStyle : outlineStyle}
+                  onMouseEnter={(e) => {
+                    if (action.variant === 'primary') {
+                      e.currentTarget.style.backgroundColor = 'var(--color-secondary)'
+                    } else {
+                      e.currentTarget.style.borderColor = 'var(--color-primary)'
+                      e.currentTarget.style.color = 'var(--color-primary)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (action.variant === 'primary') {
+                      e.currentTarget.style.backgroundColor = 'var(--color-primary)'
+                    } else {
+                      e.currentTarget.style.borderColor = 'var(--color-border)'
+                      e.currentTarget.style.color = 'var(--color-text-primary)'
+                    }
+                  }}
                 >
                   {ButtonContent}
                 </button>
@@ -163,10 +214,11 @@ export function Toast({
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-100 rounded-b-2xl overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-2xl overflow-hidden" style={{ backgroundColor: 'var(--color-surface)' }}>
         <div
-          className="h-full bg-teal-600 rounded-b-2xl transition-all"
+          className="h-full rounded-b-2xl transition-all"
           style={{
+            backgroundColor: 'var(--color-primary)',
             width: `${progress}%`,
             transition: 'width 50ms linear',
           }}

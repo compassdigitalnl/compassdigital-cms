@@ -1,5 +1,6 @@
 'use client'
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react'
+import { useCart } from '@/contexts/CartContext'
 import { MiniCart } from './MiniCart'
 
 export interface CartItem {
@@ -33,36 +34,54 @@ const FREE_SHIPPING_THRESHOLD = 50 // €50 for free shipping
 
 export function MiniCartProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [items, setItems] = useState<CartItem[]>([])
+
+  // Use CartContext for actual cart data
+  const cartContext = useCart()
 
   const openCart = useCallback(() => setIsOpen(true), [])
   const closeCart = useCallback(() => setIsOpen(false), [])
   const toggleCart = useCallback(() => setIsOpen((prev) => !prev), [])
 
+  // Map CartContext items to MiniCart format
+  const items = useMemo(() => {
+    return cartContext.items.map((item) => ({
+      id: String(item.id),
+      emoji: undefined, // Not available in CartContext
+      image: item.image,
+      brand: '', // Not available in CartContext, could extract from parentProductTitle
+      name: item.title,
+      variant: item.parentProductTitle, // Use parent product as variant
+      price: item.price,
+      quantity: item.quantity,
+    }))
+  }, [cartContext.items])
+
+  // Wrap CartContext methods to match MiniCart interface
   const addItem = useCallback((item: Omit<CartItem, 'quantity'>, quantity = 1) => {
-    setItems((prev) => {
-      const existing = prev.find((i) => i.id === item.id)
-      if (existing) {
-        return prev.map((i) => (i.id === item.id ? { ...i, quantity: i.quantity + quantity } : i))
-      }
-      return [...prev, { ...item, quantity }]
-    })
-  }, [])
+    cartContext.addItem({
+      id: item.id,
+      slug: '', // Not available from MiniCart
+      title: item.name,
+      price: item.price,
+      stock: 999, // Assume in stock
+      image: item.image,
+    }, quantity)
+  }, [cartContext])
 
   const removeItem = useCallback((id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id))
-  }, [])
+    cartContext.removeItem(id)
+  }, [cartContext])
 
   const updateQuantity = useCallback((id: string, quantity: number) => {
     if (quantity <= 0) {
-      removeItem(id)
+      cartContext.removeItem(id)
       return
     }
-    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity } : item)))
-  }, [removeItem])
+    cartContext.updateItem(id, { quantity })
+  }, [cartContext])
 
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const totalItems = cartContext.totalItems
+  const subtotal = cartContext.subtotal
   const freeShippingProgress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)
 
   return (
