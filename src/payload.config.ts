@@ -38,6 +38,7 @@ import { Orders } from '@/collections/Orders'
 import { Pages } from '@/collections/Pages'
 import { Partners } from '@/collections/Partners'
 import { Products } from '@/collections/Products'
+import { RecentlyViewed } from '@/collections/RecentlyViewed'
 import { RecurringOrders } from '@/collections/RecurringOrders'
 import { Returns } from '@/collections/Returns'
 import { ServicesCollection } from '@/collections/ServicesCollection'
@@ -206,6 +207,7 @@ export default buildConfig({
     _col(RecurringOrders),
     _col(Returns),
     _col(Notifications),
+    _col(RecentlyViewed),
 
     // Platform Management — alleen op platform-instantie
     ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),
