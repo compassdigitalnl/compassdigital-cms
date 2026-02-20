@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { sectionLabelField } from '../fields/sectionLabel'
 
 export const Hero: Block = {
   slug: 'hero',
@@ -25,12 +26,43 @@ export const Hero: Block = {
       },
     },
     {
+      name: 'layout',
+      type: 'select',
+      label: 'Layout',
+      defaultValue: 'centered',
+      options: [
+        { label: 'Gecentreerd (standaard)', value: 'centered' },
+        { label: 'Twee kolommen (tekst + stats panel)', value: 'two-column' },
+      ],
+      admin: {
+        description: 'Kies de layout structuur',
+      },
+    },
+    sectionLabelField,
+    {
+      name: 'badge',
+      type: 'text',
+      label: 'Badge / Label',
+      admin: {
+        description: 'Kleine pill-shaped label boven de titel (bijv. "Sinds 1994 — 30+ jaar ervaring")',
+      },
+    },
+    {
       name: 'title',
       type: 'text',
       label: 'Titel',
       required: true,
       admin: {
         description: 'De grote koptekst (H1)',
+      },
+    },
+    {
+      name: 'titleAccent',
+      type: 'text',
+      label: 'Accent tekst in titel',
+      admin: {
+        description:
+          'Dit deel van de titel krijgt een gradient kleur (bijv. "medische" in "Uw partner in medische hulpmiddelen")',
       },
     },
     {
@@ -75,6 +107,44 @@ export const Hero: Block = {
           name: 'link',
           type: 'text',
           label: 'Link',
+        },
+      ],
+    },
+    {
+      name: 'stats',
+      type: 'array',
+      label: 'Statistieken (rechter paneel)',
+      maxRows: 4,
+      admin: {
+        condition: (data, siblingData) => siblingData?.layout === 'two-column',
+        description: 'Toon statistieken in een glasmorfisme kaart rechts (max 4 items)',
+      },
+      fields: [
+        {
+          name: 'number',
+          type: 'text',
+          label: 'Getal',
+          required: true,
+          admin: {
+            description: 'Bijv. "4000" of "30"',
+          },
+        },
+        {
+          name: 'suffix',
+          type: 'text',
+          label: 'Achtervoegsel',
+          admin: {
+            description: 'Bijv. "+" of "%" (optioneel)',
+          },
+        },
+        {
+          name: 'label',
+          type: 'text',
+          label: 'Label',
+          required: true,
+          admin: {
+            description: 'Bijv. "Producten" of "Jaar ervaring"',
+          },
         },
       ],
     },

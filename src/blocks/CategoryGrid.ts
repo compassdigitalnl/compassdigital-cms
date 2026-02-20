@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { sectionLabelField } from '../fields/sectionLabel'
 
 export const CategoryGrid: Block = {
   slug: 'categoryGrid',
@@ -8,6 +9,7 @@ export const CategoryGrid: Block = {
     plural: 'Categorie Grids',
   },
   fields: [
+    sectionLabelField,
     {
       name: 'heading',
       type: 'text',
@@ -90,6 +92,24 @@ export const CategoryGrid: Block = {
       max: 20,
       admin: {
         description: 'Maximaal aantal categorieën om te tonen',
+      },
+    },
+    {
+      name: 'showQuickOrderCard',
+      type: 'checkbox',
+      label: 'Toon "Quick Order" kaart als laatste item',
+      defaultValue: false,
+      admin: {
+        description: 'Voegt een speciale Quick Order kaart toe met teal achtergrond',
+      },
+    },
+    {
+      name: 'quickOrderLink',
+      type: 'text',
+      label: 'Quick Order link',
+      defaultValue: '/quick-order',
+      admin: {
+        condition: (data, siblingData) => siblingData?.showQuickOrderCard,
       },
     },
   ],

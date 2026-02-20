@@ -9,6 +9,19 @@ export const CTA: Block = {
   },
   fields: [
     {
+      name: 'variant',
+      type: 'select',
+      label: 'Variant',
+      defaultValue: 'full-width',
+      options: [
+        { label: 'Volledige breedte (standaard)', value: 'full-width' },
+        { label: 'Kaart met afgeronde hoeken', value: 'card' },
+      ],
+      admin: {
+        description: 'Kaart variant toont een afgeronde kaart binnen de container',
+      },
+    },
+    {
       name: 'title',
       type: 'text',
       label: 'Titel',
@@ -25,16 +38,32 @@ export const CTA: Block = {
     {
       name: 'buttonText',
       type: 'text',
-      label: 'Knoptekst',
+      label: 'Knoptekst (primaire knop)',
       required: true,
       defaultValue: 'Neem contact op',
     },
     {
       name: 'buttonLink',
       type: 'text',
-      label: 'Knop link',
+      label: 'Knop link (primaire knop)',
       required: true,
       defaultValue: '/contact',
+    },
+    {
+      name: 'secondaryButtonText',
+      type: 'text',
+      label: 'Tweede knop tekst (optioneel)',
+      admin: {
+        description: 'Optionele tweede knop met ghost stijl',
+      },
+    },
+    {
+      name: 'secondaryButtonLink',
+      type: 'text',
+      label: 'Tweede knop link',
+      admin: {
+        condition: (data, siblingData) => !!siblingData?.secondaryButtonText,
+      },
     },
     {
       name: 'style',

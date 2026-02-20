@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { sectionLabelField } from '../fields/sectionLabel'
 
 export const Services: Block = {
   slug: 'features',
@@ -8,6 +9,7 @@ export const Services: Block = {
     plural: 'Features / USPs',
   },
   fields: [
+    sectionLabelField,
     {
       name: 'heading',
       type: 'text',
@@ -20,6 +22,19 @@ export const Services: Block = {
       label: 'Intro tekst',
       admin: {
         rows: 2,
+      },
+    },
+    {
+      name: 'backgroundStyle',
+      type: 'select',
+      label: 'Achtergrond stijl',
+      defaultValue: 'light',
+      options: [
+        { label: 'Licht (wit/grijs)', value: 'light' },
+        { label: 'Donker (navy met glasmorfisme)', value: 'dark' },
+      ],
+      admin: {
+        description: 'Donkere stijl toont glasmorfisme kaarten op navy achtergrond',
       },
     },
     {
