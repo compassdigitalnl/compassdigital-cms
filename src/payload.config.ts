@@ -38,6 +38,7 @@ import { Pages } from '@/collections/Pages'
 import { Partners } from '@/collections/Partners'
 import { Products } from '@/collections/Products'
 import { RecurringOrders } from '@/collections/RecurringOrders'
+import { Returns } from '@/collections/Returns'
 import { ServicesCollection } from '@/collections/ServicesCollection'
 import { Testimonials } from '@/collections/Testimonials'
 import { Users } from '@/collections/Users'
@@ -202,6 +203,7 @@ export default buildConfig({
     _col(Orders),
     _col(Invoices),
     _col(RecurringOrders),
+    _col(Returns),
 
     // Platform Management — alleen op platform-instantie
     ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),
