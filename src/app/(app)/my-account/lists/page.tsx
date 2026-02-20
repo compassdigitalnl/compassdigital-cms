@@ -86,199 +86,10 @@ export default function OrderListsPage() {
       setLoading(true)
       setError(null)
 
-      // TODO: Replace with actual API call when endpoint is ready
-      // const response = await fetch('/api/order-lists')
-      // if (!response.ok) throw new Error('Failed to fetch order lists')
-      // const data = await response.json()
-      // setLists(data.docs || [])
-
-      // Dummy data for now
-      const dummyLists: OrderList[] = [
-        {
-          id: '1',
-          name: 'Wekelijkse voorraad',
-          icon: 'repeat',
-          color: 'teal',
-          isPinned: true,
-          itemCount: 8,
-          shareWith: [
-            { user: 'user1', canEdit: true },
-            { user: 'user2', canEdit: false },
-            { user: 'user3', canEdit: true },
-          ],
-          items: [
-            {
-              id: '1',
-              product: { id: 'p1', name: 'Latex handschoenen', emoji: '🧤', price: 12.95 },
-              defaultQuantity: 10,
-            },
-            {
-              id: '2',
-              product: { id: 'p2', name: 'Handgel dispenser', emoji: '🧴', price: 15.50 },
-              defaultQuantity: 5,
-            },
-            {
-              id: '3',
-              product: { id: 'p3', name: 'Injectienaalden', emoji: '💉', price: 8.75 },
-              defaultQuantity: 20,
-            },
-            {
-              id: '4',
-              product: { id: 'p4', name: 'Pleisters', emoji: '🩹', price: 6.20 },
-              defaultQuantity: 15,
-            },
-            {
-              id: '5',
-              product: { id: 'p5', name: 'Verbandgaas', emoji: '🩺', price: 9.99 },
-              defaultQuantity: 8,
-            },
-            {
-              id: '6',
-              product: { id: 'p6', name: 'Alcohol swabs', emoji: '🧴', price: 4.50 },
-              defaultQuantity: 25,
-            },
-            {
-              id: '7',
-              product: { id: 'p7', name: 'Wegwerpschorten', emoji: '👔', price: 18.75 },
-              defaultQuantity: 12,
-            },
-            {
-              id: '8',
-              product: { id: 'p8', name: 'Mondkapjes', emoji: '😷', price: 22.50 },
-              defaultQuantity: 50,
-            },
-          ],
-          updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
-          createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: '2',
-          name: 'Spreekkamer 1',
-          icon: 'stethoscope',
-          color: 'blue',
-          isPinned: false,
-          itemCount: 5,
-          shareWith: [
-            { user: 'user1', canEdit: true },
-            { user: 'user2', canEdit: false },
-          ],
-          items: [
-            {
-              id: '1',
-              product: { id: 'p1', name: 'Latex handschoenen', emoji: '🧤', price: 12.95 },
-              defaultQuantity: 5,
-            },
-            {
-              id: '2',
-              product: { id: 'p2', name: 'Pleisters', emoji: '🩹', price: 6.20 },
-              defaultQuantity: 10,
-            },
-            {
-              id: '3',
-              product: { id: 'p3', name: 'Thermometer', emoji: '🌡️', price: 24.99 },
-              defaultQuantity: 2,
-            },
-            {
-              id: '4',
-              product: { id: 'p4', name: 'Injectienaalden', emoji: '💉', price: 8.75 },
-              defaultQuantity: 15,
-            },
-            {
-              id: '5',
-              product: { id: 'p5', name: 'Verbandgaas', emoji: '🩺', price: 9.99 },
-              defaultQuantity: 8,
-            },
-          ],
-          updatedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 1 week ago
-          createdAt: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: '3',
-          name: 'Laboratorium',
-          icon: 'flask-conical',
-          color: 'amber',
-          isPinned: false,
-          itemCount: 12,
-          shareWith: [{ user: 'user1', canEdit: true }],
-          items: [
-            {
-              id: '1',
-              product: { id: 'p1', name: 'Injectienaalden', emoji: '💉', price: 8.75 },
-              defaultQuantity: 50,
-            },
-            {
-              id: '2',
-              product: { id: 'p2', name: 'Latex handschoenen', emoji: '🧤', price: 12.95 },
-              defaultQuantity: 30,
-            },
-            {
-              id: '3',
-              product: { id: 'p3', name: 'Handgel', emoji: '🧴', price: 15.50 },
-              defaultQuantity: 10,
-            },
-          ],
-          updatedAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toISOString(), // 3 weeks ago
-          createdAt: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: '4',
-          name: 'EHBO-kast aanvulling',
-          icon: 'plus-circle',
-          color: 'green',
-          isPinned: false,
-          itemCount: 14,
-          shareWith: [],
-          items: [
-            {
-              id: '1',
-              product: { id: 'p1', name: 'Pleisters', emoji: '🩹', price: 6.20 },
-              defaultQuantity: 20,
-            },
-            {
-              id: '2',
-              product: { id: 'p2', name: 'Handgel', emoji: '🧴', price: 15.50 },
-              defaultQuantity: 5,
-            },
-            {
-              id: '3',
-              product: { id: 'p3', name: 'Verbandgaas', emoji: '🩺', price: 9.99 },
-              defaultQuantity: 15,
-            },
-          ],
-          updatedAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), // 1 month ago
-          createdAt: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: '5',
-          name: 'Spreekkamer 2',
-          icon: 'building-2',
-          color: 'teal',
-          isPinned: false,
-          itemCount: 8,
-          shareWith: [],
-          items: [
-            {
-              id: '1',
-              product: { id: 'p1', name: 'Latex handschoenen', emoji: '🧤', price: 12.95 },
-              defaultQuantity: 10,
-            },
-            {
-              id: '2',
-              product: { id: 'p2', name: 'Injectienaalden', emoji: '💉', price: 8.75 },
-              defaultQuantity: 15,
-            },
-            {
-              id: '3',
-              product: { id: 'p3', name: 'Thermometer', emoji: '🌡️', price: 24.99 },
-              defaultQuantity: 2,
-            },
-          ],
-          updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // yesterday
-          createdAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-      ]
-
-      setLists(dummyLists)
+      const response = await fetch('/api/order-lists')
+      if (!response.ok) throw new Error('Failed to fetch order lists')
+      const data = await response.json()
+      setLists(data.docs || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Er is een fout opgetreden')
     } finally {
@@ -787,10 +598,19 @@ export default function OrderListsPage() {
                     Bekijk
                   </button>
                   <button
-                    onClick={(e) => {
+                    onClick={async (e) => {
                       e.preventDefault()
-                      // TODO: Add all to cart
-                      alert(`Alle producten uit "${list.name}" toegevoegd aan winkelwagen`)
+                      try {
+                        const response = await fetch(`/api/order-lists/${list.id}/add-to-cart`, {
+                          method: 'POST',
+                        })
+                        if (!response.ok) throw new Error('Failed to add to cart')
+                        const data = await response.json()
+                        alert(data.message || `Alle producten uit "${list.name}" toegevoegd aan winkelwagen`)
+                      } catch (err) {
+                        alert('Fout bij toevoegen aan winkelwagen')
+                        console.error(err)
+                      }
                     }}
                     className="px-3.5 py-2 rounded-lg font-semibold transition-all hover:opacity-90"
                     style={{

@@ -36,6 +36,27 @@ import {
   Building2,
   ClipboardList,
 } from 'lucide-react'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import dynamic from 'next/dynamic'
+
+// Dynamic import to avoid SSR issues with camera access
+const BarcodeScanner = dynamic(() => import('@/components/BarcodeScanner'), { ssr: false })
 
 // ============================================================================
 // TYPES
@@ -76,12 +97,12 @@ interface OrderList {
 
 interface QuickAddProduct {
   id: string
-  name: string
+  title: string
   brand: string
   sku: string
-  emoji: string
   price: number
-  stockCount: number
+  stock: number
+  stockStatus: string
 }
 
 // ============================================================================
@@ -129,6 +150,233 @@ const COLORS = {
 }
 
 // ============================================================================
+// SORTABLE ROW COMPONENT
+// ============================================================================
+
+interface SortableRowProps {
+  item: OrderListItem
+  idx: number
+  totalItems: number
+  isSelected: boolean
+  onSelectItem: (id: string) => void
+  onQuantityChange: (id: string, delta: number) => void
+  onDeleteItem: (id: string) => void
+  onAddToCart: (id: string) => void
+}
+
+function SortableRow({
+  item,
+  idx,
+  totalItems,
+  isSelected,
+  onSelectItem,
+  onQuantityChange,
+  onDeleteItem,
+  onAddToCart,
+}: SortableRowProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: item.id,
+  })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  const isLowStock = item.product.stockCount <= 50
+  const lineTotal = item.product.price * item.quantity
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={{
+        ...style,
+        background: isSelected ? COLORS.tealGlow : 'white',
+      }}
+      className="transition-all"
+      onMouseEnter={(e) => {
+        if (!isSelected && !isDragging) {
+          e.currentTarget.style.background = 'rgba(0,137,123,0.015)'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isSelected && !isDragging) {
+          e.currentTarget.style.background = 'white'
+        }
+      }}
+    >
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <div
+          className="cursor-grab active:cursor-grabbing"
+          style={{ color: COLORS.greyMid }}
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical className="w-4 h-4" />
+        </div>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <div
+          onClick={() => onSelectItem(item.id)}
+          className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all hover:border-teal-700 ${
+            isSelected ? 'bg-teal-700 border-teal-700' : 'border-gray-300'
+          }`}
+        >
+          {isSelected && <span style={{ color: 'white', fontSize: '12px', fontWeight: 700 }}>✓</span>}
+        </div>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <div className="flex items-center gap-3">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl"
+            style={{ background: COLORS.bg, border: `1px solid ${COLORS.grey}` }}
+          >
+            {item.product.emoji || '📦'}
+          </div>
+          <div className="min-w-0">
+            <div
+              className="text-xs font-bold uppercase"
+              style={{ color: COLORS.teal, letterSpacing: '0.05em' }}
+            >
+              {item.product.brand}
+            </div>
+            <div
+              className="font-semibold truncate"
+              style={{ fontSize: '14px', color: COLORS.navy, maxWidth: '260px' }}
+            >
+              {item.product.name}
+            </div>
+            <div
+              style={{
+                fontFamily: 'JetBrains Mono, monospace',
+                fontSize: '11px',
+                color: COLORS.greyMid,
+              }}
+            >
+              {item.product.sku}
+            </div>
+          </div>
+        </div>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <span style={{ fontSize: '13px', fontWeight: 600, color: COLORS.navy }}>
+          {item.product.size || '—'}
+        </span>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <div>
+          <div
+            style={{
+              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontSize: '15px',
+              fontWeight: 800,
+              color: COLORS.navy,
+            }}
+          >
+            €{item.product.price.toFixed(2)}
+          </div>
+          <div style={{ fontSize: '11px', color: COLORS.greyMid }}>
+            {item.product.priceUnit}
+          </div>
+        </div>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <div
+          className="inline-flex rounded-lg overflow-hidden"
+          style={{ border: `1.5px solid ${COLORS.grey}` }}
+        >
+          <button
+            onClick={() => onQuantityChange(item.id, -1)}
+            className="w-8 h-9 flex items-center justify-center transition-all hover:bg-teal-50 hover:text-teal-700"
+            style={{ background: COLORS.bg, color: COLORS.navy, fontSize: '14px', border: 'none' }}
+          >
+            <Minus className="w-3.5 h-3.5" />
+          </button>
+          <input
+            type="number"
+            value={item.quantity}
+            onChange={(e) => {
+              const newQty = parseInt(e.target.value) || 1
+              onQuantityChange(item.id, newQty - item.quantity)
+            }}
+            className="w-10 h-9 text-center font-semibold"
+            style={{
+              border: 'none',
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '14px',
+              color: COLORS.navy,
+              outline: 'none',
+            }}
+          />
+          <button
+            onClick={() => onQuantityChange(item.id, 1)}
+            className="w-8 h-9 flex items-center justify-center transition-all hover:bg-teal-50 hover:text-teal-700"
+            style={{ background: COLORS.bg, color: COLORS.navy, fontSize: '14px', border: 'none' }}
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <span
+          style={{
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontSize: '15px',
+            fontWeight: 800,
+            color: COLORS.navy,
+          }}
+        >
+          €{lineTotal.toFixed(2)}
+        </span>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <div
+          className="flex items-center gap-1"
+          style={{
+            fontSize: '12px',
+            fontWeight: 500,
+            color: isLowStock ? COLORS.amber : COLORS.green,
+          }}
+        >
+          <div
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ background: isLowStock ? COLORS.amber : COLORS.green }}
+          />
+          {item.product.stockCount.toLocaleString('nl-NL')}
+        </div>
+      </td>
+      <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
+        <div className="flex gap-1">
+          <button
+            onClick={() => onAddToCart(item.id)}
+            className="w-8 h-8 rounded-md flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
+            style={{
+              background: 'white',
+              border: `1px solid ${COLORS.grey}`,
+            }}
+            title="In winkelwagen"
+          >
+            <ShoppingCart className="w-3.5 h-3.5" style={{ color: COLORS.navy }} />
+          </button>
+          <button
+            onClick={() => onDeleteItem(item.id)}
+            className="w-8 h-8 rounded-md flex items-center justify-center transition-all hover:border-coral-700 hover:bg-red-50"
+            style={{
+              background: 'white',
+              border: `1px solid ${COLORS.grey}`,
+            }}
+            title="Verwijderen"
+          >
+            <Trash2 className="w-3.5 h-3.5" style={{ color: COLORS.coral }} />
+          </button>
+        </div>
+      </td>
+    </tr>
+  )
+}
+
+// ============================================================================
 // COMPONENT
 // ============================================================================
 
@@ -150,6 +398,17 @@ export default function OrderListDetailPage() {
   const [quickAddQuery, setQuickAddQuery] = useState('')
   const [quickAddFocused, setQuickAddFocused] = useState(false)
   const [showBulkBar, setShowBulkBar] = useState(false)
+  const [quickAddResults, setQuickAddResults] = useState<QuickAddProduct[]>([])
+  const [quickAddLoading, setQuickAddLoading] = useState(false)
+  const [showBarcodeScanner, setShowBarcodeScanner] = useState(false)
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  )
 
   // ============================================================================
   // FETCH DATA
@@ -159,154 +418,50 @@ export default function OrderListDetailPage() {
     fetchListDetail()
   }, [listId])
 
+  // Search products with debouncing
+  useEffect(() => {
+    if (quickAddQuery.length < 2) {
+      setQuickAddResults([])
+      return
+    }
+
+    const debounceTimer = setTimeout(async () => {
+      setQuickAddLoading(true)
+      try {
+        const response = await fetch(`/api/products/search?q=${encodeURIComponent(quickAddQuery)}&limit=10`)
+        if (!response.ok) throw new Error('Failed to search products')
+        const data = await response.json()
+        setQuickAddResults(data.docs || [])
+      } catch (err) {
+        console.error('Error searching products:', err)
+        setQuickAddResults([])
+      } finally {
+        setQuickAddLoading(false)
+      }
+    }, 300) // 300ms debounce
+
+    return () => clearTimeout(debounceTimer)
+  }, [quickAddQuery])
+
   const fetchListDetail = async () => {
     try {
       setLoading(true)
       setError(null)
 
-      // TODO: Replace with actual API call
-      // const response = await fetch(`/api/order-lists/${listId}`)
-      // if (!response.ok) throw new Error('Failed to fetch list')
-      // const data = await response.json()
-      // setList(data)
+      const response = await fetch(`/api/order-lists/${listId}`)
+      if (!response.ok) throw new Error('Failed to fetch list')
+      const data = await response.json()
 
-      // Dummy data for now
-      const dummyList: OrderList = {
-        id: listId,
-        name: 'Wekelijkse voorraad',
-        icon: 'repeat',
-        color: 'teal',
-        isPinned: true,
-        shareWith: [
-          { user: 'user1', canEdit: true },
-          { user: 'user2', canEdit: false },
-          { user: 'user3', canEdit: true },
-        ],
-        notes: 'Elke maandag bestellen. Controleer XL voorraad — loopt snel uit. Levervoorkeur: ochtend vóór 10:00.',
-        items: [
-          {
-            id: '1',
-            product: {
-              id: 'p1',
-              name: 'Peha-soft Nitrile Fino Handschoenen',
-              brand: 'Hartmann',
-              sku: 'Art. 942210 · Doos 150 st.',
-              emoji: '🧤',
-              price: 8.25,
-              priceUnit: 'staffelprijs',
-              size: 'M',
-              stockCount: 512,
-            },
-            quantity: 5,
-          },
-          {
-            id: '2',
-            product: {
-              id: 'p2',
-              name: 'Peha-soft Nitrile Fino Handschoenen',
-              brand: 'Hartmann',
-              sku: 'Art. 942210 · Doos 150 st.',
-              emoji: '🧤',
-              price: 8.25,
-              priceUnit: 'staffelprijs',
-              size: 'L',
-              stockCount: 287,
-            },
-            quantity: 3,
-          },
-          {
-            id: '3',
-            product: {
-              id: 'p3',
-              name: 'Baktolan Protect+ Pure Handcrème 100ml',
-              brand: 'Hartmann',
-              sku: 'Art. 232451',
-              emoji: '🧴',
-              price: 5.95,
-              priceUnit: 'per stuk',
-              stockCount: 89,
-            },
-            quantity: 2,
-          },
-          {
-            id: '4',
-            product: {
-              id: 'p4',
-              name: 'Discardit II Injectiespuit 10ml',
-              brand: 'BD',
-              sku: 'Art. 309110 · Doos 100 st.',
-              emoji: '💉',
-              price: 4.25,
-              priceUnit: 'per doos',
-              stockCount: 1240,
-            },
-            quantity: 2,
-          },
-          {
-            id: '5',
-            product: {
-              id: 'p5',
-              name: 'Leukoplast Professional Wondpleister 5m x 2,5cm',
-              brand: 'BSN Medical',
-              sku: 'Art. 76174',
-              emoji: '🩹',
-              price: 6.5,
-              priceUnit: 'per stuk',
-              stockCount: 342,
-            },
-            quantity: 3,
-          },
-          {
-            id: '6',
-            product: {
-              id: 'p6',
-              name: 'Peha-soft Nitrile Fino Handschoenen',
-              brand: 'Hartmann',
-              sku: 'Art. 942210 · Doos 150 st.',
-              emoji: '🧤',
-              price: 8.95,
-              priceUnit: 'per doos',
-              size: 'S',
-              stockCount: 324,
-            },
-            quantity: 2,
-          },
-          {
-            id: '7',
-            product: {
-              id: 'p7',
-              name: 'Peha-soft Nitrile Fino Handschoenen',
-              brand: 'Hartmann',
-              sku: 'Art. 942210 · Doos 150 st.',
-              emoji: '🧤',
-              price: 8.95,
-              priceUnit: 'per doos',
-              size: 'XL',
-              stockCount: 12,
-            },
-            quantity: 1,
-          },
-          {
-            id: '8',
-            product: {
-              id: 'p8',
-              name: 'ThermoScan 7 Oorthermometer',
-              brand: 'Braun',
-              sku: 'Art. 7833',
-              emoji: '🌡️',
-              price: 64.95,
-              priceUnit: 'per stuk',
-              stockCount: 45,
-            },
-            quantity: 1,
-          },
-        ],
-        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-        createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-        createdBy: 'Jan de Vries',
+      // Map defaultQuantity to quantity for UI
+      const list = {
+        ...data.doc,
+        items: data.doc.items?.map((item: any) => ({
+          ...item,
+          quantity: item.defaultQuantity || item.quantity || 1,
+        })) || [],
       }
 
-      setList(dummyList)
+      setList(list)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Er is een fout opgetreden')
     } finally {
@@ -388,25 +543,69 @@ export default function OrderListDetailPage() {
     }
   }
 
-  const handleQuantityChange = (itemId: string, delta: number) => {
+  const handleQuantityChange = async (itemId: string, delta: number) => {
     if (!list) return
+
+    const updatedItems = list.items.map((item) =>
+      item.id === itemId
+        ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+        : item,
+    )
+
+    // Update local state immediately for better UX
     setList({
       ...list,
-      items: list.items.map((item) =>
-        item.id === itemId
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item,
-      ),
+      items: updatedItems,
     })
+
+    // Save to API in background - map quantity to defaultQuantity
+    try {
+      const itemsForAPI = updatedItems.map((item) => ({
+        ...item,
+        defaultQuantity: item.quantity,
+      }))
+
+      const response = await fetch(`/api/order-lists/${list.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: itemsForAPI }),
+      })
+      if (!response.ok) throw new Error('Failed to update list')
+    } catch (err) {
+      console.error('Failed to save quantity change:', err)
+      // Optionally: revert local state or show error message
+    }
   }
 
-  const handleDeleteItem = (itemId: string) => {
+  const handleDeleteItem = async (itemId: string) => {
     if (!list) return
     if (confirm('Weet je zeker dat je dit product wilt verwijderen?')) {
+      const updatedItems = list.items.filter((item) => item.id !== itemId)
+
+      // Update local state immediately for better UX
       setList({
         ...list,
-        items: list.items.filter((item) => item.id !== itemId),
+        items: updatedItems,
       })
+
+      // Save to API in background - map quantity to defaultQuantity
+      try {
+        const itemsForAPI = updatedItems.map((item) => ({
+          ...item,
+          defaultQuantity: item.quantity,
+        }))
+
+        const response = await fetch(`/api/order-lists/${list.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: itemsForAPI }),
+        })
+        if (!response.ok) throw new Error('Failed to update list')
+      } catch (err) {
+        console.error('Failed to delete item:', err)
+        alert('Fout bij verwijderen product')
+        // Optionally: revert local state
+      }
     }
   }
 
@@ -417,14 +616,155 @@ export default function OrderListDetailPage() {
     }
   }
 
-  const handleAddAllToCart = () => {
-    if (list) {
-      alert(`Alle ${list.items.length} producten toegevoegd aan winkelwagen`)
+  const handleAddAllToCart = async () => {
+    if (!list) return
+    try {
+      const response = await fetch(`/api/order-lists/${list.id}/add-to-cart`, {
+        method: 'POST',
+      })
+      if (!response.ok) throw new Error('Failed to add to cart')
+      const data = await response.json()
+      alert(data.message || `Alle ${list.items.length} producten toegevoegd aan winkelwagen`)
+    } catch (err) {
+      alert('Fout bij toevoegen aan winkelwagen')
+      console.error(err)
     }
   }
 
   const handleBulkAction = (action: string) => {
     alert(`Bulk actie: ${action} voor ${selectedItems.size} items`)
+  }
+
+  const handleAddProductToList = async (product: QuickAddProduct) => {
+    if (!list) return
+
+    // Add product to list items
+    const newItem = {
+      id: `temp-${Date.now()}`, // Temporary ID
+      product: {
+        id: product.id,
+        name: product.title,
+        brand: product.brand,
+        sku: product.sku,
+        emoji: '📦',
+        price: product.price,
+        priceUnit: 'stuk',
+        size: '',
+        stockCount: product.stock,
+      },
+      quantity: 1,
+      notes: '',
+    }
+
+    const updatedItems = [...list.items, newItem]
+
+    // Update local state immediately
+    setList({
+      ...list,
+      items: updatedItems,
+    })
+
+    // Clear search and close dropdown
+    setQuickAddQuery('')
+    setQuickAddFocused(false)
+
+    // Save to API in background
+    try {
+      const itemsForAPI = updatedItems.map((item) => ({
+        product: typeof item.product === 'string' ? item.product : item.product.id,
+        defaultQuantity: item.quantity,
+        notes: item.notes || '',
+      }))
+
+      const response = await fetch(`/api/order-lists/${list.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: itemsForAPI }),
+      })
+
+      if (!response.ok) throw new Error('Failed to update list')
+
+      // Refresh list to get proper IDs and populated data
+      await fetchListDetail()
+    } catch (err) {
+      console.error('Failed to add product to list:', err)
+      alert('Fout bij toevoegen product aan lijst')
+      // Revert local state
+      setList({
+        ...list,
+        items: list.items,
+      })
+    }
+  }
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (!list || !over || active.id === over.id) return
+
+    const oldIndex = list.items.findIndex((item) => item.id === active.id)
+    const newIndex = list.items.findIndex((item) => item.id === over.id)
+
+    if (oldIndex === -1 || newIndex === -1) return
+
+    // Reorder items
+    const reorderedItems = arrayMove(list.items, oldIndex, newIndex)
+
+    // Update local state immediately
+    setList({
+      ...list,
+      items: reorderedItems,
+    })
+
+    // Save to API in background
+    try {
+      const itemsForAPI = reorderedItems.map((item) => ({
+        product: typeof item.product === 'string' ? item.product : item.product.id,
+        defaultQuantity: item.quantity,
+        notes: item.notes || '',
+      }))
+
+      const response = await fetch(`/api/order-lists/${list.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: itemsForAPI }),
+      })
+
+      if (!response.ok) throw new Error('Failed to update list order')
+    } catch (err) {
+      console.error('Failed to reorder items:', err)
+      alert('Fout bij herschikken producten')
+      // Revert local state
+      setList({
+        ...list,
+        items: list.items,
+      })
+    }
+  }
+
+  const handleBarcodeScan = async (barcode: string) => {
+    setShowBarcodeScanner(false)
+
+    if (!barcode) return
+
+    // Search for product by EAN barcode
+    try {
+      const response = await fetch(`/api/products/search?q=${encodeURIComponent(barcode)}&limit=1`)
+      if (!response.ok) throw new Error('Failed to search product')
+      const data = await response.json()
+
+      if (data.docs && data.docs.length > 0) {
+        const product = data.docs[0]
+        // Add product to list
+        await handleAddProductToList(product)
+        alert(`Product "${product.title}" toegevoegd aan lijst!`)
+      } else {
+        alert(`Geen product gevonden met barcode: ${barcode}`)
+      }
+    } catch (err) {
+      console.error('Error searching product by barcode:', err)
+      alert('Fout bij zoeken product met barcode')
+    }
   }
 
   const formatRelativeTime = (date: string): string => {
@@ -460,36 +800,6 @@ export default function OrderListDetailPage() {
     )
   }
 
-  // Dummy quick add suggestions
-  const quickAddSuggestions: QuickAddProduct[] = [
-    {
-      id: 'qa1',
-      name: 'Littmann Classic III Stethoscoop',
-      brand: '3M',
-      sku: 'Art. 5622',
-      emoji: '🩺',
-      price: 139.95,
-      stockCount: 23,
-    },
-    {
-      id: 'qa2',
-      name: 'Braun ThermoScan 7 Oorthermometer',
-      brand: 'Braun',
-      sku: 'Art. 7833',
-      emoji: '🌡️',
-      price: 64.95,
-      stockCount: 45,
-    },
-    {
-      id: 'qa3',
-      name: 'Peha-soft Nitrile Eco Plus — Doos 200',
-      brand: 'Hartmann',
-      sku: 'Art. 942215',
-      emoji: '🧤',
-      price: 12.5,
-      stockCount: 156,
-    },
-  ]
 
   // ============================================================================
   // LOADING & ERROR STATES
@@ -797,13 +1107,15 @@ export default function OrderListDetailPage() {
             />
 
             {/* Dropdown */}
-            {quickAddFocused && (
+            {quickAddFocused && quickAddQuery.length >= 2 && (
               <div
                 className="absolute top-full left-0 right-0 mt-1.5 rounded-xl overflow-hidden z-50"
                 style={{
                   background: 'white',
                   border: `1.5px solid ${COLORS.grey}`,
                   boxShadow: '0 12px 40px rgba(0,0,0,0.1)',
+                  maxHeight: '400px',
+                  overflowY: 'auto',
                 }}
               >
                 <div
@@ -818,53 +1130,70 @@ export default function OrderListDetailPage() {
                     borderBottom: `1px solid ${COLORS.grey}`,
                   }}
                 >
-                  Suggesties
+                  {quickAddLoading ? 'Zoeken...' : `${quickAddResults.length} resultaten`}
                 </div>
-                {quickAddSuggestions.map((product, idx) => (
-                  <div
-                    key={product.id}
-                    onClick={() => alert(`${product.name} toegevoegd!`)}
-                    className="flex items-center gap-3.5 px-4 py-3 cursor-pointer transition-all hover:bg-teal-50"
-                    style={{
-                      borderBottom: idx < quickAddSuggestions.length - 1 ? `1px solid ${COLORS.grey}` : 'none',
-                    }}
-                  >
+                {quickAddLoading ? (
+                  <div className="px-4 py-6 text-center">
                     <div
-                      className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 text-xl"
-                      style={{ background: COLORS.bg }}
-                    >
-                      {product.emoji}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div
-                        className="font-semibold truncate"
-                        style={{ fontSize: '14px', color: COLORS.navy }}
-                      >
-                        {product.name}
-                      </div>
-                      <div style={{ fontSize: '12px', color: COLORS.greyMid }}>
-                        {product.sku} · {product.brand} · Op voorraad
-                      </div>
-                    </div>
+                      className="w-8 h-8 rounded-full border-3 border-t-transparent animate-spin mx-auto"
+                      style={{ borderColor: COLORS.teal, borderTopColor: 'transparent' }}
+                    />
+                  </div>
+                ) : quickAddResults.length === 0 ? (
+                  <div className="px-4 py-6 text-center" style={{ fontSize: '14px', color: COLORS.greyMid }}>
+                    Geen producten gevonden voor "{quickAddQuery}"
+                  </div>
+                ) : (
+                  quickAddResults.map((product, idx) => (
                     <div
-                      className="flex-shrink-0"
+                      key={product.id}
+                      onClick={() => handleAddProductToList(product)}
+                      className="flex items-center gap-3.5 px-4 py-3 cursor-pointer transition-all hover:bg-teal-50"
                       style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
-                        fontSize: '15px',
-                        fontWeight: 800,
-                        color: COLORS.navy,
+                        borderBottom: idx < quickAddResults.length - 1 ? `1px solid ${COLORS.grey}` : 'none',
                       }}
                     >
-                      €{product.price.toFixed(2)}
+                      <div
+                        className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 text-xl"
+                        style={{ background: COLORS.bg }}
+                      >
+                        📦
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div
+                          className="font-semibold truncate"
+                          style={{ fontSize: '14px', color: COLORS.navy }}
+                        >
+                          {product.title}
+                        </div>
+                        <div style={{ fontSize: '12px', color: COLORS.greyMid }}>
+                          {product.sku} · {product.brand} · {product.stock > 0 ? `${product.stock} op voorraad` : 'Uitverkocht'}
+                        </div>
+                      </div>
+                      <div
+                        className="flex-shrink-0"
+                        style={{
+                          fontFamily: 'Plus Jakarta Sans, sans-serif',
+                          fontSize: '15px',
+                          fontWeight: 800,
+                          color: COLORS.navy,
+                        }}
+                      >
+                        €{product.price.toFixed(2)}
+                      </div>
+                      <button
+                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all hover:bg-navy-900"
+                        style={{ background: COLORS.teal, color: 'white' }}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleAddProductToList(product)
+                        }}
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
                     </div>
-                    <button
-                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all hover:bg-navy-900"
-                      style={{ background: COLORS.teal, color: 'white' }}
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             )}
           </div>
@@ -872,6 +1201,7 @@ export default function OrderListDetailPage() {
             of
           </span>
           <button
+            onClick={() => setShowBarcodeScanner(true)}
             className="flex items-center gap-1.5 px-4 py-3 rounded-xl font-semibold transition-all hover:border-teal-700 hover:bg-teal-50 hover:text-teal-700"
             style={{
               background: 'white',
@@ -1072,212 +1402,50 @@ export default function OrderListDetailPage() {
         </div>
 
         {/* Table - Desktop */}
-        <div className="hidden lg:block overflow-x-auto">
-          <table className="w-full" style={{ borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ background: COLORS.bg }}>
-                <th style={{ width: '30px', padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}></th>
-                <th style={{ width: '24px', padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}></th>
-                <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Product</th>
-                <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Maat</th>
-                <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Stukprijs</th>
-                <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Aantal</th>
-                <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Totaal</th>
-                <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Voorraad</th>
-                <th style={{ width: '80px', padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredItems.map((item, idx) => {
-                const isSelected = selectedItems.has(item.id)
-                const isLowStock = item.product.stockCount <= 50
-                const lineTotal = item.product.price * item.quantity
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full" style={{ borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ background: COLORS.bg }}>
+                  <th style={{ width: '30px', padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}></th>
+                  <th style={{ width: '24px', padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}></th>
+                  <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Product</th>
+                  <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Maat</th>
+                  <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Stukprijs</th>
+                  <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Aantal</th>
+                  <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Totaal</th>
+                  <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}>Voorraad</th>
+                  <th style={{ width: '80px', padding: '10px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: COLORS.greyMid, borderBottom: `1px solid ${COLORS.grey}` }}></th>
+                </tr>
+              </thead>
+              <SortableContext
+                items={filteredItems.map((item) => item.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <tbody>
+                  {filteredItems.map((item, idx) => (
+                    <SortableRow
+                      key={item.id}
+                      item={item}
+                      idx={idx}
+                      totalItems={filteredItems.length}
+                      isSelected={selectedItems.has(item.id)}
+                      onSelectItem={handleSelectItem}
+                      onQuantityChange={handleQuantityChange}
+                      onDeleteItem={handleDeleteItem}
+                      onAddToCart={handleAddToCart}
+                    />
+                  ))}
+                </tbody>
+              </SortableContext>
+            </table>
+          </div>
+        </DndContext>
 
-                return (
-                  <tr
-                    key={item.id}
-                    className="transition-all"
-                    style={{
-                      background: isSelected ? COLORS.tealGlow : 'white',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.background = 'rgba(0,137,123,0.015)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.background = 'white'
-                      }
-                    }}
-                  >
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <div className="cursor-grab active:cursor-grabbing" style={{ color: COLORS.greyMid }}>
-                        <GripVertical className="w-4 h-4" />
-                      </div>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <div
-                        onClick={() => handleSelectItem(item.id)}
-                        className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all hover:border-teal-700 ${
-                          isSelected ? 'bg-teal-700 border-teal-700' : 'border-gray-300'
-                        }`}
-                      >
-                        {isSelected && <span style={{ color: 'white', fontSize: '12px', fontWeight: 700 }}>✓</span>}
-                      </div>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl"
-                          style={{ background: COLORS.bg, border: `1px solid ${COLORS.grey}` }}
-                        >
-                          {item.product.emoji || '📦'}
-                        </div>
-                        <div className="min-w-0">
-                          <div
-                            className="text-xs font-bold uppercase"
-                            style={{ color: COLORS.teal, letterSpacing: '0.05em' }}
-                          >
-                            {item.product.brand}
-                          </div>
-                          <div
-                            className="font-semibold truncate"
-                            style={{ fontSize: '14px', color: COLORS.navy, maxWidth: '260px' }}
-                          >
-                            {item.product.name}
-                          </div>
-                          <div
-                            style={{
-                              fontFamily: 'JetBrains Mono, monospace',
-                              fontSize: '11px',
-                              color: COLORS.greyMid,
-                            }}
-                          >
-                            {item.product.sku}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <span style={{ fontSize: '13px', fontWeight: 600, color: COLORS.navy }}>
-                        {item.product.size || '—'}
-                      </span>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <div>
-                        <div
-                          style={{
-                            fontFamily: 'Plus Jakarta Sans, sans-serif',
-                            fontSize: '15px',
-                            fontWeight: 800,
-                            color: COLORS.navy,
-                          }}
-                        >
-                          €{item.product.price.toFixed(2)}
-                        </div>
-                        <div style={{ fontSize: '11px', color: COLORS.greyMid }}>
-                          {item.product.priceUnit}
-                        </div>
-                      </div>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <div
-                        className="inline-flex rounded-lg overflow-hidden"
-                        style={{ border: `1.5px solid ${COLORS.grey}` }}
-                      >
-                        <button
-                          onClick={() => handleQuantityChange(item.id, -1)}
-                          className="w-8 h-9 flex items-center justify-center transition-all hover:bg-teal-50 hover:text-teal-700"
-                          style={{ background: COLORS.bg, color: COLORS.navy, fontSize: '14px', border: 'none' }}
-                        >
-                          <Minus className="w-3.5 h-3.5" />
-                        </button>
-                        <input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) => {
-                            const newQty = parseInt(e.target.value) || 1
-                            handleQuantityChange(item.id, newQty - item.quantity)
-                          }}
-                          className="w-10 h-9 text-center font-semibold"
-                          style={{
-                            border: 'none',
-                            fontFamily: 'JetBrains Mono, monospace',
-                            fontSize: '14px',
-                            color: COLORS.navy,
-                            outline: 'none',
-                          }}
-                        />
-                        <button
-                          onClick={() => handleQuantityChange(item.id, 1)}
-                          className="w-8 h-9 flex items-center justify-center transition-all hover:bg-teal-50 hover:text-teal-700"
-                          style={{ background: COLORS.bg, color: COLORS.navy, fontSize: '14px', border: 'none' }}
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <span
-                        style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif',
-                          fontSize: '15px',
-                          fontWeight: 800,
-                          color: COLORS.navy,
-                        }}
-                      >
-                        €{lineTotal.toFixed(2)}
-                      </span>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <div
-                        className="flex items-center gap-1"
-                        style={{
-                          fontSize: '12px',
-                          fontWeight: 500,
-                          color: isLowStock ? COLORS.amber : COLORS.green,
-                        }}
-                      >
-                        <div
-                          className="w-1.5 h-1.5 rounded-full"
-                          style={{ background: isLowStock ? COLORS.amber : COLORS.green }}
-                        />
-                        {item.product.stockCount.toLocaleString('nl-NL')}
-                      </div>
-                    </td>
-                    <td style={{ padding: '14px 16px', borderBottom: idx < filteredItems.length - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => handleAddToCart(item.id)}
-                          className="w-8 h-8 rounded-md flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
-                          style={{
-                            background: 'white',
-                            border: `1px solid ${COLORS.grey}`,
-                          }}
-                          title="In winkelwagen"
-                        >
-                          <ShoppingCart className="w-3.5 h-3.5" style={{ color: COLORS.navy }} />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteItem(item.id)}
-                          className="w-8 h-8 rounded-md flex items-center justify-center transition-all hover:border-coral-700 hover:bg-red-50"
-                          style={{
-                            background: 'white',
-                            border: `1px solid ${COLORS.grey}`,
-                          }}
-                          title="Verwijderen"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" style={{ color: COLORS.coral }} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
 
         {/* Table - Mobile (Cards) */}
         <div className="lg:hidden divide-y" style={{ borderTop: `1px solid ${COLORS.grey}` }}>
@@ -1575,6 +1743,14 @@ export default function OrderListDetailPage() {
           }}
         />
       </div>
+
+      {/* BARCODE SCANNER MODAL */}
+      {showBarcodeScanner && (
+        <BarcodeScanner
+          onScan={handleBarcodeScan}
+          onClose={() => setShowBarcodeScanner(false)}
+        />
+      )}
     </div>
   )
 }
