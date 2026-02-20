@@ -215,32 +215,21 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           </h1>
 
           {/* SKU / EAN / Packaging */}
-          <div
-            style={{
-              fontFamily: 'monospace',
-              fontSize: '11px',
-              color: 'var(--color-text-muted)',
-              marginBottom: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              flexWrap: 'wrap',
-            }}
-          >
+          <div className="font-mono text-[11px] text-[var(--color-text-muted)] mb-3 flex items-center gap-2 flex-wrap">
             {product.sku && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span className="flex items-center gap-1">
                 <Hash className="w-3 h-3" />
                 Art. {product.sku}
               </span>
             )}
             {product.ean && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span className="flex items-center gap-1">
                 <Barcode className="w-3 h-3" />
                 EAN {product.ean}
               </span>
             )}
             {product.packaging && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span className="flex items-center gap-1">
                 <Package className="w-3 h-3" />
                 {product.packaging}
               </span>
@@ -249,92 +238,40 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {/* Rating - Mobile */}
           {reviewCount > 0 && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                marginBottom: '16px',
-              }}
-            >
-              <div style={{ display: 'flex', gap: '2px' }}>
+            <div className="flex items-center gap-1.5 mb-4">
+              <div className="flex gap-0.5">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <Star
                     key={i}
-                    className="w-3.5 h-3.5"
+                    className="w-3.5 h-3.5 text-[#F59E0B]"
                     fill={i <= Math.floor(avgRating) ? '#F59E0B' : 'none'}
-                    style={{ color: '#F59E0B' }}
                   />
                 ))}
               </div>
-              <span style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
-                <strong style={{ color: 'var(--color-text-primary)' }}>{avgRating.toFixed(1)}</strong> ({reviewCount})
+              <span className="text-xs text-[var(--color-text-muted)]">
+                <strong className="text-[var(--color-text-primary)]">{avgRating.toFixed(1)}</strong> ({reviewCount})
               </span>
             </div>
           )}
         </div>
 
         {/* MOBILE: Image Gallery - Swipeable */}
-        <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            height: '280px',
-            background: 'var(--color-background, #F5F7FA)',
-          }}
-          className="md:h-96 lg:hidden"
-        >
+        <div className="relative w-full h-[280px] md:h-96 lg:hidden bg-[var(--color-background,#F5F7FA)]">
           {/* Badges */}
           {(product.badge || product.salePrice) && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '12px',
-                left: '12px',
-                display: 'flex',
-                gap: '6px',
-                zIndex: 10,
-              }}
-            >
+            <div className="absolute top-3 left-3 flex gap-1.5 z-10">
               {savingsPercent > 0 && (
-                <span
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    background: '#FF6B6B',
-                    color: 'white',
-                  }}
-                >
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#FF6B6B] text-white">
                   -{savingsPercent}%
                 </span>
               )}
               {product.badge === 'popular' && (
-                <span
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    background: 'var(--color-primary)',
-                    color: 'white',
-                  }}
-                >
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[var(--color-primary)] text-white">
                   Bestseller
                 </span>
               )}
               {product.badge === 'new' && (
-                <span
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    background: 'var(--color-primary)',
-                    color: 'white',
-                  }}
-                >
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[var(--color-primary)] text-white">
                   NIEUW
                 </span>
               )}
@@ -342,104 +279,45 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           )}
 
           {/* Actions */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '12px',
-              right: '12px',
-              display: 'flex',
-              gap: '6px',
-              zIndex: 10,
-            }}
-          >
+          <div className="absolute top-3 right-3 flex gap-1.5 z-10">
             <button
-              style={{
-                width: '36px',
-                height: '36px',
-                background: 'rgba(255,255,255,0.95)',
-                border: '1px solid var(--color-border)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}
+              className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
               aria-label="Add to favorites"
             >
-              <Heart className="w-4 h-4" style={{ color: 'var(--color-text-primary)' }} />
+              <Heart className="w-4 h-4 text-[var(--color-text-primary)]" />
             </button>
             <button
-              style={{
-                width: '36px',
-                height: '36px',
-                background: 'rgba(255,255,255,0.95)',
-                border: '1px solid var(--color-border)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}
+              className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
               aria-label="Share product"
             >
-              <Share2 className="w-4 h-4" style={{ color: 'var(--color-text-primary)' }} />
+              <Share2 className="w-4 h-4 text-[var(--color-text-primary)]" />
             </button>
           </div>
 
           {/* Image */}
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px',
-            }}
-          >
+          <div className="w-full h-full flex items-center justify-center p-5">
             {currentImage ? (
               <img
                 src={currentImage}
                 alt={product.title}
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.06))',
-                }}
+                className="max-w-full max-h-full object-contain drop-shadow-md"
               />
             ) : (
-              <div style={{ fontSize: '80px' }}>📦</div>
+              <div className="text-[80px]">📦</div>
             )}
           </div>
 
           {/* Image Dots */}
           {allImages.length > 1 && (
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '12px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex',
-                gap: '6px',
-                padding: '8px 12px',
-                background: 'rgba(0,0,0,0.5)',
-                borderRadius: '100px',
-              }}
-            >
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-2 bg-black/50 rounded-full">
               {allImages.slice(0, 5).map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setImageIndex(idx)}
+                  className="h-2 rounded-full border-0 cursor-pointer transition-all duration-300"
                   style={{
                     width: imageIndex === idx ? '20px' : '8px',
-                    height: '8px',
-                    borderRadius: '100px',
                     background: imageIndex === idx ? 'white' : 'rgba(255,255,255,0.5)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
                   }}
                   aria-label={`View image ${idx + 1}`}
                 />
@@ -449,80 +327,26 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         </div>
 
         {/* DESKTOP: 2-Column Layout */}
-        <div
-          style={{
-            display: 'none',
-          }}
-          className="lg:grid lg:grid-cols-[480px_1fr] lg:gap-12 lg:items-start lg:mb-12 lg:px-6"
-        >
+        <div className="hidden lg:grid lg:grid-cols-[480px_1fr] lg:gap-12 lg:items-start lg:mb-12 lg:px-6">
           {/* LEFT: Gallery */}
           <div className="gallery">
             {/* Main Image */}
-            <div
-              style={{
-                width: '100%',
-                height: '480px',
-                background: 'var(--color-surface, white)',
-                borderRadius: 'var(--border-radius, 20px)',
-                border: '1px solid var(--color-border, #E8ECF1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
+            <div className="w-full h-[480px] bg-[var(--color-surface,white)] rounded-[var(--border-radius,20px)] border border-[var(--color-border,#E8ECF1)] flex items-center justify-center relative overflow-hidden">
               {/* Badges */}
               {(product.badge || product.salePrice) && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '16px',
-                    left: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    zIndex: 10,
-                  }}
-                >
+                <div className="absolute top-4 left-4 flex gap-2 z-10">
                   {savingsPercent > 0 && (
-                    <span
-                      style={{
-                        padding: '6px 12px',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                        background: '#FF6B6B',
-                        color: 'white',
-                      }}
-                    >
+                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#FF6B6B] text-white">
                       -{savingsPercent}%
                     </span>
                   )}
                   {product.badge === 'popular' && (
-                    <span
-                      style={{
-                        padding: '6px 12px',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                        background: 'var(--color-primary)',
-                        color: 'white',
-                      }}
-                    >
+                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--color-primary)] text-white">
                       Bestseller
                     </span>
                   )}
                   {product.badge === 'new' && (
-                    <span
-                      style={{
-                        padding: '6px 12px',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                        background: 'var(--color-primary)',
-                        color: 'white',
-                      }}
-                    >
+                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--color-primary)] text-white">
                       NIEUW
                     </span>
                   )}
@@ -530,47 +354,18 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               )}
 
               {/* Actions */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                  display: 'flex',
-                  gap: '8px',
-                  zIndex: 10,
-                }}
-              >
+              <div className="absolute top-4 right-4 flex gap-2 z-10">
                 <button
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    background: 'var(--color-surface, white)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                  }}
+                  className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
                   aria-label="Add to favorites"
                 >
-                  <Heart className="w-[18px] h-[18px]" style={{ color: 'var(--color-text-primary)' }} />
+                  <Heart className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
                 </button>
                 <button
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    background: 'var(--color-surface, white)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                  }}
+                  className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
                   aria-label="Share product"
                 >
-                  <Share2 className="w-[18px] h-[18px]" style={{ color: 'var(--color-text-primary)' }} />
+                  <Share2 className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
                 </button>
               </div>
 
@@ -579,56 +374,34 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 <img
                   src={imageUrl}
                   alt={product.title}
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    objectFit: 'contain',
-                    filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.06))',
-                  }}
+                  className="max-w-full max-h-full object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
                 />
               ) : (
-                <div style={{ fontSize: '120px' }}>📦</div>
+                <div className="text-[120px]">📦</div>
               )}
 
               {/* Zoom */}
-              <div style={{ position: 'absolute', bottom: '16px', right: '16px' }}>
+              <div className="absolute bottom-4 right-4">
                 <button
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    background: 'var(--color-surface, white)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                  }}
+                  className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
                   aria-label="Zoom image"
                 >
-                  <ZoomIn className="w-[18px] h-[18px]" style={{ color: 'var(--color-text-muted)' }} />
+                  <ZoomIn className="w-[18px] h-[18px] text-[var(--color-text-muted)]" />
                 </button>
               </div>
             </div>
 
             {/* Thumbnails */}
             {product.images && product.images.length > 1 && (
-              <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+              <div className="flex gap-2.5 mt-3">
                 {product.images.slice(0, 5).map((img, idx) => {
                   const imgUrl = typeof img === 'object' && img !== null ? img.url : null
                   return (
                     <div
                       key={idx}
+                      className="w-20 h-20 rounded-xl bg-[var(--color-surface,white)] cursor-pointer flex items-center justify-center"
                       style={{
-                        width: '80px',
-                        height: '80px',
-                        borderRadius: '12px',
-                        background: 'var(--color-surface, white)',
                         border: idx === 0 ? '2px solid var(--color-primary)' : '2px solid var(--color-border)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
                         boxShadow: idx === 0 ? '0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent)' : 'none',
                       }}
                     >
@@ -636,7 +409,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                         <img
                           src={imgUrl}
                           alt={`${product.title} thumbnail ${idx + 1}`}
-                          style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                          className="max-w-full max-h-full object-contain"
                         />
                       )}
                     </div>
@@ -650,66 +423,33 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           <div className="product-info">
             {/* Brand */}
             {product.brand && (
-              <div
-                style={{
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  color: 'var(--color-primary)',
-                  letterSpacing: '0.05em',
-                  marginBottom: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-              >
+              <div className="text-xs font-bold uppercase text-[var(--color-primary)] tracking-wider mb-2 flex items-center gap-1.5">
                 <Award className="w-[14px] h-[14px]" />
                 {product.brand}
               </div>
             )}
 
             {/* Title */}
-            <h1
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: '28px',
-                fontWeight: 800,
-                color: 'var(--color-text-primary)',
-                lineHeight: 1.2,
-                letterSpacing: '-0.02em',
-                marginBottom: '8px',
-              }}
-            >
+            <h1 className="font-heading text-[28px] font-extrabold text-[var(--color-text-primary)] leading-tight tracking-tight mb-2">
               {product.title}
             </h1>
 
             {/* SKU / EAN / Packaging */}
-            <div
-              style={{
-                fontFamily: 'monospace',
-                fontSize: '12px',
-                color: 'var(--color-text-muted)',
-                marginBottom: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                flexWrap: 'wrap',
-              }}
-            >
+            <div className="font-mono text-xs text-[var(--color-text-muted)] mb-4 flex items-center gap-3 flex-wrap">
               {product.sku && (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span className="flex items-center gap-1">
                   <Hash className="w-[13px] h-[13px]" />
                   Art. {product.sku}
                 </span>
               )}
               {product.ean && (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span className="flex items-center gap-1">
                   <Barcode className="w-[13px] h-[13px]" />
                   EAN {product.ean}
                 </span>
               )}
               {product.packaging && (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span className="flex items-center gap-1">
                   <Package className="w-[13px] h-[13px]" />
                   {product.packaging}
                 </span>
@@ -718,77 +458,39 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {/* Rating */}
             {reviewCount > 0 && (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '20px',
-                  paddingBottom: '20px',
-                  borderBottom: '1px solid var(--color-border)',
-                }}
-              >
-                <div style={{ display: 'flex', gap: '2px' }}>
+              <div className="flex items-center gap-2 mb-5 pb-5 border-b border-b-[var(--color-border)]">
+                <div className="flex gap-0.5">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <Star
                       key={i}
-                      className="w-4 h-4"
+                      className="w-4 h-4 text-[#F59E0B]"
                       fill={i <= Math.floor(avgRating) ? '#F59E0B' : 'none'}
-                      style={{ color: '#F59E0B' }}
                     />
                   ))}
                 </div>
-                <span style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>
-                  <strong style={{ color: 'var(--color-text-primary)' }}>{avgRating.toFixed(1)}</strong> / 5 —{' '}
+                <span className="text-[13px] text-[var(--color-text-muted)]">
+                  <strong className="text-[var(--color-text-primary)]">{avgRating.toFixed(1)}</strong> / 5 —{' '}
                   {reviewCount} beoordelingen
                 </span>
               </div>
             )}
 
             {/* PRICE BLOCK - Will be duplicated for mobile */}
-            <div
-              style={{
-                background: 'var(--color-surface, white)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--border-radius, 16px)',
-                padding: '24px',
-                marginBottom: '20px',
-              }}
-            >
+            <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] p-6 mb-5">
               {/* Current Price */}
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '4px' }}>
+              <div className="flex items-baseline gap-3 mb-1">
                 <span
-                  style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '32px',
-                    fontWeight: 800,
-                    color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)',
-                  }}
+                  className="font-heading text-[32px] font-extrabold"
+                  style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
                 >
                   €{currentPrice.toFixed(2)}
                 </span>
                 {oldPrice && (
                   <>
-                    <span
-                      style={{
-                        fontSize: '18px',
-                        color: 'var(--color-text-muted)',
-                        textDecoration: 'line-through',
-                        fontWeight: 400,
-                      }}
-                    >
+                    <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
                       €{oldPrice.toFixed(2)}
                     </span>
-                    <span
-                      style={{
-                        fontSize: '13px',
-                        fontWeight: 700,
-                        color: '#FF6B6B',
-                        background: '#FFF0F0',
-                        padding: '3px 10px',
-                        borderRadius: '6px',
-                      }}
-                    >
+                    <span className="text-[13px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2.5 py-[3px] rounded-md">
                       Bespaar {savingsPercent}%
                     </span>
                   </>
@@ -797,36 +499,23 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
               {/* Price Meta */}
               {product.packaging && (
-                <div style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
+                <div className="text-xs text-[var(--color-text-muted)] mb-4">
                   {product.packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
                 </div>
               )}
 
               {/* Volume Pricing */}
               {volumeTiers.length > 0 && (
-                <div style={{ marginTop: '16px' }}>
-                  <div
-                    style={{
-                      fontSize: '13px',
-                      fontWeight: 700,
-                      color: 'var(--color-text-primary)',
-                      marginBottom: '8px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                    }}
-                  >
-                    <Layers className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+                <div className="mt-4">
+                  <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-2 flex items-center gap-1.5">
+                    <Layers className="w-4 h-4 text-[var(--color-primary)]" />
                     Staffelprijzen
                   </div>
 
                   {/* Volume Grid */}
                   <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: `repeat(${Math.min(4, volumeTiers.length)}, 1fr)`,
-                      gap: '8px',
-                    }}
+                    className="grid gap-2"
+                    style={{ gridTemplateColumns: `repeat(${Math.min(4, volumeTiers.length)}, 1fr)` }}
                   >
                     {volumeTiers.map((tier, idx) => {
                       const tierPrice = tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100)
@@ -839,50 +528,24 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                       return (
                         <div
                           key={idx}
+                          className="rounded-[10px] p-3 text-center cursor-pointer transition-all duration-200 relative"
                           style={{
                             background: activeTier === idx ? 'color-mix(in srgb, var(--color-primary) 10%, white)' : 'var(--color-background, #F5F7FA)',
                             border: `1.5px solid ${activeTier === idx ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                            borderRadius: '10px',
-                            padding: '12px',
-                            textAlign: 'center',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                            position: 'relative',
                           }}
                         >
                           {idx === volumeTiers.length - 1 && (
-                            <div
-                              style={{
-                                position: 'absolute',
-                                top: '-10px',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                background: 'var(--color-primary)',
-                                color: 'white',
-                                fontSize: '10px',
-                                fontWeight: 700,
-                                padding: '2px 8px',
-                                borderRadius: '4px',
-                                whiteSpace: 'nowrap',
-                              }}
-                            >
+                            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[10px] font-bold px-2 py-0.5 rounded whitespace-nowrap">
                               Beste prijs
                             </div>
                           )}
-                          <div style={{ fontSize: '12px', color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '4px' }}>
+                          <div className="text-xs text-[var(--color-text-muted)] font-medium mb-1">
                             {tier.minQuantity}+
                           </div>
-                          <div
-                            style={{
-                              fontFamily: 'var(--font-heading)',
-                              fontSize: '16px',
-                              fontWeight: 800,
-                              color: 'var(--color-text-primary)',
-                            }}
-                          >
+                          <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
                             €{tierPrice.toFixed(2)}
                           </div>
-                          <div style={{ fontSize: '11px', color: 'var(--color-primary)', fontWeight: 600, marginTop: '2px' }}>
+                          <div className="text-[11px] text-[var(--color-primary)] font-semibold mt-0.5">
                             {discount}
                           </div>
                         </div>
@@ -895,131 +558,59 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {/* STOCK */}
             {product.trackStock && product.stock !== undefined && product.stock > 0 && (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '12px 16px',
-                  background: '#E8F5E9',
-                  borderRadius: '10px',
-                  marginBottom: '20px',
-                }}
-              >
-                <span
-                  style={{
-                    width: '8px',
-                    height: '8px',
-                    background: '#00C853',
-                    borderRadius: '50%',
-                    flexShrink: 0,
-                  }}
-                />
+              <div className="flex items-center gap-2 px-4 py-3 bg-[#E8F5E9] rounded-[10px] mb-5">
+                <span className="w-2 h-2 bg-[#00C853] rounded-full shrink-0" />
                 <div>
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#2E7D32' }}>
+                  <div className="text-[13px] font-semibold text-[#2E7D32]">
                     Op voorraad — {product.stock} stuks beschikbaar
                   </div>
                   {product.leadTime && (
-                    <div style={{ fontSize: '12px', color: '#558B2F', fontWeight: 400 }}>
+                    <div className="text-xs text-[#558B2F] font-normal">
                       Levertijd: {product.leadTime}
                     </div>
                   )}
                 </div>
-                <Truck className="w-4 h-4" style={{ marginLeft: 'auto', color: '#2E7D32' }} />
+                <Truck className="w-4 h-4 ml-auto text-[#2E7D32]" />
               </div>
             )}
 
             {/* SIZE SELECTOR (Grouped Products) */}
             {isGrouped && childProducts.length > 0 && (
               <div className="mb-6">
-                <div
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    color: 'var(--color-text-primary)',
-                    marginBottom: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                  }}
-                >
-                  <Ruler className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+                <div className="text-sm font-bold text-[var(--color-text-primary)] mb-2.5 flex items-center gap-1.5">
+                  <Ruler className="w-4 h-4 text-[var(--color-primary)]" />
                   Selecteer maten en aantallen
                 </div>
 
                 {/* Size Grid */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: `repeat(${childProducts.length}, 1fr)`,
-                    gap: 0,
-                    border: '1.5px solid var(--color-border)',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    background: 'var(--color-surface, white)',
-                  }}
-                >
+                <div className="overflow-x-auto">
+                  <div
+                    className="grid gap-0 border-[1.5px] border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface,white)] min-w-min"
+                    style={{ gridTemplateColumns: `repeat(${childProducts.length}, 1fr)` }}
+                  >
                   {childProducts.map((child, idx) => {
                     const qty = sizeQuantities[child.id] || 0
                     return (
                       <div
                         key={child.id}
-                        style={{
-                          borderRight: idx < childProducts.length - 1 ? '1.5px solid var(--color-border)' : 'none',
-                          display: 'flex',
-                          flexDirection: 'column',
-                        }}
+                        className="flex flex-col"
+                        style={{ borderRight: idx < childProducts.length - 1 ? '1.5px solid var(--color-border)' : 'none' }}
                       >
                         {/* Header */}
-                        <div
-                          style={{
-                            padding: '10px',
-                            textAlign: 'center',
-                            background: 'var(--color-background, #F5F7FA)',
-                            borderBottom: '1.5px solid var(--color-border)',
-                            fontSize: '13px',
-                            fontWeight: 700,
-                            color: 'var(--color-text-primary)',
-                          }}
-                        >
+                        <div className="p-2.5 text-center bg-[var(--color-background,#F5F7FA)] border-b-[1.5px] border-b-[var(--color-border)] text-[13px] font-bold text-[var(--color-text-primary)]">
                           {child.title}
                         </div>
 
                         {/* Body */}
-                        <div
-                          style={{
-                            padding: '12px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '8px',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <div className="p-3 flex flex-col gap-2 items-center">
                           {/* Quantity Input */}
                           <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                              borderRadius: '8px',
-                              overflow: 'hidden',
-                              background: 'white',
-                            }}
+                            className="flex items-center rounded-lg overflow-hidden bg-white"
+                            style={{ border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}` }}
                           >
                             <button
                               onClick={() => stepQty(child.id, -1)}
-                              style={{
-                                width: '32px',
-                                height: '36px',
-                                border: 'none',
-                                background: 'var(--color-background, #F5F7FA)',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '14px',
-                                color: 'var(--color-text-primary)',
-                              }}
+                              className="w-8 h-9 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
                             >
                               −
                             </button>
@@ -1030,32 +621,15 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                                 const val = Math.max(0, parseInt(e.target.value) || 0)
                                 setSizeQuantities((prev) => ({ ...prev, [child.id]: val }))
                               }}
+                              className="w-10 h-9 border-0 text-center font-mono text-sm outline-none"
                               style={{
-                                width: '40px',
-                                height: '36px',
-                                border: 'none',
-                                textAlign: 'center',
-                                fontFamily: 'monospace',
-                                fontSize: '14px',
                                 fontWeight: qty > 0 ? 700 : 500,
                                 color: qty > 0 ? 'var(--color-primary)' : 'var(--color-text-primary)',
-                                outline: 'none',
                               }}
                             />
                             <button
                               onClick={() => stepQty(child.id, 1)}
-                              style={{
-                                width: '32px',
-                                height: '36px',
-                                border: 'none',
-                                background: 'var(--color-background, #F5F7FA)',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '14px',
-                                color: 'var(--color-text-primary)',
-                              }}
+                              className="w-8 h-9 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
                             >
                               +
                             </button>
@@ -1063,16 +637,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
                           {/* Stock */}
                           {child.stock && child.stock > 0 && (
-                            <div
-                              style={{
-                                fontSize: '11px',
-                                color: '#00C853',
-                                fontWeight: 500,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '3px',
-                              }}
-                            >
+                            <div className="text-[11px] text-[#00C853] font-medium flex items-center gap-[3px]">
                               <CheckCircle className="w-[11px] h-[11px]" />
                               {child.stock} op voorraad
                             </div>
@@ -1081,33 +646,16 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                       </div>
                     )
                   })}
+                  </div>
                 </div>
 
                 {/* Total */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 16px',
-                    background: 'var(--color-background, #F5F7FA)',
-                    borderRadius: '10px',
-                    marginTop: '12px',
-                    border: '1.5px solid var(--color-border)',
-                  }}
-                >
-                  <div style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>
-                    <strong style={{ color: 'var(--color-text-primary)' }}>{totalQty}</strong> dozen totaal
+                <div className="flex items-center justify-between px-4 py-3 bg-[var(--color-background,#F5F7FA)] rounded-[10px] mt-3 border-[1.5px] border-[var(--color-border)]">
+                  <div className="text-[13px] text-[var(--color-text-muted)]">
+                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> dozen totaal
                     {volumeTiers.length > 0 && totalQty > 0 && ' · staffelprijs van toepassing'}
                   </div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '18px',
-                      fontWeight: 800,
-                      color: 'var(--color-text-primary)',
-                    }}
-                  >
+                  <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
                     €{totalPrice.toFixed(2)}
                   </div>
                 </div>
@@ -1117,40 +665,13 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {/* Simple Product Quantity */}
             {!isGrouped && (
               <div className="mb-5">
-                <div
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    color: 'var(--color-text-primary)',
-                    marginBottom: '8px',
-                  }}
-                >
+                <div className="text-sm font-bold text-[var(--color-text-primary)] mb-2">
                   Aantal
                 </div>
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    border: '1.5px solid var(--color-border)',
-                    borderRadius: '10px',
-                    overflow: 'hidden',
-                    background: 'white',
-                  }}
-                >
+                <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    style={{
-                      width: '44px',
-                      height: '44px',
-                      border: 'none',
-                      background: 'var(--color-background, #F5F7FA)',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '18px',
-                      color: 'var(--color-text-primary)',
-                    }}
+                    className="w-11 h-11 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
                   >
                     <Minus className="w-4 h-4" />
                   </button>
@@ -1158,32 +679,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     type="number"
                     value={quantity}
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    style={{
-                      width: '60px',
-                      height: '44px',
-                      border: 'none',
-                      textAlign: 'center',
-                      fontFamily: 'monospace',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      color: 'var(--color-text-primary)',
-                      outline: 'none',
-                    }}
+                    className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                   />
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    style={{
-                      width: '44px',
-                      height: '44px',
-                      border: 'none',
-                      background: 'var(--color-background, #F5F7FA)',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '18px',
-                      color: 'var(--color-text-primary)',
-                    }}
+                    className="w-11 h-11 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -1192,25 +692,14 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             )}
 
             {/* ACTION BUTTONS */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
+            <div className="flex flex-col gap-2.5 mb-5">
               {/* Add to Cart */}
               <button
                 onClick={handleAddToCart}
                 disabled={isGrouped && totalQty === 0}
+                className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px',
-                  width: '100%',
-                  padding: '16px',
                   background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '12px',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '16px',
-                  fontWeight: 700,
                   cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
                   boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
                 }}
@@ -1220,46 +709,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               </button>
 
               {/* Secondary Buttons */}
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button
-                  style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    padding: '13px',
-                    background: 'var(--color-surface, white)',
-                    color: 'var(--color-text-primary)',
-                    border: '1.5px solid var(--color-border)',
-                    borderRadius: '12px',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
+              <div className="flex gap-2.5">
+                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
                   <ClipboardList className="w-[18px] h-[18px]" />
                   Op bestellijst
                 </button>
-                <button
-                  style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    padding: '13px',
-                    background: 'var(--color-surface, white)',
-                    color: 'var(--color-text-primary)',
-                    border: '1.5px solid var(--color-border)',
-                    borderRadius: '12px',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
+                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
                   <Repeat className="w-[18px] h-[18px]" />
                   Herhaalbestelling
                 </button>
@@ -1267,29 +722,21 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             </div>
 
             {/* TRUST SIGNALS */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '10px',
-                paddingTop: '20px',
-                borderTop: '1px solid var(--color-border)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                <Truck className="w-4 h-4" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+            <div className="grid grid-cols-2 gap-2.5 pt-5 border-t border-t-[var(--color-border)]">
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <Truck className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                 Gratis verzending vanaf €150
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                <Undo2 className="w-4 h-4" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <Undo2 className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                 30 dagen retourrecht
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                <CreditCard className="w-4 h-4" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <CreditCard className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                 Op rekening bestellen
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                <ShieldCheck className="w-4 h-4" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <ShieldCheck className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                 CE & ISO gecertificeerd
               </div>
             </div>
@@ -1297,50 +744,22 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         </div>
 
         {/* MOBILE: Price + Stock + Actions */}
-        <div className="p-4" className="lg:hidden">
+        <div className="p-4 lg:hidden">
           {/* PRICE BLOCK */}
-          <div
-            style={{
-              background: 'var(--color-surface, white)',
-              border: '1px solid var(--color-border)',
-              borderRadius: '12px',
-              padding: '16px',
-              marginBottom: '16px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
+          <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-xl p-4 mb-4">
+            <div className="flex items-baseline gap-2 mb-1 flex-wrap">
               <span
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '26px',
-                  fontWeight: 800,
-                  color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)',
-                }}
+                className="font-heading text-[26px] font-extrabold"
+                style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
               >
                 €{currentPrice.toFixed(2)}
               </span>
               {oldPrice && (
                 <>
-                  <span
-                    style={{
-                      fontSize: '16px',
-                      color: 'var(--color-text-muted)',
-                      textDecoration: 'line-through',
-                      fontWeight: 400,
-                    }}
-                  >
+                  <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
                     €{oldPrice.toFixed(2)}
                   </span>
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      color: '#FF6B6B',
-                      background: '#FFF0F0',
-                      padding: '3px 8px',
-                      borderRadius: '4px',
-                    }}
-                  >
+                  <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2 py-[3px] rounded">
                     -{savingsPercent}%
                   </span>
                 </>
@@ -1348,35 +767,22 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             </div>
 
             {product.packaging && (
-              <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginBottom: '12px' }}>
+              <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
                 {product.packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
               </div>
             )}
 
             {/* Volume Pricing - Mobile */}
             {volumeTiers.length > 0 && (
-              <div style={{ marginTop: '12px' }}>
-                <div
-                  style={{
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    color: 'var(--color-text-primary)',
-                    marginBottom: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <Layers className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
+              <div className="mt-3">
+                <div className="text-xs font-bold text-[var(--color-text-primary)] mb-2 flex items-center gap-1">
+                  <Layers className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                   Staffelprijzen
                 </div>
 
                 <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: `repeat(${Math.min(3, volumeTiers.length)}, 1fr)`,
-                    gap: '6px',
-                  }}
+                  className="grid gap-1.5"
+                  style={{ gridTemplateColumns: `repeat(${Math.min(3, volumeTiers.length)}, 1fr)` }}
                 >
                   {volumeTiers.slice(0, 3).map((tier, idx) => {
                     const tierPrice = tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100)
@@ -1389,28 +795,15 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     return (
                       <div
                         key={idx}
-                        style={{
-                          background: 'var(--color-background, #F5F7FA)',
-                          border: '1px solid var(--color-border)',
-                          borderRadius: '8px',
-                          padding: '8px',
-                          textAlign: 'center',
-                        }}
+                        className="bg-[var(--color-background,#F5F7FA)] border border-[var(--color-border)] rounded-lg p-2 text-center"
                       >
-                        <div style={{ fontSize: '10px', color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '2px' }}>
+                        <div className="text-[10px] text-[var(--color-text-muted)] font-medium mb-0.5">
                           {tier.minQuantity}+
                         </div>
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-heading)',
-                            fontSize: '14px',
-                            fontWeight: 800,
-                            color: 'var(--color-text-primary)',
-                          }}
-                        >
+                        <div className="font-heading text-sm font-extrabold text-[var(--color-text-primary)]">
                           €{tierPrice.toFixed(2)}
                         </div>
-                        <div style={{ fontSize: '9px', color: 'var(--color-primary)', fontWeight: 600, marginTop: '1px' }}>
+                        <div className="text-[9px] text-[var(--color-primary)] font-semibold mt-[1px]">
                           {discount}
                         </div>
                       </div>
@@ -1423,51 +816,22 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {/* STOCK - Mobile */}
           {product.trackStock && product.stock !== undefined && product.stock > 0 && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px',
-                background: '#E8F5E9',
-                borderRadius: '10px',
-                marginBottom: '16px',
-                fontSize: '13px',
-              }}
-            >
-              <span
-                style={{
-                  width: '6px',
-                  height: '6px',
-                  background: '#00C853',
-                  borderRadius: '50%',
-                  flexShrink: 0,
-                }}
-              />
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 600, color: '#2E7D32' }}>
+            <div className="flex items-center gap-2 p-3 bg-[#E8F5E9] rounded-[10px] mb-4 text-[13px]">
+              <span className="w-1.5 h-1.5 bg-[#00C853] rounded-full shrink-0" />
+              <div className="flex-1">
+                <div className="font-semibold text-[#2E7D32]">
                   Op voorraad — {product.stock} stuks
                 </div>
               </div>
-              <Truck className="w-4 h-4" style={{ color: '#2E7D32' }} />
+              <Truck className="w-4 h-4 text-[#2E7D32]" />
             </div>
           )}
 
           {/* SIZE SELECTOR - Mobile (Grouped Products) */}
           {isGrouped && childProducts.length > 0 && (
             <div className="mb-5">
-              <div
-                style={{
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
-                  marginBottom: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-              >
-                <Ruler className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+              <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-2.5 flex items-center gap-1.5">
+                <Ruler className="w-4 h-4 text-[var(--color-primary)]" />
                 Selecteer maten
               </div>
 
@@ -1477,57 +841,36 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   return (
                     <div
                       key={child.id}
+                      className="rounded-[10px] p-3"
                       style={{
                         border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                        borderRadius: '10px',
-                        padding: '12px',
                         background: qty > 0 ? 'color-mix(in srgb, var(--color-primary) 5%, white)' : 'var(--color-surface, white)',
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <div className="flex items-center justify-between mb-2">
                         <div>
-                          <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-text-primary)' }}>
+                          <div className="text-[13px] font-bold text-[var(--color-text-primary)]">
                             {child.title}
                           </div>
                           {child.stock && child.stock > 0 && (
-                            <div style={{ fontSize: '11px', color: '#00C853', fontWeight: 500, marginTop: '2px' }}>
+                            <div className="text-[11px] text-[#00C853] font-medium mt-0.5">
                               {child.stock} op voorraad
                             </div>
                           )}
                         </div>
                         <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                            borderRadius: '8px',
-                            overflow: 'hidden',
-                            background: 'white',
-                          }}
+                          className="flex items-center rounded-lg overflow-hidden bg-white"
+                          style={{ border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}` }}
                         >
                           <button
                             onClick={() => stepQty(child.id, -1)}
-                            style={{
-                              width: '36px',
-                              height: '36px',
-                              border: 'none',
-                              background: 'var(--color-background, #F5F7FA)',
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '14px',
-                              color: 'var(--color-text-primary)',
-                            }}
+                            className="w-9 h-9 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
                           >
                             −
                           </button>
                           <div
+                            className="w-10 text-center font-mono text-sm"
                             style={{
-                              width: '40px',
-                              textAlign: 'center',
-                              fontFamily: 'monospace',
-                              fontSize: '14px',
                               fontWeight: qty > 0 ? 700 : 500,
                               color: qty > 0 ? 'var(--color-primary)' : 'var(--color-text-primary)',
                             }}
@@ -1536,18 +879,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                           </div>
                           <button
                             onClick={() => stepQty(child.id, 1)}
-                            style={{
-                              width: '36px',
-                              height: '36px',
-                              border: 'none',
-                              background: 'var(--color-background, #F5F7FA)',
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '14px',
-                              color: 'var(--color-text-primary)',
-                            }}
+                            className="w-9 h-9 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
                           >
                             +
                           </button>
@@ -1560,29 +892,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
               {/* Total - Mobile */}
               {totalQty > 0 && (
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px',
-                    background: 'var(--color-background, #F5F7FA)',
-                    borderRadius: '10px',
-                    marginTop: '12px',
-                    border: '1.5px solid var(--color-border)',
-                  }}
-                >
-                  <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
-                    <strong style={{ color: 'var(--color-text-primary)' }}>{totalQty}</strong> dozen totaal
+                <div className="flex items-center justify-between p-3 bg-[var(--color-background,#F5F7FA)] rounded-[10px] mt-3 border-[1.5px] border-[var(--color-border)]">
+                  <div className="text-xs text-[var(--color-text-muted)]">
+                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> dozen totaal
                   </div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '18px',
-                      fontWeight: 800,
-                      color: 'var(--color-text-primary)',
-                    }}
-                  >
+                  <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
                     €{totalPrice.toFixed(2)}
                   </div>
                 </div>
@@ -1593,40 +907,13 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           {/* Simple Product Quantity - Mobile */}
           {!isGrouped && (
             <div className="mb-4">
-              <div
-                style={{
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
-                  marginBottom: '8px',
-                }}
-              >
+              <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-2">
                 Aantal
               </div>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  border: '1.5px solid var(--color-border)',
-                  borderRadius: '10px',
-                  overflow: 'hidden',
-                  background: 'white',
-                }}
-              >
+              <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    border: 'none',
-                    background: 'var(--color-background, #F5F7FA)',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '16px',
-                    color: 'var(--color-text-primary)',
-                  }}
+                  className="w-11 h-11 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-base text-[var(--color-text-primary)]"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
@@ -1634,32 +921,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                  style={{
-                    width: '60px',
-                    height: '44px',
-                    border: 'none',
-                    textAlign: 'center',
-                    fontFamily: 'monospace',
-                    fontSize: '16px',
-                    fontWeight: 700,
-                    color: 'var(--color-text-primary)',
-                    outline: 'none',
-                  }}
+                  className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                 />
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    border: 'none',
-                    background: 'var(--color-background, #F5F7FA)',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '16px',
-                    color: 'var(--color-text-primary)',
-                  }}
+                  className="w-11 h-11 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center text-base text-[var(--color-text-primary)]"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -1671,23 +937,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           <button
             onClick={handleAddToCart}
             disabled={isGrouped && totalQty === 0}
+            className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold mb-3"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              width: '100%',
-              padding: '16px',
               background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-              color: 'white',
-              border: 'none',
-              borderRadius: '12px',
-              fontFamily: 'var(--font-body)',
-              fontSize: '16px',
-              fontWeight: 700,
               cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
               boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-              marginBottom: '12px',
             }}
           >
             <ShoppingCart className="w-5 h-5" />
@@ -1695,128 +949,58 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           </button>
 
           {/* Secondary Buttons - Mobile */}
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-            <button
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                padding: '12px',
-                background: 'var(--color-surface, white)',
-                color: 'var(--color-text-primary)',
-                border: '1.5px solid var(--color-border)',
-                borderRadius: '10px',
-                fontFamily: 'var(--font-body)',
-                fontSize: '13px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
+          <div className="flex gap-2 mb-4">
+            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
               <ClipboardList className="w-4 h-4" />
               Bestellijst
             </button>
-            <button
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                padding: '12px',
-                background: 'var(--color-surface, white)',
-                color: 'var(--color-text-primary)',
-                border: '1.5px solid var(--color-border)',
-                borderRadius: '10px',
-                fontFamily: 'var(--font-body)',
-                fontSize: '13px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
+            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
               <Repeat className="w-4 h-4" />
               Herhalen
             </button>
           </div>
 
           {/* Trust Signals - Mobile */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '8px',
-              paddingTop: '16px',
-              borderTop: '1px solid var(--color-border)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-              <Truck className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-t-[var(--color-border)]">
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <Truck className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
               <span>Gratis vanaf €150</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-              <Undo2 className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <Undo2 className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
               <span>30 dagen retour</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-              <CreditCard className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <CreditCard className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
               <span>Op rekening</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-              <ShieldCheck className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
               <span>CE & ISO</span>
             </div>
           </div>
         </div>
 
         {/* MOBILE: Accordion Tabs */}
-        <div style={{ padding: '0 16px 16px' }} className="lg:hidden">
+        <div className="px-4 pb-4 lg:hidden">
           {/* Description Accordion */}
-          <div
-            style={{
-              border: '1px solid var(--color-border)',
-              borderRadius: '12px',
-              marginBottom: '12px',
-              overflow: 'hidden',
-              background: 'var(--color-surface, white)',
-            }}
-          >
+          <div className="border border-[var(--color-border)] rounded-xl mb-3 overflow-hidden bg-[var(--color-surface,white)]">
             <button
               onClick={() => setAccordionOpen(accordionOpen === 'description' ? null : 'description')}
-              style={{
-                width: '100%',
-                padding: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: 700,
-                color: 'var(--color-text-primary)',
-              }}
+              className="w-full p-4 flex items-center justify-between bg-transparent border-0 cursor-pointer text-sm font-bold text-[var(--color-text-primary)]"
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <FileText className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[var(--color-primary)]" />
                 Beschrijving
               </div>
               {accordionOpen === 'description' ? (
-                <ChevronUp className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                <ChevronUp className="w-4 h-4 text-[var(--color-text-muted)]" />
               ) : (
-                <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
               )}
             </button>
             {accordionOpen === 'description' && (
-              <div
-                style={{
-                  padding: '0 16px 16px',
-                  borderTop: '1px solid var(--color-border)',
-                  fontSize: '14px',
-                  lineHeight: 1.7,
-                  color: 'var(--color-text-secondary)',
-                }}
-              >
+              <div className="px-4 pb-4 border-t border-t-[var(--color-border)] text-sm leading-[1.7] text-[var(--color-text-secondary)]">
                 {product.description ? (
                   <div dangerouslySetInnerHTML={{ __html: product.description }} />
                 ) : (
@@ -1824,19 +1008,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 )}
                 {/* Features */}
                 {product.features && product.features.length > 0 && (
-                  <ul style={{ listStyle: 'none', marginTop: '16px', paddingLeft: 0 }}>
+                  <ul className="list-none mt-4 pl-0">
                     {product.features.map((feature, idx) => (
-                      <li
-                        key={idx}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          padding: '6px 0',
-                          fontSize: '13px',
-                        }}
-                      >
-                        <Check className="w-4 h-4" style={{ color: '#00C853', flexShrink: 0 }} />
+                      <li key={idx} className="flex items-center gap-2 py-1.5 text-[13px]">
+                        <Check className="w-4 h-4 text-[#00C853] shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -1848,72 +1023,42 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {/* Specifications Accordion */}
           {product.specifications && (
-            <div
-              style={{
-                border: '1px solid var(--color-border)',
-                borderRadius: '12px',
-                marginBottom: '12px',
-                overflow: 'hidden',
-                background: 'var(--color-surface, white)',
-              }}
-            >
+            <div className="border border-[var(--color-border)] rounded-xl mb-3 overflow-hidden bg-[var(--color-surface,white)]">
               <button
                 onClick={() => setAccordionOpen(accordionOpen === 'specs' ? null : 'specs')}
-                style={{
-                  width: '100%',
-                  padding: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
-                }}
+                className="w-full p-4 flex items-center justify-between bg-transparent border-0 cursor-pointer text-sm font-bold text-[var(--color-text-primary)]"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <List className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+                <div className="flex items-center gap-2">
+                  <List className="w-4 h-4 text-[var(--color-primary)]" />
                   Specificaties
                 </div>
                 {accordionOpen === 'specs' ? (
-                  <ChevronUp className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                  <ChevronUp className="w-4 h-4 text-[var(--color-text-muted)]" />
                 ) : (
-                  <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                  <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
                 )}
               </button>
               {accordionOpen === 'specs' && (
-                <div style={{ borderTop: '1px solid var(--color-border)' }}>
+                <div className="border-t border-t-[var(--color-border)]">
                   {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
                     <div key={groupIdx}>
                       {specGroup.group && (
-                        <h4 style={{
-                          padding: '12px 16px',
-                          fontWeight: 700,
-                          fontSize: '13px',
-                          background: 'var(--color-background)',
-                          borderBottom: '1px solid var(--color-border)',
-                          color: 'var(--color-text-primary)',
-                        }}>
+                        <h4 className="py-3 px-4 font-bold text-[13px] bg-[var(--color-background)] border-b border-b-[var(--color-border)] text-[var(--color-text-primary)]">
                           {specGroup.group}
                         </h4>
                       )}
                       {specGroup.attributes?.map((attr: any, attrIdx: number) => (
                         <div
                           key={attrIdx}
+                          className="flex py-2.5 px-4 text-[13px] gap-3"
                           style={{
-                            display: 'flex',
-                            padding: '10px 16px',
                             borderBottom: attrIdx < specGroup.attributes.length - 1 ? '1px solid var(--color-border)' : 'none',
-                            fontSize: '13px',
-                            gap: '12px',
                           }}
                         >
-                          <span style={{ flex: 1, color: 'var(--color-text-muted)', fontWeight: 500 }}>
+                          <span className="flex-1 text-[var(--color-text-muted)] font-medium">
                             {attr.name}
                           </span>
-                          <span style={{ flex: 1, color: 'var(--color-text-primary)', fontWeight: 600, textAlign: 'right' }}>
+                          <span className="flex-1 text-[var(--color-text-primary)] font-semibold text-right">
                             {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
                           </span>
                         </div>
@@ -1927,50 +1072,23 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {/* Reviews Accordion */}
           {reviewCount > 0 && (
-            <div
-              style={{
-                border: '1px solid var(--color-border)',
-                borderRadius: '12px',
-                marginBottom: '12px',
-                overflow: 'hidden',
-                background: 'var(--color-surface, white)',
-              }}
-            >
+            <div className="border border-[var(--color-border)] rounded-xl mb-3 overflow-hidden bg-[var(--color-surface,white)]">
               <button
                 onClick={() => setAccordionOpen(accordionOpen === 'reviews' ? null : 'reviews')}
-                style={{
-                  width: '100%',
-                  padding: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
-                }}
+                className="w-full p-4 flex items-center justify-between bg-transparent border-0 cursor-pointer text-sm font-bold text-[var(--color-text-primary)]"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Star className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+                <div className="flex items-center gap-2">
+                  <Star className="w-4 h-4 text-[var(--color-primary)]" />
                   Reviews ({reviewCount})
                 </div>
                 {accordionOpen === 'reviews' ? (
-                  <ChevronUp className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                  <ChevronUp className="w-4 h-4 text-[var(--color-text-muted)]" />
                 ) : (
-                  <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                  <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
                 )}
               </button>
               {accordionOpen === 'reviews' && (
-                <div
-                  style={{
-                    padding: '16px',
-                    borderTop: '1px solid var(--color-border)',
-                    fontSize: '14px',
-                    color: 'var(--color-text-muted)',
-                  }}
-                >
+                <div className="p-4 border-t border-t-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
                   Reviews worden hier getoond (TODO: Reviews collection)
                 </div>
               )}
@@ -1979,43 +1097,24 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {/* Downloads Accordion */}
           {product.downloads && product.downloads.length > 0 && (
-            <div
-              style={{
-                border: '1px solid var(--color-border)',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                background: 'var(--color-surface, white)',
-              }}
-            >
+            <div className="border border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface,white)]">
               <button
                 onClick={() => setAccordionOpen(accordionOpen === 'downloads' ? null : 'downloads')}
-                style={{
-                  width: '100%',
-                  padding: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
-                }}
+                className="w-full p-4 flex items-center justify-between bg-transparent border-0 cursor-pointer text-sm font-bold text-[var(--color-text-primary)]"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Download className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+                <div className="flex items-center gap-2">
+                  <Download className="w-4 h-4 text-[var(--color-primary)]" />
                   Downloads
                 </div>
                 {accordionOpen === 'downloads' ? (
-                  <ChevronUp className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                  <ChevronUp className="w-4 h-4 text-[var(--color-text-muted)]" />
                 ) : (
-                  <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                  <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
                 )}
               </button>
               {accordionOpen === 'downloads' && (
-                <div style={{ padding: '16px', borderTop: '1px solid var(--color-border)' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div className="p-4 border-t border-t-[var(--color-border)]">
+                  <div className="flex flex-col gap-3">
                     {product.downloads.map((download, idx) => {
                       const file = typeof download === 'object' && download !== null ? download : null
                       if (!file || !file.url) return null
@@ -2025,23 +1124,13 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                           key={idx}
                           href={file.url}
                           download
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px',
-                            padding: '12px',
-                            background: 'var(--color-background, #F5F7FA)',
-                            border: '1px solid var(--color-border)',
-                            borderRadius: '10px',
-                            textDecoration: 'none',
-                            color: 'var(--color-text-primary)',
-                          }}
+                          className="flex items-center gap-3 p-3 bg-[var(--color-background,#F5F7FA)] border border-[var(--color-border)] rounded-[10px] no-underline text-[var(--color-text-primary)]"
                         >
-                          <Download className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
-                          <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 600, fontSize: '13px' }}>{file.filename || 'Download'}</div>
+                          <Download className="w-4 h-4 text-[var(--color-primary)]" />
+                          <div className="flex-1">
+                            <div className="font-semibold text-[13px]">{file.filename || 'Download'}</div>
                             {file.filesize && (
-                              <div style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                              <div className="text-[11px] text-[var(--color-text-muted)]">
                                 {(file.filesize / 1024 / 1024).toFixed(2)} MB
                               </div>
                             )}
@@ -2057,32 +1146,15 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         </div>
 
         {/* DESKTOP: TABS SECTION */}
-        <div style={{ paddingTop: '48px', display: 'none' }} className="lg:block lg:px-6">
+        <div className="hidden pt-12 lg:block lg:px-6">
           {/* Tab Navigation */}
-          <div
-            style={{
-              display: 'flex',
-              gap: 0,
-              borderBottom: '2px solid var(--color-border)',
-              marginBottom: '32px',
-            }}
-          >
+          <div className="flex gap-0 border-b-2 border-b-[var(--color-border)] mb-8">
             <button
               onClick={() => setActiveTab('description')}
+              className="py-3.5 px-6 text-sm font-semibold cursor-pointer border-0 bg-transparent font-body flex items-center gap-1.5 -mb-[2px]"
               style={{
-                padding: '14px 24px',
-                fontSize: '14px',
-                fontWeight: 600,
                 color: activeTab === 'description' ? 'var(--color-primary)' : 'var(--color-text-muted)',
-                cursor: 'pointer',
-                border: 'none',
-                background: 'none',
-                fontFamily: 'var(--font-body)',
                 borderBottom: `2px solid ${activeTab === 'description' ? 'var(--color-primary)' : 'transparent'}`,
-                marginBottom: '-2px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
               }}
             >
               <FileText className="w-4 h-4" />
@@ -2091,20 +1163,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {product.specifications && (
               <button
                 onClick={() => setActiveTab('specs')}
+                className="py-3.5 px-6 text-sm font-semibold cursor-pointer border-0 bg-transparent font-body flex items-center gap-1.5 -mb-[2px]"
                 style={{
-                  padding: '14px 24px',
-                  fontSize: '14px',
-                  fontWeight: 600,
                   color: activeTab === 'specs' ? 'var(--color-primary)' : 'var(--color-text-muted)',
-                  cursor: 'pointer',
-                  border: 'none',
-                  background: 'none',
-                  fontFamily: 'var(--font-body)',
                   borderBottom: `2px solid ${activeTab === 'specs' ? 'var(--color-primary)' : 'transparent'}`,
-                  marginBottom: '-2px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
                 }}
               >
                 <List className="w-4 h-4" />
@@ -2114,31 +1176,18 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {reviewCount > 0 && (
               <button
                 onClick={() => setActiveTab('reviews')}
+                className="py-3.5 px-6 text-sm font-semibold cursor-pointer border-0 bg-transparent font-body flex items-center gap-1.5 -mb-[2px]"
                 style={{
-                  padding: '14px 24px',
-                  fontSize: '14px',
-                  fontWeight: 600,
                   color: activeTab === 'reviews' ? 'var(--color-primary)' : 'var(--color-text-muted)',
-                  cursor: 'pointer',
-                  border: 'none',
-                  background: 'none',
-                  fontFamily: 'var(--font-body)',
                   borderBottom: `2px solid ${activeTab === 'reviews' ? 'var(--color-primary)' : 'transparent'}`,
-                  marginBottom: '-2px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
                 }}
               >
                 <Star className="w-4 h-4" />
                 Reviews
                 <span
+                  className="py-0.5 px-[7px] rounded-full text-[11px] font-bold"
                   style={{
                     background: activeTab === 'reviews' ? 'color-mix(in srgb, var(--color-primary) 10%, white)' : 'var(--color-background)',
-                    padding: '2px 7px',
-                    borderRadius: '100px',
-                    fontSize: '11px',
-                    fontWeight: 700,
                     color: activeTab === 'reviews' ? 'var(--color-primary)' : 'var(--color-text-muted)',
                   }}
                 >
@@ -2149,20 +1198,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {product.downloads && product.downloads.length > 0 && (
               <button
                 onClick={() => setActiveTab('downloads')}
+                className="py-3.5 px-6 text-sm font-semibold cursor-pointer border-0 bg-transparent font-body flex items-center gap-1.5 -mb-[2px]"
                 style={{
-                  padding: '14px 24px',
-                  fontSize: '14px',
-                  fontWeight: 600,
                   color: activeTab === 'downloads' ? 'var(--color-primary)' : 'var(--color-text-muted)',
-                  cursor: 'pointer',
-                  border: 'none',
-                  background: 'none',
-                  fontFamily: 'var(--font-body)',
                   borderBottom: `2px solid ${activeTab === 'downloads' ? 'var(--color-primary)' : 'transparent'}`,
-                  marginBottom: '-2px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
                 }}
               >
                 <Download className="w-4 h-4" />
@@ -2176,38 +1215,19 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             <div>
               {/* Description Grid */}
               <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: product.specifications ? '2fr 1fr' : '1fr',
-                  gap: '40px',
-                }}
+                className="grid gap-10"
+                style={{ gridTemplateColumns: product.specifications ? '2fr 1fr' : '1fr' }}
               >
                 {/* Description Text */}
                 <div>
                   {product.description && (
                     <>
-                      <h3
-                        style={{
-                          fontFamily: 'var(--font-heading)',
-                          fontSize: '18px',
-                          fontWeight: 700,
-                          color: 'var(--color-text-primary)',
-                          marginBottom: '12px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                        }}
-                      >
-                        <Info className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                      <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 flex items-center gap-2">
+                        <Info className="w-5 h-5 text-[var(--color-primary)]" />
                         Over dit product
                       </h3>
                       <div
-                        style={{
-                          fontSize: '15px',
-                          color: 'var(--color-text-secondary)',
-                          lineHeight: 1.7,
-                          marginBottom: '16px',
-                        }}
+                        className="text-[15px] text-[var(--color-text-secondary)] leading-[1.7] mb-4"
                         dangerouslySetInnerHTML={{ __html: product.description }}
                       />
                     </>
@@ -2216,36 +1236,14 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   {/* Features List */}
                   {product.features && product.features.length > 0 && (
                     <>
-                      <h3
-                        style={{
-                          fontFamily: 'var(--font-heading)',
-                          fontSize: '18px',
-                          fontWeight: 700,
-                          color: 'var(--color-text-primary)',
-                          marginBottom: '12px',
-                          marginTop: '24px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                        }}
-                      >
-                        <CheckCircle className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                      <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
                         Kenmerken
                       </h3>
-                      <ul style={{ listStyle: 'none', marginBottom: '20px' }}>
+                      <ul className="list-none mb-5">
                         {product.features.map((feature, idx) => (
-                          <li
-                            key={idx}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '10px',
-                              padding: '8px 0',
-                              fontSize: '14px',
-                              color: 'var(--color-text-primary)',
-                            }}
-                          >
-                            <Check className="w-[18px] h-[18px]" style={{ color: '#00C853', flexShrink: 0 }} />
+                          <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
+                            <Check className="w-[18px] h-[18px] text-[#00C853] shrink-0" />
                             {feature}
                           </li>
                         ))}
@@ -2257,53 +1255,23 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 {/* Specifications Card (sidebar) */}
                 {product.specifications && (
                   <div>
-                    <div
-                      style={{
-                        background: 'var(--color-surface, white)',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: 'var(--border-radius, 16px)',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <h3
-                        style={{
-                          padding: '16px 20px',
-                          fontFamily: 'var(--font-heading)',
-                          fontSize: '16px',
-                          fontWeight: 700,
-                          background: 'var(--color-background)',
-                          borderBottom: '1px solid var(--color-border)',
-                        }}
-                      >
+                    <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] overflow-hidden">
+                      <h3 className="py-4 px-5 font-heading text-base font-bold bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
                         Productspecificaties
                       </h3>
                       {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
                         <div key={groupIdx}>
                           {specGroup.group && (
-                            <h4 style={{
-                              padding: '12px 20px',
-                              fontWeight: 700,
-                              fontSize: '14px',
-                              background: 'var(--color-background)',
-                              borderBottom: '1px solid var(--color-border)',
-                            }}>
+                            <h4 className="py-3 px-5 font-bold text-sm bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
                               {specGroup.group}
                             </h4>
                           )}
                           {specGroup.attributes?.map((attr: any, attrIdx: number) => (
-                            <div
-                              key={attrIdx}
-                              style={{
-                                display: 'flex',
-                                padding: '12px 20px',
-                                borderBottom: '1px solid var(--color-border)',
-                                fontSize: '14px',
-                              }}
-                            >
-                              <span style={{ width: '160px', color: 'var(--color-text-muted)', fontWeight: 500, flexShrink: 0 }}>
+                            <div key={attrIdx} className="flex py-3 px-5 border-b border-b-[var(--color-border)] text-sm">
+                              <span className="w-40 text-[var(--color-text-muted)] font-medium shrink-0">
                                 {attr.name}
                               </span>
-                              <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>
+                              <span className="text-[var(--color-text-primary)] font-semibold">
                                 {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
                               </span>
                             </div>
@@ -2319,54 +1287,23 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {activeTab === 'specs' && product.specifications && (
             <div>
-              <div
-                style={{
-                  background: 'var(--color-surface, white)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--border-radius, 16px)',
-                  overflow: 'hidden',
-                  maxWidth: '600px',
-                }}
-              >
-                <h3
-                  style={{
-                    padding: '16px 20px',
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '16px',
-                    fontWeight: 700,
-                    background: 'var(--color-background)',
-                    borderBottom: '1px solid var(--color-border)',
-                  }}
-                >
+              <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] overflow-hidden max-w-[600px]">
+                <h3 className="py-4 px-5 font-heading text-base font-bold bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
                   Technische specificaties
                 </h3>
                 {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
                   <div key={groupIdx}>
                     {specGroup.group && (
-                      <h4 style={{
-                        padding: '12px 20px',
-                        fontWeight: 700,
-                        fontSize: '14px',
-                        background: 'var(--color-background)',
-                        borderBottom: '1px solid var(--color-border)',
-                      }}>
+                      <h4 className="py-3 px-5 font-bold text-sm bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
                         {specGroup.group}
                       </h4>
                     )}
                     {specGroup.attributes?.map((attr: any, attrIdx: number) => (
-                      <div
-                        key={attrIdx}
-                        style={{
-                          display: 'flex',
-                          padding: '12px 20px',
-                          borderBottom: '1px solid var(--color-border)',
-                          fontSize: '14px',
-                        }}
-                      >
-                        <span style={{ width: '200px', color: 'var(--color-text-muted)', fontWeight: 500, flexShrink: 0 }}>
+                      <div key={attrIdx} className="flex py-3 px-5 border-b border-b-[var(--color-border)] text-sm">
+                        <span className="w-[200px] text-[var(--color-text-muted)] font-medium shrink-0">
                           {attr.name}
                         </span>
-                        <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>
+                        <span className="text-[var(--color-text-primary)] font-semibold">
                           {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
                         </span>
                       </div>
@@ -2378,12 +1315,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           )}
 
           {activeTab === 'reviews' && (
-            <div style={{ color: 'var(--color-text-muted)' }}>Reviews worden hier getoond (TODO: Reviews collection)</div>
+            <div className="text-[var(--color-text-muted)]">Reviews worden hier getoond (TODO: Reviews collection)</div>
           )}
 
           {activeTab === 'downloads' && product.downloads && product.downloads.length > 0 && (
             <div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
                 {product.downloads.map((download, idx) => {
                   const file = typeof download === 'object' && download !== null ? download : null
                   if (!file || !file.url) return null
@@ -2393,23 +1330,13 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                       key={idx}
                       href={file.url}
                       download
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px',
-                        padding: '16px',
-                        background: 'var(--color-surface, white)',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: 'var(--border-radius, 12px)',
-                        textDecoration: 'none',
-                        color: 'var(--color-text-primary)',
-                      }}
+                      className="flex items-center gap-3 p-4 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,12px)] no-underline text-[var(--color-text-primary)]"
                     >
-                      <Download className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                      <Download className="w-5 h-5 text-[var(--color-primary)]" />
                       <div>
-                        <div style={{ fontWeight: 600, fontSize: '14px' }}>{file.filename || 'Download'}</div>
+                        <div className="font-semibold text-sm">{file.filename || 'Download'}</div>
                         {file.filesize && (
-                          <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
+                          <div className="text-xs text-[var(--color-text-muted)]">
                             {(file.filesize / 1024 / 1024).toFixed(2)} MB
                           </div>
                         )}
@@ -2424,35 +1351,15 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
         {/* RELATED PRODUCTS */}
         {product.relatedProducts && product.relatedProducts.length > 0 && (
-          <div style={{ paddingTop: '64px', borderTop: '1px solid var(--color-border)', marginTop: '64px' }} className="px-4 lg:px-6">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '20px',
-                  fontWeight: 800,
-                  color: 'var(--color-text-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                }}
-                className="md:text-2xl"
-              >
-                <Sparkles className="w-5 h-5 md:w-6 md:h-6" style={{ color: 'var(--color-primary)' }} />
+          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4 lg:px-6">
+            <div className="flex justify-between items-center mb-7 flex-wrap gap-4">
+              <h2 className="font-heading text-xl md:text-2xl font-extrabold text-[var(--color-text-primary)] flex items-center gap-2.5">
+                <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-[var(--color-primary)]" />
                 Klanten bekeken ook
               </h2>
               <Link
                 href="/shop"
-                style={{
-                  color: 'var(--color-primary)',
-                  fontWeight: 600,
-                  fontSize: '13px',
-                  textDecoration: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-                className="md:text-sm"
+                className="text-[var(--color-primary)] font-semibold text-[13px] md:text-sm no-underline flex items-center gap-1.5"
               >
                 Bekijk alle producten
                 <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
@@ -2460,16 +1367,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             </div>
 
             {/* Mobile: Horizontal Scroll */}
-            <div
-              style={{
-                display: 'flex',
-                gap: '16px',
-                overflowX: 'auto',
-                paddingBottom: '16px',
-                scrollSnapType: 'x mandatory',
-              }}
-              className="lg:hidden -mx-4 px-4"
-            >
+            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory lg:hidden -mx-4 px-4">
               {product.relatedProducts.slice(0, 4).map((relProd, idx) => {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
@@ -2480,115 +1378,45 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   <Link
                     key={idx}
                     href={`/shop/${rp.slug}`}
-                    style={{
-                      minWidth: '200px',
-                      background: 'var(--color-surface, white)',
-                      borderRadius: '16px',
-                      overflow: 'hidden',
-                      border: '1px solid var(--color-border)',
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      scrollSnapAlign: 'start',
-                      flexShrink: 0,
-                    }}
+                    className="min-w-[200px] bg-[var(--color-surface,white)] rounded-2xl overflow-hidden border border-[var(--color-border)] no-underline text-inherit snap-start shrink-0"
                   >
-                    <div
-                      style={{
-                        width: '100%',
-                        height: '160px',
-                        background: 'var(--color-background)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
+                    <div className="w-full h-40 bg-[var(--color-background)] flex items-center justify-center">
                       {rpImg ? (
-                        <img src={rpImg} alt={rp.title} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                        <img src={rpImg} alt={rp.title} className="max-w-full max-h-full object-contain" />
                       ) : (
-                        <div style={{ fontSize: '48px' }}>📦</div>
+                        <div className="text-5xl">📦</div>
                       )}
                     </div>
 
-                    <div style={{ padding: '14px' }}>
+                    <div className="p-3.5">
                       {rp.brand && (
-                        <div
-                          style={{
-                            fontSize: '10px',
-                            fontWeight: 700,
-                            textTransform: 'uppercase',
-                            color: 'var(--color-primary)',
-                            letterSpacing: '0.05em',
-                            marginBottom: '4px',
-                          }}
-                        >
+                        <div className="text-[10px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1">
                           {rp.brand}
                         </div>
                       )}
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontSize: '13px',
-                          color: 'var(--color-text-primary)',
-                          marginBottom: '4px',
-                          lineHeight: 1.4,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
+                      <div className="font-semibold text-[13px] text-[var(--color-text-primary)] mb-1 leading-[1.4] line-clamp-2">
                         {rp.title}
                       </div>
                       {rp.sku && (
-                        <div style={{ fontFamily: 'monospace', fontSize: '10px', color: 'var(--color-text-muted)', marginBottom: '10px' }}>
+                        <div className="font-mono text-[10px] text-[var(--color-text-muted)] mb-2.5">
                           Art. {rp.sku}
                         </div>
                       )}
 
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-heading)',
-                            fontSize: '16px',
-                            fontWeight: 800,
-                            color: 'var(--color-text-primary)',
-                          }}
-                        >
+                      <div className="flex justify-between items-center">
+                        <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
                           €{rp.price.toFixed(2)}
                         </div>
                         <button
-                          style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '10px',
-                            background: 'var(--color-primary)',
-                            color: 'white',
-                            border: 'none',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)',
-                          }}
+                          className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
+                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
                         >
                           <Plus className="w-4 h-4" />
                         </button>
                       </div>
 
                       {rp.trackStock && rp.stock && rp.stock > 0 && (
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            fontSize: '11px',
-                            color: '#00C853',
-                            fontWeight: 500,
-                            marginTop: '10px',
-                            paddingTop: '10px',
-                            borderTop: '1px solid var(--color-border)',
-                          }}
-                        >
+                        <div className="flex items-center gap-1 text-[11px] text-[#00C853] font-medium mt-2.5 pt-2.5 border-t border-t-[var(--color-border)]">
                           <CheckCircle className="w-3 h-3" />
                           Op voorraad
                         </div>
@@ -2600,12 +1428,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             </div>
 
             {/* Desktop: Grid */}
-            <div
-              style={{
-                display: 'none',
-              }}
-              className="lg:grid lg:grid-cols-4 lg:gap-5"
-            >
+            <div className="hidden lg:grid lg:grid-cols-4 lg:gap-5">
               {product.relatedProducts.slice(0, 4).map((relProd, idx) => {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
@@ -2616,114 +1439,45 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   <Link
                     key={idx}
                     href={`/shop/${rp.slug}`}
-                    style={{
-                      background: 'var(--color-surface, white)',
-                      borderRadius: 'var(--border-radius, 16px)',
-                      overflow: 'hidden',
-                      border: '1px solid var(--color-border)',
-                      transition: 'all 0.35s',
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      display: 'block',
-                    }}
+                    className="bg-[var(--color-surface,white)] rounded-[var(--border-radius,16px)] overflow-hidden border border-[var(--color-border)] transition-all duration-[350ms] no-underline text-inherit block"
                   >
-                    <div
-                      style={{
-                        width: '100%',
-                        height: '160px',
-                        background: 'var(--color-background)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
+                    <div className="w-full h-40 bg-[var(--color-background)] flex items-center justify-center">
                       {rpImg ? (
-                        <img src={rpImg} alt={rp.title} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                        <img src={rpImg} alt={rp.title} className="max-w-full max-h-full object-contain" />
                       ) : (
-                        <div style={{ fontSize: '48px' }}>📦</div>
+                        <div className="text-5xl">📦</div>
                       )}
                     </div>
 
                     <div className="p-4">
                       {rp.brand && (
-                        <div
-                          style={{
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            textTransform: 'uppercase',
-                            color: 'var(--color-primary)',
-                            letterSpacing: '0.05em',
-                            marginBottom: '4px',
-                          }}
-                        >
+                        <div className="text-[11px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1">
                           {rp.brand}
                         </div>
                       )}
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: 'var(--color-text-primary)',
-                          marginBottom: '4px',
-                          lineHeight: 1.4,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
+                      <div className="font-semibold text-sm text-[var(--color-text-primary)] mb-1 leading-[1.4] line-clamp-2">
                         {rp.title}
                       </div>
                       {rp.sku && (
-                        <div style={{ fontFamily: 'monospace', fontSize: '11px', color: 'var(--color-text-muted)', marginBottom: '10px' }}>
+                        <div className="font-mono text-[11px] text-[var(--color-text-muted)] mb-2.5">
                           Art. {rp.sku}
                         </div>
                       )}
 
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-heading)',
-                            fontSize: '18px',
-                            fontWeight: 800,
-                            color: 'var(--color-text-primary)',
-                          }}
-                        >
+                      <div className="flex justify-between items-center">
+                        <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
                           €{rp.price.toFixed(2)}
                         </div>
                         <button
-                          style={{
-                            width: '38px',
-                            height: '38px',
-                            borderRadius: '10px',
-                            background: 'var(--color-primary)',
-                            color: 'white',
-                            border: 'none',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)',
-                          }}
+                          className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
+                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
                         >
                           <Plus className="w-[18px] h-[18px]" />
                         </button>
                       </div>
 
                       {rp.trackStock && rp.stock && rp.stock > 0 && (
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            fontSize: '12px',
-                            color: '#00C853',
-                            fontWeight: 500,
-                            marginTop: '10px',
-                            paddingTop: '10px',
-                            borderTop: '1px solid var(--color-border)',
-                          }}
-                        >
+                        <div className="flex items-center gap-1 text-xs text-[#00C853] font-medium mt-2.5 pt-2.5 border-t border-t-[var(--color-border)]">
                           <CheckCircle className="w-3 h-3" />
                           Op voorraad
                         </div>
@@ -2739,101 +1493,32 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
       {/* STICKY ADD TO CART BAR - Mobile & Tablet */}
       {showStickyATC && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            background: 'white',
-            borderTop: '1px solid var(--color-border)',
-            padding: '12px 16px',
-            zIndex: 1000,
-            boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-          }}
-          className="lg:hidden"
-        >
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-t-[var(--color-border)] p-3 px-4 z-[1000] shadow-[0_-4px_20px_rgba(0,0,0,0.08)] flex items-center gap-3 lg:hidden">
           {/* Product Info */}
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              style={{
-                fontSize: '13px',
-                fontWeight: 700,
-                color: 'var(--color-text-primary)',
-                marginBottom: '2px',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
+          <div className="flex-1 min-w-0">
+            <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
               {product.title}
             </div>
-            <div
-              style={{
-                fontSize: '16px',
-                fontWeight: 800,
-                color: 'var(--color-primary)',
-                fontFamily: 'var(--font-heading)',
-              }}
-            >
+            <div className="text-base font-extrabold text-[var(--color-primary)] font-heading">
               €{currentPrice.toFixed(2)}
             </div>
           </div>
 
           {/* Quantity - Simple Product */}
           {!isGrouped && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                border: '1.5px solid var(--color-border)',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                background: 'white',
-              }}
-            >
+            <div className="flex items-center border-[1.5px] border-[var(--color-border)] rounded-lg overflow-hidden bg-white">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  border: 'none',
-                  background: 'var(--color-background, #F5F7FA)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+                className="w-9 h-9 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center"
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
-              <div
-                style={{
-                  width: '32px',
-                  textAlign: 'center',
-                  fontFamily: 'monospace',
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
-                }}
-              >
+              <div className="w-8 text-center font-mono text-sm font-bold text-[var(--color-text-primary)]">
                 {quantity}
               </div>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  border: 'none',
-                  background: 'var(--color-background, #F5F7FA)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+                className="w-9 h-9 border-0 bg-[var(--color-background,#F5F7FA)] cursor-pointer flex items-center justify-center"
               >
                 <Plus className="w-3.5 h-3.5" />
               </button>
@@ -2844,22 +1529,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           <button
             onClick={handleAddToCart}
             disabled={isGrouped && totalQty === 0}
+            className="flex items-center justify-center gap-2 py-3 px-5 text-white border-0 rounded-[10px] font-body text-sm font-bold whitespace-nowrap"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '12px 20px',
               background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-              color: 'white',
-              border: 'none',
-              borderRadius: '10px',
-              fontFamily: 'var(--font-body)',
-              fontSize: '14px',
-              fontWeight: 700,
               cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
               boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-              whiteSpace: 'nowrap',
             }}
           >
             <ShoppingCart className="w-4 h-4" />
