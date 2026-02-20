@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import type { Settings, Header as HeaderType, Media } from '@/payload-types'
+import { useSearch } from '@/components/search/SearchProvider'
 
 type Props = {
   header?: HeaderType | null
@@ -20,6 +21,7 @@ type Props = {
 export function DynamicHeader({ header, settings }: Props) {
   const [cartCount] = useState(0) // TODO: Get from cart context
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { openSearch } = useSearch()
 
   // Get logo (Header override > Settings)
   const logoOverride = header?.logoOverride as Media | null
@@ -75,21 +77,19 @@ export function DynamicHeader({ header, settings }: Props) {
 
           {/* Search - Centered */}
           {enableSearch && (
-            <form
-              action="/shop"
-              method="GET"
-              className="flex-1 max-w-[560px] mx-auto relative"
+            <button
+              onClick={openSearch}
+              type="button"
+              className="flex-1 max-w-[560px] mx-auto relative flex items-center w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl text-[15px] bg-gray-50 hover:bg-white hover:border-primary/50 focus:bg-white focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all text-left text-gray-400 cursor-text"
             >
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none">
                 🔍
               </span>
-              <input
-                name="q"
-                type="text"
-                placeholder={searchPlaceholder}
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl text-[15px] bg-gray-50 focus:bg-white focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"
-              />
-            </form>
+              {searchPlaceholder}
+              <kbd className="ml-auto text-xs bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded font-mono">
+                ⌘K
+              </kbd>
+            </button>
           )}
 
           {/* Actions */}
@@ -178,14 +178,20 @@ export function DynamicHeader({ header, settings }: Props) {
           <div className="px-6 py-4 max-h-[80vh] overflow-y-auto">
             {/* Search on mobile */}
             {enableSearch && (
-              <form action="/shop" method="GET" className="mb-4">
-                <input
-                  name="q"
-                  type="text"
-                  placeholder={searchPlaceholder}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:border-primary focus:outline-none transition-all"
-                />
-              </form>
+              <button
+                onClick={() => {
+                  openSearch()
+                  setMobileMenuOpen(false)
+                }}
+                type="button"
+                className="w-full mb-4 flex items-center px-4 py-3 border-2 border-gray-200 rounded-xl text-sm bg-gray-50 hover:bg-white hover:border-primary/50 transition-all text-left text-gray-400"
+              >
+                <span className="mr-2">🔍</span>
+                {searchPlaceholder}
+                <kbd className="ml-auto text-xs bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded font-mono">
+                  ⌘K
+                </kbd>
+              </button>
             )}
 
             {/* Quick links */}
