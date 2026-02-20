@@ -198,42 +198,19 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
   return (
     <>
-      <div className="product-template-1" style={{ paddingBottom: '80px' }}>
+      <div className="product-template-1 max-w-[100vw] overflow-x-hidden pb-20">
         {/* MOBILE-FIRST: Product Header */}
-        <div style={{ padding: '16px', background: 'var(--color-surface, white)' }}>
+        <div className="p-4 bg-[var(--color-surface,white)]">
           {/* Brand */}
           {product.brand && (
-            <div
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                color: 'var(--color-primary)',
-                letterSpacing: '0.05em',
-                marginBottom: '6px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
+            <div className="text-[11px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1.5 flex items-center gap-1">
               <Award className="w-3.5 h-3.5" />
               {product.brand}
             </div>
           )}
 
           {/* Title */}
-          <h1
-            style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '22px',
-              fontWeight: 800,
-              color: 'var(--color-text-primary)',
-              lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-              marginBottom: '8px',
-            }}
-            className="md:text-3xl"
-          >
+          <h1 className="font-heading text-[22px] md:text-3xl font-extrabold text-[var(--color-text-primary)] leading-tight tracking-tight mb-2">
             {product.title}
           </h1>
 
@@ -954,7 +931,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {/* SIZE SELECTOR (Grouped Products) */}
             {isGrouped && childProducts.length > 0 && (
-              <div style={{ marginBottom: '24px' }}>
+              <div className="mb-6">
                 <div
                   style={{
                     fontSize: '14px',
@@ -1139,7 +1116,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {/* Simple Product Quantity */}
             {!isGrouped && (
-              <div style={{ marginBottom: '20px' }}>
+              <div className="mb-5">
                 <div
                   style={{
                     fontSize: '14px',
@@ -1320,7 +1297,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         </div>
 
         {/* MOBILE: Price + Stock + Actions */}
-        <div style={{ padding: '16px' }} className="lg:hidden">
+        <div className="p-4" className="lg:hidden">
           {/* PRICE BLOCK */}
           <div
             style={{
@@ -1478,7 +1455,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {/* SIZE SELECTOR - Mobile (Grouped Products) */}
           {isGrouped && childProducts.length > 0 && (
-            <div style={{ marginBottom: '20px' }}>
+            <div className="mb-5">
               <div
                 style={{
                   fontSize: '13px',
@@ -1615,7 +1592,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
           {/* Simple Product Quantity - Mobile */}
           {!isGrouped && (
-            <div style={{ marginBottom: '16px' }}>
+            <div className="mb-4">
               <div
                 style={{
                   fontSize: '13px',
@@ -2667,7 +2644,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                       )}
                     </div>
 
-                    <div style={{ padding: '16px' }}>
+                    <div className="p-4">
                       {rp.brand && (
                         <div
                           style={{
