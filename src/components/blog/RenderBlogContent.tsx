@@ -1,0 +1,35 @@
+'use client'
+import React from 'react'
+import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import { JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/react'
+import { InfoBoxComponent } from '@/blocks/InfoBox/Component'
+import { ProductEmbedComponent } from '@/blocks/ProductEmbed/Component'
+import { ComparisonTableComponent } from '@/blocks/ComparisonTable/Component'
+
+interface RenderBlogContentProps {
+  content: SerializedEditorState
+  className?: string
+}
+
+const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  blocks: {
+    infobox: ({ node }: any) => {
+      return <InfoBoxComponent {...node.fields} />
+    },
+    productembed: ({ node }: any) => {
+      return <ProductEmbedComponent {...node.fields} />
+    },
+    comparisontable: ({ node }: any) => {
+      return <ComparisonTableComponent {...node.fields} />
+    },
+  },
+})
+
+export const RenderBlogContent: React.FC<RenderBlogContentProps> = ({ content, className = '' }) => {
+  return (
+    <div className={`article-content ${className}`}>
+      <RichText converters={jsxConverters} data={content} />
+    </div>
+  )
+}

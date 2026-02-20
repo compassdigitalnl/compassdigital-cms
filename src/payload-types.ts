@@ -2131,7 +2131,7 @@ export interface BlogPost {
       }[]
     | null;
   /**
-   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links)
+   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen)
    */
   content: {
     root: {
@@ -5292,6 +5292,93 @@ export interface FooterSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "InfoBoxBlock".
+ */
+export interface InfoBoxBlock {
+  /**
+   * Kies het type en de kleur van de info box
+   */
+  type: 'info' | 'warning' | 'success' | 'danger';
+  /**
+   * Kies een Lucide icon voor de info box
+   */
+  icon?:
+    | ('Lightbulb' | 'AlertTriangle' | 'Info' | 'CheckCircle' | 'Zap' | 'Target' | 'Bell' | 'Shield' | 'Pin' | 'Search')
+    | null;
+  /**
+   * Optionele titel voor de info box
+   */
+  title?: string | null;
+  /**
+   * De hoofdtekst van de info box
+   */
+  content: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'infobox';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductEmbedBlock".
+ */
+export interface ProductEmbedBlock {
+  /**
+   * Selecteer een product om in te bedden
+   */
+  product: number | Product;
+  /**
+   * Toon de productprijs in de embed
+   */
+  showPrice?: boolean | null;
+  /**
+   * Toon de "Bestellen" knop
+   */
+  showButton?: boolean | null;
+  /**
+   * Optioneel: overschrijf de product beschrijving voor deze embed
+   */
+  customDescription?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productembed';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ComparisonTableBlock".
+ */
+export interface ComparisonTableBlock {
+  /**
+   * Optionele titel boven de tabel
+   */
+  caption?: string | null;
+  /**
+   * Voeg kolomkoppen toe voor de tabel (min 2, max 6)
+   */
+  headers: {
+    header: string;
+    id?: string | null;
+  }[];
+  /**
+   * Voeg rijen toe aan de tabel
+   */
+  rows: {
+    rowLabel: string;
+    /**
+     * Voeg cellen toe (aantal moet overeenkomen met aantal kolomkoppen)
+     */
+    cells: {
+      value: string;
+      type?: ('text' | 'check' | 'cross') | null;
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'comparisontable';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,6 +1,22 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
+import {
+  BoldFeature,
+  HeadingFeature,
+  ItalicFeature,
+  LinkFeature,
+  OrderedListFeature,
+  UnderlineFeature,
+  UnorderedListFeature,
+  lexicalEditor,
+  BlocksFeature,
+} from '@payloadcms/richtext-lexical'
+
+// Blog-specific blocks
+import { InfoBox } from '@/blocks/InfoBox'
+import { ProductEmbed } from '@/blocks/ProductEmbed'
+import { ComparisonTable } from '@/blocks/ComparisonTable'
 
 export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
@@ -147,8 +163,26 @@ export const BlogPosts: CollectionConfig = {
       required: true,
       label: 'Content',
       admin: {
-        description: 'Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links)',
+        description:
+          'Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen)',
       },
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+          BoldFeature(),
+          ItalicFeature(),
+          UnderlineFeature(),
+          LinkFeature({
+            enabledCollections: ['pages', 'blog-posts', 'products'],
+          }),
+          OrderedListFeature(),
+          UnorderedListFeature(),
+          BlocksFeature({
+            blocks: [InfoBox, ProductEmbed, ComparisonTable],
+          }),
+        ],
+      }),
     },
 
     // ═══════════════════════════════════════════════════════════
