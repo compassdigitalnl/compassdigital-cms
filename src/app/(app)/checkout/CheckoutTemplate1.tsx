@@ -638,7 +638,6 @@ export default function CheckoutTemplate1() {
             )}
           </Suspense>
         </div>
-      </div>
 
         {/* DESKTOP: Cart Summary Sidebar */}
         {!cartIsEmpty && (
