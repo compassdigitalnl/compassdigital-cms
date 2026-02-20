@@ -330,6 +330,17 @@ export const Header: GlobalConfig = {
                   'Optional: Override site name specifically for header. Leave empty to use name from Site Settings.',
               },
             },
+            {
+              name: 'siteNameAccent',
+              type: 'text',
+              label: 'Accent deel van sitenaam',
+              admin: {
+                description:
+                  'Optioneel: Dit deel wordt in de primaire kleur getoond (bijv. "med" in "plastimed"). Laat leeg als je geen accent wilt.',
+                condition: (data) => !!data.siteNameOverride,
+                placeholder: 'med',
+              },
+            },
           ],
         },
 
@@ -431,23 +442,213 @@ export const Header: GlobalConfig = {
         // ─── TAB 5: NAVIGATIE MENU ─────────────────────────────────
         {
           label: 'Navigatie Menu',
-          description: 'Hoofdmenu en submenu items',
+          description: 'Hoofdmenu configuratie: categorie-gedreven, handmatig of hybride',
           fields: [
             {
               name: 'navigation',
               type: 'group',
               fields: [
+                // ── Navigatie modus ──
+                {
+                  name: 'mode',
+                  type: 'select',
+                  label: 'Navigatie modus',
+                  defaultValue: 'manual',
+                  required: true,
+                  options: [
+                    {
+                      label: 'Handmatig (zelf menu items beheren)',
+                      value: 'manual',
+                    },
+                    {
+                      label: 'Categorie-gedreven (automatisch uit product categorieën)',
+                      value: 'categories',
+                    },
+                    {
+                      label: 'Hybride (categorieën + extra handmatige items)',
+                      value: 'hybrid',
+                    },
+                  ],
+                  admin: {
+                    description:
+                      'Bepaalt hoe het navigatiemenu wordt opgebouwd. Categorie-gedreven is ideaal voor webshops.',
+                  },
+                },
+
+                // ── Categorie-modus instellingen ──
+                {
+                  name: 'categorySettings',
+                  type: 'group',
+                  label: 'Categorie navigatie instellingen',
+                  admin: {
+                    condition: (data, siblingData) =>
+                      siblingData?.mode === 'categories' || siblingData?.mode === 'hybrid',
+                    description:
+                      'Configureer hoe product categorieën in de navigatie worden getoond',
+                  },
+                  fields: [
+                    {
+                      name: 'showIcons',
+                      type: 'checkbox',
+                      label: 'Toon categorie icons',
+                      defaultValue: true,
+                      admin: {
+                        description: 'Toon emoji/icons voor elke categorie in de navigatiebalk',
+                      },
+                    },
+                    {
+                      name: 'showProductCount',
+                      type: 'checkbox',
+                      label: 'Toon product aantal in mega menu',
+                      defaultValue: true,
+                      admin: {
+                        description: 'Toon aantal producten per subcategorie in het mega menu',
+                      },
+                    },
+                    {
+                      name: 'megaMenuStyle',
+                      type: 'select',
+                      label: 'Mega menu stijl',
+                      defaultValue: 'subcategories',
+                      required: true,
+                      options: [
+                        {
+                          label: 'Alleen subcategorieën',
+                          value: 'subcategories',
+                        },
+                        {
+                          label: 'Subcategorieën + populaire producten',
+                          value: 'with-products',
+                        },
+                        {
+                          label: 'Volledig (subcategorieën + producten + promo banner)',
+                          value: 'full',
+                        },
+                      ],
+                      admin: {
+                        description: 'Bepaalt hoeveel content er in het mega menu wordt getoond',
+                      },
+                    },
+                    {
+                      name: 'maxItems',
+                      type: 'number',
+                      label: 'Max aantal categorie items',
+                      defaultValue: 10,
+                      min: 1,
+                      max: 20,
+                      admin: {
+                        description:
+                          'Maximaal aantal categorieën in de navigatiebalk (1-20). Meer items kunnen niet op het scherm passen.',
+                      },
+                    },
+                    {
+                      name: 'maxProductsInMegaMenu',
+                      type: 'number',
+                      label: 'Max aantal producten in mega menu',
+                      defaultValue: 3,
+                      min: 1,
+                      max: 6,
+                      admin: {
+                        description:
+                          'Aantal populaire producten per categorie in mega menu (alleen bij stijl "with-products" of "full")',
+                        condition: (data, siblingData) =>
+                          siblingData?.megaMenuStyle === 'with-products' ||
+                          siblingData?.megaMenuStyle === 'full',
+                      },
+                    },
+                  ],
+                },
+
+                // ── Speciale items (altijd zichtbaar) ──
+                {
+                  name: 'specialItems',
+                  type: 'array',
+                  label: 'Speciale navigatie items',
+                  maxRows: 3,
+                  admin: {
+                    description:
+                      'Extra items zoals "Aanbiedingen", "Nieuw", etc. Deze verschijnen altijd in de navigatie, ongeacht de modus.',
+                  },
+                  fields: [
+                    {
+                      name: 'label',
+                      type: 'text',
+                      required: true,
+                      label: 'Label',
+                      admin: {
+                        placeholder: 'Aanbiedingen',
+                      },
+                    },
+                    {
+                      name: 'icon',
+                      type: 'text',
+                      label: 'Icon',
+                      admin: {
+                        placeholder: '🔥',
+                        description: 'Emoji of Lucide icon naam',
+                      },
+                    },
+                    {
+                      name: 'url',
+                      type: 'text',
+                      required: true,
+                      label: 'Link',
+                      admin: {
+                        placeholder: '/shop?badge=sale',
+                      },
+                    },
+                    {
+                      name: 'highlight',
+                      type: 'checkbox',
+                      label: 'Highlight (opvallende kleur)',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Toont in coral/rood kleur voor extra aandacht',
+                      },
+                    },
+                    {
+                      name: 'position',
+                      type: 'select',
+                      label: 'Positie',
+                      defaultValue: 'end',
+                      options: [
+                        { label: 'Begin (links)', value: 'start' },
+                        { label: 'Einde (rechts)', value: 'end' },
+                      ],
+                      admin: {
+                        description: 'Waar dit item in de navigatie verschijnt',
+                      },
+                    },
+                  ],
+                },
+
+                // ── Handmatige items (bestaand, voor manual/hybrid modus) ──
                 {
                   name: 'items',
                   type: 'array',
-                  label: 'Menu items',
+                  label: 'Handmatige menu items',
                   maxRows: 8,
+                  admin: {
+                    condition: (data, siblingData) =>
+                      siblingData?.mode === 'manual' || siblingData?.mode === 'hybrid',
+                    description:
+                      'Voeg zelf menu items toe. In hybride modus worden deze getoond naast de categorie items.',
+                  },
                   fields: [
                     {
                       name: 'label',
                       type: 'text',
                       required: true,
                       label: 'Menu tekst',
+                    },
+                    {
+                      name: 'icon',
+                      type: 'text',
+                      label: 'Icon (optioneel)',
+                      admin: {
+                        placeholder: '📦',
+                        description: 'Emoji of Lucide icon naam',
+                      },
                     },
                     {
                       name: 'type',
@@ -497,6 +698,8 @@ export const Header: GlobalConfig = {
                     },
                   ],
                 },
+
+                // ── CTA knop (bestaand) ──
                 {
                   name: 'ctaButton',
                   type: 'group',

@@ -1133,6 +1133,29 @@ export interface ProductCategory {
   level?: number | null;
   order?: number | null;
   visible?: boolean | null;
+  /**
+   * Emoji of Lucide icon naam (bijv. 🩺 of "Stethoscope")
+   */
+  icon?: string | null;
+  /**
+   * Toon deze categorie in de hoofdnavigatie balk (alleen voor level 0 categorieën)
+   */
+  showInNavigation?: boolean | null;
+  /**
+   * Volgorde in de navigatie balk (lager getal = eerder getoond)
+   */
+  navigationOrder?: number | null;
+  /**
+   * Optionele promo banner die verschijnt in het mega menu voor deze categorie
+   */
+  promoBanner?: {
+    enabled?: boolean | null;
+    title?: string | null;
+    subtitle?: string | null;
+    image?: (number | null) | Media;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -2072,6 +2095,20 @@ export interface OrderList {
    */
   name: string;
   /**
+   * Icoon voor visuele identificatie
+   */
+  icon?:
+    | ('clipboard-list' | 'repeat' | 'stethoscope' | 'flask-conical' | 'plus-circle' | 'building-2' | 'package')
+    | null;
+  /**
+   * Achtergrondkleur van het icoon
+   */
+  color?: ('teal' | 'blue' | 'amber' | 'green') | null;
+  /**
+   * Vastgepinde lijsten worden bovenaan getoond
+   */
+  isPinned?: boolean | null;
+  /**
    * Gebruiker die deze lijst aangemaakt heeft
    */
   owner: number | User;
@@ -2099,6 +2136,14 @@ export interface OrderList {
    * Optionele beschrijving van deze bestellijst
    */
   description?: string | null;
+  /**
+   * Notities bij deze lijst (bijv. instructies voor collega's, bestelmomenten)
+   */
+  notes?: string | null;
+  /**
+   * Wordt automatisch bijgewerkt wanneer producten uit deze lijst worden besteld
+   */
+  lastOrderedAt?: string | null;
   /**
    * Andere gebruikers die deze lijst mogen zien (optioneel)
    */
@@ -3486,6 +3531,19 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
   level?: T;
   order?: T;
   visible?: T;
+  icon?: T;
+  showInNavigation?: T;
+  navigationOrder?: T;
+  promoBanner?:
+    | T
+    | {
+        enabled?: T;
+        title?: T;
+        subtitle?: T;
+        image?: T;
+        buttonText?: T;
+        buttonLink?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3661,6 +3719,9 @@ export interface CustomerGroupsSelect<T extends boolean = true> {
  */
 export interface OrderListsSelect<T extends boolean = true> {
   name?: T;
+  icon?: T;
+  color?: T;
+  isPinned?: T;
   owner?: T;
   isDefault?: T;
   items?:
@@ -3673,6 +3734,8 @@ export interface OrderListsSelect<T extends boolean = true> {
       };
   itemCount?: T;
   description?: T;
+  notes?: T;
+  lastOrderedAt?: T;
   shareWith?:
     | T
     | {
@@ -4495,6 +4558,10 @@ export interface Header {
    */
   siteNameOverride?: string | null;
   /**
+   * Optioneel: Dit deel wordt in de primaire kleur getoond (bijv. "med" in "plastimed"). Laat leeg als je geen accent wilt.
+   */
+  siteNameAccent?: string | null;
+  /**
    * Show/hide the search bar in header
    */
   enableSearch?: boolean | null;
@@ -4521,10 +4588,68 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
-  navigation?: {
+  navigation: {
+    /**
+     * Bepaalt hoe het navigatiemenu wordt opgebouwd. Categorie-gedreven is ideaal voor webshops.
+     */
+    mode: 'manual' | 'categories' | 'hybrid';
+    /**
+     * Configureer hoe product categorieën in de navigatie worden getoond
+     */
+    categorySettings?: {
+      /**
+       * Toon emoji/icons voor elke categorie in de navigatiebalk
+       */
+      showIcons?: boolean | null;
+      /**
+       * Toon aantal producten per subcategorie in het mega menu
+       */
+      showProductCount?: boolean | null;
+      /**
+       * Bepaalt hoeveel content er in het mega menu wordt getoond
+       */
+      megaMenuStyle: 'subcategories' | 'with-products' | 'full';
+      /**
+       * Maximaal aantal categorieën in de navigatiebalk (1-20). Meer items kunnen niet op het scherm passen.
+       */
+      maxItems?: number | null;
+      /**
+       * Aantal populaire producten per categorie in mega menu (alleen bij stijl "with-products" of "full")
+       */
+      maxProductsInMegaMenu?: number | null;
+    };
+    /**
+     * Extra items zoals "Aanbiedingen", "Nieuw", etc. Deze verschijnen altijd in de navigatie, ongeacht de modus.
+     */
+    specialItems?:
+      | {
+          label: string;
+          /**
+           * Emoji of Lucide icon naam
+           */
+          icon?: string | null;
+          url: string;
+          /**
+           * Toont in coral/rood kleur voor extra aandacht
+           */
+          highlight?: boolean | null;
+          /**
+           * Waar dit item in de navigatie verschijnt
+           */
+          position?: ('start' | 'end') | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Voeg zelf menu items toe. In hybride modus worden deze getoond naast de categorie items.
+     */
     items?:
       | {
           label: string;
+          /**
+           * Emoji of Lucide icon naam
+           */
+          icon?: string | null;
           type?: ('page' | 'external') | null;
           page?: (number | null) | Page;
           url?: string | null;
@@ -4807,6 +4932,7 @@ export interface HeaderSelect<T extends boolean = true> {
       };
   logoOverride?: T;
   siteNameOverride?: T;
+  siteNameAccent?: T;
   enableSearch?: T;
   searchPlaceholder?: T;
   showPhone?: T;
@@ -4825,10 +4951,31 @@ export interface HeaderSelect<T extends boolean = true> {
   navigation?:
     | T
     | {
+        mode?: T;
+        categorySettings?:
+          | T
+          | {
+              showIcons?: T;
+              showProductCount?: T;
+              megaMenuStyle?: T;
+              maxItems?: T;
+              maxProductsInMegaMenu?: T;
+            };
+        specialItems?:
+          | T
+          | {
+              label?: T;
+              icon?: T;
+              url?: T;
+              highlight?: T;
+              position?: T;
+              id?: T;
+            };
         items?:
           | T
           | {
               label?: T;
+              icon?: T;
               type?: T;
               page?: T;
               url?: T;
