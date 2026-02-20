@@ -11,17 +11,17 @@ export function PlastimedTopBar({ settings }: Props) {
 
   return (
     <div
-      className="text-[13px] py-2"
+      className="text-[13px] py-2 overflow-x-auto scrollbar-hide"
       style={{
         backgroundColor: bgColor,
         color: `${textColor}B3`, // 70% opacity
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center min-w-fit">
         {/* Left messages */}
-        <div className="flex gap-6">
+        <div className="flex gap-6 md:gap-6 gap-4">
           {settings.leftMessages?.map((message, idx) => (
-            <span key={idx} className="flex items-center gap-1.5">
+            <span key={idx} className="flex items-center gap-1.5 whitespace-nowrap">
               {message.icon && <span className="text-teal-400">{message.icon}</span>}
               {message.link ? (
                 <Link
@@ -39,12 +39,12 @@ export function PlastimedTopBar({ settings }: Props) {
         </div>
 
         {/* Right links */}
-        <div className="flex gap-5">
+        <div className="flex gap-5 md:gap-5 gap-3">
           {settings.rightLinks?.map((link, idx) => (
             <Link
               key={idx}
               href={link.link}
-              className="hover:text-teal-400 transition-colors"
+              className="hover:text-teal-400 transition-colors whitespace-nowrap"
               style={{ color: `${textColor}B3` }}
             >
               {link.label}

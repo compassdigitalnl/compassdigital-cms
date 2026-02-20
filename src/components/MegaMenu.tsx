@@ -33,8 +33,11 @@ export function MegaMenu({
 
   return (
     <div
-      className="absolute left-0 right-0 top-full mt-0 bg-white border-t shadow-2xl z-50"
+      className="absolute left-0 right-0 top-full mt-0 bg-white border-t shadow-2xl z-50 animate-fadeIn"
       onMouseLeave={onClose}
+      style={{
+        animation: 'fadeIn 200ms ease-out',
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className={`grid ${getGridClass()} gap-8`}>

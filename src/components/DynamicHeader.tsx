@@ -172,10 +172,10 @@ export function DynamicHeader({ header, settings }: Props) {
         </div>
       </div>
 
-      {/* Mobile Menu Drawer (Placeholder - will be enhanced in Phase 5) */}
+      {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t">
-          <div className="px-6 py-4">
+        <div className="md:hidden bg-white border-t shadow-lg animate-fadeIn">
+          <div className="px-6 py-4 max-h-[80vh] overflow-y-auto">
             {/* Search on mobile */}
             {enableSearch && (
               <form action="/shop" method="GET" className="mb-4">
@@ -188,8 +188,69 @@ export function DynamicHeader({ header, settings }: Props) {
               </form>
             )}
 
-            {/* TODO: Add navigation items here in Phase 5 */}
-            <p className="text-sm text-gray-500">Mobile navigatie komt in Fase 5...</p>
+            {/* Quick links */}
+            <div className="space-y-2">
+              {showPhone && settings?.phone && (
+                <Link
+                  href={`tel:${settings.phone}`}
+                  className="block px-4 py-3 bg-gray-50 hover:bg-primary/5 rounded-lg transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="text-sm font-semibold text-gray-900">📞 {settings.phone}</span>
+                </Link>
+              )}
+
+              {showWishlist && (
+                <Link
+                  href="/wishlist"
+                  className="block px-4 py-3 bg-gray-50 hover:bg-primary/5 rounded-lg transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="text-sm font-semibold text-gray-900">♡ Wishlist</span>
+                </Link>
+              )}
+
+              {showAccount && (
+                <Link
+                  href="/account"
+                  className="block px-4 py-3 bg-gray-50 hover:bg-primary/5 rounded-lg transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="text-sm font-semibold text-gray-900">👤 Account</span>
+                </Link>
+              )}
+
+              {showCart && (
+                <Link
+                  href="/cart"
+                  className="block px-4 py-3 bg-gray-50 hover:bg-primary/5 rounded-lg transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="text-sm font-semibold text-gray-900">
+                    🛒 Winkelwagen {cartCount > 0 && `(${cartCount})`}
+                  </span>
+                </Link>
+              )}
+
+              {/* Custom buttons */}
+              {header?.customButtons &&
+                header.customButtons.map((button, idx) => (
+                  <Link
+                    key={idx}
+                    href={button.url || '#'}
+                    className="block px-4 py-3 bg-primary text-white hover:bg-primary/90 rounded-lg transition-colors text-center font-semibold text-sm"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {button.icon && <span className="mr-2">{button.icon}</span>}
+                    {button.label}
+                  </Link>
+                ))}
+            </div>
+
+            {/* Note about navigation */}
+            <p className="text-xs text-gray-500 mt-6 pt-4 border-t text-center">
+              Voor productcategorieën zie Navigation component
+            </p>
           </div>
         </div>
       )}

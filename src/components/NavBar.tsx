@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { ProductCategory, Product } from '@/payload-types'
 import { MegaMenu } from './MegaMenu'
@@ -33,10 +33,37 @@ export function NavBar({
     products?: Product[]
   } | null>(null)
   const [isLoadingMegaMenu, setIsLoadingMegaMenu] = useState(false)
+  const hoverIntentTimer = useRef<NodeJS.Timeout | null>(null)
 
-  // Handle category hover - fetch subcategories and products
-  const handleCategoryHover = async (category: ProductCategory) => {
+  // Keyboard navigation: Close mega menu on Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && hoveredCategory) {
+        handleCloseMegaMenu()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [hoveredCategory])
+
+  // Handle category hover with intent delay (performance optimization)
+  const handleCategoryHoverIntent = (category: ProductCategory) => {
+    // Clear any existing timer
+    if (hoverIntentTimer.current) {
+      clearTimeout(hoverIntentTimer.current)
+    }
+
+    // Set hovered immediately for visual feedback
     setHoveredCategory(category)
+
+    // Delay data fetching by 150ms (hover intent)
+    hoverIntentTimer.current = setTimeout(() => {
+      fetchMegaMenuData(category)
+    }, 150)
+  }
+
+  // Fetch mega menu data
+  const fetchMegaMenuData = async (category: ProductCategory) => {
     setIsLoadingMegaMenu(true)
 
     try {
@@ -84,8 +111,14 @@ export function NavBar({
   }
 
   const handleCloseMegaMenu = () => {
+    // Clear any pending timers
+    if (hoverIntentTimer.current) {
+      clearTimeout(hoverIntentTimer.current)
+      hoverIntentTimer.current = null
+    }
     setHoveredCategory(null)
     setMegaMenuData(null)
+    setIsLoadingMegaMenu(false)
   }
 
   // Render category nav item
@@ -96,8 +129,8 @@ export function NavBar({
     return (
       <div
         key={category.id}
-        className="relative"
-        onMouseEnter={() => handleCategoryHover(category)}
+        className="relative group"
+        onMouseEnter={() => handleCategoryHoverIntent(category)}
         onMouseLeave={handleCloseMegaMenu}
       >
         <Link
@@ -114,7 +147,7 @@ export function NavBar({
           )}
         </Link>
 
-        {/* Mega menu */}
+        {/* Mega menu with fade-in animation */}
         {isHovered && megaMenuData && !isLoadingMegaMenu && (
           <MegaMenu
             category={category}
