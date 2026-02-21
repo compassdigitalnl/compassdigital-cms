@@ -15,10 +15,10 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 // Blog-specific blocks
-import { InfoBox } from '@/blocks/InfoBox'
+import { InfoBox } from '@/branches/shared/blocks/InfoBox'
 import { ProductEmbed } from '@/branches/ecommerce/blocks/ProductEmbed'
 import { ComparisonTable } from '@/branches/ecommerce/blocks/ComparisonTable'
-import { FAQ } from '@/blocks/FAQ'
+import { FAQ } from '@/branches/shared/blocks/FAQ'
 
 export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',

@@ -1,20 +1,20 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/branches/shared/components/ui/tabs'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
+import { Button } from '@/branches/shared/components/ui/button'
+import { Textarea } from '@/branches/shared/components/ui/textarea'
+import { Input } from '@/branches/shared/components/ui/input'
+import { Label } from '@/branches/shared/components/ui/label'
+import { Badge } from '@/branches/shared/components/ui/badge'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/branches/shared/components/ui/select'
 
 export default function AIPlaygroundPage() {
   return (

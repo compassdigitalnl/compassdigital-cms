@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { JsonLdSchema } from '@/components/seo/JsonLdSchema'
+import { RenderBlocks } from '@/branches/shared/blocks/RenderBlocks'
+import { JsonLdSchema } from '@/branches/shared/components/seo/JsonLdSchema'
 import type { Page } from 'src/payload-types'
 
 export const metadata = {

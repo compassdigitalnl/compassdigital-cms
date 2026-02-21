@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Icon } from '@/components/Icon'
+import { Icon } from '@/branches/shared/components/Icon'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import type { QuickOrderBlock as QuickOrderType } from '@/payload-types'
 

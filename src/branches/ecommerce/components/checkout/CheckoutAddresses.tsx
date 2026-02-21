@@ -2,14 +2,14 @@
 
 import { AddressItem } from '@/branches/ecommerce/components/addresses/AddressItem'
 import { CreateAddressModal } from '@/branches/ecommerce/components/addresses/CreateAddressModal'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from '@/branches/shared/components/ui/dialog'
 import { Address } from '@/payload-types'
 import { useAddresses } from '@payloadcms/plugin-ecommerce/client/react'
 import { useState } from 'react'

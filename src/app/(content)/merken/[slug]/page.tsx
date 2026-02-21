@@ -8,7 +8,7 @@ import {
   CheckCircle,
   ShoppingCart,
 } from 'lucide-react'
-import { Breadcrumb } from '@/components/Breadcrumb'
+import { Breadcrumb } from '@/branches/shared/components/Breadcrumb'
 
 export const metadata = {
   title: 'Hartmann - Premium medische producten | Plastimed',

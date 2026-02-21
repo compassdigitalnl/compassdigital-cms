@@ -14,7 +14,7 @@ import {
   XCircle,
   MessageCircle,
 } from 'lucide-react'
-import { Breadcrumb } from '@/components/Breadcrumb'
+import { Breadcrumb } from '@/branches/shared/components/Breadcrumb'
 
 export const metadata = {
   title: 'Verzending & Retour - Plastimed',

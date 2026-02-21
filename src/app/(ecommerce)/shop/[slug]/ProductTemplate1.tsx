@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
-import { useToast } from '@/components/ui/Toast'
-import { StaffelCalculator } from '@/components/ui/StaffelCalculator'
+import { useToast } from '@/branches/shared/components/ui/Toast'
+import { StaffelCalculator } from '@/branches/shared/components/ui/StaffelCalculator'
 import type { Product } from '@/payload-types'
 import {
   Heart,

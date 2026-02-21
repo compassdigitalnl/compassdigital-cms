@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { InitTheme } from '@/providers/Theme/InitTheme'
-import { GoogleAnalytics } from '@/components/Analytics/GoogleAnalytics'
+import { GoogleAnalytics } from '@/branches/shared/components/Analytics/GoogleAnalytics'
 import './globals.css'
 
 // Force dynamic rendering to avoid database queries during build

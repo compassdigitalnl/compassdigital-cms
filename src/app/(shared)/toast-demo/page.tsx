@@ -1,6 +1,6 @@
 'use client'
 
-import { useToast } from '@/components/ui/Toast'
+import { useToast } from '@/branches/shared/components/ui/Toast'
 import { CheckCircle, AlertCircle, Info, ShoppingCart, Sparkles } from 'lucide-react'
 
 export default function ToastDemoPage() {
@@ -216,7 +216,7 @@ export default function ToastDemoPage() {
         <div className="mt-8 bg-navy-900 border border-gray-800 rounded-2xl p-6 overflow-x-auto">
           <h3 className="text-lg font-bold text-white mb-4">💻 Usage Example</h3>
           <pre className="text-sm text-green-400 font-mono">
-            <code>{`import { useToast } from '@/components/ui/Toast'
+            <code>{`import { useToast } from '@/branches/shared/components/ui/Toast'
 
 function MyComponent() {
   const { showSuccessToast, showErrorToast } = useToast()

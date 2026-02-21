@@ -14,9 +14,9 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
+import { Button } from '@/branches/shared/components/ui/button'
+import { Badge } from '@/branches/shared/components/ui/badge'
 import {
   ArrowLeft,
   ExternalLink,

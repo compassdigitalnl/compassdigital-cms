@@ -1,5 +1,5 @@
 import { FileText } from 'lucide-react'
-import { LegalLayout } from '@/components/LegalLayout'
+import { LegalLayout } from '@/branches/shared/components/LegalLayout'
 import '../legal.css'
 
 export const metadata = {

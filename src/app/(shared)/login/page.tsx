@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 
-import { RenderParams } from '@/components/RenderParams'
+import { RenderParams } from '@/branches/shared/components/RenderParams'
 import Link from 'next/link'
 import React from 'react'
 
 import { headers as getHeaders } from 'next/headers'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { LoginForm } from '@/components/forms/LoginForm'
+import { LoginForm } from '@/branches/shared/components/forms/LoginForm'
 import { redirect } from 'next/navigation'
 
 export default async function Login() {

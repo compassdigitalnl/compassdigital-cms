@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Search, Package, Truck, Undo2, User, ChevronDown, ThumbsUp, ThumbsDown, MessageCircle, TrendingUp, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { Breadcrumb } from '@/components/Breadcrumb'
+import { Breadcrumb } from '@/branches/shared/components/Breadcrumb'
 
 interface FAQItem {
   question: string

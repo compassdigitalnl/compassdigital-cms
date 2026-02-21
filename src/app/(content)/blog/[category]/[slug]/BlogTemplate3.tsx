@@ -2,8 +2,8 @@
 
 import type { BlogPost, BlogCategory } from '@/payload-types'
 import { Calendar, User, Sparkles } from 'lucide-react'
-import { PrevNextNavigation } from '@/components/blog/PrevNextNavigation'
-import { ReadingProgressBar } from '@/components/blog/ReadingProgressBar'
+import { PrevNextNavigation } from '@/branches/shared/components/blog/PrevNextNavigation'
+import { ReadingProgressBar } from '@/branches/shared/components/blog/ReadingProgressBar'
 
 interface BlogTemplate3Props {
   post: BlogPost

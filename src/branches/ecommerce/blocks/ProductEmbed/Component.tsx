@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { Icon } from '@/components/Icon'
+import { Icon } from '@/branches/shared/components/Icon'
 import type { ProductEmbedBlock, Product } from '@/payload-types'
 
 export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({

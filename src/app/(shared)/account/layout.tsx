@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/utilities/getCurrentUser'
-import { AccountNav } from '@/components/Account/AccountNav'
+import { AccountNav } from '@/branches/shared/components/Account/AccountNav'
 
 export default async function AccountLayout({ children }: { children: ReactNode }) {
   const payload = await getPayload({ config })
