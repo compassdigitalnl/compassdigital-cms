@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import type { Settings, Header as HeaderType, Media } from '@/payload-types'
-import { useSearch } from '@/branches/shared/components/Search/SearchProvider'
+import { useSearch } from '@/branches/shared/components/search/SearchProvider'
 import { useMiniCart } from '@/branches/shared/components/ui/MiniCart'
 
 type Props = {
