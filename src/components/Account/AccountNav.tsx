@@ -6,6 +6,10 @@ import { User } from '@/payload-types'
 import {
   LayoutDashboard,
   ShoppingCart,
+  CreditCard,
+  KeyRound,
+  Gift,
+  Award,
   FileText,
   ListOrdered,
   RefreshCw,
@@ -32,6 +36,26 @@ export function AccountNav({ user }: AccountNavProps) {
       name: 'Bestellingen',
       href: '/account/orders',
       icon: ShoppingCart,
+    },
+    {
+      name: 'Abonnement',
+      href: '/my-account/subscription',
+      icon: CreditCard,
+    },
+    {
+      name: 'Licenties',
+      href: '/my-account/licenses',
+      icon: KeyRound,
+    },
+    {
+      name: 'Cadeaubonnen',
+      href: '/my-account/gift-vouchers',
+      icon: Gift,
+    },
+    {
+      name: 'Loyalty',
+      href: '/my-account/loyalty',
+      icon: Award,
     },
     {
       name: 'Facturen',

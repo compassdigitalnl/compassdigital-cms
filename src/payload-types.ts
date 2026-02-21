@@ -91,6 +91,17 @@ export interface Config {
     vendors: Vendor;
     'vendor-reviews': VendorReview;
     workshops: Workshop;
+    'subscription-plans': SubscriptionPlan;
+    'user-subscriptions': UserSubscription;
+    'payment-methods': PaymentMethod;
+    'gift-vouchers': GiftVoucher;
+    licenses: License;
+    'license-activations': LicenseActivation;
+    'loyalty-tiers': LoyaltyTier;
+    'loyalty-rewards': LoyaltyReward;
+    'loyalty-points': LoyaltyPoint;
+    'loyalty-transactions': LoyaltyTransaction;
+    'loyalty-redemptions': LoyaltyRedemption;
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
@@ -128,6 +139,17 @@ export interface Config {
     vendors: VendorsSelect<false> | VendorsSelect<true>;
     'vendor-reviews': VendorReviewsSelect<false> | VendorReviewsSelect<true>;
     workshops: WorkshopsSelect<false> | WorkshopsSelect<true>;
+    'subscription-plans': SubscriptionPlansSelect<false> | SubscriptionPlansSelect<true>;
+    'user-subscriptions': UserSubscriptionsSelect<false> | UserSubscriptionsSelect<true>;
+    'payment-methods': PaymentMethodsSelect<false> | PaymentMethodsSelect<true>;
+    'gift-vouchers': GiftVouchersSelect<false> | GiftVouchersSelect<true>;
+    licenses: LicensesSelect<false> | LicensesSelect<true>;
+    'license-activations': LicenseActivationsSelect<false> | LicenseActivationsSelect<true>;
+    'loyalty-tiers': LoyaltyTiersSelect<false> | LoyaltyTiersSelect<true>;
+    'loyalty-rewards': LoyaltyRewardsSelect<false> | LoyaltyRewardsSelect<true>;
+    'loyalty-points': LoyaltyPointsSelect<false> | LoyaltyPointsSelect<true>;
+    'loyalty-transactions': LoyaltyTransactionsSelect<false> | LoyaltyTransactionsSelect<true>;
+    'loyalty-redemptions': LoyaltyRedemptionsSelect<false> | LoyaltyRedemptionsSelect<true>;
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
@@ -3242,6 +3264,482 @@ export interface Workshop {
   createdAt: string;
 }
 /**
+ * Available subscription plans and pricing tiers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-plans".
+ */
+export interface SubscriptionPlan {
+  id: number;
+  /**
+   * e.g., Starter, Professional, Enterprise
+   */
+  name: string;
+  /**
+   * URL-friendly identifier
+   */
+  slug: string;
+  description?: string | null;
+  features?:
+    | {
+        feature: string;
+        included?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Price in euros
+   */
+  price: number;
+  /**
+   * For user-based pricing (e.g., €29 per user)
+   */
+  pricePerUser?: number | null;
+  billingInterval: 'monthly' | 'yearly' | 'lifetime';
+  limits?: {
+    users?: number | null;
+    storage?: number | null;
+    apiCalls?: number | null;
+  };
+  /**
+   * Whether this plan is available for new subscriptions
+   */
+  active?: boolean | null;
+  /**
+   * Highlight this plan (e.g., "Most Popular")
+   */
+  featured?: boolean | null;
+  /**
+   * Stripe integration
+   */
+  stripeProductId?: string | null;
+  /**
+   * Stripe integration
+   */
+  stripePriceId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Active user subscriptions
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-subscriptions".
+ */
+export interface UserSubscription {
+  id: number;
+  user: number | User;
+  plan: number | SubscriptionPlan;
+  status: 'active' | 'trialing' | 'past_due' | 'canceled' | 'unpaid';
+  startDate: string;
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  /**
+   * Subscription will cancel when current period ends
+   */
+  cancelAtPeriodEnd?: boolean | null;
+  canceledAt?: string | null;
+  usage?: {
+    users?: number | null;
+    storage?: number | null;
+    apiCalls?: number | null;
+  };
+  addons?:
+    | {
+        name: string;
+        price: number;
+        addedAt: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Stripe integration
+   */
+  stripeSubscriptionId?: string | null;
+  /**
+   * Stripe integration
+   */
+  stripeCustomerId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Saved payment methods for users
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payment-methods".
+ */
+export interface PaymentMethod {
+  id: number;
+  user: number | User;
+  type: 'sepa' | 'card' | 'paypal' | 'ideal';
+  /**
+   * Use this method for subscriptions
+   */
+  isDefault?: boolean | null;
+  sepa?: {
+    accountHolderName?: string | null;
+    /**
+     * Last 4 digits stored
+     */
+    iban?: string | null;
+    bankName?: string | null;
+  };
+  card?: {
+    brand?: ('visa' | 'mastercard' | 'amex') | null;
+    last4?: string | null;
+    expiryMonth?: number | null;
+    expiryYear?: number | null;
+  };
+  /**
+   * Stripe integration
+   */
+  stripePaymentMethodId?: string | null;
+  /**
+   * Last 4 digits for display
+   */
+  last4?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Gift vouchers / cadeaubonnen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gift-vouchers".
+ */
+export interface GiftVoucher {
+  id: number;
+  /**
+   * e.g., GC-V8K2-M4N7
+   */
+  code: string;
+  /**
+   * Original voucher value
+   */
+  amount: number;
+  /**
+   * Remaining balance
+   */
+  balance: number;
+  status: 'active' | 'spent' | 'expired' | 'canceled';
+  occasion?:
+    | ('birthday' | 'christmas' | 'graduation' | 'business' | 'love' | 'thanks' | 'newhome' | 'universal')
+    | null;
+  recipientName?: string | null;
+  recipientEmail: string;
+  senderName?: string | null;
+  senderEmail?: string | null;
+  message?: string | null;
+  deliveryMethod: 'email' | 'print' | 'post';
+  /**
+   * Send voucher on specific date
+   */
+  scheduledDelivery?: string | null;
+  sentAt?: string | null;
+  /**
+   * Leave empty for no expiration
+   */
+  expiresAt?: string | null;
+  purchasedBy?: (number | null) | User;
+  redeemedBy?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Software licenses and digital products
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "licenses".
+ */
+export interface License {
+  id: number;
+  user: number | User;
+  /**
+   * Link to product if applicable
+   */
+  product?: (number | null) | Product;
+  /**
+   * e.g., ProDesign Suite 4.2
+   */
+  productName: string;
+  /**
+   * e.g., PDSS-4K9X-M7B2-7A3F
+   */
+  licenseKey: string;
+  type: 'personal' | 'professional' | 'enterprise' | 'lifetime' | 'yearly' | 'ebook' | 'templates';
+  status: 'active' | 'expired' | 'revoked' | 'pending_renewal';
+  /**
+   * Maximum number of devices
+   */
+  maxActivations?: number | null;
+  /**
+   * Number of active devices
+   */
+  currentActivations?: number | null;
+  /**
+   * e.g., v4.2.0
+   */
+  version?: string | null;
+  purchasedAt: string;
+  /**
+   * Leave empty for lifetime licenses
+   */
+  expiresAt?: string | null;
+  /**
+   * Original purchase order
+   */
+  order?: (number | null) | Order;
+  /**
+   * Direct download link
+   */
+  downloadUrl?: string | null;
+  downloads?:
+    | {
+        version: string;
+        downloadedAt: string;
+        fileSize?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Device activations for licenses
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "license-activations".
+ */
+export interface LicenseActivation {
+  id: number;
+  license: number | License;
+  /**
+   * e.g., MacBook Pro 16"
+   */
+  deviceName: string;
+  /**
+   * Unique hardware identifier
+   */
+  deviceId: string;
+  /**
+   * e.g., macOS Ventura, Windows 11 Pro
+   */
+  os?: string | null;
+  status: 'active' | 'deactivated';
+  activatedAt: string;
+  deactivatedAt?: string | null;
+  /**
+   * Last time this device checked for updates
+   */
+  lastSeenAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Loyalty program tiers (Bronze, Silver, Gold, Platinum)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-tiers".
+ */
+export interface LoyaltyTier {
+  id: number;
+  /**
+   * e.g., Bronze, Silver, Gold, Platinum
+   */
+  name: string;
+  slug: string;
+  /**
+   * e.g., 🥉 🥈 🥇 👑
+   */
+  icon?: string | null;
+  /**
+   * Hex color code
+   */
+  color?: string | null;
+  /**
+   * Points needed to reach this tier
+   */
+  minPoints: number;
+  /**
+   * e.g., 2 = earn 2x points on purchases
+   */
+  multiplier: number;
+  benefits?:
+    | {
+        benefit: string;
+        id?: string | null;
+      }[]
+    | null;
+  freeShipping?: boolean | null;
+  prioritySupport?: boolean | null;
+  earlyAccess?: boolean | null;
+  /**
+   * Lower numbers appear first
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Rewards that users can redeem with points
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-rewards".
+ */
+export interface LoyaltyReward {
+  id: number;
+  /**
+   * e.g., €5 discount, Free shipping, VIP Event access
+   */
+  name: string;
+  description?: string | null;
+  /**
+   * e.g., 🏷️ 🚚 🎁
+   */
+  icon?: string | null;
+  type: 'discount' | 'shipping' | 'gift' | 'upgrade' | 'event' | 'merchandise';
+  /**
+   * How many points to redeem this reward
+   */
+  pointsCost: number;
+  /**
+   * For discounts and gifts
+   */
+  value?: number | null;
+  /**
+   * Available for redemption
+   */
+  active?: boolean | null;
+  /**
+   * Leave empty for unlimited
+   */
+  stock?: number | null;
+  /**
+   * Minimum tier required (optional)
+   */
+  tierRequired?: (number | null) | LoyaltyTier;
+  /**
+   * Days until reward expires after redemption
+   */
+  expiryDays?: number | null;
+  terms?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * User loyalty points balances
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-points".
+ */
+export interface LoyaltyPoint {
+  id: number;
+  user: number | User;
+  /**
+   * Current spendable balance
+   */
+  availablePoints: number;
+  /**
+   * Lifetime points earned (for tier calculation)
+   */
+  totalEarned: number;
+  /**
+   * Lifetime points redeemed
+   */
+  totalSpent: number;
+  /**
+   * Calculated based on totalEarned
+   */
+  tier?: (number | null) | LoyaltyTier;
+  stats?: {
+    totalOrders?: number | null;
+    totalSpentMoney?: number | null;
+    rewardsRedeemed?: number | null;
+    referrals?: number | null;
+  };
+  /**
+   * Unique code for referring friends
+   */
+  referralCode?: string | null;
+  memberSince?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Points earning and spending history
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-transactions".
+ */
+export interface LoyaltyTransaction {
+  id: number;
+  user: number | User;
+  type:
+    | 'earned_purchase'
+    | 'earned_review'
+    | 'earned_referral'
+    | 'earned_birthday'
+    | 'earned_bonus'
+    | 'spent_reward'
+    | 'expired'
+    | 'adjustment';
+  /**
+   * Positive for earning, negative for spending
+   */
+  points: number;
+  /**
+   * e.g., "Order #DS-2026-0847" or "Review written"
+   */
+  description: string;
+  relatedOrder?: (number | null) | Order;
+  relatedReward?: (number | null) | LoyaltyReward;
+  /**
+   * Additional data (JSON)
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * When these points expire (optional)
+   */
+  expiresAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Redeemed rewards and their status
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-redemptions".
+ */
+export interface LoyaltyRedemption {
+  id: number;
+  user: number | User;
+  reward: number | LoyaltyReward;
+  pointsSpent: number;
+  status: 'available' | 'used' | 'expired' | 'canceled';
+  redeemedAt: string;
+  usedAt?: string | null;
+  expiresAt?: string | null;
+  /**
+   * Unique code to use the reward
+   */
+  code?: string | null;
+  /**
+   * Order where reward was applied
+   */
+  usedInOrder?: (number | null) | Order;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Inkomende onboarding-verzoeken van nieuwe klanten
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3711,6 +4209,50 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'workshops';
         value: number | Workshop;
+      } | null)
+    | ({
+        relationTo: 'subscription-plans';
+        value: number | SubscriptionPlan;
+      } | null)
+    | ({
+        relationTo: 'user-subscriptions';
+        value: number | UserSubscription;
+      } | null)
+    | ({
+        relationTo: 'payment-methods';
+        value: number | PaymentMethod;
+      } | null)
+    | ({
+        relationTo: 'gift-vouchers';
+        value: number | GiftVoucher;
+      } | null)
+    | ({
+        relationTo: 'licenses';
+        value: number | License;
+      } | null)
+    | ({
+        relationTo: 'license-activations';
+        value: number | LicenseActivation;
+      } | null)
+    | ({
+        relationTo: 'loyalty-tiers';
+        value: number | LoyaltyTier;
+      } | null)
+    | ({
+        relationTo: 'loyalty-rewards';
+        value: number | LoyaltyReward;
+      } | null)
+    | ({
+        relationTo: 'loyalty-points';
+        value: number | LoyaltyPoint;
+      } | null)
+    | ({
+        relationTo: 'loyalty-transactions';
+        value: number | LoyaltyTransaction;
+      } | null)
+    | ({
+        relationTo: 'loyalty-redemptions';
+        value: number | LoyaltyRedemption;
       } | null)
     | ({
         relationTo: 'client-requests';
@@ -5139,6 +5681,267 @@ export interface WorkshopsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-plans_select".
+ */
+export interface SubscriptionPlansSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  features?:
+    | T
+    | {
+        feature?: T;
+        included?: T;
+        id?: T;
+      };
+  price?: T;
+  pricePerUser?: T;
+  billingInterval?: T;
+  limits?:
+    | T
+    | {
+        users?: T;
+        storage?: T;
+        apiCalls?: T;
+      };
+  active?: T;
+  featured?: T;
+  stripeProductId?: T;
+  stripePriceId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-subscriptions_select".
+ */
+export interface UserSubscriptionsSelect<T extends boolean = true> {
+  user?: T;
+  plan?: T;
+  status?: T;
+  startDate?: T;
+  currentPeriodStart?: T;
+  currentPeriodEnd?: T;
+  cancelAtPeriodEnd?: T;
+  canceledAt?: T;
+  usage?:
+    | T
+    | {
+        users?: T;
+        storage?: T;
+        apiCalls?: T;
+      };
+  addons?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        addedAt?: T;
+        id?: T;
+      };
+  stripeSubscriptionId?: T;
+  stripeCustomerId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payment-methods_select".
+ */
+export interface PaymentMethodsSelect<T extends boolean = true> {
+  user?: T;
+  type?: T;
+  isDefault?: T;
+  sepa?:
+    | T
+    | {
+        accountHolderName?: T;
+        iban?: T;
+        bankName?: T;
+      };
+  card?:
+    | T
+    | {
+        brand?: T;
+        last4?: T;
+        expiryMonth?: T;
+        expiryYear?: T;
+      };
+  stripePaymentMethodId?: T;
+  last4?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gift-vouchers_select".
+ */
+export interface GiftVouchersSelect<T extends boolean = true> {
+  code?: T;
+  amount?: T;
+  balance?: T;
+  status?: T;
+  occasion?: T;
+  recipientName?: T;
+  recipientEmail?: T;
+  senderName?: T;
+  senderEmail?: T;
+  message?: T;
+  deliveryMethod?: T;
+  scheduledDelivery?: T;
+  sentAt?: T;
+  expiresAt?: T;
+  purchasedBy?: T;
+  redeemedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "licenses_select".
+ */
+export interface LicensesSelect<T extends boolean = true> {
+  user?: T;
+  product?: T;
+  productName?: T;
+  licenseKey?: T;
+  type?: T;
+  status?: T;
+  maxActivations?: T;
+  currentActivations?: T;
+  version?: T;
+  purchasedAt?: T;
+  expiresAt?: T;
+  order?: T;
+  downloadUrl?: T;
+  downloads?:
+    | T
+    | {
+        version?: T;
+        downloadedAt?: T;
+        fileSize?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "license-activations_select".
+ */
+export interface LicenseActivationsSelect<T extends boolean = true> {
+  license?: T;
+  deviceName?: T;
+  deviceId?: T;
+  os?: T;
+  status?: T;
+  activatedAt?: T;
+  deactivatedAt?: T;
+  lastSeenAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-tiers_select".
+ */
+export interface LoyaltyTiersSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  icon?: T;
+  color?: T;
+  minPoints?: T;
+  multiplier?: T;
+  benefits?:
+    | T
+    | {
+        benefit?: T;
+        id?: T;
+      };
+  freeShipping?: T;
+  prioritySupport?: T;
+  earlyAccess?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-rewards_select".
+ */
+export interface LoyaltyRewardsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  icon?: T;
+  type?: T;
+  pointsCost?: T;
+  value?: T;
+  active?: T;
+  stock?: T;
+  tierRequired?: T;
+  expiryDays?: T;
+  terms?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-points_select".
+ */
+export interface LoyaltyPointsSelect<T extends boolean = true> {
+  user?: T;
+  availablePoints?: T;
+  totalEarned?: T;
+  totalSpent?: T;
+  tier?: T;
+  stats?:
+    | T
+    | {
+        totalOrders?: T;
+        totalSpentMoney?: T;
+        rewardsRedeemed?: T;
+        referrals?: T;
+      };
+  referralCode?: T;
+  memberSince?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-transactions_select".
+ */
+export interface LoyaltyTransactionsSelect<T extends boolean = true> {
+  user?: T;
+  type?: T;
+  points?: T;
+  description?: T;
+  relatedOrder?: T;
+  relatedReward?: T;
+  metadata?: T;
+  expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-redemptions_select".
+ */
+export interface LoyaltyRedemptionsSelect<T extends boolean = true> {
+  user?: T;
+  reward?: T;
+  pointsSpent?: T;
+  status?: T;
+  redeemedAt?: T;
+  usedAt?: T;
+  expiresAt?: T;
+  code?: T;
+  usedInOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

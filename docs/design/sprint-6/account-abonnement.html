@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abonnement — Mijn account</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);outline:none;}.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  /* Account layout */
+  .account-layout{display:grid;grid-template-columns:240px 1fr;gap:28px;padding-bottom:64px;align-items:start;}
+  .account-nav{background:white;border:1px solid var(--grey);border-radius:16px;overflow:hidden;position:sticky;top:100px;}.an-header{padding:20px;border-bottom:1px solid var(--grey);display:flex;align-items:center;gap:12px;}.an-avatar{width:40px;height:40px;background:linear-gradient(135deg,var(--teal),var(--teal-light));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:15px;}.an-name{font-size:14px;font-weight:700;}.an-email{font-size:12px;color:var(--grey-mid);}.an-links{padding:8px;}.an-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;transition:all .12s;}.an-link:hover{background:var(--grey-light);color:var(--teal);}.an-link.active{background:var(--teal-glow);color:var(--teal);}.an-link i{width:17px;height:17px;}.an-badge{margin-left:auto;background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}.an-divider{height:1px;background:var(--grey);margin:4px 14px;}
+
+  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}.page-header h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;}.ph-sub{font-size:14px;color:var(--grey-mid);}
+  .ph-actions{display:flex;gap:8px;}.ph-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;background:white;border:1.5px solid var(--grey);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:all var(--transition);text-decoration:none;}.ph-btn:hover{border-color:var(--teal);color:var(--teal);}.ph-btn i{width:15px;height:15px;}.ph-btn.primary{background:var(--teal);color:white;border-color:var(--teal);}.ph-btn.primary:hover{background:var(--navy);border-color:var(--navy);}
+
+  /* Plan card */
+  .plan-card{background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;margin-bottom:16px;}
+  .pc-top{display:flex;align-items:center;justify-content:space-between;padding:22px;border-bottom:1px solid var(--grey);flex-wrap:wrap;gap:12px;}
+  .pc-plan{display:flex;align-items:center;gap:14px;}
+  .pc-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+  .pc-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;}
+  .pc-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;margin-left:6px;}
+  .pc-meta{font-size:13px;color:var(--grey-mid);margin-top:2px;}
+  .pc-billing{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+  .pcb{padding:16px 22px;border-right:1px solid var(--grey);}.pcb:last-child{border-right:none;}
+  .pcb-label{font-size:12px;color:var(--grey-mid);margin-bottom:3px;display:flex;align-items:center;gap:4px;}.pcb-label i{width:12px;height:12px;color:var(--teal);}
+  .pcb-value{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;}
+  .pcb-sub{font-size:11px;color:var(--grey-mid);}
+
+  /* Usage meters */
+  .sec-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;}.sec-title i{width:17px;height:17px;color:var(--teal);}
+  .usage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .uc{background:white;border:1px solid var(--grey);border-radius:14px;padding:16px;}.uc.warn{border-color:var(--amber);}
+  .uc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}.uc-label{font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px;}.uc-label i{width:14px;height:14px;color:var(--teal);}.uc-pct{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;}.uc.warn .uc-pct{color:var(--amber);}
+  .uc-bar{height:7px;background:var(--grey);border-radius:100px;overflow:hidden;margin-bottom:5px;}.uc-fill{height:100%;border-radius:100px;}
+  .uc-detail{display:flex;justify-content:space-between;font-size:11px;color:var(--grey-mid);}
+
+  /* Upgrade suggestion */
+  .upgrade-bar{background:linear-gradient(135deg,var(--teal-glow),rgba(0,137,123,0.04));border:1.5px solid rgba(0,137,123,0.2);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+  .ub-icon{width:40px;height:40px;border-radius:10px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0;}.ub-icon i{width:18px;height:18px;}
+  .ub-body{flex:1;}.ub-title{font-size:13px;font-weight:700;}.ub-desc{font-size:12px;color:var(--grey-dark);}
+  .ub-btn{padding:8px 16px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:4px;}.ub-btn:hover{background:var(--navy);}.ub-btn i{width:13px;height:13px;}
+
+  /* Add-ons */
+  .addon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .addon{background:white;border:1px solid var(--grey);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;}
+  .addon-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .addon-info{flex:1;min-width:0;}.addon-name{font-size:13px;font-weight:700;}.addon-since{font-size:11px;color:var(--grey-mid);}
+  .addon-price{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0;}
+  .addon.add{border:2px dashed var(--grey);cursor:pointer;justify-content:center;gap:5px;font-size:13px;font-weight:600;color:var(--grey-mid);}.addon.add:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow);}.addon.add i{width:15px;height:15px;}
+
+  /* Billing table */
+  .bill-card{background:white;border:1px solid var(--grey);border-radius:16px;overflow:hidden;margin-bottom:16px;}
+  .bill-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--grey);}.bh-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;}.bh-title i{width:15px;height:15px;color:var(--teal);}.bh-link{font-size:12px;font-weight:600;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:3px;}.bh-link:hover{text-decoration:underline;}.bh-link i{width:12px;height:12px;}
+  .bill-row{display:grid;grid-template-columns:100px 1fr 90px 80px 60px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--grey);font-size:13px;}.bill-row:last-child{border-bottom:none;}.bill-row.head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--grey-mid);background:var(--grey-light);}
+  .bill-date{font-weight:600;}.bill-desc{color:var(--grey-dark);}.bill-amount{font-family:'JetBrains Mono',monospace;font-weight:700;text-align:right;}.bill-status{text-align:center;}.bs{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;}.bs.paid{background:var(--green-light);color:var(--green);}.bill-dl{text-align:right;}.bill-dl a{color:var(--teal);text-decoration:none;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:3px;}.bill-dl a:hover{text-decoration:underline;}.bill-dl i{width:12px;height:12px;}
+
+  /* Payment methods */
+  .pay-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .pay{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;}.pay.default{border-color:var(--teal);}
+  .pay-logo{width:44px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+  .pay-info{flex:1;}.pay-name{font-size:13px;font-weight:700;}.pay-detail{font-size:11px;color:var(--grey-mid);}
+  .pay-badge{padding:2px 7px;background:var(--teal-glow);border-radius:4px;font-size:10px;font-weight:700;color:var(--teal);flex-shrink:0;}
+  .pay-act{font-size:11px;color:var(--grey-mid);cursor:pointer;text-decoration:underline;}.pay-act:hover{color:var(--teal);}
+
+  /* Cancel */
+  .cancel-bar{background:white;border:1px solid var(--grey);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+  .cancel-icon{width:36px;height:36px;border-radius:10px;background:var(--coral-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.cancel-icon i{width:16px;height:16px;color:var(--coral);}
+  .cancel-body{flex:1;}.cancel-title{font-size:13px;font-weight:700;}.cancel-desc{font-size:11px;color:var(--grey-mid);}
+  .cancel-btn{padding:7px 14px;background:white;border:1.5px solid var(--coral);color:var(--coral);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;}.cancel-btn:hover{background:var(--coral);color:white;}
+
+  @media(max-width:900px){.account-layout{grid-template-columns:1fr;}.account-nav{position:static;}.pc-billing{grid-template-columns:1fr 1fr;}.usage-grid,.addon-grid{grid-template-columns:1fr;}.bill-row{grid-template-columns:1fr 1fr;gap:4px;}.pay-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">digi<em>store</em></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek producten…"><div class="search-icon"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="bell"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">2</span></button></div></div></header>
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li><a href="#">Mijn account</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Abonnement</li></ol></div></div>
+
+<div class="container"><div class="account-layout">
+  <!-- Sidebar -->
+  <nav class="account-nav">
+    <div class="an-header"><div class="an-avatar">MK</div><div><div class="an-name">Mark Kokkelkoren</div><div class="an-email">mark@example.nl</div></div></div>
+    <div class="an-links">
+      <a href="#" class="an-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+      <a href="#" class="an-link"><i data-lucide="package"></i> Bestellingen <span class="an-badge">1</span></a>
+      <a href="#" class="an-link active"><i data-lucide="credit-card"></i> Abonnement</a>
+      <a href="#" class="an-link"><i data-lucide="key-round"></i> Licenties</a>
+      <a href="#" class="an-link"><i data-lucide="gift"></i> Cadeaubonnen</a>
+      <a href="#" class="an-link"><i data-lucide="award"></i> Loyalty</a>
+      <div class="an-divider"></div>
+      <a href="#" class="an-link"><i data-lucide="file-text"></i> Facturen</a>
+      <a href="#" class="an-link"><i data-lucide="heart"></i> Favorieten</a>
+      <a href="#" class="an-link"><i data-lucide="map-pin"></i> Adressen</a>
+      <a href="#" class="an-link"><i data-lucide="settings"></i> Instellingen</a>
+      <a href="#" class="an-link" style="color:var(--coral);"><i data-lucide="log-out"></i> Uitloggen</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div>
+    <div class="page-header"><div><h1>Abonnement</h1><div class="ph-sub">Beheer je plan, verbruik en facturatie</div></div><div class="ph-actions"><button class="ph-btn"><i data-lucide="repeat"></i> Wijzig plan</button><button class="ph-btn primary"><i data-lucide="arrow-up-circle"></i> Upgraden</button></div></div>
+
+    <!-- Current plan -->
+    <div class="plan-card">
+      <div class="pc-top">
+        <div class="pc-plan">
+          <div class="pc-icon" style="background:var(--teal-glow);">⚡</div>
+          <div><div class="pc-name">Professional <span class="pc-badge" style="background:var(--green-light);color:var(--green);">● Actief</span></div><div class="pc-meta">25 gebruikers · Jaarlijks · Gestart 15 jan 2025</div></div>
+        </div>
+      </div>
+      <div class="pc-billing">
+        <div class="pcb"><div class="pcb-label"><i data-lucide="tag"></i> Maandprijs</div><div class="pcb-value">€725,00</div><div class="pcb-sub">25 × €29/gebruiker</div></div>
+        <div class="pcb"><div class="pcb-label"><i data-lucide="calendar"></i> Volgende factuur</div><div class="pcb-value">15 mrt 2026</div><div class="pcb-sub">SEPA auto-incasso</div></div>
+        <div class="pcb"><div class="pcb-label"><i data-lucide="clock"></i> Looptijd</div><div class="pcb-value">13 van 12 mnd</div><div class="pcb-sub">Verlengd t/m 15 jan 2027</div></div>
+        <div class="pcb"><div class="pcb-label"><i data-lucide="piggy-bank"></i> Bespaard</div><div class="pcb-value" style="color:var(--green);">€2.900</div><div class="pcb-sub">vs. maandelijks</div></div>
+      </div>
+    </div>
+
+    <!-- Usage -->
+    <div class="sec-title"><i data-lucide="activity"></i> Verbruik deze periode</div>
+    <div class="usage-grid">
+      <div class="uc"><div class="uc-head"><div class="uc-label"><i data-lucide="users"></i> Gebruikers</div><div class="uc-pct" style="color:var(--teal);">84%</div></div><div class="uc-bar"><div class="uc-fill" style="width:84%;background:var(--teal);"></div></div><div class="uc-detail"><span>21 / 25 seats</span><span>4 beschikbaar</span></div></div>
+      <div class="uc warn"><div class="uc-head"><div class="uc-label"><i data-lucide="hard-drive"></i> Opslag</div><div class="uc-pct">91%</div></div><div class="uc-bar"><div class="uc-fill" style="width:91%;background:var(--amber);"></div></div><div class="uc-detail"><span>227 / 250 GB</span><span>23 GB resterend</span></div></div>
+      <div class="uc"><div class="uc-head"><div class="uc-label"><i data-lucide="activity"></i> API calls</div><div class="uc-pct" style="color:var(--green);">62%</div></div><div class="uc-bar"><div class="uc-fill" style="width:62%;background:var(--green);"></div></div><div class="uc-detail"><span>62.400 / 100K</span><span>37.600 over</span></div></div>
+    </div>
+
+    <!-- Upgrade suggestion -->
+    <div class="upgrade-bar">
+      <div class="ub-icon"><i data-lucide="trending-up"></i></div>
+      <div class="ub-body"><div class="ub-title">Je opslag nadert de limiet (91%)</div><div class="ub-desc">Upgrade naar Enterprise voor onbeperkte opslag, of voeg 100 GB toe voor €19/mnd.</div></div>
+      <button class="ub-btn"><i data-lucide="plus-circle"></i> Uitbreiden</button>
+    </div>
+
+    <!-- Add-ons -->
+    <div class="sec-title"><i data-lucide="puzzle"></i> Actieve add-ons</div>
+    <div class="addon-grid">
+      <div class="addon"><div class="addon-icon" style="background:var(--teal-glow);">📊</div><div class="addon-info"><div class="addon-name">Analytics Dashboard</div><div class="addon-since">Sinds 15 jan 2025</div></div><div class="addon-price">€49/mnd</div></div>
+      <div class="addon"><div class="addon-icon" style="background:var(--blue-light);">🔗</div><div class="addon-info"><div class="addon-name">API Access Pro</div><div class="addon-since">Sinds 1 feb 2025</div></div><div class="addon-price">€29/mnd</div></div>
+      <div class="addon add"><i data-lucide="plus"></i> Add-on toevoegen</div>
+    </div>
+
+    <!-- Billing history -->
+    <div class="bill-card">
+      <div class="bill-header"><div class="bh-title"><i data-lucide="receipt"></i> Factuurhistorie</div><a href="#" class="bh-link">Alle facturen <i data-lucide="arrow-right"></i></a></div>
+      <div class="bill-row head"><div>Datum</div><div>Omschrijving</div><div style="text-align:right;">Bedrag</div><div style="text-align:center;">Status</div><div></div></div>
+      <div class="bill-row"><div class="bill-date">15 feb 2026</div><div class="bill-desc">Professional 25 users + add-ons</div><div class="bill-amount">€803,00</div><div class="bill-status"><span class="bs paid">Betaald</span></div><div class="bill-dl"><a><i data-lucide="download"></i> PDF</a></div></div>
+      <div class="bill-row"><div class="bill-date">15 jan 2026</div><div class="bill-desc">Professional 25 users + add-ons</div><div class="bill-amount">€803,00</div><div class="bill-status"><span class="bs paid">Betaald</span></div><div class="bill-dl"><a><i data-lucide="download"></i> PDF</a></div></div>
+      <div class="bill-row"><div class="bill-date">15 dec 2025</div><div class="bill-desc">Professional 20 users + add-ons</div><div class="bill-amount">€658,00</div><div class="bill-status"><span class="bs paid">Betaald</span></div><div class="bill-dl"><a><i data-lucide="download"></i> PDF</a></div></div>
+      <div class="bill-row"><div class="bill-date">15 nov 2025</div><div class="bill-desc">Professional 20 users + Analytics</div><div class="bill-amount">€629,00</div><div class="bill-status"><span class="bs paid">Betaald</span></div><div class="bill-dl"><a><i data-lucide="download"></i> PDF</a></div></div>
+    </div>
+
+    <!-- Payment methods -->
+    <div class="sec-title"><i data-lucide="credit-card"></i> Betaalmethoden</div>
+    <div class="pay-row">
+      <div class="pay default"><div class="pay-logo" style="background:var(--navy);color:white;">SEPA</div><div class="pay-info"><div class="pay-name">SEPA Incasso · ING</div><div class="pay-detail">NL42 INGB **** 7891 · M. Kokkelkoren</div></div><span class="pay-badge">Standaard</span></div>
+      <div class="pay"><div class="pay-logo" style="background:var(--blue-light);color:var(--blue);">VISA</div><div class="pay-info"><div class="pay-name">Visa · ****4523</div><div class="pay-detail">Vervalt 08/2027</div></div><div style="display:flex;gap:8px;"><span class="pay-act">Standaard</span><span class="pay-act" style="color:var(--coral);">Verwijder</span></div></div>
+    </div>
+
+    <!-- Cancel -->
+    <div class="cancel-bar">
+      <div class="cancel-icon"><i data-lucide="alert-circle"></i></div>
+      <div class="cancel-body"><div class="cancel-title">Abonnement opzeggen</div><div class="cancel-desc">Actief tot einde facturatieperiode (15 jan 2027). Data 30 dagen bewaard na opzegging.</div></div>
+      <button class="cancel-btn">Opzeggen</button>
+    </div>
+  </div>
+</div></div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

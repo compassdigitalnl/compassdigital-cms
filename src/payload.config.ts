@@ -54,6 +54,25 @@ import { Vendors } from '@/collections/Vendors'
 import { VendorReviews } from '@/collections/VendorReviews'
 import { Workshops } from '@/collections/Workshops'
 
+// Sprint 6 Collections - Subscriptions
+import { SubscriptionPlans } from '@/collections/SubscriptionPlans'
+import { UserSubscriptions } from '@/collections/UserSubscriptions'
+import { PaymentMethods } from '@/collections/PaymentMethods'
+
+// Sprint 6 Collections - Gift Vouchers
+import { GiftVouchers } from '@/collections/GiftVouchers'
+
+// Sprint 6 Collections - Licenses
+import { Licenses } from '@/collections/Licenses'
+import { LicenseActivations } from '@/collections/LicenseActivations'
+
+// Sprint 6 Collections - Loyalty Program
+import { LoyaltyTiers } from '@/collections/LoyaltyTiers'
+import { LoyaltyRewards } from '@/collections/LoyaltyRewards'
+import { LoyaltyPoints } from '@/collections/LoyaltyPoints'
+import { LoyaltyTransactions } from '@/collections/LoyaltyTransactions'
+import { LoyaltyRedemptions } from '@/collections/LoyaltyRedemptions'
+
 // Platform Collections (Multi-Tenant)
 import { ClientRequests } from '@/platform/collections/ClientRequests'
 import { Clients } from '@/platform/collections/Clients'
@@ -218,6 +237,25 @@ export default buildConfig({
     _col(Vendors),
     _col(VendorReviews),
     _col(Workshops),
+
+    // Sprint 6 - Subscriptions — optioneel per klant
+    _col(SubscriptionPlans),
+    _col(UserSubscriptions),
+    _col(PaymentMethods),
+
+    // Sprint 6 - Gift Vouchers — optioneel per klant
+    _col(GiftVouchers),
+
+    // Sprint 6 - Licenses — optioneel per klant
+    _col(Licenses),
+    _col(LicenseActivations),
+
+    // Sprint 6 - Loyalty Program — optioneel per klant
+    _col(LoyaltyTiers),
+    _col(LoyaltyRewards),
+    _col(LoyaltyPoints),
+    _col(LoyaltyTransactions),
+    _col(LoyaltyRedemptions),
 
     // Platform Management — alleen op platform-instantie
     ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),

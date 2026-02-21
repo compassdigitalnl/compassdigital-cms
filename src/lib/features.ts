@@ -33,6 +33,12 @@ export interface ClientFeatures {
   vendorReviews?: boolean
   workshops?: boolean
 
+  // Sprint 6 Features
+  subscriptions?: boolean
+  giftVouchers?: boolean
+  licenses?: boolean
+  loyalty?: boolean
+
   // Content
   blog?: boolean
   faq?: boolean
@@ -125,6 +131,12 @@ export const features = {
   vendorReviews: isFeatureEnabled('vendor_reviews'),
   workshops: isFeatureEnabled('workshops'),
 
+  // Sprint 6
+  subscriptions: isFeatureEnabled('subscriptions'),
+  giftVouchers: isFeatureEnabled('gift_vouchers'),
+  licenses: isFeatureEnabled('licenses'),
+  loyalty: isFeatureEnabled('loyalty'),
+
   // Content
   blog: isFeatureEnabled('blog'),
   faq: isFeatureEnabled('faq'),
@@ -143,6 +155,7 @@ export const features = {
 export const featureCategories = {
   ecommerce: ['shop', 'cart', 'checkout', 'wishlists', 'productReviews'],
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
+  sprint6: ['subscriptions', 'giftVouchers', 'licenses', 'loyalty'],
   content: ['blog', 'faq', 'testimonials', 'cases'],
   advanced: ['multiLanguage', 'aiContent', 'platform'],
 } as const
@@ -182,6 +195,10 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     vendors: 'ENABLE_VENDORS',
     vendorReviews: 'ENABLE_VENDOR_REVIEWS',
     workshops: 'ENABLE_WORKSHOPS',
+    subscriptions: 'ENABLE_SUBSCRIPTIONS',
+    giftVouchers: 'ENABLE_GIFT_VOUCHERS',
+    licenses: 'ENABLE_LICENSES',
+    loyalty: 'ENABLE_LOYALTY',
     blog: 'ENABLE_BLOG',
     faq: 'ENABLE_FAQ',
     testimonials: 'ENABLE_TESTIMONIALS',
@@ -226,6 +243,25 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     vendors: 'vendors',
     'vendor-reviews': 'vendorReviews',
     workshops: 'workshops',
+
+    // Sprint 6 - Subscriptions
+    'subscription-plans': 'subscriptions',
+    'user-subscriptions': 'subscriptions',
+    'payment-methods': 'subscriptions',
+
+    // Sprint 6 - Gift Vouchers
+    'gift-vouchers': 'giftVouchers',
+
+    // Sprint 6 - Licenses
+    licenses: 'licenses',
+    'license-activations': 'licenses',
+
+    // Sprint 6 - Loyalty Program
+    'loyalty-tiers': 'loyalty',
+    'loyalty-rewards': 'loyalty',
+    'loyalty-points': 'loyalty',
+    'loyalty-transactions': 'loyalty',
+    'loyalty-redemptions': 'loyalty',
 
     // Content
     'blog-posts': 'blog',
