@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { Header, Theme } from '@/payload-types'
+import type { Header, Theme, Settings } from '@/payload-types'
 import {
   Menu,
   ChevronDown,
@@ -22,7 +22,7 @@ import {
   Home,
 } from 'lucide-react'
 import { cn } from '@/utilities/cn'
-import { CMSLink } from '../Link'
+import { CMSLink } from '@/branches/shared/components/common/Link'
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Flame,
@@ -42,9 +42,10 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 type Props = {
   navigation: NonNullable<Header['navigation']>
   theme: Theme | null
+  settings?: Settings | null
 }
 
-export function NavigationBar({ navigation, theme }: Props) {
+export function NavigationBar({ navigation, theme, settings }: Props) {
   const pathname = usePathname()
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
@@ -188,21 +189,27 @@ export function NavigationBar({ navigation, theme }: Props) {
 
             {/* Contact Info */}
             <div className="flex items-center gap-5 text-xs">
-              <a
-                href="mailto:info@example.com"
-                className="flex items-center gap-1.5 text-gray-600 hover:text-[var(--primary,#00897B)] transition-colors"
-              >
-                <Mail className="w-4 h-4" style={{ color: primaryColor }} />
-                <span className="hidden xl:inline">info@example.com</span>
-              </a>
-              <div className="w-px h-4 bg-gray-200" />
-              <a
-                href="tel:+31201234567"
-                className="flex items-center gap-1.5 text-gray-600 hover:text-[var(--primary,#00897B)] transition-colors"
-              >
-                <Phone className="w-4 h-4" style={{ color: primaryColor }} />
-                <span className="hidden xl:inline">020 123 4567</span>
-              </a>
+              {settings?.email && (
+                <>
+                  <a
+                    href={`mailto:${settings.email}`}
+                    className="flex items-center gap-1.5 text-gray-600 hover:text-[var(--primary,#00897B)] transition-colors"
+                  >
+                    <Mail className="w-4 h-4" style={{ color: primaryColor }} />
+                    <span className="hidden xl:inline">{settings.email}</span>
+                  </a>
+                  {settings?.phone && <div className="w-px h-4 bg-gray-200" />}
+                </>
+              )}
+              {settings?.phone && (
+                <a
+                  href={`tel:${settings.phone}`}
+                  className="flex items-center gap-1.5 text-gray-600 hover:text-[var(--primary,#00897B)] transition-colors"
+                >
+                  <Phone className="w-4 h-4" style={{ color: primaryColor }} />
+                  <span className="hidden xl:inline">{settings.phone}</span>
+                </a>
+              )}
             </div>
 
             {/* CTA Button */}

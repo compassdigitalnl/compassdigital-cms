@@ -49,11 +49,12 @@ import {
 import { TopBar } from './TopBar'
 import { AlertBar } from './AlertBar'
 import { MobileDrawer } from './MobileDrawer'
-import { NavigationBar } from './NavigationBar'
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { Settings } from '@/payload-types'
 
 type Props = {
   header: HeaderType
+  theme?: Theme | null
+  settings?: Settings | null
 }
 
 // Icon mapping helper
@@ -93,22 +94,10 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   ClipboardList,
 }
 
-export function HeaderClient({ header }: Props) {
+export function HeaderClient({ header, theme, settings }: Props) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [theme, setTheme] = useState<Theme | null>(null)
-  const [isMounted, setIsMounted] = useState(false)
-
-  // Load theme
-  useEffect(() => {
-    setIsMounted(true)
-    async function loadTheme() {
-      const themeData = await getCachedGlobal('theme', 1)()
-      setTheme(themeData as Theme)
-    }
-    loadTheme()
-  }, [])
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -277,9 +266,6 @@ export function HeaderClient({ header }: Props) {
         </div>
       </header>
 
-      {/* Navigation Bar */}
-      {navigation && <NavigationBar navigation={navigation} theme={theme} />}
-
       {/* Mobile Drawer */}
       <MobileDrawer
         isOpen={mobileOpen}
@@ -287,25 +273,6 @@ export function HeaderClient({ header }: Props) {
         header={header}
         theme={theme}
       />
-
-      {/* Apply theme CSS variables - only after mount to prevent hydration mismatch */}
-      {isMounted && theme && (
-        <style jsx global>{`
-          :root {
-            --primary: ${theme.primaryColor || '#00897B'};
-            --secondary: ${theme.secondaryColor || '#0A1628'};
-            --accent: ${theme.accentColor || '#8b5cf6'};
-            --background: ${theme.backgroundColor || '#ffffff'};
-            --surface: ${theme.surfaceColor || '#f9fafb'};
-            --border: ${theme.borderColor || '#e5e7eb'};
-            --text-primary: ${theme.textPrimary || '#0A1628'};
-            --text-secondary: ${theme.textSecondary || '#64748b'};
-            --text-muted: ${theme.textMuted || '#94a3b8'};
-            --font-heading: ${theme.headingFont || 'Inter, system-ui, sans-serif'};
-            --font-body: ${theme.bodyFont || 'Inter, system-ui, sans-serif'};
-          }
-        `}</style>
-      )}
     </>
   )
 }

@@ -7,7 +7,7 @@ import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvi
 import { SearchProvider } from '@/branches/shared/components/features/search/search/SearchProvider'
 import { MiniCartProvider } from '@/branches/shared/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/Toast'
-import { DynamicHeader } from '@/branches/shared/components/layout/header/DynamicHeader'
+import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
 import { DynamicNav } from '@/branches/shared/components/layout/header/navigation/DynamicNav'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -65,7 +65,7 @@ export default async function ContentLayout({ children }: { children: ReactNode 
               <LivePreviewListener />
 
               {/* Dynamic Header (CMS-driven, includes TopBar) */}
-              <DynamicHeader header={headerGlobal} settings={settingsGlobal} />
+              <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
 
               {/* Dynamic Navigation (CMS-driven) */}
               <DynamicNav navigation={headerGlobal?.navigation} />
