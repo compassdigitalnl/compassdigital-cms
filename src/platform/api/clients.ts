@@ -7,6 +7,7 @@
 
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { features } from '@/lib/features'
 /** Shape expected by POST /api/platform/clients */
 interface ProvisioningRequest {
   clientName: string
@@ -22,6 +23,14 @@ interface ProvisioningRequest {
  * List all clients with optional filtering
  */
 export async function GET_Clients(request: NextRequest) {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      { success: true, data: [], pagination: { page: 1, limit: 10, total: 0, totalPages: 0 } },
+      { status: 200 },
+    )
+  }
+
   try {
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
     const payload = await getPayloadClient()
@@ -76,6 +85,14 @@ export async function GET_Clients(request: NextRequest) {
  * Create and provision new client
  */
 export async function POST_Clients(request: NextRequest) {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      { success: false, error: 'Platform feature is disabled' },
+      { status: 403 },
+    )
+  }
+
   try {
     const body: ProvisioningRequest = await request.json()
 
@@ -152,6 +169,14 @@ export async function POST_Clients(request: NextRequest) {
  * Get single client details
  */
 export async function GET_ClientById(clientId: string) {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      { success: false, error: 'Platform feature is disabled' },
+      { status: 403 },
+    )
+  }
+
   try {
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
     const payload = await getPayloadClient()
@@ -176,6 +201,14 @@ export async function GET_ClientById(clientId: string) {
  * Update client configuration
  */
 export async function PATCH_Client(clientId: string, request: NextRequest) {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      { success: false, error: 'Platform feature is disabled' },
+      { status: 403 },
+    )
+  }
+
   try {
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
     const payload = await getPayloadClient()
@@ -202,6 +235,14 @@ export async function PATCH_Client(clientId: string, request: NextRequest) {
  * Deprovision and delete client
  */
 export async function DELETE_Client(clientId: string) {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      { success: false, error: 'Platform feature is disabled' },
+      { status: 403 },
+    )
+  }
+
   try {
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
     const payload = await getPayloadClient()
@@ -304,6 +345,14 @@ export async function GET_ClientHealth(clientId: string) {
  * Get deployment history for client
  */
 export async function GET_ClientDeployments(clientId: string, request: NextRequest) {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      { success: false, error: 'Platform feature is disabled' },
+      { status: 403 },
+    )
+  }
+
   try {
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
     const payload = await getPayloadClient()
@@ -350,6 +399,14 @@ export async function GET_ClientDeployments(clientId: string, request: NextReque
  * Trigger redeployment for client
  */
 export async function POST_RedeployClient(clientId: string) {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      { success: false, error: 'Platform feature is disabled' },
+      { status: 403 },
+    )
+  }
+
   try {
     // 1. Get client details
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
@@ -405,6 +462,17 @@ export async function POST_RedeployClient(clientId: string) {
  * Get platform-wide statistics
  */
 export async function GET_PlatformStats() {
+  // Early return if platform feature is disabled
+  if (!features.platform) {
+    return NextResponse.json(
+      {
+        success: true,
+        data: { totalClients: 0, activeClients: 0, suspendedClients: 0, failedDeployments: 0 },
+      },
+      { status: 200 },
+    )
+  }
+
   try {
     const { getPayloadClient } = await import('@/lib/getPlatformPayload')
     const payload = await getPayloadClient()
