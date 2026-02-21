@@ -70,27 +70,19 @@ export interface Config {
     users: User;
     pages: Page;
     media: Media;
-    'blog-posts': BlogPost;
-    'blog-categories': BlogCategory;
-    faqs: Faq;
-    cases: Case;
-    testimonials: Testimonial;
-    services: Service;
     partners: Partner;
+    services: Service;
+    notifications: Notification;
+    products: Product;
     'product-categories': ProductCategory;
     brands: Brand;
-    products: Product;
-    'customer-groups': CustomerGroup;
-    orderLists: OrderList;
-    orders: Order;
-    invoices: Invoice;
-    'recurring-orders': RecurringOrder;
-    returns: Return;
-    notifications: Notification;
     'recently-viewed': RecentlyViewed;
-    vendors: Vendor;
-    'vendor-reviews': VendorReview;
-    workshops: Workshop;
+    'customer-groups': CustomerGroup;
+    orders: Order;
+    orderLists: OrderList;
+    'recurring-orders': RecurringOrder;
+    invoices: Invoice;
+    returns: Return;
     'subscription-plans': SubscriptionPlan;
     'user-subscriptions': UserSubscription;
     'payment-methods': PaymentMethod;
@@ -102,6 +94,18 @@ export interface Config {
     'loyalty-points': LoyaltyPoint;
     'loyalty-transactions': LoyaltyTransaction;
     'loyalty-redemptions': LoyaltyRedemption;
+    'blog-posts': BlogPost;
+    'blog-categories': BlogCategory;
+    faqs: Faq;
+    cases: Case;
+    testimonials: Testimonial;
+    vendors: Vendor;
+    'vendor-reviews': VendorReview;
+    workshops: Workshop;
+    'construction-services': ConstructionService;
+    'construction-projects': ConstructionProject;
+    'construction-reviews': ConstructionReview;
+    'quote-requests': QuoteRequest;
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
@@ -118,27 +122,19 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
-    'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
-    faqs: FaqsSelect<false> | FaqsSelect<true>;
-    cases: CasesSelect<false> | CasesSelect<true>;
-    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
-    services: ServicesSelect<false> | ServicesSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
-    products: ProductsSelect<false> | ProductsSelect<true>;
-    'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
-    orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
-    orders: OrdersSelect<false> | OrdersSelect<true>;
-    invoices: InvoicesSelect<false> | InvoicesSelect<true>;
-    'recurring-orders': RecurringOrdersSelect<false> | RecurringOrdersSelect<true>;
-    returns: ReturnsSelect<false> | ReturnsSelect<true>;
-    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
     'recently-viewed': RecentlyViewedSelect<false> | RecentlyViewedSelect<true>;
-    vendors: VendorsSelect<false> | VendorsSelect<true>;
-    'vendor-reviews': VendorReviewsSelect<false> | VendorReviewsSelect<true>;
-    workshops: WorkshopsSelect<false> | WorkshopsSelect<true>;
+    'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
+    'recurring-orders': RecurringOrdersSelect<false> | RecurringOrdersSelect<true>;
+    invoices: InvoicesSelect<false> | InvoicesSelect<true>;
+    returns: ReturnsSelect<false> | ReturnsSelect<true>;
     'subscription-plans': SubscriptionPlansSelect<false> | SubscriptionPlansSelect<true>;
     'user-subscriptions': UserSubscriptionsSelect<false> | UserSubscriptionsSelect<true>;
     'payment-methods': PaymentMethodsSelect<false> | PaymentMethodsSelect<true>;
@@ -150,6 +146,18 @@ export interface Config {
     'loyalty-points': LoyaltyPointsSelect<false> | LoyaltyPointsSelect<true>;
     'loyalty-transactions': LoyaltyTransactionsSelect<false> | LoyaltyTransactionsSelect<true>;
     'loyalty-redemptions': LoyaltyRedemptionsSelect<false> | LoyaltyRedemptionsSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
+    cases: CasesSelect<false> | CasesSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    vendors: VendorsSelect<false> | VendorsSelect<true>;
+    'vendor-reviews': VendorReviewsSelect<false> | VendorReviewsSelect<true>;
+    workshops: WorkshopsSelect<false> | WorkshopsSelect<true>;
+    'construction-services': ConstructionServicesSelect<false> | ConstructionServicesSelect<true>;
+    'construction-projects': ConstructionProjectsSelect<false> | ConstructionProjectsSelect<true>;
+    'construction-reviews': ConstructionReviewsSelect<false> | ConstructionReviewsSelect<true>;
+    'quote-requests': QuoteRequestsSelect<false> | QuoteRequestsSelect<true>;
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
@@ -311,9 +319,9 @@ export interface Product {
    */
   slug: string;
   /**
-   * Simple = normaal product, Grouped = multi-select parent
+   * Simple = normaal, Grouped = multi-select, Variable = configureerbaar, Mix&Match = bundel builder
    */
-  productType: 'simple' | 'grouped';
+  productType: 'simple' | 'grouped' | 'variable' | 'mixAndMatch';
   sku?: string | null;
   /**
    * European Article Number (13 cijfers)
@@ -1013,6 +1021,12 @@ export interface Page {
         | ImageGalleryBlock
         | VideoBlock
         | MapBlock
+        | ConstructionHeroBlock
+        | ServicesGridBlock
+        | ProjectsGridBlock
+        | ReviewsGridBlock
+        | StatsBarBlock
+        | CTABannerBlock
       )[]
     | null;
   meta?: {
@@ -2049,48 +2063,149 @@ export interface MapBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-posts".
+ * via the `definition` "ConstructionHeroBlock".
  */
-export interface BlogPost {
-  id: number;
+export interface ConstructionHeroBlock {
+  /**
+   * Bijv. "Al 25+ jaar uw bouwpartner"
+   */
+  badge?: string | null;
+  /**
+   * Lucide icon naam (bijv. "award")
+   */
+  badgeIcon?: string | null;
+  /**
+   * Grote hero titel. Gebruik {highlight}tekst{/highlight} voor gemarkeerde woorden
+   */
   title: string;
   /**
-   * Gebruikt in URL: /blog/{categorie}/{slug}
+   * Hero beschrijving (max ~150 woorden)
    */
-  slug: string;
+  description: string;
+  primaryCTA: {
+    text: string;
+    icon?: string | null;
+    link: string;
+  };
+  secondaryCTA?: {
+    text?: string | null;
+    icon?: string | null;
+    link?: string | null;
+  };
   /**
-   * Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph
+   * Bijv. "500+ tevreden opdrachtgevers"
    */
-  excerpt: string;
+  trustText?: string | null;
   /**
-   * Grote afbeelding bovenaan artikel (360px hoog)
+   * Bijv. "Gemiddeld 4.9/5 beoordeeld"
    */
-  featuredImage?: (number | null) | Media;
+  trustSubtext?: string | null;
   /**
-   * Als er geen afbeelding is: toon een emoji als placeholder (bijv: 🧤)
+   * Max 4 avatars (daarna wordt "+X" getoond)
    */
-  featuredImageEmoji?: string | null;
-  /**
-   * Selecteer 1 of meer categorieën. Eerste categorie wordt gebruikt in URL.
-   */
-  categories: (number | BlogCategory)[];
-  /**
-   * Badge getoond op hero image (top-left)
-   */
-  featuredTag?: ('none' | 'guide' | 'new' | 'featured' | 'tip' | 'news') | null;
-  /**
-   * Zoektermen en onderwerpen (getoond onderaan artikel)
-   */
-  tags?:
+  avatars?:
     | {
-        tag: string;
+        /**
+         * Bijv. "JD"
+         */
+        initials: string;
+        color?: ('teal' | 'blue' | 'purple' | 'amber') | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)
+   * Optioneel - laat leeg voor emoji placeholder
    */
-  content: {
+  heroImage?: (number | null) | Media;
+  /**
+   * Wordt gebruikt als er geen afbeelding is
+   */
+  heroEmoji?: string | null;
+  /**
+   * Max 2 floating badges (bijv. "10 jaar garantie", "4.9/5 rating")
+   */
+  floatingBadges?:
+    | {
+        title: string;
+        subtitle?: string | null;
+        icon?: string | null;
+        color?: ('green' | 'amber' | 'blue' | 'teal') | null;
+        position?: ('bottom-left' | 'top-right') | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'construction-hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesGridBlock".
+ */
+export interface ServicesGridBlock {
+  heading: {
+    /**
+     * Kleine badge boven de titel
+     */
+    badge?: string | null;
+    /**
+     * Lucide icon naam
+     */
+    badgeIcon?: string | null;
+    title: string;
+    description?: string | null;
+  };
+  /**
+   * Kies hoe diensten getoond worden
+   */
+  servicesSource?: ('auto' | 'manual') | null;
+  /**
+   * Selecteer welke diensten getoond worden
+   */
+  services?: (number | ConstructionService)[] | null;
+  /**
+   * Hoeveel diensten maximaal tonen
+   */
+  limit?: number | null;
+  /**
+   * Grid layout
+   */
+  columns?: ('2' | '3' | '4') | null;
+  /**
+   * Tekst voor "lees meer" link
+   */
+  linkText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'services-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "construction-services".
+ */
+export interface ConstructionService {
+  id: number;
+  /**
+   * Naam van de dienst (bijv. "Nieuwbouw", "Renovatie")
+   */
+  title: string;
+  /**
+   * URL-vriendelijke versie (bijv. "nieuwbouw", "renovatie")
+   */
+  slug: string;
+  /**
+   * Emoji of icon naam (bijv. "🏠", "hammer")
+   */
+  icon?: string | null;
+  color?: ('teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral') | null;
+  /**
+   * Voor kaarten en previews (max ~150 karakters)
+   */
+  shortDescription: string;
+  /**
+   * Volledige omschrijving voor detail pagina
+   */
+  longDescription?: {
     root: {
       type: string;
       children: {
@@ -2104,50 +2219,55 @@ export interface BlogPost {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   /**
-   * Wordt getoond in author box
+   * Key features die bovenaan getoond worden
    */
-  author?: (number | null) | User;
+  features?:
+    | {
+        feature: string;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Optioneel: overschrijf auteur bio voor dit artikel
+   * Hoe het proces verloopt (stap voor stap)
    */
-  authorBio?: string | null;
+  processSteps?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Lucide icon naam (bijv. "clipboard-check")
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Automatisch berekend, maar kan handmatig overschreven worden
+   * Verschillende varianten van deze dienst
    */
-  readingTime?: number | null;
+  serviceTypes?:
+    | {
+        name: string;
+        description?: string | null;
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Wordt automatisch bijgewerkt bij elke page view
+   * Unique Selling Points
    */
-  viewCount?: number | null;
-  /**
-   * Toon als grote featured card bovenaan blog archive
-   */
-  featured?: boolean | null;
-  /**
-   * Layout template voor dit artikel
-   */
-  template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
-  /**
-   * Producten genoemd in artikel (getoond in sidebar + inline embeds)
-   */
-  relatedProducts?: (number | Product)[] | null;
-  /**
-   * Handmatig geselecteerde gerelateerde artikelen (max 3)
-   */
-  relatedPosts?: (number | BlogPost)[] | null;
-  /**
-   * Optioneel: overschrijf page title voor SEO (max 60 tekens)
-   */
-  metaTitle?: string | null;
-  /**
-   * Optioneel: overschrijf excerpt voor SEO (max 160 tekens)
-   */
-  metaDescription?: string | null;
-  /**
-   * Optioneel: voeg FAQ toe voor Google rich snippets
-   */
+  usps?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Lucide icon naam
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   faq?:
     | {
         question: string;
@@ -2156,172 +2276,563 @@ export interface BlogPost {
       }[]
     | null;
   /**
-   * Toon automatische inhoudsopgave in sidebar (Template 1)
+   * Hoofdafbeelding voor de dienst
    */
-  enableTOC?: boolean | null;
+  heroImage?: (number | null) | Media;
   /**
-   * Toon LinkedIn, Email, Link, Print buttons onderaan artikel
+   * Extra afbeeldingen
    */
-  enableShare?: boolean | null;
-  /**
-   * Toon comment sectie onderaan artikel (toekomstige feature)
-   */
-  enableComments?: boolean | null;
-  publishedAt?: string | null;
-  status?: ('published' | 'draft') | null;
+  gallery?: (number | Media)[] | null;
   meta?: {
+    /**
+     * Titel voor zoekmachines (max 60 karakters)
+     */
     title?: string | null;
+    /**
+     * Meta omschrijving (max 160 karakters)
+     */
     description?: string | null;
     /**
-     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     * Komma-gescheiden (bijv. "nieuwbouw, amsterdam, aannemer")
      */
-    focusKeyword?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    /**
-     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
-     */
-    canonicalUrl?: string | null;
-    /**
-     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
-     */
-    noIndex?: boolean | null;
-    /**
-     * Prevent search engines from following links on this page.
-     */
-    noFollow?: boolean | null;
+    keywords?: string | null;
   };
+  status: 'draft' | 'published';
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-categories".
+ * via the `definition` "ProjectsGridBlock".
  */
-export interface BlogCategory {
-  id: number;
-  name: string;
+export interface ProjectsGridBlock {
+  heading?: {
+    /**
+     * Kleine label boven de titel (bijv. "Ons werk")
+     */
+    badge?: string | null;
+    /**
+     * Hoofdtitel van de sectie
+     */
+    title?: string | null;
+    /**
+     * Optionele beschrijving onder de titel
+     */
+    description?: string | null;
+  };
   /**
-   * Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}
+   * Hoe moeten projecten geselecteerd worden?
    */
+  projectsSource: 'auto' | 'featured' | 'manual' | 'category';
+  /**
+   * Selecteer specifieke projecten
+   */
+  projects?: (number | ConstructionProject)[] | null;
+  /**
+   * Filter projecten op deze categorie
+   */
+  category?: (number | null) | ConstructionService;
+  /**
+   * Maximum aantal projecten om te tonen
+   */
+  limit?: number | null;
+  /**
+   * Aantal kolommen in het grid (desktop)
+   */
+  columns?: ('2' | '3' | '4') | null;
+  /**
+   * Toon categorie filter knoppen boven het grid
+   */
+  showFilter?: boolean | null;
+  /**
+   * Optionele knop onder het grid
+   */
+  ctaButton?: {
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'projects-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "construction-projects".
+ */
+export interface ConstructionProject {
+  id: number;
+  /**
+   * Project naam (bijv. "Villa met zwembad — Amstelveen")
+   */
+  title: string;
   slug: string;
   /**
-   * Optioneel: maak dit een subcategorie van een andere categorie (hierarchisch)
+   * Type project (nieuwbouw, renovatie, etc.)
    */
-  parent?: (number | null) | BlogCategory;
+  category?: (number | null) | ConstructionService;
   /**
-   * Korte beschrijving van deze categorie (optioneel, gebruikt in SEO)
+   * Labels die op de project kaart getoond worden
    */
-  description?: string | null;
-  /**
-   * Lucide icon voor categorie badges en chips
-   */
-  icon?:
-    | (
-        | 'BookOpen'
-        | 'Lightbulb'
-        | 'Sparkles'
-        | 'Stethoscope'
-        | 'ShieldCheck'
-        | 'Newspaper'
-        | 'GraduationCap'
-        | 'Microscope'
-        | 'Settings'
-        | 'TrendingUp'
-        | 'Target'
-        | 'Wrench'
-      )
-    | null;
-  /**
-   * Kleur voor categorie badges en article cards (gebruikt CSS custom properties)
-   */
-  color?: ('teal' | 'blue' | 'green' | 'coral' | 'purple' | 'amber' | 'pink') | null;
-  /**
-   * Optionele header afbeelding voor categorie overzichtspagina
-   */
-  image?: (number | null) | Media;
-  /**
-   * Sorteervolgorde (lager = eerder)
-   */
-  displayOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Opgeslagen bestellijsten voor snelle herbestellingen
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "orderLists".
- */
-export interface OrderList {
-  id: number;
-  /**
-   * Bijvoorbeeld: "Maandelijkse EHBO bestelling"
-   */
-  name: string;
-  /**
-   * Icoon voor visuele identificatie
-   */
-  icon?:
-    | ('clipboard-list' | 'repeat' | 'stethoscope' | 'flask-conical' | 'plus-circle' | 'building-2' | 'package')
-    | null;
-  /**
-   * Achtergrondkleur van het icoon
-   */
-  color?: ('teal' | 'blue' | 'amber' | 'green') | null;
-  /**
-   * Vastgepinde lijsten worden bovenaan getoond
-   */
-  isPinned?: boolean | null;
-  /**
-   * Gebruiker die deze lijst aangemaakt heeft
-   */
-  owner: number | User;
-  /**
-   * Deze lijst wordt voorgeselecteerd bij quick order
-   */
-  isDefault?: boolean | null;
-  items: {
-    product: number | Product;
-    /**
-     * Hoeveel van dit product normaal besteld wordt
-     */
-    defaultQuantity: number;
-    /**
-     * Persoonlijke notities over dit product
-     */
-    notes?: string | null;
-    id?: string | null;
-  }[];
-  /**
-   * Automatisch berekend
-   */
-  itemCount?: number | null;
-  /**
-   * Optionele beschrijving van deze bestellijst
-   */
-  description?: string | null;
-  /**
-   * Notities bij deze lijst (bijv. instructies voor collega's, bestelmomenten)
-   */
-  notes?: string | null;
-  /**
-   * Wordt automatisch bijgewerkt wanneer producten uit deze lijst worden besteld
-   */
-  lastOrderedAt?: string | null;
-  /**
-   * Andere gebruikers die deze lijst mogen zien (optioneel)
-   */
-  shareWith?:
+  badges?:
     | {
-        user: number | User;
-        canEdit?: boolean | null;
+        /**
+         * Bijv. "Nieuwbouw", "2024", "Gereed"
+         */
+        badge: string;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Stad of wijk (bijv. "Amstelveen")
+   */
+  location?: string | null;
+  /**
+   * Jaar van oplevering
+   */
+  year?: number | null;
+  /**
+   * Bouwtijd (bijv. "14 maanden")
+   */
+  duration?: string | null;
+  /**
+   * Vloeroppervlak (bijv. "280m²")
+   */
+  size?: string | null;
+  /**
+   * Optioneel budget range (bijv. "€450.000 - €550.000")
+   */
+  budget?: string | null;
+  /**
+   * Preview tekst voor kaarten
+   */
+  shortDescription: string;
+  /**
+   * Volledige project beschrijving
+   */
+  longDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Wat was de uitdaging bij dit project?
+   */
+  challenge?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Hoe hebben we het opgelost?
+   */
+  solution?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Wat is het eindresultaat?
+   */
+  result?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Hero image voor project
+   */
+  featuredImage: number | Media;
+  /**
+   * Project foto's
+   */
+  gallery?: (number | Media)[] | null;
+  /**
+   * Voor en na foto's (vooral voor renovaties)
+   */
+  beforeAfter?: {
+    before?: (number | null) | Media;
+    after?: (number | null) | Media;
+  };
+  /**
+   * Review van de klant voor dit project
+   */
+  testimonial?: {
+    quote?: string | null;
+    clientName?: string | null;
+    /**
+     * Bijv. "Eigenaar villa"
+     */
+    clientRole?: string | null;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  /**
+   * Toon op homepage
+   */
+  featured?: boolean | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReviewsGridBlock".
+ */
+export interface ReviewsGridBlock {
+  heading?: {
+    /**
+     * Kleine label boven de titel (bijv. "Testimonials")
+     */
+    badge?: string | null;
+    /**
+     * Hoofdtitel van de sectie
+     */
+    title?: string | null;
+    /**
+     * Optionele beschrijving onder de titel
+     */
+    description?: string | null;
+  };
+  /**
+   * Hoe moeten reviews geselecteerd worden?
+   */
+  reviewsSource: 'featured' | 'auto' | 'manual';
+  /**
+   * Selecteer specifieke reviews
+   */
+  reviews?: (number | ConstructionReview)[] | null;
+  /**
+   * Maximum aantal reviews om te tonen
+   */
+  limit?: number | null;
+  /**
+   * Aantal kolommen in het grid (desktop)
+   */
+  columns?: ('2' | '3') | null;
+  /**
+   * Visuele stijl van de reviews
+   */
+  layout?: ('cards' | 'quotes' | 'compact') | null;
+  /**
+   * Toon de sterren beoordeling
+   */
+  showRatings?: boolean | null;
+  /**
+   * Toon klant initialen als avatar
+   */
+  showAvatars?: boolean | null;
+  /**
+   * Toon een prominente gemiddelde score sectie
+   */
+  averageRating?: {
+    enabled?: boolean | null;
+    position?: ('top' | 'left') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'reviews-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "construction-reviews".
+ */
+export interface ConstructionReview {
+  id: number;
+  /**
+   * Naam van de klant
+   */
+  clientName: string;
+  /**
+   * Bijv. "Eigenaar villa", "Projectleider", etc.
+   */
+  clientRole?: string | null;
+  /**
+   * Initialen voor avatar (bijv. "JD")
+   */
+  clientInitials?: string | null;
+  clientColor?: ('teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral') | null;
+  /**
+   * Sterren beoordeling (1-5)
+   */
+  rating: number;
+  /**
+   * De testimonial tekst
+   */
+  quote: string;
+  /**
+   * Optioneel: koppel aan een project
+   */
+  project?: (number | null) | ConstructionProject;
+  /**
+   * Optioneel: koppel aan een dienst
+   */
+  service?: (number | null) | ConstructionService;
+  /**
+   * Toon op homepage
+   */
+  featured?: boolean | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBarBlock".
+ */
+export interface StatsBarBlock {
+  /**
+   * Visuele stijl van de statistieken balk
+   */
+  style?: ('default' | 'accent' | 'dark' | 'transparent') | null;
+  /**
+   * Voeg 2-5 statistieken toe
+   */
+  stats: {
+    /**
+     * Bijv. "25+" of "500+" of "98%"
+     */
+    value: string;
+    /**
+     * Bijv. "Jaar ervaring" of "Projecten" of "Tevreden klanten"
+     */
+    label: string;
+    /**
+     * Optioneel icoon bij de statistiek
+     */
+    icon?: ('none' | 'construction' | 'star' | 'users' | 'trophy' | 'chart' | 'check' | 'target' | 'briefcase') | null;
+    id?: string | null;
+  }[];
+  /**
+   * Hoe de statistieken worden weergegeven
+   */
+  layout?: ('horizontal' | 'grid') | null;
+  /**
+   * Laat de getallen animeren bij scrollen
+   */
+  animate?: boolean | null;
+  /**
+   * Toon verticale lijnen tussen statistieken
+   */
+  dividers?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stats-bar';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CTABannerBlock".
+ */
+export interface CTABannerBlock {
+  /**
+   * Visuele stijl van de banner
+   */
+  style?: ('gradient' | 'solid' | 'outlined' | 'image') | null;
+  /**
+   * Achtergrond afbeelding (alleen bij Image stijl)
+   */
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Kleine label boven de titel (optioneel)
+   */
+  badge?: string | null;
+  /**
+   * Hoofdtitel van de CTA
+   */
+  title: string;
+  /**
+   * Beschrijving onder de titel
+   */
+  description?: string | null;
+  /**
+   * Voeg 1-2 actie knoppen toe
+   */
+  buttons: {
+    text: string;
+    link: string;
+    variant?: ('primary' | 'secondary' | 'white') | null;
+    id?: string | null;
+  }[];
+  /**
+   * Optionele vertrouwenselementen onder de knoppen
+   */
+  trustElements?: {
+    enabled?: boolean | null;
+    items?:
+      | {
+          icon?: ('check' | 'star' | 'trophy' | 'lock' | 'lightning') | null;
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Uitlijning van de inhoud
+   */
+  alignment?: ('left' | 'center') | null;
+  /**
+   * Hoogte/ruimte van de banner
+   */
+  size?: ('small' | 'medium' | 'large') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cta-banner';
+}
+/**
+ * Gebruikersnotificaties en meldingen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications".
+ */
+export interface Notification {
+  id: number;
+  user: number | User;
+  /**
+   * Type notificatie bepaalt icoon en kleur
+   */
+  type:
+    | 'order_shipped'
+    | 'order_delivered'
+    | 'order_cancelled'
+    | 'invoice_available'
+    | 'invoice_overdue'
+    | 'payment_reminder'
+    | 'stock_alert'
+    | 'price_change'
+    | 'recurring_order_reminder'
+    | 'recurring_order_processed'
+    | 'return_approved'
+    | 'return_rejected'
+    | 'return_received'
+    | 'refund_processed'
+    | 'system'
+    | 'account_update';
+  /**
+   * Categorie voor filteren in notificatie center
+   */
+  category: 'all' | 'orders' | 'stock' | 'system';
+  /**
+   * Korte, duidelijke titel (bijv. "Bestelling #PM-2026-1847 is verzonden")
+   */
+  title: string;
+  /**
+   * Uitgebreide beschrijving of details
+   */
+  message: string;
+  isRead?: boolean | null;
+  /**
+   * Datum/tijd waarop de melding is gelezen
+   */
+  readAt?: string | null;
+  /**
+   * Koppel aan een bestelling (optioneel)
+   */
+  relatedOrder?: (number | null) | Order;
+  /**
+   * Koppel aan een product (bijv. bij voorraadmelding)
+   */
+  relatedProduct?: (number | null) | Product;
+  /**
+   * Koppel aan een factuur
+   */
+  relatedInvoice?: (number | null) | Invoice;
+  /**
+   * Koppel aan een herhaalbestelling
+   */
+  relatedRecurringOrder?: (number | null) | RecurringOrder;
+  /**
+   * Koppel aan een retourzending
+   */
+  relatedReturn?: (number | null) | Return;
+  /**
+   * Link waar de gebruiker naartoe gaat bij klikken (bijv. /account/orders/123)
+   */
+  actionUrl?: string | null;
+  /**
+   * Optioneel: label voor actieknop (bijv. "Bekijk bestelling")
+   */
+  actionLabel?: string | null;
+  /**
+   * Icoon voor in notificatie center
+   */
+  icon?:
+    | (
+        | 'bell'
+        | 'truck'
+        | 'check-circle'
+        | 'package'
+        | 'file-text'
+        | 'repeat'
+        | 'rotate-ccw'
+        | 'banknote'
+        | 'alert-circle'
+        | 'settings'
+        | 'user'
+      )
+    | null;
+  /**
+   * Kleur van het icoon en achtergrond
+   */
+  iconColor?: ('green' | 'teal' | 'blue' | 'amber' | 'coral' | 'grey') | null;
+  /**
+   * Hogere prioriteit verschijnt bovenaan in de lijst
+   */
+  priority?: ('low' | 'normal' | 'high' | 'urgent') | null;
+  /**
+   * Optioneel: automatisch verwijderen na deze datum
+   */
+  expiresAt?: string | null;
+  /**
+   * Ook een e-mail versturen aan de gebruiker
+   */
+  sendEmail?: boolean | null;
+  /**
+   * Gemarkeerd als verzonden na e-mail versturen
+   */
+  emailSent?: boolean | null;
+  emailSentAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2802,122 +3313,6 @@ export interface Return {
   createdAt: string;
 }
 /**
- * Gebruikersnotificaties en meldingen
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "notifications".
- */
-export interface Notification {
-  id: number;
-  user: number | User;
-  /**
-   * Type notificatie bepaalt icoon en kleur
-   */
-  type:
-    | 'order_shipped'
-    | 'order_delivered'
-    | 'order_cancelled'
-    | 'invoice_available'
-    | 'invoice_overdue'
-    | 'payment_reminder'
-    | 'stock_alert'
-    | 'price_change'
-    | 'recurring_order_reminder'
-    | 'recurring_order_processed'
-    | 'return_approved'
-    | 'return_rejected'
-    | 'return_received'
-    | 'refund_processed'
-    | 'system'
-    | 'account_update';
-  /**
-   * Categorie voor filteren in notificatie center
-   */
-  category: 'all' | 'orders' | 'stock' | 'system';
-  /**
-   * Korte, duidelijke titel (bijv. "Bestelling #PM-2026-1847 is verzonden")
-   */
-  title: string;
-  /**
-   * Uitgebreide beschrijving of details
-   */
-  message: string;
-  isRead?: boolean | null;
-  /**
-   * Datum/tijd waarop de melding is gelezen
-   */
-  readAt?: string | null;
-  /**
-   * Koppel aan een bestelling (optioneel)
-   */
-  relatedOrder?: (number | null) | Order;
-  /**
-   * Koppel aan een product (bijv. bij voorraadmelding)
-   */
-  relatedProduct?: (number | null) | Product;
-  /**
-   * Koppel aan een factuur
-   */
-  relatedInvoice?: (number | null) | Invoice;
-  /**
-   * Koppel aan een herhaalbestelling
-   */
-  relatedRecurringOrder?: (number | null) | RecurringOrder;
-  /**
-   * Koppel aan een retourzending
-   */
-  relatedReturn?: (number | null) | Return;
-  /**
-   * Link waar de gebruiker naartoe gaat bij klikken (bijv. /account/orders/123)
-   */
-  actionUrl?: string | null;
-  /**
-   * Optioneel: label voor actieknop (bijv. "Bekijk bestelling")
-   */
-  actionLabel?: string | null;
-  /**
-   * Icoon voor in notificatie center
-   */
-  icon?:
-    | (
-        | 'bell'
-        | 'truck'
-        | 'check-circle'
-        | 'package'
-        | 'file-text'
-        | 'repeat'
-        | 'rotate-ccw'
-        | 'banknote'
-        | 'alert-circle'
-        | 'settings'
-        | 'user'
-      )
-    | null;
-  /**
-   * Kleur van het icoon en achtergrond
-   */
-  iconColor?: ('green' | 'teal' | 'blue' | 'amber' | 'coral' | 'grey') | null;
-  /**
-   * Hogere prioriteit verschijnt bovenaan in de lijst
-   */
-  priority?: ('low' | 'normal' | 'high' | 'urgent') | null;
-  /**
-   * Optioneel: automatisch verwijderen na deze datum
-   */
-  expiresAt?: string | null;
-  /**
-   * Ook een e-mail versturen aan de gebruiker
-   */
-  sendEmail?: boolean | null;
-  /**
-   * Gemarkeerd als verzonden na e-mail versturen
-   */
-  emailSent?: boolean | null;
-  emailSentAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Recent bekeken producten tracking voor gepersonaliseerde aanbevelingen
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2978,351 +3373,77 @@ export interface RecentlyViewed {
   createdAt: string;
 }
 /**
- * Leveranciers, fabrikanten en partners
+ * Opgeslagen bestellijsten voor snelle herbestellingen
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "vendors".
+ * via the `definition` "orderLists".
  */
-export interface Vendor {
+export interface OrderList {
   id: number;
   /**
-   * Bijv: Paul Hartmann AG, Becton Dickinson, 3M
+   * Bijvoorbeeld: "Maandelijkse EHBO bestelling"
    */
   name: string;
   /**
-   * Automatisch gegenereerd uit de naam
+   * Icoon voor visuele identificatie
    */
-  slug: string;
+  icon?:
+    | ('clipboard-list' | 'repeat' | 'stethoscope' | 'flask-conical' | 'plus-circle' | 'building-2' | 'package')
+    | null;
   /**
-   * Korte naam voor logo (bijv: "Hartmann", "BD", "3M")
+   * Achtergrondkleur van het icoon
    */
-  shortName?: string | null;
+  color?: ('teal' | 'blue' | 'amber' | 'green') | null;
   /**
-   * Korte beschrijvende tekst (max 120 tekens)
+   * Vastgepinde lijsten worden bovenaan getoond
    */
-  tagline?: string | null;
+  isPinned?: boolean | null;
   /**
-   * Uitgebreide beschrijving over de leverancier
+   * Gebruiker die deze lijst aangemaakt heeft
    */
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  owner: number | User;
   /**
-   * Bedrijfslogo (voorkeur: SVG of PNG met transparante achtergrond)
+   * Deze lijst wordt voorgeselecteerd bij quick order
    */
-  logo?: (number | null) | Media;
-  /**
-   * Hero banner voor vendor detail pagina (1200x300px)
-   */
-  banner?: (number | null) | Media;
-  /**
-   * Hex kleurcode voor banner gradient (bijv: #0A1628)
-   */
-  bannerColor?: string | null;
-  /**
-   * Toon "Geverifieerd" badge
-   */
-  isVerified?: boolean | null;
-  /**
-   * Premium partners worden uitgelicht
-   */
-  isPremium?: boolean | null;
-  /**
-   * Toon in "Uitgelichte partners" sectie
-   */
-  isFeatured?: boolean | null;
-  contact?: {
-    website?: string | null;
-    email?: string | null;
-    phone?: string | null;
-    address?: string | null;
-    country?: string | null;
-  };
-  /**
-   * Automatisch berekende statistieken (handmatig overschrijfbaar)
-   */
-  stats?: {
+  isDefault?: boolean | null;
+  items: {
+    product: number | Product;
     /**
-     * Wordt automatisch geteld uit Products met deze vendor
+     * Hoeveel van dit product normaal besteld wordt
      */
-    productCount?: number | null;
+    defaultQuantity: number;
     /**
-     * Gemiddelde rating (0-5 sterren)
+     * Persoonlijke notities over dit product
      */
-    rating?: number | null;
-    /**
-     * Totaal aantal reviews
-     */
-    reviewCount?: number | null;
-    /**
-     * Bijv: 1818
-     */
-    establishedYear?: number | null;
-  };
+    notes?: string | null;
+    id?: string | null;
+  }[];
   /**
-   * In welke categorieën is deze leverancier actief?
+   * Automatisch berekend
    */
-  categories?: (number | ProductCategory)[] | null;
+  itemCount?: number | null;
   /**
-   * Certificaten en keurmerken (CE, ISO, etc.)
+   * Optionele beschrijving van deze bestellijst
    */
-  certifications?:
+  description?: string | null;
+  /**
+   * Notities bij deze lijst (bijv. instructies voor collega's, bestelmomenten)
+   */
+  notes?: string | null;
+  /**
+   * Wordt automatisch bijgewerkt wanneer producten uit deze lijst worden besteld
+   */
+  lastOrderedAt?: string | null;
+  /**
+   * Andere gebruikers die deze lijst mogen zien (optioneel)
+   */
+  shareWith?:
     | {
-        name: string;
-        icon?: ('shield-check' | 'award' | 'leaf' | 'star' | 'check-circle') | null;
+        user: number | User;
+        canEdit?: boolean | null;
         id?: string | null;
       }[]
     | null;
-  delivery?: {
-    deliveryTime?: string | null;
-    /**
-     * Bedrag in euro (bijv: 50)
-     */
-    freeShippingFrom?: number | null;
-    /**
-     * Deze leverancier biedt trainingen/workshops aan
-     */
-    offersWorkshops?: boolean | null;
-  };
-  /**
-   * Handmatig geselecteerde uitgelichte producten (max 6)
-   */
-  relatedProducts?: (number | Product)[] | null;
-  /**
-   * Sorteer volgorde (lager = eerder getoond)
-   */
-  order?: number | null;
-  meta?: {
-    /**
-     * SEO titel voor de vendor pagina
-     */
-    title?: string | null;
-    /**
-     * Korte beschrijving voor zoekmachines (max 160 tekens)
-     */
-    description?: string | null;
-    image?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Klantbeoordelingen voor leveranciers
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "vendor-reviews".
- */
-export interface VendorReview {
-  id: number;
-  /**
-   * Voor welke leverancier is deze review?
-   */
-  vendor: number | Vendor;
-  /**
-   * Korte titel voor de review
-   */
-  title?: string | null;
-  /**
-   * 1-5 sterren
-   */
-  rating: number;
-  /**
-   * De volledige review tekst (max 1000 tekens)
-   */
-  comment: string;
-  /**
-   * Naam van de reviewer
-   */
-  authorName: string;
-  /**
-   * Voor verificatie (niet publiek zichtbaar)
-   */
-  authorEmail?: string | null;
-  /**
-   * Optioneel: bedrijfsnaam van de reviewer
-   */
-  authorCompany?: string | null;
-  /**
-   * Voor avatar display (automatisch gegenereerd uit naam)
-   */
-  authorInitials?: string | null;
-  /**
-   * Alleen goedgekeurde reviews zijn publiek zichtbaar
-   */
-  isApproved?: boolean | null;
-  /**
-   * Reviewer heeft daadwerkelijk bij deze vendor gekocht
-   */
-  isVerifiedPurchase?: boolean | null;
-  /**
-   * Interne notities (niet publiek)
-   */
-  moderationNotes?: string | null;
-  /**
-   * Hoeveel mensen vonden deze review nuttig
-   */
-  helpfulCount?: number | null;
-  /**
-   * Optionele reactie van de leverancier
-   */
-  vendorResponse?: {
-    text?: string | null;
-    respondedAt?: string | null;
-  };
-  /**
-   * Datum wanneer review is geschreven
-   */
-  reviewDate?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Trainingen, workshops en webinars
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "workshops".
- */
-export interface Workshop {
-  id: number;
-  /**
-   * Bijv: Wondverzorging Masterclass, Handhygiëne Training
-   */
-  title: string;
-  /**
-   * Automatisch gegenereerd uit de titel
-   */
-  slug: string;
-  /**
-   * Uitgebreide beschrijving van de workshop
-   */
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Korte samenvatting voor overzichten (max 200 tekens)
-   */
-  excerpt?: string | null;
-  /**
-   * Workshop banner/afbeelding (1200x600px)
-   */
-  featuredImage?: (number | null) | Media;
-  /**
-   * Emoji voor visuele weergave (bijv: 🎓, 🏥, 🩺)
-   */
-  emoji?: string | null;
-  /**
-   * Welke vendor organiseert deze workshop?
-   */
-  vendor?: (number | null) | Vendor;
-  /**
-   * Naam van de trainer/instructeur
-   */
-  instructor?: string | null;
-  /**
-   * Wanneer vindt de workshop plaats?
-   */
-  date: string;
-  /**
-   * Duur in minuten (bijv: 120 = 2 uur)
-   */
-  duration?: number | null;
-  /**
-   * Menselijk leesbare duur (bijv: "2 uur", "halve dag")
-   */
-  durationDisplay?: string | null;
-  locationType: 'physical' | 'online' | 'hybrid';
-  /**
-   * Naam van de locatie of platform
-   */
-  locationName?: string | null;
-  /**
-   * Volledig adres van fysieke locatie
-   */
-  locationAddress?: string | null;
-  /**
-   * Stad/plaats van de workshop
-   */
-  locationCity?: string | null;
-  /**
-   * Link naar aanmeldpagina of formulier
-   */
-  registrationUrl?: string | null;
-  /**
-   * Maximaal aantal deelnemers
-   */
-  maxParticipants?: number | null;
-  /**
-   * Aantal huidige aanmeldingen
-   */
-  currentParticipants?: number | null;
-  /**
-   * Is deze workshop gratis?
-   */
-  isFree?: boolean | null;
-  /**
-   * Prijs in euro
-   */
-  price?: number | null;
-  /**
-   * Bijv: "€149 ex BTW" of "Gratis voor partners"
-   */
-  priceDisplay?: string | null;
-  category?:
-    | ('wondverzorging' | 'handygiene' | 'diagnostiek' | 'sterilisatie' | 'product-training' | 'algemeen')
-    | null;
-  level?: ('beginner' | 'intermediate' | 'advanced' | 'expert') | null;
-  targetAudience?: ('nurses' | 'doctors' | 'care-workers' | 'pharmacists' | 'management')[] | null;
-  status: 'upcoming' | 'open' | 'almost-full' | 'full' | 'completed' | 'cancelled';
-  /**
-   * Toon als featured workshop
-   */
-  isFeatured?: boolean | null;
-  /**
-   * Wat leren deelnemers in deze workshop?
-   */
-  learningObjectives?:
-    | {
-        objective: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Vereiste voorkennis voor deelname
-   */
-  prerequisites?: string | null;
-  /**
-   * Krijgen deelnemers een certificaat?
-   */
-  certificateAwarded?: boolean | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (number | null) | Media;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -3803,6 +3924,604 @@ export interface LoyaltyRedemption {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: number;
+  title: string;
+  /**
+   * Gebruikt in URL: /blog/{categorie}/{slug}
+   */
+  slug: string;
+  /**
+   * Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph
+   */
+  excerpt: string;
+  /**
+   * Grote afbeelding bovenaan artikel (360px hoog)
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Als er geen afbeelding is: toon een emoji als placeholder (bijv: 🧤)
+   */
+  featuredImageEmoji?: string | null;
+  /**
+   * Selecteer 1 of meer categorieën. Eerste categorie wordt gebruikt in URL.
+   */
+  categories: (number | BlogCategory)[];
+  /**
+   * Badge getoond op hero image (top-left)
+   */
+  featuredTag?: ('none' | 'guide' | 'new' | 'featured' | 'tip' | 'news') | null;
+  /**
+   * Zoektermen en onderwerpen (getoond onderaan artikel)
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Wordt getoond in author box
+   */
+  author?: (number | null) | User;
+  /**
+   * Optioneel: overschrijf auteur bio voor dit artikel
+   */
+  authorBio?: string | null;
+  /**
+   * Automatisch berekend, maar kan handmatig overschreven worden
+   */
+  readingTime?: number | null;
+  /**
+   * Wordt automatisch bijgewerkt bij elke page view
+   */
+  viewCount?: number | null;
+  /**
+   * Toon als grote featured card bovenaan blog archive
+   */
+  featured?: boolean | null;
+  /**
+   * Layout template voor dit artikel
+   */
+  template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
+  /**
+   * Producten genoemd in artikel (getoond in sidebar + inline embeds)
+   */
+  relatedProducts?: (number | Product)[] | null;
+  /**
+   * Handmatig geselecteerde gerelateerde artikelen (max 3)
+   */
+  relatedPosts?: (number | BlogPost)[] | null;
+  /**
+   * Optioneel: overschrijf page title voor SEO (max 60 tekens)
+   */
+  metaTitle?: string | null;
+  /**
+   * Optioneel: overschrijf excerpt voor SEO (max 160 tekens)
+   */
+  metaDescription?: string | null;
+  /**
+   * Optioneel: voeg FAQ toe voor Google rich snippets
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Toon automatische inhoudsopgave in sidebar (Template 1)
+   */
+  enableTOC?: boolean | null;
+  /**
+   * Toon LinkedIn, Email, Link, Print buttons onderaan artikel
+   */
+  enableShare?: boolean | null;
+  /**
+   * Toon comment sectie onderaan artikel (toekomstige feature)
+   */
+  enableComments?: boolean | null;
+  publishedAt?: string | null;
+  status?: ('published' | 'draft') | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories".
+ */
+export interface BlogCategory {
+  id: number;
+  name: string;
+  /**
+   * Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}
+   */
+  slug: string;
+  /**
+   * Optioneel: maak dit een subcategorie van een andere categorie (hierarchisch)
+   */
+  parent?: (number | null) | BlogCategory;
+  /**
+   * Korte beschrijving van deze categorie (optioneel, gebruikt in SEO)
+   */
+  description?: string | null;
+  /**
+   * Lucide icon voor categorie badges en chips
+   */
+  icon?:
+    | (
+        | 'BookOpen'
+        | 'Lightbulb'
+        | 'Sparkles'
+        | 'Stethoscope'
+        | 'ShieldCheck'
+        | 'Newspaper'
+        | 'GraduationCap'
+        | 'Microscope'
+        | 'Settings'
+        | 'TrendingUp'
+        | 'Target'
+        | 'Wrench'
+      )
+    | null;
+  /**
+   * Kleur voor categorie badges en article cards (gebruikt CSS custom properties)
+   */
+  color?: ('teal' | 'blue' | 'green' | 'coral' | 'purple' | 'amber' | 'pink') | null;
+  /**
+   * Optionele header afbeelding voor categorie overzichtspagina
+   */
+  image?: (number | null) | Media;
+  /**
+   * Sorteervolgorde (lager = eerder)
+   */
+  displayOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Leveranciers, fabrikanten en partners
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors".
+ */
+export interface Vendor {
+  id: number;
+  /**
+   * Bijv: Paul Hartmann AG, Becton Dickinson, 3M
+   */
+  name: string;
+  /**
+   * Automatisch gegenereerd uit de naam
+   */
+  slug: string;
+  /**
+   * Korte naam voor logo (bijv: "Hartmann", "BD", "3M")
+   */
+  shortName?: string | null;
+  /**
+   * Korte beschrijvende tekst (max 120 tekens)
+   */
+  tagline?: string | null;
+  /**
+   * Uitgebreide beschrijving over de leverancier
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Bedrijfslogo (voorkeur: SVG of PNG met transparante achtergrond)
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Hero banner voor vendor detail pagina (1200x300px)
+   */
+  banner?: (number | null) | Media;
+  /**
+   * Hex kleurcode voor banner gradient (bijv: #0A1628)
+   */
+  bannerColor?: string | null;
+  /**
+   * Toon "Geverifieerd" badge
+   */
+  isVerified?: boolean | null;
+  /**
+   * Premium partners worden uitgelicht
+   */
+  isPremium?: boolean | null;
+  /**
+   * Toon in "Uitgelichte partners" sectie
+   */
+  isFeatured?: boolean | null;
+  contact?: {
+    website?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    address?: string | null;
+    country?: string | null;
+  };
+  /**
+   * Automatisch berekende statistieken (handmatig overschrijfbaar)
+   */
+  stats?: {
+    /**
+     * Wordt automatisch geteld uit Products met deze vendor
+     */
+    productCount?: number | null;
+    /**
+     * Gemiddelde rating (0-5 sterren)
+     */
+    rating?: number | null;
+    /**
+     * Totaal aantal reviews
+     */
+    reviewCount?: number | null;
+    /**
+     * Bijv: 1818
+     */
+    establishedYear?: number | null;
+  };
+  /**
+   * In welke categorieën is deze leverancier actief?
+   */
+  categories?: (number | ProductCategory)[] | null;
+  /**
+   * Certificaten en keurmerken (CE, ISO, etc.)
+   */
+  certifications?:
+    | {
+        name: string;
+        icon?: ('shield-check' | 'award' | 'leaf' | 'star' | 'check-circle') | null;
+        id?: string | null;
+      }[]
+    | null;
+  delivery?: {
+    deliveryTime?: string | null;
+    /**
+     * Bedrag in euro (bijv: 50)
+     */
+    freeShippingFrom?: number | null;
+    /**
+     * Deze leverancier biedt trainingen/workshops aan
+     */
+    offersWorkshops?: boolean | null;
+  };
+  /**
+   * Handmatig geselecteerde uitgelichte producten (max 6)
+   */
+  relatedProducts?: (number | Product)[] | null;
+  /**
+   * Sorteer volgorde (lager = eerder getoond)
+   */
+  order?: number | null;
+  meta?: {
+    /**
+     * SEO titel voor de vendor pagina
+     */
+    title?: string | null;
+    /**
+     * Korte beschrijving voor zoekmachines (max 160 tekens)
+     */
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Klantbeoordelingen voor leveranciers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-reviews".
+ */
+export interface VendorReview {
+  id: number;
+  /**
+   * Voor welke leverancier is deze review?
+   */
+  vendor: number | Vendor;
+  /**
+   * Korte titel voor de review
+   */
+  title?: string | null;
+  /**
+   * 1-5 sterren
+   */
+  rating: number;
+  /**
+   * De volledige review tekst (max 1000 tekens)
+   */
+  comment: string;
+  /**
+   * Naam van de reviewer
+   */
+  authorName: string;
+  /**
+   * Voor verificatie (niet publiek zichtbaar)
+   */
+  authorEmail?: string | null;
+  /**
+   * Optioneel: bedrijfsnaam van de reviewer
+   */
+  authorCompany?: string | null;
+  /**
+   * Voor avatar display (automatisch gegenereerd uit naam)
+   */
+  authorInitials?: string | null;
+  /**
+   * Alleen goedgekeurde reviews zijn publiek zichtbaar
+   */
+  isApproved?: boolean | null;
+  /**
+   * Reviewer heeft daadwerkelijk bij deze vendor gekocht
+   */
+  isVerifiedPurchase?: boolean | null;
+  /**
+   * Interne notities (niet publiek)
+   */
+  moderationNotes?: string | null;
+  /**
+   * Hoeveel mensen vonden deze review nuttig
+   */
+  helpfulCount?: number | null;
+  /**
+   * Optionele reactie van de leverancier
+   */
+  vendorResponse?: {
+    text?: string | null;
+    respondedAt?: string | null;
+  };
+  /**
+   * Datum wanneer review is geschreven
+   */
+  reviewDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Trainingen, workshops en webinars
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workshops".
+ */
+export interface Workshop {
+  id: number;
+  /**
+   * Bijv: Wondverzorging Masterclass, Handhygiëne Training
+   */
+  title: string;
+  /**
+   * Automatisch gegenereerd uit de titel
+   */
+  slug: string;
+  /**
+   * Uitgebreide beschrijving van de workshop
+   */
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Korte samenvatting voor overzichten (max 200 tekens)
+   */
+  excerpt?: string | null;
+  /**
+   * Workshop banner/afbeelding (1200x600px)
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Emoji voor visuele weergave (bijv: 🎓, 🏥, 🩺)
+   */
+  emoji?: string | null;
+  /**
+   * Welke vendor organiseert deze workshop?
+   */
+  vendor?: (number | null) | Vendor;
+  /**
+   * Naam van de trainer/instructeur
+   */
+  instructor?: string | null;
+  /**
+   * Wanneer vindt de workshop plaats?
+   */
+  date: string;
+  /**
+   * Duur in minuten (bijv: 120 = 2 uur)
+   */
+  duration?: number | null;
+  /**
+   * Menselijk leesbare duur (bijv: "2 uur", "halve dag")
+   */
+  durationDisplay?: string | null;
+  locationType: 'physical' | 'online' | 'hybrid';
+  /**
+   * Naam van de locatie of platform
+   */
+  locationName?: string | null;
+  /**
+   * Volledig adres van fysieke locatie
+   */
+  locationAddress?: string | null;
+  /**
+   * Stad/plaats van de workshop
+   */
+  locationCity?: string | null;
+  /**
+   * Link naar aanmeldpagina of formulier
+   */
+  registrationUrl?: string | null;
+  /**
+   * Maximaal aantal deelnemers
+   */
+  maxParticipants?: number | null;
+  /**
+   * Aantal huidige aanmeldingen
+   */
+  currentParticipants?: number | null;
+  /**
+   * Is deze workshop gratis?
+   */
+  isFree?: boolean | null;
+  /**
+   * Prijs in euro
+   */
+  price?: number | null;
+  /**
+   * Bijv: "€149 ex BTW" of "Gratis voor partners"
+   */
+  priceDisplay?: string | null;
+  category?:
+    | ('wondverzorging' | 'handygiene' | 'diagnostiek' | 'sterilisatie' | 'product-training' | 'algemeen')
+    | null;
+  level?: ('beginner' | 'intermediate' | 'advanced' | 'expert') | null;
+  targetAudience?: ('nurses' | 'doctors' | 'care-workers' | 'pharmacists' | 'management')[] | null;
+  status: 'upcoming' | 'open' | 'almost-full' | 'full' | 'completed' | 'cancelled';
+  /**
+   * Toon als featured workshop
+   */
+  isFeatured?: boolean | null;
+  /**
+   * Wat leren deelnemers in deze workshop?
+   */
+  learningObjectives?:
+    | {
+        objective: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Vereiste voorkennis voor deelname
+   */
+  prerequisites?: string | null;
+  /**
+   * Krijgen deelnemers een certificaat?
+   */
+  certificateAwarded?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Offerte aanvragen van de website
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quote-requests".
+ */
+export interface QuoteRequest {
+  id: number;
+  /**
+   * Volledige naam van de aanvrager
+   */
+  name: string;
+  email: string;
+  phone: string;
+  address?: string | null;
+  postalCode?: string | null;
+  city?: string | null;
+  projectType: 'nieuwbouw' | 'renovatie' | 'verduurzaming' | 'aanbouw' | 'utiliteitsbouw' | 'herstelwerk';
+  budget?: ('< 50k' | '50k-100k' | '100k-250k' | '250k-500k' | '> 500k' | 'unknown') | null;
+  timeline?: ('asap' | '3months' | '6months' | 'thisyear' | 'nextyear' | 'unknown') | null;
+  /**
+   * Beschrijf uw project zo gedetailleerd mogelijk
+   */
+  description?: string | null;
+  /**
+   * Foto's, tekeningen, schetsen, etc.
+   */
+  attachments?: (number | Media)[] | null;
+  /**
+   * Huidige status van de aanvraag
+   */
+  status: 'new' | 'contacted' | 'quoted' | 'won' | 'lost';
+  /**
+   * Welke medewerker is verantwoordelijk?
+   */
+  assignedTo?: (number | null) | User;
+  /**
+   * Notities die niet naar de klant gaan
+   */
+  notes?: string | null;
+  submittedAt: string;
+  contactedAt?: string | null;
+  quotedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Inkomende onboarding-verzoeken van nieuwe klanten
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4190,32 +4909,20 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'blog-posts';
-        value: number | BlogPost;
-      } | null)
-    | ({
-        relationTo: 'blog-categories';
-        value: number | BlogCategory;
-      } | null)
-    | ({
-        relationTo: 'faqs';
-        value: number | Faq;
-      } | null)
-    | ({
-        relationTo: 'cases';
-        value: number | Case;
-      } | null)
-    | ({
-        relationTo: 'testimonials';
-        value: number | Testimonial;
+        relationTo: 'partners';
+        value: number | Partner;
       } | null)
     | ({
         relationTo: 'services';
         value: number | Service;
       } | null)
     | ({
-        relationTo: 'partners';
-        value: number | Partner;
+        relationTo: 'notifications';
+        value: number | Notification;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
       } | null)
     | ({
         relationTo: 'product-categories';
@@ -4226,52 +4933,32 @@ export interface PayloadLockedDocument {
         value: number | Brand;
       } | null)
     | ({
-        relationTo: 'products';
-        value: number | Product;
+        relationTo: 'recently-viewed';
+        value: number | RecentlyViewed;
       } | null)
     | ({
         relationTo: 'customer-groups';
         value: number | CustomerGroup;
       } | null)
     | ({
-        relationTo: 'orderLists';
-        value: number | OrderList;
-      } | null)
-    | ({
         relationTo: 'orders';
         value: number | Order;
       } | null)
     | ({
-        relationTo: 'invoices';
-        value: number | Invoice;
+        relationTo: 'orderLists';
+        value: number | OrderList;
       } | null)
     | ({
         relationTo: 'recurring-orders';
         value: number | RecurringOrder;
       } | null)
     | ({
+        relationTo: 'invoices';
+        value: number | Invoice;
+      } | null)
+    | ({
         relationTo: 'returns';
         value: number | Return;
-      } | null)
-    | ({
-        relationTo: 'notifications';
-        value: number | Notification;
-      } | null)
-    | ({
-        relationTo: 'recently-viewed';
-        value: number | RecentlyViewed;
-      } | null)
-    | ({
-        relationTo: 'vendors';
-        value: number | Vendor;
-      } | null)
-    | ({
-        relationTo: 'vendor-reviews';
-        value: number | VendorReview;
-      } | null)
-    | ({
-        relationTo: 'workshops';
-        value: number | Workshop;
       } | null)
     | ({
         relationTo: 'subscription-plans';
@@ -4316,6 +5003,54 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'loyalty-redemptions';
         value: number | LoyaltyRedemption;
+      } | null)
+    | ({
+        relationTo: 'blog-posts';
+        value: number | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'blog-categories';
+        value: number | BlogCategory;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'cases';
+        value: number | Case;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'vendors';
+        value: number | Vendor;
+      } | null)
+    | ({
+        relationTo: 'vendor-reviews';
+        value: number | VendorReview;
+      } | null)
+    | ({
+        relationTo: 'workshops';
+        value: number | Workshop;
+      } | null)
+    | ({
+        relationTo: 'construction-services';
+        value: number | ConstructionService;
+      } | null)
+    | ({
+        relationTo: 'construction-projects';
+        value: number | ConstructionProject;
+      } | null)
+    | ({
+        relationTo: 'construction-reviews';
+        value: number | ConstructionReview;
+      } | null)
+    | ({
+        relationTo: 'quote-requests';
+        value: number | QuoteRequest;
       } | null)
     | ({
         relationTo: 'client-requests';
@@ -4484,6 +5219,12 @@ export interface PagesSelect<T extends boolean = true> {
         imageGallery?: T | ImageGalleryBlockSelect<T>;
         video?: T | VideoBlockSelect<T>;
         map?: T | MapBlockSelect<T>;
+        'construction-hero'?: T | ConstructionHeroBlockSelect<T>;
+        'services-grid'?: T | ServicesGridBlockSelect<T>;
+        'projects-grid'?: T | ProjectsGridBlockSelect<T>;
+        'reviews-grid'?: T | ReviewsGridBlockSelect<T>;
+        'stats-bar'?: T | StatsBarBlockSelect<T>;
+        'cta-banner'?: T | CTABannerBlockSelect<T>;
       };
   meta?:
     | T
@@ -4915,6 +5656,185 @@ export interface MapBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConstructionHeroBlock_select".
+ */
+export interface ConstructionHeroBlockSelect<T extends boolean = true> {
+  badge?: T;
+  badgeIcon?: T;
+  title?: T;
+  description?: T;
+  primaryCTA?:
+    | T
+    | {
+        text?: T;
+        icon?: T;
+        link?: T;
+      };
+  secondaryCTA?:
+    | T
+    | {
+        text?: T;
+        icon?: T;
+        link?: T;
+      };
+  trustText?: T;
+  trustSubtext?: T;
+  avatars?:
+    | T
+    | {
+        initials?: T;
+        color?: T;
+        id?: T;
+      };
+  heroImage?: T;
+  heroEmoji?: T;
+  floatingBadges?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        icon?: T;
+        color?: T;
+        position?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesGridBlock_select".
+ */
+export interface ServicesGridBlockSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        badge?: T;
+        badgeIcon?: T;
+        title?: T;
+        description?: T;
+      };
+  servicesSource?: T;
+  services?: T;
+  limit?: T;
+  columns?: T;
+  linkText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProjectsGridBlock_select".
+ */
+export interface ProjectsGridBlockSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        badge?: T;
+        title?: T;
+        description?: T;
+      };
+  projectsSource?: T;
+  projects?: T;
+  category?: T;
+  limit?: T;
+  columns?: T;
+  showFilter?: T;
+  ctaButton?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        link?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReviewsGridBlock_select".
+ */
+export interface ReviewsGridBlockSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        badge?: T;
+        title?: T;
+        description?: T;
+      };
+  reviewsSource?: T;
+  reviews?: T;
+  limit?: T;
+  columns?: T;
+  layout?: T;
+  showRatings?: T;
+  showAvatars?: T;
+  averageRating?:
+    | T
+    | {
+        enabled?: T;
+        position?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBarBlock_select".
+ */
+export interface StatsBarBlockSelect<T extends boolean = true> {
+  style?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        icon?: T;
+        id?: T;
+      };
+  layout?: T;
+  animate?: T;
+  dividers?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CTABannerBlock_select".
+ */
+export interface CTABannerBlockSelect<T extends boolean = true> {
+  style?: T;
+  backgroundImage?: T;
+  badge?: T;
+  title?: T;
+  description?: T;
+  buttons?:
+    | T
+    | {
+        text?: T;
+        link?: T;
+        variant?: T;
+        id?: T;
+      };
+  trustElements?:
+    | T
+    | {
+        enabled?: T;
+        items?:
+          | T
+          | {
+              icon?: T;
+              text?: T;
+              id?: T;
+            };
+      };
+  alignment?: T;
+  size?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -4934,141 +5854,16 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-posts_select".
+ * via the `definition` "partners_select".
  */
-export interface BlogPostsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  excerpt?: T;
-  featuredImage?: T;
-  featuredImageEmoji?: T;
-  categories?: T;
-  featuredTag?: T;
-  tags?:
-    | T
-    | {
-        tag?: T;
-        id?: T;
-      };
-  content?: T;
-  author?: T;
-  authorBio?: T;
-  readingTime?: T;
-  viewCount?: T;
-  featured?: T;
-  template?: T;
-  relatedProducts?: T;
-  relatedPosts?: T;
-  metaTitle?: T;
-  metaDescription?: T;
-  faq?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        id?: T;
-      };
-  enableTOC?: T;
-  enableShare?: T;
-  enableComments?: T;
-  publishedAt?: T;
-  status?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        focusKeyword?: T;
-        image?: T;
-        canonicalUrl?: T;
-        noIndex?: T;
-        noFollow?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-categories_select".
- */
-export interface BlogCategoriesSelect<T extends boolean = true> {
+export interface PartnersSelect<T extends boolean = true> {
   name?: T;
-  slug?: T;
-  parent?: T;
-  description?: T;
-  icon?: T;
-  color?: T;
-  image?: T;
-  displayOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs_select".
- */
-export interface FaqsSelect<T extends boolean = true> {
-  question?: T;
-  answer?: T;
+  logo?: T;
+  website?: T;
   category?: T;
+  description?: T;
   featured?: T;
   order?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cases_select".
- */
-export interface CasesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  client?: T;
-  excerpt?: T;
-  featuredImage?: T;
-  content?: T;
-  services?:
-    | T
-    | {
-        service?: T;
-        id?: T;
-      };
-  liveUrl?: T;
-  gallery?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
-  status?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        focusKeyword?: T;
-        image?: T;
-        canonicalUrl?: T;
-        noIndex?: T;
-        noFollow?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials_select".
- */
-export interface TestimonialsSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  company?: T;
-  photo?: T;
-  quote?: T;
-  rating?: T;
-  featured?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -5093,68 +5888,30 @@ export interface ServicesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "partners_select".
+ * via the `definition` "notifications_select".
  */
-export interface PartnersSelect<T extends boolean = true> {
-  name?: T;
-  logo?: T;
-  website?: T;
+export interface NotificationsSelect<T extends boolean = true> {
+  user?: T;
+  type?: T;
   category?: T;
-  description?: T;
-  featured?: T;
-  order?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-categories_select".
- */
-export interface ProductCategoriesSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  description?: T;
-  parent?: T;
-  image?: T;
-  level?: T;
-  order?: T;
-  visible?: T;
+  title?: T;
+  message?: T;
+  isRead?: T;
+  readAt?: T;
+  relatedOrder?: T;
+  relatedProduct?: T;
+  relatedInvoice?: T;
+  relatedRecurringOrder?: T;
+  relatedReturn?: T;
+  actionUrl?: T;
+  actionLabel?: T;
   icon?: T;
-  showInNavigation?: T;
-  navigationOrder?: T;
-  promoBanner?:
-    | T
-    | {
-        enabled?: T;
-        title?: T;
-        subtitle?: T;
-        image?: T;
-        buttonText?: T;
-        buttonLink?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands_select".
- */
-export interface BrandsSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  logo?: T;
-  description?: T;
-  website?: T;
-  featured?: T;
-  order?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
+  iconColor?: T;
+  priority?: T;
+  expiresAt?: T;
+  sendEmail?: T;
+  emailSent?: T;
+  emailSentAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -5283,6 +6040,86 @@ export interface ProductsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories_select".
+ */
+export interface ProductCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  parent?: T;
+  image?: T;
+  level?: T;
+  order?: T;
+  visible?: T;
+  icon?: T;
+  showInNavigation?: T;
+  navigationOrder?: T;
+  promoBanner?:
+    | T
+    | {
+        enabled?: T;
+        title?: T;
+        subtitle?: T;
+        image?: T;
+        buttonText?: T;
+        buttonLink?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  logo?: T;
+  description?: T;
+  website?: T;
+  featured?: T;
+  order?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recently-viewed_select".
+ */
+export interface RecentlyViewedSelect<T extends boolean = true> {
+  user?: T;
+  sessionId?: T;
+  product?: T;
+  viewedAt?: T;
+  productSnapshot?:
+    | T
+    | {
+        title?: T;
+        slug?: T;
+        sku?: T;
+        price?: T;
+        imageUrl?: T;
+        brand?: T;
+      };
+  referrer?: T;
+  source?: T;
+  device?: T;
+  timeOnPage?: T;
+  scrollDepth?: T;
+  addedToCart?: T;
+  addedToFavorites?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customer-groups_select".
  */
 export interface CustomerGroupsSelect<T extends boolean = true> {
@@ -5299,39 +6136,6 @@ export interface CustomerGroupsSelect<T extends boolean = true> {
   canRequestQuotes?: T;
   canDownloadInvoices?: T;
   canViewOrderHistory?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "orderLists_select".
- */
-export interface OrderListsSelect<T extends boolean = true> {
-  name?: T;
-  icon?: T;
-  color?: T;
-  isPinned?: T;
-  owner?: T;
-  isDefault?: T;
-  items?:
-    | T
-    | {
-        product?: T;
-        defaultQuantity?: T;
-        notes?: T;
-        id?: T;
-      };
-  itemCount?: T;
-  description?: T;
-  notes?: T;
-  lastOrderedAt?: T;
-  shareWith?:
-    | T
-    | {
-        user?: T;
-        canEdit?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -5410,37 +6214,34 @@ export interface OrdersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "invoices_select".
+ * via the `definition` "orderLists_select".
  */
-export interface InvoicesSelect<T extends boolean = true> {
-  invoiceNumber?: T;
-  order?: T;
-  customer?: T;
-  invoiceDate?: T;
-  dueDate?: T;
-  paymentDate?: T;
-  subtotal?: T;
-  tax?: T;
-  shippingCost?: T;
-  discount?: T;
-  amount?: T;
-  status?: T;
+export interface OrderListsSelect<T extends boolean = true> {
+  name?: T;
+  icon?: T;
+  color?: T;
+  isPinned?: T;
+  owner?: T;
+  isDefault?: T;
   items?:
     | T
     | {
-        description?: T;
-        sku?: T;
-        quantity?: T;
-        unitPrice?: T;
-        lineTotal?: T;
+        product?: T;
+        defaultQuantity?: T;
+        notes?: T;
         id?: T;
       };
-  paymentMethod?: T;
-  paymentReference?: T;
-  pdfFile?: T;
+  itemCount?: T;
+  description?: T;
   notes?: T;
-  remindersSent?: T;
-  lastReminderDate?: T;
+  lastOrderedAt?: T;
+  shareWith?:
+    | T
+    | {
+        user?: T;
+        canEdit?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -5502,6 +6303,42 @@ export interface RecurringOrdersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invoices_select".
+ */
+export interface InvoicesSelect<T extends boolean = true> {
+  invoiceNumber?: T;
+  order?: T;
+  customer?: T;
+  invoiceDate?: T;
+  dueDate?: T;
+  paymentDate?: T;
+  subtotal?: T;
+  tax?: T;
+  shippingCost?: T;
+  discount?: T;
+  amount?: T;
+  status?: T;
+  items?:
+    | T
+    | {
+        description?: T;
+        sku?: T;
+        quantity?: T;
+        unitPrice?: T;
+        lineTotal?: T;
+        id?: T;
+      };
+  paymentMethod?: T;
+  paymentReference?: T;
+  pdfFile?: T;
+  notes?: T;
+  remindersSent?: T;
+  lastReminderDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "returns_select".
  */
 export interface ReturnsSelect<T extends boolean = true> {
@@ -5550,200 +6387,6 @@ export interface ReturnsSelect<T extends boolean = true> {
   rejectionReason?: T;
   replacementOrder?: T;
   storeCreditAmount?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "notifications_select".
- */
-export interface NotificationsSelect<T extends boolean = true> {
-  user?: T;
-  type?: T;
-  category?: T;
-  title?: T;
-  message?: T;
-  isRead?: T;
-  readAt?: T;
-  relatedOrder?: T;
-  relatedProduct?: T;
-  relatedInvoice?: T;
-  relatedRecurringOrder?: T;
-  relatedReturn?: T;
-  actionUrl?: T;
-  actionLabel?: T;
-  icon?: T;
-  iconColor?: T;
-  priority?: T;
-  expiresAt?: T;
-  sendEmail?: T;
-  emailSent?: T;
-  emailSentAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "recently-viewed_select".
- */
-export interface RecentlyViewedSelect<T extends boolean = true> {
-  user?: T;
-  sessionId?: T;
-  product?: T;
-  viewedAt?: T;
-  productSnapshot?:
-    | T
-    | {
-        title?: T;
-        slug?: T;
-        sku?: T;
-        price?: T;
-        imageUrl?: T;
-        brand?: T;
-      };
-  referrer?: T;
-  source?: T;
-  device?: T;
-  timeOnPage?: T;
-  scrollDepth?: T;
-  addedToCart?: T;
-  addedToFavorites?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "vendors_select".
- */
-export interface VendorsSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  shortName?: T;
-  tagline?: T;
-  description?: T;
-  logo?: T;
-  banner?: T;
-  bannerColor?: T;
-  isVerified?: T;
-  isPremium?: T;
-  isFeatured?: T;
-  contact?:
-    | T
-    | {
-        website?: T;
-        email?: T;
-        phone?: T;
-        address?: T;
-        country?: T;
-      };
-  stats?:
-    | T
-    | {
-        productCount?: T;
-        rating?: T;
-        reviewCount?: T;
-        establishedYear?: T;
-      };
-  categories?: T;
-  certifications?:
-    | T
-    | {
-        name?: T;
-        icon?: T;
-        id?: T;
-      };
-  delivery?:
-    | T
-    | {
-        deliveryTime?: T;
-        freeShippingFrom?: T;
-        offersWorkshops?: T;
-      };
-  relatedProducts?: T;
-  order?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "vendor-reviews_select".
- */
-export interface VendorReviewsSelect<T extends boolean = true> {
-  vendor?: T;
-  title?: T;
-  rating?: T;
-  comment?: T;
-  authorName?: T;
-  authorEmail?: T;
-  authorCompany?: T;
-  authorInitials?: T;
-  isApproved?: T;
-  isVerifiedPurchase?: T;
-  moderationNotes?: T;
-  helpfulCount?: T;
-  vendorResponse?:
-    | T
-    | {
-        text?: T;
-        respondedAt?: T;
-      };
-  reviewDate?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "workshops_select".
- */
-export interface WorkshopsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  excerpt?: T;
-  featuredImage?: T;
-  emoji?: T;
-  vendor?: T;
-  instructor?: T;
-  date?: T;
-  duration?: T;
-  durationDisplay?: T;
-  locationType?: T;
-  locationName?: T;
-  locationAddress?: T;
-  locationCity?: T;
-  registrationUrl?: T;
-  maxParticipants?: T;
-  currentParticipants?: T;
-  isFree?: T;
-  price?: T;
-  priceDisplay?: T;
-  category?: T;
-  level?: T;
-  targetAudience?: T;
-  status?: T;
-  isFeatured?: T;
-  learningObjectives?:
-    | T
-    | {
-        objective?: T;
-        id?: T;
-      };
-  prerequisites?: T;
-  certificateAwarded?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -6005,6 +6648,437 @@ export interface LoyaltyRedemptionsSelect<T extends boolean = true> {
   expiresAt?: T;
   code?: T;
   usedInOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  featuredImageEmoji?: T;
+  categories?: T;
+  featuredTag?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  content?: T;
+  author?: T;
+  authorBio?: T;
+  readingTime?: T;
+  viewCount?: T;
+  featured?: T;
+  template?: T;
+  relatedProducts?: T;
+  relatedPosts?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  enableTOC?: T;
+  enableShare?: T;
+  enableComments?: T;
+  publishedAt?: T;
+  status?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        focusKeyword?: T;
+        image?: T;
+        canonicalUrl?: T;
+        noIndex?: T;
+        noFollow?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories_select".
+ */
+export interface BlogCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  parent?: T;
+  description?: T;
+  icon?: T;
+  color?: T;
+  image?: T;
+  displayOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  featured?: T;
+  order?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cases_select".
+ */
+export interface CasesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  client?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  content?: T;
+  services?:
+    | T
+    | {
+        service?: T;
+        id?: T;
+      };
+  liveUrl?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  status?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        focusKeyword?: T;
+        image?: T;
+        canonicalUrl?: T;
+        noIndex?: T;
+        noFollow?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  company?: T;
+  photo?: T;
+  quote?: T;
+  rating?: T;
+  featured?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors_select".
+ */
+export interface VendorsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  shortName?: T;
+  tagline?: T;
+  description?: T;
+  logo?: T;
+  banner?: T;
+  bannerColor?: T;
+  isVerified?: T;
+  isPremium?: T;
+  isFeatured?: T;
+  contact?:
+    | T
+    | {
+        website?: T;
+        email?: T;
+        phone?: T;
+        address?: T;
+        country?: T;
+      };
+  stats?:
+    | T
+    | {
+        productCount?: T;
+        rating?: T;
+        reviewCount?: T;
+        establishedYear?: T;
+      };
+  categories?: T;
+  certifications?:
+    | T
+    | {
+        name?: T;
+        icon?: T;
+        id?: T;
+      };
+  delivery?:
+    | T
+    | {
+        deliveryTime?: T;
+        freeShippingFrom?: T;
+        offersWorkshops?: T;
+      };
+  relatedProducts?: T;
+  order?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-reviews_select".
+ */
+export interface VendorReviewsSelect<T extends boolean = true> {
+  vendor?: T;
+  title?: T;
+  rating?: T;
+  comment?: T;
+  authorName?: T;
+  authorEmail?: T;
+  authorCompany?: T;
+  authorInitials?: T;
+  isApproved?: T;
+  isVerifiedPurchase?: T;
+  moderationNotes?: T;
+  helpfulCount?: T;
+  vendorResponse?:
+    | T
+    | {
+        text?: T;
+        respondedAt?: T;
+      };
+  reviewDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workshops_select".
+ */
+export interface WorkshopsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  emoji?: T;
+  vendor?: T;
+  instructor?: T;
+  date?: T;
+  duration?: T;
+  durationDisplay?: T;
+  locationType?: T;
+  locationName?: T;
+  locationAddress?: T;
+  locationCity?: T;
+  registrationUrl?: T;
+  maxParticipants?: T;
+  currentParticipants?: T;
+  isFree?: T;
+  price?: T;
+  priceDisplay?: T;
+  category?: T;
+  level?: T;
+  targetAudience?: T;
+  status?: T;
+  isFeatured?: T;
+  learningObjectives?:
+    | T
+    | {
+        objective?: T;
+        id?: T;
+      };
+  prerequisites?: T;
+  certificateAwarded?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "construction-services_select".
+ */
+export interface ConstructionServicesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  icon?: T;
+  color?: T;
+  shortDescription?: T;
+  longDescription?: T;
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  processSteps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  serviceTypes?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  usps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  heroImage?: T;
+  gallery?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "construction-projects_select".
+ */
+export interface ConstructionProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  badges?:
+    | T
+    | {
+        badge?: T;
+        id?: T;
+      };
+  location?: T;
+  year?: T;
+  duration?: T;
+  size?: T;
+  budget?: T;
+  shortDescription?: T;
+  longDescription?: T;
+  challenge?: T;
+  solution?: T;
+  result?: T;
+  featuredImage?: T;
+  gallery?: T;
+  beforeAfter?:
+    | T
+    | {
+        before?: T;
+        after?: T;
+      };
+  testimonial?:
+    | T
+    | {
+        quote?: T;
+        clientName?: T;
+        clientRole?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  featured?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "construction-reviews_select".
+ */
+export interface ConstructionReviewsSelect<T extends boolean = true> {
+  clientName?: T;
+  clientRole?: T;
+  clientInitials?: T;
+  clientColor?: T;
+  rating?: T;
+  quote?: T;
+  project?: T;
+  service?: T;
+  featured?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quote-requests_select".
+ */
+export interface QuoteRequestsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  postalCode?: T;
+  city?: T;
+  projectType?: T;
+  budget?: T;
+  timeline?: T;
+  description?: T;
+  attachments?: T;
+  status?: T;
+  assignedTo?: T;
+  notes?: T;
+  submittedAt?: T;
+  contactedAt?: T;
+  quotedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
