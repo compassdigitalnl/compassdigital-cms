@@ -8,6 +8,7 @@
 
 import React from 'react'
 import PlatformSidebar from '@/branches/platform/components/PlatformSidebar'
+import '../globals.css'
 
 export const metadata = {
   title: 'Platform Admin - SiteForge',

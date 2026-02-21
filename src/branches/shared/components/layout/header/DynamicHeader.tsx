@@ -234,7 +234,7 @@ export function DynamicHeader({ header, settings }: Props) {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span className="text-sm font-semibold text-gray-900">
-                    🛒 Winkelwagen {cartCount > 0 && `(${cartCount})`}
+                    🛒 Winkelwagen {totalItems > 0 && `(${totalItems})`}
                   </span>
                 </Link>
               )}

@@ -12,6 +12,7 @@ import { DynamicNav } from '@/branches/shared/components/layout/header/navigatio
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import React from 'react'
+import '../globals.css'
 import './legal.css'
 
 // Force dynamic rendering to avoid database queries during build

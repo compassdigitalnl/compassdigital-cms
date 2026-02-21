@@ -38,8 +38,12 @@ type Props = {
 export function AlertBar({ alertBar }: Props) {
   const [isDismissed, setIsDismissed] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    // First mount - prevents hydration mismatch
+    setIsMounted(true)
+
     // Check if alert was dismissed
     const dismissed = localStorage.getItem('alertBar_dismissed')
     if (dismissed) {
@@ -75,6 +79,9 @@ export function AlertBar({ alertBar }: Props) {
       localStorage.setItem('alertBar_dismissed', 'true')
     }
   }
+
+  // Render nothing on server to prevent hydration mismatch
+  if (!isMounted) return null
 
   if (!alertBar.enabled || isDismissed || !isVisible) return null
 

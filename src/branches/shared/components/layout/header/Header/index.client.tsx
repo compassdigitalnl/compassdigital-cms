@@ -98,9 +98,11 @@ export function HeaderClient({ header }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [theme, setTheme] = useState<Theme | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   // Load theme
   useEffect(() => {
+    setIsMounted(true)
     async function loadTheme() {
       const themeData = await getCachedGlobal('theme', 1)()
       setTheme(themeData as Theme)
@@ -286,8 +288,8 @@ export function HeaderClient({ header }: Props) {
         theme={theme}
       />
 
-      {/* Apply theme CSS variables */}
-      {theme && (
+      {/* Apply theme CSS variables - only after mount to prevent hydration mismatch */}
+      {isMounted && theme && (
         <style jsx global>{`
           :root {
             --primary: ${theme.primaryColor || '#00897B'};
