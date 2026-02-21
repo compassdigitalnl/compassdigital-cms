@@ -25,9 +25,24 @@ export async function createRailwayDatabase(data: {
   name: string
   domain: string
 }): Promise<{ url: string; id: string }> {
+  // Check if we should skip per-client Railway projects and use shared database instead
+  const useSharedDatabase = process.env.RAILWAY_USE_SHARED_DATABASE === 'true'
+  const platformUrl = process.env.PLATFORM_DATABASE_URL
+
+  if (useSharedDatabase && platformUrl) {
+    console.log('[Railway] RAILWAY_USE_SHARED_DATABASE=true - Using shared database mode')
+    return await createSharedDatabase({ name: data.name, domain: data.domain })
+  }
+
   const apiKey = process.env.RAILWAY_API_KEY
 
   if (!apiKey) {
+    // No API key - fallback to shared database if available
+    if (platformUrl) {
+      console.warn('[Railway] No RAILWAY_API_KEY - falling back to shared database')
+      return await createSharedDatabase({ name: data.name, domain: data.domain })
+    }
+
     throw new Error(
       'RAILWAY_API_KEY not configured in environment variables. ' +
         'Get a new API token from https://railway.app/account/tokens and add it to your .env file.'
