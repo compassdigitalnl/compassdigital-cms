@@ -94,10 +94,12 @@ export const Products: CollectionConfig = {
               options: [
                 { label: 'Simple Product (Enkel)', value: 'simple' },
                 { label: 'Grouped Product (Multi-select)', value: 'grouped' },
+                { label: 'Variable Product (Configureerbaar) 🎨', value: 'variable' },
+                { label: 'Mix & Match (Bundel Builder) 📦', value: 'mixAndMatch' },
               ],
               admin: {
                 position: 'sidebar',
-                description: 'Simple = normaal product, Grouped = multi-select parent',
+                description: 'Simple = normaal, Grouped = multi-select, Variable = configureerbaar, Mix&Match = bundel builder',
               },
             },
             // SKU, EAN, MPN row
@@ -1105,6 +1107,252 @@ export const Products: CollectionConfig = {
             },
           ],
         },
+
+        // ═══════════════════════════════════════════════════════════
+        // TAB 11: VARIABLE PRODUCT (Sprint 1)
+        // ═══════════════════════════════════════════════════════════
+        ...featureTab('variableProducts', {
+          label: 'Variable Product 🎨',
+          description: 'Configureerbare producten met meerdere varianten',
+          fields: [
+            {
+              name: 'variantOptions',
+              type: 'array',
+              label: 'Variant Opties',
+              admin: {
+                condition: (data) => data.productType === 'variable',
+                description: 'Definieer de configuratie-opties (kleur, maat, materiaal, etc.)',
+              },
+              fields: [
+                {
+                  name: 'optionName',
+                  type: 'text',
+                  required: true,
+                  label: 'Optie Naam',
+                  admin: {
+                    description: 'bijv. "Kleur", "Maat", "Zooltype", "Materiaal"',
+                  },
+                },
+                {
+                  name: 'displayType',
+                  type: 'select',
+                  required: true,
+                  label: 'Weergave Type',
+                  defaultValue: 'sizeRadio',
+                  options: [
+                    { label: '🎨 Color Swatches (visueel)', value: 'colorSwatch' },
+                    { label: '📏 Size Buttons (radio)', value: 'sizeRadio' },
+                    { label: '📋 Dropdown (select)', value: 'dropdown' },
+                    { label: '🖼️ Image Selection', value: 'imageRadio' },
+                    { label: '✅ Checkbox Add-ons', value: 'checkbox' },
+                    { label: '✏️ Text/Number Input', value: 'textInput' },
+                  ],
+                  admin: {
+                    description: 'Hoe de optie wordt weergegeven in de product configurator',
+                  },
+                },
+                {
+                  name: 'values',
+                  type: 'array',
+                  label: 'Waarden',
+                  required: true,
+                  admin: {
+                    description: 'De beschikbare keuzes voor deze optie',
+                  },
+                  fields: [
+                    {
+                      name: 'label',
+                      type: 'text',
+                      required: true,
+                      label: 'Label',
+                      admin: {
+                        description: 'Weergavenaam (bijv. "Midnight Black", "Maat 42")',
+                      },
+                    },
+                    {
+                      name: 'value',
+                      type: 'text',
+                      required: true,
+                      label: 'Waarde',
+                      admin: {
+                        description: 'Interne waarde (bijv. "black", "42")',
+                      },
+                    },
+                    {
+                      name: 'priceModifier',
+                      type: 'number',
+                      label: 'Prijs Aanpassing (€)',
+                      admin: {
+                        description: 'Extra kosten voor deze optie (bijv. +10 voor premium materiaal)',
+                      },
+                    },
+                    {
+                      name: 'stockLevel',
+                      type: 'number',
+                      label: 'Voorraad',
+                      admin: {
+                        description: 'Beschikbare voorraad voor deze variant',
+                      },
+                    },
+                    {
+                      name: 'colorCode',
+                      type: 'text',
+                      label: 'Kleur Code',
+                      admin: {
+                        description: 'Hex kleurcode voor color swatches (bijv. #FF0000)',
+                        condition: (data, siblingData) => {
+                          // Access parent fields through the data parameter
+                          return true // Always show, but description indicates when relevant
+                        },
+                      },
+                    },
+                    {
+                      name: 'image',
+                      type: 'upload',
+                      relationTo: 'media',
+                      label: 'Afbeelding',
+                      admin: {
+                        description: 'Voor image selection of thumbnail preview',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'configuratorSettings',
+              type: 'group',
+              label: 'Configurator Instellingen',
+              admin: {
+                condition: (data) => data.productType === 'variable',
+              },
+              fields: [
+                {
+                  name: 'showConfigSummary',
+                  type: 'checkbox',
+                  label: 'Toon Configuratie Samenvatting',
+                  defaultValue: true,
+                  admin: {
+                    description: 'Toon overzicht van geselecteerde opties',
+                  },
+                },
+                {
+                  name: 'showPriceBreakdown',
+                  type: 'checkbox',
+                  label: 'Toon Prijs Breakdown',
+                  defaultValue: true,
+                  admin: {
+                    description: 'Toon gedetailleerde prijsopbouw met modifiers',
+                  },
+                },
+              ],
+            },
+          ],
+        }),
+
+        // ═══════════════════════════════════════════════════════════
+        // TAB 12: MIX & MATCH (Sprint 1)
+        // ═══════════════════════════════════════════════════════════
+        ...featureTab('mixAndMatch', {
+          label: 'Mix & Match 📦',
+          description: 'Bundle builder - klanten stellen hun eigen box samen',
+          fields: [
+            {
+              name: 'mixMatchConfig',
+              type: 'group',
+              label: 'Mix & Match Configuratie',
+              admin: {
+                condition: (data) => data.productType === 'mixAndMatch',
+              },
+              fields: [
+                {
+                  name: 'boxSizes',
+                  type: 'array',
+                  label: 'Box Formaten',
+                  required: true,
+                  admin: {
+                    description: 'Verschillende box groottes die klanten kunnen kiezen',
+                  },
+                  fields: [
+                    {
+                      name: 'name',
+                      type: 'text',
+                      required: true,
+                      label: 'Naam',
+                      admin: {
+                        description: 'bijv. "Small", "Medium", "Large", "Family"',
+                      },
+                    },
+                    {
+                      name: 'itemCount',
+                      type: 'number',
+                      required: true,
+                      label: 'Aantal Items',
+                      admin: {
+                        description: 'Hoeveel items in deze box (bijv. 4, 6, 10)',
+                      },
+                    },
+                    {
+                      name: 'price',
+                      type: 'number',
+                      required: true,
+                      label: 'Box Prijs (€)',
+                      admin: {
+                        description: 'Vaste prijs voor volle box',
+                      },
+                    },
+                    {
+                      name: 'description',
+                      type: 'text',
+                      label: 'Beschrijving',
+                      admin: {
+                        description: 'bijv. "Perfect voor 1 persoon", "Ideaal voor lunch + snack"',
+                      },
+                    },
+                  ],
+                },
+                {
+                  name: 'availableProducts',
+                  type: 'relationship',
+                  relationTo: 'products',
+                  hasMany: true,
+                  required: true,
+                  label: 'Beschikbare Producten',
+                  admin: {
+                    description: 'Producten die gekozen kunnen worden voor de box',
+                  },
+                },
+                {
+                  name: 'discountPercentage',
+                  type: 'number',
+                  label: 'Box Korting (%)',
+                  defaultValue: 20,
+                  admin: {
+                    description: 'Korting die wordt toegepast wanneer box vol is',
+                  },
+                },
+                {
+                  name: 'showProgressBar',
+                  type: 'checkbox',
+                  label: 'Toon Progress Bar',
+                  defaultValue: true,
+                  admin: {
+                    description: 'Toon hoeveel items nog geselecteerd moeten worden',
+                  },
+                },
+                {
+                  name: 'showCategoryFilters',
+                  type: 'checkbox',
+                  label: 'Toon Categorie Filters',
+                  defaultValue: true,
+                  admin: {
+                    description: 'Laat klanten filteren op productcategorieën',
+                  },
+                },
+              ],
+            },
+          ],
+        }),
       ],
     },
   ],

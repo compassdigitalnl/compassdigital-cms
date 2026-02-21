@@ -28,6 +28,8 @@ export interface ClientFeatures {
   compareProducts?: boolean
   quickOrder?: boolean
   recentlyViewed?: boolean
+  variableProducts?: boolean
+  mixAndMatch?: boolean
 
   // === CART (top-level) ===
   cart?: boolean
@@ -176,6 +178,8 @@ export const features = {
   quickOrder: isFeatureEnabled('quick_order'),
   brands: isFeatureEnabled('brands'),
   recentlyViewed: isFeatureEnabled('recently_viewed'),
+  variableProducts: isFeatureEnabled('variable_products'),
+  mixAndMatch: isFeatureEnabled('mix_and_match'),
 
   // === CART ===
   cart: isFeatureEnabled('cart'),
@@ -246,6 +250,8 @@ export const featureCategories = {
     'quickOrder',
     'brands',
     'recentlyViewed',
+    'variableProducts',
+    'mixAndMatch',
   ],
   cart: ['cart', 'miniCart', 'freeShippingBar'],
   checkout: ['checkout', 'guestCheckout', 'invoices', 'orderTracking'],
@@ -297,6 +303,8 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     compareProducts: 'ENABLE_COMPARE_PRODUCTS',
     quickOrder: 'ENABLE_QUICK_ORDER',
     recentlyViewed: 'ENABLE_RECENTLY_VIEWED',
+    variableProducts: 'ENABLE_VARIABLE_PRODUCTS',
+    mixAndMatch: 'ENABLE_MIX_AND_MATCH',
 
     // === CART ===
     cart: 'ENABLE_CART',
