@@ -15997,6 +15997,336 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.products_variant_options_values": {
+      "name": "products_variant_options_values",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value": {
+          "name": "value",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price_modifier": {
+          "name": "price_modifier",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stock_level": {
+          "name": "stock_level",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "color_code": {
+          "name": "color_code",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image_id": {
+          "name": "image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "products_variant_options_values_order_idx": {
+          "name": "products_variant_options_values_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "products_variant_options_values_parent_id_idx": {
+          "name": "products_variant_options_values_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "products_variant_options_values_image_idx": {
+          "name": "products_variant_options_values_image_idx",
+          "columns": [
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "products_variant_options_values_image_id_media_id_fk": {
+          "name": "products_variant_options_values_image_id_media_id_fk",
+          "tableFrom": "products_variant_options_values",
+          "tableTo": "media",
+          "columnsFrom": [
+            "image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "products_variant_options_values_parent_id_fk": {
+          "name": "products_variant_options_values_parent_id_fk",
+          "tableFrom": "products_variant_options_values",
+          "tableTo": "products_variant_options",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.products_variant_options": {
+      "name": "products_variant_options",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "option_name": {
+          "name": "option_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "display_type": {
+          "name": "display_type",
+          "type": "enum_products_variant_options_display_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'sizeRadio'"
+        }
+      },
+      "indexes": {
+        "products_variant_options_order_idx": {
+          "name": "products_variant_options_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "products_variant_options_parent_id_idx": {
+          "name": "products_variant_options_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "products_variant_options_parent_id_fk": {
+          "name": "products_variant_options_parent_id_fk",
+          "tableFrom": "products_variant_options",
+          "tableTo": "products",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.products_mix_match_config_box_sizes": {
+      "name": "products_mix_match_config_box_sizes",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "item_count": {
+          "name": "item_count",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price": {
+          "name": "price",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "products_mix_match_config_box_sizes_order_idx": {
+          "name": "products_mix_match_config_box_sizes_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "products_mix_match_config_box_sizes_parent_id_idx": {
+          "name": "products_mix_match_config_box_sizes_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "products_mix_match_config_box_sizes_parent_id_fk": {
+          "name": "products_mix_match_config_box_sizes_parent_id_fk",
+          "tableFrom": "products_mix_match_config_box_sizes",
+          "tableTo": "products",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.products": {
       "name": "products",
       "schema": "",
@@ -16306,6 +16636,41 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false
+        },
+        "configurator_settings_show_config_summary": {
+          "name": "configurator_settings_show_config_summary",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "configurator_settings_show_price_breakdown": {
+          "name": "configurator_settings_show_price_breakdown",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "mix_match_config_discount_percentage": {
+          "name": "mix_match_config_discount_percentage",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 20
+        },
+        "mix_match_config_show_progress_bar": {
+          "name": "mix_match_config_show_progress_bar",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "mix_match_config_show_category_filters": {
+          "name": "mix_match_config_show_category_filters",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
         },
         "updated_at": {
           "name": "updated_at",
@@ -36733,6 +37098,18 @@
         "custom"
       ]
     },
+    "public.enum_products_variant_options_display_type": {
+      "name": "enum_products_variant_options_display_type",
+      "schema": "public",
+      "values": [
+        "colorSwatch",
+        "sizeRadio",
+        "dropdown",
+        "imageRadio",
+        "checkbox",
+        "textInput"
+      ]
+    },
     "public.enum_products_product_type": {
       "name": "enum_products_product_type",
       "schema": "public",
@@ -37929,6 +38306,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "583b9afa-0523-4b80-b389-dfc5bbc53288",
+  "id": "a6f33aff-d1c2-4aec-a283-cdec983701b5",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

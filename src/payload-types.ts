@@ -578,6 +578,102 @@ export interface Product {
    * Optionele accessoires en toebehoren
    */
   accessories?: (number | Product)[] | null;
+  /**
+   * Definieer de configuratie-opties (kleur, maat, materiaal, etc.)
+   */
+  variantOptions?:
+    | {
+        /**
+         * bijv. "Kleur", "Maat", "Zooltype", "Materiaal"
+         */
+        optionName: string;
+        /**
+         * Hoe de optie wordt weergegeven in de product configurator
+         */
+        displayType: 'colorSwatch' | 'sizeRadio' | 'dropdown' | 'imageRadio' | 'checkbox' | 'textInput';
+        /**
+         * De beschikbare keuzes voor deze optie
+         */
+        values: {
+          /**
+           * Weergavenaam (bijv. "Midnight Black", "Maat 42")
+           */
+          label: string;
+          /**
+           * Interne waarde (bijv. "black", "42")
+           */
+          value: string;
+          /**
+           * Extra kosten voor deze optie (bijv. +10 voor premium materiaal)
+           */
+          priceModifier?: number | null;
+          /**
+           * Beschikbare voorraad voor deze variant
+           */
+          stockLevel?: number | null;
+          /**
+           * Hex kleurcode voor color swatches (bijv. #FF0000)
+           */
+          colorCode?: string | null;
+          /**
+           * Voor image selection of thumbnail preview
+           */
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[];
+        id?: string | null;
+      }[]
+    | null;
+  configuratorSettings?: {
+    /**
+     * Toon overzicht van geselecteerde opties
+     */
+    showConfigSummary?: boolean | null;
+    /**
+     * Toon gedetailleerde prijsopbouw met modifiers
+     */
+    showPriceBreakdown?: boolean | null;
+  };
+  mixMatchConfig?: {
+    /**
+     * Verschillende box groottes die klanten kunnen kiezen
+     */
+    boxSizes: {
+      /**
+       * bijv. "Small", "Medium", "Large", "Family"
+       */
+      name: string;
+      /**
+       * Hoeveel items in deze box (bijv. 4, 6, 10)
+       */
+      itemCount: number;
+      /**
+       * Vaste prijs voor volle box
+       */
+      price: number;
+      /**
+       * bijv. "Perfect voor 1 persoon", "Ideaal voor lunch + snack"
+       */
+      description?: string | null;
+      id?: string | null;
+    }[];
+    /**
+     * Producten die gekozen kunnen worden voor de box
+     */
+    availableProducts: (number | Product)[];
+    /**
+     * Korting die wordt toegepast wanneer box vol is
+     */
+    discountPercentage?: number | null;
+    /**
+     * Toon hoeveel items nog geselecteerd moeten worden
+     */
+    showProgressBar?: boolean | null;
+    /**
+     * Laat klanten filteren op productcategorieën
+     */
+    showCategoryFilters?: boolean | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -6035,6 +6131,47 @@ export interface ProductsSelect<T extends boolean = true> {
   crossSells?: T;
   upSells?: T;
   accessories?: T;
+  variantOptions?:
+    | T
+    | {
+        optionName?: T;
+        displayType?: T;
+        values?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              priceModifier?: T;
+              stockLevel?: T;
+              colorCode?: T;
+              image?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  configuratorSettings?:
+    | T
+    | {
+        showConfigSummary?: T;
+        showPriceBreakdown?: T;
+      };
+  mixMatchConfig?:
+    | T
+    | {
+        boxSizes?:
+          | T
+          | {
+              name?: T;
+              itemCount?: T;
+              price?: T;
+              description?: T;
+              id?: T;
+            };
+        availableProducts?: T;
+        discountPercentage?: T;
+        showProgressBar?: T;
+        showCategoryFilters?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

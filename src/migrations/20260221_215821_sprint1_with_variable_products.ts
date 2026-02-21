@@ -40,6 +40,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__pages_v_blocks_cta_banner_style" AS ENUM('gradient', 'solid', 'outlined', 'image');
   CREATE TYPE "public"."enum__pages_v_blocks_cta_banner_alignment" AS ENUM('left', 'center');
   CREATE TYPE "public"."enum__pages_v_blocks_cta_banner_size" AS ENUM('small', 'medium', 'large');
+  CREATE TYPE "public"."enum_products_variant_options_display_type" AS ENUM('colorSwatch', 'sizeRadio', 'dropdown', 'imageRadio', 'checkbox', 'textInput');
   CREATE TYPE "public"."enum_subscription_plans_billing_interval" AS ENUM('monthly', 'yearly', 'lifetime');
   CREATE TYPE "public"."enum_user_subscriptions_status" AS ENUM('active', 'trialing', 'past_due', 'canceled', 'unpaid');
   CREATE TYPE "public"."enum_payment_methods_type" AS ENUM('sepa', 'card', 'paypal', 'ideal');
@@ -371,6 +372,36 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"size" "enum__pages_v_blocks_cta_banner_size" DEFAULT 'medium',
   	"_uuid" varchar,
   	"block_name" varchar
+  );
+  
+  CREATE TABLE "products_variant_options_values" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" varchar NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"label" varchar,
+  	"value" varchar,
+  	"price_modifier" numeric,
+  	"stock_level" numeric,
+  	"color_code" varchar,
+  	"image_id" integer
+  );
+  
+  CREATE TABLE "products_variant_options" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"option_name" varchar,
+  	"display_type" "enum_products_variant_options_display_type" DEFAULT 'sizeRadio'
+  );
+  
+  CREATE TABLE "products_mix_match_config_box_sizes" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"name" varchar,
+  	"item_count" numeric,
+  	"price" numeric,
+  	"description" varchar
   );
   
   CREATE TABLE "subscription_plans_features" (
@@ -759,6 +790,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_pages_v_rels" ADD COLUMN "construction_services_id" integer;
   ALTER TABLE "_pages_v_rels" ADD COLUMN "construction_projects_id" integer;
   ALTER TABLE "_pages_v_rels" ADD COLUMN "construction_reviews_id" integer;
+  ALTER TABLE "products" ADD COLUMN "configurator_settings_show_config_summary" boolean DEFAULT true;
+  ALTER TABLE "products" ADD COLUMN "configurator_settings_show_price_breakdown" boolean DEFAULT true;
+  ALTER TABLE "products" ADD COLUMN "mix_match_config_discount_percentage" numeric DEFAULT 20;
+  ALTER TABLE "products" ADD COLUMN "mix_match_config_show_progress_bar" boolean DEFAULT true;
+  ALTER TABLE "products" ADD COLUMN "mix_match_config_show_category_filters" boolean DEFAULT true;
   ALTER TABLE "clients" ADD COLUMN "features_volume_pricing" boolean DEFAULT false;
   ALTER TABLE "clients" ADD COLUMN "features_compare_products" boolean DEFAULT false;
   ALTER TABLE "clients" ADD COLUMN "features_quick_order" boolean DEFAULT false;
@@ -826,6 +862,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_pages_v_blocks_cta_banner_trust_elements_items" ADD CONSTRAINT "_pages_v_blocks_cta_banner_trust_elements_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_cta_banner"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_pages_v_blocks_cta_banner" ADD CONSTRAINT "_pages_v_blocks_cta_banner_background_image_id_media_id_fk" FOREIGN KEY ("background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "_pages_v_blocks_cta_banner" ADD CONSTRAINT "_pages_v_blocks_cta_banner_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "products_variant_options_values" ADD CONSTRAINT "products_variant_options_values_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "products_variant_options_values" ADD CONSTRAINT "products_variant_options_values_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_variant_options"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "products_variant_options" ADD CONSTRAINT "products_variant_options_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "products_mix_match_config_box_sizes" ADD CONSTRAINT "products_mix_match_config_box_sizes_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "subscription_plans_features" ADD CONSTRAINT "subscription_plans_features_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."subscription_plans"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "user_subscriptions_addons" ADD CONSTRAINT "user_subscriptions_addons_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."user_subscriptions"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "user_subscriptions" ADD CONSTRAINT "user_subscriptions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;
@@ -930,6 +970,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "_pages_v_blocks_cta_banner_parent_id_idx" ON "_pages_v_blocks_cta_banner" USING btree ("_parent_id");
   CREATE INDEX "_pages_v_blocks_cta_banner_path_idx" ON "_pages_v_blocks_cta_banner" USING btree ("_path");
   CREATE INDEX "_pages_v_blocks_cta_banner_background_image_idx" ON "_pages_v_blocks_cta_banner" USING btree ("background_image_id");
+  CREATE INDEX "products_variant_options_values_order_idx" ON "products_variant_options_values" USING btree ("_order");
+  CREATE INDEX "products_variant_options_values_parent_id_idx" ON "products_variant_options_values" USING btree ("_parent_id");
+  CREATE INDEX "products_variant_options_values_image_idx" ON "products_variant_options_values" USING btree ("image_id");
+  CREATE INDEX "products_variant_options_order_idx" ON "products_variant_options" USING btree ("_order");
+  CREATE INDEX "products_variant_options_parent_id_idx" ON "products_variant_options" USING btree ("_parent_id");
+  CREATE INDEX "products_mix_match_config_box_sizes_order_idx" ON "products_mix_match_config_box_sizes" USING btree ("_order");
+  CREATE INDEX "products_mix_match_config_box_sizes_parent_id_idx" ON "products_mix_match_config_box_sizes" USING btree ("_parent_id");
   CREATE INDEX "subscription_plans_features_order_idx" ON "subscription_plans_features" USING btree ("_order");
   CREATE INDEX "subscription_plans_features_parent_id_idx" ON "subscription_plans_features" USING btree ("_parent_id");
   CREATE UNIQUE INDEX "subscription_plans_slug_idx" ON "subscription_plans" USING btree ("slug");
@@ -1094,6 +1141,9 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "_pages_v_blocks_cta_banner_buttons" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "_pages_v_blocks_cta_banner_trust_elements_items" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "_pages_v_blocks_cta_banner" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "products_variant_options_values" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "products_variant_options" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "products_mix_match_config_box_sizes" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "subscription_plans_features" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "subscription_plans" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "user_subscriptions_addons" DISABLE ROW LEVEL SECURITY;
@@ -1144,6 +1194,9 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_pages_v_blocks_cta_banner_buttons" CASCADE;
   DROP TABLE "_pages_v_blocks_cta_banner_trust_elements_items" CASCADE;
   DROP TABLE "_pages_v_blocks_cta_banner" CASCADE;
+  DROP TABLE "products_variant_options_values" CASCADE;
+  DROP TABLE "products_variant_options" CASCADE;
+  DROP TABLE "products_mix_match_config_box_sizes" CASCADE;
   DROP TABLE "subscription_plans_features" CASCADE;
   DROP TABLE "subscription_plans" CASCADE;
   DROP TABLE "user_subscriptions_addons" CASCADE;
@@ -1247,6 +1300,11 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "_pages_v_rels" DROP COLUMN "construction_services_id";
   ALTER TABLE "_pages_v_rels" DROP COLUMN "construction_projects_id";
   ALTER TABLE "_pages_v_rels" DROP COLUMN "construction_reviews_id";
+  ALTER TABLE "products" DROP COLUMN "configurator_settings_show_config_summary";
+  ALTER TABLE "products" DROP COLUMN "configurator_settings_show_price_breakdown";
+  ALTER TABLE "products" DROP COLUMN "mix_match_config_discount_percentage";
+  ALTER TABLE "products" DROP COLUMN "mix_match_config_show_progress_bar";
+  ALTER TABLE "products" DROP COLUMN "mix_match_config_show_category_filters";
   ALTER TABLE "clients" DROP COLUMN "features_volume_pricing";
   ALTER TABLE "clients" DROP COLUMN "features_compare_products";
   ALTER TABLE "clients" DROP COLUMN "features_quick_order";
@@ -1324,6 +1382,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum__pages_v_blocks_cta_banner_style";
   DROP TYPE "public"."enum__pages_v_blocks_cta_banner_alignment";
   DROP TYPE "public"."enum__pages_v_blocks_cta_banner_size";
+  DROP TYPE "public"."enum_products_variant_options_display_type";
   DROP TYPE "public"."enum_subscription_plans_billing_interval";
   DROP TYPE "public"."enum_user_subscriptions_status";
   DROP TYPE "public"."enum_payment_methods_type";

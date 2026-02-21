@@ -1,5 +1,5 @@
 import * as migration_20260221_083030_baseline_schema from './20260221_083030_baseline_schema';
-import * as migration_20260221_215215_complete_sprint1_schema from './20260221_215215_complete_sprint1_schema';
+import * as migration_20260221_215821_sprint1_with_variable_products from './20260221_215821_sprint1_with_variable_products';
 
 export const migrations = [
   {
@@ -8,8 +8,8 @@ export const migrations = [
     name: '20260221_083030_baseline_schema',
   },
   {
-    up: migration_20260221_215215_complete_sprint1_schema.up,
-    down: migration_20260221_215215_complete_sprint1_schema.down,
-    name: '20260221_215215_complete_sprint1_schema'
+    up: migration_20260221_215821_sprint1_with_variable_products.up,
+    down: migration_20260221_215821_sprint1_with_variable_products.down,
+    name: '20260221_215821_sprint1_with_variable_products'
   },
 ];

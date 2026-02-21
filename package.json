@@ -27,6 +27,7 @@
     "publish:pages": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/publish-pages.ts",
     "delete:pages": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/delete-all-pages.ts",
     "validate-env": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/validate-env.ts",
+    "validate-schema": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/validate-schema-simple.ts",
     "setup": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/setup-wizard.ts",
     "verify-setup": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/verify-setup.ts",
     "test:generator": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/test-site-generator.ts",
