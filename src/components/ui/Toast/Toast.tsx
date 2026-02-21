@@ -85,7 +85,7 @@ export function Toast({
 
       {/* Icon/Image */}
       {type === 'addToCart' && (emoji || image) && (
-        <div className="w-13 h-13 rounded-lg flex items-center justify-center text-[26px] flex-shrink-0" style={{ backgroundColor: 'var(--color-surface)' }}>
+        <div className="w-12 h-12 rounded-lg flex items-center justify-center text-[26px] flex-shrink-0" style={{ backgroundColor: 'var(--color-surface)' }}>
           {emoji || (image && <img src={image} alt="" className="w-full h-full object-cover rounded-lg" />)}
         </div>
       )}

@@ -64,7 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
    */
   const addItem = (item: Omit<CartItem, 'quantity'> & { quantity?: number }) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.id === item.id)
+      const existing = prev.find((i) => String(i.id) === String(item.id))
 
       if (existing) {
         // Increase quantity if item exists
@@ -87,7 +87,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         // Ensure max and stock
         newQuantity = Math.min(newQuantity, maxQty, item.stock)
 
-        return prev.map((i) => (i.id === item.id ? { ...i, quantity: newQuantity } : i))
+        return prev.map((i) => (String(i.id) === String(item.id) ? { ...i, quantity: newQuantity } : i))
       }
 
       // Add new item with initial quantity
@@ -108,7 +108,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       let updated = [...prev]
 
       for (const item of newItems) {
-        const existing = updated.find((i) => i.id === item.id)
+        const existing = updated.find((i) => String(i.id) === String(item.id))
         const quantity = item.quantity || item.minOrderQuantity || 1
 
         if (existing) {
@@ -128,7 +128,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
           newQuantity = Math.min(newQuantity, maxQty, item.stock)
 
-          updated = updated.map((i) => (i.id === item.id ? { ...i, quantity: newQuantity } : i))
+          updated = updated.map((i) => (String(i.id) === String(item.id) ? { ...i, quantity: newQuantity } : i))
         } else {
           // Add new item
           updated.push({ ...item, quantity })
@@ -140,7 +140,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }
 
   const removeItem = (id: number | string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id))
+    setItems((prev) => prev.filter((item) => String(item.id) !== String(id)))
   }
 
   /**
@@ -150,7 +150,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) =>
       prev
         .map((item) => {
-          if (item.id !== id) return item
+          if (String(item.id) !== String(id)) return item
 
           let newQty = quantity
           const minQty = item.minOrderQuantity || 1
