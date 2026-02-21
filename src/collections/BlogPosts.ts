@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 import {
   BoldFeature,
   HeadingFeature,
@@ -25,7 +25,7 @@ export const BlogPosts: CollectionConfig = {
     group: 'Website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'publishedAt', 'updatedAt'],
-    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: ({ req: { user } }) => {

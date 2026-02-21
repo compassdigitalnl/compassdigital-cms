@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { features } from '@/lib/features'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 /**
  * VendorReviews Collection (Sprint 5 - Marketplace)
@@ -25,8 +25,7 @@ export const VendorReviews: CollectionConfig = {
     group: 'Marketplace',
     defaultColumns: ['vendor', 'authorName', 'rating', 'isApproved', 'createdAt'],
     description: 'Klantbeoordelingen voor leveranciers',
-    // Hide if feature disabled
-    hidden: !features.vendorReviews,
+    hidden: shouldHideCollection('vendorReviews'),
   },
   access: {
     read: () => true, // Publicly accessible (only approved reviews)

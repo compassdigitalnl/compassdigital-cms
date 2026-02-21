@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../../access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 
 export const ProductCategories: CollectionConfig = {
   slug: 'product-categories',
@@ -11,10 +11,7 @@ export const ProductCategories: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'E-commerce',
-    hidden: ({ user }) =>
-      isClientDeployment()
-        ? false
-        : !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: () => true, // Categories are publicly accessible (webshop navigation)

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
@@ -8,7 +8,7 @@ export const Testimonials: CollectionConfig = {
     group: 'Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'company', 'rating', 'updatedAt'],
-    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: () => true,

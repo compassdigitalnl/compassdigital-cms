@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 import { indexProduct, deleteProductFromIndex } from '@/lib/meilisearch/indexProducts'
 
 export const Products: CollectionConfig = {
@@ -13,11 +13,7 @@ export const Products: CollectionConfig = {
     useAsTitle: 'title',
     group: 'E-commerce',
     defaultColumns: ['title', 'sku', 'ean', 'price', 'stock', 'status', 'productType', 'updatedAt'],
-    // In tenant deployments, always show; in platform, hide from non-editors and non-webshop clients
-    hidden: ({ user }) =>
-      isClientDeployment()
-        ? false
-        : !checkRole(['editor'], user) || (user as any)?.clientType !== 'webshop',
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: () => true, // Products are publicly accessible (webshop catalog)

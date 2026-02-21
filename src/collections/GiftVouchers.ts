@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 
 export const GiftVouchers: CollectionConfig = {
   slug: 'gift-vouchers',
@@ -12,6 +13,7 @@ export const GiftVouchers: CollectionConfig = {
     group: 'Gift Vouchers',
     defaultColumns: ['code', 'recipientEmail', 'amount', 'balance', 'status', 'updatedAt'],
     description: 'Gift vouchers / cadeaubonnen',
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: ({ req: { user } }) => {

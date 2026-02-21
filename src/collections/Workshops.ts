@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { features } from '@/lib/features'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 /**
  * Workshops Collection (Sprint 5 - Marketplace)
@@ -27,8 +27,7 @@ export const Workshops: CollectionConfig = {
     group: 'Marketplace',
     defaultColumns: ['title', 'vendor', 'date', 'location', 'status', 'updatedAt'],
     description: 'Trainingen, workshops en webinars',
-    // Hide if feature disabled
-    hidden: !features.workshops,
+    hidden: shouldHideCollection('workshops'),
   },
   access: {
     read: () => true, // Publicly accessible

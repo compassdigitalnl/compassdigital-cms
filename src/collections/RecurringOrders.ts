@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 
 export const RecurringOrders: CollectionConfig = {
   slug: 'recurring-orders',
@@ -12,7 +13,7 @@ export const RecurringOrders: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['name', 'customer', 'status', 'nextDeliveryDate', 'estimatedTotal'],
     description: 'Automatische herhaalbestellingen voor B2B klanten',
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: ({ req: { user } }) => {

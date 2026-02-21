@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const ServicesCollection: CollectionConfig = {
   slug: 'services',
@@ -8,7 +8,7 @@ export const ServicesCollection: CollectionConfig = {
     group: 'Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'featured', 'updatedAt'],
-    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
+    hidden: shouldHideCollection('services'),
   },
   access: {
     read: () => true, // Publiek leesbaar (frontend)

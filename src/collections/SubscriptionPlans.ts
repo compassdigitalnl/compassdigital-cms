@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 
 export const SubscriptionPlans: CollectionConfig = {
   slug: 'subscription-plans',
@@ -12,6 +13,7 @@ export const SubscriptionPlans: CollectionConfig = {
     group: 'Subscriptions',
     defaultColumns: ['name', 'price', 'billingInterval', 'active', 'updatedAt'],
     description: 'Available subscription plans and pricing tiers',
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: () => true, // Public catalog

@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 
 export const LoyaltyRewards: CollectionConfig = {
   slug: 'loyalty-rewards',
@@ -12,6 +13,7 @@ export const LoyaltyRewards: CollectionConfig = {
     group: 'Loyalty Program',
     defaultColumns: ['name', 'pointsCost', 'type', 'active', 'updatedAt'],
     description: 'Rewards that users can redeem with points',
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: () => true, // Public catalog

@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
-import { features } from '@/lib/features'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 /**
  * Vendors Collection (Sprint 5 - Marketplace)
@@ -28,8 +27,7 @@ export const Vendors: CollectionConfig = {
     group: 'Marketplace',
     defaultColumns: ['name', 'isPremium', 'isVerified', 'rating', 'updatedAt'],
     description: 'Leveranciers, fabrikanten en partners',
-    // Hide if feature disabled
-    hidden: !features.vendors,
+    hidden: shouldHideCollection('vendors'),
   },
   access: {
     read: () => true, // Publicly accessible

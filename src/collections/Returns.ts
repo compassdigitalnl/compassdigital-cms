@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
 
 export const Returns: CollectionConfig = {
   slug: 'returns',
@@ -12,7 +13,7 @@ export const Returns: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['rmaNumber', 'customer', 'status', 'returnValue', 'createdAt'],
     description: 'Retour en RMA management (Return Merchandise Authorization)',
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: shouldHideOnPlatform(),
   },
   access: {
     read: ({ req: { user } }) => {
