@@ -350,22 +350,6 @@ code {
    📋 INPUTS & FORMS — Clean Focus States
    ══════════════════════════════════════════════════════════════ */
 
-.field-type input[type="text"],
-.field-type input[type="email"],
-.field-type input[type="password"],
-.field-type input[type="number"],
-.field-type input[type="url"],
-.field-type input[type="search"],
-.field-type textarea,
-.field-type .rs__control {
-  border-radius: var(--cd-radius-md) !important;
-  border: 1px solid var(--theme-border-color) !important;
-  background: var(--theme-input-bg) !important;
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  transition: all var(--cd-transition-fast) !important;
-}
-
 .field-type input:hover,
 .field-type textarea:hover {
   border-color: #CBD5E1 !important;
