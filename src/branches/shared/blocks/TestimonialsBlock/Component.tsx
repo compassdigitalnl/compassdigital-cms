@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { SectionLabel } from '@/branches/shared/components/SectionLabel'
+import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
 import type { TestimonialsBlock } from '@/payload-types'
 
 export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({

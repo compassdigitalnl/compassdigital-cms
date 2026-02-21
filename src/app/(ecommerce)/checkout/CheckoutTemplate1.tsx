@@ -1,8 +1,8 @@
 'use client'
 
-import { Media } from '@/branches/shared/components/Media'
-import { Message } from '@/branches/shared/components/Message'
-import { Price } from '@/branches/shared/components/Price'
+import { Media } from '@/branches/shared/components/common/Media'
+import { Message } from '@/branches/shared/components/common/Message'
+import { Price } from '@/branches/shared/components/features/ecommerce/Price'
 import { Button } from '@/branches/shared/components/ui/button'
 import { Input } from '@/branches/shared/components/ui/input'
 import { Label } from '@/branches/shared/components/ui/label'
@@ -25,7 +25,7 @@ import { Checkbox } from '@/branches/shared/components/ui/checkbox'
 import { AddressItem } from '@/branches/ecommerce/components/addresses/AddressItem'
 import { FormItem } from '@/branches/shared/components/forms/FormItem'
 import { toast } from 'sonner'
-import { LoadingSpinner } from '@/branches/shared/components/LoadingSpinner'
+import { LoadingSpinner } from '@/branches/shared/components/common/LoadingSpinner'
 
 const apiKey = `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
 const stripe = loadStripe(apiKey)

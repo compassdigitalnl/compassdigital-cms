@@ -1,6 +1,6 @@
 import React from 'react'
-import { Icon } from '@/branches/shared/components/Icon'
-import { SectionLabel } from '@/branches/shared/components/SectionLabel'
+import { Icon } from '@/branches/shared/components/common/Icon'
+import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
 import type { FeaturesBlock as FeaturesBlockType } from '@/payload-types'
 
 export const FeaturesBlock: React.FC<FeaturesBlockType> = ({

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Icon } from '@/branches/shared/components/Icon'
+import { Icon } from '@/branches/shared/components/common/Icon'
 
 interface ShareButtonsProps {
   title: string

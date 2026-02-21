@@ -2,7 +2,7 @@
 
 import React from 'react'
 import type { FAQBlock } from '@/payload-types'
-import { RichText } from '@/branches/shared/components/RichText'
+import { RichText } from '@/branches/shared/components/common/RichText'
 
 export const FAQBlockComponent: React.FC<FAQBlock> = ({ heading, intro, source, faqs, items }) => {
   // Determine which data source to use

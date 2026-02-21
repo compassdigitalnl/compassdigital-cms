@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { Price } from '@/branches/shared/components/Price'
+import { Price } from '@/branches/shared/components/features/ecommerce/Price'
 
 type Props = {
   amount: number

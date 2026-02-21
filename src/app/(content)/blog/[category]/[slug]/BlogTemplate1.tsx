@@ -1,7 +1,7 @@
 'use client'
 
 import type { BlogPost, Product, BlogCategory } from '@/payload-types'
-import { Icon } from '@/branches/shared/components/Icon'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import Link from 'next/link'
 import { TableOfContents } from '@/branches/shared/components/blog/TableOfContents'
 import { ShareButtons } from '@/branches/shared/components/blog/ShareButtons'

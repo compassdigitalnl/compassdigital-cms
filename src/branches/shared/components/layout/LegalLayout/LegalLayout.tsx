@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, Shield, Printer, FileText } from 'lucide-react'
-import { Breadcrumb } from '@/branches/shared/components/Breadcrumb'
+import { Breadcrumb } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumb'
 
 interface TOCItem {
   id: string

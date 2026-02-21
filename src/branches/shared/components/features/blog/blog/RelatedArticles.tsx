@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { Icon } from '@/branches/shared/components/Icon'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import type { BlogPost } from '@/payload-types'
 
 interface RelatedArticlesProps {

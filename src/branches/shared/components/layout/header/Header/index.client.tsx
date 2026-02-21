@@ -1,6 +1,6 @@
 'use client'
 
-import { CMSLink } from '@/branches/shared/components/Link'
+import { CMSLink } from '@/branches/shared/components/common/Link'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'

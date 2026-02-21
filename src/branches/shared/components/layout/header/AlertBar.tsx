@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Icon } from '@/branches/shared/components/Icon'
+import { Icon } from '@/branches/shared/components/common/Icon'
 
 // Type for alert bar settings (from global)
 interface AlertBarSettings {

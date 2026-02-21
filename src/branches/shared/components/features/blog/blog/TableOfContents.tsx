@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Icon } from '@/branches/shared/components/Icon'
+import { Icon } from '@/branches/shared/components/common/Icon'
 
 interface TOCItem {
   id: string

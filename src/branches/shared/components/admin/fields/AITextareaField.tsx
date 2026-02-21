@@ -18,7 +18,7 @@
 
 import React from 'react'
 import { useField, useFormFields } from '@payloadcms/ui'
-import { AIContentGenerator, AIImproveButton } from '@/branches/shared/components/AI'
+import { AIContentGenerator, AIImproveButton } from '@/branches/shared/components/features/ai/AI'
 import { Label } from '@/branches/shared/components/ui/label'
 import { Textarea } from '@/branches/shared/components/ui/textarea'
 

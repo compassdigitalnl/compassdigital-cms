@@ -2,7 +2,7 @@
 
 import { FormError } from '@/branches/shared/components/forms/FormError'
 import { FormItem } from '@/branches/shared/components/forms/FormItem'
-import { Message } from '@/branches/shared/components/Message'
+import { Message } from '@/branches/shared/components/common/Message'
 import { Button } from '@/branches/shared/components/ui/button'
 import { Input } from '@/branches/shared/components/ui/input'
 import { Label } from '@/branches/shared/components/ui/label'

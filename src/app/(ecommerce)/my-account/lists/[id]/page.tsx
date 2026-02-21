@@ -56,7 +56,7 @@ import { CSS } from '@dnd-kit/utilities'
 import dynamic from 'next/dynamic'
 
 // Dynamic import to avoid SSR issues with camera access
-const BarcodeScanner = dynamic(() => import('@/branches/shared/components/BarcodeScanner'), { ssr: false })
+const BarcodeScanner = dynamic(() => import('@/branches/shared/components/features/ecommerce/BarcodeScanner'), { ssr: false })
 
 // ============================================================================
 // TYPES

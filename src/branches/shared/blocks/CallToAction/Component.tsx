@@ -1,8 +1,8 @@
 import React from 'react'
 
 import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
-import { RichText } from '@/branches/shared/components/RichText'
-import { CMSLink } from '@/branches/shared/components/Link'
+import { RichText } from '@/branches/shared/components/common/RichText'
+import { CMSLink } from '@/branches/shared/components/common/Link'
 
 export const CallToActionBlock: React.FC<
   CTABlockProps & {

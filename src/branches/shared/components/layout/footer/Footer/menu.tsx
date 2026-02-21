@@ -1,6 +1,6 @@
 import type { Footer } from '@/payload-types'
 
-import { CMSLink } from '@/branches/shared/components/Link'
+import { CMSLink } from '@/branches/shared/components/common/Link'
 import React from 'react'
 
 interface Props {

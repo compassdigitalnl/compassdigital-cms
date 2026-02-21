@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import { Icon } from '@/branches/shared/components/Icon'
-import { SectionLabel } from '@/branches/shared/components/SectionLabel'
+import { Icon } from '@/branches/shared/components/common/Icon'
+import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
 import type { CategoryGridBlock as CategoryGridType } from '@/payload-types'
 import type { Category } from '@/payload-types'
 

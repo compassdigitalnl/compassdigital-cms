@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { RenderParams } from '@/branches/shared/components/RenderParams'
+import { RenderParams } from '@/branches/shared/components/utilities/RenderParams'
 import Link from 'next/link'
 import React from 'react'
 

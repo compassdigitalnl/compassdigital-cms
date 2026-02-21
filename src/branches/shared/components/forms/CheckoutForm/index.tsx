@@ -1,6 +1,6 @@
 'use client'
 
-import { Message } from '@/branches/shared/components/Message'
+import { Message } from '@/branches/shared/components/common/Message'
 import { Button } from '@/branches/shared/components/ui/button'
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/navigation'

@@ -2,7 +2,7 @@
 
 import type { Header } from '@/payload-types'
 
-import { CMSLink } from '@/branches/shared/components/Link'
+import { CMSLink } from '@/branches/shared/components/common/Link'
 import { Button } from '@/branches/shared/components/ui/button'
 import {
   Sheet,

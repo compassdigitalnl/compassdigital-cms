@@ -1,6 +1,6 @@
 import { cn } from '@/utilities/cn'
 import React from 'react'
-import { RichText } from '@/branches/shared/components/RichText'
+import { RichText } from '@/branches/shared/components/common/RichText'
 import type { DefaultDocumentIDType } from 'payload'
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Icon } from '@/branches/shared/components/Icon'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import type { InfoBoxBlock } from '@/payload-types'
 
 export const InfoBoxComponent: React.FC<InfoBoxBlock> = ({ type = 'info', icon, title, content }) => {

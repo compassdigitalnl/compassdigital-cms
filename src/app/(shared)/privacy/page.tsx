@@ -1,5 +1,5 @@
 import { Shield } from 'lucide-react'
-import { LegalLayout } from '@/branches/shared/components/LegalLayout'
+import { LegalLayout } from '@/branches/shared/components/layout/LegalLayout'
 import '../legal.css'
 
 export const metadata = {

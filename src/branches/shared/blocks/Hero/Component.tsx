@@ -2,8 +2,8 @@
 import React from 'react'
 import Link from 'next/link'
 import type { HeroBlock } from '@/payload-types'
-import { OptimizedBackgroundImage } from '@/branches/shared/components/OptimizedImage'
-import { SectionLabel } from '@/branches/shared/components/SectionLabel'
+import { OptimizedBackgroundImage } from '@/branches/shared/components/utilities/OptimizedImage'
+import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
 
 export const HeroBlockComponent: React.FC<HeroBlock> = ({
   title,
