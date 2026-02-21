@@ -50,7 +50,7 @@ export default async function ReturnsPage() {
             <p className="text-gray-600 mt-1">Bekijk en beheer je retourzendingen en RMA aanvragen</p>
           </div>
           <Link
-            href="/account/returns/create"
+            href="/account/returns/create/"
             className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
           >
             <Plus className="w-4 h-4" />
@@ -139,7 +139,7 @@ export default async function ReturnsPage() {
             <RotateCcw className="w-12 h-12 text-gray-300 mx-auto mb-3" />
             <p className="text-gray-500 mb-4">Je hebt nog geen retourzendingen aangevraagd</p>
             <Link
-              href="/account/returns/create"
+              href="/account/returns/create/"
               className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
             >
               <Plus className="w-4 h-4" />

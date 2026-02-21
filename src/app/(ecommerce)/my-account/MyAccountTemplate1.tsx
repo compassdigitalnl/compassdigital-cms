@@ -278,7 +278,7 @@ export default function MyAccountTemplate1() {
             Recente bestellingen
           </h2>
           <Link
-            href="/my-account/orders"
+            href="/my-account/orders/"
             className="flex items-center gap-1 lg:gap-2 text-sm font-semibold transition-colors"
             style={{ color: 'var(--color-primary)' }}
           >
@@ -401,7 +401,7 @@ export default function MyAccountTemplate1() {
           <div className="flex items-center justify-between mb-4 lg:mb-5">
             <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Bestellijsten</h2>
             <Link
-              href="/my-account/lists"
+              href="/my-account/lists/"
               className="flex items-center gap-1 lg:gap-2 text-sm font-semibold transition-colors"
               style={{ color: 'var(--color-primary)' }}
             >
@@ -451,7 +451,7 @@ export default function MyAccountTemplate1() {
             ))}
 
             <Link
-              href="/my-account/lists"
+              href="/my-account/lists/"
               className="block p-3 lg:p-4 rounded-xl text-center transition-all active:bg-gray-50 lg:hover:bg-gray-50"
               style={{ border: '1.5px dashed var(--color-border)' }}
             >
@@ -468,7 +468,7 @@ export default function MyAccountTemplate1() {
           <div className="flex items-center justify-between mb-4 lg:mb-5">
             <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Adressen</h2>
             <Link
-              href="/my-account/addresses"
+              href="/my-account/addresses/"
               className="flex items-center gap-1 lg:gap-2 text-sm font-semibold transition-colors"
               style={{ color: 'var(--color-primary)' }}
             >

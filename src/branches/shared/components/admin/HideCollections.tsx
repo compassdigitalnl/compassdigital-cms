@@ -59,9 +59,9 @@ export function HideCollections() {
     const styles = disabled
       .map(
         (slug) =>
-          `a[href="/admin/collections/${slug}"], ` +
+          `a[href="/admin/collections/${slug}/"], ` +
           `a[href*="/admin/collections/${slug}/"], ` +
-          `li:has(> a[href="/admin/collections/${slug}"]) { display: none !important; }`,
+          `li:has(> a[href="/admin/collections/${slug}/"]) { display: none !important; }`,
       )
       .join('\n')
 

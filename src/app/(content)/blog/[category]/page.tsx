@@ -140,7 +140,7 @@ export default async function CategoryArchivePage({
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link
-            href="/blog"
+            href="/blog/"
             className="inline-flex items-center gap-2 text-gray-600 hover:text-teal-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -172,7 +172,7 @@ export default async function CategoryArchivePage({
         {/* Category Filter Chips */}
         <div className="flex gap-2 flex-wrap mb-8">
           <Link
-            href="/blog"
+            href="/blog/"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border-2 bg-white text-gray-700 border-gray-200 hover:border-teal-500 transition-all"
           >
             Alles
@@ -297,7 +297,7 @@ export default async function CategoryArchivePage({
             <h3 className="text-2xl font-bold text-gray-900 mb-2">Nog geen artikelen</h3>
             <p className="text-gray-600">Er zijn nog geen artikelen in deze categorie.</p>
             <Link
-              href="/blog"
+              href="/blog/"
               className="inline-block mt-6 px-6 py-3 bg-teal-500 text-white rounded-xl font-semibold hover:bg-teal-600 transition-colors"
             >
               Bekijk alle artikelen

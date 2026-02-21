@@ -35,7 +35,7 @@ export default function ShopDemoPage() {
         {/* Main CTA */}
         <div className="space-y-4 mb-12">
           <Link
-            href="/shop"
+            href="/shop/"
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all"
           >
             🛍️ Browse Products →
@@ -43,14 +43,14 @@ export default function ShopDemoPage() {
 
           <div className="flex items-center justify-center gap-4 text-sm">
             <Link
-              href="/admin"
+              href="/admin/"
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
               Admin Panel
             </Link>
             <span className="text-gray-400">•</span>
             <Link
-              href="/api/products"
+              href="/api/products/"
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
               API

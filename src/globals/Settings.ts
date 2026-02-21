@@ -31,7 +31,7 @@ export const Settings: GlobalConfig = {
               label: 'Bedrijfsnaam',
               admin: {
                 description: 'Officiële bedrijfsnaam',
-                placeholder: 'Plastimed B.V.',
+                placeholder: 'Uw Bedrijfsnaam B.V.',
               },
             },
             {
@@ -81,7 +81,7 @@ export const Settings: GlobalConfig = {
               required: true,
               label: 'E-mailadres',
               admin: {
-                placeholder: 'info@plastimed.nl',
+                placeholder: 'info@uwbedrijf.nl',
               },
             },
             {

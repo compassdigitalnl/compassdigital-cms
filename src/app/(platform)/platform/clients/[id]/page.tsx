@@ -130,7 +130,7 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
           <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-lg font-medium">Client not found</p>
           <Button asChild className="mt-4">
-            <Link href="/platform/clients">
+            <Link href="/platform/clients/">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Clients
             </Link>
@@ -162,7 +162,7 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/platform/clients">
+            <Link href="/platform/clients/">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>

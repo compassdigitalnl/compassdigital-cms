@@ -679,11 +679,11 @@ export function RegistrationForm() {
                     </div>
                     <span className="text-sm text-gray-900">
                       Ik ga akkoord met de{' '}
-                      <a href="/terms" className="text-teal-600 underline">
+                      <a href="/terms/" className="text-teal-600 underline">
                         algemene voorwaarden
                       </a>{' '}
                       en{' '}
-                      <a href="/privacy" className="text-teal-600 underline">
+                      <a href="/privacy/" className="text-teal-600 underline">
                         privacyverklaring
                       </a>
                       . <span className="text-red-500">*</span>

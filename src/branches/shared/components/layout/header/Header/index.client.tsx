@@ -247,7 +247,7 @@ export function HeaderClient({ header }: Props) {
               {/* Account */}
               {showAccount && (
                 <Link
-                  href="/account"
+                  href="/account/"
                   className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--primary,#00897B)] hover:bg-[var(--primary,#00897B)]/10 flex items-center justify-center transition-all"
                   title="Account"
                 >
@@ -263,7 +263,7 @@ export function HeaderClient({ header }: Props) {
               {/* Cart */}
               {showCart && (
                 <Link
-                  href="/cart"
+                  href="/cart/"
                   className="h-[42px] px-4 rounded-[10px] bg-[var(--secondary,#0A1628)] text-white hover:bg-[var(--primary,#00897B)] border border-[var(--secondary,#0A1628)] hover:border-[var(--primary,#00897B)] flex items-center gap-2 transition-all font-bold text-[13.5px]"
                 >
                   <ShoppingCart className="w-4 h-4" />

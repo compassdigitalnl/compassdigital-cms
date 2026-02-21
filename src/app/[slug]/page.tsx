@@ -114,7 +114,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <h1 className="text-4xl font-bold text-gray-900 mb-4">{category.name}</h1>
           <p className="text-gray-600 mb-8">Browse products in this category</p>
           <a
-            href="/shop"
+            href="/shop/"
             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
           >
             View All Products

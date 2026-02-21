@@ -81,7 +81,7 @@ export default async function AccountDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Orders */}
         <Link
-          href="/account/orders"
+          href="/account/orders/"
           className="bg-white rounded-lg border border-gray-200 p-5 hover:border-blue-300 transition-colors group"
         >
           <div className="flex items-center justify-between">
@@ -97,7 +97,7 @@ export default async function AccountDashboard() {
 
         {/* Favorites */}
         <Link
-          href="/account/favorites"
+          href="/account/favorites/"
           className="bg-white rounded-lg border border-gray-200 p-5 hover:border-pink-300 transition-colors group"
         >
           <div className="flex items-center justify-between">
@@ -115,7 +115,7 @@ export default async function AccountDashboard() {
 
         {/* Recurring Orders */}
         <Link
-          href="/account/recurring-orders"
+          href="/account/recurring-orders/"
           className="bg-white rounded-lg border border-gray-200 p-5 hover:border-green-300 transition-colors group"
         >
           <div className="flex items-center justify-between">
@@ -133,7 +133,7 @@ export default async function AccountDashboard() {
 
         {/* Invoices */}
         <Link
-          href="/account/invoices"
+          href="/account/invoices/"
           className="bg-white rounded-lg border border-gray-200 p-5 hover:border-purple-300 transition-colors group"
         >
           <div className="flex items-center justify-between">
@@ -154,7 +154,7 @@ export default async function AccountDashboard() {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">Recente Bestellingen</h2>
             <Link
-              href="/account/orders"
+              href="/account/orders/"
               className="text-sm text-blue-600 hover:text-blue-700 font-medium"
             >
               Bekijk alle →
@@ -167,7 +167,7 @@ export default async function AccountDashboard() {
             <ShoppingCart className="w-12 h-12 text-gray-300 mx-auto mb-3" />
             <p className="text-gray-500">Je hebt nog geen bestellingen geplaatst</p>
             <Link
-              href="/shop"
+              href="/shop/"
               className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
             >
               Start met winkelen
@@ -244,7 +244,7 @@ export default async function AccountDashboard() {
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">Favoriete Producten</h2>
               <Link
-                href="/account/favorites"
+                href="/account/favorites/"
                 className="text-sm text-blue-600 hover:text-blue-700 font-medium"
               >
                 Bekijk alle →

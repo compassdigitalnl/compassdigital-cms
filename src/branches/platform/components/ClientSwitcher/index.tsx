@@ -211,7 +211,7 @@ export const ClientSwitcher: React.FC = () => {
 
           {/* Nieuwe klant aanmaken */}
           <a
-            href="/admin/collections/clients/create"
+            href="/admin/collections/clients/create/"
             className="cd-cs__option cd-cs__option--new"
             onClick={() => setIsOpen(false)}
           >

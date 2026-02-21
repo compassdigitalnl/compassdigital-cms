@@ -297,7 +297,7 @@ export default function ShippingReturnsPage() {
             Ons klantenserviceteam staat voor u klaar op werkdagen van 08:30 tot 17:00.
           </p>
           <Link
-            href="/contact"
+            href="/contact/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 transition-all"
           >
             <MessageCircle className="w-4 h-4" />

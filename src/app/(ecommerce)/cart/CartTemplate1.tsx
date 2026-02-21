@@ -58,7 +58,7 @@ export default function CartTemplate1() {
               Voeg producten toe aan je winkelwagen om te beginnen met winkelen.
             </p>
             <Link
-              href="/shop"
+              href="/shop/"
               className="inline-flex items-center gap-2 px-6 lg:px-7 py-3 lg:py-3.5 text-white rounded-xl font-bold transition-all"
               style={{
                 background: 'var(--color-primary)',
@@ -185,7 +185,7 @@ export default function CartTemplate1() {
             </span>
           </h1>
           <Link
-            href="/shop"
+            href="/shop/"
             className="flex items-center gap-1 lg:gap-1.5 font-semibold transition-all hover:gap-2.5 text-xs lg:text-sm"
             style={{ color: 'var(--color-primary)' }}
           >
@@ -868,7 +868,7 @@ export default function CartTemplate1() {
 
             {/* CTA Buttons */}
             <Link
-              href="/checkout"
+              href="/checkout/"
               className="w-full flex items-center justify-center gap-2.5 px-4 py-4 rounded-xl font-bold mb-3 transition-all hover:-translate-y-0.5"
               style={{
                 background: 'var(--color-primary)',
@@ -946,7 +946,7 @@ export default function CartTemplate1() {
             </div>
           </div>
           <Link
-            href="/checkout"
+            href="/checkout/"
             className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold transition-all"
             style={{
               background: 'var(--color-primary)',

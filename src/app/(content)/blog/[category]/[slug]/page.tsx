@@ -287,7 +287,7 @@ export default async function BlogPostPage({
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-2 text-sm">
             <Link
-              href="/blog"
+              href="/blog/"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
               Blog

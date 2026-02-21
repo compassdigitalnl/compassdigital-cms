@@ -105,7 +105,7 @@ export default function SettingsPage() {
         </div>
 
         <Link
-          href="/my-account"
+          href="/my-account/"
           className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
         >
           <ChevronLeft className="w-4 h-4" />

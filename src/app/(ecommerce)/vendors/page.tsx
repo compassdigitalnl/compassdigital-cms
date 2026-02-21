@@ -454,7 +454,7 @@ export default async function VendorsPage({
             mogelijkheden.
           </p>
           <Link
-            href="/contact"
+            href="/contact/"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 relative"
             style={{ backgroundColor: 'var(--color-primary)' }}
           >

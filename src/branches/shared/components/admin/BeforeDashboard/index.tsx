@@ -88,20 +88,20 @@ const AdminDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         <h2 className="cd-section__title">Platform beheer</h2>
         <div className="cd-grid cd-grid--3">
           <QuickAction
-            href="/admin/collections/clients"
+            href="/admin/collections/clients/"
             icon="🏢"
             label="Klanten"
             description="Bekijk en beheer alle klant-sites"
             accent
           />
           <QuickAction
-            href="/admin/collections/deployments"
+            href="/admin/collections/deployments/"
             icon="🚀"
             label="Deployments"
             description="Deployment historie en status"
           />
           <QuickAction
-            href="/site-generator"
+            href="/site-generator/"
             icon="✨"
             label="Site Generator"
             description="Genereer een nieuwe klant-site met AI"
@@ -114,25 +114,25 @@ const AdminDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         <h2 className="cd-section__title">Content & design</h2>
         <div className="cd-grid cd-grid--4">
           <QuickAction
-            href="/admin/collections/pages"
+            href="/admin/collections/pages/"
             icon="📄"
             label="Pagina's"
             description="Maak en bewerk pagina's"
           />
           <QuickAction
-            href="/admin/collections/blog-posts"
+            href="/admin/collections/blog-posts/"
             icon="✍️"
             label="Blog"
             description="Schrijf en publiceer artikelen"
           />
           <QuickAction
-            href="/admin/collections/media"
+            href="/admin/collections/media/"
             icon="🖼️"
             label="Media"
             description="Afbeeldingen en bestanden"
           />
           <QuickAction
-            href="/admin/globals/theme"
+            href="/admin/globals/theme/"
             icon="🎨"
             label="Theme"
             description="Kleuren en typografie"
@@ -145,19 +145,19 @@ const AdminDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         <h2 className="cd-section__title">Systeem</h2>
         <div className="cd-grid cd-grid--3">
           <QuickAction
-            href="/admin/collections/users"
+            href="/admin/collections/users/"
             icon="👥"
             label="Gebruikers"
             description="Beheer admin en editor accounts"
           />
           <QuickAction
-            href="/admin/collections/form-submissions"
+            href="/admin/collections/form-submissions/"
             icon="📬"
             label="Formulieren"
             description="Bekijk ingestuurde formulieren"
           />
           <QuickAction
-            href="/admin/globals/settings"
+            href="/admin/globals/settings/"
             icon="⚙️"
             label="Instellingen"
             description="Site-brede configuratie"
@@ -209,14 +209,14 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         <h2 className="cd-section__title">Snel aan de slag</h2>
         <div className="cd-grid cd-grid--2">
           <QuickAction
-            href="/admin/collections/pages/create"
+            href="/admin/collections/pages/create/"
             icon="➕"
             label="Nieuwe pagina"
             description="Voeg een nieuwe pagina toe aan je website"
             accent
           />
           <QuickAction
-            href="/admin/collections/pages"
+            href="/admin/collections/pages/"
             icon="📄"
             label="Pagina's beheren"
             description="Bekijk en bewerk al je pagina's"
@@ -231,28 +231,28 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
           <h2 className="cd-section__title">E-commerce</h2>
           <div className="cd-grid cd-grid--3">
             <QuickAction
-              href="/admin/collections/products"
+              href="/admin/collections/products/"
               icon="📦"
               label="Producten"
               description="Beheer je productcatalogus"
               accent
             />
             <QuickAction
-              href="/admin/collections/product-categories"
+              href="/admin/collections/product-categories/"
               icon="🏷️"
               label="Categorieën"
               description="Productcategorieën beheren"
             />
             {isEnabled('brands') && (
               <QuickAction
-                href="/admin/collections/brands"
+                href="/admin/collections/brands/"
                 icon="🏭"
                 label="Merken"
                 description="Merken beheren"
               />
             )}
             <QuickAction
-              href="/admin/collections/orders"
+              href="/admin/collections/orders/"
               icon="🛒"
               label="Bestellingen"
               description="Bekijk en beheer bestellingen"
@@ -260,13 +260,13 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
             {shopModel === 'b2b' && (
               <>
                 <QuickAction
-                  href="/admin/collections/order-lists"
+                  href="/admin/collections/order-lists/"
                   icon="📋"
                   label="Bestelrondes"
                   description="B2B bestelrondes beheren"
                 />
                 <QuickAction
-                  href="/admin/collections/customer-groups"
+                  href="/admin/collections/customer-groups/"
                   icon="👥"
                   label="Klantgroepen"
                   description="B2B klantgroepen en prijzen"
@@ -282,38 +282,38 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         <h2 className="cd-section__title">Content</h2>
         <div className="cd-grid cd-grid--3">
           <QuickAction
-            href="/admin/collections/blog-posts/create"
+            href="/admin/collections/blog-posts/create/"
             icon="✍️"
             label="Nieuw artikel"
             description="Schrijf een nieuw blog bericht"
           />
           <QuickAction
-            href="/admin/collections/blog-posts"
+            href="/admin/collections/blog-posts/"
             icon="📰"
             label="Alle artikelen"
             description="Beheer al je blog berichten"
           />
           <QuickAction
-            href="/admin/collections/media"
+            href="/admin/collections/media/"
             icon="🖼️"
             label="Media uploaden"
             description="Afbeeldingen en bestanden beheren"
           />
           <QuickAction
-            href="/admin/collections/testimonials"
+            href="/admin/collections/testimonials/"
             icon="⭐"
             label="Reviews"
             description="Klantreviews beheren"
           />
           <QuickAction
-            href="/admin/collections/faqs"
+            href="/admin/collections/faqs/"
             icon="❓"
             label="FAQ"
             description="Veelgestelde vragen beheren"
           />
           {isEnabled('cases') && (
             <QuickAction
-              href="/admin/collections/cases"
+              href="/admin/collections/cases/"
               icon="💼"
               label="Projecten"
               description="Portfolio projecten beheren"
@@ -321,7 +321,7 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
           )}
           {isEnabled('partners') && (
             <QuickAction
-              href="/admin/collections/partners"
+              href="/admin/collections/partners/"
               icon="🤝"
               label="Partners"
               description="Partnerbedrijven beheren"
@@ -329,7 +329,7 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
           )}
           {isEnabled('services') && (
             <QuickAction
-              href="/admin/collections/services-collection"
+              href="/admin/collections/services-collection/"
               icon="🔧"
               label="Diensten"
               description="Diensten beheren"
@@ -343,25 +343,25 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         <h2 className="cd-section__title">Design & instellingen</h2>
         <div className="cd-grid cd-grid--3">
           <QuickAction
-            href="/admin/globals/theme"
+            href="/admin/globals/theme/"
             icon="🎨"
             label="Kleuren & stijl"
             description="Pas het uiterlijk van je site aan"
           />
           <QuickAction
-            href="/admin/globals/header"
+            href="/admin/globals/header/"
             icon="📋"
             label="Header"
             description="Bewerk de bovenkant van je site"
           />
           <QuickAction
-            href="/admin/globals/footer"
+            href="/admin/globals/footer/"
             icon="🔗"
             label="Footer"
             description="Bewerk de voettekst van je site"
           />
           <QuickAction
-            href="/admin/globals/settings"
+            href="/admin/globals/settings/"
             icon="⚙️"
             label="Instellingen"
             description="Contactinfo en SEO instellingen"
@@ -374,13 +374,13 @@ const EditorDashboard: React.FC<{ userName: string }> = ({ userName }) => {
         <h2 className="cd-section__title">Formulieren</h2>
         <div className="cd-grid cd-grid--2">
           <QuickAction
-            href="/admin/collections/forms"
+            href="/admin/collections/forms/"
             icon="📝"
             label="Formulieren"
             description="Beheer contactformulieren"
           />
           <QuickAction
-            href="/admin/collections/form-submissions"
+            href="/admin/collections/form-submissions/"
             icon="📬"
             label="Inzendingen"
             description="Bekijk ingestuurde formulieren"

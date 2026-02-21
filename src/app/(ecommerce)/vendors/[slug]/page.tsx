@@ -121,7 +121,7 @@ export default async function VendorDetailPage({ params }: Props) {
             Home
           </Link>
           <ChevronRight className="w-4 h-4" style={{ color: 'var(--color-border)' }} />
-          <Link href="/vendors" style={{ color: 'var(--color-text-muted)' }}>
+          <Link href="/vendors/" style={{ color: 'var(--color-text-muted)' }}>
             Leveranciers
           </Link>
           <ChevronRight className="w-4 h-4" style={{ color: 'var(--color-border)' }} />
@@ -535,7 +535,7 @@ export default async function VendorDetailPage({ params }: Props) {
             {/* Workshops Banner */}
             {workshops.length > 0 && (
               <Link
-                href="/workshops"
+                href="/workshops/"
                 className="block bg-gradient-to-br from-teal-600 to-teal-700 rounded-2xl p-6 mb-4 text-white transition-transform hover:-translate-y-1"
                 style={{
                   background: 'linear-gradient(135deg, var(--color-primary), #00695C)',

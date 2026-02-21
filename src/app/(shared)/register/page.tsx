@@ -18,7 +18,7 @@ export default function RegisterPage() {
             Logo
           </Link>
           <Link
-            href="/contact"
+            href="/contact/"
             className="flex items-center gap-2 text-sm text-gray-600 hover:text-teal-600 transition-colors"
           >
             <HelpCircle className="w-4 h-4" />

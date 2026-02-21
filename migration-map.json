@@ -46,8 +46,5 @@
   "@/branches/shared/components/LivePreviewListener": "@/branches/shared/components/utilities/LivePreviewListener",
   "@/branches/shared/components/OptimizedImage": "@/branches/shared/components/utilities/OptimizedImage",
   "@/branches/shared/components/RenderParams": "@/branches/shared/components/utilities/RenderParams",
-  "@/branches/shared/components/ThemeProvider": "@/branches/shared/components/utilities/ThemeProvider",
-
-  "@/branches/shared/components/Plastimed": "@/branches/shared/components/deprecated/Plastimed",
-  "@/branches/shared/components/icons": "@/branches/shared/components/deprecated/icons"
+  "@/branches/shared/components/ThemeProvider": "@/branches/shared/components/utilities/ThemeProvider"
 }

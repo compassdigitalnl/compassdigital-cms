@@ -1333,7 +1333,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 Klanten bekeken ook
               </h2>
               <Link
-                href="/shop"
+                href="/shop/"
                 className="text-[var(--color-primary)] font-semibold text-[13px] md:text-sm no-underline flex items-center gap-1.5"
               >
                 Bekijk alle producten

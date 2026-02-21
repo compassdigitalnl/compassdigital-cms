@@ -1597,7 +1597,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 You Might Also Like
               </h2>
               <Link
-                href="/shop"
+                href="/shop/"
                 style={{
                   display: 'flex',
                   alignItems: 'center',

@@ -110,7 +110,7 @@ export default async function TenantPage({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <a
-              href="/admin"
+              href="/admin/"
               className="block p-6 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors text-center"
             >
               <div className="text-3xl mb-2">⚙️</div>

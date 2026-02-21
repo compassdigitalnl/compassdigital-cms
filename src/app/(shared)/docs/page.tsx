@@ -225,7 +225,7 @@ export default function DocsPage() {
               <h2 className="text-lg font-bold text-gray-900 mb-2">New to SiteForge?</h2>
               <p className="text-gray-700 mb-4">Start with the Setup Guide to get your production environment ready in 30-60 minutes!</p>
               <a 
-                href="/setup"
+                href="/setup/"
                 className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
                 Go to Setup Guide

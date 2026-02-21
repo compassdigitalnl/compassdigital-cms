@@ -120,7 +120,7 @@ export default async function ReturnDetailPage({ params }: { params: Promise<{ i
     <div className="space-y-6">
       {/* Back Button */}
       <Link
-        href="/account/returns"
+        href="/account/returns/"
         className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />

@@ -42,6 +42,7 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
+  trailingSlash: true,
   redirects,
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {

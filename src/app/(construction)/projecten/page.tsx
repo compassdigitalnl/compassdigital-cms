@@ -102,7 +102,7 @@ export default async function ProjectenPage({ searchParams }: ProjectenPageProps
           Vraag vrijblijvend een offerte aan en bespreek de mogelijkheden voor uw project.
         </p>
         <a
-          href="/offerte-aanvragen"
+          href="/offerte-aanvragen/"
           className="inline-block px-8 py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
         >
           Offerte aanvragen

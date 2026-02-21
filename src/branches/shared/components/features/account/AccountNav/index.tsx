@@ -18,7 +18,7 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
         <li>
           <Button asChild variant="link">
             <Link
-              href="/account"
+              href="/account/"
               className={clsx('text-primary/50 hover:text-primary hover:no-underline', {
                 'text-primary': pathname === '/account',
               })}
@@ -31,7 +31,7 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
         <li>
           <Button asChild variant="link">
             <Link
-              href="/account/addresses"
+              href="/account/addresses/"
               className={clsx('text-primary/50 hover:text-primary hover:no-underline', {
                 'text-primary': pathname === '/account/addresses',
               })}
@@ -49,7 +49,7 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
               'text-primary': pathname === '/orders' || pathname.includes('/orders'),
             })}
           >
-            <Link href="/orders">Orders</Link>
+            <Link href="/orders/">Orders</Link>
           </Button>
         </li>
       </ul>
@@ -63,7 +63,7 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
           'text-primary': pathname === '/logout',
         })}
       >
-        <Link href="/logout">Log out</Link>
+        <Link href="/logout/">Log out</Link>
       </Button>
     </div>
   )

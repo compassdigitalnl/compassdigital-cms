@@ -36,8 +36,8 @@ const ENABLE_KVK_LOOKUP = process.env.ENABLE_KVK_LOOKUP === 'true'
 const MOCK_KVK_DATA: Record<string, KVKCompanyData> = {
   '12345678': {
     kvkNumber: '12345678',
-    name: 'Plastimed Nederland B.V.',
-    tradeName: 'Plastimed',
+    name: 'Demo Bedrijf Nederland B.V.',
+    tradeName: 'Demo Bedrijf',
     legalForm: 'B.V.',
     address: {
       street: 'Hoofdstraat',
@@ -46,9 +46,9 @@ const MOCK_KVK_DATA: Record<string, KVKCompanyData> = {
       city: 'Amsterdam',
       country: 'Nederland',
     },
-    website: 'https://www.plastimed.nl',
+    website: 'https://www.example.com',
     phone: '+31 20 123 4567',
-    email: 'info@plastimed.nl',
+    email: 'info@example.com',
     established: '2015-03-15',
   },
   '87654321': {

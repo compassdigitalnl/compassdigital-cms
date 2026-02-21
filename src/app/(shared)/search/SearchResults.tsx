@@ -108,7 +108,7 @@ export function SearchResults() {
             Probeer een andere zoekterm of verwijder enkele filters
           </p>
           <Link
-            href="/products"
+            href="/products/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors"
           >
             Bekijk alle producten

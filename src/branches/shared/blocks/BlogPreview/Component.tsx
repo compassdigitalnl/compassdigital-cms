@@ -157,7 +157,7 @@ export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlock> = async ({
         {posts.totalDocs > limit && (
           <div className="text-center mt-12">
             <Link
-              href="/blog"
+              href="/blog/"
               className="inline-block px-6 py-3 rounded-lg font-semibold transition-all duration-300"
               style={{
                 backgroundColor: 'var(--color-primary, #3b82f6)',

@@ -91,7 +91,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <Link
-            href="/shop"
+            href="/shop/"
             className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
             style={{ color: 'var(--color-text-secondary)' }}
           >

@@ -70,27 +70,27 @@ export function SiteFooter() {
           <h4 className="text-white font-extrabold text-sm mb-3.5">Klantenservice</h4>
           <ul className="space-y-2">
             <li>
-              <Link href="/faq" className="text-sm hover:text-teal-400 transition-colors">
+              <Link href="/faq/" className="text-sm hover:text-teal-400 transition-colors">
                 Veelgestelde vragen
               </Link>
             </li>
             <li>
-              <Link href="/shipping" className="text-sm hover:text-teal-400 transition-colors">
+              <Link href="/shipping/" className="text-sm hover:text-teal-400 transition-colors">
                 Verzending & retour
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="text-sm hover:text-teal-400 transition-colors">
+              <Link href="/contact/" className="text-sm hover:text-teal-400 transition-colors">
                 Contact
               </Link>
             </li>
             <li>
-              <Link href="/quote" className="text-sm hover:text-teal-400 transition-colors">
+              <Link href="/quote/" className="text-sm hover:text-teal-400 transition-colors">
                 Offerte aanvragen
               </Link>
             </li>
             <li>
-              <Link href="/register" className="text-sm hover:text-teal-400 transition-colors">
+              <Link href="/register/" className="text-sm hover:text-teal-400 transition-colors">
                 Klant worden
               </Link>
             </li>
@@ -101,17 +101,18 @@ export function SiteFooter() {
         <div>
           <h4 className="text-white font-extrabold text-sm mb-3.5">Contact</h4>
           <div className="space-y-2">
+            {/* TODO: Make dynamic - get from Settings global */}
             <div className="flex items-center gap-2 text-sm">
               <Phone className="w-4 h-4 text-teal-400" />
-              0251‑247233
+              +31 20 123 4567
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Mail className="w-4 h-4 text-teal-400" />
-              info@plastimed.nl
+              info@example.com
             </div>
             <div className="flex items-center gap-2 text-sm">
               <MapPin className="w-4 h-4 text-teal-400" />
-              Parallelweg 124, Beverwijk
+              Voorbeeldstraat 123, Amsterdam
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Clock className="w-4 h-4 text-teal-400" />
@@ -149,13 +150,13 @@ export function SiteFooter() {
       <div className="px-12 py-4 flex justify-between items-center text-xs">
         <span>© 2026 Plastimed B.V. — Alle rechten voorbehouden</span>
         <div className="flex gap-4">
-          <Link href="/terms" className="hover:text-teal-400 transition-colors">
+          <Link href="/terms/" className="hover:text-teal-400 transition-colors">
             Algemene voorwaarden
           </Link>
-          <Link href="/privacy" className="hover:text-teal-400 transition-colors">
+          <Link href="/privacy/" className="hover:text-teal-400 transition-colors">
             Privacybeleid
           </Link>
-          <Link href="/cookies" className="hover:text-teal-400 transition-colors">
+          <Link href="/cookies/" className="hover:text-teal-400 transition-colors">
             Cookiebeleid
           </Link>
         </div>

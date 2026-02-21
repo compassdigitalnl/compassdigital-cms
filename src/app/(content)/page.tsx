@@ -6,9 +6,9 @@ import { JsonLdSchema } from '@/branches/shared/components/seo/JsonLdSchema'
 import type { Page } from 'src/payload-types'
 
 export const metadata = {
-  title: 'Plastimed.nl — Uw partner in medische supplies',
+  title: 'Sityzr CMS — Build your perfect website',
   description:
-    'Plastimed levert ruim 4.000 professionele medische producten aan zorginstellingen door heel Nederland. Van huisartsenpraktijk tot ziekenhuis.',
+    'Professional multi-tenant CMS platform for building beautiful websites, e-commerce stores, and SaaS applications.',
 }
 
 export const dynamic = 'force-dynamic'
@@ -40,7 +40,7 @@ export default async function PlastimedHomepage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
         <div className="max-w-2xl text-center">
           <h1 className="text-4xl font-extrabold text-navy mb-4">
-            Welkom bij Plastimed CMS
+            Welkom bij Sityzr CMS
           </h1>
           <p className="text-lg text-gray-600 mb-8">
             De homepage is nog niet geconfigureerd. Volg deze stappen om te beginnen:
@@ -52,7 +52,7 @@ export default async function PlastimedHomepage() {
                 <span className="text-teal-600 font-bold">1.</span>
                 <span>
                   Login in de admin:{' '}
-                  <a href="/admin" className="text-teal-600 underline font-semibold">
+                  <a href="/admin/" className="text-teal-600 underline font-semibold">
                     /admin
                   </a>
                 </span>
@@ -73,7 +73,7 @@ export default async function PlastimedHomepage() {
                 <span>
                   Lees de setup guide:{' '}
                   <code className="bg-gray-100 px-2 py-1 rounded text-xs">
-                    /docs/PLASTIMED_HOMEPAGE_SETUP.md
+                    /docs/HOMEPAGE_SETUP.md
                   </code>
                 </span>
               </li>
@@ -99,7 +99,7 @@ export default async function PlastimedHomepage() {
             <p className="text-lg">De homepage heeft nog geen content blocks.</p>
             <p className="mt-2">
               Ga naar{' '}
-              <a href="/admin/collections/pages" className="text-teal-600 underline">
+              <a href="/admin/collections/pages/" className="text-teal-600 underline">
                 Pages in de admin
               </a>{' '}
               om blocks toe te voegen.

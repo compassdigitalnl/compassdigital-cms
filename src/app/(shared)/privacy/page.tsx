@@ -111,8 +111,8 @@ export default function PrivacyPage() {
       <p>
         Op grond van de AVG heeft u het recht op inzage, rectificatie, verwijdering en
         overdracht van uw gegevens. Ook kunt u bezwaar maken tegen verwerking of uw
-        toestemming intrekken. U kunt een verzoek indienen via privacy@plastimed.nl. Wij
-        reageren binnen 30 dagen.
+        toestemming intrekken. U kunt een verzoek indienen via uw contactformulier of
+        privacy@uwbedrijf.nl. Wij reageren binnen 30 dagen.
       </p>
 
       <h2 id="p8">8. Beveiliging</h2>
@@ -126,8 +126,8 @@ export default function PrivacyPage() {
       <h2 id="p9">9. Contact</h2>
       <p>
         Voor vragen over dit privacybeleid of het uitoefenen van uw rechten kunt u
-        contact opnemen via privacy@plastimed.nl of telefonisch via 0251‑247233. U heeft
-        altijd het recht om een klacht in te dienen bij de Autoriteit Persoonsgegevens.
+        contact opnemen via privacy@uwbedrijf.nl of telefonisch via uw contactgegevens.
+        U heeft altijd het recht om een klacht in te dienen bij de Autoriteit Persoonsgegevens.
       </p>
     </LegalLayout>
   )

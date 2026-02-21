@@ -271,7 +271,7 @@ export default function FAQPage() {
                 Neem contact met ons op — wij helpen u graag verder.
               </p>
               <Link
-                href="/contact"
+                href="/contact/"
                 className="inline-flex items-center gap-2 px-5 py-3 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 transition-all"
               >
                 <MessageCircle className="w-4 h-4" />

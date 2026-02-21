@@ -95,7 +95,7 @@ export default function RegistrationSuccessPage() {
               <p className="text-sm text-gray-600">
                 <strong>Geen mail ontvangen?</strong> Controleer je spam/ongewenste mail folder
                 of{' '}
-                <Link href="/contact" className="text-teal-600 hover:text-teal-700 underline">
+                <Link href="/contact/" className="text-teal-600 hover:text-teal-700 underline">
                   neem contact met ons op
                 </Link>
                 .
@@ -106,7 +106,7 @@ export default function RegistrationSuccessPage() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/login"
+              href="/login/"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-colors shadow-lg hover:shadow-xl"
             >
               <span>Ga naar inlogpagina</span>
@@ -126,7 +126,7 @@ export default function RegistrationSuccessPage() {
           <div className="mt-12 text-center">
             <p className="text-sm text-gray-500 mb-4">Heb je vragen over je account?</p>
             <Link
-              href="/contact"
+              href="/contact/"
               className="text-teal-600 hover:text-teal-700 font-medium underline"
             >
               Neem contact met ons op

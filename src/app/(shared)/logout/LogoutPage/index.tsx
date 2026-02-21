@@ -31,11 +31,11 @@ export const LogoutPage: React.FC = (props) => {
             What would you like to do next?
             <Fragment>
               {' '}
-              <Link href="/search">Click here</Link>
+              <Link href="/search/">Click here</Link>
               {` to shop.`}
             </Fragment>
             {` To log back in, `}
-            <Link href="/login">click here</Link>.
+            <Link href="/login/">click here</Link>.
           </p>
         </div>
       )}

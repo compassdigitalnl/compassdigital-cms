@@ -163,13 +163,13 @@ export default function ClientsPage() {
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" asChild>
-            <Link href="/admin/collections/clients">
+            <Link href="/admin/collections/clients/">
               <Settings className="mr-2 h-4 w-4" />
               CMS Admin
             </Link>
           </Button>
           <Button asChild>
-            <Link href="/site-generator">
+            <Link href="/site-generator/">
               <Plus className="mr-2 h-4 w-4" />
               New Client
             </Link>
@@ -275,7 +275,7 @@ export default function ClientsPage() {
               <p className="text-lg font-medium mb-2">No clients found</p>
               <p className="text-sm mb-4">Create your first client to get started</p>
               <Button asChild>
-                <Link href="/site-generator">
+                <Link href="/site-generator/">
                   <Plus className="mr-2 h-4 w-4" />
                   Create Client via Site Generator
                 </Link>

@@ -41,7 +41,7 @@ export default function NotFound() {
               Terug naar home
             </Link>
             <Link
-              href="/shop"
+              href="/shop/"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-navy-900 font-bold rounded-xl hover:bg-gray-200 transition-all"
             >
               <Search className="w-5 h-5" />
@@ -54,31 +54,31 @@ export default function NotFound() {
             <p className="text-sm font-semibold text-gray-500 mb-4">Populaire pagina's:</p>
             <div className="flex flex-wrap items-center justify-center gap-2">
               <Link
-                href="/shop"
+                href="/shop/"
                 className="px-3 py-1.5 text-sm text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
               >
                 Producten
               </Link>
               <Link
-                href="/brands"
+                href="/brands/"
                 className="px-3 py-1.5 text-sm text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
               >
                 Merken
               </Link>
               <Link
-                href="/faq"
+                href="/faq/"
                 className="px-3 py-1.5 text-sm text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
               >
                 Veelgestelde vragen
               </Link>
               <Link
-                href="/contact"
+                href="/contact/"
                 className="px-3 py-1.5 text-sm text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
               >
                 Contact
               </Link>
               <Link
-                href="/account"
+                href="/account/"
                 className="px-3 py-1.5 text-sm text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
               >
                 Mijn account
@@ -91,11 +91,11 @@ export default function NotFound() {
         <div className="mt-8 text-sm text-gray-500">
           <p className="mb-2">Heeft u hulp nodig?</p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/contact" className="text-teal-600 hover:text-teal-700 font-medium">
+            <Link href="/contact/" className="text-teal-600 hover:text-teal-700 font-medium">
               Neem contact op
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/faq" className="text-teal-600 hover:text-teal-700 font-medium">
+            <Link href="/faq/" className="text-teal-600 hover:text-teal-700 font-medium">
               Bekijk FAQ
             </Link>
           </div>

@@ -254,7 +254,7 @@ export default function OrderListsPage() {
             Importeren
           </button>
           <Link
-            href="/my-account/lists/new"
+            href="/my-account/lists/new/"
             className="flex items-center gap-2 px-5 py-3 rounded-xl font-bold transition-all hover:opacity-90"
             style={{
               background: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
@@ -632,7 +632,7 @@ export default function OrderListsPage() {
 
         {/* New List Card */}
         <Link
-          href="/my-account/lists/new"
+          href="/my-account/lists/new/"
           className="flex flex-col items-center justify-center rounded-2xl p-6 transition-all hover:border-teal-700 hover:bg-teal-50"
           style={{
             background: '#F5F7FA',
@@ -691,7 +691,7 @@ export default function OrderListsPage() {
           </p>
           {!searchQuery && (
             <Link
-              href="/my-account/lists/new"
+              href="/my-account/lists/new/"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold transition-all hover:opacity-90"
               style={{
                 background: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',

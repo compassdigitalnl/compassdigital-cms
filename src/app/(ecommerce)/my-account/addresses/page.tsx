@@ -122,7 +122,7 @@ export default function AddressesPage() {
         {/* Mobile: Stacked buttons */}
         <div className="flex gap-2 lg:hidden">
           <Link
-            href="/my-account"
+            href="/my-account/"
             className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900 flex-1"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -140,7 +140,7 @@ export default function AddressesPage() {
         {/* Desktop: Horizontal buttons */}
         <div className="hidden lg:flex lg:gap-2">
           <Link
-            href="/my-account"
+            href="/my-account/"
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900"
           >
             <ChevronLeft className="w-4 h-4" />

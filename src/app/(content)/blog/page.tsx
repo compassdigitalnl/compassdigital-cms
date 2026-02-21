@@ -94,7 +94,7 @@ export default async function BlogArchivePage({
         {/* Category Filter Chips */}
         <div className="flex gap-2 flex-wrap mb-8">
           <Link
-            href="/blog"
+            href="/blog/"
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border-2 transition-all ${
               !params.category
                 ? 'bg-teal-500 text-white border-teal-500'

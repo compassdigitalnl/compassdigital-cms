@@ -40,7 +40,6 @@ const oldPatterns = [
   /@\/branches\/shared\/components\/OptimizedImage/,
   /@\/branches\/shared\/components\/RenderParams/,
   /@\/branches\/shared\/components\/ThemeProvider/,
-  /@\/branches\/shared\/components\/Plastimed/,
 ]
 
 const files = await glob('src/**/*.{ts,tsx}', {

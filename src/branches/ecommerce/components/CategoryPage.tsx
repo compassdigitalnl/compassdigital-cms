@@ -41,7 +41,7 @@ export default async function CategoryPage({ category }: CategoryPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center gap-4 mb-4">
             <Link
-              href="/shop"
+              href="/shop/"
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
               ← Back to Shop
@@ -82,7 +82,7 @@ export default async function CategoryPage({ category }: CategoryPageProps) {
               There are currently no products in this category.
             </p>
             <Link
-              href="/shop"
+              href="/shop/"
               className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
             >
               Browse All Products

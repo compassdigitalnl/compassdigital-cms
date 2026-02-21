@@ -127,7 +127,7 @@ export default function CheckoutTemplate1() {
     return (
       <div className="prose dark:prose-invert py-12 w-full items-center">
         <p>Your cart is empty.</p>
-        <Link href="/search">Continue shopping?</Link>
+        <Link href="/search/">Continue shopping?</Link>
       </div>
     )
   }
@@ -300,11 +300,11 @@ export default function CheckoutTemplate1() {
                       className="no-underline text-inherit h-10 lg:h-11 text-sm lg:text-base"
                       variant="outline"
                     >
-                      <Link href="/login">Inloggen</Link>
+                      <Link href="/login/">Inloggen</Link>
                     </Button>
                     <span className="text-sm opacity-60">of</span>
                     <Link
-                      href="/create-account"
+                      href="/create-account/"
                       className="text-sm lg:text-base underline font-medium"
                     >
                       Account aanmaken
@@ -327,7 +327,7 @@ export default function CheckoutTemplate1() {
                 </div>
                 <p className="text-xs lg:text-sm opacity-60 ml-8">
                   Niet jij?{' '}
-                  <Link className="underline font-medium" href="/logout">
+                  <Link className="underline font-medium" href="/logout/">
                     Uitloggen
                   </Link>
                 </p>

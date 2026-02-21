@@ -243,7 +243,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                 Bekijk ons complete assortiment medische supplies
               </p>
               <Link
-                href="/products"
+                href="/products/"
                 className="inline-flex items-center gap-2 px-5 py-3 bg-teal-500 text-white rounded-xl font-bold text-sm hover:bg-teal-600 transition-colors"
               >
                 <Icon name="ShoppingCart" size={16} />

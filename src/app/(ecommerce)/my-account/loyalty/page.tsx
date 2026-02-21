@@ -149,7 +149,7 @@ export default function LoyaltyPage() {
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
           <Link
-            href="/my-account"
+            href="/my-account/"
             className="text-gray-500 hover:text-gray-700 transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />

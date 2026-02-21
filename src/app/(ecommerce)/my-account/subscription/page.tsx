@@ -88,7 +88,7 @@ export default function SubscriptionPage() {
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
           <Link
-            href="/my-account"
+            href="/my-account/"
             className="text-gray-500 hover:text-gray-700 transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -297,7 +297,7 @@ export default function SubscriptionPage() {
               <CreditCard className="w-4 h-4 text-teal-600" />
               Recente facturen
             </h3>
-            <Link href="/my-account/invoices" className="text-xs font-semibold text-teal-600 hover:underline">
+            <Link href="/my-account/invoices/" className="text-xs font-semibold text-teal-600 hover:underline">
               Alles bekijken
             </Link>
           </div>

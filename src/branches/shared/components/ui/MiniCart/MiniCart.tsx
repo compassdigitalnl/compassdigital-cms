@@ -253,7 +253,7 @@ export function MiniCart() {
             <div className="text-xs text-gray-500 mb-3.5">Verzendkosten worden berekend bij checkout</div>
 
             <Link
-              href="/checkout"
+              href="/checkout/"
               onClick={closeCart}
               className="w-full h-12 bg-teal-600 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-gray-900 transition-colors shadow-lg shadow-teal-200 mb-2.5"
             >

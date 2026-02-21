@@ -57,7 +57,7 @@ export default function GiftVouchersPage() {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <Link
-                href="/my-account"
+                href="/my-account/"
                 className="text-gray-500 hover:text-gray-700 transition-colors"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -69,7 +69,7 @@ export default function GiftVouchersPage() {
             </p>
           </div>
           <Link
-            href="/gift-vouchers/purchase"
+            href="/gift-vouchers/purchase/"
             className="px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-navy-900 transition-colors flex items-center gap-2"
           >
             <Gift className="w-4 h-4" />
@@ -193,7 +193,7 @@ export default function GiftVouchersPage() {
             Je hebt nog geen cadeaubonnen gekocht of ontvangen
           </p>
           <Link
-            href="/gift-vouchers/purchase"
+            href="/gift-vouchers/purchase/"
             className="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-navy-900 transition-colors"
           >
             <Gift className="w-4 h-4" />

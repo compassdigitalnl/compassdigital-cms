@@ -27,7 +27,7 @@ export function MegaNav() {
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
               <Truck className="w-3 h-3 text-teal-400" />
-              Gratis verzending &gt;¬150
+              Gratis verzending &gt;ï¿½150
             </span>
             <span className="flex items-center gap-1.5">
               <Clock className="w-3 h-3 text-teal-400" />
@@ -40,18 +40,18 @@ export function MegaNav() {
           </div>
           <div className="flex items-center gap-4">
             <Link
-              href="tel:0251247233"
+              href="tel:+31201234567"
               className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors"
             >
               <Phone className="w-3 h-3" />
               0251247233
             </Link>
             <Link
-              href="mailto:info@plastimed.nl"
+              href="mailto:info@example.com"
               className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors"
             >
               <Mail className="w-3 h-3" />
-              info@plastimed.nl
+              info@example.com
             </Link>
           </div>
         </div>
@@ -72,25 +72,25 @@ export function MegaNav() {
             <ChevronDown className="w-3.5 h-3.5" />
           </button>
           <Link
-            href="/brands"
+            href="/brands/"
             className="px-3.5 py-5 text-sm font-semibold text-navy-900 hover:text-teal-600 transition-colors border-b-2 border-transparent hover:border-teal-600"
           >
             Merken
           </Link>
           <Link
-            href="/branches"
+            href="/branches/"
             className="px-3.5 py-5 text-sm font-semibold text-navy-900 hover:text-teal-600 transition-colors border-b-2 border-transparent hover:border-teal-600"
           >
             Branches
           </Link>
           <Link
-            href="/deals"
+            href="/deals/"
             className="px-3.5 py-5 text-sm font-semibold text-navy-900 hover:text-teal-600 transition-colors border-b-2 border-transparent hover:border-teal-600"
           >
             Aanbiedingen
           </Link>
           <Link
-            href="/knowledge"
+            href="/knowledge/"
             className="px-3.5 py-5 text-sm font-semibold text-navy-900 hover:text-teal-600 transition-colors border-b-2 border-transparent hover:border-teal-600"
           >
             Kennisbank
@@ -123,7 +123,7 @@ export function MegaNav() {
           </button>
           <button className="h-10 px-3.5 flex items-center gap-2 bg-navy-900 border border-navy-900 text-white rounded-lg hover:bg-teal-600 hover:border-teal-600 transition-all">
             <ShoppingCart className="w-4 h-4" />
-            <span className="text-sm font-bold">¬79,92</span>
+            <span className="text-sm font-bold">ï¿½79,92</span>
           </button>
         </div>
       </div>
@@ -134,7 +134,7 @@ export function MegaNav() {
           {/* Categories */}
           <div className="flex flex-col gap-0.5">
             <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-teal-50 text-teal-600">
-              <span>>ä</span> Handschoenen
+              <span>>ï¿½</span> Handschoenen
             </button>
             <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-navy-900 hover:bg-teal-50 hover:text-teal-600">
               <span>>z</span> Diagnostiek
@@ -143,7 +143,7 @@ export function MegaNav() {
               <span>>y</span> Verbandmiddelen
             </button>
             <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-navy-900 hover:bg-teal-50 hover:text-teal-600">
-              <span>=‰</span> Injectiemateriaal
+              <span>=ï¿½</span> Injectiemateriaal
             </button>
           </div>
 
@@ -156,11 +156,11 @@ export function MegaNav() {
                 className="flex items-center gap-2.5 p-2.5 border border-gray-200 rounded-lg hover:border-teal-600 hover:bg-teal-50 transition-all"
               >
                 <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xl flex-shrink-0">
-                  >ä
+                  >ï¿½
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-navy-900">Peha-soft Nitrile</div>
-                  <div className="text-xs text-teal-600 font-bold">Vanaf ¬6,95</div>
+                  <div className="text-xs text-teal-600 font-bold">Vanaf ï¿½6,95</div>
                 </div>
               </Link>
             ))}
@@ -179,7 +179,7 @@ export function MegaNav() {
               href="#"
               className="inline-flex items-center gap-1 text-sm font-bold text-teal-400 hover:text-white"
             >
-              Bekijk actie ’
+              Bekijk actie ï¿½
             </Link>
           </div>
         </div>

@@ -27,7 +27,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <Link
-              href="/shop"
+              href="/shop/"
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
               ← Back to Shop

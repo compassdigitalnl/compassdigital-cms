@@ -100,7 +100,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/setup"
+                href="/setup/"
                 className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -129,7 +129,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/docs"
+                href="/docs/"
                 className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -158,7 +158,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/site-generator"
+                href="/site-generator/"
                 className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -187,7 +187,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/ai-playground"
+                href="/ai-playground/"
                 className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -246,7 +246,7 @@ export default function OverviewPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <a
-                href="/admin"
+                href="/admin/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
@@ -278,7 +278,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/admin/collections/pages"
+                href="/admin/collections/pages/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
@@ -310,7 +310,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/admin/collections/blog-posts"
+                href="/admin/collections/blog-posts/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
@@ -342,7 +342,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/admin/collections/users"
+                href="/admin/collections/users/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
@@ -404,7 +404,7 @@ export default function OverviewPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <a
-                href="/api/health"
+                href="/api/health/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-xl p-4 transition-all hover:shadow-md group"
@@ -468,7 +468,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/api/graphql-playground"
+                href="/api/graphql-playground/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-xl p-4 transition-all hover:shadow-md group"
@@ -564,7 +564,7 @@ export default function OverviewPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <a
-                href="/login"
+                href="/login/"
                 className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -593,7 +593,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/create-account"
+                href="/create-account/"
                 className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -622,7 +622,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/forgot-password"
+                href="/forgot-password/"
                 className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -651,7 +651,7 @@ export default function OverviewPage() {
                 </div>
               </a>
               <a
-                href="/logout"
+                href="/logout/"
                 className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">

@@ -293,7 +293,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     Vraag vrijblijvend een offerte aan en bespreek de mogelijkheden.
                   </p>
                   <a
-                    href="/offerte-aanvragen"
+                    href="/offerte-aanvragen/"
                     className="block w-full text-center px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
                   >
                     Offerte aanvragen
@@ -355,7 +355,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               Laat u inspireren door onze gerealiseerde projecten
             </p>
             <a
-              href="/projecten"
+              href="/projecten/"
               className="inline-block px-8 py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
             >
               Alle projecten bekijken

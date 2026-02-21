@@ -135,7 +135,7 @@ export function DynamicHeader({ header, settings }: Props) {
             {/* Wishlist */}
             {showWishlist && (
               <Link
-                href="/wishlist"
+                href="/wishlist/"
                 className="w-11 h-11 bg-gray-100 rounded-lg flex items-center justify-center text-lg hover:bg-primary/10 hover:text-primary transition-colors"
                 title="Wishlist"
               >
@@ -146,7 +146,7 @@ export function DynamicHeader({ header, settings }: Props) {
             {/* Account */}
             {showAccount && (
               <Link
-                href="/account"
+                href="/account/"
                 className="w-11 h-11 bg-gray-100 rounded-lg flex items-center justify-center text-lg hover:bg-primary/10 hover:text-primary transition-colors"
                 title="Account"
               >
@@ -209,7 +209,7 @@ export function DynamicHeader({ header, settings }: Props) {
 
               {showWishlist && (
                 <Link
-                  href="/wishlist"
+                  href="/wishlist/"
                   className="block px-4 py-3 bg-gray-50 hover:bg-primary/5 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -219,7 +219,7 @@ export function DynamicHeader({ header, settings }: Props) {
 
               {showAccount && (
                 <Link
-                  href="/account"
+                  href="/account/"
                   className="block px-4 py-3 bg-gray-50 hover:bg-primary/5 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -229,7 +229,7 @@ export function DynamicHeader({ header, settings }: Props) {
 
               {showCart && (
                 <Link
-                  href="/cart"
+                  href="/cart/"
                   className="block px-4 py-3 bg-gray-50 hover:bg-primary/5 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >

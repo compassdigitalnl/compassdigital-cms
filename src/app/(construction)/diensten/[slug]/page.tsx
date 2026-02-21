@@ -265,7 +265,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                     Vraag vrijblijvend een offerte aan en ontvang binnen 24 uur een reactie.
                   </p>
                   <a
-                    href="/offerte-aanvragen"
+                    href="/offerte-aanvragen/"
                     className="block w-full text-center px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
                   >
                     Offerte aanvragen
@@ -359,7 +359,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               Wij bieden een breed scala aan bouwdiensten
             </p>
             <a
-              href="/diensten"
+              href="/diensten/"
               className="inline-block px-8 py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
             >
               Alle diensten bekijken

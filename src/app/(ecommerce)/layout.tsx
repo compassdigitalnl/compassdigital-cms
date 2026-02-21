@@ -7,7 +7,6 @@ import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvi
 import { SearchProvider } from '@/branches/shared/components/features/search/SearchProvider'
 import { MiniCartProvider } from '@/branches/shared/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/Toast'
-import { PlastimedTopBar } from '@/branches/shared/components/deprecated/Plastimed/TopBar'
 import { DynamicHeader } from '@/branches/shared/components/layout/header/DynamicHeader'
 import { DynamicNav } from '@/branches/shared/components/layout/header/navigation/DynamicNav'
 import { getPayload } from 'payload'
@@ -64,10 +63,7 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
               <AdminBar />
               <LivePreviewListener />
 
-              {/* Top Bar (optional, CMS-driven) */}
-              {headerGlobal?.topBar?.enabled && <PlastimedTopBar settings={headerGlobal.topBar} />}
-
-              {/* Dynamic Header (CMS-driven) */}
+              {/* Dynamic Header (CMS-driven, includes TopBar) */}
               <DynamicHeader header={headerGlobal} settings={settingsGlobal} />
 
               {/* Dynamic Navigation (CMS-driven) */}

@@ -117,7 +117,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
     return (
       <div className="text-center py-12">
         <p className="text-gray-600">Client not found</p>
-        <Link href="/platform/clients" className="text-blue-600 hover:text-blue-700 mt-4">
+        <Link href="/platform/clients/" className="text-blue-600 hover:text-blue-700 mt-4">
           ← Back to Clients
         </Link>
       </div>
@@ -150,7 +150,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
     <div className="space-y-6">
       {/* Back Button */}
       <Link
-        href="/platform/clients"
+        href="/platform/clients/"
         className="inline-flex items-center text-gray-600 hover:text-gray-900"
       >
         ← Back to Clients

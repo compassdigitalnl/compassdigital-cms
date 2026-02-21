@@ -134,7 +134,7 @@ export default function OrderDetailPage() {
       <div className="space-y-3 lg:space-y-0 lg:flex lg:items-center lg:justify-between lg:gap-4">
         <div>
           <Link
-            href="/my-account/orders"
+            href="/my-account/orders/"
             className="flex items-center gap-2 text-sm font-semibold mb-3 transition-colors text-teal-700"
           >
             <ChevronLeft className="w-4 h-4" />
