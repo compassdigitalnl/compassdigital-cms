@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
+import { featureField } from '@/lib/featureFields'
 
 export const Header: GlobalConfig = {
   slug: 'header',
@@ -406,24 +407,24 @@ export const Header: GlobalConfig = {
                 description: 'Shows phone number from Shop Settings',
               },
             },
-            {
+            ...featureField('shop', {
               name: 'showWishlist',
               type: 'checkbox',
               label: 'Show Wishlist Button',
               defaultValue: false,
-            },
+            }),
             {
               name: 'showAccount',
               type: 'checkbox',
               label: 'Show Account Button',
               defaultValue: true,
             },
-            {
+            ...featureField('checkout', {
               name: 'showCart',
               type: 'checkbox',
               label: 'Show Cart Button',
               defaultValue: true,
-            },
+            }),
             {
               name: 'customButtons',
               type: 'array',

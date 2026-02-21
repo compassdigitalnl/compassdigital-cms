@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { featureField } from '@/lib/featureFields'
 
 export const Notifications: CollectionConfig = {
   slug: 'notifications',
@@ -164,7 +165,7 @@ export const Notifications: CollectionConfig = {
         description: 'Koppel aan een product (bijv. bij voorraadmelding)',
       },
     },
-    {
+    ...featureField('invoices', {
       name: 'relatedInvoice',
       type: 'relationship',
       relationTo: 'invoices',
@@ -172,8 +173,8 @@ export const Notifications: CollectionConfig = {
       admin: {
         description: 'Koppel aan een factuur',
       },
-    },
-    {
+    }),
+    ...featureField('recurringOrders', {
       name: 'relatedRecurringOrder',
       type: 'relationship',
       relationTo: 'recurring-orders',
@@ -181,8 +182,8 @@ export const Notifications: CollectionConfig = {
       admin: {
         description: 'Koppel aan een herhaalbestelling',
       },
-    },
-    {
+    }),
+    ...featureField('returns', {
       name: 'relatedReturn',
       type: 'relationship',
       relationTo: 'returns',
@@ -190,7 +191,7 @@ export const Notifications: CollectionConfig = {
       admin: {
         description: 'Koppel aan een retourzending',
       },
-    },
+    }),
     // Action & Appearance
     {
       name: 'actionUrl',

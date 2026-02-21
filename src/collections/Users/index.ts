@@ -6,6 +6,7 @@ import { publicAccess } from '@/access/publicAccess'
 import { adminOrSelf } from '@/access/adminOrSelf'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
+import { featureField, featureFields } from '@/lib/featureFields'
 
 import { ensureFirstUserIsAdmin } from './hooks/ensureFirstUserIsAdmin'
 
@@ -53,93 +54,95 @@ export const Users: CollectionConfig = {
         placeholder: '+31 6 1234 5678',
       },
     },
-    {
-      name: 'accountType',
-      type: 'select',
-      label: 'Account Type',
-      defaultValue: 'individual',
-      options: [
-        {
-          label: 'Particulier',
-          value: 'individual',
+    ...featureFields('b2b', [
+      {
+        name: 'accountType',
+        type: 'select',
+        label: 'Account Type',
+        defaultValue: 'individual',
+        options: [
+          {
+            label: 'Particulier',
+            value: 'individual',
+          },
+          {
+            label: 'B2B Zakelijk',
+            value: 'b2b',
+          },
+        ],
+        admin: {
+          description: 'B2B accounts hebben toegang tot zakelijke functionaliteiten',
         },
-        {
-          label: 'B2B Zakelijk',
-          value: 'b2b',
-        },
-      ],
-      admin: {
-        description: 'B2B accounts hebben toegang tot zakelijke functionaliteiten',
       },
-    },
-    {
-      name: 'company',
-      type: 'group',
-      label: 'Bedrijfsgegevens',
-      admin: {
-        condition: (data) => data.accountType === 'b2b',
-        description: 'Bedrijfsinformatie voor B2B klanten',
+      {
+        name: 'company',
+        type: 'group',
+        label: 'Bedrijfsgegevens',
+        admin: {
+          condition: (data) => data.accountType === 'b2b',
+          description: 'Bedrijfsinformatie voor B2B klanten',
+        },
+        fields: [
+          {
+            name: 'name',
+            type: 'text',
+            required: true,
+            label: 'Bedrijfsnaam',
+          },
+          {
+            name: 'kvkNumber',
+            type: 'text',
+            label: 'KVK Nummer',
+            admin: {
+              placeholder: '12345678',
+            },
+          },
+          {
+            name: 'vatNumber',
+            type: 'text',
+            label: 'BTW Nummer',
+            admin: {
+              placeholder: 'NL123456789B01',
+            },
+          },
+          {
+            name: 'invoiceEmail',
+            type: 'email',
+            label: 'Factuur Email',
+            admin: {
+              description: 'Email voor facturen (indien anders dan hoofdemail)',
+            },
+          },
+          {
+            name: 'branch',
+            type: 'select',
+            label: 'Branche',
+            options: [
+              { label: '🏥 Zorg & Welzijn', value: 'healthcare' },
+              { label: '🍽️ Horeca & Catering', value: 'hospitality' },
+              { label: '🏗️ Bouw & Techniek', value: 'construction' },
+              { label: '🏭 Industrie & Productie', value: 'industry' },
+              { label: '🏫 Onderwijs', value: 'education' },
+              { label: '🏢 Zakelijke Diensten', value: 'business_services' },
+              { label: '🛒 Retail & Groothandel', value: 'retail' },
+              { label: '🚚 Transport & Logistiek', value: 'logistics' },
+              { label: '💼 Overig', value: 'other' },
+            ],
+            admin: {
+              description: 'Branche/sector van het bedrijf',
+            },
+          },
+          {
+            name: 'website',
+            type: 'text',
+            label: 'Website',
+            admin: {
+              placeholder: 'https://www.bedrijf.nl',
+            },
+          },
+        ],
       },
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-          label: 'Bedrijfsnaam',
-        },
-        {
-          name: 'kvkNumber',
-          type: 'text',
-          label: 'KVK Nummer',
-          admin: {
-            placeholder: '12345678',
-          },
-        },
-        {
-          name: 'vatNumber',
-          type: 'text',
-          label: 'BTW Nummer',
-          admin: {
-            placeholder: 'NL123456789B01',
-          },
-        },
-        {
-          name: 'invoiceEmail',
-          type: 'email',
-          label: 'Factuur Email',
-          admin: {
-            description: 'Email voor facturen (indien anders dan hoofdemail)',
-          },
-        },
-        {
-          name: 'branch',
-          type: 'select',
-          label: 'Branche',
-          options: [
-            { label: '🏥 Zorg & Welzijn', value: 'healthcare' },
-            { label: '🍽️ Horeca & Catering', value: 'hospitality' },
-            { label: '🏗️ Bouw & Techniek', value: 'construction' },
-            { label: '🏭 Industrie & Productie', value: 'industry' },
-            { label: '🏫 Onderwijs', value: 'education' },
-            { label: '🏢 Zakelijke Diensten', value: 'business_services' },
-            { label: '🛒 Retail & Groothandel', value: 'retail' },
-            { label: '🚚 Transport & Logistiek', value: 'logistics' },
-            { label: '💼 Overig', value: 'other' },
-          ],
-          admin: {
-            description: 'Branche/sector van het bedrijf',
-          },
-        },
-        {
-          name: 'website',
-          type: 'text',
-          label: 'Website',
-          admin: {
-            placeholder: 'https://www.bedrijf.nl',
-          },
-        },
-      ],
-    },
+    ]),
     {
       name: 'addresses',
       type: 'array',
@@ -256,35 +259,37 @@ export const Users: CollectionConfig = {
         condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
       },
     },
-    {
-      name: 'favorites',
-      type: 'array',
-      label: 'Favorieten',
-      admin: {
-        description: 'Favoriete producten van deze gebruiker',
-      },
-      fields: [
-        {
-          name: 'product',
-          type: 'relationship',
-          relationTo: 'products',
-          required: true,
-          label: 'Product',
+    ...featureFields('shop', [
+      {
+        name: 'favorites',
+        type: 'array',
+        label: 'Favorieten',
+        admin: {
+          description: 'Favoriete producten van deze gebruiker',
         },
-        {
-          name: 'addedAt',
-          type: 'date',
-          label: 'Toegevoegd op',
-          defaultValue: () => new Date().toISOString(),
-          admin: {
-            readOnly: true,
-            date: {
-              pickerAppearance: 'dayAndTime',
+        fields: [
+          {
+            name: 'product',
+            type: 'relationship',
+            relationTo: 'products',
+            required: true,
+            label: 'Product',
+          },
+          {
+            name: 'addedAt',
+            type: 'date',
+            label: 'Toegevoegd op',
+            defaultValue: () => new Date().toISOString(),
+            admin: {
+              readOnly: true,
+              date: {
+                pickerAppearance: 'dayAndTime',
+              },
             },
           },
-        },
-      ],
-    },
+        ],
+      },
+    ]),
     // Only include client relationship field in platform deployments
     // In tenant deployments, the 'clients' collection doesn't exist
     ...(!isClientDeployment()

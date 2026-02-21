@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { featureFields } from '@/lib/featureFields'
 import {
   BoldFeature,
   HeadingFeature,
@@ -259,16 +260,18 @@ export const BlogPosts: CollectionConfig = {
     // ═══════════════════════════════════════════════════════════
     // RELATED CONTENT
     // ═══════════════════════════════════════════════════════════
-    {
-      name: 'relatedProducts',
-      type: 'relationship',
-      relationTo: 'products',
-      hasMany: true,
-      label: 'Gerelateerde Producten',
-      admin: {
-        description: 'Producten genoemd in artikel (getoond in sidebar + inline embeds)',
+    ...featureFields('shop', [
+      {
+        name: 'relatedProducts',
+        type: 'relationship',
+        relationTo: 'products',
+        hasMany: true,
+        label: 'Gerelateerde Producten',
+        admin: {
+          description: 'Producten genoemd in artikel (getoond in sidebar + inline embeds)',
+        },
       },
-    },
+    ]),
     {
       name: 'relatedPosts',
       type: 'relationship',

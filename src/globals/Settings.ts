@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
+import { featureField, featureTab } from '@/lib/featureFields'
 
 export const Settings: GlobalConfig = {
   slug: 'settings',
@@ -271,7 +272,7 @@ export const Settings: GlobalConfig = {
           label: 'Templates',
           description: 'Visuele templates voor alle pagina types',
           fields: [
-            {
+            ...featureField('shop', {
               name: 'defaultProductTemplate',
               type: 'select',
               label: 'Standaard Product Template',
@@ -284,8 +285,8 @@ export const Settings: GlobalConfig = {
               admin: {
                 description: 'Template voor product detail pagina\'s',
               },
-            },
-            {
+            }),
+            ...featureField('blog', {
               name: 'defaultBlogTemplate',
               type: 'select',
               label: 'Standaard Blog Template',
@@ -298,8 +299,8 @@ export const Settings: GlobalConfig = {
               admin: {
                 description: 'Template voor blog post pagina\'s',
               },
-            },
-            {
+            }),
+            ...featureField('shop', {
               name: 'defaultShopArchiveTemplate',
               type: 'select',
               label: 'Standaard Shop Archive Template',
@@ -311,8 +312,8 @@ export const Settings: GlobalConfig = {
               admin: {
                 description: 'Template voor shop/producten overzichtspagina',
               },
-            },
-            {
+            }),
+            ...featureField('checkout', {
               name: 'defaultCartTemplate',
               type: 'select',
               label: 'Standaard Cart Template',
@@ -324,8 +325,8 @@ export const Settings: GlobalConfig = {
               admin: {
                 description: 'Template voor winkelwagen pagina',
               },
-            },
-            {
+            }),
+            ...featureField('checkout', {
               name: 'defaultCheckoutTemplate',
               type: 'select',
               label: 'Standaard Checkout Template',
@@ -337,7 +338,7 @@ export const Settings: GlobalConfig = {
               admin: {
                 description: 'Template voor checkout/afrekenen pagina',
               },
-            },
+            }),
             {
               name: 'defaultMyAccountTemplate',
               type: 'select',
@@ -355,7 +356,7 @@ export const Settings: GlobalConfig = {
         },
 
         // ─── TAB 6: E-COMMERCE (Verzending & Retour) ───────────────
-        {
+        ...featureTab('shop', {
           label: 'E-commerce',
           description: 'Verzending, retour en levering',
           fields: [
@@ -458,10 +459,10 @@ export const Settings: GlobalConfig = {
               },
             },
           ],
-        },
+        }),
 
         // ─── TAB 7: B2B INSTELLINGEN ───────────────────────────────
-        {
+        ...featureTab('b2b', {
           label: 'B2B Instellingen',
           description: 'B2B specifieke instellingen',
           fields: [
@@ -502,7 +503,7 @@ export const Settings: GlobalConfig = {
               },
             },
           ],
-        },
+        }),
 
         // ─── TAB 8: TRUST BADGES & CERTIFICATEN ────────────────────
         {

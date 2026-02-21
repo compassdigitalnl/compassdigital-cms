@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { featureFields } from '@/lib/featureFields'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -530,26 +531,28 @@ export const Orders: CollectionConfig = {
         description: 'Interne notities of klant opmerkingen',
       },
     },
-    {
-      name: 'invoicePDF',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Factuur PDF',
-      filterOptions: {
-        mimeType: { contains: 'pdf' },
+    ...featureFields('invoices', [
+      {
+        name: 'invoicePDF',
+        type: 'upload',
+        relationTo: 'media',
+        label: 'Factuur PDF',
+        filterOptions: {
+          mimeType: { contains: 'pdf' },
+        },
+        admin: {
+          description: 'Gegenereerde factuur',
+        },
       },
-      admin: {
-        description: 'Gegenereerde factuur',
+      {
+        name: 'invoiceNumber',
+        type: 'text',
+        label: 'Factuurnummer',
+        admin: {
+          description: 'Gekoppeld factuurnummer (bijv. F-2026-0187)',
+        },
       },
-    },
-    {
-      name: 'invoiceNumber',
-      type: 'text',
-      label: 'Factuurnummer',
-      admin: {
-        description: 'Gekoppeld factuurnummer (bijv. F-2026-0187)',
-      },
-    },
+    ]),
   ],
   hooks: {
     beforeChange: [
