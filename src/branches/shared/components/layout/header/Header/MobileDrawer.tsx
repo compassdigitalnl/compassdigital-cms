@@ -5,7 +5,7 @@ import Link from 'next/link'
 import type { Header, Theme } from '@/payload-types'
 import { X, ChevronRight, Phone, Mail } from 'lucide-react'
 import { cn } from '@/utilities/cn'
-import { CMSLink } from '../Link'
+import { CMSLink } from '@/branches/shared/components/common/Link'
 
 type Props = {
   isOpen: boolean
