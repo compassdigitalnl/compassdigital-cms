@@ -30,14 +30,9 @@
    - [ ] Vendor Reviews
    - [ ] Workshops / Trainingen
    - [ ] Verlanglijstjes (waarschijnlijk)
-   - [ ] Product Reviews (waarschijnlijk)
-   - [ ] Klantengroepen (tenzij B2B)
    - [ ] Portfolio / Cases (waarschijnlijk)
    - [ ] Partners (waarschijnlijk)
-   - [ ] Merken (indien niet gebruikt)
    - [ ] Diensten (indien niet gebruikt)
-   - [ ] Bestellijsten (tenzij B2B)
-   - [ ] Meertaligheid (waarschijnlijk)
    - [ ] AI Content Generatie (waarschijnlijk)
 
    **Laten aanstaan voor Plastimed:**
@@ -48,6 +43,11 @@
    - [x] FAQ
    - [x] Testimonials
    - [x] Gebruikers / Inloggen
+   - [x] Product Reviews (waarschijnlijk)
+   - [x] Klantengroepen (tenzij B2B)
+   - [x] Merken (indien niet gebruikt)
+   - [x] Bestellijsten (tenzij B2B)
+   - [x] Meertaligheid (waarschijnlijk)
 
 5. **Save de client**
 
@@ -79,20 +79,29 @@ cd /home/ploi/plastimed01.compassdigital.nl
 # Edit .env
 nano .env
 
-# Voeg toe:
+# Features die UIT moeten (volgens Stap 1):
 ENABLE_VENDORS=false
 ENABLE_VENDOR_REVIEWS=false
 ENABLE_WORKSHOPS=false
 ENABLE_WISHLISTS=false
-ENABLE_PRODUCT_REVIEWS=false
-ENABLE_CUSTOMER_GROUPS=false
 ENABLE_CASES=false
 ENABLE_PARTNERS=false
-ENABLE_BRANDS=false
 ENABLE_SERVICES=false
-ENABLE_ORDER_LISTS=false
-ENABLE_MULTI_LANGUAGE=false
 ENABLE_AI_CONTENT=false
+
+# Features die AAN blijven (volgens Stap 1):
+ENABLE_SHOP=true
+ENABLE_CART=true
+ENABLE_CHECKOUT=true
+ENABLE_BLOG=true
+ENABLE_FAQ=true
+ENABLE_TESTIMONIALS=true
+ENABLE_AUTHENTICATION=true
+ENABLE_PRODUCT_REVIEWS=true
+ENABLE_CUSTOMER_GROUPS=true
+ENABLE_BRANDS=true
+ENABLE_ORDER_LISTS=true
+ENABLE_MULTI_LANGUAGE=true
 
 # Restart PM2
 pm2 restart plastimed01
@@ -158,23 +167,29 @@ WHERE schemaname = 'public'
 ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 ```
 
-### Stap 3: Drop Unused Tables
+### Stap 3: Drop Unused Tables (Alleen Disabled Features!)
 
 ```sql
--- Drop vendor-related tables
+-- Drop ALLEEN tables voor disabled features (volgens Stap 1)
+
+-- Marketplace features (UIT):
 DROP TABLE IF EXISTS vendors CASCADE;
 DROP TABLE IF EXISTS vendor_reviews CASCADE;
 DROP TABLE IF EXISTS workshops CASCADE;
 
--- Drop other unused feature tables
+-- Content features (UIT):
 DROP TABLE IF EXISTS wishlists CASCADE;
-DROP TABLE IF EXISTS product_reviews CASCADE;
-DROP TABLE IF EXISTS customer_groups CASCADE;
 DROP TABLE IF EXISTS cases CASCADE;
 DROP TABLE IF EXISTS partners CASCADE;
-DROP TABLE IF EXISTS order_lists CASCADE;
+DROP TABLE IF EXISTS services CASCADE;
 
--- Verify
+-- BEHOUD deze tables (features blijven AAN):
+-- ✅ product_reviews (NIET droppen - feature staat AAN)
+-- ✅ customer_groups (NIET droppen - feature staat AAN)
+-- ✅ brands (NIET droppen - feature staat AAN)
+-- ✅ order_lists (NIET droppen - feature staat AAN)
+
+-- Verify welke tables overblijven
 \dt
 ```
 
@@ -327,11 +342,23 @@ Voor Claude Server (uitvoeren na deze feature toggle sprint):
 # 2. Open Plastimed client
 # Path: Platform Beheer → Clients → Plastimed
 
-# 3. Disable features:
-# - Vendors: OFF
+# 3. Disable features (volgens Stap 1):
+# UIT:
+# - Leveranciers / Vendors: OFF
 # - Vendor Reviews: OFF
 # - Workshops: OFF
-# - (Andere ongebruikte features: OFF)
+# - Verlanglijstjes: OFF
+# - Portfolio / Cases: OFF
+# - Partners: OFF
+# - Diensten: OFF
+# - AI Content Generatie: OFF
+#
+# AAN (blijven actief):
+# - Webshop, Cart, Checkout: ON
+# - Blog, FAQ, Testimonials: ON
+# - Product Reviews, Klantengroepen: ON
+# - Merken, Bestellijsten: ON
+# - Meertaligheid: ON
 
 # 4. Save client
 
