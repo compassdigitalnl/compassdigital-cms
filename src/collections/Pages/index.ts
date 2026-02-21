@@ -27,6 +27,9 @@ import { BlogPreview } from '@/blocks/BlogPreview'
 import { ProductGrid } from '@/blocks/ProductGrid'
 import { QuickOrder } from '@/blocks/QuickOrder'
 
+// Construction blocks (conditional import)
+import { constructionBlocks } from '@/branches/construction/blocks'
+
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
@@ -200,6 +203,13 @@ export const Pages: CollectionConfig = {
         ImageGallery,
         Video,
         Map,
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // CONSTRUCTION BRANCH BLOCKS - Only if construction feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        // Construction blocks are only available when construction-services collection is enabled
+        // Includes: ConstructionHero, ServicesGrid, ProjectsGrid, ReviewsGrid, CTABanner, StatsBar
+        ...(disabledCollections.has('construction-services') ? [] : constructionBlocks),
       ],
     },
 

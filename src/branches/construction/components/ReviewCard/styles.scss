@@ -1,0 +1,224 @@
+/**
+ * ReviewCard Styles
+ *
+ * Testimonial card design with ratings and avatars
+ * Variants: default, compact, featured
+ */
+
+.review-card {
+  position: relative;
+  background: var(--color-base-0);
+  border: 1px solid var(--color-base-200);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  height: 100%;
+
+  &:hover {
+    border-color: var(--color-base-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  // Avatar
+  &__avatar {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--color-base-100);
+  }
+
+  &__avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__avatar-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-base-600);
+    background: linear-gradient(135deg, var(--color-base-200) 0%, var(--color-base-100) 100%);
+  }
+
+  // Client info
+  &__client-info {
+    flex: 1;
+  }
+
+  &__client-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-base-1000);
+    margin-bottom: 0.5rem;
+  }
+
+  // Rating
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  &__star {
+    color: var(--color-base-300);
+    transition: color 0.2s ease;
+
+    &--filled {
+      color: #FFB800;
+    }
+  }
+
+  &__rating-text {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-base-600);
+  }
+
+  &__date {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-base-500);
+  }
+
+  // Review text
+  &__text {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--color-base-700);
+    line-height: 1.7;
+    margin: 0 0 1.5rem 0;
+    quotes: '"' '"' ''' ''';
+  }
+
+  // Footer
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-base-200);
+  }
+
+  &__footer-icon {
+    flex-shrink: 0;
+    color: var(--color-base-500);
+  }
+
+  &__footer-text {
+    font-size: 0.875rem;
+    color: var(--color-base-600);
+  }
+
+  // Featured badge
+  &__featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-base-0);
+    background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  // Variants
+  &--compact {
+    padding: 1.5rem;
+
+    .review-card__header {
+      margin-bottom: 1rem;
+    }
+
+    .review-card__avatar {
+      width: 48px;
+      height: 48px;
+    }
+
+    .review-card__client-name {
+      font-size: 1rem;
+    }
+
+    .review-card__text {
+      font-size: 0.9375rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-card__footer {
+      display: none;
+    }
+  }
+
+  &--featured {
+    border: 2px solid #FFB800;
+    background: linear-gradient(135deg, #FFF9E6 0%, var(--color-base-0) 100%);
+    padding-top: 3rem; // Extra space for badge
+
+    &:hover {
+      border-color: #FF8C00;
+    }
+
+    .review-card__text {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .review-card {
+    padding: 1.5rem;
+
+    &__header {
+      margin-bottom: 1.25rem;
+    }
+
+    &__avatar {
+      width: 48px;
+      height: 48px;
+    }
+
+    &__client-name {
+      font-size: 1rem;
+    }
+
+    &__text {
+      font-size: 0.9375rem;
+    }
+
+    &--featured {
+      padding-top: 2.5rem;
+
+      .review-card__text {
+        font-size: 1rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,424 @@
+/**
+ * QuoteForm Styles
+ *
+ * Multi-step quote request form
+ * Features: Progress bar, validation, responsive design
+ */
+
+.quote-form {
+  max-width: 720px;
+  margin: 0 auto;
+
+  // Progress bar
+  &__progress {
+    margin-bottom: 3rem;
+  }
+
+  &__progress-bar {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    background: var(--color-base-200);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  &__progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-base-800) 0%, var(--color-base-600) 100%);
+    transition: width 0.4s ease;
+    border-radius: 4px;
+  }
+
+  &__progress-text {
+    display: block;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-base-600);
+  }
+
+  // Form
+  &__form {
+    background: var(--color-base-0);
+    border: 1px solid var(--color-base-200);
+    border-radius: 16px;
+    padding: 3rem;
+  }
+
+  // Step
+  &__step {
+    animation: fadeIn 0.3s ease;
+  }
+
+  &__step-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-base-1000);
+    margin-bottom: 2rem;
+  }
+
+  // Fields
+  &__field {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__field-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-base-800);
+    margin-bottom: 0.5rem;
+  }
+
+  // Input
+  &__input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    color: var(--color-base-1000);
+    background: var(--color-base-0);
+    border: 2px solid var(--color-base-300);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-base-800);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+
+    &::placeholder {
+      color: var(--color-base-400);
+    }
+  }
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .quote-form__input {
+      padding-right: 3.5rem;
+    }
+  }
+
+  &__input-suffix {
+    position: absolute;
+    right: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-base-600);
+  }
+
+  // Textarea
+  &__textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-base-1000);
+    background: var(--color-base-0);
+    border: 2px solid var(--color-base-300);
+    border-radius: 8px;
+    resize: vertical;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-base-800);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+
+    &::placeholder {
+      color: var(--color-base-400);
+    }
+  }
+
+  // Select
+  &__select {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    color: var(--color-base-1000);
+    background: var(--color-base-0);
+    border: 2px solid var(--color-base-300);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-base-800);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  // Checkbox grid
+  &__checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 2px solid var(--color-base-300);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--color-base-400);
+    }
+
+    input[type='checkbox'] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    input[type='checkbox']:checked + span {
+      font-weight: 600;
+      color: var(--color-base-1000);
+    }
+
+    input[type='checkbox']:checked ~ &,
+    &:has(input[type='checkbox']:checked) {
+      border-color: var(--color-base-800);
+      background: var(--color-base-50);
+    }
+
+    span {
+      font-size: 1rem;
+      color: var(--color-base-700);
+      transition: all 0.2s ease;
+    }
+  }
+
+  // Radio grid
+  &__radio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+  }
+
+  &__radio {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 2px solid var(--color-base-300);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--color-base-400);
+    }
+
+    input[type='radio'] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    input[type='radio']:checked + span {
+      font-weight: 600;
+      color: var(--color-base-1000);
+    }
+
+    input[type='radio']:checked ~ &,
+    &:has(input[type='radio']:checked) {
+      border-color: var(--color-base-800);
+      background: var(--color-base-50);
+    }
+
+    span {
+      font-size: 1rem;
+      color: var(--color-base-700);
+      transition: all 0.2s ease;
+    }
+  }
+
+  // Error
+  &__error {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-error-500);
+  }
+
+  &__error-message {
+    padding: 1rem;
+    background: var(--color-error-50);
+    border: 1px solid var(--color-error-200);
+    border-radius: 8px;
+    color: var(--color-error-700);
+    font-size: 0.9375rem;
+    margin-top: 1rem;
+  }
+
+  // Actions
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-base-200);
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    &--primary {
+      color: var(--color-base-0);
+      background: var(--color-base-800);
+      margin-left: auto;
+
+      &:hover:not(:disabled) {
+        background: var(--color-base-1000);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    &--secondary {
+      color: var(--color-base-800);
+      background: var(--color-base-100);
+
+      &:hover:not(:disabled) {
+        background: var(--color-base-200);
+      }
+    }
+  }
+
+  // Success
+  &__success {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  &__success-icon {
+    margin: 0 auto 2rem;
+    animation: scaleIn 0.5s ease;
+  }
+
+  &__success-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-base-1000);
+    margin-bottom: 1rem;
+  }
+
+  &__success-message {
+    font-size: 1.125rem;
+    color: var(--color-base-700);
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .quote-form {
+    &__form {
+      padding: 2rem 1.5rem;
+    }
+
+    &__step-title {
+      font-size: 1.5rem;
+    }
+
+    &__field-row {
+      grid-template-columns: 1fr;
+    }
+
+    &__checkbox-grid,
+    &__radio-grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__actions {
+      flex-direction: column;
+
+      .quote-form__btn {
+        width: 100%;
+
+        &--primary {
+          margin-left: 0;
+          order: -1;
+        }
+      }
+    }
+
+    &__success-title {
+      font-size: 1.5rem;
+    }
+
+    &__success-message {
+      font-size: 1rem;
+    }
+  }
+}
