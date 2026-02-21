@@ -86,6 +86,12 @@ import { Clients } from '@/branches/platform/collections/Clients'
 import { ClientRequests } from '@/branches/platform/collections/ClientRequests'
 import { Deployments } from '@/branches/platform/collections/Deployments'
 
+// Construction Branch (4 collections - Sprint 2)
+import { ConstructionServices } from '@/branches/construction/collections/ConstructionServices'
+import { ConstructionProjects } from '@/branches/construction/collections/ConstructionProjects'
+import { ConstructionReviews } from '@/branches/construction/collections/ConstructionReviews'
+import { QuoteRequests } from '@/branches/construction/collections/QuoteRequests'
+
 // Globals (Consolidated: 8 → 4 globals!)
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
@@ -215,7 +221,8 @@ export default buildConfig({
   // 2. ECOMMERCE - Shop, Orders, Loyalty, Subscriptions, etc.
   // 3. CONTENT - Blog, FAQs, Testimonials, Cases
   // 4. MARKETPLACE - Vendors, Workshops
-  // 5. PLATFORM - Multi-tenant management (alleen op platform-instantie)
+  // 5. CONSTRUCTION - Bouwbedrijf (Services, Projects, Reviews, Quotes)
+  // 6. PLATFORM - Multi-tenant management (alleen op platform-instantie)
   //
   // Filtering via DISABLED_COLLECTIONS env var (per-client customization)
   //
@@ -285,6 +292,14 @@ export default buildConfig({
     _col(Vendors),
     _col(VendorReviews),
     _col(Workshops),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // CONSTRUCTION BRANCH - Bouwbedrijf Template (Sprint 2)
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(ConstructionServices),
+    _col(ConstructionProjects),
+    _col(ConstructionReviews),
+    _col(QuoteRequests),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
