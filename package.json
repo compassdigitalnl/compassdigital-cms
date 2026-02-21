@@ -45,7 +45,13 @@
     "pm2:logs": "pm2 logs payload-app",
     "pm2:status": "pm2 list",
     "pm2:save": "pm2 save",
-    "pm2:delete": "pm2 delete payload-app"
+    "pm2:delete": "pm2 delete payload-app",
+    "_comment_migration": "Branch migration scripts for vertical slice architecture",
+    "migrate:branches": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts --all",
+    "migrate:branches:dry": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts --dry-run --all",
+    "migrate:branches:rollback": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts --rollback",
+    "migrate:branch:ecommerce": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts --branch=ecommerce",
+    "migrate:collection": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts"
   },
   "dependencies": {
     "@multisafepay/api-wrapper": "^1.0.1",
