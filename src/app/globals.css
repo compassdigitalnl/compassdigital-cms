@@ -1,5 +1,5 @@
 /* Theme Utilities - CMS-driven design system */
-@import '../../styles/theme-utilities.css';
+@import '../styles/theme-utilities.css';
 
 @tailwind base;
 @tailwind components;

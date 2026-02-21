@@ -81,10 +81,10 @@ import { ServicesCollection } from '@/branches/shared/collections/ServicesCollec
 import { Pages } from '@/collections/Pages'
 import { Users } from '@/collections/Users'
 
-// Platform Collections (Multi-Tenant - stays in platform/)
-import { ClientRequests } from '@/platform/collections/ClientRequests'
-import { Clients } from '@/platform/collections/Clients'
-import { Deployments } from '@/platform/collections/Deployments'
+// Platform Branch (Multi-Tenant - 3 collections)
+import { Clients } from '@/branches/platform/collections/Clients'
+import { ClientRequests } from '@/branches/platform/collections/ClientRequests'
+import { Deployments } from '@/branches/platform/collections/Deployments'
 
 // Globals (Consolidated: 8 → 4 globals!)
 import { Footer } from '@/globals/Footer'

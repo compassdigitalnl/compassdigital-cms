@@ -6,8 +6,8 @@
  */
 
 import type { CollectionConfig } from 'payload'
-import { checkRole } from '../../access/utilities'
-import { isClientDeployment } from '../../lib/isClientDeployment'
+import { checkRole } from '@/access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
 
 export const Deployments: CollectionConfig = {
   slug: 'deployments',
