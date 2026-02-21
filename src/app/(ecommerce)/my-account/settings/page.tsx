@@ -21,7 +21,7 @@ export default function SettingsPage() {
   const [profileData, setProfileData] = useState({
     firstName: 'Jan',
     lastName: 'de Vries',
-    email: 'jan@plastimed.nl',
+    email: 'jan.jansen@example.com',
     phone: '+31 6 1234 5678',
     companyName: 'Plastimed B.V.',
     kvk: '12345678',

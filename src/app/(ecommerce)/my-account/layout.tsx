@@ -24,7 +24,7 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
   // TODO: Replace with real user data from useAuth()
   const user = {
     name: 'Jan de Vries',
-    email: 'jan@plastimed.nl',
+    email: 'jan.jansen@example.com',
     company: 'Plastimed B.V.',
     memberSince: '2023-03-15',
     initials: 'JV',

@@ -394,14 +394,14 @@ export function OrderConfirmation({ orderId }: OrderConfirmationProps) {
                 className="flex items-center justify-center gap-1.5 text-sm font-bold text-teal-600 hover:text-teal-700"
               >
                 <Phone className="w-3.5 h-3.5" />
-                0251‑247233
+                +31 20 123 4567
               </a>
               <a
-                href="mailto:info@plastimed.nl"
+                href="mailto:info@example.com"
                 className="flex items-center justify-center gap-1.5 text-sm text-gray-600 hover:text-gray-900"
               >
                 <Mail className="w-3.5 h-3.5" />
-                info@plastimed.nl
+                info@example.com
               </a>
             </div>
           </div>
