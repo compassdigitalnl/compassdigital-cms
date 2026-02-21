@@ -5,7 +5,7 @@ import React from 'react'
 import { RichText } from '@/branches/shared/components/common/RichText'
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
-import { Media } from '../../components/Media'
+import { Media } from '@/branches/shared/components/common/Media'
 
 export const MediaBlock: React.FC<
   MediaBlockProps & {

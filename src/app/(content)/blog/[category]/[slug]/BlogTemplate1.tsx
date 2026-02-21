@@ -3,13 +3,13 @@
 import type { BlogPost, Product, BlogCategory } from '@/payload-types'
 import { Icon } from '@/branches/shared/components/common/Icon'
 import Link from 'next/link'
-import { TableOfContents } from '@/branches/shared/components/blog/TableOfContents'
-import { ShareButtons } from '@/branches/shared/components/blog/ShareButtons'
-import { AuthorBox } from '@/branches/shared/components/blog/AuthorBox'
-import { RelatedArticles } from '@/branches/shared/components/blog/RelatedArticles'
-import { RenderBlogContent } from '@/branches/shared/components/blog/RenderBlogContent'
-import { PrevNextNavigation } from '@/branches/shared/components/blog/PrevNextNavigation'
-import { ReadingProgressBar } from '@/branches/shared/components/blog/ReadingProgressBar'
+import { TableOfContents } from '@/branches/shared/components/features/blog/blog/TableOfContents'
+import { ShareButtons } from '@/branches/shared/components/features/blog/blog/ShareButtons'
+import { AuthorBox } from '@/branches/shared/components/features/blog/blog/AuthorBox'
+import { RelatedArticles } from '@/branches/shared/components/features/blog/blog/RelatedArticles'
+import { RenderBlogContent } from '@/branches/shared/components/features/blog/blog/RenderBlogContent'
+import { PrevNextNavigation } from '@/branches/shared/components/features/blog/blog/PrevNextNavigation'
+import { ReadingProgressBar } from '@/branches/shared/components/features/blog/blog/ReadingProgressBar'
 
 interface BlogTemplate1Props {
   post: BlogPost

@@ -1,7 +1,7 @@
 import type { Media as MediaType } from '@/payload-types'
 
 import { Media } from '@/branches/shared/components/common/Media'
-import { Label } from '@/branches/shared/components/Grid/Label'
+import { Label } from '@/branches/shared/components/layout/Grid/Label'
 import clsx from 'clsx'
 import React from 'react'
 

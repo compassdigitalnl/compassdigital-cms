@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 
-import { Message } from '../Message'
+import { Message } from '@/branches/shared/components/common/Message'
 
 export type Props = {
   className?: string

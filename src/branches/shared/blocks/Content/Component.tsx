@@ -4,7 +4,7 @@ import { RichText } from '@/branches/shared/components/common/RichText'
 import type { DefaultDocumentIDType } from 'payload'
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
-import { CMSLink } from '../../components/Link'
+import { CMSLink } from '@/branches/shared/components/common/Link'
 
 export const ContentBlock: React.FC<
   ContentBlockProps & {

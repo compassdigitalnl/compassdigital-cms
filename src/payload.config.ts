@@ -144,15 +144,15 @@ export default buildConfig({
   // ─── Admin Panel ──────────────────────────
   admin: {
     components: {
-      beforeLogin: ['@/components/BeforeLogin#BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard#BeforeDashboard'],
+      beforeLogin: ['@/components/admin/BeforeLogin#BeforeLogin'],
+      beforeDashboard: ['@/components/admin/BeforeDashboard#BeforeDashboard'],
       beforeNavLinks: [
         '@/branches/platform/components/ClientSwitcher#ClientSwitcher',
         '@/components/admin/HideCollections#HideCollections',
       ],
       graphics: {
-        Logo: '@/components/AdminLogo#AdminLogo',
-        Icon: '@/components/AdminLogo#AdminLogo',
+        Logo: '@/components/admin/AdminLogo#AdminLogo',
+        Icon: '@/components/admin/AdminLogo#AdminLogo',
       },
     },
     user: Users.slug,
