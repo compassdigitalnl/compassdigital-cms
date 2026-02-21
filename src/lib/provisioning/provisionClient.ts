@@ -97,18 +97,17 @@ export async function provisionClient(opts: ProvisionClientOptions): Promise<Pro
 
   // ── Derive env vars from client template & features ──────────────────
   const template = (client as any).template || 'corporate'
-  const enabledFeatures: string[] = (client as any).enabledFeatures || []
-  const disabledCollections: string[] = (client as any).disabledCollections || []
+  const clientFeatures = (client as any).features || {}
 
-  // E-commerce detection: template is b2b/ecommerce OR ecommerce feature enabled
-  const isEcommerce =
-    ['b2b', 'ecommerce'].includes(template) || enabledFeatures.includes('ecommerce')
+  // Generate feature ENV variables from client.features
+  const { generateFeatureEnvVars } = await import('@/lib/features')
+  const featureEnvVars = generateFeatureEnvVars(clientFeatures)
+  Object.assign(customEnv, featureEnvVars)
 
-  if (disabledCollections.length > 0) {
-    const disabled = disabledCollections.join(',')
-    customEnv.DISABLED_COLLECTIONS = disabled
-    customEnv.NEXT_PUBLIC_DISABLED_COLLECTIONS = disabled
-  }
+  log(`Feature ENV vars generated:`, featureEnvVars)
+
+  // E-commerce detection: check if shop/checkout features are enabled
+  const isEcommerce = clientFeatures.shop === true || clientFeatures.checkout === true
 
   if (isEcommerce) {
     customEnv.ECOMMERCE_ENABLED = 'true'
