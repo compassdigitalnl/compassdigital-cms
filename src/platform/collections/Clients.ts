@@ -183,177 +183,491 @@ export const Clients: CollectionConfig = {
             description: 'Bepaal welke features actief zijn voor deze klant — bepaalt welke collections zichtbaar zijn en welke database tabellen aangemaakt worden',
           },
           fields: [
-            // E-commerce Features
+            // ═══ WEBSHOP & E-COMMERCE ═══
             {
-              type: 'row',
+              type: 'collapsible',
+              label: '🛒 Webshop & E-commerce',
+              admin: {
+                initCollapsed: true,
+                description: 'Productcatalogus, winkelwagen, en checkout functies',
+              },
               fields: [
                 {
                   name: 'shop',
                   type: 'checkbox',
-                  label: 'Webshop / Products',
+                  label: 'Webshop (parent)',
                   defaultValue: true,
                   admin: {
-                    description: 'Producten, categorieën, merken',
+                    description: 'Hoofdfeature - Schakelt producten, categorieën en merken in',
                   },
                 },
                 {
-                  name: 'cart',
-                  type: 'checkbox',
-                  label: 'Winkelwagen',
-                  defaultValue: true,
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'volumePricing',
+                      type: 'checkbox',
+                      label: 'Volume Pricing',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Staffelprijzen (bijv. 10+ stuks = korting)',
+                      },
+                    },
+                    {
+                      name: 'compareProducts',
+                      type: 'checkbox',
+                      label: 'Product Vergelijking',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'quickOrder',
+                      type: 'checkbox',
+                      label: 'Snelbestel',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Bestel direct via SKU/artikelnummer',
+                      },
+                    },
+                  ],
                 },
                 {
-                  name: 'checkout',
-                  type: 'checkbox',
-                  label: 'Checkout / Orders',
-                  defaultValue: true,
-                  admin: {
-                    description: 'Bestellingen plaatsen',
-                  },
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'brands',
+                      type: 'checkbox',
+                      label: 'Merken',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'recentlyViewed',
+                      type: 'checkbox',
+                      label: 'Recent Bekeken',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'productReviews',
+                      type: 'checkbox',
+                      label: 'Product Reviews (legacy)',
+                      defaultValue: false,
+                    },
+                  ],
                 },
               ],
             },
+
+            // ═══ CART ═══
             {
-              type: 'row',
+              type: 'collapsible',
+              label: '🛍️ Winkelwagen',
+              admin: {
+                initCollapsed: true,
+              },
               fields: [
+                {
+                  name: 'cart',
+                  type: 'checkbox',
+                  label: 'Winkelwagen (parent)',
+                  defaultValue: true,
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'miniCart',
+                      type: 'checkbox',
+                      label: 'Mini Cart',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Kleine winkelwagen in header',
+                      },
+                    },
+                    {
+                      name: 'freeShippingBar',
+                      type: 'checkbox',
+                      label: 'Gratis Verzending Bar',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Toon voortgang tot gratis verzending',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // ═══ CHECKOUT ═══
+            {
+              type: 'collapsible',
+              label: '💳 Checkout & Orders',
+              admin: {
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  name: 'checkout',
+                  type: 'checkbox',
+                  label: 'Checkout (parent)',
+                  defaultValue: true,
+                  admin: {
+                    description: 'Hoofdfeature - Bestellingen plaatsen',
+                  },
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'guestCheckout',
+                      type: 'checkbox',
+                      label: 'Gast Checkout',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Bestellen zonder account',
+                      },
+                    },
+                    {
+                      name: 'invoices',
+                      type: 'checkbox',
+                      label: 'Facturen',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'orderTracking',
+                      type: 'checkbox',
+                      label: 'Track & Trace',
+                      defaultValue: false,
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // ═══ MY ACCOUNT ═══
+            {
+              type: 'collapsible',
+              label: '👤 Mijn Account',
+              admin: {
+                initCollapsed: true,
+                description: 'Klantaccount functies',
+              },
+              fields: [
+                {
+                  name: 'myAccount',
+                  type: 'checkbox',
+                  label: 'Mijn Account (parent)',
+                  defaultValue: true,
+                  admin: {
+                    description: 'Hoofdfeature - Schakelt alle klantaccount functies in',
+                  },
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'returns',
+                      type: 'checkbox',
+                      label: 'Retourzendingen',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'recurringOrders',
+                      type: 'checkbox',
+                      label: 'Terugkerende Orders',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Automatische herbestelling',
+                      },
+                    },
+                    {
+                      name: 'orderLists',
+                      type: 'checkbox',
+                      label: 'Bestellijsten',
+                      defaultValue: false,
+                      admin: {
+                        description: 'B2B snelbestelformulieren',
+                      },
+                    },
+                  ],
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'addresses',
+                      type: 'checkbox',
+                      label: 'Adresboek',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'accountInvoices',
+                      type: 'checkbox',
+                      label: 'Factuuroverzicht',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'notifications',
+                      type: 'checkbox',
+                      label: 'Notificaties',
+                      defaultValue: false,
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // ═══ B2B FUNCTIES ═══
+            {
+              type: 'collapsible',
+              label: '🏢 B2B Functies',
+              admin: {
+                initCollapsed: true,
+                description: 'Business-to-business features',
+              },
+              fields: [
+                {
+                  name: 'b2b',
+                  type: 'checkbox',
+                  label: 'B2B (parent)',
+                  defaultValue: false,
+                  admin: {
+                    description: 'Hoofdfeature - Schakelt alle B2B functies in',
+                  },
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'customerGroups',
+                      type: 'checkbox',
+                      label: 'Klantengroepen',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Verschillende prijzen per groep',
+                      },
+                    },
+                    {
+                      name: 'groupPricing',
+                      type: 'checkbox',
+                      label: 'Groepsprijzen',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'barcodeScanner',
+                      type: 'checkbox',
+                      label: 'Barcode Scanner',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Scan producten met mobiel',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // ═══ MARKETPLACE ═══
+            {
+              type: 'collapsible',
+              label: '🏪 Marketplace',
+              admin: {
+                initCollapsed: true,
+                description: 'Sprint 5: Multi-vendor marketplace functies',
+              },
+              fields: [
+                {
+                  name: 'vendors',
+                  type: 'checkbox',
+                  label: 'Leveranciers (parent)',
+                  defaultValue: false,
+                  admin: {
+                    description: 'Hoofdfeature - Multi-vendor marketplace',
+                  },
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'vendorReviews',
+                      type: 'checkbox',
+                      label: 'Vendor Reviews',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'workshops',
+                      type: 'checkbox',
+                      label: 'Workshops / Trainingen',
+                      defaultValue: false,
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // ═══ SPRINT 6 FEATURES ═══
+            {
+              type: 'collapsible',
+              label: '🚀 Sprint 6 Features',
+              admin: {
+                initCollapsed: true,
+                description: 'Subscriptions, Licenses, Gift Vouchers, Loyalty',
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'subscriptions',
+                      type: 'checkbox',
+                      label: 'Abonnementen',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Recurring billing',
+                      },
+                    },
+                    {
+                      name: 'giftVouchers',
+                      type: 'checkbox',
+                      label: 'Cadeaubonnen',
+                      defaultValue: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'licenses',
+                      type: 'checkbox',
+                      label: 'Licenties',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Software license management',
+                      },
+                    },
+                    {
+                      name: 'loyalty',
+                      type: 'checkbox',
+                      label: 'Loyalty Programma',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Points, tiers, rewards',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // ═══ CONTENT & MARKETING ═══
+            {
+              type: 'collapsible',
+              label: '📝 Content & Marketing',
+              admin: {
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'blog',
+                      type: 'checkbox',
+                      label: 'Blog',
+                      defaultValue: true,
+                    },
+                    {
+                      name: 'faq',
+                      type: 'checkbox',
+                      label: 'FAQ',
+                      defaultValue: true,
+                    },
+                    {
+                      name: 'testimonials',
+                      type: 'checkbox',
+                      label: 'Testimonials',
+                      defaultValue: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'cases',
+                      type: 'checkbox',
+                      label: 'Portfolio / Cases',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'partners',
+                      type: 'checkbox',
+                      label: 'Partners',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'services',
+                      type: 'checkbox',
+                      label: 'Diensten',
+                      defaultValue: false,
+                    },
+                  ],
+                },
                 {
                   name: 'wishlists',
                   type: 'checkbox',
                   label: 'Verlanglijstjes',
                   defaultValue: false,
                 },
-                {
-                  name: 'productReviews',
-                  type: 'checkbox',
-                  label: 'Product Reviews',
-                  defaultValue: false,
-                },
-                {
-                  name: 'customerGroups',
-                  type: 'checkbox',
-                  label: 'Klantengroepen (B2B)',
-                  defaultValue: false,
-                },
               ],
             },
 
-            // Marketplace Features (Sprint 5)
+            // ═══ GEAVANCEERD ═══
             {
-              type: 'row',
+              type: 'collapsible',
+              label: '⚙️ Geavanceerd',
+              admin: {
+                initCollapsed: true,
+              },
               fields: [
                 {
-                  name: 'vendors',
-                  type: 'checkbox',
-                  label: 'Leveranciers / Vendors',
-                  defaultValue: false,
-                  admin: {
-                    description: 'Sprint 5: Multi-vendor marketplace',
-                  },
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'multiLanguage',
+                      type: 'checkbox',
+                      label: 'Meertaligheid',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'aiContent',
+                      type: 'checkbox',
+                      label: 'AI Content Generatie',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'search',
+                      type: 'checkbox',
+                      label: 'Zoekfunctie',
+                      defaultValue: false,
+                    },
+                  ],
                 },
                 {
-                  name: 'vendorReviews',
-                  type: 'checkbox',
-                  label: 'Vendor Reviews',
-                  defaultValue: false,
-                },
-                {
-                  name: 'workshops',
-                  type: 'checkbox',
-                  label: 'Workshops / Trainingen',
-                  defaultValue: false,
-                },
-              ],
-            },
-
-            // Content Features
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'blog',
-                  type: 'checkbox',
-                  label: 'Blog',
-                  defaultValue: true,
-                },
-                {
-                  name: 'faq',
-                  type: 'checkbox',
-                  label: 'FAQ',
-                  defaultValue: true,
-                },
-                {
-                  name: 'testimonials',
-                  type: 'checkbox',
-                  label: 'Testimonials',
-                  defaultValue: true,
-                },
-              ],
-            },
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'cases',
-                  type: 'checkbox',
-                  label: 'Portfolio / Cases',
-                  defaultValue: false,
-                },
-                {
-                  name: 'partners',
-                  type: 'checkbox',
-                  label: 'Partners',
-                  defaultValue: false,
-                },
-                {
-                  name: 'brands',
-                  type: 'checkbox',
-                  label: 'Merken',
-                  defaultValue: false,
-                },
-              ],
-            },
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'services',
-                  type: 'checkbox',
-                  label: 'Diensten',
-                  defaultValue: false,
-                },
-                {
-                  name: 'orderLists',
-                  type: 'checkbox',
-                  label: 'Bestellijsten',
-                  defaultValue: false,
-                  admin: {
-                    description: 'B2B snelbestelformulieren',
-                  },
-                },
-              ],
-            },
-
-            // Advanced Features
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'multiLanguage',
-                  type: 'checkbox',
-                  label: 'Meertaligheid',
-                  defaultValue: false,
-                },
-                {
-                  name: 'aiContent',
-                  type: 'checkbox',
-                  label: 'AI Content Generatie',
-                  defaultValue: false,
-                },
-                {
-                  name: 'authentication',
-                  type: 'checkbox',
-                  label: 'Gebruikers / Inloggen',
-                  defaultValue: true,
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'newsletter',
+                      type: 'checkbox',
+                      label: 'Nieuwsbrief',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'authentication',
+                      type: 'checkbox',
+                      label: 'Gebruikers / Inloggen',
+                      defaultValue: true,
+                    },
+                  ],
                 },
               ],
             },

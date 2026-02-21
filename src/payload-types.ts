@@ -769,36 +769,99 @@ export interface Client {
    */
   features?: {
     /**
-     * Producten, categorieën, merken
+     * Hoofdfeature - Schakelt producten, categorieën en merken in
      */
     shop?: boolean | null;
+    /**
+     * Staffelprijzen (bijv. 10+ stuks = korting)
+     */
+    volumePricing?: boolean | null;
+    compareProducts?: boolean | null;
+    /**
+     * Bestel direct via SKU/artikelnummer
+     */
+    quickOrder?: boolean | null;
+    brands?: boolean | null;
+    recentlyViewed?: boolean | null;
+    productReviews?: boolean | null;
     cart?: boolean | null;
     /**
-     * Bestellingen plaatsen
+     * Kleine winkelwagen in header
+     */
+    miniCart?: boolean | null;
+    /**
+     * Toon voortgang tot gratis verzending
+     */
+    freeShippingBar?: boolean | null;
+    /**
+     * Hoofdfeature - Bestellingen plaatsen
      */
     checkout?: boolean | null;
-    wishlists?: boolean | null;
-    productReviews?: boolean | null;
-    customerGroups?: boolean | null;
     /**
-     * Sprint 5: Multi-vendor marketplace
+     * Bestellen zonder account
+     */
+    guestCheckout?: boolean | null;
+    invoices?: boolean | null;
+    orderTracking?: boolean | null;
+    /**
+     * Hoofdfeature - Schakelt alle klantaccount functies in
+     */
+    myAccount?: boolean | null;
+    returns?: boolean | null;
+    /**
+     * Automatische herbestelling
+     */
+    recurringOrders?: boolean | null;
+    /**
+     * B2B snelbestelformulieren
+     */
+    orderLists?: boolean | null;
+    addresses?: boolean | null;
+    accountInvoices?: boolean | null;
+    notifications?: boolean | null;
+    /**
+     * Hoofdfeature - Schakelt alle B2B functies in
+     */
+    b2b?: boolean | null;
+    /**
+     * Verschillende prijzen per groep
+     */
+    customerGroups?: boolean | null;
+    groupPricing?: boolean | null;
+    /**
+     * Scan producten met mobiel
+     */
+    barcodeScanner?: boolean | null;
+    /**
+     * Hoofdfeature - Multi-vendor marketplace
      */
     vendors?: boolean | null;
     vendorReviews?: boolean | null;
     workshops?: boolean | null;
+    /**
+     * Recurring billing
+     */
+    subscriptions?: boolean | null;
+    giftVouchers?: boolean | null;
+    /**
+     * Software license management
+     */
+    licenses?: boolean | null;
+    /**
+     * Points, tiers, rewards
+     */
+    loyalty?: boolean | null;
     blog?: boolean | null;
     faq?: boolean | null;
     testimonials?: boolean | null;
     cases?: boolean | null;
     partners?: boolean | null;
-    brands?: boolean | null;
     services?: boolean | null;
-    /**
-     * B2B snelbestelformulieren
-     */
-    orderLists?: boolean | null;
+    wishlists?: boolean | null;
     multiLanguage?: boolean | null;
     aiContent?: boolean | null;
+    search?: boolean | null;
+    newsletter?: boolean | null;
     authentication?: boolean | null;
   };
   /**
@@ -5984,24 +6047,48 @@ export interface ClientsSelect<T extends boolean = true> {
     | T
     | {
         shop?: T;
-        cart?: T;
-        checkout?: T;
-        wishlists?: T;
+        volumePricing?: T;
+        compareProducts?: T;
+        quickOrder?: T;
+        brands?: T;
+        recentlyViewed?: T;
         productReviews?: T;
+        cart?: T;
+        miniCart?: T;
+        freeShippingBar?: T;
+        checkout?: T;
+        guestCheckout?: T;
+        invoices?: T;
+        orderTracking?: T;
+        myAccount?: T;
+        returns?: T;
+        recurringOrders?: T;
+        orderLists?: T;
+        addresses?: T;
+        accountInvoices?: T;
+        notifications?: T;
+        b2b?: T;
         customerGroups?: T;
+        groupPricing?: T;
+        barcodeScanner?: T;
         vendors?: T;
         vendorReviews?: T;
         workshops?: T;
+        subscriptions?: T;
+        giftVouchers?: T;
+        licenses?: T;
+        loyalty?: T;
         blog?: T;
         faq?: T;
         testimonials?: T;
         cases?: T;
         partners?: T;
-        brands?: T;
         services?: T;
-        orderLists?: T;
+        wishlists?: T;
         multiLanguage?: T;
         aiContent?: T;
+        search?: T;
+        newsletter?: T;
         authentication?: T;
       };
   deploymentUrl?: T;

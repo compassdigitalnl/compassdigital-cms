@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { User } from '@/payload-types'
+import { features } from '@/lib/features'
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -26,68 +27,87 @@ interface AccountNavProps {
 export function AccountNav({ user }: AccountNavProps) {
   const pathname = usePathname()
 
-  const navigation = [
+  // All possible navigation items with feature requirements
+  const allNavigation = [
     {
       name: 'Dashboard',
       href: '/account',
       icon: LayoutDashboard,
+      requiresFeature: null, // Always visible
     },
     {
       name: 'Bestellingen',
       href: '/account/orders',
       icon: ShoppingCart,
+      requiresFeature: 'checkout' as const,
     },
     {
       name: 'Abonnement',
       href: '/my-account/subscription',
       icon: CreditCard,
+      requiresFeature: 'subscriptions' as const,
     },
     {
       name: 'Licenties',
       href: '/my-account/licenses',
       icon: KeyRound,
+      requiresFeature: 'licenses' as const,
     },
     {
       name: 'Cadeaubonnen',
       href: '/my-account/gift-vouchers',
       icon: Gift,
+      requiresFeature: 'giftVouchers' as const,
     },
     {
       name: 'Loyalty',
       href: '/my-account/loyalty',
       icon: Award,
+      requiresFeature: 'loyalty' as const,
     },
     {
       name: 'Facturen',
       href: '/account/invoices',
       icon: FileText,
+      requiresFeature: 'invoices' as const,
     },
     {
       name: 'Bestelformulieren',
       href: '/account/order-lists',
       icon: ListOrdered,
+      requiresFeature: 'orderLists' as const,
     },
     {
       name: 'Terugkerende Orders',
       href: '/account/recurring-orders',
       icon: RefreshCw,
+      requiresFeature: 'recurringOrders' as const,
     },
     {
       name: 'Favorieten',
       href: '/account/favorites',
       icon: Heart,
+      requiresFeature: 'wishlists' as const,
     },
     {
       name: 'Adressen',
       href: '/account/addresses',
       icon: MapPin,
+      requiresFeature: 'addresses' as const,
     },
     {
       name: 'Instellingen',
       href: '/account/settings',
       icon: Settings,
+      requiresFeature: null, // Always visible
     },
   ]
+
+  // Filter navigation based on enabled features
+  const navigation = allNavigation.filter((item) => {
+    if (!item.requiresFeature) return true // Always show items without feature requirement
+    return features[item.requiresFeature] === true
+  })
 
   // Get user initials for avatar
   const getInitials = () => {

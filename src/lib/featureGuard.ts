@@ -22,11 +22,69 @@ import { isFeatureEnabled } from './features'
 import type { ClientFeatures } from './features'
 
 /**
+ * Parent-child feature relationships
+ * Sub-features require their parent to be enabled
+ */
+const PARENT_FEATURES: Record<string, keyof ClientFeatures> = {
+  // Shop sub-features
+  volume_pricing: 'shop',
+  compare_products: 'shop',
+  quick_order: 'shop',
+  brands: 'shop',
+  recently_viewed: 'shop',
+
+  // Cart sub-features
+  mini_cart: 'cart',
+  free_shipping_bar: 'cart',
+
+  // Checkout sub-features
+  guest_checkout: 'checkout',
+  invoices: 'checkout',
+  order_tracking: 'checkout',
+
+  // My Account sub-features
+  returns: 'myAccount',
+  recurring_orders: 'myAccount',
+  order_lists: 'myAccount',
+  addresses: 'myAccount',
+  account_invoices: 'myAccount',
+  notifications: 'myAccount',
+
+  // B2B sub-features
+  customer_groups: 'b2b',
+  group_pricing: 'b2b',
+  barcode_scanner: 'b2b',
+
+  // Marketplace sub-features
+  vendor_reviews: 'vendors',
+  workshops: 'vendors',
+}
+
+/**
  * Require a feature to be enabled, otherwise return 404
  * Use in Server Components (page.tsx)
+ *
+ * Automatically checks parent feature if this is a sub-feature
  */
-export function requireFeature(feature: keyof ClientFeatures): void {
-  if (!isFeatureEnabled(feature)) {
+export function requireFeature(feature: keyof ClientFeatures | string): void {
+  // Convert camelCase to snake_case for lookup
+  const featureKey = feature
+    .toString()
+    .replace(/([A-Z])/g, '_$1')
+    .toLowerCase()
+    .replace(/^_/, '')
+
+  // Check parent feature first (if this is a sub-feature)
+  const parentFeature = PARENT_FEATURES[featureKey]
+  if (parentFeature && !isFeatureEnabled(parentFeature.toString())) {
+    console.log(
+      `[FeatureGuard] Parent feature '${parentFeature}' is disabled for '${feature}' - returning 404`,
+    )
+    notFound()
+  }
+
+  // Check the feature itself
+  if (!isFeatureEnabled(feature.toString())) {
     console.log(`[FeatureGuard] Feature '${feature}' is disabled - returning 404`)
     notFound()
   }

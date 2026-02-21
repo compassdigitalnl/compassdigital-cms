@@ -18,28 +18,60 @@ import type { Payload } from 'payload'
 
 /**
  * Client Features interface (matches Clients.features group)
+ * Organized hierarchically: parent features and their sub-features
  */
 export interface ClientFeatures {
-  // E-commerce
+  // === SHOP (top-level) ===
   shop?: boolean
-  cart?: boolean
-  checkout?: boolean
-  wishlists?: boolean
-  productReviews?: boolean
-  customerGroups?: boolean
+  // Shop sub-features
+  volumePricing?: boolean
+  compareProducts?: boolean
+  quickOrder?: boolean
+  recentlyViewed?: boolean
 
-  // Marketplace (Sprint 5)
+  // === CART (top-level) ===
+  cart?: boolean
+  // Cart sub-features
+  miniCart?: boolean
+  freeShippingBar?: boolean
+
+  // === CHECKOUT (top-level) ===
+  checkout?: boolean
+  // Checkout sub-features
+  guestCheckout?: boolean
+  invoices?: boolean
+  orderTracking?: boolean
+
+  // === MY ACCOUNT (top-level) ===
+  myAccount?: boolean
+  // My Account sub-features
+  returns?: boolean
+  recurringOrders?: boolean
+  orderLists?: boolean
+  addresses?: boolean
+  accountInvoices?: boolean
+  notifications?: boolean
+
+  // === B2B (top-level) ===
+  b2b?: boolean
+  // B2B sub-features
+  customerGroups?: boolean
+  groupPricing?: boolean
+  barcodeScanner?: boolean
+
+  // === MARKETPLACE (top-level) ===
   vendors?: boolean
+  // Marketplace sub-features
   vendorReviews?: boolean
   workshops?: boolean
 
-  // Sprint 6 Features
+  // === SPRINT 6 (top-level) ===
   subscriptions?: boolean
   giftVouchers?: boolean
   licenses?: boolean
   loyalty?: boolean
 
-  // Content
+  // === CONTENT ===
   blog?: boolean
   faq?: boolean
   testimonials?: boolean
@@ -47,12 +79,17 @@ export interface ClientFeatures {
   partners?: boolean
   brands?: boolean
   services?: boolean
-  orderLists?: boolean
+  wishlists?: boolean
 
-  // Advanced
+  // === ADVANCED ===
   multiLanguage?: boolean
   aiContent?: boolean
+  search?: boolean
+  newsletter?: boolean
   authentication?: boolean
+
+  // Legacy - keeping for backwards compatibility
+  productReviews?: boolean
 }
 
 /**
@@ -92,6 +129,18 @@ export function isFeatureEnabled(feature: string): boolean {
 }
 
 /**
+ * Check if sub-feature is enabled.
+ * Sub-feature is only enabled if BOTH the parent AND the sub-feature are enabled.
+ *
+ * @param parent - Parent feature name (e.g., 'shop', 'my_account')
+ * @param child - Sub-feature name (e.g., 'volume_pricing', 'returns')
+ * @returns true if both parent and child are enabled
+ */
+export function isSubFeatureEnabled(parent: string, child: string): boolean {
+  return isFeatureEnabled(parent) && isFeatureEnabled(child)
+}
+
+/**
  * Check if a feature is enabled for a specific client (database-driven)
  * Fallback to ENV if client features not found
  */
@@ -117,47 +166,103 @@ export async function isFeatureEnabledForClient(
  * Usage:
  * - if (features.shop) { ... }
  * - if (features.vendors) { ... }
+ * - if (features.volumePricing) { ... }
  */
 export const features = {
-  // E-commerce
+  // === SHOP ===
   shop: isFeatureEnabled('shop'),
-  cart: isFeatureEnabled('cart'),
-  checkout: isFeatureEnabled('checkout'),
-  wishlists: isFeatureEnabled('wishlists'),
-  productReviews: isFeatureEnabled('product_reviews'),
+  volumePricing: isFeatureEnabled('volume_pricing'),
+  compareProducts: isFeatureEnabled('compare_products'),
+  quickOrder: isFeatureEnabled('quick_order'),
+  brands: isFeatureEnabled('brands'),
+  recentlyViewed: isFeatureEnabled('recently_viewed'),
 
-  // Marketplace (Sprint 5)
+  // === CART ===
+  cart: isFeatureEnabled('cart'),
+  miniCart: isFeatureEnabled('mini_cart'),
+  freeShippingBar: isFeatureEnabled('free_shipping_bar'),
+
+  // === CHECKOUT ===
+  checkout: isFeatureEnabled('checkout'),
+  guestCheckout: isFeatureEnabled('guest_checkout'),
+  invoices: isFeatureEnabled('invoices'),
+  orderTracking: isFeatureEnabled('order_tracking'),
+
+  // === MY ACCOUNT ===
+  myAccount: isFeatureEnabled('my_account'),
+  returns: isFeatureEnabled('returns'),
+  recurringOrders: isFeatureEnabled('recurring_orders'),
+  orderLists: isFeatureEnabled('order_lists'),
+  addresses: isFeatureEnabled('addresses'),
+  accountInvoices: isFeatureEnabled('account_invoices'),
+  notifications: isFeatureEnabled('notifications'),
+
+  // === B2B ===
+  b2b: isFeatureEnabled('b2b'),
+  customerGroups: isFeatureEnabled('customer_groups'),
+  groupPricing: isFeatureEnabled('group_pricing'),
+  barcodeScanner: isFeatureEnabled('barcode_scanner'),
+
+  // === MARKETPLACE ===
   vendors: isFeatureEnabled('vendors'),
   vendorReviews: isFeatureEnabled('vendor_reviews'),
   workshops: isFeatureEnabled('workshops'),
 
-  // Sprint 6
+  // === SPRINT 6 ===
   subscriptions: isFeatureEnabled('subscriptions'),
   giftVouchers: isFeatureEnabled('gift_vouchers'),
   licenses: isFeatureEnabled('licenses'),
   loyalty: isFeatureEnabled('loyalty'),
 
-  // Content
+  // === CONTENT ===
   blog: isFeatureEnabled('blog'),
   faq: isFeatureEnabled('faq'),
   testimonials: isFeatureEnabled('testimonials'),
   cases: isFeatureEnabled('cases'),
+  partners: isFeatureEnabled('partners'),
+  services: isFeatureEnabled('services'),
+  wishlists: isFeatureEnabled('wishlists'),
 
-  // Advanced
+  // === ADVANCED ===
   multiLanguage: isFeatureEnabled('multi_language'),
   aiContent: isFeatureEnabled('ai_content'),
+  search: isFeatureEnabled('search'),
+  newsletter: isFeatureEnabled('newsletter'),
   platform: isFeatureEnabled('platform'),
+  authentication: isFeatureEnabled('authentication'),
+
+  // Legacy
+  productReviews: isFeatureEnabled('product_reviews'),
 } as const
 
 /**
  * Feature categories for grouping
  */
 export const featureCategories = {
-  ecommerce: ['shop', 'cart', 'checkout', 'wishlists', 'productReviews'],
+  shop: [
+    'shop',
+    'volumePricing',
+    'compareProducts',
+    'quickOrder',
+    'brands',
+    'recentlyViewed',
+  ],
+  cart: ['cart', 'miniCart', 'freeShippingBar'],
+  checkout: ['checkout', 'guestCheckout', 'invoices', 'orderTracking'],
+  myAccount: [
+    'myAccount',
+    'returns',
+    'recurringOrders',
+    'orderLists',
+    'addresses',
+    'accountInvoices',
+    'notifications',
+  ],
+  b2b: ['b2b', 'customerGroups', 'groupPricing', 'barcodeScanner'],
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
   sprint6: ['subscriptions', 'giftVouchers', 'licenses', 'loyalty'],
-  content: ['blog', 'faq', 'testimonials', 'cases'],
-  advanced: ['multiLanguage', 'aiContent', 'platform'],
+  content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
+  advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication'],
 } as const
 
 /**
@@ -186,19 +291,51 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
 
   // Map client features to ENV variables
   const featureMap: Record<keyof ClientFeatures, string> = {
+    // === SHOP ===
     shop: 'ENABLE_SHOP',
+    volumePricing: 'ENABLE_VOLUME_PRICING',
+    compareProducts: 'ENABLE_COMPARE_PRODUCTS',
+    quickOrder: 'ENABLE_QUICK_ORDER',
+    recentlyViewed: 'ENABLE_RECENTLY_VIEWED',
+
+    // === CART ===
     cart: 'ENABLE_CART',
+    miniCart: 'ENABLE_MINI_CART',
+    freeShippingBar: 'ENABLE_FREE_SHIPPING_BAR',
+
+    // === CHECKOUT ===
     checkout: 'ENABLE_CHECKOUT',
-    wishlists: 'ENABLE_WISHLISTS',
-    productReviews: 'ENABLE_PRODUCT_REVIEWS',
+    guestCheckout: 'ENABLE_GUEST_CHECKOUT',
+    invoices: 'ENABLE_INVOICES',
+    orderTracking: 'ENABLE_ORDER_TRACKING',
+
+    // === MY ACCOUNT ===
+    myAccount: 'ENABLE_MY_ACCOUNT',
+    returns: 'ENABLE_RETURNS',
+    recurringOrders: 'ENABLE_RECURRING_ORDERS',
+    orderLists: 'ENABLE_ORDER_LISTS',
+    addresses: 'ENABLE_ADDRESSES',
+    accountInvoices: 'ENABLE_ACCOUNT_INVOICES',
+    notifications: 'ENABLE_NOTIFICATIONS',
+
+    // === B2B ===
+    b2b: 'ENABLE_B2B',
     customerGroups: 'ENABLE_CUSTOMER_GROUPS',
+    groupPricing: 'ENABLE_GROUP_PRICING',
+    barcodeScanner: 'ENABLE_BARCODE_SCANNER',
+
+    // === MARKETPLACE ===
     vendors: 'ENABLE_VENDORS',
     vendorReviews: 'ENABLE_VENDOR_REVIEWS',
     workshops: 'ENABLE_WORKSHOPS',
+
+    // === SPRINT 6 ===
     subscriptions: 'ENABLE_SUBSCRIPTIONS',
     giftVouchers: 'ENABLE_GIFT_VOUCHERS',
     licenses: 'ENABLE_LICENSES',
     loyalty: 'ENABLE_LOYALTY',
+
+    // === CONTENT ===
     blog: 'ENABLE_BLOG',
     faq: 'ENABLE_FAQ',
     testimonials: 'ENABLE_TESTIMONIALS',
@@ -206,10 +343,17 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     partners: 'ENABLE_PARTNERS',
     brands: 'ENABLE_BRANDS',
     services: 'ENABLE_SERVICES',
-    orderLists: 'ENABLE_ORDER_LISTS',
+    wishlists: 'ENABLE_WISHLISTS',
+
+    // === ADVANCED ===
     multiLanguage: 'ENABLE_MULTI_LANGUAGE',
     aiContent: 'ENABLE_AI_CONTENT',
+    search: 'ENABLE_SEARCH',
+    newsletter: 'ENABLE_NEWSLETTER',
     authentication: 'ENABLE_AUTHENTICATION',
+
+    // Legacy
+    productReviews: 'ENABLE_PRODUCT_REVIEWS',
   }
 
   // Generate ENV vars from client features
@@ -231,39 +375,44 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
  */
 export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> {
   return {
-    // E-commerce
+    // === SHOP ===
     products: 'shop',
     'product-categories': 'shop',
     brands: 'brands',
-    orders: 'checkout',
-    'customer-groups': 'customerGroups',
-    'order-lists': 'orderLists',
+    'recently-viewed': 'recentlyViewed',
 
-    // Marketplace (Sprint 5)
+    // === CHECKOUT ===
+    orders: 'checkout',
+    invoices: 'invoices',
+
+    // === MY ACCOUNT ===
+    returns: 'returns',
+    'recurring-orders': 'recurringOrders',
+    'order-lists': 'orderLists',
+    notifications: 'notifications',
+
+    // === B2B ===
+    'customer-groups': 'customerGroups',
+
+    // === MARKETPLACE ===
     vendors: 'vendors',
     'vendor-reviews': 'vendorReviews',
     workshops: 'workshops',
 
-    // Sprint 6 - Subscriptions
+    // === SPRINT 6 ===
     'subscription-plans': 'subscriptions',
     'user-subscriptions': 'subscriptions',
     'payment-methods': 'subscriptions',
-
-    // Sprint 6 - Gift Vouchers
     'gift-vouchers': 'giftVouchers',
-
-    // Sprint 6 - Licenses
     licenses: 'licenses',
     'license-activations': 'licenses',
-
-    // Sprint 6 - Loyalty Program
     'loyalty-tiers': 'loyalty',
     'loyalty-rewards': 'loyalty',
     'loyalty-points': 'loyalty',
     'loyalty-transactions': 'loyalty',
     'loyalty-redemptions': 'loyalty',
 
-    // Content
+    // === CONTENT ===
     'blog-posts': 'blog',
     faqs: 'faq',
     testimonials: 'testimonials',
@@ -271,7 +420,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     partners: 'partners',
     services: 'services',
 
-    // Users
+    // === USERS ===
     users: 'authentication',
   }
 }
