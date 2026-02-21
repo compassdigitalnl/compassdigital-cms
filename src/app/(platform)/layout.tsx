@@ -1,14 +1,13 @@
 /**
  * Platform Admin Layout
  * Wraps all platform management pages
+ *
+ * Note: This layout does NOT include <html> and <body> tags!
+ * Those are provided by the root layout (src/app/layout.tsx).
  */
 
 import React from 'react'
-import { Inter } from 'next/font/google'
-import '@/app/globals.css'
 import PlatformSidebar from '@/platform/components/PlatformSidebar'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Platform Admin - SiteForge',
@@ -17,16 +16,12 @@ export const metadata = {
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body>
-        <div className="flex min-h-screen bg-gray-50">
-          {/* Sidebar */}
-          <PlatformSidebar />
+    <div className="flex min-h-screen bg-gray-50">
+      {/* Sidebar */}
+      <PlatformSidebar />
 
-          {/* Main Content */}
-          <main className="flex-1 p-8">{children}</main>
-        </div>
-      </body>
-    </html>
+      {/* Main Content */}
+      <main className="flex-1 p-8">{children}</main>
+    </div>
   )
 }
