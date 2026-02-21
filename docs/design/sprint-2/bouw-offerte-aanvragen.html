@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offerte aanvragen — VanderBouw</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}
+  .header-trust{display:flex;gap:16px;font-size:13px;color:var(--grey-mid);}.ht-item{display:flex;align-items:center;gap:4px;}.ht-item i{width:14px;height:14px;color:var(--teal);}
+  .header-phone{display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:var(--navy);text-decoration:none;}.header-phone i{width:18px;height:18px;color:var(--teal);}
+
+  /* Page layout */
+  .page-layout{display:grid;grid-template-columns:1fr 380px;gap:28px;padding:28px 0 64px;align-items:start;}
+
+  /* Left: Form area */
+  .form-area{}
+  .form-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;margin-bottom:4px;}
+  .form-sub{font-size:14px;color:var(--grey-mid);margin-bottom:20px;}
+
+  /* Stepper */
+  .stepper{display:flex;align-items:center;margin-bottom:24px;position:relative;}
+  .step-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;}
+  .step-circle{width:44px;height:44px;border-radius:50%;background:var(--grey-light);border:2px solid var(--grey);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--grey-mid);transition:all .2s;margin-bottom:6px;}
+  .step-circle i{width:18px;height:18px;}
+  .step-item.active .step-circle{background:var(--teal);border-color:var(--teal);color:white;box-shadow:0 0 0 4px var(--teal-glow);}
+  .step-item.done .step-circle{background:var(--green);border-color:var(--green);color:white;}
+  .step-label{font-size:12px;font-weight:700;color:var(--grey-mid);text-align:center;}.step-item.active .step-label{color:var(--teal);}.step-item.done .step-label{color:var(--green);}
+  .step-line{flex:1;height:2px;background:var(--grey);margin:0 -10px;position:relative;top:-16px;z-index:1;}.step-line.done{background:var(--green);}
+
+  /* Form card */
+  .form-card{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);}
+  .fc-header{padding:20px 24px;border-bottom:1px solid var(--grey);}
+  .fch-step{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}
+  .fch-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;}
+  .fch-desc{font-size:13px;color:var(--grey-mid);margin-top:2px;}
+  .fc-body{padding:24px;}
+
+  /* Step 1: Project type selection */
+  .type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .type-card{padding:18px;border:2px solid var(--grey);border-radius:14px;text-align:center;cursor:pointer;transition:all .15s;}.type-card:hover{border-color:var(--teal);transform:translateY(-2px);}.type-card.selected{border-color:var(--teal);background:var(--teal-glow);box-shadow:0 0 0 3px var(--teal-glow);}
+  .tc-icon{font-size:32px;margin-bottom:6px;}
+  .tc-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px;}
+  .tc-desc{font-size:11px;color:var(--grey-mid);}
+  .tc-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--grey);margin:6px auto 0;display:flex;align-items:center;justify-content:center;}.type-card.selected .tc-check{background:var(--teal);border-color:var(--teal);}.tc-check i{width:12px;height:12px;color:white;display:none;}.type-card.selected .tc-check i{display:block;}
+
+  /* Step 2: Details (hidden by default) */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .form-group{margin-bottom:14px;}
+  .fg-label{font-size:13px;font-weight:700;margin-bottom:5px;display:block;}
+  .fg-required{color:var(--coral);font-size:10px;}
+  .fg-input{width:100%;height:46px;padding:0 14px;border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:all .12s;}.fg-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .fg-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 14px center no-repeat;}
+  .fg-textarea{height:100px;padding:12px 14px;resize:none;}
+  .fg-hint{font-size:11px;color:var(--grey-mid);margin-top:3px;}
+
+  /* Checkbox/Radio options */
+  .option-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .option{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid var(--grey);border-radius:10px;cursor:pointer;transition:all .12s;font-size:13px;font-weight:600;}.option:hover{border-color:var(--teal);}.option.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .opt-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--grey);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s;}.option.selected .opt-check{background:var(--teal);border-color:var(--teal);}.opt-check i{width:12px;height:12px;color:white;display:none;}.option.selected .opt-check i{display:block;}
+
+  /* Photo upload */
+  .upload-zone{border:2px dashed var(--grey);border-radius:14px;padding:28px;text-align:center;cursor:pointer;transition:all .12s;}.upload-zone:hover{border-color:var(--teal);background:var(--teal-glow);}
+  .uz-icon{width:48px;height:48px;border-radius:14px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}.uz-icon i{width:22px;height:22px;color:var(--grey-mid);}
+  .uz-text{font-size:14px;font-weight:700;margin-bottom:2px;}.uz-sub{font-size:12px;color:var(--grey-mid);}
+  .uploaded{display:flex;gap:6px;margin-top:10px;justify-content:center;}
+  .up-thumb{width:50px;height:50px;border-radius:8px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;}
+  .up-remove{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--coral);display:flex;align-items:center;justify-content:center;cursor:pointer;}.up-remove i{width:8px;height:8px;color:white;}
+
+  /* Slider input */
+  .range-wrap{margin-bottom:14px;}
+  .range-header{display:flex;justify-content:space-between;margin-bottom:6px;}.range-label{font-size:13px;font-weight:700;}.range-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--teal);}
+  .range-input{width:100%;height:6px;-webkit-appearance:none;background:var(--grey);border-radius:100px;outline:none;}.range-input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--teal);cursor:pointer;box-shadow:0 0 0 4px var(--teal-glow);}
+  .range-marks{display:flex;justify-content:space-between;font-size:10px;color:var(--grey-mid);margin-top:4px;}
+
+  /* Form footer */
+  .fc-footer{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-top:1px solid var(--grey);background:var(--grey-light);}
+  .back-btn{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--grey-mid);cursor:pointer;border:none;background:none;padding:8px 0;transition:color .12s;}.back-btn:hover{color:var(--navy);}.back-btn i{width:14px;height:14px;}
+  .next-btn{height:46px;padding:0 28px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);}.next-btn:hover{background:var(--navy);transform:translateY(-1px);}.next-btn i{width:16px;height:16px;}
+  .submit-btn{height:46px;padding:0 28px;background:var(--green);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,200,83,.3);}.submit-btn:hover{transform:translateY(-1px);}.submit-btn i{width:16px;height:16px;}
+
+  /* Step progress */
+  .progress-bar{height:4px;background:var(--grey);border-radius:100px;overflow:hidden;margin-bottom:20px;}.progress-fill{height:100%;background:var(--teal);border-radius:100px;transition:width .3s;}
+
+  /* RIGHT: Sidebar */
+  .sidebar{position:sticky;top:96px;}
+  .trust-card{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:22px;margin-bottom:12px;}
+  .tc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;}.tc-title i{width:16px;height:16px;color:var(--teal);}
+  .trust-list{display:flex;flex-direction:column;gap:10px;}
+  .trust-item{display:flex;gap:10px;}
+  .ti-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.ti-icon i{width:16px;height:16px;}
+  .ti-title{font-size:13px;font-weight:700;}.ti-desc{font-size:11px;color:var(--grey-mid);line-height:1.3;}
+
+  /* Quote preview */
+  .quote-preview{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:22px;margin-bottom:12px;}
+  .qp-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;}.qp-title i{width:14px;height:14px;color:var(--teal);}
+  .qp-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--grey);font-size:13px;}.qp-row:last-child{border-bottom:none;}
+  .qp-label{color:var(--grey-mid);}.qp-val{font-weight:700;}
+  .qp-empty{font-size:12px;color:var(--grey-mid);font-style:italic;}
+
+  /* Testimonial */
+  .side-test{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:18px;padding:22px;color:white;margin-bottom:12px;}
+  .st-stars{color:var(--amber);font-size:14px;margin-bottom:6px;}
+  .st-text{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6;font-style:italic;margin-bottom:10px;}
+  .st-author{display:flex;align-items:center;gap:8px;}.st-av{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;flex-shrink:0;}.st-name{font-size:12px;font-weight:700;}.st-role{font-size:10px;color:rgba(255,255,255,.3);}
+
+  /* Phone */
+  .side-phone{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;}
+  .sp-icon{width:40px;height:40px;border-radius:10px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.sp-icon i{width:18px;height:18px;color:var(--teal);}
+  .sp-label{font-size:10px;color:var(--grey-mid);font-weight:600;}.sp-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+
+  /* Hidden steps */
+  .step-content{display:none;}.step-content.active{display:block;}
+
+  @media(max-width:900px){.page-layout{grid-template-columns:1fr;}.sidebar{position:static;}.type-grid{grid-template-columns:1fr 1fr;}.form-row{grid-template-columns:1fr;}.option-grid{grid-template-columns:1fr;}.stepper{overflow-x:auto;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">Vander<em>Bouw</em></a><div class="header-trust"><span class="ht-item"><i data-lucide="shield-check"></i> 100% vrijblijvend</span><span class="ht-item"><i data-lucide="clock"></i> Reactie binnen 24u</span><span class="ht-item"><i data-lucide="lock"></i> Gegevens beveiligd</span></div><a class="header-phone" href="tel:0201234567"><i data-lucide="phone"></i> 020 - 123 45 67</a></div></header>
+
+<div class="container"><div class="page-layout">
+  <!-- LEFT: Form -->
+  <div class="form-area">
+    <h1 class="form-title">Gratis offerte aanvragen</h1>
+    <p class="form-sub">Vul het formulier in en ontvang binnen 5 werkdagen een vrijblijvende offerte op maat.</p>
+
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%;"></div></div>
+
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step-item active" data-step="1"><div class="step-circle">1</div><div class="step-label">Type project</div></div>
+      <div class="step-line"></div>
+      <div class="step-item" data-step="2"><div class="step-circle">2</div><div class="step-label">Details</div></div>
+      <div class="step-line"></div>
+      <div class="step-item" data-step="3"><div class="step-circle">3</div><div class="step-label">Wensen</div></div>
+      <div class="step-line"></div>
+      <div class="step-item" data-step="4"><div class="step-circle">4</div><div class="step-label">Contact</div></div>
+    </div>
+
+    <!-- Form card -->
+    <div class="form-card">
+      <!-- Step 1: Type project -->
+      <div class="step-content active" id="step1">
+        <div class="fc-header"><div class="fch-step">Stap 1 van 4</div><div class="fch-title">Wat voor project heeft u in gedachten?</div><div class="fch-desc">Selecteer het type project dat het beste past bij uw plannen</div></div>
+        <div class="fc-body">
+          <div class="type-grid">
+            <div class="type-card selected" onclick="selectType(this)"><div class="tc-icon">🔨</div><div class="tc-name">Renovatie</div><div class="tc-desc">Keuken, badkamer of complete woning</div><div class="tc-check"><i data-lucide="check"></i></div></div>
+            <div class="type-card" onclick="selectType(this)"><div class="tc-icon">🏠</div><div class="tc-name">Nieuwbouw</div><div class="tc-desc">Woning of bedrijfspand</div><div class="tc-check"><i data-lucide="check"></i></div></div>
+            <div class="type-card" onclick="selectType(this)"><div class="tc-icon">📐</div><div class="tc-name">Aanbouw</div><div class="tc-desc">Uitbreiding of opbouw</div><div class="tc-check"><i data-lucide="check"></i></div></div>
+            <div class="type-card" onclick="selectType(this)"><div class="tc-icon">🌱</div><div class="tc-name">Verduurzaming</div><div class="tc-desc">Isolatie, warmtepomp, zonnepanelen</div><div class="tc-check"><i data-lucide="check"></i></div></div>
+            <div class="type-card" onclick="selectType(this)"><div class="tc-icon">🏢</div><div class="tc-name">Utiliteitsbouw</div><div class="tc-desc">Kantoor, winkel of horeca</div><div class="tc-check"><i data-lucide="check"></i></div></div>
+            <div class="type-card" onclick="selectType(this)"><div class="tc-icon">🏚️</div><div class="tc-name">Herstelwerk</div><div class="tc-desc">Fundering, vocht of schade</div><div class="tc-check"><i data-lucide="check"></i></div></div>
+          </div>
+        </div>
+        <div class="fc-footer"><div></div><button class="next-btn" onclick="goToStep(2)">Volgende stap <i data-lucide="arrow-right"></i></button></div>
+      </div>
+
+      <!-- Step 2: Details -->
+      <div class="step-content" id="step2">
+        <div class="fc-header"><div class="fch-step">Stap 2 van 4</div><div class="fch-title">Vertel ons meer over uw project</div><div class="fch-desc">Hoe meer informatie, hoe nauwkeuriger onze offerte</div></div>
+        <div class="fc-body">
+          <div class="form-row">
+            <div class="form-group"><label class="fg-label">Type woning <span class="fg-required">*</span></label><select class="fg-input fg-select"><option>Vrijstaand</option><option>Twee-onder-één-kap</option><option>Rijtjeswoning</option><option>Appartement</option><option>Commercieel pand</option></select></div>
+            <div class="form-group"><label class="fg-label">Bouwjaar (circa)</label><input class="fg-input" type="text" placeholder="bijv. 1960"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="fg-label">Oppervlakte (m²)</label><input class="fg-input" type="text" placeholder="bijv. 120"></div>
+            <div class="form-group"><label class="fg-label">Postcode + huisnr</label><input class="fg-input" type="text" placeholder="1234 AB 12"></div>
+          </div>
+          <div class="form-group">
+            <label class="fg-label">Omschrijving van de werkzaamheden <span class="fg-required">*</span></label>
+            <textarea class="fg-input fg-textarea" placeholder="Beschrijf kort wat u wilt laten doen. Bijv. 'Badkamer en keuken renoveren, nieuwe vloer in de woonkamer'"></textarea>
+            <div class="fg-hint">Hoe meer details, hoe beter wij uw aanvraag kunnen beoordelen</div>
+          </div>
+          <div class="form-group">
+            <label class="fg-label">Foto's uploaden (optioneel)</label>
+            <div class="upload-zone"><div class="uz-icon"><i data-lucide="camera"></i></div><div class="uz-text">Sleep foto's hierheen of klik om te uploaden</div><div class="uz-sub">Max. 10 foto's · JPG, PNG · Max. 5MB per foto</div></div>
+            <div class="uploaded"><div class="up-thumb">📸<div class="up-remove"><i data-lucide="x"></i></div></div><div class="up-thumb">📸<div class="up-remove"><i data-lucide="x"></i></div></div></div>
+          </div>
+        </div>
+        <div class="fc-footer"><button class="back-btn" onclick="goToStep(1)"><i data-lucide="arrow-left"></i> Terug</button><button class="next-btn" onclick="goToStep(3)">Volgende stap <i data-lucide="arrow-right"></i></button></div>
+      </div>
+
+      <!-- Step 3: Wensen -->
+      <div class="step-content" id="step3">
+        <div class="fc-header"><div class="fch-step">Stap 3 van 4</div><div class="fch-title">Uw wensen en voorkeuren</div><div class="fch-desc">Dit helpt ons de offerte zo goed mogelijk af te stemmen</div></div>
+        <div class="fc-body">
+          <div class="range-wrap">
+            <div class="range-header"><span class="range-label">Indicatie budget</span><span class="range-val" id="budgetVal">€ 30.000 – 50.000</span></div>
+            <input class="range-input" type="range" min="0" max="4" value="2" oninput="updateBudget(this.value)">
+            <div class="range-marks"><span>< €10k</span><span>€10-30k</span><span>€30-50k</span><span>€50-100k</span><span>> €100k</span></div>
+          </div>
+
+          <div class="form-group">
+            <label class="fg-label">Gewenste startdatum</label>
+            <div class="option-grid">
+              <div class="option selected" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> Zo snel mogelijk</div>
+              <div class="option" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> Binnen 3 maanden</div>
+              <div class="option" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> 3-6 maanden</div>
+              <div class="option" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> Nog oriënterend</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="fg-label">Wat is belangrijk voor u? (meerdere mogelijk)</label>
+            <div class="option-grid">
+              <div class="option selected" onclick="this.classList.toggle('selected')"><div class="opt-check"><i data-lucide="check"></i></div> Vaste prijs</div>
+              <div class="option" onclick="this.classList.toggle('selected')"><div class="opt-check"><i data-lucide="check"></i></div> Snelle oplevering</div>
+              <div class="option selected" onclick="this.classList.toggle('selected')"><div class="opt-check"><i data-lucide="check"></i></div> Duurzame materialen</div>
+              <div class="option" onclick="this.classList.toggle('selected')"><div class="opt-check"><i data-lucide="check"></i></div> Design / architectuur</div>
+              <div class="option" onclick="this.classList.toggle('selected')"><div class="opt-check"><i data-lucide="check"></i></div> Energiebesparing</div>
+              <div class="option" onclick="this.classList.toggle('selected')"><div class="opt-check"><i data-lucide="check"></i></div> Minimale overlast</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="fg-label">Aanvullende wensen of opmerkingen</label>
+            <textarea class="fg-input fg-textarea" placeholder="Is er nog iets dat we moeten weten?"></textarea>
+          </div>
+        </div>
+        <div class="fc-footer"><button class="back-btn" onclick="goToStep(2)"><i data-lucide="arrow-left"></i> Terug</button><button class="next-btn" onclick="goToStep(4)">Volgende stap <i data-lucide="arrow-right"></i></button></div>
+      </div>
+
+      <!-- Step 4: Contact -->
+      <div class="step-content" id="step4">
+        <div class="fc-header"><div class="fch-step">Stap 4 van 4</div><div class="fch-title">Uw contactgegevens</div><div class="fch-desc">Wij nemen binnen 24 uur contact met u op</div></div>
+        <div class="fc-body">
+          <div class="form-row">
+            <div class="form-group"><label class="fg-label">Voornaam <span class="fg-required">*</span></label><input class="fg-input" type="text" placeholder="Uw voornaam"></div>
+            <div class="form-group"><label class="fg-label">Achternaam <span class="fg-required">*</span></label><input class="fg-input" type="text" placeholder="Uw achternaam"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="fg-label">Telefoonnummer <span class="fg-required">*</span></label><input class="fg-input" type="tel" placeholder="06 - 1234 5678"></div>
+            <div class="form-group"><label class="fg-label">E-mailadres <span class="fg-required">*</span></label><input class="fg-input" type="email" placeholder="uw@email.nl"></div>
+          </div>
+          <div class="form-group"><label class="fg-label">Adres (voor locatiebezoek)</label><input class="fg-input" type="text" placeholder="Straatnaam 12, 1234 AB Plaats"></div>
+          <div class="form-group">
+            <label class="fg-label">Voorkeur contactmoment</label>
+            <div class="option-grid">
+              <div class="option selected" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> Ochtend (9-12u)</div>
+              <div class="option" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> Middag (12-17u)</div>
+              <div class="option" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> Avond (17-20u)</div>
+              <div class="option" onclick="selectOption(this)"><div class="opt-check"><i data-lucide="check"></i></div> Geen voorkeur</div>
+            </div>
+          </div>
+          <div style="padding:12px 14px;background:var(--grey-light);border-radius:10px;font-size:12px;color:var(--grey-dark);display:flex;gap:8px;align-items:start;margin-top:4px;">
+            <i data-lucide="shield-check" style="width:16px;height:16px;color:var(--teal);flex-shrink:0;margin-top:1px;"></i>
+            <span>Uw gegevens worden uitsluitend gebruikt voor deze offerte-aanvraag en nooit gedeeld met derden. Bekijk ons <a href="#" style="color:var(--teal);">privacybeleid</a>.</span>
+          </div>
+        </div>
+        <div class="fc-footer"><button class="back-btn" onclick="goToStep(3)"><i data-lucide="arrow-left"></i> Terug</button><button class="submit-btn"><i data-lucide="check-circle"></i> Offerte aanvragen</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <aside class="sidebar">
+    <div class="trust-card">
+      <div class="tc-title"><i data-lucide="shield-check"></i> Waarom bij VanderBouw?</div>
+      <div class="trust-list">
+        <div class="trust-item"><div class="ti-icon" style="background:var(--teal-glow);"><i data-lucide="file-text" style="color:var(--teal);"></i></div><div><div class="ti-title">Gratis & vrijblijvend</div><div class="ti-desc">Geen verplichtingen, geen kosten aan de offerte</div></div></div>
+        <div class="trust-item"><div class="ti-icon" style="background:var(--blue-light);"><i data-lucide="clock" style="color:var(--blue);"></i></div><div><div class="ti-title">Offerte binnen 5 dagen</div><div class="ti-desc">Na locatiebezoek ontvangt u een gedetailleerde offerte</div></div></div>
+        <div class="trust-item"><div class="ti-icon" style="background:var(--green-light);"><i data-lucide="lock" style="color:var(--green);"></i></div><div><div class="ti-title">Vaste prijsafspraak</div><div class="ti-desc">Geen verrassingen achteraf, de prijs staat vast</div></div></div>
+        <div class="trust-item"><div class="ti-icon" style="background:var(--amber-light);"><i data-lucide="award" style="color:var(--amber);"></i></div><div><div class="ti-title">25+ jaar ervaring</div><div class="ti-desc">500+ projecten succesvol opgeleverd</div></div></div>
+      </div>
+    </div>
+
+    <div class="quote-preview">
+      <div class="qp-title"><i data-lucide="clipboard-list"></i> Uw aanvraag</div>
+      <div class="qp-row"><span class="qp-label">Type project</span><span class="qp-val" id="qpType">Renovatie</span></div>
+      <div class="qp-row"><span class="qp-label">Budget</span><span class="qp-val" id="qpBudget">€30-50k</span></div>
+      <div class="qp-row"><span class="qp-label">Start</span><span class="qp-val" id="qpStart">Zo snel mogelijk</span></div>
+      <div class="qp-row"><span class="qp-label">Foto's</span><span class="qp-val">2 geüpload</span></div>
+    </div>
+
+    <div class="side-test">
+      <div class="st-stars">★★★★★</div>
+      <div class="st-text">"De offerte was helder en gedetailleerd. Geen verborgen kosten, precies wat beloofd werd. Topservice!"</div>
+      <div class="st-author"><div class="st-av">MK</div><div><div class="st-name">Marieke Koster</div><div class="st-role">Renovatie · Amstelveen</div></div></div>
+    </div>
+
+    <div class="side-phone">
+      <div class="sp-icon"><i data-lucide="phone"></i></div>
+      <div><div class="sp-label">Liever bellen?</div><div class="sp-num">020 - 123 45 67</div></div>
+    </div>
+  </aside>
+</div></div>
+
+<script>
+lucide.createIcons();
+const budgets=['< €10.000','€10.000 – 30.000','€30.000 – 50.000','€50.000 – 100.000','> €100.000'];
+function updateBudget(v){document.getElementById('budgetVal').textContent=budgets[v];document.getElementById('qpBudget').textContent=budgets[v];}
+function selectType(el){document.querySelectorAll('.type-card').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');document.getElementById('qpType').textContent=el.querySelector('.tc-name').textContent;}
+function selectOption(el){el.parentElement.querySelectorAll('.option').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+function goToStep(n){
+  document.querySelectorAll('.step-content').forEach(e=>e.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  document.querySelectorAll('.step-item').forEach((e,i)=>{e.classList.remove('active','done');if(i+1<n)e.classList.add('done');if(i+1===n)e.classList.add('active');});
+  document.querySelectorAll('.step-line').forEach((e,i)=>{e.classList.toggle('done',i<n-1);});
+  document.getElementById('progressFill').style.width=n*25+'%';
+  lucide.createIcons();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

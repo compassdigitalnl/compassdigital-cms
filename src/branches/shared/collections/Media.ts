@@ -7,7 +7,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { checkRole } from '../access/utilities'
+import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
 
 const filename = fileURLToPath(import.meta.url)

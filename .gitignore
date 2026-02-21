@@ -39,6 +39,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Development/test logs and exports
+*-log-export-*.json
+
 public/media
 
 # SQLite database (dev only - not for production)
@@ -51,3 +54,11 @@ ploi-*.sh
 
 # Sensitive env docs - keep locally only, never commit real credentials
 VERCEL_ENV_VARS_REQUIRED.md
+
+# Archived documentation - development notes, not needed on production server
+/archived
+../archived
+/_archive
+
+# Migration artifacts - automated migration tracking (not needed in repo)
+.migration-log.json

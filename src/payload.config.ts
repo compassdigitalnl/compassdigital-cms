@@ -23,57 +23,65 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-// Collections
-import { BlogPosts } from '@/collections/BlogPosts'
-import { BlogCategories } from '@/collections/BlogCategories'
-import { Brands } from '@/collections/Brands'
-import { Cases } from '@/collections/Cases'
-import { FAQs } from '@/collections/FAQs'
-// Note: FormSubmissions is provided by formBuilderPlugin, no need to import manually
-import { Invoices } from '@/collections/Invoices'
-import { Media } from '@/collections/Media'
-import { Notifications } from '@/collections/Notifications'
-import { OrderLists } from '@/collections/OrderLists'
-import { Orders } from '@/collections/Orders'
-import { Pages } from '@/collections/Pages'
-import { Partners } from '@/collections/Partners'
-import { Products } from '@/collections/Products'
-import { RecentlyViewed } from '@/collections/RecentlyViewed'
-import { RecurringOrders } from '@/collections/RecurringOrders'
-import { Returns } from '@/collections/Returns'
-import { ServicesCollection } from '@/collections/ServicesCollection'
-import { Testimonials } from '@/collections/Testimonials'
-import { Users } from '@/collections/Users'
+// ─── Branch Imports (Vertical Slice Architecture) ────────────────────────────
+//
+// Collections are now organized by industry/feature domain:
+// - ecommerce: Shop, Orders, Loyalty, Subscriptions, etc.
+// - content: Blog, FAQs, Testimonials, etc.
+// - marketplace: Vendors, Workshops, etc.
+// - shared: Media, Pages, Users, etc.
+// - platform: Multi-tenant management (Clients, Deployments, etc.)
+//
 
-// Shop Collections
+// Ecommerce Branch (19 collections)
+import { Brands } from '@/branches/ecommerce/collections/Brands'
+import { GiftVouchers } from '@/branches/ecommerce/collections/GiftVouchers'
+import { Invoices } from '@/branches/ecommerce/collections/Invoices'
+import { LicenseActivations } from '@/branches/ecommerce/collections/LicenseActivations'
+import { Licenses } from '@/branches/ecommerce/collections/Licenses'
+import { LoyaltyPoints } from '@/branches/ecommerce/collections/LoyaltyPoints'
+import { LoyaltyRedemptions } from '@/branches/ecommerce/collections/LoyaltyRedemptions'
+import { LoyaltyRewards } from '@/branches/ecommerce/collections/LoyaltyRewards'
+import { LoyaltyTiers } from '@/branches/ecommerce/collections/LoyaltyTiers'
+import { LoyaltyTransactions } from '@/branches/ecommerce/collections/LoyaltyTransactions'
+import { OrderLists } from '@/branches/ecommerce/collections/OrderLists'
+import { Orders } from '@/branches/ecommerce/collections/Orders'
+import { PaymentMethods } from '@/branches/ecommerce/collections/PaymentMethods'
+import { Products } from '@/branches/ecommerce/collections/Products'
+import { RecentlyViewed } from '@/branches/ecommerce/collections/RecentlyViewed'
+import { RecurringOrders } from '@/branches/ecommerce/collections/RecurringOrders'
+import { Returns } from '@/branches/ecommerce/collections/Returns'
+import { SubscriptionPlans } from '@/branches/ecommerce/collections/SubscriptionPlans'
+import { UserSubscriptions } from '@/branches/ecommerce/collections/UserSubscriptions'
+
+// Ecommerce - Shop Subdirectory (still in old location temporarily)
 import { ProductCategories } from '@/collections/shop/ProductCategories'
 import { CustomerGroups } from '@/collections/shop/CustomerGroups'
 
-// Marketplace Collections (Sprint 5)
-import { Vendors } from '@/collections/Vendors'
-import { VendorReviews } from '@/collections/VendorReviews'
-import { Workshops } from '@/collections/Workshops'
+// Content Branch (5 collections)
+import { BlogPosts } from '@/branches/content/collections/BlogPosts'
+import { BlogCategories } from '@/branches/content/collections/BlogCategories'
+import { Cases } from '@/branches/content/collections/Cases'
+import { FAQs } from '@/branches/content/collections/FAQs'
+import { Testimonials } from '@/branches/content/collections/Testimonials'
 
-// Sprint 6 Collections - Subscriptions
-import { SubscriptionPlans } from '@/collections/SubscriptionPlans'
-import { UserSubscriptions } from '@/collections/UserSubscriptions'
-import { PaymentMethods } from '@/collections/PaymentMethods'
+// Marketplace Branch (3 collections)
+import { Vendors } from '@/branches/marketplace/collections/Vendors'
+import { VendorReviews } from '@/branches/marketplace/collections/VendorReviews'
+import { Workshops } from '@/branches/marketplace/collections/Workshops'
 
-// Sprint 6 Collections - Gift Vouchers
-import { GiftVouchers } from '@/collections/GiftVouchers'
+// Shared Branch (5 collections + 2 subdirectories)
+import { Media } from '@/branches/shared/collections/Media'
+import { Notifications } from '@/branches/shared/collections/Notifications'
+import { Partners } from '@/branches/shared/collections/Partners'
+import { ServicesCollection } from '@/branches/shared/collections/ServicesCollection'
+// Note: FormSubmissions is provided by formBuilderPlugin, no need to import manually
 
-// Sprint 6 Collections - Licenses
-import { Licenses } from '@/collections/Licenses'
-import { LicenseActivations } from '@/collections/LicenseActivations'
+// Shared - Subdirectories (still in old location temporarily)
+import { Pages } from '@/collections/Pages'
+import { Users } from '@/collections/Users'
 
-// Sprint 6 Collections - Loyalty Program
-import { LoyaltyTiers } from '@/collections/LoyaltyTiers'
-import { LoyaltyRewards } from '@/collections/LoyaltyRewards'
-import { LoyaltyPoints } from '@/collections/LoyaltyPoints'
-import { LoyaltyTransactions } from '@/collections/LoyaltyTransactions'
-import { LoyaltyRedemptions } from '@/collections/LoyaltyRedemptions'
-
-// Platform Collections (Multi-Tenant)
+// Platform Collections (Multi-Tenant - stays in platform/)
 import { ClientRequests } from '@/platform/collections/ClientRequests'
 import { Clients } from '@/platform/collections/Clients'
 import { Deployments } from '@/platform/collections/Deployments'
@@ -200,67 +208,88 @@ export default buildConfig({
   // ─── Database ─────────────────────────────
   db: databaseAdapter,
 
-  // ─── Collections ──────────────────────────
-  // Altijd aan (kern — nooit uitgeschakeld)
-  // Optioneel gefilterd via DISABLED_COLLECTIONS env var (zie boven)
-  // Platform-only collections (Clients, Deployments, ClientRequests) zijn
-  // alleen actief op de platform-instantie (_isPlatform === true).
+  // ─── Collections (Organized by Branch) ───────────────────────────────────────
+  //
+  // Collections zijn georganiseerd per vertical slice (branch):
+  // 1. SHARED - Altijd actief (Users, Pages, Media)
+  // 2. ECOMMERCE - Shop, Orders, Loyalty, Subscriptions, etc.
+  // 3. CONTENT - Blog, FAQs, Testimonials, Cases
+  // 4. MARKETPLACE - Vendors, Workshops
+  // 5. PLATFORM - Multi-tenant management (alleen op platform-instantie)
+  //
+  // Filtering via DISABLED_COLLECTIONS env var (per-client customization)
+  //
   collections: [
-    // Kern — altijd actief
+    // ═══════════════════════════════════════════════════════════════════════════
+    // SHARED BRANCH - Core collections (altijd actief)
+    // ═══════════════════════════════════════════════════════════════════════════
     Users,
     Pages,
     Media,
-
-    // Website content — optioneel per klant
-    _col(BlogPosts),
-    _col(BlogCategories),
-    _col(FAQs),
-    _col(Cases),
-    _col(Testimonials),
-    _col(ServicesCollection),
     _col(Partners),
+    _col(ServicesCollection),
+    _col(Notifications),
+    // FormSubmissions is provided by formBuilderPlugin
 
-    // E-commerce — optioneel per klant
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ECOMMERCE BRANCH - Shop, Orders, Loyalty, Subscriptions
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Product Management
+    _col(Products),
     _col(ProductCategories),
     _col(Brands),
-    _col(Products),
-    _col(CustomerGroups),
-    _col(OrderLists),
-    _col(Orders),
-    _col(Invoices),
-    _col(RecurringOrders),
-    _col(Returns),
-    _col(Notifications),
     _col(RecentlyViewed),
 
-    // Marketplace (Sprint 5) — optioneel per klant
-    _col(Vendors),
-    _col(VendorReviews),
-    _col(Workshops),
+    // Customer Management
+    _col(CustomerGroups),
 
-    // Sprint 6 - Subscriptions — optioneel per klant
+    // Order Management
+    _col(Orders),
+    _col(OrderLists),
+    _col(RecurringOrders),
+    _col(Invoices),
+    _col(Returns),
+
+    // Subscriptions (Sprint 6)
     _col(SubscriptionPlans),
     _col(UserSubscriptions),
     _col(PaymentMethods),
 
-    // Sprint 6 - Gift Vouchers — optioneel per klant
+    // Gift Vouchers (Sprint 6)
     _col(GiftVouchers),
 
-    // Sprint 6 - Licenses — optioneel per klant
+    // Licenses (Sprint 6)
     _col(Licenses),
     _col(LicenseActivations),
 
-    // Sprint 6 - Loyalty Program — optioneel per klant
+    // Loyalty Program (Sprint 6)
     _col(LoyaltyTiers),
     _col(LoyaltyRewards),
     _col(LoyaltyPoints),
     _col(LoyaltyTransactions),
     _col(LoyaltyRedemptions),
 
-    // Platform Management — alleen op platform-instantie
-    ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),
+    // ═══════════════════════════════════════════════════════════════════════════
+    // CONTENT BRANCH - Blog, FAQs, Testimonials, Cases
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(BlogPosts),
+    _col(BlogCategories),
+    _col(FAQs),
+    _col(Cases),
+    _col(Testimonials),
 
-    // FormSubmissions is provided by formBuilderPlugin
+    // ═══════════════════════════════════════════════════════════════════════════
+    // MARKETPLACE BRANCH - Vendors, Workshops, Reviews
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(Vendors),
+    _col(VendorReviews),
+    _col(Workshops),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
+    // ═══════════════════════════════════════════════════════════════════════════
+    ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),
   ].filter(Boolean) as any[],
 
   // ─── Globals ──────────────────────────────

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project: Moderne Stadsvilla — VanderBouw</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}.nav{display:flex;gap:4px;}.nav-item{padding:10px 16px;font-size:14px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}.header-cta{display:flex;align-items:center;gap:8px;}.cta-btn{height:44px;padding:0 22px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.cta-btn:hover{background:var(--navy);}.cta-btn i{width:16px;height:16px;}
+
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:13px;height:13px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  /* Gallery */
+  .gallery-grid{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:6px;height:460px;border-radius:20px;overflow:hidden;margin-bottom:24px;}
+  .gal-item{display:flex;align-items:center;justify-content:center;font-size:60px;position:relative;cursor:pointer;transition:filter .15s;overflow:hidden;}.gal-item:hover{filter:brightness(1.05);}
+  .gal-item:first-child{grid-row:1/3;font-size:100px;}
+  .gal-count{position:absolute;bottom:12px;right:12px;padding:6px 14px;border-radius:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;z-index:2;}.gal-count i{width:14px;height:14px;}
+
+  /* Before/After slider */
+  .ba-section{margin-bottom:24px;}
+  .ba-card{background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;padding:20px;}
+  .ba-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;}.ba-title i{width:16px;height:16px;color:var(--teal);}
+  .ba-slider{position:relative;height:300px;border-radius:14px;overflow:hidden;cursor:col-resize;user-select:none;}
+  .ba-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:80px;}
+  .ba-before{z-index:1;clip-path:inset(0 50% 0 0);}
+  .ba-after{z-index:0;}
+  .ba-handle{position:absolute;top:0;bottom:0;left:50%;z-index:3;width:4px;background:white;transform:translateX(-50%);box-shadow:0 0 12px rgba(0,0,0,.3);}
+  .ba-handle-circle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:white;box-shadow:0 2px 12px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;}.ba-handle-circle i{width:20px;height:20px;color:var(--navy);}
+  .ba-labels{display:flex;justify-content:space-between;margin-top:8px;}.ba-label{padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;}.ba-label.before{background:var(--coral-light);color:var(--coral);}.ba-label.after{background:var(--green-light);color:var(--green);}
+
+  /* Layout */
+  .detail-layout{display:grid;grid-template-columns:1fr 360px;gap:24px;padding-bottom:48px;align-items:start;}
+
+  /* Left content */
+  .proj-header{margin-bottom:20px;}
+  .proj-cat{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+  .proj-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;margin-bottom:6px;}
+  .proj-location{display:flex;align-items:center;gap:5px;font-size:14px;color:var(--grey-mid);margin-bottom:12px;}.proj-location i{width:16px;height:16px;color:var(--teal);}
+
+  /* Specs grid */
+  .specs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;}
+  .spec{background:white;border:1px solid var(--grey);border-radius:12px;padding:14px;text-align:center;}.spec-icon{margin-bottom:4px;}.spec-icon i{width:20px;height:20px;color:var(--teal);}
+  .spec-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;}.spec-label{font-size:11px;color:var(--grey-mid);font-weight:600;}
+
+  /* Section titles */
+  .sec-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;padding-top:8px;}.sec-title i{width:18px;height:18px;color:var(--teal);}
+
+  /* Description */
+  .description{font-size:15px;color:var(--grey-dark);line-height:1.7;margin-bottom:24px;}
+  .description p{margin-bottom:10px;}
+
+  /* Process timeline */
+  .process{display:flex;flex-direction:column;gap:0;margin-bottom:24px;}
+  .proc-step{display:flex;gap:16px;position:relative;padding-bottom:20px;}
+  .proc-line{position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--grey);}
+  .proc-step:last-child .proc-line{display:none;}
+  .proc-step:last-child{padding-bottom:0;}
+  .proc-num{width:40px;height:40px;border-radius:12px;background:var(--teal-glow);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--teal);flex-shrink:0;z-index:2;}.proc-step.done .proc-num{background:var(--teal);color:white;}
+  .proc-body{flex:1;padding-top:2px;}.proc-title{font-size:15px;font-weight:800;margin-bottom:2px;}.proc-date{font-size:11px;color:var(--grey-mid);font-weight:600;margin-bottom:2px;}.proc-desc{font-size:13px;color:var(--grey-dark);line-height:1.5;}
+
+  /* Testimonial */
+  .testimonial{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:24px;margin-bottom:24px;position:relative;}
+  .test-quote{font-size:48px;color:var(--teal);line-height:1;position:absolute;top:16px;right:20px;opacity:.2;}
+  .test-text{font-size:16px;color:var(--grey-dark);line-height:1.7;margin-bottom:14px;font-style:italic;}
+  .test-author{display:flex;align-items:center;gap:10px;}
+  .test-av{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:white;flex-shrink:0;}
+  .test-name{font-size:14px;font-weight:700;}.test-role{font-size:12px;color:var(--grey-mid);}
+  .test-stars{color:var(--amber);font-size:14px;margin-bottom:8px;}
+
+  /* Related projects */
+  .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
+  .rel{background:white;border:1.5px solid var(--grey);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .15s;}.rel:hover{border-color:var(--teal);transform:translateY(-2px);}
+  .rel-img{height:120px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;}.rel-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,22,40,.5),transparent 50%);}
+  .rel-body{padding:10px 12px;}.rel-cat{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;}.rel-title{font-size:13px;font-weight:700;}.rel-meta{font-size:10px;color:var(--grey-mid);display:flex;gap:6px;margin-top:2px;}.rel-mi{display:flex;align-items:center;gap:2px;}.rel-mi i{width:10px;height:10px;}
+
+  /* RIGHT: Sticky sidebar */
+  .sidebar{position:sticky;top:96px;}
+  .side-cta{background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:12px;}
+  .side-cta-header{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:20px;color:white;text-align:center;}
+  .sch-icon{width:44px;height:44px;border-radius:12px;background:rgba(0,137,123,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;}.sch-icon i{width:20px;height:20px;color:var(--teal-light);}
+  .sch-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;}
+  .sch-desc{font-size:12px;color:rgba(255,255,255,.35);margin-top:2px;}
+  .side-cta-body{padding:18px;}
+  .form-group{margin-bottom:10px;}.form-label{font-size:12px;font-weight:700;margin-bottom:4px;display:block;}
+  .form-input{width:100%;height:42px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);outline:none;transition:border-color .12s;}.form-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .form-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 12px center no-repeat;}
+  .form-textarea{height:80px;padding:10px 12px;resize:none;}
+  .form-submit{width:100%;height:48px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);}.form-submit:hover{background:var(--navy);}.form-submit i{width:16px;height:16px;}
+  .form-note{text-align:center;font-size:11px;color:var(--grey-mid);margin-top:6px;}
+  .form-trust{display:flex;justify-content:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--grey);}.ft{display:flex;align-items:center;gap:3px;font-size:10px;color:var(--grey-mid);font-weight:600;}.ft i{width:12px;height:12px;color:var(--teal);}
+
+  /* Phone card */
+  .phone-card{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;}
+  .pc-icon{width:44px;height:44px;border-radius:12px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.pc-icon i{width:20px;height:20px;color:var(--teal);}
+  .pc-label{font-size:11px;color:var(--grey-mid);font-weight:600;}.pc-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;}.pc-avail{font-size:10px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:3px;margin-top:1px;}.pc-avail i{width:10px;height:10px;}
+
+  @media(max-width:900px){.detail-layout{grid-template-columns:1fr;}.sidebar{position:static;}.gallery-grid{grid-template-columns:1fr;height:auto;}.gal-item:first-child{grid-row:auto;height:260px;}.gal-item:not(:first-child){display:none;}.specs-grid{grid-template-columns:1fr 1fr;}.related-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">Vander<em>Bouw</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item">Diensten</a><a href="#" class="nav-item active">Projecten</a><a href="#" class="nav-item">Over ons</a><a href="#" class="nav-item">Contact</a></nav><div class="header-cta"><button class="cta-btn"><i data-lucide="file-text"></i> Gratis offerte</button></div></div></header>
+
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li><a href="#">Projecten</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li><a href="#">Nieuwbouw</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Moderne Stadsvilla</li></ol></div></div>
+
+<div class="container">
+  <!-- Gallery -->
+  <div class="gallery-grid">
+    <div class="gal-item" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">🏡</div>
+    <div class="gal-item" style="background:linear-gradient(135deg,#2d3436,#636e72);">🏗️</div>
+    <div class="gal-item" style="background:linear-gradient(135deg,#0c2461,#1e3799);">📐<div class="gal-count"><i data-lucide="image"></i> 24 foto's</div></div>
+  </div>
+
+  <!-- Before/After -->
+  <div class="ba-section">
+    <div class="ba-card">
+      <div class="ba-title"><i data-lucide="columns"></i> Voor & na vergelijking</div>
+      <div class="ba-slider" id="baSlider">
+        <div class="ba-img ba-before" id="baBefore" style="background:linear-gradient(135deg,#795548,#8d6e63);">🏚️</div>
+        <div class="ba-img ba-after" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">🏡</div>
+        <div class="ba-handle" id="baHandle"><div class="ba-handle-circle"><i data-lucide="move-horizontal"></i></div></div>
+      </div>
+      <div class="ba-labels"><span class="ba-label before">Voor — Februari 2024</span><span class="ba-label after">Na — April 2025</span></div>
+    </div>
+  </div>
+
+  <div class="detail-layout">
+    <!-- LEFT -->
+    <div>
+      <div class="proj-header">
+        <div class="proj-cat">Nieuwbouw · Woning</div>
+        <h1 class="proj-title">Moderne Stadsvilla met Duurzaam Ontwerp</h1>
+        <div class="proj-location"><i data-lucide="map-pin"></i> Amstelveen, Noord-Holland</div>
+      </div>
+
+      <!-- Specs -->
+      <div class="specs-grid">
+        <div class="spec"><div class="spec-icon"><i data-lucide="ruler"></i></div><div class="spec-val">280m²</div><div class="spec-label">Woonoppervlak</div></div>
+        <div class="spec"><div class="spec-icon"><i data-lucide="calendar"></i></div><div class="spec-val">14 mnd</div><div class="spec-label">Doorlooptijd</div></div>
+        <div class="spec"><div class="spec-icon"><i data-lucide="zap"></i></div><div class="spec-val">A+++</div><div class="spec-label">Energielabel</div></div>
+        <div class="spec"><div class="spec-icon"><i data-lucide="check-circle"></i></div><div class="spec-val">2024</div><div class="spec-label">Opgeleverd</div></div>
+      </div>
+
+      <!-- Description -->
+      <div class="sec-title"><i data-lucide="file-text"></i> Over dit project</div>
+      <div class="description">
+        <p>Voor deze opdracht realiseerden wij een volledig duurzame nieuwbouwwoning in Amstelveen. Het ontwerp combineert strakke, moderne architectuur met maximaal wooncomfort en een zo laag mogelijke ecologische voetafdruk.</p>
+        <p>De woning beschikt over een warmtepomp met bodemlus, triple HR++ beglazing, 24 zonnepanelen op het groene sedumdak en een thuisbatterij van 10 kWh. Daarmee is de woning volledig energieneutraal — het energielabel is A+++.</p>
+        <p>Bijzonder aan dit project is de open plattegrond op de begane grond met 4 meter hoge plafonds, een geïntegreerde carport en een onderhoudsarme tuin met terras op het zuiden. De opdrachtgevers waren nauw betrokken bij het hele ontwerpproces.</p>
+      </div>
+
+      <!-- Process -->
+      <div class="sec-title"><i data-lucide="route"></i> Procesverloop</div>
+      <div class="process">
+        <div class="proc-step done"><div class="proc-line"></div><div class="proc-num">1</div><div class="proc-body"><div class="proc-title">Kennismaking & adviesgesprek</div><div class="proc-date">Februari 2024</div><div class="proc-desc">Eerste gesprek met de opdrachtgevers om wensen, budget en planning te bespreken. Locatiebezoek en haalbaarheidsanalyse.</div></div></div>
+        <div class="proc-step done"><div class="proc-line"></div><div class="proc-num">2</div><div class="proc-body"><div class="proc-title">Ontwerp & vergunningen</div><div class="proc-date">Maart – Mei 2024</div><div class="proc-desc">Architectonisch ontwerp in samenwerking met de opdrachtgevers. Bouwvergunning aangevraagd en verleend binnen 8 weken.</div></div></div>
+        <div class="proc-step done"><div class="proc-line"></div><div class="proc-num">3</div><div class="proc-body"><div class="proc-title">Constructie & ruwbouw</div><div class="proc-date">Juni – Oktober 2024</div><div class="proc-desc">Fundering, casco en dakconstructie. Wekelijkse voortgangsrapportages met foto-updates aan opdrachtgever.</div></div></div>
+        <div class="proc-step done"><div class="proc-line"></div><div class="proc-num">4</div><div class="proc-body"><div class="proc-title">Afbouw & installaties</div><div class="proc-date">November 2024 – Februari 2025</div><div class="proc-desc">Stucwerk, vloerafwerking, keuken, badkamers, warmtepomp-installatie en zonnepanelen. Eindinspectie met opdrachtgever.</div></div></div>
+        <div class="proc-step done"><div class="proc-num">5</div><div class="proc-body"><div class="proc-title">Oplevering & nazorg</div><div class="proc-date">April 2025</div><div class="proc-desc">Sleuteloverdracht met volledig opleverdossier. 3-maanden nazorg periode gestart, 10 jaar garantie op constructie.</div></div></div>
+      </div>
+
+      <!-- Testimonial -->
+      <div class="sec-title"><i data-lucide="message-circle"></i> Wat de opdrachtgever zegt</div>
+      <div class="testimonial">
+        <div class="test-quote">"</div>
+        <div class="test-stars">★★★★★</div>
+        <div class="test-text">Wij zijn ontzettend blij met onze nieuwe woning. Het team van VanderBouw heeft ons van begin tot eind fantastisch begeleid. De communicatie was uitstekend — we werden elke week bijgepraat met foto's en een voortgangsrapport. Het resultaat is precies zoals we het ons hadden gedroomd, en zelfs nog mooier.</div>
+        <div class="test-author"><div class="test-av" style="background:var(--teal);">JD</div><div><div class="test-name">Jan & Petra de Vries</div><div class="test-role">Opdrachtgever · Nieuwbouw Amstelveen</div></div></div>
+      </div>
+
+      <!-- Related -->
+      <div class="sec-title"><i data-lucide="grid"></i> Vergelijkbare projecten</div>
+      <div class="related-grid">
+        <div class="rel"><div class="rel-img" style="background:linear-gradient(135deg,#bf360c,#e64a19);">🏠</div><div class="rel-body"><div class="rel-cat">Nieuwbouw</div><div class="rel-title">Twee-onder-één-kap</div><div class="rel-meta"><span class="rel-mi"><i data-lucide="ruler"></i> 185m²</span><span class="rel-mi"><i data-lucide="map-pin"></i> Amsterdam</span></div></div></div>
+        <div class="rel"><div class="rel-img" style="background:linear-gradient(135deg,#006266,#009432);">🌱</div><div class="rel-body"><div class="rel-cat">Verduurzaming</div><div class="rel-title">Energieneutraal jaren '30</div><div class="rel-meta"><span class="rel-mi"><i data-lucide="zap"></i> A+++</span><span class="rel-mi"><i data-lucide="map-pin"></i> Haarlem</span></div></div></div>
+        <div class="rel"><div class="rel-img" style="background:linear-gradient(135deg,#4a148c,#7b1fa2);">📐</div><div class="rel-body"><div class="rel-cat">Aanbouw</div><div class="rel-title">Serre-aanbouw met vide</div><div class="rel-meta"><span class="rel-mi"><i data-lucide="ruler"></i> 45m²</span><span class="rel-mi"><i data-lucide="map-pin"></i> Zaandam</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Sidebar -->
+    <aside class="sidebar">
+      <div class="side-cta">
+        <div class="side-cta-header">
+          <div class="sch-icon"><i data-lucide="sparkles"></i></div>
+          <div class="sch-title">Soortgelijk project?</div>
+          <div class="sch-desc">Ontvang een vrijblijvende offerte</div>
+        </div>
+        <div class="side-cta-body">
+          <div class="form-group"><label class="form-label">Naam</label><input class="form-input" type="text" placeholder="Uw volledige naam"></div>
+          <div class="form-group"><label class="form-label">Telefoon</label><input class="form-input" type="tel" placeholder="06 - 1234 5678"></div>
+          <div class="form-group"><label class="form-label">Type project</label><select class="form-input form-select"><option>Nieuwbouw</option><option>Renovatie</option><option>Aanbouw / Opbouw</option><option>Verduurzaming</option><option>Utiliteitsbouw</option><option>Anders</option></select></div>
+          <div class="form-group"><label class="form-label">Bericht (optioneel)</label><textarea class="form-input form-textarea" placeholder="Vertel kort over uw plannen…"></textarea></div>
+          <button class="form-submit"><i data-lucide="send"></i> Verstuur aanvraag</button>
+          <div class="form-note">Reactie binnen 24 uur · 100% vrijblijvend</div>
+          <div class="form-trust"><div class="ft"><i data-lucide="shield-check"></i> Gratis</div><div class="ft"><i data-lucide="clock"></i> Snel</div><div class="ft"><i data-lucide="lock"></i> Veilig</div></div>
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div class="pc-icon"><i data-lucide="phone"></i></div>
+        <div><div class="pc-label">Direct contact</div><div class="pc-num">020 - 123 45 67</div><div class="pc-avail"><i data-lucide="circle-dot"></i> Nu bereikbaar (tot 17:00)</div></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+// Before/After slider
+const slider=document.getElementById('baSlider'),handle=document.getElementById('baHandle'),before=document.getElementById('baBefore');
+let dragging=false;
+function updatePos(x){const rect=slider.getBoundingClientRect();let pct=Math.max(0,Math.min(1,(x-rect.left)/rect.width));handle.style.left=pct*100+'%';before.style.clipPath=`inset(0 ${(1-pct)*100}% 0 0)`;}
+slider.addEventListener('mousedown',()=>dragging=true);
+window.addEventListener('mouseup',()=>dragging=false);
+window.addEventListener('mousemove',e=>{if(dragging)updatePos(e.clientX);});
+slider.addEventListener('touchstart',()=>dragging=true);
+window.addEventListener('touchend',()=>dragging=false);
+window.addEventListener('touchmove',e=>{if(dragging)updatePos(e.touches[0].clientX);});
+</script>
+</body>
+</html>

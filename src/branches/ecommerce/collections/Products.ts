@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { checkRole } from '../access/utilities'
+import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { indexProduct, deleteProductFromIndex } from '@/lib/meilisearch/indexProducts'
 import { featureField, featureFields, featureTab, subFeatureFields } from '@/lib/featureFields'
