@@ -83,6 +83,9 @@ export interface ClientFeatures {
   services?: boolean
   wishlists?: boolean
 
+  // === INDUSTRY BRANCHES ===
+  construction?: boolean
+
   // === ADVANCED ===
   multiLanguage?: boolean
   aiContent?: boolean
@@ -227,6 +230,9 @@ export const features = {
   services: isFeatureEnabled('services'),
   wishlists: isFeatureEnabled('wishlists'),
 
+  // === INDUSTRY BRANCHES ===
+  construction: isFeatureEnabled('construction'),
+
   // === ADVANCED ===
   multiLanguage: isFeatureEnabled('multi_language'),
   aiContent: isFeatureEnabled('ai_content'),
@@ -353,6 +359,9 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     services: 'ENABLE_SERVICES',
     wishlists: 'ENABLE_WISHLISTS',
 
+    // === INDUSTRY BRANCHES ===
+    construction: 'ENABLE_CONSTRUCTION',
+
     // === ADVANCED ===
     multiLanguage: 'ENABLE_MULTI_LANGUAGE',
     aiContent: 'ENABLE_AI_CONTENT',
@@ -427,6 +436,12 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     cases: 'cases',
     partners: 'partners',
     services: 'services',
+
+    // === INDUSTRY BRANCHES ===
+    'construction-services': 'construction',
+    'construction-projects': 'construction',
+    'construction-reviews': 'construction',
+    'quote-requests': 'construction',
 
     // === USERS ===
     users: 'authentication',

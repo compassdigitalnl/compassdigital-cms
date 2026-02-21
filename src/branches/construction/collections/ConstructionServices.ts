@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { publicAccess } from '@/access/publicAccess'
 import { checkRole } from '@/access/utilities'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const ConstructionServices: CollectionConfig = {
   slug: 'construction-services',
@@ -15,6 +16,7 @@ export const ConstructionServices: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
+    hidden: shouldHideCollection('construction'),
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
     group: 'Construction',
