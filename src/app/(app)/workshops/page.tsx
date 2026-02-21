@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { requireFeature } from '@/lib/featureGuard'
 import {
   ChevronRight,
   Calendar,
@@ -24,6 +25,8 @@ export const metadata: Metadata = {
 }
 
 export default async function WorkshopsPage() {
+  requireFeature('workshops')
+
   const payload = await getPayload({ config })
 
   // Get all workshops

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { requireFeature } from '@/lib/featureGuard'
 import {
   ChevronRight,
   Star,
@@ -62,6 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function VendorDetailPage({ params }: Props) {
+  requireFeature('vendors')
+
   const payload = await getPayload({ config })
 
   const vendorData = await payload.find({

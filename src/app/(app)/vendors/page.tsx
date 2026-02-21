@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { requireFeature } from '@/lib/featureGuard'
 import {
   Search,
   Package,
@@ -28,6 +29,8 @@ export default async function VendorsPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
+  requireFeature('vendors')
+
   const payload = await getPayload({ config })
 
   // Get all vendors
