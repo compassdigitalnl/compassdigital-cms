@@ -28,11 +28,15 @@ export async function createRailwayDatabase(data: {
   const apiKey = process.env.RAILWAY_API_KEY
 
   if (!apiKey) {
-    throw new Error('RAILWAY_API_KEY not configured')
+    throw new Error(
+      'RAILWAY_API_KEY not configured in environment variables. ' +
+        'Get a new API token from https://railway.app/account/tokens and add it to your .env file.'
+    )
   }
 
   try {
     console.log(`[Railway] Creating project: client-${data.domain}`)
+    console.log(`[Railway] Using API key: ${apiKey.substring(0, 8)}...${apiKey.substring(apiKey.length - 4)}`)
 
     // 1. Create project
     const projectRes = await fetch('https://backboard.railway.app/graphql/v2', {
@@ -58,7 +62,22 @@ export async function createRailwayDatabase(data: {
 
     const projectData = await projectRes.json()
 
+    // Check for authentication errors specifically
     if (projectData.errors) {
+      const authError = projectData.errors.find((err: any) =>
+        err.message?.toLowerCase().includes('not authorized') ||
+        err.message?.toLowerCase().includes('unauthorized') ||
+        err.message?.toLowerCase().includes('authentication')
+      )
+
+      if (authError) {
+        throw new Error(
+          'Railway API authentication failed. The RAILWAY_API_KEY is invalid or expired. ' +
+            'Please generate a new API token at https://railway.app/account/tokens ' +
+            'and update your .env file with the new token.'
+        )
+      }
+
       throw new Error(`Railway API error: ${JSON.stringify(projectData.errors)}`)
     }
 
@@ -94,6 +113,19 @@ export async function createRailwayDatabase(data: {
     const serviceData = await serviceRes.json()
 
     if (serviceData.errors) {
+      const authError = serviceData.errors.find((err: any) =>
+        err.message?.toLowerCase().includes('not authorized') ||
+        err.message?.toLowerCase().includes('unauthorized')
+      )
+
+      if (authError) {
+        throw new Error(
+          'Railway API authentication failed during service creation. ' +
+            'The RAILWAY_API_KEY is invalid or expired. ' +
+            'Please generate a new API token at https://railway.app/account/tokens'
+        )
+      }
+
       throw new Error(`Railway service error: ${JSON.stringify(serviceData.errors)}`)
     }
 
