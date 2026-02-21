@@ -1,7 +1,7 @@
 'use client'
 
-import { AddressItem } from '@/components/addresses/AddressItem'
-import { CreateAddressModal } from '@/components/addresses/CreateAddressModal'
+import { AddressItem } from '@/branches/ecommerce/components/addresses/AddressItem'
+import { CreateAddressModal } from '@/branches/ecommerce/components/addresses/CreateAddressModal'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

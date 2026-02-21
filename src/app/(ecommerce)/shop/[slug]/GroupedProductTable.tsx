@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { useCart } from '@/contexts/CartContext'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { Plus, Minus, ShoppingCart } from 'lucide-react'
 import type { Product } from '@/payload-types'
 

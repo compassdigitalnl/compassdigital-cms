@@ -4,7 +4,7 @@
  */
 
 import { NextResponse } from 'next/server'
-import { checkAllClientsHealth } from '@/platform/services/monitoring'
+import { checkAllClientsHealth } from '@/branches/platform/services/monitoring'
 
 export async function GET(request: Request) {
   try {

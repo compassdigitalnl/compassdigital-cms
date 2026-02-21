@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Icon } from '@/components/Icon'
-import { useCart } from '@/contexts/CartContext'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import type { QuickOrderBlock as QuickOrderType } from '@/payload-types'
 
 export const QuickOrderComponent: React.FC<QuickOrderType> = ({

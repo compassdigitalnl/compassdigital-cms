@@ -100,7 +100,7 @@ export class ProvisioningService {
       // ── Step 2: Provision Railway PostgreSQL database ─────────────────────
       await reportProgress('creating_database', 'Provisioning PostgreSQL database on Railway...', 7)
 
-      const { createRailwayDatabase } = await import('@/platform/integrations/railway')
+      const { createRailwayDatabase } = await import('@/branches/platform/integrations/railway')
 
       const dbResult = await createRailwayDatabase({
         name: input.clientName,
@@ -592,7 +592,7 @@ export class ProvisioningService {
       }
 
       if (this.options.rollbackConfig?.deleteDatabase && databaseId) {
-        const { deleteRailwayDatabase } = await import('@/platform/integrations/railway')
+        const { deleteRailwayDatabase } = await import('@/branches/platform/integrations/railway')
         await deleteRailwayDatabase(databaseId)
         logs.push('ROLLBACK: Deleted Railway database')
       }

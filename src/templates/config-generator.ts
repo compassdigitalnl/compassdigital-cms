@@ -15,13 +15,13 @@ import type { Config } from 'payload'
  */
 const collectionRegistry: Record<string, () => Promise<any>> = {
   // Core collections (exist in platform)
-  pages: () => import('@/collections/Pages'),
+  pages: () => import('@/branches/shared/collections/Pages'),
   media: () => import('@/collections/Media'),
-  users: () => import('@/collections/Users'),
+  users: () => import('@/branches/shared/collections/Users'),
 
   // E-commerce (exist in platform)
   products: () => import('@/collections/Products'),
-  'product-categories': () => import('@/collections/shop/ProductCategories'),
+  'product-categories': () => import('@/branches/ecommerce/collections/ProductCategories'),
   'product-brands': () => import('@/collections/Brands'),
   orders: () => import('@/collections/Orders'),
 
@@ -50,11 +50,11 @@ const blockRegistry: Record<string, () => Promise<any>> = {
   faq: () => import('@/blocks/FAQ'),
 
   // E-commerce blocks (exist in platform)
-  'product-grid': () => import('@/blocks/ProductGrid'),
-  'category-grid': () => import('@/blocks/CategoryGrid'),
-  'search-bar': () => import('@/blocks/SearchBar'),
-  'quick-order': () => import('@/blocks/QuickOrder'),
-  'top-bar': () => import('@/blocks/TopBar'),
+  'product-grid': () => import('@/branches/ecommerce/blocks/ProductGrid'),
+  'category-grid': () => import('@/branches/ecommerce/blocks/CategoryGrid'),
+  'search-bar': () => import('@/branches/ecommerce/blocks/SearchBar'),
+  'quick-order': () => import('@/branches/ecommerce/blocks/QuickOrder'),
+  'top-bar': () => import('@/branches/ecommerce/blocks/TopBar'),
 
   // Social proof (exist in platform)
   testimonials: () => import('@/blocks/TestimonialsBlock'),

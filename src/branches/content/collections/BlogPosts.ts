@@ -16,8 +16,8 @@ import {
 
 // Blog-specific blocks
 import { InfoBox } from '@/blocks/InfoBox'
-import { ProductEmbed } from '@/blocks/ProductEmbed'
-import { ComparisonTable } from '@/blocks/ComparisonTable'
+import { ProductEmbed } from '@/branches/ecommerce/blocks/ProductEmbed'
+import { ComparisonTable } from '@/branches/ecommerce/blocks/ComparisonTable'
 import { FAQ } from '@/blocks/FAQ'
 
 export const BlogPosts: CollectionConfig = {

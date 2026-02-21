@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Product } from '@/payload-types'
-import { useCart } from '@/contexts/CartContext'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 
 export function AddToCartButton({ product }: { product: Product }) {
   const router = useRouter()

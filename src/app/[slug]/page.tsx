@@ -6,7 +6,7 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { JsonLdSchema } from '@/components/seo/JsonLdSchema'
 import { generateMeta } from '@/utilities/generateMeta'
 import type { Page, Product } from '@/payload-types'
-import ProductDetailWrapper from '@/components/ProductDetailWrapper'
+import ProductDetailWrapper from '@/branches/ecommerce/components/ProductDetailWrapper'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

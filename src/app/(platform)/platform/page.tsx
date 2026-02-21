@@ -4,8 +4,8 @@
  */
 
 import React from 'react'
-import PlatformStats from '@/platform/components/PlatformStats'
-import RecentActivity from '@/platform/components/RecentActivity'
+import PlatformStats from '@/branches/platform/components/PlatformStats'
+import RecentActivity from '@/branches/platform/components/RecentActivity'
 
 export default function PlatformDashboard() {
   return (

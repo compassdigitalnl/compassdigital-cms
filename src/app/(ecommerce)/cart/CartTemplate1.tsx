@@ -1,7 +1,7 @@
 'use client'
 
-import { useCart } from '@/contexts/CartContext'
-import type { CartItem } from '@/contexts/CartContext'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import type { CartItem } from '@/branches/ecommerce/contexts/CartContext'
 import Link from 'next/link'
 import {
   ShoppingCart,

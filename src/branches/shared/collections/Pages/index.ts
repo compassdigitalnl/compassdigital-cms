@@ -12,7 +12,7 @@ import { FAQ } from '@/blocks/FAQ'
 import { TestimonialsBlock } from '@/blocks/TestimonialsBlock'
 import { CasesBlock } from '@/blocks/CasesBlock'
 import { LogoBar } from '@/blocks/LogoBar'
-import { CategoryGrid } from '@/blocks/CategoryGrid'
+import { CategoryGrid } from '@/branches/ecommerce/blocks/CategoryGrid'
 import { Stats } from '@/blocks/Stats'
 import { Team } from '@/blocks/Team'
 import { ContactFormBlock } from '@/blocks/ContactFormBlock'
@@ -24,8 +24,8 @@ import { Spacer } from '@/blocks/Spacer'
 import { BlogPreview } from '@/blocks/BlogPreview'
 
 // E-commerce blocks
-import { ProductGrid } from '@/blocks/ProductGrid'
-import { QuickOrder } from '@/blocks/QuickOrder'
+import { ProductGrid } from '@/branches/ecommerce/blocks/ProductGrid'
+import { QuickOrder } from '@/branches/ecommerce/blocks/QuickOrder'
 
 // Construction blocks (conditional import)
 import { constructionBlocks } from '@/branches/construction/blocks'

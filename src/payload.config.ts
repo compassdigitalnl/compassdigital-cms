@@ -55,8 +55,8 @@ import { SubscriptionPlans } from '@/branches/ecommerce/collections/Subscription
 import { UserSubscriptions } from '@/branches/ecommerce/collections/UserSubscriptions'
 
 // Ecommerce - Shop Subdirectory (still in old location temporarily)
-import { ProductCategories } from '@/collections/shop/ProductCategories'
-import { CustomerGroups } from '@/collections/shop/CustomerGroups'
+import { ProductCategories } from '@/branches/ecommerce/collections/ProductCategories'
+import { CustomerGroups } from '@/branches/ecommerce/collections/CustomerGroups'
 
 // Content Branch (5 collections)
 import { BlogPosts } from '@/branches/content/collections/BlogPosts'
@@ -78,8 +78,8 @@ import { ServicesCollection } from '@/branches/shared/collections/ServicesCollec
 // Note: FormSubmissions is provided by formBuilderPlugin, no need to import manually
 
 // Shared - Subdirectories (still in old location temporarily)
-import { Pages } from '@/collections/Pages'
-import { Users } from '@/collections/Users'
+import { Pages } from '@/branches/shared/collections/Pages'
+import { Users } from '@/branches/shared/collections/Users'
 
 // Platform Branch (Multi-Tenant - 3 collections)
 import { Clients } from '@/branches/platform/collections/Clients'
@@ -147,7 +147,7 @@ export default buildConfig({
       beforeLogin: ['@/components/BeforeLogin#BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard#BeforeDashboard'],
       beforeNavLinks: [
-        '@/components/platform/ClientSwitcher#ClientSwitcher',
+        '@/branches/platform/components/ClientSwitcher#ClientSwitcher',
         '@/components/admin/HideCollections#HideCollections',
       ],
       graphics: {

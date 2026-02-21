@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react'
-import { useCart } from '@/contexts/CartContext'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { MiniCart } from './MiniCart'
 
 export interface CartItem {

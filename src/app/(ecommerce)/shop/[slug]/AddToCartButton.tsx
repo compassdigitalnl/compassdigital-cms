@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { ShoppingCart, Plus, Minus, Check } from 'lucide-react'
-import { useCart } from '@/contexts/CartContext'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 
 interface ProductData {
   id: number | string

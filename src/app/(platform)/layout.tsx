@@ -7,7 +7,7 @@
  */
 
 import React from 'react'
-import PlatformSidebar from '@/platform/components/PlatformSidebar'
+import PlatformSidebar from '@/branches/platform/components/PlatformSidebar'
 
 export const metadata = {
   title: 'Platform Admin - SiteForge',

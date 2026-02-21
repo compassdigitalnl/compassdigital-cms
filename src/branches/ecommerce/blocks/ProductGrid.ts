@@ -1,5 +1,5 @@
 import type { Block } from 'payload'
-import { sectionLabelField } from '../fields/sectionLabel'
+import { sectionLabelField } from '@/fields/sectionLabel'
 
 export const ProductGrid: Block = {
   slug: 'productGrid',

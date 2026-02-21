@@ -3,8 +3,8 @@ import React from 'react'
 import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/react'
 import { InfoBoxComponent } from '@/blocks/InfoBox/Component'
-import { ProductEmbedComponent } from '@/blocks/ProductEmbed/Component'
-import { ComparisonTableComponent } from '@/blocks/ComparisonTable/Component'
+import { ProductEmbedComponent } from '@/branches/ecommerce/blocks/ProductEmbed/Component'
+import { ComparisonTableComponent } from '@/branches/ecommerce/blocks/ComparisonTable/Component'
 import { FAQBlockComponent } from '@/blocks/FAQ/Component'
 
 interface RenderBlogContentProps {

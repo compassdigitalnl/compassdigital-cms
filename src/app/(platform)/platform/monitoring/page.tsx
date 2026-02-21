@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import MonitoringDashboard from '@/platform/components/MonitoringDashboard'
+import MonitoringDashboard from '@/branches/platform/components/MonitoringDashboard'
 
 export default function MonitoringPage() {
   return (

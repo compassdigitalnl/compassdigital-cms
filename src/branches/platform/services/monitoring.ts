@@ -251,7 +251,7 @@ export async function sendAlert(data: {
   deploymentUrl?: string
 }): Promise<void> {
   try {
-    const { sendAlertEmail } = await import('@/platform/integrations/resend')
+    const { sendAlertEmail } = await import('@/branches/platform/integrations/resend')
 
     console.log(`[Alert] ${data.severity.toUpperCase()}: ${data.clientName} - ${data.issue}`)
 
