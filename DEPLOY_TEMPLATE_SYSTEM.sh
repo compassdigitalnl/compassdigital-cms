@@ -78,9 +78,23 @@ echo "✅ Build successful"
 echo ""
 
 # ============================================================================
-# STEP 5: Restart Server
+# STEP 5: Run Database Migrations
 # ============================================================================
-echo "🔄 Step 5/5: Restarting server..."
+echo "🗄️  Step 5/6: Running database migrations..."
+npx payload migrate
+
+if [ $? -ne 0 ]; then
+    echo "⚠️  Warning: Migration failed, continuing anyway..."
+else
+    echo "✅ Migrations completed"
+fi
+
+echo ""
+
+# ============================================================================
+# STEP 6: Restart Server
+# ============================================================================
+echo "🔄 Step 6/6: Restarting server..."
 
 # Detect which process manager is running
 if command -v pm2 &> /dev/null; then

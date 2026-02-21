@@ -83,6 +83,14 @@ export interface Config {
     'customer-groups': CustomerGroup;
     orderLists: OrderList;
     orders: Order;
+    invoices: Invoice;
+    'recurring-orders': RecurringOrder;
+    returns: Return;
+    notifications: Notification;
+    'recently-viewed': RecentlyViewed;
+    vendors: Vendor;
+    'vendor-reviews': VendorReview;
+    workshops: Workshop;
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
@@ -112,6 +120,14 @@ export interface Config {
     'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
     orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    invoices: InvoicesSelect<false> | InvoicesSelect<true>;
+    'recurring-orders': RecurringOrdersSelect<false> | RecurringOrdersSelect<true>;
+    returns: ReturnsSelect<false> | ReturnsSelect<true>;
+    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
+    'recently-viewed': RecentlyViewedSelect<false> | RecentlyViewedSelect<true>;
+    vendors: VendorsSelect<false> | VendorsSelect<true>;
+    'vendor-reviews': VendorReviewsSelect<false> | VendorReviewsSelect<true>;
+    workshops: WorkshopsSelect<false> | WorkshopsSelect<true>;
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
@@ -229,6 +245,16 @@ export interface User {
    */
   clientType?: ('website' | 'webshop') | null;
   /**
+   * Favoriete producten van deze gebruiker
+   */
+  favorites?:
+    | {
+        product: number | Product;
+        addedAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * De client-omgeving die bij deze gebruiker hoort
    */
   client?: (number | null) | Client;
@@ -250,504 +276,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * Klanten beheren en sites deployen
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients".
- */
-export interface Client {
-  id: number;
-  /**
-   * Huidige status van de klantsite
-   */
-  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
-  /**
-   * Huidig abonnement
-   */
-  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
-  /**
-   * Naam van de klant / het bedrijf
-   */
-  name: string;
-  /**
-   * Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")
-   */
-  domain: string;
-  contactEmail: string;
-  contactName?: string | null;
-  contactPhone?: string | null;
-  /**
-   * Basistemplate voor de klantsite
-   */
-  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
-  /**
-   * Selecteer alle extra modules die voor deze klant actief zijn
-   */
-  enabledFeatures?: ('ecommerce' | 'blog' | 'forms' | 'authentication' | 'multiLanguage' | 'ai')[] | null;
-  /**
-   * Modules die voor deze klant verborgen zijn (niet nodig)
-   */
-  disabledCollections?:
-    | (
-        | 'orders'
-        | 'products'
-        | 'product-categories'
-        | 'blog-posts'
-        | 'customer-groups'
-        | 'order-lists'
-        | 'cases'
-        | 'testimonials'
-        | 'partners'
-        | 'brands'
-        | 'services'
-        | 'faqs'
-      )[]
-    | null;
-  /**
-   * Automatisch ingevuld
-   */
-  deploymentUrl?: string | null;
-  /**
-   * Automatisch ingevuld
-   */
-  adminUrl?: string | null;
-  /**
-   * Automatisch ingevuld
-   */
-  deploymentProvider?: ('ploi' | 'custom') | null;
-  lastDeployedAt?: string | null;
-  /**
-   * Ploi site ID
-   */
-  deploymentProviderId?: string | null;
-  lastDeploymentId?: string | null;
-  /**
-   * PostgreSQL connection string (versleuteld opgeslagen)
-   */
-  databaseUrl?: string | null;
-  /**
-   * Railway service ID voor de database
-   */
-  databaseProviderId?: string | null;
-  /**
-   * Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.
-   */
-  port?: number | null;
-  /**
-   * Automatisch ingevuld bij provisioning (contactEmail van de klant)
-   */
-  adminEmail?: string | null;
-  /**
-   * Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login
-   */
-  initialAdminPassword?: string | null;
-  /**
-   * Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)
-   */
-  customEnvironment?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Klantspecifieke platform-instellingen
-   */
-  customSettings?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
-  monthlyFee?: number | null;
-  nextBillingDate?: string | null;
-  paymentsEnabled?: boolean | null;
-  /**
-   * acct_... — automatisch ingevuld
-   */
-  stripeAccountId?: string | null;
-  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
-  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  customTransactionFee?: {
-    percentage?: number | null;
-    fixed?: number | null;
-  };
-  totalPaymentVolume?: number | null;
-  totalPaymentRevenue?: number | null;
-  lastPaymentAt?: string | null;
-  multiSafepayEnabled?: boolean | null;
-  multiSafepayAffiliateId?: string | null;
-  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
-  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  multiSafepayCustomRates?: {
-    idealFee?: number | null;
-    cardPercentage?: number | null;
-    cardFixed?: number | null;
-  };
-  multiSafepayTotalVolume?: number | null;
-  multiSafepayTotalRevenue?: number | null;
-  multiSafepayLastPaymentAt?: string | null;
-  lastHealthCheck?: string | null;
-  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
-  uptimePercentage?: number | null;
-  /**
-   * Alleen zichtbaar voor admins van CompassDigital — niet voor de klant
-   */
-  notes?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: number;
-  title: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  status?: ('published' | 'draft') | null;
-  publishedOn?: string | null;
-  /**
-   * Automatisch gegenereerd door de wizard. Laat leeg voor standaard kleuren.
-   */
-  colorScheme?: {
-    primary?: string | null;
-    secondary?: string | null;
-    accent?: string | null;
-  };
-  /**
-   * Sleep blokken om de volgorde te wijzigen. Klik op een blok om de inhoud te bewerken.
-   */
-  layout?:
-    | (
-        | SpacerBlock
-        | HeroBlock
-        | ContentBlock
-        | TwoColumnBlock
-        | ProductGridBlock
-        | CategoryGridBlock
-        | FeaturesBlock
-        | QuickOrderBlock
-        | CTABlock
-        | ContactFormBlock
-        | TestimonialsBlock
-        | CasesBlock
-        | LogoBarBlock
-        | StatsBlock
-        | FAQBlock
-        | TeamBlock
-        | AccordionBlock
-        | BlogPreviewBlock
-        | ImageGalleryBlock
-        | VideoBlock
-        | MapBlock
-      )[]
-    | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
-     */
-    focusKeyword?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    /**
-     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
-     */
-    canonicalUrl?: string | null;
-    /**
-     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
-     */
-    noIndex?: boolean | null;
-    /**
-     * Prevent search engines from following links on this page.
-     */
-    noFollow?: boolean | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SpacerBlock".
- */
-export interface SpacerBlock {
-  height: 'small' | 'medium' | 'large' | 'xlarge';
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'spacer';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock".
- */
-export interface HeroBlock {
-  /**
-   * Kies hoe de hero eruit ziet
-   */
-  style: 'default' | 'image' | 'gradient' | 'minimal';
-  /**
-   * Kies de layout structuur
-   */
-  layout?: ('centered' | 'two-column') | null;
-  /**
-   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
-   */
-  sectionLabel?: string | null;
-  /**
-   * Kleine pill-shaped label boven de titel (bijv. "Sinds 1994 — 30+ jaar ervaring")
-   */
-  badge?: string | null;
-  /**
-   * De grote koptekst (H1)
-   */
-  title: string;
-  /**
-   * Dit deel van de titel krijgt een gradient kleur (bijv. "medische" in "Uw partner in medische hulpmiddelen")
-   */
-  titleAccent?: string | null;
-  /**
-   * Korte tekst onder de titel
-   */
-  subtitle?: string | null;
-  primaryCTA?: {
-    text?: string | null;
-    link?: string | null;
-  };
-  secondaryCTA?: {
-    text?: string | null;
-    link?: string | null;
-  };
-  /**
-   * Toon statistieken in een glasmorfisme kaart rechts (max 4 items)
-   */
-  stats?:
-    | {
-        /**
-         * Bijv. "4000" of "30"
-         */
-        number: string;
-        /**
-         * Bijv. "+" of "%" (optioneel)
-         */
-        suffix?: string | null;
-        /**
-         * Bijv. "Producten" of "Jaar ervaring"
-         */
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Alleen zichtbaar bij stijl "Met afbeelding"
-   */
-  backgroundImage?: (number | null) | Media;
-  /**
-   * Directe URL naar afbeelding (gebruikt voor AI-gegenereerde sites)
-   */
-  backgroundImageUrl?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'hero';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  caption?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContentBlock".
- */
-export interface ContentBlock {
-  columns?:
-    | {
-        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-        richText?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        enableLink?: boolean | null;
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
-          url?: string | null;
-          label: string;
-          /**
-           * Choose how the link should be rendered.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'content';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TwoColumnBlock".
- */
-export interface TwoColumnBlock {
-  leftColumn: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  rightColumn: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  ratio?: ('50-50' | '40-60' | '60-40' | '33-67' | '67-33') | null;
-  alignment?: ('top' | 'center' | 'bottom') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'twoColumn';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductGridBlock".
- */
-export interface ProductGridBlock {
-  /**
-   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
-   */
-  sectionLabel?: string | null;
-  heading?: string | null;
-  intro?: string | null;
-  /**
-   * Hoe worden de producten gekozen?
-   */
-  source?: ('manual' | 'featured' | 'latest' | 'category' | 'brand') | null;
-  /**
-   * Handmatig geselecteerde producten
-   */
-  products?: (number | Product)[] | null;
-  /**
-   * Toon producten uit deze categorie
-   */
-  category?: (number | null) | ProductCategory;
-  /**
-   * Toon producten van dit merk
-   */
-  brand?: (number | null) | Brand;
-  displayMode?: ('grid' | 'carousel') | null;
-  /**
-   * Aantal kolommen in de grid
-   */
-  layout?: ('grid-2' | 'grid-3' | 'grid-4' | 'grid-5') | null;
-  /**
-   * Maximaal aantal producten om te tonen
-   */
-  limit?: number | null;
-  /**
-   * Quick add to cart button op product cards
-   */
-  showAddToCart?: boolean | null;
-  /**
-   * Toon "Op voorraad" / "Uitverkocht" badges
-   */
-  showStockStatus?: boolean | null;
-  /**
-   * Toon merknaam op product cards
-   */
-  showBrand?: boolean | null;
-  /**
-   * Toon oude prijs doorgestreept bij aanbiedingen
-   */
-  showComparePrice?: boolean | null;
-  /**
-   * Link naar volledige productpagina of categorie
-   */
-  showViewAllButton?: boolean | null;
-  viewAllButtonText?: string | null;
-  viewAllButtonLink?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'productGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1089,6 +617,40 @@ export interface Brand {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  caption?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "product-categories".
  */
 export interface ProductCategory {
@@ -1148,6 +710,484 @@ export interface CustomerGroup {
   canViewOrderHistory?: boolean | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * Klanten beheren en sites deployen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * Huidige status van de klantsite
+   */
+  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
+  /**
+   * Huidig abonnement
+   */
+  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
+  /**
+   * Naam van de klant / het bedrijf
+   */
+  name: string;
+  /**
+   * Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")
+   */
+  domain: string;
+  contactEmail: string;
+  contactName?: string | null;
+  contactPhone?: string | null;
+  /**
+   * Basistemplate voor de klantsite
+   */
+  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
+  /**
+   * Bepaal welke features actief zijn voor deze klant — bepaalt welke collections zichtbaar zijn en welke database tabellen aangemaakt worden
+   */
+  features?: {
+    /**
+     * Producten, categorieën, merken
+     */
+    shop?: boolean | null;
+    cart?: boolean | null;
+    /**
+     * Bestellingen plaatsen
+     */
+    checkout?: boolean | null;
+    wishlists?: boolean | null;
+    productReviews?: boolean | null;
+    customerGroups?: boolean | null;
+    /**
+     * Sprint 5: Multi-vendor marketplace
+     */
+    vendors?: boolean | null;
+    vendorReviews?: boolean | null;
+    workshops?: boolean | null;
+    blog?: boolean | null;
+    faq?: boolean | null;
+    testimonials?: boolean | null;
+    cases?: boolean | null;
+    partners?: boolean | null;
+    brands?: boolean | null;
+    services?: boolean | null;
+    /**
+     * B2B snelbestelformulieren
+     */
+    orderLists?: boolean | null;
+    multiLanguage?: boolean | null;
+    aiContent?: boolean | null;
+    authentication?: boolean | null;
+  };
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  adminUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentProvider?: ('ploi' | 'custom') | null;
+  lastDeployedAt?: string | null;
+  /**
+   * Ploi site ID
+   */
+  deploymentProviderId?: string | null;
+  lastDeploymentId?: string | null;
+  /**
+   * PostgreSQL connection string (versleuteld opgeslagen)
+   */
+  databaseUrl?: string | null;
+  /**
+   * Railway service ID voor de database
+   */
+  databaseProviderId?: string | null;
+  /**
+   * Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.
+   */
+  port?: number | null;
+  /**
+   * Automatisch ingevuld bij provisioning (contactEmail van de klant)
+   */
+  adminEmail?: string | null;
+  /**
+   * Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login
+   */
+  initialAdminPassword?: string | null;
+  /**
+   * Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)
+   */
+  customEnvironment?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Klantspecifieke platform-instellingen
+   */
+  customSettings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
+  monthlyFee?: number | null;
+  nextBillingDate?: string | null;
+  paymentsEnabled?: boolean | null;
+  /**
+   * acct_... — automatisch ingevuld
+   */
+  stripeAccountId?: string | null;
+  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
+  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  customTransactionFee?: {
+    percentage?: number | null;
+    fixed?: number | null;
+  };
+  totalPaymentVolume?: number | null;
+  totalPaymentRevenue?: number | null;
+  lastPaymentAt?: string | null;
+  multiSafepayEnabled?: boolean | null;
+  multiSafepayAffiliateId?: string | null;
+  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
+  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  multiSafepayCustomRates?: {
+    idealFee?: number | null;
+    cardPercentage?: number | null;
+    cardFixed?: number | null;
+  };
+  multiSafepayTotalVolume?: number | null;
+  multiSafepayTotalRevenue?: number | null;
+  multiSafepayLastPaymentAt?: string | null;
+  lastHealthCheck?: string | null;
+  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
+  uptimePercentage?: number | null;
+  /**
+   * Alleen zichtbaar voor admins van CompassDigital — niet voor de klant
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  status?: ('published' | 'draft') | null;
+  publishedOn?: string | null;
+  /**
+   * Automatisch gegenereerd door de wizard. Laat leeg voor standaard kleuren.
+   */
+  colorScheme?: {
+    primary?: string | null;
+    secondary?: string | null;
+    accent?: string | null;
+  };
+  /**
+   * Sleep blokken om de volgorde te wijzigen. Klik op een blok om de inhoud te bewerken.
+   */
+  layout?:
+    | (
+        | SpacerBlock
+        | HeroBlock
+        | ContentBlock
+        | TwoColumnBlock
+        | ProductGridBlock
+        | CategoryGridBlock
+        | FeaturesBlock
+        | QuickOrderBlock
+        | CTABlock
+        | ContactFormBlock
+        | TestimonialsBlock
+        | CasesBlock
+        | LogoBarBlock
+        | StatsBlock
+        | FAQBlock
+        | TeamBlock
+        | AccordionBlock
+        | BlogPreviewBlock
+        | ImageGalleryBlock
+        | VideoBlock
+        | MapBlock
+      )[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SpacerBlock".
+ */
+export interface SpacerBlock {
+  height: 'small' | 'medium' | 'large' | 'xlarge';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'spacer';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  /**
+   * Kies hoe de hero eruit ziet
+   */
+  style: 'default' | 'image' | 'gradient' | 'minimal';
+  /**
+   * Kies de layout structuur
+   */
+  layout?: ('centered' | 'two-column') | null;
+  /**
+   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   */
+  sectionLabel?: string | null;
+  /**
+   * Kleine pill-shaped label boven de titel (bijv. "Sinds 1994 — 30+ jaar ervaring")
+   */
+  badge?: string | null;
+  /**
+   * De grote koptekst (H1)
+   */
+  title: string;
+  /**
+   * Dit deel van de titel krijgt een gradient kleur (bijv. "medische" in "Uw partner in medische hulpmiddelen")
+   */
+  titleAccent?: string | null;
+  /**
+   * Korte tekst onder de titel
+   */
+  subtitle?: string | null;
+  primaryCTA?: {
+    text?: string | null;
+    link?: string | null;
+  };
+  secondaryCTA?: {
+    text?: string | null;
+    link?: string | null;
+  };
+  /**
+   * Toon statistieken in een glasmorfisme kaart rechts (max 4 items)
+   */
+  stats?:
+    | {
+        /**
+         * Bijv. "4000" of "30"
+         */
+        number: string;
+        /**
+         * Bijv. "+" of "%" (optioneel)
+         */
+        suffix?: string | null;
+        /**
+         * Bijv. "Producten" of "Jaar ervaring"
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Alleen zichtbaar bij stijl "Met afbeelding"
+   */
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Directe URL naar afbeelding (gebruikt voor AI-gegenereerde sites)
+   */
+  backgroundImageUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  columns?:
+    | {
+        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TwoColumnBlock".
+ */
+export interface TwoColumnBlock {
+  leftColumn: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  rightColumn: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  ratio?: ('50-50' | '40-60' | '60-40' | '33-67' | '67-33') | null;
+  alignment?: ('top' | 'center' | 'bottom') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'twoColumn';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductGridBlock".
+ */
+export interface ProductGridBlock {
+  /**
+   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   */
+  sectionLabel?: string | null;
+  heading?: string | null;
+  intro?: string | null;
+  /**
+   * Hoe worden de producten gekozen?
+   */
+  source?: ('manual' | 'featured' | 'latest' | 'category' | 'brand') | null;
+  /**
+   * Handmatig geselecteerde producten
+   */
+  products?: (number | Product)[] | null;
+  /**
+   * Toon producten uit deze categorie
+   */
+  category?: (number | null) | ProductCategory;
+  /**
+   * Toon producten van dit merk
+   */
+  brand?: (number | null) | Brand;
+  displayMode?: ('grid' | 'carousel') | null;
+  /**
+   * Aantal kolommen in de grid
+   */
+  layout?: ('grid-2' | 'grid-3' | 'grid-4' | 'grid-5') | null;
+  /**
+   * Maximaal aantal producten om te tonen
+   */
+  limit?: number | null;
+  /**
+   * Quick add to cart button op product cards
+   */
+  showAddToCart?: boolean | null;
+  /**
+   * Toon "Op voorraad" / "Uitverkocht" badges
+   */
+  showStockStatus?: boolean | null;
+  /**
+   * Toon merknaam op product cards
+   */
+  showBrand?: boolean | null;
+  /**
+   * Toon oude prijs doorgestreept bij aanbiedingen
+   */
+  showComparePrice?: boolean | null;
+  /**
+   * Link naar volledige productpagina of categorie
+   */
+  showViewAllButton?: boolean | null;
+  viewAllButtonText?: string | null;
+  viewAllButtonLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2270,17 +2310,934 @@ export interface Order {
   paymentMethod: 'ideal' | 'invoice' | 'creditcard' | 'banktransfer';
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
   /**
-   * Interne notities of klant opmerkingen
+   * Verzendpartner voor deze bestelling
    */
-  notes?: string | null;
+  shippingProvider?: ('postnl' | 'dhl' | 'dpd' | 'ups' | 'transmission' | 'own' | 'pickup') | null;
   /**
    * Verzend tracking nummer
    */
   trackingCode?: string | null;
   /**
+   * Directe link naar tracking pagina
+   */
+  trackingUrl?: string | null;
+  /**
+   * Gekozen verzendmethode
+   */
+  shippingMethod?: ('standard' | 'express' | 'same_day' | 'pickup') | null;
+  /**
+   * Geschatte leverdatum (bijv. "Verwacht vandaag")
+   */
+  expectedDeliveryDate?: string | null;
+  /**
+   * Datum waarop bestelling is afgeleverd
+   */
+  actualDeliveryDate?: string | null;
+  /**
+   * Chronologische events voor order tracking (automatisch + handmatig)
+   */
+  timeline?:
+    | {
+        event:
+          | 'order_placed'
+          | 'payment_received'
+          | 'processing'
+          | 'invoice_generated'
+          | 'shipped'
+          | 'in_transit'
+          | 'delivered'
+          | 'cancelled'
+          | 'return_requested'
+          | 'refunded'
+          | 'note_added';
+        /**
+         * Optioneel: custom titel (bijv. "Pakket onderweg naar sorteercentrum")
+         */
+        title?: string | null;
+        /**
+         * Extra details over dit event
+         */
+        description?: string | null;
+        timestamp: string;
+        /**
+         * Optioneel: fysieke locatie (bijv. "Distributiecentrum Utrecht")
+         */
+        location?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Interne notities of klant opmerkingen
+   */
+  notes?: string | null;
+  /**
    * Gegenereerde factuur
    */
   invoicePDF?: (number | null) | Media;
+  /**
+   * Gekoppeld factuurnummer (bijv. F-2026-0187)
+   */
+  invoiceNumber?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Facturen en betalingsadministratie
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invoices".
+ */
+export interface Invoice {
+  id: number;
+  /**
+   * Automatisch gegenereerd (bijv. F-2026-0187)
+   */
+  invoiceNumber: string;
+  /**
+   * Gekoppelde bestelling
+   */
+  order: number | Order;
+  /**
+   * Wordt automatisch overgenomen van bestelling indien niet ingevuld
+   */
+  customer: number | User;
+  invoiceDate: string;
+  /**
+   * Betaaltermijn (standaard: factuurdatum + 14 dagen)
+   */
+  dueDate: string;
+  /**
+   * Datum waarop factuur is voldaan
+   */
+  paymentDate?: string | null;
+  /**
+   * Bedrag excl. BTW
+   */
+  subtotal: number;
+  tax?: number | null;
+  shippingCost?: number | null;
+  discount?: number | null;
+  /**
+   * Totaal incl. BTW (automatisch berekend)
+   */
+  amount: number;
+  status: 'open' | 'paid' | 'overdue' | 'cancelled' | 'credit_note';
+  /**
+   * Snapshot van de bestelregels op moment van facturatie
+   */
+  items: {
+    description: string;
+    sku?: string | null;
+    quantity: number;
+    unitPrice: number;
+    lineTotal?: number | null;
+    id?: string | null;
+  }[];
+  /**
+   * Gekozen of gebruikte betaalmethode
+   */
+  paymentMethod?: ('ideal' | 'invoice' | 'creditcard' | 'banktransfer' | 'direct_debit') | null;
+  /**
+   * Referentie/transactie-ID van betaling
+   */
+  paymentReference?: string | null;
+  /**
+   * Gegenereerde factuur PDF
+   */
+  pdfFile?: (number | null) | Media;
+  /**
+   * Interne notities of extra informatie op factuur
+   */
+  notes?: string | null;
+  /**
+   * Aantal verstuurde betalingsherinneringen
+   */
+  remindersSent?: number | null;
+  /**
+   * Datum laatste betalingsherinnering
+   */
+  lastReminderDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Automatische herhaalbestellingen voor B2B klanten
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recurring-orders".
+ */
+export interface RecurringOrder {
+  id: number;
+  /**
+   * Automatisch gegenereerd (bijv. HR-001)
+   */
+  referenceNumber: string;
+  /**
+   * Beschrijvende naam voor deze herhaalbestelling (bijv. "Maandelijkse praktijkvoorraad")
+   */
+  name: string;
+  customer: number | User;
+  status: 'active' | 'paused' | 'cancelled' | 'expired';
+  frequency: {
+    /**
+     * Hoeveelheid (bijv. "4" voor elke 4 weken)
+     */
+    value: number;
+    unit: 'days' | 'weeks' | 'months';
+    /**
+     * Optioneel: aangepaste weergavetekst (bijv. "Elke 4 weken"). Wordt automatisch gegenereerd indien leeg.
+     */
+    displayText?: string | null;
+  };
+  /**
+   * Datum van de volgende automatische bestelling
+   */
+  nextDeliveryDate: string;
+  /**
+   * Datum van de meest recente automatische bestelling
+   */
+  lastDeliveryDate?: string | null;
+  /**
+   * Datum waarop deze herhaalbestelling is aangemaakt
+   */
+  startDate: string;
+  /**
+   * Optioneel: automatisch stoppen na deze datum
+   */
+  endDate?: string | null;
+  /**
+   * Datum waarop deze herhaalbestelling is gepauzeerd
+   */
+  pausedDate?: string | null;
+  /**
+   * Producten die automatisch besteld worden
+   */
+  items: {
+    product: number | Product;
+    /**
+     * Snapshot voor weergave indien product verwijderd wordt
+     */
+    title?: string | null;
+    sku?: string | null;
+    brand?: string | null;
+    /**
+     * Aantal per automatische levering
+     */
+    quantity: number;
+    /**
+     * Prijs op moment van toevoegen (kan wijzigen bij daadwerkelijke bestelling)
+     */
+    price: number;
+    lineTotal?: number | null;
+    id?: string | null;
+  }[];
+  /**
+   * Totaal bedrag per automatische bestelling (prijzen kunnen wijzigen)
+   */
+  estimatedTotal: number;
+  /**
+   * Totaal aantal uitgevoerde automatische bestellingen
+   */
+  deliveryCount?: number | null;
+  /**
+   * Totaalbedrag van alle automatische bestellingen
+   */
+  totalSpent?: number | null;
+  /**
+   * Geschatte besparing door volumekortingen (optioneel)
+   */
+  savingsPerDelivery?: number | null;
+  shippingAddress: {
+    name: string;
+    company?: string | null;
+    street: string;
+    houseNumber: string;
+    postalCode: string;
+    city: string;
+    country?: string | null;
+  };
+  /**
+   * Standaard betaalmethode voor automatische bestellingen
+   */
+  paymentMethod?: ('ideal' | 'invoice' | 'creditcard' | 'direct_debit') | null;
+  /**
+   * Alle automatisch aangemaakte bestellingen
+   */
+  generatedOrders?: (number | Order)[] | null;
+  /**
+   * Extra informatie of speciale instructies
+   */
+  notes?: string | null;
+  /**
+   * E-mail notificatie versturen voor elke automatische bestelling
+   */
+  notifyBeforeDelivery?: boolean | null;
+  /**
+   * Aantal dagen voor levering waarop herinnering wordt verstuurd
+   */
+  notifyDaysBefore?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Retour en RMA management (Return Merchandise Authorization)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "returns".
+ */
+export interface Return {
+  id: number;
+  /**
+   * Automatisch gegenereerd (bijv. RMA-2026-001)
+   */
+  rmaNumber: string;
+  /**
+   * Originele bestelling waarvoor retour wordt aangevraagd
+   */
+  order: number | Order;
+  customer: number | User;
+  status:
+    | 'pending'
+    | 'approved'
+    | 'rejected'
+    | 'label_sent'
+    | 'received'
+    | 'inspecting'
+    | 'refunded'
+    | 'replaced'
+    | 'completed'
+    | 'cancelled';
+  /**
+   * Uiterste datum voor retourneren (14 dagen na levering)
+   */
+  returnDeadline?: string | null;
+  /**
+   * Datum waarop geretourneerde producten zijn ontvangen
+   */
+  receivedDate?: string | null;
+  /**
+   * Datum waarop retour is afgehandeld
+   */
+  processedDate?: string | null;
+  /**
+   * Producten die de klant wil retourneren
+   */
+  items: {
+    product?: (number | null) | Product;
+    title: string;
+    sku?: string | null;
+    brand?: string | null;
+    unitPrice: number;
+    quantityOrdered: number;
+    /**
+     * Aantal stuks dat geretourneerd wordt
+     */
+    quantityReturning: number;
+    /**
+     * Steriele of hygiëne-artikelen zijn niet retourneerbaar
+     */
+    isReturnable?: boolean | null;
+    returnValue?: number | null;
+    id?: string | null;
+  }[];
+  /**
+   * Hoofdreden voor retourneren
+   */
+  returnReason: 'wrong_product' | 'wrong_size' | 'damaged' | 'not_expected' | 'duplicate' | 'other';
+  /**
+   * Extra uitleg of details van de klant
+   */
+  reasonDescription?: string | null;
+  /**
+   * Status van het te retourneren product
+   */
+  productCondition: 'unopened' | 'opened' | 'damaged';
+  /**
+   * Foto's van het product/verpakking (max. 5 foto's)
+   */
+  photos?: (number | Media)[] | null;
+  /**
+   * Hoe wil de klant de retour afgehandeld zien?
+   */
+  preferredResolution: 'replacement' | 'refund' | 'store_credit' | 'exchange';
+  returnShipping?: {
+    /**
+     * Tracking nummer van retourzending
+     */
+    trackingCode?: string | null;
+    trackingUrl?: string | null;
+    returnLabelGenerated?: boolean | null;
+    returnLabelSentDate?: string | null;
+    /**
+     * Bij foutieve levering worden verzendkosten terugbetaald
+     */
+    shippingCostRefund?: number | null;
+  };
+  /**
+   * Totaalbedrag van geretourneerde producten
+   */
+  returnValue: number;
+  /**
+   * Daadwerkelijk terugbetaald bedrag (kan afwijken na inspectie)
+   */
+  refundAmount?: number | null;
+  /**
+   * Datum waarop terugbetaling is verwerkt
+   */
+  refundDate?: string | null;
+  /**
+   * Manier waarop terugbetaling plaatsvindt
+   */
+  refundMethod?: ('original' | 'bank_transfer' | 'store_credit') | null;
+  /**
+   * Bevindingen bij inspectie van geretourneerde producten (alleen voor admins)
+   */
+  inspectionNotes?: string | null;
+  /**
+   * Interne opmerkingen (niet zichtbaar voor klant)
+   */
+  internalNotes?: string | null;
+  /**
+   * Datum waarop retour is goedgekeurd
+   */
+  approvalDate?: string | null;
+  /**
+   * Reden waarom retour is afgekeurd
+   */
+  rejectionReason?: string | null;
+  /**
+   * Nieuwe bestelling voor vervangend product (indien van toepassing)
+   */
+  replacementOrder?: (number | null) | Order;
+  /**
+   * Bedrag toegevoegd als tegoed indien gekozen als oplossing
+   */
+  storeCreditAmount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Gebruikersnotificaties en meldingen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications".
+ */
+export interface Notification {
+  id: number;
+  user: number | User;
+  /**
+   * Type notificatie bepaalt icoon en kleur
+   */
+  type:
+    | 'order_shipped'
+    | 'order_delivered'
+    | 'order_cancelled'
+    | 'invoice_available'
+    | 'invoice_overdue'
+    | 'payment_reminder'
+    | 'stock_alert'
+    | 'price_change'
+    | 'recurring_order_reminder'
+    | 'recurring_order_processed'
+    | 'return_approved'
+    | 'return_rejected'
+    | 'return_received'
+    | 'refund_processed'
+    | 'system'
+    | 'account_update';
+  /**
+   * Categorie voor filteren in notificatie center
+   */
+  category: 'all' | 'orders' | 'stock' | 'system';
+  /**
+   * Korte, duidelijke titel (bijv. "Bestelling #PM-2026-1847 is verzonden")
+   */
+  title: string;
+  /**
+   * Uitgebreide beschrijving of details
+   */
+  message: string;
+  isRead?: boolean | null;
+  /**
+   * Datum/tijd waarop de melding is gelezen
+   */
+  readAt?: string | null;
+  /**
+   * Koppel aan een bestelling (optioneel)
+   */
+  relatedOrder?: (number | null) | Order;
+  /**
+   * Koppel aan een product (bijv. bij voorraadmelding)
+   */
+  relatedProduct?: (number | null) | Product;
+  /**
+   * Koppel aan een factuur
+   */
+  relatedInvoice?: (number | null) | Invoice;
+  /**
+   * Koppel aan een herhaalbestelling
+   */
+  relatedRecurringOrder?: (number | null) | RecurringOrder;
+  /**
+   * Koppel aan een retourzending
+   */
+  relatedReturn?: (number | null) | Return;
+  /**
+   * Link waar de gebruiker naartoe gaat bij klikken (bijv. /account/orders/123)
+   */
+  actionUrl?: string | null;
+  /**
+   * Optioneel: label voor actieknop (bijv. "Bekijk bestelling")
+   */
+  actionLabel?: string | null;
+  /**
+   * Icoon voor in notificatie center
+   */
+  icon?:
+    | (
+        | 'bell'
+        | 'truck'
+        | 'check-circle'
+        | 'package'
+        | 'file-text'
+        | 'repeat'
+        | 'rotate-ccw'
+        | 'banknote'
+        | 'alert-circle'
+        | 'settings'
+        | 'user'
+      )
+    | null;
+  /**
+   * Kleur van het icoon en achtergrond
+   */
+  iconColor?: ('green' | 'teal' | 'blue' | 'amber' | 'coral' | 'grey') | null;
+  /**
+   * Hogere prioriteit verschijnt bovenaan in de lijst
+   */
+  priority?: ('low' | 'normal' | 'high' | 'urgent') | null;
+  /**
+   * Optioneel: automatisch verwijderen na deze datum
+   */
+  expiresAt?: string | null;
+  /**
+   * Ook een e-mail versturen aan de gebruiker
+   */
+  sendEmail?: boolean | null;
+  /**
+   * Gemarkeerd als verzonden na e-mail versturen
+   */
+  emailSent?: boolean | null;
+  emailSentAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Recent bekeken producten tracking voor gepersonaliseerde aanbevelingen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recently-viewed".
+ */
+export interface RecentlyViewed {
+  id: number;
+  /**
+   * Optioneel: null voor anonymous users (tracking via cookie/session)
+   */
+  user?: (number | null) | User;
+  /**
+   * Voor anonymous users: track via session/cookie ID
+   */
+  sessionId?: string | null;
+  product: number | Product;
+  viewedAt: string;
+  /**
+   * Snapshot voor weergave indien product verwijderd wordt
+   */
+  productSnapshot?: {
+    title?: string | null;
+    slug?: string | null;
+    sku?: string | null;
+    price?: number | null;
+    imageUrl?: string | null;
+    brand?: string | null;
+  };
+  /**
+   * Vorige pagina / hoe kwam gebruiker bij dit product
+   */
+  referrer?: string | null;
+  /**
+   * Waar kwam de gebruiker vandaan?
+   */
+  source?: ('direct' | 'search' | 'category' | 'related' | 'recently_viewed' | 'recommendations' | 'external') | null;
+  /**
+   * Type apparaat waarop product is bekeken
+   */
+  device?: ('desktop' | 'mobile' | 'tablet') | null;
+  /**
+   * Hoelang gebruiker op productpagina heeft doorgebracht
+   */
+  timeOnPage?: number | null;
+  /**
+   * Hoeveel % van de pagina de gebruiker heeft gezien (0-100)
+   */
+  scrollDepth?: number | null;
+  /**
+   * Heeft gebruiker product aan winkelwagen toegevoegd tijdens deze view?
+   */
+  addedToCart?: boolean | null;
+  /**
+   * Heeft gebruiker product als favoriet gemarkeerd tijdens deze view?
+   */
+  addedToFavorites?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Leveranciers, fabrikanten en partners
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors".
+ */
+export interface Vendor {
+  id: number;
+  /**
+   * Bijv: Paul Hartmann AG, Becton Dickinson, 3M
+   */
+  name: string;
+  /**
+   * Automatisch gegenereerd uit de naam
+   */
+  slug: string;
+  /**
+   * Korte naam voor logo (bijv: "Hartmann", "BD", "3M")
+   */
+  shortName?: string | null;
+  /**
+   * Korte beschrijvende tekst (max 120 tekens)
+   */
+  tagline?: string | null;
+  /**
+   * Uitgebreide beschrijving over de leverancier
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Bedrijfslogo (voorkeur: SVG of PNG met transparante achtergrond)
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Hero banner voor vendor detail pagina (1200x300px)
+   */
+  banner?: (number | null) | Media;
+  /**
+   * Hex kleurcode voor banner gradient (bijv: #0A1628)
+   */
+  bannerColor?: string | null;
+  /**
+   * Toon "Geverifieerd" badge
+   */
+  isVerified?: boolean | null;
+  /**
+   * Premium partners worden uitgelicht
+   */
+  isPremium?: boolean | null;
+  /**
+   * Toon in "Uitgelichte partners" sectie
+   */
+  isFeatured?: boolean | null;
+  contact?: {
+    website?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    address?: string | null;
+    country?: string | null;
+  };
+  /**
+   * Automatisch berekende statistieken (handmatig overschrijfbaar)
+   */
+  stats?: {
+    /**
+     * Wordt automatisch geteld uit Products met deze vendor
+     */
+    productCount?: number | null;
+    /**
+     * Gemiddelde rating (0-5 sterren)
+     */
+    rating?: number | null;
+    /**
+     * Totaal aantal reviews
+     */
+    reviewCount?: number | null;
+    /**
+     * Bijv: 1818
+     */
+    establishedYear?: number | null;
+  };
+  /**
+   * In welke categorieën is deze leverancier actief?
+   */
+  categories?: (number | ProductCategory)[] | null;
+  /**
+   * Certificaten en keurmerken (CE, ISO, etc.)
+   */
+  certifications?:
+    | {
+        name: string;
+        icon?: ('shield-check' | 'award' | 'leaf' | 'star' | 'check-circle') | null;
+        id?: string | null;
+      }[]
+    | null;
+  delivery?: {
+    deliveryTime?: string | null;
+    /**
+     * Bedrag in euro (bijv: 50)
+     */
+    freeShippingFrom?: number | null;
+    /**
+     * Deze leverancier biedt trainingen/workshops aan
+     */
+    offersWorkshops?: boolean | null;
+  };
+  /**
+   * Handmatig geselecteerde uitgelichte producten (max 6)
+   */
+  relatedProducts?: (number | Product)[] | null;
+  /**
+   * Sorteer volgorde (lager = eerder getoond)
+   */
+  order?: number | null;
+  meta?: {
+    /**
+     * SEO titel voor de vendor pagina
+     */
+    title?: string | null;
+    /**
+     * Korte beschrijving voor zoekmachines (max 160 tekens)
+     */
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Klantbeoordelingen voor leveranciers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-reviews".
+ */
+export interface VendorReview {
+  id: number;
+  /**
+   * Voor welke leverancier is deze review?
+   */
+  vendor: number | Vendor;
+  /**
+   * Korte titel voor de review
+   */
+  title?: string | null;
+  /**
+   * 1-5 sterren
+   */
+  rating: number;
+  /**
+   * De volledige review tekst (max 1000 tekens)
+   */
+  comment: string;
+  /**
+   * Naam van de reviewer
+   */
+  authorName: string;
+  /**
+   * Voor verificatie (niet publiek zichtbaar)
+   */
+  authorEmail?: string | null;
+  /**
+   * Optioneel: bedrijfsnaam van de reviewer
+   */
+  authorCompany?: string | null;
+  /**
+   * Voor avatar display (automatisch gegenereerd uit naam)
+   */
+  authorInitials?: string | null;
+  /**
+   * Alleen goedgekeurde reviews zijn publiek zichtbaar
+   */
+  isApproved?: boolean | null;
+  /**
+   * Reviewer heeft daadwerkelijk bij deze vendor gekocht
+   */
+  isVerifiedPurchase?: boolean | null;
+  /**
+   * Interne notities (niet publiek)
+   */
+  moderationNotes?: string | null;
+  /**
+   * Hoeveel mensen vonden deze review nuttig
+   */
+  helpfulCount?: number | null;
+  /**
+   * Optionele reactie van de leverancier
+   */
+  vendorResponse?: {
+    text?: string | null;
+    respondedAt?: string | null;
+  };
+  /**
+   * Datum wanneer review is geschreven
+   */
+  reviewDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Trainingen, workshops en webinars
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workshops".
+ */
+export interface Workshop {
+  id: number;
+  /**
+   * Bijv: Wondverzorging Masterclass, Handhygiëne Training
+   */
+  title: string;
+  /**
+   * Automatisch gegenereerd uit de titel
+   */
+  slug: string;
+  /**
+   * Uitgebreide beschrijving van de workshop
+   */
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Korte samenvatting voor overzichten (max 200 tekens)
+   */
+  excerpt?: string | null;
+  /**
+   * Workshop banner/afbeelding (1200x600px)
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Emoji voor visuele weergave (bijv: 🎓, 🏥, 🩺)
+   */
+  emoji?: string | null;
+  /**
+   * Welke vendor organiseert deze workshop?
+   */
+  vendor?: (number | null) | Vendor;
+  /**
+   * Naam van de trainer/instructeur
+   */
+  instructor?: string | null;
+  /**
+   * Wanneer vindt de workshop plaats?
+   */
+  date: string;
+  /**
+   * Duur in minuten (bijv: 120 = 2 uur)
+   */
+  duration?: number | null;
+  /**
+   * Menselijk leesbare duur (bijv: "2 uur", "halve dag")
+   */
+  durationDisplay?: string | null;
+  locationType: 'physical' | 'online' | 'hybrid';
+  /**
+   * Naam van de locatie of platform
+   */
+  locationName?: string | null;
+  /**
+   * Volledig adres van fysieke locatie
+   */
+  locationAddress?: string | null;
+  /**
+   * Stad/plaats van de workshop
+   */
+  locationCity?: string | null;
+  /**
+   * Link naar aanmeldpagina of formulier
+   */
+  registrationUrl?: string | null;
+  /**
+   * Maximaal aantal deelnemers
+   */
+  maxParticipants?: number | null;
+  /**
+   * Aantal huidige aanmeldingen
+   */
+  currentParticipants?: number | null;
+  /**
+   * Is deze workshop gratis?
+   */
+  isFree?: boolean | null;
+  /**
+   * Prijs in euro
+   */
+  price?: number | null;
+  /**
+   * Bijv: "€149 ex BTW" of "Gratis voor partners"
+   */
+  priceDisplay?: string | null;
+  category?:
+    | ('wondverzorging' | 'handygiene' | 'diagnostiek' | 'sterilisatie' | 'product-training' | 'algemeen')
+    | null;
+  level?: ('beginner' | 'intermediate' | 'advanced' | 'expert') | null;
+  targetAudience?: ('nurses' | 'doctors' | 'care-workers' | 'pharmacists' | 'management')[] | null;
+  status: 'upcoming' | 'open' | 'almost-full' | 'full' | 'completed' | 'cancelled';
+  /**
+   * Toon als featured workshop
+   */
+  isFeatured?: boolean | null;
+  /**
+   * Wat leren deelnemers in deze workshop?
+   */
+  learningObjectives?:
+    | {
+        objective: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Vereiste voorkennis voor deelname
+   */
+  prerequisites?: string | null;
+  /**
+   * Krijgen deelnemers een certificaat?
+   */
+  certificateAwarded?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -2724,6 +3681,38 @@ export interface PayloadLockedDocument {
         value: number | Order;
       } | null)
     | ({
+        relationTo: 'invoices';
+        value: number | Invoice;
+      } | null)
+    | ({
+        relationTo: 'recurring-orders';
+        value: number | RecurringOrder;
+      } | null)
+    | ({
+        relationTo: 'returns';
+        value: number | Return;
+      } | null)
+    | ({
+        relationTo: 'notifications';
+        value: number | Notification;
+      } | null)
+    | ({
+        relationTo: 'recently-viewed';
+        value: number | RecentlyViewed;
+      } | null)
+    | ({
+        relationTo: 'vendors';
+        value: number | Vendor;
+      } | null)
+    | ({
+        relationTo: 'vendor-reviews';
+        value: number | VendorReview;
+      } | null)
+    | ({
+        relationTo: 'workshops';
+        value: number | Workshop;
+      } | null)
+    | ({
         relationTo: 'client-requests';
         value: number | ClientRequest;
       } | null)
@@ -2824,6 +3813,13 @@ export interface UsersSelect<T extends boolean = true> {
       };
   roles?: T;
   clientType?: T;
+  favorites?:
+    | T
+    | {
+        product?: T;
+        addedAt?: T;
+        id?: T;
+      };
   client?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3785,9 +4781,364 @@ export interface OrdersSelect<T extends boolean = true> {
   status?: T;
   paymentMethod?: T;
   paymentStatus?: T;
-  notes?: T;
+  shippingProvider?: T;
   trackingCode?: T;
+  trackingUrl?: T;
+  shippingMethod?: T;
+  expectedDeliveryDate?: T;
+  actualDeliveryDate?: T;
+  timeline?:
+    | T
+    | {
+        event?: T;
+        title?: T;
+        description?: T;
+        timestamp?: T;
+        location?: T;
+        id?: T;
+      };
+  notes?: T;
   invoicePDF?: T;
+  invoiceNumber?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invoices_select".
+ */
+export interface InvoicesSelect<T extends boolean = true> {
+  invoiceNumber?: T;
+  order?: T;
+  customer?: T;
+  invoiceDate?: T;
+  dueDate?: T;
+  paymentDate?: T;
+  subtotal?: T;
+  tax?: T;
+  shippingCost?: T;
+  discount?: T;
+  amount?: T;
+  status?: T;
+  items?:
+    | T
+    | {
+        description?: T;
+        sku?: T;
+        quantity?: T;
+        unitPrice?: T;
+        lineTotal?: T;
+        id?: T;
+      };
+  paymentMethod?: T;
+  paymentReference?: T;
+  pdfFile?: T;
+  notes?: T;
+  remindersSent?: T;
+  lastReminderDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recurring-orders_select".
+ */
+export interface RecurringOrdersSelect<T extends boolean = true> {
+  referenceNumber?: T;
+  name?: T;
+  customer?: T;
+  status?: T;
+  frequency?:
+    | T
+    | {
+        value?: T;
+        unit?: T;
+        displayText?: T;
+      };
+  nextDeliveryDate?: T;
+  lastDeliveryDate?: T;
+  startDate?: T;
+  endDate?: T;
+  pausedDate?: T;
+  items?:
+    | T
+    | {
+        product?: T;
+        title?: T;
+        sku?: T;
+        brand?: T;
+        quantity?: T;
+        price?: T;
+        lineTotal?: T;
+        id?: T;
+      };
+  estimatedTotal?: T;
+  deliveryCount?: T;
+  totalSpent?: T;
+  savingsPerDelivery?: T;
+  shippingAddress?:
+    | T
+    | {
+        name?: T;
+        company?: T;
+        street?: T;
+        houseNumber?: T;
+        postalCode?: T;
+        city?: T;
+        country?: T;
+      };
+  paymentMethod?: T;
+  generatedOrders?: T;
+  notes?: T;
+  notifyBeforeDelivery?: T;
+  notifyDaysBefore?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "returns_select".
+ */
+export interface ReturnsSelect<T extends boolean = true> {
+  rmaNumber?: T;
+  order?: T;
+  customer?: T;
+  status?: T;
+  returnDeadline?: T;
+  receivedDate?: T;
+  processedDate?: T;
+  items?:
+    | T
+    | {
+        product?: T;
+        title?: T;
+        sku?: T;
+        brand?: T;
+        unitPrice?: T;
+        quantityOrdered?: T;
+        quantityReturning?: T;
+        isReturnable?: T;
+        returnValue?: T;
+        id?: T;
+      };
+  returnReason?: T;
+  reasonDescription?: T;
+  productCondition?: T;
+  photos?: T;
+  preferredResolution?: T;
+  returnShipping?:
+    | T
+    | {
+        trackingCode?: T;
+        trackingUrl?: T;
+        returnLabelGenerated?: T;
+        returnLabelSentDate?: T;
+        shippingCostRefund?: T;
+      };
+  returnValue?: T;
+  refundAmount?: T;
+  refundDate?: T;
+  refundMethod?: T;
+  inspectionNotes?: T;
+  internalNotes?: T;
+  approvalDate?: T;
+  rejectionReason?: T;
+  replacementOrder?: T;
+  storeCreditAmount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications_select".
+ */
+export interface NotificationsSelect<T extends boolean = true> {
+  user?: T;
+  type?: T;
+  category?: T;
+  title?: T;
+  message?: T;
+  isRead?: T;
+  readAt?: T;
+  relatedOrder?: T;
+  relatedProduct?: T;
+  relatedInvoice?: T;
+  relatedRecurringOrder?: T;
+  relatedReturn?: T;
+  actionUrl?: T;
+  actionLabel?: T;
+  icon?: T;
+  iconColor?: T;
+  priority?: T;
+  expiresAt?: T;
+  sendEmail?: T;
+  emailSent?: T;
+  emailSentAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recently-viewed_select".
+ */
+export interface RecentlyViewedSelect<T extends boolean = true> {
+  user?: T;
+  sessionId?: T;
+  product?: T;
+  viewedAt?: T;
+  productSnapshot?:
+    | T
+    | {
+        title?: T;
+        slug?: T;
+        sku?: T;
+        price?: T;
+        imageUrl?: T;
+        brand?: T;
+      };
+  referrer?: T;
+  source?: T;
+  device?: T;
+  timeOnPage?: T;
+  scrollDepth?: T;
+  addedToCart?: T;
+  addedToFavorites?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors_select".
+ */
+export interface VendorsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  shortName?: T;
+  tagline?: T;
+  description?: T;
+  logo?: T;
+  banner?: T;
+  bannerColor?: T;
+  isVerified?: T;
+  isPremium?: T;
+  isFeatured?: T;
+  contact?:
+    | T
+    | {
+        website?: T;
+        email?: T;
+        phone?: T;
+        address?: T;
+        country?: T;
+      };
+  stats?:
+    | T
+    | {
+        productCount?: T;
+        rating?: T;
+        reviewCount?: T;
+        establishedYear?: T;
+      };
+  categories?: T;
+  certifications?:
+    | T
+    | {
+        name?: T;
+        icon?: T;
+        id?: T;
+      };
+  delivery?:
+    | T
+    | {
+        deliveryTime?: T;
+        freeShippingFrom?: T;
+        offersWorkshops?: T;
+      };
+  relatedProducts?: T;
+  order?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-reviews_select".
+ */
+export interface VendorReviewsSelect<T extends boolean = true> {
+  vendor?: T;
+  title?: T;
+  rating?: T;
+  comment?: T;
+  authorName?: T;
+  authorEmail?: T;
+  authorCompany?: T;
+  authorInitials?: T;
+  isApproved?: T;
+  isVerifiedPurchase?: T;
+  moderationNotes?: T;
+  helpfulCount?: T;
+  vendorResponse?:
+    | T
+    | {
+        text?: T;
+        respondedAt?: T;
+      };
+  reviewDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workshops_select".
+ */
+export interface WorkshopsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  emoji?: T;
+  vendor?: T;
+  instructor?: T;
+  date?: T;
+  duration?: T;
+  durationDisplay?: T;
+  locationType?: T;
+  locationName?: T;
+  locationAddress?: T;
+  locationCity?: T;
+  registrationUrl?: T;
+  maxParticipants?: T;
+  currentParticipants?: T;
+  isFree?: T;
+  price?: T;
+  priceDisplay?: T;
+  category?: T;
+  level?: T;
+  targetAudience?: T;
+  status?: T;
+  isFeatured?: T;
+  learningObjectives?:
+    | T
+    | {
+        objective?: T;
+        id?: T;
+      };
+  prerequisites?: T;
+  certificateAwarded?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3826,8 +5177,30 @@ export interface ClientsSelect<T extends boolean = true> {
   contactName?: T;
   contactPhone?: T;
   template?: T;
-  enabledFeatures?: T;
-  disabledCollections?: T;
+  features?:
+    | T
+    | {
+        shop?: T;
+        cart?: T;
+        checkout?: T;
+        wishlists?: T;
+        productReviews?: T;
+        customerGroups?: T;
+        vendors?: T;
+        vendorReviews?: T;
+        workshops?: T;
+        blog?: T;
+        faq?: T;
+        testimonials?: T;
+        cases?: T;
+        partners?: T;
+        brands?: T;
+        services?: T;
+        orderLists?: T;
+        multiLanguage?: T;
+        aiContent?: T;
+        authentication?: T;
+      };
   deploymentUrl?: T;
   adminUrl?: T;
   deploymentProvider?: T;

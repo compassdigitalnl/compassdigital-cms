@@ -36,9 +36,10 @@ echo "✓ Build completed"
 # 5. Run database migrations
 echo ""
 echo "=== 🗄️  Running migrations ==="
-# Use 'yes' to auto-accept any prompts
-# The || true ensures we continue even if migration fails (safe for prod)
-yes | npm run migrate || echo "⚠️  Migration failed or skipped, continuing..."
+# Run Payload migrations automatically (no prompts in production)
+# Migrations are idempotent and safe to run multiple times
+# The baseline migration has a safety check to prevent re-running on existing databases
+npx payload migrate || echo "⚠️  Migration failed, check logs"
 echo "✓ Migrations completed"
 
 # 6. Restart PM2 with environment variables
