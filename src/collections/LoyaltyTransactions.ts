@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const LoyaltyTransactions: CollectionConfig = {
   slug: 'loyalty-transactions',
@@ -13,7 +13,7 @@ export const LoyaltyTransactions: CollectionConfig = {
     group: 'Loyalty Program',
     defaultColumns: ['user', 'type', 'points', 'description', 'createdAt'],
     description: 'Points earning and spending history',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('loyalty'),
   },
   access: {
     read: ({ req: { user } }) => {

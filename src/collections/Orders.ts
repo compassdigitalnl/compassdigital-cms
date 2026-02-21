@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -13,7 +13,7 @@ export const Orders: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['orderNumber', 'customer', 'total', 'status', 'createdAt'],
     description: 'Klantbestellingen en order management',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('checkout'),
   },
   access: {
     read: ({ req: { user } }) => {

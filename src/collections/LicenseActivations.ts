@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const LicenseActivations: CollectionConfig = {
   slug: 'license-activations',
@@ -13,7 +13,7 @@ export const LicenseActivations: CollectionConfig = {
     group: 'Licenses',
     defaultColumns: ['license', 'deviceName', 'os', 'status', 'activatedAt'],
     description: 'Device activations for licenses',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('licenses'),
   },
   access: {
     read: ({ req: { user } }) => {

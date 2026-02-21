@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const PaymentMethods: CollectionConfig = {
   slug: 'payment-methods',
@@ -13,7 +13,7 @@ export const PaymentMethods: CollectionConfig = {
     group: 'Subscriptions',
     defaultColumns: ['user', 'type', 'last4', 'isDefault', 'createdAt'],
     description: 'Saved payment methods for users',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('subscriptions'),
   },
   access: {
     read: ({ req: { user } }) => {

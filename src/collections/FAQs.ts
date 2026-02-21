@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
@@ -8,7 +8,7 @@ export const FAQs: CollectionConfig = {
     group: 'Website',
     useAsTitle: 'question',
     defaultColumns: ['question', 'category', 'featured', 'updatedAt'],
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('faq'),
   },
   access: {
     read: () => true, // Publiek leesbaar (frontend)

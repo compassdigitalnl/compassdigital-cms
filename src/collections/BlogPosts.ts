@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import {
   BoldFeature,
   HeadingFeature,
@@ -25,7 +25,7 @@ export const BlogPosts: CollectionConfig = {
     group: 'Website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'publishedAt', 'updatedAt'],
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('blog'),
   },
   access: {
     read: ({ req: { user } }) => {

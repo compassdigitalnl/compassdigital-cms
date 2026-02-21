@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const UserSubscriptions: CollectionConfig = {
   slug: 'user-subscriptions',
@@ -13,7 +13,7 @@ export const UserSubscriptions: CollectionConfig = {
     group: 'Subscriptions',
     defaultColumns: ['user', 'plan', 'status', 'currentPeriodEnd', 'updatedAt'],
     description: 'Active user subscriptions',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('subscriptions'),
   },
   access: {
     read: ({ req: { user } }) => {

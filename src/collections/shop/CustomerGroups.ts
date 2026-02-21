@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../../access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const CustomerGroups: CollectionConfig = {
   slug: 'customer-groups',
@@ -11,7 +11,7 @@ export const CustomerGroups: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'E-commerce',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('customerGroups'),
   },
   access: {
     read: () => true, // Customer groups are publicly readable (for pricing tiers)

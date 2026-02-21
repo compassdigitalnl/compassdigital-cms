@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const RecurringOrders: CollectionConfig = {
   slug: 'recurring-orders',
@@ -13,7 +13,7 @@ export const RecurringOrders: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['name', 'customer', 'status', 'nextDeliveryDate', 'estimatedTotal'],
     description: 'Automatische herhaalbestellingen voor B2B klanten',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('recurringOrders'),
   },
   access: {
     read: ({ req: { user } }) => {

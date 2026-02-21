@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const LoyaltyTiers: CollectionConfig = {
   slug: 'loyalty-tiers',
@@ -13,7 +13,7 @@ export const LoyaltyTiers: CollectionConfig = {
     group: 'Loyalty Program',
     defaultColumns: ['name', 'minPoints', 'multiplier', 'order'],
     description: 'Loyalty program tiers (Bronze, Silver, Gold, Platinum)',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('loyalty'),
   },
   access: {
     read: () => true, // Public

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const BlogCategories: CollectionConfig = {
   slug: 'blog-categories',
@@ -12,7 +12,7 @@ export const BlogCategories: CollectionConfig = {
     useAsTitle: 'name',
     group: 'Website',
     defaultColumns: ['name', 'slug', 'updatedAt'],
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('blog'),
   },
   access: {
     read: () => true, // Public toegang voor blog categorieën

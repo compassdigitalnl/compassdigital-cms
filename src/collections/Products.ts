@@ -1,7 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '../access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { indexProduct, deleteProductFromIndex } from '@/lib/meilisearch/indexProducts'
+import { featureField, featureFields, featureTab, subFeatureFields } from '@/lib/featureFields'
+import { features } from '@/lib/features'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -13,7 +15,7 @@ export const Products: CollectionConfig = {
     useAsTitle: 'title',
     group: 'E-commerce',
     defaultColumns: ['title', 'sku', 'ean', 'price', 'stock', 'status', 'productType', 'updatedAt'],
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('shop'),
   },
   access: {
     read: () => true, // Products are publicly accessible (webshop catalog)
@@ -149,7 +151,7 @@ export const Products: CollectionConfig = {
             {
               type: 'row',
               fields: [
-                {
+                ...featureField('brands', {
                   name: 'brand',
                   type: 'relationship',
                   relationTo: 'brands',
@@ -158,13 +160,13 @@ export const Products: CollectionConfig = {
                     width: '50%',
                     description: 'Bijv: Hartmann, BSN Medical, 3M',
                   },
-                },
+                }),
                 {
                   name: 'manufacturer',
                   type: 'text',
                   label: 'Fabrikant',
                   admin: {
-                    width: '50%',
+                    width: features.brands ? '50%' : '100%',
                     description: 'Als afwijkend van merk',
                   },
                 },
@@ -389,126 +391,130 @@ export const Products: CollectionConfig = {
               ],
             },
 
-            // Klantengroep Prijzen (B2B)
-            {
-              type: 'collapsible',
-              label: 'Klantengroep Prijzen (B2B)',
-              admin: {
-                initCollapsed: true,
-                description: 'Speciale prijzen per klantengroep',
-              },
-              fields: [
-                {
-                  name: 'groupPrices',
-                  type: 'array',
-                  label: 'Groepsprijzen',
-                  maxRows: 20,
-                  admin: {
-                    description:
-                      'Stel verschillende prijzen in voor verschillende klantengroepen (bijv. dealers, groothandel)',
-                  },
-                  fields: [
-                    {
-                      name: 'group',
-                      type: 'relationship',
-                      relationTo: 'customer-groups',
-                      required: true,
-                      label: 'Klantengroep',
-                    },
-                    {
-                      name: 'price',
-                      type: 'number',
-                      required: true,
-                      min: 0,
-                      label: 'Prijs',
-                      admin: {
-                        step: 0.01,
-                      },
-                    },
-                    {
-                      name: 'minQuantity',
-                      type: 'number',
-                      min: 1,
-                      defaultValue: 1,
-                      label: 'Vanaf aantal',
-                      admin: {
-                        description: 'Minimale afname voor deze prijs',
-                      },
-                    },
-                  ],
+            // Klantengroep Prijzen (B2B) — gated by b2b + groupPricing
+            ...subFeatureFields('b2b', 'groupPricing', [
+              {
+                type: 'collapsible',
+                label: 'Klantengroep Prijzen (B2B)',
+                admin: {
+                  initCollapsed: true,
+                  description: 'Speciale prijzen per klantengroep',
                 },
-              ],
-            },
+                fields: [
+                  {
+                    name: 'groupPrices',
+                    type: 'array',
+                    label: 'Groepsprijzen',
+                    maxRows: 20,
+                    admin: {
+                      description:
+                        'Stel verschillende prijzen in voor verschillende klantengroepen (bijv. dealers, groothandel)',
+                    },
+                    fields: [
+                      {
+                        name: 'group',
+                        type: 'relationship',
+                        relationTo: 'customer-groups',
+                        required: true,
+                        label: 'Klantengroep',
+                      },
+                      {
+                        name: 'price',
+                        type: 'number',
+                        required: true,
+                        min: 0,
+                        label: 'Prijs',
+                        admin: {
+                          step: 0.01,
+                        },
+                      },
+                      {
+                        name: 'minQuantity',
+                        type: 'number',
+                        min: 1,
+                        defaultValue: 1,
+                        label: 'Vanaf aantal',
+                        admin: {
+                          description: 'Minimale afname voor deze prijs',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ]),
 
-            // Staffelprijzen (Volume)
-            {
-              type: 'collapsible',
-              label: 'Staffelprijzen (Volume)',
-              admin: {
-                initCollapsed: true,
-                description: 'Korting bij grotere aantallen',
-              },
-              fields: [
-                {
-                  name: 'volumePricing',
-                  type: 'array',
-                  label: 'Staffels',
-                  admin: {
-                    description:
-                      'Bijv: 1-9 stuks €10, 10-49 stuks €9, 50+ stuks €8',
-                  },
-                  fields: [
-                    {
-                      type: 'row',
-                      fields: [
-                        {
-                          name: 'minQuantity',
-                          type: 'number',
-                          required: true,
-                          min: 1,
-                          label: 'Vanaf',
-                          admin: {
-                            width: '25%',
-                          },
-                        },
-                        {
-                          name: 'maxQuantity',
-                          type: 'number',
-                          min: 1,
-                          label: 'Tot',
-                          admin: {
-                            width: '25%',
-                            description: 'Leeg = onbeperkt',
-                          },
-                        },
-                        {
-                          name: 'price',
-                          type: 'number',
-                          required: true,
-                          min: 0,
-                          label: 'Stuksprijs',
-                          admin: {
-                            step: 0.01,
-                            width: '25%',
-                          },
-                        },
-                        {
-                          name: 'discountPercentage',
-                          type: 'number',
-                          min: 0,
-                          max: 100,
-                          label: 'Korting %',
-                          admin: {
-                            width: '25%',
-                            description: 'Of vul prijs in',
-                          },
-                        },
-                      ],
-                    },
-                  ],
+            // Staffelprijzen (Volume) — gated by volumePricing
+            ...featureFields('volumePricing', [
+              {
+                type: 'collapsible',
+                label: 'Staffelprijzen (Volume)',
+                admin: {
+                  initCollapsed: true,
+                  description: 'Korting bij grotere aantallen',
                 },
-              ],
-            },
+                fields: [
+                  {
+                    name: 'volumePricing',
+                    type: 'array',
+                    label: 'Staffels',
+                    admin: {
+                      description:
+                        'Bijv: 1-9 stuks €10, 10-49 stuks €9, 50+ stuks €8',
+                    },
+                    fields: [
+                      {
+                        type: 'row',
+                        fields: [
+                          {
+                            name: 'minQuantity',
+                            type: 'number',
+                            required: true,
+                            min: 1,
+                            label: 'Vanaf',
+                            admin: {
+                              width: '25%',
+                            },
+                          },
+                          {
+                            name: 'maxQuantity',
+                            type: 'number',
+                            min: 1,
+                            label: 'Tot',
+                            admin: {
+                              width: '25%',
+                              description: 'Leeg = onbeperkt',
+                            },
+                          },
+                          {
+                            name: 'price',
+                            type: 'number',
+                            required: true,
+                            min: 0,
+                            label: 'Stuksprijs',
+                            admin: {
+                              step: 0.01,
+                              width: '25%',
+                            },
+                          },
+                          {
+                            name: 'discountPercentage',
+                            type: 'number',
+                            min: 0,
+                            max: 100,
+                            label: 'Korting %',
+                            admin: {
+                              width: '25%',
+                              description: 'Of vul prijs in',
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ]),
           ],
         },
 
@@ -831,9 +837,9 @@ export const Products: CollectionConfig = {
         },
 
         // ═══════════════════════════════════════════════════════════
-        // TAB 7: B2B
+        // TAB 7: B2B — gated by b2b feature
         // ═══════════════════════════════════════════════════════════
-        {
+        ...featureTab('b2b', {
           label: 'B2B',
           description: 'B2B instellingen (MOQ, levertijd, offertes)',
           fields: [
@@ -917,7 +923,7 @@ export const Products: CollectionConfig = {
               ],
             },
           ],
-        },
+        }),
 
         // ═══════════════════════════════════════════════════════════
         // TAB 8: SEO

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideOnPlatform } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 export const Invoices: CollectionConfig = {
   slug: 'invoices',
@@ -13,7 +13,7 @@ export const Invoices: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['invoiceNumber', 'customer', 'amount', 'status', 'dueDate'],
     description: 'Facturen en betalingsadministratie',
-    hidden: shouldHideOnPlatform(),
+    hidden: shouldHideCollection('invoices'),
   },
   access: {
     read: ({ req: { user } }) => {
