@@ -33,7 +33,9 @@ import sharp from 'sharp'
 // - platform: Multi-tenant management (Clients, Deployments, etc.)
 //
 
-// Ecommerce Branch (20 collections)
+// Ecommerce Branch (22 collections)
+import { ABTests } from '@/branches/ecommerce/collections/ABTests'
+import { ABTestResults } from '@/branches/ecommerce/collections/ABTestResults'
 import { Brands } from '@/branches/ecommerce/collections/Brands'
 import { EditionNotifications } from '@/branches/ecommerce/collections/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/collections/GiftVouchers'
@@ -295,6 +297,10 @@ export default buildConfig({
     _col(LoyaltyPoints),
     _col(LoyaltyTransactions),
     _col(LoyaltyRedemptions),
+
+    // A/B Testing (Sprint 9)
+    _col(ABTests),
+    _col(ABTestResults),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // CONTENT BRANCH - Blog, FAQs, Testimonials, Cases

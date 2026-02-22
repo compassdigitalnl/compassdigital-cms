@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import CartTemplate1 from './CartTemplate1'
+import CartPageClient from './CartPageClient'
 
 export const metadata = {
   title: 'Winkelwagen | Shop',
@@ -10,27 +10,21 @@ export const metadata = {
 export default async function CartPage() {
   const payload = await getPayload({ config })
 
-  // Get global template setting from Settings
-  let settings
-  let template = 'carttemplate1' // Default fallback
+  // Get global template setting from Settings (fallback for when no A/B test is running)
+  let defaultTemplate = 'template1' // Default fallback
 
   try {
-    settings = await payload.findGlobal({
+    const settings = await payload.findGlobal({
       slug: 'settings',
       depth: 0,
     })
-    // Safely get template setting with fallback
-    template = (settings as any)?.defaultCartTemplate || 'carttemplate1'
+
+    // Get ecommerce settings with proper typing
+    const ecommerceSettings = (settings as any)?.ecommerce
+    defaultTemplate = ecommerceSettings?.defaultCartTemplate || 'template1'
   } catch (error) {
-    console.error('⚠️ Error fetching settings, using default template:', error)
-    template = 'carttemplate1'
+    console.error('⚠️ Error fetching cart template setting, using default:', error)
   }
 
-  return (
-    <div className="min-h-screen">
-      {/* Cart Template Switcher */}
-      {/* Template 2 will be added here later */}
-      <CartTemplate1 />
-    </div>
-  )
+  return <CartPageClient defaultTemplate={defaultTemplate} />
 }

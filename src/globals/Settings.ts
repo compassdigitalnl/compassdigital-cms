@@ -317,13 +317,13 @@ export const Settings: GlobalConfig = {
               name: 'defaultCartTemplate',
               type: 'select',
               label: 'Standaard Cart Template',
-              defaultValue: 'carttemplate1',
+              defaultValue: 'template1',
               options: [
-                { label: 'Cart Template 1 - Enterprise (Uitgebreid, cross-sell, progress bar)', value: 'carttemplate1' },
-                // Template 2 will be simpler version
+                { label: 'Template 1 - Compact Table (Classic, detailed)', value: 'template1' },
+                { label: 'Template 2 - Visual Cards (Modern, large images)', value: 'template2' },
               ],
               admin: {
-                description: 'Template voor winkelwagen pagina',
+                description: 'Template voor winkelwagen pagina (A/B testing beschikbaar)',
               },
             }),
             ...featureField('checkout', {
@@ -500,6 +500,24 @@ export const Settings: GlobalConfig = {
               defaultValue: true,
               admin: {
                 description: 'B2B mode: klanten moeten ingelogd zijn om te bestellen',
+              },
+            },
+            {
+              name: 'enableGuestCheckout',
+              type: 'checkbox',
+              label: 'Guest checkout toestaan',
+              defaultValue: false,
+              admin: {
+                description: 'Sta eenmalige bestellingen toe zonder account (vereist requireAccountForPurchase = false)',
+              },
+            },
+            {
+              name: 'requireB2BApproval',
+              type: 'checkbox',
+              label: 'Handmatige B2B account goedkeuring',
+              defaultValue: true,
+              admin: {
+                description: 'Nieuwe B2B accounts moeten eerst goedgekeurd worden door admin',
               },
             },
           ],

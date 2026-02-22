@@ -95,6 +95,8 @@ export interface Config {
     'loyalty-points': LoyaltyPoint;
     'loyalty-transactions': LoyaltyTransaction;
     'loyalty-redemptions': LoyaltyRedemption;
+    'ab-tests': AbTest;
+    'ab-test-results': AbTestResult;
     'blog-posts': BlogPost;
     'blog-categories': BlogCategory;
     faqs: Faq;
@@ -157,6 +159,8 @@ export interface Config {
     'loyalty-points': LoyaltyPointsSelect<false> | LoyaltyPointsSelect<true>;
     'loyalty-transactions': LoyaltyTransactionsSelect<false> | LoyaltyTransactionsSelect<true>;
     'loyalty-redemptions': LoyaltyRedemptionsSelect<false> | LoyaltyRedemptionsSelect<true>;
+    'ab-tests': AbTestsSelect<false> | AbTestsSelect<true>;
+    'ab-test-results': AbTestResultsSelect<false> | AbTestResultsSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
@@ -199,6 +203,7 @@ export interface Config {
     header: Header;
     footer: Footer;
     'meilisearch-settings': MeilisearchSetting;
+    'chatbot-settings': ChatbotSetting;
   };
   globalsSelect: {
     settings: SettingsSelect<false> | SettingsSelect<true>;
@@ -206,6 +211,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'meilisearch-settings': MeilisearchSettingsSelect<false> | MeilisearchSettingsSelect<true>;
+    'chatbot-settings': ChatbotSettingsSelect<false> | ChatbotSettingsSelect<true>;
   };
   locale: null;
   user: User;
@@ -4103,6 +4109,148 @@ export interface LoyaltyRedemption {
   createdAt: string;
 }
 /**
+ * A/B testing experiments voor multi-variant testing
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ab-tests".
+ */
+export interface AbTest {
+  id: number;
+  /**
+   * Internal name for this A/B test (e.g., "Cart Template Test Q1 2026")
+   */
+  name: string;
+  /**
+   * What are you testing? What do you expect to learn?
+   */
+  description?: string | null;
+  /**
+   * Which page/component to test
+   */
+  targetPage: 'cart' | 'checkout' | 'login' | 'registration' | 'product' | 'homepage';
+  /**
+   * Test status
+   */
+  status: 'draft' | 'running' | 'paused' | 'completed';
+  /**
+   * Define the variants to test (e.g., Template1, Template2)
+   */
+  variants: {
+    /**
+     * e.g., "template1", "template2", "control", "variation"
+     */
+    name: string;
+    /**
+     * Human-readable label for admin panel
+     */
+    label: string;
+    /**
+     * What makes this variant unique?
+     */
+    description?: string | null;
+    /**
+     * Percentage of traffic to this variant (total must = 100%)
+     */
+    distribution: number;
+    id?: string | null;
+  }[];
+  /**
+   * When to start the test
+   */
+  startDate?: string | null;
+  /**
+   * When to end the test (optional)
+   */
+  endDate?: string | null;
+  /**
+   * Winning variant (auto-selected or manually chosen)
+   */
+  winner?: string | null;
+  /**
+   * Total number of users assigned to this test
+   */
+  totalParticipants?: number | null;
+  /**
+   * Total number of conversions across all variants
+   */
+  totalConversions?: number | null;
+  autoWinner?: {
+    /**
+     * Automatically select winner when threshold is reached
+     */
+    enabled?: boolean | null;
+    /**
+     * Minimum total conversions before auto-selecting winner
+     */
+    conversionThreshold?: number | null;
+    /**
+     * Statistical confidence required (95% = p < 0.05)
+     */
+    confidenceLevel?: number | null;
+  };
+  /**
+   * Limit test to specific client (optional, for multi-tenant)
+   */
+  client?: (number | null) | Client;
+  /**
+   * Internal notes, learnings, observations
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * A/B test variant assignments en conversie tracking
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ab-test-results".
+ */
+export interface AbTestResult {
+  id: number;
+  /**
+   * Which A/B test this result belongs to
+   */
+  test: number | AbTest;
+  /**
+   * Which variant was shown to this user (e.g., "template1", "template2")
+   */
+  variant: string;
+  /**
+   * Logged-in user (if applicable)
+   */
+  userId?: (number | null) | User;
+  /**
+   * Browser session ID (for guest users)
+   */
+  sessionId?: string | null;
+  /**
+   * Did this user complete the desired action?
+   */
+  converted?: boolean | null;
+  /**
+   * Order total, revenue, or other conversion value (optional)
+   */
+  conversionValue?: number | null;
+  /**
+   * When the conversion occurred
+   */
+  convertedAt?: string | null;
+  /**
+   * Associated order (if conversion = order completion)
+   */
+  order?: (number | null) | Order;
+  /**
+   * Browser/device info (for segmentation analysis)
+   */
+  userAgent?: string | null;
+  /**
+   * Where the user came from
+   */
+  referrer?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "blog-posts".
  */
@@ -5880,6 +6028,14 @@ export interface PayloadLockedDocument {
         value: number | LoyaltyRedemption;
       } | null)
     | ({
+        relationTo: 'ab-tests';
+        value: number | AbTest;
+      } | null)
+    | ({
+        relationTo: 'ab-test-results';
+        value: number | AbTestResult;
+      } | null)
+    | ({
         relationTo: 'blog-posts';
         value: number | BlogPost;
       } | null)
@@ -7627,6 +7783,59 @@ export interface LoyaltyRedemptionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ab-tests_select".
+ */
+export interface AbTestsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  targetPage?: T;
+  status?: T;
+  variants?:
+    | T
+    | {
+        name?: T;
+        label?: T;
+        description?: T;
+        distribution?: T;
+        id?: T;
+      };
+  startDate?: T;
+  endDate?: T;
+  winner?: T;
+  totalParticipants?: T;
+  totalConversions?: T;
+  autoWinner?:
+    | T
+    | {
+        enabled?: T;
+        conversionThreshold?: T;
+        confidenceLevel?: T;
+      };
+  client?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ab-test-results_select".
+ */
+export interface AbTestResultsSelect<T extends boolean = true> {
+  test?: T;
+  variant?: T;
+  userId?: T;
+  sessionId?: T;
+  converted?: T;
+  conversionValue?: T;
+  convertedAt?: T;
+  order?: T;
+  userAgent?: T;
+  referrer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "blog-posts_select".
  */
 export interface BlogPostsSelect<T extends boolean = true> {
@@ -8808,9 +9017,9 @@ export interface Setting {
    */
   defaultShopArchiveTemplate?: 'shoparchivetemplate1' | null;
   /**
-   * Template voor winkelwagen pagina
+   * Template voor winkelwagen pagina (A/B testing beschikbaar)
    */
-  defaultCartTemplate?: 'carttemplate1' | null;
+  defaultCartTemplate?: ('template1' | 'template2') | null;
   /**
    * Template voor checkout/afrekenen pagina
    */
@@ -8875,6 +9084,14 @@ export interface Setting {
    * B2B mode: klanten moeten ingelogd zijn om te bestellen
    */
   requireAccountForPurchase?: boolean | null;
+  /**
+   * Sta eenmalige bestellingen toe zonder account (vereist requireAccountForPurchase = false)
+   */
+  enableGuestCheckout?: boolean | null;
+  /**
+   * Nieuwe B2B accounts moeten eerst goedgekeurd worden door admin
+   */
+  requireB2BApproval?: boolean | null;
   /**
    * Bijv: ISO, CE, Thuiswinkel Waarborg badges
    */
@@ -9644,6 +9861,167 @@ export interface MeilisearchSetting {
   createdAt?: string | null;
 }
 /**
+ * Configure AI chatbot behavior, appearance, and model selection.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatbot-settings".
+ */
+export interface ChatbotSetting {
+  id: number;
+  /**
+   * Turn chatbot on/off globally. Requires ENABLE_CHATBOT=true in .env
+   */
+  enabled?: boolean | null;
+  /**
+   * Choose AI model. Hybrid automatically routes simple → Groq, complex → GPT-4.
+   */
+  model: 'groq' | 'gpt-4' | 'gpt-3.5' | 'ollama' | 'hybrid';
+  /**
+   * Creativity (0 = factual, 2 = creative)
+   */
+  temperature?: number | null;
+  /**
+   * Max response length (~750 words = 1000 tokens)
+   */
+  maxTokens?: number | null;
+  /**
+   * Number of previous messages to remember
+   */
+  contextWindow?: number | null;
+  position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+  /**
+   * Hex color (e.g., #0ea5e9)
+   */
+  buttonColor?: string | null;
+  buttonIcon?: ('chat' | 'robot' | 'lightbulb' | 'question') | null;
+  /**
+   * First message shown when chatbot opens
+   */
+  welcomeMessage?: string | null;
+  /**
+   * Placeholder text in input field
+   */
+  placeholder?: string | null;
+  /**
+   * Quick-start questions shown to users
+   */
+  suggestedQuestions?:
+    | {
+        question: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Instructions for the AI. Defines personality and behavior. Leave empty for default.
+   */
+  systemPrompt?: string | null;
+  knowledgeBaseIntegration?: {
+    /**
+     * Use Meilisearch to find relevant blog posts/docs before answering
+     */
+    enabled?: boolean | null;
+    /**
+     * How many docs to use as context
+     */
+    maxResults?: number | null;
+    /**
+     * Show "Bronnen" links in response
+     */
+    includeSourceLinks?: boolean | null;
+    /**
+     * Which collections to search for context
+     */
+    searchCollections?: ('blog-posts' | 'pages' | 'faqs' | 'products' | 'cases')[] | null;
+  };
+  /**
+   * Extra company info, policies, or FAQs to include in every response (e.g., opening hours, return policy)
+   */
+  trainingContext?: string | null;
+  rateLimiting?: {
+    enabled?: boolean | null;
+    /**
+     * Per user (IP or session)
+     */
+    maxMessagesPerHour?: number | null;
+    maxMessagesPerDay?: number | null;
+    /**
+     * Wait time between messages
+     */
+    cooldownSeconds?: number | null;
+    /**
+     * IPs to block from using chatbot
+     */
+    blockedIPs?:
+      | {
+          ip: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  moderation?: {
+    /**
+     * Use OpenAI Moderation API to filter inappropriate content
+     */
+    enabled?: boolean | null;
+    /**
+     * Keywords to block in user messages
+     */
+    blockedKeywords?:
+      | {
+          keyword: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * API keys are configured in .env file. This shows which are active.
+   */
+  apiConfiguration?: {
+    /**
+     * Configured via GROQ_API_KEY in .env. Get key at: https://console.groq.com/keys
+     */
+    groqApiKey?: string | null;
+    /**
+     * Configured via OPENAI_API_KEY in .env. Get key at: https://platform.openai.com/api-keys
+     */
+    openaiApiKey?: string | null;
+    /**
+     * Configured via OLLAMA_URL in .env. Default: http://localhost:11434
+     */
+    ollamaUrl?: string | null;
+  };
+  analytics?: {
+    /**
+     * Log all conversations for analytics and improvement
+     */
+    enableLogging?: boolean | null;
+    /**
+     * Track usage metrics
+     */
+    enableAnalytics?: boolean | null;
+    /**
+     * How long to keep conversation logs
+     */
+    retentionDays?: number | null;
+  };
+  fallback?: {
+    /**
+     * Show fallback when AI fails to respond
+     */
+    enableFallback?: boolean | null;
+    /**
+     * Message shown when chatbot fails
+     */
+    fallbackMessage?: string | null;
+    /**
+     * Email shown in fallback message
+     */
+    contactEmail?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings_select".
  */
@@ -9707,6 +10085,8 @@ export interface SettingsSelect<T extends boolean = true> {
   showPricesExclVAT?: T;
   vatPercentage?: T;
   requireAccountForPurchase?: T;
+  enableGuestCheckout?: T;
+  requireB2BApproval?: T;
   certifications?: T;
   paymentMethods?: T;
   trustIndicators?:
@@ -10096,6 +10476,87 @@ export interface MeilisearchSettingsSelect<T extends boolean = true> {
         highlightPostTag?: T;
         cropLength?: T;
         cropMarker?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatbot-settings_select".
+ */
+export interface ChatbotSettingsSelect<T extends boolean = true> {
+  enabled?: T;
+  model?: T;
+  temperature?: T;
+  maxTokens?: T;
+  contextWindow?: T;
+  position?: T;
+  buttonColor?: T;
+  buttonIcon?: T;
+  welcomeMessage?: T;
+  placeholder?: T;
+  suggestedQuestions?:
+    | T
+    | {
+        question?: T;
+        id?: T;
+      };
+  systemPrompt?: T;
+  knowledgeBaseIntegration?:
+    | T
+    | {
+        enabled?: T;
+        maxResults?: T;
+        includeSourceLinks?: T;
+        searchCollections?: T;
+      };
+  trainingContext?: T;
+  rateLimiting?:
+    | T
+    | {
+        enabled?: T;
+        maxMessagesPerHour?: T;
+        maxMessagesPerDay?: T;
+        cooldownSeconds?: T;
+        blockedIPs?:
+          | T
+          | {
+              ip?: T;
+              id?: T;
+            };
+      };
+  moderation?:
+    | T
+    | {
+        enabled?: T;
+        blockedKeywords?:
+          | T
+          | {
+              keyword?: T;
+              id?: T;
+            };
+      };
+  apiConfiguration?:
+    | T
+    | {
+        groqApiKey?: T;
+        openaiApiKey?: T;
+        ollamaUrl?: T;
+      };
+  analytics?:
+    | T
+    | {
+        enableLogging?: T;
+        enableAnalytics?: T;
+        retentionDays?: T;
+      };
+  fallback?:
+    | T
+    | {
+        enableFallback?: T;
+        fallbackMessage?: T;
+        contactEmail?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -31,10 +31,20 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 
-export default function CartTemplate1() {
+interface CartTemplate1Props {
+  onCheckout?: () => void
+}
+
+export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart()
   const [couponCode, setCouponCode] = useState('')
   const [showOrderSummary, setShowOrderSummary] = useState(false)
+
+  const handleCheckout = () => {
+    if (onCheckout) onCheckout()
+    // Navigate to checkout
+    window.location.href = '/checkout'
+  }
 
   // Empty cart state
   if (items.length === 0) {
@@ -867,8 +877,8 @@ export default function CartTemplate1() {
             </div>
 
             {/* CTA Buttons */}
-            <Link
-              href="/checkout/"
+            <button
+              onClick={handleCheckout}
               className="w-full flex items-center justify-center gap-2.5 px-4 py-4 rounded-xl font-bold mb-3 transition-all hover:-translate-y-0.5"
               style={{
                 background: 'var(--color-primary)',
@@ -879,7 +889,7 @@ export default function CartTemplate1() {
             >
               <Lock className="w-5 h-5" />
               Afrekenen
-            </Link>
+            </button>
 
             <button
               className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold transition-all"
@@ -945,8 +955,8 @@ export default function CartTemplate1() {
               €{grandTotal.toFixed(2)}
             </div>
           </div>
-          <Link
-            href="/checkout/"
+          <button
+            onClick={handleCheckout}
             className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold transition-all"
             style={{
               background: 'var(--color-primary)',
@@ -958,7 +968,7 @@ export default function CartTemplate1() {
           >
             <Lock className="w-4 h-4" />
             Afrekenen
-          </Link>
+          </button>
         </div>
       </div>
     </div>

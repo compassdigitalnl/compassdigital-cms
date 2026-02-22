@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plastimed — Inloggen & Registreren</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a2647;
+    --navy-deep: #061a33;
+    --navy-light: #0d3059;
+    --teal: #00897b;
+    --teal-light: #26a69a;
+    --teal-dark: #00695c;
+    --coral: #e94560;
+    --bg: #f8f9fb;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --text: #1e293b;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(10,38,71,0.06);
+    --shadow-md: 0 4px 20px rgba(10,38,71,0.08);
+    --shadow-lg: 0 8px 40px rgba(10,38,71,0.12);
+    --shadow-xl: 0 20px 60px rgba(10,38,71,0.16);
+    --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-display: 'DM Serif Display', Georgia, serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ─── TOPBAR ─── */
+  .topbar {
+    background: var(--navy-deep);
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    padding: 8px 0;
+    letter-spacing: 0.02em;
+  }
+  .topbar .container { display: flex; justify-content: space-between; align-items: center; }
+  .topbar-left { display: flex; gap: 24px; }
+  .topbar-left .icon { margin-right: 4px; }
+  .topbar-right { display: flex; gap: 16px; }
+  .topbar-right a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; }
+  .topbar-right a:hover { color: var(--teal-light); }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--navy);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  }
+  .header .container { display: flex; align-items: center; gap: 32px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 38px; height: 38px; background: var(--teal);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+  }
+  .logo-text { color: white; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .logo-text span { color: var(--teal-light); }
+  .header-actions { display: flex; gap: 8px; margin-left: auto; }
+  .header-btn {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+    color: white; padding: 8px 14px; border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 14px; transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .header-btn:hover { background: rgba(255,255,255,0.15); }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ─── AUTH LAYOUT ─── */
+  .auth-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 140px);
+  }
+
+  /* ─── LEFT PANEL (BRANDING) ─── */
+  .auth-branding {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 50%, #041526 100%);
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-branding::before {
+    content: '';
+    position: absolute;
+    top: -20%; right: -20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,137,123,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .auth-branding::after {
+    content: '';
+    position: absolute;
+    bottom: -10%; left: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(233,69,96,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .brand-content { position: relative; z-index: 1; }
+  .brand-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,137,123,0.15); border: 1px solid rgba(0,137,123,0.25);
+    padding: 6px 14px; border-radius: 20px;
+    color: var(--teal-light); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .brand-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal-light);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .brand-title {
+    font-family: var(--font-display);
+    font-size: 42px;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .brand-title .accent { color: var(--teal-light); }
+  .brand-desc {
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 48px;
+  }
+  .brand-features { display: flex; flex-direction: column; gap: 16px; }
+  .brand-feature {
+    display: flex; align-items: center; gap: 14px;
+    color: rgba(255,255,255,0.75);
+    font-size: 14px;
+  }
+  .brand-feature-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(0,137,123,0.12); border: 1px solid rgba(0,137,123,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .brand-feature strong { color: rgba(255,255,255,0.95); }
+
+  /* ─── RIGHT PANEL (FORM) ─── */
+  .auth-form-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: var(--bg);
+  }
+  .auth-form-wrapper {
+    width: 100%;
+    max-width: 440px;
+  }
+
+  /* ─── TAB SWITCHER ─── */
+  .auth-tabs {
+    display: flex;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 4px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-500);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .auth-tab.active {
+    background: var(--navy);
+    color: white;
+    box-shadow: 0 2px 8px rgba(10,38,71,0.2);
+  }
+  .auth-tab:not(.active):hover { color: var(--navy); background: var(--gray-50); }
+
+  /* ─── FORM PANELS ─── */
+  .form-panel { display: none; animation: fadeSlide 0.35s ease; }
+  .form-panel.active { display: block; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .form-subtitle {
+    color: var(--gray-500);
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  /* ─── SOCIAL / OAUTH ─── */
+  .oauth-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .oauth-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 13px 16px;
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 14px; font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .oauth-btn:hover {
+    border-color: var(--gray-300);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+  }
+  .oauth-btn svg { width: 20px; height: 20px; }
+
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px;
+    color: var(--gray-400);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gray-200);
+  }
+
+  /* ─── FORM FIELDS ─── */
+  .form-group { margin-bottom: 18px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 6px;
+  }
+  .form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--white);
+    transition: all 0.2s;
+    outline: none;
+  }
+  .form-input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,137,123,0.1);
+  }
+  .form-input::placeholder { color: var(--gray-400); }
+  .form-input-icon {
+    position: relative;
+  }
+  .form-input-icon .icon-left {
+    position: absolute;
+    left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--gray-400);
+    font-size: 16px;
+    pointer-events: none;
+  }
+  .form-input-icon .form-input { padding-left: 42px; }
+  .form-input-icon .toggle-pw {
+    position: absolute;
+    right: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--gray-400);
+    font-size: 14px;
+    cursor: pointer;
+    background: none; border: none;
+    transition: color 0.2s;
+  }
+  .form-input-icon .toggle-pw:hover { color: var(--gray-600); }
+
+  .form-helper {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+  }
+  .form-checkbox {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--gray-600);
+    cursor: pointer;
+  }
+  .form-checkbox input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--teal);
+    cursor: pointer;
+  }
+  .form-link {
+    font-size: 13px; color: var(--teal); text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .form-link:hover { color: var(--teal-dark); }
+
+  /* ─── BUTTONS ─── */
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary:hover {
+    background: var(--teal-dark);
+    box-shadow: 0 4px 16px rgba(0,137,123,0.3);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.5s;
+  }
+  .btn-primary:hover::after { left: 100%; }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 14px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover {
+    background: var(--navy-light);
+    box-shadow: 0 4px 16px rgba(10,38,71,0.25);
+    transform: translateY(-1px);
+  }
+
+  .btn-guest {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: var(--gray-600);
+    border: 1.5px dashed var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 12px;
+  }
+  .btn-guest:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+    background: rgba(0,137,123,0.03);
+  }
+
+  .form-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+  .form-footer a { color: var(--teal); font-weight: 600; text-decoration: none; }
+  .form-footer a:hover { text-decoration: underline; }
+
+  /* ─── PASSWORD STRENGTH ─── */
+  .pw-strength { margin-top: 8px; }
+  .pw-bar {
+    height: 4px;
+    background: var(--gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .pw-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .pw-fill.weak { width: 33%; background: var(--coral); }
+  .pw-fill.medium { width: 66%; background: #f59e0b; }
+  .pw-fill.strong { width: 100%; background: var(--teal); }
+  .pw-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .pw-label.weak { color: var(--coral); }
+  .pw-label.medium { color: #f59e0b; }
+  .pw-label.strong { color: var(--teal); }
+
+  /* ─── GUEST CHECKOUT PANEL ─── */
+  .guest-info-box {
+    background: linear-gradient(135deg, rgba(0,137,123,0.04), rgba(10,38,71,0.02));
+    border: 1px solid rgba(0,137,123,0.12);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  .guest-info-box h4 {
+    font-size: 14px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .guest-info-box p {
+    font-size: 13px;
+    color: var(--gray-500);
+    line-height: 1.6;
+  }
+  .guest-benefits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .guest-benefit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--gray-600);
+  }
+  .guest-benefit .check {
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* ─── B2B REGISTER EXTRAS ─── */
+  .b2b-notice {
+    background: rgba(10,38,71,0.03);
+    border: 1px solid rgba(10,38,71,0.08);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+  .b2b-notice .b2b-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ─── TRUST BADGES ─── */
+  .trust-bar {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-200);
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--gray-400);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .trust-item .t-icon { font-size: 16px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .auth-layout { grid-template-columns: 1fr; }
+    .auth-branding { display: none; }
+    .auth-form-panel { padding: 24px; }
+  }
+  @media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+    .guest-benefits { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <span><span class="icon">✓</span> Voordelige B2B prijzen</span>
+      <span><span class="icon">🚚</span> Gratis verzending vanaf €150</span>
+      <span><span class="icon">🔒</span> Veilig & achteraf betalen</span>
+    </div>
+    <div class="topbar-right">
+      <a href="#">Klant worden</a>
+      <a href="#">Help & Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-icon">P</div>
+      <div class="logo-text">plasti<span>med</span></div>
+    </a>
+    <div class="header-actions">
+      <button class="header-btn">📞 0251-247233</button>
+      <button class="header-btn">♡</button>
+      <button class="header-btn">🛒 <span style="background:var(--coral);padding:1px 7px;border-radius:10px;font-size:11px;margin-left:4px;">3</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH LAYOUT -->
+<div class="auth-layout">
+
+  <!-- LEFT: BRANDING -->
+  <div class="auth-branding">
+    <div class="brand-content">
+      <div class="brand-badge">
+        <span class="dot"></span>
+        Uw medische partner sinds 1994
+      </div>
+      <h1 class="brand-title">
+        Toegang tot<br>
+        <span class="accent">4.000+ producten</span><br>
+        voor de zorg
+      </h1>
+      <p class="brand-desc">
+        Log in op uw account voor persoonlijke prijzen, snelle nabestellingen en exclusieve B2B-voordelen. Nog geen account? Registreer en profiteer direct.
+      </p>
+      <div class="brand-features">
+        <div class="brand-feature">
+          <div class="brand-feature-icon">💰</div>
+          <div><strong>Persoonlijke staffelprijzen</strong><br>Afgestemd op uw bestelvolume</div>
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-icon">🔄</div>
+          <div><strong>Quick-order & nabestellen</strong><br>Herbestel in 2 klikken vanuit uw historie</div>
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-icon">📊</div>
+          <div><strong>Besteloverzicht & facturen</strong><br>Altijd inzicht in uw bestellingen</div>
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-icon">📋</div>
+          <div><strong>Bestellijsten beheren</strong><br>Stel vaste lijsten samen per afdeling</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORMS -->
+  <div class="auth-form-panel">
+    <div class="auth-form-wrapper">
+
+      <!-- TAB SWITCHER -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Inloggen</button>
+        <button class="auth-tab" onclick="switchTab('register')">Registreren</button>
+        <button class="auth-tab" onclick="switchTab('guest')">Gast bestellen</button>
+      </div>
+
+      <!-- ═══════ LOGIN PANEL ═══════ -->
+      <div class="form-panel active" id="panel-login">
+        <h2 class="form-title">Welkom terug</h2>
+        <p class="form-subtitle">Log in met uw account om verder te gaan met uw bestelling.</p>
+
+        <div class="oauth-buttons">
+          <button class="oauth-btn" onclick="handleGoogleAuth()">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Inloggen met Google
+          </button>
+        </div>
+
+        <div class="divider">of met e-mail</div>
+
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label class="form-label">E-mailadres</label>
+            <div class="form-input-icon">
+              <span class="icon-left">✉️</span>
+              <input type="email" class="form-input" placeholder="naam@organisatie.nl" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Wachtwoord</label>
+            <div class="form-input-icon">
+              <span class="icon-left">🔒</span>
+              <input type="password" class="form-input" id="login-pw" placeholder="Uw wachtwoord" required>
+              <button type="button" class="toggle-pw" onclick="togglePassword('login-pw', this)">👁️</button>
+            </div>
+          </div>
+
+          <div class="form-helper">
+            <label class="form-checkbox">
+              <input type="checkbox"> Onthoud mij
+            </label>
+            <a href="#" class="form-link">Wachtwoord vergeten?</a>
+          </div>
+
+          <button type="submit" class="btn-primary">Inloggen</button>
+        </form>
+
+        <button class="btn-guest" onclick="switchTab('guest')">
+          🛒 Liever bestellen als gast?
+        </button>
+
+        <p class="form-footer">
+          Nog geen account? <a href="#" onclick="switchTab('register'); return false;">Registreer hier</a>
+        </p>
+
+        <div class="trust-bar">
+          <span class="trust-item"><span class="t-icon">🔒</span> SSL beveiligd</span>
+          <span class="trust-item"><span class="t-icon">🛡️</span> AVG compliant</span>
+          <span class="trust-item"><span class="t-icon">✓</span> ISO gecertificeerd</span>
+        </div>
+      </div>
+
+      <!-- ═══════ REGISTER PANEL ═══════ -->
+      <div class="form-panel" id="panel-register">
+        <h2 class="form-title">Account aanmaken</h2>
+        <p class="form-subtitle">Maak een zakelijk account aan voor persoonlijke prijzen en snelle nabestellingen.</p>
+
+        <div class="oauth-buttons">
+          <button class="oauth-btn" onclick="handleGoogleAuth()">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Registreren met Google
+          </button>
+        </div>
+
+        <div class="divider">of met e-mail</div>
+
+        <div class="b2b-notice">
+          <span class="b2b-icon">🏥</span>
+          <div>
+            <strong>B2B registratie</strong> — Uw aanvraag wordt binnen 1 werkdag beoordeeld.
+            Na goedkeuring ontvangt u uw persoonlijke prijsafspraken.
+          </div>
+        </div>
+
+        <form onsubmit="handleRegister(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Voornaam</label>
+              <input type="text" class="form-input" placeholder="Jan" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Achternaam</label>
+              <input type="text" class="form-input" placeholder="de Vries" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Organisatie / Praktijk</label>
+            <input type="text" class="form-input" placeholder="Huisartsenpraktijk De Vries" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">KvK-nummer</label>
+            <input type="text" class="form-input" placeholder="12345678" maxlength="8">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Zakelijk e-mailadres</label>
+            <div class="form-input-icon">
+              <span class="icon-left">✉️</span>
+              <input type="email" class="form-input" placeholder="info@uwpraktijk.nl" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Telefoonnummer</label>
+            <div class="form-input-icon">
+              <span class="icon-left">📞</span>
+              <input type="tel" class="form-input" placeholder="06 12345678">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Wachtwoord</label>
+            <div class="form-input-icon">
+              <span class="icon-left">🔒</span>
+              <input type="password" class="form-input" id="reg-pw" placeholder="Min. 8 tekens" required oninput="checkPwStrength(this.value)">
+              <button type="button" class="toggle-pw" onclick="togglePassword('reg-pw', this)">👁️</button>
+            </div>
+            <div class="pw-strength">
+              <div class="pw-bar"><div class="pw-fill" id="pw-fill"></div></div>
+              <span class="pw-label" id="pw-label"></span>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 24px;">
+            <label class="form-checkbox">
+              <input type="checkbox" required>
+              Ik ga akkoord met de <a href="#" class="form-link" style="margin-left:2px;">algemene voorwaarden</a>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-secondary">Account aanvragen</button>
+        </form>
+
+        <p class="form-footer" style="margin-top:16px;">
+          Al een account? <a href="#" onclick="switchTab('login'); return false;">Log hier in</a>
+        </p>
+      </div>
+
+      <!-- ═══════ GUEST PANEL ═══════ -->
+      <div class="form-panel" id="panel-guest">
+        <h2 class="form-title">Bestellen als gast</h2>
+        <p class="form-subtitle">Geen account nodig — vul uw gegevens in en bestel direct. U kunt na uw bestelling alsnog een account aanmaken.</p>
+
+        <div class="guest-info-box">
+          <h4>ℹ️ Goed om te weten</h4>
+          <p>Als gast kunt u eenmalig bestellen zonder account. Met een account profiteert u van:</p>
+          <div class="guest-benefits">
+            <div class="guest-benefit"><span class="check">✓</span> Persoonlijke staffelprijzen</div>
+            <div class="guest-benefit"><span class="check">✓</span> Bestelhistorie inzien</div>
+            <div class="guest-benefit"><span class="check">✓</span> Snelle nabestellingen</div>
+            <div class="guest-benefit"><span class="check">✓</span> Bestellijsten opslaan</div>
+          </div>
+        </div>
+
+        <form onsubmit="handleGuest(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Voornaam</label>
+              <input type="text" class="form-input" placeholder="Jan" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Achternaam</label>
+              <input type="text" class="form-input" placeholder="de Vries" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">E-mailadres</label>
+            <div class="form-input-icon">
+              <span class="icon-left">✉️</span>
+              <input type="email" class="form-input" placeholder="naam@organisatie.nl" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Organisatie (optioneel)</label>
+            <input type="text" class="form-input" placeholder="Naam organisatie of praktijk">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Telefoonnummer</label>
+            <div class="form-input-icon">
+              <span class="icon-left">📞</span>
+              <input type="tel" class="form-input" placeholder="06 12345678" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 24px;">
+            <label class="form-checkbox">
+              <input type="checkbox" required>
+              Ik ga akkoord met de <a href="#" class="form-link" style="margin-left:2px;">algemene voorwaarden</a> en het <a href="#" class="form-link" style="margin-left:2px;">privacybeleid</a>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary">Doorgaan naar bezorging</button>
+
+          <button type="button" class="btn-guest" onclick="switchTab('register')" style="border-style: solid; border-color: var(--teal); color: var(--teal); margin-top: 12px;">
+            🏥 Toch liever een zakelijk account?
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tab switching
+  function switchTab(tab) {
+    document.querySelectorAll('.auth-tab').forEach((t, i) => {
+      t.classList.toggle('active', ['login','register','guest'][i] === tab);
+    });
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+  }
+
+  // Toggle password visibility
+  function togglePassword(id, btn) {
+    const input = document.getElementById(id);
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.textContent = isPassword ? '🙈' : '👁️';
+  }
+
+  // Password strength checker
+  function checkPwStrength(pw) {
+    const fill = document.getElementById('pw-fill');
+    const label = document.getElementById('pw-label');
+    let strength = 0;
+    if (pw.length >= 8) strength++;
+    if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) strength++;
+    if (/[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw)) strength++;
+
+    fill.className = 'pw-fill';
+    label.className = 'pw-label';
+    if (strength === 0 && pw.length > 0) {
+      fill.classList.add('weak'); label.classList.add('weak'); label.textContent = 'Zwak';
+    } else if (strength === 1) {
+      fill.classList.add('weak'); label.classList.add('weak'); label.textContent = 'Zwak';
+    } else if (strength === 2) {
+      fill.classList.add('medium'); label.classList.add('medium'); label.textContent = 'Redelijk';
+    } else if (strength === 3) {
+      fill.classList.add('strong'); label.classList.add('strong'); label.textContent = 'Sterk';
+    } else {
+      label.textContent = '';
+    }
+  }
+
+  // Handlers (demo)
+  function handleLogin(e) { e.preventDefault(); alert('Login flow → redirect naar checkout/account'); }
+  function handleRegister(e) { e.preventDefault(); alert('Registratie ingediend → verificatie-email verzonden'); }
+  function handleGuest(e) { e.preventDefault(); alert('Gast checkout → redirect naar bezorging stap'); }
+  function handleGoogleAuth() { alert('Google OAuth → redirect naar Google login'); }
+</script>
+
+</body>
+</html>
