@@ -107,9 +107,9 @@ function countImages(blocks: any[]): { total: number; withAlt: number } {
         }
       }
 
-      // Traverse nested blocks
-      if (block.layout) traverse(block.layout)
-      if (block.columns) traverse(block.columns)
+      // Traverse nested blocks (only if they're arrays, not strings like "centered" or "grid-4")
+      if (Array.isArray(block.layout)) traverse(block.layout)
+      if (Array.isArray(block.columns)) traverse(block.columns)
     })
   }
 
