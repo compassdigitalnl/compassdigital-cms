@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import type { Header, Theme } from '@/payload-types'
+import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
 import {
   BadgeCheck,
   Truck,
@@ -50,10 +51,11 @@ export function TopBar({ topBar, theme }: Props) {
 
   const bgColor = topBar.backgroundColor || theme?.secondaryColor || '#0A1628'
   const textColor = topBar.textColor || '#FFFFFF'
+  const containerClass = getContainerMaxWidth(theme?.containerWidth)
 
   return (
     <div className="topbar" style={{ backgroundColor: bgColor }}>
-      <div className="max-w-[1320px] mx-auto px-8 h-9 flex items-center justify-between text-xs font-medium">
+      <div className={`${containerClass} mx-auto px-8 h-9 flex items-center justify-between text-xs font-medium`}>
         {/* Left Messages */}
         <div className="flex items-center gap-6">
           {topBar.leftMessages?.map((message, index) => {

@@ -141,7 +141,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
   return (
     <>
       {/* Alert Bar */}
-      {alertBar?.enabled && <AlertBar alertBar={alertBar} />}
+      {alertBar?.enabled && <AlertBar alertBar={alertBar} theme={theme} />}
 
       {/* Top Bar */}
       {topBar?.enabled && <TopBar topBar={topBar} theme={theme} />}

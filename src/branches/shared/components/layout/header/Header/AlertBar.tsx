@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header } from '@/payload-types'
+import type { Header, Theme } from '@/payload-types'
+import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
 import {
   BadgeCheck,
   Truck,
@@ -33,12 +34,14 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 
 type Props = {
   alertBar: NonNullable<Header['alertBar']>
+  theme?: Theme | null
 }
 
-export function AlertBar({ alertBar }: Props) {
+export function AlertBar({ alertBar, theme }: Props) {
   const [isDismissed, setIsDismissed] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const containerClass = getContainerMaxWidth(theme?.containerWidth)
 
   useEffect(() => {
     // First mount - prevents hydration mismatch
@@ -138,7 +141,7 @@ export function AlertBar({ alertBar }: Props) {
         borderBottom: `1px solid ${colors.border}`,
       }}
     >
-      <div className="max-w-[1320px] mx-auto px-8 py-2.5 flex items-center justify-center gap-3">
+      <div className={`${containerClass} mx-auto px-8 py-2.5 flex items-center justify-center gap-3`}>
         {Icon && <Icon className="w-4 h-4" style={{ color: colors.icon }} />}
         <p className="text-sm font-medium" style={{ color: colors.text }}>
           {alertBar.message}
