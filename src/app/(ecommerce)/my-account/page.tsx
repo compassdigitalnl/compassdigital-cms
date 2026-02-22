@@ -26,40 +26,8 @@ export default async function MyAccountPage() {
     template = 'myaccounttemplate1'
   }
 
-  // Debug: Log template selection
-  console.log('👤 My Account Page')
-  console.log('📋 Global my-account template setting:', (settings as any)?.defaultMyAccountTemplate)
-  console.log('✅ Using template:', template)
-
-  // Badge color and label based on template
-  const getBadgeStyle = () => {
-    // Template 2 will be added later (simpler list view)
-    return { background: '#3B82F6', label: '🏢 My Account Template 1 - Enterprise' }
-  }
-
-  const badgeStyle = getBadgeStyle()
-
   return (
     <div className="min-h-screen">
-      {/* DEBUG: Template Indicator */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '80px',
-          right: '20px',
-          zIndex: 9999,
-          background: badgeStyle.background,
-          color: 'white',
-          padding: '12px 20px',
-          borderRadius: '8px',
-          fontSize: '14px',
-          fontWeight: 700,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-        }}
-      >
-        {badgeStyle.label}
-      </div>
-
       {/* My Account Template Switcher */}
       {/* Template 2 will be added here later */}
       <MyAccountTemplate1 />

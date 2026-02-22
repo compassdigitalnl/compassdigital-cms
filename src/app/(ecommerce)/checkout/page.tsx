@@ -26,40 +26,8 @@ export default async function CheckoutPageWrapper() {
     template = 'checkouttemplate1'
   }
 
-  // Debug: Log template selection
-  console.log('🛒 Checkout Page')
-  console.log('📋 Global checkout template setting:', (settings as any)?.defaultCheckoutTemplate)
-  console.log('✅ Using template:', template)
-
-  // Badge color and label based on template
-  const getBadgeStyle = () => {
-    // Template 2 will be added later (one-page checkout)
-    return { background: '#3B82F6', label: '🏢 Checkout Template 1 - Enterprise' }
-  }
-
-  const badgeStyle = getBadgeStyle()
-
   return (
-    <div className="min-h-screen">
-      {/* DEBUG: Template Indicator */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '80px',
-          right: '20px',
-          zIndex: 9999,
-          background: badgeStyle.background,
-          color: 'white',
-          padding: '12px 20px',
-          borderRadius: '8px',
-          fontSize: '14px',
-          fontWeight: 700,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-        }}
-      >
-        {badgeStyle.label}
-      </div>
-
+    <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Checkout Template Switcher */}
       {/* Template 2 will be added here later */}
       <CheckoutTemplate1 />
