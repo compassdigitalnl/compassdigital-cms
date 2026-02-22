@@ -173,6 +173,6 @@ export const MenuItems: CollectionConfig = {
         description: 'Volgorde in menu (lager = eerder)',
       },
     },
-    ...slugField(),
+    slugField(),
   ],
 }

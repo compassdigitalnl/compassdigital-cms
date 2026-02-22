@@ -225,6 +225,6 @@ export const Events: CollectionConfig = {
         description: 'Bijv. "romantisch", "families", "vegetarisch"',
       },
     },
-    ...slugField(),
+    slugField(),
   ],
 }
