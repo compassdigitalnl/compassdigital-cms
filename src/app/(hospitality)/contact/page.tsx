@@ -14,10 +14,10 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#0A1628] to-[#121F33] px-6 py-12 text-center">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-radial from-teal-500/10 via-transparent to-transparent" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-theme-secondary to-theme-secondary-light px-6 py-12 text-center">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-radial from-theme-primary/10 via-transparent to-transparent" />
         <div className="container relative z-10 mx-auto max-w-4xl">
-          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-teal-500/20 bg-teal-500/10 px-3 py-1 text-[11px] font-bold text-teal-200">
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-theme-primary/20 bg-theme-primary/50/10 px-3 py-1 text-[11px] font-bold text-theme-primary-light">
             <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -43,11 +43,11 @@ export default function ContactPage() {
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           <Link
             href="tel:0203456789"
-            className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-teal-500 hover:shadow-lg"
+            className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-theme-primary hover:shadow-lg"
           >
-            <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100">
+            <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-theme-primary/10">
               <svg
-                className="h-4.5 w-4.5 text-teal-600"
+                className="h-4.5 w-4.5 text-theme-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -61,13 +61,13 @@ export default function ContactPage() {
               </svg>
             </div>
             <h3 className="mb-0.5 text-sm font-extrabold text-gray-900">Bellen</h3>
-            <p className="mb-1 text-sm font-bold text-teal-600">020 - 345 67 89</p>
+            <p className="mb-1 text-sm font-bold text-theme-primary">020 - 345 67 89</p>
             <p className="text-[10px] text-gray-500">Ma-Vr 07:30-20:00</p>
           </Link>
 
           <Link
             href="https://wa.me/31612345678"
-            className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-teal-500 hover:shadow-lg"
+            className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-theme-primary hover:shadow-lg"
           >
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-green-100">
               <svg
@@ -85,13 +85,13 @@ export default function ContactPage() {
               </svg>
             </div>
             <h3 className="mb-0.5 text-sm font-extrabold text-gray-900">WhatsApp</h3>
-            <p className="mb-1 text-sm font-bold text-teal-600">06 - 1234 5678</p>
+            <p className="mb-1 text-sm font-bold text-theme-primary">06 - 1234 5678</p>
             <p className="text-[10px] text-gray-500">Reactie binnen 1 uur</p>
           </Link>
 
           <Link
             href="mailto:info@fysiovitaal.nl"
-            className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-teal-500 hover:shadow-lg"
+            className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-theme-primary hover:shadow-lg"
           >
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100">
               <svg
@@ -109,11 +109,11 @@ export default function ContactPage() {
               </svg>
             </div>
             <h3 className="mb-0.5 text-sm font-extrabold text-gray-900">E-mail</h3>
-            <p className="mb-1 text-sm font-bold text-teal-600">info@fysiovitaal.nl</p>
+            <p className="mb-1 text-sm font-bold text-theme-primary">info@fysiovitaal.nl</p>
             <p className="text-[10px] text-gray-500">Reactie binnen 4 uur</p>
           </Link>
 
-          <div className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-teal-500 hover:shadow-lg">
+          <div className="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-theme-primary hover:shadow-lg">
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100">
               <svg
                 className="h-4.5 w-4.5 text-amber-600"
@@ -130,7 +130,7 @@ export default function ContactPage() {
               </svg>
             </div>
             <h3 className="mb-0.5 text-sm font-extrabold text-gray-900">Videoconsult</h3>
-            <p className="mb-1 text-sm font-bold text-teal-600">Online afspraak</p>
+            <p className="mb-1 text-sm font-bold text-theme-primary">Online afspraak</p>
             <p className="text-[10px] text-gray-500">Via beveiligde verbinding</p>
           </div>
         </div>
@@ -171,9 +171,9 @@ export default function ContactPage() {
         {/* Contact Form */}
         <div className="rounded-3xl border border-gray-200 bg-white shadow-md">
           <div className="flex items-center gap-3 border-b border-gray-200 p-6">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-100">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-theme-primary/10">
               <svg
-                className="h-4.5 w-4.5 text-teal-600"
+                className="h-4.5 w-4.5 text-theme-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -205,21 +205,21 @@ export default function ContactPage() {
               <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
-                  className="rounded-xl border-2 border-teal-500 bg-teal-50 p-3 text-center transition-all hover:bg-teal-100"
+                  className="rounded-xl border-2 border-theme-primary bg-theme-primary/5 p-3 text-center transition-all hover:bg-theme-primary/10"
                 >
                   <div className="mb-0.5 text-xl">📋</div>
                   <div className="text-[11px] font-bold text-gray-900">Nieuwe patiënt</div>
                 </button>
                 <button
                   type="button"
-                  className="rounded-xl border-2 border-gray-200 bg-white p-3 text-center transition-all hover:border-teal-500 hover:bg-teal-50"
+                  className="rounded-xl border-2 border-gray-200 bg-white p-3 text-center transition-all hover:border-theme-primary hover:bg-theme-primary/5"
                 >
                   <div className="mb-0.5 text-xl">🔄</div>
                   <div className="text-[11px] font-bold text-gray-900">Vervolgafspraak</div>
                 </button>
                 <button
                   type="button"
-                  className="rounded-xl border-2 border-gray-200 bg-white p-3 text-center transition-all hover:border-teal-500 hover:bg-teal-50"
+                  className="rounded-xl border-2 border-gray-200 bg-white p-3 text-center transition-all hover:border-theme-primary hover:bg-theme-primary/5"
                 >
                   <div className="mb-0.5 text-xl">❓</div>
                   <div className="text-[11px] font-bold text-gray-900">Vraag stellen</div>
@@ -235,7 +235,7 @@ export default function ContactPage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="Uw voornaam"
                 />
               </div>
@@ -245,7 +245,7 @@ export default function ContactPage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="Uw achternaam"
                 />
               </div>
@@ -259,7 +259,7 @@ export default function ContactPage() {
                 </label>
                 <input
                   type="tel"
-                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="06 - 1234 5678"
                 />
               </div>
@@ -269,7 +269,7 @@ export default function ContactPage() {
                 </label>
                 <input
                   type="email"
-                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="uw@email.nl"
                 />
               </div>
@@ -281,7 +281,7 @@ export default function ContactPage() {
               </label>
               <input
                 type="date"
-                className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
               />
             </div>
 
@@ -290,7 +290,7 @@ export default function ContactPage() {
                 <label className="mb-1 block text-[11px] font-bold text-gray-700">
                   Verzekeraar
                 </label>
-                <select className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20">
+                <select className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20">
                   <option>Selecteer verzekeraar</option>
                   <option>Zilveren Kruis</option>
                   <option>CZ</option>
@@ -303,7 +303,7 @@ export default function ContactPage() {
                 <label className="mb-1 block text-[11px] font-bold text-gray-700">
                   Gewenste behandeling
                 </label>
-                <select className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20">
+                <select className="w-full rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20">
                   <option>Weet ik nog niet</option>
                   <option>Manuele therapie</option>
                   <option>Sportfysiotherapie</option>
@@ -318,7 +318,7 @@ export default function ContactPage() {
               </label>
               <textarea
                 rows={3}
-                className="w-full resize-none rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                className="w-full resize-none rounded-xl border border-gray-300 px-3 py-3 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                 placeholder="Beschrijf kort uw klacht, hoe lang u er last van heeft, en wat uw doel is…"
               />
             </div>
@@ -330,25 +330,25 @@ export default function ContactPage() {
               <div className="flex flex-wrap gap-1.5">
                 <button
                   type="button"
-                  className="rounded-lg border-2 border-teal-500 bg-teal-50 px-3 py-1.5 text-xs font-bold text-gray-900"
+                  className="rounded-lg border-2 border-theme-primary bg-theme-primary/5 px-3 py-1.5 text-xs font-bold text-gray-900"
                 >
                   Ochtend (07:30-12:00)
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-xs font-bold text-gray-700 hover:border-teal-500"
+                  className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-xs font-bold text-gray-700 hover:border-theme-primary"
                 >
                   Middag (12:00-17:00)
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-xs font-bold text-gray-700 hover:border-teal-500"
+                  className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-xs font-bold text-gray-700 hover:border-theme-primary"
                 >
                   Avond (17:00-20:00)
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-xs font-bold text-gray-700 hover:border-teal-500"
+                  className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-xs font-bold text-gray-700 hover:border-theme-primary"
                 >
                   Zaterdag
                 </button>
@@ -357,7 +357,7 @@ export default function ContactPage() {
 
             <div className="flex items-start gap-2 rounded-xl bg-gray-50 p-3 text-xs text-gray-600">
               <svg
-                className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-teal-600"
+                className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-theme-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -377,7 +377,7 @@ export default function ContactPage() {
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-teal-600 px-6 py-4 text-sm font-extrabold text-white shadow-lg shadow-teal-600/30 transition-all hover:bg-navy-900"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-theme-primary px-6 py-4 text-sm font-extrabold text-white shadow-lg shadow-theme-primary/30 transition-all hover:bg-theme-secondary"
             >
               <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -411,9 +411,9 @@ export default function ContactPage() {
         {/* Sidebar */}
         <aside className="flex flex-col gap-3">
           {/* Direct Contact */}
-          <div className="rounded-2xl bg-gradient-to-br from-[#0A1628] to-[#121F33] p-5 text-white">
+          <div className="rounded-2xl bg-gradient-to-br from-theme-secondary to-theme-secondary-light p-5 text-white">
             <h3 className="mb-4 flex items-center gap-1.5 font-display text-sm font-extrabold">
-              <svg className="h-3.5 w-3.5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-3.5 w-3.5 text-theme-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
               Direct contact
@@ -458,7 +458,7 @@ export default function ContactPage() {
           {/* Location */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5">
             <h3 className="mb-3 flex items-center gap-1.5 font-display text-sm font-extrabold text-gray-900">
-              <svg className="h-3.5 w-3.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-3.5 w-3.5 text-theme-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               Locatie
@@ -467,7 +467,7 @@ export default function ContactPage() {
               📍
             </div>
             <div className="mb-3 text-center">
-              <Link href="#" className="inline-flex items-center gap-1 text-xs font-bold text-teal-600 hover:underline">
+              <Link href="#" className="inline-flex items-center gap-1 text-xs font-bold text-theme-primary hover:underline">
                 <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                 </svg>
@@ -476,8 +476,8 @@ export default function ContactPage() {
             </div>
             <div className="space-y-2 text-xs">
               <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-teal-100">
-                  <svg className="h-3.5 w-3.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-theme-primary/10">
+                  <svg className="h-3.5 w-3.5 text-theme-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>
                 </div>
@@ -492,7 +492,7 @@ export default function ContactPage() {
           {/* Opening Hours */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5">
             <h3 className="mb-3 flex items-center gap-1.5 font-display text-sm font-extrabold text-gray-900">
-              <svg className="h-3.5 w-3.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-3.5 w-3.5 text-theme-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Openingstijden
@@ -527,7 +527,7 @@ export default function ContactPage() {
                 <span className="text-red-500">Gesloten</span>
               </div>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-[10px] font-bold text-teal-600">
+            <div className="mt-3 flex items-center gap-1 text-[10px] font-bold text-theme-primary">
               <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>

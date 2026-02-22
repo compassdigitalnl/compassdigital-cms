@@ -32,12 +32,12 @@ export default async function PortfolioPage() {
   })
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-theme-background">
       {/* Page Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#0A1628] to-[#121F33] py-11 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-br from-theme-secondary to-theme-secondary-light py-11 text-center">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(0,137,123,0.06),transparent_70%)]"></div>
         <div className="relative z-10">
-          <div className="mb-2 inline-flex items-center gap-1 rounded-full border border-[#00897B]/20 bg-[#00897B]/10 px-3 py-1 text-[11px] font-bold text-[#26A69A]">
+          <div className="mb-2 inline-flex items-center gap-1 rounded-full border border-theme-primary/20 bg-theme-primary/10 px-3 py-1 text-[11px] font-bold text-theme-primary-light">
             📸 Portfolio
           </div>
           <h1 className="mb-1 font-['Plus_Jakarta_Sans'] text-4xl font-extrabold text-white">
@@ -58,10 +58,10 @@ export default async function PortfolioPage() {
                 key={index}
                 className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl transition hover:scale-105"
               >
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#00897B]/10 to-[#00897B]/5 text-4xl">
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-theme-primary/10 to-theme-primary/5 text-4xl">
                   ✨
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-[#0A1628]/50 opacity-0 transition group-hover:opacity-100">
+                <div className="absolute inset-0 flex items-center justify-center bg-theme-secondary/50 opacity-0 transition group-hover:opacity-100">
                   <span className="text-2xl text-white">❤️</span>
                 </div>
               </div>
@@ -74,10 +74,10 @@ export default async function PortfolioPage() {
                 key={index}
                 className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl transition hover:scale-105"
               >
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#00897B]/10 to-[#00897B]/5 text-4xl">
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-theme-primary/10 to-theme-primary/5 text-4xl">
                   {['💇‍♀️', '💅', '✨', '💄', '🎨', '💆'][index % 6]}
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-[#0A1628]/50 opacity-0 transition group-hover:opacity-100">
+                <div className="absolute inset-0 flex items-center justify-center bg-theme-secondary/50 opacity-0 transition group-hover:opacity-100">
                   <span className="text-2xl text-white">❤️</span>
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default async function PortfolioPage() {
 
         {/* Instagram CTA */}
         <div className="mt-8 text-center">
-          <div className="mb-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#0A1628]">
+          <div className="mb-3 inline-flex items-center gap-1.5 text-sm font-bold text-theme-secondary">
             <span className="text-2xl">📸</span>
             Volg ons op Instagram voor dagelijkse inspiratie
           </div>
@@ -96,7 +96,7 @@ export default async function PortfolioPage() {
               href="https://instagram.com/studiobloom"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#00897B] px-6 py-3 font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-white shadow-lg shadow-[#00897B]/30 transition hover:bg-[#0A1628]"
+              className="inline-flex items-center gap-2 rounded-xl bg-theme-primary px-6 py-3 font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-white shadow-lg shadow-theme-primary/30 transition hover:bg-theme-secondary"
             >
               📷 @studiobloom
             </a>

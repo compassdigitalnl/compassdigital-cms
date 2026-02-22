@@ -65,8 +65,8 @@ export default async function TreatmentDetailPage({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#0A1628] to-[#121F33] px-6 py-12">
-        <div className="pointer-events-none absolute -right-10 -top-20 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-teal-500/10 to-transparent blur-3xl" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-theme-secondary to-theme-secondary-light px-6 py-12">
+        <div className="pointer-events-none absolute -right-10 -top-20 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-theme-primary/10 to-transparent blur-3xl" />
 
         <div className="container relative z-10 mx-auto max-w-6xl">
           {/* Breadcrumb */}
@@ -83,12 +83,12 @@ export default async function TreatmentDetailPage({
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            <span className="font-semibold text-teal-400">{treatment.title}</span>
+            <span className="font-semibold text-theme-primary-light">{treatment.title}</span>
           </div>
 
           <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
             <div>
-              <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-teal-500/20 bg-teal-500/10 px-3 py-1 text-[11px] font-bold text-teal-200">
+              <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-theme-primary/20 bg-theme-primary/10 px-3 py-1 text-[11px] font-bold text-theme-primary-light">
                 <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -107,7 +107,7 @@ export default async function TreatmentDetailPage({
                 {treatment.duration && (
                   <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-400">
                     <svg
-                      className="h-3 w-3 text-teal-500"
+                      className="h-3 w-3 text-theme-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -125,7 +125,7 @@ export default async function TreatmentDetailPage({
                 {treatment.insurance === 'covered' && (
                   <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-400">
                     <svg
-                      className="h-3 w-3 text-teal-500"
+                      className="h-3 w-3 text-theme-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -142,7 +142,7 @@ export default async function TreatmentDetailPage({
                 )}
                 <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-400">
                   <svg
-                    className="h-3 w-3 text-teal-500"
+                    className="h-3 w-3 text-theme-primary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -162,14 +162,14 @@ export default async function TreatmentDetailPage({
             {treatment.successRate && (
               <div className="flex flex-col gap-2">
                 <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-center">
-                  <div className="font-display text-2xl font-extrabold text-teal-400">
+                  <div className="font-display text-2xl font-extrabold text-theme-primary-light">
                     {treatment.successRate}%
                   </div>
                   <div className="text-[10px] text-gray-500">Klachtenvrij na behandeling</div>
                 </div>
                 {treatment.averageTreatments && (
                   <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-center">
-                    <div className="font-display text-2xl font-extrabold text-teal-400">
+                    <div className="font-display text-2xl font-extrabold text-theme-primary-light">
                       {treatment.averageTreatments}
                     </div>
                     <div className="text-[10px] text-gray-500">Gem. behandelingen</div>
@@ -188,7 +188,7 @@ export default async function TreatmentDetailPage({
           <section className="mb-6">
             <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
               <svg
-                className="h-5 w-5 text-teal-600"
+                className="h-5 w-5 text-theme-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -217,7 +217,7 @@ export default async function TreatmentDetailPage({
             <section className="mb-6">
               <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
                 <svg
-                  className="h-5 w-5 text-teal-600"
+                  className="h-5 w-5 text-theme-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -235,10 +235,10 @@ export default async function TreatmentDetailPage({
                 {treatment.symptoms.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-gray-900 transition-all hover:border-teal-500"
+                    className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-gray-900 transition-all hover:border-theme-primary"
                   >
                     <svg
-                      className="h-4 w-4 flex-shrink-0 text-teal-500"
+                      className="h-4 w-4 flex-shrink-0 text-theme-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -262,7 +262,7 @@ export default async function TreatmentDetailPage({
             <section className="mb-6">
               <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
                 <svg
-                  className="h-5 w-5 text-teal-600"
+                  className="h-5 w-5 text-theme-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -280,9 +280,9 @@ export default async function TreatmentDetailPage({
                 {treatment.process.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="flex gap-3 rounded-2xl border border-gray-200 bg-white p-4 transition-all hover:border-teal-500"
+                    className="flex gap-3 rounded-2xl border border-gray-200 bg-white p-4 transition-all hover:border-theme-primary"
                   >
-                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-teal-600 font-display text-sm font-extrabold text-white">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-theme-primary font-display text-sm font-extrabold text-white">
                       {index + 1}
                     </div>
                     <div>
@@ -302,7 +302,7 @@ export default async function TreatmentDetailPage({
             <section>
               <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
                 <svg
-                  className="h-5 w-5 text-teal-600"
+                  className="h-5 w-5 text-theme-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -321,7 +321,7 @@ export default async function TreatmentDetailPage({
                   <Link
                     key={relatedTreatment.id}
                     href={`/behandelingen/${relatedTreatment.slug}`}
-                    className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3.5 transition-all hover:border-teal-500"
+                    className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3.5 transition-all hover:border-theme-primary"
                   >
                     <div className="text-2xl">{relatedTreatment.icon || '🏥'}</div>
                     <div className="flex-1">
@@ -358,7 +358,7 @@ export default async function TreatmentDetailPage({
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
             <h3 className="mb-3 flex items-center gap-1.5 font-display text-base font-extrabold text-gray-900">
               <svg
-                className="h-4 w-4 text-teal-600"
+                className="h-4 w-4 text-theme-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -380,7 +380,7 @@ export default async function TreatmentDetailPage({
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="Uw naam"
                 />
               </div>
@@ -390,7 +390,7 @@ export default async function TreatmentDetailPage({
                 </label>
                 <input
                   type="tel"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="06 - 1234 5678"
                 />
               </div>
@@ -398,7 +398,7 @@ export default async function TreatmentDetailPage({
                 <label className="mb-1 block text-[11px] font-bold text-gray-700">E-mail</label>
                 <input
                   type="email"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="uw@email.nl"
                 />
               </div>
@@ -406,7 +406,7 @@ export default async function TreatmentDetailPage({
                 <label className="mb-1 block text-[11px] font-bold text-gray-700">
                   Klacht / reden
                 </label>
-                <select className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20">
+                <select className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20">
                   <option>Nek-/rugklachten</option>
                   <option>Schouderklachten</option>
                   <option>Knieklachten</option>
@@ -416,7 +416,7 @@ export default async function TreatmentDetailPage({
               </div>
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-teal-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-teal-600/30 transition-all hover:bg-navy-900"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-theme-primary px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-theme-primary/30 transition-all hover:bg-theme-secondary"
               >
                 <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -438,7 +438,7 @@ export default async function TreatmentDetailPage({
           <div className="rounded-2xl border border-gray-200 bg-white p-5">
             <h3 className="mb-3 flex items-center gap-1.5 font-display text-sm font-extrabold text-gray-900">
               <svg
-                className="h-4 w-4 text-teal-600"
+                className="h-4 w-4 text-theme-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -454,9 +454,9 @@ export default async function TreatmentDetailPage({
             </h3>
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 border-b border-gray-100 pb-2.5 text-xs">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-100">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-theme-primary/10">
                   <svg
-                    className="h-3.5 w-3.5 text-teal-600"
+                    className="h-3.5 w-3.5 text-theme-primary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -559,10 +559,10 @@ export default async function TreatmentDetailPage({
           </div>
 
           {/* Contact Card */}
-          <div className="rounded-2xl bg-gradient-to-br from-[#0A1628] to-[#121F33] p-5 text-white">
+          <div className="rounded-2xl bg-gradient-to-br from-theme-secondary to-theme-secondary-light p-5 text-white">
             <div className="mb-2 flex items-center gap-2">
               <svg
-                className="h-4 w-4 text-teal-400"
+                className="h-4 w-4 text-theme-primary-light"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -577,7 +577,7 @@ export default async function TreatmentDetailPage({
               <span className="text-[10px] text-gray-400">Vragen?</span>
             </div>
             <div className="mb-1 font-display text-base font-extrabold">020 - 345 67 89</div>
-            <div className="text-[10px] text-teal-400">Ma-Vr 07:30-20:00</div>
+            <div className="text-[10px] text-theme-primary-light">Ma-Vr 07:30-20:00</div>
           </div>
         </aside>
       </div>

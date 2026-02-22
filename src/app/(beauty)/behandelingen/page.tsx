@@ -40,12 +40,12 @@ export default async function BehandelingenPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-theme-background">
       {/* Page Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#0A1628] to-[#121F33] py-11 text-center">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(0,137,123,0.06),transparent_70%)]"></div>
         <div className="relative z-10">
-          <div className="mb-2 inline-flex items-center gap-1 rounded-full border border-[#00897B]/20 bg-[#00897B]/10 px-3 py-1 text-[11px] font-bold text-[#26A69A]">
+          <div className="mb-2 inline-flex items-center gap-1 rounded-full border border-theme-primary/20 bg-theme-primary/10 px-3 py-1 text-[11px] font-bold text-theme-primary-light">
             ✨ Behandelingen & prijzen
           </div>
           <h1 className="mb-1 font-['Plus_Jakarta_Sans'] text-4xl font-extrabold text-white">
@@ -64,12 +64,12 @@ export default async function BehandelingenPage() {
           <div>
             {Object.entries(servicesByCategory).map(([category, categoryServices]: [string, any]) => (
               <div key={category} className="mb-6">
-                <div className="mb-2.5 flex items-center gap-2 border-b-2 border-[#E8ECF1] pb-1.5">
+                <div className="mb-2.5 flex items-center gap-2 border-b-2 border-theme-border pb-1.5">
                   <span className="text-2xl">{categoryLabels[category]?.split(' ')[0]}</span>
-                  <span className="font-['Plus_Jakarta_Sans'] text-xl font-extrabold text-[#0A1628]">
+                  <span className="font-['Plus_Jakarta_Sans'] text-xl font-extrabold text-theme-secondary">
                     {categoryLabels[category]?.split(' ').slice(1).join(' ')}
                   </span>
-                  <span className="text-xs font-semibold text-[#94A3B8]">
+                  <span className="text-xs font-semibold text-theme-grey-mid">
                     {categoryServices.length} behandelingen
                   </span>
                 </div>
@@ -78,16 +78,16 @@ export default async function BehandelingenPage() {
                   {categoryServices.map((service: any) => (
                     <div
                       key={service.id}
-                      className="flex items-center gap-3 rounded-2xl border-[1.5px] border-[#E8ECF1] bg-white p-3.5 transition hover:border-[#00897B]"
+                      className="flex items-center gap-3 rounded-2xl border-[1.5px] border-theme-border bg-white p-3.5 transition hover:border-theme-primary"
                     >
-                      <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[#00897B]/12 text-xl">
+                      <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-theme-primary/12 text-xl">
                         {service.icon || '✨'}
                       </div>
                       <div className="flex-1">
-                        <div className="flex items-center gap-1 font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-[#0A1628]">
+                        <div className="flex items-center gap-1 font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-theme-secondary">
                           {service.name}
                           {service.tags?.includes('popular') && (
-                            <span className="rounded bg-[#00897B]/12 px-1.5 py-0.5 text-[9px] font-bold text-[#00897B]">
+                            <span className="rounded bg-theme-primary/12 px-1.5 py-0.5 text-[9px] font-bold text-theme-primary">
                               POPULAIR
                             </span>
                           )}
@@ -97,18 +97,18 @@ export default async function BehandelingenPage() {
                             </span>
                           )}
                         </div>
-                        <p className="hidden text-[11px] text-[#94A3B8] sm:block">{service.excerpt}</p>
+                        <p className="hidden text-[11px] text-theme-grey-mid sm:block">{service.excerpt}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="flex items-center gap-1 text-[11px] font-semibold text-[#94A3B8]">
+                        <span className="flex items-center gap-1 text-[11px] font-semibold text-theme-grey-mid">
                           ⏱️ {service.duration} min
                         </span>
-                        <span className="min-w-[65px] text-right font-['JetBrains_Mono'] text-base font-bold text-[#00897B]">
+                        <span className="min-w-[65px] text-right font-['JetBrains_Mono'] text-base font-bold text-theme-primary">
                           € {service.price}
                         </span>
                         <Link
                           href="/boeken"
-                          className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#00897B] text-white transition hover:bg-[#0A1628]"
+                          className="flex h-9 w-9 items-center justify-center rounded-lg bg-theme-primary text-white transition hover:bg-theme-secondary"
                         >
                           📅
                         </Link>
@@ -122,11 +122,11 @@ export default async function BehandelingenPage() {
 
           {/* Sidebar */}
           <div className="space-y-2.5">
-            <div className="rounded-2xl border-[1.5px] border-[#E8ECF1] bg-white p-4.5 shadow-sm">
-              <h3 className="mb-2 flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-[#0A1628]">
+            <div className="rounded-2xl border-[1.5px] border-theme-border bg-white p-4.5 shadow-sm">
+              <h3 className="mb-2 flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-theme-secondary">
                 🎁 Cadeaubon
               </h3>
-              <div className="mb-2 rounded-2xl bg-[#0A1628] p-3.5 text-center text-white">
+              <div className="mb-2 rounded-2xl bg-theme-secondary p-3.5 text-center text-white">
                 <div className="mb-1 text-3xl">🎁</div>
                 <div className="mb-0.5 font-['Plus_Jakarta_Sans'] text-sm font-extrabold">
                   Cadeaubon kopen
@@ -134,14 +134,14 @@ export default async function BehandelingenPage() {
                 <p className="mb-2 text-[11px] text-white/30">
                   Het perfecte cadeau voor elke gelegenheid
                 </p>
-                <button className="flex h-9 w-full items-center justify-center gap-1 rounded-lg bg-[#00897B] font-['Plus_Jakarta_Sans'] text-xs font-extrabold text-white transition hover:bg-white hover:text-[#0A1628]">
+                <button className="flex h-9 w-full items-center justify-center gap-1 rounded-lg bg-theme-primary font-['Plus_Jakarta_Sans'] text-xs font-extrabold text-white transition hover:bg-white hover:text-theme-secondary">
                   💳 Bestel nu
                 </button>
               </div>
             </div>
 
-            <div className="flex items-start gap-1.5 rounded-lg bg-[#F1F4F8] p-2.5 text-[11px] leading-relaxed text-[#94A3B8]">
-              <span className="text-[#00897B]">ℹ️</span>
+            <div className="flex items-start gap-1.5 rounded-lg bg-theme-grey-light p-2.5 text-[11px] leading-relaxed text-theme-grey-mid">
+              <span className="text-theme-primary">ℹ️</span>
               Alle prijzen zijn inclusief BTW. Annuleren tot 24 uur van tevoren gratis mogelijk.
             </div>
           </div>

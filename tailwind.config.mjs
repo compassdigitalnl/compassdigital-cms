@@ -50,7 +50,51 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        // Plastimed color palette
+        // ═══════════════════════════════════════════════════════════════════
+        // THEME-AWARE COLORS (CMS-driven via ThemeProvider)
+        // These reference CSS custom properties set by the Theme global
+        // ═══════════════════════════════════════════════════════════════════
+        theme: {
+          // Primary brand colors
+          primary: {
+            DEFAULT: 'var(--color-primary)',
+            light: 'var(--color-primary-light)',
+            glow: 'var(--color-primary-glow)',
+          },
+          // Secondary brand colors
+          secondary: {
+            DEFAULT: 'var(--color-secondary)',
+            light: 'var(--color-secondary-light)',
+          },
+          // Accent color
+          accent: 'var(--color-accent)',
+          // Surface colors
+          background: 'var(--color-background)',
+          surface: 'var(--color-surface)',
+          border: 'var(--color-border)',
+          // Grey scale
+          grey: {
+            light: 'var(--color-grey-light)',
+            mid: 'var(--color-grey-mid)',
+            dark: 'var(--color-grey-dark)',
+          },
+          // Text colors
+          text: {
+            primary: 'var(--color-text-primary)',
+            secondary: 'var(--color-text-secondary)',
+            muted: 'var(--color-text-muted)',
+          },
+          // Semantic colors
+          success: 'var(--color-success)',
+          warning: 'var(--color-warning)',
+          error: 'var(--color-error)',
+          info: 'var(--color-info)',
+        },
+
+        // ═══════════════════════════════════════════════════════════════════
+        // LEGACY: Hard-coded Plastimed colors (for backward compatibility)
+        // Prefer using theme.* colors above for CMS-driven designs
+        // ═══════════════════════════════════════════════════════════════════
         navy: {
           DEFAULT: '#0A1628',
           light: '#121F33',
@@ -70,7 +114,9 @@ export default {
           glow: 'rgba(0, 137, 123, 0.15)',
         },
 
-        // Base theme colors (keep existing)
+        // ═══════════════════════════════════════════════════════════════════
+        // BASE SHADCN/UI COLORS (keep existing for UI components)
+        // ═══════════════════════════════════════════════════════════════════
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',

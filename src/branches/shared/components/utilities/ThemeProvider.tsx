@@ -18,12 +18,18 @@ type ThemeProviderProps = {
 export function ThemeProvider({ theme, children }: ThemeProviderProps) {
   // Default theme fallback if global not configured yet
   const defaults = {
-    primaryColor: '#00796B',
+    primaryColor: '#00897B',
+    primaryLight: '#26A69A',
+    primaryGlow: 'rgba(0,137,123,0.12)',
     secondaryColor: '#0A1628',
+    secondaryLight: '#121F33',
     accentColor: '#8b5cf6',
-    backgroundColor: '#ffffff',
-    surfaceColor: '#f9fafb',
-    borderColor: '#e5e7eb',
+    backgroundColor: '#F5F7FA',
+    surfaceColor: '#ffffff',
+    borderColor: '#E8ECF1',
+    greyLight: '#F1F4F8',
+    greyMid: '#94A3B8',
+    greyDark: '#64748B',
     textPrimary: '#0A1628',
     textSecondary: '#64748b',
     textMuted: '#94a3b8',
@@ -82,13 +88,27 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
   }
 
   const cssVariables = {
-    // Colors
+    // Primary colors with variants
     '--color-primary': themeData.primaryColor,
+    '--color-primary-light': themeData.primaryLight,
+    '--color-primary-glow': themeData.primaryGlow,
+
+    // Secondary colors with variants
     '--color-secondary': themeData.secondaryColor,
+    '--color-secondary-light': themeData.secondaryLight,
+
+    // Accent and surface colors
     '--color-accent': themeData.accentColor,
     '--color-background': themeData.backgroundColor,
     '--color-surface': themeData.surfaceColor,
     '--color-border': themeData.borderColor,
+
+    // Grey scale
+    '--color-grey-light': themeData.greyLight,
+    '--color-grey-mid': themeData.greyMid,
+    '--color-grey-dark': themeData.greyDark,
+
+    // Text colors
     '--color-text-primary': themeData.textPrimary,
     '--color-text-secondary': themeData.textSecondary,
     '--color-text-muted': themeData.textMuted,
@@ -291,16 +311,40 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           }
 
           /* ===================================================================
-             COLOR UTILITY CLASSES
+             COLOR UTILITY CLASSES - Theme-aware colors
              =================================================================== */
+          /* Primary colors */
           .bg-primary { background-color: var(--color-primary) !important; }
+          .bg-primary-light { background-color: var(--color-primary-light) !important; }
+          .bg-primary-glow { background-color: var(--color-primary-glow) !important; }
+          .text-primary { color: var(--color-primary) !important; }
+          .text-primary-light { color: var(--color-primary-light) !important; }
+          .border-primary { border-color: var(--color-primary) !important; }
+
+          /* Secondary colors */
           .bg-secondary { background-color: var(--color-secondary) !important; }
-          .bg-surface { background-color: var(--color-surface) !important; }
-
-          .text-primary-color { color: var(--color-primary) !important; }
+          .bg-secondary-light { background-color: var(--color-secondary-light) !important; }
           .text-secondary-color { color: var(--color-secondary) !important; }
+          .text-secondary-light { color: var(--color-secondary-light) !important; }
+          .border-secondary { border-color: var(--color-secondary) !important; }
 
+          /* Surface & background */
+          .bg-surface { background-color: var(--color-surface) !important; }
+          .bg-background { background-color: var(--color-background) !important; }
           .border-color { border-color: var(--color-border) !important; }
+
+          /* Grey scale */
+          .bg-grey-light { background-color: var(--color-grey-light) !important; }
+          .bg-grey-mid { background-color: var(--color-grey-mid) !important; }
+          .bg-grey-dark { background-color: var(--color-grey-dark) !important; }
+          .text-grey-mid { color: var(--color-grey-mid) !important; }
+          .text-grey-dark { color: var(--color-grey-dark) !important; }
+          .border-grey { border-color: var(--color-border) !important; }
+
+          /* Text colors */
+          .text-primary-text { color: var(--color-text-primary) !important; }
+          .text-secondary-text { color: var(--color-text-secondary) !important; }
+          .text-muted { color: var(--color-text-muted) !important; }
 
           /* Semantic color utilities */
           .bg-success { background-color: var(--color-success-bg) !important; }

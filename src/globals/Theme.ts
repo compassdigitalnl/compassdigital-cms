@@ -28,20 +28,55 @@ export const Theme: GlobalConfig = {
                   name: 'primaryColor',
                   type: 'text',
                   label: 'Primary Color',
-                  defaultValue: '#00796B',
+                  defaultValue: '#00897B',
                   admin: {
                     description: 'Main brand color (e.g., buttons, links)',
-                    placeholder: '#00796B',
+                    placeholder: '#00897B',
                   },
                 },
+                {
+                  name: 'primaryLight',
+                  type: 'text',
+                  label: 'Primary Light',
+                  defaultValue: '#26A69A',
+                  admin: {
+                    description: 'Lighter variant of primary color',
+                    placeholder: '#26A69A',
+                  },
+                },
+                {
+                  name: 'primaryGlow',
+                  type: 'text',
+                  label: 'Primary Glow',
+                  defaultValue: 'rgba(0,137,123,0.12)',
+                  admin: {
+                    description: 'Subtle glow/background for primary',
+                    placeholder: 'rgba(0,137,123,0.12)',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
                 {
                   name: 'secondaryColor',
                   type: 'text',
                   label: 'Secondary Color',
                   defaultValue: '#0A1628',
                   admin: {
-                    description: 'Secondary brand color',
+                    description: 'Secondary brand color (dark)',
                     placeholder: '#0A1628',
+                  },
+                },
+                {
+                  name: 'secondaryLight',
+                  type: 'text',
+                  label: 'Secondary Light',
+                  defaultValue: '#121F33',
+                  admin: {
+                    description: 'Lighter variant of secondary',
+                    placeholder: '#121F33',
                   },
                 },
                 {
@@ -63,7 +98,7 @@ export const Theme: GlobalConfig = {
                   name: 'backgroundColor',
                   type: 'text',
                   label: 'Background Color',
-                  defaultValue: '#ffffff',
+                  defaultValue: '#F5F7FA',
                   admin: {
                     description: 'Default page background',
                   },
@@ -72,7 +107,7 @@ export const Theme: GlobalConfig = {
                   name: 'surfaceColor',
                   type: 'text',
                   label: 'Surface Color',
-                  defaultValue: '#f9fafb',
+                  defaultValue: '#ffffff',
                   admin: {
                     description: 'Cards, sections background',
                   },
@@ -81,9 +116,41 @@ export const Theme: GlobalConfig = {
                   name: 'borderColor',
                   type: 'text',
                   label: 'Border Color',
-                  defaultValue: '#e5e7eb',
+                  defaultValue: '#E8ECF1',
                   admin: {
                     description: 'Default border color',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'greyLight',
+                  type: 'text',
+                  label: 'Grey Light',
+                  defaultValue: '#F1F4F8',
+                  admin: {
+                    description: 'Light grey for backgrounds',
+                  },
+                },
+                {
+                  name: 'greyMid',
+                  type: 'text',
+                  label: 'Grey Mid',
+                  defaultValue: '#94A3B8',
+                  admin: {
+                    description: 'Medium grey for secondary text',
+                  },
+                },
+                {
+                  name: 'greyDark',
+                  type: 'text',
+                  label: 'Grey Dark',
+                  defaultValue: '#64748B',
+                  admin: {
+                    description: 'Dark grey for text',
                   },
                 },
               ],
