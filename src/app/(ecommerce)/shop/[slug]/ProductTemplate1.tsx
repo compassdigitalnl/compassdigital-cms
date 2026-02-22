@@ -5,6 +5,10 @@ import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { useToast } from '@/branches/shared/components/ui/Toast'
 import { StaffelCalculator } from '@/branches/shared/components/ui/StaffelCalculator'
+import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
+import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
+import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
+import { features } from '@/lib/features'
 import type { Product } from '@/payload-types'
 import {
   Heart,
@@ -61,16 +65,41 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   // Simple product quantity
   const [quantity, setQuantity] = useState(1)
 
+  // Variable products - variant selections
+  const [variantSelections, setVariantSelections] = useState<Record<string, any>>({})
+  const [variantPrice, setVariantPrice] = useState(0)
+
+  // Subscription products - selected variant
+  const [selectedSubscription, setSelectedSubscription] = useState<any>(null)
+
   // Mobile accordion states
   const [accordionOpen, setAccordionOpen] = useState<string | null>('description')
 
+  // Product type detection
   const isGrouped = product.productType === 'grouped'
+  const isVariable = product.productType === 'variable'
+  const isSubscription = product.isSubscription === true && isVariable
+  const isMixMatch = product.productType === 'mixAndMatch'
+
   const childProducts =
     isGrouped && product.childProducts
       ? product.childProducts
           .map((child) => (typeof child.product === 'object' ? child.product : null))
           .filter((p) => p !== null)
       : []
+
+  // Calculate variant price
+  useEffect(() => {
+    if (isVariable && !isSubscription) {
+      let total = product.price || 0
+      Object.values(variantSelections).forEach((selection: any) => {
+        if (selection.priceModifier) {
+          total += selection.priceModifier
+        }
+      })
+      setVariantPrice(total)
+    }
+  }, [variantSelections, isVariable, isSubscription, product.price])
 
   // Calculate volume pricing tier
   const volumeTiers = product.volumePricing || []
@@ -171,6 +200,65 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           price: totalPrice,
         })
       }
+    } else if (isSubscription && selectedSubscription) {
+      // Add subscription product
+      const subscriptionPrice = (product.price || 0) + (selectedSubscription.priceModifier || 0)
+      const discountedPrice = selectedSubscription.discountPercentage
+        ? subscriptionPrice * (1 - selectedSubscription.discountPercentage / 100)
+        : subscriptionPrice
+
+      addItem({
+        id: product.id,
+        title: `${product.title} - ${selectedSubscription.label}`,
+        slug: product.slug || '',
+        price: product.price,
+        quantity: 1,
+        unitPrice: discountedPrice,
+        image:
+          typeof product.images?.[0] === 'object' && product.images[0] !== null
+            ? product.images[0].url || undefined
+            : undefined,
+        sku: product.sku || undefined,
+        ean: product.ean || undefined,
+        stock: selectedSubscription.stockLevel || 999,
+      })
+
+      showAddToCartToast({
+        emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
+        image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
+        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
+        title: `${product.title} - ${selectedSubscription.label}`,
+        quantity: 1,
+        price: discountedPrice,
+      })
+    } else if (isVariable && Object.keys(variantSelections).length > 0) {
+      // Add variable product with selected variants
+      const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
+
+      addItem({
+        id: product.id,
+        title: `${product.title} (${variantLabels})`,
+        slug: product.slug || '',
+        price: product.price,
+        quantity: quantity,
+        unitPrice: variantPrice,
+        image:
+          typeof product.images?.[0] === 'object' && product.images[0] !== null
+            ? product.images[0].url || undefined
+            : undefined,
+        sku: product.sku || undefined,
+        ean: product.ean || undefined,
+        stock: product.stock || 0,
+      })
+
+      showAddToCartToast({
+        emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
+        image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
+        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
+        title: product.title,
+        quantity: quantity,
+        price: variantPrice * quantity,
+      })
     } else {
       // Add simple product
       const unitPrice = product.salePrice || product.price
@@ -553,7 +641,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             </div>
 
             {/* STOCK */}
-            {product.trackStock && product.stock !== undefined && product.stock > 0 && (
+            {product.trackStock && product.stock !== undefined && product.stock > 0 && !isVariable && (
               <div className="flex items-center gap-2 px-4 py-3 bg-[var(--color-success-bg)] rounded-[10px] mb-5">
                 <span className="w-2 h-2 bg-[var(--color-success)] rounded-full shrink-0" />
                 <div>
@@ -567,6 +655,26 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   )}
                 </div>
                 <Truck className="w-4 h-4 ml-auto text-[#2E7D32]" />
+              </div>
+            )}
+
+            {/* SUBSCRIPTION PRODUCTS - Pricing Table */}
+            {isSubscription && features.subscriptions && (
+              <div className="mb-6">
+                <SubscriptionPricingTable
+                  product={product}
+                  onSelectionChange={(selection) => setSelectedSubscription(selection)}
+                />
+              </div>
+            )}
+
+            {/* VARIABLE PRODUCTS - Variant Selector (non-subscription) */}
+            {isVariable && !isSubscription && features.variableProducts && (
+              <div className="mb-6">
+                <VariantSelector
+                  product={product}
+                  onSelectionChange={(selections) => setVariantSelections(selections)}
+                />
               </div>
             )}
 
@@ -790,7 +898,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           </div>
 
           {/* STOCK - Mobile */}
-          {product.trackStock && product.stock !== undefined && product.stock > 0 && (
+          {product.trackStock && product.stock !== undefined && product.stock > 0 && !isVariable && (
             <div className="flex items-center gap-2 p-3 bg-[var(--color-success-bg)] rounded-[10px] mb-4 text-[13px]">
               <span className="w-1.5 h-1.5 bg-[var(--color-success)] rounded-full shrink-0" />
               <div className="flex-1">
@@ -799,6 +907,26 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 </div>
               </div>
               <Truck className="w-4 h-4 text-[#2E7D32]" />
+            </div>
+          )}
+
+          {/* SUBSCRIPTION PRODUCTS - Pricing Table (Mobile) */}
+          {isSubscription && features.subscriptions && (
+            <div className="mb-5">
+              <SubscriptionPricingTable
+                product={product}
+                onSelectionChange={(selection) => setSelectedSubscription(selection)}
+              />
+            </div>
+          )}
+
+          {/* VARIABLE PRODUCTS - Variant Selector (Mobile, non-subscription) */}
+          {isVariable && !isSubscription && features.variableProducts && (
+            <div className="mb-5">
+              <VariantSelector
+                product={product}
+                onSelectionChange={(selections) => setVariantSelections(selections)}
+              />
             </div>
           )}
 
@@ -1323,6 +1451,19 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             </div>
           )}
         </div>
+
+        {/* UP-SELLS - Show above ATC in feature release, for now show after related */}
+
+        {/* CROSS-SELLS, UP-SELLS, ACCESSORIES */}
+        {features.shop && (
+          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4 lg:px-6">
+            <RelatedProductsSection
+              upSells={product.upSells}
+              crossSells={product.crossSells}
+              accessories={product.accessories}
+            />
+          </div>
+        )}
 
         {/* RELATED PRODUCTS */}
         {product.relatedProducts && product.relatedProducts.length > 0 && (
