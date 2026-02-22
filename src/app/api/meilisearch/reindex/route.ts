@@ -31,11 +31,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Initialize indexes (if not already done)
-    await initializeMeilisearch()
-
     // Get Payload instance
     const payload = await getPayload({ config })
+
+    // Initialize indexes (if not already done) with CMS settings
+    await initializeMeilisearch(payload)
 
     // Reindex all products
     const success = await reindexAllProducts(payload)

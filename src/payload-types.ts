@@ -77,6 +77,7 @@ export interface Config {
     'product-categories': ProductCategory;
     brands: Brand;
     'recently-viewed': RecentlyViewed;
+    'edition-notifications': EditionNotification;
     'customer-groups': CustomerGroup;
     orders: Order;
     orderLists: OrderList;
@@ -106,6 +107,15 @@ export interface Config {
     'construction-projects': ConstructionProject;
     'construction-reviews': ConstructionReview;
     'quote-requests': QuoteRequest;
+    treatments: Treatment;
+    practitioners: Practitioner;
+    appointments: Appointment;
+    beautyServices: BeautyService;
+    stylists: Stylist;
+    beautyBookings: BeautyBooking;
+    menuItems: MenuItem;
+    reservations: Reservation;
+    events: Event;
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
@@ -129,6 +139,7 @@ export interface Config {
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     'recently-viewed': RecentlyViewedSelect<false> | RecentlyViewedSelect<true>;
+    'edition-notifications': EditionNotificationsSelect<false> | EditionNotificationsSelect<true>;
     'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
@@ -158,6 +169,15 @@ export interface Config {
     'construction-projects': ConstructionProjectsSelect<false> | ConstructionProjectsSelect<true>;
     'construction-reviews': ConstructionReviewsSelect<false> | ConstructionReviewsSelect<true>;
     'quote-requests': QuoteRequestsSelect<false> | QuoteRequestsSelect<true>;
+    treatments: TreatmentsSelect<false> | TreatmentsSelect<true>;
+    practitioners: PractitionersSelect<false> | PractitionersSelect<true>;
+    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
+    beautyServices: BeautyServicesSelect<false> | BeautyServicesSelect<true>;
+    stylists: StylistsSelect<false> | StylistsSelect<true>;
+    beautyBookings: BeautyBookingsSelect<false> | BeautyBookingsSelect<true>;
+    menuItems: MenuItemsSelect<false> | MenuItemsSelect<true>;
+    reservations: ReservationsSelect<false> | ReservationsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
@@ -178,12 +198,14 @@ export interface Config {
     theme: Theme;
     header: Header;
     footer: Footer;
+    'meilisearch-settings': MeilisearchSetting;
   };
   globalsSelect: {
     settings: SettingsSelect<false> | SettingsSelect<true>;
     theme: ThemeSelect<false> | ThemeSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'meilisearch-settings': MeilisearchSettingsSelect<false> | MeilisearchSettingsSelect<true>;
   };
   locale: null;
   user: User;
@@ -319,9 +341,17 @@ export interface Product {
    */
   slug: string;
   /**
+   * Bijv. "WINELIFE" — Voor editie-notificaties. Alle producten met dezelfde naam worden als edities van hetzelfde blad behandeld.
+   */
+  magazineTitle?: string | null;
+  /**
    * Simple = normaal, Grouped = multi-select, Variable = configureerbaar, Mix&Match = bundel builder
    */
   productType: 'simple' | 'grouped' | 'variable' | 'mixAndMatch';
+  /**
+   * Toont een prijstabel i.p.v. standaard variant selector (alleen voor Variable producten)
+   */
+  isSubscription?: boolean | null;
   sku?: string | null;
   /**
    * European Article Number (13 cijfers)
@@ -619,6 +649,22 @@ export interface Product {
            * Voor image selection of thumbnail preview
            */
           image?: (number | null) | Media;
+          /**
+           * Voor abonnementsproducten — Type abonnement
+           */
+          subscriptionType?: ('personal' | 'gift' | 'trial') | null;
+          /**
+           * Voor abonnementsproducten — Looptijd in aantal edities
+           */
+          issues?: number | null;
+          /**
+           * Voor abonnementsproducten — Korting t.o.v. losse verkoop
+           */
+          discountPercentage?: number | null;
+          /**
+           * Voor abonnementsproducten — Wordt abonnement automatisch verlengd?
+           */
+          autoRenew?: boolean | null;
           id?: string | null;
         }[];
         id?: string | null;
@@ -3469,6 +3515,35 @@ export interface RecentlyViewed {
   createdAt: string;
 }
 /**
+ * Email notificaties voor nieuwe tijdschrift-edities
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "edition-notifications".
+ */
+export interface EditionNotification {
+  id: number;
+  email: string;
+  /**
+   * Optioneel — als de gebruiker ingelogd was
+   */
+  user?: (number | null) | User;
+  /**
+   * Bijv. "WINELIFE" — wordt gematcht tegen nieuwe producttitels
+   */
+  magazineTitle: string;
+  /**
+   * Het product waarop de gebruiker klikte om notificaties aan te vragen
+   */
+  product?: (number | null) | Product;
+  active?: boolean | null;
+  /**
+   * Timestamp van laatste notificatie-email
+   */
+  lastNotified?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Opgeslagen bestellijsten voor snelle herbestellingen
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4618,6 +4693,677 @@ export interface QuoteRequest {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatments".
+ */
+export interface Treatment {
+  id: number;
+  /**
+   * Bijv: Manuele therapie, Sportfysiotherapie
+   */
+  title: string;
+  category?:
+    | (
+        | 'fysiotherapie'
+        | 'manuele-therapie'
+        | 'sportfysiotherapie'
+        | 'kinderfysiotherapie'
+        | 'psychosomatisch'
+        | 'revalidatie'
+        | 'dry-needling'
+        | 'shockwave'
+      )
+    | null;
+  /**
+   * Emoji voor de behandeling, bijv: 🦴 🏃 👶
+   */
+  icon?: string | null;
+  /**
+   * 1-2 zinnen voor in lijstjes
+   */
+  excerpt: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  symptoms?:
+    | {
+        symptom: string;
+        id?: string | null;
+      }[]
+    | null;
+  process?:
+    | {
+        step: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  duration: number;
+  /**
+   * Duur van eerste afspraak
+   */
+  intakeDuration?: number | null;
+  price: number;
+  intakePrice?: number | null;
+  insurance?: ('covered' | 'partial' | 'not-covered') | null;
+  /**
+   * Bijv: 4-8, 6-12
+   */
+  averageTreatments?: string | null;
+  /**
+   * Bijv: 93 voor 93% pijnreductie
+   */
+  successRate?: number | null;
+  featuredImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?: string | null;
+  };
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  relatedTreatments?: (number | Treatment)[] | null;
+  /**
+   * Welke behandelaars bieden deze behandeling aan?
+   */
+  practitioners?: (number | Practitioner)[] | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practitioners".
+ */
+export interface Practitioner {
+  id: number;
+  /**
+   * Bijv: drs. Sander Vos, Lisa Hendriks MSc
+   */
+  name: string;
+  avatar?: (number | null) | Media;
+  /**
+   * Emoji als fallback, bijv: 👨‍⚕️ 👩‍⚕️
+   */
+  emoji?: string | null;
+  /**
+   * Voor badge display, bijv: SV, LH
+   */
+  initials?: string | null;
+  /**
+   * Bijv: Manueel therapeut, Sportfysiotherapeut
+   */
+  title: string;
+  role?: ('owner' | 'physio' | 'manual' | 'specialist') | null;
+  specializations?:
+    | {
+        /**
+         * Bijv: Rug- en nekklachten, Sportblessures
+         */
+        specialization: string;
+        id?: string | null;
+      }[]
+    | null;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  qualifications?:
+    | {
+        qualification: string;
+        year?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  availability?: ('available' | 'limited' | 'unavailable') | null;
+  workDays?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[] | null;
+  email?: string | null;
+  phone?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Welke behandelingen biedt deze behandelaar aan?
+   */
+  treatments?: (number | Treatment)[] | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments".
+ */
+export interface Appointment {
+  id: number;
+  firstName: string;
+  lastName: string;
+  name?: string | null;
+  phone: string;
+  email?: string | null;
+  birthDate?: string | null;
+  insurance?: ('zilveren-kruis' | 'cz' | 'vgz' | 'menzis' | 'onvz' | 'dsw' | 'asr' | 'other') | null;
+  treatment?:
+    | (
+        | 'unknown'
+        | 'manuele-therapie'
+        | 'sportfysiotherapie'
+        | 'kinderfysiotherapie'
+        | 'psychosomatisch'
+        | 'dry-needling'
+        | 'revalidatie'
+      )
+    | null;
+  /**
+   * Beschrijf kort de klacht en het doel
+   */
+  complaint: string;
+  preferredTime?: ('morning' | 'afternoon' | 'evening' | 'saturday')[] | null;
+  hasReferral?: ('no' | 'gp' | 'specialist') | null;
+  type?: ('new' | 'follow-up' | 'question') | null;
+  status?: ('new' | 'confirmed' | 'completed' | 'cancelled') | null;
+  /**
+   * Notities voor intern gebruik
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "beautyServices".
+ */
+export interface BeautyService {
+  id: number;
+  /**
+   * Bijv: Knippen dames, Balayage, Luxury Facial
+   */
+  name: string;
+  category: 'hair' | 'beauty' | 'wellness' | 'nails' | 'bridal' | 'color';
+  /**
+   * Emoji voor de behandeling, bijv: ✂️ 💅 ✨
+   */
+  icon?: string | null;
+  /**
+   * 1-2 zinnen voor in lijstjes
+   */
+  excerpt: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  benefits?:
+    | {
+        benefit: string;
+        id?: string | null;
+      }[]
+    | null;
+  process?:
+    | {
+        step: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  duration: number;
+  price: number;
+  /**
+   * Voor variabele prijzen (bijv: v.a. €75)
+   */
+  priceFrom?: number | null;
+  priceTo?: number | null;
+  tags?: ('popular' | 'new' | 'promo' | 'specialist' | 'bestseller')[] | null;
+  bookable?: boolean | null;
+  /**
+   * Klant moet eerst een consultatie boeken
+   */
+  requiresConsultation?: boolean | null;
+  featuredImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?: string | null;
+  };
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  relatedServices?: (number | BeautyService)[] | null;
+  /**
+   * Welke stylisten kunnen deze behandeling uitvoeren?
+   */
+  stylists?: (number | Stylist)[] | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stylists".
+ */
+export interface Stylist {
+  id: number;
+  /**
+   * Bijv: Lisa van der Berg, Tom Jansen
+   */
+  name: string;
+  avatar?: (number | null) | Media;
+  /**
+   * Emoji als fallback, bijv: 💇‍♀️ 💅
+   */
+  emoji?: string | null;
+  /**
+   * Voor avatar display, bijv: LB, TJ
+   */
+  initials?: string | null;
+  role:
+    | 'stylist'
+    | 'color-specialist'
+    | 'beauty-specialist'
+    | 'nail-artist'
+    | 'massage-therapist'
+    | 'bridal-specialist'
+    | 'owner';
+  specialties?:
+    | {
+        /**
+         * Bijv: Balayage, Facial behandelingen, Gel nagels
+         */
+        specialty: string;
+        id?: string | null;
+      }[]
+    | null;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  experience?: number | null;
+  certifications?:
+    | {
+        certification: string;
+        year?: number | null;
+        institution?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  availability?: ('available' | 'limited' | 'booked' | 'unavailable') | null;
+  workDays?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[] | null;
+  /**
+   * Bijv: 09:00
+   */
+  startTime?: string | null;
+  /**
+   * Bijv: 21:00
+   */
+  endTime?: string | null;
+  /**
+   * Kunnen klanten deze stylist online boeken?
+   */
+  bookable?: boolean | null;
+  email?: string | null;
+  phone?: string | null;
+  /**
+   * Bijv: @lisavanderberg
+   */
+  instagram?: string | null;
+  portfolio?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Welke behandelingen kan deze stylist uitvoeren?
+   */
+  services?: (number | BeautyService)[] | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "beautyBookings".
+ */
+export interface BeautyBooking {
+  id: number;
+  firstName: string;
+  lastName: string;
+  customerName?: string | null;
+  email: string;
+  phone: string;
+  /**
+   * Welke behandeling wil de klant boeken?
+   */
+  service?: (number | null) | BeautyService;
+  /**
+   * Voorkeur stylist (optioneel)
+   */
+  stylist?: (number | null) | Stylist;
+  date: string;
+  /**
+   * Bijv: 14:30
+   */
+  time: string;
+  preferredTimeSlots?: ('morning' | 'afternoon' | 'evening')[] | null;
+  /**
+   * Bijzonderheden, allergieën, speciale wensen
+   */
+  remarks?: string | null;
+  /**
+   * Is dit de eerste keer dat de klant bij ons komt?
+   */
+  isFirstVisit?: boolean | null;
+  /**
+   * Klant wil updates en aanbiedingen ontvangen
+   */
+  marketingConsent?: boolean | null;
+  status?: ('new' | 'confirmed' | 'completed' | 'cancelled' | 'no-show') | null;
+  /**
+   * Totale prijs voor de behandeling(en)
+   */
+  totalPrice?: number | null;
+  /**
+   * Geschatte totale duur
+   */
+  duration?: number | null;
+  /**
+   * Notities voor intern gebruik (niet zichtbaar voor klant)
+   */
+  notes?: string | null;
+  /**
+   * Is er een bevestigingsmail verstuurd?
+   */
+  confirmationSent?: boolean | null;
+  /**
+   * Is er een herinnering verstuurd?
+   */
+  reminderSent?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menuItems".
+ */
+export interface MenuItem {
+  id: number;
+  name: string;
+  category: 'starters' | 'mains' | 'desserts' | 'drinks' | 'wines' | 'lunch' | 'specials';
+  /**
+   * Korte beschrijving van het gerecht
+   */
+  description?: string | null;
+  /**
+   * Optioneel: belangrijkste ingrediënten
+   */
+  ingredients?: string | null;
+  /**
+   * Prijs in euro
+   */
+  price: number;
+  /**
+   * Toon als 'Chef's Special' of featured gerecht
+   */
+  featured?: boolean | null;
+  vegetarian?: boolean | null;
+  vegan?: boolean | null;
+  glutenFree?: boolean | null;
+  /**
+   * Allergenen aanwezig in dit gerecht
+   */
+  allergens?:
+    | {
+        allergen:
+          | 'gluten'
+          | 'crustaceans'
+          | 'eggs'
+          | 'fish'
+          | 'peanuts'
+          | 'soy'
+          | 'milk'
+          | 'nuts'
+          | 'celery'
+          | 'mustard'
+          | 'sesame'
+          | 'lupin'
+          | 'molluscs';
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optionele foto van het gerecht
+   */
+  image?: (number | null) | Media;
+  /**
+   * Emoji voor dit gerecht (bijv. 🥩, 🍷, 🍰)
+   */
+  icon?: string | null;
+  /**
+   * Volgorde in menu (lager = eerder)
+   */
+  sortOrder?: number | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reservations".
+ */
+export interface Reservation {
+  id: number;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  date: string;
+  /**
+   * Bijv. 18:00, 19:30
+   */
+  time: string;
+  guests: number;
+  preferences?: ('window' | 'terrace' | 'inside' | 'quiet' | 'bar')[] | null;
+  occasion?: ('regular' | 'birthday' | 'anniversary' | 'business' | 'romantic' | 'group' | 'other') | null;
+  /**
+   * Allergieën, dieetwensen, etc.
+   */
+  specialRequests?: string | null;
+  /**
+   * Huidige status van de reservering
+   */
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no-show';
+  /**
+   * Is bevestigingsmail verstuurd?
+   */
+  confirmed?: boolean | null;
+  /**
+   * Is reminder verstuurd (bijv. dag van tevoren)?
+   */
+  reminded?: boolean | null;
+  /**
+   * Alleen zichtbaar voor personeel
+   */
+  internalNotes?: string | null;
+  /**
+   * Optioneel: tafelnummer (bijv. T5, T12)
+   */
+  assignedTable?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  eventType:
+    | 'live-music'
+    | 'wine-tasting'
+    | 'chefs-table'
+    | 'private-dinner'
+    | 'holiday-special'
+    | 'workshop'
+    | 'themed-night'
+    | 'beer-spirits';
+  /**
+   * Korte samenvatting voor overzichtspagina
+   */
+  excerpt?: string | null;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  date: string;
+  /**
+   * Optioneel: voor meerdaagse events
+   */
+  endDate?: string | null;
+  startTime?: string | null;
+  /**
+   * Bijv. 3 uur, hele avond
+   */
+  duration?: string | null;
+  /**
+   * Laat leeg indien gratis
+   */
+  price?: number | null;
+  /**
+   * Optioneel: maximaal aantal deelnemers
+   */
+  maxGuests?: number | null;
+  /**
+   * Toon prominent op homepage
+   */
+  featured?: boolean | null;
+  bookingRequired?: boolean | null;
+  /**
+   * Optioneel: externe reserveringslink
+   */
+  bookingUrl?: string | null;
+  image: number | Media;
+  /**
+   * Extra foto's van eerdere edities
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Emoji voor dit event (bijv. 🎵, 🍷, 👨‍🍳)
+   */
+  icon?: string | null;
+  /**
+   * Bijv. "romantisch", "families", "vegetarisch"
+   */
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Inkomende onboarding-verzoeken van nieuwe klanten
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5033,6 +5779,10 @@ export interface PayloadLockedDocument {
         value: number | RecentlyViewed;
       } | null)
     | ({
+        relationTo: 'edition-notifications';
+        value: number | EditionNotification;
+      } | null)
+    | ({
         relationTo: 'customer-groups';
         value: number | CustomerGroup;
       } | null)
@@ -5147,6 +5897,42 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'quote-requests';
         value: number | QuoteRequest;
+      } | null)
+    | ({
+        relationTo: 'treatments';
+        value: number | Treatment;
+      } | null)
+    | ({
+        relationTo: 'practitioners';
+        value: number | Practitioner;
+      } | null)
+    | ({
+        relationTo: 'appointments';
+        value: number | Appointment;
+      } | null)
+    | ({
+        relationTo: 'beautyServices';
+        value: number | BeautyService;
+      } | null)
+    | ({
+        relationTo: 'stylists';
+        value: number | Stylist;
+      } | null)
+    | ({
+        relationTo: 'beautyBookings';
+        value: number | BeautyBooking;
+      } | null)
+    | ({
+        relationTo: 'menuItems';
+        value: number | MenuItem;
+      } | null)
+    | ({
+        relationTo: 'reservations';
+        value: number | Reservation;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
       } | null)
     | ({
         relationTo: 'client-requests';
@@ -6018,7 +6804,9 @@ export interface NotificationsSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  magazineTitle?: T;
   productType?: T;
+  isSubscription?: T;
   sku?: T;
   ean?: T;
   mpn?: T;
@@ -6145,6 +6933,10 @@ export interface ProductsSelect<T extends boolean = true> {
               stockLevel?: T;
               colorCode?: T;
               image?: T;
+              subscriptionType?: T;
+              issues?: T;
+              discountPercentage?: T;
+              autoRenew?: T;
               id?: T;
             };
         id?: T;
@@ -6252,6 +7044,20 @@ export interface RecentlyViewedSelect<T extends boolean = true> {
   scrollDepth?: T;
   addedToCart?: T;
   addedToFavorites?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "edition-notifications_select".
+ */
+export interface EditionNotificationsSelect<T extends boolean = true> {
+  email?: T;
+  user?: T;
+  magazineTitle?: T;
+  product?: T;
+  active?: T;
+  lastNotified?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -7221,6 +8027,337 @@ export interface QuoteRequestsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatments_select".
+ */
+export interface TreatmentsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  icon?: T;
+  excerpt?: T;
+  description?: T;
+  symptoms?:
+    | T
+    | {
+        symptom?: T;
+        id?: T;
+      };
+  process?:
+    | T
+    | {
+        step?: T;
+        description?: T;
+        id?: T;
+      };
+  duration?: T;
+  intakeDuration?: T;
+  price?: T;
+  intakePrice?: T;
+  insurance?: T;
+  averageTreatments?: T;
+  successRate?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  generateSlug?: T;
+  slug?: T;
+  relatedTreatments?: T;
+  practitioners?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practitioners_select".
+ */
+export interface PractitionersSelect<T extends boolean = true> {
+  name?: T;
+  avatar?: T;
+  emoji?: T;
+  initials?: T;
+  title?: T;
+  role?: T;
+  specializations?:
+    | T
+    | {
+        specialization?: T;
+        id?: T;
+      };
+  bio?: T;
+  qualifications?:
+    | T
+    | {
+        qualification?: T;
+        year?: T;
+        id?: T;
+      };
+  availability?: T;
+  workDays?: T;
+  email?: T;
+  phone?: T;
+  generateSlug?: T;
+  slug?: T;
+  treatments?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments_select".
+ */
+export interface AppointmentsSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  name?: T;
+  phone?: T;
+  email?: T;
+  birthDate?: T;
+  insurance?: T;
+  treatment?: T;
+  complaint?: T;
+  preferredTime?: T;
+  hasReferral?: T;
+  type?: T;
+  status?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "beautyServices_select".
+ */
+export interface BeautyServicesSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  icon?: T;
+  excerpt?: T;
+  description?: T;
+  benefits?:
+    | T
+    | {
+        benefit?: T;
+        id?: T;
+      };
+  process?:
+    | T
+    | {
+        step?: T;
+        description?: T;
+        id?: T;
+      };
+  duration?: T;
+  price?: T;
+  priceFrom?: T;
+  priceTo?: T;
+  tags?: T;
+  bookable?: T;
+  requiresConsultation?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  generateSlug?: T;
+  slug?: T;
+  relatedServices?: T;
+  stylists?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stylists_select".
+ */
+export interface StylistsSelect<T extends boolean = true> {
+  name?: T;
+  avatar?: T;
+  emoji?: T;
+  initials?: T;
+  role?: T;
+  specialties?:
+    | T
+    | {
+        specialty?: T;
+        id?: T;
+      };
+  bio?: T;
+  experience?: T;
+  certifications?:
+    | T
+    | {
+        certification?: T;
+        year?: T;
+        institution?: T;
+        id?: T;
+      };
+  availability?: T;
+  workDays?: T;
+  startTime?: T;
+  endTime?: T;
+  bookable?: T;
+  email?: T;
+  phone?: T;
+  instagram?: T;
+  portfolio?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  generateSlug?: T;
+  slug?: T;
+  services?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "beautyBookings_select".
+ */
+export interface BeautyBookingsSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  customerName?: T;
+  email?: T;
+  phone?: T;
+  service?: T;
+  stylist?: T;
+  date?: T;
+  time?: T;
+  preferredTimeSlots?: T;
+  remarks?: T;
+  isFirstVisit?: T;
+  marketingConsent?: T;
+  status?: T;
+  totalPrice?: T;
+  duration?: T;
+  notes?: T;
+  confirmationSent?: T;
+  reminderSent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menuItems_select".
+ */
+export interface MenuItemsSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  description?: T;
+  ingredients?: T;
+  price?: T;
+  featured?: T;
+  vegetarian?: T;
+  vegan?: T;
+  glutenFree?: T;
+  allergens?:
+    | T
+    | {
+        allergen?: T;
+        id?: T;
+      };
+  image?: T;
+  icon?: T;
+  sortOrder?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reservations_select".
+ */
+export interface ReservationsSelect<T extends boolean = true> {
+  customerName?: T;
+  customerEmail?: T;
+  customerPhone?: T;
+  date?: T;
+  time?: T;
+  guests?: T;
+  preferences?: T;
+  occasion?: T;
+  specialRequests?: T;
+  status?: T;
+  confirmed?: T;
+  reminded?: T;
+  internalNotes?: T;
+  assignedTable?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  eventType?: T;
+  excerpt?: T;
+  description?: T;
+  date?: T;
+  endDate?: T;
+  startTime?: T;
+  duration?: T;
+  price?: T;
+  maxGuests?: T;
+  featured?: T;
+  bookingRequired?: T;
+  bookingUrl?: T;
+  image?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  icon?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "client-requests_select".
  */
 export interface ClientRequestsSelect<T extends boolean = true> {
@@ -7833,9 +8970,21 @@ export interface Theme {
    */
   primaryColor?: string | null;
   /**
-   * Secondary brand color
+   * Lighter variant of primary color
+   */
+  primaryLight?: string | null;
+  /**
+   * Subtle glow/background for primary
+   */
+  primaryGlow?: string | null;
+  /**
+   * Secondary brand color (dark)
    */
   secondaryColor?: string | null;
+  /**
+   * Lighter variant of secondary
+   */
+  secondaryLight?: string | null;
   /**
    * Accent/highlight color
    */
@@ -7852,6 +9001,18 @@ export interface Theme {
    * Default border color
    */
   borderColor?: string | null;
+  /**
+   * Light grey for backgrounds
+   */
+  greyLight?: string | null;
+  /**
+   * Medium grey for secondary text
+   */
+  greyMid?: string | null;
+  /**
+   * Dark grey for text
+   */
+  greyDark?: string | null;
   /**
    * Main text color
    */
@@ -8234,6 +9395,216 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Configure Meilisearch search engine behavior, indexing, and ranking rules.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meilisearch-settings".
+ */
+export interface MeilisearchSetting {
+  id: number;
+  /**
+   * Select which collections to include in the search index. Each collection can be customized individually.
+   */
+  indexedCollections?:
+    | {
+        collection: 'products' | 'blog-posts' | 'pages' | 'cases' | 'faqs' | 'testimonials' | 'services';
+        enabled?: boolean | null;
+        /**
+         * Higher = more important (0-10)
+         */
+        priority?: number | null;
+        /**
+         * Optional custom index name (defaults to collection slug). Use for multi-tenant setups.
+         */
+        indexName?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  searchableFields?: {
+    /**
+     * Fields to search in Products collection (in order of importance)
+     */
+    products?:
+      | {
+          field: 'title' | 'sku' | 'ean' | 'brand' | 'description' | 'shortDescription' | 'categories' | 'tags';
+          id?: string | null;
+        }[]
+      | null;
+    blogPosts?:
+      | {
+          field: 'title' | 'excerpt' | 'content' | 'categories' | 'tags' | 'author';
+          id?: string | null;
+        }[]
+      | null;
+    pages?:
+      | {
+          field: 'title' | 'metaDescription' | 'content';
+          id?: string | null;
+        }[]
+      | null;
+  };
+  filterableFields?: {
+    /**
+     * Fields that can be used for filtering (facets)
+     */
+    products?:
+      | {
+          field: 'brand' | 'categories' | 'price' | 'stock' | 'status' | 'featured' | 'condition' | 'tags';
+          id?: string | null;
+        }[]
+      | null;
+    blogPosts?:
+      | {
+          field: 'categories' | 'status' | 'featured' | 'publishedAt' | 'author';
+          id?: string | null;
+        }[]
+      | null;
+  };
+  sortableFields?: {
+    /**
+     * Fields that users can sort by
+     */
+    products?:
+      | {
+          field: 'price' | 'createdAt' | 'title' | 'stock' | 'salesCount';
+          id?: string | null;
+        }[]
+      | null;
+    blogPosts?:
+      | {
+          field: 'publishedAt' | 'title' | 'viewCount';
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Order of importance for ranking search results. Drag to reorder. First rule = highest priority.
+   */
+  rankingRules?:
+    | {
+        rule: 'words' | 'typo' | 'proximity' | 'attribute' | 'sort' | 'exactness';
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Boost specific fields in ranking (e.g., boost featured products or popular posts)
+   */
+  customRankingAttributes?:
+    | {
+        /**
+         * Field name (e.g., "featured", "salesCount")
+         */
+        attribute: string;
+        order: 'asc' | 'desc';
+        id?: string | null;
+      }[]
+    | null;
+  typoTolerance?: {
+    enabled?: boolean | null;
+    /**
+     * Words where typos should NOT be tolerated (e.g., brand names)
+     */
+    disableOnWords?:
+      | {
+          word: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Minimum characters before allowing 1 typo
+     */
+    minWordSizeForOneTypo?: number | null;
+    /**
+     * Minimum characters before allowing 2 typos
+     */
+    minWordSizeForTwoTypos?: number | null;
+  };
+  /**
+   * Define synonym groups. Searching for one word will also return results for its synonyms.
+   */
+  synonyms?:
+    | {
+        /**
+         * Comma-separated words (e.g., "laptop,notebook,computer")
+         */
+        group: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Words to ignore in search queries (e.g., "the", "a", "an"). Use sparingly!
+   */
+  stopWords?:
+    | {
+        word: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * URL patterns or content patterns to exclude from indexing (supports wildcards)
+   */
+  excludePatterns?:
+    | {
+        /**
+         * e.g., "/admin/*", "/draft/*", "*concept*"
+         */
+        pattern: string;
+        type: 'url' | 'content' | 'field';
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Document statuses to exclude from indexing
+   */
+  excludeStatuses?:
+    | {
+        status: 'draft' | 'archived' | 'pending' | 'sold-out';
+        id?: string | null;
+      }[]
+    | null;
+  autoIndexing?: {
+    /**
+     * Auto-index documents on create/update
+     */
+    enabled?: boolean | null;
+    /**
+     * Only index when status = published
+     */
+    indexOnPublish?: boolean | null;
+    /**
+     * Documents per batch when bulk indexing
+     */
+    batchSize?: number | null;
+    /**
+     * Delay before indexing (prevents spam)
+     */
+    debounceMs?: number | null;
+  };
+  pagination?: {
+    /**
+     * Maximum search results to return
+     */
+    maxTotalHits?: number | null;
+    defaultLimit?: number | null;
+    maxLimit?: number | null;
+  };
+  performance?: {
+    enableHighlighting?: boolean | null;
+    highlightPreTag?: string | null;
+    highlightPostTag?: string | null;
+    /**
+     * Characters to show in search snippets
+     */
+    cropLength?: number | null;
+    /**
+     * Marker for cropped text
+     */
+    cropMarker?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings_select".
  */
@@ -8361,11 +9732,17 @@ export interface SettingsSelect<T extends boolean = true> {
  */
 export interface ThemeSelect<T extends boolean = true> {
   primaryColor?: T;
+  primaryLight?: T;
+  primaryGlow?: T;
   secondaryColor?: T;
+  secondaryLight?: T;
   accentColor?: T;
   backgroundColor?: T;
   surfaceColor?: T;
   borderColor?: T;
+  greyLight?: T;
+  greyMid?: T;
+  greyDark?: T;
   textPrimary?: T;
   textSecondary?: T;
   textMuted?: T;
@@ -8534,6 +9911,153 @@ export interface FooterSelect<T extends boolean = true> {
       };
   bottomText?: T;
   showSocialLinks?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "meilisearch-settings_select".
+ */
+export interface MeilisearchSettingsSelect<T extends boolean = true> {
+  indexedCollections?:
+    | T
+    | {
+        collection?: T;
+        enabled?: T;
+        priority?: T;
+        indexName?: T;
+        id?: T;
+      };
+  searchableFields?:
+    | T
+    | {
+        products?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+        blogPosts?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+        pages?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+      };
+  filterableFields?:
+    | T
+    | {
+        products?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+        blogPosts?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+      };
+  sortableFields?:
+    | T
+    | {
+        products?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+        blogPosts?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+      };
+  rankingRules?:
+    | T
+    | {
+        rule?: T;
+        id?: T;
+      };
+  customRankingAttributes?:
+    | T
+    | {
+        attribute?: T;
+        order?: T;
+        id?: T;
+      };
+  typoTolerance?:
+    | T
+    | {
+        enabled?: T;
+        disableOnWords?:
+          | T
+          | {
+              word?: T;
+              id?: T;
+            };
+        minWordSizeForOneTypo?: T;
+        minWordSizeForTwoTypos?: T;
+      };
+  synonyms?:
+    | T
+    | {
+        group?: T;
+        id?: T;
+      };
+  stopWords?:
+    | T
+    | {
+        word?: T;
+        id?: T;
+      };
+  excludePatterns?:
+    | T
+    | {
+        pattern?: T;
+        type?: T;
+        id?: T;
+      };
+  excludeStatuses?:
+    | T
+    | {
+        status?: T;
+        id?: T;
+      };
+  autoIndexing?:
+    | T
+    | {
+        enabled?: T;
+        indexOnPublish?: T;
+        batchSize?: T;
+        debounceMs?: T;
+      };
+  pagination?:
+    | T
+    | {
+        maxTotalHits?: T;
+        defaultLimit?: T;
+        maxLimit?: T;
+      };
+  performance?:
+    | T
+    | {
+        enableHighlighting?: T;
+        highlightPreTag?: T;
+        highlightPostTag?: T;
+        cropLength?: T;
+        cropMarker?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -1,18 +1,25 @@
 import { MeiliSearch } from 'meilisearch'
+import type { Payload } from 'payload'
+import { getMeilisearchSettings, mergeSettings, getSearchableFields, getFilterableFields, getSortableFields } from './settings'
 
 /**
  * Meilisearch Client Configuration
  *
- * Instant search engine with:
+ * CMS-driven search engine with:
  * - <50ms search response times
  * - Typo tolerance
  * - Faceted search & filters
  * - Highlighting
+ * - 100% configurable via Meilisearch Settings global
  *
  * Setup:
  * 1. Install: brew install meilisearch (macOS)
  * 2. Start: meilisearch (runs on http://localhost:7700)
  * 3. Or use Docker: docker run -p 7700:7700 getmeili/meilisearch:latest
+ * 4. Configure: /admin/globals/meilisearch-settings
+ *
+ * @see src/globals/MeilisearchSettings.ts
+ * @see docs/MEILISEARCH_SETTINGS_GUIDE.md
  */
 
 const MEILISEARCH_HOST = process.env.MEILISEARCH_HOST || 'http://localhost:7700'
@@ -72,40 +79,33 @@ export async function isMeilisearchAvailable(): Promise<boolean> {
 
 /**
  * Configure index settings for products
+ * Uses CMS settings from Meilisearch Settings global
+ *
+ * @param payload - Payload instance to fetch settings
  */
-export async function configureProductsIndex() {
+export async function configureProductsIndex(payload: Payload) {
   const index = await getOrCreateIndex(INDEXES.PRODUCTS)
 
+  // Fetch CMS settings
+  const cmsSettings = await getMeilisearchSettings(payload)
+  const settings = mergeSettings(cmsSettings)
+
+  // Get collection-specific fields
+  const searchableAttributes = getSearchableFields('products', settings)
+  const filterableAttributes = getFilterableFields('products', settings)
+  const sortableAttributes = getSortableFields('products', settings)
+
   await index.updateSettings({
-    // Searchable attributes (in order of importance)
-    searchableAttributes: [
-      'title',
-      'brand',
-      'sku',
-      'description',
-      'categories',
-      'tags',
-    ],
+    // Searchable attributes (from CMS)
+    searchableAttributes,
 
-    // Filterable attributes (for faceted search)
-    filterableAttributes: [
-      'brand',
-      'categories',
-      'price',
-      'stock',
-      'status',
-      'featured',
-    ],
+    // Filterable attributes (from CMS)
+    filterableAttributes,
 
-    // Sortable attributes
-    sortableAttributes: [
-      'price',
-      'createdAt',
-      'title',
-      'stock',
-    ],
+    // Sortable attributes (from CMS)
+    sortableAttributes,
 
-    // Display attributes
+    // Display attributes (always show these)
     displayedAttributes: [
       'id',
       'title',
@@ -118,64 +118,70 @@ export async function configureProductsIndex() {
       'categories',
       'description',
       'status',
+      'magazineTitle', // For Aboland
     ],
 
-    // Ranking rules (in order of importance)
-    rankingRules: [
-      'words',
-      'typo',
-      'proximity',
-      'attribute',
-      'sort',
-      'exactness',
-    ],
+    // Ranking rules (from CMS)
+    rankingRules: settings.rankingRules as any[],
 
-    // Typo tolerance
+    // Typo tolerance (from CMS)
     typoTolerance: {
-      enabled: true,
+      enabled: settings.typoTolerance.enabled,
       minWordSizeForTypos: {
-        oneTypo: 4,
-        twoTypos: 8,
+        oneTypo: settings.typoTolerance.minWordSizeForOneTypo,
+        twoTypos: settings.typoTolerance.minWordSizeForTwoTypos,
       },
+      disableOnWords: settings.typoTolerance.disableOnWords,
     },
 
-    // Pagination
+    // Synonyms (from CMS)
+    synonyms: settings.synonyms.reduce((acc, group) => {
+      const key = group[0]
+      acc[key] = group
+      return acc
+    }, {} as Record<string, string[]>),
+
+    // Stop words (from CMS)
+    stopWords: settings.stopWords,
+
+    // Pagination (from CMS)
     pagination: {
-      maxTotalHits: 1000,
+      maxTotalHits: settings.pagination.maxTotalHits,
     },
   })
 
-  console.log('✅ Products index configured')
+  console.log('✅ Products index configured with CMS settings')
 }
 
 /**
  * Configure index settings for blog posts
+ * Uses CMS settings from Meilisearch Settings global
+ *
+ * @param payload - Payload instance to fetch settings
  */
-export async function configureBlogIndex() {
+export async function configureBlogIndex(payload: Payload) {
   const index = await getOrCreateIndex(INDEXES.BLOG_POSTS)
 
+  // Fetch CMS settings
+  const cmsSettings = await getMeilisearchSettings(payload)
+  const settings = mergeSettings(cmsSettings)
+
+  // Get collection-specific fields
+  const searchableAttributes = getSearchableFields('blog-posts', settings)
+  const filterableAttributes = getFilterableFields('blog-posts', settings)
+  const sortableAttributes = getSortableFields('blog-posts', settings)
+
   await index.updateSettings({
-    searchableAttributes: [
-      'title',
-      'excerpt',
-      'categories',
-      'tags',
-      'author',
-    ],
+    // Searchable attributes (from CMS)
+    searchableAttributes,
 
-    filterableAttributes: [
-      'categories',
-      'status',
-      'featured',
-      'publishedAt',
-    ],
+    // Filterable attributes (from CMS)
+    filterableAttributes,
 
-    sortableAttributes: [
-      'publishedAt',
-      'title',
-      'viewCount',
-    ],
+    // Sortable attributes (from CMS)
+    sortableAttributes,
 
+    // Display attributes (always show these)
     displayedAttributes: [
       'id',
       'title',
@@ -189,27 +195,45 @@ export async function configureBlogIndex() {
       'status',
     ],
 
-    rankingRules: [
-      'words',
-      'typo',
-      'proximity',
-      'attribute',
-      'sort',
-      'exactness',
-    ],
+    // Ranking rules (from CMS)
+    rankingRules: settings.rankingRules as any[],
 
+    // Typo tolerance (from CMS)
     typoTolerance: {
-      enabled: true,
+      enabled: settings.typoTolerance.enabled,
+      minWordSizeForTypos: {
+        oneTypo: settings.typoTolerance.minWordSizeForOneTypo,
+        twoTypos: settings.typoTolerance.minWordSizeForTwoTypos,
+      },
+      disableOnWords: settings.typoTolerance.disableOnWords,
+    },
+
+    // Synonyms (from CMS)
+    synonyms: settings.synonyms.reduce((acc, group) => {
+      const key = group[0]
+      acc[key] = group
+      return acc
+    }, {} as Record<string, string[]>),
+
+    // Stop words (from CMS)
+    stopWords: settings.stopWords,
+
+    // Pagination (from CMS)
+    pagination: {
+      maxTotalHits: settings.pagination.maxTotalHits,
     },
   })
 
-  console.log('✅ Blog posts index configured')
+  console.log('✅ Blog posts index configured with CMS settings')
 }
 
 /**
  * Initialize all indexes
+ * Uses CMS settings from Meilisearch Settings global
+ *
+ * @param payload - Payload instance to fetch settings
  */
-export async function initializeMeilisearch() {
+export async function initializeMeilisearch(payload: Payload) {
   const available = await isMeilisearchAvailable()
 
   if (!available) {
@@ -218,12 +242,12 @@ export async function initializeMeilisearch() {
   }
 
   try {
-    console.log('🔍 Initializing Meilisearch indexes...')
+    console.log('🔍 Initializing Meilisearch indexes with CMS settings...')
 
-    await configureProductsIndex()
-    await configureBlogIndex()
+    await configureProductsIndex(payload)
+    await configureBlogIndex(payload)
 
-    console.log('✅ Meilisearch initialized successfully!')
+    console.log('✅ Meilisearch initialized successfully with CMS settings!')
     return true
   } catch (error) {
     console.error('❌ Failed to initialize Meilisearch:', error)
