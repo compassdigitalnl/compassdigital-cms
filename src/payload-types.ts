@@ -4362,14 +4362,6 @@ export interface BlogPost {
    */
   relatedPosts?: (number | BlogPost)[] | null;
   /**
-   * Optioneel: overschrijf page title voor SEO (max 60 tekens)
-   */
-  metaTitle?: string | null;
-  /**
-   * Optioneel: overschrijf excerpt voor SEO (max 160 tekens)
-   */
-  metaDescription?: string | null;
-  /**
    * Optioneel: voeg FAQ toe voor Google rich snippets
    */
   faq?:
@@ -7869,8 +7861,6 @@ export interface BlogPostsSelect<T extends boolean = true> {
       };
   relatedProducts?: T;
   relatedPosts?: T;
-  metaTitle?: T;
-  metaDescription?: T;
   faq?:
     | T
     | {

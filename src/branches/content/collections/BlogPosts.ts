@@ -355,23 +355,9 @@ export const BlogPosts: CollectionConfig = {
     // ═══════════════════════════════════════════════════════════
     // SEO & SCHEMA
     // ═══════════════════════════════════════════════════════════
-    {
-      name: 'metaTitle',
-      type: 'text',
-      label: 'SEO Title',
-      admin: {
-        description: 'Optioneel: overschrijf page title voor SEO (max 60 tekens)',
-      },
-    },
-    {
-      name: 'metaDescription',
-      type: 'textarea',
-      label: 'SEO Meta Description',
-      admin: {
-        description: 'Optioneel: overschrijf excerpt voor SEO (max 160 tekens)',
-        rows: 2,
-      },
-    },
+    // Note: metaTitle and metaDescription are provided by @payloadcms/plugin-seo
+    // in the 'meta' group. No need to duplicate them here.
+
     {
       name: 'faq',
       type: 'array',

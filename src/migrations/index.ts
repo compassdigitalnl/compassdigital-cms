@@ -2,6 +2,7 @@ import * as migration_20260221_083030_baseline_schema from './20260221_083030_ba
 import * as migration_20260221_215821_sprint1_with_variable_products from './20260221_215821_sprint1_with_variable_products';
 import * as migration_20260222_215225_add_ab_testing_collections from './20260222_215225_add_ab_testing_collections';
 import * as migration_20260222_215445_update_settings_ecommerce_fields from './20260222_215445_update_settings_ecommerce_fields';
+import * as migration_20260222_233500_fix_blogposts_duplicate_meta from './20260222_233500_fix_blogposts_duplicate_meta';
 
 export const migrations = [
   {
@@ -22,6 +23,11 @@ export const migrations = [
   {
     up: migration_20260222_215445_update_settings_ecommerce_fields.up,
     down: migration_20260222_215445_update_settings_ecommerce_fields.down,
-    name: '20260222_215445_update_settings_ecommerce_fields'
+    name: '20260222_215445_update_settings_ecommerce_fields',
+  },
+  {
+    up: migration_20260222_233500_fix_blogposts_duplicate_meta.up,
+    down: migration_20260222_233500_fix_blogposts_duplicate_meta.down,
+    name: '20260222_233500_fix_blogposts_duplicate_meta',
   },
 ];
