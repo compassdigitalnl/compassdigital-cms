@@ -1,6 +1,5 @@
 'use client'
 
-import { Media } from '@/branches/shared/components/common/Media'
 import { Message } from '@/branches/shared/components/common/Message'
 import { Price } from '@/branches/shared/components/features/ecommerce/Price'
 import { Button } from '@/branches/shared/components/ui/button'
@@ -17,7 +16,8 @@ import { ChevronDown, ChevronUp, ShoppingBag, Lock, CreditCard, MapPin, Mail } f
 
 import { cssVariables } from '@/cssVariables'
 import { CheckoutForm } from '@/branches/shared/components/forms/CheckoutForm'
-import { useAddresses, useCart, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
+import { useAddresses, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { CheckoutAddresses } from '@/branches/ecommerce/components/checkout/CheckoutAddresses'
 import { CreateAddressModal } from '@/branches/ecommerce/components/addresses/CreateAddressModal'
 import { Address } from '@/payload-types'
@@ -33,7 +33,7 @@ const stripe = loadStripe(apiKey)
 export default function CheckoutTemplate1() {
   const { user } = useAuth()
   const router = useRouter()
-  const { cart } = useCart()
+  const { items: cartItems, total: cartTotal, itemCount } = useCart()
   const [error, setError] = useState<null | string>(null)
   const { theme } = useTheme()
   /**
@@ -53,7 +53,7 @@ export default function CheckoutTemplate1() {
   const [showCartSummary, setShowCartSummary] = useState(false)
   const [currentStep, setCurrentStep] = useState<'contact' | 'address' | 'payment'>('contact')
 
-  const cartIsEmpty = !cart || !cart.items || !cart.items.length
+  const cartIsEmpty = !cartItems || cartItems.length === 0
 
   const canGoToPayment = Boolean(
     (email || user) && billingAddress && (billingAddressSameAsShipping || shippingAddress),
@@ -125,9 +125,11 @@ export default function CheckoutTemplate1() {
 
   if (cartIsEmpty) {
     return (
-      <div className="prose dark:prose-invert py-12 w-full items-center">
-        <p>Your cart is empty.</p>
-        <Link href="/search/">Continue shopping?</Link>
+      <div className="text-center py-12">
+        <p className="text-lg text-gray-600">Je winkelwagen is leeg.</p>
+        <Link href="/shop/" className="text-[var(--color-primary)] font-semibold mt-4 inline-block">
+          Verder winkelen
+        </Link>
       </div>
     )
   }
@@ -149,13 +151,13 @@ export default function CheckoutTemplate1() {
             <div className="text-left">
               <div className="font-bold text-sm">Winkelwagen</div>
               <div className="text-xs opacity-60">
-                {cart?.items?.length || 0} {cart?.items?.length === 1 ? 'product' : 'producten'}
+                {itemCount || 0} {itemCount === 1 ? 'product' : 'producten'}
               </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="font-extrabold text-lg">
-              <Price amount={cart?.subtotal || 0} />
+              <Price amount={cartTotal || 0} />
             </div>
             {showCartSummary ? (
               <ChevronUp className="w-5 h-5" />
@@ -173,94 +175,43 @@ export default function CheckoutTemplate1() {
               border: '1px solid var(--color-border, var(--color-border))',
             }}
           >
-            {cart?.items?.map((item, index) => {
-              if (typeof item.product === 'object' && item.product) {
-                const {
-                  product,
-                  product: { title, gallery, meta },
-                  quantity,
-                  variant,
-                } = item
-
-                if (!quantity) return null
-
-                let image = gallery?.[0]?.image || meta?.image
-                let price = product?.priceInUSD
-
-                const isVariant = Boolean(variant) && typeof variant === 'object'
-
-                if (isVariant) {
-                  price = variant?.priceInUSD
-
-                  const imageVariant = product.gallery?.find((item) => {
-                    if (!item.variantOption) return false
-                    const variantOptionID =
-                      typeof item.variantOption === 'object'
-                        ? item.variantOption.id
-                        : item.variantOption
-
-                    const hasMatch = variant?.options?.some((option) => {
-                      if (typeof option === 'object') return option.id === variantOptionID
-                      else return option === variantOptionID
-                    })
-
-                    return hasMatch
-                  })
-
-                  if (imageVariant && typeof imageVariant.image !== 'string') {
-                    image = imageVariant.image
-                  }
-                }
-
-                return (
-                  <div key={index} className="flex items-start gap-3">
-                    <div
-                      className="flex-shrink-0 rounded-xl overflow-hidden"
-                      style={{
-                        width: '56px',
-                        height: '56px',
-                        border: '1px solid var(--color-border, var(--color-border))',
-                      }}
-                    >
-                      {image && typeof image !== 'string' && (
-                        <Media
-                          className="w-full h-full object-cover"
-                          resource={image}
-                          imgClassName="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">{title}</p>
-                      {variant && typeof variant === 'object' && (
-                        <p className="text-xs opacity-60 font-mono">
-                          {variant.options
-                            ?.map((option) => {
-                              if (typeof option === 'object') return option.label
-                              return null
-                            })
-                            .join(', ')}
-                        </p>
-                      )}
-                      <p className="text-xs mt-1">Aantal: {quantity}</p>
-                    </div>
-                    {typeof price === 'number' && (
-                      <div className="font-bold text-sm">
-                        <Price amount={price * quantity} />
-                      </div>
-                    )}
-                  </div>
-                )
-              }
-              return null
-            })}
+            {cartItems?.map((item, index) => (
+              <div key={item.id || index} className="flex items-start gap-3">
+                <div
+                  className="flex-shrink-0 rounded-xl overflow-hidden"
+                  style={{
+                    width: '56px',
+                    height: '56px',
+                    border: '1px solid var(--color-border, var(--color-border))',
+                  }}
+                >
+                  {item.image && (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm truncate">{item.title}</p>
+                  {item.sku && (
+                    <p className="text-xs opacity-60 font-mono">SKU: {item.sku}</p>
+                  )}
+                  <p className="text-xs mt-1">Aantal: {item.quantity}</p>
+                </div>
+                <div className="font-bold text-sm">
+                  <Price amount={(item.unitPrice || item.price) * item.quantity} />
+                </div>
+              </div>
+            ))}
             <div
               className="pt-3 mt-3 flex justify-between items-center"
               style={{ borderTop: '1px solid var(--color-border, var(--color-border))' }}
             >
               <span className="font-bold text-sm uppercase">Totaal</span>
               <span className="font-extrabold text-xl">
-                <Price amount={cart?.subtotal || 0} />
+                <Price amount={cartTotal || 0} />
               </span>
             </div>
           </div>
@@ -653,89 +604,38 @@ export default function CheckoutTemplate1() {
             <h2 className="text-2xl font-bold">Winkelwagen</h2>
 
             <div className="space-y-4">
-              {cart?.items?.map((item, index) => {
-                if (typeof item.product === 'object' && item.product) {
-                  const {
-                    product,
-                    product: { meta, title, gallery },
-                    quantity,
-                    variant,
-                  } = item
-
-                  if (!quantity) return null
-
-                  let image = gallery?.[0]?.image || meta?.image
-                  let price = product?.priceInUSD
-
-                  const isVariant = Boolean(variant) && typeof variant === 'object'
-
-                  if (isVariant) {
-                    price = variant?.priceInUSD
-
-                    const imageVariant = product.gallery?.find((item) => {
-                      if (!item.variantOption) return false
-                      const variantOptionID =
-                        typeof item.variantOption === 'object'
-                          ? item.variantOption.id
-                          : item.variantOption
-
-                      const hasMatch = variant?.options?.some((option) => {
-                        if (typeof option === 'object') return option.id === variantOptionID
-                        else return option === variantOptionID
-                      })
-
-                      return hasMatch
-                    })
-
-                    if (imageVariant && typeof imageVariant.image !== 'string') {
-                      image = imageVariant.image
-                    }
-                  }
-
-                  return (
-                    <div key={index} className="flex items-start gap-4">
-                      <div
-                        className="flex-shrink-0 rounded-xl overflow-hidden"
-                        style={{
-                          width: '80px',
-                          height: '80px',
-                          border: '1px solid var(--color-border, var(--color-border))',
-                        }}
-                      >
-                        {image && typeof image !== 'string' && (
-                          <Media
-                            className="w-full h-full object-cover"
-                            resource={image}
-                            imgClassName="w-full h-full object-cover"
-                          />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-base mb-1">{title}</p>
-                        {variant && typeof variant === 'object' && (
-                          <p className="text-xs opacity-60 font-mono mb-2">
-                            {variant.options
-                              ?.map((option) => {
-                                if (typeof option === 'object') return option.label
-                                return null
-                              })
-                              .join(', ')}
-                          </p>
-                        )}
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm">Aantal: {quantity}</span>
-                          {typeof price === 'number' && (
-                            <span className="font-bold">
-                              <Price amount={price * quantity} />
-                            </span>
-                          )}
-                        </div>
-                      </div>
+              {cartItems?.map((item, index) => (
+                <div key={item.id || index} className="flex items-start gap-4">
+                  <div
+                    className="flex-shrink-0 rounded-xl overflow-hidden"
+                    style={{
+                      width: '80px',
+                      height: '80px',
+                      border: '1px solid var(--color-border, var(--color-border))',
+                    }}
+                  >
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-base mb-1">{item.title}</p>
+                    {item.sku && (
+                      <p className="text-xs opacity-60 font-mono mb-2">SKU: {item.sku}</p>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Aantal: {item.quantity}</span>
+                      <span className="font-bold">
+                        <Price amount={(item.unitPrice || item.price) * item.quantity} />
+                      </span>
                     </div>
-                  )
-                }
-                return null
-              })}
+                  </div>
+                </div>
+              ))}
             </div>
 
             <div
@@ -745,7 +645,7 @@ export default function CheckoutTemplate1() {
               <div className="flex justify-between items-center">
                 <span className="font-bold text-base uppercase">Totaal</span>
                 <span className="font-extrabold text-2xl">
-                  <Price amount={cart.subtotal || 0} />
+                  <Price amount={cartTotal || 0} />
                 </span>
               </div>
             </div>

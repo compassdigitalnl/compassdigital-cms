@@ -51,6 +51,7 @@ import { AlertBar } from './AlertBar'
 import { MobileDrawer } from './MobileDrawer'
 import { NavigationBar } from './NavigationBar'
 import { useSearch } from '@/branches/shared/components/features/search/search/SearchProvider'
+import { useMiniCart } from '@/branches/shared/components/ui/MiniCart'
 import type { Settings } from '@/payload-types'
 
 type Props = {
@@ -100,6 +101,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const { openSearch } = useSearch()
+  const { openCart, totalItems } = useMiniCart()
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -260,7 +262,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
               {/* Account */}
               {showAccount && (
                 <Link
-                  href="/account/"
+                  href="/my-account/"
                   className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10 flex items-center justify-center transition-all"
                   title="Account"
                 >
@@ -275,9 +277,9 @@ export function HeaderClient({ header, theme, settings }: Props) {
 
               {/* Cart */}
               {showCart && (
-                <Link
-                  href="/cart/"
-                  className="h-[42px] px-4 rounded-[10px] text-white border flex items-center gap-2 transition-all font-bold text-[13.5px]"
+                <button
+                  onClick={openCart}
+                  className="h-[42px] px-4 rounded-[10px] text-white border flex items-center gap-2 transition-all font-bold text-[13.5px] cursor-pointer"
                   style={{
                     backgroundColor: 'var(--color-secondary, #0A1628)',
                     borderColor: 'var(--color-secondary, #0A1628)',
@@ -292,8 +294,12 @@ export function HeaderClient({ header, theme, settings }: Props) {
                   }}
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  <span className="hidden sm:inline">€0,00</span>
-                </Link>
+                  {totalItems > 0 && (
+                    <span className="bg-white text-[var(--color-secondary)] text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                      {totalItems}
+                    </span>
+                  )}
+                </button>
               )}
             </div>
           </div>
