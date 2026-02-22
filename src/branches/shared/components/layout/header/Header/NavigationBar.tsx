@@ -103,8 +103,19 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
   async function fetchRootCategories() {
     setLoading(true)
     try {
+      console.log('[NavigationBar] Fetching root categories...')
       const res = await fetch('/api/product-categories?where[parent][exists]=false&where[showInNavigation][equals]=true&where[visible][equals]=true&sort=navigationOrder&limit=10&depth=0')
+      console.log('[NavigationBar] Response status:', res.status)
+
+      if (!res.ok) {
+        console.error('[NavigationBar] API response not OK:', res.statusText)
+        return
+      }
+
       const data = await res.json()
+      console.log('[NavigationBar] Root categories data:', data)
+      console.log('[NavigationBar] Found', data.docs?.length || 0, 'root categories')
+
       setRootCategories(data.docs || [])
       if (data.docs && data.docs.length > 0) {
         // Auto-select first category
@@ -112,7 +123,7 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
         fetchL2Categories(data.docs[0].id)
       }
     } catch (error) {
-      console.error('Failed to fetch root categories:', error)
+      console.error('[NavigationBar] Failed to fetch root categories:', error)
     } finally {
       setLoading(false)
     }
@@ -349,6 +360,11 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
                 <div className="text-[10px] font-bold uppercase tracking-wider px-5 py-2 text-white/25">Alle categorieën</div>
                 {loading ? (
                   <div className="px-5 py-4 text-sm text-white/50">Laden...</div>
+                ) : rootCategories.length === 0 ? (
+                  <div className="px-5 py-4 text-sm text-white/50">
+                    <p className="mb-2">Geen categorieën gevonden.</p>
+                    <p className="text-xs text-white/30">Maak eerst product categorieën aan in het CMS.</p>
+                  </div>
                 ) : (
                   rootCategories.map((cat) => (
                     <button
