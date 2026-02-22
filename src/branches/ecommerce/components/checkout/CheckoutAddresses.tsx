@@ -31,10 +31,20 @@ export const CheckoutAddresses: React.FC<Props> = ({
 
   if (!addresses || addresses.length === 0) {
     return (
-      <div>
-        <p>No addresses found. Please add an address.</p>
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-xl font-medium mb-2">{heading}</h3>
+          <p className="text-muted-foreground mb-4">Geen adressen gevonden. Voeg een adres toe om door te gaan.</p>
+        </div>
 
-        <CreateAddressModal />
+        <CreateAddressModal
+          callback={(address) => setAddress(address)}
+          skipSubmission={false}
+        >
+          <Button variant="default" className="w-full sm:w-auto">
+            Nieuw adres toevoegen
+          </Button>
+        </CreateAddressModal>
       </div>
     )
   }
@@ -97,7 +107,11 @@ const AddressesModal: React.FC<Props> = ({ setAddress }) => {
             ))}
           </ul>
 
-          <CreateAddressModal />
+          <CreateAddressModal>
+            <Button variant="outline" className="w-full">
+              + Nieuw adres toevoegen
+            </Button>
+          </CreateAddressModal>
         </div>
       </DialogContent>
     </Dialog>

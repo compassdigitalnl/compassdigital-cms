@@ -13,12 +13,18 @@ import {
 
 interface CreateAddressModalProps {
   onAddressCreated?: (address: any) => void
+  callback?: (address: any) => void
   children?: React.ReactNode
+  disabled?: boolean
+  skipSubmission?: boolean
 }
 
 export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
   onAddressCreated,
+  callback,
   children,
+  disabled = false,
+  skipSubmission = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
@@ -41,9 +47,6 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
     setIsSaving(true)
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
-
       // Create address object
       const newAddress = {
         id: Date.now().toString(),
@@ -51,8 +54,20 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
         createdAt: new Date().toISOString(),
       }
 
-      onAddressCreated?.(newAddress)
-      setIsOpen(false)
+      // If skipSubmission is true, just call the callback with the address
+      // without actually saving it to the backend (for guest checkout)
+      if (skipSubmission) {
+        callback?.(newAddress)
+        onAddressCreated?.(newAddress)
+        setIsOpen(false)
+      } else {
+        // Simulate API call for actual submission
+        await new Promise((resolve) => setTimeout(resolve, 500))
+
+        callback?.(newAddress)
+        onAddressCreated?.(newAddress)
+        setIsOpen(false)
+      }
 
       // Reset form
       setFormData({
@@ -81,7 +96,9 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild disabled={disabled}>
+        {children || <Button disabled={disabled}>Nieuw adres toevoegen</Button>}
+      </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Nieuw adres toevoegen</DialogTitle>
