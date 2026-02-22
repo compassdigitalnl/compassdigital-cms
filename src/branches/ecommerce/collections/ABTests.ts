@@ -248,19 +248,23 @@ export const ABTests: CollectionConfig = {
       ],
     },
 
-    // Multi-Tenant Isolation
-    {
-      name: 'client',
-      type: 'relationship',
-      relationTo: 'clients',
-      label: 'Client',
-      admin: {
-        description: 'Limit test to specific client (optional, for multi-tenant)',
-        condition: (data, siblingData, { user }) => {
-          return checkRole(['platform'], user)
-        },
-      },
-    },
+    // Multi-Tenant Isolation (only on platform instances)
+    ...(process.env.ENABLE_PLATFORM === 'true'
+      ? [
+          {
+            name: 'client',
+            type: 'relationship',
+            relationTo: 'clients' as const,
+            label: 'Client',
+            admin: {
+              description: 'Limit test to specific client (optional, for multi-tenant)',
+              condition: (data: any, siblingData: any, { user }: any) => {
+                return checkRole(['platform'], user)
+              },
+            },
+          },
+        ]
+      : []),
 
     // Notes
     {
