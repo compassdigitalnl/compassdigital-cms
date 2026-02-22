@@ -79,8 +79,35 @@ export default async function ShopPage({
   console.log('📋 Global shop archive template setting:', (settings as any)?.defaultShopArchiveTemplate)
   console.log('✅ Using template:', template)
 
+  // Badge color and label based on template
+  const getBadgeStyle = () => {
+    // Template 2 and 3 will be added later, for now only Template 1
+    return { background: '#3B82F6', label: '🏢 Shop Archive Template 1 - Enterprise' }
+  }
+
+  const badgeStyle = getBadgeStyle()
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* DEBUG: Template Indicator */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '80px',
+          right: '20px',
+          zIndex: 9999,
+          background: badgeStyle.background,
+          color: 'white',
+          padding: '12px 20px',
+          borderRadius: '8px',
+          fontSize: '14px',
+          fontWeight: 700,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        }}
+      >
+        {badgeStyle.label}
+      </div>
+
       {/* Shop Archive Template Switcher */}
       {/* Template 2 and 3 will be added here later */}
       <ShopArchiveTemplate1 products={products as Product[]} category={category} totalProducts={totalDocs} />
