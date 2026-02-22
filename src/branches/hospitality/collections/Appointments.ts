@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 /**
  * Appointments Collection
@@ -15,6 +16,7 @@ export const Appointments: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
+    hidden: shouldHideCollection('hospitality'),
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'phone', 'treatment', 'status', 'createdAt'],
     group: 'Hospitality',

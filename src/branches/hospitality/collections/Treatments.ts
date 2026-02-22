@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { slugField } from 'payload'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 /**
  * Treatments Collection
@@ -22,6 +23,8 @@ export const Treatments: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
+    hidden: shouldHideCollection('hospitality'),
+    group: 'Hospitality',
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'duration', 'price', 'updatedAt'],
     livePreview: {

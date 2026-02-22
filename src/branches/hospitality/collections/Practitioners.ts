@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { slugField } from 'payload'
+import { shouldHideCollection } from '@/lib/shouldHideCollection'
 
 /**
  * Practitioners Collection
@@ -21,6 +22,8 @@ export const Practitioners: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
+    hidden: shouldHideCollection('hospitality'),
+    group: 'Hospitality',
     useAsTitle: 'name',
     defaultColumns: ['name', 'title', 'specializations', 'updatedAt'],
   },

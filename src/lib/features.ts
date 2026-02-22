@@ -458,6 +458,11 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     'construction-reviews': 'construction',
     'quote-requests': 'construction',
 
+    // === HOSPITALITY ===
+    'treatments': 'hospitality',
+    'practitioners': 'hospitality',
+    'appointments': 'hospitality',
+
     // === USERS ===
     users: 'authentication',
   }
