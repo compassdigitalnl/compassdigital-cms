@@ -106,8 +106,25 @@ export function HeaderClient({ header, theme, settings }: Props) {
     setMobileOpen(false)
   }, [pathname])
 
-  // Get container max width from theme
-  const containerMaxWidth = theme?.containerMaxWidth || '1320px'
+  // Get container max width from theme - convert Tailwind class to pixels
+  const getContainerWidth = (width?: string): string => {
+    const widthMap: Record<string, string> = {
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+      '7xl': '1792px',
+    }
+    return widthMap[width || '7xl'] || '1792px'
+  }
+
+  const containerMaxWidth = getContainerWidth(theme?.containerWidth)
+
+  // Debug container width
+  useEffect(() => {
+    console.log('[HeaderClient] Theme:', theme)
+    console.log('[HeaderClient] Theme containerWidth:', theme?.containerWidth)
+    console.log('[HeaderClient] Computed Container Max Width:', containerMaxWidth)
+  }, [theme, containerMaxWidth])
 
   // Extract settings from header
   const {
