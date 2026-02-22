@@ -4,6 +4,7 @@ import type { BlogPost, BlogCategory } from '@/payload-types'
 import { Calendar, User, Clock } from 'lucide-react'
 import { PrevNextNavigation } from '@/branches/shared/components/features/blog/blog/PrevNextNavigation'
 import { ReadingProgressBar } from '@/branches/shared/components/features/blog/blog/ReadingProgressBar'
+import { BlogPostWithPaywall } from '@/branches/content/components/BlogPostWithPaywall'
 
 interface BlogTemplate2Props {
   post: BlogPost
@@ -114,12 +115,12 @@ export default function BlogTemplate2({ post, prevPost, nextPost, category }: Bl
           </div>
         )}
 
-        {/* Content */}
-        <div
-          className="text-base lg:text-lg leading-relaxed lg:leading-loose blog-content-minimal"
-          style={{ color: 'var(--color-text-secondary)' }}
-          dangerouslySetInnerHTML={{ __html: post.content || '' }}
-        />
+        {/* Content (with Paywall for Premium) */}
+        {post.content && (
+          <div className="text-base lg:text-lg leading-relaxed lg:leading-loose blog-content-minimal">
+            <BlogPostWithPaywall post={post} showPremiumBadge={false} />
+          </div>
+        )}
 
         {/* Previous/Next Navigation */}
         <PrevNextNavigation

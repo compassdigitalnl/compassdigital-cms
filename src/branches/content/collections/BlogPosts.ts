@@ -258,6 +258,75 @@ export const BlogPosts: CollectionConfig = {
     },
 
     // ═══════════════════════════════════════════════════════════
+    // SPRINT 7: PREMIUM CONTENT & PAYWALL
+    // ═══════════════════════════════════════════════════════════
+    {
+      name: 'contentType',
+      type: 'select',
+      label: 'Content Type',
+      defaultValue: 'article',
+      options: [
+        { label: '📄 Artikel', value: 'article' },
+        { label: '📊 Productgids', value: 'guide' },
+        { label: '🎓 E-learning', value: 'elearning' },
+        { label: '📥 Download (PDF)', value: 'download' },
+        { label: '🎥 Video', value: 'video' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Type content - bepaalt badge/icon in overzicht en kennisbank filtering',
+      },
+    },
+    {
+      name: 'contentAccess',
+      type: 'group',
+      label: 'Content Toegang',
+      fields: [
+        {
+          name: 'accessLevel',
+          type: 'select',
+          required: true,
+          defaultValue: 'free',
+          label: 'Toegangsniveau',
+          options: [
+            { label: '✅ Gratis (voor iedereen)', value: 'free' },
+            { label: '⭐ Premium/Pro (alleen voor Pro leden)', value: 'premium' },
+          ],
+          admin: {
+            description: 'Wie kan dit artikel volledig lezen?',
+          },
+        },
+        {
+          name: 'previewLength',
+          type: 'number',
+          label: 'Preview Lengte (woorden)',
+          defaultValue: 200,
+          admin: {
+            description:
+              'Hoeveel woorden gratis te lezen? (bijv. 200). Daarna wordt paywall getoond.',
+            condition: (data, siblingData) => siblingData?.accessLevel === 'premium',
+          },
+        },
+        {
+          name: 'lockMessage',
+          type: 'textarea',
+          label: 'Paywall Bericht (optioneel)',
+          admin: {
+            description:
+              'Custom bericht op paywall. Als leeg: standaard "Upgrade naar Pro" bericht.',
+            condition: (data, siblingData) => siblingData?.accessLevel === 'premium',
+            rows: 2,
+            placeholder:
+              'Ontgrendel dit artikel en 40+ andere expertgidsen met een Pro membership.',
+          },
+        },
+      ],
+      admin: {
+        description: 'Bepaal wie toegang heeft tot dit artikel en hoe de paywall werkt',
+      },
+    },
+
+    // ═══════════════════════════════════════════════════════════
     // RELATED CONTENT
     // ═══════════════════════════════════════════════════════════
     ...featureFields('shop', [

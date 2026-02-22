@@ -7,9 +7,9 @@ import { TableOfContents } from '@/branches/shared/components/features/blog/blog
 import { ShareButtons } from '@/branches/shared/components/features/blog/blog/ShareButtons'
 import { AuthorBox } from '@/branches/shared/components/features/blog/blog/AuthorBox'
 import { RelatedArticles } from '@/branches/shared/components/features/blog/blog/RelatedArticles'
-import { RenderBlogContent } from '@/branches/shared/components/features/blog/blog/RenderBlogContent'
 import { PrevNextNavigation } from '@/branches/shared/components/features/blog/blog/PrevNextNavigation'
 import { ReadingProgressBar } from '@/branches/shared/components/features/blog/blog/ReadingProgressBar'
+import { BlogPostWithPaywall } from '@/branches/content/components/BlogPostWithPaywall'
 
 interface BlogTemplate1Props {
   post: BlogPost
@@ -137,8 +137,8 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
             </p>
           )}
 
-          {/* Article Content */}
-          {post.content && <RenderBlogContent content={post.content} className="mb-10" />}
+          {/* Article Content (with Paywall for Premium) */}
+          {post.content && <BlogPostWithPaywall post={post} className="mb-10" />}
 
           {/* Bottom Section: Tags + Share */}
           <div className="pt-8 border-t border-gray-200 mt-10">

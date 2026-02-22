@@ -132,6 +132,33 @@ export const SubscriptionPlans: CollectionConfig = {
         description: 'Highlight this plan (e.g., "Most Popular")',
       },
     },
+    // === SPRINT 7: PREMIUM CONTENT ACCESS ===
+    {
+      name: 'allowsPremiumContent',
+      type: 'checkbox',
+      label: 'Allows Premium Content Access',
+      defaultValue: false,
+      admin: {
+        description:
+          'Enable this for Pro/Premium tiers. Users with this plan can access premium blog posts and knowledge base content.',
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'tier',
+      type: 'select',
+      label: 'Plan Tier',
+      options: [
+        { label: 'Free', value: 'free' },
+        { label: 'Pro', value: 'pro' },
+        { label: 'Enterprise', value: 'enterprise' },
+      ],
+      defaultValue: 'free',
+      admin: {
+        description: 'Plan tier level (used for content access control and UI display)',
+        position: 'sidebar',
+      },
+    },
     {
       name: 'stripeProductId',
       type: 'text',
