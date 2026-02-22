@@ -3,6 +3,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import { useToast } from '@/branches/shared/components/ui/Toast'
+import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
+import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
+import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
+import { features } from '@/lib/features'
 import type { Product } from '@/payload-types'
 import {
   ShoppingCart,
@@ -15,6 +20,9 @@ import {
   Minus,
   Plus,
   X,
+  Download,
+  FileText,
+  List,
 } from 'lucide-react'
 
 interface ProductTemplate2Props {
@@ -23,12 +31,20 @@ interface ProductTemplate2Props {
 
 export default function ProductTemplate2({ product }: ProductTemplate2Props) {
   const { addItem } = useCart()
-  const [activeTab, setActiveTab] = useState<'description' | 'specs'>('description')
+  const { showAddToCartToast } = useToast()
+  const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'downloads'>('description')
   const [quantity, setQuantity] = useState(1)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
   const [showStickyATC, setShowStickyATC] = useState(false)
   const [accordionOpen, setAccordionOpen] = useState<string | null>('description')
   const [activeImageIndex, setActiveImageIndex] = useState(0)
+
+  // Variable products - variant selections
+  const [variantSelections, setVariantSelections] = useState<Record<string, any>>({})
+  const [variantPrice, setVariantPrice] = useState(0)
+
+  // Subscription products - selected variant
+  const [selectedSubscription, setSelectedSubscription] = useState<any>(null)
 
   // Sticky ATC logic
   useEffect(() => {
@@ -40,13 +56,30 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Product type detection
   const isGrouped = product.productType === 'grouped'
+  const isVariable = product.productType === 'variable'
+  const isSubscription = product.isSubscription === true && isVariable
+
   const childProducts =
     isGrouped && product.childProducts
       ? product.childProducts
           .map((child) => (typeof child.product === 'object' ? child.product : null))
           .filter((p) => p !== null)
       : []
+
+  // Calculate variant price
+  useEffect(() => {
+    if (isVariable && !isSubscription) {
+      let total = product.price || 0
+      Object.values(variantSelections).forEach((selection: any) => {
+        if (selection.priceModifier) {
+          total += selection.priceModifier
+        }
+      })
+      setVariantPrice(total)
+    }
+  }, [variantSelections, isVariable, isSubscription, product.price])
 
   // Set default variant
   useEffect(() => {
@@ -77,20 +110,85 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         ? selectedProduct.images[0].url
         : null
 
-    addItem({
-      id: selectedProduct.id,
-      title: selectedProduct.title,
-      slug: selectedProduct.slug || '',
-      price: selectedProduct.price,
-      quantity: quantity,
-      unitPrice: unitPrice,
-      image: firstImageUrl || undefined,
-      sku: selectedProduct.sku || undefined,
-      ean: selectedProduct.ean || undefined,
-      stock: selectedProduct.stock || 0,
-      parentProductId: isGrouped ? product.id : undefined,
-      parentProductTitle: isGrouped ? product.title : undefined,
-    })
+    if (isSubscription && selectedSubscription) {
+      // Add subscription product
+      const subscriptionPrice = (product.price || 0) + (selectedSubscription.priceModifier || 0)
+      const discountedPrice = selectedSubscription.discountPercentage
+        ? subscriptionPrice * (1 - selectedSubscription.discountPercentage / 100)
+        : subscriptionPrice
+
+      addItem({
+        id: product.id,
+        title: `${product.title} - ${selectedSubscription.label}`,
+        slug: product.slug || '',
+        price: product.price,
+        quantity: 1,
+        unitPrice: discountedPrice,
+        image: firstImageUrl || undefined,
+        sku: product.sku || undefined,
+        ean: product.ean || undefined,
+        stock: selectedSubscription.stockLevel || 999,
+      })
+
+      showAddToCartToast({
+        emoji: firstImageUrl ? undefined : '📦',
+        image: firstImageUrl || undefined,
+        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
+        title: `${product.title} - ${selectedSubscription.label}`,
+        quantity: 1,
+        price: discountedPrice,
+      })
+    } else if (isVariable && Object.keys(variantSelections).length > 0) {
+      // Add variable product with selected variants
+      const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
+
+      addItem({
+        id: product.id,
+        title: `${product.title} (${variantLabels})`,
+        slug: product.slug || '',
+        price: product.price,
+        quantity: quantity,
+        unitPrice: variantPrice,
+        image: firstImageUrl || undefined,
+        sku: product.sku || undefined,
+        ean: product.ean || undefined,
+        stock: product.stock || 0,
+      })
+
+      showAddToCartToast({
+        emoji: firstImageUrl ? undefined : '📦',
+        image: firstImageUrl || undefined,
+        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
+        title: product.title,
+        quantity: quantity,
+        price: variantPrice * quantity,
+      })
+    } else {
+      // Add simple/grouped product
+      addItem({
+        id: selectedProduct.id,
+        title: selectedProduct.title,
+        slug: selectedProduct.slug || '',
+        price: selectedProduct.price,
+        quantity: quantity,
+        unitPrice: unitPrice,
+        image: firstImageUrl || undefined,
+        sku: selectedProduct.sku || undefined,
+        ean: selectedProduct.ean || undefined,
+        stock: selectedProduct.stock || 0,
+        parentProductId: isGrouped ? product.id : undefined,
+        parentProductTitle: isGrouped ? product.title : undefined,
+      })
+
+      showAddToCartToast({
+        emoji: firstImageUrl ? undefined : '📦',
+        image: firstImageUrl || undefined,
+        brand: typeof selectedProduct.brand === 'object' && selectedProduct.brand ? selectedProduct.brand.name : undefined,
+        title: selectedProduct.title,
+        quantity: quantity,
+        price: unitPrice * quantity,
+      })
+    }
   }
 
   const minQty = selectedProduct.minOrderQuantity || 1
@@ -347,6 +445,26 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   )
                 })}
               </div>
+            </div>
+          )}
+
+          {/* SUBSCRIPTION PRODUCTS - Pricing Table (Mobile) */}
+          {isSubscription && features.subscriptions && (
+            <div style={{ marginBottom: '20px' }}>
+              <SubscriptionPricingTable
+                product={product}
+                onSelectionChange={(selection) => setSelectedSubscription(selection)}
+              />
+            </div>
+          )}
+
+          {/* VARIABLE PRODUCTS - Variant Selector (Mobile, non-subscription) */}
+          {isVariable && !isSubscription && features.variableProducts && (
+            <div style={{ marginBottom: '20px' }}>
+              <VariantSelector
+                product={product}
+                onSelectionChange={(selections) => setVariantSelections(selections)}
+              />
             </div>
           )}
 
@@ -794,102 +912,146 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 )}
               </div>
             )}
-          </div>
 
-          {/* Related Products - Mobile Horizontal Scroll */}
-          {product.relatedProducts && product.relatedProducts.length > 0 && (
-            <div style={{ marginBottom: '32px' }}>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '20px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
-                  marginBottom: '16px',
-                }}
-              >
-                You Might Also Like
-              </h2>
+            {/* Downloads Accordion */}
+            {product.downloads && product.downloads.length > 0 && (
               <div
                 style={{
-                  display: 'flex',
-                  gap: '12px',
-                  overflowX: 'auto',
-                  scrollSnapType: 'x mandatory',
-                  WebkitOverflowScrolling: 'touch',
-                  paddingBottom: '8px',
+                  borderBottom: '1px solid var(--color-border)',
                 }}
               >
-                {product.relatedProducts.slice(0, 6).map((relProd, idx) => {
-                  const rp = typeof relProd === 'object' ? relProd : null
-                  if (!rp) return null
+                <button
+                  onClick={() => toggleAccordion('downloads')}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '16px 0',
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    fontFamily: 'var(--font-body)',
+                    color: 'var(--color-text-primary)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Download className="w-4 h-4" />
+                    Downloads
+                  </div>
+                  <ChevronDown
+                    className="w-5 h-5"
+                    style={{
+                      transition: 'transform 0.2s',
+                      transform: accordionOpen === 'downloads' ? 'rotate(180deg)' : 'rotate(0)',
+                    }}
+                  />
+                </button>
+                {accordionOpen === 'downloads' && (
+                  <div style={{ paddingBottom: '16px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {product.downloads.map((download, idx) => {
+                        const downloadFile = typeof download.file === 'object' && download.file !== null ? download.file : null
+                        const fileUrl = downloadFile && 'url' in downloadFile ? downloadFile.url : null
+                        const fileName = downloadFile && 'filename' in downloadFile ? downloadFile.filename : 'Download'
+                        const fileSize = downloadFile && 'filesize' in downloadFile ? downloadFile.filesize : null
 
-                  const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? rp.images[0].url : null
-
-                  return (
-                    <Link
-                      key={idx}
-                      href={`/shop/${rp.slug}`}
-                      style={{
-                        minWidth: '160px',
-                        background: 'var(--color-surface, white)',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: '12px',
-                        overflow: 'hidden',
-                        textDecoration: 'none',
-                        color: 'inherit',
-                        scrollSnapAlign: 'start',
-                        display: 'block',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '100%',
-                          aspectRatio: '1',
-                          background: 'var(--color-background)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        {rpImg ? (
-                          <img src={rpImg} alt={rp.title} style={{ maxWidth: '75%', maxHeight: '75%', objectFit: 'contain' }} />
-                        ) : (
-                          <div style={{ fontSize: '36px', opacity: 0.2 }}>📦</div>
-                        )}
-                      </div>
-                      <div style={{ padding: '12px' }}>
-                        <h3
-                          style={{
-                            fontSize: '13px',
-                            fontWeight: 600,
-                            color: 'var(--color-text-primary)',
-                            marginBottom: '6px',
-                            lineHeight: 1.3,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                          }}
-                        >
-                          {rp.title}
-                        </h3>
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-heading)',
-                            fontSize: '16px',
-                            fontWeight: 700,
-                            color: 'var(--color-text-primary)',
-                          }}
-                        >
-                          €{rp.price.toFixed(2)}
-                        </div>
-                      </div>
-                    </Link>
-                  )
-                })}
+                        return (
+                          <a
+                            key={idx}
+                            href={fileUrl || '#'}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: 'block',
+                              padding: '12px',
+                              background: 'var(--color-surface, white)',
+                              border: '1px solid var(--color-border)',
+                              borderRadius: '8px',
+                              textDecoration: 'none',
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                              <div
+                                style={{
+                                  width: '36px',
+                                  height: '36px',
+                                  borderRadius: '6px',
+                                  background: 'color-mix(in srgb, var(--color-primary) 10%, white)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  flexShrink: 0,
+                                }}
+                              >
+                                <FileText className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
+                              </div>
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <div
+                                  style={{
+                                    fontSize: '14px',
+                                    fontWeight: 600,
+                                    color: 'var(--color-text-primary)',
+                                    marginBottom: '4px',
+                                  }}
+                                >
+                                  {download.name || fileName}
+                                </div>
+                                {download.description && (
+                                  <div
+                                    style={{
+                                      fontSize: '12px',
+                                      color: 'var(--color-text-muted)',
+                                      marginBottom: '6px',
+                                      lineHeight: 1.4,
+                                    }}
+                                  >
+                                    {download.description}
+                                  </div>
+                                )}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px' }}>
+                                  {fileSize && (
+                                    <span style={{ color: 'var(--color-text-muted)' }}>
+                                      {(fileSize / 1024 / 1024).toFixed(2)} MB
+                                    </span>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: '3px',
+                                      fontWeight: 600,
+                                      color: 'var(--color-primary)',
+                                    }}
+                                  >
+                                    <Download className="w-3 h-3" />
+                                    Download
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
+            )}
+          </div>
+
+          {/* Related Products Section - Mobile */}
+          {features.shop && (
+            <div style={{ paddingTop: '32px', borderTop: '1px solid var(--color-border)', marginTop: '32px' }}>
+              <RelatedProductsSection
+                upSells={product.upSells}
+                crossSells={product.crossSells}
+                accessories={product.accessories}
+              />
             </div>
           )}
         </div>
@@ -1150,7 +1312,27 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
               </div>
             )}
 
-            {/* Variant Selector */}
+            {/* SUBSCRIPTION PRODUCTS - Pricing Table (Desktop) */}
+            {isSubscription && features.subscriptions && (
+              <div style={{ marginBottom: '24px' }}>
+                <SubscriptionPricingTable
+                  product={product}
+                  onSelectionChange={(selection) => setSelectedSubscription(selection)}
+                />
+              </div>
+            )}
+
+            {/* VARIABLE PRODUCTS - Variant Selector (Desktop, non-subscription) */}
+            {isVariable && !isSubscription && features.variableProducts && (
+              <div style={{ marginBottom: '24px' }}>
+                <VariantSelector
+                  product={product}
+                  onSelectionChange={(selections) => setVariantSelections(selections)}
+                />
+              </div>
+            )}
+
+            {/* Variant Selector (Grouped Products) */}
             {isGrouped && childProducts.length > 0 && (
               <div style={{ marginBottom: '24px' }}>
                 <label
@@ -1457,6 +1639,30 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 Specifications
               </button>
             )}
+            {product.downloads && product.downloads.length > 0 && (
+              <button
+                onClick={() => setActiveTab('downloads')}
+                style={{
+                  padding: '16px 0',
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-body)',
+                  color: activeTab === 'downloads' ? 'var(--color-primary)' : 'var(--color-text-muted)',
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: activeTab === 'downloads' ? '2px solid var(--color-primary)' : '2px solid transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  marginBottom: '-1px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                <Download className="w-4 h-4" />
+                Downloads
+              </button>
+            )}
           </div>
 
           {/* Tab Content */}
@@ -1573,117 +1779,124 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
               ))}
             </div>
           )}
-        </div>
 
-        {/* Desktop Related Products */}
-        {product.relatedProducts && product.relatedProducts.length > 0 && (
-          <div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '32px',
-              }}
-            >
-              <h2
+          {activeTab === 'downloads' && product.downloads && product.downloads.length > 0 && (
+            <div>
+              <div
                 style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '28px',
-                  fontWeight: 700,
-                  color: 'var(--color-text-primary)',
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: '20px',
                 }}
               >
-                You Might Also Like
-              </h2>
-              <Link
-                href="/shop/"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: 'var(--color-primary)',
-                  textDecoration: 'none',
-                }}
-              >
-                View All
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+                {product.downloads.map((download, idx) => {
+                  const downloadFile = typeof download.file === 'object' && download.file !== null ? download.file : null
+                  const fileUrl = downloadFile && 'url' in downloadFile ? downloadFile.url : null
+                  const fileName = downloadFile && 'filename' in downloadFile ? downloadFile.filename : 'Download'
+                  const fileSize = downloadFile && 'filesize' in downloadFile ? downloadFile.filesize : null
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(4, 1fr)',
-                gap: '24px',
-              }}
-            >
-              {product.relatedProducts.slice(0, 4).map((relProd, idx) => {
-                const rp = typeof relProd === 'object' ? relProd : null
-                if (!rp) return null
-
-                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? rp.images[0].url : null
-
-                return (
-                  <Link
-                    key={idx}
-                    href={`/shop/${rp.slug}`}
-                    style={{
-                      background: 'var(--color-surface, white)',
-                      border: '1px solid var(--color-border)',
-                      borderRadius: '16px',
-                      overflow: 'hidden',
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      transition: 'all 0.2s',
-                      display: 'block',
-                    }}
-                  >
-                    <div
+                  return (
+                    <a
+                      key={idx}
+                      href={fileUrl || '#'}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
                       style={{
-                        width: '100%',
-                        aspectRatio: '1',
-                        background: 'var(--color-background)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: 'block',
+                        padding: '20px',
+                        background: 'var(--color-surface, white)',
+                        border: '1px solid var(--color-border)',
+                        borderRadius: '12px',
+                        textDecoration: 'none',
+                        transition: 'all 0.2s',
+                        cursor: 'pointer',
                       }}
                     >
-                      {rpImg ? (
-                        <img src={rpImg} alt={rp.title} style={{ maxWidth: '80%', maxHeight: '80%', objectFit: 'contain' }} />
-                      ) : (
-                        <div style={{ fontSize: '48px', opacity: 0.2 }}>📦</div>
-                      )}
-                    </div>
-                    <div style={{ padding: '20px' }}>
-                      <h3
-                        style={{
-                          fontSize: '16px',
-                          fontWeight: 600,
-                          color: 'var(--color-text-primary)',
-                          marginBottom: '8px',
-                          lineHeight: 1.4,
-                        }}
-                      >
-                        {rp.title}
-                      </h3>
-                      <div
-                        style={{
-                          fontFamily: 'var(--font-heading)',
-                          fontSize: '20px',
-                          fontWeight: 700,
-                          color: 'var(--color-text-primary)',
-                        }}
-                      >
-                        €{rp.price.toFixed(2)}
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                        <div
+                          style={{
+                            width: '44px',
+                            height: '44px',
+                            borderRadius: '8px',
+                            background: 'color-mix(in srgb, var(--color-primary) 10%, white)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                          }}
+                        >
+                          <FileText className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              fontSize: '15px',
+                              fontWeight: 600,
+                              color: 'var(--color-text-primary)',
+                              marginBottom: '4px',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {download.name || fileName}
+                          </div>
+                          {download.description && (
+                            <div
+                              style={{
+                                fontSize: '13px',
+                                color: 'var(--color-text-muted)',
+                                marginBottom: '8px',
+                                lineHeight: 1.4,
+                              }}
+                            >
+                              {download.description}
+                            </div>
+                          )}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {fileSize && (
+                              <span
+                                style={{
+                                  fontSize: '12px',
+                                  color: 'var(--color-text-muted)',
+                                }}
+                              >
+                                {(fileSize / 1024 / 1024).toFixed(2)} MB
+                              </span>
+                            )}
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '12px',
+                                fontWeight: 600,
+                                color: 'var(--color-primary)',
+                              }}
+                            >
+                              <Download className="w-3 h-3" />
+                              Download
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                )
-              })}
+                    </a>
+                  )
+                })}
+              </div>
             </div>
+          )}
+        </div>
+
+        {/* Related Products Section - Desktop */}
+        {features.shop && (
+          <div style={{ paddingTop: '64px', borderTop: '1px solid var(--color-border)', marginTop: '64px' }}>
+            <RelatedProductsSection
+              upSells={product.upSells}
+              crossSells={product.crossSells}
+              accessories={product.accessories}
+            />
           </div>
         )}
       </div>
