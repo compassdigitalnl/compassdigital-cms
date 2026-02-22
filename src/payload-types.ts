@@ -3665,6 +3665,14 @@ export interface SubscriptionPlan {
    */
   featured?: boolean | null;
   /**
+   * Enable this for Pro/Premium tiers. Users with this plan can access premium blog posts and knowledge base content.
+   */
+  allowsPremiumContent?: boolean | null;
+  /**
+   * Plan tier level (used for content access control and UI display)
+   */
+  tier?: ('free' | 'pro' | 'enterprise') | null;
+  /**
    * Stripe integration
    */
   stripeProductId?: string | null;
@@ -4176,6 +4184,27 @@ export interface BlogPost {
    * Layout template voor dit artikel
    */
   template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
+  /**
+   * Type content - bepaalt badge/icon in overzicht en kennisbank filtering
+   */
+  contentType?: ('article' | 'guide' | 'elearning' | 'download' | 'video') | null;
+  /**
+   * Bepaal wie toegang heeft tot dit artikel en hoe de paywall werkt
+   */
+  contentAccess: {
+    /**
+     * Wie kan dit artikel volledig lezen?
+     */
+    accessLevel: 'free' | 'premium';
+    /**
+     * Hoeveel woorden gratis te lezen? (bijv. 200). Daarna wordt paywall getoond.
+     */
+    previewLength?: number | null;
+    /**
+     * Custom bericht op paywall. Als leeg: standaard "Upgrade naar Pro" bericht.
+     */
+    lockMessage?: string | null;
+  };
   /**
    * Producten genoemd in artikel (getoond in sidebar + inline embeds)
    */
@@ -7360,6 +7389,8 @@ export interface SubscriptionPlansSelect<T extends boolean = true> {
       };
   active?: T;
   featured?: T;
+  allowsPremiumContent?: T;
+  tier?: T;
   stripeProductId?: T;
   stripePriceId?: T;
   updatedAt?: T;
@@ -7619,6 +7650,14 @@ export interface BlogPostsSelect<T extends boolean = true> {
   viewCount?: T;
   featured?: T;
   template?: T;
+  contentType?: T;
+  contentAccess?:
+    | T
+    | {
+        accessLevel?: T;
+        previewLength?: T;
+        lockMessage?: T;
+      };
   relatedProducts?: T;
   relatedPosts?: T;
   metaTitle?: T;

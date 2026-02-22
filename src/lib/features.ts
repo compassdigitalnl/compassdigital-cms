@@ -97,6 +97,7 @@ export interface ClientFeatures {
   search?: boolean
   newsletter?: boolean
   authentication?: boolean
+  chatbot?: boolean
 
   // Legacy - keeping for backwards compatibility
   productReviews?: boolean
@@ -250,6 +251,7 @@ export const features = {
   newsletter: isFeatureEnabled('newsletter'),
   platform: isFeatureEnabled('platform'),
   authentication: isFeatureEnabled('authentication'),
+  chatbot: isFeatureEnabled('chatbot'),
 
   // Legacy
   productReviews: isFeatureEnabled('product_reviews'),
@@ -284,7 +286,7 @@ export const featureCategories = {
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
   sprint6: ['subscriptions', 'giftVouchers', 'licenses', 'loyalty'],
   content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
-  advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication'],
+  advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot'],
 } as const
 
 /**
@@ -383,6 +385,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     search: 'ENABLE_SEARCH',
     newsletter: 'ENABLE_NEWSLETTER',
     authentication: 'ENABLE_AUTHENTICATION',
+    chatbot: 'ENABLE_CHATBOT',
 
     // Legacy
     productReviews: 'ENABLE_PRODUCT_REVIEWS',

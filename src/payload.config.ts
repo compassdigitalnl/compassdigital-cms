@@ -108,10 +108,11 @@ import { MenuItems } from '@/branches/horeca/collections/MenuItems'
 import { Reservations } from '@/branches/horeca/collections/Reservations'
 import { Events } from '@/branches/horeca/collections/Events'
 
-// Globals (Consolidated: 8 → 5 globals!)
+// Globals (Consolidated: 8 → 6 globals!)
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
 import { MeilisearchSettings } from '@/globals/MeilisearchSettings'
+import { ChatbotSettings } from '@/globals/ChatbotSettings'
 import { Settings } from '@/globals/Settings'
 import { Theme } from '@/globals/Theme'
 
@@ -347,13 +348,14 @@ export default buildConfig({
   ].filter(Boolean) as any[],
 
   // ─── Globals ──────────────────────────────
-  // Consolidated from 8 → 5 globals for better UX!
+  // Consolidated from 8 → 6 globals for better UX!
   globals: [
     Settings, // NEW: Combines SiteSettings + ShopSettings
     Theme, // Design System (colors, typography, spacing)
     Header, // NEW: Combines TopBarSettings + AlertBarSettings + Navigation + old Header
     Footer,
     MeilisearchSettings, // Search engine configuration
+    ChatbotSettings, // AI Chatbot configuration
   ],
 
   // ─── Plugins ──────────────────────────────
