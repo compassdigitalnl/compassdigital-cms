@@ -92,7 +92,7 @@ function calculateKeywordDensity(text: string, keyword: string): number {
 
 // ─── Helper: Count Images ────────────────────────────────────
 function countImages(blocks: any[]): { total: number; withAlt: number } {
-  if (!blocks) return { total: 0, withAlt: 0 }
+  if (!blocks || !Array.isArray(blocks)) return { total: 0, withAlt: 0 }
 
   let total = 0
   let withAlt = 0

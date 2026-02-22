@@ -38,7 +38,7 @@ export function SEOScorePanel() {
       slug: slug || '',
       content: contentBlock?.content || contentBlock?.richText || null,
       focusKeyword: focusKeyword || '',
-      blocks: layout || []
+      blocks: Array.isArray(layout) ? layout : []
     })
   }, [title, metaDescription, slug, focusKeyword, contentBlock, layout])
 

@@ -157,7 +157,7 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
 
   return (
     <>
-      <nav className="hidden lg:block bg-white border-b border-gray-200 sticky top-[72px] z-[190] relative">
+      <nav className="hidden lg:block bg-white border-b sticky top-[72px] z-[190] relative" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
         <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
           <div className="flex items-stretch h-12">
             {/* Menu Trigger Button */}
@@ -236,12 +236,21 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
 
                   {/* Simple Dropdown for children */}
                   {hasChildren && (
-                    <div className="absolute top-full left-0 bg-white border border-gray-200 rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible hover:opacity-100 hover:visible transition-all z-[195]">
+                    <div className="absolute top-full left-0 bg-white border rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible hover:opacity-100 hover:visible transition-all z-[195]" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
                       {item.children!.map((child) => (
                         <CMSLink
                           key={child.id}
                           {...(typeof child.page === 'object' && 'slug' in child.page ? { reference: child.page } : {})}
-                          className="block px-4 py-2 text-sm text-[var(--secondary,#0A1628)] hover:bg-gray-50 hover:text-[var(--primary,#00897B)] transition-colors first:rounded-t-xl last:rounded-b-xl"
+                          className="block px-4 py-2 text-sm transition-colors first:rounded-t-xl last:rounded-b-xl"
+                          style={{ color: 'var(--secondary, #0A1628)' }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--surface, #f9fafb)'
+                            e.currentTarget.style.color = 'var(--primary, #00897B)'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent'
+                            e.currentTarget.style.color = 'var(--secondary, #0A1628)'
+                          }}
                         >
                           {child.label}
                         </CMSLink>
@@ -281,18 +290,24 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
                 <>
                   <a
                     href={`mailto:${settings.email}`}
-                    className="flex items-center gap-1.5 text-gray-600 hover:text-[var(--primary,#00897B)] transition-colors"
+                    className="flex items-center gap-1.5 transition-colors"
+                    style={{ color: 'var(--text-secondary, #64748b)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary, #00897B)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary, #64748b)' }}
                   >
                     <Mail className="w-4 h-4" style={{ color: primaryColor }} />
                     <span className="hidden xl:inline">{settings.email}</span>
                   </a>
-                  {settings?.phone && <div className="w-px h-4 bg-gray-200" />}
+                  {settings?.phone && <div className="w-px h-4" style={{ backgroundColor: 'var(--border, #e5e7eb)' }} />}
                 </>
               )}
               {settings?.phone && (
                 <a
                   href={`tel:${settings.phone}`}
-                  className="flex items-center gap-1.5 text-gray-600 hover:text-[var(--primary,#00897B)] transition-colors"
+                  className="flex items-center gap-1.5 transition-colors"
+                  style={{ color: 'var(--text-secondary, #64748b)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary, #00897B)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary, #64748b)' }}
                 >
                   <Phone className="w-4 h-4" style={{ color: primaryColor }} />
                   <span className="hidden xl:inline">{settings.phone}</span>
@@ -358,18 +373,18 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
               </div>
 
               {/* L2: Subcategories */}
-              <div className="w-[280px] flex-shrink-0 border-r border-gray-200 flex flex-col py-3">
+              <div className="w-[280px] flex-shrink-0 border-r flex flex-col py-3" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
                 {l2Categories.length > 0 ? (
                   <>
-                    <div className="flex items-center gap-2.5 px-5 py-2 mb-1 border-b border-gray-200">
+                    <div className="flex items-center gap-2.5 px-5 py-2 mb-1 border-b" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
                       <div className="w-[34px] h-[34px] rounded-lg flex items-center justify-center" style={{ backgroundColor: `${primaryColor}20` }}>
                         <Package className="w-[17px] h-[17px]" style={{ color: primaryColor }} />
                       </div>
                       <div>
-                        <div className="font-bold text-sm text-gray-900">
+                        <div className="font-bold text-sm" style={{ color: 'var(--text-primary, #0A1628)' }}>
                           {rootCategories.find(c => c.id === activeL1)?.name}
                         </div>
-                        <div className="text-xs text-gray-500">{l2Categories.length} subcategorieën</div>
+                        <div className="text-xs" style={{ color: 'var(--text-secondary, #64748b)' }}>{l2Categories.length} subcategorieën</div>
                       </div>
                     </div>
                     {l2Categories.map((cat) => (
