@@ -102,6 +102,11 @@ import { BeautyServices } from '@/branches/beauty/collections/BeautyServices'
 import { Stylists } from '@/branches/beauty/collections/Stylists'
 import { BeautyBookings } from '@/branches/beauty/collections/BeautyBookings'
 
+// Horeca Branch (3 collections - Sprint 6)
+import { MenuItems } from '@/branches/horeca/collections/MenuItems'
+import { Reservations } from '@/branches/horeca/collections/Reservations'
+import { Events } from '@/branches/horeca/collections/Events'
+
 // Globals (Consolidated: 8 → 4 globals!)
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
@@ -324,6 +329,13 @@ export default buildConfig({
     _col(BeautyServices),
     _col(Stylists),
     _col(BeautyBookings),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // HORECA BRANCH - Restaurant & Hospitality Template (Sprint 6)
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(MenuItems),
+    _col(Reservations),
+    _col(Events),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
