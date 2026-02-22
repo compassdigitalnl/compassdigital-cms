@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact & Afspraak — FysioVitaal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}.nav{display:flex;gap:2px;}.nav-item{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}.h-cta{height:42px;padding:0 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.h-cta:hover{background:var(--navy);}.h-cta i{width:14px;height:14px;}
+  .page-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:44px 0;text-align:center;position:relative;overflow:hidden;}.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(0,137,123,.06),transparent 70%);}.ph-inner{position:relative;z-index:2;}.ph-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,137,123,.1);border:1px solid rgba(0,137,123,.2);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--teal-light);margin-bottom:8px;}.ph-badge i{width:11px;height:11px;}.ph-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;color:white;margin-bottom:4px;}.ph-desc{font-size:14px;color:rgba(255,255,255,.3);max-width:520px;margin:0 auto;}
+
+  /* Contact strip */
+  .contact-strip{margin-top:-36px;position:relative;z-index:10;margin-bottom:24px;}
+  .cs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .cc{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:16px;text-align:center;transition:all .12s;cursor:pointer;box-shadow:var(--shadow-sm);}.cc:hover{border-color:var(--teal);transform:translateY(-2px);}
+  .cc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;}.cc-icon i{width:18px;height:18px;}
+  .cc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;margin-bottom:1px;}
+  .cc-val{font-size:13px;color:var(--teal);font-weight:700;}
+  .cc-sub{font-size:10px;color:var(--grey-mid);margin-top:1px;}
+
+  /* Urgent banner */
+  .urgent{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--coral-light);border:1.5px solid rgba(255,107,107,.2);border-radius:14px;margin-bottom:20px;}
+  .urg-icon{width:36px;height:36px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.urg-icon i{width:18px;height:18px;color:var(--coral);}
+  .urg-title{font-size:14px;font-weight:800;color:#991B1B;}.urg-text{font-size:12px;color:#7F1D1D;}
+
+  /* Layout */
+  .contact-layout{display:grid;grid-template-columns:1fr 380px;gap:24px;padding:0 0 56px;align-items:start;}
+
+  /* Form */
+  .form-card{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);}
+  .fc-header{padding:18px 22px;border-bottom:1px solid var(--grey);display:flex;align-items:center;gap:8px;}.fc-icon{width:36px;height:36px;border-radius:10px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.fc-icon i{width:18px;height:18px;color:var(--teal);}.fc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;}.fc-desc{font-size:12px;color:var(--grey-mid);}
+  .fc-body{padding:22px;}
+
+  /* Type selector */
+  .type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
+  .type{padding:10px 8px;border:1.5px solid var(--grey);border-radius:10px;text-align:center;cursor:pointer;transition:all .12s;}.type:hover{border-color:var(--teal);}.type.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .type-icon{font-size:20px;margin-bottom:2px;}.type-name{font-size:11px;font-weight:700;}
+
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .fg{margin-bottom:10px;}.fg-label{font-size:11px;font-weight:700;margin-bottom:3px;display:block;}.fg-req{color:var(--coral);font-size:10px;}
+  .fg-input{width:100%;height:44px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:all .12s;}.fg-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .fg-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 12px center no-repeat;}
+  .fg-textarea{height:80px;padding:10px 12px;resize:none;}
+
+  /* Time preferences */
+  .time-prefs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;}
+  .tp{padding:6px 12px;border:1.5px solid var(--grey);border-radius:6px;font-size:11px;font-weight:700;color:var(--grey-mid);cursor:pointer;transition:all .12s;}.tp:hover{border-color:var(--teal);color:var(--teal);}.tp.selected{border-color:var(--teal);background:var(--teal-glow);color:var(--teal);}
+
+  .privacy-note{display:flex;align-items:start;gap:6px;padding:8px;background:var(--grey-light);border-radius:6px;margin-bottom:12px;font-size:10px;color:var(--grey-mid);line-height:1.3;}.privacy-note i{width:14px;height:14px;color:var(--teal);flex-shrink:0;margin-top:1px;}
+  .submit-btn{width:100%;height:50px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);}.submit-btn:hover{background:var(--navy);}.submit-btn i{width:16px;height:16px;}
+  .submit-note{text-align:center;font-size:10px;color:var(--grey-mid);margin-top:4px;display:flex;align-items:center;justify-content:center;gap:4px;}.submit-note i{width:10px;height:10px;color:var(--green);}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:96px;}
+  .side-card{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:18px;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+  .sc-head{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:5px;}.sc-head i{width:15px;height:15px;color:var(--teal);}
+
+  /* Map */
+  .map-placeholder{height:150px;border-radius:12px;background:linear-gradient(135deg,var(--grey-light),var(--grey));display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:8px;cursor:pointer;transition:opacity .12s;}.map-placeholder:hover{opacity:.8;}
+  .map-link{text-align:center;font-size:11px;font-weight:700;color:var(--teal);display:flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;margin-bottom:8px;}.map-link i{width:11px;height:11px;}
+  .loc-info{display:flex;flex-direction:column;gap:4px;}
+  .li{display:flex;align-items:center;gap:6px;font-size:12px;}.li-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.li-icon i{width:12px;height:12px;}.li-val{font-weight:700;}.li-sub{font-size:10px;color:var(--grey-mid);}
+
+  /* Hours */
+  .hours-grid{display:flex;flex-direction:column;gap:3px;}
+  .hr{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid var(--grey);}.hr:last-child{border-bottom:none;}.hr-day{font-weight:700;}.hr-time{color:var(--grey-mid);}.hr.today{color:var(--teal);font-weight:700;}.hr.today .hr-time{color:var(--teal);}
+  .hr-note{font-size:10px;color:var(--teal);font-weight:700;margin-top:4px;display:flex;align-items:center;gap:3px;}.hr-note i{width:10px;height:10px;}
+
+  /* Team availability */
+  .team-avail{display:flex;flex-direction:column;gap:4px;}
+  .ta{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--grey);}.ta:last-child{border-bottom:none;}
+  .ta-av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+  .ta-name{font-size:12px;font-weight:700;}.ta-spec{font-size:10px;color:var(--grey-mid);}
+  .ta-status{margin-left:auto;display:flex;align-items:center;gap:3px;font-size:10px;font-weight:700;}.ta-dot{width:6px;height:6px;border-radius:50%;}.dot-green{background:var(--green);}.dot-amber{background:var(--amber);}.dot-grey{background:var(--grey-mid);}
+
+  /* Direct card */
+  .direct-card{background:var(--navy);border-radius:16px;padding:16px;color:white;}
+  .dc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:4px;}.dc-title i{width:14px;height:14px;color:var(--teal);}
+  .dc-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);}.dc-row:last-child{border-bottom:none;}
+  .dc-icon{width:28px;height:28px;border-radius:6px;background:rgba(0,137,123,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.dc-icon i{width:13px;height:13px;color:var(--teal);}
+  .dc-label{font-size:10px;color:rgba(255,255,255,.3);}.dc-val{font-size:13px;font-weight:700;}
+
+  @media(max-width:900px){.contact-layout{grid-template-columns:1fr;}.sidebar{position:static;}.cs-grid{grid-template-columns:1fr 1fr;}.form-row,.type-grid{grid-template-columns:1fr;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">🏥</div>Fysio<em>Vitaal</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item">Behandelingen</a><a href="#" class="nav-item">Team</a><a href="#" class="nav-item">Tarieven</a><a href="#" class="nav-item">Patiënteninfo</a><a href="#" class="nav-item active">Contact</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Afspraak maken</button></div></header>
+
+<section class="page-hero"><div class="ph-inner"><div class="ph-badge"><i data-lucide="calendar"></i> Binnen 48 uur terecht</div><h1 class="ph-title">Contact & Afspraak</h1><p class="ph-desc">Maak direct een afspraak of neem contact op. Geen verwijzing nodig — directe toegang fysiotherapie.</p></div></section>
+
+<div class="container">
+  <!-- Contact strip -->
+  <div class="contact-strip"><div class="cs-grid">
+    <div class="cc"><div class="cc-icon" style="background:var(--teal-glow);"><i data-lucide="phone" style="color:var(--teal);"></i></div><div class="cc-title">Bellen</div><div class="cc-val">020 - 345 67 89</div><div class="cc-sub">Ma-Vr 07:30-20:00</div></div>
+    <div class="cc"><div class="cc-icon" style="background:var(--green-light);"><i data-lucide="message-circle" style="color:var(--green);"></i></div><div class="cc-title">WhatsApp</div><div class="cc-val">06 - 1234 5678</div><div class="cc-sub">Reactie binnen 1 uur</div></div>
+    <div class="cc"><div class="cc-icon" style="background:var(--blue-light);"><i data-lucide="mail" style="color:var(--blue);"></i></div><div class="cc-title">E-mail</div><div class="cc-val">info@fysiovitaal.nl</div><div class="cc-sub">Reactie binnen 4 uur</div></div>
+    <div class="cc"><div class="cc-icon" style="background:var(--amber-light);"><i data-lucide="video" style="color:var(--amber);"></i></div><div class="cc-title">Videoconsult</div><div class="cc-val">Online afspraak</div><div class="cc-sub">Via beveiligde verbinding</div></div>
+  </div></div>
+
+  <!-- Urgent -->
+  <div class="urgent"><div class="urg-icon"><i data-lucide="alert-circle"></i></div><div><div class="urg-title">Spoedgeval of acute pijn?</div><div class="urg-text">Bel direct <strong>020 - 345 67 89</strong>. Bij spoedeisende gevallen buiten openingstijden: bel uw huisarts of huisartsenpost.</div></div></div>
+
+  <div class="contact-layout">
+    <!-- Form -->
+    <div>
+      <div class="form-card">
+        <div class="fc-header"><div class="fc-icon"><i data-lucide="calendar"></i></div><div><div class="fc-title">Afspraak aanvragen</div><div class="fc-desc">Vul het formulier in — wij bevestigen binnen 4 uur</div></div></div>
+        <div class="fc-body">
+          <label class="fg-label" style="margin-bottom:6px;">Type afspraak</label>
+          <div class="type-grid">
+            <div class="type selected" onclick="selType(this)"><div class="type-icon">📋</div><div class="type-name">Nieuwe patiënt</div></div>
+            <div class="type" onclick="selType(this)"><div class="type-icon">🔄</div><div class="type-name">Vervolgafspraak</div></div>
+            <div class="type" onclick="selType(this)"><div class="type-icon">❓</div><div class="type-name">Vraag stellen</div></div>
+          </div>
+
+          <div class="form-row">
+            <div class="fg"><label class="fg-label">Voornaam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Uw voornaam"></div>
+            <div class="fg"><label class="fg-label">Achternaam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Uw achternaam"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label class="fg-label">Telefoon <span class="fg-req">*</span></label><input class="fg-input" type="tel" placeholder="06 - 1234 5678"></div>
+            <div class="fg"><label class="fg-label">E-mail <span class="fg-req">*</span></label><input class="fg-input" type="email" placeholder="uw@email.nl"></div>
+          </div>
+          <div class="fg"><label class="fg-label">Geboortedatum</label><input class="fg-input" type="date"></div>
+          <div class="form-row">
+            <div class="fg"><label class="fg-label">Verzekeraar</label><select class="fg-input fg-select"><option>Selecteer verzekeraar</option><option>Zilveren Kruis</option><option>CZ</option><option>VGZ</option><option>Menzis</option><option>ONVZ</option><option>DSW</option><option>a.s.r.</option><option>Anders</option></select></div>
+            <div class="fg"><label class="fg-label">Gewenste behandeling</label><select class="fg-input fg-select"><option>Weet ik nog niet</option><option>Manuele therapie</option><option>Sportfysiotherapie</option><option>Kinderfysiotherapie</option><option>Psychosomatische fysio</option><option>Dry needling</option><option>Revalidatie</option></select></div>
+          </div>
+          <div class="fg"><label class="fg-label">Klacht omschrijving <span class="fg-req">*</span></label><textarea class="fg-input fg-textarea" placeholder="Beschrijf kort uw klacht, hoe lang u er last van heeft, en wat uw doel is…"></textarea></div>
+
+          <label class="fg-label" style="margin-bottom:4px;">Voorkeur moment</label>
+          <div class="time-prefs">
+            <div class="tp selected" onclick="this.classList.toggle('selected')">Ochtend (07:30-12:00)</div>
+            <div class="tp" onclick="this.classList.toggle('selected')">Middag (12:00-17:00)</div>
+            <div class="tp" onclick="this.classList.toggle('selected')">Avond (17:00-20:00)</div>
+            <div class="tp" onclick="this.classList.toggle('selected')">Zaterdag</div>
+          </div>
+
+          <div class="fg"><label class="fg-label">Heeft u een verwijsbrief?</label><select class="fg-input fg-select"><option>Nee (niet nodig bij directe toegang)</option><option>Ja, van huisarts</option><option>Ja, van specialist</option></select></div>
+
+          <div class="privacy-note"><i data-lucide="shield-check"></i><span>Uw gegevens worden vertrouwelijk behandeld conform AVG en WGBO. Wij delen uw gegevens niet met derden.</span></div>
+
+          <button class="submit-btn"><i data-lucide="send"></i> Afspraak aanvragen</button>
+          <div class="submit-note"><i data-lucide="check-circle"></i> Bevestiging binnen 4 werkuren · Geen verwijzing nodig</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="direct-card">
+        <div class="dc-title"><i data-lucide="zap"></i> Direct contact</div>
+        <div class="dc-row"><div class="dc-icon"><i data-lucide="phone"></i></div><div><div class="dc-label">Telefoon</div><div class="dc-val">020 - 345 67 89</div></div></div>
+        <div class="dc-row"><div class="dc-icon"><i data-lucide="message-circle"></i></div><div><div class="dc-label">WhatsApp</div><div class="dc-val">06 - 1234 5678</div></div></div>
+        <div class="dc-row"><div class="dc-icon"><i data-lucide="mail"></i></div><div><div class="dc-label">E-mail</div><div class="dc-val">info@fysiovitaal.nl</div></div></div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-head"><i data-lucide="map-pin"></i> Locatie</div>
+        <div class="map-placeholder">📍</div>
+        <div class="map-link"><i data-lucide="navigation"></i> Route plannen in Google Maps</div>
+        <div class="loc-info">
+          <div class="li"><div class="li-icon" style="background:var(--teal-glow);"><i data-lucide="map-pin" style="color:var(--teal);"></i></div><div><div class="li-val">Amsteldijk 80, 1074 JB Amsterdam</div><div class="li-sub">Gezondheidscentrum Rivierenwijk, 2e etage</div></div></div>
+          <div class="li"><div class="li-icon" style="background:var(--blue-light);"><i data-lucide="car" style="color:var(--blue);"></i></div><div><div class="li-val">Gratis parkeren</div><div class="li-sub">P+R RAI (5 min lopen)</div></div></div>
+          <div class="li"><div class="li-icon" style="background:var(--green-light);"><i data-lucide="train" style="color:var(--green);"></i></div><div><div class="li-val">Metro 52 · Station RAI</div><div class="li-sub">3 minuten lopen</div></div></div>
+          <div class="li"><div class="li-icon" style="background:var(--amber-light);"><i data-lucide="accessibility" style="color:var(--amber);"></i></div><div><div class="li-val">Rolstoeltoegankelijk</div><div class="li-sub">Lift aanwezig</div></div></div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-head"><i data-lucide="clock"></i> Openingstijden</div>
+        <div class="hours-grid">
+          <div class="hr"><span class="hr-day">Maandag</span><span class="hr-time">07:30 – 20:00</span></div>
+          <div class="hr"><span class="hr-day">Dinsdag</span><span class="hr-time">07:30 – 20:00</span></div>
+          <div class="hr"><span class="hr-day">Woensdag</span><span class="hr-time">07:30 – 20:00</span></div>
+          <div class="hr"><span class="hr-day">Donderdag</span><span class="hr-time">07:30 – 20:00</span></div>
+          <div class="hr"><span class="hr-day">Vrijdag</span><span class="hr-time">07:30 – 20:00</span></div>
+          <div class="hr"><span class="hr-day">Zaterdag</span><span class="hr-time">09:00 – 13:00</span></div>
+          <div class="hr"><span class="hr-day">Zondag</span><span class="hr-time" style="color:var(--coral);">Gesloten</span></div>
+        </div>
+        <div class="hr-note"><i data-lucide="zap"></i> Binnen 48 uur een afspraak beschikbaar</div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-head"><i data-lucide="users"></i> Beschikbaarheid team</div>
+        <div class="team-avail">
+          <div class="ta"><div class="ta-av" style="background:var(--teal-glow);font-weight:800;color:var(--teal);">SV</div><div><div class="ta-name">Sander Vos</div><div class="ta-spec">Manueel therapeut</div></div><div class="ta-status"><div class="ta-dot dot-green"></div> Beschikbaar</div></div>
+          <div class="ta"><div class="ta-av" style="background:var(--blue-light);font-weight:800;color:var(--blue);">LH</div><div><div class="ta-name">Lisa Hendriks</div><div class="ta-spec">Sportfysiotherapeut</div></div><div class="ta-status"><div class="ta-dot dot-green"></div> Beschikbaar</div></div>
+          <div class="ta"><div class="ta-av" style="background:var(--amber-light);font-weight:800;color:var(--amber);">YD</div><div><div class="ta-name">Yusuf Demir</div><div class="ta-spec">Kinderfysiotherapeut</div></div><div class="ta-status"><div class="ta-dot dot-amber"></div> Beperkt</div></div>
+          <div class="ta"><div class="ta-av" style="background:var(--purple-light);font-weight:800;color:var(--purple);">EB</div><div><div class="ta-name">Eva Bakker</div><div class="ta-spec">Psychosomatisch</div></div><div class="ta-status"><div class="ta-dot dot-green"></div> Beschikbaar</div></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script>
+lucide.createIcons();
+function selType(el){document.querySelectorAll('.type').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+</script>
+</body>
+</html>

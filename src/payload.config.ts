@@ -92,6 +92,11 @@ import { ConstructionProjects } from '@/branches/construction/collections/Constr
 import { ConstructionReviews } from '@/branches/construction/collections/ConstructionReviews'
 import { QuoteRequests } from '@/branches/construction/collections/QuoteRequests'
 
+// Hospitality Branch (3 collections - Sprint 4)
+import { Treatments } from '@/branches/hospitality/collections/Treatments'
+import { Practitioners } from '@/branches/hospitality/collections/Practitioners'
+import { Appointments } from '@/branches/hospitality/collections/Appointments'
+
 // Globals (Consolidated: 8 → 4 globals!)
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
@@ -300,6 +305,13 @@ export default buildConfig({
     _col(ConstructionProjects),
     _col(ConstructionReviews),
     _col(QuoteRequests),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // HOSPITALITY BRANCH - Fysiotherapie/Zorg Template (Sprint 4)
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(Treatments),
+    _col(Practitioners),
+    _col(Appointments),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
