@@ -104,17 +104,25 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
     setLoading(true)
     try {
       console.log('[NavigationBar] Fetching root categories...')
-      const res = await fetch('/api/product-categories?where[parent][exists]=false&where[showInNavigation][equals]=true&where[visible][equals]=true&sort=navigationOrder&limit=10&depth=0')
+      const url = '/api/product-categories?where[parent][exists]=false&where[showInNavigation][equals]=true&where[visible][equals]=true&sort=navigationOrder&limit=10&depth=0'
+      console.log('[NavigationBar] API URL:', url)
+
+      const res = await fetch(url)
       console.log('[NavigationBar] Response status:', res.status)
 
       if (!res.ok) {
-        console.error('[NavigationBar] API response not OK:', res.statusText)
+        const errorText = await res.text()
+        console.error('[NavigationBar] API response not OK:', res.statusText, errorText)
         return
       }
 
       const data = await res.json()
       console.log('[NavigationBar] Root categories data:', data)
       console.log('[NavigationBar] Found', data.docs?.length || 0, 'root categories')
+
+      if (data.docs && data.docs.length > 0) {
+        console.log('[NavigationBar] First category:', data.docs[0])
+      }
 
       setRootCategories(data.docs || [])
       if (data.docs && data.docs.length > 0) {
@@ -168,7 +176,7 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
 
   return (
     <>
-      <nav className="hidden lg:block bg-white border-b sticky top-[72px] z-[190] relative" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
+      <nav className="hidden lg:block bg-white border-b sticky top-[72px] z-[190]" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
         <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
           <div className="flex items-stretch h-12">
             {/* Menu Trigger Button */}
@@ -344,14 +352,14 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
       {megaMenuOpen && (
         <div
           className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[180]"
-          style={{ top: 'calc(72px + 48px)' }}
+          style={{ top: '120px' }}
           onClick={() => setMegaMenuOpen(false)}
         />
       )}
 
       {/* Flyout Menu */}
       {megaMenuOpen && (
-        <div className="absolute top-full left-0 right-0 z-[185]">
+        <div className="fixed left-0 right-0 z-[185]" style={{ top: '120px' }}>
           <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
             <div className="flex bg-white rounded-b-2xl shadow-2xl overflow-hidden min-h-[520px] border-t-2" style={{ borderColor: primaryColor }}>
 
