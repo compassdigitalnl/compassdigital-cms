@@ -45,6 +45,7 @@ type Props = {
   navigation: NonNullable<Header['navigation']>
   theme: Theme | null
   settings?: Settings | null
+  containerMaxWidth?: string
 }
 
 type Category = {
@@ -54,7 +55,7 @@ type Category = {
   productCount?: number
 }
 
-export function NavigationBar({ navigation, theme, settings }: Props) {
+export function NavigationBar({ navigation, theme, settings, containerMaxWidth = '1320px' }: Props) {
   const pathname = usePathname()
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [rootCategories, setRootCategories] = useState<Category[]>([])
@@ -156,8 +157,8 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
 
   return (
     <>
-      <nav className="hidden lg:block bg-white border-b border-gray-200 sticky top-[72px] z-[190]">
-        <div className="max-w-[1320px] mx-auto px-8">
+      <nav className="hidden lg:block bg-white border-b border-gray-200 sticky top-[72px] z-[190] relative">
+        <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
           <div className="flex items-stretch h-12">
             {/* Menu Trigger Button */}
             <button
@@ -316,15 +317,16 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
       {/* Flyout Backdrop */}
       {megaMenuOpen && (
         <div
-          className="fixed inset-0 top-[120px] bg-black/30 backdrop-blur-sm z-[180]"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[180]"
+          style={{ top: 'calc(72px + 48px)' }}
           onClick={() => setMegaMenuOpen(false)}
         />
       )}
 
       {/* Flyout Menu */}
       {megaMenuOpen && (
-        <div className="fixed top-[120px] left-0 right-0 z-[185]">
-          <div className="max-w-[1320px] mx-auto px-8">
+        <div className="absolute top-full left-0 right-0 z-[185]">
+          <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
             <div className="flex bg-white rounded-b-2xl shadow-2xl overflow-hidden min-h-[520px] border-t-2" style={{ borderColor: primaryColor }}>
 
               {/* L1: Root Categories */}

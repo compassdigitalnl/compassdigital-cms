@@ -50,6 +50,7 @@ import { TopBar } from './TopBar'
 import { AlertBar } from './AlertBar'
 import { MobileDrawer } from './MobileDrawer'
 import { NavigationBar } from './NavigationBar'
+import { useSearch } from '@/branches/shared/components/features/search/search/SearchProvider'
 import type { Settings } from '@/payload-types'
 
 type Props = {
@@ -98,12 +99,15 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 export function HeaderClient({ header, theme, settings }: Props) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
+  const { openSearch } = useSearch()
 
   // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
+
+  // Get container max width from theme
+  const containerMaxWidth = theme?.containerMaxWidth || '1320px'
 
   // Extract settings from header
   const {
@@ -144,7 +148,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
 
       {/* Main Header */}
       <header className={headerClasses}>
-        <div className="max-w-[1320px] mx-auto px-8">
+        <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
           <div className="h-[72px] grid grid-cols-[auto_1fr_auto] items-center gap-8">
             {/* Mobile Toggle */}
             <button
@@ -183,19 +187,17 @@ export function HeaderClient({ header, theme, settings }: Props) {
 
             {/* Search Bar */}
             {enableSearch && (
-              <div className="hidden lg:flex flex-1 max-w-[600px] justify-self-center relative">
+              <button
+                onClick={openSearch}
+                type="button"
+                className="hidden lg:flex flex-1 max-w-[600px] justify-self-center relative w-full h-11 pl-12 pr-4 border-2 border-gray-200 rounded-xl text-sm bg-gray-50 hover:bg-white hover:border-[var(--primary,#00897B)] focus:bg-white focus:border-[var(--primary,#00897B)] focus:ring-4 focus:ring-[var(--primary,#00897B)]/10 outline-none transition-all text-left text-gray-400 cursor-text items-center"
+              >
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400 pointer-events-none z-10" />
-                <input
-                  type="text"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  placeholder={searchPlaceholder}
-                  className="w-full h-11 pl-12 pr-4 border-2 border-gray-200 rounded-xl text-sm bg-gray-50 focus:bg-white focus:border-[var(--primary,#00897B)] focus:ring-4 focus:ring-[var(--primary,#00897B)]/10 outline-none transition-all"
-                />
+                {searchPlaceholder}
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold font-mono text-gray-400 bg-white border border-gray-200 rounded px-2 py-0.5 pointer-events-none hidden xl:block">
                   ⌘K
                 </div>
-              </div>
+              </button>
             )}
 
             {/* Action Buttons */}
@@ -268,7 +270,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
       </header>
 
       {/* Navigation Bar */}
-      {navigation && <NavigationBar navigation={navigation} theme={theme} settings={settings} />}
+      {navigation && <NavigationBar navigation={navigation} theme={theme} settings={settings} containerMaxWidth={containerMaxWidth} />}
 
       {/* Mobile Drawer */}
       <MobileDrawer
