@@ -98,6 +98,7 @@ export interface ClientFeatures {
   newsletter?: boolean
   authentication?: boolean
   chatbot?: boolean
+  abTesting?: boolean
 
   // Legacy - keeping for backwards compatibility
   productReviews?: boolean
@@ -252,6 +253,7 @@ export const features = {
   platform: isFeatureEnabled('platform'),
   authentication: isFeatureEnabled('authentication'),
   chatbot: isFeatureEnabled('chatbot'),
+  abTesting: isFeatureEnabled('ab_testing'),
 
   // Legacy
   productReviews: isFeatureEnabled('product_reviews'),
@@ -286,7 +288,7 @@ export const featureCategories = {
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
   sprint6: ['subscriptions', 'giftVouchers', 'licenses', 'loyalty'],
   content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
-  advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot'],
+  advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
 } as const
 
 /**
@@ -386,6 +388,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     newsletter: 'ENABLE_NEWSLETTER',
     authentication: 'ENABLE_AUTHENTICATION',
     chatbot: 'ENABLE_CHATBOT',
+    abTesting: 'ENABLE_AB_TESTING',
 
     // Legacy
     productReviews: 'ENABLE_PRODUCT_REVIEWS',
@@ -468,6 +471,10 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
 
     // === USERS ===
     users: 'authentication',
+
+    // === A/B TESTING ===
+    'ab-tests': 'abTesting',
+    'ab-test-results': 'abTesting',
   }
 }
 

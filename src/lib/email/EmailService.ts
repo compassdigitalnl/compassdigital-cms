@@ -26,6 +26,45 @@ export class EmailService {
   }
 
   /**
+   * Send generic email
+   */
+  async send({
+    to,
+    subject,
+    html,
+  }: {
+    to: string
+    subject: string
+    html: string
+  }): Promise<{ success: boolean; error?: string; data?: any }> {
+    if (!this.resend) {
+      console.warn('Email service not configured - RESEND_API_KEY missing')
+      return { success: false, error: 'Email service not configured' }
+    }
+
+    const fromEmail = process.env.EMAIL_FROM || process.env.FROM_EMAIL || 'noreply@example.com'
+
+    try {
+      const { data: emailData, error } = await this.resend.emails.send({
+        from: fromEmail,
+        to,
+        subject,
+        html,
+      })
+
+      if (error) {
+        console.error('Resend error:', error)
+        return { success: false, error: error.message }
+      }
+
+      return { success: true, data: emailData }
+    } catch (error) {
+      console.error('Failed to send email:', error)
+      return { success: false, error: 'Failed to send email' }
+    }
+  }
+
+  /**
    * Send contact form submission email
    */
   async sendContactEmail(data: ContactEmailData): Promise<{ success: boolean; error?: string }> {
