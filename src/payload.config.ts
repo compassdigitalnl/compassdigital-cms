@@ -33,8 +33,9 @@ import sharp from 'sharp'
 // - platform: Multi-tenant management (Clients, Deployments, etc.)
 //
 
-// Ecommerce Branch (19 collections)
+// Ecommerce Branch (20 collections)
 import { Brands } from '@/branches/ecommerce/collections/Brands'
+import { EditionNotifications } from '@/branches/ecommerce/collections/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/collections/GiftVouchers'
 import { Invoices } from '@/branches/ecommerce/collections/Invoices'
 import { LicenseActivations } from '@/branches/ecommerce/collections/LicenseActivations'
@@ -262,6 +263,7 @@ export default buildConfig({
     _col(ProductCategories),
     _col(Brands),
     _col(RecentlyViewed),
+    _col(EditionNotifications), // Aboland Magazine Features
 
     // Customer Management
     _col(CustomerGroups),

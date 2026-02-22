@@ -4,6 +4,7 @@ import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { indexProduct, deleteProductFromIndex } from '@/lib/meilisearch/indexProducts'
 import { featureField, featureFields, featureTab, subFeatureFields } from '@/lib/featureFields'
 import { features } from '@/lib/features'
+import { notifyEditionSubscribers } from '../hooks/notifyEditionSubscribers'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -46,6 +47,8 @@ export const Products: CollectionConfig = {
           )
         }
       },
+      // Notify subscribers when new magazine edition is published
+      notifyEditionSubscribers,
     ],
     afterDelete: [
       async ({ doc }) => {
@@ -86,6 +89,15 @@ export const Products: CollectionConfig = {
               },
             },
             {
+              name: 'magazineTitle',
+              type: 'text',
+              label: 'Tijdschrift Naam',
+              admin: {
+                position: 'sidebar',
+                description: 'Bijv. "WINELIFE" — Voor editie-notificaties. Alle producten met dezelfde naam worden als edities van hetzelfde blad behandeld.',
+              },
+            },
+            {
               name: 'productType',
               type: 'select',
               label: 'Product Type',
@@ -100,6 +112,17 @@ export const Products: CollectionConfig = {
               admin: {
                 position: 'sidebar',
                 description: 'Simple = normaal, Grouped = multi-select, Variable = configureerbaar, Mix&Match = bundel builder',
+              },
+            },
+            {
+              name: 'isSubscription',
+              type: 'checkbox',
+              label: 'Dit is een abonnementsproduct',
+              defaultValue: false,
+              admin: {
+                position: 'sidebar',
+                description: 'Toont een prijstabel i.p.v. standaard variant selector (alleen voor Variable producten)',
+                condition: (data) => data.productType === 'variable',
               },
             },
             // SKU, EAN, MPN row
@@ -1213,6 +1236,48 @@ export const Products: CollectionConfig = {
                       label: 'Afbeelding',
                       admin: {
                         description: 'Voor image selection of thumbnail preview',
+                      },
+                    },
+                    // SUBSCRIPTION FIELDS (Aboland Magazine Features)
+                    {
+                      name: 'subscriptionType',
+                      type: 'select',
+                      label: 'Abonnement Type',
+                      options: [
+                        { label: 'Persoonlijk', value: 'personal' },
+                        { label: 'Cadeau', value: 'gift' },
+                        { label: 'Proef', value: 'trial' },
+                      ],
+                      admin: {
+                        description: 'Voor abonnementsproducten — Type abonnement',
+                      },
+                    },
+                    {
+                      name: 'issues',
+                      type: 'number',
+                      label: 'Aantal Nummers',
+                      min: 1,
+                      admin: {
+                        description: 'Voor abonnementsproducten — Looptijd in aantal edities',
+                      },
+                    },
+                    {
+                      name: 'discountPercentage',
+                      type: 'number',
+                      label: 'Korting %',
+                      min: 0,
+                      max: 100,
+                      admin: {
+                        description: 'Voor abonnementsproducten — Korting t.o.v. losse verkoop',
+                      },
+                    },
+                    {
+                      name: 'autoRenew',
+                      type: 'checkbox',
+                      label: 'Automatisch Verlengen',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Voor abonnementsproducten — Wordt abonnement automatisch verlengd?',
                       },
                     },
                   ],
