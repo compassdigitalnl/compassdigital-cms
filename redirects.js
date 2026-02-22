@@ -12,7 +12,16 @@ const redirects = async () => {
     source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
   }
 
-  const redirects = [internetExplorerRedirect]
+  // SEO: Redirect /shop/[product-slug] to /[product-slug] (root level)
+  // This prevents duplicate URLs and improves SEO
+  // Note: /shop/ (without slug) remains as the shop archive page
+  const shopProductRedirect = {
+    source: '/shop/:slug',
+    destination: '/:slug',
+    permanent: true,
+  }
+
+  const redirects = [internetExplorerRedirect, shopProductRedirect]
 
   return redirects
 }

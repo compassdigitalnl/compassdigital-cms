@@ -12,6 +12,14 @@ import ProductTemplate3 from '@/app/(ecommerce)/shop/[slug]/ProductTemplate3'
 import ShopArchiveTemplate1 from '@/app/(ecommerce)/shop/ShopArchiveTemplate1'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { Providers } from '@/providers'
+import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvider'
+import { SearchProvider } from '@/branches/shared/components/features/search/search/SearchProvider'
+import { MiniCartProvider } from '@/branches/shared/components/ui/MiniCart'
+import { ToastProvider } from '@/branches/shared/components/ui/Toast'
+import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
+import { Footer } from '@/branches/shared/components/layout/footer/Footer'
+import { AdminBar } from '@/branches/shared/components/admin/AdminBar'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -107,39 +115,65 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const product = products.docs[0] as Product | undefined
 
   if (product && product.status === 'published') {
-    // Get template setting
+    // Get template setting + globals for layout
     let template = 'template1'
+    let themeGlobal = null
+    let settingsGlobal = null
+    let headerGlobal = null
+
     try {
       const settings = await payload.findGlobal({ slug: 'settings', depth: 0 })
       template = (settings as any)?.defaultProductTemplate || 'template1'
-    } catch (error) {
-      console.error('Error fetching settings:', error)
-    }
+      settingsGlobal = settings
+    } catch (error) {}
+
+    try {
+      themeGlobal = await payload.findGlobal({ slug: 'theme' })
+    } catch (error) {}
+
+    try {
+      headerGlobal = await payload.findGlobal({ slug: 'header' })
+    } catch (error) {}
+
+    const ProductComponent = template === 'template3'
+      ? ProductTemplate3
+      : template === 'template2'
+        ? ProductTemplate2
+        : ProductTemplate1
 
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white border-b">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <Link
-              href="/shop/"
-              className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Terug naar Shop
-            </Link>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          {template === 'template3' ? (
-            <ProductTemplate3 product={product} />
-          ) : template === 'template2' ? (
-            <ProductTemplate2 product={product} />
-          ) : (
-            <ProductTemplate1 product={product} />
-          )}
-        </div>
-      </div>
+      <Providers>
+        <ThemeProvider theme={themeGlobal}>
+          <SearchProvider>
+            <ToastProvider>
+              <MiniCartProvider>
+                <AdminBar />
+                <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
+                <main className="bg-gray-50">
+                  <div className="min-h-screen">
+                    <div className="bg-white border-b">
+                      <div className="max-w-7xl mx-auto px-4 py-4">
+                        <Link
+                          href="/shop/"
+                          className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
+                          style={{ color: 'var(--color-text-secondary)' }}
+                        >
+                          <ArrowLeft className="w-4 h-4" />
+                          Terug naar Shop
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="max-w-7xl mx-auto px-4 py-8">
+                      <ProductComponent product={product} />
+                    </div>
+                  </div>
+                </main>
+                <Footer />
+              </MiniCartProvider>
+            </ToastProvider>
+          </SearchProvider>
+        </ThemeProvider>
+      </Providers>
     )
   }
 
@@ -166,14 +200,46 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       sort: '-createdAt',
     })
 
+    // Get globals for layout
+    let themeGlobal = null
+    let settingsGlobal = null
+    let headerGlobal = null
+
+    try {
+      themeGlobal = await payload.findGlobal({ slug: 'theme' })
+    } catch (error) {}
+
+    try {
+      settingsGlobal = await payload.findGlobal({ slug: 'settings' })
+    } catch (error) {}
+
+    try {
+      headerGlobal = await payload.findGlobal({ slug: 'header' })
+    } catch (error) {}
+
     return (
-      <div className="min-h-screen bg-gray-50">
-        <ShopArchiveTemplate1
-          products={categoryProducts as Product[]}
-          category={category}
-          totalProducts={totalDocs}
-        />
-      </div>
+      <Providers>
+        <ThemeProvider theme={themeGlobal}>
+          <SearchProvider>
+            <ToastProvider>
+              <MiniCartProvider>
+                <AdminBar />
+                <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
+                <main className="bg-gray-50">
+                  <div className="min-h-screen">
+                    <ShopArchiveTemplate1
+                      products={categoryProducts as Product[]}
+                      category={category}
+                      totalProducts={totalDocs}
+                    />
+                  </div>
+                </main>
+                <Footer />
+              </MiniCartProvider>
+            </ToastProvider>
+          </SearchProvider>
+        </ThemeProvider>
+      </Providers>
     )
   }
 
