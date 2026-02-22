@@ -157,7 +157,7 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
 
   return (
     <>
-      <nav className="hidden lg:block bg-white border-b sticky top-[72px] z-[190] relative" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
+      <nav className="hidden lg:block bg-white border-b sticky top-[72px] z-[190] relative" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
         <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
           <div className="flex items-stretch h-12">
             {/* Menu Trigger Button */}
@@ -166,8 +166,8 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
               className={cn(
                 'flex items-center gap-2 px-5 text-sm font-bold transition-all border-b-2',
                 megaMenuOpen
-                  ? 'border-[var(--primary,#00897B)] bg-[var(--secondary,#0A1628)] text-white'
-                  : 'text-[var(--secondary,#0A1628)] border-transparent bg-[var(--secondary,#0A1628)] text-white hover:bg-[var(--primary,#00897B)] hover:border-[var(--primary,#00897B)]'
+                  ? 'border-[var(--color-primary,#00897B)] bg-[var(--color-secondary,#0A1628)] text-white'
+                  : 'text-[var(--color-secondary,#0A1628)] border-transparent bg-[var(--color-secondary,#0A1628)] text-white hover:bg-[var(--color-primary,#00897B)] hover:border-[var(--color-primary,#00897B)]'
               )}
               style={megaMenuOpen ? { backgroundColor: primaryColor, borderColor: primaryColor } : { backgroundColor: secondaryColor, borderColor: secondaryColor }}
             >
@@ -187,7 +187,7 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
                     'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 border-transparent transition-all',
                     item.highlight
                       ? 'text-[#FF6B6B] hover:border-[#FF6B6B]'
-                      : 'text-[var(--secondary,#0A1628)] hover:text-[var(--primary,#00897B)] hover:border-[var(--primary,#00897B)]'
+                      : 'text-[var(--color-secondary,#0A1628)] hover:text-[var(--color-primary,#00897B)] hover:border-[var(--color-primary,#00897B)]'
                   )}
                 >
                   {Icon && <Icon className="w-4 h-4" />}
@@ -211,8 +211,8 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
                       className={cn(
                         'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 transition-all h-full',
                         isActive
-                          ? 'text-[var(--primary,#00897B)] border-[var(--primary,#00897B)]'
-                          : 'text-[var(--secondary,#0A1628)] border-transparent hover:text-[var(--primary,#00897B)] hover:border-[var(--primary,#00897B)]'
+                          ? 'text-[var(--color-primary,#00897B)] border-[var(--color-primary,#00897B)]'
+                          : 'text-[var(--color-secondary,#0A1628)] border-transparent hover:text-[var(--color-primary,#00897B)] hover:border-[var(--color-primary,#00897B)]'
                       )}
                     >
                       {Icon && <Icon className="w-4 h-4" />}
@@ -225,8 +225,8 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
                       className={cn(
                         'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 transition-all h-12',
                         isActive
-                          ? 'text-[var(--primary,#00897B)] border-[var(--primary,#00897B)]'
-                          : 'text-[var(--secondary,#0A1628)] border-transparent hover:text-[var(--primary,#00897B)] hover:border-[var(--primary,#00897B)]'
+                          ? 'text-[var(--color-primary,#00897B)] border-[var(--color-primary,#00897B)]'
+                          : 'text-[var(--color-secondary,#0A1628)] border-transparent hover:text-[var(--color-primary,#00897B)] hover:border-[var(--color-primary,#00897B)]'
                       )}
                     >
                       {Icon && <Icon className="w-4 h-4" />}
@@ -236,20 +236,20 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
 
                   {/* Simple Dropdown for children */}
                   {hasChildren && (
-                    <div className="absolute top-full left-0 bg-white border rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible hover:opacity-100 hover:visible transition-all z-[195]" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
+                    <div className="absolute top-full left-0 bg-white border rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible hover:opacity-100 hover:visible transition-all z-[195]" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
                       {item.children!.map((child) => (
                         <CMSLink
                           key={child.id}
                           {...(typeof child.page === 'object' && 'slug' in child.page ? { reference: child.page } : {})}
                           className="block px-4 py-2 text-sm transition-colors first:rounded-t-xl last:rounded-b-xl"
-                          style={{ color: 'var(--secondary, #0A1628)' }}
+                          style={{ color: 'var(--color-secondary, #0A1628)' }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = 'var(--surface, #f9fafb)'
-                            e.currentTarget.style.color = 'var(--primary, #00897B)'
+                            e.currentTarget.style.backgroundColor = 'var(--color-surface, #f9fafb)'
+                            e.currentTarget.style.color = 'var(--color-primary, #00897B)'
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.backgroundColor = 'transparent'
-                            e.currentTarget.style.color = 'var(--secondary, #0A1628)'
+                            e.currentTarget.style.color = 'var(--color-secondary, #0A1628)'
                           }}
                         >
                           {child.label}
@@ -272,7 +272,7 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
                     'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 border-transparent transition-all',
                     item.highlight
                       ? 'text-[#FF6B6B] hover:border-[#FF6B6B]'
-                      : 'text-[var(--secondary,#0A1628)] hover:text-[var(--primary,#00897B)] hover:border-[var(--primary,#00897B)]'
+                      : 'text-[var(--color-secondary,#0A1628)] hover:text-[var(--color-primary,#00897B)] hover:border-[var(--color-primary,#00897B)]'
                   )}
                 >
                   {Icon && <Icon className="w-4 h-4" />}
@@ -291,23 +291,23 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
                   <a
                     href={`mailto:${settings.email}`}
                     className="flex items-center gap-1.5 transition-colors"
-                    style={{ color: 'var(--text-secondary, #64748b)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary, #00897B)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary, #64748b)' }}
+                    style={{ color: 'var(--color-text-secondary, #64748b)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary, #00897B)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary, #64748b)' }}
                   >
                     <Mail className="w-4 h-4" style={{ color: primaryColor }} />
                     <span className="hidden xl:inline">{settings.email}</span>
                   </a>
-                  {settings?.phone && <div className="w-px h-4" style={{ backgroundColor: 'var(--border, #e5e7eb)' }} />}
+                  {settings?.phone && <div className="w-px h-4" style={{ backgroundColor: 'var(--color-border, #e5e7eb)' }} />}
                 </>
               )}
               {settings?.phone && (
                 <a
                   href={`tel:${settings.phone}`}
                   className="flex items-center gap-1.5 transition-colors"
-                  style={{ color: 'var(--text-secondary, #64748b)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary, #00897B)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary, #64748b)' }}
+                  style={{ color: 'var(--color-text-secondary, #64748b)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary, #00897B)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary, #64748b)' }}
                 >
                   <Phone className="w-4 h-4" style={{ color: primaryColor }} />
                   <span className="hidden xl:inline">{settings.phone}</span>
@@ -373,18 +373,18 @@ export function NavigationBar({ navigation, theme, settings, containerMaxWidth =
               </div>
 
               {/* L2: Subcategories */}
-              <div className="w-[280px] flex-shrink-0 border-r flex flex-col py-3" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
+              <div className="w-[280px] flex-shrink-0 border-r flex flex-col py-3" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
                 {l2Categories.length > 0 ? (
                   <>
-                    <div className="flex items-center gap-2.5 px-5 py-2 mb-1 border-b" style={{ borderColor: 'var(--border, #e5e7eb)' }}>
+                    <div className="flex items-center gap-2.5 px-5 py-2 mb-1 border-b" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
                       <div className="w-[34px] h-[34px] rounded-lg flex items-center justify-center" style={{ backgroundColor: `${primaryColor}20` }}>
                         <Package className="w-[17px] h-[17px]" style={{ color: primaryColor }} />
                       </div>
                       <div>
-                        <div className="font-bold text-sm" style={{ color: 'var(--text-primary, #0A1628)' }}>
+                        <div className="font-bold text-sm" style={{ color: 'var(--color-text-primary, #0A1628)' }}>
                           {rootCategories.find(c => c.id === activeL1)?.name}
                         </div>
-                        <div className="text-xs" style={{ color: 'var(--text-secondary, #64748b)' }}>{l2Categories.length} subcategorieën</div>
+                        <div className="text-xs" style={{ color: 'var(--color-text-secondary, #64748b)' }}>{l2Categories.length} subcategorieën</div>
                       </div>
                     </div>
                     {l2Categories.map((cat) => (
