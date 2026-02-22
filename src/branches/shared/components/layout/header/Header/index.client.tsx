@@ -106,26 +106,6 @@ export function HeaderClient({ header, theme, settings }: Props) {
     setMobileOpen(false)
   }, [pathname])
 
-  // Get container max width from theme - convert Tailwind class to pixels
-  const getContainerWidth = (width?: string): string => {
-    const widthMap: Record<string, string> = {
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1536px',
-      '7xl': '1792px',
-    }
-    return widthMap[width || '7xl'] || '1792px'
-  }
-
-  const containerMaxWidth = getContainerWidth(theme?.containerWidth)
-
-  // Debug container width
-  useEffect(() => {
-    console.log('[HeaderClient] Theme:', theme)
-    console.log('[HeaderClient] Theme containerWidth:', theme?.containerWidth)
-    console.log('[HeaderClient] Computed Container Max Width:', containerMaxWidth)
-  }, [theme, containerMaxWidth])
-
   // Extract settings from header
   const {
     topBar,
@@ -168,7 +148,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
 
       {/* Main Header */}
       <header className={headerClasses} style={headerStyle}>
-        <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
+        <div className="mx-auto px-8" style={{ maxWidth: 'var(--container-width)' }}>
           <div className="h-[72px] grid grid-cols-[auto_1fr_auto] items-center gap-8">
             {/* Mobile Toggle */}
             <button
@@ -321,7 +301,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
       </header>
 
       {/* Navigation Bar */}
-      {navigation && <NavigationBar navigation={navigation} theme={theme} settings={settings} containerMaxWidth={containerMaxWidth} />}
+      {navigation && <NavigationBar navigation={navigation} theme={theme} settings={settings} />}
 
       {/* Mobile Drawer */}
       <MobileDrawer
