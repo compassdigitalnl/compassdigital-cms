@@ -283,6 +283,7 @@ Als je het antwoord niet weet, zeg het eerlijk.`,
                   label: 'Collections to Search',
                   hasMany: true,
                   defaultValue: ['blog-posts', 'pages'],
+                  dbName: 'chatbot_kb_search_collections',
                   options: [
                     { label: 'Blog Posts', value: 'blog-posts' },
                     { label: 'Pages', value: 'pages' },
