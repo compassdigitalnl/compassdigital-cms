@@ -80,11 +80,15 @@ export interface ClientFeatures {
   cases?: boolean
   partners?: boolean
   brands?: boolean
-  services?: boolean
   wishlists?: boolean
 
   // === INDUSTRY BRANCHES ===
   construction?: boolean
+  hospitality?: boolean
+  beauty?: boolean
+  realEstate?: boolean
+  professionalServices?: boolean
+  tourism?: boolean
 
   // === ADVANCED ===
   multiLanguage?: boolean
@@ -227,11 +231,15 @@ export const features = {
   testimonials: isFeatureEnabled('testimonials'),
   cases: isFeatureEnabled('cases'),
   partners: isFeatureEnabled('partners'),
-  services: isFeatureEnabled('services'),
   wishlists: isFeatureEnabled('wishlists'),
 
   // === INDUSTRY BRANCHES ===
   construction: isFeatureEnabled('construction'),
+  hospitality: isFeatureEnabled('hospitality'),
+  beauty: isFeatureEnabled('beauty'),
+  realEstate: isFeatureEnabled('real_estate'),
+  professionalServices: isFeatureEnabled('professional_services'),
+  tourism: isFeatureEnabled('tourism'),
 
   // === ADVANCED ===
   multiLanguage: isFeatureEnabled('multi_language'),
@@ -356,11 +364,15 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     cases: 'ENABLE_CASES',
     partners: 'ENABLE_PARTNERS',
     brands: 'ENABLE_BRANDS',
-    services: 'ENABLE_SERVICES',
     wishlists: 'ENABLE_WISHLISTS',
 
     // === INDUSTRY BRANCHES ===
     construction: 'ENABLE_CONSTRUCTION',
+    hospitality: 'ENABLE_HOSPITALITY',
+    beauty: 'ENABLE_BEAUTY',
+    realEstate: 'ENABLE_REAL_ESTATE',
+    professionalServices: 'ENABLE_PROFESSIONAL_SERVICES',
+    tourism: 'ENABLE_TOURISM',
 
     // === ADVANCED ===
     multiLanguage: 'ENABLE_MULTI_LANGUAGE',

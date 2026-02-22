@@ -135,8 +135,11 @@ export function HeaderClient({ header, theme, settings }: Props) {
       'sticky top-0 z-50': stickyHeader,
       'shadow-sm': showShadow,
     },
-    showShadow && 'border-gray-200',
   )
+
+  const headerStyle = {
+    borderColor: showShadow ? 'var(--border, #e5e7eb)' : 'transparent',
+  }
 
   return (
     <>
@@ -147,7 +150,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
       {topBar?.enabled && <TopBar topBar={topBar} theme={theme} />}
 
       {/* Main Header */}
-      <header className={headerClasses}>
+      <header className={headerClasses} style={headerStyle}>
         <div className="mx-auto px-8" style={{ maxWidth: containerMaxWidth }}>
           <div className="h-[72px] grid grid-cols-[auto_1fr_auto] items-center gap-8">
             {/* Mobile Toggle */}
@@ -190,11 +193,30 @@ export function HeaderClient({ header, theme, settings }: Props) {
               <button
                 onClick={openSearch}
                 type="button"
-                className="hidden lg:flex flex-1 max-w-[600px] justify-self-center relative w-full h-11 pl-12 pr-4 border-2 border-gray-200 rounded-xl text-sm bg-gray-50 hover:bg-white hover:border-[var(--primary,#00897B)] focus:bg-white focus:border-[var(--primary,#00897B)] focus:ring-4 focus:ring-[var(--primary,#00897B)]/10 outline-none transition-all text-left text-gray-400 cursor-text items-center"
+                className="hidden lg:flex flex-1 max-w-[600px] justify-self-center relative w-full h-11 pl-12 pr-4 border-2 rounded-xl text-sm hover:bg-white focus:bg-white focus:ring-4 outline-none transition-all text-left cursor-text items-center"
+                style={{
+                  backgroundColor: 'var(--surface, #f9fafb)',
+                  borderColor: 'var(--border, #e5e7eb)',
+                  color: 'var(--text-muted, #94a3b8)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--primary, #00897B)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border, #e5e7eb)'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--primary, #00897B)'
+                  e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0, 137, 123, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border, #e5e7eb)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
               >
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400 pointer-events-none z-10" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] pointer-events-none z-10" style={{ color: 'var(--text-muted, #94a3b8)' }} />
                 {searchPlaceholder}
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold font-mono text-gray-400 bg-white border border-gray-200 rounded px-2 py-0.5 pointer-events-none hidden xl:block">
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold font-mono bg-white border rounded px-2 py-0.5 pointer-events-none hidden xl:block" style={{ color: 'var(--text-muted, #94a3b8)', borderColor: 'var(--border, #e5e7eb)' }}>
                   ⌘K
                 </div>
               </button>
@@ -251,14 +273,26 @@ export function HeaderClient({ header, theme, settings }: Props) {
 
               {/* Separator */}
               {showCart && (showAccount || showWishlist || customButtons?.length) && (
-                <div className="hidden lg:block w-px h-6 bg-gray-200 mx-1" />
+                <div className="hidden lg:block w-px h-6 mx-1" style={{ backgroundColor: 'var(--border, #e5e7eb)' }} />
               )}
 
               {/* Cart */}
               {showCart && (
                 <Link
                   href="/cart/"
-                  className="h-[42px] px-4 rounded-[10px] bg-[var(--secondary,#0A1628)] text-white hover:bg-[var(--primary,#00897B)] border border-[var(--secondary,#0A1628)] hover:border-[var(--primary,#00897B)] flex items-center gap-2 transition-all font-bold text-[13.5px]"
+                  className="h-[42px] px-4 rounded-[10px] text-white border flex items-center gap-2 transition-all font-bold text-[13.5px]"
+                  style={{
+                    backgroundColor: 'var(--secondary, #0A1628)',
+                    borderColor: 'var(--secondary, #0A1628)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--primary, #00897B)'
+                    e.currentTarget.style.borderColor = 'var(--primary, #00897B)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--secondary, #0A1628)'
+                    e.currentTarget.style.borderColor = 'var(--secondary, #0A1628)'
+                  }}
                 >
                   <ShoppingCart className="w-4 h-4" />
                   <span className="hidden sm:inline">€0,00</span>
