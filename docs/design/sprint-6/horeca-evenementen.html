@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evenementen & Catering — Bistro de Gracht</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--warm:#2C1810;--warm-light:#3D2419;--gold:#C9A84C;--gold-light:rgba(201,168,76,.12);--cream:#FDF8F0;--navy:#0A1628;--teal:#00897B;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#FAFAF8;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  .header{background:var(--warm);position:sticky;top:0;z-index:200;}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:white;text-decoration:none;}.logo em{color:var(--gold);font-style:italic;}.nav{display:flex;gap:4px;}.nav-item{padding:10px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.4);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--gold);background:rgba(201,168,76,.08);}.h-cta{height:42px;padding:0 20px;background:var(--gold);color:var(--warm);border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;}.h-cta:hover{background:white;}.h-cta i{width:14px;height:14px;}
+
+  .section{padding:56px 0;}
+  .section-header{text-align:center;margin-bottom:28px;}
+  .section-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gold-light);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:6px;}.section-badge i{width:13px;height:13px;}
+  .section-header h2{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;}
+  .section-header p{font-size:14px;color:var(--grey-dark);max-width:540px;margin:4px auto 0;}
+
+  /* Hero */
+  .ev-hero{background:linear-gradient(135deg,var(--warm),var(--warm-light));padding:64px 0;position:relative;overflow:hidden;text-align:center;}
+  .ev-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 80%,rgba(201,168,76,.06),transparent 70%);}
+  .evh-inner{position:relative;z-index:2;}
+  .evh-badge{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(201,168,76,.25);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;}.evh-badge i{width:12px;height:12px;}
+  .ev-hero h1{font-family:'Playfair Display',serif;font-size:44px;font-weight:700;color:white;margin-bottom:8px;}.ev-hero h1 em{color:var(--gold);font-style:italic;}
+  .evh-desc{font-size:15px;color:rgba(255,255,255,.35);max-width:560px;margin:0 auto 20px;}
+  .evh-stats{display:flex;justify-content:center;gap:28px;}
+  .evhs{text-align:center;}.evhs-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;color:var(--gold);}.evhs-label{font-size:11px;color:rgba(255,255,255,.3);}
+
+  /* Packages */
+  .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .pkg{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;transition:all .15s;}.pkg:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-md);}
+  .pkg.featured{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-light);}
+  .pkg-header{padding:22px;position:relative;}
+  .pkg-popular{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;background:var(--gold);color:var(--warm);}
+  .pkg-icon{font-size:36px;margin-bottom:8px;}
+  .pkg-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;}
+  .pkg-range{font-size:12px;color:var(--grey-mid);margin-top:2px;}
+  .pkg-price{margin-top:8px;}.pp-from{font-size:11px;color:var(--grey-mid);}.pp-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--gold);}.pp-unit{font-size:12px;color:var(--grey-mid);}
+  .pkg-body{padding:0 22px 22px;}
+  .pkg-features{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+  .pf{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--grey-dark);}.pf i{width:14px;height:14px;color:var(--gold);flex-shrink:0;}
+  .pkg-btn{width:100%;height:44px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--transition);border:none;}.pkg-btn i{width:14px;height:14px;}
+  .pkg-btn.fill{background:var(--gold);color:var(--warm);}.pkg-btn.fill:hover{background:var(--warm);color:var(--gold);}
+  .pkg-btn.outline{background:white;color:var(--gold);border:1.5px solid var(--gold);}.pkg-btn.outline:hover{background:var(--gold-light);}
+
+  /* Spaces */
+  .spaces-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .space{background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;transition:all .12s;}.space:hover{border-color:var(--gold);}
+  .sp-img{display:flex;align-items:center;justify-content:center;font-size:56px;min-height:200px;}
+  .sp-info{padding:22px;display:flex;flex-direction:column;justify-content:center;}
+  .sp-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:4px;}
+  .sp-desc{font-size:12px;color:var(--grey-dark);line-height:1.5;margin-bottom:10px;}
+  .sp-specs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+  .sps{padding:4px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--grey-light);color:var(--grey-mid);display:flex;align-items:center;gap:3px;}.sps i{width:10px;height:10px;}
+  .sp-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;}.sp-link i{width:12px;height:12px;}
+
+  /* Catering menu preview */
+  .cat-menu{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .cm-card{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:18px;text-align:center;transition:all .12s;}.cm-card:hover{border-color:var(--gold);}
+  .cm-icon{font-size:28px;margin-bottom:6px;}
+  .cm-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px;}
+  .cm-desc{font-size:11px;color:var(--grey-mid);margin-bottom:6px;}
+  .cm-price{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--gold);}
+  .cm-unit{font-size:10px;color:var(--grey-mid);}
+
+  /* Form layout */
+  .form-layout{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start;}
+  .form-card{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);}
+  .form-header{background:var(--warm);padding:20px 24px;color:white;text-align:center;}
+  .fh-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;}.fh-desc{font-size:12px;color:rgba(255,255,255,.3);}
+  .form-body{padding:20px 24px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .fg{margin-bottom:10px;}.fg-label{font-size:12px;font-weight:700;margin-bottom:4px;display:block;}.fg-req{color:var(--coral);font-size:10px;}
+  .fg-input{width:100%;height:44px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:all .12s;}.fg-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light);}
+  .fg-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 12px center no-repeat;}
+  .fg-textarea{height:100px;padding:10px 12px;resize:none;}
+  .fg-submit{width:100%;height:48px;background:var(--gold);color:var(--warm);border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--transition);box-shadow:0 4px 16px rgba(201,168,76,.3);}.fg-submit:hover{background:var(--warm);color:var(--gold);}.fg-submit i{width:16px;height:16px;}
+  .fg-note{text-align:center;font-size:11px;color:var(--grey-mid);margin-top:4px;}
+
+  /* Sidebar info */
+  .side-card{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:16px;margin-bottom:10px;}
+  .sc-title{font-size:13px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:5px;}.sc-title i{width:14px;height:14px;color:var(--gold);}
+  .sc-list{list-style:none;display:flex;flex-direction:column;gap:4px;}.sc-li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--grey-dark);}.sc-li i{width:12px;height:12px;color:var(--gold);}
+  .sc-text{font-size:12px;color:var(--grey-dark);line-height:1.5;}
+
+  .phone-card{background:linear-gradient(135deg,var(--warm),var(--warm-light));border-radius:14px;padding:16px;display:flex;align-items:center;gap:10px;color:white;}
+  .pc-icon{width:40px;height:40px;border-radius:10px;background:rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.pc-icon i{width:18px;height:18px;color:var(--gold);}
+  .pc-label{font-size:10px;color:rgba(255,255,255,.3);}.pc-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}.pc-sub{font-size:10px;color:var(--gold);}
+
+  /* Past events gallery */
+  .events-gal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .eg{aspect-ratio:4/3;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;cursor:pointer;overflow:hidden;transition:transform .12s;}.eg:hover{transform:scale(1.03);}
+  .eg-label{position:absolute;bottom:6px;left:6px;padding:3px 8px;border-radius:4px;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);font-size:10px;font-weight:700;color:white;}
+
+  @media(max-width:900px){.pkg-grid{grid-template-columns:1fr;}.spaces-grid{grid-template-columns:1fr;}.space{grid-template-columns:1fr;}.cat-menu{grid-template-columns:1fr;}.form-layout{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}.events-gal{grid-template-columns:1fr 1fr;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">Bistro <em>de Gracht</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item">Menukaart</a><a href="#" class="nav-item">Reserveren</a><a href="#" class="nav-item">Over ons</a><a href="#" class="nav-item active">Evenementen</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Reserveer</button></div></header>
+
+<!-- Hero -->
+<section class="ev-hero"><div class="evh-inner"><div class="evh-badge"><i data-lucide="sparkles"></i> Private dining & catering</div><h1>Maak het <em>onvergetelijk</em></h1><p class="evh-desc">Van een intiem diner voor twee tot een groot bedrijfsfeest — wij zorgen voor de perfecte setting, het beste eten en een vlekkeloze service.</p><div class="evh-stats"><div class="evhs"><div class="evhs-num">200+</div><div class="evhs-label">Events per jaar</div></div><div class="evhs"><div class="evhs-num">2–80</div><div class="evhs-label">Personen</div></div><div class="evhs"><div class="evhs-num">4.9</div><div class="evhs-label">Tevredenheid</div></div></div></div></section>
+
+<!-- Packages -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="gift"></i> Arrangementen</div><h2>Kies uw arrangement</h2><p>Van zakelijke bijeenkomsten tot verjaardagen en bruiloften. Elk arrangement wordt op maat samengesteld.</p></div>
+  <div class="pkg-grid">
+    <div class="pkg"><div class="pkg-header"><div class="pkg-icon">🎂</div><div class="pkg-name">Verjaardagen & Feesten</div><div class="pkg-range">8 – 40 personen</div><div class="pkg-price"><div class="pp-from">Vanaf</div><div class="pp-val">€ 45</div><div class="pp-unit">per persoon</div></div></div><div class="pkg-body"><ul class="pkg-features"><li class="pf"><i data-lucide="check"></i> 3- of 4-gangen menu</li><li class="pf"><i data-lucide="check"></i> Welkomstcocktail</li><li class="pf"><i data-lucide="check"></i> Versierde privéruimte</li><li class="pf"><i data-lucide="check"></i> Taart op bestelling</li><li class="pf"><i data-lucide="check"></i> DJ/muziek bespreekbaar</li></ul><button class="pkg-btn outline"><i data-lucide="mail"></i> Informeer vrijblijvend</button></div></div>
+
+    <div class="pkg featured"><div class="pkg-header"><div class="pkg-popular">⭐ Meest gekozen</div><div class="pkg-icon">💼</div><div class="pkg-name">Zakelijk & Corporate</div><div class="pkg-range">2 – 60 personen</div><div class="pkg-price"><div class="pp-from">Vanaf</div><div class="pp-val">€ 55</div><div class="pp-unit">per persoon</div></div></div><div class="pkg-body"><ul class="pkg-features"><li class="pf"><i data-lucide="check"></i> Walking dinner of zit-menu</li><li class="pf"><i data-lucide="check"></i> Presentatiemogelijkheden</li><li class="pf"><i data-lucide="check"></i> Beamer & geluid</li><li class="pf"><i data-lucide="check"></i> Wijn of drankpakketten</li><li class="pf"><i data-lucide="check"></i> Factuur op bedrijfsnaam</li></ul><button class="pkg-btn fill"><i data-lucide="mail"></i> Offerte aanvragen</button></div></div>
+
+    <div class="pkg"><div class="pkg-header"><div class="pkg-icon">💍</div><div class="pkg-name">Bruiloften & Ceremonies</div><div class="pkg-range">20 – 80 personen</div><div class="pkg-price"><div class="pp-from">Vanaf</div><div class="pp-val">€ 75</div><div class="pp-unit">per persoon</div></div></div><div class="pkg-body"><ul class="pkg-features"><li class="pf"><i data-lucide="check"></i> 5-gangen bruiloftsmenu</li><li class="pf"><i data-lucide="check"></i> Exclusief gebruik locatie</li><li class="pf"><i data-lucide="check"></i> Ceremoniemeester</li><li class="pf"><i data-lucide="check"></i> Bruidstaart op maat</li><li class="pf"><i data-lucide="check"></i> Avondborrel & DJ</li></ul><button class="pkg-btn outline"><i data-lucide="mail"></i> Informeer vrijblijvend</button></div></div>
+  </div>
+</div></section>
+
+<!-- Spaces -->
+<section class="section" style="background:var(--cream);"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="home"></i> Onze ruimtes</div><h2>De perfecte setting</h2></div>
+  <div class="spaces-grid">
+    <div class="space"><div class="sp-img" style="background:linear-gradient(135deg,#2d3436,#636e72);">🏠</div><div class="sp-info"><div class="sp-name">De Privézaal</div><div class="sp-desc">Sfeervolle afgesloten ruimte met eigen bar, open haard en uitzicht op de binnentuin. Ideaal voor diners en feesten.</div><div class="sp-specs"><span class="sps"><i data-lucide="users"></i> 10-40 pers.</span><span class="sps"><i data-lucide="ruler"></i> 75m²</span><span class="sps"><i data-lucide="tv"></i> Beamer</span><span class="sps"><i data-lucide="music"></i> Geluid</span></div><div class="sp-link"><i data-lucide="camera"></i> Foto's bekijken</div></div></div>
+    <div class="space"><div class="sp-img" style="background:linear-gradient(135deg,#00b894,#55efc4);">🌿</div><div class="sp-info"><div class="sp-name">Het Grachtenterras</div><div class="sp-desc">Overdekt terras direct aan de Herengracht met sfeerverlichting. Perfect voor borrels en zomerse recepties.</div><div class="sp-specs"><span class="sps"><i data-lucide="users"></i> 20-80 pers.</span><span class="sps"><i data-lucide="ruler"></i> 120m²</span><span class="sps"><i data-lucide="umbrella"></i> Overdekt</span><span class="sps"><i data-lucide="flame"></i> Terrasverwarming</span></div><div class="sp-link"><i data-lucide="camera"></i> Foto's bekijken</div></div></div>
+  </div>
+</div></section>
+
+<!-- Catering menu -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="truck"></i> Catering</div><h2>Catering op locatie</h2><p>Wij verzorgen ook catering voor uw evenement op een externe locatie. Van buffet tot walking dinner.</p></div>
+  <div class="cat-menu">
+    <div class="cm-card"><div class="cm-icon">🥂</div><div class="cm-name">Borrelplank</div><div class="cm-desc">Luxe hapjesplank met vleeswaren, kazen, dips en brood</div><div class="cm-price">€ 18,50</div><div class="cm-unit">p.p. (min. 10 pers.)</div></div>
+    <div class="cm-card"><div class="cm-icon">🍽️</div><div class="cm-name">Walking Dinner</div><div class="cm-desc">6 gangen in petit-formaat, geserveerd als walking dinner</div><div class="cm-price">€ 52,50</div><div class="cm-unit">p.p. (min. 20 pers.)</div></div>
+    <div class="cm-card"><div class="cm-icon">🥗</div><div class="cm-name">Lunch Buffet</div><div class="cm-desc">Uitgebreid buffet met salades, warme gerechten en desserts</div><div class="cm-price">€ 32,50</div><div class="cm-unit">p.p. (min. 15 pers.)</div></div>
+    <div class="cm-card"><div class="cm-icon">🍖</div><div class="cm-name">BBQ Pakket</div><div class="cm-desc">Complete BBQ incl. vlees, vis, salades, sauzen en brood</div><div class="cm-price">€ 38,50</div><div class="cm-unit">p.p. (min. 20 pers.)</div></div>
+    <div class="cm-card"><div class="cm-icon">🧁</div><div class="cm-name">High Tea</div><div class="cm-desc">Scones, sandwiches, petit fours en onbeperkt thee & koffie</div><div class="cm-price">€ 29,50</div><div class="cm-unit">p.p. (min. 8 pers.)</div></div>
+    <div class="cm-card"><div class="cm-icon">🎂</div><div class="cm-name">Taarten & Desserts</div><div class="cm-desc">Op maat gemaakte taarten en desserttafels voor uw feest</div><div class="cm-price">vanaf € 45</div><div class="cm-unit">per taart</div></div>
+  </div>
+</div></section>
+
+<!-- Past events gallery -->
+<section class="section" style="background:var(--cream);"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="camera"></i> Eerdere evenementen</div><h2>Een impressie</h2></div>
+  <div class="events-gal">
+    <div class="eg" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);">💼<div class="eg-label">Corporate event</div></div>
+    <div class="eg" style="background:linear-gradient(135deg,#e17055,#fab1a0);">💍<div class="eg-label">Bruiloft</div></div>
+    <div class="eg" style="background:linear-gradient(135deg,#00b894,#55efc4);">🎂<div class="eg-label">Verjaardagsfeest</div></div>
+    <div class="eg" style="background:linear-gradient(135deg,#fdcb6e,#e17055);">🎄<div class="eg-label">Kerstdiner</div></div>
+  </div>
+</div></section>
+
+<!-- Inquiry form -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="mail"></i> Aanvraag</div><h2>Vertel ons over uw evenement</h2><p>Vul het formulier in en wij nemen binnen 24 uur contact met u op met een vrijblijvende offerte.</p></div>
+  <div class="form-layout">
+    <div class="form-card">
+      <div class="form-header"><div class="fh-title">Evenement aanvraag</div><div class="fh-desc">Wij reageren binnen 24 uur</div></div>
+      <div class="form-body">
+        <div class="form-row">
+          <div class="fg"><label class="fg-label">Voornaam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Uw voornaam"></div>
+          <div class="fg"><label class="fg-label">Achternaam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Uw achternaam"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label class="fg-label">E-mail <span class="fg-req">*</span></label><input class="fg-input" type="email" placeholder="uw@email.nl"></div>
+          <div class="fg"><label class="fg-label">Telefoon <span class="fg-req">*</span></label><input class="fg-input" type="tel" placeholder="06 - 1234 5678"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label class="fg-label">Type evenement</label><select class="fg-input fg-select"><option>Zakelijk / Corporate</option><option>Verjaardag / Feest</option><option>Bruiloft</option><option>Catering op locatie</option><option>Anders…</option></select></div>
+          <div class="fg"><label class="fg-label">Aantal personen (geschat)</label><select class="fg-input fg-select"><option>2-10 personen</option><option>10-20 personen</option><option>20-40 personen</option><option>40-60 personen</option><option>60-80 personen</option><option>80+ personen</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label class="fg-label">Gewenste datum</label><input class="fg-input" type="date"></div>
+          <div class="fg"><label class="fg-label">Budget indicatie</label><select class="fg-input fg-select"><option>Nog geen idee</option><option>€500 – €1.500</option><option>€1.500 – €3.000</option><option>€3.000 – €5.000</option><option>€5.000+</option></select></div>
+        </div>
+        <div class="fg"><label class="fg-label">Vertel ons meer over uw wensen</label><textarea class="fg-input fg-textarea" placeholder="Bijv. type menu, bijzondere wensen, specifieke eisen…"></textarea></div>
+        <button class="fg-submit"><i data-lucide="send"></i> Aanvraag versturen</button>
+        <div class="fg-note">100% vrijblijvend · Reactie binnen 24 uur</div>
+      </div>
+    </div>
+
+    <aside>
+      <div class="side-card">
+        <div class="sc-title"><i data-lucide="check-circle"></i> Wat u kunt verwachten</div>
+        <ul class="sc-list">
+          <li class="sc-li"><i data-lucide="check"></i> Reactie binnen 24 uur</li>
+          <li class="sc-li"><i data-lucide="check"></i> Persoonlijk adviesgesprek</li>
+          <li class="sc-li"><i data-lucide="check"></i> Menu proeverij mogelijk</li>
+          <li class="sc-li"><i data-lucide="check"></i> Offerte op maat, geen verplichtingen</li>
+          <li class="sc-li"><i data-lucide="check"></i> Eén vast aanspreekpunt</li>
+        </ul>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-title"><i data-lucide="star"></i> Recent evenement</div>
+        <div style="font-style:italic;font-size:13px;color:var(--grey-dark);line-height:1.6;margin-bottom:8px;">"Het bedrijfsfeest was perfect georganiseerd. Het eten was subliem en de privézaal was prachtig ingericht. Iedereen was onder de indruk."</div>
+        <div style="font-size:12px;font-weight:700;">— ING Corporate, 45 personen</div>
+      </div>
+
+      <div class="phone-card">
+        <div class="pc-icon"><i data-lucide="phone"></i></div>
+        <div><div class="pc-label">Direct bespreken?</div><div class="pc-num">020 - 123 45 67</div><div class="pc-sub">Ma-Za 10:00-18:00</div></div>
+      </div>
+    </aside>
+  </div>
+</div></section>
+<script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Over Ons — Bistro de Gracht</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--warm:#2C1810;--warm-light:#3D2419;--gold:#C9A84C;--gold-light:rgba(201,168,76,.12);--cream:#FDF8F0;--navy:#0A1628;--teal:#00897B;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#FAFAF8;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  .header{background:var(--warm);position:sticky;top:0;z-index:200;}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:white;text-decoration:none;}.logo em{color:var(--gold);font-style:italic;}.nav{display:flex;gap:4px;}.nav-item{padding:10px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.4);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--gold);background:rgba(201,168,76,.08);}.h-cta{height:42px;padding:0 20px;background:var(--gold);color:var(--warm);border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;}.h-cta:hover{background:white;}.h-cta i{width:14px;height:14px;}
+
+  .section{padding:56px 0;}
+  .section-header{text-align:center;margin-bottom:28px;}
+  .section-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gold-light);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:6px;}.section-badge i{width:13px;height:13px;}
+  .section-header h2{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;}
+  .section-header p{font-size:14px;color:var(--grey-dark);max-width:540px;margin:4px auto 0;}
+
+  /* Hero */
+  .about-hero{background:var(--warm);padding:64px 0;position:relative;overflow:hidden;}
+  .about-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(201,168,76,.06),transparent 70%);}
+  .ah-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:2;}
+  .ah-badge{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(201,168,76,.25);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--gold);margin-bottom:8px;}.ah-badge i{width:11px;height:11px;}
+  .about-hero h1{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:white;line-height:1.1;margin-bottom:10px;}.about-hero h1 em{color:var(--gold);font-style:italic;}
+  .ah-text{font-size:15px;color:rgba(255,255,255,.35);line-height:1.7;}
+  .ah-text p{margin-bottom:10px;}
+  .ah-sig{margin-top:14px;font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--gold);}
+  .ah-visual{display:flex;justify-content:center;}.ah-img{width:100%;max-width:440px;aspect-ratio:3/4;border-radius:20px;background:rgba(201,168,76,.06);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:100px;}
+
+  /* Philosophy */
+  .phil-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .phil{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:24px;text-align:center;transition:all .12s;}.phil:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .phil-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:26px;}
+  .phil-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;margin-bottom:4px;}
+  .phil-desc{font-size:13px;color:var(--grey-dark);line-height:1.5;}
+
+  /* Team */
+  .section.dark{background:var(--warm);}.section.dark .section-header h2{color:white;}.section.dark .section-header p{color:rgba(255,255,255,.3);}.section.dark .section-badge{background:rgba(201,168,76,.12);color:var(--gold);}
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .member{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;overflow:hidden;transition:all .15s;text-align:center;}.member:hover{border-color:rgba(201,168,76,.3);transform:translateY(-3px);}
+  .mem-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;}
+  .mem-role-badge{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;background:var(--gold);color:var(--warm);white-space:nowrap;}
+  .mem-body{padding:14px;color:white;}
+  .mem-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;}
+  .mem-role{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px;}
+  .mem-desc{font-size:11px;color:rgba(255,255,255,.25);line-height:1.4;}
+
+  /* Timeline */
+  .timeline{position:relative;padding-left:36px;max-width:700px;margin:0 auto;}
+  .timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--grey);}
+  .tl-item{position:relative;padding-bottom:28px;}.tl-item:last-child{padding-bottom:0;}
+  .tl-dot{position:absolute;left:-36px;top:2px;width:28px;height:28px;border-radius:50%;background:white;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:2;}.tl-dot i{width:12px;height:12px;color:var(--gold);}
+  .tl-year{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--gold);margin-bottom:2px;}
+  .tl-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:3px;}
+  .tl-text{font-size:13px;color:var(--grey-dark);line-height:1.5;}
+
+  /* Awards */
+  .awards-grid{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+  .award{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:22px 28px;text-align:center;min-width:180px;transition:all .12s;}.award:hover{border-color:var(--gold);}
+  .aw-icon{font-size:36px;margin-bottom:6px;}
+  .aw-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;}
+  .aw-year{font-size:12px;color:var(--gold);font-weight:700;}
+
+  /* Gallery */
+  .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .gal{aspect-ratio:1;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:40px;cursor:pointer;transition:transform .12s;}.gal:hover{transform:scale(1.03);}
+
+  /* CTA */
+  .cta-bar{background:var(--warm);border-radius:20px;padding:40px;text-align:center;color:white;margin-bottom:32px;}
+  .ctb-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;margin-bottom:4px;}
+  .ctb-desc{font-size:14px;color:rgba(255,255,255,.3);margin-bottom:16px;}
+  .ctb-btns{display:flex;gap:8px;justify-content:center;}
+  .ctb-btn{height:48px;padding:0 24px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;transition:all var(--transition);}.ctb-btn i{width:16px;height:16px;}
+  .ctb-btn.fill{background:var(--gold);color:var(--warm);}.ctb-btn.fill:hover{background:white;}
+  .ctb-btn.ghost{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.12);}.ctb-btn.ghost:hover{border-color:var(--gold);}
+
+  @media(max-width:900px){.ah-grid{grid-template-columns:1fr;}.ah-visual{display:none;}.phil-grid{grid-template-columns:1fr;}.team-grid{grid-template-columns:1fr 1fr;}.gal-grid{grid-template-columns:1fr 1fr;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">Bistro <em>de Gracht</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item">Menukaart</a><a href="#" class="nav-item">Reserveren</a><a href="#" class="nav-item active">Over ons</a><a href="#" class="nav-item">Evenementen</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Reserveer</button></div></header>
+
+<!-- Hero -->
+<section class="about-hero"><div class="container"><div class="ah-grid">
+  <div><div class="ah-badge"><i data-lucide="heart"></i> Ons verhaal</div><h1>Een plek waar <em>passie</em> op het bord komt</h1><div class="ah-text"><p>Wat in 2008 begon als een klein eetcafé aan de Herengracht, is uitgegroeid tot een van de meest geliefde bistro's van Amsterdam. Onze filosofie is simpel: eerlijk eten, lokale ingrediënten en een warm welkom.</p><p>Chef Thomas Bakker kookt met de seizoenen. Elke week worden de gerechten aangepast op basis van wat vers beschikbaar is bij onze vaste leveranciers — boeren, vissers en kaasmakers uit de regio.</p></div><div class="ah-sig">— Thomas & Sophie Bakker, eigenaren</div></div>
+  <div class="ah-visual"><div class="ah-img">👨‍🍳</div></div>
+</div></div></section>
+
+<!-- Philosophy -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="heart"></i> Onze filosofie</div><h2>Waar we voor staan</h2></div>
+  <div class="phil-grid">
+    <div class="phil"><div class="phil-icon" style="background:var(--green-light);">🌱</div><div class="phil-title">Seizoensgebonden</div><div class="phil-desc">We koken met wat de natuur ons geeft. Ons menu verandert elke week op basis van het seizoen en beschikbaarheid.</div></div>
+    <div class="phil"><div class="phil-icon" style="background:var(--amber-light);">🤝</div><div class="phil-title">Lokaal & eerlijk</div><div class="phil-desc">Directe relaties met boeren, vissers en producenten. 80% van onze ingrediënten komt binnen 50km van Amsterdam.</div></div>
+    <div class="phil"><div class="phil-icon" style="background:var(--gold-light);">🍽️</div><div class="phil-title">Ambachtelijk</div><div class="phil-desc">Alles wordt huisgemaakt — van het brood tot de pasta, van de sauzen tot de desserts. Geen shortcuts, wel smaak.</div></div>
+  </div>
+</div></section>
+
+<!-- Team -->
+<section class="section dark"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="users"></i> Het team</div><h2>De mensen achter de gracht</h2><p>Een hecht team van vakmensen die samen garant staan voor een onvergetelijke avond.</p></div>
+  <div class="team-grid">
+    <div class="member"><div class="mem-img" style="background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));">👨‍🍳<div class="mem-role-badge">Chef-kok</div></div><div class="mem-body"><div class="mem-name">Thomas Bakker</div><div class="mem-role">Eigenaar & Chef-kok</div><div class="mem-desc">15 jaar ervaring, opgeleid bij De Librije. Gepassioneerd door seizoensgebonden koken.</div></div></div>
+    <div class="member"><div class="mem-img" style="background:linear-gradient(135deg,rgba(0,137,123,.08),rgba(0,137,123,.02));">👩‍💼<div class="mem-role-badge">Gastvrouw</div></div><div class="mem-body"><div class="mem-name">Sophie Bakker</div><div class="mem-role">Eigenaar & Gastvrouw</div><div class="mem-desc">Zorgt voor een warm onthaal en de perfecte sfeer. Altijd persoonlijk aanwezig.</div></div></div>
+    <div class="member"><div class="mem-img" style="background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(124,58,237,.02));">🍷<div class="mem-role-badge">Sommelier</div></div><div class="mem-body"><div class="mem-name">Marc Verhoeven</div><div class="mem-role">Hoofd-sommelier</div><div class="mem-desc">WSET Level 4 gediplomeerd. Beheert een kaart met 200+ wijnen uit de hele wereld.</div></div></div>
+    <div class="member"><div class="mem-img" style="background:linear-gradient(135deg,rgba(249,158,11,.06),rgba(249,158,11,.02));">👨‍🍳<div class="mem-role-badge">Sous-chef</div></div><div class="mem-body"><div class="mem-name">Yusuf Demir</div><div class="mem-role">Sous-chef</div><div class="mem-desc">Specialist in Midden-Oosterse smaken. Verantwoordelijk voor onze signature desserts.</div></div></div>
+  </div>
+</div></section>
+
+<!-- Timeline -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="clock"></i> Onze geschiedenis</div><h2>Van eetcafé tot bistro</h2></div>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot"><i data-lucide="flag"></i></div><div class="tl-year">2008</div><div class="tl-title">De eerste stap</div><div class="tl-text">Thomas en Sophie openen een klein eetcafé met 24 zitplaatsen aan de Herengracht. Het concept: eerlijk eten voor een eerlijke prijs.</div></div>
+    <div class="tl-item"><div class="tl-dot"><i data-lucide="star"></i></div><div class="tl-year">2012</div><div class="tl-title">Eerste erkenning</div><div class="tl-text">Genomineerd voor Beste Nieuwkomer bij de Amsterdam Restaurant Awards. Het restaurant groeit naar 40 zitplaatsen.</div></div>
+    <div class="tl-item"><div class="tl-dot"><i data-lucide="award"></i></div><div class="tl-year">2016</div><div class="tl-title">Michelin Bib Gourmand</div><div class="tl-text">Onze eerste Michelin erkenning. De Bib Gourmand bekroont restaurants met een uitstekende prijs-kwaliteitverhouding.</div></div>
+    <div class="tl-item"><div class="tl-dot"><i data-lucide="home"></i></div><div class="tl-year">2020</div><div class="tl-title">Verbouwing & terras</div><div class="tl-text">Ondanks de pandemie investeren we in een volledige verbouwing en openen we ons terras aan de gracht. Capaciteit: 65 zitplaatsen.</div></div>
+    <div class="tl-item"><div class="tl-dot"><i data-lucide="trophy"></i></div><div class="tl-year">2025</div><div class="tl-title">Beste Bistro Amsterdam</div><div class="tl-text">Verkozen tot Beste Bistro van Amsterdam door het Parool. Ons team is uitgegroeid tot 18 medewerkers.</div></div>
+  </div>
+</div></section>
+
+<!-- Awards -->
+<section class="section" style="background:var(--cream);"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="award"></i> Erkenningen</div><h2>Onderscheidingen & keurmerken</h2></div>
+  <div class="awards-grid">
+    <div class="award"><div class="aw-icon">⭐</div><div class="aw-title">Michelin Bib Gourmand</div><div class="aw-year">2016 – 2026</div></div>
+    <div class="award"><div class="aw-icon">🏆</div><div class="aw-title">Beste Bistro Amsterdam</div><div class="aw-year">Het Parool 2025</div></div>
+    <div class="award"><div class="aw-icon">🌿</div><div class="aw-title">Green Key Gold</div><div class="aw-year">Duurzaam ondernemen</div></div>
+    <div class="award"><div class="aw-icon">🍷</div><div class="aw-title">Wine Spectator Award</div><div class="aw-year">Best of Excellence 2024</div></div>
+  </div>
+</div></section>
+
+<!-- Gallery -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="camera"></i> Sfeerimpressie</div><h2>Een kijkje achter de schermen</h2></div>
+  <div class="gal-grid">
+    <div class="gal" style="background:linear-gradient(135deg,#2d3436,#636e72);">🏠</div>
+    <div class="gal" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);">🍽️</div>
+    <div class="gal" style="background:linear-gradient(135deg,#00b894,#55efc4);">🌿</div>
+    <div class="gal" style="background:linear-gradient(135deg,#fdcb6e,#e17055);">🍷</div>
+    <div class="gal" style="background:linear-gradient(135deg,#fab1a0,#e17055);">👨‍🍳</div>
+    <div class="gal" style="background:linear-gradient(135deg,#74b9ff,#0984e3);">🐟</div>
+    <div class="gal" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e);">🧀</div>
+    <div class="gal" style="background:linear-gradient(135deg,#dfe6e9,#b2bec3);">🎂</div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<div class="container"><div class="cta-bar">
+  <div class="ctb-title">Benieuwd naar onze keuken?</div>
+  <div class="ctb-desc">Reserveer een tafel en ervaar het zelf. Wij kijken uit naar uw bezoek.</div>
+  <div class="ctb-btns"><button class="ctb-btn fill"><i data-lucide="calendar"></i> Reserveer een tafel</button><button class="ctb-btn ghost"><i data-lucide="book-open"></i> Bekijk menukaart</button></div>
+</div></div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

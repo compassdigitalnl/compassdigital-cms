@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserveren — Bistro de Gracht</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--warm:#2C1810;--warm-light:#3D2419;--gold:#C9A84C;--gold-light:rgba(201,168,76,.12);--cream:#FDF8F0;--navy:#0A1628;--teal:#00897B;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#FAFAF8;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  .header{background:var(--warm);position:sticky;top:0;z-index:200;}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:white;text-decoration:none;}.logo em{color:var(--gold);font-style:italic;}.nav{display:flex;gap:4px;}.nav-item{padding:10px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.4);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--gold);background:rgba(201,168,76,.08);}
+  .h-phone{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:white;text-decoration:none;}.h-phone i{width:16px;height:16px;color:var(--gold);}
+
+  /* Page hero */
+  .page-hero{background:var(--warm);padding:44px 0;text-align:center;position:relative;overflow:hidden;}
+  .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(201,168,76,.06),transparent 70%);}
+  .ph-inner{position:relative;z-index:2;}.ph-badge{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(201,168,76,.25);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--gold);margin-bottom:8px;}.ph-badge i{width:11px;height:11px;}
+  .ph-title{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:white;margin-bottom:4px;}
+  .ph-desc{font-size:14px;color:rgba(255,255,255,.3);max-width:480px;margin:0 auto;}
+
+  /* Layout */
+  .res-layout{display:grid;grid-template-columns:1fr 380px;gap:24px;padding:28px 0 64px;align-items:start;}
+
+  /* Form card */
+  .form-card{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);}
+  .fc-step{padding:20px 24px;border-bottom:1px solid var(--grey);}
+  .fcs-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--gold);color:var(--warm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;margin-right:8px;}
+  .fcs-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;display:inline;}
+  .fcs-desc{font-size:12px;color:var(--grey-mid);margin-top:2px;padding-left:36px;}
+  .fc-body{padding:20px 24px;}
+
+  /* Date picker (calendar grid) */
+  .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .cal-month{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+  .cal-nav{display:flex;gap:4px;}.cal-nav-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--grey);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;}.cal-nav-btn:hover{border-color:var(--gold);}.cal-nav-btn i{width:16px;height:16px;color:var(--grey-mid);}
+  .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;margin-bottom:12px;}
+  .cal-weekday{font-size:11px;font-weight:700;color:var(--grey-mid);padding:6px 0;}
+  .cal-day{width:100%;aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .12s;border:1.5px solid transparent;color:var(--navy);}
+  .cal-day:hover:not(.disabled):not(.selected){background:var(--gold-light);border-color:var(--gold);}
+  .cal-day.selected{background:var(--gold);color:white;border-color:var(--gold);font-weight:800;}
+  .cal-day.today{border-color:var(--gold);color:var(--gold);}
+  .cal-day.disabled{color:var(--grey);cursor:not-allowed;}
+  .cal-day.other-month{color:var(--grey);}
+
+  /* Time slots */
+  .time-label{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:4px;}.time-label i{width:14px;height:14px;color:var(--gold);}
+  .time-section{margin-bottom:12px;}
+  .ts-sublabel{font-size:11px;color:var(--grey-mid);font-weight:600;margin-bottom:4px;}
+  .time-slots{display:flex;gap:4px;flex-wrap:wrap;}
+  .time-slot{padding:8px 14px;border:1.5px solid var(--grey);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .12s;}.time-slot:hover{border-color:var(--gold);color:var(--gold);}.time-slot.selected{background:var(--gold);color:white;border-color:var(--gold);}.time-slot.busy{opacity:.35;cursor:not-allowed;text-decoration:line-through;}.time-slot.popular{position:relative;}.time-slot.popular::after{content:'🔥';position:absolute;top:-6px;right:-4px;font-size:10px;}
+
+  /* Party size */
+  .size-row{display:flex;gap:4px;margin-bottom:12px;}
+  .size-btn{width:48px;height:48px;border:2px solid var(--grey);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:all .12s;position:relative;}
+  .size-btn:hover{border-color:var(--gold);}
+  .size-btn.selected{border-color:var(--gold);background:var(--gold);color:white;}
+  .size-btn i{width:18px;height:18px;}
+
+  /* Form fields */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+  .form-group{margin-bottom:10px;}
+  .fg-label{font-size:12px;font-weight:700;margin-bottom:4px;display:block;}
+  .fg-req{color:var(--coral);font-size:10px;}
+  .fg-input{width:100%;height:44px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:all .12s;}.fg-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light);}
+  .fg-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 12px center no-repeat;}
+  .fg-textarea{height:80px;padding:10px 12px;resize:none;}
+
+  /* Seating preference */
+  .seat-options{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+  .seat-opt{padding:12px;border:1.5px solid var(--grey);border-radius:10px;text-align:center;cursor:pointer;transition:all .12s;}.seat-opt:hover{border-color:var(--gold);}.seat-opt.selected{border-color:var(--gold);background:var(--gold-light);}
+  .so-icon{font-size:22px;margin-bottom:2px;}
+  .so-name{font-size:12px;font-weight:700;}.so-desc{font-size:10px;color:var(--grey-mid);}
+
+  /* Submit */
+  .submit-btn{width:100%;height:52px;background:var(--gold);color:var(--warm);border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--transition);box-shadow:0 4px 16px rgba(201,168,76,.3);margin-top:6px;}.submit-btn:hover{background:var(--warm);color:var(--gold);transform:translateY(-1px);}.submit-btn i{width:18px;height:18px;}
+  .submit-note{text-align:center;font-size:11px;color:var(--grey-mid);margin-top:6px;}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:96px;}
+
+  /* Summary */
+  .summary-card{background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow-sm);}
+  .sum-header{background:var(--warm);padding:16px;color:white;text-align:center;}
+  .sum-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;}
+  .sum-body{padding:16px;}
+  .sum-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--grey);font-size:13px;}.sum-row:last-child{border-bottom:none;}
+  .sr-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.sr-icon i{width:16px;height:16px;}
+  .sr-label{color:var(--grey-mid);font-size:11px;}.sr-val{font-weight:700;}
+  .sum-empty{font-size:12px;color:var(--grey-mid);font-style:italic;text-align:center;padding:8px 0;}
+
+  /* Info cards */
+  .info-card{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:16px;margin-bottom:10px;}
+  .inf-title{font-size:13px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:5px;}.inf-title i{width:14px;height:14px;color:var(--gold);}
+  .inf-text{font-size:12px;color:var(--grey-dark);line-height:1.5;}
+  .inf-list{list-style:none;display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--grey-dark);}.inf-li{display:flex;align-items:center;gap:5px;}.inf-li i{width:12px;height:12px;color:var(--gold);}
+
+  .phone-card{background:linear-gradient(135deg,var(--warm),var(--warm-light));border-radius:14px;padding:16px;display:flex;align-items:center;gap:10px;color:white;}
+  .pc-icon{width:40px;height:40px;border-radius:10px;background:rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.pc-icon i{width:18px;height:18px;color:var(--gold);}
+  .pc-label{font-size:10px;color:rgba(255,255,255,.3);}.pc-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}.pc-avail{font-size:10px;color:var(--gold);}
+
+  @media(max-width:900px){.res-layout{grid-template-columns:1fr;}.sidebar{position:static;}.form-row{grid-template-columns:1fr;}.seat-options{grid-template-columns:1fr;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">Bistro <em>de Gracht</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item">Menukaart</a><a href="#" class="nav-item active">Reserveren</a><a href="#" class="nav-item">Over ons</a><a href="#" class="nav-item">Evenementen</a></nav><a class="h-phone" href="tel:0201234567"><i data-lucide="phone"></i> 020 - 123 45 67</a></div></header>
+
+<section class="page-hero"><div class="ph-inner"><div class="ph-badge"><i data-lucide="calendar"></i> Online reserveren</div><h1 class="ph-title">Reserveer uw tafel</h1><p class="ph-desc">Direct bevestiging · Gratis annuleren tot 24u vooraf · Dieetwensen welkom</p></div></section>
+
+<div class="container"><div class="res-layout">
+  <!-- LEFT: Form -->
+  <div>
+    <div class="form-card">
+      <!-- Step 1: Date -->
+      <div class="fc-step"><span class="fcs-num">1</span><span class="fcs-title">Kies een datum</span><div class="fcs-desc">Wij zijn geopend van dinsdag t/m zondag</div></div>
+      <div class="fc-body">
+        <div class="cal-header"><div class="cal-month">Februari 2026</div><div class="cal-nav"><button class="cal-nav-btn"><i data-lucide="chevron-left"></i></button><button class="cal-nav-btn"><i data-lucide="chevron-right"></i></button></div></div>
+        <div class="cal-days">
+          <div class="cal-weekday">Ma</div><div class="cal-weekday">Di</div><div class="cal-weekday">Wo</div><div class="cal-weekday">Do</div><div class="cal-weekday">Vr</div><div class="cal-weekday">Za</div><div class="cal-weekday">Zo</div>
+          <div class="cal-day other-month disabled">26</div><div class="cal-day other-month disabled">27</div><div class="cal-day other-month disabled">28</div><div class="cal-day other-month disabled">29</div><div class="cal-day other-month disabled">30</div><div class="cal-day other-month disabled">31</div><div class="cal-day disabled">1</div>
+          <div class="cal-day disabled">2</div><div class="cal-day disabled">3</div><div class="cal-day disabled">4</div><div class="cal-day disabled">5</div><div class="cal-day disabled">6</div><div class="cal-day disabled">7</div><div class="cal-day disabled">8</div>
+          <div class="cal-day disabled">9</div><div class="cal-day disabled">10</div><div class="cal-day disabled">11</div><div class="cal-day disabled">12</div><div class="cal-day disabled">13</div><div class="cal-day disabled">14</div><div class="cal-day disabled">15</div>
+          <div class="cal-day disabled">16</div><div class="cal-day disabled">17</div><div class="cal-day disabled">18</div><div class="cal-day disabled">19</div><div class="cal-day disabled">20</div><div class="cal-day today">21</div><div class="cal-day">22</div>
+          <div class="cal-day disabled" title="Maandag gesloten">23</div><div class="cal-day">24</div><div class="cal-day selected">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div><!--end feb-->
+        </div>
+      </div>
+
+      <!-- Step 2: Time -->
+      <div class="fc-step"><span class="fcs-num">2</span><span class="fcs-title">Kies een tijdstip</span><div class="fcs-desc">Woensdag 25 februari — beschikbare tijden</div></div>
+      <div class="fc-body">
+        <div class="time-section">
+          <div class="ts-sublabel">🌤️ Lunch (12:00 – 15:00)</div>
+          <div class="time-slots">
+            <div class="time-slot">12:00</div><div class="time-slot">12:30</div><div class="time-slot">13:00</div><div class="time-slot">13:30</div><div class="time-slot">14:00</div><div class="time-slot busy">14:30</div>
+          </div>
+        </div>
+        <div class="time-section">
+          <div class="ts-sublabel">🌙 Diner (17:30 – 22:30)</div>
+          <div class="time-slots">
+            <div class="time-slot">17:30</div><div class="time-slot">18:00</div><div class="time-slot popular">18:30</div><div class="time-slot popular selected">19:00</div><div class="time-slot popular">19:30</div><div class="time-slot">20:00</div><div class="time-slot">20:30</div><div class="time-slot">21:00</div><div class="time-slot busy">21:30</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Party size -->
+      <div class="fc-step"><span class="fcs-num">3</span><span class="fcs-title">Aantal personen</span></div>
+      <div class="fc-body">
+        <div class="size-row">
+          <div class="size-btn" onclick="selectSize(this)">1</div>
+          <div class="size-btn selected" onclick="selectSize(this)">2</div>
+          <div class="size-btn" onclick="selectSize(this)">3</div>
+          <div class="size-btn" onclick="selectSize(this)">4</div>
+          <div class="size-btn" onclick="selectSize(this)">5</div>
+          <div class="size-btn" onclick="selectSize(this)">6</div>
+          <div class="size-btn" onclick="selectSize(this)">7</div>
+          <div class="size-btn" onclick="selectSize(this)">8</div>
+          <div class="size-btn" onclick="selectSize(this)" style="font-size:12px;">8+</div>
+        </div>
+        <div style="font-size:11px;color:var(--grey-mid);margin-bottom:6px;">Meer dan 8 personen? <a href="#" style="color:var(--gold);font-weight:700;">Vraag een groepsarrangement aan</a></div>
+
+        <!-- Seating preference -->
+        <div class="fg-label" style="margin-top:8px;">Voorkeur plek</div>
+        <div class="seat-options">
+          <div class="seat-opt" onclick="selectSeat(this)"><div class="so-icon">🪑</div><div class="so-name">Binnen</div><div class="so-desc">Sfeervolle zaal</div></div>
+          <div class="seat-opt selected" onclick="selectSeat(this)"><div class="so-icon">🌿</div><div class="so-name">Terras</div><div class="so-desc">Aan de gracht</div></div>
+          <div class="seat-opt" onclick="selectSeat(this)"><div class="so-icon">🤷</div><div class="so-name">Geen voorkeur</div><div class="so-desc">Beste beschikbaar</div></div>
+        </div>
+      </div>
+
+      <!-- Step 4: Contact -->
+      <div class="fc-step"><span class="fcs-num">4</span><span class="fcs-title">Uw gegevens</span></div>
+      <div class="fc-body">
+        <div class="form-row">
+          <div class="form-group"><label class="fg-label">Voornaam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Uw voornaam"></div>
+          <div class="form-group"><label class="fg-label">Achternaam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Uw achternaam"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="fg-label">E-mail <span class="fg-req">*</span></label><input class="fg-input" type="email" placeholder="uw@email.nl"></div>
+          <div class="form-group"><label class="fg-label">Telefoon <span class="fg-req">*</span></label><input class="fg-input" type="tel" placeholder="06 - 1234 5678"></div>
+        </div>
+        <div class="form-group"><label class="fg-label">Gelegenheid (optioneel)</label><select class="fg-input fg-select"><option>Geen bijzondere gelegenheid</option><option>🎂 Verjaardag</option><option>💍 Jubileum</option><option>💼 Zakelijk diner</option><option>🎉 Feestje</option><option>❤️ Valentijn / Date</option><option>Anders…</option></select></div>
+        <div class="form-group"><label class="fg-label">Dieetwensen / Allergieën</label><textarea class="fg-input fg-textarea" placeholder="Bijv. glutenallergie, vegetarisch, kinderstoel nodig…"></textarea></div>
+
+        <button class="submit-btn"><i data-lucide="check-circle"></i> Reservering bevestigen</button>
+        <div class="submit-note">U ontvangt direct een bevestiging per e-mail · Gratis annuleren tot 24u vooraf</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <aside class="sidebar">
+    <div class="summary-card">
+      <div class="sum-header"><div class="sum-title">📋 Uw reservering</div></div>
+      <div class="sum-body">
+        <div class="sum-row"><div class="sr-icon" style="background:var(--gold-light);"><i data-lucide="calendar" style="color:var(--gold);"></i></div><div><div class="sr-label">Datum</div><div class="sr-val">Woensdag 25 februari 2026</div></div></div>
+        <div class="sum-row"><div class="sr-icon" style="background:var(--blue-light);"><i data-lucide="clock" style="color:var(--blue);"></i></div><div><div class="sr-label">Tijd</div><div class="sr-val">19:00 — Diner</div></div></div>
+        <div class="sum-row"><div class="sr-icon" style="background:var(--green-light);"><i data-lucide="users" style="color:var(--green);"></i></div><div><div class="sr-label">Personen</div><div class="sr-val">2 personen</div></div></div>
+        <div class="sum-row"><div class="sr-icon" style="background:var(--amber-light);"><i data-lucide="armchair" style="color:var(--amber);"></i></div><div><div class="sr-label">Plek</div><div class="sr-val">Terras (aan de gracht)</div></div></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="inf-title"><i data-lucide="info"></i> Goed om te weten</div>
+      <ul class="inf-list">
+        <li class="inf-li"><i data-lucide="check"></i> Direct bevestiging per e-mail</li>
+        <li class="inf-li"><i data-lucide="check"></i> Gratis annuleren tot 24u vooraf</li>
+        <li class="inf-li"><i data-lucide="check"></i> Tafel 15 min. gereserveerd na aanvangstijd</li>
+        <li class="inf-li"><i data-lucide="check"></i> Huisdieren welkom op het terras</li>
+        <li class="inf-li"><i data-lucide="check"></i> Kinderstoelen beschikbaar</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <div class="inf-title"><i data-lucide="clock"></i> Openingstijden</div>
+      <div class="inf-text">
+        Dinsdag t/m Zaterdag: 12:00 – 22:30<br>
+        Zondag: 10:00 – 21:00 (brunch 10:00-14:00)<br>
+        Maandag: Gesloten<br><br>
+        <strong>Keuken sluit om 21:30</strong>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="inf-title"><i data-lucide="map-pin"></i> Locatie</div>
+      <div class="inf-text">Herengracht 420, 1017 BZ Amsterdam<br>Centrum · Aan de gracht</div>
+      <div style="margin-top:8px;height:120px;border-radius:10px;background:linear-gradient(135deg,#dfe6e9,#b2bec3);display:flex;align-items:center;justify-content:center;font-size:32px;">📍</div>
+    </div>
+
+    <div class="phone-card">
+      <div class="pc-icon"><i data-lucide="phone"></i></div>
+      <div><div class="pc-label">Liever bellen?</div><div class="pc-num">020 - 123 45 67</div><div class="pc-avail">Nu bereikbaar</div></div>
+    </div>
+  </aside>
+</div></div>
+
+<script>
+lucide.createIcons();
+function selectSize(el){document.querySelectorAll('.size-btn').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+function selectSeat(el){document.querySelectorAll('.seat-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+document.querySelectorAll('.time-slot').forEach(el=>el.addEventListener('click',()=>{if(el.classList.contains('busy'))return;document.querySelectorAll('.time-slot').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}));
+document.querySelectorAll('.cal-day').forEach(el=>el.addEventListener('click',()=>{if(el.classList.contains('disabled')||el.classList.contains('other-month'))return;document.querySelectorAll('.cal-day').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}));
+</script>
+</body>
+</html>
