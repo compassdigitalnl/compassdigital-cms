@@ -9,7 +9,7 @@
 import React from 'react'
 import { FileText, Video, Download, GraduationCap, BookOpen, Lock, Unlock } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/button'
 
 export interface KnowledgeBaseFiltersProps {
   /**
