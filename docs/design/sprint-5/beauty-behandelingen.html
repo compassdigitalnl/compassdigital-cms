@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behandelingen & Prijslijst — Studio Bloom</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--pink:#EC4899;--pink-light:#FCE7F3;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}.nav{display:flex;gap:2px;}.nav-item{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}.h-cta{height:42px;padding:0 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.h-cta:hover{background:var(--navy);}.h-cta i{width:14px;height:14px;}
+
+  .page-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:44px 0;text-align:center;position:relative;overflow:hidden;}.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(0,137,123,.06),transparent 70%);}.ph-inner{position:relative;z-index:2;}.ph-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,137,123,.1);border:1px solid rgba(0,137,123,.2);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--teal-light);margin-bottom:8px;}.ph-badge i{width:11px;height:11px;}.ph-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;color:white;margin-bottom:4px;}.ph-desc{font-size:14px;color:rgba(255,255,255,.3);max-width:520px;margin:0 auto;}
+
+  /* Sticky toolbar */
+  .toolbar{background:white;border-bottom:1px solid var(--grey);padding:10px 0;position:sticky;top:72px;z-index:100;box-shadow:var(--shadow-sm);}
+  .tb-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .cats{display:flex;gap:3px;flex-wrap:wrap;}.cat-btn{padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;border:1.5px solid var(--grey);background:white;color:var(--grey-mid);cursor:pointer;transition:all .12s;display:flex;align-items:center;gap:4px;}.cat-btn:hover{border-color:var(--teal);color:var(--teal);}.cat-btn.active{background:var(--teal);color:white;border-color:var(--teal);}.cat-btn i{width:13px;height:13px;}
+
+  .page-layout{display:grid;grid-template-columns:1fr 300px;gap:24px;padding:24px 0 56px;align-items:start;}
+
+  /* Category sections */
+  .cat-section{margin-bottom:24px;}
+  .cat-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--grey);}
+  .cat-icon{font-size:24px;}.cat-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;}.cat-count{font-size:12px;color:var(--grey-mid);font-weight:600;}
+
+  /* Treatment items */
+  .treatment{display:flex;align-items:center;gap:12px;padding:14px;background:white;border:1.5px solid var(--grey);border-radius:14px;margin-bottom:6px;transition:all .12s;}.treatment:hover{border-color:var(--teal);}
+  .tr-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .tr-info{flex:1;min-width:0;}
+  .tr-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;display:flex;align-items:center;gap:4px;}.tr-tag{padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;}
+  .tag-popular{background:var(--teal-glow);color:var(--teal);}.tag-new{background:var(--pink-light);color:var(--pink);}.tag-promo{background:var(--amber-light);color:var(--amber);}
+  .tr-desc{font-size:11px;color:var(--grey-mid);margin-top:1px;}
+  .tr-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+  .tr-dur{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--grey-mid);font-weight:600;}.tr-dur i{width:11px;height:11px;}
+  .tr-price{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:var(--teal);min-width:65px;text-align:right;}
+  .tr-book{width:34px;height:34px;border-radius:8px;background:var(--teal);color:white;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;flex-shrink:0;}.tr-book:hover{background:var(--navy);}.tr-book i{width:14px;height:14px;}
+
+  /* Special offer */
+  .offer{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:18px;margin-bottom:12px;color:white;}
+  .offer-badge{display:inline-flex;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--teal);color:white;margin-bottom:4px;}
+  .offer-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:2px;}
+  .offer-desc{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:8px;}
+  .offer-price{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;}.op-old{font-size:14px;text-decoration:line-through;color:rgba(255,255,255,.3);}.op-new{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--teal-light);}
+  .offer-btn{width:100%;height:38px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .12s;}.offer-btn:hover{background:white;color:var(--navy);}.offer-btn i{width:13px;height:13px;}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:120px;}
+  .side-card{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:18px;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+  .sc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:5px;}.sc-title i{width:15px;height:15px;color:var(--teal);}
+
+  /* Package cards */
+  .pkg{padding:12px;border:1.5px solid var(--grey);border-radius:12px;margin-bottom:6px;transition:all .12s;cursor:pointer;}.pkg:hover{border-color:var(--teal);}
+  .pkg-name{font-size:13px;font-weight:800;display:flex;align-items:center;gap:4px;}.pkg-name i{width:12px;height:12px;color:var(--teal);}
+  .pkg-desc{font-size:11px;color:var(--grey-mid);margin:2px 0 4px;}
+  .pkg-meta{display:flex;justify-content:space-between;font-size:11px;}.pkg-dur{color:var(--grey-mid);}.pkg-price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--teal);}
+
+  .gift-mini{background:var(--navy);border-radius:14px;padding:14px;text-align:center;color:white;margin-bottom:10px;}
+  .gm-icon{font-size:28px;margin-bottom:4px;}.gm-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px;}.gm-desc{font-size:11px;color:rgba(255,255,255,.3);margin-bottom:8px;}
+  .gm-btn{width:100%;height:36px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;}.gm-btn:hover{background:white;color:var(--navy);}.gm-btn i{width:12px;height:12px;}
+
+  .note-box{padding:10px;background:var(--grey-light);border-radius:8px;font-size:11px;color:var(--grey-mid);line-height:1.4;display:flex;align-items:start;gap:6px;}.note-box i{width:14px;height:14px;color:var(--teal);flex-shrink:0;margin-top:1px;}
+
+  @media(max-width:900px){.page-layout{grid-template-columns:1fr;}.sidebar{position:static;}.nav{display:none;}.tr-desc{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">✿</div>Studio <em>Bloom</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item active">Behandelingen</a><a href="#" class="nav-item">Prijslijst</a><a href="#" class="nav-item">Team</a><a href="#" class="nav-item">Portfolio</a><a href="#" class="nav-item">Contact</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Online boeken</button></div></header>
+
+<section class="page-hero"><div class="ph-inner"><div class="ph-badge"><i data-lucide="sparkles"></i> Behandelingen & prijzen</div><h1 class="ph-title">Onze Behandelingen</h1><p class="ph-desc">Ontdek ons volledige aanbod. Van knippen & kleuren tot luxe facials en ontspannende massages.</p></div></section>
+
+<div class="toolbar"><div class="container"><div class="tb-inner"><div class="cats">
+  <button class="cat-btn active" onclick="filterCat(this)"><i data-lucide="grid"></i> Alles</button>
+  <button class="cat-btn" onclick="filterCat(this)">✂️ Hair</button>
+  <button class="cat-btn" onclick="filterCat(this)">✨ Beauty</button>
+  <button class="cat-btn" onclick="filterCat(this)">💆 Wellness</button>
+  <button class="cat-btn" onclick="filterCat(this)">💅 Nails</button>
+  <button class="cat-btn" onclick="filterCat(this)">💍 Bridal</button>
+</div></div></div></div>
+
+<div class="container"><div class="page-layout">
+  <div>
+    <!-- Hair -->
+    <div class="cat-section">
+      <div class="cat-header"><span class="cat-icon">✂️</span><span class="cat-name">Hair</span><span class="cat-count">8 behandelingen</span></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--teal-glow);">✂️</div><div class="tr-info"><div class="tr-name">Knippen dames <span class="tr-tag tag-popular">Populair</span></div><div class="tr-desc">Wasbeurt, knipbehandeling en föhnen door onze stylisten</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 45 min</span><span class="tr-price">€ 49</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--blue-light);">✂️</div><div class="tr-info"><div class="tr-name">Knippen heren</div><div class="tr-desc">Wasbeurt, knippen en styling</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 30 min</span><span class="tr-price">€ 35</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--purple-light);">🎨</div><div class="tr-info"><div class="tr-name">Balayage <span class="tr-tag tag-popular">Specialist</span></div><div class="tr-desc">Handgeschilderde highlights voor een natuurlijk resultaat</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 180 min</span><span class="tr-price">€ 185</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--amber-light);">🎨</div><div class="tr-info"><div class="tr-name">Highlights (half hoofd)</div><div class="tr-desc">Folie-highlights voor een lichtere, frisse look</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 120 min</span><span class="tr-price">€ 125</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--coral-light);">🎨</div><div class="tr-info"><div class="tr-name">Full color</div><div class="tr-desc">Complete kleuring inclusief toner en verzorging</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 90 min</span><span class="tr-price">€ 85</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--green-light);">💆</div><div class="tr-info"><div class="tr-name">Olaplex behandeling</div><div class="tr-desc">Intensieve haarverzorging die beschadigd haar herstelt</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 30 min</span><span class="tr-price">€ 45</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--teal-glow);">💨</div><div class="tr-info"><div class="tr-name">Föhnen / stylen</div><div class="tr-desc">Professionele blowdry of styling voor een speciale gelegenheid</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 30 min</span><span class="tr-price">€ 35</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--pink-light);">✂️</div><div class="tr-info"><div class="tr-name">Kinderknippen (t/m 12 jr)</div><div class="tr-desc">Leuke kappersbeurt voor de kleintjes</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 25 min</span><span class="tr-price">€ 22</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+    </div>
+
+    <!-- Beauty -->
+    <div class="cat-section">
+      <div class="cat-header"><span class="cat-icon">✨</span><span class="cat-name">Beauty & Skincare</span><span class="cat-count">5 behandelingen</span></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--pink-light);">✨</div><div class="tr-info"><div class="tr-name">Luxury Facial <span class="tr-tag tag-new">Nieuw</span></div><div class="tr-desc">Dieptereiniging, serum, masker en gezichtsmassage</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 60 min</span><span class="tr-price">€ 75</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--teal-glow);">🧴</div><div class="tr-info"><div class="tr-name">Express Facial</div><div class="tr-desc">Snelle reiniging en hydratatie voor een frisse glow</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 30 min</span><span class="tr-price">€ 42</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--purple-light);">👁️</div><div class="tr-info"><div class="tr-name">Wenkbrauwen shapen & verven</div><div class="tr-desc">Perfecte wenkbrauwen met threading of wax en verf</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 20 min</span><span class="tr-price">€ 28</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--blue-light);">👁️</div><div class="tr-info"><div class="tr-name">Wimperlifting + verven</div><div class="tr-desc">Natuurlijk gekrulde wimpers die weken meegaan</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 45 min</span><span class="tr-price">€ 55</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--amber-light);">🧖</div><div class="tr-info"><div class="tr-name">Chemical peel</div><div class="tr-desc">Professionele peeling voor huidvernieuwing en egale teint</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 40 min</span><span class="tr-price">€ 65</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+    </div>
+
+    <!-- Wellness -->
+    <div class="cat-section">
+      <div class="cat-header"><span class="cat-icon">💆</span><span class="cat-name">Wellness & Massage</span><span class="cat-count">4 behandelingen</span></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--green-light);">💆‍♀️</div><div class="tr-info"><div class="tr-name">Ontspanningsmassage <span class="tr-tag tag-popular">Favoriet</span></div><div class="tr-desc">Volledige lichaamsmassage met etherische oliën</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 50 min</span><span class="tr-price">€ 65</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--amber-light);">🪨</div><div class="tr-info"><div class="tr-name">Hot stone massage</div><div class="tr-desc">Diepe ontspanning met warme basaltstenen</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 60 min</span><span class="tr-price">€ 79</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--purple-light);">🧘</div><div class="tr-info"><div class="tr-name">Hoofd-nek-schoudermassage</div><div class="tr-desc">Gerichte massage bij spanningsklachten</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 30 min</span><span class="tr-price">€ 42</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--teal-glow);">🦶</div><div class="tr-info"><div class="tr-name">Voetreflexmassage</div><div class="tr-desc">Ontspannende massage van voeten en onderbenen</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 30 min</span><span class="tr-price">€ 38</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+    </div>
+
+    <!-- Nails -->
+    <div class="cat-section">
+      <div class="cat-header"><span class="cat-icon">💅</span><span class="cat-name">Nails</span><span class="cat-count">3 behandelingen</span></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--pink-light);">💅</div><div class="tr-info"><div class="tr-name">Gel manicure</div><div class="tr-desc">Langdurige gellak in kleur naar keuze</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 45 min</span><span class="tr-price">€ 38</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--coral-light);">💅</div><div class="tr-info"><div class="tr-name">Klassieke manicure</div><div class="tr-desc">Vijlen, cuticles, handmassage en nagellak</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 35 min</span><span class="tr-price">€ 28</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+      <div class="treatment"><div class="tr-icon" style="background:var(--purple-light);">🦶</div><div class="tr-info"><div class="tr-name">Luxe pedicure</div><div class="tr-desc">Complete voetverzorging met scrub, masker en lak</div></div><div class="tr-right"><span class="tr-dur"><i data-lucide="clock"></i> 50 min</span><span class="tr-price">€ 45</span><button class="tr-book"><i data-lucide="calendar"></i></button></div></div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="offer">
+      <div class="offer-badge">🔥 Aanbieding</div>
+      <div class="offer-title">Knippen + Olaplex combi</div>
+      <div class="offer-desc">Knippen, stylen én een Olaplex behandeling in één afspraak.</div>
+      <div class="offer-price"><span class="op-old">€ 94</span><span class="op-new">€ 79</span></div>
+      <button class="offer-btn"><i data-lucide="calendar"></i> Boek deze deal</button>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-title"><i data-lucide="package"></i> Populaire pakketten</div>
+      <div class="pkg"><div class="pkg-name"><i data-lucide="sparkles"></i> Glow Package</div><div class="pkg-desc">Luxury facial + ontspanningsmassage</div><div class="pkg-meta"><span class="pkg-dur">110 min</span><span class="pkg-price">€ 125</span></div></div>
+      <div class="pkg"><div class="pkg-name"><i data-lucide="sparkles"></i> Total Beauty</div><div class="pkg-desc">Knippen + facial + manicure</div><div class="pkg-meta"><span class="pkg-dur">135 min</span><span class="pkg-price">€ 145</span></div></div>
+      <div class="pkg"><div class="pkg-name"><i data-lucide="sparkles"></i> Bridal Prep</div><div class="pkg-desc">Proefkapsel + makeup trial + facial</div><div class="pkg-meta"><span class="pkg-dur">180 min</span><span class="pkg-price">€ 195</span></div></div>
+    </div>
+
+    <div class="gift-mini">
+      <div class="gm-icon">🎁</div>
+      <div class="gm-title">Cadeaubon</div>
+      <div class="gm-desc">Verrras iemand met een behandeling of cadeaubon op bedrag.</div>
+      <button class="gm-btn"><i data-lucide="gift"></i> Koop een cadeaubon</button>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-title"><i data-lucide="info"></i> Goed om te weten</div>
+      <div class="note-box"><i data-lucide="clock"></i> <span>Kom 5 minuten voor je afspraak. Bij meer dan 15 min te laat vervalt de reservering.</span></div>
+      <div class="note-box" style="margin-top:4px;"><i data-lucide="calendar-x"></i> <span>Annuleren kan tot 24 uur van tevoren kosteloos via telefoon of online.</span></div>
+      <div class="note-box" style="margin-top:4px;"><i data-lucide="leaf"></i> <span>Al onze producten zijn 100% vegan en cruelty-free. Vraag je stylist naar thuisadvies.</span></div>
+    </div>
+  </aside>
+</div></div>
+<script>lucide.createIcons();function filterCat(el){document.querySelectorAll('.cat-btn').forEach(e=>e.classList.remove('active'));el.classList.add('active');}</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Studio Bloom</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--pink:#EC4899;--pink-light:#FCE7F3;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}.nav{display:flex;gap:2px;}.nav-item{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}.h-cta{height:42px;padding:0 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.h-cta:hover{background:var(--navy);}.h-cta i{width:14px;height:14px;}
+
+  .page-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:44px 0;text-align:center;position:relative;overflow:hidden;}.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(0,137,123,.06),transparent 70%);}.ph-inner{position:relative;z-index:2;}.ph-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,137,123,.1);border:1px solid rgba(0,137,123,.2);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--teal-light);margin-bottom:8px;}.ph-badge i{width:11px;height:11px;}.ph-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;color:white;margin-bottom:4px;}.ph-desc{font-size:14px;color:rgba(255,255,255,.3);max-width:520px;margin:0 auto;}
+
+  /* Contact cards strip */
+  .contact-strip{margin-top:-36px;position:relative;z-index:10;margin-bottom:24px;}
+  .cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .cc{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:20px;text-align:center;transition:all .12s;cursor:pointer;box-shadow:var(--shadow-sm);}.cc:hover{border-color:var(--teal);transform:translateY(-2px);}
+  .cc-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}.cc-icon i{width:22px;height:22px;}
+  .cc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;margin-bottom:2px;}
+  .cc-val{font-size:14px;color:var(--teal);font-weight:700;}
+  .cc-sub{font-size:11px;color:var(--grey-mid);margin-top:2px;}
+
+  /* Layout */
+  .contact-layout{display:grid;grid-template-columns:1fr 380px;gap:24px;padding:0 0 56px;align-items:start;}
+
+  /* Form */
+  .form-card{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);}
+  .fc-header{padding:18px 22px;border-bottom:1px solid var(--grey);display:flex;align-items:center;gap:10px;}
+  .fc-icon{width:40px;height:40px;border-radius:12px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.fc-icon i{width:20px;height:20px;color:var(--teal);}
+  .fc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;}.fc-desc{font-size:12px;color:var(--grey-mid);}
+  .fc-body{padding:22px;}
+
+  /* Subject selector */
+  .subject-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
+  .subj{padding:10px 8px;border:1.5px solid var(--grey);border-radius:10px;text-align:center;cursor:pointer;transition:all .12s;}.subj:hover{border-color:var(--teal);}.subj.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .subj-icon{font-size:20px;margin-bottom:2px;}.subj-name{font-size:11px;font-weight:700;}
+
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .fg{margin-bottom:10px;}.fg-label{font-size:11px;font-weight:700;margin-bottom:3px;display:block;}.fg-req{color:var(--coral);font-size:10px;}
+  .fg-input{width:100%;height:44px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:all .12s;}.fg-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .fg-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 12px center no-repeat;}
+  .fg-textarea{height:80px;padding:10px 12px;resize:none;}
+
+  .privacy-note{display:flex;align-items:start;gap:6px;padding:8px;background:var(--grey-light);border-radius:6px;margin-bottom:12px;font-size:10px;color:var(--grey-mid);line-height:1.3;}.privacy-note i{width:14px;height:14px;color:var(--teal);flex-shrink:0;margin-top:1px;}
+  .submit-btn{width:100%;height:50px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);}.submit-btn:hover{background:var(--navy);}.submit-btn i{width:16px;height:16px;}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:96px;}
+  .side-card{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:18px;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+  .sc-head{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:5px;}.sc-head i{width:15px;height:15px;color:var(--teal);}
+
+  /* Map */
+  .map-placeholder{height:160px;border-radius:14px;background:linear-gradient(135deg,var(--grey-light),var(--grey));display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:8px;cursor:pointer;transition:opacity .12s;}.map-placeholder:hover{opacity:.8;}
+  .map-link{text-align:center;font-size:11px;font-weight:700;color:var(--teal);display:flex;align-items:center;justify-content:center;gap:3px;cursor:pointer;margin-bottom:10px;}.map-link i{width:11px;height:11px;}
+
+  .loc-info{display:flex;flex-direction:column;gap:6px;}
+  .li{display:flex;align-items:center;gap:8px;font-size:12px;}.li-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.li-icon i{width:13px;height:13px;}.li-val{font-weight:700;}.li-sub{font-size:10px;color:var(--grey-mid);}
+
+  /* Hours */
+  .hours{display:flex;flex-direction:column;gap:3px;}
+  .hr{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid var(--grey);}.hr:last-child{border-bottom:none;}.hr-day{font-weight:700;}.hr-time{color:var(--grey-mid);}
+  .hr-note{font-size:10px;color:var(--teal);font-weight:700;margin-top:6px;display:flex;align-items:center;gap:3px;}.hr-note i{width:10px;height:10px;}
+
+  /* Social */
+  .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .soc{display:flex;align-items:center;gap:6px;padding:10px;border:1.5px solid var(--grey);border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;transition:all .12s;text-decoration:none;color:var(--navy);}.soc:hover{border-color:var(--teal);color:var(--teal);}
+  .soc-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.soc-icon i{width:14px;height:14px;}
+  .soc-handle{font-size:10px;color:var(--grey-mid);font-weight:600;}
+
+  /* Gift card mini */
+  .gift-card{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:16px;text-align:center;color:white;}
+  .gc-icon{font-size:28px;margin-bottom:4px;}.gc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px;}.gc-desc{font-size:11px;color:rgba(255,255,255,.3);margin-bottom:8px;}
+  .gc-btn{width:100%;height:38px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .12s;}.gc-btn:hover{background:white;color:var(--navy);}.gc-btn i{width:12px;height:12px;}
+
+  /* Footer */
+  .footer{background:var(--navy);padding:32px 0 16px;color:rgba(255,255,255,.3);}
+  .footer-inner{display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+  .footer .logo{color:white;display:inline-flex;}
+
+  @media(max-width:900px){.contact-layout{grid-template-columns:1fr;}.sidebar{position:static;}.cs-grid{grid-template-columns:1fr;}.subject-grid,.form-row,.social-grid{grid-template-columns:1fr;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">✿</div>Studio <em>Bloom</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item">Behandelingen</a><a href="#" class="nav-item">Prijslijst</a><a href="#" class="nav-item">Team</a><a href="#" class="nav-item">Portfolio</a><a href="#" class="nav-item active">Contact</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Online boeken</button></div></header>
+
+<section class="page-hero"><div class="ph-inner"><div class="ph-badge"><i data-lucide="message-circle"></i> Neem contact op</div><h1 class="ph-title">Contact</h1><p class="ph-desc">Stel je vraag, boek een afspraak of kom gewoon even langs. We horen graag van je!</p></div></section>
+
+<div class="container">
+  <!-- Contact cards -->
+  <div class="contact-strip"><div class="cs-grid">
+    <div class="cc"><div class="cc-icon" style="background:var(--teal-glow);"><i data-lucide="phone" style="color:var(--teal);"></i></div><div class="cc-title">Bellen</div><div class="cc-val">020 - 789 01 23</div><div class="cc-sub">Di-Za 09:00-21:00</div></div>
+    <div class="cc"><div class="cc-icon" style="background:var(--green-light);"><i data-lucide="message-circle" style="color:var(--green);"></i></div><div class="cc-title">WhatsApp</div><div class="cc-val">06 - 9876 5432</div><div class="cc-sub">Reactie binnen 30 min</div></div>
+    <div class="cc"><div class="cc-icon" style="background:var(--blue-light);"><i data-lucide="mail" style="color:var(--blue);"></i></div><div class="cc-title">E-mail</div><div class="cc-val">hello@studiobloom.nl</div><div class="cc-sub">Reactie binnen 2 uur</div></div>
+  </div></div>
+
+  <div class="contact-layout">
+    <!-- Form -->
+    <div>
+      <div class="form-card">
+        <div class="fc-header"><div class="fc-icon"><i data-lucide="send"></i></div><div><div class="fc-title">Stuur ons een bericht</div><div class="fc-desc">Wij reageren binnen 2 uur op werkdagen</div></div></div>
+        <div class="fc-body">
+          <label class="fg-label" style="margin-bottom:6px;">Waar gaat het over?</label>
+          <div class="subject-grid">
+            <div class="subj selected" onclick="selSubj(this)"><div class="subj-icon">📅</div><div class="subj-name">Afspraak</div></div>
+            <div class="subj" onclick="selSubj(this)"><div class="subj-icon">❓</div><div class="subj-name">Vraag</div></div>
+            <div class="subj" onclick="selSubj(this)"><div class="subj-icon">🎁</div><div class="subj-name">Cadeaubon</div></div>
+            <div class="subj" onclick="selSubj(this)"><div class="subj-icon">💍</div><div class="subj-name">Bridal</div></div>
+            <div class="subj" onclick="selSubj(this)"><div class="subj-icon">💼</div><div class="subj-name">Samenwerking</div></div>
+            <div class="subj" onclick="selSubj(this)"><div class="subj-icon">💬</div><div class="subj-name">Anders</div></div>
+          </div>
+
+          <div class="form-row">
+            <div class="fg"><label class="fg-label">Voornaam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Je voornaam"></div>
+            <div class="fg"><label class="fg-label">Achternaam</label><input class="fg-input" type="text" placeholder="Je achternaam"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label class="fg-label">E-mail <span class="fg-req">*</span></label><input class="fg-input" type="email" placeholder="je@email.nl"></div>
+            <div class="fg"><label class="fg-label">Telefoon</label><input class="fg-input" type="tel" placeholder="06 - 1234 5678"></div>
+          </div>
+          <div class="fg"><label class="fg-label">Voorkeur stylist</label><select class="fg-input fg-select"><option>Geen voorkeur</option><option>Sophie van Dam — Colorist</option><option>Milan Kowalski — Senior Stylist</option><option>Noor Al-Rashid — Beauty Specialist</option><option>Emma de Vries — Stylist & Massage</option></select></div>
+          <div class="fg"><label class="fg-label">Je bericht <span class="fg-req">*</span></label><textarea class="fg-input fg-textarea" placeholder="Vertel ons wat je wilt weten, waar je naar op zoek bent, of wanneer je langs wilt komen..."></textarea></div>
+
+          <div class="privacy-note"><i data-lucide="shield-check"></i><span>Je gegevens worden vertrouwelijk behandeld en niet gedeeld met derden. Lees ons privacybeleid.</span></div>
+
+          <button class="submit-btn"><i data-lucide="send"></i> Verstuur bericht</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="sc-head"><i data-lucide="map-pin"></i> Onze salon</div>
+        <div class="map-placeholder">📍</div>
+        <div class="map-link"><i data-lucide="navigation"></i> Route plannen in Google Maps</div>
+        <div class="loc-info">
+          <div class="li"><div class="li-icon" style="background:var(--teal-glow);"><i data-lucide="map-pin" style="color:var(--teal);"></i></div><div><div class="li-val">Keizersgracht 324</div><div class="li-sub">1016 EZ Amsterdam</div></div></div>
+          <div class="li"><div class="li-icon" style="background:var(--blue-light);"><i data-lucide="train" style="color:var(--blue);"></i></div><div><div class="li-val">Tram 13, 17 · Halte Westermarkt</div><div class="li-sub">2 minuten lopen</div></div></div>
+          <div class="li"><div class="li-icon" style="background:var(--amber-light);"><i data-lucide="car" style="color:var(--amber);"></i></div><div><div class="li-val">Parkeergarage De Kolk</div><div class="li-sub">5 minuten lopen · € 4/uur</div></div></div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-head"><i data-lucide="clock"></i> Openingstijden</div>
+        <div class="hours">
+          <div class="hr"><span class="hr-day">Maandag</span><span class="hr-time" style="color:var(--coral);">Gesloten</span></div>
+          <div class="hr"><span class="hr-day">Dinsdag</span><span class="hr-time">09:00 – 21:00</span></div>
+          <div class="hr"><span class="hr-day">Woensdag</span><span class="hr-time">09:00 – 21:00</span></div>
+          <div class="hr"><span class="hr-day">Donderdag</span><span class="hr-time">09:00 – 21:00</span></div>
+          <div class="hr"><span class="hr-day">Vrijdag</span><span class="hr-time">09:00 – 21:00</span></div>
+          <div class="hr"><span class="hr-day">Zaterdag</span><span class="hr-time">09:00 – 18:00</span></div>
+          <div class="hr"><span class="hr-day">Zondag</span><span class="hr-time" style="color:var(--coral);">Gesloten</span></div>
+        </div>
+        <div class="hr-note"><i data-lucide="info"></i> Op feestdagen gelden aangepaste tijden</div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-head"><i data-lucide="share-2"></i> Volg ons</div>
+        <div class="social-grid">
+          <a href="#" class="soc"><div class="soc-icon" style="background:var(--pink-light);"><i data-lucide="instagram" style="color:var(--pink);"></i></div><div><div>Instagram</div><div class="soc-handle">@studiobloom</div></div></a>
+          <a href="#" class="soc"><div class="soc-icon" style="background:var(--blue-light);"><i data-lucide="facebook" style="color:var(--blue);"></i></div><div><div>Facebook</div><div class="soc-handle">/studiobloom</div></div></a>
+          <a href="#" class="soc"><div class="soc-icon" style="background:var(--coral-light);"><i data-lucide="youtube" style="color:var(--coral);"></i></div><div><div>TikTok</div><div class="soc-handle">@studiobloom</div></div></a>
+          <a href="#" class="soc"><div class="soc-icon" style="background:var(--green-light);"><i data-lucide="star" style="color:var(--green);"></i></div><div><div>Treatwell</div><div class="soc-handle">4.9 ★ reviews</div></div></a>
+        </div>
+      </div>
+
+      <div class="gift-card">
+        <div class="gc-icon">🎁</div>
+        <div class="gc-title">Cadeaubon kopen</div>
+        <div class="gc-desc">Het perfecte cadeau. Kies een bedrag of behandeling.</div>
+        <button class="gc-btn"><i data-lucide="gift"></i> Koop een cadeaubon</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner"><a href="#" class="logo"><div class="logo-mark">✿</div>Studio <em>Bloom</em></a><span>© 2026 Studio Bloom · KvK 76543210 · Privacy · Voorwaarden</span></div></div></footer>
+<script>
+lucide.createIcons();
+function selSubj(el){document.querySelectorAll('.subj').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+</script>
+</body>
+</html>

@@ -97,6 +97,11 @@ import { Treatments } from '@/branches/hospitality/collections/Treatments'
 import { Practitioners } from '@/branches/hospitality/collections/Practitioners'
 import { Appointments } from '@/branches/hospitality/collections/Appointments'
 
+// Beauty Branch (3 collections - Sprint 5)
+import { BeautyServices } from '@/branches/beauty/collections/BeautyServices'
+import { Stylists } from '@/branches/beauty/collections/Stylists'
+import { BeautyBookings } from '@/branches/beauty/collections/BeautyBookings'
+
 // Globals (Consolidated: 8 → 4 globals!)
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
@@ -312,6 +317,13 @@ export default buildConfig({
     _col(Treatments),
     _col(Practitioners),
     _col(Appointments),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // BEAUTY BRANCH - Hair & Beauty Salon Template (Sprint 5)
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(BeautyServices),
+    _col(Stylists),
+    _col(BeautyBookings),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
