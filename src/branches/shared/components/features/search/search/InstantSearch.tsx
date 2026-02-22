@@ -121,7 +121,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
             const selected = allHits[selectedIndex]
             if (selected) {
               const url = selected.type === 'product'
-                ? `/products/${selected.slug}`
+                ? `/${selected.slug}`
                 : `/blog/${selected.slug}` // Simplified - should use category
 
               router.push(url)
@@ -216,7 +216,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
                       {productHits.map((hit, index) => (
                         <Link
                           key={hit.id}
-                          href={`/products/${hit.slug}`}
+                          href={`/${hit.slug}`}
                           onClick={onClose}
                           className={`flex items-center gap-4 p-3 rounded-xl hover:bg-teal-50 transition-colors ${
                             index === selectedIndex ? 'bg-teal-50' : ''

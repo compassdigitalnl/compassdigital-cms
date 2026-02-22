@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { GoogleAnalytics } from '@/branches/shared/components/features/analytics/Analytics/GoogleAnalytics'
+import './globals.css'
 
 // Force dynamic rendering to avoid database queries during build
 export const dynamic = 'force-dynamic'

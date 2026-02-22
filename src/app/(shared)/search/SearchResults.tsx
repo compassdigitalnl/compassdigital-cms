@@ -108,7 +108,7 @@ export function SearchResults() {
             Probeer een andere zoekterm of verwijder enkele filters
           </p>
           <Link
-            href="/products/"
+            href="/shop/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors"
           >
             Bekijk alle producten
@@ -123,7 +123,7 @@ export function SearchResults() {
           {productHits.map((hit) => (
             <Link
               key={hit.id}
-              href={`/products/${hit.slug}`}
+              href={`/${hit.slug}`}
               className="group bg-white border border-gray-200 rounded-2xl p-5 hover:border-teal-500 hover:shadow-lg transition-all"
             >
               {/* Product Image */}
