@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { features } from '@/lib/features'
 import {
   LayoutDashboard,
   Package,
@@ -14,6 +15,13 @@ import {
   ChevronLeft,
   Menu,
   X,
+  CreditCard,
+  KeyRound,
+  Gift,
+  Award,
+  FileText,
+  RefreshCw,
+  Heart,
 } from 'lucide-react'
 
 export default function MyAccountLayout({ children }: { children: React.ReactNode }) {
@@ -30,13 +38,27 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
     initials: 'JV',
   }
 
-  const navigation = [
-    { name: 'Dashboard', href: '/my-account', icon: LayoutDashboard, badge: null },
-    { name: 'Bestellingen', href: '/my-account/orders', icon: Package, badge: '3' },
-    { name: 'Bestellijsten', href: '/my-account/lists', icon: ClipboardList, badge: null },
-    { name: 'Adressen', href: '/my-account/addresses', icon: MapPin, badge: null },
-    { name: 'Instellingen', href: '/my-account/settings', icon: Settings, badge: null },
+  // All possible navigation items with feature requirements
+  const allNavigation = [
+    { name: 'Dashboard', href: '/my-account', icon: LayoutDashboard, requiresFeature: null },
+    { name: 'Bestellingen', href: '/my-account/orders', icon: Package, requiresFeature: 'checkout' as const },
+    { name: 'Abonnementen', href: '/my-account/subscriptions', icon: CreditCard, requiresFeature: 'subscriptions' as const },
+    { name: 'Licenties', href: '/my-account/licenses', icon: KeyRound, requiresFeature: 'licenses' as const },
+    { name: 'Cadeaubonnen', href: '/my-account/gift-vouchers', icon: Gift, requiresFeature: 'giftVouchers' as const },
+    { name: 'Loyalty', href: '/my-account/loyalty', icon: Award, requiresFeature: 'loyalty' as const },
+    { name: 'Facturen', href: '/my-account/invoices', icon: FileText, requiresFeature: 'invoices' as const },
+    { name: 'Bestelformulieren', href: '/my-account/lists', icon: ClipboardList, requiresFeature: 'orderLists' as const },
+    { name: 'Terugkerende Orders', href: '/my-account/recurring-orders', icon: RefreshCw, requiresFeature: 'recurringOrders' as const },
+    { name: 'Favorieten', href: '/my-account/favorites', icon: Heart, requiresFeature: 'wishlists' as const },
+    { name: 'Adressen', href: '/my-account/addresses', icon: MapPin, requiresFeature: 'addresses' as const },
+    { name: 'Instellingen', href: '/my-account/settings', icon: Settings, requiresFeature: null },
   ]
+
+  // Filter navigation based on enabled features
+  const navigation = allNavigation.filter((item) => {
+    if (!item.requiresFeature) return true // Always show items without feature requirement
+    return features[item.requiresFeature] === true
+  })
 
   const handleLogout = () => {
     // TODO: Implement logout logic
@@ -157,20 +179,6 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
                     >
                       {item.name}
                     </span>
-                    {item.badge && (
-                      <span
-                        className="px-2 py-0.5 rounded-full font-bold"
-                        style={{
-                          background: '#00897B',
-                          color: 'white',
-                          fontSize: '11px',
-                          minWidth: '20px',
-                          textAlign: 'center',
-                        }}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
                   </Link>
                 )
               })}
@@ -266,20 +274,6 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
                         <span className="flex-1 font-semibold" style={{ fontSize: '14px' }}>
                           {item.name}
                         </span>
-                        {item.badge && (
-                          <span
-                            className="px-2 py-0.5 rounded-full font-bold"
-                            style={{
-                              background: '#00897B',
-                              color: 'white',
-                              fontSize: '11px',
-                              minWidth: '20px',
-                              textAlign: 'center',
-                            }}
-                          >
-                            {item.badge}
-                          </span>
-                        )}
                       </Link>
                     )
                   })}
