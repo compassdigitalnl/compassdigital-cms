@@ -80,6 +80,7 @@ export interface ClientFeatures {
   cases?: boolean
   partners?: boolean
   brands?: boolean
+  services?: boolean
   wishlists?: boolean
 
   // === INDUSTRY BRANCHES ===
@@ -231,6 +232,7 @@ export const features = {
   testimonials: isFeatureEnabled('testimonials'),
   cases: isFeatureEnabled('cases'),
   partners: isFeatureEnabled('partners'),
+  services: isFeatureEnabled('services'),
   wishlists: isFeatureEnabled('wishlists'),
 
   // === INDUSTRY BRANCHES ===
@@ -364,6 +366,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     cases: 'ENABLE_CASES',
     partners: 'ENABLE_PARTNERS',
     brands: 'ENABLE_BRANDS',
+    services: 'ENABLE_SERVICES',
     wishlists: 'ENABLE_WISHLISTS',
 
     // === INDUSTRY BRANCHES ===
