@@ -8,7 +8,6 @@ import { SearchProvider } from '@/branches/shared/components/features/search/sea
 import { MiniCartProvider } from '@/branches/shared/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/Toast'
 import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
-import { DynamicNav } from '@/branches/shared/components/layout/header/navigation/DynamicNav'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import React from 'react'
@@ -64,11 +63,8 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
               <AdminBar />
               <LivePreviewListener />
 
-              {/* Dynamic Header (CMS-driven, includes TopBar) */}
+              {/* Dynamic Header (CMS-driven, includes TopBar, Navigation) */}
               <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
-
-              {/* Dynamic Navigation (CMS-driven) */}
-              <DynamicNav navigation={headerGlobal?.navigation} />
 
               {/* Main Content */}
               <main className="bg-gray-50">{children}</main>

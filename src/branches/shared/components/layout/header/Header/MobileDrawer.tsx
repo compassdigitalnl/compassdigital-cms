@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme } from '@/payload-types'
+import type { Header, Theme, Settings } from '@/payload-types'
 import { X, ChevronRight, Phone, Mail } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
@@ -12,9 +12,10 @@ type Props = {
   onClose: () => void
   header: Header
   theme: Theme | null
+  settings?: Settings | null
 }
 
-export function MobileDrawer({ isOpen, onClose, header, theme }: Props) {
+export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props) {
   const primaryColor = theme?.primaryColor || '#00897B'
   const secondaryColor = theme?.secondaryColor || '#0A1628'
 
@@ -152,22 +153,26 @@ export function MobileDrawer({ isOpen, onClose, header, theme }: Props) {
 
         {/* Footer */}
         <div className="border-t border-gray-200 p-5 flex-shrink-0 flex flex-col gap-3">
-          <a
-            href="tel:+31201234567"
-            className="flex items-center gap-2 text-sm font-semibold"
-            style={{ color: secondaryColor }}
-          >
-            <Phone className="w-4 h-4" style={{ color: primaryColor }} />
-            020 123 4567
-          </a>
-          <a
-            href="mailto:info@example.com"
-            className="flex items-center gap-2 text-sm font-semibold"
-            style={{ color: secondaryColor }}
-          >
-            <Mail className="w-4 h-4" style={{ color: primaryColor }} />
-            info@example.com
-          </a>
+          {settings?.phone && (
+            <a
+              href={`tel:${settings.phone}`}
+              className="flex items-center gap-2 text-sm font-semibold"
+              style={{ color: secondaryColor }}
+            >
+              <Phone className="w-4 h-4" style={{ color: primaryColor }} />
+              {settings.phone}
+            </a>
+          )}
+          {settings?.email && (
+            <a
+              href={`mailto:${settings.email}`}
+              className="flex items-center gap-2 text-sm font-semibold"
+              style={{ color: secondaryColor }}
+            >
+              <Mail className="w-4 h-4" style={{ color: primaryColor }} />
+              {settings.email}
+            </a>
+          )}
         </div>
       </div>
     </>

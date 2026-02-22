@@ -49,6 +49,7 @@ import {
 import { TopBar } from './TopBar'
 import { AlertBar } from './AlertBar'
 import { MobileDrawer } from './MobileDrawer'
+import { NavigationBar } from './NavigationBar'
 import type { Settings } from '@/payload-types'
 
 type Props = {
@@ -266,12 +267,16 @@ export function HeaderClient({ header, theme, settings }: Props) {
         </div>
       </header>
 
+      {/* Navigation Bar */}
+      {navigation && <NavigationBar navigation={navigation} theme={theme} settings={settings} />}
+
       {/* Mobile Drawer */}
       <MobileDrawer
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
         header={header}
         theme={theme}
+        settings={settings}
       />
     </>
   )
