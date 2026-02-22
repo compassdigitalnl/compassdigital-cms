@@ -87,11 +87,14 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
   const showCTA = navigation.ctaButton?.show && navigation.ctaButton?.text
 
   // Calculate nav position for fixed mega menu
+  // Nav is sticky at top-[72px] (header height) with height 48px
+  // So mega menu should start at 72px + 48px = 120px from top
   useEffect(() => {
     const updateNavPosition = () => {
       if (navRef.current) {
         const rect = navRef.current.getBoundingClientRect()
-        setNavTop(rect.bottom + window.scrollY)
+        // For sticky elements, use the actual viewport position
+        setNavTop(rect.bottom)
       }
     }
 
@@ -205,7 +208,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
 
   return (
     <>
-      <nav ref={navRef} className="hidden lg:block bg-white border-b sticky top-[72px] z-[190]" style={{ borderColor: 'var(--color-border)' }}>
+      <nav ref={navRef} className="hidden lg:block bg-white border-b sticky top-[72px] z-[40]" style={{ borderColor: 'var(--color-border)' }}>
         <div className="mx-auto px-8" style={{ maxWidth: 'var(--container-width)' }}>
           <div className="flex items-stretch h-12">
             {/* Menu Trigger Button */}
@@ -403,7 +406,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
       {/* Flyout Backdrop */}
       {megaMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[180]"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50"
           style={{ top: `${navTop}px` }}
           onClick={() => setMegaMenuOpen(false)}
         />
@@ -412,7 +415,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
       {/* Flyout Mega Menu - FIXED POSITIONING */}
       {megaMenuOpen && (
         <div
-          className="fixed left-0 right-0 z-[185]"
+          className="fixed left-0 right-0 z-[60]"
           style={{ top: `${navTop}px` }}
         >
           <div className="mx-auto px-8" style={{ maxWidth: 'var(--container-width)' }}>
