@@ -76,6 +76,13 @@ export default function NewOrderListPage() {
         }),
       })
 
+      // Handle authentication error - redirect to login
+      if (response.status === 401) {
+        const currentPath = window.location.pathname
+        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
+        return
+      }
+
       if (!response.ok) {
         const data = await response.json()
         throw new Error(data.error || 'Failed to create list')

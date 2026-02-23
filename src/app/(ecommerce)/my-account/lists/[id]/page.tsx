@@ -449,6 +449,14 @@ export default function OrderListDetailPage() {
       setError(null)
 
       const response = await fetch(`/api/order-lists/${listId}`)
+
+      // Handle authentication error - redirect to login
+      if (response.status === 401) {
+        const currentPath = window.location.pathname
+        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
+        return
+      }
+
       if (!response.ok) throw new Error('Failed to fetch list')
       const data = await response.json()
 
