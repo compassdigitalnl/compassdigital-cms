@@ -28,7 +28,7 @@ export default async function DienstenPage({ searchParams }: DienstenPageProps) 
   const payload = await getPayload({ config })
 
   // Build query
-  const where: any = { status: { equals: 'active' } }
+  const where: any = { status: { equals: 'published' } }
 
   // Filter by service type
   if (params.type) {

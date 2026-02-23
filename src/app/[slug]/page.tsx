@@ -96,11 +96,49 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const page = pages.docs[0] as Page | undefined
 
   if (page) {
+    // Fetch globals for layout (with error handling)
+    let themeGlobal = null
+    let settingsGlobal = null
+    let headerGlobal = null
+
+    try {
+      themeGlobal = await payload.findGlobal({ slug: 'theme' })
+    } catch (error) {
+      console.warn('Theme global not found')
+    }
+
+    try {
+      settingsGlobal = await payload.findGlobal({ slug: 'settings' })
+    } catch (error) {
+      console.warn('Settings global not found')
+    }
+
+    try {
+      headerGlobal = await payload.findGlobal({ slug: 'header' })
+    } catch (error) {
+      console.warn('Header global not found')
+    }
+
     return (
-      <article className="pt-16 pb-24">
-        <JsonLdSchema page={page} />
-        <RenderBlocks blocks={page.layout} />
-      </article>
+      <Providers>
+        <ThemeProvider theme={themeGlobal}>
+          <SearchProvider>
+            <ToastProvider>
+              <MiniCartProvider>
+                <AdminBar />
+                <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
+                <main className="bg-gray-50">
+                  <article className="pt-16 pb-24">
+                    <JsonLdSchema page={page} />
+                    <RenderBlocks blocks={page.layout} />
+                  </article>
+                </main>
+                <Footer />
+              </MiniCartProvider>
+            </ToastProvider>
+          </SearchProvider>
+        </ThemeProvider>
+      </Providers>
     )
   }
 
