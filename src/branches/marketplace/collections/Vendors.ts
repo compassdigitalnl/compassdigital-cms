@@ -29,7 +29,6 @@ export const Vendors: CollectionConfig = {
     defaultColumns: ['name', 'isPremium', 'isVerified', 'rating', 'updatedAt'],
     description: 'Leveranciers, fabrikanten en partners',
     hidden: shouldHideCollection('vendors'),
-import { autoGenerateSlugFromName } from '@/utilities/slugify'
   },
   access: {
     read: () => true, // Publicly accessible

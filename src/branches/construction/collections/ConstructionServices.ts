@@ -18,7 +18,6 @@ export const ConstructionServices: CollectionConfig = {
   },
   admin: {
     hidden: shouldHideCollection('construction'),
-import { autoGenerateSlugFromName } from '@/utilities/slugify'
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
     group: 'Construction',

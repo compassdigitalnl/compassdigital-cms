@@ -29,7 +29,6 @@ export const Workshops: CollectionConfig = {
     defaultColumns: ['title', 'vendor', 'date', 'location', 'status', 'updatedAt'],
     description: 'Trainingen, workshops en webinars',
     hidden: shouldHideCollection('workshops'),
-import { autoGenerateSlugFromName } from '@/utilities/slugify'
   },
   access: {
     read: () => true, // Publicly accessible

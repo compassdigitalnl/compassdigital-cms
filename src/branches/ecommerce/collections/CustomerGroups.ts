@@ -13,7 +13,6 @@ export const CustomerGroups: CollectionConfig = {
     useAsTitle: 'name',
     group: 'E-commerce',
     hidden: shouldHideCollection('customerGroups'),
-import { autoGenerateSlugFromName } from '@/utilities/slugify'
   },
   access: {
     read: () => true, // Customer groups are publicly readable (for pricing tiers)
