@@ -4,6 +4,8 @@ import { Footer } from '@/branches/shared/components/layout/footer/Footer'
 import { LivePreviewListener } from '@/branches/shared/components/utilities/LivePreviewListener'
 import { Providers } from '@/providers'
 import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvider'
+import { SearchProvider } from '@/branches/shared/components/features/search/search/SearchProvider'
+import { MiniCartProvider } from '@/branches/shared/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/Toast'
 import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
 import { getPayload } from 'payload'
@@ -55,19 +57,23 @@ export default async function HospitalityLayout({ children }: { children: ReactN
   return (
     <Providers>
       <ThemeProvider theme={themeGlobal}>
-        <ToastProvider>
-          <AdminBar />
-          <LivePreviewListener />
+        <SearchProvider>
+          <ToastProvider>
+            <MiniCartProvider>
+              <AdminBar />
+              <LivePreviewListener />
 
-          {/* Dynamic Header (CMS-driven, includes TopBar, Navigation) */}
-          <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
+              {/* Dynamic Header (CMS-driven, includes TopBar, Navigation) */}
+              <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
 
-          {/* Main Content */}
-          <main className="bg-gray-50">{children}</main>
+              {/* Main Content */}
+              <main className="bg-gray-50">{children}</main>
 
-          {/* Footer (CMS-driven) */}
-          <Footer />
-        </ToastProvider>
+              {/* Footer (CMS-driven) */}
+              <Footer />
+            </MiniCartProvider>
+          </ToastProvider>
+        </SearchProvider>
       </ThemeProvider>
     </Providers>
   )

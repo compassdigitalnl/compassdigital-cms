@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
 import type { Treatment, Practitioner } from '@/payload-types'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,6 +16,8 @@ export async function generateMetadata() {
 }
 
 export default async function HospitalityHomePage() {
+  if (!isFeatureEnabled('hospitality')) notFound()
+
   const payload = await getPayload({ config })
 
   // Fetch treatments

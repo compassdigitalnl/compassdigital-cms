@@ -1,9 +1,13 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
 export default async function PortfolioPage() {
+  if (!isFeatureEnabled('beauty')) notFound()
+
   const payload = await getPayload({ config })
 
   const stylistsResult = await payload.find({

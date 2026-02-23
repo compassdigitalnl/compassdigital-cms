@@ -1,27 +1,80 @@
-import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
+import { AdminBar } from '@/branches/shared/components/admin/AdminBar'
+import { Footer } from '@/branches/shared/components/layout/footer/Footer'
+import { LivePreviewListener } from '@/branches/shared/components/utilities/LivePreviewListener'
+import { Providers } from '@/providers'
 import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvider'
-import '@/app/globals.css'
+import { SearchProvider } from '@/branches/shared/components/features/search/search/SearchProvider'
+import { MiniCartProvider } from '@/branches/shared/components/ui/MiniCart'
+import { ToastProvider } from '@/branches/shared/components/ui/Toast'
+import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import React from 'react'
+import '../globals.css'
 
-export const metadata: Metadata = {
-  title: 'Bistro de Gracht — Restaurant Amsterdam',
-  description:
-    'Een culinaire beleving aan de Amsterdamse grachten. Seizoensgebonden menu, uitgebreide wijnkaart en een warm onthaal.',
-}
+// Force dynamic rendering to avoid database queries during build
+export const dynamic = 'force-dynamic'
 
-export default function HorecaLayout({ children }: { children: React.ReactNode }) {
+/**
+ * Horeca Branch Layout
+ *
+ * Wraps all horeca routes: restaurant, menu, reservations.
+ * Includes full frontend chrome: Header, Footer, Nav, etc.
+ */
+export default async function HorecaLayout({ children }: { children: ReactNode }) {
+  const payload = await getPayload({ config: configPromise })
+
+  // Fetch consolidated globals for layout (with error handling)
+  let themeGlobal = null
+  let settingsGlobal = null
+  let headerGlobal = null
+
+  try {
+    themeGlobal = await payload.findGlobal({
+      slug: 'theme',
+    })
+  } catch (error) {
+    console.warn('Theme global not found, using default theme')
+  }
+
+  try {
+    settingsGlobal = await payload.findGlobal({
+      slug: 'settings',
+    })
+  } catch (error) {
+    console.warn('Settings global not found')
+  }
+
+  try {
+    headerGlobal = await payload.findGlobal({
+      slug: 'header',
+    })
+  } catch (error) {
+    console.warn('Header global not found')
+  }
+
   return (
-    <html lang="nl">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
-    </html>
+    <Providers>
+      <ThemeProvider theme={themeGlobal}>
+        <SearchProvider>
+          <ToastProvider>
+            <MiniCartProvider>
+              <AdminBar />
+              <LivePreviewListener />
+
+              {/* Dynamic Header (CMS-driven, includes TopBar, Navigation) */}
+              <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
+
+              {/* Main Content */}
+              <main className="bg-gray-50">{children}</main>
+
+              {/* Footer (CMS-driven) */}
+              <Footer />
+            </MiniCartProvider>
+          </ToastProvider>
+        </SearchProvider>
+      </ThemeProvider>
+    </Providers>
   )
 }

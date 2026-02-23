@@ -1,10 +1,14 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
 export default async function ReserverenPage() {
+  if (!isFeatureEnabled('horeca')) notFound()
+
   const payload = await getPayload({ config })
 
   return (

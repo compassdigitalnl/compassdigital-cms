@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,6 +13,8 @@ export async function generateMetadata() {
 }
 
 export default function ContactPage() {
+  if (!isFeatureEnabled('hospitality')) notFound()
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}

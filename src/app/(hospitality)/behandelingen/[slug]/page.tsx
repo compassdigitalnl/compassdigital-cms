@@ -3,6 +3,7 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Treatment } from '@/payload-types'
+import { isFeatureEnabled } from '@/lib/features'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,6 +36,8 @@ export default async function TreatmentDetailPage({
 }: {
   params: Promise<{ slug: string }>
 }) {
+  if (!isFeatureEnabled('hospitality')) notFound()
+
   const { slug } = await params
   const payload = await getPayload({ config })
 
