@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { autoGenerateSlug } from '@/utilities/slugify'
+import { autoFillSEO, autoSetPublishedDate, autoUpdateStockStatus } from '@/utilities/seoAutoFill'
 
 /**
  * Products Collection - Enterprise Template with 63+ fields
@@ -1357,20 +1358,10 @@ export const Products: CollectionConfig = {
   ],
   hooks: {
     beforeChange: [
+      autoFillSEO, // Auto-fill meta title, description, OG image
+      autoSetPublishedDate, // Auto-set published date on status change
+      autoUpdateStockStatus, // Auto-update stock status from stock level
       async ({ data, req, operation }) => {
-        // Auto-generate slug if not provided
-        if (!data.slug && data.name) {
-          data.slug = data.name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '')
-        }
-
-        // Set publishedAt on first publish
-        if (operation === 'create' && data.status === 'active') {
-          data.publishedAt = new Date()
-        }
-
         // Track who created/updated
         if (operation === 'create') {
           data.createdBy = req.user?.id

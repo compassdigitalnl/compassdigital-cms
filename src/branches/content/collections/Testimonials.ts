@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoSetPublishedDate } from '@/utilities/seoAutoFill'
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
@@ -80,4 +81,9 @@ export const Testimonials: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    beforeChange: [
+      autoSetPublishedDate, // Auto-set published date on status change
+    ],
+  },
 }

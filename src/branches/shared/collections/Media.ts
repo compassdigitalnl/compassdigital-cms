@@ -9,6 +9,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
+import { autoGenerateAltText } from '@/utilities/slugify'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,7 +30,14 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      required: true,
+      required: false,
+      label: 'Alt Tekst',
+      admin: {
+        description: 'Auto-gegenereerd van bestandsnaam (kan handmatig overschreven worden)',
+      },
+      hooks: {
+        beforeValidate: [autoGenerateAltText],
+      },
     },
     {
       name: 'caption',

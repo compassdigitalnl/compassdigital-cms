@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { autoGenerateSlug } from '@/utilities/slugify'
+import { autoFillSEO, autoSetPublishedDate } from '@/utilities/seoAutoFill'
 
 /**
  * Pages Collection - CMS Pages with blocks
@@ -367,12 +368,8 @@ export const Pages: CollectionConfig = {
   ],
   hooks: {
     beforeChange: [
-      async ({ data, operation }) => {
-        if (operation === 'create' && data.status === 'published' && !data.publishedAt) {
-          data.publishedAt = new Date()
-        }
-        return data
-      },
+      autoFillSEO, // Auto-fill meta title, description, OG image
+      autoSetPublishedDate, // Auto-set published date on status change
     ],
   },
   timestamps: true,

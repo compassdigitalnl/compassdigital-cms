@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { autoGenerateAltText } from '@/utilities/slugify'
 
 /**
  * Media Collection - Extended with metadata and organization
@@ -62,10 +63,13 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      required: true,
+      required: false,
       label: 'Alt Tekst',
       admin: {
-        description: 'Beschrijving voor toegankelijkheid en SEO',
+        description: 'Auto-gegenereerd van bestandsnaam (kan handmatig overschreven worden)',
+      },
+      hooks: {
+        beforeValidate: [autoGenerateAltText],
       },
     },
     {

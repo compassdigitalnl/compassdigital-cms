@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { autoGenerateSlug } from '@/utilities/slugify'
+import { autoFillSEO, autoSetPublishedDate } from '@/utilities/seoAutoFill'
 
 export const Cases: CollectionConfig = {
   slug: 'cases',
@@ -112,4 +113,10 @@ export const Cases: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    beforeChange: [
+      autoFillSEO, // Auto-fill meta title, description, OG image
+      autoSetPublishedDate, // Auto-set published date on status change
+    ],
+  },
 }

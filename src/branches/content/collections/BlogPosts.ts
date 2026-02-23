@@ -3,6 +3,7 @@ import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { featureFields } from '@/lib/featureFields'
 import { autoGenerateSlug } from '@/utilities/slugify'
+import { autoFillSEO, autoSetPublishedDate, autoSetAuthor } from '@/utilities/seoAutoFill'
 import {
   BoldFeature,
   HeadingFeature,
@@ -448,12 +449,10 @@ export const BlogPosts: CollectionConfig = {
   ],
   hooks: {
     beforeChange: [
+      autoFillSEO, // Auto-fill meta title, description, OG image
+      autoSetPublishedDate, // Auto-set published date on status change
+      autoSetAuthor, // Auto-set author to current user
       async ({ data, operation }) => {
-        // Auto-fill publishedAt when first published
-        if (operation === 'create' && data.status === 'published' && !data.publishedAt) {
-          data.publishedAt = new Date().toISOString()
-        }
-
         // Auto-calculate reading time from content
         if (data.content && !data.readingTime) {
           // Extract text from Lexical content (rough estimate)
