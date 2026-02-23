@@ -1,3 +1,10 @@
+/**
+ * Hero Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded teal/navy gradients, inline styles with fallbacks,
+ * and hardcoded button states to theme variables.
+ * All colors now use CSS variables from ThemeProvider.
+ */
 'use client'
 import React from 'react'
 import Link from 'next/link'
@@ -31,7 +38,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
     return (
       <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
         {parts[0]}
-        <span className="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+        <span className="bg-gradient-primary bg-clip-text text-transparent">
           {titleAccent}
         </span>
         {parts.slice(1).join(titleAccent)}
@@ -42,16 +49,16 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
   // Two-column layout variant
   if (layout === 'two-column') {
     return (
-      <section className="relative bg-gradient-to-br from-[#0A1628] via-[#0D1B2E] to-[#0A1628] py-20 px-4 overflow-hidden">
+      <section className="relative bg-gradient-secondary py-20 px-4 overflow-hidden">
         {/* Decorative gradient glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary-glow rounded-full blur-3xl pointer-events-none" />
 
         {/* Content container */}
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left column: Text content */}
             <div className="text-white">
-              {sectionLabel && <SectionLabel label={sectionLabel} className="text-teal-400" />}
+              {sectionLabel && <SectionLabel label={sectionLabel} className="text-primary-light" />}
 
               {badge && (
                 <div className="inline-block mb-6 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-white/70">
@@ -72,7 +79,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
                 {primaryCTA?.text && (
                   <Link
                     href={primaryCTA.link || '#'}
-                    className="px-8 py-4 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="px-8 py-4 bg-primary hover:bg-primary-light text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
                     {primaryCTA.text}
                   </Link>
@@ -94,7 +101,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
                 {/* Glass morphism card */}
                 <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
                   {/* Decorative accent line */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-teal-600 rounded-t-3xl" />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-primary rounded-t-3xl" />
 
                   {/* Stats grid */}
                   <div className="grid grid-cols-2 gap-6">
@@ -103,7 +110,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
                         <div className="text-4xl md:text-5xl font-extrabold text-white mb-2">
                           {stat.number}
                           {stat.suffix && (
-                            <span className="text-teal-400">{stat.suffix}</span>
+                            <span className="text-primary-light">{stat.suffix}</span>
                           )}
                         </div>
                         <div className="text-sm text-white/60 uppercase tracking-wide">
@@ -115,14 +122,14 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
                 </div>
 
                 {/* Decorative glow behind card */}
-                <div className="absolute inset-0 bg-teal-500/10 rounded-3xl blur-2xl -z-10 transform translate-y-4" />
+                <div className="absolute inset-0 bg-primary-glow rounded-3xl blur-2xl -z-10 transform translate-y-4" />
               </div>
             )}
           </div>
         </div>
 
         {/* Bottom accent line */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-teal-500/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       </section>
     )
   }
@@ -145,8 +152,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
             {primaryCTA?.text && (
               <a
                 href={primaryCTA.link}
-                className="btn btn-primary px-6 py-3 text-white rounded-lg"
-                style={{ backgroundColor: 'var(--color-primary, #3b82f6)' }}
+                className="btn btn-primary px-6 py-3 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors duration-300"
               >
                 {primaryCTA.text}
               </a>
@@ -179,8 +185,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
           {primaryCTA?.text && (
             <a
               href={primaryCTA.link}
-              className="btn btn-primary px-6 py-3 text-white rounded-lg"
-              style={{ backgroundColor: 'var(--color-primary, #3b82f6)' }}
+              className="btn btn-primary px-6 py-3 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors duration-300"
             >
               {primaryCTA.text}
             </a>
@@ -188,26 +193,11 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
           {secondaryCTA?.text && (
             <a
               href={secondaryCTA.link}
-              className="btn btn-secondary px-6 py-3 border-2 rounded-lg transition-all duration-300 hover:text-white"
-              style={{
-                borderColor: hasImage ? 'white' : 'var(--color-secondary, #8b5cf6)',
-                color: hasImage ? 'white' : 'var(--color-secondary, #8b5cf6)',
-                backgroundColor: hasImage ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = hasImage
-                  ? 'white'
-                  : 'var(--color-secondary, #8b5cf6)'
-                e.currentTarget.style.color = hasImage
-                  ? 'var(--color-primary, #3b82f6)'
-                  : 'white'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = hasImage
-                  ? 'rgba(255, 255, 255, 0.1)'
-                  : ''
-                e.currentTarget.style.color = hasImage ? 'white' : 'var(--color-secondary, #8b5cf6)'
-              }}
+              className={`btn btn-secondary px-6 py-3 border-2 rounded-lg transition-all duration-300 ${
+                hasImage
+                  ? 'border-white text-white bg-white/10 hover:bg-white hover:text-secondary'
+                  : 'border-secondary text-secondary-color hover:bg-secondary hover:text-white'
+              }`}
             >
               {secondaryCTA.text}
             </a>

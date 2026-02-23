@@ -1,3 +1,8 @@
+/**
+ * MediaBlock Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses Media component with theme border variables.
+ */
 import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/cn'

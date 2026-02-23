@@ -1,3 +1,8 @@
+/**
+ * ImageGallery Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses neutral gray colors for placeholders.
+ */
 import React from 'react'
 import type { ImageGalleryBlock } from '@/payload-types'
 

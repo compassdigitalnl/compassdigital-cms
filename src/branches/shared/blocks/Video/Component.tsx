@@ -1,3 +1,8 @@
+/**
+ * Video Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses neutral gray/black for video placeholder.
+ */
 import React from 'react'
 import type { VideoBlock } from '@/payload-types'
 

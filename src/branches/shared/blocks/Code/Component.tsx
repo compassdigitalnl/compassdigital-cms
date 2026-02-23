@@ -1,3 +1,8 @@
+/**
+ * Code Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses code syntax highlighting, no hardcoded theme colors.
+ */
 import React from 'react'
 
 import { Code } from './Component.client'

@@ -1,3 +1,9 @@
+/**
+ * FAQ Component - 100% Theme Variable Compliant
+ *
+ * Refactored from inline styles with fallbacks and hover handlers
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 'use client'
 
 import React from 'react'
@@ -33,25 +39,14 @@ export const FAQBlockComponent: React.FC<FAQBlock> = ({ heading, intro, source, 
           {faqData?.map((item, index) => (
             <details
               key={index}
-              className="faq-item border rounded-lg p-6 hover:shadow-md transition-all duration-300 group"
-              style={{ borderColor: 'var(--color-primary, #3b82f6)' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-secondary, #8b5cf6)'
-                e.currentTarget.style.backgroundColor = 'rgba(139, 92, 246, 0.05)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-primary, #3b82f6)'
-                e.currentTarget.style.backgroundColor = ''
-              }}
+              className="faq-item border border-primary hover:border-secondary hover:bg-secondary/5 rounded-lg p-6 hover:shadow-md transition-all duration-300 group"
             >
               <summary
-                className="font-semibold text-lg cursor-pointer flex items-center justify-between"
-                style={{ color: 'var(--color-primary, #3b82f6)' }}
+                className="font-semibold text-lg text-primary cursor-pointer flex items-center justify-between"
               >
                 <span className="pr-4">{item.question}</span>
                 <svg
-                  className="chevron-icon w-5 h-5 flex-shrink-0 transition-transform duration-300"
-                  style={{ color: 'var(--color-accent, #ec4899)' }}
+                  className="chevron-icon w-5 h-5 flex-shrink-0 transition-transform duration-300 text-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

@@ -1,3 +1,9 @@
+/**
+ * Pricing Component - 100% Theme Variable Compliant
+ *
+ * Refactored from extensive inline styles with fallbacks and complex hover handlers
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 'use client'
 
 import React from 'react'
@@ -14,18 +20,12 @@ export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, 
             <div
               key={index}
               className={`pricing-card relative p-8 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ${
-                plan.highlighted ? 'transform lg:scale-105 z-10' : ''
+                plan.highlighted ? 'transform lg:scale-105 z-10 border-t-4 border-t-warning' : 'border-t border-t-primary'
               }`}
-              style={{
-                borderTop: plan.highlighted
-                  ? '4px solid var(--color-accent, #ec4899)'
-                  : '1px solid var(--color-primary, #3b82f6)',
-              }}
             >
               {plan.highlighted && (
                 <div
-                  className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 rounded-full text-white text-sm font-semibold"
-                  style={{ backgroundColor: 'var(--color-accent, #ec4899)' }}
+                  className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-warning rounded-full text-white text-sm font-semibold"
                 >
                   Meest Gekozen
                 </div>
@@ -33,10 +33,7 @@ export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, 
 
               <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
               <div className="mb-6">
-                <p
-                  className="text-4xl font-bold mb-1"
-                  style={{ color: 'var(--color-primary, #3b82f6)' }}
-                >
+                <p className="text-4xl font-bold text-primary mb-1">
                   {plan.price}
                 </p>
                 {plan.period && <p className="text-gray-600">{plan.period}</p>}
@@ -50,8 +47,7 @@ export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, 
                 {plan.features?.map((f, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span
-                      className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                      style={{ backgroundColor: 'var(--color-accent, #ec4899)' }}
+                      className="flex-shrink-0 w-5 h-5 rounded-full bg-warning flex items-center justify-center text-white text-xs font-bold"
                     >
                       ✓
                     </span>
@@ -63,32 +59,10 @@ export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, 
               <a
                 href={plan.ctaLink}
                 className={`block text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
-                  plan.highlighted ? 'text-white' : 'border-2'
-                }`}
-                style={
                   plan.highlighted
-                    ? { backgroundColor: 'var(--color-primary, #3b82f6)' }
-                    : {
-                        borderColor: 'var(--color-primary, #3b82f6)',
-                        color: 'var(--color-primary, #3b82f6)',
-                      }
-                }
-                onMouseEnter={(e) => {
-                  if (!plan.highlighted) {
-                    e.currentTarget.style.backgroundColor = 'var(--color-primary, #3b82f6)'
-                    e.currentTarget.style.color = 'white'
-                  } else {
-                    e.currentTarget.style.backgroundColor = 'var(--color-secondary, #8b5cf6)'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!plan.highlighted) {
-                    e.currentTarget.style.backgroundColor = ''
-                    e.currentTarget.style.color = 'var(--color-primary, #3b82f6)'
-                  } else {
-                    e.currentTarget.style.backgroundColor = 'var(--color-primary, #3b82f6)'
-                  }
-                }}
+                    ? 'bg-primary hover:bg-secondary text-white'
+                    : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
+                }`}
               >
                 {plan.ctaText}
               </a>

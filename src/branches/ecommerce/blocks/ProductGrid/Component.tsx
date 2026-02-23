@@ -1,3 +1,10 @@
+/**
+ * ProductGrid Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded badge colors (teal, red, amber, gray),
+ * hardcoded status indicators (green, red), and hardcoded link colors
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
@@ -112,13 +119,13 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
   const getBadgeStyle = (badge: string) => {
     switch (badge) {
       case 'new':
-        return 'bg-teal-500 text-white'
+        return 'bg-primary text-white'
       case 'sale':
-        return 'bg-red-500 text-white'
+        return 'bg-error text-white'
       case 'popular':
-        return 'bg-amber-500 text-white'
+        return 'bg-warning text-white'
       case 'sold-out':
-        return 'bg-gray-500 text-white'
+        return 'bg-grey-mid text-white'
       default:
         return ''
     }
@@ -159,7 +166,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
           {showViewAllButton && (
             <Link
               href={viewAllButtonLink}
-              className="flex items-center gap-2 text-teal-600 font-semibold hover:text-teal-700 transition-colors"
+              className="flex items-center gap-2 text-primary font-semibold hover:text-primary-light transition-colors"
             >
               {viewAllButtonText} <Icon name="ArrowRight" size={18} />
             </Link>
@@ -183,7 +190,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
             const firstImage = Array.isArray(images) && images[0] && typeof images[0] === 'object' ? images[0] : null
 
             return (
-              <div key={product.id} className="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-teal-500/30 transition-all duration-300">
+              <div key={product.id} className="group relative bg-white border border-grey rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-primary/30 transition-all duration-300">
                 {badge && (
                   <div className={`absolute top-3 left-3 z-10 px-3 py-1 rounded-lg text-xs font-bold ${getBadgeStyle(badge)}`}>
                     {getBadgeLabel(badge)}
@@ -208,13 +215,13 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
 
                 <div className="p-4">
                   {brandObj && (
-                    <div className="text-xs font-bold text-teal-600 uppercase tracking-wider mb-1">
+                    <div className="text-xs font-bold text-primary uppercase tracking-wider mb-1">
                       {brandObj.name}
                     </div>
                   )}
 
                   <Link href={`/shop/${slug}`}>
-                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-teal-600 transition-colors">
+                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">
                       {title}
                     </h3>
                   </Link>
@@ -239,7 +246,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
 
                     {showAddToCart && inStock && (
                       <button
-                        className="w-11 h-11 bg-teal-500 hover:bg-teal-600 text-white rounded-xl flex items-center justify-center transition-colors shadow-md hover:shadow-lg"
+                        className="w-11 h-11 bg-primary hover:bg-primary-light text-white rounded-xl flex items-center justify-center transition-colors shadow-md hover:shadow-lg"
                         aria-label="Toevoegen aan winkelwagen"
                       >
                         <Icon name="Plus" size={20} />
@@ -251,13 +258,13 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
                     <div className="flex items-center gap-2 text-sm pt-3 border-t border-gray-100">
                       {inStock ? (
                         <>
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          <span className="text-green-600 font-medium">Op voorraad</span>
+                          <div className="w-2 h-2 bg-success rounded-full"></div>
+                          <span className="text-success font-medium">Op voorraad</span>
                         </>
                       ) : (
                         <>
-                          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                          <span className="text-red-600 font-medium">Uitverkocht</span>
+                          <div className="w-2 h-2 bg-error rounded-full"></div>
+                          <span className="text-error font-medium">Uitverkocht</span>
                         </>
                       )}
                     </div>

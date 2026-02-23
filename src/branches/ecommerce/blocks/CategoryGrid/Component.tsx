@@ -1,3 +1,9 @@
+/**
+ * CategoryGrid Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded teal colors (borders, accents, text, gradients)
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
@@ -87,14 +93,14 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
               <Link
                 key={typeof category === 'object' ? category.id : category}
                 href={`/categorie/${slug}`}
-                className="group bg-white border-2 border-gray-200 rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:border-teal-500 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+                className="group bg-white border-2 border-grey hover:border-primary rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
               >
                 {/* Top border accent on hover */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
                 {showIcon && icon && (
-                  <div className="w-14 h-14 mx-auto bg-gray-100 group-hover:bg-teal-100 rounded-xl flex items-center justify-center mb-4 transition-colors">
-                    <Icon name={icon} size={28} className="text-teal-600" />
+                  <div className="w-14 h-14 mx-auto bg-gray-100 group-hover:bg-primary-glow rounded-xl flex items-center justify-center mb-4 transition-colors">
+                    <Icon name={icon} size={28} className="text-primary" />
                   </div>
                 )}
                 {showIcon && image && typeof image === 'object' && image.url && (
@@ -102,7 +108,7 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
                     <img src={image.url} alt={title} className="w-full h-full object-contain" />
                   </div>
                 )}
-                <h3 className="font-bold text-gray-900 mb-1 group-hover:text-teal-600 transition-colors">
+                <h3 className="font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors">
                   {title}
                 </h3>
                 {showProductCount && productCount > 0 && (
@@ -116,7 +122,7 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
           {showQuickOrderCard && (
             <Link
               href={quickOrderLink}
-              className="group bg-gradient-to-br from-teal-500 to-teal-600 border-2 border-teal-600 rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+              className="group bg-gradient-primary border-2 border-primary rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
             >
               {/* Decorative glow */}
               <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

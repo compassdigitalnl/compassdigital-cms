@@ -1,3 +1,9 @@
+/**
+ * Form Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses shadcn UI components with theme variables.
+ * No hardcoded colors present.
+ */
 'use client'
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 

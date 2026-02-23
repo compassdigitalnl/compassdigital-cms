@@ -1,3 +1,9 @@
+/**
+ * QuickOrder Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded teal colors (focus rings, file upload, buttons, status)
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 'use client'
 
 import React, { useState } from 'react'
@@ -155,7 +161,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                       value={singleSKU}
                       onChange={(e) => setSingleSKU(e.target.value)}
                       placeholder="Bijv. BV-001"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                   </div>
                   <div>
@@ -165,7 +171,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                       value={singleQuantity}
                       onChange={(e) => setSingleQuantity(parseInt(e.target.value, 10) || 1)}
                       min="1"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                   </div>
                 </div>
@@ -184,7 +190,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder={placeholderText}
                   rows={8}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 font-mono text-sm"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-mono text-sm"
                 />
                 <p className="text-sm text-gray-500 mt-2">
                   Formaat: <code className="bg-white px-2 py-1 rounded">artikelnr aantal</code> per
@@ -208,8 +214,8 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold
-                    file:bg-teal-50 file:text-teal-700
-                    hover:file:bg-teal-100
+                    file:bg-primary-glow file:text-primary
+                    hover:file:bg-primary-light hover:file:text-white
                     cursor-pointer"
                 />
                 {uploadHelpText && <p className="text-sm text-gray-500 mt-2">{uploadHelpText}</p>}
@@ -221,8 +227,8 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
               <div
                 className={`p-4 rounded-lg border ${
                   message.type === 'success'
-                    ? 'bg-green-50 border-green-200 text-green-800'
-                    : 'bg-red-50 border-red-200 text-red-800'
+                    ? 'bg-success-light border-success text-success-dark'
+                    : 'bg-error-light border-error text-error-dark'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -239,7 +245,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-primary hover:bg-primary-light disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

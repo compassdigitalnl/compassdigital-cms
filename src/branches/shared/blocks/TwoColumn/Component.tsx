@@ -1,3 +1,8 @@
+/**
+ * TwoColumn Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - layout-only component with no theme colors.
+ */
 import React from 'react'
 import type { TwoColumnBlock } from '@/payload-types'
 

@@ -1,3 +1,8 @@
+/**
+ * Spacer Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - no colors, pure spacing element.
+ */
 import React from 'react'
 import type { SpacerBlock } from '@/payload-types'
 

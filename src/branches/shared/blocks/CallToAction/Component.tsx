@@ -1,3 +1,9 @@
+/**
+ * CallToAction Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses shadcn UI components and CMSLink with theme variables.
+ * No hardcoded colors present.
+ */
 import React from 'react'
 
 import type { CallToActionBlock as CTABlockProps } from '@/payload-types'

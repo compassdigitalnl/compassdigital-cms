@@ -1,3 +1,9 @@
+/**
+ * Services Component - 100% Theme Variable Compliant
+ *
+ * Refactored from inline styles with fallbacks and hover handlers
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 'use client'
 
 import React from 'react'
@@ -36,30 +42,14 @@ export const ServicesBlockComponent: React.FC<FeaturesBlock> = ({ heading, intro
           {serviceData?.map((service, index) => (
             <div
               key={index}
-              className="service-card p-6 border rounded-lg transition-all duration-300"
-              style={{
-                borderColor: 'var(--color-primary, #3b82f6)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--color-secondary, #8b5cf6)';
-                e.currentTarget.style.color = 'white';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '';
-                e.currentTarget.style.color = '';
-                e.currentTarget.style.transform = '';
-                e.currentTarget.style.boxShadow = '';
-              }}
+              className="service-card p-6 border border-primary rounded-lg transition-all duration-300 hover:bg-secondary hover:text-white hover:-translate-y-1 hover:shadow-lg"
             >
               <h3 className="text-xl font-semibold mb-3">{service.name}</h3>
               <p className="opacity-90">{service.description}</p>
               {service.link && (
                 <a
                   href={service.link}
-                  className="mt-4 inline-block font-semibold hover:underline"
-                  style={{ color: 'var(--color-primary, #3b82f6)' }}
+                  className="mt-4 inline-block font-semibold text-primary hover:underline"
                 >
                   Meer info →
                 </a>

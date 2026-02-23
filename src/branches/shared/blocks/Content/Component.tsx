@@ -1,3 +1,8 @@
+/**
+ * Content Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses RichText and CMSLink with theme variables.
+ */
 import { cn } from '@/utilities/cn'
 import React from 'react'
 import { RichText } from '@/branches/shared/components/common/RichText'

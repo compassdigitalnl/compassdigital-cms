@@ -1,3 +1,8 @@
+/**
+ * LogoBar Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses neutral gray colors and opacity transitions.
+ */
 'use client'
 
 import React from 'react'

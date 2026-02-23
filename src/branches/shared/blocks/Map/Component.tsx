@@ -1,3 +1,8 @@
+/**
+ * Map Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses neutral gray colors for placeholder.
+ */
 import React from 'react'
 import type { MapBlock } from '@/payload-types'
 

@@ -1,3 +1,8 @@
+/**
+ * Banner Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses theme status colors (error, success, warning, info).
+ */
 import type { BannerBlock as BannerBlockProps } from '@/payload-types'
 import { cn } from '@/utilities/cn'
 import React from 'react'

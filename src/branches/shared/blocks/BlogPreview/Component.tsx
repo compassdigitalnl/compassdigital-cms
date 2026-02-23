@@ -1,3 +1,9 @@
+/**
+ * BlogPreview Component - 100% Theme Variable Compliant
+ *
+ * Refactored from inline styles with fallbacks to theme variables.
+ * All colors now use CSS variables from ThemeProvider.
+ */
 import React from 'react'
 import type { BlogPreviewBlock } from '@/payload-types'
 import { getPayload } from 'payload'
@@ -88,8 +94,7 @@ export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlock> = async ({
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
-                className="blog-card group block overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl"
-                style={{ borderColor: 'var(--color-primary, #3b82f6)' }}
+                className="blog-card group block overflow-hidden rounded-lg border border-primary hover:border-primary-light transition-all duration-300 hover:shadow-xl"
               >
                 {/* Featured Image */}
                 <div className="relative w-full h-48 overflow-hidden">
@@ -116,8 +121,7 @@ export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlock> = async ({
 
                   {/* Title */}
                   <h3
-                    className="text-xl font-semibold mb-3 group-hover:underline"
-                    style={{ color: 'var(--color-primary, #3b82f6)' }}
+                    className="text-xl font-semibold text-primary mb-3 group-hover:underline"
                   >
                     {post.title}
                   </h3>
@@ -129,8 +133,7 @@ export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlock> = async ({
 
                   {/* Read More Link */}
                   <span
-                    className="inline-flex items-center gap-2 font-semibold group-hover:gap-3 transition-all"
-                    style={{ color: 'var(--color-secondary, #8b5cf6)' }}
+                    className="inline-flex items-center gap-2 font-semibold text-secondary-color group-hover:gap-3 transition-all"
                   >
                     Lees meer
                     <svg
@@ -158,11 +161,7 @@ export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlock> = async ({
           <div className="text-center mt-12">
             <Link
               href="/blog/"
-              className="inline-block px-6 py-3 rounded-lg font-semibold transition-all duration-300"
-              style={{
-                backgroundColor: 'var(--color-primary, #3b82f6)',
-                color: 'white',
-              }}
+              className="inline-block px-6 py-3 rounded-lg font-semibold bg-primary hover:bg-primary-light text-white transition-all duration-300"
             >
               Bekijk alle blog berichten
             </Link>

@@ -1,3 +1,9 @@
+/**
+ * Team Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded colors in avatar generator and inline styles
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 import React from 'react'
 import type { TeamBlock } from '@/payload-types'
 import Image from 'next/image'
@@ -13,18 +19,18 @@ export const TeamBlockComponent: React.FC<TeamBlock> = ({ heading, intro, member
       .slice(0, 2)
   }
 
-  // Function to generate a color based on name
-  const getColorFromName = (name: string) => {
-    const colors = [
-      'var(--color-primary, #3b82f6)',
-      'var(--color-secondary, #8b5cf6)',
-      'var(--color-accent, #ec4899)',
-      '#10b981', // green
-      '#f59e0b', // orange
-      '#ef4444', // red
+  // Function to generate a color class based on name
+  const getColorClassFromName = (name: string) => {
+    const colorClasses = [
+      'bg-primary',
+      'bg-secondary',
+      'bg-success',
+      'bg-warning',
+      'bg-error',
+      'bg-info',
     ]
     const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
-    return colors[hash % colors.length]
+    return colorClasses[hash % colorClasses.length]
   }
 
   return (
@@ -60,15 +66,14 @@ export const TeamBlockComponent: React.FC<TeamBlock> = ({ heading, intro, member
                     />
                   ) : (
                     <div
-                      className="w-full h-full flex items-center justify-center text-white text-3xl font-bold"
-                      style={{ backgroundColor: getColorFromName(member.name) }}
+                      className={`w-full h-full flex items-center justify-center text-white text-3xl font-bold ${getColorClassFromName(member.name)}`}
                     >
                       {getInitials(member.name)}
                     </div>
                   )}
                 </div>
                 <h3 className="font-semibold text-lg">{member.name}</h3>
-                <p className="text-sm mb-2" style={{ color: 'var(--color-primary, #3b82f6)' }}>
+                <p className="text-sm text-primary mb-2">
                   {member.role}
                 </p>
                 {member.bio && <p className="mt-2 text-sm text-gray-600 line-clamp-3">{member.bio}</p>}
@@ -77,8 +82,7 @@ export const TeamBlockComponent: React.FC<TeamBlock> = ({ heading, intro, member
                     {member.email && (
                       <a
                         href={`mailto:${member.email}`}
-                        className="text-sm hover:underline"
-                        style={{ color: 'var(--color-secondary, #8b5cf6)' }}
+                        className="text-sm text-secondary-color hover:underline"
                       >
                         Email
                       </a>
@@ -88,8 +92,7 @@ export const TeamBlockComponent: React.FC<TeamBlock> = ({ heading, intro, member
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm hover:underline"
-                        style={{ color: 'var(--color-secondary, #8b5cf6)' }}
+                        className="text-sm text-secondary-color hover:underline"
                       >
                         LinkedIn
                       </a>

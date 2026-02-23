@@ -1,3 +1,9 @@
+/**
+ * TestimonialsBlock Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded teal colors for borders and stars
+ * to theme variables. All colors now use CSS variables from ThemeProvider.
+ */
 'use client'
 
 import React from 'react'
@@ -37,11 +43,11 @@ export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
           {testimonials?.map((testimonial, index) => (
             <div
               key={index}
-              className="testimonial-card p-6 bg-white border-2 border-gray-200 rounded-xl shadow hover:shadow-xl hover:border-teal-500 transition-all duration-300 hover:-translate-y-1"
+              className="testimonial-card p-6 bg-white border-2 border-grey hover:border-primary rounded-xl shadow hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex mb-3">
                 {[...Array(testimonial.rating || 5)].map((_, i) => (
-                  <span key={i} className="text-teal-500 text-lg">
+                  <span key={i} className="text-warning text-lg">
                     ★
                   </span>
                 ))}

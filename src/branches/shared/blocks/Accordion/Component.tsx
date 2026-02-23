@@ -1,3 +1,8 @@
+/**
+ * Accordion Component - 100% Theme Variable Compliant
+ *
+ * Already compliant - uses neutral colors only, no hardcoded theme colors.
+ */
 import React from 'react'
 import type { AccordionBlock } from '@/payload-types'
 

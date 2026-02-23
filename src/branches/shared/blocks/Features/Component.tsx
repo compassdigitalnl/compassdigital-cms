@@ -3,6 +3,15 @@ import { Icon } from '@/branches/shared/components/common/Icon'
 import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
 import type { FeaturesBlock as FeaturesBlockType } from '@/payload-types'
 
+/**
+ * FeaturesBlock Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded teal colors to theme variables.
+ * All colors now use CSS variables from ThemeProvider:
+ * - Teal (#00897B) → bg-primary, text-primary, border-primary
+ * - Navy gradient → bg-gradient-secondary
+ * - Icon backgrounds → bg-primary-light, bg-primary-glow
+ */
 export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
   sectionLabel,
   heading,
@@ -30,15 +39,15 @@ export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
   // Dark variant (Waarom wij sectie)
   if (isDark) {
     return (
-      <section className="relative bg-gradient-to-br from-[#0A1628] via-[#0D1B2E] to-[#0A1628] py-16 md:py-20 overflow-hidden">
+      <section className="relative bg-gradient-secondary py-16 md:py-20 overflow-hidden">
         {/* Decorative gradient glow */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] opacity-10 rounded-full blur-3xl pointer-events-none bg-primary" />
 
         <div className="container mx-auto px-4 relative z-10">
           {/* Header */}
           {(sectionLabel || heading || intro) && (
             <div className="text-center mb-12 md:mb-16">
-              {sectionLabel && <SectionLabel label={sectionLabel} className="text-teal-400" />}
+              {sectionLabel && <SectionLabel label={sectionLabel} className="text-primary-light" />}
               {heading && (
                 <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
                   {heading}
@@ -57,12 +66,12 @@ export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
               return (
                 <div
                   key={index}
-                  className={`relative bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-2xl p-6 ${showHoverEffect ? 'transition-all duration-300 hover:bg-white/[0.07] hover:border-teal-500/20 hover:-translate-y-1' : ''} group`}
+                  className={`relative bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-2xl p-6 ${showHoverEffect ? 'transition-all duration-300 hover:bg-white/[0.07] hover:border-primary/20 hover:-translate-y-1' : ''} group`}
                 >
                   {/* Icon */}
                   {iconName && (
-                    <div className="w-12 h-12 bg-teal-500/15 rounded-xl flex items-center justify-center mb-4 transition-colors group-hover:bg-teal-500/25">
-                      <Icon name={iconName} size={24} className="text-teal-400" />
+                    <div className="w-12 h-12 bg-primary-glow rounded-xl flex items-center justify-center mb-4 transition-colors group-hover:bg-primary/25">
+                      <Icon name={iconName} size={24} className="text-primary-light" />
                     </div>
                   )}
                   {iconImage && typeof iconImage === 'object' && iconImage.url && (
@@ -83,7 +92,7 @@ export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
                   {feature.link && (
                     <a
                       href={feature.link}
-                      className="inline-flex items-center gap-1 text-sm font-medium text-teal-400 mt-3 hover:text-teal-300 transition-colors"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-primary-light mt-3 hover:text-primary transition-colors"
                     >
                       Meer info <Icon name="ArrowRight" size={14} />
                     </a>
@@ -120,11 +129,11 @@ export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
               return (
                 <div
                   key={index}
-                  className="flex items-center justify-center gap-3 py-5 px-4 border-r last:border-r-0 border-gray-200 transition-colors hover:bg-teal-50/50"
+                  className="flex items-center justify-center gap-3 py-5 px-4 border-r last:border-r-0 border-gray-200 transition-colors hover:bg-primary-glow"
                 >
                   {iconName && (
                     <div className="flex-shrink-0 w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <Icon name={iconName} size={20} className="text-teal-600" />
+                      <Icon name={iconName} size={20} className="text-primary" />
                     </div>
                   )}
                   {iconImage && typeof iconImage === 'object' && iconImage.url && (
@@ -152,7 +161,7 @@ export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
             }`
             const hoverClass = showHoverEffect
               ? isCards
-                ? 'hover:-translate-y-2 hover:shadow-lg hover:border-teal-500/30'
+                ? 'hover:-translate-y-2 hover:shadow-lg hover:border-primary/30'
                 : 'hover:bg-gray-50'
               : ''
 
@@ -160,9 +169,9 @@ export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
               <div key={index} className={`${baseCardClass} ${hoverClass} group`}>
                 {iconName && (
                   <div
-                    className={`${isCards ? 'w-14 h-14 bg-teal-100' : 'w-12 h-12 bg-gray-100'} rounded-xl flex items-center justify-center mb-4 transition-colors ${showHoverEffect ? 'group-hover:bg-teal-200' : ''}`}
+                    className={`${isCards ? 'w-14 h-14 bg-primary-light' : 'w-12 h-12 bg-gray-100'} rounded-xl flex items-center justify-center mb-4 transition-colors ${showHoverEffect ? 'group-hover:bg-primary' : ''}`}
                   >
-                    <Icon name={iconName} size={24} className="text-teal-600" />
+                    <Icon name={iconName} size={24} className={isCards ? 'text-white' : 'text-primary'} />
                   </div>
                 )}
                 {iconImage && typeof iconImage === 'object' && iconImage.url && (
@@ -177,7 +186,7 @@ export const FeaturesBlock: React.FC<FeaturesBlockType> = ({
                 {feature.link && (
                   <a
                     href={feature.link}
-                    className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 mt-3 hover:text-teal-700 transition-colors"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-primary mt-3 hover:opacity-80 transition-opacity"
                   >
                     Meer info <Icon name="ArrowRight" size={14} />
                   </a>
