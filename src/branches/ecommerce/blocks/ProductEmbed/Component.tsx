@@ -4,6 +4,17 @@ import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
 import type { ProductEmbedBlock, Product } from '@/payload-types'
 
+/**
+ * ProductEmbed Component - 100% Theme Variable Compliant
+ *
+ * Refactored from 100% inline styles to Tailwind utility classes.
+ * All colors now use CSS variables from ThemeProvider:
+ * - Navy (#0A1628) → bg-secondary, text-secondary-color
+ * - Teal (#00897B) → bg-primary, text-primary
+ * - Grey (#E8ECF1) → border-grey
+ * - Grey mid (#94A3B8) → text-grey-mid
+ * - Grey light (#F1F4F8) → bg-grey-light
+ */
 export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
   product,
   showPrice = true,
@@ -34,82 +45,45 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
 
   return (
     <div
-      style={{
-        background: 'white',
-        border: '1.5px solid #E8ECF1',
-        borderRadius: '14px',
-        padding: '20px',
-        margin: '24px 0',
-        display: 'flex',
-        gap: '16px',
-        alignItems: 'center',
-        transition: 'all 0.25s',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = '#00897B'
-        e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.04)'
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = '#E8ECF1'
-        e.currentTarget.style.boxShadow = 'none'
-      }}
+      className="
+        bg-surface border-[1.5px] border-grey rounded-xl p-5 my-6
+        flex gap-4 items-center
+        transition-all duration-250
+        hover:border-primary hover:shadow-lg
+      "
     >
       {/* Product Image/Emoji */}
       <div
+        className="
+          w-20 h-20 rounded-xl flex items-center justify-center
+          text-4xl flex-shrink-0
+        "
         style={{
-          width: '80px',
-          height: '80px',
-          background: productImage ? `url(${productImage}) center/cover` : '#F1F4F8',
-          borderRadius: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '40px',
-          flexShrink: 0,
+          background: productImage ? `url(${productImage}) center/cover` : undefined,
         }}
       >
-        {!productImage && productEmoji}
+        <div className={productImage ? 'hidden' : 'bg-grey-light w-full h-full rounded-xl flex items-center justify-center'}>
+          {!productImage && productEmoji}
+        </div>
       </div>
 
       {/* Product Info */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div className="flex-1 min-w-0">
         {/* Brand */}
         {prod.brand && (
-          <div
-            style={{
-              fontSize: '10px',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              color: '#00897B',
-            }}
-          >
+          <div className="text-[10px] font-bold uppercase tracking-wider text-primary">
             {typeof prod.brand === 'object' ? prod.brand.name : prod.brand}
           </div>
         )}
 
         {/* Product Name */}
-        <div
-          style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            fontSize: '15px',
-            fontWeight: 800,
-            color: '#0A1628',
-            margin: '2px 0',
-          }}
-        >
+        <div className="font-extrabold text-[15px] text-secondary-color my-0.5">
           {prod.title}
         </div>
 
         {/* Description */}
         {description && (
-          <div
-            style={{
-              fontSize: '13px',
-              color: '#94A3B8',
-              lineHeight: 1.4,
-            }}
-          >
+          <div className="text-[13px] text-grey-mid leading-snug">
             {description}
           </div>
         )}
@@ -117,49 +91,29 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
 
       {/* Price & Button */}
       {(showPrice || showButton) && (
-        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+        <div className="text-right flex-shrink-0">
           {showPrice && (
             <>
-              <div
-                style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontSize: '18px',
-                  fontWeight: 800,
-                  color: '#0A1628',
-                }}
-              >
+              <div className="font-extrabold text-lg text-secondary-color">
                 {formatPrice(prod.price)}
               </div>
-              <div style={{ fontSize: '11px', color: '#94A3B8' }}>per stuk</div>
+              <div className="text-[11px] text-grey-mid">per stuk</div>
             </>
           )}
 
           {showButton && (
             <Link
               href={`/products/${prod.slug}`}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '5px',
-                marginTop: '8px',
-                padding: '8px 16px',
-                background: '#00897B',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: '12px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                textDecoration: 'none',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#0A1628'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#00897B'
-              }}
+              className="
+                inline-flex items-center gap-1.5 mt-2
+                px-4 py-2
+                bg-primary text-white
+                rounded-lg
+                text-xs font-bold
+                no-underline
+                transition-all duration-200
+                hover:bg-secondary
+              "
             >
               <Icon name="ShoppingCart" size={13} />
               Bestellen

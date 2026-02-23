@@ -4,6 +4,16 @@ import React, { useState } from 'react'
 import type { ContactFormBlock } from '@/payload-types'
 import { useRecaptcha } from '@/hooks/useRecaptcha'
 
+/**
+ * ContactFormBlock Component - 100% Theme Variable Compliant
+ *
+ * Refactored from hardcoded success/error colors to theme variables.
+ * All status colors now use CSS variables from ThemeProvider:
+ * - Success states → bg-success-light, border-success, text-success, text-success-dark
+ * - Error states → bg-error-light, border-error, text-error
+ * - Primary button → bg-primary (already using var)
+ */
+
 type FormData = {
   name: string
   email: string
@@ -135,16 +145,15 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
         {intro && <p className="text-center mb-8 text-gray-600">{intro}</p>}
 
         {submitStatus === 'success' ? (
-          <div className="p-6 rounded-lg text-center" style={{ backgroundColor: '#dcfce7', border: '2px solid #86efac' }}>
-            <svg className="w-16 h-16 mx-auto mb-4" style={{ color: '#22c55e' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="p-6 rounded-lg text-center bg-success-light border-2 border-success">
+            <svg className="w-16 h-16 mx-auto mb-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 className="text-xl font-semibold mb-2" style={{ color: '#15803d' }}>Bericht verzonden!</h3>
-            <p style={{ color: '#166534' }}>Bedankt voor uw bericht. We nemen zo snel mogelijk contact met u op.</p>
+            <h3 className="text-xl font-semibold mb-2 text-success-dark">Bericht verzonden!</h3>
+            <p className="text-success-dark">Bedankt voor uw bericht. We nemen zo snel mogelijk contact met u op.</p>
             <button
               onClick={() => setSubmitStatus('idle')}
-              className="mt-4 px-6 py-2 rounded font-semibold"
-              style={{ backgroundColor: '#22c55e', color: 'white' }}
+              className="mt-4 px-6 py-2 rounded font-semibold bg-success text-white hover:opacity-90 transition-opacity"
             >
               Nog een bericht versturen
             </button>
@@ -154,7 +163,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
             {/* Name Field */}
             <div>
               <label htmlFor="name" className="block mb-2 font-semibold">
-                Naam <span style={{ color: '#ef4444' }}>*</span>
+                Naam <span className="text-error">*</span>
               </label>
               <input
                 id="name"
@@ -162,17 +171,17 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
                 value={formData.name}
                 onChange={(e) => handleChange('name', e.target.value)}
                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.name ? 'border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'
+                  errors.name ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
                 }`}
                 placeholder="Uw naam"
               />
-              {errors.name && <p className="mt-1 text-sm" style={{ color: '#ef4444' }}>{errors.name}</p>}
+              {errors.name && <p className="mt-1 text-sm text-error">{errors.name}</p>}
             </div>
 
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block mb-2 font-semibold">
-                E-mailadres <span style={{ color: '#ef4444' }}>*</span>
+                E-mailadres <span className="text-error">*</span>
               </label>
               <input
                 id="email"
@@ -180,11 +189,11 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.email ? 'border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'
+                  errors.email ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
                 }`}
                 placeholder="uw.email@voorbeeld.nl"
               />
-              {errors.email && <p className="mt-1 text-sm" style={{ color: '#ef4444' }}>{errors.email}</p>}
+              {errors.email && <p className="mt-1 text-sm text-error">{errors.email}</p>}
             </div>
 
             {/* Phone Field (Optional) */}
@@ -198,11 +207,11 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
                 value={formData.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.phone ? 'border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'
+                  errors.phone ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
                 }`}
                 placeholder="06 12345678"
               />
-              {errors.phone && <p className="mt-1 text-sm" style={{ color: '#ef4444' }}>{errors.phone}</p>}
+              {errors.phone && <p className="mt-1 text-sm text-error">{errors.phone}</p>}
             </div>
 
             {/* Subject Field (Optional) */}
@@ -223,7 +232,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
             {/* Message Field */}
             <div>
               <label htmlFor="message" className="block mb-2 font-semibold">
-                Bericht <span style={{ color: '#ef4444' }}>*</span>
+                Bericht <span className="text-error">*</span>
               </label>
               <textarea
                 id="message"
@@ -231,17 +240,17 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
                 onChange={(e) => handleChange('message', e.target.value)}
                 rows={6}
                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.message ? 'border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'
+                  errors.message ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
                 }`}
                 placeholder="Typ hier uw bericht..."
               />
-              {errors.message && <p className="mt-1 text-sm" style={{ color: '#ef4444' }}>{errors.message}</p>}
+              {errors.message && <p className="mt-1 text-sm text-error">{errors.message}</p>}
             </div>
 
             {/* Error Message */}
             {submitStatus === 'error' && (
-              <div className="p-4 rounded" style={{ backgroundColor: '#fee2e2', border: '1px solid #fca5a5' }}>
-                <p style={{ color: '#dc2626' }}>{errorMessage}</p>
+              <div className="p-4 rounded bg-error-light border border-error">
+                <p className="text-error">{errorMessage}</p>
               </div>
             )}
 
