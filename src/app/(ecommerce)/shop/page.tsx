@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Product } from '@/payload-types'
 import ShopArchiveTemplate1 from './ShopArchiveTemplate1'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   title: 'Shop - Professional Equipment',
@@ -13,6 +15,8 @@ export default async function ShopPage({
 }: {
   searchParams: Promise<{ category?: string; search?: string; page?: string }>
 }) {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const params = await searchParams
   const payload = await getPayload({ config })
 

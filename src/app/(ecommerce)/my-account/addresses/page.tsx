@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Plus, MapPin, Edit2, Trash2, Star } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function AddressesPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const [showNewAddressModal, setShowNewAddressModal] = useState(false)
   const [editingAddress, setEditingAddress] = useState<string | null>(null)
 

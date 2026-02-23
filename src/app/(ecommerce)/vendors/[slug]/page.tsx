@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { requireFeature } from '@/lib/featureGuard'
+import { isFeatureEnabled } from '@/lib/features'
 import {
   ChevronRight,
   Star,
@@ -63,6 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function VendorDetailPage({ params }: Props) {
+  if (!isFeatureEnabled('shop')) notFound()
   requireFeature('vendors')
 
   const payload = await getPayload({ config })

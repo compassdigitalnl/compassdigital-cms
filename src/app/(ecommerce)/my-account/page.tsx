@@ -1,6 +1,8 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import MyAccountTemplate1 from './MyAccountTemplate1'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   title: 'Mijn Account | Dashboard',
@@ -8,6 +10,8 @@ export const metadata = {
 }
 
 export default async function MyAccountPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const payload = await getPayload({ config })
 
   // Get global template setting from Settings

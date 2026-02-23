@@ -15,8 +15,12 @@ import {
   Eye,
   EyeOff,
 } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function SettingsPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   // TODO: Replace with real user data from API
   const [profileData, setProfileData] = useState({
     firstName: 'Jan',

@@ -7,6 +7,8 @@
 
 import type { Metadata } from 'next'
 import { QuoteForm } from '@/branches/construction/components'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Offerte Aanvragen - Bouwbedrijf',
@@ -14,6 +16,8 @@ export const metadata: Metadata = {
 }
 
 export default function OfferteAanvragenPage() {
+  if (!isFeatureEnabled('construction')) notFound()
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}

@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, RefreshCw, Calendar, Package, Euro, Play, Pause, Trash2, Settings as SettingsIcon } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function RecurringOrdersPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   // TODO: Replace with real recurring orders data from API
   const [recurringOrders] = useState([
     {

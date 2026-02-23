@@ -2,6 +2,8 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { OrderConfirmation } from './OrderConfirmation'
 import { CheckCircle } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   title: 'Bestelling bevestigd',
@@ -15,6 +17,8 @@ interface PageProps {
 }
 
 export default async function OrderConfirmationPage({ params }: PageProps) {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const { id } = await params
 
   return (

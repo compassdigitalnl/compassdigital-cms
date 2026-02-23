@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, FileText, Download, Eye, Calendar, Euro } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function InvoicesPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   // TODO: Replace with real invoices data from API
   const [invoices] = useState([
     {

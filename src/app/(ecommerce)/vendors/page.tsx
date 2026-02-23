@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { requireFeature } from '@/lib/featureGuard'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 import {
   Search,
   Package,
@@ -29,6 +31,7 @@ export default async function VendorsPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
+  if (!isFeatureEnabled('shop')) notFound()
   requireFeature('vendors')
 
   const payload = await getPayload({ config })

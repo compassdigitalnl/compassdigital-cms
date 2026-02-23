@@ -1,4 +1,6 @@
 import AuthTemplate from '../login/AuthTemplate'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
   title: 'Registreren | Shop',
@@ -6,5 +8,7 @@ export const metadata = {
 }
 
 export default function RegisterPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   return <AuthTemplate defaultTab="register" />
 }

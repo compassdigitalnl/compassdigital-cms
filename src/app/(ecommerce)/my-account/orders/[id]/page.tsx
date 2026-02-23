@@ -15,8 +15,12 @@ import {
   MapPin,
   CreditCard,
 } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function OrderDetailPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const params = useParams()
   const orderId = params?.id
 

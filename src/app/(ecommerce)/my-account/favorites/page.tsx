@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Heart, ShoppingCart, Trash2, Share2, Eye } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function FavoritesPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   // TODO: Replace with real favorites data from API
   const [favorites] = useState([
     {

@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { requireFeature } from '@/lib/featureGuard'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 import {
   ChevronRight,
   Calendar,
@@ -25,6 +27,7 @@ export const metadata: Metadata = {
 }
 
 export default async function WorkshopsPage() {
+  if (!isFeatureEnabled('shop')) notFound()
   requireFeature('workshops')
 
   const payload = await getPayload({ config })

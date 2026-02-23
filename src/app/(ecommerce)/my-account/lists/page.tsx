@@ -22,6 +22,8 @@ import {
   PlusCircle,
   Building2,
 } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 // TypeScript types
 interface OrderListItem {
@@ -69,6 +71,8 @@ const colorMap = {
 }
 
 export default function OrderListsPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const [lists, setLists] = useState<OrderList[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

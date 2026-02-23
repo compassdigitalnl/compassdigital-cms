@@ -1,6 +1,10 @@
 import Link from 'next/link'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function ShopDemoPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
       <div className="max-w-4xl mx-auto text-center">

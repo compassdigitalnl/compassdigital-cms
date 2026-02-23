@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Search, Filter, Download, ChevronLeft, ChevronRight, Package } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function OrdersPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)

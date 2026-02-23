@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Gift, ShoppingBag, Mail, Printer, Send } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function GiftVouchersPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   // TODO: Replace with real voucher data from API
   const [vouchers] = useState([
     {

@@ -10,6 +10,8 @@ import config from '@payload-config'
 import type { ConstructionService } from '@/payload-types'
 import { ServiceCard } from '@/branches/construction/components'
 import type { Metadata } from 'next'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Onze Diensten - Bouwbedrijf',
@@ -24,6 +26,8 @@ interface DienstenPageProps {
 }
 
 export default async function DienstenPage({ searchParams }: DienstenPageProps) {
+  if (!isFeatureEnabled('construction')) notFound()
+
   const params = await searchParams
   const payload = await getPayload({ config })
 

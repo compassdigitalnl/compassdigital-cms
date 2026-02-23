@@ -12,6 +12,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { ServiceCard, ProjectCard } from '@/branches/construction/components'
+import { isFeatureEnabled } from '@/lib/features'
 
 interface ServiceDetailPageProps {
   params: Promise<{
@@ -47,6 +48,8 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
 }
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+  if (!isFeatureEnabled('construction')) notFound()
+
   const { slug } = await params
   const payload = await getPayload({ config })
 

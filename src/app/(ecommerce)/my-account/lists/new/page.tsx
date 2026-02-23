@@ -13,6 +13,8 @@ import {
   Building2,
   Package,
 } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 const COLORS = {
   navy: '#0A1628',
@@ -44,6 +46,8 @@ const COLOR_OPTIONS = [
 ]
 
 export default function NewOrderListPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

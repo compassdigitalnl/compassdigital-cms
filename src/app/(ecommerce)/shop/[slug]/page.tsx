@@ -7,6 +7,7 @@ import ProductTemplate1 from './ProductTemplate1'
 import ProductTemplate2 from './ProductTemplate2'
 import ProductTemplate3 from './ProductTemplate3'
 import type { Product } from '@/payload-types'
+import { isFeatureEnabled } from '@/lib/features'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -48,6 +49,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const { slug } = await params
   const payload = await getPayload({ config })
 

@@ -15,8 +15,12 @@ import {
   Copy,
   Check,
 } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function LoyaltyPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const [copied, setCopied] = useState(false)
 
   // TODO: Replace with real loyalty data from API

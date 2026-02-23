@@ -36,6 +36,8 @@ import {
   Building2,
   ClipboardList,
 } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 import {
   DndContext,
   closestCenter,
@@ -381,6 +383,8 @@ function SortableRow({
 // ============================================================================
 
 export default function OrderListDetailPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   const params = useParams()
   const router = useRouter()
   const listId = params?.id as string

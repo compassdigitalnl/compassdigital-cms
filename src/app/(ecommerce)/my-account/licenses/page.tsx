@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, KeyRound, Download, Monitor, Smartphone, Laptop, Check, X } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function LicensesPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   // TODO: Replace with real licenses data from API
   const [licenses] = useState([
     {

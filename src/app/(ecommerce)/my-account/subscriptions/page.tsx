@@ -13,8 +13,12 @@ import {
   AlertTriangle,
   XCircle,
 } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/features'
+import { notFound } from 'next/navigation'
 
 export default function SubscriptionPage() {
+  if (!isFeatureEnabled('shop')) notFound()
+
   // TODO: Replace with real subscription data from API
   const [subscription, setSubscription] = useState({
     plan: {
