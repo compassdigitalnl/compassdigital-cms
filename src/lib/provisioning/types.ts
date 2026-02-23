@@ -59,6 +59,11 @@ export interface ProvisioningInput {
   // Environment Variables
   environmentVariables?: Record<string, string>
 
+  // Demo Content Seeding (Optional)
+  seedDemoContent?: boolean // If true, seeds demo content after deployment
+  template?: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate' | 'construction' | 'beauty' | 'horeca' | 'hospitality'
+  features?: Record<string, boolean> // Feature flags for seeding
+
   // Optional Callbacks
   onProgress?: ProgressCallback
 }

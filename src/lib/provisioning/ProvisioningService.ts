@@ -266,6 +266,39 @@ export class ProvisioningService {
 
       logs.push('Client record updated')
 
+      // ── Step 10: Seed demo content (optional) ──────────────────────────────
+      if (input.seedDemoContent) {
+        await reportProgress('completed', 'Seeding demo content...', 96)
+
+        try {
+          const { seedTenant } = await import('@/endpoints/seed/seedOrchestrator')
+
+          // Determine template from industry or explicit template param
+          const template = input.template || this.inferTemplateFromIndustry(input.siteData.industry)
+
+          // Get features from input or from environment variables
+          const features = input.features || this.inferFeaturesFromEnvironment(environmentVariables)
+
+          const seedResult = await seedTenant(payload, {
+            template,
+            features,
+            companyName: input.clientName,
+            domain: `${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`,
+            draftOnly: true,
+          })
+
+          logs.push(`Demo content seeded: ${Object.keys(seedResult.seeded.collections).length} collections, ${seedResult.seeded.globals.length} globals`)
+
+          await reportProgress('completed', 'Demo content seeded successfully', 98, {
+            seeded: seedResult.seeded,
+          })
+        } catch (seedError: any) {
+          logs.push(`⚠️ Demo content seeding failed: ${seedError.message}`)
+          console.warn('[ProvisioningService] Demo content seeding warning:', seedError.message)
+          // Non-fatal: provisioning can still succeed without demo content
+        }
+      }
+
       await reportProgress('completed', 'Provisioning completed successfully!', 100, {
         deploymentUrl: deploymentResult.url,
         adminUrl: `${deploymentResult.url}/admin`,
@@ -688,7 +721,59 @@ export class ProvisioningService {
   private sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
+
+  /**
+   * Infer template from industry string
+   */
+  private inferTemplateFromIndustry(industry?: string): SeedOptions['template'] {
+    if (!industry) return 'corporate'
+
+    const industryLower = industry.toLowerCase()
+
+    if (industryLower.includes('construction') || industryLower.includes('bouw')) {
+      return 'construction'
+    }
+    if (industryLower.includes('beauty') || industryLower.includes('salon') || industryLower.includes('kapper')) {
+      return 'beauty'
+    }
+    if (industryLower.includes('restaurant') || industryLower.includes('horeca') || industryLower.includes('cafe')) {
+      return 'horeca'
+    }
+    if (industryLower.includes('medical') || industryLower.includes('health') || industryLower.includes('wellness') || industryLower.includes('zorg')) {
+      return 'hospitality'
+    }
+    if (industryLower.includes('shop') || industryLower.includes('store') || industryLower.includes('ecommerce') || industryLower.includes('webshop')) {
+      return 'ecommerce'
+    }
+    if (industryLower.includes('blog') || industryLower.includes('news') || industryLower.includes('media')) {
+      return 'blog'
+    }
+
+    return 'corporate'
+  }
+
+  /**
+   * Infer features from environment variables
+   */
+  private inferFeaturesFromEnvironment(envVars: Record<string, string>): Record<string, boolean> {
+    return {
+      shop: envVars.ECOMMERCE_ENABLED === 'true' || envVars.ENABLE_SHOP === 'true',
+      products: envVars.ECOMMERCE_ENABLED === 'true' || envVars.ENABLE_SHOP === 'true',
+      blog: envVars.ENABLE_BLOG === 'true',
+      faq: envVars.ENABLE_FAQ === 'true',
+      testimonials: envVars.ENABLE_TESTIMONIALS === 'true',
+      cases: envVars.ENABLE_CASES === 'true',
+      construction: envVars.ENABLE_CONSTRUCTION === 'true',
+      beauty: envVars.ENABLE_BEAUTY === 'true',
+      horeca: envVars.ENABLE_HORECA === 'true',
+      hospitality: envVars.ENABLE_HOSPITALITY === 'true',
+      vendors: envVars.ENABLE_VENDORS === 'true',
+      workshops: envVars.ENABLE_WORKSHOPS === 'true',
+    }
+  }
 }
+
+import type { SeedOptions } from '@/endpoints/seed/seedOrchestrator'
 
 /**
  * Factory function to create ProvisioningService with specified adapter
