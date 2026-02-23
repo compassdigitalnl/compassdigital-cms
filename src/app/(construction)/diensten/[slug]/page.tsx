@@ -74,12 +74,12 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
   const { docs: relatedProjects } = await payload.find({
     collection: 'construction-projects',
     where: {
-      service: { equals: service.id },
+      category: { equals: service.id },
       status: { equals: 'published' },
     },
     depth: 1,
     limit: 6,
-    sort: '-completionDate',
+    sort: '-year',
   })
 
   // Get image URLs

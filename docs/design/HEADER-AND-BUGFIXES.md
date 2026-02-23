@@ -1,7 +1,7 @@
-# Header Feature-Guard Fixes & Service Detail Bug
+# Header Feature-Guard Fixes & Service Detail Bugs
 
 Dit document bevat instructies voor code-wijzigingen die nodig zijn om:
-1. De service detail pagina bug te fixen (`status: 'active'` → `'published'`)
+1. De service detail pagina bugs te fixen (status enum + verkeerde veldnamen)
 2. De header te ontdoen van e-commerce elementen op niet-webshop sites
 3. MiniCart en SearchProvider conditioneel te maken
 
@@ -29,6 +29,55 @@ status: { equals: 'published' },
 Beide plekken in hetzelfde bestand:
 - Regel 31: in `generateMetadata()` functie
 - Regel 61: in `ServiceDetailPage()` functie
+
+> **STATUS: OPGELOST in commit cc5d97f** ✅
+
+---
+
+## 1b. CRITICAL BUG: Service Detail Page — Verkeerde veldnaam in projecten query
+
+### Probleem
+`/diensten/[slug]` geeft 500 error: `The following path cannot be queried: service`
+
+De "gerelateerde projecten" query op **regel 77** gebruikt `service: { equals: service.id }`,
+maar het veld in de `construction-projects` collectie heet `category` (niet `service`).
+Zie `src/branches/construction/collections/ConstructionProjects.ts` regel 45.
+
+Daarnaast gebruikt **regel 82** `sort: '-completionDate'`, maar dat veld bestaat niet.
+Het juiste veld is `year`.
+
+### Bestand
+`src/app/(construction)/diensten/[slug]/page.tsx`
+
+### Fix
+Vervang regels 74-83:
+```typescript
+// FOUT:
+const { docs: relatedProjects } = await payload.find({
+  collection: 'construction-projects',
+  where: {
+    service: { equals: service.id },
+    status: { equals: 'published' },
+  },
+  depth: 1,
+  limit: 6,
+  sort: '-completionDate',
+})
+
+// GOED:
+const { docs: relatedProjects } = await payload.find({
+  collection: 'construction-projects',
+  where: {
+    category: { equals: service.id },
+    status: { equals: 'published' },
+  },
+  depth: 1,
+  limit: 6,
+  sort: '-year',
+})
+```
+
+De projecten in de database zijn al gekoppeld via `category_id` aan de juiste services.
 
 ---
 
@@ -316,7 +365,8 @@ export function useCart() {
 
 | # | Bestand | Wijziging | Prioriteit |
 |---|---------|-----------|------------|
-| 1 | `src/app/(construction)/diensten/[slug]/page.tsx` | `'active'` → `'published'` (2x) | CRITICAL |
+| 1a | `src/app/(construction)/diensten/[slug]/page.tsx` | `'active'` → `'published'` (2x) | DONE ✅ |
+| 1b | `src/app/(construction)/diensten/[slug]/page.tsx` | `service` → `category`, `-completionDate` → `-year` | CRITICAL |
 | 2 | `src/branches/shared/components/layout/header/Header/NavigationBar.tsx` | Mega menu trigger conditioneel op mode | HIGH |
 | 3 | `src/branches/shared/components/ui/MiniCart/MiniCartProvider.tsx` | `enableMiniCart` prop, `<MiniCart />` conditioneel | MEDIUM |
 | 4 | `src/branches/shared/components/features/search/search/SearchProvider.tsx` | `enableSearch` prop, `<InstantSearch />` conditioneel | MEDIUM |
