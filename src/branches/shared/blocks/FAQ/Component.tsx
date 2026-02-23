@@ -54,7 +54,7 @@ export const FAQBlockComponent: React.FC<FAQBlock> = ({ heading, intro, source, 
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <div className="mt-4 text-gray-700">
+              <div className="mt-4 text-gray-800">
                 {item.answer && <RichText data={item.answer} enableGutter={false} />}
               </div>
             </details>
