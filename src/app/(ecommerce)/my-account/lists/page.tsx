@@ -87,6 +87,14 @@ export default function OrderListsPage() {
       setError(null)
 
       const response = await fetch('/api/order-lists')
+
+      // Handle authentication error - redirect to login
+      if (response.status === 401) {
+        const currentPath = window.location.pathname
+        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
+        return
+      }
+
       if (!response.ok) throw new Error('Failed to fetch order lists')
       const data = await response.json()
       setLists(data.docs || [])
