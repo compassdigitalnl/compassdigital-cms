@@ -315,62 +315,6 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   return (
     <>
       <div className="product-template-1 overflow-x-hidden pb-20" style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}>
-        {/* MOBILE-FIRST: Product Header */}
-        <div className="p-4 bg-[var(--color-surface,white)]">
-          {/* Brand */}
-          {product.brand && (
-            <div className="text-[11px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1.5 flex items-center gap-1">
-              <Award className="w-3.5 h-3.5" />
-              {product.brand}
-            </div>
-          )}
-
-          {/* Title */}
-          <h1 className="font-heading text-[22px] md:text-3xl font-extrabold text-[var(--color-text-primary)] leading-tight tracking-tight mb-2">
-            {product.title}
-          </h1>
-
-          {/* SKU / EAN / Packaging */}
-          <div className="font-mono text-[11px] text-[var(--color-text-muted)] mb-3 flex items-center gap-2 flex-wrap">
-            {product.sku && (
-              <span className="flex items-center gap-1">
-                <Hash className="w-3 h-3" />
-                Art. {product.sku}
-              </span>
-            )}
-            {product.ean && (
-              <span className="flex items-center gap-1">
-                <Barcode className="w-3 h-3" />
-                EAN {product.ean}
-              </span>
-            )}
-            {product.packaging && (
-              <span className="flex items-center gap-1">
-                <Package className="w-3 h-3" />
-                {product.packaging}
-              </span>
-            )}
-          </div>
-
-          {/* Rating - Mobile */}
-          {reviewCount > 0 && (
-            <div className="flex items-center gap-1.5 mb-4">
-              <div className="flex gap-0.5">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star
-                    key={i}
-                    className="w-3.5 h-3.5 text-[var(--color-warning)]"
-                    fill={i <= Math.floor(avgRating) ? 'var(--color-warning)' : 'none'}
-                  />
-                ))}
-              </div>
-              <span className="text-xs text-[var(--color-text-muted)]">
-                <strong className="text-[var(--color-text-primary)]">{avgRating.toFixed(1)}</strong> ({reviewCount})
-              </span>
-            </div>
-          )}
-        </div>
-
         {/* MOBILE: Image Gallery - Swipeable */}
         <div className="relative w-full h-[280px] md:h-96 lg:hidden bg-[var(--color-background,var(--color-surface))]">
           {/* Badges */}
@@ -442,8 +386,8 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           )}
         </div>
 
-        {/* DESKTOP: 2-Column Layout */}
-        <div className="hidden lg:grid lg:grid-cols-[480px_1fr] lg:gap-12 lg:items-start lg:mb-12 lg:px-6">
+        {/* DESKTOP: 2-Column Layout (50/50) */}
+        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start lg:mb-12 lg:px-6">
           {/* LEFT: Gallery */}
           <div className="gallery">
             {/* Main Image */}
