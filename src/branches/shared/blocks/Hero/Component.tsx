@@ -152,7 +152,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
             {primaryCTA?.text && (
               <a
                 href={primaryCTA.link}
-                className="btn btn-primary px-6 py-3 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors duration-300"
+                className="btn btn-primary px-8 py-4 bg-primary hover:bg-primary-light text-white rounded-xl transition-colors duration-300 shadow-lg hover:scale-105"
               >
                 {primaryCTA.text}
               </a>
@@ -160,7 +160,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
             {secondaryCTA?.text && (
               <a
                 href={secondaryCTA.link}
-                className="btn btn-secondary px-6 py-3 border-2 border-white rounded-lg bg-white/10 text-white transition-all duration-300 hover:bg-white hover:text-gray-900"
+                className="btn btn-secondary px-8 py-4 border-2 border-white/20 hover:border-white/40 rounded-xl bg-white/10 text-white transition-all duration-300 hover:bg-white/10"
               >
                 {secondaryCTA.text}
               </a>
@@ -185,7 +185,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
           {primaryCTA?.text && (
             <a
               href={primaryCTA.link}
-              className="btn btn-primary px-6 py-3 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors duration-300"
+              className="btn btn-primary px-8 py-4 bg-primary hover:bg-primary-light text-white rounded-xl transition-colors duration-300 shadow-lg hover:scale-105"
             >
               {primaryCTA.text}
             </a>
@@ -193,9 +193,9 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
           {secondaryCTA?.text && (
             <a
               href={secondaryCTA.link}
-              className={`btn btn-secondary px-6 py-3 border-2 rounded-lg transition-all duration-300 ${
+              className={`btn btn-secondary px-8 py-4 border-2 rounded-xl transition-all duration-300 ${
                 hasImage
-                  ? 'border-white text-white bg-white/10 hover:bg-white hover:text-secondary'
+                  ? 'border-white/20 hover:border-white/40 text-white bg-white/10 hover:bg-white/10'
                   : 'border-secondary text-secondary-color hover:bg-secondary hover:text-white'
               }`}
             >
