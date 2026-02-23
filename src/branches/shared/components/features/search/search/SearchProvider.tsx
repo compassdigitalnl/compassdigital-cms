@@ -22,22 +22,27 @@ export function useSearch() {
 
 interface SearchProviderProps {
   children: React.ReactNode
+  enableSearch?: boolean
 }
 
-export function SearchProvider({ children }: SearchProviderProps) {
+export function SearchProvider({ children, enableSearch = true }: SearchProviderProps) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const openSearch = useCallback(() => setIsOpen(true), [])
+  const openSearch = useCallback(() => {
+    if (enableSearch) setIsOpen(true)
+  }, [enableSearch])
   const closeSearch = useCallback(() => setIsOpen(false), [])
-  const toggleSearch = useCallback(() => setIsOpen((prev) => !prev), [])
+  const toggleSearch = useCallback(() => {
+    if (enableSearch) setIsOpen((prev) => !prev)
+  }, [enableSearch])
 
-  // Cmd/Ctrl+K global shortcut
-  useSearchShortcut(openSearch)
+  // Cmd/Ctrl+K global shortcut - only register if search is enabled
+  useSearchShortcut(enableSearch ? openSearch : () => {})
 
   return (
     <SearchContext.Provider value={{ isOpen, openSearch, closeSearch, toggleSearch }}>
       {children}
-      <InstantSearch isOpen={isOpen} onClose={closeSearch} />
+      {enableSearch && <InstantSearch isOpen={isOpen} onClose={closeSearch} />}
     </SearchContext.Provider>
   )
 }

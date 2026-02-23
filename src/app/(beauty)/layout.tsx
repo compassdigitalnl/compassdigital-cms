@@ -10,6 +10,7 @@ import { ToastProvider } from '@/branches/shared/components/ui/Toast'
 import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { isFeatureEnabled } from '@/lib/features'
 import '../globals.css'
 
 export const dynamic = 'force-dynamic'
@@ -43,9 +44,9 @@ export default async function BeautyLayout({ children }: { children: ReactNode }
   return (
     <Providers>
       <ThemeProvider theme={themeGlobal}>
-        <SearchProvider>
+        <SearchProvider enableSearch={isFeatureEnabled('search')}>
           <ToastProvider>
-            <MiniCartProvider>
+            <MiniCartProvider enableMiniCart={isFeatureEnabled('mini_cart') || isFeatureEnabled('cart')}>
               <AdminBar />
               <LivePreviewListener />
 

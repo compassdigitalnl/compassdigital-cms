@@ -211,36 +211,38 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
       <nav ref={navRef} className="hidden lg:block bg-white border-b sticky top-[72px] z-[40]" style={{ borderColor: 'var(--color-border)' }}>
         <div className="mx-auto px-8" style={{ maxWidth: 'var(--container-width)' }}>
           <div className="flex items-stretch h-12">
-            {/* Menu Trigger Button */}
-            <button
-              onClick={() => setMegaMenuOpen(!megaMenuOpen)}
-              className={cn(
-                'flex items-center gap-2 px-5 text-sm font-bold transition-all border-b-2',
-                megaMenuOpen
-                  ? 'text-white'
-                  : 'text-white'
-              )}
-              style={{
-                backgroundColor: megaMenuOpen ? primaryColor : secondaryColor,
-                borderColor: megaMenuOpen ? primaryColor : secondaryColor,
-              }}
-              onMouseEnter={(e) => {
-                if (!megaMenuOpen) {
-                  e.currentTarget.style.backgroundColor = primaryColor
-                  e.currentTarget.style.borderColor = primaryColor
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!megaMenuOpen) {
-                  e.currentTarget.style.backgroundColor = secondaryColor
-                  e.currentTarget.style.borderColor = secondaryColor
-                }
-              }}
-            >
-              <Menu className="w-4 h-4" />
-              Menu
-              <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', megaMenuOpen && 'rotate-180')} />
-            </button>
+            {/* Menu Trigger Button — alleen tonen bij category/hybrid navigatie */}
+            {(navigation.mode === 'categories' || navigation.mode === 'hybrid') && (
+              <button
+                onClick={() => setMegaMenuOpen(!megaMenuOpen)}
+                className={cn(
+                  'flex items-center gap-2 px-5 text-sm font-bold transition-all border-b-2',
+                  megaMenuOpen
+                    ? 'text-white'
+                    : 'text-white'
+                )}
+                style={{
+                  backgroundColor: megaMenuOpen ? primaryColor : secondaryColor,
+                  borderColor: megaMenuOpen ? primaryColor : secondaryColor,
+                }}
+                onMouseEnter={(e) => {
+                  if (!megaMenuOpen) {
+                    e.currentTarget.style.backgroundColor = primaryColor
+                    e.currentTarget.style.borderColor = primaryColor
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!megaMenuOpen) {
+                    e.currentTarget.style.backgroundColor = secondaryColor
+                    e.currentTarget.style.borderColor = secondaryColor
+                  }
+                }}
+              >
+                <Menu className="w-4 h-4" />
+                Menu
+                <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', megaMenuOpen && 'rotate-180')} />
+              </button>
+            )}
 
             {/* Start Special Items */}
             {startItems.map((item, index) => {

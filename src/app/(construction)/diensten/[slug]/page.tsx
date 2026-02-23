@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
     collection: 'construction-services',
     where: {
       slug: { equals: slug },
-      status: { equals: 'active' },
+      status: { equals: 'published' },
     },
     limit: 1,
   })
@@ -58,7 +58,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
     collection: 'construction-services',
     where: {
       slug: { equals: slug },
-      status: { equals: 'active' },
+      status: { equals: 'published' },
     },
     depth: 2,
     limit: 1,

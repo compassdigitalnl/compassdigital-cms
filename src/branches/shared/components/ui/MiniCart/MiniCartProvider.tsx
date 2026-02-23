@@ -32,15 +32,25 @@ const MiniCartContext = createContext<MiniCartContextValue | undefined>(undefine
 
 const FREE_SHIPPING_THRESHOLD = 50 // €50 for free shipping
 
-export function MiniCartProvider({ children }: { children: ReactNode }) {
+export function MiniCartProvider({
+  children,
+  enableMiniCart = true,
+}: {
+  children: ReactNode
+  enableMiniCart?: boolean
+}) {
   const [isOpen, setIsOpen] = useState(false)
 
   // Use CartContext for actual cart data
   const cartContext = useCart()
 
-  const openCart = useCallback(() => setIsOpen(true), [])
+  const openCart = useCallback(() => {
+    if (enableMiniCart) setIsOpen(true)
+  }, [enableMiniCart])
   const closeCart = useCallback(() => setIsOpen(false), [])
-  const toggleCart = useCallback(() => setIsOpen((prev) => !prev), [])
+  const toggleCart = useCallback(() => {
+    if (enableMiniCart) setIsOpen((prev) => !prev)
+  }, [enableMiniCart])
 
   // Map CartContext items to MiniCart format
   const items = useMemo(() => {
@@ -101,7 +111,7 @@ export function MiniCartProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-      <MiniCart />
+      {enableMiniCart && <MiniCart />}
     </MiniCartContext.Provider>
   )
 }
