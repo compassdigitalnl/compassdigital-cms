@@ -33,7 +33,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     status,
   } = service
 
-  if (status !== 'active') return null
+  // Bug fix: collection uses 'published', not 'active'
+  if (status !== 'published') return null
 
   const iconUrl = typeof icon === 'object' && icon !== null ? icon.url : null
 
