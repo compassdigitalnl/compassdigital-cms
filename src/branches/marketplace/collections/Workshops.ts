@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 /**
  * Workshops Collection (Sprint 5 - Marketplace)
@@ -28,6 +29,7 @@ export const Workshops: CollectionConfig = {
     defaultColumns: ['title', 'vendor', 'date', 'location', 'status', 'updatedAt'],
     description: 'Trainingen, workshops en webinars',
     hidden: shouldHideCollection('workshops'),
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
   },
   access: {
     read: () => true, // Publicly accessible
@@ -55,7 +57,10 @@ export const Workshops: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Automatisch gegenereerd uit de titel',
+            hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
       },
+    },
       hooks: {
         beforeValidate: [
           ({ value, data }) => {

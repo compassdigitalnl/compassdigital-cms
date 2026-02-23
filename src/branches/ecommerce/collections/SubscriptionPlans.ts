@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 export const SubscriptionPlans: CollectionConfig = {
   slug: 'subscription-plans',
@@ -38,7 +39,10 @@ export const SubscriptionPlans: CollectionConfig = {
       unique: true,
       label: 'Slug',
       admin: {
-        description: 'URL-friendly identifier',
+        description: 'Auto-gegenereerd uit naam (kan handmatig overschreven worden)',
+      },
+      hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
       },
     },
     {

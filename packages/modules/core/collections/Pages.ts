@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { autoGenerateSlug } from '@/utilities/slugify'
 
 /**
  * Pages Collection - CMS Pages with blocks
@@ -60,20 +61,10 @@ export const Pages: CollectionConfig = {
               unique: true,
               label: 'URL Slug',
               admin: {
-                description: 'Unieke URL (bijv. "over-ons", "contact")',
+                description: 'Auto-gegenereerd uit titel (kan handmatig overschreven worden)',
               },
               hooks: {
-                beforeValidate: [
-                  ({ value, data }) => {
-                    if (!value && data?.title) {
-                      return data.title
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-')
-                        .replace(/(^-|-$)/g, '')
-                    }
-                    return value
-                  },
-                ],
+                beforeValidate: [autoGenerateSlug],
               },
             },
             {

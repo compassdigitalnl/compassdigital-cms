@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { autoGenerateSlug } from '@/utilities/slugify'
 
 /**
  * Products Collection - Enterprise Template with 63+ fields
@@ -57,20 +58,10 @@ export const Products: CollectionConfig = {
               unique: true,
               label: 'Slug',
               admin: {
-                description: 'URL-vriendelijke naam (bijv. premium-laptop-15inch)',
+                description: 'Auto-gegenereerd uit naam (kan handmatig overschreven worden)',
               },
               hooks: {
-                beforeValidate: [
-                  ({ value, data }) => {
-                    if (!value && data?.name) {
-                      return data.name
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-')
-                        .replace(/(^-|-$)/g, '')
-                    }
-                    return value
-                  },
-                ],
+                beforeValidate: [autoGenerateSlug],
               },
             },
             {

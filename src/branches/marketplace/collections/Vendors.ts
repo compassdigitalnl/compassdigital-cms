@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 /**
  * Vendors Collection (Sprint 5 - Marketplace)
@@ -28,6 +29,7 @@ export const Vendors: CollectionConfig = {
     defaultColumns: ['name', 'isPremium', 'isVerified', 'rating', 'updatedAt'],
     description: 'Leveranciers, fabrikanten en partners',
     hidden: shouldHideCollection('vendors'),
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
   },
   access: {
     read: () => true, // Publicly accessible
@@ -55,7 +57,10 @@ export const Vendors: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Automatisch gegenereerd uit de naam',
+            hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
       },
+    },
       hooks: {
         beforeValidate: [
           ({ value, data }) => {

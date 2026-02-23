@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 export const LoyaltyTiers: CollectionConfig = {
   slug: 'loyalty-tiers',
@@ -14,6 +15,7 @@ export const LoyaltyTiers: CollectionConfig = {
     defaultColumns: ['name', 'minPoints', 'multiplier', 'order'],
     description: 'Loyalty program tiers (Bronze, Silver, Gold, Platinum)',
     hidden: shouldHideCollection('loyalty'),
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
   },
   access: {
     read: () => true, // Public
@@ -37,6 +39,9 @@ export const LoyaltyTiers: CollectionConfig = {
       required: true,
       unique: true,
       label: 'Slug',
+          hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
+      },
     },
     {
       name: 'icon',

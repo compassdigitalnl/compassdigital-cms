@@ -77,7 +77,7 @@ export const CTABlockComponent: React.FC<CTABlock> = ({
         <div className="flex flex-wrap gap-4 justify-center">
           <a
             href={buttonLink}
-            className="btn px-8 py-4 bg-white text-primary rounded-lg font-semibold inline-block transition-all duration-300 hover:bg-secondary hover:text-white hover:scale-105"
+            className="btn px-8 py-4 bg-white text-primary rounded-xl font-semibold inline-block transition-all duration-300 hover:bg-secondary hover:text-white hover:scale-105 shadow-lg"
           >
             {buttonText}
           </a>
@@ -85,7 +85,7 @@ export const CTABlockComponent: React.FC<CTABlock> = ({
           {secondaryButtonText && (
             <a
               href={secondaryButtonLink || '#'}
-              className="btn px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-semibold inline-block transition-all duration-300 hover:bg-white/10"
+              className="btn px-8 py-4 bg-transparent border-2 border-white/20 hover:border-white text-white rounded-xl font-semibold inline-block transition-all duration-300 hover:bg-white/10"
             >
               {secondaryButtonText}
             </a>

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 /**
  * Product Categories Collection
@@ -39,20 +40,10 @@ export const ProductCategories: CollectionConfig = {
       unique: true,
       label: 'Slug',
       admin: {
-        description: 'URL-vriendelijke naam',
+        description: 'Auto-gegenereerd uit naam (kan handmatig overschreven worden)',
       },
       hooks: {
-        beforeValidate: [
-          ({ value, data }) => {
-            if (!value && data?.name) {
-              return data.name
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/(^-|-$)/g, '')
-            }
-            return value
-          },
-        ],
+        beforeValidate: [autoGenerateSlugFromName],
       },
     },
     {

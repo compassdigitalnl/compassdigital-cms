@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { publicAccess } from '@/access/publicAccess'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 export const ConstructionServices: CollectionConfig = {
   slug: 'construction-services',
@@ -17,6 +18,7 @@ export const ConstructionServices: CollectionConfig = {
   },
   admin: {
     hidden: shouldHideCollection('construction'),
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
     group: 'Construction',
@@ -40,6 +42,9 @@ export const ConstructionServices: CollectionConfig = {
       admin: {
         description: 'URL-vriendelijke versie (bijv. "nieuwbouw", "renovatie")',
         position: 'sidebar',
+      },
+          hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
       },
     },
     {

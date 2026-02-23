@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlug } from '@/utilities/slugify'
 
 export const Cases: CollectionConfig = {
   slug: 'cases',
@@ -31,6 +32,10 @@ export const Cases: CollectionConfig = {
       label: 'URL slug',
       admin: {
         position: 'sidebar',
+        description: 'Auto-gegenereerd uit titel (kan handmatig overschreven worden)',
+      },
+      hooks: {
+        beforeValidate: [autoGenerateSlug],
       },
     },
     {

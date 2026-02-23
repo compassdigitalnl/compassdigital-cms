@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { featureFields } from '@/lib/featureFields'
+import { autoGenerateSlug } from '@/utilities/slugify'
 import {
   BoldFeature,
   HeadingFeature,
@@ -67,7 +68,10 @@ export const BlogPosts: CollectionConfig = {
       label: 'URL slug',
       admin: {
         position: 'sidebar',
-        description: 'Gebruikt in URL: /blog/{categorie}/{slug}',
+        description: 'Auto-gegenereerd uit titel (kan handmatig overschreven worden)',
+      },
+      hooks: {
+        beforeValidate: [autoGenerateSlug],
       },
     },
     {
@@ -442,4 +446,25 @@ export const BlogPosts: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    beforeChange: [
+      async ({ data, operation }) => {
+        // Auto-fill publishedAt when first published
+        if (operation === 'create' && data.status === 'published' && !data.publishedAt) {
+          data.publishedAt = new Date().toISOString()
+        }
+
+        // Auto-calculate reading time from content
+        if (data.content && !data.readingTime) {
+          // Extract text from Lexical content (rough estimate)
+          const contentString = JSON.stringify(data.content)
+          const wordCount = contentString.split(/\s+/).length
+          // Average reading speed: 200 words per minute
+          data.readingTime = Math.ceil(wordCount / 200)
+        }
+
+        return data
+      },
+    ],
+  },
 }

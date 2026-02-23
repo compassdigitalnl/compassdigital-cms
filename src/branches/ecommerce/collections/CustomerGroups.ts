@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 export const CustomerGroups: CollectionConfig = {
   slug: 'customer-groups',
@@ -12,6 +13,7 @@ export const CustomerGroups: CollectionConfig = {
     useAsTitle: 'name',
     group: 'E-commerce',
     hidden: shouldHideCollection('customerGroups'),
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
   },
   access: {
     read: () => true, // Customer groups are publicly readable (for pricing tiers)
@@ -31,6 +33,9 @@ export const CustomerGroups: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+          hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
+      },
     },
     {
       name: 'description',

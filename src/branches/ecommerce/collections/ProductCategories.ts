@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 export const ProductCategories: CollectionConfig = {
   slug: 'product-categories',
@@ -30,6 +31,12 @@ export const ProductCategories: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+      admin: {
+        description: 'Auto-gegenereerd uit naam (kan handmatig overschreven worden)',
+      },
+      hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
+      },
     },
     {
       name: 'description',
