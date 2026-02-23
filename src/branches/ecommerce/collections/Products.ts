@@ -1,4 +1,10 @@
 import type { CollectionConfig } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  HeadingFeature,
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+} from '@payloadcms/richtext-lexical'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { indexProduct, deleteProductFromIndex } from '@/lib/meilisearch/indexProducts'
@@ -171,6 +177,14 @@ export const Products: CollectionConfig = {
               name: 'description',
               type: 'richText',
               label: 'Beschrijving',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => [
+                  ...rootFeatures,
+                  HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+                  FixedToolbarFeature(),
+                  InlineToolbarFeature(),
+                ],
+              }),
             },
             // Brand & Manufacturer row
             {
