@@ -33,6 +33,24 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     textPrimary: '#0A1628',
     textSecondary: '#64748b',
     textMuted: '#94a3b8',
+    // Status colors
+    successColor: '#00C853',
+    successLight: '#E8F5E9',
+    successDark: '#1B5E20',
+    warningColor: '#F59E0B',
+    warningLight: '#FFF8E1',
+    warningDark: '#92400E',
+    errorColor: '#EF4444',
+    errorLight: '#FFF0F0',
+    errorDark: '#991B1B',
+    infoColor: '#00897B',
+    infoLight: 'rgba(0,137,123,0.12)',
+    infoDark: '#004D40',
+    // Gradients
+    primaryGradient: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
+    secondaryGradient: 'linear-gradient(135deg, #0A1628 0%, #1a2847 100%)',
+    heroGradient: 'linear-gradient(135deg, rgba(0,137,123,0.1) 0%, rgba(38,166,154,0.1) 100%)',
+    // Typography & Layout
     headingFont: 'Inter, system-ui, sans-serif',
     bodyFont: 'Inter, system-ui, sans-serif',
     fontScale: 'md',
@@ -113,17 +131,24 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     '--color-text-secondary': themeData.textSecondary,
     '--color-text-muted': themeData.textMuted,
 
-    // Semantic colors (status indicators)
-    '--color-success': '#00C853',
-    '--color-warning': '#F59E0B',
-    '--color-error': '#EF4444',
-    '--color-info': '#2196F3',
+    // Semantic colors (status indicators) - now CMS-driven!
+    '--color-success': themeData.successColor,
+    '--color-success-light': themeData.successLight,
+    '--color-success-dark': themeData.successDark,
+    '--color-warning': themeData.warningColor,
+    '--color-warning-light': themeData.warningLight,
+    '--color-warning-dark': themeData.warningDark,
+    '--color-error': themeData.errorColor,
+    '--color-error-light': themeData.errorLight,
+    '--color-error-dark': themeData.errorDark,
+    '--color-info': themeData.infoColor,
+    '--color-info-light': themeData.infoLight,
+    '--color-info-dark': themeData.infoDark,
 
-    // Semantic backgrounds (lighter versions)
-    '--color-success-bg': '#E8F5E9',
-    '--color-warning-bg': '#FFF8E1',
-    '--color-error-bg': '#FEE2E2',
-    '--color-info-bg': '#E3F2FD',
+    // Gradients - CMS-driven!
+    '--gradient-primary': themeData.primaryGradient,
+    '--gradient-secondary': themeData.secondaryGradient,
+    '--gradient-hero': themeData.heroGradient,
 
     // Typography
     '--font-heading': themeData.headingFont,
@@ -346,21 +371,43 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-secondary-text { color: var(--color-text-secondary) !important; }
           .text-muted { color: var(--color-text-muted) !important; }
 
-          /* Semantic color utilities */
-          .bg-success { background-color: var(--color-success-bg) !important; }
-          .bg-warning { background-color: var(--color-warning-bg) !important; }
-          .bg-error { background-color: var(--color-error-bg) !important; }
-          .bg-info { background-color: var(--color-info-bg) !important; }
-
+          /* Semantic color utilities - All variants */
+          /* Success */
+          .bg-success { background-color: var(--color-success) !important; }
+          .bg-success-light { background-color: var(--color-success-light) !important; }
+          .bg-success-dark { background-color: var(--color-success-dark) !important; }
           .text-success { color: var(--color-success) !important; }
-          .text-warning { color: var(--color-warning) !important; }
-          .text-error { color: var(--color-error) !important; }
-          .text-info { color: var(--color-info) !important; }
-
+          .text-success-dark { color: var(--color-success-dark) !important; }
           .border-success { border-color: var(--color-success) !important; }
+
+          /* Warning */
+          .bg-warning { background-color: var(--color-warning) !important; }
+          .bg-warning-light { background-color: var(--color-warning-light) !important; }
+          .bg-warning-dark { background-color: var(--color-warning-dark) !important; }
+          .text-warning { color: var(--color-warning) !important; }
+          .text-warning-dark { color: var(--color-warning-dark) !important; }
           .border-warning { border-color: var(--color-warning) !important; }
+
+          /* Error */
+          .bg-error { background-color: var(--color-error) !important; }
+          .bg-error-light { background-color: var(--color-error-light) !important; }
+          .bg-error-dark { background-color: var(--color-error-dark) !important; }
+          .text-error { color: var(--color-error) !important; }
+          .text-error-dark { color: var(--color-error-dark) !important; }
           .border-error { border-color: var(--color-error) !important; }
+
+          /* Info */
+          .bg-info { background-color: var(--color-info) !important; }
+          .bg-info-light { background-color: var(--color-info-light) !important; }
+          .bg-info-dark { background-color: var(--color-info-dark) !important; }
+          .text-info { color: var(--color-info) !important; }
+          .text-info-dark { color: var(--color-info-dark) !important; }
           .border-info { border-color: var(--color-info) !important; }
+
+          /* Gradient utilities */
+          .bg-gradient-primary { background: var(--gradient-primary) !important; }
+          .bg-gradient-secondary { background: var(--gradient-secondary) !important; }
+          .bg-gradient-hero { background: var(--gradient-hero) !important; }
         `
       }} />
     </>

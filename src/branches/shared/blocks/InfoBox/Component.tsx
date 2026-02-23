@@ -3,93 +3,86 @@ import React from 'react'
 import { Icon } from '@/branches/shared/components/common/Icon'
 import type { InfoBoxBlock } from '@/payload-types'
 
+/**
+ * InfoBox Component - 100% Theme Variable Compliant
+ *
+ * Uses CSS variables from ThemeProvider for all colors:
+ * - Success: var(--color-success), var(--color-success-light), var(--color-success-dark)
+ * - Warning: var(--color-warning), var(--color-warning-light), var(--color-warning-dark)
+ * - Error: var(--color-error), var(--color-error-light), var(--color-error-dark)
+ * - Info: var(--color-info), var(--color-info-light), var(--color-info-dark)
+ *
+ * All colors are now CMS-driven via the Theme global.
+ */
 export const InfoBoxComponent: React.FC<InfoBoxBlock> = ({ type = 'info', icon, title, content }) => {
-  // Determine colors based on type
-  const getColors = () => {
+  // Map type to Tailwind utility classes that use theme variables
+  const getVariantClasses = () => {
     switch (type) {
       case 'warning':
         return {
-          background: '#FFF8E1', // amber-light
-          border: 'rgba(245, 158, 11, 0.2)', // amber
-          iconBg: 'white',
-          iconColor: '#F59E0B', // amber
+          container: 'bg-warning-light border-warning',
+          iconBg: 'bg-surface', // white background
+          iconColor: 'text-warning',
         }
       case 'success':
         return {
-          background: '#E8F5E9', // green-light
-          border: 'rgba(0, 200, 83, 0.2)', // green
-          iconBg: 'white',
-          iconColor: '#00C853', // green
+          container: 'bg-success-light border-success',
+          iconBg: 'bg-surface',
+          iconColor: 'text-success',
         }
       case 'danger':
         return {
-          background: '#FFF0F0', // coral-light
-          border: 'rgba(255, 107, 107, 0.2)', // coral
-          iconBg: 'white',
-          iconColor: '#FF6B6B', // coral
+          container: 'bg-error-light border-error',
+          iconBg: 'bg-surface',
+          iconColor: 'text-error',
         }
       default: // info
         return {
-          background: 'rgba(0, 137, 123, 0.12)', // teal-glow
-          border: 'rgba(0, 137, 123, 0.15)', // teal
-          iconBg: 'white',
-          iconColor: '#00897B', // teal
+          container: 'bg-info-light border-info',
+          iconBg: 'bg-surface',
+          iconColor: 'text-info',
         }
     }
   }
 
-  const colors = getColors()
+  const classes = getVariantClasses()
 
   return (
     <div
-      style={{
-        background: colors.background,
-        border: `1px solid ${colors.border}`,
-        borderRadius: '14px',
-        padding: '20px 24px',
-        margin: '24px 0',
-        display: 'flex',
-        gap: '14px',
-      }}
+      className={`
+        ${classes.container}
+        border
+        rounded-xl
+        p-5 sm:p-6
+        my-6
+        flex gap-4
+      `}
     >
       {/* Icon */}
       <div
-        style={{
-          width: '36px',
-          height: '36px',
-          background: colors.iconBg,
-          borderRadius: '10px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-        }}
+        className={`
+          ${classes.iconBg}
+          w-9 h-9
+          rounded-lg
+          flex items-center justify-center
+          flex-shrink-0
+        `}
       >
-        <Icon name={icon || 'Lightbulb'} size={18} style={{ color: colors.iconColor }} />
+        <Icon
+          name={icon || 'Lightbulb'}
+          size={18}
+          className={classes.iconColor}
+        />
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1 }}>
+      <div className="flex-1 min-w-0">
         {title && (
-          <div
-            style={{
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontSize: '14px',
-              fontWeight: 800,
-              color: '#0A1628', // navy
-              marginBottom: '4px',
-            }}
-          >
+          <div className="font-bold text-sm text-primary-text mb-1">
             {title}
           </div>
         )}
-        <div
-          style={{
-            fontSize: '14px',
-            color: '#64748B', // grey-dark
-            lineHeight: 1.6,
-          }}
-        >
+        <div className="text-sm text-secondary-text leading-relaxed">
           {content}
         </div>
       </div>

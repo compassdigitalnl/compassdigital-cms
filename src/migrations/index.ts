@@ -3,6 +3,7 @@ import * as migration_20260221_215821_sprint1_with_variable_products from './202
 import * as migration_20260222_215225_add_ab_testing_collections from './20260222_215225_add_ab_testing_collections';
 import * as migration_20260222_215445_update_settings_ecommerce_fields from './20260222_215445_update_settings_ecommerce_fields';
 import * as migration_20260222_233500_fix_blogposts_duplicate_meta from './20260222_233500_fix_blogposts_duplicate_meta';
+import * as migration_20260223_115055_add_theme_status_colors_and_gradients from './20260223_115055_add_theme_status_colors_and_gradients';
 
 export const migrations = [
   {
@@ -29,5 +30,10 @@ export const migrations = [
     up: migration_20260222_233500_fix_blogposts_duplicate_meta.up,
     down: migration_20260222_233500_fix_blogposts_duplicate_meta.down,
     name: '20260222_233500_fix_blogposts_duplicate_meta',
+  },
+  {
+    up: migration_20260223_115055_add_theme_status_colors_and_gradients.up,
+    down: migration_20260223_115055_add_theme_status_colors_and_gradients.down,
+    name: '20260223_115055_add_theme_status_colors_and_gradients'
   },
 ];

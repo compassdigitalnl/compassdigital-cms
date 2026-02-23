@@ -190,6 +190,234 @@ export const Theme: GlobalConfig = {
           ],
         },
 
+        // STATUS COLORS TAB
+        {
+          label: 'Status Colors',
+          description:
+            'Status colors are used for alerts, notifications, badges, and form states. These colors are critical for user feedback and accessibility.',
+          fields: [
+            // SUCCESS
+            {
+              type: 'collapsible',
+              label: 'Success Colors',
+              admin: {
+                initCollapsed: false,
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'successColor',
+                      type: 'text',
+                      label: 'Success (Default)',
+                      defaultValue: '#00C853',
+                      admin: {
+                        description: 'Main success color (green)',
+                        placeholder: '#00C853',
+                      },
+                    },
+                    {
+                      name: 'successLight',
+                      type: 'text',
+                      label: 'Success Light',
+                      defaultValue: '#E8F5E9',
+                      admin: {
+                        description: 'Light background for success messages',
+                        placeholder: '#E8F5E9',
+                      },
+                    },
+                    {
+                      name: 'successDark',
+                      type: 'text',
+                      label: 'Success Dark',
+                      defaultValue: '#1B5E20',
+                      admin: {
+                        description: 'Dark text for success messages',
+                        placeholder: '#1B5E20',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            // WARNING
+            {
+              type: 'collapsible',
+              label: 'Warning Colors',
+              admin: {
+                initCollapsed: false,
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'warningColor',
+                      type: 'text',
+                      label: 'Warning (Default)',
+                      defaultValue: '#F59E0B',
+                      admin: {
+                        description: 'Main warning color (amber/orange)',
+                        placeholder: '#F59E0B',
+                      },
+                    },
+                    {
+                      name: 'warningLight',
+                      type: 'text',
+                      label: 'Warning Light',
+                      defaultValue: '#FFF8E1',
+                      admin: {
+                        description: 'Light background for warning messages',
+                        placeholder: '#FFF8E1',
+                      },
+                    },
+                    {
+                      name: 'warningDark',
+                      type: 'text',
+                      label: 'Warning Dark',
+                      defaultValue: '#92400E',
+                      admin: {
+                        description: 'Dark text for warning messages',
+                        placeholder: '#92400E',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            // ERROR
+            {
+              type: 'collapsible',
+              label: 'Error Colors',
+              admin: {
+                initCollapsed: false,
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'errorColor',
+                      type: 'text',
+                      label: 'Error (Default)',
+                      defaultValue: '#EF4444',
+                      admin: {
+                        description: 'Main error color (red)',
+                        placeholder: '#EF4444',
+                      },
+                    },
+                    {
+                      name: 'errorLight',
+                      type: 'text',
+                      label: 'Error Light',
+                      defaultValue: '#FFF0F0',
+                      admin: {
+                        description: 'Light background for error messages',
+                        placeholder: '#FFF0F0',
+                      },
+                    },
+                    {
+                      name: 'errorDark',
+                      type: 'text',
+                      label: 'Error Dark',
+                      defaultValue: '#991B1B',
+                      admin: {
+                        description: 'Dark text for error messages',
+                        placeholder: '#991B1B',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            // INFO
+            {
+              type: 'collapsible',
+              label: 'Info Colors',
+              admin: {
+                initCollapsed: false,
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'infoColor',
+                      type: 'text',
+                      label: 'Info (Default)',
+                      defaultValue: '#00897B',
+                      admin: {
+                        description: 'Main info color (teal)',
+                        placeholder: '#00897B',
+                      },
+                    },
+                    {
+                      name: 'infoLight',
+                      type: 'text',
+                      label: 'Info Light',
+                      defaultValue: 'rgba(0,137,123,0.12)',
+                      admin: {
+                        description: 'Light background for info messages',
+                        placeholder: 'rgba(0,137,123,0.12)',
+                      },
+                    },
+                    {
+                      name: 'infoDark',
+                      type: 'text',
+                      label: 'Info Dark',
+                      defaultValue: '#004D40',
+                      admin: {
+                        description: 'Dark text for info messages',
+                        placeholder: '#004D40',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+
+        // GRADIENTS TAB
+        {
+          label: 'Gradients',
+          description:
+            'Gradients are used for hero sections, buttons, and accent elements. Use CSS gradient syntax: linear-gradient(135deg, #color1 0%, #color2 100%)',
+          fields: [
+            {
+              name: 'primaryGradient',
+              type: 'text',
+              label: 'Primary Gradient',
+              defaultValue: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
+              admin: {
+                description: 'Main gradient (buttons, CTAs)',
+                placeholder: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
+              },
+            },
+            {
+              name: 'secondaryGradient',
+              type: 'text',
+              label: 'Secondary Gradient',
+              defaultValue: 'linear-gradient(135deg, #0A1628 0%, #1a2847 100%)',
+              admin: {
+                description: 'Secondary gradient (dark sections)',
+                placeholder: 'linear-gradient(135deg, #0A1628 0%, #1a2847 100%)',
+              },
+            },
+            {
+              name: 'heroGradient',
+              type: 'text',
+              label: 'Hero Gradient',
+              defaultValue: 'linear-gradient(135deg, rgba(0,137,123,0.1) 0%, rgba(38,166,154,0.1) 100%)',
+              admin: {
+                description: 'Hero section overlay gradient',
+                placeholder: 'linear-gradient(135deg, rgba(0,137,123,0.1) 0%, rgba(38,166,154,0.1) 100%)',
+              },
+            },
+          ],
+        },
+
         // TYPOGRAPHY TAB
         {
           label: 'Typography',

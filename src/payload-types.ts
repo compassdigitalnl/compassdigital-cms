@@ -9272,6 +9272,66 @@ export interface Theme {
    */
   textMuted?: string | null;
   /**
+   * Main success color (green)
+   */
+  successColor?: string | null;
+  /**
+   * Light background for success messages
+   */
+  successLight?: string | null;
+  /**
+   * Dark text for success messages
+   */
+  successDark?: string | null;
+  /**
+   * Main warning color (amber/orange)
+   */
+  warningColor?: string | null;
+  /**
+   * Light background for warning messages
+   */
+  warningLight?: string | null;
+  /**
+   * Dark text for warning messages
+   */
+  warningDark?: string | null;
+  /**
+   * Main error color (red)
+   */
+  errorColor?: string | null;
+  /**
+   * Light background for error messages
+   */
+  errorLight?: string | null;
+  /**
+   * Dark text for error messages
+   */
+  errorDark?: string | null;
+  /**
+   * Main info color (teal)
+   */
+  infoColor?: string | null;
+  /**
+   * Light background for info messages
+   */
+  infoLight?: string | null;
+  /**
+   * Dark text for info messages
+   */
+  infoDark?: string | null;
+  /**
+   * Main gradient (buttons, CTAs)
+   */
+  primaryGradient?: string | null;
+  /**
+   * Secondary gradient (dark sections)
+   */
+  secondaryGradient?: string | null;
+  /**
+   * Hero section overlay gradient
+   */
+  heroGradient?: string | null;
+  /**
    * Font for headings (h1, h2, etc.)
    */
   headingFont?: string | null;
@@ -10155,6 +10215,21 @@ export interface ThemeSelect<T extends boolean = true> {
   textPrimary?: T;
   textSecondary?: T;
   textMuted?: T;
+  successColor?: T;
+  successLight?: T;
+  successDark?: T;
+  warningColor?: T;
+  warningLight?: T;
+  warningDark?: T;
+  errorColor?: T;
+  errorLight?: T;
+  errorDark?: T;
+  infoColor?: T;
+  infoLight?: T;
+  infoDark?: T;
+  primaryGradient?: T;
+  secondaryGradient?: T;
+  heroGradient?: T;
   headingFont?: T;
   bodyFont?: T;
   fontScale?: T;
