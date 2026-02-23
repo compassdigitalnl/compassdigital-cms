@@ -7,6 +7,7 @@ import { useToast } from '@/branches/shared/components/ui/Toast'
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
+import { RichText } from '@/branches/shared/components/common/RichText'
 import { features } from '@/lib/features'
 import type { Product } from '@/payload-types'
 import {
@@ -774,8 +775,9 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                         color: 'var(--color-text-secondary)',
                         marginBottom: '16px',
                       }}
-                      dangerouslySetInnerHTML={{ __html: product.description }}
-                    />
+                    >
+                      <RichText data={product.description} enableProse={true} />
+                    </div>
                   )}
                   {product.features && product.features.length > 0 && (
                     <div>
@@ -1676,8 +1678,9 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     color: 'var(--color-text-secondary)',
                     marginBottom: '32px',
                   }}
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
+                >
+                  <RichText data={product.description} enableProse={true} />
+                </div>
               )}
 
               {product.features && product.features.length > 0 && (

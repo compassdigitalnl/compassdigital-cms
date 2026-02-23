@@ -7,6 +7,7 @@ import { useToast } from '@/branches/shared/components/ui/Toast'
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
+import { RichText } from '@/branches/shared/components/common/RichText'
 import { features } from '@/lib/features'
 import type { Product } from '@/payload-types'
 import {
@@ -772,8 +773,13 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     color: 'var(--color-text-secondary)',
                     paddingBottom: '16px',
                   }}
-                  dangerouslySetInnerHTML={{ __html: product.description || '<p>No description available.</p>' }}
-                />
+                >
+                  {product.description ? (
+                    <RichText data={product.description} enableProse={true} />
+                  ) : (
+                    <p>No description available.</p>
+                  )}
+                </div>
               )}
             </div>
 
@@ -1665,8 +1671,13 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   lineHeight: 1.9,
                   color: 'var(--color-text-secondary)',
                 }}
-                dangerouslySetInnerHTML={{ __html: product.description || '<p>No description available.</p>' }}
-              />
+              >
+                {product.description ? (
+                  <RichText data={product.description} enableProse={true} />
+                ) : (
+                  <p>No description available.</p>
+                )}
+              </div>
             )}
 
             {activeTab === 'details' && (

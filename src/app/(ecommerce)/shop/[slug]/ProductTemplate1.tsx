@@ -8,6 +8,7 @@ import { StaffelCalculator } from '@/branches/shared/components/ui/StaffelCalcul
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
+import { RichText } from '@/branches/shared/components/common/RichText'
 import { features } from '@/lib/features'
 import type { Product } from '@/payload-types'
 import {
@@ -1105,7 +1106,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {accordionOpen === 'description' && (
               <div className="px-4 pb-4 border-t border-t-[var(--color-border)] text-sm leading-[1.7] text-[var(--color-text-secondary)]">
                 {product.description ? (
-                  <div dangerouslySetInnerHTML={{ __html: product.description }} />
+                  <RichText data={product.description} enableProse={true} />
                 ) : (
                   <p>Geen beschrijving beschikbaar.</p>
                 )}
@@ -1329,10 +1330,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                         <Info className="w-5 h-5 text-[var(--color-primary)]" />
                         Over dit product
                       </h3>
-                      <div
-                        className="text-[15px] text-[var(--color-text-secondary)] leading-[1.7] mb-4"
-                        dangerouslySetInnerHTML={{ __html: product.description }}
-                      />
+                      <div className="text-[15px] text-[var(--color-text-secondary)] leading-[1.7] mb-4">
+                        <RichText data={product.description} enableProse={true} />
+                      </div>
                     </>
                   )}
 
