@@ -31,12 +31,12 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
   // Render title with accent
   const renderTitle = () => {
     if (!titleAccent || !title?.includes(titleAccent)) {
-      return <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">{title}</h1>
+      return <h1 className="text-white text-5xl md:text-6xl font-extrabold mb-6 leading-tight">{title}</h1>
     }
 
     const parts = title.split(titleAccent)
     return (
-      <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+      <h1 className="text-white text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
         {parts[0]}
         <span className="bg-gradient-primary bg-clip-text text-transparent">
           {titleAccent}
@@ -145,8 +145,8 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
       >
         <div className="container mx-auto max-w-4xl text-center text-white">
           {sectionLabel && <SectionLabel label={sectionLabel} className="text-white/80" />}
-          <h1 className="text-5xl font-bold mb-6">{title}</h1>
-          {subtitle && <p className="text-xl mb-8">{subtitle}</p>}
+          <h1 className="text-white text-5xl font-bold mb-6">{title}</h1>
+          {subtitle && <p className="text-white/90 text-xl mb-8">{subtitle}</p>}
 
           <div className="flex gap-4 justify-center">
             {primaryCTA?.text && (

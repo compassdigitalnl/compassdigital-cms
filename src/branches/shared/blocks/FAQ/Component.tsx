@@ -39,10 +39,10 @@ export const FAQBlockComponent: React.FC<FAQBlock> = ({ heading, intro, source, 
           {faqData?.map((item, index) => (
             <details
               key={index}
-              className="faq-item border border-primary hover:border-secondary hover:bg-secondary/5 rounded-lg p-6 hover:shadow-md transition-all duration-300 group"
+              className="faq-item border border-primary hover:border-secondary hover:bg-secondary/5 rounded-lg p-6 hover:shadow-md transition-all duration-300 group outline-none"
             >
               <summary
-                className="font-semibold text-lg text-primary cursor-pointer flex items-center justify-between"
+                className="font-semibold text-lg text-primary cursor-pointer flex items-center justify-between outline-none"
               >
                 <span className="pr-4">{item.question}</span>
                 <svg

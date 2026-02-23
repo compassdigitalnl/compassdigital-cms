@@ -31,7 +31,7 @@ export const CTABlockComponent: React.FC<CTABlock> = ({
 
             {/* Content */}
             <div className="relative z-10 text-center text-white">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
+              <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
                 {title}
               </h2>
               {text && <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">{text}</p>}
@@ -71,8 +71,8 @@ export const CTABlockComponent: React.FC<CTABlock> = ({
       className="cta py-20 px-4 bg-primary text-white"
     >
       <div className="container mx-auto max-w-3xl text-center">
-        <h2 className="text-4xl font-bold mb-4">{title}</h2>
-        {text && <p className="text-xl mb-8">{text}</p>}
+        <h2 className="text-white text-4xl font-bold mb-4">{title}</h2>
+        {text && <p className="text-white/90 text-xl mb-8">{text}</p>}
 
         <div className="flex flex-wrap gap-4 justify-center">
           <a
@@ -85,7 +85,7 @@ export const CTABlockComponent: React.FC<CTABlock> = ({
           {secondaryButtonText && (
             <a
               href={secondaryButtonLink || '#'}
-              className="btn px-8 py-4 bg-transparent border-2 border-white rounded-lg font-semibold inline-block transition-all duration-300 hover:bg-white/10"
+              className="btn px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-semibold inline-block transition-all duration-300 hover:bg-white/10"
             >
               {secondaryButtonText}
             </a>
