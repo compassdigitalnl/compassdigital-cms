@@ -16,7 +16,7 @@ export const Theme: GlobalConfig = {
   label: 'Theme & Design System',
   admin: {
     group: 'Ontwerp',
-    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
+    hidden: !isClientDeployment(),
     description:
       'Compass Design System — 54 design tokens across 5 categories (Colors, Typography, Spacing, Gradients, Visual)',
   },

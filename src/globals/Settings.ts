@@ -9,7 +9,7 @@ export const Settings: GlobalConfig = {
   admin: {
     group: 'Instellingen',
     description: 'Alle website en webshop instellingen op één plek',
-    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
+    hidden: !isClientDeployment(),
   },
   access: {
     read: () => true,

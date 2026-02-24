@@ -9,7 +9,7 @@ export const Header: GlobalConfig = {
   admin: {
     group: 'Ontwerp',
     description: 'Alle header-gerelateerde instellingen: TopBar, AlertBar, Navigatie, Branding',
-    hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)),
+    hidden: !isClientDeployment(),
   },
   access: {
     read: () => true,
