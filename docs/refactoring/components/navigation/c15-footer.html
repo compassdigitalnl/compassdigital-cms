@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C15-Footer - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --green: #00C853;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      max-width: 1200px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    /* === C15: Site Footer === */
+    .site-footer {
+      background: var(--navy);
+      border-radius: 20px;
+      overflow: hidden;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Top Section: Brand + Navigation Columns */
+    .sf-top {
+      padding: 48px 40px 32px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 36px;
+    }
+
+    /* Brand Column */
+    .sf-brand .sf-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .sf-brand .sf-logo em {
+      color: var(--teal-light);
+      font-style: normal;
+    }
+
+    .sf-brand p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .sf-socials {
+      display: flex;
+      gap: 6px;
+    }
+
+    .sf-social {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .sf-social:hover {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .sf-social i {
+      width: 16px;
+      height: 16px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .sf-social:hover i {
+      color: white;
+    }
+
+    /* Navigation Columns */
+    .sf-col h4 {
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .sf-links {
+      list-style: none;
+    }
+
+    .sf-links li {
+      margin-bottom: 8px;
+    }
+
+    .sf-links a {
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.12s;
+    }
+
+    .sf-links a:hover {
+      color: var(--teal-light);
+    }
+
+    .sf-links a i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Contact Items */
+    .sf-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .sf-contact-item i {
+      width: 15px;
+      height: 15px;
+      color: var(--teal-light);
+    }
+
+    /* Middle Section: Trust Badges */
+    .sf-mid {
+      padding: 20px 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .sf-trust {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .sf-trust i {
+      width: 14px;
+      height: 14px;
+      color: var(--green);
+    }
+
+    /* Bottom Section: Copyright + Legal */
+    .sf-bottom {
+      padding: 16px 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .sf-legal {
+      display: flex;
+      gap: 16px;
+    }
+
+    .sf-legal a {
+      color: rgba(255, 255, 255, 0.3);
+      text-decoration: none;
+      transition: color 0.12s;
+    }
+
+    .sf-legal a:hover {
+      color: var(--teal-light);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 900px) {
+      .sf-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sf-top {
+        grid-template-columns: 1fr;
+        padding: 32px 24px 24px;
+        gap: 24px;
+      }
+
+      .sf-mid {
+        padding: 16px 24px;
+        gap: 16px;
+      }
+
+      .sf-bottom {
+        padding: 16px 24px;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .sf-legal {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    /* === Documentation Styles === */
+    .doc-container {
+      max-width: 900px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 48px;
+    }
+
+    .doc-container h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .doc-container .subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 32px;
+    }
+
+    .doc-container h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-container h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-container p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .doc-container ul, .doc-container ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-container li {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .doc-container code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-container pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .doc-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .doc-container th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-container td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .info-box {
+      background: var(--teal-glow);
+      border-left: 3px solid var(--teal);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin-bottom: 0;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === LIVE DEMO === -->
+  <div class="demo-section">
+    <h2>Live Demo</h2>
+
+    <div class="site-footer">
+      <!-- Top Section: Brand + Columns -->
+      <div class="sf-top">
+        <!-- Brand Column -->
+        <div class="sf-brand">
+          <div class="sf-logo">compass</div>
+          <p>Sinds 1994 leverancier van professionele medische disposables, diagnostiek en praktijkbenodigdheden voor de zorgprofessional.</p>
+          <div class="sf-socials">
+            <div class="sf-social" title="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </div>
+            <div class="sf-social" title="Instagram">
+              <i data-lucide="instagram"></i>
+            </div>
+            <div class="sf-social" title="Facebook">
+              <i data-lucide="facebook"></i>
+            </div>
+            <div class="sf-social" title="YouTube">
+              <i data-lucide="youtube"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories Column -->
+        <div class="sf-col">
+          <h4>Categorieën</h4>
+          <ul class="sf-links">
+            <li><a href="#">Handschoenen</a></li>
+            <li><a href="#">Diagnostiek</a></li>
+            <li><a href="#">Verbandmiddelen</a></li>
+            <li><a href="#">Injectiemateriaal</a></li>
+            <li><a href="#">Desinfectie</a></li>
+            <li><a href="#"><strong>Alle categorieën</strong> <i data-lucide="arrow-right"></i></a></li>
+          </ul>
+        </div>
+
+        <!-- Service Column -->
+        <div class="sf-col">
+          <h4>Klantenservice</h4>
+          <ul class="sf-links">
+            <li><a href="#">Veelgestelde vragen</a></li>
+            <li><a href="#">Verzending & retour</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Offerte aanvragen</a></li>
+            <li><a href="#">Klant worden</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Column -->
+        <div class="sf-col">
+          <h4>Contact</h4>
+          <div class="sf-contact-item">
+            <i data-lucide="phone"></i>
+            <span>0251‑247233</span>
+          </div>
+          <div class="sf-contact-item">
+            <i data-lucide="mail"></i>
+            <span>info@compass.nl</span>
+          </div>
+          <div class="sf-contact-item">
+            <i data-lucide="map-pin"></i>
+            <span>Parallelweg 124, Beverwijk</span>
+          </div>
+          <div class="sf-contact-item">
+            <i data-lucide="clock"></i>
+            <span>Ma-Vr 08:30-17:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle Section: Trust Badges -->
+      <div class="sf-mid">
+        <div class="sf-trust">
+          <i data-lucide="check"></i>
+          <span>ISO 13485 gecertificeerd</span>
+        </div>
+        <div class="sf-trust">
+          <i data-lucide="check"></i>
+          <span>Alle producten CE-gemarkeerd</span>
+        </div>
+        <div class="sf-trust">
+          <i data-lucide="check"></i>
+          <span>AVG/GDPR compliant</span>
+        </div>
+        <div class="sf-trust">
+          <i data-lucide="check"></i>
+          <span>Veilig betalen via iDEAL</span>
+        </div>
+        <div class="sf-trust">
+          <i data-lucide="check"></i>
+          <span>Verzending door PostNL</span>
+        </div>
+      </div>
+
+      <!-- Bottom Section: Copyright + Legal -->
+      <div class="sf-bottom">
+        <span>© 2026 Compass B.V. — Alle rechten voorbehouden</span>
+        <div class="sf-legal">
+          <a href="#">Algemene voorwaarden</a>
+          <a href="#">Privacybeleid</a>
+          <a href="#">Cookiebeleid</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === DOCUMENTATION === -->
+  <div class="doc-container">
+    <h1>C15-Footer</h1>
+    <p class="subtitle">Complete site footer with branding, navigation columns, contact info, trust badges, and legal links</p>
+
+    <!-- STEP 1 -->
+    <h2>STEP 1: Component Overview</h2>
+    <p><strong>C15-Footer</strong> is the site-wide footer component that appears at the bottom of every page. It provides comprehensive navigation, contact information, trust signals, and legal compliance links in a structured 3-section layout.</p>
+
+    <p><strong>Key features:</strong></p>
+    <ul>
+      <li><strong>3-section structure:</strong> Top (brand + nav), middle (trust badges), bottom (copyright + legal)</li>
+      <li><strong>4-column grid:</strong> Brand (1.5fr) + 3 navigation columns (1fr each)</li>
+      <li><strong>Navy background:</strong> Consistent with C14-Topbar and dark sections</li>
+      <li><strong>Teal accents:</strong> Logo highlight, social icons hover, link hover states</li>
+      <li><strong>Trust signals:</strong> Certifications, payment methods, shipping info with green checkmarks</li>
+      <li><strong>Fully responsive:</strong> 4-col → 2-col → 1-col on mobile</li>
+      <li><strong>20px border radius:</strong> Rounded corners for modern card-like appearance</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Foundation component:</strong> The footer is one of the two anchor components (with C14-MegaNavigation) that appear on every page and define the site's visual identity.</p>
+    </div>
+
+    <!-- STEP 2 -->
+    <h2>STEP 2: When to Use</h2>
+    <p>Use C15-Footer when:</p>
+    <ul>
+      <li>Building the main site layout (appears on every page)</li>
+      <li>You need comprehensive site navigation in the footer</li>
+      <li>You want to display trust signals and certifications</li>
+      <li>You need prominent contact information</li>
+      <li>Legal compliance links must be accessible (GDPR, terms, privacy)</li>
+      <li>Social media links should be available site-wide</li>
+    </ul>
+
+    <p><strong>Don't use when:</strong></p>
+    <ul>
+      <li>Building a minimal landing page (use simplified footer instead)</li>
+      <li>Creating checkout/payment flows (use simplified footer to reduce distractions)</li>
+      <li>Building a single-page application without traditional page structure</li>
+    </ul>
+
+    <!-- STEP 3 -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Layout</h3>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td>Top grid</td>
+        <td>1.5fr 1fr 1fr 1fr</td>
+        <td>Brand column wider than nav columns</td>
+      </tr>
+      <tr>
+        <td>Gap</td>
+        <td>36px (top), 24px (mid), 16px (legal)</td>
+        <td>Column spacing decreases per section</td>
+      </tr>
+      <tr>
+        <td>Border radius</td>
+        <td>20px</td>
+        <td>Rounded corners for card appearance</td>
+      </tr>
+      <tr>
+        <td>Padding (top)</td>
+        <td>48px 40px 32px</td>
+        <td>Vertical, horizontal, bottom</td>
+      </tr>
+      <tr>
+        <td>Padding (mid)</td>
+        <td>20px 40px</td>
+        <td>Trust badges section</td>
+      </tr>
+      <tr>
+        <td>Padding (bottom)</td>
+        <td>16px 40px</td>
+        <td>Copyright section</td>
+      </tr>
+    </table>
+
+    <h3>Colors</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Color</th>
+        <th>Token</th>
+      </tr>
+      <tr>
+        <td>Background</td>
+        <td>#0A1628</td>
+        <td>--navy</td>
+      </tr>
+      <tr>
+        <td>Logo brand color</td>
+        <td>#26A69A</td>
+        <td>--teal-light</td>
+      </tr>
+      <tr>
+        <td>Headings (h4)</td>
+        <td>#FFFFFF</td>
+        <td>white</td>
+      </tr>
+      <tr>
+        <td>Body text</td>
+        <td>rgba(255,255,255,0.5)</td>
+        <td>white 50% opacity</td>
+      </tr>
+      <tr>
+        <td>Links default</td>
+        <td>rgba(255,255,255,0.4)</td>
+        <td>white 40% opacity</td>
+      </tr>
+      <tr>
+        <td>Links hover</td>
+        <td>#26A69A</td>
+        <td>--teal-light</td>
+      </tr>
+      <tr>
+        <td>Contact icons</td>
+        <td>#26A69A</td>
+        <td>--teal-light</td>
+      </tr>
+      <tr>
+        <td>Trust checkmarks</td>
+        <td>#00C853</td>
+        <td>--green</td>
+      </tr>
+      <tr>
+        <td>Social icons bg</td>
+        <td>rgba(255,255,255,0.06)</td>
+        <td>white 6% opacity</td>
+      </tr>
+      <tr>
+        <td>Social icons hover</td>
+        <td>#00897B</td>
+        <td>--teal</td>
+      </tr>
+      <tr>
+        <td>Divider borders</td>
+        <td>rgba(255,255,255,0.06)</td>
+        <td>white 6% opacity</td>
+      </tr>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Size</th>
+        <th>Weight</th>
+        <th>Color</th>
+      </tr>
+      <tr>
+        <td>Logo</td>
+        <td>22px</td>
+        <td>800</td>
+        <td>white + teal-light accent</td>
+      </tr>
+      <tr>
+        <td>Brand tagline</td>
+        <td>14px</td>
+        <td>400</td>
+        <td>rgba(255,255,255,0.5)</td>
+      </tr>
+      <tr>
+        <td>Column headings (h4)</td>
+        <td>14px</td>
+        <td>800</td>
+        <td>white</td>
+      </tr>
+      <tr>
+        <td>Navigation links</td>
+        <td>14px</td>
+        <td>400</td>
+        <td>rgba(255,255,255,0.4)</td>
+      </tr>
+      <tr>
+        <td>Contact items</td>
+        <td>14px</td>
+        <td>400</td>
+        <td>rgba(255,255,255,0.5)</td>
+      </tr>
+      <tr>
+        <td>Trust badges</td>
+        <td>12px</td>
+        <td>600</td>
+        <td>rgba(255,255,255,0.4)</td>
+      </tr>
+      <tr>
+        <td>Copyright text</td>
+        <td>12px</td>
+        <td>400</td>
+        <td>rgba(255,255,255,0.5)</td>
+      </tr>
+      <tr>
+        <td>Legal links</td>
+        <td>12px</td>
+        <td>400</td>
+        <td>rgba(255,255,255,0.3)</td>
+      </tr>
+    </table>
+
+    <h3>Icons</h3>
+    <table>
+      <tr>
+        <th>Context</th>
+        <th>Size</th>
+        <th>Color</th>
+      </tr>
+      <tr>
+        <td>Social icons</td>
+        <td>16px</td>
+        <td>rgba(255,255,255,0.5) → white on hover</td>
+      </tr>
+      <tr>
+        <td>Contact icons</td>
+        <td>15px</td>
+        <td>teal-light</td>
+      </tr>
+      <tr>
+        <td>Trust checkmarks</td>
+        <td>14px</td>
+        <td>green</td>
+      </tr>
+      <tr>
+        <td>Link arrows</td>
+        <td>14px</td>
+        <td>Inherits from link</td>
+      </tr>
+    </table>
+
+    <!-- STEP 4 -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>HTML Structure</h3>
+    <pre>&lt;div class="site-footer"&gt;
+  &lt;!-- Top Section: Brand + Navigation --&gt;
+  &lt;div class="sf-top"&gt;
+    &lt;!-- Brand Column (1.5fr) --&gt;
+    &lt;div class="sf-brand"&gt;
+      &lt;div class="sf-logo"&gt;compass&lt;/div&gt;
+      &lt;p&gt;Tagline/description...&lt;/p&gt;
+      &lt;div class="sf-socials"&gt;
+        &lt;div class="sf-social"&gt;&lt;i data-lucide="linkedin"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;!-- More socials --&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Navigation Column (1fr) --&gt;
+    &lt;div class="sf-col"&gt;
+      &lt;h4&gt;Categorieën&lt;/h4&gt;
+      &lt;ul class="sf-links"&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Link text&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Service Column (1fr) --&gt;
+    &lt;div class="sf-col"&gt;
+      &lt;h4&gt;Klantenservice&lt;/h4&gt;
+      &lt;ul class="sf-links"&gt;...&lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Contact Column (1fr) --&gt;
+    &lt;div class="sf-col"&gt;
+      &lt;h4&gt;Contact&lt;/h4&gt;
+      &lt;div class="sf-contact-item"&gt;
+        &lt;i data-lucide="phone"&gt;&lt;/i&gt;
+        &lt;span&gt;Phone number&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Middle Section: Trust Badges --&gt;
+  &lt;div class="sf-mid"&gt;
+    &lt;div class="sf-trust"&gt;
+      &lt;i data-lucide="check"&gt;&lt;/i&gt;
+      &lt;span&gt;Trust signal text&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Bottom Section: Copyright + Legal --&gt;
+  &lt;div class="sf-bottom"&gt;
+    &lt;span&gt;© 2026 Company Name&lt;/span&gt;
+    &lt;div class="sf-legal"&gt;
+      &lt;a href="#"&gt;Legal link&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>CSS Classes</h3>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><code>.site-footer</code></td>
+        <td>Main container, navy bg, 20px radius</td>
+      </tr>
+      <tr>
+        <td><code>.sf-top</code></td>
+        <td>Top section, 4-column grid</td>
+      </tr>
+      <tr>
+        <td><code>.sf-brand</code></td>
+        <td>Brand column (logo, tagline, socials)</td>
+      </tr>
+      <tr>
+        <td><code>.sf-logo</code></td>
+        <td>Logo text with teal accent on &lt;em&gt;</td>
+      </tr>
+      <tr>
+        <td><code>.sf-socials</code></td>
+        <td>Social icons container (flex, gap 6px)</td>
+      </tr>
+      <tr>
+        <td><code>.sf-social</code></td>
+        <td>Individual social icon button (36x36px)</td>
+      </tr>
+      <tr>
+        <td><code>.sf-col</code></td>
+        <td>Navigation/contact column</td>
+      </tr>
+      <tr>
+        <td><code>.sf-links</code></td>
+        <td>Unordered list of links</td>
+      </tr>
+      <tr>
+        <td><code>.sf-contact-item</code></td>
+        <td>Contact info row (icon + text)</td>
+      </tr>
+      <tr>
+        <td><code>.sf-mid</code></td>
+        <td>Middle section (trust badges)</td>
+      </tr>
+      <tr>
+        <td><code>.sf-trust</code></td>
+        <td>Individual trust badge (checkmark + text)</td>
+      </tr>
+      <tr>
+        <td><code>.sf-bottom</code></td>
+        <td>Bottom section (copyright + legal)</td>
+      </tr>
+      <tr>
+        <td><code>.sf-legal</code></td>
+        <td>Legal links container (flex, gap 16px)</td>
+      </tr>
+    </table>
+
+    <!-- STEP 5 -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Grid Structure</h3>
+    <p>The footer uses a <strong>4-column grid</strong> in the top section:</p>
+    <ul>
+      <li><strong>Column 1 (Brand):</strong> 1.5fr — wider for logo, tagline, and social icons</li>
+      <li><strong>Column 2 (Categories):</strong> 1fr — product/category navigation</li>
+      <li><strong>Column 3 (Service):</strong> 1fr — customer service links</li>
+      <li><strong>Column 4 (Contact):</strong> 1fr — contact information</li>
+    </ul>
+
+    <h3>Responsive Breakpoints</h3>
+    <table>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Grid</th>
+        <th>Changes</th>
+      </tr>
+      <tr>
+        <td>&gt;900px</td>
+        <td>1.5fr 1fr 1fr 1fr</td>
+        <td>Desktop: full 4-column layout</td>
+      </tr>
+      <tr>
+        <td>640px - 900px</td>
+        <td>1fr 1fr</td>
+        <td>Tablet: 2 columns, brand spans first column</td>
+      </tr>
+      <tr>
+        <td>&lt;640px</td>
+        <td>1fr</td>
+        <td>Mobile: single column, reduced padding, stacked legal links</td>
+      </tr>
+    </table>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Top section padding:</strong> 48px top, 40px horizontal, 32px bottom</li>
+      <li><strong>Column gap:</strong> 36px (desktop), 32px (tablet), 24px (mobile)</li>
+      <li><strong>Mid section padding:</strong> 20px vertical, 40px horizontal</li>
+      <li><strong>Bottom section padding:</strong> 16px vertical, 40px horizontal</li>
+      <li><strong>Link spacing:</strong> 8px vertical margin between links</li>
+      <li><strong>Social icon gap:</strong> 6px between icons</li>
+    </ul>
+
+    <h3>Borders</h3>
+    <ul>
+      <li>Top border between sections: <code>1px solid rgba(255,255,255,0.06)</code></li>
+      <li>Very subtle, maintains visual hierarchy without harsh dividers</li>
+    </ul>
+
+    <!-- STEP 6 -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <pre>&lt;footer class="site-footer" role="contentinfo"&gt;
+  &lt;div class="sf-top"&gt;
+    &lt;nav class="sf-brand" aria-label="About and social media"&gt;
+      &lt;!-- Logo, tagline, socials --&gt;
+    &lt;/nav&gt;
+
+    &lt;nav class="sf-col" aria-label="Product categories"&gt;
+      &lt;h4&gt;Categorieën&lt;/h4&gt;
+      &lt;ul class="sf-links"&gt;...&lt;/ul&gt;
+    &lt;/nav&gt;
+
+    &lt;nav class="sf-col" aria-label="Customer service"&gt;
+      &lt;h4&gt;Klantenservice&lt;/h4&gt;
+      &lt;ul class="sf-links"&gt;...&lt;/ul&gt;
+    &lt;/nav&gt;
+
+    &lt;address class="sf-col"&gt;
+      &lt;h4&gt;Contact&lt;/h4&gt;
+      &lt;!-- Use &lt;address&gt; for contact info --&gt;
+    &lt;/address&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;</pre>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><code>role="contentinfo"</code> on <code>.site-footer</code></li>
+      <li><code>aria-label</code> on each navigation section to identify purpose</li>
+      <li><code>&lt;address&gt;</code> element for contact information</li>
+      <li><code>aria-label</code> on social icon buttons (e.g., "LinkedIn", "Instagram")</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li>All links and social icons are keyboard focusable</li>
+      <li>Focus ring visible on all interactive elements</li>
+      <li>Tab order follows visual hierarchy: brand → categories → service → contact → trust → legal</li>
+    </ul>
+
+    <h3>Focus Styling</h3>
+    <pre>.sf-links a:focus,
+.sf-social:focus,
+.sf-legal a:focus {
+  outline: 2px solid var(--teal-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}</pre>
+
+    <h3>Color Contrast</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Contrast Ratio</th>
+        <th>WCAG Level</th>
+      </tr>
+      <tr>
+        <td>Headings (white on navy)</td>
+        <td>15.8:1</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>Links (40% white on navy)</td>
+        <td>4.5:1</td>
+        <td>AA</td>
+      </tr>
+      <tr>
+        <td>Links hover (teal-light on navy)</td>
+        <td>6.2:1</td>
+        <td>AA</td>
+      </tr>
+      <tr>
+        <td>Trust badges (40% white on navy)</td>
+        <td>4.5:1</td>
+        <td>AA</td>
+      </tr>
+    </table>
+
+    <!-- STEP 7 -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Logo Accent Pattern</h3>
+    <p>The logo uses an <code>&lt;em&gt;</code> tag for the accent color:</p>
+    <pre>&lt;div class="sf-logo"&gt;compass&lt;em&gt;design&lt;/em&gt;&lt;/div&gt;
+/* Result: compass in white, design in teal-light */</pre>
+
+    <h3>Social Icons</h3>
+    <p>Social icons use a semi-transparent background with hover transition to teal:</p>
+    <ul>
+      <li><strong>Default:</strong> rgba(255,255,255,0.06) background + border</li>
+      <li><strong>Hover:</strong> Teal background, white icon</li>
+      <li><strong>Size:</strong> 36x36px square, 8px border radius</li>
+      <li><strong>Icon size:</strong> 16x16px</li>
+    </ul>
+
+    <h3>Link Styling</h3>
+    <p>All footer links follow this pattern:</p>
+    <pre>.sf-links a {
+  color: rgba(255,255,255,0.4);  /* Low opacity for hierarchy */
+  transition: color 0.12s;        /* Fast transition */
+}
+
+.sf-links a:hover {
+  color: var(--teal-light);       /* Teal accent on hover */
+}</pre>
+
+    <h3>Trust Badges Layout</h3>
+    <p>Trust badges use flexbox with wrapping for responsive behavior:</p>
+    <pre>.sf-mid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;  /* Wraps on narrow viewports */
+}</pre>
+
+    <h3>Responsive Strategy</h3>
+    <p><strong>Desktop (>900px):</strong></p>
+    <ul>
+      <li>4-column grid (1.5fr 1fr 1fr 1fr)</li>
+      <li>All content visible side-by-side</li>
+      <li>Legal links in single row</li>
+    </ul>
+
+    <p><strong>Tablet (640-900px):</strong></p>
+    <ul>
+      <li>2-column grid (1fr 1fr)</li>
+      <li>Brand column spans first position</li>
+      <li>Navigation columns wrap below</li>
+    </ul>
+
+    <p><strong>Mobile (<640px):</strong></p>
+    <ul>
+      <li>1-column stack</li>
+      <li>Reduced padding (32px 24px)</li>
+      <li>Legal links stack vertically with 8px gap</li>
+      <li>Copyright and legal center-aligned</li>
+    </ul>
+
+    <h3>Integration with Newsletter</h3>
+    <p>The footer often appears directly below C16-Newsletter component:</p>
+    <pre>&lt;!-- Newsletter above footer --&gt;
+&lt;div class="nl-banner"&gt;...&lt;/div&gt;
+
+&lt;!-- Footer below, add margin-top --&gt;
+&lt;footer class="site-footer" style="margin-top: 32px;"&gt;
+  ...
+&lt;/footer&gt;</pre>
+
+    <!-- STEP 8 -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variations</h3>
+
+    <h4>1. Minimal Footer (for checkout/landing pages)</h4>
+    <pre>&lt;div class="site-footer site-footer-minimal"&gt;
+  &lt;div class="sf-bottom"&gt;
+    &lt;span&gt;© 2026 Company Name&lt;/span&gt;
+    &lt;div class="sf-legal"&gt;
+      &lt;a href="#"&gt;Privacy&lt;/a&gt;
+      &lt;a href="#"&gt;Terms&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+/* CSS */
+.site-footer-minimal {
+  padding: 24px 40px;
+}
+.site-footer-minimal .sf-top,
+.site-footer-minimal .sf-mid {
+  display: none;
+}</pre>
+
+    <h4>2. Footer with Payment Methods</h4>
+    <p>Add payment icons to trust badges section:</p>
+    <pre>&lt;div class="sf-mid"&gt;
+  &lt;!-- Existing trust badges --&gt;
+  &lt;div class="sf-trust"&gt;...&lt;/div&gt;
+
+  &lt;!-- Payment methods --&gt;
+  &lt;div class="sf-payments"&gt;
+    &lt;span&gt;Betaalmethoden:&lt;/span&gt;
+    &lt;img src="ideal.svg" alt="iDEAL"&gt;
+    &lt;img src="visa.svg" alt="Visa"&gt;
+    &lt;img src="mastercard.svg" alt="Mastercard"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h4>3. Footer with App Downloads</h4>
+    <p>Add app store badges to brand column:</p>
+    <pre>&lt;div class="sf-brand"&gt;
+  &lt;div class="sf-logo"&gt;...&lt;/div&gt;
+  &lt;p&gt;...&lt;/p&gt;
+
+  &lt;div class="sf-apps"&gt;
+    &lt;a href="#"&gt;&lt;img src="app-store.svg" alt="Download on App Store"&gt;&lt;/a&gt;
+    &lt;a href="#"&gt;&lt;img src="play-store.svg" alt="Get it on Google Play"&gt;&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class="sf-socials"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h4>4. Multi-language Footer</h4>
+    <p>Add language selector to bottom section:</p>
+    <pre>&lt;div class="sf-bottom"&gt;
+  &lt;span&gt;© 2026 Company Name&lt;/span&gt;
+
+  &lt;div class="sf-bottom-center"&gt;
+    &lt;!-- Language selector --&gt;
+    &lt;div class="sf-lang"&gt;
+      &lt;button&gt;🇳🇱 Nederlands&lt;/button&gt;
+      &lt;button&gt;🇬🇧 English&lt;/button&gt;
+      &lt;button&gt;🇩🇪 Deutsch&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="sf-legal"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Related Components</h3>
+    <table>
+      <tr>
+        <th>Component</th>
+        <th>Relationship</th>
+      </tr>
+      <tr>
+        <td>C14-MegaNavigation</td>
+        <td>Companion component — footer appears at bottom, header at top of every page</td>
+      </tr>
+      <tr>
+        <td>C16-Newsletter</td>
+        <td>Often placed directly above footer (32px margin-top)</td>
+      </tr>
+      <tr>
+        <td>C14-LanguageSwitcher</td>
+        <td>Can be integrated into footer bottom section for multi-language sites</td>
+      </tr>
+      <tr>
+        <td>C14-Topbar</td>
+        <td>Shares navy background color and teal accent pattern</td>
+      </tr>
+    </table>
+
+    <h3>Common Patterns</h3>
+
+    <h4>Pattern 1: Footer + Newsletter Stack</h4>
+    <pre>&lt;!-- Page content --&gt;
+&lt;main&gt;...&lt;/main&gt;
+
+&lt;!-- Newsletter above footer --&gt;
+&lt;section class="newsletter-section"&gt;
+  &lt;div class="nl-banner"&gt;...&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- Footer with top margin --&gt;
+&lt;footer class="site-footer" style="margin-top: 32px;"&gt;
+  ...
+&lt;/footer&gt;</pre>
+
+    <h4>Pattern 2: Sticky Footer (always at bottom)</h4>
+    <pre>&lt;!-- Body wrapper --&gt;
+&lt;div style="min-height: 100vh; display: flex; flex-direction: column;"&gt;
+  &lt;header&gt;...&lt;/header&gt;
+  &lt;main style="flex: 1;"&gt;...&lt;/main&gt;
+  &lt;footer class="site-footer"&gt;...&lt;/footer&gt;
+&lt;/div&gt;</pre>
+
+    <h4>Pattern 3: Footer with Back-to-Top Button</h4>
+    <pre>&lt;footer class="site-footer"&gt;
+  &lt;!-- Back to top button (absolute positioned) --&gt;
+  &lt;button class="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})"&gt;
+    &lt;i data-lucide="arrow-up"&gt;&lt;/i&gt;
+    &lt;span&gt;Terug naar boven&lt;/span&gt;
+  &lt;/button&gt;
+
+  &lt;!-- Footer content --&gt;
+  &lt;div class="sf-top"&gt;...&lt;/div&gt;
+&lt;/footer&gt;
+
+/* CSS */
+.back-to-top {
+  position: absolute;
+  top: -20px;
+  right: 40px;
+  /* Style as needed */
+}</pre>
+
+    <div class="info-box">
+      <p><strong>Implementation complete!</strong> This footer component provides comprehensive site navigation, trust signals, and legal compliance in a visually consistent design that matches the rest of the Compass Design System.</p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

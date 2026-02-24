@@ -9,6 +9,7 @@ import * as migration_20260224_120000_add_themes_collection from './20260224_120
 import * as migration_20260224_200947_sprint10_schema from './20260224_200947_sprint10_schema';
 import * as migration_20260224_211305_email_marketing_collections from './20260224_211305_email_marketing_collections';
 import * as migration_20260224_211435_email_marketing_indexes from './20260224_211435_email_marketing_indexes';
+import * as migration_20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory from './20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory';
 
 export const migrations = [
   {
@@ -65,5 +66,10 @@ export const migrations = [
     up: migration_20260224_211435_email_marketing_indexes.up,
     down: migration_20260224_211435_email_marketing_indexes.down,
     name: '20260224_211435_email_marketing_indexes',
+  },
+  {
+    up: migration_20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory.up,
+    down: migration_20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory.down,
+    name: '20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory'
   },
 ];

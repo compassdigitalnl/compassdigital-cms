@@ -17,6 +17,13 @@ import type { Payload } from 'payload'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getUsageTracker } from '@/lib/email/billing/usage-tracker'
+import {
+  classifyError,
+  shouldRetry,
+  moveToDLQ,
+  reportError,
+  CircuitBreaker,
+} from '../errors'
 
 // ═══════════════════════════════════════════════════════════
 // JOB TYPE DEFINITIONS
@@ -63,6 +70,10 @@ type EmailMarketingJob =
 
 let payload: Payload | null = null
 let listmonkClient: ListmonkClient | null = null
+
+// Circuit breakers for external services
+const listmonkCircuitBreaker = new CircuitBreaker('listmonk', 5, 60000) // 5 failures, 60s timeout
+const payloadCircuitBreaker = new CircuitBreaker('payload', 10, 30000) // 10 failures, 30s timeout
 
 async function getPayloadInstance(): Promise<Payload> {
   if (!payload) {
@@ -413,7 +424,8 @@ export const emailMarketingWorker = new Worker(
   'email-marketing',
   async (job: Job) => {
     const jobName = job.name
-    console.log(`[EmailWorker] Processing job: ${jobName} (${job.id})`)
+    const attemptsMade = job.attemptsMade
+    console.log(`[EmailWorker] Processing job: ${jobName} (${job.id}, attempt ${attemptsMade + 1})`)
 
     try {
       switch (jobName) {
@@ -441,9 +453,36 @@ export const emailMarketingWorker = new Worker(
           console.warn(`[EmailWorker] Unknown job type: ${jobName}`)
       }
 
-      console.log(`[EmailWorker] Job ${jobName} completed successfully`)
+      console.log(`[EmailWorker] ✅ Job ${jobName} completed successfully`)
     } catch (error: any) {
-      console.error(`[EmailWorker] Job ${jobName} failed:`, error)
+      // Classify error
+      const classifiedError = classifyError(error)
+      reportError(jobName, classifiedError, {
+        jobId: job.id,
+        jobData: job.data,
+        attemptsMade,
+      })
+
+      // Determine if should retry
+      const retryDecision = shouldRetry(error, attemptsMade)
+
+      if (!retryDecision.shouldRetry) {
+        console.error(
+          `[EmailWorker] ❌ Job ${jobName} permanently failed: ${retryDecision.reason}`
+        )
+
+        // Move to dead letter queue
+        await moveToDLQ(jobName, job.data, classifiedError, attemptsMade)
+
+        // Throw to mark job as failed
+        throw new Error(`Permanent failure: ${retryDecision.reason}`)
+      }
+
+      console.warn(
+        `[EmailWorker] ⚠️ Job ${jobName} will retry: ${retryDecision.reason} (delay: ${retryDecision.delay}ms)`
+      )
+
+      // Throw to trigger BullMQ retry
       throw error
     }
   },

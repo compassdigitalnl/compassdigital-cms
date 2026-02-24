@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC03: SubcategoryChips — Navigation Component</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      padding: 40px 24px;
+      line-height: 1.6;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 32px;
+    }
+
+    /* ════════════════════════════════════════════
+       SUBCATEGORY CHIPS COMPONENT
+       ════════════════════════════════════════════ */
+    .subcategory-chips {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+    }
+
+    .subcategory-chips__list {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+
+      /* Hide scrollbar but keep functionality */
+      scrollbar-width: thin;
+      scrollbar-color: var(--grey) transparent;
+    }
+
+    .subcategory-chips__list::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .subcategory-chips__list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .subcategory-chips__list::-webkit-scrollbar-thumb {
+      background: var(--grey);
+      border-radius: 3px;
+    }
+
+    .subcategory-chips__list::-webkit-scrollbar-thumb:hover {
+      background: var(--grey-mid);
+    }
+
+    .subcategory-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all var(--transition);
+      border: 1.5px solid;
+    }
+
+    .subcategory-chip i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Active state */
+    .subcategory-chip--active {
+      color: var(--teal);
+      background: var(--teal-glow);
+      border-color: rgba(0, 137, 123, 0.2);
+    }
+
+    .subcategory-chip--active:hover {
+      background: rgba(0, 137, 123, 0.18);
+      border-color: rgba(0, 137, 123, 0.3);
+    }
+
+    /* Inactive state */
+    .subcategory-chip--inactive {
+      color: var(--navy);
+      background: var(--bg);
+      border-color: var(--grey);
+    }
+
+    .subcategory-chip--inactive:hover {
+      background: var(--grey-light);
+      border-color: var(--grey-mid);
+    }
+
+    .subcategory-chip__count {
+      font-size: 11px;
+      color: var(--grey-mid);
+      font-weight: 400;
+    }
+
+    /* Focus state */
+    .subcategory-chip:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Documentation Styles */
+    .doc-section {
+      margin-top: 48px;
+      padding: 32px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+    }
+
+    .doc-section h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-section h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-section p, .doc-section li {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .doc-section ul {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 24px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 16px 0;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    .spec-table th {
+      background: var(--bg);
+      padding: 12px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .spec-table td {
+      padding: 12px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .spec-table code {
+      background: var(--teal-glow);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--teal-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="demo-container">
+    <div class="demo-section">
+      <div class="demo-title">EC03: SubcategoryChips — Default</div>
+      <div class="demo-subtitle">Horizontal scrollable navigation with active state</div>
+
+      <div class="subcategory-chips">
+        <div class="subcategory-chips__list">
+          <a href="#" class="subcategory-chip subcategory-chip--active">
+            <i data-lucide="hand"></i>
+            Alle handschoenen
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Nitril
+            <span class="subcategory-chip__count">(87)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Latex
+            <span class="subcategory-chip__count">(34)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Steriel
+            <span class="subcategory-chip__count">(21)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Vinyl
+            <span class="subcategory-chip__count">(12)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Poedervrij
+            <span class="subcategory-chip__count">(56)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-title">EC03: SubcategoryChips — Alternative Icons</div>
+      <div class="demo-subtitle">Different product categories with unique icons</div>
+
+      <div class="subcategory-chips" style="margin-bottom: 24px;">
+        <div class="subcategory-chips__list">
+          <a href="#" class="subcategory-chip subcategory-chip--active">
+            <i data-lucide="syringe"></i>
+            Alle injectiemateriaal
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Naalden
+            <span class="subcategory-chip__count">(142)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Spuiten
+            <span class="subcategory-chip__count">(98)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Infuussets
+            <span class="subcategory-chip__count">(64)</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="subcategory-chips">
+        <div class="subcategory-chips__list">
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            <i data-lucide="droplet"></i>
+            Alle desinfectie
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--active">
+            Handalcohol
+            <span class="subcategory-chip__count">(42)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Oppervlakte
+            <span class="subcategory-chip__count">(38)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Instrumenten
+            <span class="subcategory-chip__count">(27)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-title">EC03: SubcategoryChips — Without Icons</div>
+      <div class="demo-subtitle">Text-only variant for cleaner look</div>
+
+      <div class="subcategory-chips">
+        <div class="subcategory-chips__list">
+          <a href="#" class="subcategory-chip subcategory-chip--active">
+            Alle producten
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Nieuw <span class="subcategory-chip__count">(18)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Sale <span class="subcategory-chip__count">(47)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Bestsellers <span class="subcategory-chip__count">(32)</span>
+          </a>
+          <a href="#" class="subcategory-chip subcategory-chip--inactive">
+            Pro <span class="subcategory-chip__count">(156)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         8-STEP DOCUMENTATION
+         ═══════════════════════════════════════════════════════════ -->
+
+    <div class="doc-section">
+      <h2>📋 STEP 1: Component Overview</h2>
+      <p><strong>Component ID:</strong> EC03</p>
+      <p><strong>Component Name:</strong> SubcategoryChips</p>
+      <p><strong>Category:</strong> Navigation</p>
+      <p><strong>Source File:</strong> <code>/ecommerce-flows/ef1-shop-archive.html</code> (lines 44-62)</p>
+      <p><strong>Target Folder:</strong> <code>/refactoring/components/navigation/</code></p>
+
+      <h3>Description</h3>
+      <p>Horizontal scrollable navigation component displaying subcategories as pill-style chips. Appears directly below CategoryHero on shop archive pages. Active chip uses teal accent colors, inactive chips use grey. Each chip can optionally display an icon and product count.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>✅ <strong>Horizontal scroll:</strong> Overflow-x auto for many subcategories</li>
+        <li>✅ <strong>Active state:</strong> Teal background + border for current subcategory</li>
+        <li>✅ <strong>Inactive state:</strong> Grey background + border, hover effect</li>
+        <li>✅ <strong>Product counts:</strong> Optional count display in grey (e.g., "(87)")</li>
+        <li>✅ <strong>Icons:</strong> Optional Lucide icons (14px)</li>
+        <li>✅ <strong>Pill shape:</strong> 100px border-radius for rounded ends</li>
+        <li>✅ <strong>Keyboard navigation:</strong> Tab-focusable with visible focus ring</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>🎯 STEP 2: When to Use</h2>
+      <h3>Use this component when:</h3>
+      <ul>
+        <li>✅ Below CategoryHero on shop archive pages</li>
+        <li>✅ Filtering products by subcategory type</li>
+        <li>✅ Displaying material variants (Nitril, Latex, Vinyl)</li>
+        <li>✅ Size/type filters (Small, Medium, Large)</li>
+        <li>✅ Collection filters (New, Sale, Bestsellers)</li>
+        <li>✅ Any horizontal navigation with 3-8 items</li>
+      </ul>
+
+      <h3>Design Patterns:</h3>
+      <ul>
+        <li><strong>First chip:</strong> Often "Alle [category]" with icon, shows all items</li>
+        <li><strong>Subsequent chips:</strong> Specific subcategories with counts</li>
+        <li><strong>Active indicator:</strong> Only ONE chip active at a time</li>
+        <li><strong>Count format:</strong> Parentheses with number (e.g., "(87)")</li>
+        <li><strong>Icon usage:</strong> Optional, typically only on first "All" chip</li>
+      </ul>
+
+      <h3>Don't use this component for:</h3>
+      <ul>
+        <li>❌ Vertical sidebar navigation (use C21: FilterSidebar)</li>
+        <li>❌ More than 10-12 chips (becomes overwhelming)</li>
+        <li>❌ Multi-select filters (use checkbox filters in sidebar)</li>
+        <li>❌ Breadcrumb navigation (use C19: Breadcrumbs)</li>
+      </ul>
+
+      <h3>Related to:</h3>
+      <ul>
+        <li><strong>C21: FilterSidebar</strong> — Vertical filter panel (left side)</li>
+        <li><strong>Active filter chips</strong> — Removable filter tags (different styling)</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>🎨 STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>State</th>
+            <th>Token</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container background</td>
+            <td>—</td>
+            <td><code>white</code></td>
+            <td>#FAFBFC</td>
+          </tr>
+          <tr>
+            <td>Container border</td>
+            <td>—</td>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+          </tr>
+          <tr>
+            <td>Chip text</td>
+            <td>Active</td>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+          </tr>
+          <tr>
+            <td>Chip background</td>
+            <td>Active</td>
+            <td><code>--teal-glow</code></td>
+            <td>rgba(0,137,123,0.12)</td>
+          </tr>
+          <tr>
+            <td>Chip border</td>
+            <td>Active</td>
+            <td><code>rgba(0,137,123,0.2)</code></td>
+            <td>Teal at 20%</td>
+          </tr>
+          <tr>
+            <td>Chip text</td>
+            <td>Inactive</td>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+          </tr>
+          <tr>
+            <td>Chip background</td>
+            <td>Inactive</td>
+            <td><code>--bg</code></td>
+            <td>#F5F7FA</td>
+          </tr>
+          <tr>
+            <td>Chip border</td>
+            <td>Inactive</td>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+          </tr>
+          <tr>
+            <td>Chip background</td>
+            <td>Inactive:hover</td>
+            <td><code>--grey-light</code></td>
+            <td>#F1F4F8</td>
+          </tr>
+          <tr>
+            <td>Chip border</td>
+            <td>Inactive:hover</td>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+          </tr>
+          <tr>
+            <td>Count text</td>
+            <td>—</td>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+          </tr>
+          <tr>
+            <td>Focus ring</td>
+            <td>:focus</td>
+            <td><code>--teal-glow</code></td>
+            <td>0 0 0 3px rgba(0,137,123,0.12)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font</th>
+            <th>Size</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chip label</td>
+            <td>DM Sans</td>
+            <td>13px</td>
+            <td>600</td>
+          </tr>
+          <tr>
+            <td>Count</td>
+            <td>DM Sans</td>
+            <td>11px</td>
+            <td>400</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spacing & Layout</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container padding</td>
+            <td>14px 20px</td>
+          </tr>
+          <tr>
+            <td>Container border-radius</td>
+            <td>12px (--radius)</td>
+          </tr>
+          <tr>
+            <td>Chips gap</td>
+            <td>10px</td>
+          </tr>
+          <tr>
+            <td>Chip padding</td>
+            <td>8px 16px</td>
+          </tr>
+          <tr>
+            <td>Chip border-radius</td>
+            <td>100px (pill shape)</td>
+          </tr>
+          <tr>
+            <td>Chip border width</td>
+            <td>1.5px</td>
+          </tr>
+          <tr>
+            <td>Icon size</td>
+            <td>14px</td>
+          </tr>
+          <tr>
+            <td>Icon + text gap</td>
+            <td>6px</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Icons</h3>
+      <ul>
+        <li><code>hand</code> — Handschoenen / protective gear (14px)</li>
+        <li><code>syringe</code> — Injection materials</li>
+        <li><code>droplet</code> — Desinfectie / liquids</li>
+        <li><code>package</code> — General products</li>
+        <li><code>heart-pulse</code> — Medical devices</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+      <h3>TypeScript Interface</h3>
+      <pre>
+interface SubcategoryChip {
+  id: string
+  label: string
+  slug: string
+  icon?: string  // Lucide icon name (optional)
+  count?: number  // Product count (optional)
+  href: string  // Link to subcategory page
+}
+
+interface SubcategoryChipsProps {
+  chips: SubcategoryChip[]
+  activeSlug: string  // Currently active subcategory slug
+  onChipClick?: (slug: string) => void  // Optional click handler (SPA mode)
+}</pre>
+
+      <h3>Usage Example</h3>
+      <pre>
+&lt;SubcategoryChips
+  chips={[
+    { id: '1', label: 'Alle handschoenen', slug: 'all', icon: 'hand', href: '/shop/handschoenen' },
+    { id: '2', label: 'Nitril', slug: 'nitril', count: 87, href: '/shop/handschoenen/nitril' },
+    { id: '3', label: 'Latex', slug: 'latex', count: 34, href: '/shop/handschoenen/latex' },
+    { id: '4', label: 'Steriel', slug: 'steriel', count: 21, href: '/shop/handschoenen/steriel' }
+  ]}
+  activeSlug="nitril"
+/&gt;</pre>
+
+      <h3>Payload CMS Fields</h3>
+      <pre>
+// In Categories Collection
+{
+  slug: 'categories',
+  fields: [
+    { name: 'name', type: 'text', required: true },
+    { name: 'slug', type: 'text', required: true, unique: true },
+    { name: 'parent', type: 'relationship', relationTo: 'categories' },
+    {
+      name: 'icon',
+      type: 'select',
+      options: ['hand', 'syringe', 'droplet', 'package', 'heart-pulse'],
+      admin: { description: 'Icon for subcategory chip (optional)' }
+    },
+    { name: 'productCount', type: 'number', admin: { readOnly: true } }
+  ]
+}
+
+// Query to get subcategories with counts
+const subcategories = await payload.find({
+  collection: 'categories',
+  where: {
+    parent: {
+      equals: parentCategoryId
+    }
+  }
+})</pre>
+
+      <h3>Auto-Calculate Counts</h3>
+      <pre>
+// Hook to calculate product count per subcategory
+{
+  slug: 'categories',
+  hooks: {
+    afterRead: [
+      async ({ doc, req }) => {
+        const productCount = await req.payload.count({
+          collection: 'products',
+          where: {
+            category: {
+              equals: doc.id
+            }
+          }
+        })
+
+        return {
+          ...doc,
+          productCount: productCount.totalDocs
+        }
+      }
+    ]
+  }
+}</pre>
+    </div>
+
+    <div class="doc-section">
+      <h2>📐 STEP 5: Layout Rules</h2>
+
+      <h3>Container Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> Flexbox with <code>overflow-x: auto</code></li>
+        <li><strong>Scrollbar:</strong> Thin scrollbar (6px height) with grey color</li>
+        <li><strong>Gap:</strong> 10px between chips</li>
+        <li><strong>Alignment:</strong> <code>align-items: center</code></li>
+      </ul>
+
+      <h3>Chip Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>inline-flex</code> with <code>align-items: center</code></li>
+        <li><strong>White-space:</strong> <code>nowrap</code> (prevents text wrapping)</li>
+        <li><strong>Icon:</strong> 14px, 6px gap from text</li>
+        <li><strong>Count:</strong> Inline after label, 11px grey text in parentheses</li>
+      </ul>
+
+      <h3>Responsive Behavior</h3>
+      <ul>
+        <li><strong>Mobile:</strong> Horizontal scroll remains (no stacking)</li>
+        <li><strong>Tablet:</strong> Same as desktop (horizontal scroll)</li>
+        <li><strong>Scrollbar visibility:</strong> Auto-show on scroll, auto-hide when idle</li>
+      </ul>
+
+      <h3>Scroll Interaction</h3>
+      <ul>
+        <li><strong>Mouse wheel:</strong> Horizontal scroll (browser default)</li>
+        <li><strong>Touch:</strong> Swipe left/right to scroll</li>
+        <li><strong>Keyboard:</strong> Tab to navigate chips, active chip scrolls into view</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>♿ STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <ul>
+        <li>✅ Use <code>&lt;nav&gt;</code> wrapper with <code>aria-label="Subcategorieën"</code></li>
+        <li>✅ Each chip is an <code>&lt;a&gt;</code> link (keyboard navigable)</li>
+        <li>✅ Active chip uses <code>aria-current="page"</code></li>
+      </ul>
+
+      <h3>ARIA Attributes</h3>
+      <pre>
+&lt;nav class="subcategory-chips" aria-label="Subcategorieën"&gt;
+  &lt;div class="subcategory-chips__list" role="list"&gt;
+    &lt;!-- Active chip --&gt;
+    &lt;a
+      href="/shop/handschoenen"
+      class="subcategory-chip subcategory-chip--active"
+      aria-current="page"
+      role="listitem"
+    &gt;
+      &lt;i data-lucide="hand" aria-hidden="true"&gt;&lt;/i&gt;
+      Alle handschoenen
+    &lt;/a&gt;
+
+    &lt;!-- Inactive chip --&gt;
+    &lt;a
+      href="/shop/handschoenen/nitril"
+      class="subcategory-chip subcategory-chip--inactive"
+      role="listitem"
+    &gt;
+      Nitril
+      &lt;span class="subcategory-chip__count" aria-label="87 producten"&gt;
+        (87)
+      &lt;/span&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</pre>
+
+      <h3>Keyboard Navigation</h3>
+      <ul>
+        <li>✅ <kbd>Tab</kbd> — Navigate between chips</li>
+        <li>✅ <kbd>Shift+Tab</kbd> — Navigate backwards</li>
+        <li>✅ <kbd>Enter</kbd> / <kbd>Space</kbd> — Activate focused chip</li>
+        <li>✅ Active chip scrolls into view automatically on focus</li>
+      </ul>
+
+      <h3>Focus States</h3>
+      <pre>
+.subcategory-chip:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}</pre>
+
+      <h3>Screen Reader Considerations</h3>
+      <ul>
+        <li>✅ Icons hidden with <code>aria-hidden="true"</code> (decorative only)</li>
+        <li>✅ Count announces as "87 producten" via <code>aria-label</code></li>
+        <li>✅ Active chip announces "current page"</li>
+        <li>✅ Nav labeled as "Subcategorieën"</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>💻 STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component Example</h3>
+      <pre>
+'use client'
+
+import { LucideIcon } from 'lucide-react'
+import * as Icons from 'lucide-react'
+import Link from 'next/link'
+import { useRef, useEffect } from 'react'
+
+interface SubcategoryChip {
+  id: string
+  label: string
+  slug: string
+  icon?: string
+  count?: number
+  href: string
+}
+
+interface SubcategoryChipsProps {
+  chips: SubcategoryChip[]
+  activeSlug: string
+}
+
+export function SubcategoryChips({ chips, activeSlug }: SubcategoryChipsProps) {
+  const activeRef = useRef&lt;HTMLAnchorElement&gt;(null)
+
+  // Scroll active chip into view on mount
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      })
+    }
+  }, [activeSlug])
+
+  return (
+    &lt;nav className="subcategory-chips" aria-label="Subcategorieën"&gt;
+      &lt;div className="subcategory-chips__list" role="list"&gt;
+        {chips.map((chip) => {
+          const isActive = chip.slug === activeSlug
+          const IconComponent = chip.icon
+            ? (Icons[chip.icon as keyof typeof Icons] as LucideIcon)
+            : null
+
+          return (
+            &lt;Link
+              key={chip.id}
+              href={chip.href}
+              ref={isActive ? activeRef : null}
+              className={`subcategory-chip ${
+                isActive ? 'subcategory-chip--active' : 'subcategory-chip--inactive'
+              }`}
+              aria-current={isActive ? 'page' : undefined}
+              role="listitem"
+            &gt;
+              {IconComponent && &lt;IconComponent size={14} aria-hidden="true" /&gt;}
+              {chip.label}
+              {chip.count !== undefined && (
+                &lt;span
+                  className="subcategory-chip__count"
+                  aria-label={`${chip.count} producten`}
+                &gt;
+                  ({chip.count})
+                &lt;/span&gt;
+              )}
+            &lt;/Link&gt;
+          )
+        })}
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  )
+}</pre>
+
+      <h3>Server Component Usage</h3>
+      <pre>
+// app/shop/[category]/page.tsx
+import { SubcategoryChips } from '@/components/navigation/SubcategoryChips'
+import { getPayloadClient } from '@/lib/payload'
+
+export default async function CategoryPage({
+  params
+}: {
+  params: { category: string }
+}) {
+  const payload = await getPayloadClient()
+
+  // Get parent category
+  const category = await payload.findByID({
+    collection: 'categories',
+    id: params.category
+  })
+
+  // Get subcategories
+  const subcategories = await payload.find({
+    collection: 'categories',
+    where: {
+      parent: {
+        equals: category.id
+      }
+    }
+  })
+
+  // Transform to chips
+  const chips = [
+    {
+      id: 'all',
+      label: `Alle ${category.name.toLowerCase()}`,
+      slug: 'all',
+      icon: category.icon,
+      href: `/shop/${category.slug}`
+    },
+    ...subcategories.docs.map(sub => ({
+      id: sub.id,
+      label: sub.name,
+      slug: sub.slug,
+      count: sub.productCount,
+      href: `/shop/${category.slug}/${sub.slug}`
+    }))
+  ]
+
+  return (
+    &lt;&gt;
+      &lt;CategoryHero category={category} /&gt;
+      &lt;SubcategoryChips chips={chips} activeSlug="all" /&gt;
+      {/* Rest of page */}
+    &lt;/&gt;
+  )
+}</pre>
+
+      <h3>Important Implementation Details</h3>
+      <ul>
+        <li>✅ <strong>Auto-scroll active chip:</strong> Use <code>scrollIntoView()</code> on mount to center active chip</li>
+        <li>✅ <strong>Dynamic icon loading:</strong> Load Lucide icons dynamically by name</li>
+        <li>✅ <strong>Optional counts:</strong> Hide count if <code>count === undefined</code></li>
+        <li>✅ <strong>First chip pattern:</strong> "Alle [category]" with parent icon, links to main category page</li>
+        <li>✅ <strong>SEO-friendly:</strong> Use Next.js <code>&lt;Link&gt;</code> for server-side navigation</li>
+      </ul>
+
+      <h3>Tailwind CSS Alternative</h3>
+      <pre>
+&lt;nav aria-label="Subcategorieën" className="rounded-xl border border-grey bg-white px-5 py-3.5"&gt;
+  &lt;div className="flex items-center gap-2.5 overflow-x-auto" role="list"&gt;
+    &lt;Link
+      href="#"
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border-[1.5px] border-teal/20 bg-teal/12 px-4 py-2 text-sm font-semibold text-teal transition-all hover:bg-teal/18 hover:border-teal/30 focus:outline-none focus:ring-3 focus:ring-teal/12"
+      aria-current="page"
+    &gt;
+      &lt;Hand size={14} aria-hidden="true" /&gt;
+      Alle handschoenen
+    &lt;/Link&gt;
+    &lt;Link
+      href="#"
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border-[1.5px] border-grey bg-bg px-4 py-2 text-sm font-semibold text-navy transition-all hover:bg-grey-light hover:border-grey-mid"
+    &gt;
+      Nitril
+      &lt;span className="text-xs font-normal text-grey-mid" aria-label="87 producten"&gt;
+        (87)
+      &lt;/span&gt;
+    &lt;/Link&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</pre>
+    </div>
+
+    <div class="doc-section">
+      <h2>🔗 STEP 8: Variations & Related Components</h2>
+
+      <h3>Variations</h3>
+      <ul>
+        <li><strong>Default:</strong> Icon + label + count</li>
+        <li><strong>Text-only:</strong> Label + count (no icons)</li>
+        <li><strong>Icon-only (Future):</strong> Icons with tooltip on hover</li>
+        <li><strong>No counts:</strong> Label only (e.g., brand pages)</li>
+      </ul>
+
+      <h3>Related Components</h3>
+      <ul>
+        <li><strong>EC02: CategoryHero</strong> — Appears directly above this component</li>
+        <li><strong>C21: FilterSidebar</strong> — Vertical sidebar filters (multi-select)</li>
+        <li><strong>Active filter chips</strong> — Removable filter tags (different component)</li>
+        <li><strong>C19: Breadcrumbs</strong> — Hierarchical navigation above CategoryHero</li>
+      </ul>
+
+      <h3>Component Dependencies</h3>
+      <ul>
+        <li>Icons: Lucide React (dynamic icon loading)</li>
+        <li>Fonts: DM Sans</li>
+        <li>Next.js: <code>Link</code> component for navigation</li>
+        <li>Payload CMS: Categories collection</li>
+      </ul>
+
+      <h3>Page Integration Example</h3>
+      <pre>
+&lt;!-- Shop Archive Page Structure --&gt;
+&lt;main&gt;
+  &lt;Breadcrumbs /&gt; &lt;!-- C19 --&gt;
+  &lt;CategoryHero /&gt; &lt;!-- EC02 --&gt;
+  &lt;SubcategoryChips /&gt; &lt;!-- EC03 - This component --&gt;
+
+  &lt;div className="grid grid-cols-[260px_1fr] gap-7"&gt;
+    &lt;FilterSidebar /&gt; &lt;!-- C21 (multi-select) --&gt;
+    &lt;div&gt;
+      &lt;ProductGrid /&gt; &lt;!-- EC01 cards --&gt;
+      &lt;Pagination /&gt; &lt;!-- C20 --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/main&gt;</pre>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✅ Active chip highlights correctly (teal background)</li>
+        <li>✅ Inactive chips have grey background</li>
+        <li>✅ Hover states work on inactive chips</li>
+        <li>✅ Icons render dynamically from prop</li>
+        <li>✅ Counts display when provided, hidden when undefined</li>
+        <li>✅ Horizontal scroll works on overflow</li>
+        <li>✅ Active chip scrolls into view on load</li>
+        <li>✅ Keyboard navigation (Tab key)</li>
+        <li>✅ Focus ring visible on focus</li>
+        <li>✅ Screen reader announces "current page" for active chip</li>
+        <li>✅ Screen reader announces counts correctly</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons()
+  </script>
+</body>
+</html>

@@ -12147,12 +12147,49 @@ export interface Header {
  */
 export interface Footer {
   id: number;
+  /**
+   * Kies tussen een tekst logo of een afbeelding
+   */
+  logoType?: ('text' | 'image') | null;
+  /**
+   * Bijvoorbeeld: "compass" of "My Company"
+   */
+  logoText?: string | null;
+  /**
+   * Optioneel: wordt in teal kleur weergegeven (bijv. "design")
+   */
+  logoAccent?: string | null;
+  /**
+   * Upload een logo afbeelding (aanbevolen: transparante PNG)
+   */
+  logoImage?: (number | null) | Media;
+  /**
+   * Korte beschrijving van je bedrijf (max 200 karakters)
+   */
+  tagline?: string | null;
+  /**
+   * Voeg social media links toe (max 6)
+   */
+  socialLinks?:
+    | {
+        platform: 'linkedin' | 'instagram' | 'facebook' | 'youtube' | 'twitter' | 'tiktok';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Maximaal 3 navigatie kolommen naast de merk kolom
+   */
   columns?:
     | {
-        heading?: string | null;
+        heading: string;
         links?:
           | {
               label: string;
+              /**
+               * Optioneel: Lucide icon naam (bijv. "arrow-right")
+               */
+              icon?: string | null;
               type?: ('page' | 'external') | null;
               page?: (number | null) | Page;
               externalUrl?: string | null;
@@ -12162,6 +12199,44 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Voeg een contact kolom toe met telefoonnummer, email, adres en openingstijden
+   */
+  showContactColumn?: boolean | null;
+  contactHeading?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
+  openingHours?: string | null;
+  /**
+   * Certificeringen, betaalmethoden, verzending, etc. met groene vinkjes
+   */
+  trustBadges?:
+    | {
+        icon?: ('check' | 'shield-check' | 'star' | 'award' | 'lock' | 'truck') | null;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Tekst voor de copyright notice
+   */
+  copyrightText?: string | null;
+  /**
+   * Algemene voorwaarden, privacy, cookies, etc.
+   */
+  legalLinks?:
+    | {
+        label: string;
+        type?: ('page' | 'external') | null;
+        page?: (number | null) | Page;
+        externalUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * DEPRECATED: Gebruik nu de Copyright & Juridisch tab
+   */
   bottomText?: {
     root: {
       type: string;
@@ -12178,7 +12253,7 @@ export interface Footer {
     [k: string]: unknown;
   } | null;
   /**
-   * Social media links komen uit Site Settings
+   * DEPRECATED: Gebruik nu de Merk & Branding tab
    */
   showSocialLinks?: boolean | null;
   updatedAt?: string | null;
@@ -12941,6 +13016,18 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  logoType?: T;
+  logoText?: T;
+  logoAccent?: T;
+  logoImage?: T;
+  tagline?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
   columns?:
     | T
     | {
@@ -12949,11 +13036,35 @@ export interface FooterSelect<T extends boolean = true> {
           | T
           | {
               label?: T;
+              icon?: T;
               type?: T;
               page?: T;
               externalUrl?: T;
               id?: T;
             };
+        id?: T;
+      };
+  showContactColumn?: T;
+  contactHeading?: T;
+  phone?: T;
+  email?: T;
+  address?: T;
+  openingHours?: T;
+  trustBadges?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        id?: T;
+      };
+  copyrightText?: T;
+  legalLinks?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        externalUrl?: T;
         id?: T;
       };
   bottomText?: T;

@@ -356,13 +356,13 @@ export class UsageTracker {
 
     // Get all tenants
     const tenants = await payload.find({
-      collection: 'tenants',
+      collection: 'clients',
       limit: 1000, // Adjust as needed
     })
 
     // Get usage for each tenant
     const usagePromises = tenants.docs.map((tenant) =>
-      this.getMonthlyUsage(tenant.id)
+      this.getMonthlyUsage(String(tenant.id))
     )
 
     return await Promise.all(usagePromises)

@@ -8,6 +8,7 @@ import { contentAnalysisWorker } from './contentAnalysisWorker'
 import { emailMarketingWorker } from './emailMarketingWorker'
 import { automationWorker } from './automationWorker'
 import { flowWorker } from './flowWorker'
+import { reconciliationWorker } from './reconciliationWorker'
 import { emailMarketingFeatures } from '@/lib/features'
 
 const workers: any[] = []
@@ -23,13 +24,16 @@ if (emailMarketingFeatures.campaigns()) {
   workers.push(emailMarketingWorker)
   workers.push(automationWorker)
   workers.push(flowWorker)
+  workers.push(reconciliationWorker)
   console.log('✅ Email Marketing Worker: Running')
   console.log('✅ Automation Worker: Running')
   console.log('✅ Flow Worker: Running')
+  console.log('✅ Reconciliation Worker: Running')
 } else {
   console.log('⏸️  Email Marketing Worker: Disabled (feature flag off)')
   console.log('⏸️  Automation Worker: Disabled (feature flag off)')
   console.log('⏸️  Flow Worker: Disabled (feature flag off)')
+  console.log('⏸️  Reconciliation Worker: Disabled (feature flag off)')
 }
 
 console.log('')

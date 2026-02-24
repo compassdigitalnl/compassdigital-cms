@@ -9,8 +9,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { rateLimit, RateLimitPresets } from '@/lib/security/rate-limiter'
 
 export async function POST(request: NextRequest) {
+  // Rate limiting - 100 requests per minute (webhook endpoint)
+  const rateLimitResult = rateLimit(request, RateLimitPresets.WEBHOOK)
+  if (rateLimitResult) return rateLimitResult
+
   try {
     const payload = await getPayload({ config })
 

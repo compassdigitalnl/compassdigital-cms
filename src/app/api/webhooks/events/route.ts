@@ -17,8 +17,13 @@ import { processEvent } from '@/lib/email/automation/engine'
 import { isValidEventType } from '@/lib/email/automation/types'
 import type { EventPayload } from '@/lib/email/automation/types'
 import { emailMarketingFeatures } from '@/lib/features'
+import { rateLimit, RateLimitPresets } from '@/lib/security/rate-limiter'
 
 export async function POST(request: NextRequest) {
+  // Rate limiting - 100 requests per minute (webhook endpoint)
+  const rateLimitResult = rateLimit(request, RateLimitPresets.WEBHOOK)
+  if (rateLimitResult) return rateLimitResult
+
   try {
     // Check feature flag
     if (!emailMarketingFeatures.campaigns()) {

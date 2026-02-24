@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C24: Account Sidebar  Plastimed Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    /* Core Colors */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --teal-glow: rgba(0, 137, 123, 0.15);
+
+    /* Status Colors */
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --coral: #FF6B6B;
+    --coral-light: #FFF0F0;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E1;
+    --blue: #2196F3;
+    --blue-light: #E3F2FD;
+
+    /* Neutrals */
+    --white: #FAFBFC;
+    --bg: #F5F7FA;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+
+    /* System */
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 48px 24px;
+  }
+
+  .demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .demo-header {
+    margin-bottom: 48px;
+  }
+
+  .demo-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .demo-subtitle {
+    font-size: 16px;
+    color: var(--grey-mid);
+    margin-bottom: 24px;
+  }
+
+  .demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+
+  .demo-section {
+    margin-bottom: 64px;
+  }
+
+  .section-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--grey);
+  }
+
+  /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+     C24: ACCOUNT SIDEBAR - Component Styles
+     PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+  .account-sidebar {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  /* User Card */
+  .account-user {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+    transition: box-shadow var(--transition);
+  }
+
+  .account-user:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .user-avatar {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 auto 12px;
+    box-shadow: 0 4px 12px rgba(0, 137, 123, 0.25);
+  }
+
+  .user-name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .user-company {
+    font-size: 13px;
+    color: var(--grey-mid);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .user-since {
+    font-size: 11px;
+    color: var(--grey-mid);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .user-since i {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Navigation */
+  .account-nav {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--grey);
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .nav-link:hover {
+    background: var(--teal-glow);
+    color: var(--teal);
+  }
+
+  .nav-link.active {
+    background: var(--teal-glow);
+    color: var(--teal);
+    font-weight: 700;
+    border-left: 3px solid var(--teal);
+  }
+
+  .nav-link i {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .nav-link .badge {
+    margin-left: auto;
+    background: var(--coral);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 100px;
+    line-height: 1;
+  }
+
+  .nav-link.logout {
+    color: var(--coral);
+  }
+
+  .nav-link.logout:hover {
+    background: var(--coral-light);
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .account-sidebar {
+      max-width: 100%;
+    }
+
+    .demo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+     DEMO PAGE STYLES
+     PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+  .code-block {
+    background: var(--navy);
+    color: #E8F5E9;
+    padding: 24px;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-top: 16px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .code-block pre {
+    margin: 0;
+  }
+
+  .variant-card {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .variant-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+
+  .info-box {
+    background: var(--blue-light);
+    border-left: 3px solid var(--blue);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+  }
+
+  .info-box p {
+    font-size: 14px;
+    color: var(--navy);
+    margin: 0;
+  }
+
+  .info-box strong {
+    font-weight: 700;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--grey);
+    font-size: 14px;
+  }
+
+  th {
+    background: var(--bg);
+    font-weight: 700;
+    color: var(--navy);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  ul {
+    margin: 16px 0;
+    padding-left: 24px;
+  }
+
+  li {
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--grey-dark);
+  }
+
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .status-indicator.success {
+    background: var(--green-light);
+    color: #166534;
+  }
+
+  .status-indicator.warning {
+    background: var(--amber-light);
+    color: #92400E;
+  }
+
+  .demo-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    background: var(--bg);
+    padding: 32px;
+    border-radius: 16px;
+    border: 2px dashed var(--grey);
+  }
+
+  .demo-main {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 12px;
+    padding: 32px;
+    min-height: 400px;
+  }
+
+  .demo-main h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+
+  .demo-main p {
+    color: var(--grey-mid);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-container">
+
+  <!-- HEADER -->
+  <div class="demo-header">
+    <div class="demo-title">C24: Account Sidebar</div>
+    <div class="demo-subtitle">User profile card + navigation menu for account pages with active states, badge counts, and logout action</div>
+  </div>
+
+  <!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+       LIVE DEMO
+       PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+
+  <div class="demo-section">
+    <div class="section-title">Live Demo: Complete Account Layout</div>
+
+    <div class="demo-layout">
+      <!-- SIDEBAR -->
+      <aside class="account-sidebar">
+        <div class="account-user">
+          <div class="user-avatar">JV</div>
+          <div class="user-name">Jan de Vries</div>
+          <div class="user-company">Huisartsenpraktijk De Vries</div>
+          <div class="user-since">
+            <i data-lucide="calendar"></i>
+            Klant sinds maart 2019
+          </div>
+        </div>
+
+        <nav class="account-nav">
+          <a href="#" class="nav-link active">
+            <i data-lucide="layout-dashboard"></i>
+            Dashboard
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="package"></i>
+            Bestellingen
+            <span class="badge">2</span>
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="clipboard-list"></i>
+            Bestellijsten
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="repeat"></i>
+            Herhaalbestellingen
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="heart"></i>
+            Favorieten
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="map-pin"></i>
+            Adressen
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="building-2"></i>
+            Bedrijfsgegevens
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="file-text"></i>
+            Facturen
+          </a>
+          <a href="#" class="nav-link">
+            <i data-lucide="settings"></i>
+            Accountinstellingen
+          </a>
+          <a href="#" class="nav-link logout">
+            <i data-lucide="log-out"></i>
+            Uitloggen
+          </a>
+        </nav>
+      </aside>
+
+      <!-- MAIN CONTENT (for context) -->
+      <main class="demo-main">
+        <h3>Account Content Area</h3>
+        <p>This is where the main account content would be displayed (dashboard widgets, order lists, forms, etc.)</p>
+      </main>
+    </div>
+  </div>
+
+  <!-- VARIANTS -->
+  <div class="demo-section">
+    <div class="section-title">Variants</div>
+
+    <div class="demo-grid">
+      <!-- Variant 1: With Multiple Badges -->
+      <div class="variant-card">
+        <div class="variant-title">Multiple Badge Counts</div>
+        <aside class="account-sidebar">
+          <div class="account-user">
+            <div class="user-avatar">MK</div>
+            <div class="user-name">Maria Koster</div>
+            <div class="user-company">Tandartspraktijk Koster</div>
+            <div class="user-since">
+              <i data-lucide="calendar"></i>
+              Klant sinds juni 2021
+            </div>
+          </div>
+
+          <nav class="account-nav">
+            <a href="#" class="nav-link active">
+              <i data-lucide="layout-dashboard"></i>
+              Dashboard
+            </a>
+            <a href="#" class="nav-link">
+              <i data-lucide="package"></i>
+              Bestellingen
+              <span class="badge">5</span>
+            </a>
+            <a href="#" class="nav-link">
+              <i data-lucide="clipboard-list"></i>
+              Bestellijsten
+              <span class="badge">3</span>
+            </a>
+            <a href="#" class="nav-link">
+              <i data-lucide="heart"></i>
+              Favorieten
+              <span class="badge">12</span>
+            </a>
+            <a href="#" class="nav-link">
+              <i data-lucide="file-text"></i>
+              Facturen
+            </a>
+            <a href="#" class="nav-link logout">
+              <i data-lucide="log-out"></i>
+              Uitloggen
+            </a>
+          </nav>
+        </aside>
+      </div>
+
+      <!-- Variant 2: Personal Account (no company) -->
+      <div class="variant-card">
+        <div class="variant-title">Personal Account (B2C)</div>
+        <aside class="account-sidebar">
+          <div class="account-user">
+            <div class="user-avatar">PJ</div>
+            <div class="user-name">Peter Janssen</div>
+            <div class="user-company" style="display: none;"></div>
+            <div class="user-since">
+              <i data-lucide="calendar"></i>
+              Klant sinds januari 2024
+            </div>
+          </div>
+
+          <nav class="account-nav">
+            <a href="#" class="nav-link">
+              <i data-lucide="layout-dashboard"></i>
+              Dashboard
+            </a>
+            <a href="#" class="nav-link active">
+              <i data-lucide="package"></i>
+              Bestellingen
+            </a>
+            <a href="#" class="nav-link">
+              <i data-lucide="heart"></i>
+              Favorieten
+            </a>
+            <a href="#" class="nav-link">
+              <i data-lucide="map-pin"></i>
+              Adressen
+            </a>
+            <a href="#" class="nav-link">
+              <i data-lucide="settings"></i>
+              Instellingen
+            </a>
+            <a href="#" class="nav-link logout">
+              <i data-lucide="log-out"></i>
+              Uitloggen
+            </a>
+          </nav>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+       DOCUMENTATION
+       PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+
+  <div class="demo-section">
+    <div class="section-title">STEP 1: Component Overview</div>
+
+    <div class="info-box">
+      <p><strong>Purpose:</strong> The Account Sidebar provides user identification and navigation for account management pages. It consists of a user profile card showing avatar, name, company, and membership date, followed by a navigation menu with icons, labels, and optional notification badges.</p>
+    </div>
+
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Component ID</td>
+        <td>C24</td>
+      </tr>
+      <tr>
+        <td>Category</td>
+        <td>Account Components</td>
+      </tr>
+      <tr>
+        <td>Width</td>
+        <td>280px (fixed, desktop) / 100% (mobile)</td>
+      </tr>
+      <tr>
+        <td>Source File</td>
+        <td>plastimed-my-account.html (lines 230-250)</td>
+      </tr>
+      <tr>
+        <td>Dependencies</td>
+        <td>Lucide Icons</td>
+      </tr>
+    </table>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>User profile card with gradient avatar (initials)</li>
+      <li>Company name display (B2B) or hidden (B2C)</li>
+      <li>Membership date with calendar icon</li>
+      <li>Icon-based navigation menu</li>
+      <li>Active state with teal background + left border</li>
+      <li>Badge counts for pending items (coral)</li>
+      <li>Special logout link styling (coral)</li>
+      <li>Hover states on all nav items</li>
+      <li>Fully keyboard accessible</li>
+    </ul>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="demo-section">
+    <div class="section-title">STEP 2: When to Use</div>
+
+    <p><strong>Use the Account Sidebar when:</strong></p>
+    <ul>
+      <li> Building account dashboard layouts</li>
+      <li> Creating order history pages</li>
+      <li> Displaying user settings/profile pages</li>
+      <li> Showing saved addresses, wishlists, or favorites</li>
+      <li> Building subscription or membership management</li>
+      <li> Any multi-section account area requiring navigation</li>
+    </ul>
+
+    <p><strong>Don't use when:</strong></p>
+    <ul>
+      <li>L User is not logged in (show login prompt instead)</li>
+      <li>L On mobile viewports (use hamburger menu or tabs)</li>
+      <li>L For public-facing navigation (use C14 MegaNav)</li>
+      <li>L For single-page account forms (no navigation needed)</li>
+    </ul>
+
+    <p><strong>Common Use Cases:</strong></p>
+    <ul>
+      <li><strong>B2B Accounts:</strong> Show company name, display all sections (orders, invoices, repeat orders, bestellijsten)</li>
+      <li><strong>B2C Accounts:</strong> Hide company field, simplify menu (orders, favorites, addresses, settings)</li>
+      <li><strong>Dashboard Pages:</strong> "Dashboard" link active, shows overview of account activity</li>
+      <li><strong>Order Management:</strong> "Bestellingen" active, badge shows pending/processing orders</li>
+      <li><strong>Settings Pages:</strong> "Accountinstellingen" active, user edits profile/password/preferences</li>
+    </ul>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="demo-section">
+    <div class="section-title">STEP 3: Design Tokens</div>
+
+    <table>
+      <tr>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td colspan="3" style="background: var(--teal-glow); font-weight: 700;">Colors</td>
+      </tr>
+      <tr>
+        <td>--navy</td>
+        <td>#0A1628</td>
+        <td>User name, nav text default</td>
+      </tr>
+      <tr>
+        <td>--teal</td>
+        <td>#00897B</td>
+        <td>Avatar gradient start, active link color, active border</td>
+      </tr>
+      <tr>
+        <td>--teal-light</td>
+        <td>#26A69A</td>
+        <td>Avatar gradient end</td>
+      </tr>
+      <tr>
+        <td>--teal-glow</td>
+        <td>rgba(0,137,123,0.15)</td>
+        <td>Active nav background, hover background</td>
+      </tr>
+      <tr>
+        <td>--grey</td>
+        <td>#E8ECF1</td>
+        <td>Card borders, nav dividers</td>
+      </tr>
+      <tr>
+        <td>--grey-mid</td>
+        <td>#94A3B8</td>
+        <td>Company name, membership date text</td>
+      </tr>
+      <tr>
+        <td>--coral</td>
+        <td>#FF6B6B</td>
+        <td>Badge background, logout text</td>
+      </tr>
+      <tr>
+        <td>--coral-light</td>
+        <td>#FFF0F0</td>
+        <td>Logout hover background</td>
+      </tr>
+      <tr>
+        <td>white</td>
+        <td>#FAFBFC</td>
+        <td>Card backgrounds, badge text</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="background: var(--teal-glow); font-weight: 700;">Typography</td>
+      </tr>
+      <tr>
+        <td>User name</td>
+        <td>Plus Jakarta Sans, 16px, 800</td>
+        <td>Primary user identifier</td>
+      </tr>
+      <tr>
+        <td>Company</td>
+        <td>DM Sans, 13px, 400</td>
+        <td>Secondary identifier (B2B only)</td>
+      </tr>
+      <tr>
+        <td>Member since</td>
+        <td>DM Sans, 11px, 400</td>
+        <td>Tertiary info</td>
+      </tr>
+      <tr>
+        <td>Nav links</td>
+        <td>DM Sans, 14px, 500 (700 when active)</td>
+        <td>Navigation items</td>
+      </tr>
+      <tr>
+        <td>Badge</td>
+        <td>DM Sans, 10px, 700</td>
+        <td>Notification counts</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="background: var(--teal-glow); font-weight: 700;">Spacing (4px grid)</td>
+      </tr>
+      <tr>
+        <td>User card padding</td>
+        <td>24px</td>
+        <td>Inner padding</td>
+      </tr>
+      <tr>
+        <td>Avatar margin-bottom</td>
+        <td>12px</td>
+        <td>Space below avatar</td>
+      </tr>
+      <tr>
+        <td>Card gap</td>
+        <td>16px</td>
+        <td>Space between user card and nav</td>
+      </tr>
+      <tr>
+        <td>Nav link padding</td>
+        <td>14px 20px</td>
+        <td>Vertical × horizontal</td>
+      </tr>
+      <tr>
+        <td>Nav icon gap</td>
+        <td>12px</td>
+        <td>Space between icon and text</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="background: var(--teal-glow); font-weight: 700;">Other Tokens</td>
+      </tr>
+      <tr>
+        <td>Card border-radius</td>
+        <td>16px</td>
+        <td>User card + nav container</td>
+      </tr>
+      <tr>
+        <td>Avatar border-radius</td>
+        <td>16px</td>
+        <td>Rounded square avatar</td>
+      </tr>
+      <tr>
+        <td>Avatar size</td>
+        <td>64×64px</td>
+        <td>Fixed dimensions</td>
+      </tr>
+      <tr>
+        <td>Badge border-radius</td>
+        <td>100px (pill)</td>
+        <td>Fully rounded</td>
+      </tr>
+      <tr>
+        <td>Active border</td>
+        <td>3px solid teal (left)</td>
+        <td>Active indicator</td>
+      </tr>
+      <tr>
+        <td>Icon size</td>
+        <td>18×18px</td>
+        <td>Nav icons</td>
+      </tr>
+      <tr>
+        <td>Calendar icon size</td>
+        <td>12×12px</td>
+        <td>Membership date icon</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="demo-section">
+    <div class="section-title">STEP 4: Props & Configuration</div>
+
+    <div class="code-block"><pre>// TypeScript Interface
+interface AccountSidebarProps {
+  user: {
+    initials: string;           // 1-2 uppercase letters (e.g., "JV", "MK")
+    name: string;               // Full name (e.g., "Jan de Vries")
+    company?: string;           // Optional company name (B2B)
+    memberSince: string;        // Date string (e.g., "maart 2019")
+  };
+  navItems: NavItem[];
+  activeItem: string;           // ID of currently active nav item
+  onNavigate?: (itemId: string) => void;
+  onLogout?: () => void;
+}
+
+interface NavItem {
+  id: string;                   // Unique identifier
+  label: string;                // Display text
+  icon: string;                 // Lucide icon name
+  href?: string;                // Link URL (optional if using onClick)
+  badge?: number;               // Notification count (optional)
+  isLogout?: boolean;           // Special styling for logout (optional)
+}
+
+// Example Usage
+const user = {
+  initials: "JV",
+  name: "Jan de Vries",
+  company: "Huisartsenpraktijk De Vries",
+  memberSince: "maart 2019"
+};
+
+const navItems = [
+  { id: "dashboard", label: "Dashboard", icon: "layout-dashboard" },
+  { id: "orders", label: "Bestellingen", icon: "package", badge: 2 },
+  { id: "lists", label: "Bestellijsten", icon: "clipboard-list" },
+  { id: "repeat", label: "Herhaalbestellingen", icon: "repeat" },
+  { id: "favorites", label: "Favorieten", icon: "heart" },
+  { id: "addresses", label: "Adressen", icon: "map-pin" },
+  { id: "company", label: "Bedrijfsgegevens", icon: "building-2" },
+  { id: "invoices", label: "Facturen", icon: "file-text" },
+  { id: "settings", label: "Accountinstellingen", icon: "settings" },
+  { id: "logout", label: "Uitloggen", icon: "log-out", isLogout: true }
+];</pre></div>
+
+    <p><strong>Navigation Item Configuration:</strong></p>
+    <table>
+      <tr>
+        <th>Section</th>
+        <th>Icon</th>
+        <th>Badge Use</th>
+      </tr>
+      <tr>
+        <td>Dashboard</td>
+        <td>layout-dashboard</td>
+        <td>No badge</td>
+      </tr>
+      <tr>
+        <td>Bestellingen</td>
+        <td>package</td>
+        <td>Pending/processing order count</td>
+      </tr>
+      <tr>
+        <td>Bestellijsten</td>
+        <td>clipboard-list</td>
+        <td>Optional: number of saved lists</td>
+      </tr>
+      <tr>
+        <td>Herhaalbestellingen</td>
+        <td>repeat</td>
+        <td>Optional: active subscriptions</td>
+      </tr>
+      <tr>
+        <td>Favorieten</td>
+        <td>heart</td>
+        <td>Optional: total favorited items</td>
+      </tr>
+      <tr>
+        <td>Adressen</td>
+        <td>map-pin</td>
+        <td>No badge</td>
+      </tr>
+      <tr>
+        <td>Bedrijfsgegevens</td>
+        <td>building-2</td>
+        <td>No badge</td>
+      </tr>
+      <tr>
+        <td>Facturen</td>
+        <td>file-text</td>
+        <td>Optional: unpaid invoice count</td>
+      </tr>
+      <tr>
+        <td>Accountinstellingen</td>
+        <td>settings</td>
+        <td>No badge</td>
+      </tr>
+      <tr>
+        <td>Uitloggen</td>
+        <td>log-out</td>
+        <td>No badge (special coral styling)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="demo-section">
+    <div class="section-title">STEP 5: Layout Rules</div>
+
+    <div class="info-box">
+      <p><strong>Layout Pattern:</strong> The sidebar is a fixed-width (280px) column positioned on the left side of account pages. It uses a vertical stack with two main sections: user card (top) and navigation (below).</p>
+    </div>
+
+    <p><strong>Structural Rules:</strong></p>
+    <ul>
+      <li><strong>Container:</strong> <code>.account-sidebar</code>  max-width: 280px, width: 100%</li>
+      <li><strong>User Card:</strong> White background, 16px border-radius, 24px padding, 16px margin-bottom</li>
+      <li><strong>Avatar:</strong> 64×64px, centered above user info, teal gradient, 16px border-radius</li>
+      <li><strong>User Info:</strong> Text-align center, name (16px bold) ’ company (13px grey) ’ member date (11px grey)</li>
+      <li><strong>Navigation:</strong> White background, 16px border-radius, overflow hidden (for border-radius on first/last items)</li>
+      <li><strong>Nav Links:</strong> Flexbox row, 14px padding vertical + 20px horizontal, 1px bottom border (except last)</li>
+      <li><strong>Active State:</strong> 3px left border (teal) + teal background glow + teal text + bold weight</li>
+    </ul>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <ul>
+      <li><strong>Desktop (e768px):</strong> Sidebar visible, 280px fixed width, positioned left in grid layout</li>
+      <li><strong>Tablet/Mobile (<768px):</strong> Options:
+        <ul>
+          <li><strong>Option A:</strong> Full-width sidebar at top of page (stack above main content)</li>
+          <li><strong>Option B:</strong> Collapse to hamburger menu / drawer (recommended)</li>
+          <li><strong>Option C:</strong> Convert to horizontal tabs (simple alternative)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="code-block"><pre>/* Desktop Layout (Account Page Grid) */
+.account-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  padding: 32px 0 80px;
+  align-items: start;
+}
+
+/* Mobile: Stack Vertically */
+@media (max-width: 768px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .account-sidebar {
+    max-width: 100%;
+  }
+
+  /* Optional: Collapse user card on mobile */
+  .account-user {
+    padding: 16px;
+  }
+
+  .user-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+}</pre></div>
+
+    <p><strong>Grid Context (Recommended):</strong></p>
+    <div class="code-block"><pre>&lt;div class="account-layout"&gt;
+  &lt;aside class="account-sidebar"&gt;...&lt;/aside&gt;
+  &lt;main class="account-main"&gt;...&lt;/main&gt;
+&lt;/div&gt;</pre></div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="demo-section">
+    <div class="section-title">STEP 6: Accessibility</div>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <div class="code-block"><pre>&lt;aside class="account-sidebar" role="complementary" aria-label="Account navigation"&gt;
+  &lt;div class="account-user" role="region" aria-label="User profile"&gt;
+    &lt;div class="user-avatar" aria-hidden="true"&gt;JV&lt;/div&gt;
+    &lt;div class="user-name"&gt;Jan de Vries&lt;/div&gt;
+    &lt;div class="user-company"&gt;Huisartsenpraktijk De Vries&lt;/div&gt;
+    &lt;div class="user-since"&gt;
+      &lt;i data-lucide="calendar" aria-hidden="true"&gt;&lt;/i&gt;
+      &lt;span&gt;Klant sinds maart 2019&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;nav class="account-nav" aria-label="Account menu"&gt;
+    &lt;a href="/account/dashboard"
+       class="nav-link active"
+       aria-current="page"&gt;
+      &lt;i data-lucide="layout-dashboard" aria-hidden="true"&gt;&lt;/i&gt;
+      Dashboard
+    &lt;/a&gt;
+    &lt;a href="/account/orders" class="nav-link"&gt;
+      &lt;i data-lucide="package" aria-hidden="true"&gt;&lt;/i&gt;
+      Bestellingen
+      &lt;span class="badge" aria-label="2 nieuwe bestellingen"&gt;2&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;!-- ... more links ... --&gt;
+  &lt;/nav&gt;
+&lt;/aside&gt;</pre></div>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li><strong>Tab:</strong> Focus moves through nav links sequentially</li>
+      <li><strong>Enter / Space:</strong> Activate focused link</li>
+      <li><strong>Shift+Tab:</strong> Move focus backward</li>
+    </ul>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Attribute</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>aside</td>
+        <td>role="complementary"</td>
+        <td>Identifies sidebar as supporting content</td>
+      </tr>
+      <tr>
+        <td>aside</td>
+        <td>aria-label="Account navigation"</td>
+        <td>Provides accessible name for landmark</td>
+      </tr>
+      <tr>
+        <td>nav</td>
+        <td>aria-label="Account menu"</td>
+        <td>Distinguishes from main site navigation</td>
+      </tr>
+      <tr>
+        <td>active link</td>
+        <td>aria-current="page"</td>
+        <td>Indicates current page/section</td>
+      </tr>
+      <tr>
+        <td>icons</td>
+        <td>aria-hidden="true"</td>
+        <td>Hides decorative icons from screen readers</td>
+      </tr>
+      <tr>
+        <td>badge</td>
+        <td>aria-label="2 nieuwe bestellingen"</td>
+        <td>Provides context for badge count</td>
+      </tr>
+    </table>
+
+    <p><strong>Focus Management:</strong></p>
+    <div class="code-block"><pre>/* Visible focus ring (teal glow) */
+.nav-link:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--teal);
+}
+
+.nav-link:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--teal),
+              0 0 0 4px var(--teal-glow);
+}</pre></div>
+
+    <p><strong>Screen Reader Considerations:</strong></p>
+    <ul>
+      <li>Avatar initials are decorative (<code>aria-hidden="true"</code>), name is read from text content</li>
+      <li>Icons are hidden (<code>aria-hidden="true"</code>), link text provides context</li>
+      <li>Badge counts include descriptive labels (not just numbers)</li>
+      <li>Active link announced as "current page" via <code>aria-current</code></li>
+      <li>Logout link clearly labeled (not just icon)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="demo-section">
+    <div class="section-title">STEP 7: Implementation Notes</div>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <div class="code-block"><pre>import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+interface AccountSidebarProps {
+  user: {
+    initials: string;
+    name: string;
+    company?: string;
+    memberSince: string;
+  };
+  navItems: NavItem[];
+  onLogout?: () => void;
+}
+
+export const AccountSidebar: React.FC&lt;AccountSidebarProps&gt; = ({
+  user,
+  navItems,
+  onLogout
+}) => {
+  const router = useRouter();
+  const isActive = (href: string) => router.pathname === href;
+
+  return (
+    &lt;aside className="account-sidebar" role="complementary" aria-label="Account navigation"&gt;
+      {/* User Card */}
+      &lt;div className="account-user" role="region" aria-label="User profile"&gt;
+        &lt;div className="user-avatar" aria-hidden="true"&gt;
+          {user.initials}
+        &lt;/div&gt;
+        &lt;div className="user-name"&gt;{user.name}&lt;/div&gt;
+        {user.company && (
+          &lt;div className="user-company"&gt;{user.company}&lt;/div&gt;
+        )}
+        &lt;div className="user-since"&gt;
+          &lt;i data-lucide="calendar" aria-hidden="true" /&gt;
+          Klant sinds {user.memberSince}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      {/* Navigation */}
+      &lt;nav className="account-nav" aria-label="Account menu"&gt;
+        {navItems.map((item) => {
+          if (item.isLogout) {
+            return (
+              &lt;button
+                key={item.id}
+                onClick={onLogout}
+                className="nav-link logout"
+                type="button"
+              &gt;
+                &lt;i data-lucide={item.icon} aria-hidden="true" /&gt;
+                {item.label}
+              &lt;/button&gt;
+            );
+          }
+
+          const active = isActive(item.href || '');
+
+          return (
+            &lt;Link
+              key={item.id}
+              href={item.href || '#'}
+              className={`nav-link ${active ? 'active' : ''}`}
+              aria-current={active ? 'page' : undefined}
+            &gt;
+              &lt;i data-lucide={item.icon} aria-hidden="true" /&gt;
+              {item.label}
+              {item.badge && item.badge > 0 && (
+                &lt;span
+                  className="badge"
+                  aria-label={`${item.badge} nieuwe ${item.label.toLowerCase()}`}
+                &gt;
+                  {item.badge}
+                &lt;/span&gt;
+              )}
+            &lt;/Link&gt;
+          );
+        })}
+      &lt;/nav&gt;
+    &lt;/aside&gt;
+  );
+};</pre></div>
+
+    <p><strong>Avatar Generation:</strong></p>
+    <div class="code-block"><pre>// Generate initials from name
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map(part => part[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+}
+
+// Examples:
+getInitials("Jan de Vries");      // "JV"
+getInitials("Maria Koster");      // "MK"
+getInitials("Peter");             // "P"</pre></div>
+
+    <p><strong>Date Formatting:</strong></p>
+    <div class="code-block"><pre>// Format membership date (Dutch locale)
+function formatMemberSince(date: Date): string {
+  const formatter = new Intl.DateTimeFormat('nl-NL', {
+    month: 'long',
+    year: 'numeric'
+  });
+  return formatter.format(date);
+}
+
+// Example: new Date('2019-03-15') ’ "maart 2019"</pre></div>
+
+    <p><strong>Logout Handler:</strong></p>
+    <div class="code-block"><pre>const handleLogout = async () => {
+  try {
+    // Clear auth token
+    await fetch('/api/auth/logout', { method: 'POST' });
+
+    // Clear local storage
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+
+    // Redirect to login
+    router.push('/login');
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};</pre></div>
+
+    <p><strong>Badge Count Logic:</strong></p>
+    <div class="code-block"><pre>// Calculate badge counts from user data
+const getBadgeCounts = (user: User) => ({
+  orders: user.orders.filter(o =>
+    o.status === 'processing' || o.status === 'pending'
+  ).length,
+
+  lists: user.bestellijsten?.length || 0,
+
+  favorites: user.favorites?.length || 0,
+
+  invoices: user.invoices.filter(i =>
+    i.status === 'unpaid'
+  ).length
+});</pre></div>
+
+    <p><strong>Performance:</strong></p>
+    <ul>
+      <li>Sidebar is static (no complex state), renders once per page load</li>
+      <li>Icons loaded via Lucide CDN (cached)</li>
+      <li>No animations on initial render (fast paint)</li>
+      <li>Badge counts fetched server-side (no client loading states)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="demo-section">
+    <div class="section-title">STEP 8: Variations & Related Components</div>
+
+    <p><strong>Common Variations:</strong></p>
+    <table>
+      <tr>
+        <th>Variation</th>
+        <th>When to Use</th>
+        <th>Implementation</th>
+      </tr>
+      <tr>
+        <td>B2B Account</td>
+        <td>Business/company accounts</td>
+        <td>Show company name, include "Bedrijfsgegevens" nav item</td>
+      </tr>
+      <tr>
+        <td>B2C Account</td>
+        <td>Personal consumer accounts</td>
+        <td>Hide company field, simplify nav menu (remove B2B-specific items)</td>
+      </tr>
+      <tr>
+        <td>With Badges</td>
+        <td>Show pending actions/notifications</td>
+        <td>Add badge counts to relevant nav items (orders, invoices, etc.)</td>
+      </tr>
+      <tr>
+        <td>Minimal Menu</td>
+        <td>Simplified account area (fewer sections)</td>
+        <td>Reduce nav items to 4-6 core sections (dashboard, orders, favorites, settings, logout)</td>
+      </tr>
+      <tr>
+        <td>Mobile Drawer</td>
+        <td>Mobile/tablet viewports</td>
+        <td>Convert to slide-out drawer or collapsible accordion</td>
+      </tr>
+    </table>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>C11: NotificationCenter</strong>  Dropdown notification panel (can be linked from badge)</li>
+      <li><strong>C12: AddressBook</strong>  Main content when "Adressen" nav item active</li>
+      <li><strong>C25: ProgressSteps</strong>  Used in multi-step account flows (onboarding, settings)</li>
+      <li><strong>DashboardWidget</strong>  Cards shown on dashboard page (when Dashboard active)</li>
+      <li><strong>OrderRow</strong>  List items shown on orders page (when Bestellingen active)</li>
+    </ul>
+
+    <p><strong>Integration Examples:</strong></p>
+    <div class="code-block"><pre>// Account Dashboard Page
+&lt;div className="account-layout"&gt;
+  &lt;AccountSidebar
+    user={user}
+    navItems={navItems}
+    onLogout={handleLogout}
+  /&gt;
+  &lt;main className="account-main"&gt;
+    &lt;DashboardStats stats={user.stats} /&gt;
+    &lt;RecentOrders orders={user.recentOrders} /&gt;
+    &lt;QuickActions /&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+
+// Account Orders Page
+&lt;div className="account-layout"&gt;
+  &lt;AccountSidebar user={user} navItems={navItems} /&gt;
+  &lt;main className="account-main"&gt;
+    &lt;OrderFilters /&gt;
+    &lt;OrderList orders={user.orders} /&gt;
+    &lt;Pagination /&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</pre></div>
+
+    <p><strong>State Management:</strong></p>
+    <div class="code-block"><pre>// Using React Context for global user state
+const AccountContext = createContext&lt;AccountContextType&gt;(null);
+
+export const AccountProvider: React.FC = ({ children }) => {
+  const [user, setUser] = useState&lt;User | null&gt;(null);
+  const [navItems, setNavItems] = useState&lt;NavItem[]&gt;([]);
+
+  useEffect(() => {
+    // Fetch user data + generate nav items with badge counts
+    fetchUserData().then(userData => {
+      setUser(userData);
+      setNavItems(generateNavItems(userData));
+    });
+  }, []);
+
+  return (
+    &lt;AccountContext.Provider value={{ user, navItems }}&gt;
+      {children}
+    &lt;/AccountContext.Provider&gt;
+  );
+};
+
+// In AccountSidebar component:
+const { user, navItems } = useContext(AccountContext);</pre></div>
+
+    <p><strong>Customization Options:</strong></p>
+    <ul>
+      <li><strong>Avatar Style:</strong> Use gradient (default), solid color, or user profile photo</li>
+      <li><strong>Nav Icon Set:</strong> Swap Lucide icons for FontAwesome, Heroicons, etc.</li>
+      <li><strong>Badge Style:</strong> Change coral to brand color (teal, navy), use outline badges</li>
+      <li><strong>Active Indicator:</strong> Use full background (no left border), or bottom border instead</li>
+      <li><strong>Collapse/Expand:</strong> Add collapse button to hide sidebar (desktop), expand icon in header (mobile)</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Demo: Nav link interaction (console log)
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // Remove active from all
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+      // Add active to clicked (unless logout)
+      if (!link.classList.contains('logout')) {
+        link.classList.add('active');
+      } else {
+        console.log('Logout clicked');
+      }
+
+      console.log('Navigated to:', link.textContent.trim());
+    });
+  });
+</script>
+
+</body>
+</html>

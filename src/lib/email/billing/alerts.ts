@@ -228,7 +228,7 @@ export function clearOldAlerts(): void {
   const currentPeriod = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
 
   // Keep only current period
-  for (const key of sentAlerts.keys()) {
+  for (const key of Array.from(sentAlerts.keys())) {
     if (!key.endsWith(currentPeriod)) {
       sentAlerts.delete(key)
     }

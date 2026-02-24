@@ -5,15 +5,20 @@
  * GET /api/email-marketing/usage/all - Get usage for all tenants (super-admin only)
  */
 
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getUsageTracker, TIER_CONFIG } from '@/lib/email/billing/usage-tracker'
+import { rateLimit, RateLimitPresets } from '@/lib/security/rate-limiter'
 
 /**
  * GET - Get usage stats for current tenant
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  // Rate limiting - 60 requests per minute
+  const rateLimitResult = rateLimit(request, RateLimitPresets.API)
+  if (rateLimitResult) return rateLimitResult
+
   try {
     const payload = await getPayload({ config })
     const { searchParams } = new URL(request.url)

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C19 - Breadcrumbs | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'DM Sans', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Breadcrumb Base */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      list-style: none;
+    }
+
+    .breadcrumb li {
+      display: flex;
+      align-items: center;
+    }
+
+    .breadcrumb a {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--teal);
+    }
+
+    .breadcrumb a:focus {
+      outline: none;
+      color: var(--teal);
+      text-decoration: underline;
+    }
+
+    .breadcrumb .current {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* Variant 1: Default with Chevrons */
+    .breadcrumb.default .separator {
+      color: var(--grey);
+      display: flex;
+      align-items: center;
+    }
+
+    .breadcrumb.default .separator i {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* Variant 2: Pill-style */
+    .breadcrumb.pill {
+      gap: 4px;
+    }
+
+    .breadcrumb.pill a {
+      background: var(--grey-light);
+      padding: 4px 10px;
+      border-radius: 100px;
+      transition: all var(--transition);
+    }
+
+    .breadcrumb.pill a:hover {
+      background: var(--teal-glow);
+      color: var(--teal);
+    }
+
+    .breadcrumb.pill .current {
+      background: var(--teal-glow);
+      color: var(--teal);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .breadcrumb.pill .separator {
+      color: var(--grey);
+      font-size: 16px;
+    }
+
+    /* Variant 3: Icon-enriched */
+    .breadcrumb.icon a,
+    .breadcrumb.icon .current {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .breadcrumb.icon i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .breadcrumb.icon .current i {
+      color: var(--teal);
+    }
+
+    .breadcrumb.icon .separator {
+      color: var(--grey);
+      font-size: 14px;
+    }
+
+    /* Demo Styles */
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      margin-bottom: 32px;
+    }
+
+    .demo-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    .demo-box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <div class="demo-section">
+      <div class="demo-label">Variant 1: Default (Chevron)</div>
+      <div class="demo-box">
+        <ol class="breadcrumb default">
+          <li><a href="#">Home</a></li>
+          <li class="separator"><i data-lucide="chevron-right"></i></li>
+          <li><a href="#">Producten</a></li>
+          <li class="separator"><i data-lucide="chevron-right"></i></li>
+          <li><a href="#">Handschoenen</a></li>
+          <li class="separator"><i data-lucide="chevron-right"></i></li>
+          <li class="current">Peha-soft Nitrile Fino</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">Variant 2: Pill-style</div>
+      <div class="demo-box">
+        <ol class="breadcrumb pill">
+          <li><a href="#">Home</a></li>
+          <li class="separator">›</li>
+          <li><a href="#">Producten</a></li>
+          <li class="separator">›</li>
+          <li><a href="#">Handschoenen</a></li>
+          <li class="separator">›</li>
+          <li class="current">Peha-soft Nitrile Fino</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">Variant 3: Icon-enriched</div>
+      <div class="demo-box">
+        <ol class="breadcrumb icon">
+          <li><a href="#"><i data-lucide="home"></i> Home</a></li>
+          <li class="separator">›</li>
+          <li><a href="#"><i data-lucide="package"></i> Producten</a></li>
+          <li class="separator">›</li>
+          <li><a href="#"><i data-lucide="hand"></i> Handschoenen</a></li>
+          <li class="separator">›</li>
+          <li class="current"><i data-lucide="box"></i> Peha-soft Nitrile Fino</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C19 - Breadcrumbs</p>
+    <p><strong>Category:</strong> Navigation</p>
+    <p><strong>Complexiteit:</strong> Low (simple navigation trail)</p>
+
+    <h3>Purpose:</h3>
+    <p>Provide users with a hierarchical navigation trail showing their current location within the site structure, with clickable links to parent pages.</p>
+
+    <h3>Variants:</h3>
+    <ul>
+      <li><strong>Default:</strong> Simple text links with chevron (›) icon separators</li>
+      <li><strong>Pill-style:</strong> Links styled as background chips with arrow (›) separators</li>
+      <li><strong>Icon-enriched:</strong> Category icons next to each link for better visual hierarchy</li>
+    </ul>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Current page always navy (#0A1628) + bold (not clickable)</li>
+      <li>Links grey-mid (#94A3B8), hover teal (#00897B)</li>
+      <li>Semantic HTML (<code>&lt;ol&gt;</code> for ordered list)</li>
+      <li>SEO-friendly (helps search engines understand site structure)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Product detail pages (Home › Category › Subcategory › Product)</li>
+      <li>Category/archive pages (Home › Products › Gloves)</li>
+      <li>Blog posts (Home › Blog › Article)</li>
+      <li>Account pages (Home › Account › Orders › Order #123)</li>
+      <li>Multi-level content pages (Home › Knowledge Base › Guides › Getting Started)</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Homepage (geen parent pagina's)</li>
+      <li>Standalone marketing pages zonder hiërarchie</li>
+      <li>Login/registratie flows (geen navigatie context)</li>
+      <li>Checkout process (gebruik progress steps, zie C25)</li>
+    </ul>
+
+    <h3>Variant Selection Guide:</h3>
+    <ul>
+      <li><strong>Default:</strong> Most common, clean, minimalist</li>
+      <li><strong>Pill-style:</strong> Voor sites met speelse/moderne aesthetic, ecommerce focus</li>
+      <li><strong>Icon-enriched:</strong> Voor complexe site structuren, visuele hiërarchie belangrijk</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Base Breadcrumb */
+font-size: 13px
+display: flex
+align-items: center
+gap: 8px                          /* default, pill-icon: 4px */
+list-style: none
+
+/* Links (not current) */
+color: var(--grey-mid)            /* #94A3B8 */
+text-decoration: none
+
+/* Link Hover State */
+color: var(--teal)                /* #00897B */
+
+/* Link Focus State */
+color: var(--teal)
+text-decoration: underline
+outline: none
+
+/* Current Page */
+color: var(--navy)                /* #0A1628 */
+font-weight: 600
+
+/* Separators */
+color: var(--grey)                /* #E8ECF1 */
+font-size: 13px                   /* chevron icon */
+font-size: 16px                   /* › arrow in pill */
+font-size: 14px                   /* › arrow in icon */
+
+/* Pill Variant Specific */
+background: var(--grey-light)     /* #F1F4F8 */
+padding: 4px 10px
+border-radius: 100px
+
+/* Pill Hover */
+background: var(--teal-glow)      /* rgba(0,137,123,0.12) */
+color: var(--teal)
+
+/* Pill Current */
+background: var(--teal-glow)
+color: var(--teal)
+
+/* Icon Variant Specific */
+icon-width: 14px
+icon-height: 14px
+gap: 4px                          /* between icon and text */
+
+/* Icon Current */
+icon-color: var(--teal)           /* active icon teal */
+
+/* Transition */
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  items: [
+    { label: 'Home', href: '/', icon: 'home' },
+    { label: 'Producten', href: '/producten', icon: 'package' },
+    { label: 'Handschoenen', href: '/producten/handschoenen', icon: 'hand' },
+    { label: 'Peha-soft Nitrile Fino', href: null }  // current page (no href)
+  ],
+  variant: 'default',        // 'default' | 'pill' | 'icon'
+  showHome: true,            // Include home link
+  maxItems: null,            // Truncate if too long (e.g., 4)
+  separator: 'chevron-right' // Icon name or custom string
+}</pre>
+
+    <h3>Icon Mapping (Icon Variant):</h3>
+    <pre>const categoryIcons = {
+  home: 'home',
+  products: 'package',
+  categories: 'grid',
+  brands: 'award',
+  blog: 'book-open',
+  account: 'user',
+  orders: 'shopping-bag',
+  settings: 'settings',
+  // Map your categories to Lucide icons
+}</pre>
+
+    <h3>Auto-Generation from URL:</h3>
+    <pre>// Generate breadcrumbs from pathname
+function generateBreadcrumbs(pathname) {
+  const segments = pathname.split('/').filter(Boolean);
+
+  const items = [{ label: 'Home', href: '/' }];
+
+  let path = '';
+  segments.forEach((segment, i) => {
+    path += `/${segment}`;
+    const label = segment
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase());
+
+    items.push({
+      label,
+      href: i < segments.length - 1 ? path : null  // Last = current
+    });
+  });
+
+  return items;
+}
+
+// Usage:
+const breadcrumbs = generateBreadcrumbs('/producten/handschoenen/nitrile');
+// Result:
+// [
+//   { label: 'Home', href: '/' },
+//   { label: 'Producten', href: '/producten' },
+//   { label: 'Handschoenen', href: '/producten/handschoenen' },
+//   { label: 'Nitrile', href: null }
+// ]</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>Positioning:</h3>
+    <pre>/* Always placed ABOVE page title/hero */
+/* Typical spacing: */
+margin-bottom: 16px;  /* between breadcrumb and h1 */
+
+/* Container: */
+max-width: 1200px;
+padding: 0 24px;
+margin: 0 auto;</pre>
+
+    <h3>Truncation for Long Paths:</h3>
+    <pre>/* If more than 4 items, show: */
+/* Home › ... › Parent › Current */
+
+&lt;ol class="breadcrumb default"&gt;
+  &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="separator"&gt;›&lt;/li&gt;
+  &lt;li class="ellipsis"&gt;...&lt;/li&gt;
+  &lt;li class="separator"&gt;›&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/parent"&gt;Parent&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="separator"&gt;›&lt;/li&gt;
+  &lt;li class="current"&gt;Current&lt;/li&gt;
+&lt;/ol&gt;
+
+/* Ellipsis styling: */
+.breadcrumb .ellipsis {
+  color: var(--grey-mid);
+  cursor: pointer;
+}
+
+.breadcrumb .ellipsis:hover {
+  color: var(--teal);
+}</pre>
+
+    <h3>Responsive Behavior:</h3>
+    <pre>@media (max-width: 640px) {
+  /* Option 1: Horizontal scroll */
+  .breadcrumb {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .breadcrumb::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Option 2: Show only last 2 items */
+  .breadcrumb li:not(:nth-last-child(-n+4)) {
+    display: none;
+  }
+
+  /* Option 3: Stack vertically */
+  .breadcrumb {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .breadcrumb .separator {
+    display: none;
+  }
+}</pre>
+
+    <h3>Sticky Breadcrumb (Optional):</h3>
+    <pre>/* Stick breadcrumb to top on scroll */
+.breadcrumb-container {
+  position: sticky;
+  top: 80px;        /* Below header */
+  background: white;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--grey);
+  z-index: 100;
+  transition: all 0.2s;
+}
+
+.breadcrumb-container.scrolled {
+  box-shadow: 0 2px 8px rgba(10, 22, 40, 0.05);
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Semantic HTML:</h3>
+    <pre>&lt;nav aria-label="Breadcrumb"&gt;
+  &lt;ol class="breadcrumb default"&gt;
+    &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="separator" aria-hidden="true"&gt;
+      &lt;i data-lucide="chevron-right"&gt;&lt;/i&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href="/producten"&gt;Producten&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="separator" aria-hidden="true"&gt;
+      &lt;i data-lucide="chevron-right"&gt;&lt;/i&gt;
+    &lt;/li&gt;
+    &lt;li aria-current="page" class="current"&gt;
+      Peha-soft Nitrile Fino
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</pre>
+
+    <h3>Key Accessibility Features:</h3>
+    <ul>
+      <li><strong><code>&lt;nav aria-label="Breadcrumb"&gt;</code>:</strong> Identifies navigation landmark</li>
+      <li><strong><code>&lt;ol&gt;</code>:</strong> Ordered list semantically correct (hierarchical order)</li>
+      <li><strong><code>aria-hidden="true"</code>:</strong> Hide decorative separators from screen readers</li>
+      <li><strong><code>aria-current="page"</code>:</strong> Indicates current page to assistive tech</li>
+    </ul>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>Tab:</strong> Focus each breadcrumb link</li>
+      <li><strong>Enter:</strong> Activate focused link</li>
+      <li>Current page (not a link) is not focusable</li>
+    </ul>
+
+    <h3>Screen Reader Behavior:</h3>
+    <ul>
+      <li>Announces: "Breadcrumb navigation"</li>
+      <li>Reads items in order: "Home, link, Producten, link, current page: Peha-soft"</li>
+      <li>Separators ignored (aria-hidden)</li>
+    </ul>
+
+    <h3>Focus Management:</h3>
+    <pre>/* Clear focus state */
+.breadcrumb a:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>React Component (TypeScript):</h3>
+    <pre>import { ChevronRight } from 'lucide-react';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  icon?: string;
+}
+
+interface BreadcrumbProps {
+  items: BreadcrumbItem[];
+  variant?: 'default' | 'pill' | 'icon';
+}
+
+export function Breadcrumb({ items, variant = 'default' }: BreadcrumbProps) {
+  return (
+    &lt;nav aria-label="Breadcrumb"&gt;
+      &lt;ol className={`breadcrumb ${variant}`}&gt;
+        {items.map((item, i) =&gt; (
+          &lt;Fragment key={i}&gt;
+            &lt;li&gt;
+              {i &lt; items.length - 1 ? (
+                &lt;a href={item.href}&gt;
+                  {variant === 'icon' && item.icon && (
+                    &lt;Icon name={item.icon} /&gt;
+                  )}
+                  {item.label}
+                &lt;/a&gt;
+              ) : (
+                &lt;span className="current" aria-current="page"&gt;
+                  {variant === 'icon' && item.icon && (
+                    &lt;Icon name={item.icon} /&gt;
+                  )}
+                  {item.label}
+                &lt;/span&gt;
+              )}
+            &lt;/li&gt;
+            {i &lt; items.length - 1 && (
+              &lt;li className="separator" aria-hidden="true"&gt;
+                {variant === 'default' ? (
+                  &lt;ChevronRight size={13} /&gt;
+                ) : (
+                  '›'
+                )}
+              &lt;/li&gt;
+            )}
+          &lt;/Fragment&gt;
+        ))}
+      &lt;/ol&gt;
+    &lt;/nav&gt;
+  );
+}</pre>
+
+    <h3>Next.js Auto-Generation:</h3>
+    <pre>import { useRouter } from 'next/router';
+
+function useBreadcrumbs() {
+  const router = useRouter();
+  const { asPath } = router;
+
+  const segments = asPath.split('?')[0].split('/').filter(Boolean);
+
+  const items = [{ label: 'Home', href: '/' }];
+
+  let path = '';
+  segments.forEach((segment, i) => {
+    path += `/${segment}`;
+
+    // Get label from CMS or format segment
+    const label = formatSegment(segment);
+
+    items.push({
+      label,
+      href: i < segments.length - 1 ? path : undefined
+    });
+  });
+
+  return items;
+}
+
+// In page component:
+const breadcrumbs = useBreadcrumbs();
+
+return (
+  &lt;div&gt;
+    &lt;Breadcrumb items={breadcrumbs} variant="default" /&gt;
+    &lt;h1&gt;Page Title&lt;/h1&gt;
+    {/* ... */}
+  &lt;/div&gt;
+);</pre>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// In product/page collection:
+{
+  name: 'breadcrumbOverride',
+  type: 'array',
+  admin: {
+    description: 'Override automatische breadcrumb generatie'
+  },
+  fields: [
+    {
+      name: 'label',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'href',
+      type: 'text',
+      admin: {
+        description: 'Laat leeg voor current page'
+      }
+    }
+  ]
+}
+
+// Global settings:
+{
+  name: 'breadcrumbVariant',
+  type: 'select',
+  options: [
+    { label: 'Default (Chevron)', value: 'default' },
+    { label: 'Pill-style', value: 'pill' },
+    { label: 'Icon-enriched', value: 'icon' }
+  ],
+  defaultValue: 'default'
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Variant Comparison:</h3>
+    <pre>┌─────────────┬──────────────┬─────────────┬──────────────┐
+│   Variant   │ Visual Style │  Use Case   │ Complexity   │
+├─────────────┼──────────────┼─────────────┼──────────────┤
+│ Default     │ Minimal      │ Any site    │ Lowest       │
+│ Pill-style  │ Modern       │ Ecommerce   │ Low          │
+│ Icon-enrich │ Hierarchical │ Complex nav │ Medium       │
+└─────────────┴──────────────┴─────────────┴──────────────┘</pre>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C25-ProgressSteps:</strong> For checkout/multi-step forms (not breadcrumbs)</li>
+      <li><strong>C14-MegaNavigation:</strong> Main navigation (complements breadcrumbs)</li>
+      <li><strong>C15-Footer:</strong> Footer links (alternative navigation)</li>
+    </ul>
+
+    <h3>Common Patterns:</h3>
+    <ul>
+      <li><strong>Product Pages:</strong> Home › Category › Subcategory › Product</li>
+      <li><strong>Blog Posts:</strong> Home › Blog › Category › Post Title</li>
+      <li><strong>Account Pages:</strong> Home › Account › Section › Detail</li>
+      <li><strong>Knowledge Base:</strong> Home › Help › Category › Article</li>
+    </ul>
+
+    <h3>SEO Schema Markup:</h3>
+    <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Producten",
+      "item": "https://example.com/producten"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Handschoenen",
+      "item": "https://example.com/producten/handschoenen"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Peha-soft Nitrile Fino"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+
+    <h3>Advanced Features:</h3>
+    <ul>
+      <li><strong>Microdata:</strong> Add <code>itemscope</code> attributes for rich snippets</li>
+      <li><strong>Dynamic Icons:</strong> Auto-map category to icon based on taxonomy</li>
+      <li><strong>Mobile Collapse:</strong> Show only "‹ Back" button on mobile</li>
+      <li><strong>Analytics:</strong> Track breadcrumb clicks for navigation insights</li>
+    </ul>
+
+    <h3>Testing Checklist:</h3>
+    <ul>
+      <li>✓ Current page not clickable</li>
+      <li>✓ All parent links functional</li>
+      <li>✓ Hover states working</li>
+      <li>✓ Keyboard navigation works</li>
+      <li>✓ Screen reader announces correctly</li>
+      <li>✓ Mobile responsive (scroll or truncate)</li>
+      <li>✓ SEO schema markup valid</li>
+    </ul>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+
+</html>
