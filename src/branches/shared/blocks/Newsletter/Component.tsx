@@ -155,24 +155,24 @@ export const NewsletterBlockComponent: React.FC<NewsletterBlockProps> = ({
           {submitStatus === 'success' ? (
             <div className={`${
               backgroundColor === 'white' || backgroundColor === 'grey'
-                ? 'bg-green-50 border-green-500 text-green-900'
+                ? 'bg-green-light border-green text-green'
                 : 'bg-white/10 border-white/30 text-white'
             } border rounded-xl p-8 text-center`}>
               <CheckCircle className={`w-16 h-16 mx-auto mb-4 ${
                 backgroundColor === 'white' || backgroundColor === 'grey'
-                  ? 'text-green-500'
+                  ? 'text-green'
                   : 'text-white'
               }`} />
               <h3 className={`text-lg font-bold mb-2 ${
                 backgroundColor === 'white' || backgroundColor === 'grey'
-                  ? 'text-green-900'
+                  ? 'text-green'
                   : 'text-white'
               }`}>
                 Gelukt!
               </h3>
               <p className={`text-[13px] ${
                 backgroundColor === 'white' || backgroundColor === 'grey'
-                  ? 'text-green-700'
+                  ? 'text-green'
                   : 'text-white/90'
               }`}>
                 {successMessage}
@@ -224,7 +224,7 @@ export const NewsletterBlockComponent: React.FC<NewsletterBlockProps> = ({
               {submitStatus === 'error' && (
                 <div className={`${
                   backgroundColor === 'white' || backgroundColor === 'grey'
-                    ? 'bg-coral-50 border-coral text-coral-700'
+                    ? 'bg-coral-light border-coral text-coral'
                     : 'bg-white/10 border-white/30 text-white'
                 } border rounded-lg p-4 text-center`}>
                   <p className="text-[13px] font-semibold">

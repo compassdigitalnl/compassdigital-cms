@@ -17,7 +17,7 @@ export const AccordionBlockComponent: React.FC<AccordionBlock> = ({ heading, ite
               <summary className="font-semibold text-lg cursor-pointer">
                 {item.title}
               </summary>
-              <div className="mt-4 text-gray-700">
+              <div className="mt-4 text-grey-dark">
                 <p>Content...</p>
               </div>
             </details>

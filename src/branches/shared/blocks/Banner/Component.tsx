@@ -59,7 +59,7 @@ const iconComponents = {
 const variantStyles = {
   announcement: 'bg-gradient-to-r from-navy to-navy-light',
   promo: 'bg-gradient-to-r from-teal to-teal-light',
-  warning: 'bg-gradient-to-r from-amber-500 to-amber-600',
+  warning: 'bg-gradient-to-r from-amber to-amber',
 }
 
 export const BannerBlockComponent: React.FC<BannerBlockProps> = ({

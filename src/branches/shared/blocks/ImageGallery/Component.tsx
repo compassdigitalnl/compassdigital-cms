@@ -14,8 +14,8 @@ export const ImageGalleryBlockComponent: React.FC<ImageGalleryBlock> = ({ headin
         <div className={`grid gap-4 ${columns === '4' ? 'md:grid-cols-4' : columns === '2' ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
           {images?.map((img, index) => (
             <div key={index} className="gallery-item">
-              <div className="aspect-square bg-gray-200 rounded"></div>
-              {img.caption && <p className="mt-2 text-sm text-gray-600">{img.caption}</p>}
+              <div className="aspect-square bg-grey-light rounded"></div>
+              {img.caption && <p className="mt-2 text-sm text-grey-mid">{img.caption}</p>}
             </div>
           ))}
         </div>

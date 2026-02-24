@@ -38,34 +38,34 @@ interface InfoBoxBlockProps {
   marginBottom?: Margin
 }
 
-// Variant configuration
+// Variant configuration (uses theme colors)
 const variantConfig = {
   info: {
-    bgColor: 'bg-blue-50',
-    borderColor: 'border-l-blue-500',
-    iconColor: 'text-blue-500',
-    textColor: 'text-blue-900',
+    bgColor: 'bg-blue-light',
+    borderColor: 'border-l-blue',
+    iconColor: 'text-blue',
+    textColor: 'text-blue',
     defaultIcon: Info,
   },
   success: {
-    bgColor: 'bg-green-50',
-    borderColor: 'border-l-green-500',
-    iconColor: 'text-green-500',
-    textColor: 'text-green-900',
+    bgColor: 'bg-green-light',
+    borderColor: 'border-l-green',
+    iconColor: 'text-green',
+    textColor: 'text-green',
     defaultIcon: CheckCircle,
   },
   warning: {
-    bgColor: 'bg-amber-50',
-    borderColor: 'border-l-amber-500',
-    iconColor: 'text-amber-500',
-    textColor: 'text-amber-900',
+    bgColor: 'bg-amber-light',
+    borderColor: 'border-l-amber',
+    iconColor: 'text-amber',
+    textColor: 'text-amber',
     defaultIcon: AlertTriangle,
   },
   error: {
-    bgColor: 'bg-coral-50',
-    borderColor: 'border-l-coral-500',
-    iconColor: 'text-coral-500',
-    textColor: 'text-coral-900',
+    bgColor: 'bg-coral-light',
+    borderColor: 'border-l-coral',
+    iconColor: 'text-coral',
+    textColor: 'text-coral',
     defaultIcon: XCircle,
   },
 }

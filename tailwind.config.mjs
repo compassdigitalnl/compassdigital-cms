@@ -116,25 +116,33 @@ export default {
         },
 
         // ═══════════════════════════════════════════════════════════════════
-        // SPRINT 6 COLORS: InfoBox & Banner blocks
+        // SPRINT 6 COLORS: InfoBox & Banner blocks (Extended for theme compliance)
         // ═══════════════════════════════════════════════════════════════════
         blue: {
+          DEFAULT: '#2196F3', // Base blue (info)
+          light: '#E3F2FD',   // Light blue backgrounds
           50: '#E3F2FD',
           500: '#2196F3',
           900: '#0D47A1',
         },
         green: {
+          DEFAULT: '#00C853', // Base green (success)
+          light: '#E8F5E9',   // Light green backgrounds
           50: '#E8F5E9',
           500: '#00C853',
           900: '#1B5E20',
         },
         amber: {
+          DEFAULT: '#F59E0B', // Base amber (warning)
+          light: '#FFF8E1',   // Light amber backgrounds
           50: '#FFF8E1',
           500: '#F59E0B',
           600: '#D97706',
           900: '#78350F',
         },
         coral: {
+          DEFAULT: '#FF6B6B', // Base coral (error)
+          light: '#FFF0F0',   // Light coral backgrounds
           50: '#FFF0F0',
           500: '#FF6B6B',
           900: '#7F1D1D',

@@ -11,10 +11,10 @@ import type { PricingBlock } from '@/payload-types'
 
 export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, plans }) => {
   return (
-    <section className="pricing py-16 px-4 bg-gray-50">
+    <section className="pricing py-16 px-4 bg-grey-light">
       <div className="container mx-auto">
         {heading && <h2 className="text-3xl font-bold mb-4 text-center">{heading}</h2>}
-        {intro && <p className="text-center mb-12 max-w-2xl mx-auto text-gray-600">{intro}</p>}
+        {intro && <p className="text-center mb-12 max-w-2xl mx-auto text-grey-mid">{intro}</p>}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans?.map((plan, index) => (
             <div
@@ -36,11 +36,11 @@ export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, 
                 <p className="text-4xl font-bold text-primary mb-1">
                   {plan.price}
                 </p>
-                {plan.period && <p className="text-gray-600">{plan.period}</p>}
+                {plan.period && <p className="text-grey-mid">{plan.period}</p>}
               </div>
 
               {plan.description && (
-                <p className="mb-6 text-gray-700 text-sm">{plan.description}</p>
+                <p className="mb-6 text-grey-dark text-sm">{plan.description}</p>
               )}
 
               <ul className="space-y-3 mb-8">
@@ -51,7 +51,7 @@ export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, 
                     >
                       ✓
                     </span>
-                    <span className="text-gray-700">{f.feature}</span>
+                    <span className="text-grey-dark">{f.feature}</span>
                   </li>
                 ))}
               </ul>

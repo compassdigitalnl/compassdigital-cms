@@ -199,17 +199,17 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
           {/* Contact Form */}
           <div className={hasContactInfo ? 'lg:col-span-2' : 'max-w-2xl mx-auto w-full'}>
             {submitStatus === 'success' ? (
-              <div className="bg-green-50 border border-green-500 rounded-xl p-8 text-center">
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-lg font-bold text-green-900 mb-2">
+              <div className="bg-green-light border border-green rounded-xl p-8 text-center">
+                <CheckCircle className="w-16 h-16 text-green mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-green mb-2">
                   Bericht verstuurd!
                 </h3>
-                <p className="text-[13px] text-green-700 mb-6">
+                <p className="text-[13px] text-green mb-6">
                   {successMessage}
                 </p>
                 <button
                   onClick={() => setSubmitStatus('idle')}
-                  className="text-[13px] font-semibold text-green-600 hover:text-green-700 transition-colors"
+                  className="text-[13px] font-semibold text-green hover:text-green transition-colors"
                 >
                   Nieuw bericht verzenden →
                 </button>
@@ -230,7 +230,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
                       onChange={handleChange('name')}
                       className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors ${
                         errors.name
-                          ? 'border-coral bg-coral-50'
+                          ? 'border-coral bg-coral-light'
                           : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
                       } outline-none`}
                       placeholder="Je volledige naam"
@@ -252,7 +252,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
                       onChange={handleChange('email')}
                       className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors ${
                         errors.email
-                          ? 'border-coral bg-coral-50'
+                          ? 'border-coral bg-coral-light'
                           : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
                       } outline-none`}
                       placeholder="je@email.com"
@@ -279,7 +279,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
                           onChange={handleChange('phone')}
                           className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors ${
                             errors.phone
-                              ? 'border-coral bg-coral-50'
+                              ? 'border-coral bg-coral-light'
                               : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
                           } outline-none`}
                           placeholder="020 - 123 45 67"
@@ -321,7 +321,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
                     rows={6}
                     className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors resize-none ${
                       errors.message
-                        ? 'border-coral bg-coral-50'
+                        ? 'border-coral bg-coral-light'
                         : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
                     } outline-none`}
                     placeholder="Beschrijf je vraag of opmerking..."
@@ -351,13 +351,13 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
 
                 {/* Error Message */}
                 {submitStatus === 'error' && (
-                  <div className="bg-coral-50 border border-coral rounded-lg p-4 flex items-start gap-3">
+                  <div className="bg-coral-light border border-coral rounded-lg p-4 flex items-start gap-3">
                     <XCircle className="w-5 h-5 text-coral flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm font-semibold text-coral-900 mb-1">
+                      <p className="text-sm font-semibold text-coral mb-1">
                         Er ging iets mis
                       </p>
-                      <p className="text-[13px] text-coral-700">
+                      <p className="text-[13px] text-coral">
                         {errorMessage}
                       </p>
                     </div>
