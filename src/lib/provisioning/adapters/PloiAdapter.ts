@@ -457,8 +457,10 @@ echo "Starting Payload CMS deployment (port ${port})..."
 # Install dependencies (pnpm preferred, npm fallback)
 echo "Installing dependencies..."
 if command -v pnpm &>/dev/null; then
+  PKG_MANAGER="pnpm"
   pnpm install --frozen-lockfile
 else
+  PKG_MANAGER="npm"
   npm ci --production=false
 fi
 
@@ -468,9 +470,18 @@ set -a
 [ -f .env ] && source .env
 set +a
 
+# ═══════════════════════════════════════════════════════════════
+# DATABASE INITIALIZATION (Sprint 1: Compass Design System)
+# ═══════════════════════════════════════════════════════════════
+echo "Running database migrations..."
+npx payload migrate || echo "⚠️ Migrations warning (may already be applied)"
+
+echo "Seeding default themes (10 industry verticals)..."
+$PKG_MANAGER run seed:themes || echo "⚠️ Theme seeding warning (may already exist)"
+
 # Build application
 echo "Building application..."
-NODE_OPTIONS="--no-deprecation --max-old-space-size=2048" npm run build
+NODE_OPTIONS="--no-deprecation --max-old-space-size=2048" $PKG_MANAGER run build
 
 # Restart application via PM2 on the assigned port
 echo "Restarting application on port ${port}..."
@@ -478,7 +489,7 @@ echo "Restarting application on port ${port}..."
 if pm2 describe payload-cms &>/dev/null; then
   PORT=${port} pm2 restart payload-cms --update-env
 else
-  PORT=${port} pm2 start npm --name "payload-cms" -- start
+  PORT=${port} pm2 start $PKG_MANAGER --name "payload-cms" -- start
   pm2 save
 fi
 

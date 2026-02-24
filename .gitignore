@@ -60,5 +60,8 @@ VERCEL_ENV_VARS_REQUIRED.md
 ../archived
 /_archive
 
+# Archived scripts - obsolete deployment scripts kept locally for reference only
+scripts/archived/
+
 # Migration artifacts - automated migration tracking (not needed in repo)
 .migration-log.json

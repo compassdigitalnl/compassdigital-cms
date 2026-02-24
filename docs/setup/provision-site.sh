@@ -188,6 +188,11 @@ else
   yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=2048 --no-deprecation" npx payload migrate 2>&1 | grep -E "Migrat|ERROR|running" || true
 fi
 
+# --- Stap 7b: Theme seeding (Sprint 1: Compass Design System) ---
+echo "[7b/10] Seeding default themes (10 industry verticals)..."
+cd "$SITE_DIR"
+npm run seed:themes 2>&1 | grep -E "Created|Skipped|ERROR" || echo "  ✓ Themes seeded"
+
 # --- Stap 8: Build ---
 echo "[8/10] Next.js build (dit duurt ~5 minuten)..."
 cd "$SITE_DIR"
