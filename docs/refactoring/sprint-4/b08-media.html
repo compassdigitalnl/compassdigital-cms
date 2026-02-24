@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Media Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Media Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-media">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B8</span>
+        <span class="section-label">Media Block</span>
+      </div>
+      <span class="tag" style="background:var(--teal);color:white">Primary</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Image/video with text. 2-column layout: media left/right + text opposite. 50/50 or 60/40 split.
+    </p>
+
+    <!-- Visual Preview: Media Left -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Media Left (50/50)
+      </div>
+      <div class="box-content" style="padding:0">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+          <div style="background:var(--grey-light);height:300px;display:flex;align-items:center;justify-content:center;font-size:48px">🎥</div>
+          <div style="padding:40px;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:10px">Video Tour</div>
+            <h3 style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:12px">Zie Compass in actie</h3>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:16px">Bekijk onze 5-minuten demo video en ontdek hoe eenvoudig het is om je eerste webshop te lanceren.</p>
+            <button style="width:fit-content;padding:10px 20px;background:var(--teal);color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">Bekijk Video</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Media Block — Payload Schema</span>
+{ <span class="property">slug</span>: <span class="string">'media'</span>, <span class="property">fields</span>: [
+  { <span class="property">name</span>: <span class="string">'mediaType'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [<span class="string">'image'</span>, <span class="string">'video'</span>] },
+  { <span class="property">name</span>: <span class="string">'media'</span>, <span class="property">type</span>: <span class="string">'upload'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+  { <span class="property">name</span>: <span class="string">'mediaPosition'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [<span class="string">'left'</span>, <span class="string">'right'</span>] },
+  { <span class="property">name</span>: <span class="string">'subtitle'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+  { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+  { <span class="property">name</span>: <span class="string">'content'</span>, <span class="property">type</span>: <span class="string">'richText'</span> },
+  { <span class="property">name</span>: <span class="string">'buttons'</span>, <span class="property">type</span>: <span class="string">'array'</span> }
+]}
+    </div>
+
+    <!-- Visual Preview: Media Right -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Media Right (60/40)
+      </div>
+      <div class="box-content" style="padding:0">
+        <div style="display:grid;grid-template-columns:60fr 40fr;gap:0">
+          <div style="padding:40px;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:10px">Product Showcase</div>
+            <h3 style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:12px">Premium kwaliteit producten</h3>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:16px">Al onze producten worden geleverd met volledige certificering en kwaliteitsgarantie. Perfect voor medische professionals die het beste eisen.</p>
+            <div style="display:flex;gap:8px;">
+              <button style="padding:10px 20px;background:var(--teal);color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">Shop Nu</button>
+              <button style="padding:10px 20px;background:transparent;color:var(--teal);border:1.5px solid var(--teal);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">Meer Info</button>
+            </div>
+          </div>
+          <div style="background:var(--grey-light);height:300px;display:flex;align-items:center;justify-content:center;font-size:48px">📦</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Preview: Image Media Type -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Image Media Type (40/60)
+      </div>
+      <div class="box-content" style="padding:0">
+        <div style="display:grid;grid-template-columns:40fr 60fr;gap:0">
+          <div style="background:linear-gradient(135deg, var(--teal-bg), var(--teal-light));height:320px;display:flex;align-items:center;justify-content:center;font-size:64px">📸</div>
+          <div style="padding:40px;display:flex;flex-direction:column;justify-content:center;background:var(--grey-light)">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:10px">Behind The Scenes</div>
+            <h3 style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:12px">Onze productieprocessen</h3>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:8px">Volledige transparantie over hoe onze producten worden gemaakt. Van grondstoffen tot eindproduct, alles volgens de hoogste kwaliteitsnormen.</p>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:16px">We geloven in duurzaamheid en ethische productie, met volledige traceerbaarheid van elke stap in het proces.</p>
+            <button style="width:fit-content;padding:10px 20px;background:var(--navy);color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">Bekijk Foto's</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/MediaBlock/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/MediaBlock/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> {
+  <span class="function">lexicalEditor</span>,
+  <span class="function">HeadingFeature</span>,
+  <span class="function">BoldFeature</span>,
+  <span class="function">ItalicFeature</span>,
+  <span class="function">LinkFeature</span>,
+  <span class="function">ParagraphFeature</span>,
+  <span class="function">UnorderedListFeature</span>,
+} <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical'</span>
+
+<span class="keyword">export const</span> <span class="function">MediaBlock</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'media'</span>,
+  labels: {
+    singular: <span class="string">'Media Block'</span>,
+    plural: <span class="string">'Media Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">type</span>: <span class="string">'row'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'mediaType'</span>,
+          <span class="property">type</span>: <span class="string">'select'</span>,
+          <span class="property">label</span>: <span class="string">'Media Type'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'image'</span>,
+          <span class="property">options</span>: [
+            {
+              <span class="property">label</span>: <span class="string">'Image'</span>,
+              <span class="property">value</span>: <span class="string">'image'</span>,
+            },
+            {
+              <span class="property">label</span>: <span class="string">'Video'</span>,
+              <span class="property">value</span>: <span class="string">'video'</span>,
+            },
+          ],
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'50%'</span>,
+            <span class="property">description</span>: <span class="string">'Choose whether to display an image or video'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'mediaPosition'</span>,
+          <span class="property">type</span>: <span class="string">'select'</span>,
+          <span class="property">label</span>: <span class="string">'Media Position'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'left'</span>,
+          <span class="property">options</span>: [
+            {
+              <span class="property">label</span>: <span class="string">'Left'</span>,
+              <span class="property">value</span>: <span class="string">'left'</span>,
+            },
+            {
+              <span class="property">label</span>: <span class="string">'Right'</span>,
+              <span class="property">value</span>: <span class="string">'right'</span>,
+            },
+          ],
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'50%'</span>,
+            <span class="property">description</span>: <span class="string">'Position of media relative to text content'</span>,
+          },
+        },
+      ],
+    },
+    {
+      <span class="property">name</span>: <span class="string">'media'</span>,
+      <span class="property">type</span>: <span class="string">'upload'</span>,
+      <span class="property">label</span>: <span class="string">'Media'</span>,
+      <span class="property">relationTo</span>: <span class="string">'media'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Upload an image or video file. For videos, use MP4 format for best compatibility.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'videoUrl'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Video URL (optional)'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'YouTube or Vimeo embed URL. If provided, this will be used instead of uploaded video file.'</span>,
+        <span class="property">condition</span>: (data, siblingData) => siblingData?.mediaType === <span class="string">'video'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'split'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Column Split'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'50-50'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'50/50 (Equal)'</span>,
+          <span class="property">value</span>: <span class="string">'50-50'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'60/40 (Text wider)'</span>,
+          <span class="property">value</span>: <span class="string">'60-40'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'40/60 (Media wider)'</span>,
+          <span class="property">value</span>: <span class="string">'40-60'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Controls the width ratio between media and text columns'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'subtitle'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Subtitle (optional)'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Small text above title (e.g., "Video Tour", "Product Showcase")'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Title'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Main heading for this section'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'content'</span>,
+      <span class="property">type</span>: <span class="string">'richText'</span>,
+      <span class="property">label</span>: <span class="string">'Content'</span>,
+      <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+        <span class="property">features</span>: ({ defaultFeatures }) => [
+          <span class="function">ParagraphFeature</span>(),
+          <span class="function">BoldFeature</span>(),
+          <span class="function">ItalicFeature</span>(),
+          <span class="function">LinkFeature</span>(),
+          <span class="function">UnorderedListFeature</span>(),
+        ],
+      }),
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Text content displayed next to media. Supports paragraphs, bold, italic, links, and lists.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'buttons'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Buttons'</span>,
+      <span class="property">maxRows</span>: <span class="number">2</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">type</span>: <span class="string">'row'</span>,
+          <span class="property">fields</span>: [
+            {
+              <span class="property">name</span>: <span class="string">'label'</span>,
+              <span class="property">type</span>: <span class="string">'text'</span>,
+              <span class="property">required</span>: <span class="keyword">true</span>,
+              <span class="property">admin</span>: {
+                <span class="property">width</span>: <span class="string">'50%'</span>,
+              },
+            },
+            {
+              <span class="property">name</span>: <span class="string">'variant'</span>,
+              <span class="property">type</span>: <span class="string">'select'</span>,
+              <span class="property">defaultValue</span>: <span class="string">'primary'</span>,
+              <span class="property">options</span>: [
+                { <span class="property">label</span>: <span class="string">'Primary (Teal)'</span>, <span class="property">value</span>: <span class="string">'primary'</span> },
+                { <span class="property">label</span>: <span class="string">'Secondary (Navy)'</span>, <span class="property">value</span>: <span class="string">'secondary'</span> },
+                { <span class="property">label</span>: <span class="string">'Outline'</span>, <span class="property">value</span>: <span class="string">'outline'</span> },
+              ],
+              <span class="property">admin</span>: {
+                <span class="property">width</span>: <span class="string">'50%'</span>,
+              },
+            },
+          ],
+        },
+        {
+          <span class="property">name</span>: <span class="string">'url'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Link URL (e.g., "/contact", "https://example.com")'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'newTab'</span>,
+          <span class="property">type</span>: <span class="string">'checkbox'</span>,
+          <span class="property">label</span>: <span class="string">'Open in new tab'</span>,
+          <span class="property">defaultValue</span>: <span class="keyword">false</span>,
+        },
+      ],
+    },
+    {
+      <span class="property">name</span>: <span class="string">'backgroundColor'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Background Color'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'white'</span>,
+      <span class="property">options</span>: [
+        { <span class="property">label</span>: <span class="string">'White'</span>, <span class="property">value</span>: <span class="string">'white'</span> },
+        { <span class="property">label</span>: <span class="string">'Light Grey'</span>, <span class="property">value</span>: <span class="string">'grey'</span> },
+        { <span class="property">label</span>: <span class="string">'Teal Light'</span>, <span class="property">value</span>: <span class="string">'teal'</span> },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Background color for the entire section'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">SerializedEditorState</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/lexical'</span>
+<span class="keyword">import</span> { <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'@/payload-types'</span>
+
+<span class="keyword">export interface</span> <span class="function">MediaButton</span> {
+  <span class="property">label</span>: <span class="keyword">string</span>
+  <span class="property">url</span>: <span class="keyword">string</span>
+  <span class="property">variant</span>: <span class="string">'primary'</span> | <span class="string">'secondary'</span> | <span class="string">'outline'</span>
+  <span class="property">newTab</span>?: <span class="keyword">boolean</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">MediaBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'media'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">mediaType</span>: <span class="string">'image'</span> | <span class="string">'video'</span>
+  <span class="property">media</span>: <span class="keyword">string</span> | <span class="function">Media</span>
+  <span class="property">videoUrl</span>?: <span class="keyword">string</span>
+  <span class="property">mediaPosition</span>: <span class="string">'left'</span> | <span class="string">'right'</span>
+  <span class="property">split</span>: <span class="string">'50-50'</span> | <span class="string">'60-40'</span> | <span class="string">'40-60'</span>
+  <span class="property">subtitle</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>: <span class="keyword">string</span>
+  <span class="property">content</span>?: <span class="function">SerializedEditorState</span>
+  <span class="property">buttons</span>?: <span class="function">MediaButton</span>[]
+  <span class="property">backgroundColor</span>: <span class="string">'white'</span> | <span class="string">'grey'</span> | <span class="string">'teal'</span>
+}
+
+<span class="comment">// Type guard to check if a block is a MediaBlock</span>
+<span class="keyword">export function</span> <span class="function">isMediaBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">MediaBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'media'</span>
+}
+
+<span class="comment">// Helper to extract media URL</span>
+<span class="keyword">export function</span> <span class="function">getMediaUrl</span>(media: <span class="keyword">string</span> | <span class="function">Media</span>): <span class="keyword">string</span> | <span class="keyword">undefined</span> {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> media === <span class="string">'string'</span>) {
+    <span class="keyword">return</span> media
+  }
+  <span class="keyword">return</span> media?.url
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/MediaBlock/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/MediaBlock/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">RichText</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/react'</span>
+<span class="keyword">import</span> { <span class="function">MediaBlock</span> <span class="keyword">as</span> <span class="function">MediaBlockType</span>, <span class="function">getMediaUrl</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> Image <span class="keyword">from</span> <span class="string">'next/image'</span>
+
+<span class="keyword">interface</span> <span class="function">MediaBlockProps</span> {
+  <span class="property">block</span>: <span class="function">MediaBlockType</span>
+}
+
+<span class="keyword">export const</span> <span class="function">MediaBlock</span>: React.<span class="function">FC</span>&lt;<span class="function">MediaBlockProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> {
+    mediaType,
+    media,
+    videoUrl,
+    mediaPosition,
+    split,
+    subtitle,
+    title,
+    content,
+    buttons,
+    backgroundColor,
+  } = block
+
+  <span class="keyword">const</span> mediaUrl = <span class="function">getMediaUrl</span>(media)
+
+  <span class="comment">// Map split values to grid classes</span>
+  <span class="keyword">const</span> gridClass = {
+    <span class="string">'50-50'</span>: <span class="string">'md:grid-cols-2'</span>,
+    <span class="string">'60-40'</span>: <span class="string">'md:grid-cols-[60fr_40fr]'</span>,
+    <span class="string">'40-60'</span>: <span class="string">'md:grid-cols-[40fr_60fr]'</span>,
+  }[split]
+
+  <span class="comment">// Map background color to Tailwind classes</span>
+  <span class="keyword">const</span> bgClass = {
+    white: <span class="string">'bg-white'</span>,
+    grey: <span class="string">'bg-grey-light'</span>,
+    teal: <span class="string">'bg-teal-bg'</span>,
+  }[backgroundColor]
+
+  <span class="comment">// Button variant styles</span>
+  <span class="keyword">const</span> buttonStyles = {
+    primary: <span class="string">'bg-teal text-white hover:bg-teal-dark'</span>,
+    secondary: <span class="string">'bg-navy text-white hover:bg-navy-light'</span>,
+    outline: <span class="string">'bg-transparent border-2 border-teal text-teal hover:bg-teal hover:text-white'</span>,
+  }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className={<span class="function">cn</span>(<span class="string">'py-12 md:py-16'</span>, bgClass)}&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        &lt;<span class="keyword">div</span>
+          className={<span class="function">cn</span>(
+            <span class="string">'grid gap-0 items-center'</span>,
+            gridClass,
+            mediaPosition === <span class="string">'right'</span> && split === <span class="string">'60-40'</span> && <span class="string">'md:grid-cols-[60fr_40fr]'</span>,
+            mediaPosition === <span class="string">'right'</span> && split === <span class="string">'40-60'</span> && <span class="string">'md:grid-cols-[40fr_60fr]'</span>,
+          )}
+        &gt;
+          {<span class="comment">/* Media Column */</span>}
+          &lt;<span class="keyword">div</span>
+            className={<span class="function">cn</span>(
+              <span class="string">'relative min-h-[300px] md:min-h-[400px]'</span>,
+              mediaPosition === <span class="string">'right'</span> && <span class="string">'md:order-2'</span>,
+            )}
+          &gt;
+            {mediaType === <span class="string">'image'</span> && mediaUrl && (
+              &lt;<span class="function">Image</span>
+                src={mediaUrl}
+                alt={title}
+                fill
+                className=<span class="string">"object-cover"</span>
+              /&gt;
+            )}
+
+            {mediaType === <span class="string">'video'</span> && (
+              &lt;<span class="keyword">div</span> className=<span class="string">"relative w-full h-full bg-grey-light flex items-center justify-center"</span>&gt;
+                {videoUrl ? (
+                  &lt;<span class="keyword">iframe</span>
+                    src={videoUrl}
+                    title={title}
+                    className=<span class="string">"absolute inset-0 w-full h-full"</span>
+                    allowFullScreen
+                  /&gt;
+                ) : mediaUrl ? (
+                  &lt;<span class="keyword">video</span>
+                    src={mediaUrl}
+                    controls
+                    className=<span class="string">"w-full h-full object-cover"</span>
+                  &gt;
+                    Your browser does <span class="keyword">not</span> support the video tag.
+                  &lt;/<span class="keyword">video</span>&gt;
+                ) : (
+                  &lt;<span class="keyword">div</span> className=<span class="string">"text-6xl"</span>&gt;🎥&lt;/<span class="keyword">div</span>&gt;
+                )}
+              &lt;/<span class="keyword">div</span>&gt;
+            )}
+          &lt;/<span class="keyword">div</span>&gt;
+
+          {<span class="comment">/* Content Column */</span>}
+          &lt;<span class="keyword">div</span>
+            className={<span class="function">cn</span>(
+              <span class="string">'p-8 md:p-12 flex flex-col justify-center'</span>,
+              mediaPosition === <span class="string">'right'</span> && <span class="string">'md:order-1'</span>,
+            )}
+          &gt;
+            {subtitle && (
+              &lt;<span class="keyword">div</span> className=<span class="string">"text-xs font-bold uppercase tracking-wider text-teal mb-3"</span>&gt;
+                {subtitle}
+              &lt;/<span class="keyword">div</span>&gt;
+            )}
+
+            &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-2xl md:text-3xl text-navy mb-4"</span>&gt;
+              {title}
+            &lt;/<span class="keyword">h2</span>&gt;
+
+            {content && (
+              &lt;<span class="keyword">div</span> className=<span class="string">"prose prose-sm md:prose-base prose-slate max-w-none mb-6"</span>&gt;
+                &lt;<span class="function">RichText</span> data={content} /&gt;
+              &lt;/<span class="keyword">div</span>&gt;
+            )}
+
+            {buttons && buttons.length > <span class="number">0</span> && (
+              &lt;<span class="keyword">div</span> className=<span class="string">"flex flex-wrap gap-3"</span>&gt;
+                {buttons.map((button, index) => (
+                  &lt;<span class="keyword">a</span>
+                    key={index}
+                    href={button.url}
+                    target={button.newTab ? <span class="string">'_blank'</span> : <span class="keyword">undefined</span>}
+                    rel={button.newTab ? <span class="string">'noopener noreferrer'</span> : <span class="keyword">undefined</span>}
+                    className={<span class="function">cn</span>(
+                      <span class="string">'inline-flex items-center justify-center px-6 py-3 rounded-lg font-bold text-sm transition-all duration-200'</span>,
+                      buttonStyles[button.variant]
+                    )}
+                  &gt;
+                    {button.label}
+                  &lt;/<span class="keyword">a</span>&gt;
+                ))}
+              &lt;/<span class="keyword">div</span>&gt;
+            )}
+          &lt;/<span class="keyword">div</span>&gt;
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Media block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--teal);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">🎥</span>
+            Media Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                <div>
+                  <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Media Type</div>
+                  <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                    <option>Image</option>
+                    <option>Video</option>
+                  </select>
+                </div>
+                <div>
+                  <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Media Position</div>
+                  <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                    <option>Left</option>
+                    <option>Right</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Media Upload</div>
+              <div style="border:2px dashed var(--grey);border-radius:6px;padding:24px;text-align:center;background:var(--grey-light);">
+                <div style="font-size:32px;margin-bottom:8px;">📤</div>
+                <div style="font-size:11px;color:var(--grey-mid);">Drop file or click to upload</div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Column Split</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                <option>50/50 (Equal)</option>
+                <option>60/40 (Text wider)</option>
+                <option>40/60 (Media wider)</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Subtitle (optional)</div>
+              <input type="text" placeholder="e.g., Video Tour" disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Title</div>
+              <input type="text" placeholder="Main heading" disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Content (Rich Text)</div>
+              <div style="background:var(--grey-light);padding:8px;border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                Lexical Editor...
+              </div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Buttons (max 2)</div>
+              <div style="font-size:10px;color:var(--grey-mid);">+ Add Button</div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Background Color</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                <option>White</option>
+                <option>Light Grey</option>
+                <option>Teal Light</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Media Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. Image upload works:</strong> Upload an image → preview appears in admin panel
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Video upload works:</strong> Upload MP4 video → video player appears on frontend
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Media position toggles:</strong> Test left/right positions → media and text swap correctly
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Split ratios work:</strong> Test all 3 split options (50/50, 60/40, 40/60) → column widths adjust correctly
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Buttons render correctly:</strong> Add 1-2 buttons → test all 3 variants (primary/secondary/outline)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. TypeScript compilation:</strong> Run <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">npm run build</code> → no TypeScript errors
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Media block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Media block</span>
+npx payload migrate:create add_media_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.media_type (type: varchar) — enum: 'image', 'video'</span>
+<span class="comment"># - pages_blocks.media_id (type: integer) — foreign key to media table</span>
+<span class="comment"># - pages_blocks.video_url (type: varchar) — optional YouTube/Vimeo URL</span>
+<span class="comment"># - pages_blocks.media_position (type: varchar) — enum: 'left', 'right'</span>
+<span class="comment"># - pages_blocks.split (type: varchar) — enum: '50-50', '60-40', '40-60'</span>
+<span class="comment"># - pages_blocks.subtitle (type: varchar) — optional overline text</span>
+<span class="comment"># - pages_blocks.title (type: varchar) — required heading</span>
+<span class="comment"># - pages_blocks.content (type: jsonb) — serialized Lexical state</span>
+<span class="comment"># - pages_blocks.buttons (type: jsonb) — array of button objects</span>
+<span class="comment"># - pages_blocks.background_color (type: varchar) — enum: 'white', 'grey', 'teal'</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('media_type', 'media_id', 'media_position', 'split', 'title', 'content');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#   column_name    | data_type</span>
+<span class="comment"># -----------------+-----------</span>
+<span class="comment">#  media_type      | varchar</span>
+<span class="comment">#  media_id        | integer</span>
+<span class="comment">#  media_position  | varchar</span>
+<span class="comment">#  split           | varchar</span>
+<span class="comment">#  title           | varchar</span>
+<span class="comment">#  content         | jsonb</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Image not displaying on frontend</td>
+              <td>Check <code>next.config.js</code> → add media domain to <code>images.domains</code> array. Verify media file uploaded correctly in <code>/admin/collections/media</code></td>
+            </tr>
+            <tr>
+              <td>Video not playing</td>
+              <td>For uploaded videos: use MP4 format with H.264 codec. For embeds: verify YouTube/Vimeo URL is embed format (e.g., <code>https://www.youtube.com/embed/VIDEO_ID</code>)</td>
+            </tr>
+            <tr>
+              <td>Media and text not swapping positions</td>
+              <td>Check <code>mediaPosition === 'right'</code> conditional in Component → ensure <code>md:order-1</code> and <code>md:order-2</code> classes applied correctly</td>
+            </tr>
+            <tr>
+              <td>Split ratios not working</td>
+              <td>Verify Tailwind grid classes: <code>md:grid-cols-[60fr_40fr]</code> syntax. May need to add to <code>safelist</code> in <code>tailwind.config.ts</code> if using JIT mode</td>
+            </tr>
+            <tr>
+              <td>Buttons not styled correctly</td>
+              <td>Check button variant mapping in Component → ensure all 3 variants (primary/secondary/outline) have complete Tailwind classes</td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code> → check <code>pages_blocks</code> table has all required columns. Verify foreign key to <code>media</code> table exists</td>
+            </tr>
+            <tr>
+              <td>TypeScript error: Media type</td>
+              <td>Import <code>Media</code> type from <code>@/payload-types</code> (auto-generated). Run <code>payload generate:types</code> if missing</td>
+            </tr>
+            <tr>
+              <td>Conditional field not showing (videoUrl)</td>
+              <td>Check admin condition: <code>siblingData?.mediaType === 'video'</code> → ensure <code>mediaType</code> field defined before <code>videoUrl</code> field</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Media block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">MediaBlock</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/MediaBlock/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">MediaBlock</span>,  <span class="comment">// ← Add Media block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// Content,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">MediaBlock</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/MediaBlock/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'media'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">MediaBlock</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Usage Examples:</strong>
+        </p>
+        <table class="table" style="margin-top:12px;">
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Configuration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Video Demo</strong></td>
+              <td>Media: Video, Position: Left, Split: 50/50, Subtitle: "Video Tour", 1 Button (Primary)</td>
+            </tr>
+            <tr>
+              <td><strong>Product Showcase</strong></td>
+              <td>Media: Image, Position: Right, Split: 60/40, Background: Teal Light, 2 Buttons (Primary + Outline)</td>
+            </tr>
+            <tr>
+              <td><strong>Feature Highlight</strong></td>
+              <td>Media: Image, Position: Left, Split: 40/60, Background: White, Rich text content with lists</td>
+            </tr>
+            <tr>
+              <td><strong>YouTube Embed</strong></td>
+              <td>Media: Video, Video URL: YouTube embed link, Position: Right, Split: 50/50, 0 Buttons</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

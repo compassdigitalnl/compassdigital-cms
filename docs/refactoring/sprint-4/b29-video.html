@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   VIDEO CONTAINER STYLES
+   ═══════════════════════════════════════════════════════════ */
+.video-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.video-wrapper {
+  position: relative;
+  background: var(--grey-light);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-md);
+}
+
+.video-wrapper.ratio-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.video-wrapper.ratio-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.video-wrapper.ratio-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+.video-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  position: relative;
+}
+
+.video-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.video-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: all var(--dur);
+}
+
+.video-icon:hover {
+  background: var(--teal);
+  transform: scale(1.05);
+}
+
+.video-icon i {
+  width: 32px;
+  height: 32px;
+  color: white;
+  margin-left: 4px;
+}
+
+.video-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  z-index: 1;
+}
+
+.video-caption {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+}
+
+.video-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .video-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .video-icon i {
+    width: 24px;
+    height: 24px;
+  }
+
+  .video-title {
+    font-size: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Video Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-video">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B29</span>
+        <span class="section-label">Video Block</span>
+      </div>
+      <span class="tag" style="background:var(--grey-mid);color:white">Neutral</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Embedded video. YouTube, Vimeo, of self-hosted. Met optionele thumbnail en caption.
+    </p>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — YouTube Video (16:9)
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <div class="video-container">
+          <h2 class="video-title">How Compass Digital Works</h2>
+
+          <div class="video-wrapper ratio-16-9">
+            <div class="video-placeholder">
+              <div class="video-icon">
+                <i data-lucide="play"></i>
+              </div>
+              <span class="video-label">YouTube Video</span>
+            </div>
+          </div>
+
+          <p class="video-caption">
+            Learn how to set up your first multi-tenant e-commerce platform in under 10 minutes.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Vimeo Video (4:3)
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <div class="video-container">
+          <h2 class="video-title">Product Demo</h2>
+
+          <div class="video-wrapper ratio-4-3">
+            <div class="video-placeholder">
+              <div class="video-icon">
+                <i data-lucide="play"></i>
+              </div>
+              <span class="video-label">Vimeo Video</span>
+            </div>
+          </div>
+
+          <p class="video-caption">
+            A quick walkthrough of the admin panel and content management features.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Self-hosted Video (1:1)
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <div class="video-container" style="max-width:600px;">
+          <h2 class="video-title">Company Culture</h2>
+
+          <div class="video-wrapper ratio-1-1">
+            <div class="video-placeholder">
+              <div class="video-icon">
+                <i data-lucide="play"></i>
+              </div>
+              <span class="video-label">Self-hosted MP4</span>
+            </div>
+          </div>
+
+          <p class="video-caption">
+            Behind the scenes at Compass Digital HQ.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:16px;">
+<span class="comment">// Video Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'video'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'source'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [<span class="string">'youtube'</span>, <span class="string">'vimeo'</span>, <span class="string">'upload'</span>], <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'videoUrl'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'videoFile'</span>, <span class="property">type</span>: <span class="string">'upload'</span> },
+    { <span class="property">name</span>: <span class="string">'thumbnail'</span>, <span class="property">type</span>: <span class="string">'upload'</span> },
+    { <span class="property">name</span>: <span class="string">'caption'</span>, <span class="property">type</span>: <span class="string">'richText'</span> },
+    { <span class="property">name</span>: <span class="string">'aspectRatio'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [<span class="string">'16:9'</span>, <span class="string">'4:3'</span>, <span class="string">'1:1'</span>], <span class="property">defaultValue</span>: <span class="string">'16:9'</span> }
+  ]
+}
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Video/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Video/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> {
+  <span class="function">lexicalEditor</span>,
+  <span class="function">ParagraphFeature</span>,
+  <span class="function">LinkFeature</span>,
+  <span class="function">BoldFeature</span>,
+  <span class="function">ItalicFeature</span>,
+} <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical'</span>
+
+<span class="keyword">export const</span> <span class="function">Video</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'video'</span>,
+  labels: {
+    singular: <span class="string">'Video Block'</span>,
+    plural: <span class="string">'Video Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Title'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional title displayed above the video'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'source'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Video Source'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">defaultValue</span>: <span class="string">'youtube'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'YouTube'</span>,
+          <span class="property">value</span>: <span class="string">'youtube'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Vimeo'</span>,
+          <span class="property">value</span>: <span class="string">'vimeo'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Self-hosted (Upload)'</span>,
+          <span class="property">value</span>: <span class="string">'upload'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Choose the video source type'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'videoUrl'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Video URL'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Full YouTube or Vimeo URL (e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ)'</span>,
+        <span class="property">condition</span>: (data, siblingData) => {
+          <span class="keyword">return</span> siblingData.source === <span class="string">'youtube'</span> || siblingData.source === <span class="string">'vimeo'</span>
+        },
+      },
+      <span class="property">validate</span>: (val, { siblingData }) => {
+        <span class="keyword">if</span> ((siblingData.source === <span class="string">'youtube'</span> || siblingData.source === <span class="string">'vimeo'</span>) && !val) {
+          <span class="keyword">return</span> <span class="string">'Video URL is required for YouTube and Vimeo sources'</span>
+        }
+        <span class="keyword">return</span> <span class="keyword">true</span>
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'videoFile'</span>,
+      <span class="property">type</span>: <span class="string">'upload'</span>,
+      <span class="property">label</span>: <span class="string">'Video File'</span>,
+      <span class="property">relationTo</span>: <span class="string">'media'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Upload a video file (MP4, WebM recommended)'</span>,
+        <span class="property">condition</span>: (data, siblingData) => {
+          <span class="keyword">return</span> siblingData.source === <span class="string">'upload'</span>
+        },
+      },
+      <span class="property">validate</span>: (val, { siblingData }) => {
+        <span class="keyword">if</span> (siblingData.source === <span class="string">'upload'</span> && !val) {
+          <span class="keyword">return</span> <span class="string">'Video file is required for self-hosted videos'</span>
+        }
+        <span class="keyword">return</span> <span class="keyword">true</span>
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'thumbnail'</span>,
+      <span class="property">type</span>: <span class="string">'upload'</span>,
+      <span class="property">label</span>: <span class="string">'Custom Thumbnail'</span>,
+      <span class="property">relationTo</span>: <span class="string">'media'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional custom thumbnail image (recommended for self-hosted videos)'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'caption'</span>,
+      <span class="property">type</span>: <span class="string">'richText'</span>,
+      <span class="property">label</span>: <span class="string">'Caption'</span>,
+      <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+        <span class="property">features</span>: [
+          <span class="function">ParagraphFeature</span>(),
+          <span class="function">BoldFeature</span>(),
+          <span class="function">ItalicFeature</span>(),
+          <span class="function">LinkFeature</span>(),
+        ],
+      }),
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional caption displayed below the video'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'aspectRatio'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Aspect Ratio'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'16:9'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'16:9 (Widescreen)'</span>,
+          <span class="property">value</span>: <span class="string">'16:9'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'4:3 (Standard)'</span>,
+          <span class="property">value</span>: <span class="string">'4:3'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'1:1 (Square)'</span>,
+          <span class="property">value</span>: <span class="string">'1:1'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Controls the aspect ratio of the video container'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">SerializedEditorState</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/lexical'</span>
+<span class="keyword">import</span> { <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'@/payload-types'</span>
+
+<span class="keyword">export interface</span> <span class="function">VideoBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'video'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">source</span>: <span class="string">'youtube'</span> | <span class="string">'vimeo'</span> | <span class="string">'upload'</span>
+  <span class="property">videoUrl</span>?: <span class="keyword">string</span>
+  <span class="property">videoFile</span>?: <span class="keyword">string</span> | <span class="function">Media</span>
+  <span class="property">thumbnail</span>?: <span class="keyword">string</span> | <span class="function">Media</span>
+  <span class="property">caption</span>?: <span class="function">SerializedEditorState</span>
+  <span class="property">aspectRatio</span>: <span class="string">'16:9'</span> | <span class="string">'4:3'</span> | <span class="string">'1:1'</span>
+}
+
+<span class="comment">// Type guard to check if a block is a VideoBlock</span>
+<span class="keyword">export function</span> <span class="function">isVideoBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">VideoBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'video'</span>
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Video/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Video/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">RichText</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/react'</span>
+<span class="keyword">import</span> { <span class="function">VideoBlock</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> { <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'@/payload-types'</span>
+
+<span class="keyword">interface</span> <span class="function">VideoProps</span> {
+  <span class="property">block</span>: <span class="function">VideoBlock</span>
+}
+
+<span class="comment">// Helper function to extract YouTube video ID</span>
+<span class="keyword">function</span> <span class="function">getYouTubeId</span>(url: <span class="keyword">string</span>): <span class="keyword">string</span> | <span class="keyword">null</span> {
+  <span class="keyword">const</span> regex = <span class="string">/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/</span>
+  <span class="keyword">const</span> match = url.match(regex)
+  <span class="keyword">return</span> match ? match[<span class="number">1</span>] : <span class="keyword">null</span>
+}
+
+<span class="comment">// Helper function to extract Vimeo video ID</span>
+<span class="keyword">function</span> <span class="function">getVimeoId</span>(url: <span class="keyword">string</span>): <span class="keyword">string</span> | <span class="keyword">null</span> {
+  <span class="keyword">const</span> regex = <span class="string">/(?:vimeo\.com\/)(\d+)/</span>
+  <span class="keyword">const</span> match = url.match(regex)
+  <span class="keyword">return</span> match ? match[<span class="number">1</span>] : <span class="keyword">null</span>
+}
+
+<span class="keyword">export const</span> <span class="function">Video</span>: React.<span class="function">FC</span>&lt;<span class="function">VideoProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { title, source, videoUrl, videoFile, thumbnail, caption, aspectRatio } = block
+
+  <span class="comment">// Map aspect ratio to CSS classes</span>
+  <span class="keyword">const</span> aspectRatioClass = {
+    <span class="string">'16:9'</span>: <span class="string">'aspect-video'</span>,     <span class="comment">// 16:9</span>
+    <span class="string">'4:3'</span>: <span class="string">'aspect-[4/3]'</span>,      <span class="comment">// 4:3</span>
+    <span class="string">'1:1'</span>: <span class="string">'aspect-square'</span>,     <span class="comment">// 1:1</span>
+  }[aspectRatio]
+
+  <span class="comment">// Render embedded YouTube video</span>
+  <span class="keyword">const</span> <span class="function">renderYouTube</span> = () => {
+    <span class="keyword">if</span> (!videoUrl) <span class="keyword">return</span> <span class="keyword">null</span>
+    <span class="keyword">const</span> videoId = <span class="function">getYouTubeId</span>(videoUrl)
+    <span class="keyword">if</span> (!videoId) <span class="keyword">return</span> <span class="keyword">null</span>
+
+    <span class="keyword">return</span> (
+      &lt;<span class="keyword">iframe</span>
+        src={<span class="string">`https://www.youtube.com/embed/</span>${videoId}<span class="string">?rel=0&modestbranding=1`</span>}
+        title={title || <span class="string">'YouTube video'</span>}
+        allow=<span class="string">"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"</span>
+        allowFullScreen
+        className=<span class="string">"w-full h-full"</span>
+      /&gt;
+    )
+  }
+
+  <span class="comment">// Render embedded Vimeo video</span>
+  <span class="keyword">const</span> <span class="function">renderVimeo</span> = () => {
+    <span class="keyword">if</span> (!videoUrl) <span class="keyword">return</span> <span class="keyword">null</span>
+    <span class="keyword">const</span> videoId = <span class="function">getVimeoId</span>(videoUrl)
+    <span class="keyword">if</span> (!videoId) <span class="keyword">return</span> <span class="keyword">null</span>
+
+    <span class="keyword">return</span> (
+      &lt;<span class="keyword">iframe</span>
+        src={<span class="string">`https://player.vimeo.com/video/</span>${videoId}<span class="string">?byline=0&portrait=0`</span>}
+        title={title || <span class="string">'Vimeo video'</span>}
+        allow=<span class="string">"autoplay; fullscreen; picture-in-picture"</span>
+        allowFullScreen
+        className=<span class="string">"w-full h-full"</span>
+      /&gt;
+    )
+  }
+
+  <span class="comment">// Render self-hosted video</span>
+  <span class="keyword">const</span> <span class="function">renderUpload</span> = () => {
+    <span class="keyword">if</span> (!videoFile) <span class="keyword">return</span> <span class="keyword">null</span>
+
+    <span class="keyword">const</span> videoMedia = <span class="keyword">typeof</span> videoFile === <span class="string">'string'</span> ? <span class="keyword">null</span> : videoFile <span class="keyword">as</span> <span class="function">Media</span>
+    <span class="keyword">const</span> videoSrc = <span class="keyword">typeof</span> videoFile === <span class="string">'string'</span> ? videoFile : videoMedia?.url
+
+    <span class="keyword">if</span> (!videoSrc) <span class="keyword">return</span> <span class="keyword">null</span>
+
+    <span class="keyword">const</span> thumbnailMedia = <span class="keyword">typeof</span> thumbnail === <span class="string">'string'</span> ? <span class="keyword">null</span> : thumbnail <span class="keyword">as</span> <span class="function">Media</span>
+    <span class="keyword">const</span> posterSrc = <span class="keyword">typeof</span> thumbnail === <span class="string">'string'</span> ? thumbnail : thumbnailMedia?.url
+
+    <span class="keyword">return</span> (
+      &lt;<span class="keyword">video</span>
+        src={videoSrc}
+        poster={posterSrc}
+        controls
+        className=<span class="string">"w-full h-full"</span>
+        preload=<span class="string">"metadata"</span>
+      &gt;
+        Your browser does not support the video tag.
+      &lt;/<span class="keyword">video</span>&gt;
+    )
+  }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-12 md:py-16"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        &lt;<span class="keyword">div</span> className=<span class="string">"max-w-4xl mx-auto"</span>&gt;
+          {title && (
+            &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-2xl md:text-3xl text-navy mb-6 text-center"</span>&gt;
+              {title}
+            &lt;/<span class="keyword">h2</span>&gt;
+          )}
+
+          &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(
+            <span class="string">'relative rounded-xl overflow-hidden shadow-md bg-grey-light'</span>,
+            aspectRatioClass
+          )}&gt;
+            {source === <span class="string">'youtube'</span> && <span class="function">renderYouTube</span>()}
+            {source === <span class="string">'vimeo'</span> && <span class="function">renderVimeo</span>()}
+            {source === <span class="string">'upload'</span> && <span class="function">renderUpload</span>()}
+          &lt;/<span class="keyword">div</span>&gt;
+
+          {caption && (
+            &lt;<span class="keyword">div</span> className=<span class="string">"mt-4 text-center prose prose-sm max-w-none text-grey-dark"</span>&gt;
+              &lt;<span class="function">RichText</span> data={caption} /&gt;
+            &lt;/<span class="keyword">div</span>&gt;
+          )}
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Video block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--grey-mid);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">🎬</span>
+            Video Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Title</div>
+              <input type="text" placeholder="Optional video title..." style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Video Source</div>
+              <select style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+                <option>YouTube</option>
+                <option>Vimeo</option>
+                <option>Self-hosted (Upload)</option>
+              </select>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">
+                Choose the video source type
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Video URL</div>
+              <input type="text" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">
+                Full YouTube or Vimeo URL (visible when source is YouTube/Vimeo)
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Video File</div>
+              <div style="padding:16px;border:2px dashed var(--grey);border-radius:4px;text-align:center;color:var(--grey-mid);font-size:10px;">
+                📁 Upload video file (visible when source is Upload)
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Custom Thumbnail</div>
+              <div style="padding:16px;border:2px dashed var(--grey);border-radius:4px;text-align:center;color:var(--grey-mid);font-size:10px;">
+                🖼️ Upload thumbnail image (optional)
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Caption (Rich Text)</div>
+              <div style="background:var(--grey-light);padding:8px;border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                Rich text editor for caption
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Aspect Ratio</div>
+              <select style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+                <option>16:9 (Widescreen)</option>
+                <option>4:3 (Standard)</option>
+                <option>1:1 (Square)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Video Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. Conditional fields work:</strong> Change source → verify videoUrl shows for YouTube/Vimeo, videoFile shows for Upload
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. YouTube embed works:</strong> Paste YouTube URL → save → verify iframe embeds correctly on frontend
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Vimeo embed works:</strong> Paste Vimeo URL → save → verify iframe embeds correctly on frontend
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Self-hosted video works:</strong> Upload MP4 file → save → verify &lt;video&gt; tag renders with controls
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Aspect ratios work:</strong> Test all 3 aspect ratios (16:9, 4:3, 1:1) → verify correct CSS applied
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. TypeScript compilation:</strong> Run <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">npm run build</code> → no TypeScript errors
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Video block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Video block</span>
+npx payload migrate:create add_video_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for video fields</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.title (type: varchar) — optional video title</span>
+<span class="comment"># - pages_blocks.source (type: varchar) — enum: 'youtube', 'vimeo', 'upload'</span>
+<span class="comment"># - pages_blocks.video_url (type: varchar) — YouTube/Vimeo URL</span>
+<span class="comment"># - pages_blocks.video_file_id (type: integer) — foreign key to media table</span>
+<span class="comment"># - pages_blocks.thumbnail_id (type: integer) — foreign key to media table</span>
+<span class="comment"># - pages_blocks.caption (type: jsonb) — serialized Lexical state</span>
+<span class="comment"># - pages_blocks.aspect_ratio (type: varchar) — enum: '16:9', '4:3', '1:1'</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('source', 'video_url', 'video_file_id', 'aspect_ratio');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#    column_name    | data_type</span>
+<span class="comment"># ------------------+-----------</span>
+<span class="comment">#  source           | varchar</span>
+<span class="comment">#  video_url        | varchar</span>
+<span class="comment">#  video_file_id    | integer</span>
+<span class="comment">#  aspect_ratio     | varchar</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>YouTube/Vimeo video not embedding</td>
+              <td>Check URL format → use full URL (not shortened) → verify regex in <code>getYouTubeId()</code> / <code>getVimeoId()</code> functions</td>
+            </tr>
+            <tr>
+              <td>Conditional fields not showing/hiding</td>
+              <td>Verify <code>admin.condition</code> function in config.ts → check <code>siblingData.source</code> value matches expected strings</td>
+            </tr>
+            <tr>
+              <td>Self-hosted video not playing</td>
+              <td>Check video format (MP4/WebM recommended) → verify file uploaded to media collection → check browser console for CORS errors</td>
+            </tr>
+            <tr>
+              <td>Aspect ratio not applied</td>
+              <td>Verify Tailwind classes (<code>aspect-video</code>, <code>aspect-[4/3]</code>, <code>aspect-square</code>) → ensure aspect-ratio plugin enabled in tailwind.config</td>
+            </tr>
+            <tr>
+              <td>Thumbnail not showing</td>
+              <td>Check <code>poster</code> attribute on &lt;video&gt; tag → verify thumbnail uploaded and URL accessible → check image format (JPG/PNG)</td>
+            </tr>
+            <tr>
+              <td>Validation error on save</td>
+              <td>Check <code>validate</code> functions → ensure required fields filled based on source type → verify videoUrl for YouTube/Vimeo, videoFile for Upload</td>
+            </tr>
+            <tr>
+              <td>TypeScript error: Media type</td>
+              <td>Import <code>Media</code> type from <code>@/payload-types</code> → run <code>npx payload generate:types</code> if missing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Video block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Video</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Video/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">Video</span>,  <span class="comment">// ← Add Video block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Content,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">Video</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Video/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'video'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Video</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Performance Optimization:</strong> For self-hosted videos, consider lazy loading and format optimization:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// Enhanced self-hosted video with lazy loading</span>
+<span class="keyword">const</span> <span class="function">renderUpload</span> = () => {
+  <span class="keyword">if</span> (!videoFile) <span class="keyword">return</span> <span class="keyword">null</span>
+
+  <span class="keyword">const</span> videoMedia = <span class="keyword">typeof</span> videoFile === <span class="string">'string'</span> ? <span class="keyword">null</span> : videoFile <span class="keyword">as</span> <span class="function">Media</span>
+  <span class="keyword">const</span> videoSrc = <span class="keyword">typeof</span> videoFile === <span class="string">'string'</span> ? videoFile : videoMedia?.url
+
+  <span class="keyword">if</span> (!videoSrc) <span class="keyword">return</span> <span class="keyword">null</span>
+
+  <span class="keyword">const</span> thumbnailMedia = <span class="keyword">typeof</span> thumbnail === <span class="string">'string'</span> ? <span class="keyword">null</span> : thumbnail <span class="keyword">as</span> <span class="function">Media</span>
+  <span class="keyword">const</span> posterSrc = <span class="keyword">typeof</span> thumbnail === <span class="string">'string'</span> ? thumbnail : thumbnailMedia?.url
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">video</span>
+      src={videoSrc}
+      poster={posterSrc}
+      controls
+      className=<span class="string">"w-full h-full"</span>
+      preload=<span class="string">"metadata"</span>
+      loading=<span class="string">"lazy"</span>
+    &gt;
+      <span class="comment">// Multiple formats for better browser support</span>
+      &lt;<span class="keyword">source</span> src={<span class="string">`</span>${videoSrc}<span class="string">.mp4`</span>} type=<span class="string">"video/mp4"</span> /&gt;
+      &lt;<span class="keyword">source</span> src={<span class="string">`</span>${videoSrc}<span class="string">.webm`</span>} type=<span class="string">"video/webm"</span> /&gt;
+      Your browser does not support the video tag.
+    &lt;/<span class="keyword">video</span>&gt;
+  )
+}
+
+<span class="comment">// Optional: Add lite-youtube-embed for better YouTube performance</span>
+<span class="comment">// npm install lite-youtube-embed</span>
+<span class="keyword">import</span> <span class="string">'lite-youtube-embed/src/lite-yt-embed.css'</span>
+<span class="keyword">import</span> <span class="string">'lite-youtube-embed'</span>
+
+<span class="keyword">const</span> <span class="function">renderYouTubeLite</span> = () => {
+  <span class="keyword">const</span> videoId = <span class="function">getYouTubeId</span>(videoUrl)
+  <span class="keyword">return</span> &lt;<span class="keyword">lite-youtube</span> videoid={videoId} /&gt;
+}
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>
