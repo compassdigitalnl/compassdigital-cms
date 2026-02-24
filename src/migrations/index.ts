@@ -6,6 +6,7 @@ import * as migration_20260222_233500_fix_blogposts_duplicate_meta from './20260
 import * as migration_20260223_115055_add_theme_status_colors_and_gradients from './20260223_115055_add_theme_status_colors_and_gradients';
 import * as migration_20260224_110327_add_compass_design_tokens from './20260224_110327_add_compass_design_tokens';
 import * as migration_20260224_120000_add_themes_collection from './20260224_120000_add_themes_collection';
+import * as migration_20260224_200947_sprint10_schema from './20260224_200947_sprint10_schema';
 
 export const migrations = [
   {
@@ -47,5 +48,10 @@ export const migrations = [
     up: migration_20260224_120000_add_themes_collection.up,
     down: migration_20260224_120000_add_themes_collection.down,
     name: '20260224_120000_add_themes_collection',
+  },
+  {
+    up: migration_20260224_200947_sprint10_schema.up,
+    down: migration_20260224_200947_sprint10_schema.down,
+    name: '20260224_200947_sprint10_schema'
   },
 ];
