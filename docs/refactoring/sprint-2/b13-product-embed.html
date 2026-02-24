@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B13: Product Embed Block - Payload CMS Implementation Guide</title>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 48px;
+      box-shadow: var(--shadow-md);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .block-id {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+
+    .description {
+      font-size: 15px;
+      color: var(--grey-dark);
+      margin-bottom: 32px;
+      padding: 20px;
+      background: var(--grey-light);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--teal);
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--navy);
+      margin: 48px 0 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--teal);
+      margin: 24px 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 13px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--teal-dark);
+    }
+
+    pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 24px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 16px 0;
+      border: 1px solid var(--navy-light);
+    }
+
+    pre code {
+      background: none;
+      color: var(--white);
+      padding: 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    ul, ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    th {
+      background: var(--navy);
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    tr:hover {
+      background: var(--grey-light);
+    }
+
+    .visual-box {
+      background: var(--bg);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 24px 0;
+    }
+
+    .info-box {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      margin: 16px 0;
+    }
+
+    .info-box p {
+      color: #1565C0;
+      margin: 0;
+    }
+
+    .warning-box {
+      background: var(--amber-light);
+      border-left: 4px solid var(--amber);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      margin: 16px 0;
+    }
+
+    .warning-box p {
+      color: #92400E;
+      margin: 0;
+    }
+
+    .success-box {
+      background: var(--green-light);
+      border-left: 4px solid var(--green);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      margin: 16px 0;
+    }
+
+    .success-box p {
+      color: #166534;
+      margin: 0;
+    }
+
+    /* Product Embed Preview Styles */
+    .product-embed {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      overflow: hidden;
+      max-width: 800px;
+      margin: 0 auto 24px;
+    }
+    .product-embed-horizontal {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+    }
+    .product-embed-img {
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+    }
+    .product-embed-img.horizontal {
+      height: 100%;
+      min-height: 280px;
+    }
+    .product-embed-img.vertical {
+      height: 280px;
+    }
+    .product-embed-body {
+      padding: 28px;
+    }
+    .product-embed-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .product-embed-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .product-embed-desc {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .product-embed-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: var(--grey-light);
+      border-radius: 10px;
+    }
+    .product-embed-spec {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+    .product-embed-spec-label {
+      color: var(--grey-mid);
+      font-weight: 600;
+    }
+    .product-embed-spec-value {
+      color: var(--navy);
+      font-weight: 700;
+    }
+    .product-embed-footer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .product-embed-price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--teal);
+    }
+    .product-embed-btn {
+      flex: 1;
+      padding: 12px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .product-embed-btn:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .product-embed-horizontal {
+        grid-template-columns: 1fr;
+      }
+      .container {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="block-id">B13 - Ecommerce Block</div>
+    <h1>Product Embed Block</h1>
+
+    <div class="description">
+      <strong>Block Purpose:</strong> Featured product showcase met image, details, specs, en ATC button. Inline product highlight binnen content voor blog posts, landing pages, of productgidsen. Ondersteunt horizontale (2-kolom) en verticale (gestapelde) layouts.
+    </div>
+
+    <!-- ============================================ -->
+    <!-- VISUAL REFERENCE                              -->
+    <!-- ============================================ -->
+    <h2>Visual Reference</h2>
+    <p>Deze sectie toont de exacte visuele implementatie zoals gedefinieerd in het Compass Design System.</p>
+
+    <div class="visual-box">
+      <h3 style="text-align: center; margin-bottom: 32px;">Product Embed - 2 Layouts</h3>
+
+      <!-- Horizontal Layout -->
+      <div class="product-embed product-embed-horizontal">
+        <div class="product-embed-img horizontal">🩺</div>
+        <div class="product-embed-body">
+          <div class="product-embed-badge">Bestseller</div>
+          <div class="product-embed-title">Peha-soft Nitrile Fino</div>
+          <div class="product-embed-desc">
+            Premium nitril handschoenen met optimale pasvorm en tactiliteit. Poedervrij, latexvrij, geschikt voor medische en industriële toepassingen.
+          </div>
+          <div class="product-embed-specs">
+            <div class="product-embed-spec">
+              <span class="product-embed-spec-label">Materiaal</span>
+              <span class="product-embed-spec-value">Nitrile</span>
+            </div>
+            <div class="product-embed-spec">
+              <span class="product-embed-spec-label">Dikte</span>
+              <span class="product-embed-spec-value">0.14mm</span>
+            </div>
+            <div class="product-embed-spec">
+              <span class="product-embed-spec-label">Verpakking</span>
+              <span class="product-embed-spec-value">Doos 150 st.</span>
+            </div>
+          </div>
+          <div class="product-embed-footer">
+            <div class="product-embed-price">€8,25</div>
+            <button class="product-embed-btn">
+              <span>🛒</span>
+              <span>In winkelwagen</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vertical Layout -->
+      <div class="product-embed" style="max-width: 400px;">
+        <div class="product-embed-img vertical">🧤</div>
+        <div class="product-embed-body">
+          <div class="product-embed-badge" style="background: var(--purple-light); color: var(--purple);">Nieuw</div>
+          <div class="product-embed-title" style="font-size: 20px;">Microtouch Ultra</div>
+          <div class="product-embed-desc" style="font-size: 13px;">
+            Ultra-sterke latex handschoenen met grip coating voor optimale grip.
+          </div>
+          <div class="product-embed-footer">
+            <div class="product-embed-price" style="font-size: 24px;">€12,50</div>
+            <button class="product-embed-btn">
+              <span>🛒</span>
+              <span>Bestellen</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <p><strong>Design Tokens:</strong> Layouts: horizontal (2-col: 300px img + content) of vertical (1-col stack). Badge: Product status (Bestseller/Nieuw/Sale) met bijbehorende kleur. Specs: Optionele grey background card met label/value rows. Price: Plus Jakarta Sans, 28px (horizontal) of 24px (vertical), teal color. CTA: Full-width button met cart icon, teal background.</p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION           -->
+    <!-- ============================================ -->
+    <h2>Step 1: Payload Block Configuration</h2>
+
+    <p>Maak de Payload CMS block configuratie aan voor de Product Embed block. Deze block staat binnen de ecommerce branch onder de product category.</p>
+
+    <h3>File Path Structure</h3>
+    <pre><code>src/branches/blocks/ecommerce/product/ProductEmbed/
+├── config.ts          # Payload block config
+├── Component.tsx      # React component
+└── types.ts           # TypeScript types</code></pre>
+
+    <h3>Block Configuration</h3>
+    <h4>File: src/branches/blocks/ecommerce/product/ProductEmbed/config.ts</h4>
+
+    <pre><code>// src/branches/blocks/ecommerce/product/ProductEmbed/config.ts
+import { Block } from 'payload/types'
+
+export const ProductEmbed: Block = {
+  slug: 'productembed',
+  labels: {
+    singular: 'Product Embed',
+    plural: 'Product Embeds',
+  },
+  fields: [
+    // Product Selection
+    {
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
+      required: true,
+      label: 'Product',
+      admin: {
+        description: 'Selecteer het product dat je wilt embedden',
+      },
+    },
+
+    // Layout Configuration
+    {
+      name: 'layout',
+      type: 'select',
+      defaultValue: 'horizontal',
+      required: true,
+      options: [
+        {
+          label: 'Horizontal (2-kolom: afbeelding links, content rechts)',
+          value: 'horizontal',
+        },
+        {
+          label: 'Vertical (gestapeld: afbeelding boven, content onder)',
+          value: 'vertical',
+        },
+      ],
+      admin: {
+        description: 'Kies de layout van de product embed',
+      },
+    },
+
+    // Show Product Specifications
+    {
+      name: 'showSpecs',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Toon Specificaties',
+      admin: {
+        description: 'Toon de product specificaties (materiaal, dikte, verpakking, etc.)',
+      },
+    },
+
+    // Custom Description Override
+    {
+      name: 'customDescription',
+      type: 'richText',
+      label: 'Custom Beschrijving (optioneel)',
+      admin: {
+        description: 'Optioneel: overschrijf de standaard product beschrijving met custom content',
+        condition: (data, siblingData) => {
+          // Only show this field when a product is selected
+          return !!siblingData.product
+        },
+      },
+    },
+
+    // Show Badge
+    {
+      name: 'showBadge',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Toon Badge',
+      admin: {
+        description: 'Toon product badge (Bestseller, Nieuw, Sale, etc.)',
+      },
+    },
+
+    // Custom Badge Override
+    {
+      name: 'customBadge',
+      type: 'group',
+      label: 'Custom Badge (optioneel)',
+      admin: {
+        description: 'Overschrijf de automatische badge met een custom badge',
+        condition: (data, siblingData) => siblingData.showBadge === true,
+      },
+      fields: [
+        {
+          name: 'text',
+          type: 'text',
+          label: 'Badge Text',
+          admin: {
+            placeholder: 'Bijv: "Nieuw", "Sale", "Pro"',
+          },
+        },
+        {
+          name: 'variant',
+          type: 'select',
+          options: [
+            { label: 'Success (groen)', value: 'success' },
+            { label: 'Info (blauw)', value: 'info' },
+            { label: 'Warning (amber)', value: 'warning' },
+            { label: 'Error (coral)', value: 'error' },
+            { label: 'Pro (purple)', value: 'pro' },
+          ],
+          defaultValue: 'success',
+        },
+      ],
+    },
+
+    // Custom Button Text
+    {
+      name: 'buttonText',
+      type: 'text',
+      label: 'Button Text',
+      defaultValue: 'In winkelwagen',
+      admin: {
+        description: 'Custom tekst voor de "Add to Cart" button',
+        placeholder: 'Bijv: "In winkelwagen", "Bestellen", "Koop nu"',
+      },
+    },
+
+    // Show Price
+    {
+      name: 'showPrice',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Toon Prijs',
+      admin: {
+        description: 'Toon de product prijs',
+      },
+    },
+
+    // Spec Fields to Display
+    {
+      name: 'specFields',
+      type: 'array',
+      label: 'Specificatie Velden',
+      admin: {
+        description: 'Selecteer welke product specs je wilt tonen (alleen bij showSpecs = true)',
+        condition: (data, siblingData) => siblingData.showSpecs === true,
+      },
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+          label: 'Label',
+          admin: {
+            placeholder: 'Bijv: "Materiaal", "Dikte", "Verpakking"',
+          },
+        },
+        {
+          name: 'field',
+          type: 'text',
+          required: true,
+          label: 'Product Field Name',
+          admin: {
+            description: 'De naam van het product veld (bijv: "material", "thickness", "packaging")',
+            placeholder: 'material',
+          },
+        },
+      ],
+    },
+  ],
+}</code></pre>
+
+    <div class="info-box">
+      <p><strong>Configuration Highlights:</strong> De block gebruikt een relationship naar 'products' collectie. Layout select voor horizontal/vertical. Conditional fields: customBadge alleen zichtbaar als showBadge=true, specFields alleen bij showSpecs=true. Custom description override met richText voor flexibiliteit.</p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STEP 2: TYPESCRIPT TYPES                      -->
+    <!-- ============================================ -->
+    <h2>Step 2: TypeScript Types</h2>
+
+    <p>Definieer de TypeScript types voor type-safe block implementatie.</p>
+
+    <h4>File: src/branches/blocks/ecommerce/product/ProductEmbed/types.ts</h4>
+
+    <pre><code>// src/branches/blocks/ecommerce/product/ProductEmbed/types.ts
+import { Product } from '@/payload-types'
+
+export interface ProductEmbedBlock {
+  blockType: 'productembed'
+  product: string | Product
+  layout: 'horizontal' | 'vertical'
+  showSpecs: boolean
+  customDescription?: any // Lexical richText
+  showBadge: boolean
+  customBadge?: {
+    text: string
+    variant: 'success' | 'info' | 'warning' | 'error' | 'pro'
+  }
+  buttonText: string
+  showPrice: boolean
+  specFields?: Array<{
+    label: string
+    field: string
+  }>
+}
+
+export interface ProductEmbedProps {
+  product: Product
+  layout: 'horizontal' | 'vertical'
+  showSpecs: boolean
+  customDescription?: any
+  showBadge: boolean
+  customBadge?: {
+    text: string
+    variant: 'success' | 'info' | 'warning' | 'error' | 'pro'
+  }
+  buttonText: string
+  showPrice: boolean
+  specFields?: Array<{
+    label: string
+    field: string
+  }>
+}
+
+export interface ProductBadge {
+  text: string
+  variant: 'success' | 'info' | 'warning' | 'error' | 'pro'
+}
+
+export interface ProductSpec {
+  label: string
+  value: string
+}</code></pre>
+
+    <div class="info-box">
+      <p><strong>Type Safety:</strong> Product kan zowel een ID (string) als een populated Product object zijn. Badge variant type enforces de 5 kleuren. SpecFields array voor dynamische spec display.</p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STEP 3: USAGE IN COMPONENTS                   -->
+    <!-- ============================================ -->
+    <h2>Step 3: Usage in Components</h2>
+
+    <p>React component implementatie met volledige frontend logica.</p>
+
+    <h4>File: src/branches/blocks/ecommerce/product/ProductEmbed/Component.tsx</h4>
+
+    <pre><code>'use client'
+
+import React from 'react'
+import Image from 'next/image'
+import { ProductEmbedProps, ProductBadge, ProductSpec } from './types'
+import { AddToCartButton } from '@/components/ecommerce/AddToCartButton'
+import { formatPrice } from '@/utilities/formatPrice'
+import { RichText } from '@/components/RichText'
+
+const badgeStyles: Record<ProductBadge['variant'], string> = {
+  success: 'bg-green-50 text-green-700',
+  info: 'bg-blue-50 text-blue-700',
+  warning: 'bg-amber-50 text-amber-700',
+  error: 'bg-red-50 text-red-700',
+  pro: 'bg-purple-50 text-purple-700',
+}
+
+export const ProductEmbedBlock: React.FC<ProductEmbedProps> = ({
+  product,
+  layout = 'horizontal',
+  showSpecs = true,
+  customDescription,
+  showBadge = true,
+  customBadge,
+  buttonText = 'In winkelwagen',
+  showPrice = true,
+  specFields,
+}) => {
+  // Determine badge to display
+  const badge: ProductBadge | null = React.useMemo(() => {
+    if (!showBadge) return null
+
+    // Custom badge takes precedence
+    if (customBadge?.text) {
+      return customBadge
+    }
+
+    // Auto-detect badge from product
+    if (product.badge) {
+      return {
+        text: product.badge.text,
+        variant: product.badge.variant as ProductBadge['variant'],
+      }
+    }
+
+    // Default: show "Bestseller" if product.isBestseller
+    if (product.isBestseller) {
+      return { text: 'Bestseller', variant: 'success' }
+    }
+
+    // Show "Nieuw" if product is less than 30 days old
+    if (product.createdAt) {
+      const daysSinceCreated = Math.floor(
+        (Date.now() - new Date(product.createdAt).getTime()) / (1000 * 60 * 60 * 24)
+      )
+      if (daysSinceCreated < 30) {
+        return { text: 'Nieuw', variant: 'pro' }
+      }
+    }
+
+    return null
+  }, [showBadge, customBadge, product])
+
+  // Build specs array
+  const specs: ProductSpec[] = React.useMemo(() => {
+    if (!showSpecs || !specFields || specFields.length === 0) {
+      return []
+    }
+
+    return specFields
+      .map((specConfig) => {
+        const value = (product as any)[specConfig.field]
+        if (!value) return null
+
+        return {
+          label: specConfig.label,
+          value: String(value),
+        }
+      })
+      .filter(Boolean) as ProductSpec[]
+  }, [showSpecs, specFields, product])
+
+  // Layout classes
+  const containerClass =
+    layout === 'horizontal'
+      ? 'grid md:grid-cols-[300px_1fr] gap-0'
+      : 'flex flex-col'
+
+  const imageWrapperClass =
+    layout === 'horizontal'
+      ? 'h-full min-h-[280px]'
+      : 'h-[280px]'
+
+  const priceSize = layout === 'horizontal' ? 'text-3xl' : 'text-2xl'
+
+  return (
+    <div className="product-embed max-w-4xl mx-auto bg-white border border-grey rounded-2xl overflow-hidden">
+      <div className={containerClass}>
+        {/* Product Image */}
+        <div className={`relative bg-grey-light flex items-center justify-center ${imageWrapperClass}`}>
+          {product.thumbnail?.url ? (
+            <Image
+              src={product.thumbnail.url}
+              alt={product.thumbnail.alt || product.name}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="text-8xl">🩺</div>
+          )}
+        </div>
+
+        {/* Product Content */}
+        <div className="p-7">
+          {/* Badge */}
+          {badge && (
+            <div
+              className={`inline-block px-2.5 py-1 text-[10px] font-bold uppercase rounded-md mb-3 ${
+                badgeStyles[badge.variant]
+              }`}
+            >
+              {badge.text}
+            </div>
+          )}
+
+          {/* Product Title */}
+          <h3 className="font-serif text-2xl text-navy mb-3">
+            {product.name}
+          </h3>
+
+          {/* Description */}
+          <div className="text-sm text-grey-dark leading-relaxed mb-5">
+            {customDescription ? (
+              <RichText content={customDescription} />
+            ) : (
+              <p>{product.description || product.shortDescription}</p>
+            )}
+          </div>
+
+          {/* Specifications */}
+          {specs.length > 0 && (
+            <div className="flex flex-col gap-2.5 mb-6 p-4 bg-grey-light rounded-lg">
+              {specs.map((spec, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between text-sm"
+                >
+                  <span className="text-grey-mid font-semibold">{spec.label}</span>
+                  <span className="text-navy font-bold">{spec.value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Footer: Price + CTA */}
+          <div className="flex items-center gap-4">
+            {showPrice && (
+              <div className={`font-sans ${priceSize} font-extrabold text-teal`}>
+                {formatPrice(product.price)}
+              </div>
+            )}
+
+            <AddToCartButton
+              product={product}
+              className="flex-1 px-6 py-3 bg-teal hover:bg-teal-dark text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2"
+            >
+              <span>🛒</span>
+              <span>{buttonText}</span>
+            </AddToCartButton>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}</code></pre>
+
+    <div class="warning-box">
+      <p><strong>Dependencies:</strong> Deze component verwacht <code>AddToCartButton</code>, <code>formatPrice</code>, en <code>RichText</code> components/utilities. Zorg dat deze beschikbaar zijn in je project.</p>
+    </div>
+
+    <h3>Server Component Wrapper</h3>
+    <pre><code>// src/branches/blocks/ecommerce/product/ProductEmbed/index.tsx
+import React from 'react'
+import { getPayloadHMR } from '@payloadcms/next/utilities'
+import config from '@payload-config'
+import { ProductEmbedBlock as ProductEmbedBlockType } from './types'
+import { ProductEmbedBlock } from './Component'
+
+export const ProductEmbed: React.FC<{ block: ProductEmbedBlockType }> = async ({ block }) => {
+  const payload = await getPayloadHMR({ config })
+
+  // Fetch product if it's just an ID
+  const product =
+    typeof block.product === 'string'
+      ? await payload.findByID({ collection: 'products', id: block.product })
+      : block.product
+
+  if (!product) {
+    return null
+  }
+
+  return (
+    <ProductEmbedBlock
+      product={product}
+      layout={block.layout}
+      showSpecs={block.showSpecs}
+      customDescription={block.customDescription}
+      showBadge={block.showBadge}
+      customBadge={block.customBadge}
+      buttonText={block.buttonText}
+      showPrice={block.showPrice}
+      specFields={block.specFields}
+    />
+  )
+}</code></pre>
+
+    <!-- ============================================ -->
+    <!-- STEP 4: ADMIN PANEL STRUCTURE                 -->
+    <!-- ============================================ -->
+    <h2>Step 4: Admin Panel Structure</h2>
+
+    <p>Zo ziet de block eruit in de Payload CMS admin panel.</p>
+
+    <div class="visual-box">
+      <h3>Admin Panel Preview</h3>
+      <div style="font-family: monospace; font-size: 12px; line-height: 1.8; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+        <div style="border-left: 3px solid var(--teal); padding-left: 12px; margin-bottom: 16px;">
+          <strong style="color: var(--teal);">📦 Product Embed</strong>
+        </div>
+
+        <div style="margin-left: 20px;">
+          <div style="margin-bottom: 12px;">
+            <strong>Product:</strong> <span style="color: var(--grey-mid);">Relationship → products</span><br>
+            <span style="font-size: 11px; color: var(--grey-dark);">└─ Selecteer het product dat je wilt embedden</span>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <strong>Layout:</strong> <span style="color: var(--grey-mid);">Select</span><br>
+            <span style="font-size: 11px; color: var(--grey-dark);">
+              └─ ◉ Horizontal (2-kolom: afbeelding links, content rechts)<br>
+              └─ ○ Vertical (gestapeld: afbeelding boven, content onder)
+            </span>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <strong>Toon Specificaties:</strong> <span style="color: var(--green);">☑ Checkbox (checked)</span>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <strong>Custom Beschrijving:</strong> <span style="color: var(--grey-mid);">RichText (optioneel)</span><br>
+            <span style="font-size: 11px; color: var(--grey-dark);">└─ Overschrijf de standaard product beschrijving</span>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <strong>Toon Badge:</strong> <span style="color: var(--green);">☑ Checkbox (checked)</span>
+          </div>
+
+          <div style="margin-bottom: 12px; margin-left: 20px; padding: 8px; background: white; border-radius: 6px;">
+            <strong style="font-size: 11px; color: var(--teal);">Custom Badge (optioneel)</strong><br>
+            <div style="margin-left: 12px; margin-top: 8px;">
+              <strong>Text:</strong> <input type="text" placeholder="Bijv: Nieuw" style="border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; width: 200px;"><br>
+              <strong>Variant:</strong>
+              <select style="border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; margin-top: 4px;">
+                <option>Success (groen)</option>
+                <option>Info (blauw)</option>
+                <option>Warning (amber)</option>
+                <option>Error (coral)</option>
+                <option>Pro (purple)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <strong>Button Text:</strong> <input type="text" value="In winkelwagen" style="border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; width: 200px;">
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <strong>Toon Prijs:</strong> <span style="color: var(--green);">☑ Checkbox (checked)</span>
+          </div>
+
+          <div style="margin-bottom: 12px; margin-left: 20px; padding: 8px; background: white; border-radius: 6px;">
+            <strong style="font-size: 11px; color: var(--teal);">Specificatie Velden</strong><br>
+            <div style="margin-left: 12px; margin-top: 8px; padding: 8px; background: var(--grey-light); border-radius: 4px;">
+              <strong>Row 1:</strong><br>
+              └─ Label: <input type="text" placeholder="Materiaal" style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px; width: 120px;"><br>
+              └─ Field: <input type="text" placeholder="material" style="border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px; width: 120px;">
+            </div>
+            <button style="margin-top: 8px; padding: 4px 12px; background: var(--teal); color: white; border: none; border-radius: 4px; cursor: pointer;">+ Add Row</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STEP 5: TESTING CHECKLIST                     -->
+    <!-- ============================================ -->
+    <h2>Step 5: Testing Checklist</h2>
+
+    <p>Volledige test coverage voor de Product Embed block.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 40px;">#</th>
+          <th>Test Case</th>
+          <th>Expected Behavior</th>
+          <th style="width: 80px;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>Horizontal Layout Rendering</strong><br>Create block met layout="horizontal", controleer 2-kolom grid op desktop</td>
+          <td>Image links (300px), content rechts, grid-cols-2 op md+ breakpoint</td>
+          <td>⬜ TODO</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Vertical Layout Rendering</strong><br>Create block met layout="vertical", controleer gestapelde layout</td>
+          <td>Image boven (280px hoog), content eronder, flex-col layout</td>
+          <td>⬜ TODO</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Product Badge Display</strong><br>Test customBadge met alle 5 variants (success/info/warning/error/pro)</td>
+          <td>Badge toont correct, kleuren matchen variant, auto-detect werkt voor isBestseller en createdAt < 30d</td>
+          <td>⬜ TODO</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Spec Fields Dynamic Rendering</strong><br>Add 3 specFields (materiaal, dikte, verpakking), controleer display</td>
+          <td>Specs tonen in grey card, label links (grey-mid), value rechts (navy bold)</td>
+          <td>⬜ TODO</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Custom Description Override</strong><br>Add customDescription richText, controleer dat het de default product.description overschrijft</td>
+          <td>RichText component rendert custom content, product.description wordt niet getoond</td>
+          <td>⬜ TODO</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Add to Cart Integration</strong><br>Klik "In winkelwagen" button, controleer AddToCartButton handler</td>
+          <td>Product wordt toegevoegd aan cart, toast notification verschijnt, cart count update</td>
+          <td>⬜ TODO</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>Conditional Field Visibility</strong><br>Toggle showBadge/showSpecs/showPrice, controleer admin panel conditionals</td>
+          <td>customBadge field alleen zichtbaar als showBadge=true, specFields alleen als showSpecs=true</td>
+          <td>⬜ TODO</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ============================================ -->
+    <!-- STEP 6: DATABASE MIGRATION                    -->
+    <!-- ============================================ -->
+    <h2>Step 6: Database Migration</h2>
+
+    <p>Database schema aanpassingen voor de Product Embed block.</p>
+
+    <h3>Migration Commands</h3>
+    <pre><code># 1. Generate migration
+npx payload migrate:create add_productembed_block
+
+# 2. Review generated migration file
+cat src/migrations/YYYYMMDDHHMMSS_add_productembed_block.ts
+
+# 3. Run migration
+npx payload migrate
+
+# 4. Verify migration
+npx payload migrate:status</code></pre>
+
+    <h3>Expected Schema Changes</h3>
+    <pre><code>// Auto-generated migration (example)
+import { MigrateUpArgs, MigrateDownArgs } from '@payloadcms/db-postgres'
+
+export async function up({ payload }: MigrateUpArgs): Promise<void> {
+  // Add productembed block type to pages_blocks table
+  await payload.db.execute(`
+    ALTER TABLE pages_blocks
+    ADD COLUMN IF NOT EXISTS productembed_product VARCHAR(255),
+    ADD COLUMN IF NOT EXISTS productembed_layout VARCHAR(50) DEFAULT 'horizontal',
+    ADD COLUMN IF NOT EXISTS productembed_show_specs BOOLEAN DEFAULT true,
+    ADD COLUMN IF NOT EXISTS productembed_custom_description JSONB,
+    ADD COLUMN IF NOT EXISTS productembed_show_badge BOOLEAN DEFAULT true,
+    ADD COLUMN IF NOT EXISTS productembed_custom_badge JSONB,
+    ADD COLUMN IF NOT EXISTS productembed_button_text VARCHAR(100) DEFAULT 'In winkelwagen',
+    ADD COLUMN IF NOT EXISTS productembed_show_price BOOLEAN DEFAULT true;
+  `)
+
+  // Create spec_fields array table
+  await payload.db.execute(`
+    CREATE TABLE IF NOT EXISTS pages_blocks_productembed_spec_fields (
+      id SERIAL PRIMARY KEY,
+      parent_id INTEGER REFERENCES pages_blocks(id) ON DELETE CASCADE,
+      label VARCHAR(100) NOT NULL,
+      field VARCHAR(100) NOT NULL,
+      _order INTEGER
+    );
+  `)
+}
+
+export async function down({ payload }: MigrateDownArgs): Promise<void> {
+  await payload.db.execute(`DROP TABLE IF EXISTS pages_blocks_productembed_spec_fields;`)
+
+  await payload.db.execute(`
+    ALTER TABLE pages_blocks
+    DROP COLUMN IF EXISTS productembed_product,
+    DROP COLUMN IF EXISTS productembed_layout,
+    DROP COLUMN IF EXISTS productembed_show_specs,
+    DROP COLUMN IF EXISTS productembed_custom_description,
+    DROP COLUMN IF EXISTS productembed_show_badge,
+    DROP COLUMN IF EXISTS productembed_custom_badge,
+    DROP COLUMN IF EXISTS productembed_button_text,
+    DROP COLUMN IF EXISTS productembed_show_price;
+  `)
+}</code></pre>
+
+    <div class="warning-box">
+      <p><strong>PostgreSQL Specifics:</strong> JSONB type voor customDescription (Lexical) en customBadge (group). Separate table voor specFields array met parent_id foreign key en _order voor sortering.</p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STEP 7: TROUBLESHOOTING                       -->
+    <!-- ============================================ -->
+    <h2>Step 7: Troubleshooting</h2>
+
+    <p>Veelvoorkomende problemen en oplossingen.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 200px;">Issue</th>
+          <th>Symptom</th>
+          <th>Solution</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Product niet gevonden</strong></td>
+          <td>Block rendert leeg, console error: "Product undefined"</td>
+          <td>Controleer of product relationship correct is populated. Voeg <code>depth: 1</code> toe aan findByID call in server component. Verifieer dat product ID bestaat in database.</td>
+        </tr>
+        <tr>
+          <td><strong>Badge toont niet</strong></td>
+          <td>showBadge=true maar geen badge zichtbaar</td>
+          <td>Check product.badge field in database. Verifieer customBadge?.text of product.isBestseller is set. Auto-detect logic vereist product.createdAt field voor "Nieuw" badge.</td>
+        </tr>
+        <tr>
+          <td><strong>Specs leeg ondanks showSpecs=true</strong></td>
+          <td>Spec card toont niet, specs.length === 0</td>
+          <td>Controleer specFields array in block data. Verifieer dat product fields (bijv: product.material, product.thickness) daadwerkelijk bestaan en gevuld zijn. Check field names match exactly (case-sensitive).</td>
+        </tr>
+        <tr>
+          <td><strong>Layout breekt op mobile</strong></td>
+          <td>Horizontal layout toont verkeerd op mobile</td>
+          <td>Verifieer <code>md:grid-cols-[300px_1fr]</code> Tailwind class. Op mobile moet grid terugvallen naar 1 kolom (geen md: prefix). Check responsive breakpoints in tailwind.config.ts.</td>
+        </tr>
+        <tr>
+          <td><strong>RichText rendert niet</strong></td>
+          <td>customDescription toont raw JSON of helemaal niet</td>
+          <td>Importeer <code>RichText</code> component van @/components/RichText. Controleer Lexical editor configuratie in Payload config. Verifieer customDescription field type is 'richText' (niet 'textarea').</td>
+        </tr>
+        <tr>
+          <td><strong>AddToCartButton werkt niet</strong></td>
+          <td>Button klikken doet niets, geen cart update</td>
+          <td>Verifieer AddToCartButton component bestaat en correct geïmporteerd. Check ecommerce context provider is wrapped rond app. Controleer product.id en product.price zijn beschikbaar. Test cart API endpoint manually.</td>
+        </tr>
+        <tr>
+          <td><strong>Image placeholder toont emoji ipv thumbnail</strong></td>
+          <td>Emoji 🩺 toont altijd, zelfs met product.thumbnail</td>
+          <td>Check product.thumbnail?.url bestaat en niet null/undefined. Verifieer Next.js Image component heeft <code>fill</code> prop en parent heeft <code>relative</code> class. Check image URL is accessible (CORS, permissions).</td>
+        </tr>
+        <tr>
+          <td><strong>Conditional fields niet zichtbaar in admin</strong></td>
+          <td>customBadge of specFields fields verschijnen niet</td>
+          <td>Check condition functions in config.ts. Verifieer <code>siblingData.showBadge === true</code> voor customBadge visibility. Voor specFields: <code>siblingData.showSpecs === true</code>. Test met browser devtools Payload admin debug mode.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ============================================ -->
+    <!-- STEP 8: CONFIG REGISTRATION                   -->
+    <!-- ============================================ -->
+    <h2>Step 8: Config Registration</h2>
+
+    <p>Registreer de Product Embed block in je Payload config en page collection.</p>
+
+    <h3>1. Export Block Config</h3>
+    <pre><code>// src/branches/blocks/ecommerce/product/ProductEmbed/index.ts
+export { ProductEmbed as config } from './config'
+export { ProductEmbed as Component } from './Component'
+export type { ProductEmbedBlock, ProductEmbedProps } from './types'</code></pre>
+
+    <h3>2. Register in Blocks Registry</h3>
+    <pre><code>// src/branches/blocks/ecommerce/index.ts
+import { config as ProductEmbed } from './product/ProductEmbed'
+import { config as ProductGrid } from './product/ProductGrid'
+import { config as CategoryGrid } from './product/CategoryGrid'
+import { config as QuickOrder } from './cart/QuickOrder'
+import { config as Pricing } from './pricing/Pricing'
+
+export const ecommerceBlocks = [
+  ProductEmbed,
+  ProductGrid,
+  CategoryGrid,
+  QuickOrder,
+  Pricing,
+  // ... andere ecommerce blocks
+]</code></pre>
+
+    <h3>3. Add to Page Collection</h3>
+    <pre><code>// src/collections/Pages/index.ts
+import { CollectionConfig } from 'payload/types'
+import { ecommerceBlocks } from '@/branches/blocks/ecommerce'
+import { sharedBlocks } from '@/branches/blocks/shared'
+
+export const Pages: CollectionConfig = {
+  slug: 'pages',
+  fields: [
+    {
+      name: 'layout',
+      type: 'blocks',
+      blocks: [
+        ...sharedBlocks,
+        ...ecommerceBlocks, // ✅ Product Embed nu beschikbaar
+      ],
+    },
+  ],
+}</code></pre>
+
+    <h3>4. Add to Block Render Map</h3>
+    <pre><code>// src/components/RenderBlocks/index.tsx
+import { Component as ProductEmbed } from '@/branches/blocks/ecommerce/product/ProductEmbed'
+
+const blockComponents = {
+  hero: Hero,
+  features: Features,
+  productembed: ProductEmbed, // ✅ Map slug to component
+  productgrid: ProductGrid,
+  // ...
+}
+
+export const RenderBlocks: React.FC<{ blocks: any[] }> = ({ blocks }) => {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        const BlockComponent = blockComponents[block.blockType]
+        if (!BlockComponent) return null
+        return <BlockComponent key={index} block={block} />
+      })}
+    </>
+  )
+}</code></pre>
+
+    <div class="success-box">
+      <p><strong>✅ Implementation Complete!</strong> De Product Embed block is nu volledig geïntegreerd en klaar voor gebruik in de Payload CMS admin panel.</p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- FOOTER                                        -->
+    <!-- ============================================ -->
+    <div style="margin-top: 64px; padding-top: 32px; border-top: 2px solid var(--grey); text-align: center; color: var(--grey-mid); font-size: 12px;">
+      <p><strong>B13: Product Embed Block</strong> - Payload CMS Implementation Guide</p>
+      <p>Branch: ecommerce/product | Type: Primary | Status: Complete</p>
+      <p style="margin-top: 8px;">Generated from Compass Design System v2.0</p>
+    </div>
+  </div>
+</body>
+</html>

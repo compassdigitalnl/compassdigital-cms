@@ -42,6 +42,359 @@ Implementatie van complete design system in Payload CMS:
 
 ---
 
+## 🎓 LEARNINGS FROM SPRINT 1 IMPLEMENTATION
+
+**These critical learnings were discovered during Sprint 1 implementation and must be followed to avoid common pitfalls:**
+
+### 1. Database Migration Dual Pattern ⚠️ CRITICAL
+
+**Problem:** Initially only created Theme global migration, forgot Themes collection migration.
+
+**Solution:** When implementing changes that involve BOTH a Global AND a Collection:
+```bash
+# WRONG: Only one migration
+npx payload migrate:create add_colors_to_theme  # Only theme global
+
+# CORRECT: Two migrations needed!
+npx payload migrate:create add_colors_to_theme     # Theme global fields
+npx payload migrate:create create_themes_collection # Themes collection table
+```
+
+**Rule:** For Sprint 1, you need **5 migrations total**:
+- 4 migrations for Theme global (colors, spacing, typography, visual tabs)
+- 1 migration for Themes collection (CREATE TABLE)
+
+**Verification:**
+```bash
+# After generating migrations, check:
+npx payload migrate:status
+
+# Expected: 5 pending migrations
+# ✓ YYYYMMDD_add_colors_to_theme
+# ✓ YYYYMMDD_add_spacing_to_theme
+# ✓ YYYYMMDD_add_typography_to_theme
+# ✓ YYYYMMDD_add_visual_to_theme
+# ✓ YYYYMMDD_create_themes_collection  # <-- Don't forget this one!
+```
+
+---
+
+### 2. React Server Component Serialization ⚠️ CRITICAL
+
+**Problem:** Field callbacks like `hidden: ({ user }) => ...` don't serialize in React Server Components.
+
+**Error Message:**
+```
+Error: Functions cannot be passed directly to Client Components
+```
+
+**Wrong Approach:**
+```typescript
+// ❌ WRONG: Runtime callback (doesn't serialize!)
+export const Theme: GlobalConfig = {
+  fields: [
+    {
+      name: 'colors',
+      type: 'group',
+      hidden: ({ user }) => !user.role.includes('admin'),  // ❌ Fails!
+    }
+  ]
+}
+```
+
+**Correct Approach - Build-time Evaluation:**
+```typescript
+// ✅ CORRECT: Build-time constant
+const isClientDeployment = () => {
+  return process.env.DEPLOYMENT_TYPE === 'client'
+}
+
+export const Theme: GlobalConfig = {
+  fields: [
+    {
+      name: 'colors',
+      type: 'group',
+      hidden: !isClientDeployment(),  // ✅ Evaluated at build time!
+    }
+  ]
+}
+```
+
+**Rule:** Use build-time evaluation (functions called during config creation), NOT runtime callbacks.
+
+**Sprint 1 Impact:**
+- Spacing fields use `readOnly: true` (constant) ✅
+- Color validation uses `validate: (val) => ...` (server-side, OK) ✅
+- Tab visibility should NOT use runtime callbacks ⚠️
+
+---
+
+### 3. Provisioning Script Pattern ⚠️ IMPORTANT
+
+**Problem:** Added Themes collection but forgot to update provisioning scripts. New sites didn't have default themes seeded.
+
+**Solution:** When adding new globals/collections, update BOTH provisioning paths:
+
+**Path 1: PloiAdapter.ts (Automated Provisioning)**
+```typescript
+// src/lib/ploi/PloiAdapter.ts
+
+async provisionSite(siteData: SiteProvisionData) {
+  // ... existing provisioning ...
+
+  // NEW: Seed themes for new sites
+  await this.seedThemes(siteId)
+}
+
+async seedThemes(siteId: string) {
+  // Call your seed script or inline theme creation
+  const payload = await getPayload({ config: configPromise })
+  // Create 10 default themes...
+}
+```
+
+**Path 2: Manual Provision Script (provision-site.sh)**
+```bash
+#!/bin/bash
+# src/scripts/provision-site.sh
+
+# ... existing steps ...
+
+# NEW: Seed themes
+echo "Seeding themes..."
+npx ts-node src/scripts/seedThemes.ts
+
+echo "Provisioning complete!"
+```
+
+**Rule:** Any new global/collection with default data needs provisioning script updates!
+
+**Sprint 1 Checklist:**
+- [ ] Update `PloiAdapter.ts` to seed themes
+- [ ] Update `provision-site.sh` to run `seedThemes.ts`
+- [ ] Test provisioning on fresh site
+- [ ] Verify 10 themes created automatically
+
+---
+
+### 4. Feature Flag Integration Pattern
+
+**Problem:** No clear pattern for enabling/disabling features based on environment variables.
+
+**Solution - Access Control Pattern (from Sprint 2):**
+```typescript
+// Build-time feature check
+const isB2BEnabled = () => process.env.ENABLE_B2B === 'true'
+
+export const QuickOrder: Block = {
+  slug: 'quickOrder',
+  access: {
+    read: () => isB2BEnabled(),
+    create: () => isB2BEnabled(),
+    update: () => isB2BEnabled(),
+  },
+  admin: {
+    description: isB2BEnabled()
+      ? 'B2B bulk order functionality'
+      : '⚠️ DISABLED: Set ENABLE_B2B=true to enable',
+  },
+  fields: [...]
+}
+```
+
+**When to use:**
+- Collections that should only exist for certain customers (e.g., Products for ecommerce)
+- Features that are vertical-specific (e.g., QuickOrder for B2B only)
+- Beta features that aren't ready for all tenants
+
+**Sprint 1 Application:**
+- Could use for development-status themes: `status: 'development'` themes hidden unless `SHOW_DEV_THEMES=true`
+- Optional: Hide certain vertical themes from theme switcher based on tenant config
+
+---
+
+### 5. Script Organization & Cleanup
+
+**Problem:** Old scripts scattered across codebase causing confusion.
+
+**Solution - Archive Pattern:**
+```bash
+# Create archived directory
+mkdir -p src/scripts/archived
+
+# Move obsolete scripts
+mv src/scripts/old-migration.ts src/scripts/archived/
+mv src/scripts/temp-fix.ts src/scripts/archived/
+
+# Document in README
+echo "# Archived Scripts\n\nThese scripts are kept for reference but are no longer used." > src/scripts/archived/README.md
+```
+
+**Rule:** When creating new scripts (like `seedThemes.ts`), mark obsolete ones and archive.
+
+**Sprint 1 Cleanup:**
+- [ ] Archive any old theme-related scripts
+- [ ] Keep only active scripts in `src/scripts/`
+- [ ] Document script purpose in comments
+
+---
+
+### 6. Migration Verification Best Practices
+
+**Enhanced Verification Steps:**
+
+```bash
+# BEFORE migrations
+psql $DATABASE_URL -c "SELECT column_name FROM information_schema.columns WHERE table_name = 'theme'" > before.txt
+
+# RUN migrations
+npx payload migrate
+
+# AFTER migrations
+psql $DATABASE_URL -c "SELECT column_name FROM information_schema.columns WHERE table_name = 'theme'" > after.txt
+
+# VERIFY: Check diff
+diff before.txt after.txt
+
+# Expected: Shows 50 new columns added (16 colors + 9 spacing + 11 typography + 14 visual)
+```
+
+**Data Preservation Check:**
+```sql
+-- Before migration: count existing rows
+SELECT COUNT(*) FROM theme;  -- Expected: 1 (existing theme global)
+
+-- After migration: verify row still exists with new columns
+SELECT id, navy, sp_4, hero_size, radius_md FROM theme LIMIT 1;
+-- Expected: Existing id + default values for new columns
+```
+
+---
+
+### 7. TypeScript Type Extension Pattern
+
+**Wrong Approach:**
+```typescript
+// ❌ WRONG: Replacing existing interface
+export interface Theme {
+  colors: ThemeColors
+  spacing: ThemeSpacing
+  // Missing all existing properties! 💥
+}
+```
+
+**Correct Approach:**
+```typescript
+// ✅ CORRECT: Extending existing interface
+export interface Theme {
+  id: string
+  // ... ALL existing properties preserved! ...
+
+  // NEW: Added properties (optional to maintain compatibility)
+  colors?: ThemeColors
+  spacing?: ThemeSpacing
+  typography?: ThemeTypography
+  visual?: ThemeVisual
+
+  updatedAt: string
+  createdAt: string
+}
+```
+
+**Rule:** ALWAYS preserve existing interface properties. Use optional (`?`) for new properties.
+
+---
+
+### 8. CSS Variable Fallback Pattern
+
+**Best Practice - Always Provide Fallbacks:**
+```typescript
+// ✅ CORRECT: Fallback values prevent empty CSS vars
+const colors = theme.colors || {}
+const colorVars = `
+  --navy: ${colors.navy || '#0A1628'};      // ✅ Has fallback
+  --teal: ${colors.teal || '#00897B'};       // ✅ Has fallback
+`
+
+// ❌ WRONG: No fallback (could be empty string!)
+const colorVars = `--navy: ${theme.colors?.navy};`  // 💥 Could be --navy: undefined;
+```
+
+**Why:** Database might not have values yet (migrations in progress, old data, etc.)
+
+---
+
+### 9. Admin Field Organization
+
+**Learning:** Complex forms need clear organization.
+
+**Solution - Tab Structure (applied in Sprint 1 & 2):**
+```typescript
+// ✅ GOOD: Organized into logical tabs
+fields: [
+  {
+    type: 'tabs',
+    tabs: [
+      { label: 'Colors', fields: [...] },      // User focuses on colors
+      { label: 'Typography', fields: [...] },  // Then typography
+      { label: 'Spacing', fields: [...] },     // Then spacing
+      { label: 'Visual', fields: [...] },      // Then visual effects
+    ]
+  }
+]
+
+// ❌ BAD: 50 flat fields (overwhelming!)
+fields: [
+  { name: 'navy', ... },
+  { name: 'navyLight', ... },
+  // ... 48 more fields ... 😵
+]
+```
+
+**Sprint 1 Application:** Already using tabs! ✅
+
+---
+
+### 10. Deployment Checklist Enhancement
+
+**Add to Pre-Deploy Checklist:**
+```bash
+# 1. Verify TypeScript compilation
+npm run typecheck  # Must pass!
+
+# 2. Verify no React serialization issues
+npm run build      # Must succeed!
+
+# 3. Check migration files before running
+ls -la src/migrations/*.ts
+# Verify: Only ADD COLUMN statements (open each file and check)
+
+# 4. Test on local copy of production data
+pg_dump $PROD_DB > local_copy.sql
+psql $LOCAL_DB < local_copy.sql
+npx payload migrate  # Test on production-like data!
+
+# 5. THEN deploy to production
+```
+
+---
+
+**Summary of Key Learnings:**
+1. ⚠️ **Dual Migrations:** Global changes + Collection creation = 2 migrations
+2. ⚠️ **No Runtime Callbacks:** Use build-time evaluation for field config
+3. ✅ **Update Provisioning:** Both PloiAdapter and manual scripts
+4. ✅ **Feature Flags:** Access control pattern for optional features
+5. ✅ **Archive Old Scripts:** Keep codebase clean
+6. ✅ **Verify Migrations:** Before/after column comparison
+7. ✅ **Extend Types:** Never replace existing interfaces
+8. ✅ **CSS Fallbacks:** Always provide default values
+9. ✅ **Tab Organization:** Complex forms need clear structure
+10. ✅ **Enhanced Testing:** Test migrations on production-like data
+
+These learnings significantly improve Sprint 1 success rate and prevent common errors. ✨
+
+---
+
 ## 🎯 SCOPE & DELIVERABLES
 
 ### In Scope (Sprint 1)
@@ -274,6 +627,10 @@ export default buildConfig({
 ---
 
 ## 🚀 IMPLEMENTATION PHASES
+
+**Overview:** 8 phases total covering base design tokens, multi-tenant themes, and provisioning.
+
+**⚠️ Important:** Review "🎓 LEARNINGS FROM SPRINT 1 IMPLEMENTATION" section before starting!
 
 ### Phase 1: Design Token Tab Files (1-2 hours)
 **Goal:** Create 4 modular tab files for design tokens
@@ -619,22 +976,35 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 ---
 
 ### Phase 5: Database Migrations (30 min)
-**Goal:** Generate and run 4 database migrations safely
+**Goal:** Generate and run 5 database migrations safely ⚠️ Note: 5 migrations, not 4!
+
+**⚠️ CRITICAL - Dual Migration Pattern:**
+Sprint 1 requires **5 migrations total**:
+- 4 migrations for Theme global tabs (colors, spacing, typography, visual)
+- 1 migration for Themes collection table (don't forget this!)
+
+See "🎓 LEARNINGS FROM SPRINT 1 IMPLEMENTATION" → Learning #1 for details.
 
 **Step 5a: Generate Migrations**
 
 ```bash
-# 1. Generate colors migration
+# 1. Generate colors migration (Theme global)
 npx payload migrate:create add_colors_to_theme
 
-# 2. Generate spacing migration
+# 2. Generate spacing migration (Theme global)
 npx payload migrate:create add_spacing_to_theme
 
-# 3. Generate typography migration
+# 3. Generate typography migration (Theme global)
 npx payload migrate:create add_typography_to_theme
 
-# 4. Generate visual migration
+# 4. Generate visual migration (Theme global)
 npx payload migrate:create add_visual_to_theme
+
+# 5. Generate themes collection migration (NEW TABLE!)
+npx payload migrate:create create_themes_collection
+
+# ⚠️ VERIFY: Should have 5 pending migrations!
+npx payload migrate:status
 ```
 
 **Step 5b: Review Generated Migrations**
@@ -1017,6 +1387,57 @@ npx ts-node src/scripts/seedThemes.ts
 - [ ] Default theme marked with `isDefault: true`
 - [ ] Script ran successfully
 
+**Step 8b: Update Provisioning Scripts ⚠️ IMPORTANT**
+
+See "🎓 LEARNINGS FROM SPRINT 1 IMPLEMENTATION" → Learning #3 for details.
+
+**Update PloiAdapter.ts:**
+```typescript
+// src/lib/ploi/PloiAdapter.ts
+
+import { seedThemes } from '@/scripts/seedThemes'
+
+async provisionSite(siteData: SiteProvisionData) {
+  // ... existing provisioning steps ...
+
+  // NEW: Seed themes for new sites
+  await seedThemes(payload)
+
+  console.log('✅ Themes seeded for new site')
+}
+```
+
+**Update provision-site.sh:**
+```bash
+#!/bin/bash
+# src/scripts/provision-site.sh
+
+# ... existing steps ...
+
+# NEW: Seed themes
+echo "🌱 Seeding default themes..."
+npx ts-node src/scripts/seedThemes.ts
+
+echo "✅ Site provisioning complete!"
+```
+
+**Test Provisioning:**
+```bash
+# Test manual provisioning
+./src/scripts/provision-site.sh test-site-123
+
+# Verify themes created
+psql $DATABASE_URL -c "SELECT name, slug FROM themes ORDER BY id;"
+
+# Expected: 10 themes present
+```
+
+**Provisioning Checklist:**
+- [ ] `PloiAdapter.ts` updated to call seedThemes()
+- [ ] `provision-site.sh` updated to run seedThemes.ts
+- [ ] Tested provisioning on fresh database
+- [ ] Verified all 10 themes created automatically
+
 ---
 
 ## 🔙 ROLLBACK PROCEDURE
@@ -1118,13 +1539,13 @@ npm run dev
 - [ ] No errors if theme data missing
 
 ### Phase 5: Database Migrations
-- [ ] 4 migrations generated
-- [ ] All migrations reviewed (only ADD COLUMN)
+- [ ] **5 migrations generated** (4 Theme global + 1 Themes collection) ⚠️
+- [ ] All migrations reviewed (only ADD COLUMN and CREATE TABLE)
 - [ ] Local backup created
 - [ ] Migrations tested locally
 - [ ] Production backup created (when deploying)
 - [ ] Migrations run successfully
-- [ ] `migrate:status` shows all migrations ran
+- [ ] `migrate:status` shows **all 5 migrations ran** ⚠️
 
 ### Phase 6: Testing & Verification
 - [ ] Test 1: Admin panel access ✅
@@ -1135,9 +1556,30 @@ npm run dev
 - [ ] Test 6: Frontend component usage ✅
 - [ ] Test 7: Rollback test passed ✅
 
-### Documentation
+### Phase 7: Multi-Tenant Themes Collection
+- [ ] Themes collection created (`src/collections/Themes/index.ts`)
+- [ ] CSS generation utility created (`src/lib/theme/generateThemeCSS.ts`)
+- [ ] Layout updated to generate vertical theme CSS
+- [ ] Theme switcher component created (optional)
+- [ ] Test 8: Themes collection admin ✅
+- [ ] Test 9: Vertical theme overrides ✅
+- [ ] Test 10: Multi-tenant CSS generation ✅
+
+### Phase 8: Seed Default Themes & Provisioning
+- [ ] Seed script created with all 10 verticals
+- [ ] Seed script ran successfully (10 themes created)
+- [ ] **PloiAdapter.ts updated** to seed themes ⚠️
+- [ ] **provision-site.sh updated** to run seedThemes.ts ⚠️
+- [ ] Tested provisioning on fresh database
+- [ ] Verified themes created automatically during provisioning
+
+### Documentation & Learnings
 - [ ] This implementation plan reviewed
-- [ ] Reference HTML files read (colors, spacing, typography, visual)
+- [ ] **"🎓 LEARNINGS" section reviewed** (10 critical learnings)
+- [ ] Reference HTML files read (colors, spacing, typography, visual, themes)
+- [ ] Understand dual migration pattern (Learning #1)
+- [ ] Understand React serialization constraints (Learning #2)
+- [ ] Understand provisioning script pattern (Learning #3)
 - [ ] Team notified of changes
 - [ ] Deployment scheduled
 
@@ -1152,9 +1594,11 @@ npm run dev
 - ✅ 100% test coverage (10/10 tests pass)
 - ✅ 50 new database columns added (Theme global)
 - ✅ 1 new database table created (Themes collection)
+- ✅ **5 database migrations ran successfully** (4 Theme global + 1 Themes collection)
 - ✅ 50+ CSS variables generated (base tokens + vertical overrides)
 - ✅ 10 vertical themes seeded
 - ✅ 0 existing data lost
+- ✅ **Provisioning scripts updated** (PloiAdapter.ts + provision-site.sh)
 
 ### Admin Experience
 - ✅ 4 new design token tabs accessible (Theme global)
@@ -1229,15 +1673,28 @@ npm run dev
 
 ## 🎯 NEXT SPRINT
 
-**Sprint 2 (Future):** Block Refactoring
-- Refactor existing blocks to use design tokens
-- Migrate hardcoded colors/spacing to CSS variables
-- Update block admin UI to be token-aware
+**Sprint 2:** Block Refactoring & Updates
+See `/Users/markkokkelkoren/Projects/ai-sitebuilder/payload-app/docs/refactoring/SPRINT_2_IMPLEMENTATION_PLAN.md` for complete details.
 
-**Sprint 3 (Future):** Component Migration
-- Update all components to use design tokens
+**Overview:**
+- Update 5 existing blocks: ProductEmbed (B13), CategoryGrid (B14), ProductGrid (B20), QuickOrder (B21), Pricing (B22)
+- Database-safe migrations (only ADD COLUMN and safe RENAME operations)
+- Feature flag integration for QuickOrder (ENABLE_B2B)
+- Tab-based admin UI organization (Content/Layout/Settings)
+- Total time: 10-13 hours
+
+**Key Learnings Applied from Sprint 1:**
+- ✅ Dual migration pattern (block config + database migrations)
+- ✅ React Server Component serialization (build-time evaluation for feature flags)
+- ✅ Provisioning script updates (not needed for Sprint 2, blocks already exist)
+- ✅ Tab organization for complex forms (applied to CategoryGrid & Pricing)
+- ✅ TypeScript type extension (existing interfaces extended, not replaced)
+
+**Sprint 3 (Future):** Frontend Component Migration
+- Update all frontend components to consume new block fields
+- Refactor components to use design tokens from Sprint 1
 - Remove hardcoded styles
-- Implement vertical-specific overrides
+- Implement vertical-specific overrides using `data-theme`
 
 ---
 
@@ -1260,9 +1717,9 @@ npm run dev
 
 **🎉 READY TO START SPRINT 1!**
 
-Read this plan thoroughly before starting. Follow phases in order. Test each phase before moving to next. Always backup before migrations.
+Read this plan thoroughly before starting. **Review "🎓 LEARNINGS FROM SPRINT 1 IMPLEMENTATION" section first!** Follow phases in order. Test each phase before moving to next. Always backup before migrations.
 
 **Generated:** 24 Februari 2026
-**Last Updated:** 24 Februari 2026
-**Version:** 1.0
-**Status:** ✅ Ready for Implementation
+**Last Updated:** 24 Februari 2026 (Revised with Sprint 1 learnings & Sprint 2 insights)
+**Version:** 2.0
+**Status:** ✅ Ready for Implementation (Enhanced with 10 critical learnings)

@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B22: Pricing Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--amber);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--amber);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    .array-field,
+    .row-fields,
+    .features-array,
+    .feature-row {
+      margin-top: 8px;
+    }
+
+    .array-row {
+      background: var(--grey-light);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--amber-light), var(--blue-light));
+      border: 2px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Pricing Block<span>Ecommerce Branch — B22</span></div>
+    <span class="header-badge">Status Block</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+<!-- B22: PRICING BLOCK -->
+<section class="section" id="block-pricing">
+  <div class="section-header">
+    <div class="section-header-left"><span class="section-id">B22</span><span class="section-label">Pricing Block</span></div>
+    <span class="tag" style="background:var(--amber);color:white">Status</span>
+  </div>
+  <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+    Pricing cards. 2-4 prijsplannen, feature lijst met checkmarks, featured card highlighted (teal border).
+  </p>
+
+  <!-- VISUAL REFERENCE -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Visual Preview — Pricing Plans
+    </div>
+    <div class="box-content" style="padding:48px 32px;background:var(--bg)">
+      <style>
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
+        .pricing-card { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px 24px; text-align: center; transition: all 0.2s; }
+        .pricing-card.featured { border-color: var(--teal); box-shadow: 0 8px 24px rgba(0, 137, 123, 0.12); transform: scale(1.05); }
+        .pricing-badge { display: inline-block; background: var(--teal); color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 12px; border-radius: 999px; margin-bottom: 16px; }
+        .pricing-name { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 8px; }
+        .pricing-price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 36px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+        .pricing-period { font-size: 13px; color: var(--grey-dark); margin-bottom: 24px; }
+        .pricing-features { list-style: none; padding: 0; margin: 0 0 32px 0; text-align: left; }
+        .pricing-features li { font-size: 13px; color: var(--grey-dark); padding: 8px 0; display: flex; align-items: flex-start; gap: 8px; }
+        .pricing-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+        .pricing-btn { display: block; width: 100%; background: var(--teal); color: white; font-size: 13px; font-weight: 700; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; }
+        .pricing-btn:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .pricing-card.featured .pricing-btn { background: linear-gradient(135deg, var(--teal), var(--teal-light)); }
+      </style>
+
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h2 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 8px;">Kies je plan</h2>
+        <p style="font-size: 14px; color: var(--grey-dark);">Flexibele prijsopties voor elke behoefte</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Starter</div>
+          <div class="pricing-price">€29</div>
+          <div class="pricing-period">per maand</div>
+          <ul class="pricing-features">
+            <li>Tot 100 producten</li>
+            <li>Basis support</li>
+            <li>1 gebruiker</li>
+            <li>Email notificaties</li>
+          </ul>
+          <button class="pricing-btn">Kies Starter</button>
+        </div>
+
+        <div class="pricing-card featured">
+          <span class="pricing-badge">Meest gekozen</span>
+          <div class="pricing-name">Professional</div>
+          <div class="pricing-price">€79</div>
+          <div class="pricing-period">per maand</div>
+          <ul class="pricing-features">
+            <li>Onbeperkt producten</li>
+            <li>Priority support</li>
+            <li>5 gebruikers</li>
+            <li>Geavanceerde analytics</li>
+            <li>API toegang</li>
+          </ul>
+          <button class="pricing-btn">Kies Professional</button>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-name">Enterprise</div>
+          <div class="pricing-price">Op maat</div>
+          <div class="pricing-period">custom pricing</div>
+          <ul class="pricing-features">
+            <li>Alles uit Professional</li>
+            <li>Dedicated support</li>
+            <li>Onbeperkt gebruikers</li>
+            <li>Custom integraties</li>
+            <li>SLA garantie</li>
+          </ul>
+          <button class="pricing-btn">Contact opnemen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:32px">
+    <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:24px">
+      Complete Implementation Guide
+    </h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Define the Pricing block schema in Payload CMS with flexible plan configuration, feature lists, and featured plan highlighting.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/ecommerce/pricing/Pricing/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+
+export const Pricing: Block = {
+  slug: 'pricing',
+  interfaceName: 'PricingBlock',
+  labels: {
+    singular: 'Pricing',
+    plural: 'Pricing Blocks',
+  },
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Section Title',
+              admin: {
+                description: 'Main heading above pricing cards',
+              },
+            },
+            {
+              name: 'subtitle',
+              type: 'textarea',
+              label: 'Subtitle',
+              admin: {
+                description: 'Optional description text below title',
+              },
+            },
+            {
+              name: 'plans',
+              type: 'array',
+              label: 'Pricing Plans',
+              minRows: 2,
+              maxRows: 4,
+              admin: {
+                description: 'Add 2-4 pricing plans',
+              },
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  label: 'Plan Name',
+                  required: true,
+                  admin: {
+                    description: 'e.g., Starter, Professional, Enterprise',
+                  },
+                },
+                {
+                  name: 'badge',
+                  type: 'text',
+                  label: 'Badge Text',
+                  admin: {
+                    description: 'Optional badge (e.g., "Meest gekozen", "Best value")',
+                  },
+                },
+                {
+                  name: 'price',
+                  type: 'text',
+                  label: 'Price',
+                  required: true,
+                  admin: {
+                    description: 'Price amount (e.g., €29, €79, "Op maat")',
+                  },
+                },
+                {
+                  name: 'period',
+                  type: 'text',
+                  label: 'Billing Period',
+                  defaultValue: 'per maand',
+                  admin: {
+                    description: 'Billing cycle (e.g., "per maand", "per jaar", "custom pricing")',
+                  },
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  label: 'Description',
+                  admin: {
+                    description: 'Optional plan description',
+                  },
+                },
+                {
+                  name: 'features',
+                  type: 'array',
+                  label: 'Features',
+                  required: true,
+                  admin: {
+                    description: 'List of included features (checkmarks shown automatically)',
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'text',
+                      label: 'Feature',
+                      required: true,
+                    },
+                    {
+                      name: 'included',
+                      type: 'checkbox',
+                      label: 'Included',
+                      defaultValue: true,
+                      admin: {
+                        description: 'Uncheck to show as not included (✗)',
+                      },
+                    },
+                  ],
+                },
+                {
+                  name: 'featured',
+                  type: 'checkbox',
+                  label: 'Featured Plan',
+                  defaultValue: false,
+                  admin: {
+                    description: 'Highlight this plan with teal border and scale',
+                  },
+                },
+                {
+                  name: 'buttonLabel',
+                  type: 'text',
+                  label: 'Button Label',
+                  defaultValue: 'Kies dit plan',
+                  required: true,
+                },
+                {
+                  name: 'buttonLink',
+                  type: 'text',
+                  label: 'Button Link',
+                  admin: {
+                    description: 'URL or path for the CTA button',
+                  },
+                },
+                {
+                  name: 'buttonVariant',
+                  type: 'select',
+                  label: 'Button Style',
+                  defaultValue: 'primary',
+                  options: [
+                    { label: 'Primary (Teal)', value: 'primary' },
+                    { label: 'Gradient (Teal gradient)', value: 'gradient' },
+                    { label: 'Outline', value: 'outline' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Layout',
+          fields: [
+            {
+              name: 'layout',
+              type: 'select',
+              label: 'Card Layout',
+              defaultValue: 'auto',
+              options: [
+                { label: 'Auto-fit (responsive)', value: 'auto' },
+                { label: '2 Columns', value: '2' },
+                { label: '3 Columns', value: '3' },
+                { label: '4 Columns', value: '4' },
+              ],
+              admin: {
+                description: 'Grid layout for pricing cards',
+              },
+            },
+            {
+              name: 'cardAlignment',
+              type: 'select',
+              label: 'Card Alignment',
+              defaultValue: 'center',
+              options: [
+                { label: 'Center', value: 'center' },
+                { label: 'Top', value: 'top' },
+                { label: 'Stretch', value: 'stretch' },
+              ],
+            },
+            {
+              name: 'gap',
+              type: 'select',
+              label: 'Grid Gap',
+              defaultValue: 'md',
+              options: [
+                { label: 'Small (16px)', value: 'sm' },
+                { label: 'Medium (24px)', value: 'md' },
+                { label: 'Large (32px)', value: 'lg' },
+              ],
+            },
+            {
+              name: 'cardBorderRadius',
+              type: 'select',
+              label: 'Card Border Radius',
+              defaultValue: 'md',
+              options: [
+                { label: 'Small (12px)', value: 'sm' },
+                { label: 'Medium (16px)', value: 'md' },
+                { label: 'Large (20px)', value: 'lg' },
+              ],
+            },
+            {
+              name: 'enableHoverEffect',
+              type: 'checkbox',
+              label: 'Enable Hover Animation',
+              defaultValue: true,
+              admin: {
+                description: 'Lift cards on hover with shadow',
+              },
+            },
+          ],
+        },
+        {
+          label: 'Settings',
+          fields: [
+            {
+              name: 'backgroundColor',
+              type: 'select',
+              label: 'Background Color',
+              defaultValue: 'bg',
+              options: [
+                { label: 'White', value: 'white' },
+                { label: 'Light Grey (bg)', value: 'bg' },
+                { label: 'Navy', value: 'navy' },
+              ],
+            },
+            {
+              name: 'paddingTop',
+              type: 'select',
+              label: 'Padding Top',
+              defaultValue: 'lg',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (32px)', value: 'sm' },
+                { label: 'Medium (48px)', value: 'md' },
+                { label: 'Large (64px)', value: 'lg' },
+                { label: 'XLarge (80px)', value: 'xl' },
+              ],
+            },
+            {
+              name: 'paddingBottom',
+              type: 'select',
+              label: 'Padding Bottom',
+              defaultValue: 'lg',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (32px)', value: 'sm' },
+                { label: 'Medium (48px)', value: 'md' },
+                { label: 'Large (64px)', value: 'lg' },
+                { label: 'XLarge (80px)', value: 'xl' },
+              ],
+            },
+            {
+              name: 'containerWidth',
+              type: 'select',
+              label: 'Container Width',
+              defaultValue: 'default',
+              options: [
+                { label: 'Default (1200px)', value: 'default' },
+                { label: 'Wide (1400px)', value: 'wide' },
+                { label: 'Narrow (900px)', value: 'narrow' },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Type definitions for the Pricing block, including pricing plan structure and all layout options.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/ecommerce/pricing/Pricing/types.ts</span>
+          </div>
+          <pre><code>export interface PricingBlock {
+  blockType: 'pricing'
+
+  // Content
+  title?: string
+  subtitle?: string
+  plans: PricingPlan[]
+
+  // Layout
+  layout: 'auto' | '2' | '3' | '4'
+  cardAlignment: 'center' | 'top' | 'stretch'
+  gap: 'sm' | 'md' | 'lg'
+  cardBorderRadius: 'sm' | 'md' | 'lg'
+  enableHoverEffect: boolean
+
+  // Settings
+  backgroundColor: 'white' | 'bg' | 'navy'
+  paddingTop: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  paddingBottom: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  containerWidth: 'default' | 'wide' | 'narrow'
+}
+
+export interface PricingPlan {
+  name: string
+  badge?: string
+  price: string
+  period: string
+  description?: string
+  features: PricingFeature[]
+  featured: boolean
+  buttonLabel: string
+  buttonLink?: string
+  buttonVariant: 'primary' | 'gradient' | 'outline'
+}
+
+export interface PricingFeature {
+  text: string
+  included: boolean
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Components</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Server and client components for rendering pricing plans with featured highlighting and responsive grid layout.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript (Server Component)</span>
+            <span class="code-path">src/branches/blocks/ecommerce/pricing/Pricing/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import type { PricingBlock } from './types'
+import { PricingClient } from './PricingClient'
+
+interface PricingProps {
+  block: PricingBlock
+}
+
+export async function Pricing({ block }: PricingProps) {
+  const {
+    title,
+    subtitle,
+    plans,
+    layout,
+    cardAlignment,
+    gap,
+    cardBorderRadius,
+    enableHoverEffect,
+    backgroundColor,
+    paddingTop,
+    paddingBottom,
+    containerWidth,
+  } = block
+
+  // Padding classes
+  const paddingClasses = {
+    none: '',
+    sm: 'py-8',
+    md: 'py-12',
+    lg: 'py-16',
+    xl: 'py-20',
+  }
+
+  const containerClasses = {
+    default: 'max-w-[1200px]',
+    wide: 'max-w-[1400px]',
+    narrow: 'max-w-[900px]',
+  }
+
+  const bgClasses = {
+    white: 'bg-white',
+    bg: 'bg-[#F5F7FA]',
+    navy: 'bg-[#0A1628]',
+  }
+
+  const paddingTopClass = paddingClasses[paddingTop]
+  const paddingBottomClass = paddingClasses[paddingBottom]
+  const isDark = backgroundColor === 'navy'
+
+  return (
+    <section className={`${bgClasses[backgroundColor]} ${paddingTopClass} ${paddingBottomClass}`}>
+      <div className={`${containerClasses[containerWidth]} mx-auto px-6`}>
+        {(title || subtitle) && (
+          <div className="text-center mb-12 md:mb-16">
+            {title && (
+              <h2
+                className={`font-serif text-3xl md:text-4xl lg:text-5xl font-normal mb-2 ${
+                  isDark ? 'text-white' : 'text-[#0A1628]'
+                }`}
+              >
+                {title}
+              </h2>
+            )}
+            {subtitle && (
+              <p
+                className={`text-sm md:text-base ${
+                  isDark ? 'text-white/70' : 'text-[#64748B]'
+                }`}
+              >
+                {subtitle}
+              </p>
+            )}
+          </div>
+        )}
+
+        <PricingClient
+          plans={plans}
+          layout={layout}
+          cardAlignment={cardAlignment}
+          gap={gap}
+          cardBorderRadius={cardBorderRadius}
+          enableHoverEffect={enableHoverEffect}
+          isDark={isDark}
+        />
+      </div>
+    </section>
+  )
+}
+
+export default Pricing</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript (Client Component)</span>
+            <span class="code-path">src/branches/blocks/ecommerce/pricing/Pricing/PricingClient.tsx</span>
+          </div>
+          <pre><code>'use client'
+
+import React from 'react'
+import Link from 'next/link'
+import type { PricingPlan } from './types'
+
+interface PricingClientProps {
+  plans: PricingPlan[]
+  layout: 'auto' | '2' | '3' | '4'
+  cardAlignment: 'center' | 'top' | 'stretch'
+  gap: 'sm' | 'md' | 'lg'
+  cardBorderRadius: 'sm' | 'md' | 'lg'
+  enableHoverEffect: boolean
+  isDark: boolean
+}
+
+export function PricingClient({
+  plans,
+  layout,
+  cardAlignment,
+  gap,
+  cardBorderRadius,
+  enableHoverEffect,
+  isDark,
+}: PricingClientProps) {
+  const gridLayoutClasses = {
+    auto: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    '2': 'grid-cols-1 md:grid-cols-2',
+    '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+  }
+
+  const gapClasses = {
+    sm: 'gap-4',
+    md: 'gap-6',
+    lg: 'gap-8',
+  }
+
+  const alignmentClasses = {
+    center: 'items-center',
+    top: 'items-start',
+    stretch: 'items-stretch',
+  }
+
+  const radiusClasses = {
+    sm: 'rounded-[12px]',
+    md: 'rounded-[16px]',
+    lg: 'rounded-[20px]',
+  }
+
+  return (
+    <div className={`grid ${gridLayoutClasses[layout]} ${gapClasses[gap]} ${alignmentClasses[cardAlignment]}`}>
+      {plans.map((plan, index) => {
+        const hasFeatured = plans.some(p => p.featured)
+        const isFeatured = plan.featured
+
+        const buttonStyles = {
+          primary: 'bg-[#00897B] hover:bg-[#00695C] text-white',
+          gradient: 'bg-gradient-to-r from-[#00897B] to-[#26A69A] text-white',
+          outline: 'bg-transparent border-2 border-[#00897B] text-[#00897B] hover:bg-[#00897B] hover:text-white',
+        }
+
+        return (
+          <div
+            key={index}
+            className={`
+              ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-[#E8ECF1]'}
+              border-2
+              ${radiusClasses[cardBorderRadius]}
+              p-8
+              text-center
+              transition-all
+              duration-200
+              ${isFeatured ? 'border-[#00897B] shadow-[0_8px_24px_rgba(0,137,123,0.12)]' : ''}
+              ${isFeatured && hasFeatured ? 'scale-105' : ''}
+              ${enableHoverEffect && !isFeatured ? 'hover:-translate-y-1 hover:shadow-md' : ''}
+            `}
+          >
+            {/* Badge */}
+            {plan.badge && (
+              <span className="inline-block bg-[#00897B] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
+                {plan.badge}
+              </span>
+            )}
+
+            {/* Plan Name */}
+            <h3
+              className={`font-serif text-2xl md:text-3xl mb-2 ${
+                isDark ? 'text-white' : 'text-[#0A1628]'
+              }`}
+            >
+              {plan.name}
+            </h3>
+
+            {/* Price */}
+            <div
+              className={`font-sans text-4xl md:text-5xl font-extrabold mb-1 ${
+                isDark ? 'text-white' : 'text-[#0A1628]'
+              }`}
+            >
+              {plan.price}
+            </div>
+
+            {/* Period */}
+            <div
+              className={`text-sm mb-6 ${
+                isDark ? 'text-white/60' : 'text-[#64748B]'
+              }`}
+            >
+              {plan.period}
+            </div>
+
+            {/* Description */}
+            {plan.description && (
+              <p
+                className={`text-sm mb-6 ${
+                  isDark ? 'text-white/70' : 'text-[#64748B]'
+                }`}
+              >
+                {plan.description}
+              </p>
+            )}
+
+            {/* Features */}
+            <ul className="text-left space-y-3 mb-8">
+              {plan.features.map((feature, featureIndex) => (
+                <li
+                  key={featureIndex}
+                  className={`flex items-start gap-2 text-sm ${
+                    isDark ? 'text-white/80' : 'text-[#64748B]'
+                  }`}
+                >
+                  <span
+                    className={`flex-shrink-0 font-bold ${
+                      feature.included ? 'text-[#00C853]' : 'text-[#FF6B6B]'
+                    }`}
+                  >
+                    {feature.included ? '✓' : '✗'}
+                  </span>
+                  <span className={!feature.included ? 'line-through opacity-50' : ''}>
+                    {feature.text}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            {/* CTA Button */}
+            {plan.buttonLink ? (
+              <Link
+                href={plan.buttonLink}
+                className={`
+                  block
+                  w-full
+                  ${buttonStyles[plan.buttonVariant]}
+                  font-bold
+                  text-sm
+                  py-3
+                  px-6
+                  rounded-lg
+                  transition-all
+                  duration-200
+                  hover:-translate-y-0.5
+                  hover:shadow-md
+                `}
+              >
+                {plan.buttonLabel}
+              </Link>
+            ) : (
+              <button
+                className={`
+                  w-full
+                  ${buttonStyles[plan.buttonVariant]}
+                  font-bold
+                  text-sm
+                  py-3
+                  px-6
+                  rounded-lg
+                  transition-all
+                  duration-200
+                  hover:-translate-y-0.5
+                  hover:shadow-md
+                `}
+              >
+                {plan.buttonLabel}
+              </button>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Structure</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Admin interface organization with Content, Layout, and Settings tabs for configuring pricing plans.
+        </p>
+
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Content Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Section Title</label>
+                <input type="text" placeholder="Kies je plan" />
+              </div>
+              <div class="admin-field">
+                <label>Subtitle</label>
+                <textarea placeholder="Flexibele prijsopties voor elke behoefte"></textarea>
+              </div>
+              <div class="admin-field">
+                <label>Pricing Plans (2-4 plans)</label>
+                <div class="array-field">
+                  <div class="array-row">
+                    <strong>Plan 1: Professional</strong>
+                    <div class="row-fields">
+                      <input type="text" placeholder="Plan Name" value="Professional" />
+                      <input type="text" placeholder="Badge (optional)" value="Meest gekozen" />
+                      <input type="text" placeholder="Price" value="€79" />
+                      <input type="text" placeholder="Period" value="per maand" />
+                      <textarea placeholder="Description (optional)"></textarea>
+
+                      <div class="features-array">
+                        <label>Features</label>
+                        <div class="feature-row">
+                          <input type="checkbox" checked /> <input type="text" value="Onbeperkt producten" />
+                        </div>
+                        <div class="feature-row">
+                          <input type="checkbox" checked /> <input type="text" value="Priority support" />
+                        </div>
+                        <button>+ Add Feature</button>
+                      </div>
+
+                      <label>
+                        <input type="checkbox" checked />
+                        Featured Plan
+                      </label>
+
+                      <input type="text" placeholder="Button Label" value="Kies Professional" />
+                      <input type="text" placeholder="Button Link" value="/signup?plan=pro" />
+                      <select>
+                        <option value="primary">Primary (Teal)</option>
+                        <option value="gradient" selected>Gradient</option>
+                        <option value="outline">Outline</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button>+ Add Plan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Layout Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Card Layout</label>
+                <select>
+                  <option value="auto" selected>Auto-fit (responsive)</option>
+                  <option value="2">2 Columns</option>
+                  <option value="3">3 Columns</option>
+                  <option value="4">4 Columns</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Card Alignment</label>
+                <select>
+                  <option value="center" selected>Center</option>
+                  <option value="top">Top</option>
+                  <option value="stretch">Stretch</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Grid Gap</label>
+                <select>
+                  <option value="sm">Small (16px)</option>
+                  <option value="md" selected>Medium (24px)</option>
+                  <option value="lg">Large (32px)</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>
+                  <input type="checkbox" checked />
+                  Enable Hover Animation
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li>
+            <strong>Plan Count Limits:</strong> Verify minRows: 2 and maxRows: 4 restrictions work in admin panel (cannot save less than 2 or more than 4 plans).
+          </li>
+          <li>
+            <strong>Featured Plan Highlighting:</strong> Test that featured plan shows teal border, shadow, and scale(1.05) transform when featured checkbox is enabled.
+          </li>
+          <li>
+            <strong>Feature Checkmarks:</strong> Confirm included features show green ✓ and excluded features show red ✗ with strikethrough styling.
+          </li>
+          <li>
+            <strong>Button Variants:</strong> Test all 3 button styles (primary, gradient, outline) render correctly with proper hover states.
+          </li>
+          <li>
+            <strong>Responsive Grid:</strong> Verify grid adapts correctly across breakpoints: 1 col mobile → 2 cols tablet → 3-4 cols desktop based on layout setting.
+          </li>
+          <li>
+            <strong>Dark Background Mode:</strong> Test text color inversion on navy background (white headings, white/60 descriptions).
+          </li>
+          <li>
+            <strong>Hover Effects:</strong> Check enableHoverEffect toggle correctly enables/disables lift animation on non-featured cards.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          SQL migration to add the Pricing block tables with plan and feature relationships.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_pricing_block.sql</span>
+          </div>
+          <pre><code>-- Add Pricing block type to blocks table
+-- This migration assumes a polymorphic blocks table structure
+
+-- Add block type enum value if using enums
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'pricing';
+
+-- Create pricing_blocks table for block-specific data
+CREATE TABLE IF NOT EXISTS pricing_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  -- Content fields
+  title TEXT,
+  subtitle TEXT,
+
+  -- Layout fields
+  layout VARCHAR(4) NOT NULL DEFAULT 'auto'
+    CHECK (layout IN ('auto', '2', '3', '4')),
+  card_alignment VARCHAR(10) NOT NULL DEFAULT 'center'
+    CHECK (card_alignment IN ('center', 'top', 'stretch')),
+  gap VARCHAR(2) NOT NULL DEFAULT 'md' CHECK (gap IN ('sm', 'md', 'lg')),
+  card_border_radius VARCHAR(2) NOT NULL DEFAULT 'md'
+    CHECK (card_border_radius IN ('sm', 'md', 'lg')),
+  enable_hover_effect BOOLEAN DEFAULT true,
+
+  -- Settings fields
+  background_color VARCHAR(10) NOT NULL DEFAULT 'bg'
+    CHECK (background_color IN ('white', 'bg', 'navy')),
+  padding_top VARCHAR(4) NOT NULL DEFAULT 'lg'
+    CHECK (padding_top IN ('none', 'sm', 'md', 'lg', 'xl')),
+  padding_bottom VARCHAR(4) NOT NULL DEFAULT 'lg'
+    CHECK (padding_bottom IN ('none', 'sm', 'md', 'lg', 'xl')),
+  container_width VARCHAR(10) NOT NULL DEFAULT 'default'
+    CHECK (container_width IN ('default', 'wide', 'narrow')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT fk_block FOREIGN KEY (block_id) REFERENCES blocks(id) ON DELETE CASCADE
+);
+
+-- Create pricing_plans table (array field)
+CREATE TABLE IF NOT EXISTS pricing_plans (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pricing_block_id UUID NOT NULL REFERENCES pricing_blocks(id) ON DELETE CASCADE,
+
+  name TEXT NOT NULL,
+  badge TEXT,
+  price TEXT NOT NULL,
+  period TEXT DEFAULT 'per maand',
+  description TEXT,
+  featured BOOLEAN DEFAULT false,
+  button_label TEXT NOT NULL DEFAULT 'Kies dit plan',
+  button_link TEXT,
+  button_variant VARCHAR(10) NOT NULL DEFAULT 'primary'
+    CHECK (button_variant IN ('primary', 'gradient', 'outline')),
+
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT fk_pricing_block FOREIGN KEY (pricing_block_id)
+    REFERENCES pricing_blocks(id) ON DELETE CASCADE
+);
+
+-- Create pricing_features table (nested array)
+CREATE TABLE IF NOT EXISTS pricing_features (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pricing_plan_id UUID NOT NULL REFERENCES pricing_plans(id) ON DELETE CASCADE,
+
+  text TEXT NOT NULL,
+  included BOOLEAN DEFAULT true,
+
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT fk_pricing_plan FOREIGN KEY (pricing_plan_id)
+    REFERENCES pricing_plans(id) ON DELETE CASCADE
+);
+
+-- Create indexes for performance
+CREATE INDEX idx_pricing_blocks_block_id
+  ON pricing_blocks(block_id);
+
+CREATE INDEX idx_pricing_plans_block_id
+  ON pricing_plans(pricing_block_id);
+
+CREATE INDEX idx_pricing_plans_order
+  ON pricing_plans(pricing_block_id, order_index);
+
+CREATE INDEX idx_pricing_plans_featured
+  ON pricing_plans(featured);
+
+CREATE INDEX idx_pricing_features_plan_id
+  ON pricing_features(pricing_plan_id);
+
+CREATE INDEX idx_pricing_features_order
+  ON pricing_features(pricing_plan_id, order_index);
+
+-- Add triggers for updated_at timestamps
+CREATE OR REPLACE FUNCTION update_pricing_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_pricing_blocks_updated_at
+  BEFORE UPDATE ON pricing_blocks
+  FOR EACH ROW
+  EXECUTE FUNCTION update_pricing_blocks_updated_at();
+
+CREATE TRIGGER trigger_pricing_plans_updated_at
+  BEFORE UPDATE ON pricing_plans
+  FOR EACH ROW
+  EXECUTE FUNCTION update_pricing_blocks_updated_at();
+
+-- Add constraint to limit plans per block (2-4 plans)
+CREATE OR REPLACE FUNCTION check_pricing_plans_count()
+RETURNS TRIGGER AS $$
+DECLARE
+  plan_count INTEGER;
+BEGIN
+  SELECT COUNT(*) INTO plan_count
+  FROM pricing_plans
+  WHERE pricing_block_id = NEW.pricing_block_id;
+
+  IF plan_count > 4 THEN
+    RAISE EXCEPTION 'Cannot add more than 4 pricing plans per block';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_check_pricing_plans_count
+  BEFORE INSERT ON pricing_plans
+  FOR EACH ROW
+  EXECUTE FUNCTION check_pricing_plans_count();
+
+-- Add comments for documentation
+COMMENT ON TABLE pricing_blocks IS
+  'Stores Pricing block configuration for displaying 2-4 pricing plan cards';
+COMMENT ON TABLE pricing_plans IS
+  'Stores individual pricing plans (2-4 per block) with features and CTA';
+COMMENT ON TABLE pricing_features IS
+  'Stores feature list items for each pricing plan with included/excluded status';
+
+-- Rollback script (commented out, uncomment to rollback)
+/*
+DROP TRIGGER IF EXISTS trigger_check_pricing_plans_count ON pricing_plans;
+DROP FUNCTION IF EXISTS check_pricing_plans_count();
+DROP TRIGGER IF EXISTS trigger_pricing_plans_updated_at ON pricing_plans;
+DROP TRIGGER IF EXISTS trigger_pricing_blocks_updated_at ON pricing_blocks;
+DROP FUNCTION IF EXISTS update_pricing_blocks_updated_at();
+DROP INDEX IF EXISTS idx_pricing_features_order;
+DROP INDEX IF EXISTS idx_pricing_features_plan_id;
+DROP INDEX IF EXISTS idx_pricing_plans_featured;
+DROP INDEX IF EXISTS idx_pricing_plans_order;
+DROP INDEX IF EXISTS idx_pricing_plans_block_id;
+DROP INDEX IF EXISTS idx_pricing_blocks_block_id;
+DROP TABLE IF EXISTS pricing_features;
+DROP TABLE IF EXISTS pricing_plans;
+DROP TABLE IF EXISTS pricing_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Featured card not scaling correctly</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> scale-105 class conflicts with grid layout or other transforms.<br>
+              <strong>Fix:</strong> Ensure parent grid has items-stretch removed if using scale. Add transform-gpu class for better performance. Check that no parent element has overflow: hidden which clips the scaled card.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Cannot add more than 4 plans in admin</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> maxRows: 4 constraint in Payload config, plus database trigger.<br>
+              <strong>Fix:</strong> This is intentional. Design supports 2-4 plans max. If more plans needed, consider splitting into multiple Pricing blocks or redesigning to use a comparison table format instead.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Feature checkmarks not displaying</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Unicode ✓ character not rendering in font, or CSS ::before not applying.<br>
+              <strong>Fix:</strong> Ensure font supports Unicode checkmark (U+2713). Alternatively, replace with inline SVG icon or use a custom icon component. Verify feature.included boolean is correctly passed to component.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Button gradient not showing</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind gradient classes not included in build, or buttonVariant not 'gradient'.<br>
+              <strong>Fix:</strong> Check buttonVariant === 'gradient' in plan data. Ensure Tailwind config includes gradient utilities. Verify bg-gradient-to-r from-[#00897B] to-[#26A69A] classes are not purged. Add to safelist if needed.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Grid not responsive on tablet</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind breakpoint md: not triggering at correct viewport width.<br>
+              <strong>Fix:</strong> Verify Tailwind md breakpoint is 768px (default). Check browser DevTools to see which classes apply at tablet width. For layout: 'auto', grid should show 2 columns at md breakpoint. Ensure no CSS override conflicts.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Badge text overflowing on small cards</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Long badge text (e.g., "Most Popular Choice") too wide for card.<br>
+              <strong>Fix:</strong> Limit badge text to 12-15 characters max. Add text-ellipsis and max-w-full to badge span. Or use nowrap with smaller font size (9px) and adjust padding. Consider vertical badge placement on narrow cards.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Hover animation laggy on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> CSS transforms trigger repaints on low-end devices, enableHoverEffect also affects mobile.<br>
+              <strong>Fix:</strong> Disable hover effects on touch devices using @media (hover: hover) CSS query. Add will-change-transform only on :hover, not default state. Reduce animation complexity: use translateY only, no scale/shadow on mobile.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Multiple featured plans showing</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Admin allows multiple plans to have featured: true checked.<br>
+              <strong>Fix:</strong> Add admin validation to ensure only one plan can be featured. Implement custom validate function in Payload config that checks sibling rows. Or add database constraint: CREATE UNIQUE INDEX ON pricing_plans (pricing_block_id) WHERE featured = true. UI should auto-uncheck other plans when one is featured.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Pricing text not inverting on dark background</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> isDark prop not correctly passed from server to client component.<br>
+              <strong>Fix:</strong> In Component.tsx, ensure isDark = backgroundColor === 'navy' calculates correctly. Pass isDark as prop to PricingClient. In client component, verify conditional classes use isDark ? 'text-white' : 'text-[#0A1628]' pattern. Check no hardcoded text colors override dynamic classes.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Register the Pricing block in Payload config and Next.js rendering components.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { buildConfig } from 'payload'
+import { Pricing } from '@/branches/blocks/ecommerce/pricing/Pricing/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            Pricing,
+            // ... other blocks
+          ],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import { Pricing } from '@/branches/blocks/ecommerce/pricing/Pricing/Component'
+
+interface RenderBlocksProps {
+  blocks: any[]
+}
+
+export function RenderBlocks({ blocks }: RenderBlocksProps) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'pricing':
+            return <Pricing key={index} block={block} />
+          // ... other block cases
+          default:
+            return null
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/ecommerce/pricing/Pricing/index.ts</span>
+          </div>
+          <pre><code>export { Pricing as PricingConfig } from './config'
+export { Pricing as PricingComponent } from './Component'
+export { PricingClient } from './PricingClient'
+export type { PricingBlock, PricingPlan, PricingFeature } from './types'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Plan Count:</strong> 2-4 pricing plans supported (enforced by Payload and database)</li>
+      <li><strong>Featured Plan:</strong> One plan can be highlighted with teal border and 1.05x scale</li>
+      <li><strong>Features:</strong> Each plan has checkmarked feature list (green ✓ included, red ✗ excluded)</li>
+      <li><strong>Button Variants:</strong> Primary (teal), Gradient (teal→light), Outline (transparent+border)</li>
+      <li><strong>Responsive:</strong> 1 column mobile → 2 columns tablet → 3-4 columns desktop</li>
+      <li><strong>Dark Mode:</strong> Text inverts to white on navy background</li>
+      <li><strong>Badge:</strong> Optional promotional label above plan name (e.g., "Meest gekozen")</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'pricing', fields: [
+  { name: 'title', type: 'text' },
+  { name: 'subtitle', type: 'textarea' },
+  { name: 'plans', type: 'array', minRows: 2, maxRows: 4, fields: [
+    { name: 'name', type: 'text', required: true },
+    { name: 'badge', type: 'text' },
+    { name: 'price', type: 'text', required: true },
+    { name: 'period', type: 'text', defaultValue: 'per maand' },
+    { name: 'description', type: 'textarea' },
+    { name: 'features', type: 'array', fields: [
+      { name: 'text', type: 'text', required: true },
+      { name: 'included', type: 'checkbox', defaultValue: true }
+    ]},
+    { name: 'featured', type: 'checkbox', defaultValue: false },
+    { name: 'buttonLabel', type: 'text', defaultValue: 'Kies dit plan', required: true },
+    { name: 'buttonLink', type: 'text' },
+    { name: 'buttonVariant', type: 'select', options: ['primary', 'gradient', 'outline'], defaultValue: 'primary' }
+  ]},
+  { name: 'layout', type: 'select', options: ['auto', '2', '3', '4'], defaultValue: 'auto' },
+  { name: 'enableHoverEffect', type: 'checkbox', defaultValue: true }
+]}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

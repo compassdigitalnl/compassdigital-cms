@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B14: Category Grid Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    .relationship-field {
+      padding: 12px;
+      border: 1.5px dashed var(--grey);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .relationship-field:hover {
+      background: var(--teal-glow);
+      border-color: var(--teal);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Category Grid Block<span>Ecommerce Branch — B14</span></div>
+    <span class="header-badge">Primary</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+<!-- B14: CATEGORY GRID BLOCK -->
+<section class="section" id="block-categorygrid">
+  <div class="section-header">
+    <div class="section-header-left">
+      <span class="section-id">B14</span>
+      <span class="section-label">Category Grid Block</span>
+    </div>
+    <span class="tag" style="background:var(--teal);color:white">Primary</span>
+  </div>
+
+  <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+    Category cards met image, naam, product count. 2, 3, of 4 columns. Hover scale effect.
+  </p>
+
+  <!-- VISUAL REFERENCE -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Visual Preview — 4 Columns
+    </div>
+    <div class="box-content" style="padding:32px;background:var(--bg)">
+      <style>
+        .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .category-card { background: white; border: 1px solid var(--grey); border-radius: 14px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+        .category-card:hover { transform: scale(1.03); box-shadow: var(--shadow-md); }
+        .category-img { height: 160px; background: linear-gradient(135deg, var(--teal), var(--teal-light)); display: flex; align-items: center; justify-content: center; font-size: 56px; }
+        .category-body { padding: 16px; text-align: center; }
+        .category-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+        .category-count { font-size: 12px; color: var(--grey-mid); }
+        @media (max-width: 900px) { .category-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 640px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
+      </style>
+
+      <div style="text-align: center; margin-bottom: 32px;">
+        <h2 style="font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 8px;">Shop by Category</h2>
+        <p style="font-size: 14px; color: var(--grey-dark);">Browse onze collectie per categorie</p>
+      </div>
+
+      <div class="category-grid">
+        <div class="category-card">
+          <div class="category-img">🧤</div>
+          <div class="category-body">
+            <div class="category-name">Handschoenen</div>
+            <div class="category-count">234 producten</div>
+          </div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-img" style="background: linear-gradient(135deg, #EC4899, #F472B6);">😷</div>
+          <div class="category-body">
+            <div class="category-name">Mondmaskers</div>
+            <div class="category-count">128 producten</div>
+          </div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-img" style="background: linear-gradient(135deg, #7C3AED, #9333EA);">💉</div>
+          <div class="category-body">
+            <div class="category-name">Injectiematerialen</div>
+            <div class="category-count">186 producten</div>
+          </div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-img" style="background: linear-gradient(135deg, #F59E0B, #FCD34D);">🩹</div>
+          <div class="category-body">
+            <div class="category-name">Wondverzorging</div>
+            <div class="category-count">312 producten</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:32px">
+    <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:24px">
+      Complete Implementation Guide
+    </h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Define the CategoryGrid block schema in Payload CMS with responsive column options, category selection modes, and optional header content.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/ecommerce/product/CategoryGrid/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+
+export const CategoryGrid: Block = {
+  slug: 'categorygrid',
+  interfaceName: 'CategoryGridBlock',
+  labels: {
+    singular: 'Category Grid',
+    plural: 'Category Grids',
+  },
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Section Title',
+              admin: {
+                description: 'Optional heading above the category grid',
+              },
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Section Description',
+              admin: {
+                description: 'Optional subheading text',
+              },
+            },
+            {
+              name: 'categorySource',
+              type: 'select',
+              label: 'Category Source',
+              defaultValue: 'manual',
+              options: [
+                {
+                  label: 'Manual Selection',
+                  value: 'manual',
+                },
+                {
+                  label: 'Top Categories (by product count)',
+                  value: 'top',
+                },
+                {
+                  label: 'Recently Added',
+                  value: 'recent',
+                },
+                {
+                  label: 'All Categories',
+                  value: 'all',
+                },
+              ],
+              admin: {
+                description: 'How to populate the category grid',
+              },
+            },
+            {
+              name: 'categories',
+              type: 'relationship',
+              relationTo: 'categories',
+              hasMany: true,
+              label: 'Categories',
+              admin: {
+                condition: (data, siblingData) => siblingData?.categorySource === 'manual',
+                description: 'Select categories to display (manual mode only)',
+              },
+            },
+            {
+              name: 'maxCategories',
+              type: 'number',
+              label: 'Maximum Categories',
+              defaultValue: 8,
+              min: 2,
+              max: 24,
+              admin: {
+                description: 'Limit number of categories shown (applies to top/recent/all modes)',
+                condition: (data, siblingData) =>
+                  siblingData?.categorySource !== 'manual',
+              },
+            },
+            {
+              name: 'showProductCount',
+              type: 'checkbox',
+              label: 'Show Product Count',
+              defaultValue: true,
+              admin: {
+                description: 'Display number of products in each category',
+              },
+            },
+            {
+              name: 'hideEmptyCategories',
+              type: 'checkbox',
+              label: 'Hide Empty Categories',
+              defaultValue: true,
+              admin: {
+                description: 'Exclude categories with 0 products',
+              },
+            },
+          ],
+        },
+        {
+          label: 'Layout',
+          fields: [
+            {
+              name: 'columns',
+              type: 'select',
+              label: 'Desktop Columns',
+              defaultValue: '4',
+              options: [
+                { label: '2 Columns', value: '2' },
+                { label: '3 Columns', value: '3' },
+                { label: '4 Columns', value: '4' },
+              ],
+              admin: {
+                description: 'Number of columns on desktop (>= 1024px)',
+              },
+            },
+            {
+              name: 'tabletColumns',
+              type: 'select',
+              label: 'Tablet Columns',
+              defaultValue: '3',
+              options: [
+                { label: '2 Columns', value: '2' },
+                { label: '3 Columns', value: '3' },
+              ],
+              admin: {
+                description: 'Number of columns on tablet (640-1024px)',
+              },
+            },
+            {
+              name: 'mobileColumns',
+              type: 'select',
+              label: 'Mobile Columns',
+              defaultValue: '2',
+              options: [
+                { label: '1 Column', value: '1' },
+                { label: '2 Columns', value: '2' },
+              ],
+              admin: {
+                description: 'Number of columns on mobile (< 640px)',
+              },
+            },
+            {
+              name: 'gap',
+              type: 'select',
+              label: 'Grid Gap',
+              defaultValue: 'md',
+              options: [
+                { label: 'Small (12px)', value: 'sm' },
+                { label: 'Medium (20px)', value: 'md' },
+                { label: 'Large (32px)', value: 'lg' },
+              ],
+            },
+            {
+              name: 'cardStyle',
+              type: 'select',
+              label: 'Card Style',
+              defaultValue: 'default',
+              options: [
+                { label: 'Default (border + shadow)', value: 'default' },
+                { label: 'Minimal (border only)', value: 'minimal' },
+                { label: 'Elevated (shadow only)', value: 'elevated' },
+              ],
+            },
+            {
+              name: 'imageHeight',
+              type: 'select',
+              label: 'Image Height',
+              defaultValue: 'md',
+              options: [
+                { label: 'Small (120px)', value: 'sm' },
+                { label: 'Medium (160px)', value: 'md' },
+                { label: 'Large (200px)', value: 'lg' },
+              ],
+            },
+            {
+              name: 'enableHoverEffect',
+              type: 'checkbox',
+              label: 'Enable Hover Scale Effect',
+              defaultValue: true,
+              admin: {
+                description: 'Scale card on hover (1.03x)',
+              },
+            },
+          ],
+        },
+        {
+          label: 'Settings',
+          fields: [
+            {
+              name: 'backgroundColor',
+              type: 'select',
+              label: 'Background Color',
+              defaultValue: 'bg',
+              options: [
+                { label: 'White', value: 'white' },
+                { label: 'Light Grey (bg)', value: 'bg' },
+                { label: 'Navy', value: 'navy' },
+              ],
+            },
+            {
+              name: 'paddingTop',
+              type: 'select',
+              label: 'Padding Top',
+              defaultValue: 'lg',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (32px)', value: 'sm' },
+                { label: 'Medium (48px)', value: 'md' },
+                { label: 'Large (64px)', value: 'lg' },
+                { label: 'XLarge (80px)', value: 'xl' },
+              ],
+            },
+            {
+              name: 'paddingBottom',
+              type: 'select',
+              label: 'Padding Bottom',
+              defaultValue: 'lg',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (32px)', value: 'sm' },
+                { label: 'Medium (48px)', value: 'md' },
+                { label: 'Large (64px)', value: 'lg' },
+                { label: 'XLarge (80px)', value: 'xl' },
+              ],
+            },
+            {
+              name: 'containerWidth',
+              type: 'select',
+              label: 'Container Width',
+              defaultValue: 'default',
+              options: [
+                { label: 'Default (1200px)', value: 'default' },
+                { label: 'Wide (1400px)', value: 'wide' },
+                { label: 'Full Width', value: 'full' },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Type definitions for the CategoryGrid block, including category data structure and all configuration options.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/ecommerce/product/CategoryGrid/types.ts</span>
+          </div>
+          <pre><code>import type { Media } from '@/payload-types'
+
+export interface CategoryGridBlock {
+  blockType: 'categorygrid'
+
+  // Content
+  title?: string
+  description?: string
+  categorySource: 'manual' | 'top' | 'recent' | 'all'
+  categories?: Array<string | Category>
+  maxCategories?: number
+  showProductCount: boolean
+  hideEmptyCategories: boolean
+
+  // Layout
+  columns: '2' | '3' | '4'
+  tabletColumns: '2' | '3'
+  mobileColumns: '1' | '2'
+  gap: 'sm' | 'md' | 'lg'
+  cardStyle: 'default' | 'minimal' | 'elevated'
+  imageHeight: 'sm' | 'md' | 'lg'
+  enableHoverEffect: boolean
+
+  // Settings
+  backgroundColor: 'white' | 'bg' | 'navy'
+  paddingTop: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  paddingBottom: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  containerWidth: 'default' | 'wide' | 'full'
+}
+
+export interface Category {
+  id: string
+  name: string
+  slug: string
+  description?: string
+  thumbnail?: Media | string
+  productCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CategoryCardData {
+  id: string
+  name: string
+  slug: string
+  thumbnail: {
+    url: string
+    alt: string
+  } | null
+  productCount: number
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/ecommerce/product/CategoryGrid/utils.ts</span>
+          </div>
+          <pre><code>import type { Category, CategoryCardData } from './types'
+
+/**
+ * Fetches categories based on the selected source mode
+ */
+export async function fetchCategories(
+  source: 'manual' | 'top' | 'recent' | 'all',
+  options: {
+    categoryIds?: string[]
+    maxCategories?: number
+    hideEmpty?: boolean
+  }
+): Promise<Category[]> {
+  const { categoryIds, maxCategories = 8, hideEmpty = true } = options
+
+  let url = '/api/categories?'
+
+  if (source === 'manual' && categoryIds?.length) {
+    url += `ids=${categoryIds.join(',')}`
+  } else if (source === 'top') {
+    url += `sort=-productCount&limit=${maxCategories}`
+  } else if (source === 'recent') {
+    url += `sort=-createdAt&limit=${maxCategories}`
+  } else if (source === 'all') {
+    url += `limit=${maxCategories}`
+  }
+
+  if (hideEmpty) {
+    url += '&productCount[greater_than]=0'
+  }
+
+  const response = await fetch(url)
+  const data = await response.json()
+
+  return data.docs || []
+}
+
+/**
+ * Transforms category data for rendering
+ */
+export function transformCategoryData(category: Category): CategoryCardData {
+  const thumbnail = typeof category.thumbnail === 'object' && category.thumbnail
+    ? {
+        url: category.thumbnail.url || '',
+        alt: category.thumbnail.alt || category.name,
+      }
+    : null
+
+  return {
+    id: category.id,
+    name: category.name,
+    slug: category.slug,
+    thumbnail,
+    productCount: category.productCount,
+  }
+}
+
+/**
+ * Generates gradient backgrounds for categories without images
+ */
+const GRADIENT_PRESETS = [
+  'linear-gradient(135deg, #00897B, #26A69A)', // teal
+  'linear-gradient(135deg, #EC4899, #F472B6)', // pink
+  'linear-gradient(135deg, #7C3AED, #9333EA)', // purple
+  'linear-gradient(135deg, #F59E0B, #FCD34D)', // amber
+  'linear-gradient(135deg, #2196F3, #64B5F6)', // blue
+  'linear-gradient(135deg, #00C853, #69F0AE)', // green
+  'linear-gradient(135deg, #FF6B6B, #FF9999)', // coral
+  'linear-gradient(135deg, #0A1628, #121F33)', // navy
+]
+
+export function getGradientForCategory(categoryId: string): string {
+  const index = parseInt(categoryId.slice(-2), 16) % GRADIENT_PRESETS.length
+  return GRADIENT_PRESETS[index]
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Components</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Server and client components for rendering the category grid with responsive layouts and hover effects.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript (Server Component)</span>
+            <span class="code-path">src/branches/blocks/ecommerce/product/CategoryGrid/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import { getPayloadHMR } from '@payloadcms/next/utilities'
+import config from '@payload-config'
+import type { CategoryGridBlock, Category } from './types'
+import { CategoryGridClient } from './CategoryGridClient'
+import { fetchCategories, transformCategoryData } from './utils'
+
+interface CategoryGridProps {
+  block: CategoryGridBlock
+}
+
+export async function CategoryGrid({ block }: CategoryGridProps) {
+  const {
+    title,
+    description,
+    categorySource,
+    categories: manualCategories,
+    maxCategories,
+    showProductCount,
+    hideEmptyCategories,
+    columns,
+    tabletColumns,
+    mobileColumns,
+    gap,
+    cardStyle,
+    imageHeight,
+    enableHoverEffect,
+    backgroundColor,
+    paddingTop,
+    paddingBottom,
+    containerWidth,
+  } = block
+
+  // Fetch categories based on source mode
+  let categories: Category[] = []
+
+  if (categorySource === 'manual' && manualCategories?.length) {
+    const payload = await getPayloadHMR({ config })
+    const categoryIds = manualCategories
+      .filter((cat): cat is string => typeof cat === 'string')
+
+    const result = await payload.find({
+      collection: 'categories',
+      where: {
+        id: { in: categoryIds },
+      },
+      depth: 1,
+    })
+
+    categories = result.docs as Category[]
+  } else {
+    categories = await fetchCategories(categorySource, {
+      maxCategories,
+      hideEmpty: hideEmptyCategories,
+    })
+  }
+
+  // Filter empty categories if needed
+  if (hideEmptyCategories) {
+    categories = categories.filter(cat => cat.productCount > 0)
+  }
+
+  // Transform for rendering
+  const categoryData = categories.map(transformCategoryData)
+
+  // Padding classes
+  const paddingClasses = {
+    none: '',
+    sm: 'py-8',
+    md: 'py-12',
+    lg: 'py-16',
+    xl: 'py-20',
+  }
+
+  const containerClasses = {
+    default: 'max-w-[1200px]',
+    wide: 'max-w-[1400px]',
+    full: 'max-w-full',
+  }
+
+  const bgClasses = {
+    white: 'bg-white',
+    bg: 'bg-[#F5F7FA]',
+    navy: 'bg-[#0A1628]',
+  }
+
+  const paddingTopClass = paddingClasses[paddingTop]
+  const paddingBottomClass = paddingClasses[paddingBottom]
+  const isDark = backgroundColor === 'navy'
+
+  return (
+    <section className={`${bgClasses[backgroundColor]} ${paddingTopClass} ${paddingBottomClass}`}>
+      <div className={`${containerClasses[containerWidth]} mx-auto px-6`}>
+        {(title || description) && (
+          <div className="text-center mb-8 md:mb-12">
+            {title && (
+              <h2
+                className={`font-serif text-2xl md:text-3xl lg:text-4xl font-normal mb-2 ${
+                  isDark ? 'text-white' : 'text-[#0A1628]'
+                }`}
+              >
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p
+                className={`text-sm md:text-base ${
+                  isDark ? 'text-white/70' : 'text-[#64748B]'
+                }`}
+              >
+                {description}
+              </p>
+            )}
+          </div>
+        )}
+
+        <CategoryGridClient
+          categories={categoryData}
+          columns={columns}
+          tabletColumns={tabletColumns}
+          mobileColumns={mobileColumns}
+          gap={gap}
+          cardStyle={cardStyle}
+          imageHeight={imageHeight}
+          enableHoverEffect={enableHoverEffect}
+          showProductCount={showProductCount}
+        />
+      </div>
+    </section>
+  )
+}
+
+export default CategoryGrid</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript (Client Component)</span>
+            <span class="code-path">src/branches/blocks/ecommerce/product/CategoryGrid/CategoryGridClient.tsx</span>
+          </div>
+          <pre><code>'use client'
+
+import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import type { CategoryCardData } from './types'
+import { getGradientForCategory } from './utils'
+
+interface CategoryGridClientProps {
+  categories: CategoryCardData[]
+  columns: '2' | '3' | '4'
+  tabletColumns: '2' | '3'
+  mobileColumns: '1' | '2'
+  gap: 'sm' | 'md' | 'lg'
+  cardStyle: 'default' | 'minimal' | 'elevated'
+  imageHeight: 'sm' | 'md' | 'lg'
+  enableHoverEffect: boolean
+  showProductCount: boolean
+}
+
+export function CategoryGridClient({
+  categories,
+  columns,
+  tabletColumns,
+  mobileColumns,
+  gap,
+  cardStyle,
+  imageHeight,
+  enableHoverEffect,
+  showProductCount,
+}: CategoryGridClientProps) {
+  const gridCols = {
+    '1': 'grid-cols-1',
+    '2': 'grid-cols-2',
+    '3': 'grid-cols-3',
+    '4': 'grid-cols-4',
+  }
+
+  const gapClasses = {
+    sm: 'gap-3',
+    md: 'gap-5',
+    lg: 'gap-8',
+  }
+
+  const imageHeights = {
+    sm: 'h-[120px]',
+    md: 'h-[160px]',
+    lg: 'h-[200px]',
+  }
+
+  const cardStyles = {
+    default: 'border border-[#E8ECF1] shadow-sm hover:shadow-md',
+    minimal: 'border border-[#E8ECF1]',
+    elevated: 'shadow-md hover:shadow-lg',
+  }
+
+  const gridClass = `
+    grid
+    ${gridCols[mobileColumns]}
+    md:${gridCols[tabletColumns]}
+    lg:${gridCols[columns]}
+    ${gapClasses[gap]}
+  `.trim().replace(/\s+/g, ' ')
+
+  return (
+    <div className={gridClass}>
+      {categories.map((category) => {
+        const gradient = getGradientForCategory(category.id)
+
+        return (
+          <Link
+            key={category.id}
+            href={`/category/${category.slug}`}
+            className={`
+              group
+              bg-white
+              rounded-[14px]
+              overflow-hidden
+              transition-all
+              duration-200
+              ${cardStyles[cardStyle]}
+              ${enableHoverEffect ? 'hover:scale-[1.03]' : ''}
+            `}
+          >
+            {/* Category Image */}
+            <div
+              className={`
+                ${imageHeights[imageHeight]}
+                relative
+                flex
+                items-center
+                justify-center
+                overflow-hidden
+              `}
+              style={{
+                background: category.thumbnail ? 'transparent' : gradient
+              }}
+            >
+              {category.thumbnail ? (
+                <Image
+                  src={category.thumbnail.url}
+                  alt={category.thumbnail.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              ) : (
+                <span className="text-5xl md:text-6xl">
+                  {category.name.charAt(0)}
+                </span>
+              )}
+            </div>
+
+            {/* Category Info */}
+            <div className="p-4 text-center">
+              <h3 className="font-sans font-bold text-[15px] text-[#0A1628] mb-1.5 group-hover:text-[#00897B] transition-colors">
+                {category.name}
+              </h3>
+              {showProductCount && (
+                <p className="text-xs text-[#94A3B8]">
+                  {category.productCount} {category.productCount === 1 ? 'product' : 'producten'}
+                </p>
+              )}
+            </div>
+          </Link>
+        )
+      })}
+    </div>
+  )
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Structure</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Admin interface organization with tabbed layout for content, layout, and settings configuration.
+        </p>
+
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Content Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Section Title</label>
+                <input type="text" placeholder="Shop by Category" />
+                <span class="field-hint">Optional heading above the category grid</span>
+              </div>
+              <div class="admin-field">
+                <label>Section Description</label>
+                <textarea placeholder="Browse onze collectie per categorie"></textarea>
+                <span class="field-hint">Optional subheading text</span>
+              </div>
+              <div class="admin-field">
+                <label>Category Source</label>
+                <select>
+                  <option value="manual">Manual Selection</option>
+                  <option value="top">Top Categories (by product count)</option>
+                  <option value="recent">Recently Added</option>
+                  <option value="all">All Categories</option>
+                </select>
+                <span class="field-hint">How to populate the category grid</span>
+              </div>
+              <div class="admin-field">
+                <label>Categories</label>
+                <div class="relationship-field">+ Add Category</div>
+                <span class="field-hint">Select categories to display (manual mode only)</span>
+              </div>
+              <div class="admin-field">
+                <label>
+                  <input type="checkbox" checked />
+                  Show Product Count
+                </label>
+              </div>
+              <div class="admin-field">
+                <label>
+                  <input type="checkbox" checked />
+                  Hide Empty Categories
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Layout Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Desktop Columns</label>
+                <select>
+                  <option value="2">2 Columns</option>
+                  <option value="3">3 Columns</option>
+                  <option value="4" selected>4 Columns</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Tablet Columns</label>
+                <select>
+                  <option value="2">2 Columns</option>
+                  <option value="3" selected>3 Columns</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Mobile Columns</label>
+                <select>
+                  <option value="1">1 Column</option>
+                  <option value="2" selected>2 Columns</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Grid Gap</label>
+                <select>
+                  <option value="sm">Small (12px)</option>
+                  <option value="md" selected>Medium (20px)</option>
+                  <option value="lg">Large (32px)</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Card Style</label>
+                <select>
+                  <option value="default" selected>Default (border + shadow)</option>
+                  <option value="minimal">Minimal (border only)</option>
+                  <option value="elevated">Elevated (shadow only)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li>
+            <strong>Category Source Modes:</strong> Verify manual, top, recent, and all source modes fetch correct categories and respect maxCategories limit.
+          </li>
+          <li>
+            <strong>Responsive Grid:</strong> Test 4→3→2→1 column breakpoints across desktop (1024px+), tablet (640-1024px), and mobile (<640px) viewports.
+          </li>
+          <li>
+            <strong>Empty Categories:</strong> Confirm hideEmptyCategories filter works and categories with 0 products are excluded when enabled.
+          </li>
+          <li>
+            <strong>Hover Effects:</strong> Verify scale(1.03) animation triggers on card hover when enableHoverEffect is true, no animation when false.
+          </li>
+          <li>
+            <strong>Product Count Display:</strong> Check showProductCount toggle correctly shows/hides product count text below category name.
+          </li>
+          <li>
+            <strong>Image Fallbacks:</strong> Test categories without thumbnail images display gradient backgrounds with first letter initial.
+          </li>
+          <li>
+            <strong>Dark Background Mode:</strong> Verify text colors invert correctly when backgroundColor is set to 'navy' (white text vs navy text).
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          SQL migration to add the CategoryGrid block fields to the blocks table and create necessary indexes.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_categorygrid_block.sql</span>
+          </div>
+          <pre><code>-- Add CategoryGrid block type to blocks table
+-- This migration assumes a polymorphic blocks table structure
+
+-- Add block type enum value if using enums
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'categorygrid';
+
+-- Create category_grid_blocks table for block-specific data
+CREATE TABLE IF NOT EXISTS category_grid_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  -- Content fields
+  title TEXT,
+  description TEXT,
+  category_source VARCHAR(20) NOT NULL DEFAULT 'manual'
+    CHECK (category_source IN ('manual', 'top', 'recent', 'all')),
+  max_categories INTEGER DEFAULT 8 CHECK (max_categories BETWEEN 2 AND 24),
+  show_product_count BOOLEAN DEFAULT true,
+  hide_empty_categories BOOLEAN DEFAULT true,
+
+  -- Layout fields
+  columns VARCHAR(1) NOT NULL DEFAULT '4' CHECK (columns IN ('2', '3', '4')),
+  tablet_columns VARCHAR(1) NOT NULL DEFAULT '3' CHECK (tablet_columns IN ('2', '3')),
+  mobile_columns VARCHAR(1) NOT NULL DEFAULT '2' CHECK (mobile_columns IN ('1', '2')),
+  gap VARCHAR(2) NOT NULL DEFAULT 'md' CHECK (gap IN ('sm', 'md', 'lg')),
+  card_style VARCHAR(10) NOT NULL DEFAULT 'default'
+    CHECK (card_style IN ('default', 'minimal', 'elevated')),
+  image_height VARCHAR(2) NOT NULL DEFAULT 'md' CHECK (image_height IN ('sm', 'md', 'lg')),
+  enable_hover_effect BOOLEAN DEFAULT true,
+
+  -- Settings fields
+  background_color VARCHAR(10) NOT NULL DEFAULT 'bg'
+    CHECK (background_color IN ('white', 'bg', 'navy')),
+  padding_top VARCHAR(4) NOT NULL DEFAULT 'lg'
+    CHECK (padding_top IN ('none', 'sm', 'md', 'lg', 'xl')),
+  padding_bottom VARCHAR(4) NOT NULL DEFAULT 'lg'
+    CHECK (padding_bottom IN ('none', 'sm', 'md', 'lg', 'xl')),
+  container_width VARCHAR(10) NOT NULL DEFAULT 'default'
+    CHECK (container_width IN ('default', 'wide', 'full')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT fk_block FOREIGN KEY (block_id) REFERENCES blocks(id) ON DELETE CASCADE
+);
+
+-- Create junction table for manual category selection
+CREATE TABLE IF NOT EXISTS category_grid_categories (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  category_grid_block_id UUID NOT NULL REFERENCES category_grid_blocks(id) ON DELETE CASCADE,
+  category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT unique_category_per_block UNIQUE (category_grid_block_id, category_id)
+);
+
+-- Create indexes for performance
+CREATE INDEX idx_category_grid_blocks_block_id
+  ON category_grid_blocks(block_id);
+
+CREATE INDEX idx_category_grid_blocks_source
+  ON category_grid_blocks(category_source);
+
+CREATE INDEX idx_category_grid_categories_block_id
+  ON category_grid_categories(category_grid_block_id);
+
+CREATE INDEX idx_category_grid_categories_category_id
+  ON category_grid_categories(category_id);
+
+CREATE INDEX idx_category_grid_categories_order
+  ON category_grid_categories(category_grid_block_id, order_index);
+
+-- Add trigger for updated_at timestamp
+CREATE OR REPLACE FUNCTION update_category_grid_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_category_grid_blocks_updated_at
+  BEFORE UPDATE ON category_grid_blocks
+  FOR EACH ROW
+  EXECUTE FUNCTION update_category_grid_blocks_updated_at();
+
+-- Add comment for documentation
+COMMENT ON TABLE category_grid_blocks IS
+  'Stores CategoryGrid block configuration for displaying category grids with responsive layouts';
+COMMENT ON TABLE category_grid_categories IS
+  'Junction table for manual category selection in CategoryGrid blocks';
+
+-- Rollback script (commented out, uncomment to rollback)
+/*
+DROP TRIGGER IF EXISTS trigger_category_grid_blocks_updated_at ON category_grid_blocks;
+DROP FUNCTION IF EXISTS update_category_grid_blocks_updated_at();
+DROP INDEX IF EXISTS idx_category_grid_categories_order;
+DROP INDEX IF EXISTS idx_category_grid_categories_category_id;
+DROP INDEX IF EXISTS idx_category_grid_categories_block_id;
+DROP INDEX IF EXISTS idx_category_grid_blocks_source;
+DROP INDEX IF EXISTS idx_category_grid_blocks_block_id;
+DROP TABLE IF EXISTS category_grid_categories;
+DROP TABLE IF EXISTS category_grid_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Categories not appearing in grid</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> hideEmptyCategories is true and all selected categories have 0 products.<br>
+              <strong>Fix:</strong> Either add products to categories, set hideEmptyCategories to false, or select categories with existing products.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Manual categories not showing after selection</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> categorySource is not set to 'manual', or relationship field is not saving correctly.<br>
+              <strong>Fix:</strong> Verify categorySource is 'manual' in database. Check Payload relationship field configuration has correct relationTo: 'categories' and hasMany: true.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Grid not responsive on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind breakpoint classes not applying correctly, or mobileColumns config ignored.<br>
+              <strong>Fix:</strong> Ensure Tailwind JIT mode is enabled. Verify gridCols object in CategoryGridClient has correct grid-cols-* classes. Check browser DevTools for applied CSS classes at different breakpoints.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Hover scale effect too aggressive</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> scale(1.03) feels too pronounced on large cards.<br>
+              <strong>Fix:</strong> Reduce scale to 1.02 in CategoryGridClient hover classes. Alternatively, add will-change-transform CSS property and adjust transition duration to 150ms for smoother animation.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Product count incorrect or outdated</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> productCount field on Category collection not updated when products added/removed.<br>
+              <strong>Fix:</strong> Add afterChange hook to Products collection that increments/decrements category.productCount. Or create scheduled job to recalculate counts nightly using SQL COUNT(*) queries.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Top categories mode returns wrong order</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> API endpoint not sorting by productCount descending correctly.<br>
+              <strong>Fix:</strong> In fetchCategories util, verify sort parameter is '-productCount' (minus sign for descending). Check API endpoint accepts sort param and applies it to database query.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Category images not loading or showing broken</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Media relationship not populated with depth: 1, or image URLs missing protocol.<br>
+              <strong>Fix:</strong> In server component, ensure payload.find includes depth: 1 to populate thumbnail media. In transformCategoryData, check thumbnail.url exists before returning. Add fallback gradient for null thumbnails.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Dark mode text invisible on navy background</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Text color not inverting when backgroundColor is 'navy'.<br>
+              <strong>Fix:</strong> In Component.tsx, ensure isDark constant correctly detects backgroundColor === 'navy'. Verify conditional classes apply 'text-white' and 'text-white/70' instead of 'text-[#0A1628]' and 'text-[#64748B]'.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Register the CategoryGrid block in Payload config and Next.js rendering components.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { buildConfig } from 'payload'
+import { CategoryGrid } from '@/branches/blocks/ecommerce/product/CategoryGrid/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            CategoryGrid,
+            // ... other blocks
+          ],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import { CategoryGrid } from '@/branches/blocks/ecommerce/product/CategoryGrid/Component'
+
+interface RenderBlocksProps {
+  blocks: any[]
+}
+
+export function RenderBlocks({ blocks }: RenderBlocksProps) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'categorygrid':
+            return <CategoryGrid key={index} block={block} />
+          // ... other block cases
+          default:
+            return null
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/ecommerce/product/CategoryGrid/index.ts</span>
+          </div>
+          <pre><code>export { CategoryGrid as CategoryGridConfig } from './config'
+export { CategoryGrid as CategoryGridComponent } from './Component'
+export { CategoryGridClient } from './CategoryGridClient'
+export type { CategoryGridBlock, Category, CategoryCardData } from './types'
+export { fetchCategories, transformCategoryData, getGradientForCategory } from './utils'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Grid:</strong> 4 columns → 3 @900px → 2 @640px (fully configurable)</li>
+      <li><strong>Image:</strong> 160px height with gradient fallback or category thumbnail</li>
+      <li><strong>Hover:</strong> Scale 1.03 + shadow elevation (can be disabled)</li>
+      <li><strong>Name:</strong> Plus Jakarta Sans, 15px, 700 weight, navy (or white on dark bg)</li>
+      <li><strong>Count:</strong> 12px, grey-mid color, below name (optional)</li>
+      <li><strong>Category Sources:</strong> Manual selection, top by count, recent, or all</li>
+      <li><strong>Empty Filter:</strong> Automatically hide categories with 0 products</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'categorygrid', fields: [
+  { name: 'title', type: 'text' },
+  { name: 'description', type: 'textarea' },
+  { name: 'categorySource', type: 'select', options: ['manual', 'top', 'recent', 'all'] },
+  { name: 'categories', type: 'relationship', relationTo: 'categories', hasMany: true },
+  { name: 'maxCategories', type: 'number', defaultValue: 8 },
+  { name: 'showProductCount', type: 'checkbox', defaultValue: true },
+  { name: 'hideEmptyCategories', type: 'checkbox', defaultValue: true },
+  { name: 'columns', type: 'select', options: ['2', '3', '4'], defaultValue: '4' },
+  { name: 'tabletColumns', type: 'select', options: ['2', '3'], defaultValue: '3' },
+  { name: 'mobileColumns', type: 'select', options: ['1', '2'], defaultValue: '2' },
+  { name: 'gap', type: 'select', options: ['sm', 'md', 'lg'], defaultValue: 'md' },
+  { name: 'cardStyle', type: 'select', options: ['default', 'minimal', 'elevated'] },
+  { name: 'imageHeight', type: 'select', options: ['sm', 'md', 'lg'], defaultValue: 'md' },
+  { name: 'enableHoverEffect', type: 'checkbox', defaultValue: true }
+]}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>
