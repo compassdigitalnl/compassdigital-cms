@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gradients — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #00897B 0%, #26A69A 100%);
+  --gradient-secondary: linear-gradient(135deg, #0A1628 0%, #1B2B45 100%);
+  --gradient-hero: linear-gradient(135deg, rgba(0,137,123,0.08) 0%, rgba(38,166,154,0.12) 100%);
+  --gradient-accent: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token {
+  background: #E0F2F1;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BOX COMPONENT
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ALERT
+   ═══════════════════════════════════════════════════════════ */
+.alert {
+  padding: 14px 16px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 16px 0;
+}
+
+.alert i {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.alert-info {
+  background: var(--blue-light);
+  border: 1px solid #90CAF9;
+  color: #1565C0;
+}
+
+.alert-warning {
+  background: var(--amber-light);
+  border: 1px solid #FCD34D;
+  color: #92400E;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRADIENT PREVIEW
+   ═══════════════════════════════════════════════════════════ */
+.gradient-preview {
+  width: 100%;
+  height: 120px;
+  border-radius: var(--r-md);
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--sh-md);
+}
+
+.gradient-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.gradient-code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--grey-dark);
+  background: var(--grey-light);
+  padding: 8px 12px;
+  border-radius: var(--r-sm);
+  margin-top: 8px;
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID
+   ═══════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Gradients<span>Design System</span></div>
+    <span class="header-badge">Chapter 1 — Design Tokens</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- GRADIENTS REFERENCE -->
+  <section class="section" id="gradients">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Gradients</span>
+        <span class="section-label">4 gradient tokens</span>
+      </div>
+      <span class="tag tag-token">Design Token</span>
+    </div>
+
+    <div class="alert alert-info">
+      <i data-lucide="info"></i>
+      <div>
+        <strong>Waarom gradients?</strong><br>
+        Gradients voegen depth en visual interest toe aan buttons, hero sections en backgrounds. Ze zijn essentieel voor multi-tenant branding waarbij elke vertical zijn eigen gradient identiteit krijgt.
+      </div>
+    </div>
+
+    <!-- Primary Gradient -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Primary Gradient
+      </div>
+      <div class="box-content">
+        <div class="gradient-preview" style="background: var(--gradient-primary);">
+          <div class="gradient-overlay">Primary Gradient</div>
+        </div>
+        <div class="gradient-code">linear-gradient(135deg, #00897B 0%, #26A69A 100%)</div>
+        <p style="font-size:12px;color:var(--grey-dark);margin-top:12px;">
+          <strong>Gebruik:</strong> Primary buttons, CTAs, hover states, interactive elementen
+        </p>
+        <p style="font-size:12px;color:var(--grey-mid);margin-top:6px;">
+          <strong>Multi-tenant:</strong> Beauty: pink gradient • Horeca: gold gradient • Medisch: teal gradient (default)
+        </p>
+      </div>
+    </div>
+
+    <!-- Secondary Gradient -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Secondary Gradient
+      </div>
+      <div class="box-content">
+        <div class="gradient-preview" style="background: var(--gradient-secondary);">
+          <div class="gradient-overlay">Secondary Gradient</div>
+        </div>
+        <div class="gradient-code">linear-gradient(135deg, #0A1628 0%, #1B2B45 100%)</div>
+        <p style="font-size:12px;color:var(--grey-dark);margin-top:12px;">
+          <strong>Gebruik:</strong> Dark sections, footers, navigation backgrounds, contrast areas
+        </p>
+        <p style="font-size:12px;color:var(--grey-mid);margin-top:6px;">
+          <strong>Multi-tenant:</strong> Consistent across verticals (dark foundation)
+        </p>
+      </div>
+    </div>
+
+    <!-- Hero Gradient -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Hero Gradient
+      </div>
+      <div class="box-content">
+        <div class="gradient-preview" style="background: white; position: relative;">
+          <div style="position: absolute; inset: 0; background: var(--gradient-hero);"></div>
+          <div class="gradient-overlay" style="color: var(--navy);">Hero Overlay (Subtle)</div>
+        </div>
+        <div class="gradient-code">linear-gradient(135deg, rgba(0,137,123,0.08) 0%, rgba(38,166,154,0.12) 100%)</div>
+        <p style="font-size:12px;color:var(--grey-dark);margin-top:12px;">
+          <strong>Gebruik:</strong> Hero section overlays, subtle backgrounds, accent areas
+        </p>
+        <p style="font-size:12px;color:var(--grey-mid);margin-top:6px;">
+          <strong>Multi-tenant:</strong> Matches primary color with low opacity (8-12%)
+        </p>
+      </div>
+    </div>
+
+    <!-- Accent Gradient -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Accent Gradient (Optional)
+      </div>
+      <div class="box-content">
+        <div class="gradient-preview" style="background: var(--gradient-accent);">
+          <div class="gradient-overlay">Accent Gradient</div>
+        </div>
+        <div class="gradient-code">linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)</div>
+        <p style="font-size:12px;color:var(--grey-dark);margin-top:12px;">
+          <strong>Gebruik:</strong> Special promotions, badges, accent elements, "new" tags
+        </p>
+        <p style="font-size:12px;color:var(--grey-mid);margin-top:6px;">
+          <strong>Multi-tenant:</strong> Optional - can be customized per vertical for special campaigns
+        </p>
+      </div>
+    </div>
+
+    <!-- Usage Examples Table -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Gradient Usage Matrix
+      </div>
+      <div class="box-content" style="padding:0;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>CSS Variable</th>
+              <th>Primary Use Case</th>
+              <th>Multi-tenant?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>primaryGradient</code></td>
+              <td><code>--gradient-primary</code></td>
+              <td>Buttons, CTAs, interactive elements</td>
+              <td>✅ Yes (per vertical)</td>
+            </tr>
+            <tr>
+              <td><code>secondaryGradient</code></td>
+              <td><code>--gradient-secondary</code></td>
+              <td>Dark sections, footers, navigation</td>
+              <td>⚪ Shared (consistent)</td>
+            </tr>
+            <tr>
+              <td><code>heroGradient</code></td>
+              <td><code>--gradient-hero</code></td>
+              <td>Hero overlays, subtle backgrounds</td>
+              <td>✅ Yes (matches primary)</td>
+            </tr>
+            <tr>
+              <td><code>accentGradient</code></td>
+              <td><code>--gradient-accent</code></td>
+              <td>Badges, promotions, special elements</td>
+              <td>🔧 Optional (per campaign)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PAYLOAD CMS IMPLEMENTATION -->
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration</span>
+      </div>
+    </div>
+
+    <div class="alert alert-warning">
+      <i data-lucide="alert-triangle"></i>
+      <div>
+        <strong>Important:</strong> Gradient values must be valid CSS gradient syntax. Use <code>linear-gradient()</code>, <code>radial-gradient()</code>, or <code>conic-gradient()</code>.
+      </div>
+    </div>
+
+    <!-- STEP 1: CREATE TAB FILE -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Create Gradients Tab File
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/globals/gradients/index.ts</code>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/globals/gradients/index.ts</span>
+<span class="keyword">import</span> { <span class="function">Tab</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Gradients</span>: <span class="function">Tab</span> = {
+  <span class="property">label</span>: <span class="string">'Gradients'</span>,
+  <span class="property">description</span>: <span class="string">'Gradient fills for buttons, backgrounds, and hero sections'</span>,
+  <span class="property">fields</span>: [
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Primary & Secondary'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'primaryGradient'</span>,
+          <span class="property">type</span>: <span class="string">'textarea'</span>,
+          <span class="property">label</span>: <span class="string">'Primary Gradient'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'linear-gradient(135deg, #00897B 0%, #26A69A 100%)'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Main gradient for buttons, CTAs, and interactive elements'</span>,
+            <span class="property">placeholder</span>: <span class="string">'linear-gradient(135deg, #00897B 0%, #26A69A 100%)'</span>,
+            <span class="property">rows</span>: <span class="number">2</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'secondaryGradient'</span>,
+          <span class="property">type</span>: <span class="string">'textarea'</span>,
+          <span class="property">label</span>: <span class="string">'Secondary Gradient'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'linear-gradient(135deg, #0A1628 0%, #1B2B45 100%)'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Dark gradient for sections, footers, and navigation'</span>,
+            <span class="property">placeholder</span>: <span class="string">'linear-gradient(135deg, #0A1628 0%, #1B2B45 100%)'</span>,
+            <span class="property">rows</span>: <span class="number">2</span>,
+          },
+        },
+      ],
+    },
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Hero & Accent'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'heroGradient'</span>,
+          <span class="property">type</span>: <span class="string">'textarea'</span>,
+          <span class="property">label</span>: <span class="string">'Hero Gradient'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'linear-gradient(135deg, rgba(0,137,123,0.08) 0%, rgba(38,166,154,0.12) 100%)'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Subtle overlay gradient for hero sections (low opacity)'</span>,
+            <span class="property">placeholder</span>: <span class="string">'linear-gradient(135deg, rgba(0,137,123,0.08) 0%, rgba(38,166,154,0.12) 100%)'</span>,
+            <span class="property">rows</span>: <span class="number">2</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'accentGradient'</span>,
+          <span class="property">type</span>: <span class="string">'textarea'</span>,
+          <span class="property">label</span>: <span class="string">'Accent Gradient (Optional)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Optional gradient for special promotions, badges, or campaigns'</span>,
+            <span class="property">placeholder</span>: <span class="string">'linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)'</span>,
+            <span class="property">rows</span>: <span class="number">2</span>,
+          },
+        },
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          <strong>Step 1b:</strong> Import in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/globals/Theme.ts</code>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/globals/Theme.ts</span>
+<span class="keyword">import</span> { <span class="function">GlobalConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Colors</span> } <span class="keyword">from</span> <span class="string">'./colors'</span>
+<span class="keyword">import</span> { <span class="function">Typography</span> } <span class="keyword">from</span> <span class="string">'./typography'</span>
+<span class="keyword">import</span> { <span class="function">Spacing</span> } <span class="keyword">from</span> <span class="string">'./spacing'</span>
+<span class="keyword">import</span> { <span class="function">Gradients</span> } <span class="keyword">from</span> <span class="string">'./gradients'</span>  <span class="comment">// ← NEW</span>
+<span class="keyword">import</span> { <span class="function">Visual</span> } <span class="keyword">from</span> <span class="string">'./visual'</span>
+
+<span class="keyword">export const</span> <span class="function">Theme</span>: <span class="function">GlobalConfig</span> = {
+  slug: <span class="string">'theme'</span>,
+  access: {
+    read: () => <span class="keyword">true</span>,
+    update: ({ req: { user } }) => <span class="keyword">Boolean</span>(user),
+  },
+  fields: [
+    {
+      <span class="property">type</span>: <span class="string">'tabs'</span>,
+      <span class="property">tabs</span>: [
+        <span class="function">Colors</span>,
+        <span class="function">Typography</span>,
+        <span class="function">Spacing</span>,
+        <span class="function">Gradients</span>,  <span class="comment">// ← NEW: Gradients tab</span>
+        <span class="function">Visual</span>,
+      ],
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add gradient types to <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/theme.ts</code>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/theme.ts</span>
+
+<span class="keyword">export interface</span> <span class="function">ThemeGradients</span> {
+  primaryGradient: <span class="keyword">string</span>    <span class="comment">// Main gradient (buttons, CTAs)</span>
+  secondaryGradient: <span class="keyword">string</span>  <span class="comment">// Dark gradient (sections, footers)</span>
+  heroGradient: <span class="keyword">string</span>       <span class="comment">// Subtle overlay (hero sections)</span>
+  accentGradient: <span class="keyword">string</span>     <span class="comment">// Optional (promotions, badges)</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">Theme</span> {
+  <span class="property">id</span>: <span class="keyword">string</span>
+  <span class="property">colors</span>?: <span class="function">ThemeColors</span>
+  <span class="property">spacing</span>?: <span class="function">ThemeSpacing</span>
+  <span class="property">typography</span>?: <span class="function">ThemeTypography</span>
+  <span class="property">gradients</span>?: <span class="function">ThemeGradients</span>   <span class="comment">// ← NEW</span>
+  <span class="property">visual</span>?: <span class="function">ThemeVisual</span>
+  <span class="property">updatedAt</span>: <span class="keyword">string</span>
+  <span class="property">createdAt</span>: <span class="keyword">string</span>
+}
+    </div>
+
+    <!-- STEP 3: CSS GENERATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: CSS Variable Generation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Generate CSS custom properties in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">app/layout.tsx</code>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/layout.tsx</span>
+<span class="keyword">import</span> { <span class="function">getPayloadHMR</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/next/utilities'</span>
+<span class="keyword">import</span> configPromise <span class="keyword">from</span> <span class="string">'@payload-config'</span>
+<span class="keyword">import type</span> { <span class="function">Theme</span> } <span class="keyword">from</span> <span class="string">'@/types/theme'</span>
+
+<span class="keyword">export default async function</span> <span class="function">RootLayout</span>({ children }) {
+  <span class="keyword">const</span> payload = <span class="keyword">await</span> <span class="function">getPayloadHMR</span>({ config: configPromise })
+
+  <span class="comment">// Fetch theme global</span>
+  <span class="keyword">const</span> theme = <span class="keyword">await</span> payload.<span class="function">findGlobal</span>({
+    slug: <span class="string">'theme'</span>,
+  }) <span class="keyword">as</span> <span class="function">Theme</span>
+
+  <span class="comment">// Generate gradient CSS variables</span>
+  <span class="keyword">const</span> gradients = theme.gradients || {}
+  <span class="keyword">const</span> gradientVars = <span class="string">`
+    --gradient-primary: ${gradients.primaryGradient || 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)'};
+    --gradient-secondary: ${gradients.secondaryGradient || 'linear-gradient(135deg, #0A1628 0%, #1B2B45 100%)'};
+    --gradient-hero: ${gradients.heroGradient || 'linear-gradient(135deg, rgba(0,137,123,0.08) 0%, rgba(38,166,154,0.12) 100%)'};
+    --gradient-accent: ${gradients.accentGradient || 'linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)'};
+  `</span>
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">html</span>&gt;
+      &lt;<span class="keyword">head</span>&gt;
+        &lt;<span class="keyword">style</span> dangerouslySetInnerHTML={{
+          __html: <span class="string">`:root { ${gradientVars} }`</span>
+        }} /&gt;
+      &lt;/<span class="keyword">head</span>&gt;
+      &lt;<span class="keyword">body</span>&gt;{children}&lt;/<span class="keyword">body</span>&gt;
+    &lt;/<span class="keyword">html</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: USAGE IN COMPONENTS -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Usage in Components
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Example: Button component with primary gradient
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// components/Button.tsx</span>
+<span class="keyword">export function</span> <span class="function">Button</span>() {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">button</span>
+      <span class="property">style</span>={{
+        background: <span class="string">'var(--gradient-primary)'</span>,
+        color: <span class="string">'white'</span>,
+        padding: <span class="string">'var(--sp-3) var(--sp-6)'</span>,
+        borderRadius: <span class="string">'var(--r-sm)'</span>,
+        border: <span class="string">'none'</span>,
+        cursor: <span class="string">'pointer'</span>,
+        fontWeight: <span class="number">600</span>,
+      }}
+    &gt;
+      Click Me
+    &lt;/<span class="keyword">button</span>&gt;
+  )
+}
+
+<span class="comment">// Hero section with overlay gradient</span>
+<span class="keyword">export function</span> <span class="function">HeroSection</span>() {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span>
+      <span class="property">style</span>={{
+        background: <span class="string">'var(--gradient-hero)'</span>,
+        padding: <span class="string">'var(--sp-20) var(--sp-8)'</span>,
+      }}
+    &gt;
+      &lt;<span class="keyword">h1</span>&gt;Welcome to Our Site&lt;/<span class="keyword">h1</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+  </section>
+
+  <!-- MULTI-TENANT CUSTOMIZATION -->
+  <section class="section" id="multi-tenant">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Multi-Tenant</span>
+        <span class="section-label">Vertical-Specific Gradients</span>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <i data-lucide="zap"></i>
+      <div>
+        <strong>Multi-tenant Power!</strong><br>
+        Each vertical can override gradients via the <strong>Themes collection</strong>. Beauty gets pink gradients, Horeca gets gold, Medisch keeps teal. All automatic via <code>data-theme</code> attribute!
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Vertical Gradient Examples
+      </div>
+      <div class="box-content" style="padding:0;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Vertical</th>
+              <th>Primary Gradient</th>
+              <th>Hero Gradient</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Medisch B2B</strong> (default)</td>
+              <td><code>linear-gradient(135deg, #00897B 0%, #26A69A 100%)</code></td>
+              <td><code>rgba(0,137,123,0.08) → rgba(38,166,154,0.12)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Beauty / Salon</strong></td>
+              <td><code>linear-gradient(135deg, #E91E63 0%, #F06292 100%)</code></td>
+              <td><code>rgba(233,30,99,0.08) → rgba(240,98,146,0.12)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Horeca</strong></td>
+              <td><code>linear-gradient(135deg, #C9A84C 0%, #D4B461 100%)</code></td>
+              <td><code>rgba(201,168,76,0.08) → rgba(212,180,97,0.12)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Zorg / Fysio</strong></td>
+              <td><code>linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)</code></td>
+              <td><code>rgba(76,175,80,0.08) → rgba(102,187,106,0.12)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Events</strong></td>
+              <td><code>linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)</code></td>
+              <td><code>rgba(124,58,237,0.08) → rgba(168,85,247,0.12)</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Themes collection override example:</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// In Themes collection (Beauty vertical)</span>
+{
+  name: <span class="string">'Beauty / Salon'</span>,
+  slug: <span class="string">'beauty'</span>,
+  primaryGradient: <span class="string">'linear-gradient(135deg, #E91E63 0%, #F06292 100%)'</span>,
+  heroGradient: <span class="string">'linear-gradient(135deg, rgba(233,30,99,0.08) 0%, rgba(240,98,146,0.12) 100%)'</span>,
+}
+
+<span class="comment">// CSS generated automatically:</span>
+[data-theme=<span class="string">"beauty"</span>] {
+  --gradient-primary: linear-gradient(135deg, #E91E63 0%, #F06292 100%);
+  --gradient-hero: linear-gradient(135deg, rgba(233,30,99,0.08) 0%, rgba(240,98,146,0.12) 100%);
+}
+
+<span class="comment">// All components instantly adopt pink gradients! 🎨</span>
+    </div>
+
+  </section>
+
+  <!-- BEST PRACTICES -->
+  <section class="section" id="best-practices">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Best Practices</span>
+        <span class="section-label">Guidelines & Tips</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-content">
+        <h4 style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;">✅ DO</h4>
+        <ul style="font-size:12px;line-height:1.8;color:var(--grey-dark);margin-left:20px;">
+          <li>Use <code>135deg</code> for consistent diagonal direction</li>
+          <li>Keep gradients subtle (max 2 colors, close hues)</li>
+          <li>Test gradients on white AND dark backgrounds</li>
+          <li>Ensure text contrast meets WCAG AA standards (4.5:1)</li>
+          <li>Use <code>rgba()</code> for hero gradients (8-12% opacity)</li>
+          <li>Match hero gradient to primary color with low opacity</li>
+        </ul>
+
+        <h4 style="font-size:13px;font-weight:700;color:var(--navy);margin:16px 0 12px;">❌ DON'T</h4>
+        <ul style="font-size:12px;line-height:1.8;color:var(--grey-dark);margin-left:20px;">
+          <li>Use more than 2 colors in a single gradient (rainbow effect)</li>
+          <li>Mix warm and cool tones (e.g., blue + orange)</li>
+          <li>Use gradients on body text (readability issues)</li>
+          <li>Forget fallback colors for browsers without gradient support</li>
+          <li>Use high opacity hero gradients (>20%) - too overpowering</li>
+        </ul>
+
+        <h4 style="font-size:13px;font-weight:700;color:var(--navy);margin:16px 0 12px;">💡 Tips</h4>
+        <ul style="font-size:12px;line-height:1.8;color:var(--grey-dark);margin-left:20px;">
+          <li><strong>Consistency:</strong> All gradients should flow 135deg (top-left to bottom-right)</li>
+          <li><strong>Performance:</strong> Gradients are CSS-only, no JavaScript needed</li>
+          <li><strong>Accessibility:</strong> Ensure 4.5:1 contrast for white text on gradient buttons</li>
+          <li><strong>Testing:</strong> Preview all verticals before deployment</li>
+          <li><strong>Fallback:</strong> Always provide solid color fallback: <code>background: #00897B; background: var(--gradient-primary);</code></li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- DATABASE MIGRATION -->
+  <section class="section" id="migration">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Database Migration</span>
+        <span class="section-label">4 new columns to Theme table</span>
+      </div>
+    </div>
+
+    <div class="alert alert-warning">
+      <i data-lucide="database"></i>
+      <div>
+        <strong>Migration Required!</strong><br>
+        After creating the Gradients tab, run: <code>npx payload migrate:create add_gradients_to_theme</code>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          <strong>Expected migration SQL (auto-generated):</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">-- Migration: add_gradients_to_theme</span>
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"primary_gradient"</span> text <span class="keyword">DEFAULT</span> <span class="string">'linear-gradient(135deg, #00897B 0%, #26A69A 100%)'</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"secondary_gradient"</span> text <span class="keyword">DEFAULT</span> <span class="string">'linear-gradient(135deg, #0A1628 0%, #1B2B45 100%)'</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"hero_gradient"</span> text <span class="keyword">DEFAULT</span> <span class="string">'linear-gradient(135deg, rgba(0,137,123,0.08) 0%, rgba(38,166,154,0.12) 100%)'</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"accent_gradient"</span> text <span class="keyword">DEFAULT</span> <span class="string">'linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)'</span>;
+
+<span class="comment">-- ✅ All ADD COLUMN (additive, safe)</span>
+<span class="comment">-- ✅ All have DEFAULT values</span>
+<span class="comment">-- ✅ No existing data modified</span>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);">
+          <strong>Verification:</strong> After migration, check columns exist:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">-- Verify columns were added</span>
+<span class="keyword">SELECT</span> column_name, data_type, column_default
+<span class="keyword">FROM</span> information_schema.columns
+<span class="keyword">WHERE</span> table_name = <span class="string">'theme'</span>
+  <span class="keyword">AND</span> column_name <span class="keyword">LIKE</span> <span class="string">'%gradient%'</span>;
+
+<span class="comment">-- Expected output:</span>
+<span class="comment">-- primary_gradient    | text | 'linear-gradient(...)'</span>
+<span class="comment">-- secondary_gradient  | text | 'linear-gradient(...)'</span>
+<span class="comment">-- hero_gradient       | text | 'linear-gradient(...)'</span>
+<span class="comment">-- accent_gradient     | text | 'linear-gradient(...)'</span>
+    </div>
+
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="section" id="summary">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Summary</span>
+        <span class="section-label">Gradients Token Checklist</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-content">
+        <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:16px;">✅ Implementation Checklist</h4>
+
+        <div style="background:var(--grey-light);padding:16px;border-radius:var(--r-sm);margin-bottom:16px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Create <code style="font-family:var(--font-mono);font-size:11px;">src/globals/gradients/index.ts</code>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Add 4 gradient fields (primary, secondary, hero, accent)
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Import Gradients tab in Theme.ts
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Add <code style="font-family:var(--font-mono);font-size:11px;">ThemeGradients</code> interface to types/theme.ts
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Generate CSS variables in layout.tsx
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Run migration: <code style="font-family:var(--font-mono);font-size:11px;">npx payload migrate:create add_gradients_to_theme</code>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Verify 4 columns added to theme table
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;">
+            <input type="checkbox"> Test gradient variables in browser DevTools
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;">
+            <input type="checkbox"> Add gradient overrides to Themes collection (multi-tenant)
+          </label>
+        </div>
+
+        <p style="font-size:12px;color:var(--grey-dark);line-height:1.6;">
+          <strong>Total tokens:</strong> 4 gradients<br>
+          <strong>Database columns:</strong> 4 (all TEXT with DEFAULT values)<br>
+          <strong>Multi-tenant support:</strong> ✅ Yes (via Themes collection)<br>
+          <strong>Breaking changes:</strong> ❌ None (additive only)
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

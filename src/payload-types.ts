@@ -799,7 +799,10 @@ export interface Brand {
  */
 export interface Media {
   id: number;
-  alt: string;
+  /**
+   * Auto-gegenereerd van bestandsnaam (kan handmatig overschreven worden)
+   */
+  alt?: string | null;
   caption?: {
     root: {
       type: string;
@@ -834,6 +837,9 @@ export interface Media {
 export interface ProductCategory {
   id: number;
   name: string;
+  /**
+   * Auto-gegenereerd uit naam (kan handmatig overschreven worden)
+   */
   slug: string;
   description?: string | null;
   parent?: (number | null) | ProductCategory;
@@ -1787,6 +1793,9 @@ export interface CasesBlock {
 export interface Case {
   id: number;
   title: string;
+  /**
+   * Auto-gegenereerd uit titel (kan handmatig overschreven worden)
+   */
   slug: string;
   client: string;
   /**
@@ -3637,7 +3646,7 @@ export interface SubscriptionPlan {
    */
   name: string;
   /**
-   * URL-friendly identifier
+   * Auto-gegenereerd uit naam (kan handmatig overschreven worden)
    */
   slug: string;
   description?: string | null;
@@ -4258,7 +4267,7 @@ export interface BlogPost {
   id: number;
   title: string;
   /**
-   * Gebruikt in URL: /blog/{categorie}/{slug}
+   * Auto-gegenereerd uit titel (kan handmatig overschreven worden)
    */
   slug: string;
   /**
@@ -9206,168 +9215,229 @@ export interface Setting {
   createdAt?: string | null;
 }
 /**
+ * Compass Design System — 54 design tokens across 5 categories (Colors, Typography, Spacing, Gradients, Visual)
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "theme".
  */
 export interface Theme {
   id: number;
   /**
-   * Main brand color (e.g., buttons, links)
+   * Deep navy used for dark surfaces, cards, headers. Provides strong contrast.
    */
-  primaryColor?: string | null;
+  navy?: string | null;
   /**
-   * Lighter variant of primary color
+   * Slightly lighter navy for hover states on dark surfaces.
    */
-  primaryLight?: string | null;
+  navyLight?: string | null;
   /**
-   * Subtle glow/background for primary
+   * Primary teal accent. Used for buttons, links, active states.
    */
-  primaryGlow?: string | null;
+  teal?: string | null;
   /**
-   * Secondary brand color (dark)
+   * Lighter teal for hover states and secondary accents.
    */
-  secondaryColor?: string | null;
+  tealLight?: string | null;
   /**
-   * Lighter variant of secondary
+   * Darker teal for pressed states and depth.
    */
-  secondaryLight?: string | null;
+  tealDark?: string | null;
   /**
-   * Accent/highlight color
+   * Bright green for success messages, checkmarks, positive confirmations.
    */
-  accentColor?: string | null;
+  green?: string | null;
   /**
-   * Default page background
+   * Soft coral/red for errors, warnings, destructive actions.
    */
-  backgroundColor?: string | null;
+  coral?: string | null;
   /**
-   * Cards, sections background
+   * Amber/orange for caution, pending states, important notices.
    */
-  surfaceColor?: string | null;
+  amber?: string | null;
   /**
-   * Default border color
+   * Bright blue for informational messages, tips, neutral highlights.
    */
-  borderColor?: string | null;
+  blue?: string | null;
   /**
-   * Light grey for backgrounds
+   * Purple for special features, premium content, unique elements.
    */
-  greyLight?: string | null;
+  purple?: string | null;
   /**
-   * Medium grey for secondary text
+   * Off-white for cards, modals, clean backgrounds.
+   */
+  white?: string | null;
+  /**
+   * Light grey page background. Provides subtle contrast to white cards.
+   */
+  bg?: string | null;
+  /**
+   * Light grey for borders, dividers, subtle lines.
+   */
+  grey?: string | null;
+  /**
+   * Medium grey for muted text, secondary labels, disabled states.
    */
   greyMid?: string | null;
   /**
-   * Dark grey for text
+   * Dark grey for body text. Softer than pure black, easier on eyes.
    */
   greyDark?: string | null;
   /**
-   * Main text color
+   * Near-black for headings and high-emphasis text.
    */
-  textPrimary?: string | null;
+  text?: string | null;
   /**
-   * Secondary text color
+   * Primary font for UI and body text. Default: Plus Jakarta Sans with DM Sans fallback.
    */
-  textSecondary?: string | null;
+  fontBody?: string | null;
   /**
-   * Muted/disabled text
+   * Serif font for hero headings and editorial content. Adds elegance and contrast.
    */
-  textMuted?: string | null;
+  fontDisplay?: string | null;
   /**
-   * Main success color (green)
+   * Monospace font for code, technical data, timestamps.
    */
-  successColor?: string | null;
+  fontMono?: string | null;
   /**
-   * Light background for success messages
+   * 36px — Largest text size. Used for hero section headings, major page titles.
    */
-  successLight?: string | null;
+  heroSize?: number | null;
   /**
-   * Dark text for success messages
+   * 24px — Section headings (H2). Major content blocks.
    */
-  successDark?: string | null;
+  sectionSize?: number | null;
   /**
-   * Main warning color (amber/orange)
+   * 18px — Card titles, smaller headings (H3), emphasized labels.
    */
-  warningColor?: string | null;
+  cardTitleSize?: number | null;
   /**
-   * Light background for warning messages
+   * 15px — Large body text. Intro paragraphs, lead text.
    */
-  warningLight?: string | null;
+  bodyLgSize?: number | null;
   /**
-   * Dark text for warning messages
+   * 13px — Standard body text. Most common reading size.
    */
-  warningDark?: string | null;
+  bodySize?: number | null;
   /**
-   * Main error color (red)
+   * 12px — Small text. Captions, metadata, secondary info.
    */
-  errorColor?: string | null;
+  smallSize?: number | null;
   /**
-   * Light background for error messages
+   * 10px — Tiny labels, tags, badges, uppercase UI text.
    */
-  errorLight?: string | null;
+  labelSize?: number | null;
   /**
-   * Dark text for error messages
+   * 8px — Smallest text size. Rarely used. Tooltip text, fine print.
    */
-  errorDark?: string | null;
+  microSize?: number | null;
   /**
-   * Main info color (teal)
+   * 4px — Smallest spacing unit. Used for very tight layouts, icon padding.
    */
-  infoColor?: string | null;
+  sp1: number;
   /**
-   * Light background for info messages
+   * 8px — Extra small gaps. Button padding, tag spacing.
    */
-  infoLight?: string | null;
+  sp2: number;
   /**
-   * Dark text for info messages
+   * 12px — Small spacing. Input padding, compact card spacing.
    */
-  infoDark?: string | null;
+  sp3: number;
   /**
-   * Main gradient (buttons, CTAs)
+   * 16px — The core spacing unit. Most common gap between elements. DO NOT CHANGE.
+   */
+  sp4: number;
+  /**
+   * 24px — Medium spacing. Card padding, section gaps.
+   */
+  sp6: number;
+  /**
+   * 32px — Large spacing. Major section padding, container gaps.
+   */
+  sp8: number;
+  /**
+   * 48px — Extra large spacing. Hero section padding, major layout gaps.
+   */
+  sp12: number;
+  /**
+   * 64px — XXL spacing. Large hero sections, significant visual breaks.
+   */
+  sp16: number;
+  /**
+   * 80px — Maximum spacing unit. Rarely used, for extreme layouts.
+   */
+  sp20: number;
+  /**
+   * Main gradient for buttons, CTAs, and interactive elements
    */
   primaryGradient?: string | null;
   /**
-   * Secondary gradient (dark sections)
+   * Dark gradient for sections, footers, and navigation
    */
   secondaryGradient?: string | null;
   /**
-   * Hero section overlay gradient
+   * Subtle overlay gradient for hero sections (low opacity)
    */
   heroGradient?: string | null;
   /**
-   * Font for headings (h1, h2, etc.)
+   * Optional gradient for special promotions, badges, or campaigns
    */
-  headingFont?: string | null;
+  accentGradient?: string | null;
   /**
-   * Font for body text
+   * 8px — buttons, inputs, small cards
    */
-  bodyFont?: string | null;
+  radiusSm: number;
   /**
-   * Overall font size scale
+   * 12px — cards, modals, panels (most common)
    */
-  fontScale?: ('sm' | 'md' | 'lg') | null;
+  radiusMd: number;
   /**
-   * Default border radius for buttons, cards, etc.
+   * 16px — large cards, hero sections
    */
-  borderRadius?: ('none' | 'sm' | 'md' | 'lg' | 'xl' | 'full') | null;
+  radiusLg: number;
   /**
-   * Overall spacing scale
+   * 20px — overlay panels (search, modals)
    */
-  spacing?: ('sm' | 'md' | 'lg') | null;
+  radiusXl: number;
   /**
-   * Maximum width for page containers
+   * 9999px — perfect circles (pills, avatars, badges)
    */
-  containerWidth?: ('lg' | 'xl' | '2xl' | '7xl') | null;
-  shadowSize?: ('none' | 'sm' | 'md' | 'lg') | null;
+  radiusFull: number;
   /**
-   * Enable hover effects and transitions
+   * Subtle elevation for default cards
    */
-  enableAnimations?: boolean | null;
+  shadowSm: string;
   /**
-   * Enable dark mode support (future)
+   * Medium elevation for hover states
    */
-  enableDarkMode?: boolean | null;
+  shadowMd: string;
   /**
-   * Add custom CSS variables (advanced users only)
+   * Large elevation for modals and overlays
    */
-  customCSS?: string | null;
+  shadowLg: string;
+  /**
+   * Extra large elevation for floating elements
+   */
+  shadowXl: string;
+  /**
+   * 100 — sort menus, filter dropdowns, tooltips
+   */
+  zDropdown: number;
+  /**
+   * 200 — main navigation, sticky elements
+   */
+  zSticky: number;
+  /**
+   * 300 — InstantSearch overlay, backdrops
+   */
+  zOverlay: number;
+  /**
+   * 400 — QuickView modal, MiniCart flyout
+   */
+  zModal: number;
+  /**
+   * 500 — AddToCart toast, system notifications (topmost layer)
+   */
+  zToast: number;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -10200,46 +10270,60 @@ export interface SettingsSelect<T extends boolean = true> {
  * via the `definition` "theme_select".
  */
 export interface ThemeSelect<T extends boolean = true> {
-  primaryColor?: T;
-  primaryLight?: T;
-  primaryGlow?: T;
-  secondaryColor?: T;
-  secondaryLight?: T;
-  accentColor?: T;
-  backgroundColor?: T;
-  surfaceColor?: T;
-  borderColor?: T;
-  greyLight?: T;
+  navy?: T;
+  navyLight?: T;
+  teal?: T;
+  tealLight?: T;
+  tealDark?: T;
+  green?: T;
+  coral?: T;
+  amber?: T;
+  blue?: T;
+  purple?: T;
+  white?: T;
+  bg?: T;
+  grey?: T;
   greyMid?: T;
   greyDark?: T;
-  textPrimary?: T;
-  textSecondary?: T;
-  textMuted?: T;
-  successColor?: T;
-  successLight?: T;
-  successDark?: T;
-  warningColor?: T;
-  warningLight?: T;
-  warningDark?: T;
-  errorColor?: T;
-  errorLight?: T;
-  errorDark?: T;
-  infoColor?: T;
-  infoLight?: T;
-  infoDark?: T;
+  text?: T;
+  fontBody?: T;
+  fontDisplay?: T;
+  fontMono?: T;
+  heroSize?: T;
+  sectionSize?: T;
+  cardTitleSize?: T;
+  bodyLgSize?: T;
+  bodySize?: T;
+  smallSize?: T;
+  labelSize?: T;
+  microSize?: T;
+  sp1?: T;
+  sp2?: T;
+  sp3?: T;
+  sp4?: T;
+  sp6?: T;
+  sp8?: T;
+  sp12?: T;
+  sp16?: T;
+  sp20?: T;
   primaryGradient?: T;
   secondaryGradient?: T;
   heroGradient?: T;
-  headingFont?: T;
-  bodyFont?: T;
-  fontScale?: T;
-  borderRadius?: T;
-  spacing?: T;
-  containerWidth?: T;
-  shadowSize?: T;
-  enableAnimations?: T;
-  enableDarkMode?: T;
-  customCSS?: T;
+  accentGradient?: T;
+  radiusSm?: T;
+  radiusMd?: T;
+  radiusLg?: T;
+  radiusXl?: T;
+  radiusFull?: T;
+  shadowSm?: T;
+  shadowMd?: T;
+  shadowLg?: T;
+  shadowXl?: T;
+  zDropdown?: T;
+  zSticky?: T;
+  zOverlay?: T;
+  zModal?: T;
+  zToast?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

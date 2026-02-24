@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { InitTheme } from '@/providers/Theme/InitTheme'
+import { ThemeStyles } from '@/providers/Theme/ThemeStyles'
 import { GoogleAnalytics } from '@/branches/shared/components/features/analytics/Analytics/GoogleAnalytics'
 
 // Force dynamic rendering to avoid database queries during build
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     >
       <head>
         <InitTheme />
+        <ThemeStyles />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <GoogleAnalytics />

@@ -73,11 +73,12 @@ import { Vendors } from '@/branches/marketplace/collections/Vendors'
 import { VendorReviews } from '@/branches/marketplace/collections/VendorReviews'
 import { Workshops } from '@/branches/marketplace/collections/Workshops'
 
-// Shared Branch (5 collections + 2 subdirectories)
+// Shared Branch (6 collections + 2 subdirectories)
 import { Media } from '@/branches/shared/collections/Media'
 import { Notifications } from '@/branches/shared/collections/Notifications'
 import { Partners } from '@/branches/shared/collections/Partners'
 import { ServicesCollection } from '@/branches/shared/collections/ServicesCollection'
+import { Themes } from '@/branches/shared/collections/Themes'
 // Note: FormSubmissions is provided by formBuilderPlugin, no need to import manually
 
 // Shared - Subdirectories (still in old location temporarily)
@@ -256,6 +257,7 @@ export default buildConfig({
     _col(Partners),
     _col(ServicesCollection),
     _col(Notifications),
+    _col(Themes),
     // FormSubmissions is provided by formBuilderPlugin
 
     // ═══════════════════════════════════════════════════════════════════════════

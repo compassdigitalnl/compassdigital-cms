@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spacing — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --green: #00C853;
+  --coral: #FF6B6B;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --container: 1200px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+.header { background: linear-gradient(135deg, var(--navy), var(--navy-light)); padding: 16px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.header-content { max-width: var(--container); margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.header-icon { width: 40px; height: 40px; background: var(--teal); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 18px; }
+.header-title { color: #fff; font-size: 18px; font-weight: 700; }
+.header-title span { color: var(--teal-light); margin-left: 8px; font-weight: 400; }
+.header-badge { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; color: rgba(255, 255, 255, 0.6); margin-left: auto; }
+.main { max-width: var(--container); margin: 0 auto; padding: 40px 24px; }
+.section { margin-bottom: 40px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--grey); }
+.section-header-left { display: flex; align-items: center; gap: 12px; }
+.section-id { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--navy); background: var(--grey-light); padding: 4px 12px; border-radius: 6px; border: 1px solid var(--grey); }
+.section-label { font-size: 13px; color: var(--grey-dark); font-weight: 600; }
+.tag { font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.04em; }
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+.box { background: var(--white); border: 1px solid var(--grey); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--sh-sm); margin-bottom: 12px; }
+.box-bar { padding: 8px 16px; background: var(--grey-light); border-bottom: 1px solid var(--grey); display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--grey-mid); font-weight: 600; }
+.box-bar .dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+.box-content { padding: 24px; }
+.code-block { background: #1e1e2e; border-radius: var(--r-sm); padding: 16px; margin-top: 12px; font-family: var(--font-mono); font-size: 11px; color: #cdd6f4; line-height: 1.8; overflow-x: auto; }
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+.table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.table th { padding: 10px 12px; background: var(--grey-light); border-bottom: 2px solid var(--grey); font-weight: 700; color: var(--grey-700); text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.table td { padding: 10px 12px; border-bottom: 1px solid var(--grey-light); color: var(--grey-dark); }
+.table tr:hover { background: rgba(0, 137, 123, 0.02); }
+.table code { font-family: var(--font-mono); font-size: 11px; background: var(--grey-light); padding: 2px 6px; border-radius: 3px; color: var(--teal-dark); }
+.alert { padding: 14px 16px; border-radius: var(--r-sm); display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.6; margin: 16px 0; }
+.alert i { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-warning { background: var(--amber-light); border: 1px solid #FCD34D; color: #92400E; }
+@media (max-width: 768px) {
+  .main { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Spacing<span>Design Token</span></div>
+    <span class="header-badge">Chapter 1 — Design Tokens</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <section class="section" id="spacing">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Spacing</span>
+        <span class="section-label">4px grid system — 9 tokens</span>
+      </div>
+      <span class="tag tag-token">Design Token</span>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Spacing Scale (4px Grid)
+      </div>
+      <div class="box-content">
+
+        <div class="alert alert-warning">
+          <i data-lucide="alert-triangle"></i>
+          <div>
+            <strong>STRICT RULE:</strong> NEVER use arbitrary spacing values. Only use these 9 tokens: 4, 8, 12, 16, 24, 32, 48, 64, 80px. No 5px, 15px, 22px, etc. This ensures visual consistency across all 202 components.
+          </div>
+        </div>
+
+        <div style="margin-top:24px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-1</code>
+              <div style="height:32px;width:4px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">4px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Micro spacing, icon gaps</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-2</code>
+              <div style="height:32px;width:8px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">8px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Small gaps, padding in badges</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-3</code>
+              <div style="height:32px;width:12px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">12px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Component internal spacing</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-4</code>
+              <div style="height:32px;width:16px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">16px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Card padding (small), gaps</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-6</code>
+              <div style="height:32px;width:24px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">24px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Card padding (default), gutter</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-8</code>
+              <div style="height:32px;width:32px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">32px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Section spacing, large gaps</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-12</code>
+              <div style="height:32px;width:48px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">48px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Between sections</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-16</code>
+              <div style="height:32px;width:64px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">64px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">Large section spacing</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <code style="width:100px;font-family:var(--font-mono);font-size:12px;font-weight:700">--sp-20</code>
+              <div style="height:32px;width:80px;background:var(--teal)"></div>
+              <span style="font-size:13px;color:var(--grey-dark)">80px</span>
+              <span style="font-size:12px;color:var(--grey-mid);margin-left:auto">XL spacing, hero sections</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- DEVELOPER IMPLEMENTATION GUIDE -->
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1A: Create spacing/index.ts -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1a: Create src/globals/spacing/index.ts (Modular Spacing Tab)
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          ✨ <strong>Modular architecture:</strong> Each design token in its own file<br>
+          This file exports a Payload <code>Tab</code> that will be imported into Theme.ts
+        </p>
+
+<div class="code-block"><span class="comment">// src/globals/spacing/index.ts</span>
+<span class="keyword">import</span> { <span class="function">Tab</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Spacing</span>: <span class="function">Tab</span> = {
+  <span class="property">label</span>: <span class="string">'Spacing'</span>,
+  <span class="property">description</span>: <span class="string">'4px grid system — strict spacing tokens'</span>,
+  <span class="property">fields</span>: [
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Spacing Scale (4px Grid)'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'⚠️ STRICT RULE: NEVER use arbitrary spacing values. Only use these 9 tokens: 4, 8, 12, 16, 24, 32, 48, 64, 80px.'</span>,
+      },
+      <span class="property">fields</span>: [
+        <span class="comment">// --sp-1: 4px (micro spacing)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp1'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-1 (Micro spacing, icon gaps)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">4</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>, <span class="comment">// LOCKED to enforce consistency</span>
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 4px — used for micro spacing, icon gaps'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-2: 8px (small gaps)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp2'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-2 (Small gaps, badges)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">8</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 8px — small gaps, padding in badges'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-3: 12px (component internal spacing)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp3'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-3 (Component internal)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">12</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 12px — component internal spacing'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-4: 16px (card padding small)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp4'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-4 (Card padding small)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">16</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 16px — card padding (small), gaps'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-6: 24px (card padding default)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp6'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-6 (Card padding default)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">24</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 24px — card padding (default), gutter'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-8: 32px (section spacing)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp8'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-8 (Section spacing)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">32</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 32px — section spacing, large gaps'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-12: 48px (between sections)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp12'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-12 (Between sections)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">48</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 48px — between sections'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-16: 64px (large section spacing)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp16'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-16 (Large section spacing)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">64</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 64px — large section spacing'</span>,
+          },
+        },
+
+        <span class="comment">// --sp-20: 80px (XL spacing, hero)</span>
+        {
+          <span class="property">name</span>: <span class="string">'sp20'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--sp-20 (XL spacing, hero sections)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">80</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">readOnly</span>: <span class="keyword">true</span>,
+            <span class="property">description</span>: <span class="string">'🔒 Locked at 80px — XL spacing, hero sections'</span>,
+          },
+        },
+      ],
+    },
+  ],
+}
+</div>
+
+        <div class="alert alert-warning">
+          <i data-lucide="shield-check"></i>
+          <div>
+            <strong>IMPORTANT:</strong> All spacing fields are set to <code>readOnly: true</code> to enforce the strict 4px grid system. This prevents accidental changes that would break visual consistency across all 202 components.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 1B: Import into Theme.ts -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1b: Import Spacing into src/globals/Theme.ts
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Import the Spacing tab into your main Theme global configuration
+        </p>
+
+<div class="code-block"><span class="comment">// src/globals/Theme.ts</span>
+<span class="keyword">import</span> { <span class="function">GlobalConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Colors</span> } <span class="keyword">from</span> <span class="string">'./colors'</span>
+<span class="keyword">import</span> { <span class="function">Typography</span> } <span class="keyword">from</span> <span class="string">'./typography'</span>
+<span class="keyword">import</span> { <span class="function">Spacing</span> } <span class="keyword">from</span> <span class="string">'./spacing'</span>     <span class="comment">// ← Add this import</span>
+
+<span class="keyword">export const</span> <span class="function">Theme</span>: <span class="function">GlobalConfig</span> = {
+  <span class="property">slug</span>: <span class="string">'theme'</span>,
+  <span class="property">access</span>: {
+    <span class="property">read</span>: () => <span class="keyword">true</span>,
+  },
+  <span class="property">fields</span>: [
+    {
+      <span class="property">type</span>: <span class="string">'tabs'</span>,
+      <span class="property">tabs</span>: [
+        <span class="function">Colors</span>,      <span class="comment">// From ./colors/index.ts</span>
+        <span class="function">Typography</span>,  <span class="comment">// From ./typography/index.ts</span>
+        <span class="function">Spacing</span>,     <span class="comment">// From ./spacing/index.ts ← Add this tab</span>
+      ],
+    },
+  ],
+}
+</div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- STEP 2: TypeScript Types -->
+  <section class="section" id="typescript">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 2</span>
+        <span class="section-label">TypeScript Interface</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        src/types/theme.ts
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Create TypeScript interface for type-safe spacing access
+        </p>
+
+<div class="code-block"><span class="comment">// src/types/theme.ts</span>
+
+<span class="keyword">export interface</span> <span class="function">ThemeSpacing</span> {
+  <span class="property">sp1</span>: <span class="keyword">number</span>   <span class="comment">// 4px — micro spacing, icon gaps</span>
+  <span class="property">sp2</span>: <span class="keyword">number</span>   <span class="comment">// 8px — small gaps, padding in badges</span>
+  <span class="property">sp3</span>: <span class="keyword">number</span>   <span class="comment">// 12px — component internal spacing</span>
+  <span class="property">sp4</span>: <span class="keyword">number</span>   <span class="comment">// 16px — card padding (small), gaps</span>
+  <span class="property">sp6</span>: <span class="keyword">number</span>   <span class="comment">// 24px — card padding (default), gutter</span>
+  <span class="property">sp8</span>: <span class="keyword">number</span>   <span class="comment">// 32px — section spacing, large gaps</span>
+  <span class="property">sp12</span>: <span class="keyword">number</span>  <span class="comment">// 48px — between sections</span>
+  <span class="property">sp16</span>: <span class="keyword">number</span>  <span class="comment">// 64px — large section spacing</span>
+  <span class="property">sp20</span>: <span class="keyword">number</span>  <span class="comment">// 80px — XL spacing, hero sections</span>
+}
+
+<span class="comment">// Main Theme interface</span>
+<span class="keyword">export interface</span> <span class="function">Theme</span> {
+  <span class="property">id</span>: <span class="keyword">string</span>
+  <span class="property">colors</span>?: <span class="function">ThemeColors</span>
+  <span class="property">typography</span>?: <span class="function">ThemeTypography</span>
+  <span class="property">spacing</span>?: <span class="function">ThemeSpacing</span>     <span class="comment">// ← Add this</span>
+  <span class="property">updatedAt</span>: <span class="keyword">string</span>
+  <span class="property">createdAt</span>: <span class="keyword">string</span>
+}
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3: Generate CSS Variables in Next.js -->
+  <section class="section" id="nextjs">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 3</span>
+        <span class="section-label">CSS Variable Generation in Next.js</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        src/app/layout.tsx
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Fetch spacing data from Payload and inject CSS custom properties into the DOM
+        </p>
+
+<div class="code-block"><span class="comment">// src/app/layout.tsx</span>
+<span class="keyword">import</span> { <span class="function">getPayloadHMR</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/next/utilities'</span>
+<span class="keyword">import</span> <span class="function">config</span> <span class="keyword">from</span> <span class="string">'@payload-config'</span>
+
+<span class="keyword">export default async function</span> <span class="function">RootLayout</span>({ children }) {
+  <span class="keyword">const</span> payload = <span class="keyword">await</span> <span class="function">getPayloadHMR</span>({ config })
+
+  <span class="comment">// Fetch theme global</span>
+  <span class="keyword">const</span> theme = <span class="keyword">await</span> payload.<span class="function">findGlobal</span>({
+    <span class="property">slug</span>: <span class="string">'theme'</span>,
+  })
+
+  <span class="comment">// Generate spacing CSS variables</span>
+  <span class="keyword">const</span> spacing = theme?.spacing || {}
+  <span class="keyword">const</span> spacingVars = `
+    <span class="property">--sp-1</span>: <span class="keyword">${</span>spacing.sp1 || <span class="number">4</span><span class="keyword">}</span>px;
+    <span class="property">--sp-2</span>: <span class="keyword">${</span>spacing.sp2 || <span class="number">8</span><span class="keyword">}</span>px;
+    <span class="property">--sp-3</span>: <span class="keyword">${</span>spacing.sp3 || <span class="number">12</span><span class="keyword">}</span>px;
+    <span class="property">--sp-4</span>: <span class="keyword">${</span>spacing.sp4 || <span class="number">16</span><span class="keyword">}</span>px;
+    <span class="property">--sp-6</span>: <span class="keyword">${</span>spacing.sp6 || <span class="number">24</span><span class="keyword">}</span>px;
+    <span class="property">--sp-8</span>: <span class="keyword">${</span>spacing.sp8 || <span class="number">32</span><span class="keyword">}</span>px;
+    <span class="property">--sp-12</span>: <span class="keyword">${</span>spacing.sp12 || <span class="number">48</span><span class="keyword">}</span>px;
+    <span class="property">--sp-16</span>: <span class="keyword">${</span>spacing.sp16 || <span class="number">64</span><span class="keyword">}</span>px;
+    <span class="property">--sp-20</span>: <span class="keyword">${</span>spacing.sp20 || <span class="number">80</span><span class="keyword">}</span>px;
+  `
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">html</span> lang=<span class="string">"nl"</span>&gt;
+      &lt;<span class="keyword">head</span>&gt;
+        &lt;<span class="keyword">style</span> dangerouslySetInnerHTML={{
+          __html: `:root { ${spacingVars} }`
+        }} /&gt;
+      &lt;/<span class="keyword">head</span>&gt;
+      &lt;<span class="keyword">body</span>&gt;{children}&lt;/<span class="keyword">body</span>&gt;
+    &lt;/<span class="keyword">html</span>&gt;
+  )
+}
+</div>
+
+        <p style="font-size:13px;color:var(--grey-dark);margin-top:16px">
+          <strong>Usage in components:</strong>
+        </p>
+
+<div class="code-block"><span class="comment">// Example: Card component with spacing tokens</span>
+&lt;<span class="keyword">div</span> className=<span class="string">"card"</span>&gt;
+  &lt;<span class="keyword">h3</span>&gt;Card Title&lt;/<span class="keyword">h3</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">/* styles.css */</span>
+.<span class="function">card</span> {
+  <span class="property">padding</span>: <span class="function">var</span>(<span class="property">--sp-6</span>);        <span class="comment">/* 24px default card padding */</span>
+  <span class="property">margin-bottom</span>: <span class="function">var</span>(<span class="property">--sp-8</span>);  <span class="comment">/* 32px section spacing */</span>
+  <span class="property">gap</span>: <span class="function">var</span>(<span class="property">--sp-4</span>);            <span class="comment">/* 16px internal gaps */</span>
+}
+
+.<span class="function">card</span> h3 {
+  <span class="property">margin-bottom</span>: <span class="function">var</span>(<span class="property">--sp-3</span>);  <span class="comment">/* 12px component internal spacing */</span>
+}
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 4: Admin Panel -->
+  <section class="section" id="admin">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 4</span>
+        <span class="section-label">Admin Panel Structure</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Admin UI Preview
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Navigate to: <strong>Globals → Theme → Spacing tab</strong>
+        </p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Usage</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--sp-1</code></td>
+              <td>Number</td>
+              <td>4px</td>
+              <td>Micro spacing, icon gaps</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-2</code></td>
+              <td>Number</td>
+              <td>8px</td>
+              <td>Small gaps, badges</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-3</code></td>
+              <td>Number</td>
+              <td>12px</td>
+              <td>Component internal spacing</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-4</code></td>
+              <td>Number</td>
+              <td>16px</td>
+              <td>Card padding (small), gaps</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-6</code></td>
+              <td>Number</td>
+              <td>24px</td>
+              <td>Card padding (default), gutter</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-8</code></td>
+              <td>Number</td>
+              <td>32px</td>
+              <td>Section spacing, large gaps</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-12</code></td>
+              <td>Number</td>
+              <td>48px</td>
+              <td>Between sections</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-16</code></td>
+              <td>Number</td>
+              <td>64px</td>
+              <td>Large section spacing</td>
+              <td>🔒 Read-only</td>
+            </tr>
+            <tr>
+              <td><code>--sp-20</code></td>
+              <td>Number</td>
+              <td>80px</td>
+              <td>XL spacing, hero sections</td>
+              <td>🔒 Read-only</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-warning">
+          <i data-lucide="lock"></i>
+          <div>
+            <strong>All fields are read-only by design.</strong> The 4px grid system is STRICT — these values should never change. If you need to override spacing for a specific vertical, use CSS custom properties in vertical-specific stylesheets.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5: Testing Checklist -->
+  <section class="section" id="testing">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 5</span>
+        <span class="section-label">Testing Checklist</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        7 Tests to Run
+      </div>
+      <div class="box-content">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:40px">#</th>
+              <th>Test</th>
+              <th>Expected Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Admin Panel Access</strong><br>Navigate to <code>Globals → Theme → Spacing</code></td>
+              <td>✅ All 9 spacing fields visible and read-only</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>CSS Variable Generation</strong><br>Inspect DOM: <code>&lt;style&gt;:root { --sp-1: 4px; ... }&lt;/style&gt;</code></td>
+              <td>✅ All 9 <code>--sp-*</code> variables present in <code>&lt;head&gt;</code></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>TypeScript Type Safety</strong><br>Try accessing <code>theme.spacing.sp1</code> in IDE</td>
+              <td>✅ Autocomplete works, type is <code>number</code></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Component Usage</strong><br>Add <code>padding: var(--sp-6);</code> to a component</td>
+              <td>✅ Computed style shows <code>24px</code></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Database Migration</strong><br>Check PostgreSQL schema for <code>theme.spacing</code> columns</td>
+              <td>✅ Columns: <code>sp1</code>, <code>sp2</code>, ..., <code>sp20</code> exist</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>ESLint Enforcement</strong><br>Try using <code>margin: 5px;</code> in CSS</td>
+              <td>⚠️ ESLint warning: "Use spacing token instead"</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>Default Values</strong><br>Delete theme global, restart app</td>
+              <td>✅ Fallback values (4, 8, 12, 16, 24, 32, 48, 64, 80px) apply</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 6: Database Migration -->
+  <section class="section" id="migration">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 6</span>
+        <span class="section-label">Database Migration</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        PostgreSQL Migration Commands
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          After adding the Spacing tab to Theme.ts, generate and run a database migration
+        </p>
+
+<div class="code-block"><span class="comment"># 1. Generate migration</span>
+npx payload migrate:create add_spacing_to_theme
+
+<span class="comment"># 2. Check the generated SQL (should add 9 columns to theme table)</span>
+cat src/migrations/XXXX_add_spacing_to_theme.ts
+
+<span class="comment"># 3. Run migration</span>
+npx payload migrate
+
+<span class="comment"># 4. Verify columns exist</span>
+psql $DATABASE_URL -c <span class="string">"\d theme"</span>
+<span class="comment"># Should show: sp1, sp2, sp3, sp4, sp6, sp8, sp12, sp16, sp20 columns</span>
+</div>
+
+        <p style="font-size:13px;color:var(--grey-dark);margin-top:16px;margin-bottom:8px">
+          <strong>Expected SQL (generated migration):</strong>
+        </p>
+
+<div class="code-block"><span class="comment">-- Auto-generated by Payload</span>
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp1"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">4</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp2"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">8</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp3"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">12</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp4"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">16</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp6"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">24</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp8"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">32</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp12"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">48</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp16"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">64</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"sp20"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">80</span>;
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 7: Troubleshooting -->
+  <section class="section" id="troubleshooting">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 7</span>
+        <span class="section-label">Troubleshooting</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Common Issues & Solutions
+      </div>
+      <div class="box-content">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Cause</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>CSS variables not appearing</strong><br><code>--sp-1</code> is <code>undefined</code></td>
+              <td>Theme global not fetched or spacing data missing</td>
+              <td>1. Check <code>theme?.spacing</code> in layout.tsx<br>2. Verify fallback values: <code>spacing.sp1 || 4</code><br>3. Restart dev server</td>
+            </tr>
+            <tr>
+              <td><strong>Migration failed</strong><br>"Column already exists"</td>
+              <td>Previous migration already added columns</td>
+              <td>1. Check existing columns: <code>psql -c "\d theme"</code><br>2. Skip migration or manually remove duplicate SQL</td>
+            </tr>
+            <tr>
+              <td><strong>TypeScript errors</strong><br>Property 'spacing' does not exist</td>
+              <td>ThemeSpacing interface not added to Theme type</td>
+              <td>Update <code>src/types/theme.ts</code>:<br><code>spacing?: ThemeSpacing</code></td>
+            </tr>
+            <tr>
+              <td><strong>Fields not read-only</strong><br>Can edit spacing values in admin</td>
+              <td><code>admin: { readOnly: true }</code> missing</td>
+              <td>Add to each field in <code>spacing/index.ts</code></td>
+            </tr>
+            <tr>
+              <td><strong>Arbitrary spacing used</strong><br>Developers using <code>5px</code>, <code>15px</code>, etc.</td>
+              <td>No ESLint enforcement</td>
+              <td>See Step 8 for ESLint rule implementation</td>
+            </tr>
+            <tr>
+              <td><strong>Build error</strong><br>Cannot find module './spacing'</td>
+              <td>File not created or wrong path</td>
+              <td>1. Verify file exists: <code>src/globals/spacing/index.ts</code><br>2. Check import path in Theme.ts</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 8: Advanced Usage -->
+  <section class="section" id="advanced">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 8</span>
+        <span class="section-label">Advanced Usage & ESLint Enforcement</span>
+      </div>
+    </div>
+
+    <!-- ESLint Rule -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        ESLint Rule: Enforce Spacing Tokens
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          <strong>Problem:</strong> Developers accidentally using arbitrary spacing values (<code>5px</code>, <code>15px</code>, <code>22px</code>)<br>
+          <strong>Solution:</strong> Custom ESLint rule to enforce spacing token usage
+        </p>
+
+<div class="code-block"><span class="comment">// .eslintrc.js (add to rules section)</span>
+module.exports = {
+  <span class="property">rules</span>: {
+    <span class="string">'no-arbitrary-spacing'</span>: [<span class="string">'warn'</span>, {
+      <span class="property">allowedValues</span>: [<span class="number">4</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">16</span>, <span class="number">24</span>, <span class="number">32</span>, <span class="number">48</span>, <span class="number">64</span>, <span class="number">80</span>],
+      <span class="property">message</span>: <span class="string">'Use spacing token instead: var(--sp-*)'</span>,
+    }],
+  },
+}
+
+<span class="comment">// Custom rule implementation (eslint-plugin-local/rules/no-arbitrary-spacing.js)</span>
+<span class="keyword">module.exports</span> = {
+  <span class="property">meta</span>: {
+    <span class="property">type</span>: <span class="string">'suggestion'</span>,
+    <span class="property">docs</span>: {
+      <span class="property">description</span>: <span class="string">'Enforce 4px grid spacing tokens'</span>,
+    },
+  },
+  <span class="function">create</span>(context) {
+    <span class="keyword">const</span> allowedValues = [<span class="number">4</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">16</span>, <span class="number">24</span>, <span class="number">32</span>, <span class="number">48</span>, <span class="number">64</span>, <span class="number">80</span>]
+
+    <span class="keyword">return</span> {
+      <span class="function">TemplateLiteral</span>(node) {
+        <span class="keyword">const</span> cssText = node.quasis.<span class="function">map</span>(q => q.value.raw).<span class="function">join</span>(<span class="string">''</span>)
+        <span class="keyword">const</span> spacingProps = [<span class="string">'margin'</span>, <span class="string">'padding'</span>, <span class="string">'gap'</span>, <span class="string">'top'</span>, <span class="string">'right'</span>, <span class="string">'bottom'</span>, <span class="string">'left'</span>]
+
+        spacingProps.<span class="function">forEach</span>(prop => {
+          <span class="keyword">const</span> regex = <span class="keyword">new</span> <span class="function">RegExp</span>(`${prop}:\\s*(\\d+)px`, <span class="string">'g'</span>)
+          <span class="keyword">let</span> match
+
+          <span class="keyword">while</span> ((match = regex.<span class="function">exec</span>(cssText)) !== <span class="keyword">null</span>) {
+            <span class="keyword">const</span> value = <span class="function">parseInt</span>(match[<span class="number">1</span>])
+            <span class="keyword">if</span> (!allowedValues.<span class="function">includes</span>(value)) {
+              context.<span class="function">report</span>({
+                node,
+                <span class="property">message</span>: `Arbitrary spacing "${value}px" not allowed. Use spacing token: var(--sp-*)`,
+              })
+            }
+          }
+        })
+      },
+    }
+  },
+}
+</div>
+
+      </div>
+    </div>
+
+    <!-- Vertical Overrides -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Vertical-Specific Spacing Overrides
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          While spacing tokens are LOCKED in Payload admin, you can create vertical-specific overrides in CSS for special cases
+        </p>
+
+<div class="code-block"><span class="comment">/* src/styles/verticals/beauty.css */</span>
+<span class="comment">/* Beauty vertical might want tighter spacing for compact layouts */</span>
+[<span class="property">data-vertical</span>=<span class="string">"beauty"</span>] {
+  <span class="comment">/* Override default card padding */</span>
+  <span class="property">--card-padding</span>: <span class="function">var</span>(<span class="property">--sp-4</span>);  <span class="comment">/* 16px instead of default 24px */</span>
+}
+
+<span class="comment">/* src/styles/verticals/horeca.css */</span>
+<span class="comment">/* Horeca vertical might want more spacious sections */</span>
+[<span class="property">data-vertical</span>=<span class="string">"horeca"</span>] {
+  <span class="property">--section-spacing</span>: <span class="function">var</span>(<span class="property">--sp-16</span>);  <span class="comment">/* 64px instead of default 48px */</span>
+}
+
+<span class="comment">/* Usage in components */</span>
+.<span class="function">card</span> {
+  <span class="property">padding</span>: <span class="function">var</span>(<span class="property">--card-padding</span>, <span class="function">var</span>(<span class="property">--sp-6</span>));  <span class="comment">/* Fallback to 24px */</span>
+}
+
+.<span class="function">section</span> {
+  <span class="property">margin-bottom</span>: <span class="function">var</span>(<span class="property">--section-spacing</span>, <span class="function">var</span>(<span class="property">--sp-12</span>));  <span class="comment">/* Fallback to 48px */</span>
+}
+</div>
+
+        <div class="alert alert-warning">
+          <i data-lucide="info"></i>
+          <div>
+            <strong>Best Practice:</strong> Only override spacing for vertical-specific layouts. The core 4px grid tokens should remain consistent across all verticals to maintain design system integrity.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Responsive Spacing -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Responsive Spacing Patterns
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Common responsive spacing patterns using the 4px grid tokens
+        </p>
+
+<div class="code-block"><span class="comment">/* Mobile-first spacing: smaller on mobile, larger on desktop */</span>
+.<span class="function">hero</span> {
+  <span class="property">padding</span>: <span class="function">var</span>(<span class="property">--sp-8</span>) <span class="function">var</span>(<span class="property">--sp-4</span>);  <span class="comment">/* 32px vertical, 16px horizontal */</span>
+}
+
+@media (<span class="property">min-width</span>: <span class="number">768px</span>) {
+  .<span class="function">hero</span> {
+    <span class="property">padding</span>: <span class="function">var</span>(<span class="property">--sp-16</span>) <span class="function">var</span>(<span class="property">--sp-6</span>);  <span class="comment">/* 64px vertical, 24px horizontal */</span>
+  }
+}
+
+@media (<span class="property">min-width</span>: <span class="number">1024px</span>) {
+  .<span class="function">hero</span> {
+    <span class="property">padding</span>: <span class="function">var</span>(<span class="property">--sp-20</span>) <span class="function">var</span>(<span class="property">--sp-8</span>);  <span class="comment">/* 80px vertical, 32px horizontal */</span>
+  }
+}
+
+<span class="comment">/* Grid gaps: responsive column spacing */</span>
+.<span class="function">product-grid</span> {
+  <span class="property">display</span>: grid;
+  <span class="property">grid-template-columns</span>: <span class="function">repeat</span>(<span class="keyword">auto-fill</span>, <span class="function">minmax</span>(<span class="number">280px</span>, <span class="number">1fr</span>));
+  <span class="property">gap</span>: <span class="function">var</span>(<span class="property">--sp-4</span>);  <span class="comment">/* 16px gap on mobile */</span>
+}
+
+@media (<span class="property">min-width</span>: <span class="number">768px</span>) {
+  .<span class="function">product-grid</span> {
+    <span class="property">gap</span>: <span class="function">var</span>(<span class="property">--sp-6</span>);  <span class="comment">/* 24px gap on tablet+ */</span>
+  }
+}
+</div>
+
+      </div>
+    </div>
+
+    <!-- Programmatic Spacing -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Programmatic Spacing (React Components)
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          For dynamic spacing in React components, create a spacing utility
+        </p>
+
+<div class="code-block"><span class="comment">// src/utils/spacing.ts</span>
+<span class="keyword">type</span> <span class="function">SpacingToken</span> = <span class="number">1</span> | <span class="number">2</span> | <span class="number">3</span> | <span class="number">4</span> | <span class="number">6</span> | <span class="number">8</span> | <span class="number">12</span> | <span class="number">16</span> | <span class="number">20</span>
+
+<span class="keyword">export const</span> <span class="function">getSpacing</span> = (<span class="property">token</span>: <span class="function">SpacingToken</span>): <span class="keyword">string</span> => {
+  <span class="keyword">return</span> `<span class="function">var</span>(<span class="property">--sp-${token}</span>)`
+}
+
+<span class="keyword">export const</span> <span class="function">getSpacingValue</span> = (<span class="property">token</span>: <span class="function">SpacingToken</span>): <span class="keyword">number</span> => {
+  <span class="keyword">const</span> values = { <span class="number">1</span>: <span class="number">4</span>, <span class="number">2</span>: <span class="number">8</span>, <span class="number">3</span>: <span class="number">12</span>, <span class="number">4</span>: <span class="number">16</span>, <span class="number">6</span>: <span class="number">24</span>, <span class="number">8</span>: <span class="number">32</span>, <span class="number">12</span>: <span class="number">48</span>, <span class="number">16</span>: <span class="number">64</span>, <span class="number">20</span>: <span class="number">80</span> }
+  <span class="keyword">return</span> values[token]
+}
+
+<span class="comment">// Usage in React component</span>
+<span class="keyword">import</span> { <span class="function">getSpacing</span> } <span class="keyword">from</span> <span class="string">'@/utils/spacing'</span>
+
+<span class="keyword">export const</span> <span class="function">Card</span> = ({ <span class="property">spacing</span> = <span class="number">6</span> }) => {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">div</span> style={{ padding: <span class="function">getSpacing</span>(spacing) }}&gt;
+      Card content
+    &lt;/<span class="keyword">div</span>&gt;
+  )
+}
+
+<span class="comment">// TypeScript ensures only valid tokens can be passed</span>
+&lt;<span class="function">Card</span> <span class="property">spacing</span>={<span class="number">6</span>} /&gt;  <span class="comment">/* ✅ Valid */</span>
+&lt;<span class="function">Card</span> <span class="property">spacing</span>={<span class="number">5</span>} /&gt;  <span class="comment">/* ❌ TypeScript error: 5 is not a valid SpacingToken */</span>
+</div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- COMPLETION CHECKLIST -->
+  <section class="section" id="checklist">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">✅ Completion Checklist</span>
+        <span class="section-label">Verify Implementation</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Before marking this implementation complete, verify all items:
+        </p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:40px">✓</th>
+              <th>Item</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>☐</td>
+              <td><strong>Spacing tab created</strong></td>
+              <td><code>src/globals/spacing/index.ts</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Imported into Theme.ts</strong></td>
+              <td><code>src/globals/Theme.ts</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>TypeScript interface added</strong></td>
+              <td><code>src/types/theme.ts</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>CSS variables generated</strong></td>
+              <td><code>src/app/layout.tsx</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Database migration run</strong></td>
+              <td><code>npx payload migrate</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Admin panel verified</strong></td>
+              <td>Globals → Theme → Spacing (all read-only)</td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>ESLint rule configured</strong> (optional)</td>
+              <td><code>.eslintrc.js</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>All 7 tests passing</strong></td>
+              <td>See Step 5: Testing Checklist</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:24px;padding:16px;background:var(--grey-light);border-radius:var(--r-sm);border-left:4px solid var(--teal)">
+          <p style="font-size:13px;color:var(--grey-700);font-weight:600;margin-bottom:8px">
+            🎯 Expected Outcome
+          </p>
+          <p style="font-size:12px;color:var(--grey-dark);line-height:1.6">
+            After completing all steps, your design system will enforce strict 4px grid spacing across all 202 components. Developers will have TypeScript-safe access to spacing tokens, ESLint will warn about arbitrary values, and the Payload admin will prevent accidental spacing changes. This ensures visual consistency across all 10 verticals in your multi-tenant platform.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>
