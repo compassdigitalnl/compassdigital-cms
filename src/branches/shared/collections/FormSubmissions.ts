@@ -8,7 +8,7 @@ export const FormSubmissions: CollectionConfig = {
     useAsTitle: 'form',
     defaultColumns: ['form', 'submittedAt', 'createdAt'],
     description: 'Form submissions from contact forms and other site forms',
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: false,
   },
   access: {
     // Only admins can read/manage form submissions

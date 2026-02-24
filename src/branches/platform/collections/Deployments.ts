@@ -17,13 +17,7 @@ export const Deployments: CollectionConfig = {
     defaultColumns: ['client', 'status', 'environment', 'type', 'createdAt'],
     description:
       'Automatisch bijgehouden deployment history. Alleen-lezen — wordt aangemaakt door het systeem.',
-    // Verberg voor niet-admins
-    hidden: ({ user }) => {
-      // Always hide in client/tenant deployments
-      if (isClientDeployment()) return true
-      // Otherwise hide for non-admin users
-      return !checkRole(['admin'], user)
-    },
+    hidden: isClientDeployment(),
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin'], user),

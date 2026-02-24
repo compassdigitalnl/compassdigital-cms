@@ -13,7 +13,7 @@ export const Notifications: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['title', 'user', 'type', 'isRead', 'createdAt'],
     description: 'Gebruikersnotificaties en meldingen',
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: true,
   },
   access: {
     read: ({ req: { user } }) => {

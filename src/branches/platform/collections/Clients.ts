@@ -27,12 +27,7 @@ export const Clients: CollectionConfig = {
     group: 'Platform Beheer',
     defaultColumns: ['name', 'domain', 'status', 'plan', 'createdAt'],
     description: 'Klanten beheren en sites deployen',
-    hidden: ({ user }) => {
-      // Always hide in client/tenant deployments
-      if (isClientDeployment()) return true
-      // Otherwise hide for non-admin users
-      return !checkRole(['admin'], user)
-    },
+    hidden: isClientDeployment(),
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin'], user),

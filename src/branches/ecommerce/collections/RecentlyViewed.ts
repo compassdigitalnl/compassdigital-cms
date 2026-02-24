@@ -12,7 +12,7 @@ export const RecentlyViewed: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['user', 'product', 'viewedAt'],
     description: 'Recent bekeken producten tracking voor gepersonaliseerde aanbevelingen',
-    hidden: ({ user }) => !checkRole(['admin'], user),
+    hidden: true,
   },
   access: {
     read: ({ req: { user } }) => {

@@ -1,114 +1,63 @@
-Instructies voor Claude Lokaal: 3 Bugfixes
+Instructies voor Claude lokaal: Fix ALLE hidden callbacks                                                                                      
+                                                                                                                                                 
+  De admin panel crasht met 500 voor ingelogde gebruikers omdat hidden callback-functies geserialiseerd worden naar Client Components. ALLE      
+  hidden functies moeten vervangen worden door build-time booleans.                                                                              
 
-  Bug 1: Mini-cart opent niet, cart icon navigeert direct naar /cart/
+  Groep 1: isClientDeployment() pattern (2 bestanden)
 
-  Bestand: src/branches/shared/components/layout/header/Header/index.client.tsx
-
-  Probleem: Het cart-icoon in de header is een <Link href="/cart/">. Het zou een <button> moeten zijn die de mini-cart drawer opent via useMiniCart().
-
-  Fix:
-
-  1. Voeg import toe:
-  import { useMiniCart } from '@/branches/shared/components/ui/MiniCart'
-
-  2. In de component, voeg hook call toe:
-  const { openCart, totalItems } = useMiniCart()
-
-  3. Vervang het cart <Link> blok (rond regel 278-296) van:
-  <Link
-    href="/cart/"
-    className="h-[42px] px-4 rounded-[10px] text-white ..."
-  >
-    <ShoppingCart className="w-4 h-4" />
-    <span className="hidden sm:inline">€0,00</span>
-  </Link>
-
-  Naar:
-  <button
-    onClick={openCart}
-    className="h-[42px] px-4 rounded-[10px] text-white border flex items-center gap-2 transition-all font-bold text-[13.5px] cursor-pointer"
-    style={{
-      borderColor: 'color-mix(in srgb, var(--color-primary) 50%, white)',
-      background: 'color-mix(in srgb, var(--color-primary) 20%, transparent)',
-    }}
-  >
-    <ShoppingCart className="w-4 h-4" />
-    {totalItems > 0 && (
-      <span className="bg-white text-[var(--color-primary)] text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
-        {totalItems}
-      </span>
-    )}
-  </button>
-
-  4. Doe dezelfde fix in DynamicHeader.tsx als die ook nog een <Link href="/cart/"> heeft.
-
-  ---
-  Bug 2: Account icon linkt naar /account/ ipv /my-account/
+  Pattern: hidden: ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user))
+  Fix: hidden: !isClientDeployment()
 
   Bestanden:
-  - src/branches/shared/components/layout/header/Header/index.client.tsx (rond regel 263)
-  - src/branches/shared/components/layout/header/DynamicHeader.tsx (rond regel 149)
+  - src/branches/shared/collections/Pages/index.ts (regel ~49)
+  - src/branches/shared/collections/Media.ts (regel ~20)
 
-  Fix: Verander in BEIDE bestanden:
-  href="/account/"
-  Naar:
-  href="/my-account/"
+  Groep 2: Admin-only pattern (4 bestanden)
 
-  ---
-  Bug 3: Checkout toont altijd "Your cart is empty"
+  Pattern: hidden: ({ user }) => !checkRole(['admin'], user)
+  Fix: hidden: false (admin-only bescherming via access controls ipv nav-hiding)
 
-  Bestand: src/app/(ecommerce)/checkout/CheckoutTemplate1.tsx
+  Bestanden:
+  - src/branches/ecommerce/collections/RecentlyViewed.ts (regel ~15) — wijzig naar hidden: true (achtergrond-collectie, altijd verborgen)
+  - src/branches/shared/collections/FormSubmissions.ts (regel ~11) — wijzig naar hidden: false
+  - src/branches/shared/collections/Notifications.ts (regel ~16) — wijzig naar hidden: true (systeem-collectie, altijd verborgen)
+  - src/branches/shared/collections/Users/index.ts (regel ~27) — wijzig naar hidden: false
 
-  Probleem: De checkout importeert useCart van @payloadcms/plugin-ecommerce/client/react — dat is een ANDER cart systeem dan de lokale CartContext die door MiniCart en de add-to-cart buttons wordt
-  gebruikt. De Payload plugin cart is altijd leeg omdat producten naar de lokale localStorage cart gaan.
+  Groep 3: Platform-only pattern (3 bestanden)
 
-  Fix:
+  Pattern: hidden: ({ user }) => { if (isClientDeployment()) return true; return !checkRole(['admin'], user) }
+  Fix: hidden: isClientDeployment() (verborgen op klant-sites, zichtbaar op platform)
 
-  1. Verander de cart import (rond regel 20) van:
-  import { useAddresses, useCart, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
-  Naar:
-  import { useAddresses, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
-  import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+  Bestanden:
+  - src/branches/platform/collections/Clients.ts (regel ~30)
+  - src/branches/platform/collections/ClientRequests.ts (regel ~24)
+  - src/branches/platform/collections/Deployments.ts (regel ~21)
 
-  2. Verander de cart hook call (rond regel 36) van:
-  const { cart } = useCart()
-  Naar:
-  const { items: cartItems, total: cartTotal, itemCount } = useCart()
+  Samenvatting van alle wijzigingen:
 
-  3. Verander de empty cart check (rond regel 56) van:
-  const cartIsEmpty = !cart || !cart.items || !cart.items.length
-  Naar:
-  const cartIsEmpty = !cartItems || cartItems.length === 0
+  ┌────────────────────┬───────────────────────────────────────────────────────────────────────────┬───────────────────────┐
+  │      Bestand       │                                    Oud                                    │         Nieuw         │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ Pages/index.ts     │ ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)) │ !isClientDeployment() │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ Media.ts           │ ({ user }) => (isClientDeployment() ? false : checkRole(['admin'], user)) │ !isClientDeployment() │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ RecentlyViewed.ts  │ ({ user }) => !checkRole(['admin'], user)                                 │ true                  │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ FormSubmissions.ts │ ({ user }) => !checkRole(['admin'], user)                                 │ false                 │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ Notifications.ts   │ ({ user }) => !checkRole(['admin'], user)                                 │ true                  │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ Users/index.ts     │ ({ user }) => !checkRole(['admin'], user)                                 │ false                 │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ Clients.ts         │ ({ user }) => { if (isClientDeployment()) return true; ... }              │ isClientDeployment()  │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ ClientRequests.ts  │ ({ user }) => { if (isClientDeployment()) return true; ... }              │ isClientDeployment()  │
+  ├────────────────────┼───────────────────────────────────────────────────────────────────────────┼───────────────────────┤
+  │ Deployments.ts     │ ({ user }) => { if (isClientDeployment()) return true; ... }              │ isClientDeployment()  │
+  └────────────────────┴───────────────────────────────────────────────────────────────────────────┴───────────────────────┘
 
-  4. Update alle referenties naar cart.items en cart.subtotal in de rest van de component:
-    - cart.items wordt cartItems
-    - cart.items.length wordt cartItems.length of itemCount
-    - cart.subtotal of totaalbedragen worden cartTotal
-    - Elk cart item heeft de structuur: { id, title, slug, price, quantity, unitPrice, image, sku }
-  5. Update ook het "Your cart is empty" bericht (rond regels 126-132):
-  if (cartIsEmpty) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-lg text-gray-600">Je winkelwagen is leeg.</p>
-        <Link href="/shop/" className="text-[var(--color-primary)] font-semibold mt-4 inline-block">
-          Verder winkelen
-        </Link>
-      </div>
-    )
-  }
+  Belangrijk: De checkRole import kan verwijderd worden in bestanden waar die ALLEEN voor hidden werd gebruikt. Check of checkRole ook in access
+  wordt gebruikt voordat je de import verwijdert.
 
-  ---
-  Samenvatting
-
-  ┌──────────────────────┬────────────────────────────────────────────┬─────────────────────────────────────────────────────────────┐
-  │         Bug          │                Bestand(en)                 │                             Fix                             │
-  ├──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤
-  │ Mini-cart opent niet │ Header/index.client.tsx, DynamicHeader.tsx │ <Link> → <button onClick={openCart}> met useMiniCart() hook │
-  ├──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤
-  │ Account link fout    │ Header/index.client.tsx, DynamicHeader.tsx │ /account/ → /my-account/                                    │
-  ├──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤
-  │ Checkout altijd leeg │ checkout/CheckoutTemplate1.tsx             │ Payload plugin useCart → lokale CartContext useCart         │
-  └──────────────────────┴────────────────────────────────────────────┴─────────────────────────────────────────────────────────────┘
-
-  Root cause van bug 1 + 3: Er zijn twee losse cart systemen — de lokale CartContext (localStorage) en de Payload plugin cart. De frontend (MiniCart, add-to-cart buttons) schrijft naar de lokale cart,
-  maar de checkout leest van de Payload plugin cart. Alles moet de lokale CartContext gebruiken.
+  Na de wijzigingen: push naar main.

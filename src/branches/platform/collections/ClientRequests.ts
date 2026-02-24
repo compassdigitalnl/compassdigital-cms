@@ -20,13 +20,7 @@ export const ClientRequests: CollectionConfig = {
     useAsTitle: 'companyName',
     defaultColumns: ['companyName', 'contactEmail', 'siteType', 'status', 'createdAt'],
     description: 'Inkomende onboarding-verzoeken van nieuwe klanten',
-    // Only visible to admins
-    hidden: ({ user }) => {
-      // Always hide in client/tenant deployments
-      if (isClientDeployment()) return true
-      // Otherwise hide for non-admin users
-      return !checkRole(['admin'], user)
-    },
+    hidden: isClientDeployment(),
   },
   access: {
     // Only admins can read and manage requests
