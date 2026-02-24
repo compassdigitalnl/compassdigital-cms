@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Colors — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .property { color: #f5c2e7; }
+.code-block .string { color: #a6e3a1; }
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SWATCH — Color Preview
+   ═══════════════════════════════════════════════════════════ */
+.swatch {
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  border: 1px solid var(--grey);
+}
+
+.swatch-color {
+  height: 48px;
+}
+
+.swatch-info {
+  padding: 8px 10px;
+  background: var(--white);
+}
+
+.swatch-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+}
+
+.swatch-value {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--grey-mid);
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .main {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Colors<span>Design Token</span></div>
+    <span class="header-badge">Chapter 1 — Design Tokens</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- COLORS SECTION -->
+  <section class="section" id="colors">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Colors</span>
+        <span class="section-label">Core palette — 20 tokens</span>
+      </div>
+      <span class="tag tag-token">Design Token</span>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Color Palette
+      </div>
+      <div class="box-content">
+
+        <h4 style="font-size:11px;font-weight:800;color:var(--grey-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">Primary Colors</h4>
+        <div class="grid-4" style="margin-bottom:24px">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#0A1628"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--navy</span>
+              <span class="swatch-value">#0A1628</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#121F33"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--navy-light</span>
+              <span class="swatch-value">#121F33</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#00897B"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--teal</span>
+              <span class="swatch-value">#00897B</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#26A69A"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--teal-light</span>
+              <span class="swatch-value">#26A69A</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#00695C"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--teal-dark</span>
+              <span class="swatch-value">#00695C</span>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="font-size:11px;font-weight:800;color:var(--grey-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">Status Colors</h4>
+        <div class="grid-4" style="margin-bottom:24px">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#00C853"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--green</span>
+              <span class="swatch-value">#00C853</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#FF6B6B"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--coral</span>
+              <span class="swatch-value">#FF6B6B</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#F59E0B"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--amber</span>
+              <span class="swatch-value">#F59E0B</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#2196F3"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--blue</span>
+              <span class="swatch-value">#2196F3</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#7C3AED"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--purple</span>
+              <span class="swatch-value">#7C3AED</span>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="font-size:11px;font-weight:800;color:var(--grey-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">Neutral Colors</h4>
+        <div class="grid-4">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#FAFBFC;border-bottom:1px solid #ddd"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--white</span>
+              <span class="swatch-value">#FAFBFC</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#F5F7FA"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--bg</span>
+              <span class="swatch-value">#F5F7FA</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#E8ECF1"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--grey</span>
+              <span class="swatch-value">#E8ECF1</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#94A3B8"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--grey-mid</span>
+              <span class="swatch-value">#94A3B8</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#64748B"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--grey-dark</span>
+              <span class="swatch-value">#64748B</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#1E293B"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">--text</span>
+              <span class="swatch-value">#1E293B</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Multi-tenant theming: Each client overrides --teal → their primary color</span>
+<span class="comment">// Example: &lt;html data-theme="beauty"&gt; → --teal becomes --pink (#EC4899)</span>
+<span class="comment">// All components adapt automatically via CSS custom properties</span>
+
+[<span class="property">data-theme</span>=<span class="string">"beauty"</span>] {
+  <span class="property">--teal</span>: <span class="string">#E91E63</span>; <span class="comment">/* Pink */</span>
+  <span class="property">--teal-light</span>: <span class="string">#F06292</span>;
+  <span class="property">--navy</span>: <span class="string">#1a1a2e</span>;
+}
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- 1. PAYLOAD GLOBAL CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Global Configuration (Modular Approach)
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          <strong>✨ NEW ARCHITECTURE:</strong> Each design token gets its own file for better organization and maintainability.
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          <strong>Step 1a:</strong> Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/globals/colors/index.ts</code>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/globals/colors/index.ts</span>
+<span class="keyword">import</span> { <span class="function">Tab</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Colors</span>: <span class="function">Tab</span> = {
+  <span class="property">label</span>: <span class="string">'Colors'</span>,
+  <span class="property">fields</span>: [
+    <span class="comment">// Primary Colors Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Primary Colors'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'navy'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Navy'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#0A1628'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Primary dark surface color'</span>,
+          },
+          <span class="property">validate</span>: (val) => {
+            <span class="keyword">if</span> (!/^#[<span class="number">0</span>-<span class="number">9</span>A-F]{<span class="number">6</span>}$/i.test(val)) {
+              <span class="keyword">return</span> <span class="string">'Must be valid hex color (e.g. #0A1628)'</span>
+            }
+            <span class="keyword">return true</span>
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'navyLight'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Navy Light'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#121F33'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Lighter variant of navy'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'teal'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Teal (Primary Accent)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#00897B'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'⚠️ CRITICAL: Primary brand color used across entire platform'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'tealLight'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Teal Light'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#26A69A'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'tealDark'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Teal Dark'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#00695C'</span>,
+        },
+      ],
+    },
+
+    <span class="comment">// Status Colors Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Status Colors'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'green'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Success (Green)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#00C853'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'coral'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Error (Coral)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#FF6B6B'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'amber'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Warning (Amber)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#F59E0B'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'blue'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Info (Blue)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#2196F3'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'purple'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Purple (Accent)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#7C3AED'</span>,
+        },
+      ],
+    },
+
+    <span class="comment">// Neutral Colors Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Neutral Colors'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'white'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'White (Card Background)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#FAFBFC'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'bg'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Background'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#F5F7FA'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'grey'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Grey (Borders)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#E8ECF1'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'greyMid'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Grey Mid'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#94A3B8'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'greyDark'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Grey Dark'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#64748B'</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'text'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Text (Primary)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'#1E293B'</span>,
+        },
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          <strong>Step 1b:</strong> Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/globals/Theme.ts</code> to import all design tokens
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/globals/Theme.ts</span>
+<span class="keyword">import</span> { <span class="function">GlobalConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Colors</span> } <span class="keyword">from</span> <span class="string">'./colors'</span>
+<span class="comment">// Import other design tokens:</span>
+<span class="comment">// import { Typography } from './typography'</span>
+<span class="comment">// import { Spacing } from './spacing'</span>
+<span class="comment">// import { Visual } from './visual'</span>
+
+<span class="keyword">export const</span> <span class="function">Theme</span>: <span class="function">GlobalConfig</span> = {
+  slug: <span class="string">'theme'</span>,
+  access: {
+    read: () => <span class="keyword">true</span>,
+    update: ({ req: { user } }) => <span class="keyword">Boolean</span>(user),
+  },
+  fields: [
+    {
+      <span class="property">type</span>: <span class="string">'tabs'</span>,
+      <span class="property">tabs</span>: [
+        <span class="function">Colors</span>,  <span class="comment">// ← Imported from ./colors</span>
+        <span class="comment">// Typography,  // ← Will be added next</span>
+        <span class="comment">// Spacing,</span>
+        <span class="comment">// Visual,</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <!-- 2. TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/theme.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/theme.ts</span>
+<span class="keyword">export interface</span> <span class="function">ThemeColors</span> {
+  <span class="comment">// Primary Colors</span>
+  navy: <span class="keyword">string</span>
+  navyLight: <span class="keyword">string</span>
+  teal: <span class="keyword">string</span>
+  tealLight: <span class="keyword">string</span>
+  tealDark: <span class="keyword">string</span>
+
+  <span class="comment">// Status Colors</span>
+  green: <span class="keyword">string</span>
+  coral: <span class="keyword">string</span>
+  amber: <span class="keyword">string</span>
+  blue: <span class="keyword">string</span>
+  purple: <span class="keyword">string</span>
+
+  <span class="comment">// Neutral Colors</span>
+  white: <span class="keyword">string</span>
+  bg: <span class="keyword">string</span>
+  grey: <span class="keyword">string</span>
+  greyMid: <span class="keyword">string</span>
+  greyDark: <span class="keyword">string</span>
+  text: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">Theme</span> {
+  <span class="property">id</span>: <span class="keyword">string</span>
+  <span class="property">colors</span>?: <span class="function">ThemeColors</span>
+  <span class="property">updatedAt</span>: <span class="keyword">string</span>
+  <span class="property">createdAt</span>: <span class="keyword">string</span>
+}
+    </div>
+
+    <!-- 3. USAGE IN COMPONENTS -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: Usage in Next.js Components
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Example: Fetch theme and generate CSS variables in your layout:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/layout.tsx</span>
+<span class="keyword">import</span> { <span class="function">getPayloadHMR</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/next/utilities'</span>
+<span class="keyword">import</span> configPromise <span class="keyword">from</span> <span class="string">'@payload-config'</span>
+<span class="keyword">import</span> { <span class="function">Theme</span> } <span class="keyword">from</span> <span class="string">'@/types/theme'</span>
+
+<span class="keyword">export default async function</span> <span class="function">RootLayout</span>({ children }) {
+  <span class="keyword">const</span> payload = <span class="keyword">await</span> <span class="function">getPayloadHMR</span>({ config: configPromise })
+
+  <span class="comment">// Fetch theme from Payload Global</span>
+  <span class="keyword">const</span> theme = <span class="keyword">await</span> payload.findGlobal({
+    slug: <span class="string">'theme'</span>,
+  }) <span class="keyword">as</span> <span class="function">Theme</span>
+
+  <span class="comment">// Generate CSS custom properties</span>
+  <span class="keyword">const</span> cssVariables = theme.colors ? `
+    <span class="property">--navy</span>: ${theme.colors.navy};
+    <span class="property">--navy-light</span>: ${theme.colors.navyLight};
+    <span class="property">--teal</span>: ${theme.colors.teal};
+    <span class="property">--teal-light</span>: ${theme.colors.tealLight};
+    <span class="property">--teal-dark</span>: ${theme.colors.tealDark};
+    <span class="property">--green</span>: ${theme.colors.green};
+    <span class="property">--coral</span>: ${theme.colors.coral};
+    <span class="property">--amber</span>: ${theme.colors.amber};
+    <span class="property">--blue</span>: ${theme.colors.blue};
+    <span class="property">--purple</span>: ${theme.colors.purple};
+    <span class="property">--white</span>: ${theme.colors.white};
+    <span class="property">--bg</span>: ${theme.colors.bg};
+    <span class="property">--grey</span>: ${theme.colors.grey};
+    <span class="property">--grey-mid</span>: ${theme.colors.greyMid};
+    <span class="property">--grey-dark</span>: ${theme.colors.greyDark};
+    <span class="property">--text</span>: ${theme.colors.text};
+  ` : <span class="string">''</span>
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">html</span> lang=<span class="string">"nl"</span>&gt;
+      &lt;<span class="keyword">head</span>&gt;
+        {cssVariables && (
+          &lt;<span class="keyword">style</span> dangerouslySetInnerHTML={{
+            __html: <span class="string">`</span>:root { ${cssVariables} }<span class="string">`</span>
+          }} /&gt;
+        )}
+      &lt;/<span class="keyword">head</span>&gt;
+      &lt;<span class="keyword">body</span>&gt;{children}&lt;/<span class="keyword">body</span>&gt;
+    &lt;/<span class="keyword">html</span>&gt;
+  )
+}
+    </div>
+
+    <!-- 4. ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you navigate to <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin/globals/theme</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--teal);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">🎨</span>
+            Theme Global
+          </div>
+          <div style="margin-left:28px;">
+            <div style="font-size:11px;color:var(--grey-mid);margin-bottom:8px;">📁 Tab: Colors</div>
+            <div style="margin-left:16px;font-size:11px;color:var(--grey-dark);">
+              <div style="margin-bottom:4px;">▸ <strong>Primary Colors</strong> (collapsible)</div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - navy: <input type="text" value="#0A1628" disabled style="width:80px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"><br>
+                - navyLight: <input type="text" value="#121F33" disabled style="width:80px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"><br>
+                - teal: <input type="text" value="#00897B" disabled style="width:80px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"> ⚠️<br>
+                - tealLight: <input type="text" value="#26A69A" disabled style="width:80px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"><br>
+                - tealDark: <input type="text" value="#00695C" disabled style="width:80px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;">
+              </div>
+              <div style="margin-top:8px;">▸ <strong>Status Colors</strong> (collapsible)</div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - green, coral, amber, blue, purple (5 fields)
+              </div>
+              <div style="margin-top:8px;">▸ <strong>Neutral Colors</strong> (collapsible)</div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - white, bg, grey, greyMid, greyDark, text (6 fields)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Global exists:</strong> Navigate to <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin/globals/theme</code>
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. All 16 color fields visible:</strong> 5 primary + 5 status + 6 neutrals
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Default values set:</strong> All fields show correct hex values
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Validation works:</strong> Try invalid hex (e.g. "red") → should show error
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. CSS variables generated:</strong> Inspect <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;html&gt;</code> in browser DevTools → see :root variables
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Color changes reflect:</strong> Change teal to #FF0000 → save → check frontend buttons
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. TypeScript types work:</strong> No TS errors in components using theme
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. MIGRATION NOTES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating Theme.ts, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for new global</span>
+npx payload migrate:create add_theme_global
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain CREATE TABLE for _theme_v table</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database</span>
+<span class="comment"># PostgreSQL: SELECT * FROM _theme_v;</span>
+<span class="comment"># Should show 1 row with default color values</span>
+    </div>
+
+    <!-- 7. TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>/admin/globals/theme</code> shows 404</td>
+              <td>Check <code>src/payload.config.ts</code> → globals array includes Theme</td>
+            </tr>
+            <tr>
+              <td>Fields not showing in admin</td>
+              <td>Restart dev server (<code>npm run dev</code>)</td>
+            </tr>
+            <tr>
+              <td>Colors not applying to frontend</td>
+              <td>Check <code>app/layout.tsx</code> has CSS variable generation code</td>
+            </tr>
+            <tr>
+              <td>TypeScript errors on theme.colors</td>
+              <td>Check <code>src/types/theme.ts</code> is imported correctly</td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 8. PAYLOAD CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Global in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Don't forget to add Theme to your Payload config:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/payload.config.ts</span>
+<span class="keyword">import</span> { <span class="function">buildConfig</span> } <span class="keyword">from</span> <span class="string">'payload/config'</span>
+<span class="keyword">import</span> { <span class="function">Theme</span> } <span class="keyword">from</span> <span class="string">'./globals/Theme'</span>
+
+<span class="keyword">export default</span> <span class="function">buildConfig</span>({
+  <span class="comment">// ... other config</span>
+  globals: [
+    <span class="function">Theme</span>,  <span class="comment">// ← Add this</span>
+    <span class="comment">// ... other globals</span>
+  ],
+})
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

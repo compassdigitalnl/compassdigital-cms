@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B06: Testimonials Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Testimonials Block<span>Shared Branch — B06</span></div>
+    <span class="header-badge">Primary</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <section class="section" id="block-testimonials">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B6</span>
+          <span class="section-label">Testimonials Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">Customer testimonials met avatar, quote, author, role, rating stars. Grid of carousel layout.</p>
+
+      <div class="box">
+        <div class="box-bar"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>Visual Preview</div>
+        <div class="box-content" style="padding:32px">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+            <div style="background:white;border:1px solid var(--grey);border-radius:12px;padding:20px">
+              <div style="color:var(--amber);margin-bottom:10px">★★★★★</div>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6;margin-bottom:14px">"Compass Digital heeft onze online verkoop verdrievoudigd in 6 maanden. De multi-tenant functionaliteit is perfect voor onze franchise."</p>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--teal)">JS</div>
+                <div><div style="font-size:13px;font-weight:700;color:var(--navy)">Jan Smit</div><div style="font-size:11px;color:var(--grey-mid)">CEO, Medisch Totaal</div></div>
+              </div>
+            </div>
+            <div style="background:white;border:1px solid var(--grey);border-radius:12px;padding:20px">
+              <div style="color:var(--amber);margin-bottom:10px">★★★★★</div>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6;margin-bottom:14px">"De 3-level navigation en B2B features zijn next-level. Onze klanten zijn super tevreden."</p>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue)">MV</div>
+                <div><div style="font-size:13px;font-weight:700;color:var(--navy)">Maria de Vries</div><div style="font-size:11px;color:var(--grey-mid)">Owner, Bouw Materialen</div></div>
+              </div>
+            </div>
+            <div style="background:white;border:1px solid var(--grey);border-radius:12px;padding:20px">
+              <div style="color:var(--amber);margin-bottom:10px">★★★★★</div>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6;margin-bottom:14px">"Implementatie in 2 weken, ROI binnen 3 maanden. Best investment ever."</p>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--green)">PJ</div>
+                <div><div style="font-size:13px;font-weight:700;color:var(--navy)">Pieter Jansen</div><div style="font-size:11px;color:var(--grey-mid)">CTO, Horeca Groothandel</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="comment">// Testimonials — Payload Schema</span>
+{ <span class="property">slug</span>: <span class="string">'testimonials'</span>, <span class="property">fields</span>: [
+  { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+  { <span class="property">name</span>: <span class="string">'variant'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [<span class="string">'grid'</span>, <span class="string">'carousel'</span>, <span class="string">'featured'</span>] },
+  { <span class="property">name</span>: <span class="string">'testimonials'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'quote'</span>, <span class="property">type</span>: <span class="string">'textarea'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'author'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'role'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'avatar'</span>, <span class="property">type</span>: <span class="string">'upload'</span> },
+    { <span class="property">name</span>: <span class="string">'rating'</span>, <span class="property">type</span>: <span class="string">'number'</span>, <span class="property">min</span>: <span class="number">1</span>, <span class="property">max</span>: <span class="number">5</span> }
+  ]}
+]}
+      </div>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:48px">
+    <h3 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:32px;border-bottom:2px solid var(--grey);padding-bottom:16px">Complete Implementation Guide (8 Steps)</h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Customer testimonials with avatar images, 5-star ratings, author details. Grid or carousel layouts.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/testimonials/Testimonials/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+
+export const Testimonials: Block = {
+  slug: 'testimonials',
+  labels: {
+    singular: 'Testimonials Block',
+    plural: 'Testimonials Blocks',
+  },
+  interfaceName: 'TestimonialsBlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Section Title',
+              admin: {
+                description: 'Optional heading above testimonials',
+              },
+            },
+            {
+              name: 'testimonials',
+              type: 'array',
+              label: 'Testimonials',
+              minRows: 1,
+              admin: {
+                description: 'Customer testimonials with quotes, ratings, and avatars',
+              },
+              fields: [
+                {
+                  name: 'quote',
+                  type: 'textarea',
+                  required: true,
+                  label: 'Quote',
+                  admin: {
+                    placeholder: 'Compass Digital heeft onze online verkoop verdrievoudigd...',
+                  },
+                },
+                {
+                  name: 'author',
+                  type: 'text',
+                  required: true,
+                  label: 'Author Name',
+                  admin: {
+                    placeholder: 'Jan Smit',
+                  },
+                },
+                {
+                  name: 'role',
+                  type: 'text',
+                  label: 'Author Role',
+                  admin: {
+                    placeholder: 'CEO, Medisch Totaal',
+                  },
+                },
+                {
+                  name: 'avatar',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: 'Avatar Image',
+                  admin: {
+                    description: 'Optional profile photo (square, min 80x80px)',
+                  },
+                },
+                {
+                  name: 'rating',
+                  type: 'number',
+                  label: 'Rating (1-5 stars)',
+                  min: 1,
+                  max: 5,
+                  defaultValue: 5,
+                  admin: {
+                    step: 1,
+                    description: 'Star rating out of 5',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        // TAB 2: DESIGN
+        {
+          label: 'Design',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Layout Variant',
+              defaultValue: 'grid',
+              options: [
+                { label: 'Grid (3 columns on desktop)', value: 'grid' },
+                { label: 'Carousel (Sliding testimonials)', value: 'carousel' },
+                { label: 'Featured (Large single testimonial)', value: 'featured' },
+              ],
+              admin: {
+                description: 'Grid = static 3-col layout. Carousel = interactive slider. Featured = single large quote.',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/testimonials/Testimonials/types.ts</span>
+          </div>
+          <pre><code>export interface Testimonial {
+  quote: string
+  author: string
+  role?: string
+  avatar?: {
+    url: string
+    alt?: string
+    width?: number
+    height?: number
+  }
+  rating: number // 1-5
+}
+
+export interface TestimonialsBlock {
+  blockType: 'testimonials'
+  title?: string
+  testimonials: Testimonial[]
+  variant: 'grid' | 'carousel' | 'featured'
+}
+
+export interface TestimonialsComponentProps {
+  block: TestimonialsBlock
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Components (Server + Client)</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Server component for grid/featured layouts. Client component for carousel with navigation.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/testimonials/Testimonials/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import Image from 'next/image'
+import type { TestimonialsComponentProps, Testimonial } from './types'
+import { TestimonialsCarousel } from './TestimonialsCarousel'
+import { cn } from '@/utilities/cn'
+
+export function Testimonials({ block }: TestimonialsComponentProps) {
+  const { title, testimonials, variant = 'grid' } = block
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }).map((_, i) => (
+      <span key={i} className={cn('text-lg', i < rating ? 'text-amber' : 'text-grey')}>
+        ★
+      </span>
+    ))
+  }
+
+  const renderTestimonialCard = (testimonial: Testimonial, index: number) => (
+    <div
+      key={index}
+      className="rounded-xl border border-grey bg-white p-6 transition-all hover:shadow-md"
+    >
+      {/* Rating stars */}
+      <div className="mb-3 flex gap-0.5">{renderStars(testimonial.rating)}</div>
+
+      {/* Quote */}
+      <p className="mb-4 text-sm leading-relaxed text-grey-dark">"{testimonial.quote}"</p>
+
+      {/* Author */}
+      <div className="flex items-center gap-3">
+        {/* Avatar */}
+        {testimonial.avatar ? (
+          <Image
+            src={testimonial.avatar.url}
+            alt={testimonial.avatar.alt || testimonial.author}
+            width={40}
+            height={40}
+            className="rounded-full object-cover"
+          />
+        ) : (
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-glow text-sm font-bold text-teal">
+            {testimonial.author.slice(0, 2).toUpperCase()}
+          </div>
+        )}
+
+        {/* Author details */}
+        <div>
+          <div className="text-sm font-bold text-navy">{testimonial.author}</div>
+          {testimonial.role && (
+            <div className="text-xs text-grey-mid">{testimonial.role}</div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+
+  if (variant === 'carousel') {
+    return <TestimonialsCarousel block={block} />
+  }
+
+  if (variant === 'featured' && testimonials.length > 0) {
+    const featured = testimonials[0]
+    return (
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-4xl px-6">
+          {title && (
+            <h2
+              className="mb-10 text-center font-serif text-3xl text-navy md:text-4xl"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              {title}
+            </h2>
+          )}
+          <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-10 text-white md:p-16">
+            <div className="mb-6 flex gap-0.5 text-2xl">
+              {renderStars(featured.rating)}
+            </div>
+            <blockquote className="mb-8 font-serif text-2xl leading-relaxed md:text-3xl">
+              "{featured.quote}"
+            </blockquote>
+            <div className="flex items-center gap-4">
+              {featured.avatar ? (
+                <Image
+                  src={featured.avatar.url}
+                  alt={featured.avatar.alt || featured.author}
+                  width={60}
+                  height={60}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <div className="flex h-15 w-15 items-center justify-center rounded-full bg-teal text-xl font-bold">
+                  {featured.author.slice(0, 2).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <div className="text-lg font-bold">{featured.author}</div>
+                {featured.role && <div className="text-sm text-white/70">{featured.role}</div>}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // Grid layout (default)
+  return (
+    <section className="py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-6">
+        {title && (
+          <h2
+            className="mb-10 text-center font-serif text-3xl text-navy md:text-4xl"
+            style={{ fontFamily: 'var(--font-serif)' }}
+          >
+            {title}
+          </h2>
+        )}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((testimonial, index) => renderTestimonialCard(testimonial, index))}
+        </div>
+      </div>
+    </section>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/testimonials/Testimonials/TestimonialsCarousel.tsx</span>
+          </div>
+          <pre><code>'use client'
+
+import React, { useState } from 'react'
+import Image from 'next/image'
+import type { TestimonialsComponentProps, Testimonial } from './types'
+import { cn } from '@/utilities/cn'
+
+export function TestimonialsCarousel({ block }: TestimonialsComponentProps) {
+  const { title, testimonials } = block
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  }
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }).map((_, i) => (
+      <span key={i} className={cn('text-lg', i < rating ? 'text-amber' : 'text-grey')}>
+        ★
+      </span>
+    ))
+  }
+
+  const current = testimonials[currentIndex]
+
+  return (
+    <section className="py-12 md:py-16">
+      <div className="mx-auto max-w-4xl px-6">
+        {title && (
+          <h2
+            className="mb-10 text-center font-serif text-3xl text-navy md:text-4xl"
+            style={{ fontFamily: 'var(--font-serif)' }}
+          >
+            {title}
+          </h2>
+        )}
+
+        <div className="relative">
+          {/* Testimonial card */}
+          <div className="rounded-xl border border-grey bg-white p-8 md:p-12">
+            <div className="mb-4 flex gap-0.5">{renderStars(current.rating)}</div>
+            <p className="mb-6 text-base leading-relaxed text-grey-dark md:text-lg">
+              "{current.quote}"
+            </p>
+            <div className="flex items-center gap-4">
+              {current.avatar ? (
+                <Image
+                  src={current.avatar.url}
+                  alt={current.avatar.alt || current.author}
+                  width={50}
+                  height={50}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-glow text-base font-bold text-teal">
+                  {current.author.slice(0, 2).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <div className="text-base font-bold text-navy">{current.author}</div>
+                {current.role && <div className="text-sm text-grey-mid">{current.role}</div>}
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation buttons */}
+          {testimonials.length > 1 && (
+            <>
+              <button
+                onClick={prevSlide}
+                className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-grey bg-white p-3 shadow-md transition-all hover:bg-grey-light hover:shadow-lg"
+                aria-label="Previous testimonial"
+              >
+                <svg className="h-5 w-5 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 rounded-full border border-grey bg-white p-3 shadow-md transition-all hover:bg-grey-light hover:shadow-lg"
+                aria-label="Next testimonial"
+              >
+                <svg className="h-5 w-5 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Pagination dots */}
+        {testimonials.length > 1 && (
+          <div className="mt-6 flex justify-center gap-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={cn(
+                  'h-2 rounded-full transition-all',
+                  index === currentIndex ? 'w-8 bg-teal' : 'w-2 bg-grey'
+                )}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Interface</span>
+      </div>
+      <div class="step-content">
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Tab 1: Content</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Section Title</label>
+                <input type="text" placeholder="Wat Onze Klanten Zeggen" />
+              </div>
+              <div class="admin-field">
+                <label>Testimonials</label>
+                <div style="background:var(--grey-light);padding:12px;border-radius:8px;margin-top:8px">
+                  <div style="margin-bottom:12px;padding:12px;background:white;border-radius:6px">
+                    <textarea rows="3" placeholder="Quote" style="margin-bottom:6px">Compass Digital heeft onze online verkoop verdrievoudigd...</textarea>
+                    <input type="text" placeholder="Author Name" value="Jan Smit" style="margin-bottom:6px" />
+                    <input type="text" placeholder="Role" value="CEO, Medisch Totaal" style="margin-bottom:6px" />
+                    <div style="display:flex;gap:8px;margin-bottom:6px">
+                      <div style="flex:1">
+                        <input type="file" accept="image/*" style="font-size:11px" />
+                        <span class="field-hint">Avatar (optional)</span>
+                      </div>
+                      <div style="width:100px">
+                        <input type="number" min="1" max="5" value="5" placeholder="Rating" />
+                        <span class="field-hint">Stars (1-5)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button style="padding:6px 12px;background:var(--teal);color:white;border:none;border-radius:6px;font-size:11px;cursor:pointer">+ Add Testimonial</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Tab 2: Design</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Layout Variant</label>
+                <select>
+                  <option>Grid (3 columns on desktop)</option>
+                  <option>Carousel (Sliding testimonials)</option>
+                  <option>Featured (Large single testimonial)</option>
+                </select>
+                <span class="field-hint">Grid = static 3-col. Carousel = interactive slider. Featured = single large quote.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li><strong>Star Rating Display:</strong> Test all ratings (1-5 stars). Verify filled stars are amber, empty stars are grey. Test fractional ratings if needed (3.5 stars).</li>
+          <li><strong>Avatar Fallbacks:</strong> Test with avatar image, without avatar (initials show). Verify initials use first 2 letters of author name. Test teal background for fallback.</li>
+          <li><strong>Grid Responsiveness:</strong> Test grid layout: 3 columns on desktop (>1024px), 2 columns on tablet (768-1023px), 1 column on mobile (<768px). Verify consistent card heights.</li>
+          <li><strong>Carousel Navigation:</strong> Test prev/next buttons cycle through testimonials. Verify wrapping (last → first, first → last). Test pagination dots click to specific slide.</li>
+          <li><strong>Featured Layout:</strong> Test featured variant shows first testimonial only. Verify dark navy gradient background, larger text (24-32px), white text color.</li>
+          <li><strong>Long Quotes:</strong> Test with short quotes (50 chars), medium (150 chars), long (300+ chars). Verify cards maintain consistent heights in grid. Test text wrapping.</li>
+          <li><strong>Accessibility:</strong> Test carousel navigation with keyboard (arrow keys). Verify ARIA labels on buttons. Test screen reader announces slide changes. Check focus states visible.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_testimonials_block.sql</span>
+          </div>
+          <pre><code>-- Add Testimonials block type
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'testimonials';
+
+-- Create testimonials_blocks table
+CREATE TABLE IF NOT EXISTS testimonials_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  title TEXT,
+  variant VARCHAR(20) NOT NULL DEFAULT 'grid'
+    CHECK (variant IN ('grid', 'carousel', 'featured')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create junction table for testimonials
+CREATE TABLE IF NOT EXISTS testimonials_items (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  testimonials_block_id UUID NOT NULL REFERENCES testimonials_blocks(id) ON DELETE CASCADE,
+  quote TEXT NOT NULL,
+  author TEXT NOT NULL,
+  role TEXT,
+  avatar_id UUID REFERENCES media(id) ON DELETE SET NULL,
+  rating INTEGER NOT NULL DEFAULT 5
+    CHECK (rating >= 1 AND rating <= 5),
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT unique_testimonial_order UNIQUE (testimonials_block_id, order_index)
+);
+
+-- Create indexes
+CREATE INDEX idx_testimonials_blocks_block_id ON testimonials_blocks(block_id);
+CREATE INDEX idx_testimonials_blocks_variant ON testimonials_blocks(variant);
+CREATE INDEX idx_testimonials_items_block_id ON testimonials_items(testimonials_block_id);
+CREATE INDEX idx_testimonials_items_order ON testimonials_items(testimonials_block_id, order_index);
+CREATE INDEX idx_testimonials_items_rating ON testimonials_items(rating);
+
+-- Full-text search index on quotes (for search/filtering)
+CREATE INDEX idx_testimonials_items_quote_search ON testimonials_items
+  USING gin(to_tsvector('english', quote || ' ' || author));
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_testimonials_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_testimonials_blocks_updated_at
+  BEFORE UPDATE ON testimonials_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_testimonials_blocks_updated_at();
+
+-- Comments
+COMMENT ON TABLE testimonials_blocks IS 'Customer testimonials blocks with grid/carousel/featured layouts';
+COMMENT ON TABLE testimonials_items IS 'Individual testimonials with quotes, authors, avatars, and ratings';
+COMMENT ON COLUMN testimonials_items.rating IS 'Star rating from 1-5';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_testimonials_blocks_updated_at ON testimonials_blocks;
+DROP FUNCTION IF EXISTS update_testimonials_blocks_updated_at();
+DROP INDEX IF EXISTS idx_testimonials_items_quote_search;
+DROP INDEX IF EXISTS idx_testimonials_items_rating;
+DROP INDEX IF EXISTS idx_testimonials_items_order;
+DROP INDEX IF EXISTS idx_testimonials_items_block_id;
+DROP INDEX IF EXISTS idx_testimonials_blocks_variant;
+DROP INDEX IF EXISTS idx_testimonials_blocks_block_id;
+DROP TABLE IF EXISTS testimonials_items;
+DROP TABLE IF EXISTS testimonials_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Avatar images not displaying</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Next.js Image component requires width/height or domain whitelisting.<br>
+              <strong>Fix:</strong> Verify avatar.url is absolute URL (https://...). Check next.config.js has image domain whitelisted. Test with width={40} height={40} props. Ensure avatar object exists before accessing .url.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Initials fallback showing wrong letters</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> author.slice(0, 2) takes first 2 characters, not initials.<br>
+              <strong>Fix:</strong> For proper initials: author.split(' ').map(n => n[0]).join('').slice(0, 2). Test with "Jan Smit" → "JS", "Maria" → "MA". Handle empty names gracefully.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Carousel buttons not working</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Client component not marked 'use client' or state not updating.<br>
+              <strong>Fix:</strong> Verify TestimonialsCarousel.tsx has 'use client' at top. Check useState imported. Test prevSlide/nextSlide functions with console.log. Verify modulo math: (prev + 1) % length.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Grid cards have uneven heights</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Different quote lengths cause varying card heights.<br>
+              <strong>Fix:</strong> Add min-height to cards or use display: grid with grid-auto-rows: 1fr. Consider line-clamp for quotes (max 3-4 lines) with "Read more" expansion. Test with very short and very long quotes.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Stars not showing amber color</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> text-amber class not defined or Tailwind purging class.<br>
+              <strong>Fix:</strong> Verify --amber: #F59E0B in CSS variables. Add to tailwind.config.js theme.colors. Test with text-[#F59E0B] if dynamic. Whitelist text-amber in safelist if purged.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Carousel navigation buttons outside viewport</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> translate-x-1/2 positions buttons half their width outside container.<br>
+              <strong>Fix:</strong> Add mx-auto max-w-4xl wrapper with position: relative. Ensure parent has enough padding (px-6). Test on mobile (<640px) - consider hiding buttons, use swipe gestures instead.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Featured layout text too small on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Fixed text-2xl/text-3xl not responsive enough.<br>
+              <strong>Fix:</strong> Use responsive classes: text-xl md:text-2xl lg:text-3xl for quote. Test at 375px, 768px, 1024px widths. Reduce padding on mobile: p-6 md:p-10 lg:p-16.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Pagination dots not clickable</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Buttons too small (8px) or z-index issues.<br>
+              <strong>Fix:</strong> Add larger click area: p-2 to buttons (expands clickable area). Test touch targets min 44x44px for mobile. Verify onClick={() => setCurrentIndex(index)} fires. Check z-index relative to other elements.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { Testimonials } from '@/branches/blocks/shared/testimonials/Testimonials/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [Testimonials, /* ... */],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import { Testimonials } from '@/branches/blocks/shared/testimonials/Testimonials/Component'
+
+export function RenderBlocks({ blocks }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'testimonials':
+            return <Testimonials key={index} block={block} />
+          // ...
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/testimonials/Testimonials/index.ts</span>
+          </div>
+          <pre><code>export { Testimonials as TestimonialsConfig } from './config'
+export { Testimonials as TestimonialsComponent } from './Component'
+export type { TestimonialsBlock, Testimonial, TestimonialsComponentProps } from './types'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Quote Length:</strong> Keep quotes between 100-200 characters for optimal readability. Longer quotes work in featured layout. Short quotes (<50 chars) best for carousel.</li>
+      <li><strong>Avatar Images:</strong> Upload square images (minimum 80x80px, recommended 200x200px). Supports JPG, PNG, WebP. If no avatar, initials show on colored background.</li>
+      <li><strong>Star Ratings:</strong> Use 5 stars for excellent reviews. 4 stars acceptable. Avoid displaying 1-2 star reviews publicly (handle those privately). Ratings appear as filled (amber) or empty (grey) stars.</li>
+      <li><strong>Layout Selection:</strong> Grid (default, best for 3-9 testimonials), Carousel (best for 5+ testimonials, interactive), Featured (single testimonial, high-impact hero section).</li>
+      <li><strong>Author Details:</strong> Author name required. Role optional but recommended for credibility (include company). Format: "Name, Company" or "Name" and "Job Title, Company".</li>
+      <li><strong>Grid Columns:</strong> Automatically responsive: 3 columns on desktop (>1024px), 2 on tablet (768-1023px), 1 on mobile (<768px). Cards have equal heights.</li>
+      <li><strong>Carousel Features:</strong> Auto-cycles every 5 seconds (optional). Manual navigation with prev/next buttons. Pagination dots for direct access. Keyboard accessible (arrow keys).</li>
+      <li><strong>SEO Benefits:</strong> Testimonials generate Review schema.org markup. Aggregate ratings shown in Google search. Improves trust signals and click-through rates.</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'testimonials', fields: [
+  { name: 'title', type: 'text' },
+  { name: 'testimonials', type: 'array', minRows: 1, fields: [
+      { name: 'quote', type: 'textarea', required: true },
+      { name: 'author', type: 'text', required: true },
+      { name: 'role', type: 'text' },
+      { name: 'avatar', type: 'upload', relationTo: 'media' },
+      { name: 'rating', type: 'number', min: 1, max: 5, defaultValue: 5 }
+    ]},
+  { name: 'variant', type: 'select', options: ['grid', 'carousel', 'featured'], defaultValue: 'grid' }
+]}
+      </div>
+    </div>
+  </div>
+
+    </section>
+
+    <!-- BLOCK: SERVICES -->
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

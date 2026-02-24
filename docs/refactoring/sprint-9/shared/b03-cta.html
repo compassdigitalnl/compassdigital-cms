@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B03: CTA Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">CTA Block<span>Shared Branch — B03</span></div>
+    <span class="header-badge">Primary</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <section class="section" id="block-cta">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B3</span>
+          <span class="section-label">CTA Block (Call-to-Action)</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Call-to-action banner met navy/teal gradient background, decorative glow, title, description, buttons. Centered of split layout.
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview
+        </div>
+        <div class="box-content" style="padding:0">
+
+          <div style="background:linear-gradient(135deg, var(--navy), var(--navy-light));padding:48px 40px;text-align:center;position:relative;overflow:hidden;border-radius:16px">
+            <div style="position:absolute;top:20px;right:60px;width:220px;height:220px;background:radial-gradient(circle, var(--teal-glow), transparent 70%);border-radius:50%"></div>
+            <div style="position:relative;z-index:1;max-width:640px;margin:0 auto">
+              <h2 style="font-family:'DM Serif Display',serif;font-size:32px;color:white;margin-bottom:14px;line-height:1.2">Klaar om te starten?</h2>
+              <p style="font-size:15px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.6">Ontdek hoe Compass Digital jouw business kan transformeren. Plan een gratis demo met onze experts.</p>
+              <div style="display:flex;gap:12px;justify-content:center">
+                <button style="padding:13px 26px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px">
+                  Start Gratis Trial <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+                </button>
+                <button style="padding:13px 26px;background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">
+                  Plan Demo
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="comment">// CTA Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'cta'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'textarea'</span> },
+    { <span class="property">name</span>: <span class="string">'variant'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'centered'</span>, <span class="string">'split'</span>, <span class="string">'full-width'</span>] },
+    { <span class="property">name</span>: <span class="string">'style'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'dark'</span>, <span class="string">'light'</span>, <span class="string">'gradient'</span>] },
+    { <span class="property">name</span>: <span class="string">'buttons'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">maxRows</span>: <span class="number">2</span> }
+  ]
+}
+      </div>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:48px">
+    <h3 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:32px;border-bottom:2px solid var(--grey);padding-bottom:16px">Complete Implementation Guide (8 Steps)</h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Complete Payload CMS block definition with tabbed admin interface for organized content management.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/cta/CTA/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+
+export const CTA: Block = {
+  slug: 'cta',
+  labels: {
+    singular: 'CTA Block',
+    plural: 'CTA Blocks',
+  },
+  interfaceName: 'CTABlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              required: true,
+              label: 'Title',
+              admin: {
+                description: 'Main CTA headline (DM Serif Display, 32px)',
+              },
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Description',
+              admin: {
+                description: 'Supporting text below title (14-15px)',
+              },
+            },
+            {
+              name: 'buttons',
+              type: 'array',
+              label: 'Action Buttons',
+              minRows: 1,
+              maxRows: 2,
+              admin: {
+                description: 'Max 2 buttons. First button = primary action.',
+              },
+              fields: [
+                {
+                  name: 'label',
+                  type: 'text',
+                  required: true,
+                  label: 'Button Label',
+                },
+                {
+                  name: 'link',
+                  type: 'text',
+                  required: true,
+                  label: 'Button Link',
+                  admin: {
+                    placeholder: '/contact or https://example.com',
+                  },
+                },
+                {
+                  name: 'style',
+                  type: 'select',
+                  label: 'Button Style',
+                  defaultValue: 'primary',
+                  options: [
+                    { label: 'Primary (Teal)', value: 'primary' },
+                    { label: 'Secondary (White Outline)', value: 'secondary' },
+                    { label: 'Ghost (Text Only)', value: 'ghost' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        // TAB 2: DESIGN
+        {
+          label: 'Design',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Layout Variant',
+              defaultValue: 'centered',
+              options: [
+                { label: 'Centered (Default)', value: 'centered' },
+                { label: 'Split (Left/Right)', value: 'split' },
+                { label: 'Full Width', value: 'full-width' },
+              ],
+              admin: {
+                description: 'Centered = content center. Split = text left, buttons right. Full = edge-to-edge.',
+              },
+            },
+            {
+              name: 'style',
+              type: 'select',
+              label: 'Background Style',
+              defaultValue: 'dark',
+              options: [
+                { label: 'Dark (Navy Gradient)', value: 'dark' },
+                { label: 'Light (White BG)', value: 'light' },
+                { label: 'Gradient (Teal Accent)', value: 'gradient' },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/cta/CTA/types.ts</span>
+          </div>
+          <pre><code>export interface CTAButton {
+  label: string
+  link: string
+  style: 'primary' | 'secondary' | 'ghost'
+}
+
+export interface CTABlock {
+  blockType: 'cta'
+  title: string
+  description?: string
+  buttons: CTAButton[]
+  variant: 'centered' | 'split' | 'full-width'
+  style: 'dark' | 'light' | 'gradient'
+}
+
+export interface CTAComponentProps {
+  block: CTABlock
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Server Component</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/cta/CTA/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import Link from 'next/link'
+import type { CTAComponentProps } from './types'
+import { cn } from '@/utilities/cn'
+
+export function CTA({ block }: CTAComponentProps) {
+  const { title, description, buttons, variant = 'centered', style = 'dark' } = block
+
+  // Background classes
+  const bgClasses = {
+    dark: 'bg-gradient-to-br from-navy to-navy-light text-white',
+    light: 'bg-white border border-grey text-navy',
+    gradient: 'bg-gradient-to-br from-teal to-teal-dark text-white',
+  }
+
+  // Layout classes
+  const layoutClasses = {
+    centered: 'text-center items-center',
+    split: 'text-left items-start md:flex-row md:justify-between',
+    'full-width': 'text-center items-center',
+  }
+
+  return (
+    <section
+      className={cn(
+        'relative overflow-hidden rounded-2xl px-10 py-12 md:px-16 md:py-16',
+        bgClasses[style]
+      )}
+    >
+      {/* Decorative teal glow (dark style only) */}
+      {style === 'dark' && (
+        <div
+          className="absolute -top-10 -right-10 h-56 w-56 rounded-full opacity-30 blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(0,137,123,0.35), transparent 70%)',
+          }}
+        />
+      )}
+
+      <div
+        className={cn(
+          'relative z-10 flex flex-col gap-6',
+          layoutClasses[variant],
+          variant === 'full-width' ? 'max-w-full' : 'max-w-4xl mx-auto'
+        )}
+      >
+        {/* Text Content */}
+        <div className={cn('flex-1', variant === 'split' && 'max-w-xl')}>
+          <h2
+            className="font-serif text-3xl leading-tight md:text-4xl"
+            style={{ fontFamily: 'var(--font-serif)' }}
+          >
+            {title}
+          </h2>
+          {description && (
+            <p
+              className={cn(
+                'mt-4 text-base leading-relaxed',
+                style === 'dark' ? 'text-white/70' : 'text-grey-dark'
+              )}
+            >
+              {description}
+            </p>
+          )}
+        </div>
+
+        {/* Buttons */}
+        {buttons && buttons.length > 0 && (
+          <div
+            className={cn(
+              'flex gap-3 flex-wrap',
+              variant === 'centered' && 'justify-center'
+            )}
+          >
+            {buttons.map((button, index) => {
+              const buttonStyles = {
+                primary: 'bg-teal hover:bg-teal-dark text-white',
+                secondary:
+                  'bg-white/10 border border-white/20 text-white hover:bg-white/20',
+                ghost: 'text-teal-light hover:underline',
+              }
+
+              return (
+                <Link
+                  key={index}
+                  href={button.link}
+                  className={cn(
+                    'inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition-all',
+                    buttonStyles[button.style]
+                  )}
+                >
+                  {button.label}
+                  {button.style === 'primary' && (
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  )}
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Interface</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">Visual representation of the Payload admin interface with tabs.</p>
+
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Tab 1: Content</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Title *</label>
+                <input type="text" placeholder="Klaar om te starten?" />
+                <span class="field-hint">Main CTA headline (DM Serif Display, 32px)</span>
+              </div>
+              <div class="admin-field">
+                <label>Description</label>
+                <textarea rows="3" placeholder="Ontdek hoe Compass Digital jouw business kan transformeren..."></textarea>
+                <span class="field-hint">Supporting text below title (14-15px)</span>
+              </div>
+              <div class="admin-field">
+                <label>Action Buttons (Max 2)</label>
+                <div style="background:var(--grey-light);padding:12px;border-radius:8px;margin-top:8px">
+                  <div style="margin-bottom:12px">
+                    <input type="text" placeholder="Button Label" value="Start Gratis Trial" style="margin-bottom:6px" />
+                    <input type="text" placeholder="Link" value="/trial" style="margin-bottom:6px" />
+                    <select><option>Primary (Teal)</option></select>
+                  </div>
+                  <div>
+                    <input type="text" placeholder="Button Label" value="Plan Demo" style="margin-bottom:6px" />
+                    <input type="text" placeholder="Link" value="/contact" style="margin-bottom:6px" />
+                    <select><option>Secondary (White Outline)</option></select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Tab 2: Design</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Layout Variant</label>
+                <select>
+                  <option>Centered (Default)</option>
+                  <option>Split (Left/Right)</option>
+                  <option>Full Width</option>
+                </select>
+                <span class="field-hint">Centered = content center. Split = text left, buttons right.</span>
+              </div>
+              <div class="admin-field">
+                <label>Background Style</label>
+                <select>
+                  <option>Dark (Navy Gradient)</option>
+                  <option>Light (White BG)</option>
+                  <option>Gradient (Teal Accent)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li><strong>Gradient Styles:</strong> Test all 3 background styles (dark navy gradient, light white, teal gradient). Verify teal glow appears only on dark style.</li>
+          <li><strong>Button Layouts:</strong> Add 1 button, then 2 buttons. Test primary, secondary, ghost styles. Verify arrow icon appears only on primary buttons.</li>
+          <li><strong>Variant Switching:</strong> Test centered (text center), split (text left, buttons right on desktop), full-width (edge-to-edge). Verify responsive stacking on mobile.</li>
+          <li><strong>Text Contrast:</strong> On dark backgrounds, verify description has opacity 70%. On light backgrounds, verify text is navy/grey-dark with sufficient contrast.</li>
+          <li><strong>Responsive Behavior:</strong> Test split layout stacks vertically on mobile. Buttons wrap to new line if too long. Title reduces from 32-36px to 28px on mobile.</li>
+          <li><strong>Link Validation:</strong> Test internal links (/contact), external links (https://...), and hash links (#section). Verify buttons are keyboard accessible.</li>
+          <li><strong>Accessibility:</strong> Verify focus states on buttons (teal glow ring). Test keyboard navigation (Tab key). Ensure sufficient color contrast (min 4.5:1).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_cta_block.sql</span>
+          </div>
+          <pre><code>-- Add CTA block type to blocks table
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'cta';
+
+-- Create cta_blocks table
+CREATE TABLE IF NOT EXISTS cta_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  -- Content fields
+  title TEXT NOT NULL,
+  description TEXT,
+
+  -- Design fields
+  variant VARCHAR(20) NOT NULL DEFAULT 'centered'
+    CHECK (variant IN ('centered', 'split', 'full-width')),
+  style VARCHAR(20) NOT NULL DEFAULT 'dark'
+    CHECK (style IN ('dark', 'light', 'gradient')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create junction table for buttons
+CREATE TABLE IF NOT EXISTS cta_buttons (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  cta_block_id UUID NOT NULL REFERENCES cta_blocks(id) ON DELETE CASCADE,
+  label TEXT NOT NULL,
+  link TEXT NOT NULL,
+  style VARCHAR(20) NOT NULL DEFAULT 'primary'
+    CHECK (style IN ('primary', 'secondary', 'ghost')),
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  CONSTRAINT unique_button_order UNIQUE (cta_block_id, order_index)
+);
+
+-- Create indexes
+CREATE INDEX idx_cta_blocks_block_id ON cta_blocks(block_id);
+CREATE INDEX idx_cta_blocks_variant ON cta_blocks(variant);
+CREATE INDEX idx_cta_buttons_cta_block_id ON cta_buttons(cta_block_id);
+CREATE INDEX idx_cta_buttons_order ON cta_buttons(cta_block_id, order_index);
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_cta_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_cta_blocks_updated_at
+  BEFORE UPDATE ON cta_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_cta_blocks_updated_at();
+
+-- Comments
+COMMENT ON TABLE cta_blocks IS 'Call-to-action blocks with navy/teal gradient backgrounds';
+COMMENT ON TABLE cta_buttons IS 'Action buttons for CTA blocks (max 2 per block)';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_cta_blocks_updated_at ON cta_blocks;
+DROP FUNCTION IF EXISTS update_cta_blocks_updated_at();
+DROP INDEX IF EXISTS idx_cta_buttons_order;
+DROP INDEX IF EXISTS idx_cta_buttons_cta_block_id;
+DROP INDEX IF EXISTS idx_cta_blocks_variant;
+DROP INDEX IF EXISTS idx_cta_blocks_block_id;
+DROP TABLE IF EXISTS cta_buttons;
+DROP TABLE IF EXISTS cta_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Teal glow not visible on dark background</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Glow positioned outside viewport or opacity too low.<br>
+              <strong>Fix:</strong> Verify parent section has overflow-hidden. Check glow div has absolute positioning with negative top/right (-10px). Increase opacity from 0.3 to 0.4 if too subtle. Use radial-gradient with rgba(0,137,123,0.35).
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Buttons not stacking on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Missing flex-wrap or gap too large.<br>
+              <strong>Fix:</strong> Add flex-wrap class to button container. Test with 2 long button labels. Consider stacking vertically (flex-col) on screens < 480px using responsive classes.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Split layout not working on desktop</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Missing md:flex-row or md:justify-between classes.<br>
+              <strong>Fix:</strong> Verify parent div has md:flex-row md:justify-between classes. Check Tailwind breakpoint is 768px (md:). Test at exact 768px width. Ensure text content has max-w-xl to prevent stretching.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Text contrast too low on gradient</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Navy gradient too light or description opacity too high.<br>
+              <strong>Fix:</strong> Darken gradient endpoint: from-navy to-[#06101B]. Reduce description opacity from text-white/70 to text-white/60. Add subtle text shadow for better readability.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Arrow icon not showing on primary button</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> SVG not rendering or conditional check failing.<br>
+              <strong>Fix:</strong> Verify button.style === 'primary' condition. Check SVG has correct viewBox="0 0 24 24". Ensure h-4 w-4 classes apply. Test with stroke="currentColor" for color inheritance.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Light style border not visible</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Border color too close to background or missing border class.<br>
+              <strong>Fix:</strong> Verify light style has border border-grey classes. Check --grey color is #E8ECF1 (sufficient contrast with white). Test on different backgrounds.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Full-width variant constrained by container</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Parent page layout has max-width constraint.<br>
+              <strong>Fix:</strong> Remove max-w-4xl mx-auto when variant is full-width. Add w-full class. For true full-bleed, use negative margins: -mx-6 on section with px-6 on inner content.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Ghost button not visible on light background</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> text-teal-light (#26A69A) has low contrast on white.<br>
+              <strong>Fix:</strong> Override ghost button color for light style: use text-teal (darker) instead of text-teal-light. Add hover:text-teal-dark for better visibility.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">Register the CTA block in Payload config and rendering components.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { buildConfig } from 'payload'
+import { CTA } from '@/branches/blocks/shared/cta/CTA/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            CTA,
+            // ... other blocks
+          ],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import { CTA } from '@/branches/blocks/shared/cta/CTA/Component'
+
+export function RenderBlocks({ blocks }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'cta':
+            return <CTA key={index} block={block} />
+          // ... other cases
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/cta/CTA/index.ts</span>
+          </div>
+          <pre><code>export { CTA as CTAConfig } from './config'
+export { CTA as CTAComponent } from './Component'
+export type { CTABlock, CTAButton, CTAComponentProps } from './types'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Title:</strong> DM Serif Display font, 32-36px, keep under 60 characters for optimal readability</li>
+      <li><strong>Description:</strong> Plain text (not rich text), 14-15px, opacity 70% on dark backgrounds</li>
+      <li><strong>Buttons:</strong> Max 2 buttons. First button = primary action (most important). Use primary style for main CTA.</li>
+      <li><strong>Variants:</strong> Centered (default, best for single CTA), Split (text/buttons side-by-side on desktop), Full-width (edge-to-edge for maximum impact)</li>
+      <li><strong>Background Styles:</strong> Dark (navy gradient with teal glow, most common), Light (white with border), Gradient (full teal, use sparingly)</li>
+      <li><strong>Mobile:</strong> All variants stack vertically on mobile. Title reduces to 28px. Buttons remain full-width on small screens.</li>
+      <li><strong>Placement:</strong> Best used at end of pages, between major sections, or as conversion points in long content.</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'cta', fields: [
+  { name: 'title', type: 'text', required: true },
+  { name: 'description', type: 'textarea' },
+  { name: 'buttons', type: 'array', maxRows: 2, fields: [
+      { name: 'label', type: 'text', required: true },
+      { name: 'link', type: 'text', required: true },
+      { name: 'style', type: 'select', options: ['primary', 'secondary', 'ghost'] }
+    ]},
+  { name: 'variant', type: 'select', options: ['centered', 'split', 'full-width'], defaultValue: 'centered' },
+  { name: 'style', type: 'select', options: ['dark', 'light', 'gradient'], defaultValue: 'dark' }
+]}
+      </div>
+    </div>
+  </div>
+
+    </section>
+
+    <!-- BLOCK: FAQ -->
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

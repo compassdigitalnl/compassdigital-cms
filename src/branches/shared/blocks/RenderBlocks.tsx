@@ -6,14 +6,17 @@ import { isFeatureEnabled } from '@/lib/features'
 import { ContentBlock } from '@/branches/shared/blocks/Content/Component'
 import { HeroBlockComponent } from '@/branches/shared/blocks/Hero/Component'
 import { FeaturesBlock } from '@/branches/shared/blocks/Features/Component'
+import { ServicesBlockComponent } from '@/branches/shared/blocks/Services/Component'
 import { FAQBlockComponent } from '@/branches/shared/blocks/FAQ/Component'
 import { CTABlockComponent } from '@/branches/shared/blocks/CTA/Component'
+import { CallToActionComponent } from '@/branches/shared/blocks/CallToAction/Component'
 import { TwoColumnBlockComponent } from '@/branches/shared/blocks/TwoColumn/Component'
-import { TestimonialsBlockComponent } from '@/branches/shared/blocks/TestimonialsBlock/Component'
+import { TestimonialsBlockComponent } from '@/branches/shared/blocks/Testimonials/Component'
 import { LogoBarBlockComponent } from '@/branches/shared/blocks/LogoBar/Component'
 import { StatsBlockComponent } from '@/branches/shared/blocks/Stats/Component'
 import { TeamBlockComponent } from '@/branches/shared/blocks/Team/Component'
-import { ServicesBlockComponent } from '@/branches/shared/blocks/Services/Component'
+// REMOVED: Old Services block - replaced by Features (B02) in Sprint 3
+// import { ServicesBlockComponent } from '@/branches/shared/blocks/Services/Component'
 import { ContactBlockComponent } from '@/branches/shared/blocks/Contact/Component'
 import { ContactFormBlockComponent } from '@/branches/shared/blocks/ContactFormBlock/Component'
 import { NewsletterBlockComponent } from '@/branches/shared/blocks/Newsletter/Component'
@@ -50,14 +53,16 @@ const blockComponents: Record<string, React.FC<any>> = {
   content: ContentBlock,
   hero: HeroBlockComponent,
   features: FeaturesBlock,
+  services: ServicesBlockComponent,
   faq: FAQBlockComponent,
   cta: CTABlockComponent,
+  calltoaction: CallToActionComponent,
   twoColumn: TwoColumnBlockComponent,
   testimonials: TestimonialsBlockComponent,
   logobar: LogoBarBlockComponent,
   stats: StatsBlockComponent,
   team: TeamBlockComponent,
-  services: ServicesBlockComponent,
+  // REMOVED: services (old) - replaced by features (B02) in Sprint 3
   contact: ContactBlockComponent,
   contactForm: ContactFormBlockComponent,
   newsletter: NewsletterBlockComponent,

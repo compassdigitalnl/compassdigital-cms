@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blog Preview Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   USAGE NOTES
+   ═══════════════════════════════════════════════════════════ */
+.usage-notes {
+  background: var(--blue-light);
+  border-left: 4px solid var(--blue);
+  padding: 16px 20px;
+  border-radius: var(--r-sm);
+  margin-top: 12px;
+}
+
+.usage-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.usage-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+
+.usage-list {
+  list-style: none;
+  font-size: 12px;
+  color: var(--grey-dark);
+  line-height: 1.8;
+}
+
+.usage-list li {
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.usage-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.usage-list strong {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Blog Preview Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-blogpreview">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B12</span>
+        <span class="section-label">Blog Preview Block</span>
+      </div>
+      <span class="tag" style="background:var(--teal);color:white">Primary</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Grid van recent blog posts met thumbnail, categorie badge, titel, excerpt, datum, leestijd. 2 of 3 columns.
+    </p>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 3 Columns
+      </div>
+      <div class="box-content" style="padding:32px;background:var(--bg)">
+        <style>
+          .blog-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+          .blog-preview-card { background: white; border: 1px solid var(--grey); border-radius: 14px; overflow: hidden; transition: all 0.2s; cursor: pointer; }
+          .blog-preview-card:hover { transform: translateY(-4px); box-shadow: var(--sh-md); }
+          .blog-preview-img { height: 180px; background: linear-gradient(135deg, var(--teal), var(--teal-light)); display: flex; align-items: center; justify-content: center; font-size: 48px; position: relative; }
+          .blog-preview-category { position: absolute; top: 12px; left: 12px; padding: 4px 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; border-radius: 6px; letter-spacing: 0.05em; }
+          .blog-preview-body { padding: 20px; }
+          .blog-preview-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+          .blog-preview-excerpt { font-size: 13px; color: var(--grey-dark); line-height: 1.6; margin-bottom: 16px; }
+          .blog-preview-meta { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--grey); }
+          .blog-preview-date { font-size: 12px; color: var(--grey-mid); display: flex; align-items: center; gap: 6px; }
+          .blog-preview-date i { width: 14px; height: 14px; }
+          .blog-preview-read { font-size: 12px; color: var(--teal); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+          .blog-preview-read:hover { text-decoration: underline; }
+          .blog-preview-read i { width: 14px; height: 14px; }
+          @media (max-width: 900px) { .blog-preview-grid { grid-template-columns: repeat(2, 1fr); } }
+          @media (max-width: 640px) { .blog-preview-grid { grid-template-columns: 1fr; } }
+        </style>
+
+        <div style="text-align: center; margin-bottom: 32px;">
+          <h2 style="font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 8px;">Laatste Blog Posts</h2>
+          <p style="font-size: 14px; color: var(--grey-dark);">Blijf op de hoogte van de laatste trends en ontwikkelingen</p>
+        </div>
+
+        <div class="blog-preview-grid">
+          <div class="blog-preview-card">
+            <div class="blog-preview-img">
+              <div class="blog-preview-category">Nieuws</div>
+              📰
+            </div>
+            <div class="blog-preview-body">
+              <div class="blog-preview-title">Nieuwe regelgeving 2026: Wat je moet weten</div>
+              <div class="blog-preview-excerpt">Een overzicht van de belangrijkste wijzigingen in wet- en regelgeving die dit jaar ingaan.</div>
+              <div class="blog-preview-meta">
+                <div class="blog-preview-date">
+                  <i data-lucide="calendar"></i>
+                  <span>15 Feb 2026</span>
+                </div>
+                <a href="#" class="blog-preview-read">
+                  <span>Lees meer</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-preview-card">
+            <div class="blog-preview-img" style="background: linear-gradient(135deg, #EC4899, #F472B6);">
+              <div class="blog-preview-category">Tutorial</div>
+              📚
+            </div>
+            <div class="blog-preview-body">
+              <div class="blog-preview-title">5 tips voor efficiënter werken</div>
+              <div class="blog-preview-excerpt">Praktische tips om je workflow te optimaliseren en meer te bereiken in minder tijd.</div>
+              <div class="blog-preview-meta">
+                <div class="blog-preview-date">
+                  <i data-lucide="calendar"></i>
+                  <span>12 Feb 2026</span>
+                </div>
+                <a href="#" class="blog-preview-read">
+                  <span>Lees meer</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-preview-card">
+            <div class="blog-preview-img" style="background: linear-gradient(135deg, #7C3AED, #9333EA);">
+              <div class="blog-preview-category">Onderzoek</div>
+              🔬
+            </div>
+            <div class="blog-preview-body">
+              <div class="blog-preview-title">Trends in e-commerce: 2026 en verder</div>
+              <div class="blog-preview-excerpt">Onderzoek toont aan welke trends de online handel gaan domineren de komende jaren.</div>
+              <div class="blog-preview-meta">
+                <div class="blog-preview-date">
+                  <i data-lucide="calendar"></i>
+                  <span>8 Feb 2026</span>
+                </div>
+                <a href="#" class="blog-preview-read">
+                  <span>Lees meer</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="usage-notes">
+      <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+      <ul class="usage-list">
+        <li><strong>Image:</strong> 180px height, gradient placeholder or actual blog thumbnail</li>
+        <li><strong>Category Badge:</strong> Top-left overlay with dark backdrop blur</li>
+        <li><strong>Title:</strong> DM Serif Display, 18px, navy color</li>
+        <li><strong>Excerpt:</strong> 13px, grey-dark, max 2-3 lines with ellipsis</li>
+        <li><strong>Meta:</strong> Border-top separator, date + read-more link</li>
+        <li><strong>Grid:</strong> 3 columns → 2 @900px → 1 @640px</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/BlogPreview/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/BlogPreview/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">BlogPreview</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'blogpreview'</span>,
+  labels: {
+    singular: <span class="string">'Blog Preview Block'</span>,
+    plural: <span class="string">'Blog Preview Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">type</span>: <span class="string">'row'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'title'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Section Title'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'60%'</span>,
+            <span class="property">description</span>: <span class="string">'Main section heading (optional)'</span>,
+            <span class="property">placeholder</span>: <span class="string">'Laatste Blog Posts'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'columns'</span>,
+          <span class="property">type</span>: <span class="string">'select'</span>,
+          <span class="property">label</span>: <span class="string">'Grid Columns'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'3'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">options</span>: [
+            {
+              <span class="property">label</span>: <span class="string">'2 Columns'</span>,
+              <span class="property">value</span>: <span class="string">'2'</span>,
+            },
+            {
+              <span class="property">label</span>: <span class="string">'3 Columns (Recommended)'</span>,
+              <span class="property">value</span>: <span class="string">'3'</span>,
+            },
+          ],
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'40%'</span>,
+            <span class="property">description</span>: <span class="string">'Number of cards per row on desktop'</span>,
+          },
+        },
+      ],
+    },
+    {
+      <span class="property">name</span>: <span class="string">'description'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Section Description'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Brief description below title (optional, max 2 sentences)'</span>,
+        <span class="property">placeholder</span>: <span class="string">'Blijf op de hoogte van de laatste trends en ontwikkelingen'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'posts'</span>,
+      <span class="property">type</span>: <span class="string">'relationship'</span>,
+      <span class="property">relationTo</span>: <span class="string">'posts'</span>,
+      <span class="property">label</span>: <span class="string">'Blog Posts'</span>,
+      <span class="property">hasMany</span>: <span class="keyword">true</span>,
+      <span class="property">maxRows</span>: <span class="number">6</span>,
+      <span class="property">minRows</span>: <span class="number">2</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Select 2-6 blog posts to display. Order matters: first = left.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'showExcerpt'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Show Excerpt'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Display post excerpt below title (recommended for better preview)'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'showReadTime'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Show Read Time'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">false</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Display estimated reading time (e.g. "5 min read")'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'showCategory'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Show Category Badge'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Show category badge overlay on thumbnail (recommended)'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">Post</span> } <span class="keyword">from</span> <span class="string">'./payload-types'</span>
+
+<span class="keyword">export interface</span> <span class="function">BlogPreviewBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'blogpreview'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">string</span>
+  <span class="property">columns</span>: <span class="string">'2'</span> | <span class="string">'3'</span>
+  <span class="property">posts</span>: <span class="keyword">string</span>[] | <span class="function">Post</span>[] <span class="comment">// Relationship can be populated or not</span>
+  <span class="property">showExcerpt</span>: <span class="keyword">boolean</span>
+  <span class="property">showReadTime</span>: <span class="keyword">boolean</span>
+  <span class="property">showCategory</span>: <span class="keyword">boolean</span>
+}
+
+<span class="comment">// Type guard to check if a block is a BlogPreviewBlock</span>
+<span class="keyword">export function</span> <span class="function">isBlogPreviewBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">BlogPreviewBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'blogpreview'</span>
+}
+
+<span class="comment">// Helper to check if posts are populated</span>
+<span class="keyword">export function</span> <span class="function">arePostsPopulated</span>(
+  posts: <span class="keyword">string</span>[] | <span class="function">Post</span>[]
+): posts <span class="keyword">is</span> <span class="function">Post</span>[] {
+  <span class="keyword">return</span> posts.<span class="property">length</span> > <span class="number">0</span> && <span class="keyword">typeof</span> posts[<span class="number">0</span>] === <span class="string">'object'</span>
+}
+
+<span class="comment">// Calculate estimated read time from content</span>
+<span class="keyword">export function</span> <span class="function">calculateReadTime</span>(content: <span class="keyword">string</span>): <span class="keyword">number</span> {
+  <span class="keyword">const</span> wordsPerMinute = <span class="number">200</span>
+  <span class="keyword">const</span> wordCount = content.<span class="function">split</span>(<span class="string">/\s+/</span>).<span class="property">length</span>
+  <span class="keyword">return</span> Math.<span class="function">ceil</span>(wordCount / wordsPerMinute)
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/BlogPreview/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/BlogPreview/Component.tsx</span>
+<span class="string">'use client'</span>
+
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'next/link'</span>
+<span class="keyword">import</span> Image <span class="keyword">from</span> <span class="string">'next/image'</span>
+<span class="keyword">import</span> { Calendar, ArrowRight, Clock } <span class="keyword">from</span> <span class="string">'lucide-react'</span>
+<span class="keyword">import</span> { <span class="function">BlogPreviewBlock</span>, <span class="function">arePostsPopulated</span>, <span class="function">calculateReadTime</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> { <span class="function">format</span> } <span class="keyword">from</span> <span class="string">'date-fns'</span>
+<span class="keyword">import</span> { nl } <span class="keyword">from</span> <span class="string">'date-fns/locale'</span>
+
+<span class="keyword">interface</span> <span class="function">BlogPreviewProps</span> {
+  <span class="property">block</span>: <span class="function">BlogPreviewBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">BlogPreview</span>: React.<span class="function">FC</span>&lt;<span class="function">BlogPreviewProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> {
+    title,
+    description,
+    columns,
+    posts,
+    showExcerpt,
+    showReadTime,
+    showCategory,
+  } = block
+
+  <span class="comment">// Type guard check</span>
+  <span class="keyword">if</span> (!<span class="function">arePostsPopulated</span>(posts)) {
+    <span class="keyword">return</span> <span class="keyword">null</span> <span class="comment">// Posts not populated, don't render</span>
+  }
+
+  <span class="comment">// Map columns to Tailwind grid classes</span>
+  <span class="keyword">const</span> gridClass = {
+    <span class="string">'2'</span>: <span class="string">'md:grid-cols-2'</span>,
+    <span class="string">'3'</span>: <span class="string">'md:grid-cols-3'</span>,
+  }[columns]
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-16 md:py-20"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        {<span class="comment">/* Section Header (optional) */</span>}
+        {(title || description) && (
+          &lt;<span class="keyword">div</span> className=<span class="string">"text-center mb-12 md:mb-16"</span>&gt;
+            {title && (
+              &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-3xl md:text-4xl text-navy mb-3"</span>&gt;
+                {title}
+              &lt;/<span class="keyword">h2</span>&gt;
+            )}
+            {description && (
+              &lt;<span class="keyword">p</span> className=<span class="string">"text-base text-grey-dark max-w-2xl mx-auto"</span>&gt;
+                {description}
+              &lt;/<span class="keyword">p</span>&gt;
+            )}
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+
+        {<span class="comment">/* Blog Posts Grid */</span>}
+        &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">"grid gap-6"</span>, gridClass)}&gt;
+          {posts.<span class="function">map</span>((post) => (
+            &lt;Link
+              <span class="property">key</span>={post.<span class="property">id</span>}
+              <span class="property">href</span>={`/blog/${post.<span class="property">slug</span>}`}
+              className=<span class="string">"group block bg-white border border-grey rounded-xl overflow-hidden transition-all hover:shadow-md hover:-translate-y-1"</span>
+            &gt;
+              {<span class="comment">/* Thumbnail */</span>}
+              &lt;<span class="keyword">div</span> className=<span class="string">"relative h-48 bg-gradient-to-br from-teal to-teal-light overflow-hidden"</span>&gt;
+                {post.<span class="property">thumbnail</span>?.url && (
+                  &lt;<span class="function">Image</span>
+                    <span class="property">src</span>={post.<span class="property">thumbnail</span>.<span class="property">url</span>}
+                    <span class="property">alt</span>={post.<span class="property">thumbnail</span>.<span class="property">alt</span> || post.<span class="property">title</span>}
+                    <span class="property">fill</span>
+                    className=<span class="string">"object-cover transition-transform group-hover:scale-105"</span>
+                  /&gt;
+                )}
+
+                {<span class="comment">/* Category Badge */</span>}
+                {showCategory && post.<span class="property">category</span> && (
+                  &lt;<span class="keyword">div</span> className=<span class="string">"absolute top-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wide rounded-md"</span>&gt;
+                    {post.<span class="property">category</span>.<span class="property">title</span>}
+                  &lt;/<span class="keyword">div</span>&gt;
+                )}
+              &lt;/<span class="keyword">div</span>&gt;
+
+              {<span class="comment">/* Card Body */</span>}
+              &lt;<span class="keyword">div</span> className=<span class="string">"p-5"</span>&gt;
+                {<span class="comment">/* Title */</span>}
+                &lt;<span class="keyword">h3</span> className=<span class="string">"font-display text-lg text-navy mb-2 line-clamp-2"</span>&gt;
+                  {post.<span class="property">title</span>}
+                &lt;/<span class="keyword">h3</span>&gt;
+
+                {<span class="comment">/* Excerpt */</span>}
+                {showExcerpt && post.<span class="property">excerpt</span> && (
+                  &lt;<span class="keyword">p</span> className=<span class="string">"text-sm text-grey-dark leading-relaxed mb-4 line-clamp-2"</span>&gt;
+                    {post.<span class="property">excerpt</span>}
+                  &lt;/<span class="keyword">p</span>&gt;
+                )}
+
+                {<span class="comment">/* Meta */</span>}
+                &lt;<span class="keyword">div</span> className=<span class="string">"flex items-center justify-between pt-3 border-t border-grey"</span>&gt;
+                  &lt;<span class="keyword">div</span> className=<span class="string">"flex items-center gap-2 text-xs text-grey-mid"</span>&gt;
+                    &lt;<span class="function">Calendar</span> size={<span class="number">14</span>} /&gt;
+                    &lt;<span class="keyword">span</span>&gt;
+                      {<span class="function">format</span>(<span class="keyword">new</span> <span class="function">Date</span>(post.<span class="property">publishedAt</span>), <span class="string">'d MMM yyyy'</span>, {
+                        locale: nl,
+                      })}
+                    &lt;/<span class="keyword">span</span>&gt;
+                    {showReadTime && post.<span class="property">content</span> && (
+                      &lt;&gt;
+                        &lt;<span class="keyword">span</span> className=<span class="string">"text-grey-mid"</span>&gt;•&lt;/<span class="keyword">span</span>&gt;
+                        &lt;<span class="function">Clock</span> size={<span class="number">14</span>} /&gt;
+                        &lt;<span class="keyword">span</span>&gt;
+                          {<span class="function">calculateReadTime</span>(post.<span class="property">content</span>)} min
+                        &lt;/<span class="keyword">span</span>&gt;
+                      &lt;/&gt;
+                    )}
+                  &lt;/<span class="keyword">div</span>&gt;
+
+                  {<span class="comment">/* Read More Link */</span>}
+                  &lt;<span class="keyword">div</span> className=<span class="string">"flex items-center gap-1 text-xs font-bold text-teal group-hover:gap-2 transition-all"</span>&gt;
+                    &lt;<span class="keyword">span</span>&gt;Lees meer&lt;/<span class="keyword">span</span>&gt;
+                    &lt;<span class="function">ArrowRight</span> size={<span class="number">14</span>} /&gt;
+                  &lt;/<span class="keyword">div</span>&gt;
+                &lt;/<span class="keyword">div</span>&gt;
+              &lt;/<span class="keyword">div</span>&gt;
+            &lt;/Link&gt;
+          ))}
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          When editors navigate to <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin/pages</code> and add a BlogPreview block, they will see:
+        </p>
+
+        <table class="table" style="margin-top:16px;">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>title</code></td>
+              <td>Text (60% width)</td>
+              <td>—</td>
+              <td>Optional section heading</td>
+            </tr>
+            <tr>
+              <td><code>columns</code></td>
+              <td>Select (40% width)</td>
+              <td>"3"</td>
+              <td>2 or 3 columns layout</td>
+            </tr>
+            <tr>
+              <td><code>description</code></td>
+              <td>Textarea</td>
+              <td>—</td>
+              <td>Optional subtitle below heading</td>
+            </tr>
+            <tr>
+              <td><code>posts</code></td>
+              <td>Relationship</td>
+              <td>—</td>
+              <td>Select 2-6 blog posts (required)</td>
+            </tr>
+            <tr>
+              <td><code>showExcerpt</code></td>
+              <td>Checkbox</td>
+              <td>true</td>
+              <td>Show post excerpt below title</td>
+            </tr>
+            <tr>
+              <td><code>showReadTime</code></td>
+              <td>Checkbox</td>
+              <td>false</td>
+              <td>Show estimated reading time</td>
+            </tr>
+            <tr>
+              <td><code>showCategory</code></td>
+              <td>Checkbox</td>
+              <td>true</td>
+              <td>Show category badge overlay</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:20px;padding:16px;background:var(--grey-light);border-radius:var(--r-sm);border-left:4px solid var(--teal);">
+          <p style="font-size:12px;color:var(--grey-dark);line-height:1.6;margin-bottom:8px;">
+            <strong style="color:var(--navy);">Admin UI Flow:</strong>
+          </p>
+          <ol style="font-size:12px;color:var(--grey-dark);line-height:1.8;margin-left:20px;">
+            <li>Editor clicks "+ Add Block" in Page Builder</li>
+            <li>Selects "Blog Preview Block" from dropdown</li>
+            <li>Fills optional title/description</li>
+            <li>Selects 2-6 published posts via relationship picker</li>
+            <li>Configures display options (checkboxes)</li>
+            <li>Saves and publishes page</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Complete these 7 verification steps before deploying:
+        </p>
+
+        <table class="table" style="margin-top:16px;">
+          <thead>
+            <tr>
+              <th style="width:40px;">#</th>
+              <th>Test Case</th>
+              <th>Expected Result</th>
+              <th style="width:80px;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Block appears in admin panel</td>
+              <td>Navigate to /admin/pages → add block → "Blog Preview Block" visible</td>
+              <td><code>[ ]</code></td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>All 7 fields render correctly</td>
+              <td>All fields visible with correct labels, widths, and descriptions</td>
+              <td><code>[ ]</code></td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>Relationship picker works</td>
+              <td>Can select 2-6 published posts, enforces min/max limits</td>
+              <td><code>[ ]</code></td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>Default values correct</td>
+              <td>columns="3", showExcerpt=true, showReadTime=false, showCategory=true</td>
+              <td><code>[ ]</code></td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td>Frontend renders correctly</td>
+              <td>Posts display in grid, hover effects work, links navigate correctly</td>
+              <td><code>[ ]</code></td>
+            </tr>
+            <tr>
+              <td><strong>6</strong></td>
+              <td>Responsive behavior</td>
+              <td>3 cols → 2 cols @900px → 1 col @640px (check DevTools)</td>
+              <td><code>[ ]</code></td>
+            </tr>
+            <tr>
+              <td><strong>7</strong></td>
+              <td>TypeScript types work</td>
+              <td>No TS errors in VSCode, type guards function correctly</td>
+              <td><code>[ ]</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:20px;padding:16px;background:var(--amber-light);border-radius:var(--r-sm);border-left:4px solid var(--amber);">
+          <p style="font-size:12px;color:var(--grey-700);line-height:1.6;">
+            <strong>⚠️ Common Test Failures:</strong><br>
+            • Posts relationship not populated → ensure <code style="background:rgba(0,0,0,0.1);padding:1px 4px;border-radius:2px;">depth: 1</code> in query<br>
+            • Missing thumbnails → check upload field configuration in Posts collection<br>
+            • Read time not showing → verify post content field exists and has data<br>
+            • Category badge missing → ensure category relationship in Posts is configured
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          BlogPreview block uses <strong>relationship fields</strong> which require database tables. Generate migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for BlogPreview block</span>
+npx payload migrate:create add_blogpreview_block
+
+<span class="comment"># Expected migration contents:</span>
+<span class="comment"># - Creates pages_blocks_blogpreview table</span>
+<span class="comment"># - Columns: id, title, description, columns, showExcerpt, showReadTime, showCategory</span>
+<span class="comment"># - Creates pages_blocks_blogpreview_posts_rels table for relationship</span>
+<span class="comment"># - Foreign keys: pages_blocks_blogpreview.id, posts.id</span>
+
+<span class="comment"># Verify migration file</span>
+cat src/migrations/XXXXXX_add_blogpreview_block.ts
+
+<span class="comment"># Expected SQL operations:</span>
+<span class="comment"># CREATE TABLE pages_blocks_blogpreview (</span>
+<span class="comment">#   id SERIAL PRIMARY KEY,</span>
+<span class="comment">#   _order INTEGER,</span>
+<span class="comment">#   _parent_id INTEGER REFERENCES pages(id),</span>
+<span class="comment">#   title VARCHAR(255),</span>
+<span class="comment">#   description TEXT,</span>
+<span class="comment">#   columns VARCHAR(10) DEFAULT '3',</span>
+<span class="comment">#   show_excerpt BOOLEAN DEFAULT true,</span>
+<span class="comment">#   show_read_time BOOLEAN DEFAULT false,</span>
+<span class="comment">#   show_category BOOLEAN DEFAULT true</span>
+<span class="comment"># );</span>
+
+<span class="comment"># Run migration</span>
+npx payload migrate
+
+<span class="comment"># Verify tables exist</span>
+npx payload migrate:status
+    </div>
+
+    <div class="box" style="margin-top:12px;">
+      <div class="box-content" style="padding:16px;background:var(--coral-light);border-left:4px solid var(--coral);">
+        <p style="font-size:12px;color:var(--grey-700);line-height:1.6;margin-bottom:8px;">
+          <strong style="color:var(--coral-dark);">🚨 CRITICAL: Migration Required!</strong>
+        </p>
+        <p style="font-size:12px;color:var(--grey-dark);line-height:1.6;">
+          Without running migrations, the BlogPreview block will:
+        </p>
+        <ul style="font-size:12px;color:var(--grey-dark);line-height:1.8;margin-left:20px;margin-top:8px;">
+          <li>❌ Work in development (SQLite auto-migrates)</li>
+          <li>❌ FAIL in production (PostgreSQL requires explicit migrations)</li>
+          <li>❌ Cause "relation does not exist" database errors</li>
+          <li>❌ Block users from saving pages with this block</li>
+        </ul>
+        <p style="font-size:12px;color:var(--grey-dark);line-height:1.6;margin-top:12px;">
+          <strong>Always run migrations before deploying!</strong> See <code style="background:rgba(0,0,0,0.1);padding:1px 4px;border-radius:2px;">DATABASE_MIGRATION_GUIDE.md</code> for details.
+        </p>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Troubleshooting Guide
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Common issues and solutions:
+        </p>
+
+        <table class="table" style="margin-top:16px;">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Cause</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Block not visible in admin</strong></td>
+              <td>Block not registered in payload.config.ts</td>
+              <td>Add <code>BlogPreview</code> to <code>blocks</code> array in Pages collection (see Step 8)</td>
+            </tr>
+            <tr>
+              <td><strong>Posts dropdown empty</strong></td>
+              <td>No published posts or wrong relationTo value</td>
+              <td>1) Publish at least 2 posts in /admin/posts<br>2) Verify <code>relationTo: 'posts'</code> matches collection slug</td>
+            </tr>
+            <tr>
+              <td><strong>Posts show as IDs, not objects</strong></td>
+              <td>Relationship not populated in query</td>
+              <td>Add <code>depth: 1</code> or higher to page query:<br><code>const page = await payload.findByID({ collection: 'pages', id, depth: 1 })</code></td>
+            </tr>
+            <tr>
+              <td><strong>Thumbnails don't display</strong></td>
+              <td>Missing upload field in Posts or image URLs incorrect</td>
+              <td>1) Verify Posts collection has <code>thumbnail</code> upload field<br>2) Check Next.js image domains in <code>next.config.js</code></td>
+            </tr>
+            <tr>
+              <td><strong>TypeScript errors on Post type</strong></td>
+              <td>Payload types not generated or outdated</td>
+              <td>Run <code>npx payload generate:types</code> to regenerate payload-types.ts</td>
+            </tr>
+            <tr>
+              <td><strong>Read time shows 0 or NaN</strong></td>
+              <td>Post content field is empty or wrong type</td>
+              <td>1) Ensure posts have content<br>2) Verify <code>calculateReadTime</code> receives string, not richText object</td>
+            </tr>
+            <tr>
+              <td><strong>Grid doesn't collapse on mobile</strong></td>
+              <td>Tailwind responsive classes not applied</td>
+              <td>Check <code>gridClass</code> mapping includes mobile-first classes (e.g., <code>grid-cols-1 md:grid-cols-3</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>Database error: "relation does not exist"</strong></td>
+              <td>Migration not run on production database</td>
+              <td>Run <code>npx payload migrate</code> on production server (see Step 6)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:20px;padding:16px;background:var(--grey-light);border-radius:var(--r-sm);">
+          <p style="font-size:12px;color:var(--grey-dark);line-height:1.6;margin-bottom:8px;">
+            <strong style="color:var(--navy);">Debugging Tips:</strong>
+          </p>
+          <ul style="font-size:12px;color:var(--grey-dark);line-height:1.8;margin-left:20px;">
+            <li>Check Payload admin console for validation errors when saving</li>
+            <li>Inspect browser DevTools Network tab for failed API requests</li>
+            <li>Use <code>console.log(block)</code> in Component to verify data structure</li>
+            <li>Test with minimum 2 posts (minRows validation)</li>
+            <li>Verify Posts collection exists and has required fields (title, slug, excerpt, publishedAt, thumbnail, category)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Config Registration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Register the BlogPreview block in your Payload config and Pages collection:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/payload.config.ts</span>
+<span class="keyword">import</span> { <span class="function">buildConfig</span> } <span class="keyword">from</span> <span class="string">'payload/config'</span>
+<span class="keyword">import</span> { <span class="function">BlogPreview</span> } <span class="keyword">from</span> <span class="string">'./branches/blocks/shared/BlogPreview/config'</span>
+<span class="comment">// ... other imports</span>
+
+<span class="keyword">export default</span> <span class="function">buildConfig</span>({
+  collections: [
+    {
+      slug: <span class="string">'pages'</span>,
+      fields: [
+        {
+          <span class="property">name</span>: <span class="string">'blocks'</span>,
+          <span class="property">type</span>: <span class="string">'blocks'</span>,
+          <span class="property">blocks</span>: [
+            <span class="function">BlogPreview</span>,  <span class="comment">// ← Add here</span>
+            <span class="comment">// ... other blocks (Hero, Features, CTA, etc.)</span>
+          ],
+        },
+        <span class="comment">// ... other page fields</span>
+      ],
+    },
+    <span class="comment">// ... other collections</span>
+  ],
+})
+    </div>
+
+    <div class="code-block" style="margin-top:12px;">
+<span class="comment">// app/[...slug]/page.tsx — Render blocks on frontend</span>
+<span class="keyword">import</span> { <span class="function">BlogPreview</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/BlogPreview/Component'</span>
+<span class="keyword">import</span> { <span class="function">isBlogPreviewBlock</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+
+<span class="keyword">export default async function</span> <span class="function">Page</span>({ params }) {
+  <span class="keyword">const</span> page = <span class="keyword">await</span> payload.<span class="function">findByID</span>({
+    collection: <span class="string">'pages'</span>,
+    id: params.<span class="property">slug</span>,
+    depth: <span class="number">2</span>, <span class="comment">// ← Populate posts relationship!</span>
+  })
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">div</span>&gt;
+      {page.<span class="property">blocks</span>?.<span class="function">map</span>((block) => {
+        <span class="keyword">if</span> (<span class="function">isBlogPreviewBlock</span>(block)) {
+          <span class="keyword">return</span> &lt;<span class="function">BlogPreview</span> <span class="property">key</span>={block.<span class="property">id</span>} <span class="property">block</span>={block} /&gt;
+        }
+        <span class="comment">// ... other block types</span>
+      })}
+    &lt;/<span class="keyword">div</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:12px;">
+      <div class="box-content" style="padding:16px;background:var(--green-light);border-left:4px solid var(--green);">
+        <p style="font-size:12px;color:var(--grey-700);line-height:1.6;">
+          <strong style="color:var(--green-dark);">✅ Registration Complete!</strong><br>
+          After adding the block to <code style="background:rgba(0,0,0,0.1);padding:1px 4px;border-radius:2px;">payload.config.ts</code>, restart your dev server:
+        </p>
+        <pre style="background:rgba(0,0,0,0.05);padding:12px;border-radius:6px;margin-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--grey-700);">npm run dev
+# Navigate to /admin/pages → Edit any page → Click "+ Add Block"
+# "Blog Preview Block" should now appear in the dropdown!</pre>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

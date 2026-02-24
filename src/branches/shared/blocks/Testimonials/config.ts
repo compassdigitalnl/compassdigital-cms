@@ -1,6 +1,23 @@
 import type { Block } from 'payload'
 
-export const TestimonialsBlock: Block = {
+/**
+ * B06 - Testimonials Block Configuration
+ *
+ * Customer testimonials with avatars, quotes, ratings, and author details.
+ *
+ * FEATURES:
+ * - 3 layout variants (grid, carousel, featured)
+ * - 5-star rating system
+ * - Avatar images with fallback initials
+ * - Author name and role
+ * - Grid: 3 columns on desktop, responsive
+ * - Carousel: interactive slider with navigation
+ * - Featured: large single testimonial hero
+ *
+ * @see docs/refactoring/sprint-9/shared/b06-testimonials.html
+ */
+
+export const Testimonials: Block = {
   slug: 'testimonials',
   interfaceName: 'TestimonialsBlock',
   labels: {
@@ -19,8 +36,8 @@ export const TestimonialsBlock: Block = {
               type: 'text',
               label: 'Section Title',
               admin: {
-                description: 'Optional heading (e.g., "What Our Clients Say")',
-                placeholder: 'Wat klanten zeggen',
+                description: 'Optional heading above testimonials',
+                placeholder: 'Wat Onze Klanten Zeggen',
               },
             },
             {
@@ -28,54 +45,56 @@ export const TestimonialsBlock: Block = {
               type: 'array',
               label: 'Testimonials',
               minRows: 1,
+              admin: {
+                description: 'Customer testimonials with quotes, ratings, and avatars',
+              },
               fields: [
                 {
                   name: 'quote',
                   type: 'textarea',
-                  label: 'Review Text',
                   required: true,
+                  label: 'Quote',
                   admin: {
                     rows: 3,
-                    placeholder:
-                      'Uitstekende service en snelle levering. Echt een aanrader voor iedereen!',
+                    placeholder: 'Compass Digital heeft onze online verkoop verdrievoudigd...',
                   },
                 },
                 {
                   name: 'author',
                   type: 'text',
-                  label: 'Author Name',
                   required: true,
+                  label: 'Author Name',
                   admin: {
-                    placeholder: 'John Smith',
+                    placeholder: 'Jan Smit',
                   },
                 },
                 {
                   name: 'role',
                   type: 'text',
-                  label: 'Job Title / Role',
+                  label: 'Author Role',
                   admin: {
-                    placeholder: 'CEO, Bedrijfsnaam',
+                    placeholder: 'CEO, Medisch Totaal',
                   },
                 },
                 {
                   name: 'avatar',
                   type: 'upload',
                   relationTo: 'media',
-                  label: 'Avatar Photo',
+                  label: 'Avatar Image',
                   admin: {
-                    description: 'Profile photo (falls back to initials if not provided)',
+                    description: 'Optional profile photo (square, min 80x80px)',
                   },
                 },
                 {
                   name: 'rating',
                   type: 'number',
-                  label: 'Star Rating',
+                  label: 'Rating (1-5 stars)',
                   min: 1,
                   max: 5,
                   defaultValue: 5,
-                  required: true,
                   admin: {
-                    description: 'Star rating from 1 to 5',
+                    step: 1,
+                    description: 'Star rating out of 5',
                   },
                 },
               ],
@@ -88,16 +107,16 @@ export const TestimonialsBlock: Block = {
             {
               name: 'variant',
               type: 'select',
-              label: 'Layout',
+              label: 'Layout Variant',
               defaultValue: 'grid',
-              required: true,
               options: [
-                { label: 'Grid (3 columns)', value: 'grid' },
-                { label: 'Carousel (slider with arrows)', value: 'carousel' },
-                { label: 'Featured (large single testimonial)', value: 'featured' },
+                { label: 'Grid (3 columns on desktop)', value: 'grid' },
+                { label: 'Carousel (Sliding testimonials)', value: 'carousel' },
+                { label: 'Featured (Large single testimonial)', value: 'featured' },
               ],
               admin: {
-                description: 'Choose how testimonials are displayed',
+                description:
+                  'Grid = static 3-col layout. Carousel = interactive slider. Featured = single large quote.',
               },
             },
           ],

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Typography — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* Same CSS as colors.html - full stylesheet here */
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; overflow-x: hidden; }
+.header { background: linear-gradient(135deg, var(--navy), var(--navy-light)); padding: 16px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.header-content { max-width: var(--container); margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.header-icon { width: 40px; height: 40px; background: var(--teal); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 18px; }
+.header-title { color: #fff; font-size: 18px; font-weight: 700; }
+.header-title span { color: var(--teal-light); margin-left: 8px; font-weight: 400; }
+.header-badge { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; color: rgba(255, 255, 255, 0.6); margin-left: auto; }
+.main { max-width: var(--container); margin: 0 auto; padding: 40px 24px; }
+.section { margin-bottom: 40px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--grey); }
+.section-header-left { display: flex; align-items: center; gap: 12px; }
+.section-id { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--navy); background: var(--grey-light); padding: 4px 12px; border-radius: 6px; border: 1px solid var(--grey); }
+.section-label { font-size: 13px; color: var(--grey-dark); font-weight: 600; }
+.tag { font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.04em; }
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+.box { background: var(--white); border: 1px solid var(--grey); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--sh-sm); margin-bottom: 12px; }
+.box-bar { padding: 8px 16px; background: var(--grey-light); border-bottom: 1px solid var(--grey); display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--grey-mid); font-weight: 600; }
+.box-bar .dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+.box-content { padding: 24px; }
+.code-block { background: #1e1e2e; border-radius: var(--r-sm); padding: 16px; margin-top: 12px; font-family: var(--font-mono); font-size: 11px; color: #cdd6f4; line-height: 1.8; overflow-x: auto; }
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+.table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.table th { padding: 10px 12px; background: var(--grey-light); border-bottom: 2px solid var(--grey); font-weight: 700; color: var(--grey-700); text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.table td { padding: 10px 12px; border-bottom: 1px solid var(--grey-light); color: var(--grey-dark); }
+.table tr:hover { background: rgba(0, 137, 123, 0.02); }
+.table code { font-family: var(--font-mono); font-size: 11px; background: var(--grey-light); padding: 2px 6px; border-radius: 3px; color: var(--teal-dark); }
+.alert { padding: 14px 16px; border-radius: var(--r-sm); display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.6; margin: 16px 0; }
+.alert i { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-info { background: var(--blue-light); border: 1px solid #BFDBFE; color: #1E40AF; }
+@media (max-width: 768px) {
+  .grid-3 { grid-template-columns: 1fr; }
+  .main { padding: 24px 16px; }
+  .table { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Typography<span>Design Token</span></div>
+    <span class="header-badge">Chapter 1 — Design Tokens</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <section class="section" id="typography">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Typography</span>
+        <span class="section-label">Font families & type scale</span>
+      </div>
+      <span class="tag tag-token">Design Token</span>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Font Families
+      </div>
+      <div class="box-content">
+
+        <div class="grid-3" style="margin-bottom:24px">
+          <div>
+            <div style="font-family:'Plus Jakarta Sans';font-size:24px;font-weight:700;margin-bottom:8px">Plus Jakarta Sans</div>
+            <div style="font-family:'Plus Jakarta Sans';font-size:13px;color:var(--grey-dark);line-height:1.6">
+              Primary body font for Medisch B2B vertical. Modern geometric sans-serif. Weights: 400, 500, 600, 700, 800.
+            </div>
+            <code style="display:block;margin-top:8px;font-size:11px;color:var(--teal-dark)">--font: 'Plus Jakarta Sans'</code>
+          </div>
+
+          <div>
+            <div style="font-family:'DM Serif Display';font-size:28px;font-weight:400;margin-bottom:8px">DM Serif Display</div>
+            <div style="font-family:'Plus Jakarta Sans';font-size:13px;color:var(--grey-dark);line-height:1.6">
+              Display font for hero titles, section headers, and card titles. Elegant serif contrast.
+            </div>
+            <code style="display:block;margin-top:8px;font-size:11px;color:var(--teal-dark)">--font-display: 'DM Serif Display'</code>
+          </div>
+
+          <div>
+            <div style="font-family:'JetBrains Mono';font-size:18px;font-weight:600;margin-bottom:8px">JetBrains Mono</div>
+            <div style="font-family:'Plus Jakarta Sans';font-size:13px;color:var(--grey-dark);line-height:1.6">
+              Monospace font for SKU codes, article numbers, pricing, and technical data.
+            </div>
+            <code style="display:block;margin-top:8px;font-size:11px;color:var(--teal-dark)">--font-mono: 'JetBrains Mono'</code>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          <i data-lucide="info"></i>
+          <div>
+            <strong>Vertical Override:</strong> All verticals except Medisch B2B use <strong>DM Sans</strong> as body font instead of Plus Jakarta Sans. Theme system automatically handles this via <code>data-theme</code> attribute.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Type Scale
+      </div>
+      <div class="box-content">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Size</th>
+              <th>Weight</th>
+              <th>Line Height</th>
+              <th>Usage</th>
+              <th>Preview</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>hero</code></td>
+              <td>32-36px</td>
+              <td>400</td>
+              <td>1.2</td>
+              <td>Page hero titles</td>
+              <td><span style="font-family:var(--font-display);font-size:36px;line-height:1.2">Hero Title</span></td>
+            </tr>
+            <tr>
+              <td><code>section</code></td>
+              <td>24px</td>
+              <td>400</td>
+              <td>1.3</td>
+              <td>Section headings</td>
+              <td><span style="font-family:var(--font-display);font-size:24px">Section Header</span></td>
+            </tr>
+            <tr>
+              <td><code>card-title</code></td>
+              <td>18px</td>
+              <td>400</td>
+              <td>1.4</td>
+              <td>Card headings</td>
+              <td><span style="font-family:var(--font-display);font-size:18px">Card Title</span></td>
+            </tr>
+            <tr>
+              <td><code>body-lg</code></td>
+              <td>14-15px</td>
+              <td>500</td>
+              <td>1.6</td>
+              <td>Large body, nav items</td>
+              <td><span style="font-size:15px;font-weight:500">Large body text for emphasis</span></td>
+            </tr>
+            <tr>
+              <td><code>body</code></td>
+              <td>13px</td>
+              <td>400</td>
+              <td>1.6</td>
+              <td>Default body text</td>
+              <td><span style="font-size:13px">Regular body text paragraph content</span></td>
+            </tr>
+            <tr>
+              <td><code>small</code></td>
+              <td>12px</td>
+              <td>400</td>
+              <td>1.5</td>
+              <td>Secondary text, descriptions</td>
+              <td><span style="font-size:12px;color:var(--grey-dark)">Small descriptive text</span></td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td>10-11px</td>
+              <td>700-800</td>
+              <td>1.4</td>
+              <td>Labels, overlines (uppercase)</td>
+              <td><span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:var(--teal)">LABEL TEXT</span></td>
+            </tr>
+            <tr>
+              <td><code>micro</code></td>
+              <td>8-9px</td>
+              <td>700</td>
+              <td>1.3</td>
+              <td>Badges, tags, meta info</td>
+              <td><span style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">BADGE</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- 1. PAYLOAD GLOBAL CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Global Configuration (Modular Approach)
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          <strong>✨ NEW ARCHITECTURE:</strong> Each design token gets its own file for better organization and maintainability.
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          <strong>Step 1a:</strong> Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/globals/typography/index.ts</code>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/globals/typography/index.ts</span>
+<span class="keyword">import</span> { <span class="function">Tab</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Typography</span>: <span class="function">Tab</span> = {
+  <span class="property">label</span>: <span class="string">'Typography'</span>,
+  <span class="property">fields</span>: [
+    <span class="comment">// Font Families Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Font Families'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'fontBody'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Body Font'</span>,
+          <span class="property">defaultValue</span>: <span class="string">"'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif"</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Primary body font stack'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'fontDisplay'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Display Font'</span>,
+          <span class="property">defaultValue</span>: <span class="string">"'DM Serif Display', Georgia, serif"</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Font for hero titles, section headers, card titles'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'fontMono'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Monospace Font'</span>,
+          <span class="property">defaultValue</span>: <span class="string">"'JetBrains Mono', 'Courier New', monospace"</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'For SKU codes, article numbers, pricing, technical data'</span>,
+          },
+        },
+      ],
+    },
+
+    <span class="comment">// Type Scale Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Type Scale'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'heroSize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Hero Title Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">36</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Page hero titles (32-36px range)'</span>,
+          },
+          <span class="property">min</span>: <span class="number">24</span>,
+          <span class="property">max</span>: <span class="number">48</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'sectionSize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Section Header Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">24</span>,
+          <span class="property">min</span>: <span class="number">20</span>,
+          <span class="property">max</span>: <span class="number">32</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'cardTitleSize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Card Title Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">18</span>,
+          <span class="property">min</span>: <span class="number">16</span>,
+          <span class="property">max</span>: <span class="number">24</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'bodyLgSize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Body Large Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">15</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Large body text, nav items (14-15px)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'bodySize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Body Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">13</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Default body text'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'smallSize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Small Text Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">12</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Secondary text, descriptions'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'labelSize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Label Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">10</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Labels, overlines (uppercase, 10-11px)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'microSize'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Micro Size (px)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">8</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Badges, tags, meta info (8-9px)'</span>,
+          },
+        },
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          <strong>Step 1b:</strong> Update <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/globals/Theme.ts</code> to import Typography
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/globals/Theme.ts</span>
+<span class="keyword">import</span> { <span class="function">GlobalConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Colors</span> } <span class="keyword">from</span> <span class="string">'./colors'</span>
+<span class="keyword">import</span> { <span class="function">Typography</span> } <span class="keyword">from</span> <span class="string">'./typography'</span>  <span class="comment">// ← ADD THIS</span>
+<span class="comment">// import { Spacing } from './spacing'</span>
+<span class="comment">// import { Visual } from './visual'</span>
+
+<span class="keyword">export const</span> <span class="function">Theme</span>: <span class="function">GlobalConfig</span> = {
+  slug: <span class="string">'theme'</span>,
+  access: {
+    read: () => <span class="keyword">true</span>,
+    update: ({ req: { user } }) => <span class="keyword">Boolean</span>(user),
+  },
+  fields: [
+    {
+      <span class="property">type</span>: <span class="string">'tabs'</span>,
+      <span class="property">tabs</span>: [
+        <span class="function">Colors</span>,
+        <span class="function">Typography</span>,  <span class="comment">// ← ADD THIS</span>
+        <span class="comment">// Spacing,</span>
+        <span class="comment">// Visual,</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <!-- 2. TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/theme.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/theme.ts</span>
+<span class="keyword">export interface</span> <span class="function">ThemeTypography</span> {
+  <span class="comment">// Font Families</span>
+  fontBody: <span class="keyword">string</span>
+  fontDisplay: <span class="keyword">string</span>
+  fontMono: <span class="keyword">string</span>
+
+  <span class="comment">// Type Scale (sizes in px)</span>
+  heroSize: <span class="keyword">number</span>
+  sectionSize: <span class="keyword">number</span>
+  cardTitleSize: <span class="keyword">number</span>
+  bodyLgSize: <span class="keyword">number</span>
+  bodySize: <span class="keyword">number</span>
+  smallSize: <span class="keyword">number</span>
+  labelSize: <span class="keyword">number</span>
+  microSize: <span class="keyword">number</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">Theme</span> {
+  <span class="property">id</span>: <span class="keyword">string</span>
+  <span class="property">colors</span>?: <span class="function">ThemeColors</span>
+  <span class="property">typography</span>?: <span class="function">ThemeTypography</span>  <span class="comment">// ← ADD THIS</span>
+  <span class="property">updatedAt</span>: <span class="keyword">string</span>
+  <span class="property">createdAt</span>: <span class="keyword">string</span>
+}
+    </div>
+
+    <!-- 3. USAGE IN COMPONENTS -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: Usage in Next.js Components
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Example: Fetch theme and generate CSS variables in your layout:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/layout.tsx</span>
+<span class="keyword">import</span> { <span class="function">getPayloadHMR</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/next/utilities'</span>
+<span class="keyword">import</span> configPromise <span class="keyword">from</span> <span class="string">'@payload-config'</span>
+<span class="keyword">import</span> { <span class="function">Theme</span> } <span class="keyword">from</span> <span class="string">'@/types/theme'</span>
+
+<span class="keyword">export default async function</span> <span class="function">RootLayout</span>({ children }) {
+  <span class="keyword">const</span> payload = <span class="keyword">await</span> <span class="function">getPayloadHMR</span>({ config: configPromise })
+
+  <span class="comment">// Fetch theme from Payload Global</span>
+  <span class="keyword">const</span> theme = <span class="keyword">await</span> payload.findGlobal({
+    slug: <span class="string">'theme'</span>,
+  }) <span class="keyword">as</span> <span class="function">Theme</span>
+
+  <span class="comment">// Generate CSS custom properties for typography</span>
+  <span class="keyword">const</span> typographyVars = theme.typography ? `
+    <span class="property">--font</span>: ${theme.typography.fontBody};
+    <span class="property">--font-display</span>: ${theme.typography.fontDisplay};
+    <span class="property">--font-mono</span>: ${theme.typography.fontMono};
+    <span class="property">--text-hero</span>: ${theme.typography.heroSize}px;
+    <span class="property">--text-section</span>: ${theme.typography.sectionSize}px;
+    <span class="property">--text-card-title</span>: ${theme.typography.cardTitleSize}px;
+    <span class="property">--text-body-lg</span>: ${theme.typography.bodyLgSize}px;
+    <span class="property">--text-body</span>: ${theme.typography.bodySize}px;
+    <span class="property">--text-small</span>: ${theme.typography.smallSize}px;
+    <span class="property">--text-label</span>: ${theme.typography.labelSize}px;
+    <span class="property">--text-micro</span>: ${theme.typography.microSize}px;
+  ` : <span class="string">''</span>
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">html</span> lang=<span class="string">"nl"</span>&gt;
+      &lt;<span class="keyword">head</span>&gt;
+        {typographyVars && (
+          &lt;<span class="keyword">style</span> dangerouslySetInnerHTML={{
+            __html: <span class="string">`</span>:root { ${typographyVars} }<span class="string">`</span>
+          }} /&gt;
+        )}
+      &lt;/<span class="keyword">head</span>&gt;
+      &lt;<span class="keyword">body</span>&gt;{children}&lt;/<span class="keyword">body</span>&gt;
+    &lt;/<span class="keyword">html</span>&gt;
+  )
+}
+    </div>
+
+    <!-- 4. ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you navigate to <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin/globals/theme</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--teal);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">🎨</span>
+            Theme Global
+          </div>
+          <div style="margin-left:28px;">
+            <div style="font-size:11px;color:var(--grey-mid);margin-bottom:8px;">📁 Tab: Typography</div>
+            <div style="margin-left:16px;font-size:11px;color:var(--grey-dark);">
+              <div style="margin-bottom:4px;">▸ <strong>Font Families</strong> (collapsible)</div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - fontBody: <input type="text" value="'Plus Jakarta Sans', ..." disabled style="width:180px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"><br>
+                - fontDisplay: <input type="text" value="'DM Serif Display', ..." disabled style="width:180px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"><br>
+                - fontMono: <input type="text" value="'JetBrains Mono', ..." disabled style="width:180px;font-family:var(--font-mono);font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;">
+              </div>
+              <div style="margin-top:8px;">▸ <strong>Type Scale</strong> (collapsible)</div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - heroSize: <input type="number" value="36" disabled style="width:50px;font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"> px<br>
+                - sectionSize: <input type="number" value="24" disabled style="width:50px;font-size:10px;padding:2px 4px;border:1px solid var(--grey);border-radius:3px;"> px<br>
+                - cardTitleSize, bodyLgSize, bodySize, smallSize, labelSize, microSize (8 total)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Typography tab exists:</strong> Navigate to <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin/globals/theme</code> → Typography tab visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. All 11 fields visible:</strong> 3 font families + 8 type scale sizes
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Default values set:</strong> Plus Jakarta Sans, DM Serif Display, JetBrains Mono + sizes
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Number validation works:</strong> Try setting heroSize to 100 → should accept (within min/max)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. CSS variables generated:</strong> Inspect <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;html&gt;</code> → see :root --font, --text-hero, etc.
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Font changes reflect:</strong> Change heroSize to 48 → save → check frontend hero titles
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. TypeScript types work:</strong> No TS errors in components using theme.typography
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. MIGRATION NOTES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After adding Typography tab to Theme.ts, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for typography fields</span>
+npx payload migrate:create add_typography_to_theme
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE _theme_v ADD COLUMN statements</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database</span>
+<span class="comment"># PostgreSQL: SELECT font_body, hero_size FROM _theme_v;</span>
+<span class="comment"># Should show default values</span>
+    </div>
+
+    <!-- 7. TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Typography tab not showing</td>
+              <td>Check <code>src/globals/Theme.ts</code> → tabs array includes Typography import</td>
+            </tr>
+            <tr>
+              <td>Fields not showing in admin</td>
+              <td>Restart dev server (<code>npm run dev</code>)</td>
+            </tr>
+            <tr>
+              <td>Fonts not loading on frontend</td>
+              <td>Check Google Fonts CDN link in <code>app/layout.tsx</code> or add to public/fonts/</td>
+            </tr>
+            <tr>
+              <td>CSS variables not applying</td>
+              <td>Check <code>app/layout.tsx</code> has typography CSS variable generation code</td>
+            </tr>
+            <tr>
+              <td>TypeScript errors on theme.typography</td>
+              <td>Check <code>src/types/theme.ts</code> → ThemeTypography interface exists</td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 8. VERTICAL OVERRIDES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Vertical Theme Overrides
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          <strong>Multi-tenant font handling:</strong> All verticals except Medisch B2B use DM Sans as body font:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// styles/verticals.css</span>
+<span class="comment">// All verticals except medisch-b2b override the body font</span>
+
+[<span class="property">data-theme</span>=<span class="string">"beauty"</span>],
+[<span class="property">data-theme</span>=<span class="string">"bouw"</span>],
+[<span class="property">data-theme</span>=<span class="string">"horeca"</span>],
+[<span class="property">data-theme</span>=<span class="string">"zorg"</span>],
+[<span class="property">data-theme</span>=<span class="string">"makelaar"</span>],
+[<span class="property">data-theme</span>=<span class="string">"automotive"</span>],
+[<span class="property">data-theme</span>=<span class="string">"professional"</span>],
+[<span class="property">data-theme</span>=<span class="string">"events"</span>],
+[<span class="property">data-theme</span>=<span class="string">"accommodatie"</span>] {
+  <span class="property">--font</span>: <span class="string">'DM Sans', system-ui, sans-serif</span>;  <span class="comment">/* Override body font */</span>
+  <span class="comment">/* Display and mono fonts remain the same */</span>
+}
+
+<span class="comment">// Medisch B2B keeps Plus Jakarta Sans (default)</span>
+[<span class="property">data-theme</span>=<span class="string">"medisch-b2b"</span>] {
+  <span class="property">--font</span>: <span class="string">'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif</span>;
+}
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

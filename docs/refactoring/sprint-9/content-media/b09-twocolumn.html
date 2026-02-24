@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two Column Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.grid-60-40 {
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  gap: 32px;
+}
+
+.grid-40-60 {
+  display: grid;
+  grid-template-columns: 40fr 60fr;
+  gap: 32px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-2, .grid-60-40, .grid-40-60 {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Two Column Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-twocolumn">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B9</span>
+        <span class="section-label">Two Column Block</span>
+      </div>
+      <span class="tag" style="background:var(--grey-mid);color:white">Neutral</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Two text columns with rich text support. Flexible split ratios: 50/50, 60/40, or 40/60. Both columns support full Lexical editor features.
+    </p>
+
+    <!-- 50/50 SPLIT -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 50/50 Split
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+        <div class="grid-2">
+          <div>
+            <h3 style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px">Platform Features</h3>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7;margin-bottom:12px">
+              Compass Digital biedt een <strong>complete multi-tenant oplossing</strong> voor bedrijven die meerdere webshops willen beheren. Met onze 10 pre-built industry themes kun je binnen enkele uren een productie-ready webshop lanceren.
+            </p>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7">
+              De platform architectuur is gebouwd op Next.js 15, Payload CMS 3.0, en PostgreSQL. Dit zorgt voor schaalbare performance en eenvoudig onderhoud.
+            </p>
+          </div>
+          <div>
+            <h3 style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px">Developer Experience</h3>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7;margin-bottom:12px">
+              Onze <strong>156+ componenten</strong> zijn allemaal TypeScript-first en volledig gedocumenteerd. Elk component volgt het design system met pixel-perfect implementaties.
+            </p>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7">
+              Edge caching, optimistic UI updates, en React Server Components zorgen voor een razendsnelle gebruikerservaring zonder compromissen op SEO.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// TwoColumn Block — Payload Schema (50/50)</span>
+{
+  <span class="property">slug</span>: <span class="string">'twocolumn'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'split'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">defaultValue</span>: <span class="string">'50-50'</span> },
+    { <span class="property">name</span>: <span class="string">'columnOne'</span>, <span class="property">type</span>: <span class="string">'richText'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'columnTwo'</span>, <span class="property">type</span>: <span class="string">'richText'</span>, <span class="property">required</span>: <span class="keyword">true</span> }
+  ]
+}
+    </div>
+
+    <!-- 60/40 SPLIT -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 60/40 Split
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+        <div class="grid-60-40">
+          <div>
+            <h3 style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px">Main Content (60%)</h3>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7;margin-bottom:12px">
+              De <strong>60/40 split</strong> is perfect voor content waar de linker kolom de primaire informatie bevat en de rechter kolom aanvullende details of een sidebar toont.
+            </p>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7;margin-bottom:12px">
+              Dit layout patroon wordt vaak gebruikt voor landing pages, feature pages, of documentatie waar de main content belangrijker is dan de sidebar informatie.
+            </p>
+            <ul style="font-size:14px;color:var(--grey-dark);line-height:1.8;padding-left:20px;margin-bottom:12px">
+              <li>More space for primary content</li>
+              <li>Sidebar for supplementary info</li>
+              <li>Visual hierarchy through sizing</li>
+              <li>Responsive stacking on mobile</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px">Sidebar (40%)</h3>
+            <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:12px;padding:16px;margin-bottom:12px">
+              <h4 style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px">Quick Stats</h4>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">
+                156+ components<br>
+                10 industry themes<br>
+                Multi-tenant ready<br>
+                TypeScript-first
+              </p>
+            </div>
+            <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">
+              Use this narrower column for callouts, stats, related links, or secondary information.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 40/60 SPLIT -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 40/60 Split
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+        <div class="grid-40-60">
+          <div>
+            <h3 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px">Sidebar First (40%)</h3>
+            <div style="background:var(--teal-glow);border-left:3px solid var(--teal);padding:16px;border-radius:8px;margin-bottom:12px">
+              <p style="font-size:13px;color:var(--grey-700);margin:0;line-height:1.6">
+                💡 <strong>Pro Tip:</strong> Use 40/60 split when you want a left-aligned sidebar or navigation column.
+              </p>
+            </div>
+            <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">
+              This layout works well for documentation, tutorials, or pages where you want left-side navigation or contextual information.
+            </p>
+          </div>
+          <div>
+            <h3 style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px">Main Content (60%)</h3>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7;margin-bottom:12px">
+              The <strong>40/60 split</strong> reverses the emphasis, putting the wider column on the right. This is useful when you want the main content to flow on the right side while keeping contextual information on the left.
+            </p>
+            <p style="font-size:14px;color:var(--grey-dark);line-height:1.7;margin-bottom:12px">
+              Common use cases include:
+            </p>
+            <ul style="font-size:14px;color:var(--grey-dark);line-height:1.8;padding-left:20px">
+              <li>Documentation with left-side table of contents</li>
+              <li>Product pages with specifications sidebar</li>
+              <li>Case studies with metadata panel</li>
+              <li>Tutorials with navigation steps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/TwoColumn/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/TwoColumn/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> {
+  <span class="function">lexicalEditor</span>,
+  <span class="function">HeadingFeature</span>,
+  <span class="function">BoldFeature</span>,
+  <span class="function">ItalicFeature</span>,
+  <span class="function">LinkFeature</span>,
+  <span class="function">UnorderedListFeature</span>,
+  <span class="function">OrderedListFeature</span>,
+  <span class="function">BlockquoteFeature</span>,
+  <span class="function">ParagraphFeature</span>,
+  <span class="function">UnderlineFeature</span>,
+  <span class="function">StrikethroughFeature</span>,
+} <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical'</span>
+
+<span class="keyword">export const</span> <span class="function">TwoColumn</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'twocolumn'</span>,
+  labels: {
+    singular: <span class="string">'Two Column Block'</span>,
+    plural: <span class="string">'Two Column Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'split'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Column Split Ratio'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'50-50'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'50/50 — Equal columns'</span>,
+          <span class="property">value</span>: <span class="string">'50-50'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'60/40 — Left wider'</span>,
+          <span class="property">value</span>: <span class="string">'60-40'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'40/60 — Right wider'</span>,
+          <span class="property">value</span>: <span class="string">'40-60'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Controls the width ratio between the two columns. 50/50 for equal width, 60/40 for left emphasis, 40/60 for right emphasis.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'columnOne'</span>,
+      <span class="property">type</span>: <span class="string">'richText'</span>,
+      <span class="property">label</span>: <span class="string">'Column One (Left)'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+        <span class="property">features</span>: ({ defaultFeatures }) => [
+          <span class="function">ParagraphFeature</span>(),
+          <span class="function">HeadingFeature</span>({
+            enabledHeadingSizes: [<span class="string">'h2'</span>, <span class="string">'h3'</span>, <span class="string">'h4'</span>, <span class="string">'h5'</span>, <span class="string">'h6'</span>],
+          }),
+          <span class="function">BoldFeature</span>(),
+          <span class="function">ItalicFeature</span>(),
+          <span class="function">UnderlineFeature</span>(),
+          <span class="function">StrikethroughFeature</span>(),
+          <span class="function">LinkFeature</span>({
+            fields: [
+              {
+                <span class="property">name</span>: <span class="string">'rel'</span>,
+                <span class="property">label</span>: <span class="string">'Rel Attribute'</span>,
+                <span class="property">type</span>: <span class="string">'select'</span>,
+                <span class="property">options</span>: [
+                  { label: <span class="string">'noopener'</span>, value: <span class="string">'noopener'</span> },
+                  { label: <span class="string">'noreferrer'</span>, value: <span class="string">'noreferrer'</span> },
+                  { label: <span class="string">'nofollow'</span>, value: <span class="string">'nofollow'</span> },
+                ],
+                <span class="property">hasMany</span>: <span class="keyword">true</span>,
+              },
+            ],
+          }),
+          <span class="function">UnorderedListFeature</span>(),
+          <span class="function">OrderedListFeature</span>(),
+          <span class="function">BlockquoteFeature</span>(),
+        ],
+      }),
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Content for the left column. Supports headings, lists, links, and text formatting.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'columnTwo'</span>,
+      <span class="property">type</span>: <span class="string">'richText'</span>,
+      <span class="property">label</span>: <span class="string">'Column Two (Right)'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+        <span class="property">features</span>: ({ defaultFeatures }) => [
+          <span class="function">ParagraphFeature</span>(),
+          <span class="function">HeadingFeature</span>({
+            enabledHeadingSizes: [<span class="string">'h2'</span>, <span class="string">'h3'</span>, <span class="string">'h4'</span>, <span class="string">'h5'</span>, <span class="string">'h6'</span>],
+          }),
+          <span class="function">BoldFeature</span>(),
+          <span class="function">ItalicFeature</span>(),
+          <span class="function">UnderlineFeature</span>(),
+          <span class="function">StrikethroughFeature</span>(),
+          <span class="function">LinkFeature</span>({
+            fields: [
+              {
+                <span class="property">name</span>: <span class="string">'rel'</span>,
+                <span class="property">label</span>: <span class="string">'Rel Attribute'</span>,
+                <span class="property">type</span>: <span class="string">'select'</span>,
+                <span class="property">options</span>: [
+                  { label: <span class="string">'noopener'</span>, value: <span class="string">'noopener'</span> },
+                  { label: <span class="string">'noreferrer'</span>, value: <span class="string">'noreferrer'</span> },
+                  { label: <span class="string">'nofollow'</span>, value: <span class="string">'nofollow'</span> },
+                ],
+                <span class="property">hasMany</span>: <span class="keyword">true</span>,
+              },
+            ],
+          }),
+          <span class="function">UnorderedListFeature</span>(),
+          <span class="function">OrderedListFeature</span>(),
+          <span class="function">BlockquoteFeature</span>(),
+        ],
+      }),
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Content for the right column. Supports headings, lists, links, and text formatting.'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> and add the TwoColumnBlock interface:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">SerializedEditorState</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/lexical'</span>
+
+<span class="keyword">export interface</span> <span class="function">TwoColumnBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'twocolumn'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">split</span>: <span class="string">'50-50'</span> | <span class="string">'60-40'</span> | <span class="string">'40-60'</span>
+  <span class="property">columnOne</span>: <span class="function">SerializedEditorState</span>
+  <span class="property">columnTwo</span>: <span class="function">SerializedEditorState</span>
+}
+
+<span class="comment">// Type guard to check if a block is a TwoColumnBlock</span>
+<span class="keyword">export function</span> <span class="function">isTwoColumnBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">TwoColumnBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'twocolumn'</span>
+}
+
+<span class="comment">// Helper type for split ratio mapping</span>
+<span class="keyword">export type</span> <span class="function">ColumnSplit</span> = <span class="function">TwoColumnBlock</span>[<span class="string">'split'</span>]
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/TwoColumn/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/TwoColumn/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">RichText</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/react'</span>
+<span class="keyword">import</span> { <span class="function">TwoColumnBlock</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+
+<span class="keyword">interface</span> <span class="function">TwoColumnProps</span> {
+  <span class="property">block</span>: <span class="function">TwoColumnBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">TwoColumn</span>: React.<span class="function">FC</span>&lt;<span class="function">TwoColumnProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { split, columnOne, columnTwo } = block
+
+  <span class="comment">// Map split ratio to Tailwind grid classes</span>
+  <span class="keyword">const</span> gridClass = {
+    <span class="string">'50-50'</span>: <span class="string">'grid-cols-1 md:grid-cols-2'</span>,
+    <span class="string">'60-40'</span>: <span class="string">'grid-cols-1 md:grid-cols-[60fr_40fr]'</span>,
+    <span class="string">'40-60'</span>: <span class="string">'grid-cols-1 md:grid-cols-[40fr_60fr]'</span>,
+  }[split]
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-12 md:py-16"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'grid gap-8 md:gap-12'</span>, gridClass)}&gt;
+
+          <span class="comment">{/* Column One */}</span>
+          &lt;<span class="keyword">div</span> className=<span class="string">"prose prose-slate max-w-none prose-headings:font-display prose-headings:text-navy prose-a:text-teal prose-a:no-underline hover:prose-a:underline"</span>&gt;
+            &lt;<span class="function">RichText</span> data={columnOne} /&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+
+          <span class="comment">{/* Column Two */}</span>
+          &lt;<span class="keyword">div</span> className=<span class="string">"prose prose-slate max-w-none prose-headings:font-display prose-headings:text-navy prose-a:text-teal prose-a:no-underline hover:prose-a:underline"</span>&gt;
+            &lt;<span class="function">RichText</span> data={columnTwo} /&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Alternative: Custom Column Wrapper</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          If you need more control over individual column styling, you can wrap each column in a custom div with specific classes:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// Alternative implementation with custom column wrappers</span>
+<span class="keyword">export const</span> <span class="function">TwoColumn</span>: React.<span class="function">FC</span>&lt;<span class="function">TwoColumnProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { split, columnOne, columnTwo } = block
+
+  <span class="keyword">const</span> gridClass = {
+    <span class="string">'50-50'</span>: <span class="string">'grid-cols-1 md:grid-cols-2'</span>,
+    <span class="string">'60-40'</span>: <span class="string">'grid-cols-1 md:grid-cols-[60fr_40fr]'</span>,
+    <span class="string">'40-60'</span>: <span class="string">'grid-cols-1 md:grid-cols-[40fr_60fr]'</span>,
+  }[split]
+
+  <span class="comment">// Different styling for sidebar columns (40% width)</span>
+  <span class="keyword">const</span> isSidebarLeft = split === <span class="string">'40-60'</span>
+  <span class="keyword">const</span> isSidebarRight = split === <span class="string">'60-40'</span>
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-12 md:py-16"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'grid gap-8 md:gap-12'</span>, gridClass)}&gt;
+
+          <span class="comment">{/* Column One with conditional sidebar styling */}</span>
+          &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(
+            <span class="string">"prose prose-slate max-w-none"</span>,
+            isSidebarLeft && <span class="string">"prose-sm"</span>, <span class="comment">// Smaller text for sidebar</span>
+          )}&gt;
+            &lt;<span class="function">RichText</span> data={columnOne} /&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+
+          <span class="comment">{/* Column Two with conditional sidebar styling */}</span>
+          &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(
+            <span class="string">"prose prose-slate max-w-none"</span>,
+            isSidebarRight && <span class="string">"prose-sm"</span>, <span class="comment">// Smaller text for sidebar</span>
+          )}&gt;
+            &lt;<span class="function">RichText</span> data={columnTwo} /&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Two Column block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--grey-mid);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">⚖</span>
+            Two Column Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Column Split Ratio</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                <option>50/50 — Equal columns</option>
+                <option>60/40 — Left wider</option>
+                <option>40/60 — Right wider</option>
+              </select>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">
+                Controls the width ratio between columns
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Column One (Left)</div>
+              <div style="background:var(--grey-light);padding:8px;border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                ┌─────────────────────────────────────┐<br>
+                │ <strong>B</strong> <em>I</em> <u>U</u> 🔗 H2 H3 • ○ &lt;/&gt;     │ <span style="color:var(--grey-mid);">← Toolbar</span><br>
+                ├─────────────────────────────────────┤<br>
+                │                                     │<br>
+                │ Type left column content here...    │<br>
+                │                                     │<br>
+                └─────────────────────────────────────┘
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Column Two (Right)</div>
+              <div style="background:var(--grey-light);padding:8px;border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                ┌─────────────────────────────────────┐<br>
+                │ <strong>B</strong> <em>I</em> <u>U</u> 🔗 H2 H3 • ○ &lt;/&gt;     │ <span style="color:var(--grey-mid);">← Toolbar</span><br>
+                ├─────────────────────────────────────┤<br>
+                │                                     │<br>
+                │ Type right column content here...   │<br>
+                │                                     │<br>
+                └─────────────────────────────────────┘
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Two Column Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. All split options work:</strong> Test 50/50, 60/40, and 40/60 splits → verify grid classes applied correctly
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Lexical editors load:</strong> Both column editors initialize with toolbar features
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Rich text features work:</strong> Test headings, lists, links, formatting in both columns
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Responsive stacking:</strong> On mobile (<768px), columns stack vertically with proper gap
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Content saves and persists:</strong> Save page → reload admin → both columns retain content
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. TypeScript compilation:</strong> Run <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">npm run build</code> → no TypeScript errors
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Two Column block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for TwoColumn block</span>
+npx payload migrate:create add_twocolumn_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for split, columnOne, and columnTwo</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.split (type: varchar) — enum: '50-50', '60-40', '40-60'</span>
+<span class="comment"># - pages_blocks.column_one (type: jsonb) — stores serialized Lexical state</span>
+<span class="comment"># - pages_blocks.column_two (type: jsonb) — stores serialized Lexical state</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('split', 'column_one', 'column_two');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#  column_name  | data_type</span>
+<span class="comment"># --------------+-----------</span>
+<span class="comment">#  split        | varchar</span>
+<span class="comment">#  column_one   | jsonb</span>
+<span class="comment">#  column_two   | jsonb</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Grid columns not splitting correctly</td>
+              <td>Check Tailwind config: ensure <code>@tailwindcss/typography</code> plugin is installed and grid-cols-[60fr_40fr] syntax is supported (Tailwind 3.0+)</td>
+            </tr>
+            <tr>
+              <td>Columns stack on desktop instead of side-by-side</td>
+              <td>Verify <code>md:</code> breakpoint prefix is present: <code>md:grid-cols-2</code>. Check viewport width is >768px.</td>
+            </tr>
+            <tr>
+              <td>Lexical editors not loading in admin</td>
+              <td>Check imports: <code>@payloadcms/richtext-lexical</code> installed? Run <code>npm install @payloadcms/richtext-lexical</code></td>
+            </tr>
+            <tr>
+              <td>Content not rendering on frontend</td>
+              <td>Verify <code>&lt;RichText data={columnOne} /&gt;</code> component imported from <code>@payloadcms/richtext-lexical/react</code> (not the config package)</td>
+            </tr>
+            <tr>
+              <td>Split ratio not applying</td>
+              <td>Check grid class mapping logic: ensure all 3 split values ('50-50', '60-40', '40-60') are handled in the switch/object mapping</td>
+            </tr>
+            <tr>
+              <td>Prose styles not working</td>
+              <td>Install <code>@tailwindcss/typography</code>: <code>npm install -D @tailwindcss/typography</code> and add to <code>plugins: [require('@tailwindcss/typography')]</code></td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code> → check <code>pages_blocks</code> table has <code>split</code>, <code>column_one</code>, <code>column_two</code> columns</td>
+            </tr>
+            <tr>
+              <td>TypeScript error: SerializedEditorState</td>
+              <td>Import from correct path: <code>import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'</code></td>
+            </tr>
+            <tr>
+              <td>Gap between columns too large/small</td>
+              <td>Adjust gap in grid className: <code>gap-8 md:gap-12</code> → change to <code>gap-6 md:gap-10</code> or desired spacing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Two Column block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">TwoColumn</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/TwoColumn/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">TwoColumn</span>,  <span class="comment">// ← Add TwoColumn block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// Content,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">TwoColumn</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/TwoColumn/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'twocolumn'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">TwoColumn</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Pro Tip: Responsive Gap Adjustment</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          For better mobile experience, consider adjusting gap sizes based on split ratio:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// Enhanced responsive gap logic</span>
+<span class="keyword">const</span> gapClass = {
+  <span class="string">'50-50'</span>: <span class="string">'gap-8 md:gap-12'</span>,    <span class="comment">// Equal columns: larger gap</span>
+  <span class="string">'60-40'</span>: <span class="string">'gap-6 md:gap-10'</span>,    <span class="comment">// Sidebar right: medium gap</span>
+  <span class="string">'40-60'</span>: <span class="string">'gap-6 md:gap-10'</span>,    <span class="comment">// Sidebar left: medium gap</span>
+}[split]
+
+<span class="keyword">return</span> (
+  &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'grid'</span>, gridClass, gapClass)}&gt;
+    <span class="comment">...</span>
+  &lt;/<span class="keyword">div</span>&gt;
+)
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

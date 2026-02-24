@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B18: InfoBox Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--amber);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--amber);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       INFOBOX COMPONENT STYLES
+       ═══════════════════════════════════════════════════════════ */
+    .infobox {
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .infobox-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .infobox-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .infobox-content {
+      flex: 1;
+    }
+
+    .infobox-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .infobox-description {
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .infobox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition);
+      opacity: 0.6;
+    }
+
+    .infobox-close:hover {
+      opacity: 1;
+      background: rgba(0,0,0,0.05);
+    }
+
+    .infobox-close i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Info variant (blue) */
+    .infobox.info {
+      background: var(--blue-light);
+      border-left-color: var(--blue);
+    }
+
+    .infobox.info .infobox-icon,
+    .infobox.info .infobox-title,
+    .infobox.info .infobox-close {
+      color: var(--blue);
+    }
+
+    /* Success variant (green) */
+    .infobox.success {
+      background: var(--green-light);
+      border-left-color: var(--green);
+    }
+
+    .infobox.success .infobox-icon,
+    .infobox.success .infobox-title,
+    .infobox.success .infobox-close {
+      color: var(--green);
+    }
+
+    /* Warning variant (amber) */
+    .infobox.warning {
+      background: var(--amber-light);
+      border-left-color: var(--amber);
+    }
+
+    .infobox.warning .infobox-icon,
+    .infobox.warning .infobox-title,
+    .infobox.warning .infobox-close {
+      color: var(--amber);
+    }
+
+    /* Error variant (coral) */
+    .infobox.error {
+      background: var(--coral-light);
+      border-left-color: var(--coral);
+    }
+
+    .infobox.error .infobox-icon,
+    .infobox.error .infobox-title,
+    .infobox.error .infobox-close {
+      color: var(--coral);
+    }
+
+    .infobox-description {
+      color: var(--grey-dark);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">InfoBox Block<span>Navigation & Info Branch — B18</span></div>
+    <span class="header-badge">Status</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <section class="section" id="block-infobox">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B18</span>
+          <span class="section-label">InfoBox Block</span>
+        </div>
+        <span class="tag" style="background:var(--amber);color:white">Status</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Colored callout box. 4 variants: info (blue), success (green), warning (amber), error (coral). Met icon + titel + beschrijving. Optionally dismissible met close button.
+      </p>
+
+      <!-- VISUAL PREVIEWS -->
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-yellow"></span>
+          Visual Preview — All 4 Variants
+        </div>
+        <div class="box-content" style="padding:40px;background:var(--bg)">
+
+          <!-- Info variant -->
+          <div class="infobox info">
+            <div class="infobox-header">
+              <i data-lucide="info" class="infobox-icon"></i>
+              <div class="infobox-content">
+                <strong class="infobox-title">Database Setup Required</strong>
+                <p class="infobox-description">
+                  Zorg dat <code style="background:rgba(33,150,243,0.1);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">DATABASE_URL</code> correct is ingesteld in <code>.env.local</code>. Voor development kan je PostgreSQL via Railway, Supabase, of lokaal via Docker draaien.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success variant -->
+          <div class="infobox success">
+            <div class="infobox-header">
+              <i data-lucide="check-circle" class="infobox-icon"></i>
+              <div class="infobox-content">
+                <strong class="infobox-title">Order Successfully Placed</strong>
+                <p class="infobox-description">
+                  Je bestelling #12345 is succesvol geplaatst en wordt binnen 2 werkdagen verzonden. Je ontvangt een track & trace code per email zodra je pakket onderweg is.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Warning variant -->
+          <div class="infobox warning">
+            <div class="infobox-header">
+              <i data-lucide="alert-triangle" class="infobox-icon"></i>
+              <div class="infobox-content">
+                <strong class="infobox-title">Limited Stock Available</strong>
+                <p class="infobox-description">
+                  Dit product is bijna uitverkocht. Er zijn nog maar <strong>3 stuks</strong> beschikbaar op voorraad. Bestel snel om teleurstelling te voorkomen.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error variant with dismissible -->
+          <div class="infobox error">
+            <div class="infobox-header">
+              <i data-lucide="x-circle" class="infobox-icon"></i>
+              <div class="infobox-content">
+                <strong class="infobox-title">Payment Failed</strong>
+                <p class="infobox-description">
+                  Je betaling kon niet worden verwerkt. Controleer of je banksaldo voldoende is en probeer het opnieuw. Neem contact op met support als het probleem aanhoudt.
+                </p>
+              </div>
+            </div>
+            <button class="infobox-close" aria-label="Close notification">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="comment">// InfoBox Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'infobox'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'variant'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'info'</span>, <span class="string">'success'</span>, <span class="string">'warning'</span>, <span class="string">'error'</span>],
+      <span class="property">defaultValue</span>: <span class="string">'info'</span>, <span class="property">required</span>: <span class="keyword">true</span>
+    },
+    { <span class="property">name</span>: <span class="string">'icon'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'richText'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'dismissible'</span>, <span class="property">type</span>: <span class="string">'checkbox'</span>, <span class="property">defaultValue</span>: <span class="keyword">false</span> }
+  ]
+}
+      </div>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:48px">
+    <h3 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:32px;border-bottom:2px solid var(--grey);padding-bottom:16px">Complete Implementation Guide (8 Steps)</h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Status notification block with 4 color-coded variants. Supports optional close button for dismissible notifications. Icon, title, and rich text description fields.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/InfoBox/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  BoldFeature,
+  ItalicFeature,
+  LinkFeature,
+  InlineCodeFeature,
+} from '@payloadcms/richtext-lexical'
+
+export const InfoBox: Block = {
+  slug: 'infobox',
+  labels: {
+    singular: 'InfoBox Block',
+    plural: 'InfoBox Blocks',
+  },
+  interfaceName: 'InfoBoxBlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Variant',
+              required: true,
+              defaultValue: 'info',
+              options: [
+                {
+                  label: 'Info (Blue) — General information, tips, notes',
+                  value: 'info',
+                },
+                {
+                  label: 'Success (Green) — Confirmations, completed actions',
+                  value: 'success',
+                },
+                {
+                  label: 'Warning (Amber) — Cautions, important notices',
+                  value: 'warning',
+                },
+                {
+                  label: 'Error (Coral) — Errors, failures, critical issues',
+                  value: 'error',
+                },
+              ],
+              admin: {
+                description: 'Color scheme and semantic meaning of the notification',
+              },
+            },
+            {
+              name: 'icon',
+              type: 'text',
+              label: 'Icon (Lucide)',
+              admin: {
+                description: 'Lucide icon name (e.g., "info", "check-circle", "alert-triangle", "x-circle"). Leave empty for auto-icon based on variant.',
+                placeholder: 'e.g., info',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Title',
+              required: true,
+              admin: {
+                description: 'Bold heading for the notification (keep under 50 chars)',
+                placeholder: 'e.g., Database Setup Required',
+              },
+            },
+            {
+              name: 'description',
+              type: 'richText',
+              label: 'Description',
+              required: true,
+              editor: lexicalEditor({
+                features: ({ defaultFeatures }) => [
+                  ...defaultFeatures,
+                  BoldFeature(),
+                  ItalicFeature(),
+                  LinkFeature(),
+                  InlineCodeFeature(),
+                ],
+              }),
+              admin: {
+                description: 'Detailed explanation (supports bold, italic, links, inline code)',
+              },
+            },
+          ],
+        },
+        // TAB 2: BEHAVIOR
+        {
+          label: 'Behavior',
+          fields: [
+            {
+              name: 'dismissible',
+              type: 'checkbox',
+              label: 'Dismissible',
+              defaultValue: false,
+              admin: {
+                description: 'Allow users to close this notification with an X button',
+              },
+            },
+            {
+              name: 'persistent',
+              type: 'checkbox',
+              label: 'Persistent',
+              defaultValue: false,
+              admin: {
+                description: 'If dismissible, remember dismissal across page loads (uses localStorage)',
+                condition: (data) => data.dismissible === true,
+              },
+            },
+            {
+              name: 'storageKey',
+              type: 'text',
+              label: 'Storage Key',
+              admin: {
+                description: 'Unique key for localStorage (e.g., "dismissed-db-warning"). Required if persistent.',
+                placeholder: 'e.g., dismissed-db-warning',
+                condition: (data) => data.dismissible === true && data.persistent === true,
+              },
+            },
+          ],
+        },
+        // TAB 3: DESIGN
+        {
+          label: 'Design',
+          fields: [
+            {
+              name: 'maxWidth',
+              type: 'select',
+              label: 'Max Width',
+              defaultValue: 'wide',
+              options: [
+                { label: 'Narrow (640px)', value: 'narrow' },
+                { label: 'Wide (900px)', value: 'wide' },
+                { label: 'Full (100%)', value: 'full' },
+              ],
+              admin: {
+                description: 'Content container width',
+              },
+            },
+            {
+              name: 'marginTop',
+              type: 'select',
+              label: 'Margin Top',
+              defaultValue: 'md',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (12px)', value: 'sm' },
+                { label: 'Medium (24px)', value: 'md' },
+                { label: 'Large (48px)', value: 'lg' },
+              ],
+            },
+            {
+              name: 'marginBottom',
+              type: 'select',
+              label: 'Margin Bottom',
+              defaultValue: 'md',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (12px)', value: 'sm' },
+                { label: 'Medium (24px)', value: 'md' },
+                { label: 'Large (48px)', value: 'lg' },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/InfoBox/types.ts</span>
+          </div>
+          <pre><code>export type InfoBoxVariant = 'info' | 'success' | 'warning' | 'error'
+
+export type MaxWidth = 'narrow' | 'wide' | 'full'
+export type Margin = 'none' | 'sm' | 'md' | 'lg'
+
+export interface InfoBoxBlock {
+  blockType: 'infobox'
+  variant: InfoBoxVariant
+  icon?: string // Lucide icon name
+  title: string
+  description: any // Lexical JSON
+  dismissible: boolean
+  persistent?: boolean
+  storageKey?: string
+  maxWidth: MaxWidth
+  marginTop: Margin
+  marginBottom: Margin
+}
+
+export interface InfoBoxComponentProps {
+  block: InfoBoxBlock
+}
+
+// Variant configuration mapping
+export interface InfoBoxVariantConfig {
+  bgColor: string
+  borderColor: string
+  iconColor: string
+  textColor: string
+  defaultIcon: string
+}
+
+export const variantConfig: Record<InfoBoxVariant, InfoBoxVariantConfig> = {
+  info: {
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-500',
+    iconColor: 'text-blue-500',
+    textColor: 'text-blue-900',
+    defaultIcon: 'info',
+  },
+  success: {
+    bgColor: 'bg-green-50',
+    borderColor: 'border-green-500',
+    iconColor: 'text-green-500',
+    textColor: 'text-green-900',
+    defaultIcon: 'check-circle',
+  },
+  warning: {
+    bgColor: 'bg-amber-50',
+    borderColor: 'border-amber-500',
+    iconColor: 'text-amber-500',
+    textColor: 'text-amber-900',
+    defaultIcon: 'alert-triangle',
+  },
+  error: {
+    bgColor: 'bg-coral-50',
+    borderColor: 'border-coral-500',
+    iconColor: 'text-coral-500',
+    textColor: 'text-coral-900',
+    defaultIcon: 'x-circle',
+  },
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Server + Client Components</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          <strong>InfoBox.tsx:</strong> Main server component with variant styling logic.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/InfoBox/Component.tsx</span>
+          </div>
+          <pre><code>'use client'
+
+import React, { useState, useEffect } from 'react'
+import type { InfoBoxComponentProps } from './types'
+import { variantConfig } from './types'
+import { serializeLexical } from '@/utilities/serializeLexical'
+import { cn } from '@/utilities/cn'
+import * as LucideIcons from 'lucide-react'
+
+export function InfoBox({ block }: InfoBoxComponentProps) {
+  const {
+    variant = 'info',
+    icon,
+    title,
+    description,
+    dismissible = false,
+    persistent = false,
+    storageKey,
+    maxWidth = 'wide',
+    marginTop = 'md',
+    marginBottom = 'md',
+  } = block
+
+  const [dismissed, setDismissed] = useState(false)
+
+  // Check localStorage if persistent
+  useEffect(() => {
+    if (dismissible && persistent && storageKey) {
+      const isDismissed = localStorage.getItem(`infobox-${storageKey}`)
+      if (isDismissed === 'true') {
+        setDismissed(true)
+      }
+    }
+  }, [dismissible, persistent, storageKey])
+
+  const handleDismiss = () => {
+    setDismissed(true)
+    if (persistent && storageKey) {
+      localStorage.setItem(`infobox-${storageKey}`, 'true')
+    }
+  }
+
+  if (dismissed) return null
+
+  const config = variantConfig[variant]
+  const iconName = icon || config.defaultIcon
+  const IconComponent = LucideIcons[iconName as keyof typeof LucideIcons] as React.ComponentType<any>
+
+  const maxWidthClasses = {
+    narrow: 'max-w-2xl',
+    wide: 'max-w-4xl',
+    full: 'max-w-full',
+  }
+
+  const marginTopClasses = {
+    none: '',
+    sm: 'mt-3',
+    md: 'mt-6',
+    lg: 'lg-12',
+  }
+
+  const marginBottomClasses = {
+    none: '',
+    sm: 'mb-3',
+    md: 'mb-6',
+    lg: 'mb-12',
+  }
+
+  return (
+    <section
+      className={cn(
+        'w-full',
+        marginTopClasses[marginTop],
+        marginBottomClasses[marginBottom]
+      )}
+    >
+      <div className={cn('mx-auto px-6', maxWidthClasses[maxWidth])}>
+        <div
+          className={cn(
+            'relative p-5 rounded-lg border-l-[3px]',
+            config.bgColor,
+            config.borderColor
+          )}
+        >
+          <div className="flex items-start gap-3">
+            {IconComponent && (
+              <IconComponent
+                className={cn('w-5 h-5 flex-shrink-0 mt-0.5', config.iconColor)}
+              />
+            )}
+            <div className="flex-1">
+              <strong
+                className={cn(
+                  'block text-sm font-bold mb-1.5',
+                  config.iconColor
+                )}
+              >
+                {title}
+              </strong>
+              <div className="text-[13px] text-grey-dark leading-relaxed prose-inline">
+                {serializeLexical({ nodes: description })}
+              </div>
+            </div>
+            {dismissible && (
+              <button
+                onClick={handleDismiss}
+                className={cn(
+                  'absolute top-4 right-4 p-1 rounded hover:bg-black/5 transition-colors opacity-60 hover:opacity-100',
+                  config.iconColor
+                )}
+                aria-label="Close notification"
+              >
+                <LucideIcons.X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}</code></pre>
+        </div>
+
+        <p class="step-description" style="margin-top:20px">
+          <strong>Note:</strong> Component is 'use client' to support dismissible functionality with useState/useEffect. If you don't need dismissible, convert to server component and remove state logic.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">tailwind.config.js — Color Extensions</span>
+          </div>
+          <pre><code>module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#E3F2FD',
+          500: '#2196F3',
+          900: '#0D47A1',
+        },
+        green: {
+          50: '#E8F5E9',
+          500: '#00C853',
+          900: '#1B5E20',
+        },
+        amber: {
+          50: '#FFF8E1',
+          500: '#F59E0B',
+          900: '#78350F',
+        },
+        coral: {
+          50: '#FFF0F0',
+          500: '#FF6B6B',
+          900: '#7F1D1D',
+        },
+        grey: {
+          dark: '#64748B',
+        },
+      },
+    },
+  },
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Interface</span>
+      </div>
+      <div class="step-content">
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Tab 1: Content</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Variant *</label>
+                <select>
+                  <option>Info (Blue) — General information, tips, notes</option>
+                  <option>Success (Green) — Confirmations, completed actions</option>
+                  <option>Warning (Amber) — Cautions, important notices</option>
+                  <option>Error (Coral) — Errors, failures, critical issues</option>
+                </select>
+                <span class="field-hint">Color scheme and semantic meaning of the notification</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Icon (Lucide)</label>
+                <input type="text" placeholder="e.g., info" value="">
+                <span class="field-hint">Lucide icon name. Leave empty for auto-icon based on variant.</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Title *</label>
+                <input type="text" placeholder="e.g., Database Setup Required" value="Database Setup Required">
+                <span class="field-hint">Bold heading for the notification (keep under 50 chars)</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Description *</label>
+                <div style="background:var(--grey-light);padding:16px;border-radius:8px;margin-top:8px;min-height:120px">
+                  <div style="font-size:11px;color:var(--grey-mid);margin-bottom:8px">[Lexical Editor - Rich Text]</div>
+                  <div style="background:white;padding:12px;border-radius:6px;border:1px solid var(--grey);font-size:13px;line-height:1.7">
+                    Zorg dat <code>DATABASE_URL</code> correct is ingesteld in .env.local...
+                  </div>
+                </div>
+                <span class="field-hint">Detailed explanation (supports bold, italic, links, inline code)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Tab 2: Behavior</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>
+                  <input type="checkbox"> Dismissible
+                </label>
+                <span class="field-hint">Allow users to close this notification with an X button</span>
+              </div>
+
+              <div class="admin-field" style="opacity:0.5">
+                <label>
+                  <input type="checkbox" disabled> Persistent
+                </label>
+                <span class="field-hint">Remember dismissal across page loads (requires dismissible = true)</span>
+              </div>
+
+              <div class="admin-field" style="opacity:0.5">
+                <label>Storage Key</label>
+                <input type="text" placeholder="e.g., dismissed-db-warning" disabled>
+                <span class="field-hint">Unique key for localStorage (required if persistent)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Tab 3: Design</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Max Width</label>
+                <select>
+                  <option>Narrow (640px)</option>
+                  <option selected>Wide (900px)</option>
+                  <option>Full (100%)</option>
+                </select>
+                <span class="field-hint">Content container width</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Margin Top</label>
+                <select>
+                  <option>None</option>
+                  <option>Small (12px)</option>
+                  <option selected>Medium (24px)</option>
+                  <option>Large (48px)</option>
+                </select>
+              </div>
+
+              <div class="admin-field">
+                <label>Margin Bottom</label>
+                <select>
+                  <option>None</option>
+                  <option>Small (12px)</option>
+                  <option selected>Medium (24px)</option>
+                  <option>Large (48px)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li><strong>All 4 Variants:</strong> Test info (blue), success (green), warning (amber), error (coral) variants. Verify background color, border color, icon color match design system. Test with and without custom icons.</li>
+          <li><strong>Icon Rendering:</strong> Test with default icons (auto-selected by variant). Test with custom Lucide icons (info, alert-triangle, check-circle-2, etc.). Verify icon size (20px), color, alignment. Test invalid icon names (should gracefully fail).</li>
+          <li><strong>Rich Text Description:</strong> Test with bold, italic, links, inline code. Verify text color (grey-dark), line-height (1.7), code background (light variant color). Test long text (wraps correctly), short text (looks good).</li>
+          <li><strong>Dismissible Functionality:</strong> Enable dismissible, verify close button appears (top-right). Test click → notification disappears. Test hover state (opacity change, background). Test keyboard navigation (Tab to close button, Enter/Space to close).</li>
+          <li><strong>Persistent Dismissal:</strong> Enable persistent + storageKey. Dismiss notification → reload page → verify stays dismissed. Test clearing localStorage → notification reappears. Test multiple infoboxes with different storageKeys.</li>
+          <li><strong>Width Variants:</strong> Test narrow (640px), wide (900px), full (100%). Verify responsive behavior on mobile (&lt;640px). Test very long title (no overflow). Test very long description (no overflow).</li>
+          <li><strong>Spacing:</strong> Test margin top/bottom (none/sm/md/lg). Verify internal padding (20px). Test stacking multiple infoboxes (spacing looks balanced). Test within different page layouts (content, hero, etc.).</li>
+          <li><strong>Accessibility:</strong> Test screen reader (title announced, description read). Test color contrast (4.5:1 minimum for text). Test keyboard focus (close button has visible focus ring). Test with prefers-reduced-motion (no jarring animations).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_infobox_block.sql</span>
+          </div>
+          <pre><code>-- Add InfoBox block type
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'infobox';
+
+-- Create infobox_blocks table
+CREATE TABLE IF NOT EXISTS infobox_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  variant VARCHAR(20) NOT NULL DEFAULT 'info'
+    CHECK (variant IN ('info', 'success', 'warning', 'error')),
+  icon VARCHAR(50), -- Lucide icon name
+  title VARCHAR(100) NOT NULL,
+  description JSONB NOT NULL, -- Lexical rich text JSON
+  dismissible BOOLEAN NOT NULL DEFAULT FALSE,
+  persistent BOOLEAN NOT NULL DEFAULT FALSE,
+  storage_key VARCHAR(100), -- For localStorage
+
+  -- Design settings
+  max_width VARCHAR(20) NOT NULL DEFAULT 'wide'
+    CHECK (max_width IN ('narrow', 'wide', 'full')),
+  margin_top VARCHAR(10) NOT NULL DEFAULT 'md'
+    CHECK (margin_top IN ('none', 'sm', 'md', 'lg')),
+  margin_bottom VARCHAR(10) NOT NULL DEFAULT 'md'
+    CHECK (margin_bottom IN ('none', 'sm', 'md', 'lg')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes
+CREATE INDEX idx_infobox_blocks_block_id ON infobox_blocks(block_id);
+CREATE INDEX idx_infobox_blocks_variant ON infobox_blocks(variant);
+CREATE INDEX idx_infobox_blocks_dismissible ON infobox_blocks(dismissible);
+
+-- Composite index for persistent dismissible notifications
+CREATE INDEX idx_infobox_persistent ON infobox_blocks(dismissible, persistent, storage_key)
+  WHERE dismissible = TRUE AND persistent = TRUE;
+
+-- Full-text search on title + description (for search)
+CREATE INDEX idx_infobox_title_search ON infobox_blocks
+  USING gin(to_tsvector('english', title || ' ' || description::text));
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_infobox_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_infobox_blocks_updated_at
+  BEFORE UPDATE ON infobox_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_infobox_blocks_updated_at();
+
+-- Constraint: storage_key required if persistent=true
+ALTER TABLE infobox_blocks ADD CONSTRAINT check_persistent_storage_key
+  CHECK (
+    (persistent = FALSE) OR
+    (persistent = TRUE AND storage_key IS NOT NULL)
+  );
+
+-- Comments
+COMMENT ON TABLE infobox_blocks IS 'Status notification blocks with 4 color variants (info/success/warning/error)';
+COMMENT ON COLUMN infobox_blocks.variant IS 'Color scheme: info (blue), success (green), warning (amber), error (coral)';
+COMMENT ON COLUMN infobox_blocks.icon IS 'Lucide icon name. NULL = use default icon for variant';
+COMMENT ON COLUMN infobox_blocks.title IS 'Bold heading (max 100 chars)';
+COMMENT ON COLUMN infobox_blocks.description IS 'Lexical rich text JSON with bold/italic/links/code support';
+COMMENT ON COLUMN infobox_blocks.dismissible IS 'Show close button?';
+COMMENT ON COLUMN infobox_blocks.persistent IS 'Remember dismissal in localStorage? (requires dismissible=true)';
+COMMENT ON COLUMN infobox_blocks.storage_key IS 'Unique localStorage key (e.g., "dismissed-db-warning"). Required if persistent=true';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_infobox_blocks_updated_at ON infobox_blocks;
+DROP FUNCTION IF EXISTS update_infobox_blocks_updated_at();
+DROP INDEX IF EXISTS idx_infobox_title_search;
+DROP INDEX IF EXISTS idx_infobox_persistent;
+DROP INDEX IF EXISTS idx_infobox_blocks_dismissible;
+DROP INDEX IF EXISTS idx_infobox_blocks_variant;
+DROP INDEX IF EXISTS idx_infobox_blocks_block_id;
+DROP TABLE IF EXISTS infobox_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Icon not rendering or showing [object Object]</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Invalid Lucide icon name or incorrect import.<br>
+              <strong>Fix:</strong> Verify icon name matches Lucide docs exactly (case-sensitive). Check lucide-react is installed: npm list lucide-react. Test with default icons first (leave icon field empty). Add error boundary for invalid icons.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Colors not matching design (blue/green/amber/coral)</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind config missing color extensions or wrong color values.<br>
+              <strong>Fix:</strong> Add blue-50/500/900, green-50/500/900, amber-50/500/900, coral-50/500/900 to tailwind.config.js. Verify hex values match design tokens (blue: #2196F3, green: #00C853, amber: #F59E0B, coral: #FF6B6B). Run npm run build to regenerate CSS.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Dismissible close button not working</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Component not marked 'use client' or onClick handler missing.<br>
+              <strong>Fix:</strong> Add 'use client' directive at top of Component.tsx. Verify useState and handleDismiss are implemented. Check onClick handler is attached to button. Test in browser console: verify no React errors.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Persistent dismissal not working (reappears on reload)</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> localStorage not set, wrong key, or browser blocking localStorage.<br>
+              <strong>Fix:</strong> Verify storageKey is unique (e.g., "dismissed-db-warning"). Check localStorage in DevTools → Application → Local Storage. Test in incognito (localStorage disabled? Use cookies instead). Add try/catch for localStorage errors (Safari private mode blocks).
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Multiple infoboxes dismiss together</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Same storageKey used for different notifications.<br>
+              <strong>Fix:</strong> Ensure each dismissible infobox has unique storageKey. Use descriptive keys: "dismissed-db-warning", "dismissed-payment-info", etc. Add validation in Payload config to prevent duplicate keys.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Rich text description not rendering or shows JSON</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> serializeLexical not called or description is null/undefined.<br>
+              <strong>Fix:</strong> Import serializeLexical from @/utilities/serializeLexical. Call serializeLexical({ nodes: description }). Check description field is not empty in Payload. Verify Lexical JSON structure is valid.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Border-left not visible or wrong color</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> border-l-[3px] not applying or variant color mapping incorrect.<br>
+              <strong>Fix:</strong> Verify Tailwind supports arbitrary values (border-l-[3px]). Check variantConfig borderColor values (border-blue-500, etc.). Test with fixed border-l-4 first. Inspect computed styles in DevTools.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Width variants not responsive on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Missing mx-auto px-6 or max-width overriding on small screens.<br>
+              <strong>Fix:</strong> Add mx-auto px-6 to wrapper div. Use responsive classes: max-w-full sm:max-w-2xl. Test at &lt;640px breakpoint. Ensure parent container doesn't have overflow:hidden.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Inline code background color not matching variant</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Custom prose styles needed for inline code in colored backgrounds.<br>
+              <strong>Fix:</strong> Add variant-specific code styles: info → bg-blue-100, success → bg-green-100, etc. Use data-variant attribute on wrapper. Apply conditional classes based on variant. Test with long code snippets.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Close button overlaps long titles</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Absolute positioning of close button without padding compensation.<br>
+              <strong>Fix:</strong> Add pr-10 (padding-right) to content wrapper when dismissible=true. Use conditional padding: dismissible ? 'pr-10' : ''. Test with very long titles (80+ chars). Consider truncating title with text-ellipsis if too long.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Accessibility warnings (contrast ratio, focus states)</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Text color not sufficient contrast on light backgrounds or missing focus ring.<br>
+              <strong>Fix:</strong> Use darker text variants: blue-900, green-900, amber-900, coral-900 for title/icon. Verify contrast ratio ≥ 4.5:1 with WebAIM contrast checker. Add focus-visible:ring-2 to close button. Test with keyboard navigation.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { InfoBox } from '@/branches/blocks/shared/InfoBox/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [InfoBox, /* ... */],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import { InfoBox } from '@/branches/blocks/shared/InfoBox/Component'
+
+export function RenderBlocks({ blocks }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'infobox':
+            return <InfoBox key={index} block={block} />
+          // ...
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/InfoBox/index.ts</span>
+          </div>
+          <pre><code>export { InfoBox as InfoBoxConfig } from './config'
+export { InfoBox as InfoBoxComponent } from './Component'
+export type {
+  InfoBoxBlock,
+  InfoBoxComponentProps,
+  InfoBoxVariant,
+  InfoBoxVariantConfig,
+} from './types'
+export { variantConfig } from './types'</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">Bash</span>
+            <span class="code-path">Generate Migration</span>
+          </div>
+          <pre><code># Generate migration for InfoBox block
+npx payload migrate:create add_infobox_block
+
+# Verify migration SQL contains:
+# - ALTER TYPE block_type ADD VALUE 'infobox'
+# - CREATE TABLE infobox_blocks (...)
+# - All indexes and constraints
+
+# Run migration
+npx payload migrate
+
+# Verify in database
+psql $DATABASE_URL -c "\d infobox_blocks"</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Variant Selection:</strong> Use <strong>info</strong> (blue) for general tips, notes, documentation links. Use <strong>success</strong> (green) for confirmations ("Order placed!", "Profile updated"). Use <strong>warning</strong> (amber) for cautions ("Limited stock", "Payment pending"). Use <strong>error</strong> (coral) for failures ("Payment failed", "Invalid input").</li>
+      <li><strong>Icon Choice:</strong> Leave icon field empty for default icons (info → info, success → check-circle, warning → alert-triangle, error → x-circle). Use custom icons sparingly for brand consistency. Test icon visibility at 20px size.</li>
+      <li><strong>Title Length:</strong> Keep titles under 50 characters for readability. Titles are bold and colored to match variant. Use sentence case (not ALL CAPS).</li>
+      <li><strong>Description Content:</strong> Use rich text features (bold for emphasis, inline code for tech terms, links for external resources). Keep descriptions concise (1-3 sentences). For longer content, link to separate page.</li>
+      <li><strong>Dismissible Best Practices:</strong> Enable dismissible for non-critical notifications (tips, announcements). DON'T make critical errors dismissible (user might miss important info). Use persistent for low-priority recurring notifications.</li>
+      <li><strong>Persistent Storage:</strong> Use descriptive storageKeys: "dismissed-db-warning", "dismissed-promo-banner", etc. Avoid generic keys like "box1", "notification". Consider adding version to key if content changes: "dismissed-db-warning-v2".</li>
+      <li><strong>Width Selection:</strong> Use <strong>narrow</strong> (640px) for focused in-content notifications. Use <strong>wide</strong> (900px, default) for page-level announcements. Use <strong>full</strong> for banner-style notifications at top of page.</li>
+      <li><strong>Accessibility:</strong> Always provide meaningful title (screen readers announce this first). Use semantic HTML (button for close, not div). Ensure 4.5:1 contrast ratio. Test keyboard navigation (Tab to close button, Enter/Space to dismiss).</li>
+      <li><strong>Common Use Cases:</strong> Info → Environment setup instructions, feature announcements, helpful tips. Success → Order confirmations, profile updates, successful saves. Warning → Stock alerts, payment pending, important notices. Error → Payment failures, form errors, system errors.</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'infobox', fields: [
+  { name: 'variant', type: 'select', options: ['info', 'success', 'warning', 'error'], defaultValue: 'info', required: true },
+  { name: 'icon', type: 'text' }, // Lucide icon name (optional)
+  { name: 'title', type: 'text', required: true },
+  { name: 'description', type: 'richText', required: true,
+    editor: lexicalEditor({ features: [BoldFeature(), ItalicFeature(), LinkFeature(), InlineCodeFeature()] })
+  },
+  { name: 'dismissible', type: 'checkbox', defaultValue: false },
+  { name: 'persistent', type: 'checkbox', defaultValue: false, condition: (data) => data.dismissible },
+  { name: 'storageKey', type: 'text', condition: (data) => data.dismissible && data.persistent },
+  { name: 'maxWidth', type: 'select', options: ['narrow', 'wide', 'full'], defaultValue: 'wide' },
+  { name: 'marginTop', type: 'select', options: ['none', 'sm', 'md', 'lg'], defaultValue: 'md' },
+  { name: 'marginBottom', type: 'select', options: ['none', 'sm', 'md', 'lg'], defaultValue: 'md' }
+]}
+      </div>
+    </div>
+  </div>
+
+    </section>
+
+<!-- ==============================================
+     DEVELOPER IMPLEMENTATION GUIDE
+     ============================================== -->
+<section class="section" id="implementation">
+  <div style="text-align: center; margin-bottom: 48px;">
+    <h1 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 12px;">
+      Developer Implementation Guide
+    </h1>
+    <p style="font-size: 14px; color: var(--grey-dark);">
+      Complete 8-step guide for implementing the InfoBox block in Payload CMS 3.0 + Next.js
+    </p>
+  </div>
+
+  <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">1</span>
+      <span class="step-title">Payload Block Configuration</span>
+    </div>
+    <div class="step-content">
+      <p class="step-description">
+        Status notification block with 4 color-coded variants. Supports optional close button for dismissible notifications. Icon, title, and rich text description fields.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-path">src/branches/blocks/navigation-info/InfoBox/config.ts</span>
+        </div>
+        <pre><code>import type { Block } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  BoldFeature,
+  ItalicFeature,
+  LinkFeature,
+  InlineCodeFeature,
+} from '@payloadcms/richtext-lexical'
+
+export const InfoBox: Block = {
+  slug: 'infobox',
+  labels: {
+    singular: 'InfoBox Block',
+    plural: 'InfoBox Blocks',
+  },
+  interfaceName: 'InfoBoxBlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Variant',
+              required: true,
+              defaultValue: 'info',
+              options: [
+                {
+                  label: 'Info (Blue) — General information, tips, notes',
+                  value: 'info',
+                },
+                {
+                  label: 'Success (Green) — Confirmations, completed actions',
+                  value: 'success',
+                },
+                {
+                  label: 'Warning (Amber) — Cautions, important notices',
+                  value: 'warning',
+                },
+                {
+                  label: 'Error (Coral) — Errors, failures, critical issues',
+                  value: 'error',
+                },
+              ],
+              admin: {
+                description: 'Color scheme and semantic meaning of the notification',
+              },
+            },
+            {
+              name: 'icon',
+              type: 'text',
+              label: 'Icon (Lucide)',
+              admin: {
+                description: 'Lucide icon name (e.g., "info", "check-circle", "alert-triangle", "x-circle"). Leave empty for auto-icon based on variant.',
+                placeholder: 'e.g., info',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Title',
+              required: true,
+              admin: {
+                description: 'Bold heading for the notification (keep under 50 chars)',
+                placeholder: 'e.g., Database Setup Required',
+              },
+            },
+            {
+              name: 'description',
+              type: 'richText',
+              label: 'Description',
+              required: true,
+              editor: lexicalEditor({
+                features: ({ defaultFeatures }) => [
+                  ...defaultFeatures,
+                  BoldFeature(),
+                  ItalicFeature(),
+                  LinkFeature(),
+                  InlineCodeFeature(),
+                ],
+              }),
+              admin: {
+                description: 'Detailed explanation (supports bold, italic, links, inline code)',
+              },
+            },
+          ],
+        },
+        // TAB 2: BEHAVIOR
+        {
+          label: 'Behavior',
+          fields: [
+            {
+              name: 'dismissible',
+              type: 'checkbox',
+              label: 'Dismissible',
+              defaultValue: false,
+              admin: {
+                description: 'Allow users to close this notification with an X button',
+              },
+            },
+            {
+              name: 'persistent',
+              type: 'checkbox',
+              label: 'Persistent',
+              defaultValue: false,
+              admin: {
+                description: 'If dismissible, remember dismissal across page loads (uses localStorage)',
+                condition: (data) => data.dismissible === true,
+              },
+            },
+            {
+              name: 'storageKey',
+              type: 'text',
+              label: 'Storage Key',
+              admin: {
+                description: 'Unique key for localStorage (e.g., "dismissed-db-warning"). Required if persistent.',
+                placeholder: 'e.g., dismissed-db-warning',
+                condition: (data) => data.dismissible === true && data.persistent === true,
+              },
+            },
+          ],
+        },
+        // TAB 3: DESIGN
+        {
+          label: 'Design',
+          fields: [
+            {
+              name: 'maxWidth',
+              type: 'select',
+              label: 'Max Width',
+              defaultValue: 'wide',
+              options: [
+                { label: 'Narrow (640px)', value: 'narrow' },
+                { label: 'Wide (900px)', value: 'wide' },
+                { label: 'Full (100%)', value: 'full' },
+              ],
+              admin: {
+                description: 'Content container width',
+              },
+            },
+            {
+              name: 'marginTop',
+              type: 'select',
+              label: 'Margin Top',
+              defaultValue: 'md',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (12px)', value: 'sm' },
+                { label: 'Medium (24px)', value: 'md' },
+                { label: 'Large (48px)', value: 'lg' },
+              ],
+            },
+            {
+              name: 'marginBottom',
+              type: 'select',
+              label: 'Margin Bottom',
+              defaultValue: 'md',
+              options: [
+                { label: 'None', value: 'none' },
+                { label: 'Small (12px)', value: 'sm' },
+                { label: 'Medium (24px)', value: 'md' },
+                { label: 'Large (48px)', value: 'lg' },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: TYPESCRIPT TYPES -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">2</span>
+      <span class="step-title">TypeScript Type Definitions</span>
+    </div>
+    <div class="step-content">
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-path">src/branches/blocks/navigation-info/InfoBox/types.ts</span>
+        </div>
+        <pre><code>export type InfoBoxVariant = 'info' | 'success' | 'warning' | 'error'
+
+export type MaxWidth = 'narrow' | 'wide' | 'full'
+export type Margin = 'none' | 'sm' | 'md' | 'lg'
+
+export interface InfoBoxBlock {
+  blockType: 'infobox'
+  variant: InfoBoxVariant
+  icon?: string // Lucide icon name
+  title: string
+  description: any // Lexical JSON
+  dismissible: boolean
+  persistent?: boolean
+  storageKey?: string
+  maxWidth: MaxWidth
+  marginTop: Margin
+  marginBottom: Margin
+}
+
+export interface InfoBoxComponentProps {
+  block: InfoBoxBlock
+}
+
+// Variant configuration mapping
+export interface InfoBoxVariantConfig {
+  bgColor: string
+  borderColor: string
+  iconColor: string
+  textColor: string
+  defaultIcon: string
+}
+
+export const variantConfig: Record<InfoBoxVariant, InfoBoxVariantConfig> = {
+  info: {
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-500',
+    iconColor: 'text-blue-500',
+    textColor: 'text-blue-900',
+    defaultIcon: 'info',
+  },
+  success: {
+    bgColor: 'bg-green-50',
+    borderColor: 'border-green-500',
+    iconColor: 'text-green-500',
+    textColor: 'text-green-900',
+    defaultIcon: 'check-circle',
+  },
+  warning: {
+    bgColor: 'bg-amber-50',
+    borderColor: 'border-amber-500',
+    iconColor: 'text-amber-500',
+    textColor: 'text-amber-900',
+    defaultIcon: 'alert-triangle',
+  },
+  error: {
+    bgColor: 'bg-coral-50',
+    borderColor: 'border-coral-500',
+    iconColor: 'text-coral-500',
+    textColor: 'text-coral-900',
+    defaultIcon: 'x-circle',
+  },
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: REACT COMPONENTS -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">3</span>
+      <span class="step-title">React Server + Client Components</span>
+    </div>
+    <div class="step-content">
+      <p class="step-description">
+        <strong>InfoBox.tsx:</strong> Main server component with variant styling logic.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-path">src/branches/blocks/navigation-info/InfoBox/Component.tsx</span>
+        </div>
+        <pre><code>'use client'
+
+import React, { useState, useEffect } from 'react'
+import type { InfoBoxComponentProps } from './types'
+import { variantConfig } from './types'
+import { serializeLexical } from '@/utilities/serializeLexical'
+import { cn } from '@/utilities/cn'
+import * as LucideIcons from 'lucide-react'
+
+export function InfoBox({ block }: InfoBoxComponentProps) {
+  const {
+    variant = 'info',
+    icon,
+    title,
+    description,
+    dismissible = false,
+    persistent = false,
+    storageKey,
+    maxWidth = 'wide',
+    marginTop = 'md',
+    marginBottom = 'md',
+  } = block
+
+  const [dismissed, setDismissed] = useState(false)
+
+  // Check localStorage if persistent
+  useEffect(() => {
+    if (dismissible && persistent && storageKey) {
+      const isDismissed = localStorage.getItem(`infobox-${storageKey}`)
+      if (isDismissed === 'true') {
+        setDismissed(true)
+      }
+    }
+  }, [dismissible, persistent, storageKey])
+
+  const handleDismiss = () => {
+    setDismissed(true)
+    if (persistent && storageKey) {
+      localStorage.setItem(`infobox-${storageKey}`, 'true')
+    }
+  }
+
+  if (dismissed) return null
+
+  const config = variantConfig[variant]
+  const iconName = icon || config.defaultIcon
+  const IconComponent = LucideIcons[iconName as keyof typeof LucideIcons] as React.ComponentType<any>
+
+  const maxWidthClasses = {
+    narrow: 'max-w-2xl',
+    wide: 'max-w-4xl',
+    full: 'max-w-full',
+  }
+
+  const marginTopClasses = {
+    none: '',
+    sm: 'mt-3',
+    md: 'mt-6',
+    lg: 'mt-12',
+  }
+
+  const marginBottomClasses = {
+    none: '',
+    sm: 'mb-3',
+    md: 'mb-6',
+    lg: 'mb-12',
+  }
+
+  return (
+    <section
+      className={cn(
+        'w-full',
+        marginTopClasses[marginTop],
+        marginBottomClasses[marginBottom]
+      )}
+    >
+      <div className={cn('mx-auto px-6', maxWidthClasses[maxWidth])}>
+        <div
+          className={cn(
+            'relative p-5 rounded-lg border-l-[3px]',
+            config.bgColor,
+            config.borderColor
+          )}
+        >
+          <div className="flex items-start gap-3">
+            {IconComponent && (
+              <IconComponent
+                className={cn('w-5 h-5 flex-shrink-0 mt-0.5', config.iconColor)}
+              />
+            )}
+            <div className="flex-1">
+              <strong
+                className={cn(
+                  'block text-sm font-bold mb-1.5',
+                  config.iconColor
+                )}
+              >
+                {title}
+              </strong>
+              <div className="text-[13px] text-grey-dark leading-relaxed prose-inline">
+                {serializeLexical({ nodes: description })}
+              </div>
+            </div>
+            {dismissible && (
+              <button
+                onClick={handleDismiss}
+                className={cn(
+                  'absolute top-4 right-4 p-1 rounded hover:bg-black/5 transition-colors opacity-60 hover:opacity-100',
+                  config.iconColor
+                )}
+                aria-label="Close notification"
+              >
+                <LucideIcons.X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}</code></pre>
+      </div>
+
+      <p class="step-description" style="margin-top:20px">
+        <strong>Note:</strong> Component is 'use client' to support dismissible functionality with useState/useEffect. If you don't need dismissible, convert to server component and remove state logic.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-path">tailwind.config.js — Color Extensions</span>
+        </div>
+        <pre><code>module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#E3F2FD',
+          500: '#2196F3',
+          900: '#0D47A1',
+        },
+        green: {
+          50: '#E8F5E9',
+          500: '#00C853',
+          900: '#1B5E20',
+        },
+        amber: {
+          50: '#FFF8E1',
+          500: '#F59E0B',
+          900: '#78350F',
+        },
+        coral: {
+          50: '#FFF0F0',
+          500: '#FF6B6B',
+          900: '#7F1D1D',
+        },
+        grey: {
+          dark: '#64748B',
+        },
+      },
+    },
+  },
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">4</span>
+      <span class="step-title">Admin Panel Interface</span>
+    </div>
+    <div class="step-content">
+      <div class="admin-preview">
+        <div class="admin-section">
+          <div class="admin-label">Tab 1: Content</div>
+          <div class="admin-fields">
+            <div class="admin-field">
+              <label>Variant *</label>
+              <select>
+                <option>Info (Blue) — General information, tips, notes</option>
+                <option>Success (Green) — Confirmations, completed actions</option>
+                <option>Warning (Amber) — Cautions, important notices</option>
+                <option>Error (Coral) — Errors, failures, critical issues</option>
+              </select>
+              <span class="field-hint">Color scheme and semantic meaning of the notification</span>
+            </div>
+
+            <div class="admin-field">
+              <label>Icon (Lucide)</label>
+              <input type="text" placeholder="e.g., info" value="">
+              <span class="field-hint">Lucide icon name. Leave empty for auto-icon based on variant.</span>
+            </div>
+
+            <div class="admin-field">
+              <label>Title *</label>
+              <input type="text" placeholder="e.g., Database Setup Required" value="Database Setup Required">
+              <span class="field-hint">Bold heading for the notification (keep under 50 chars)</span>
+            </div>
+
+            <div class="admin-field">
+              <label>Description *</label>
+              <div style="background:var(--grey-light);padding:16px;border-radius:8px;margin-top:8px;min-height:120px">
+                <div style="font-size:11px;color:var(--grey-mid);margin-bottom:8px">[Lexical Editor - Rich Text]</div>
+                <div style="background:white;padding:12px;border-radius:6px;border:1px solid var(--grey);font-size:13px;line-height:1.7">
+                  Zorg dat <code>DATABASE_URL</code> correct is ingesteld in .env.local...
+                </div>
+              </div>
+              <span class="field-hint">Detailed explanation (supports bold, italic, links, inline code)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <div class="admin-label">Tab 2: Behavior</div>
+          <div class="admin-fields">
+            <div class="admin-field">
+              <label>
+                <input type="checkbox"> Dismissible
+              </label>
+              <span class="field-hint">Allow users to close this notification with an X button</span>
+            </div>
+
+            <div class="admin-field" style="opacity:0.5">
+              <label>
+                <input type="checkbox" disabled> Persistent
+              </label>
+              <span class="field-hint">Remember dismissal across page loads (requires dismissible = true)</span>
+            </div>
+
+            <div class="admin-field" style="opacity:0.5">
+              <label>Storage Key</label>
+              <input type="text" placeholder="e.g., dismissed-db-warning" disabled>
+              <span class="field-hint">Unique key for localStorage (required if persistent)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <div class="admin-label">Tab 3: Design</div>
+          <div class="admin-fields">
+            <div class="admin-field">
+              <label>Max Width</label>
+              <select>
+                <option>Narrow (640px)</option>
+                <option selected>Wide (900px)</option>
+                <option>Full (100%)</option>
+              </select>
+              <span class="field-hint">Content container width</span>
+            </div>
+
+            <div class="admin-field">
+              <label>Margin Top</label>
+              <select>
+                <option>None</option>
+                <option>Small (12px)</option>
+                <option selected>Medium (24px)</option>
+                <option>Large (48px)</option>
+              </select>
+            </div>
+
+            <div class="admin-field">
+              <label>Margin Bottom</label>
+              <select>
+                <option>None</option>
+                <option>Small (12px)</option>
+                <option selected>Medium (24px)</option>
+                <option>Large (48px)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: TESTING CHECKLIST -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">5</span>
+      <span class="step-title">Testing Checklist</span>
+    </div>
+    <div class="step-content">
+      <ul class="testing-checklist">
+        <li><strong>All 4 Variants:</strong> Test info (blue), success (green), warning (amber), error (coral) variants. Verify background color, border color, icon color match design system. Test with and without custom icons.</li>
+        <li><strong>Icon Rendering:</strong> Test with default icons (auto-selected by variant). Test with custom Lucide icons (info, alert-triangle, check-circle-2, etc.). Verify icon size (20px), color, alignment. Test invalid icon names (should gracefully fail).</li>
+        <li><strong>Rich Text Description:</strong> Test with bold, italic, links, inline code. Verify text color (grey-dark), line-height (1.7), code background (light variant color). Test long text (wraps correctly), short text (looks good).</li>
+        <li><strong>Dismissible Functionality:</strong> Enable dismissible, verify close button appears (top-right). Test click → notification disappears. Test hover state (opacity change, background). Test keyboard navigation (Tab to close button, Enter/Space to close).</li>
+        <li><strong>Persistent Dismissal:</strong> Enable persistent + storageKey. Dismiss notification → reload page → verify stays dismissed. Test clearing localStorage → notification reappears. Test multiple infoboxes with different storageKeys.</li>
+        <li><strong>Width Variants:</strong> Test narrow (640px), wide (900px), full (100%). Verify responsive behavior on mobile (&lt;640px). Test very long title (no overflow). Test very long description (no overflow).</li>
+        <li><strong>Spacing:</strong> Test margin top/bottom (none/sm/md/lg). Verify internal padding (20px). Test stacking multiple infoboxes (spacing looks balanced). Test within different page layouts (content, hero, etc.).</li>
+        <li><strong>Accessibility:</strong> Test screen reader (title announced, description read). Test color contrast (4.5:1 minimum for text). Test keyboard focus (close button has visible focus ring). Test with prefers-reduced-motion (no jarring animations).</li>
+        <li><strong>Cross-Browser:</strong> Test in Chrome, Firefox, Safari, Edge. Verify localStorage works across all browsers. Test border-l-[3px] arbitrary value support. Test Lucide icon rendering.</li>
+        <li><strong>Edge Cases:</strong> Test with empty description (should fail validation). Test with very long title (80+ chars). Test dismissible without storageKey (works, just not persistent). Test multiple notifications on same page.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 6: DATABASE MIGRATION -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">6</span>
+      <span class="step-title">Database Migration</span>
+    </div>
+    <div class="step-content">
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">SQL</span>
+          <span class="code-path">migrations/YYYYMMDDHHMMSS_add_infobox_block.sql</span>
+        </div>
+        <pre><code>-- Add InfoBox block type
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'infobox';
+
+-- Create infobox_blocks table
+CREATE TABLE IF NOT EXISTS infobox_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  variant VARCHAR(20) NOT NULL DEFAULT 'info'
+    CHECK (variant IN ('info', 'success', 'warning', 'error')),
+  icon VARCHAR(50), -- Lucide icon name
+  title VARCHAR(100) NOT NULL,
+  description JSONB NOT NULL, -- Lexical rich text JSON
+  dismissible BOOLEAN NOT NULL DEFAULT FALSE,
+  persistent BOOLEAN NOT NULL DEFAULT FALSE,
+  storage_key VARCHAR(100), -- For localStorage
+
+  -- Design settings
+  max_width VARCHAR(20) NOT NULL DEFAULT 'wide'
+    CHECK (max_width IN ('narrow', 'wide', 'full')),
+  margin_top VARCHAR(10) NOT NULL DEFAULT 'md'
+    CHECK (margin_top IN ('none', 'sm', 'md', 'lg')),
+  margin_bottom VARCHAR(10) NOT NULL DEFAULT 'md'
+    CHECK (margin_bottom IN ('none', 'sm', 'md', 'lg')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes
+CREATE INDEX idx_infobox_blocks_block_id ON infobox_blocks(block_id);
+CREATE INDEX idx_infobox_blocks_variant ON infobox_blocks(variant);
+CREATE INDEX idx_infobox_blocks_dismissible ON infobox_blocks(dismissible);
+
+-- Composite index for persistent dismissible notifications
+CREATE INDEX idx_infobox_persistent ON infobox_blocks(dismissible, persistent, storage_key)
+  WHERE dismissible = TRUE AND persistent = TRUE;
+
+-- Full-text search on title + description (for search)
+CREATE INDEX idx_infobox_title_search ON infobox_blocks
+  USING gin(to_tsvector('english', title || ' ' || description::text));
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_infobox_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_infobox_blocks_updated_at
+  BEFORE UPDATE ON infobox_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_infobox_blocks_updated_at();
+
+-- Constraint: storage_key required if persistent=true
+ALTER TABLE infobox_blocks ADD CONSTRAINT check_persistent_storage_key
+  CHECK (
+    (persistent = FALSE) OR
+    (persistent = TRUE AND storage_key IS NOT NULL)
+  );
+
+-- Comments
+COMMENT ON TABLE infobox_blocks IS 'Status notification blocks with 4 color variants (info/success/warning/error)';
+COMMENT ON COLUMN infobox_blocks.variant IS 'Color scheme: info (blue), success (green), warning (amber), error (coral)';
+COMMENT ON COLUMN infobox_blocks.icon IS 'Lucide icon name. NULL = use default icon for variant';
+COMMENT ON COLUMN infobox_blocks.title IS 'Bold heading (max 100 chars)';
+COMMENT ON COLUMN infobox_blocks.description IS 'Lexical rich text JSON with bold/italic/links/code support';
+COMMENT ON COLUMN infobox_blocks.dismissible IS 'Show close button?';
+COMMENT ON COLUMN infobox_blocks.persistent IS 'Remember dismissal in localStorage? (requires dismissible=true)';
+COMMENT ON COLUMN infobox_blocks.storage_key IS 'Unique localStorage key (e.g., "dismissed-db-warning"). Required if persistent=true';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_infobox_blocks_updated_at ON infobox_blocks;
+DROP FUNCTION IF EXISTS update_infobox_blocks_updated_at();
+DROP INDEX IF EXISTS idx_infobox_title_search;
+DROP INDEX IF EXISTS idx_infobox_persistent;
+DROP INDEX IF EXISTS idx_infobox_blocks_dismissible;
+DROP INDEX IF EXISTS idx_infobox_blocks_variant;
+DROP INDEX IF EXISTS idx_infobox_blocks_block_id;
+DROP TABLE IF EXISTS infobox_blocks;
+*/</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 7: TROUBLESHOOTING -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">7</span>
+      <span class="step-title">Troubleshooting Guide</span>
+    </div>
+    <div class="step-content">
+      <div class="troubleshooting-grid">
+        <div class="trouble-item">
+          <div class="trouble-title">Icon not rendering or showing [object Object]</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Invalid Lucide icon name or incorrect import.<br>
+            <strong>Fix:</strong> Verify icon name matches Lucide docs exactly (case-sensitive). Check lucide-react is installed: npm list lucide-react. Test with default icons first (leave icon field empty). Add error boundary for invalid icons.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Colors not matching design (blue/green/amber/coral)</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Tailwind config missing color extensions or wrong color values.<br>
+            <strong>Fix:</strong> Add blue-50/500/900, green-50/500/900, amber-50/500/900, coral-50/500/900 to tailwind.config.js. Verify hex values match design tokens (blue: #2196F3, green: #00C853, amber: #F59E0B, coral: #FF6B6B). Run npm run build to regenerate CSS.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Dismissible close button not working</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Component not marked 'use client' or onClick handler missing.<br>
+            <strong>Fix:</strong> Add 'use client' directive at top of Component.tsx. Verify useState and handleDismiss are implemented. Check onClick handler is attached to button. Test in browser console: verify no React errors.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Persistent dismissal not working (reappears on reload)</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> localStorage not set, wrong key, or browser blocking localStorage.<br>
+            <strong>Fix:</strong> Verify storageKey is unique (e.g., "dismissed-db-warning"). Check localStorage in DevTools → Application → Local Storage. Test in incognito (localStorage disabled? Use cookies instead). Add try/catch for localStorage errors (Safari private mode blocks).
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Multiple infoboxes dismiss together</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Same storageKey used for different notifications.<br>
+            <strong>Fix:</strong> Ensure each dismissible infobox has unique storageKey. Use descriptive keys: "dismissed-db-warning", "dismissed-payment-info", etc. Add validation in Payload config to prevent duplicate keys.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Rich text description not rendering or shows JSON</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> serializeLexical not called or description is null/undefined.<br>
+            <strong>Fix:</strong> Import serializeLexical from @/utilities/serializeLexical. Call serializeLexical({ nodes: description }). Check description field is not empty in Payload. Verify Lexical JSON structure is valid.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Border-left not visible or wrong color</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> border-l-[3px] not applying or variant color mapping incorrect.<br>
+            <strong>Fix:</strong> Verify Tailwind supports arbitrary values (border-l-[3px]). Check variantConfig borderColor values (border-blue-500, etc.). Test with fixed border-l-4 first. Inspect computed styles in DevTools.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Width variants not responsive on mobile</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Missing mx-auto px-6 or max-width overriding on small screens.<br>
+            <strong>Fix:</strong> Add mx-auto px-6 to wrapper div. Use responsive classes: max-w-full sm:max-w-2xl. Test at &lt;640px breakpoint. Ensure parent container doesn't have overflow:hidden.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Inline code background color not matching variant</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Custom prose styles needed for inline code in colored backgrounds.<br>
+            <strong>Fix:</strong> Add variant-specific code styles: info → bg-blue-100, success → bg-green-100, etc. Use data-variant attribute on wrapper. Apply conditional classes based on variant. Test with long code snippets.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Close button overlaps long titles</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Absolute positioning of close button without padding compensation.<br>
+            <strong>Fix:</strong> Add pr-10 (padding-right) to content wrapper when dismissible=true. Use conditional padding: dismissible ? 'pr-10' : ''. Test with very long titles (80+ chars). Consider truncating title with text-ellipsis if too long.
+          </div>
+        </div>
+
+        <div class="trouble-item">
+          <div class="trouble-title">Accessibility warnings (contrast ratio, focus states)</div>
+          <div class="trouble-solution">
+            <strong>Cause:</strong> Text color not sufficient contrast on light backgrounds or missing focus ring.<br>
+            <strong>Fix:</strong> Use darker text variants: blue-900, green-900, amber-900, coral-900 for title/icon. Verify contrast ratio ≥ 4.5:1 with WebAIM contrast checker. Add focus-visible:ring-2 to close button. Test with keyboard navigation.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 8: CONFIG REGISTRATION -->
+  <div class="implementation-step">
+    <div class="step-header">
+      <span class="step-number">8</span>
+      <span class="step-title">Config Registration</span>
+    </div>
+    <div class="step-content">
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-path">src/payload.config.ts</span>
+        </div>
+        <pre><code>import { InfoBox } from '@/branches/blocks/navigation-info/InfoBox/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [InfoBox, /* ... */],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-path">src/components/RenderBlocks.tsx</span>
+        </div>
+        <pre><code>import { InfoBox } from '@/branches/blocks/navigation-info/InfoBox/Component'
+
+export function RenderBlocks({ blocks }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'infobox':
+            return <InfoBox key={index} block={block} />
+          // ...
+        }
+      })}
+    </>
+  )
+}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript</span>
+          <span class="code-path">src/branches/blocks/navigation-info/InfoBox/index.ts</span>
+        </div>
+        <pre><code>export { InfoBox as InfoBoxConfig } from './config'
+export { InfoBox as InfoBoxComponent } from './Component'
+export type {
+  InfoBoxBlock,
+  InfoBoxComponentProps,
+  InfoBoxVariant,
+  InfoBoxVariantConfig,
+} from './types'
+export { variantConfig } from './types'</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Bash</span>
+          <span class="code-path">Generate Migration</span>
+        </div>
+        <pre><code># Generate migration for InfoBox block
+npx payload migrate:create add_infobox_block
+
+# Verify migration SQL contains:
+# - ALTER TYPE block_type ADD VALUE 'infobox'
+# - CREATE TABLE infobox_blocks (...)
+# - All indexes and constraints
+
+# Run migration
+npx payload migrate
+
+# Verify in database
+psql $DATABASE_URL -c "\d infobox_blocks"</code></pre>
+      </div>
+
+      <div class="usage-notes" style="margin-top:24px">
+        <div class="usage-title">Verification Steps</div>
+        <ul class="usage-list">
+          <li><strong>Admin Panel:</strong> Block appears in blocks list, all fields render correctly, tabs work properly</li>
+          <li><strong>Frontend Rendering:</strong> All 4 variants display with correct colors, icons render, rich text formats properly</li>
+          <li><strong>Dismissible:</strong> Close button appears when enabled, click dismisses notification, persistent works across reloads</li>
+          <li><strong>Responsive:</strong> Width variants work (narrow/wide/full), mobile layout looks good, no horizontal overflow</li>
+          <li><strong>Accessibility:</strong> Keyboard navigation works, screen reader announces content, color contrast passes WCAG AA</li>
+          <li><strong>Database:</strong> Migration ran successfully, all fields mapped correctly, constraints enforced</li>
+          <li><strong>Performance:</strong> localStorage reads don't block render, component mounts quickly, no hydration errors</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+
+  // Demo: Dismissible functionality
+  document.querySelectorAll('.infobox-close').forEach(button => {
+    button.addEventListener('click', () => {
+      button.closest('.infobox').style.display = 'none';
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -5,9 +5,21 @@ import {
   lexicalEditor,
   LinkFeature,
   ParagraphFeature,
-  UnorderedListFeature,
-  OrderedListFeature,
 } from '@payloadcms/richtext-lexical'
+
+/**
+ * B04 - FAQ Block Configuration
+ *
+ * Accordion-style FAQ section with expandable answers.
+ *
+ * FEATURES:
+ * - Plus icon rotates to X when open
+ * - Rich text answers with Lexical editor
+ * - Single or two-column layout
+ * - Only one FAQ open at a time
+ *
+ * @see docs/refactoring/sprint-9/shared/b04-faq.html
+ */
 
 export const FAQ: Block = {
   slug: 'faq',
@@ -28,8 +40,8 @@ export const FAQ: Block = {
               type: 'text',
               label: 'Section Title',
               admin: {
-                description: 'Optional heading (e.g., "Frequently Asked Questions")',
-                placeholder: 'Veelgestelde vragen',
+                description: 'Optional heading above FAQ items (DM Serif Display)',
+                placeholder: 'Veelgestelde Vragen',
               },
             },
             {
@@ -37,42 +49,43 @@ export const FAQ: Block = {
               type: 'textarea',
               label: 'Description',
               admin: {
+                description: 'Optional subheading text',
                 rows: 2,
-                description: 'Optional introduction text',
               },
             },
             {
               name: 'faqs',
               type: 'array',
-              label: 'Questions & Answers',
+              label: 'FAQ Items',
               minRows: 1,
+              admin: {
+                description: 'Add question/answer pairs. Click + icon expands to show answer.',
+              },
               fields: [
                 {
                   name: 'question',
                   type: 'text',
-                  label: 'Question',
                   required: true,
+                  label: 'Question',
                   admin: {
-                    placeholder: 'Wat zijn de leveringskosten?',
+                    placeholder: 'Hoe werkt de multi-tenant architectuur?',
                   },
                 },
                 {
                   name: 'answer',
                   type: 'richText',
-                  label: 'Answer',
                   required: true,
+                  label: 'Answer',
                   editor: lexicalEditor({
                     features: () => [
                       ParagraphFeature(),
                       BoldFeature(),
                       ItalicFeature(),
                       LinkFeature(),
-                      UnorderedListFeature(),
-                      OrderedListFeature(),
                     ],
                   }),
                   admin: {
-                    description: 'Rich text answer with formatting options',
+                    description: 'Full rich text support (bold, lists, links, etc.)',
                   },
                 },
               ],
@@ -85,15 +98,14 @@ export const FAQ: Block = {
             {
               name: 'variant',
               type: 'select',
-              label: 'Layout',
+              label: 'Layout Variant',
               defaultValue: 'single-column',
-              required: true,
               options: [
-                { label: 'Single Column (Stacked)', value: 'single-column' },
-                { label: 'Two Columns (Side by side)', value: 'two-column' },
+                { label: 'Single Column', value: 'single-column' },
+                { label: 'Two Column', value: 'two-column' },
               ],
               admin: {
-                description: 'Choose how FAQs are displayed',
+                description: 'Single = vertical stack (max 720px). Two = side-by-side on desktop.',
               },
             },
           ],

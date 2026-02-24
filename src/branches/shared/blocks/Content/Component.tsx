@@ -1,53 +1,40 @@
-/**
- * Content Component - 100% Theme Variable Compliant
- *
- * Already compliant - uses RichText and CMSLink with theme variables.
- */
-import { cn } from '@/utilities/cn'
 import React from 'react'
-import { RichText } from '@/branches/shared/components/common/RichText'
-import type { DefaultDocumentIDType } from 'payload'
-import type { ContentBlock as ContentBlockProps } from '@/payload-types'
+import type { ContentBlock } from '@/payload-types'
+import { serializeLexical } from '@/utilities/serializeLexical'
 
-import { CMSLink } from '@/branches/shared/components/common/Link'
+/**
+ * B05 - Content Block Component
+ *
+ * Rich text content area with full Lexical editor support.
+ *
+ * FEATURES:
+ * - 3 width variants (narrow 640px, wide 900px, full 100%)
+ * - Full Lexical support (headings, lists, links, code, blockquotes)
+ * - Prose styling with Tailwind Typography
+ * - Optimal reading width (narrow)
+ *
+ * @see docs/refactoring/sprint-9/shared/b05-content.html
+ */
 
-export const ContentBlock: React.FC<
-  ContentBlockProps & {
-    id?: DefaultDocumentIDType
-    className?: string
-  }
-> = (props) => {
-  const { columns } = props
-
-  const colsSpanClasses = {
-    full: '12',
-    half: '6',
-    oneThird: '4',
-    twoThirds: '8',
+export const ContentBlockComponent: React.FC<ContentBlock> = ({
+  content,
+  maxWidth = 'narrow',
+}) => {
+  const maxWidthClasses = {
+    narrow: 'max-w-2xl', // 640px - optimal reading width
+    wide: 'max-w-4xl', // 900px
+    full: 'max-w-full', // 100%
   }
 
   return (
-    <div className="container my-16">
-      <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-8 gap-x-16">
-        {columns &&
-          columns.length > 0 &&
-          columns.map((col, index) => {
-            const { enableLink, link, richText, size } = col
-
-            return (
-              <div
-                className={cn(`col-span-4 lg:col-span-${colsSpanClasses[size!]}`, {
-                  'md:col-span-2': size !== 'full',
-                })}
-                key={index}
-              >
-                {richText && <RichText data={richText} enableGutter={false} />}
-
-                {enableLink && <CMSLink {...link} />}
-              </div>
-            )
-          })}
+    <section className="content-block py-12 md:py-16 bg-white">
+      <div className={`mx-auto px-6 ${maxWidthClasses[maxWidth as keyof typeof maxWidthClasses]}`}>
+        <div className="prose prose-navy max-w-none">
+          {serializeLexical({ nodes: content })}
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
+
+export default ContentBlockComponent

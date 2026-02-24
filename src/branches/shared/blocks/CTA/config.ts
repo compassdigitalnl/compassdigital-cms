@@ -1,5 +1,13 @@
 import type { Block } from 'payload'
 
+/**
+ * B03 - CTA Block Configuration
+ *
+ * Call-to-action section with flexible layouts and styles.
+ *
+ * @see docs/refactoring/sprint-9/shared/b03-cta.html
+ */
+
 export const CTA: Block = {
   slug: 'cta',
   interfaceName: 'CTABlock',
@@ -31,7 +39,7 @@ export const CTA: Block = {
               admin: {
                 rows: 2,
                 description: 'Supporting text below the title',
-                placeholder: 'Neem vandaag nog contact op voor een vrijblijvend gesprek',
+                placeholder: 'Neem vandaag nog contact op',
               },
             },
             {

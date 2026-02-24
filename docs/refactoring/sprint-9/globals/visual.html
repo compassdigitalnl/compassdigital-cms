@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Visual Tokens — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --green: #00C853;
+  --coral: #FF6B6B;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --container: 1200px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+.header { background: linear-gradient(135deg, var(--navy), var(--navy-light)); padding: 16px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.header-content { max-width: var(--container); margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.header-icon { width: 40px; height: 40px; background: var(--teal); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 18px; }
+.header-title { color: #fff; font-size: 18px; font-weight: 700; }
+.header-title span { color: var(--teal-light); margin-left: 8px; font-weight: 400; }
+.header-badge { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; color: rgba(255, 255, 255, 0.6); margin-left: auto; }
+.main { max-width: var(--container); margin: 0 auto; padding: 40px 24px; }
+.section { margin-bottom: 40px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--grey); }
+.section-header-left { display: flex; align-items: center; gap: 12px; }
+.section-id { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--navy); background: var(--grey-light); padding: 4px 12px; border-radius: 6px; border: 1px solid var(--grey); }
+.section-label { font-size: 13px; color: var(--grey-dark); font-weight: 600; }
+.tag { font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.04em; }
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+.box { background: var(--white); border: 1px solid var(--grey); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--sh-sm); margin-bottom: 12px; }
+.box-bar { padding: 8px 16px; background: var(--grey-light); border-bottom: 1px solid var(--grey); display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--grey-mid); font-weight: 600; }
+.box-bar .dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+.box-content { padding: 24px; }
+.code-block { background: #1e1e2e; border-radius: var(--r-sm); padding: 16px; margin-top: 12px; font-family: var(--font-mono); font-size: 11px; color: #cdd6f4; line-height: 1.8; overflow-x: auto; }
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+.table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.table th { padding: 10px 12px; background: var(--grey-light); border-bottom: 2px solid var(--grey); font-weight: 700; color: var(--grey-700); text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.table td { padding: 10px 12px; border-bottom: 1px solid var(--grey-light); color: var(--grey-dark); }
+.table tr:hover { background: rgba(0, 137, 123, 0.02); }
+.table code { font-family: var(--font-mono); font-size: 11px; background: var(--grey-light); padding: 2px 6px; border-radius: 3px; color: var(--teal-dark); }
+.alert { padding: 14px 16px; border-radius: var(--r-sm); display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.6; margin: 16px 0; }
+.alert i { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-info { background: var(--blue-light); border: 1px solid #90CAF9; color: #1565C0; }
+.alert-warning { background: var(--amber-light); border: 1px solid #FCD34D; color: #92400E; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+@media (max-width: 768px) {
+  .main { padding: 24px 16px; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Visual Tokens<span>Design System</span></div>
+    <span class="header-badge">Chapter 1 — Design Tokens</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- VISUAL REFERENCE -->
+  <section class="section" id="visual">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Visual Tokens</span>
+        <span class="section-label">Radius, shadows, z-index</span>
+      </div>
+      <span class="tag tag-token">Design Token</span>
+    </div>
+
+    <div class="grid-2">
+
+      <!-- Border Radius -->
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Border Radius
+        </div>
+        <div class="box-content">
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="width:64px;height:64px;background:var(--teal);border-radius:8px"></div>
+              <div>
+                <code style="font-family:var(--font-mono);font-size:12px;font-weight:700;display:block">--r-sm: 8px</code>
+                <span style="font-size:12px;color:var(--grey-dark)">Buttons, inputs, small cards</span>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="width:64px;height:64px;background:var(--teal);border-radius:12px"></div>
+              <div>
+                <code style="font-family:var(--font-mono);font-size:12px;font-weight:700;display:block">--r-md: 12px</code>
+                <span style="font-size:12px;color:var(--grey-dark)">Cards, modals, panels (default)</span>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="width:64px;height:64px;background:var(--teal);border-radius:16px"></div>
+              <div>
+                <code style="font-family:var(--font-mono);font-size:12px;font-weight:700;display:block">--r-lg: 16px</code>
+                <span style="font-size:12px;color:var(--grey-dark)">Large cards, hero sections</span>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="width:64px;height:64px;background:var(--teal);border-radius:20px"></div>
+              <div>
+                <code style="font-family:var(--font-mono);font-size:12px;font-weight:700;display:block">--r-xl: 20px</code>
+                <span style="font-size:12px;color:var(--grey-dark)">Overlay panels (search, modals)</span>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="width:64px;height:64px;background:var(--teal);border-radius:9999px"></div>
+              <div>
+                <code style="font-family:var(--font-mono);font-size:12px;font-weight:700;display:block">--r-full: 9999px</code>
+                <span style="font-size:12px;color:var(--grey-dark)">Pills, avatars, badges</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Box Shadows -->
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Box Shadows
+        </div>
+        <div class="box-content">
+
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div style="width:100%;height:60px;background:var(--white);border-radius:var(--r-sm);box-shadow:var(--sh-sm)"></div>
+              <code style="display:block;margin-top:8px;font-family:var(--font-mono);font-size:11px">--sh-sm</code>
+              <span style="font-size:11px;color:var(--grey-dark)">0 1px 3px rgba(10,22,40,0.06)</span>
+              <p style="font-size:12px;color:var(--grey-mid);margin-top:4px">Subtle lift, default cards</p>
+            </div>
+
+            <div>
+              <div style="width:100%;height:60px;background:var(--white);border-radius:var(--r-sm);box-shadow:var(--sh-md)"></div>
+              <code style="display:block;margin-top:8px;font-family:var(--font-mono);font-size:11px">--sh-md</code>
+              <span style="font-size:11px;color:var(--grey-dark)">0 4px 20px rgba(10,22,40,0.08)</span>
+              <p style="font-size:12px;color:var(--grey-mid);margin-top:4px">Hover states, dropdowns</p>
+            </div>
+
+            <div>
+              <div style="width:100%;height:60px;background:var(--white);border-radius:var(--r-sm);box-shadow:var(--sh-lg)"></div>
+              <code style="display:block;margin-top:8px;font-family:var(--font-mono);font-size:11px">--sh-lg</code>
+              <span style="font-size:11px;color:var(--grey-dark)">0 8px 40px rgba(10,22,40,0.12)</span>
+              <p style="font-size:12px;color:var(--grey-mid);margin-top:4px">Modals, overlays</p>
+            </div>
+
+            <div>
+              <div style="width:100%;height:60px;background:var(--white);border-radius:var(--r-sm);box-shadow:var(--sh-xl)"></div>
+              <code style="display:block;margin-top:8px;font-family:var(--font-mono);font-size:11px">--sh-xl</code>
+              <span style="font-size:11px;color:var(--grey-dark)">0 20px 60px rgba(10,22,40,0.16)</span>
+              <p style="font-size:12px;color:var(--grey-mid);margin-top:4px">Floating panels, mega menus</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Z-index Scale -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Z-index Scale
+      </div>
+      <div class="box-content">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Value</th>
+              <th>Usage</th>
+              <th>Examples</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--z-dropdown</code></td>
+              <td>100</td>
+              <td>Dropdowns, tooltips</td>
+              <td>Sort menu, filter dropdowns, product quick view</td>
+            </tr>
+            <tr>
+              <td><code>--z-sticky</code></td>
+              <td>200</td>
+              <td>Sticky headers, sidebars</td>
+              <td>Main navigation, sticky sidebar, sticky CTA bar</td>
+            </tr>
+            <tr>
+              <td><code>--z-overlay</code></td>
+              <td>300</td>
+              <td>Search overlays, backdrops</td>
+              <td>InstantSearch overlay, mobile menu backdrop</td>
+            </tr>
+            <tr>
+              <td><code>--z-modal</code></td>
+              <td>400</td>
+              <td>Modals, drawers</td>
+              <td>QuickView modal, MiniCart flyout, address editor</td>
+            </tr>
+            <tr>
+              <td><code>--z-toast</code></td>
+              <td>500</td>
+              <td>Toast notifications</td>
+              <td>AddToCart toast, system notifications, alerts</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-info">
+          <i data-lucide="info"></i>
+          <div>
+            <strong>Z-index Management:</strong> Never use arbitrary z-index values. Only use these 5 tokens to ensure proper layering across all components. If you need a component "on top", determine which layer it belongs to conceptually.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- DEVELOPER IMPLEMENTATION GUIDE -->
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1A: Create visual/index.ts -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1a: Create src/globals/visual/index.ts (Modular Visual Tab)
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          ✨ <strong>Modular architecture:</strong> Each design token in its own file<br>
+          This file exports a Payload <code>Tab</code> with border radius, shadows, and z-index tokens
+        </p>
+
+<div class="code-block"><span class="comment">// src/globals/visual/index.ts</span>
+<span class="keyword">import</span> { <span class="function">Tab</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Visual</span>: <span class="function">Tab</span> = {
+  <span class="property">label</span>: <span class="string">'Visual'</span>,
+  <span class="property">description</span>: <span class="string">'Border radius, shadows, and z-index layering'</span>,
+  <span class="property">fields</span>: [
+    <span class="comment">// Border Radius Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Border Radius'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'radiusSm'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--r-sm (Buttons, inputs, small cards)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">8</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'8px — buttons, inputs, small cards'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'radiusMd'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--r-md (Cards, modals, panels - default)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">12</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'12px — cards, modals, panels (most common)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'radiusLg'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--r-lg (Large cards, hero sections)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">16</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'16px — large cards, hero sections'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'radiusXl'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--r-xl (Overlay panels)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">20</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'20px — overlay panels (search, modals)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'radiusFull'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--r-full (Pills, avatars, badges)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">9999</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'9999px — perfect circles (pills, avatars, badges)'</span>,
+          },
+        },
+      ],
+    },
+
+    <span class="comment">// Box Shadows Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Box Shadows'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'shadowSm'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'--sh-sm (Subtle lift, default cards)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'0 1px 3px rgba(10, 22, 40, 0.06)'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Subtle elevation for default cards'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'shadowMd'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'--sh-md (Hover states, dropdowns)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'0 4px 20px rgba(10, 22, 40, 0.08)'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Medium elevation for hover states'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'shadowLg'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'--sh-lg (Modals, overlays)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'0 8px 40px rgba(10, 22, 40, 0.12)'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Large elevation for modals and overlays'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'shadowXl'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'--sh-xl (Floating panels, mega menus)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'0 20px 60px rgba(10, 22, 40, 0.16)'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Extra large elevation for floating elements'</span>,
+          },
+        },
+      ],
+    },
+
+    <span class="comment">// Z-index Group</span>
+    {
+      <span class="property">type</span>: <span class="string">'collapsible'</span>,
+      <span class="property">label</span>: <span class="string">'Z-index Scale'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'⚠️ NEVER use arbitrary z-index values. Only use these 5 layering tokens.'</span>,
+      },
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'zDropdown'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--z-dropdown (Dropdowns, tooltips)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">100</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'100 — sort menus, filter dropdowns, tooltips'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'zSticky'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--z-sticky (Sticky headers, sidebars)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">200</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'200 — main navigation, sticky elements'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'zOverlay'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--z-overlay (Search overlays, backdrops)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">300</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'300 — InstantSearch overlay, backdrops'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'zModal'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--z-modal (Modals, drawers)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">400</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'400 — QuickView modal, MiniCart flyout'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'zToast'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'--z-toast (Toast notifications)'</span>,
+          <span class="property">defaultValue</span>: <span class="number">500</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'500 — AddToCart toast, system notifications (topmost layer)'</span>,
+          },
+        },
+      ],
+    },
+  ],
+}
+</div>
+
+        <div class="alert alert-info">
+          <i data-lucide="layers"></i>
+          <div>
+            <strong>Layering Strategy:</strong> The z-index scale ensures proper stacking context across all UI components. Dropdown (100) < Sticky (200) < Overlay (300) < Modal (400) < Toast (500). This hierarchy prevents z-index conflicts across 202 components.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 1B: Import into Theme.ts -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1b: Import Visual into src/globals/Theme.ts
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Import the Visual tab into your main Theme global configuration
+        </p>
+
+<div class="code-block"><span class="comment">// src/globals/Theme.ts</span>
+<span class="keyword">import</span> { <span class="function">GlobalConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Colors</span> } <span class="keyword">from</span> <span class="string">'./colors'</span>
+<span class="keyword">import</span> { <span class="function">Typography</span> } <span class="keyword">from</span> <span class="string">'./typography'</span>
+<span class="keyword">import</span> { <span class="function">Spacing</span> } <span class="keyword">from</span> <span class="string">'./spacing'</span>
+<span class="keyword">import</span> { <span class="function">Visual</span> } <span class="keyword">from</span> <span class="string">'./visual'</span>       <span class="comment">// ← Add this import</span>
+
+<span class="keyword">export const</span> <span class="function">Theme</span>: <span class="function">GlobalConfig</span> = {
+  <span class="property">slug</span>: <span class="string">'theme'</span>,
+  <span class="property">access</span>: {
+    <span class="property">read</span>: () => <span class="keyword">true</span>,
+  },
+  <span class="property">fields</span>: [
+    {
+      <span class="property">type</span>: <span class="string">'tabs'</span>,
+      <span class="property">tabs</span>: [
+        <span class="function">Colors</span>,      <span class="comment">// From ./colors/index.ts</span>
+        <span class="function">Typography</span>,  <span class="comment">// From ./typography/index.ts</span>
+        <span class="function">Spacing</span>,     <span class="comment">// From ./spacing/index.ts</span>
+        <span class="function">Visual</span>,      <span class="comment">// From ./visual/index.ts ← Add this tab</span>
+      ],
+    },
+  ],
+}
+</div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- STEP 2: TypeScript Types -->
+  <section class="section" id="typescript">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 2</span>
+        <span class="section-label">TypeScript Interface</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        src/types/theme.ts
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Create TypeScript interface for type-safe visual token access
+        </p>
+
+<div class="code-block"><span class="comment">// src/types/theme.ts</span>
+
+<span class="keyword">export interface</span> <span class="function">ThemeVisual</span> {
+  <span class="comment">// Border Radius</span>
+  <span class="property">radiusSm</span>: <span class="keyword">number</span>    <span class="comment">// 8px — buttons, inputs, small cards</span>
+  <span class="property">radiusMd</span>: <span class="keyword">number</span>    <span class="comment">// 12px — cards, modals, panels (default)</span>
+  <span class="property">radiusLg</span>: <span class="keyword">number</span>    <span class="comment">// 16px — large cards, hero sections</span>
+  <span class="property">radiusXl</span>: <span class="keyword">number</span>    <span class="comment">// 20px — overlay panels</span>
+  <span class="property">radiusFull</span>: <span class="keyword">number</span>  <span class="comment">// 9999px — pills, avatars, badges</span>
+
+  <span class="comment">// Box Shadows</span>
+  <span class="property">shadowSm</span>: <span class="keyword">string</span>    <span class="comment">// '0 1px 3px rgba(10,22,40,0.06)'</span>
+  <span class="property">shadowMd</span>: <span class="keyword">string</span>    <span class="comment">// '0 4px 20px rgba(10,22,40,0.08)'</span>
+  <span class="property">shadowLg</span>: <span class="keyword">string</span>    <span class="comment">// '0 8px 40px rgba(10,22,40,0.12)'</span>
+  <span class="property">shadowXl</span>: <span class="keyword">string</span>    <span class="comment">// '0 20px 60px rgba(10,22,40,0.16)'</span>
+
+  <span class="comment">// Z-index Scale</span>
+  <span class="property">zDropdown</span>: <span class="keyword">number</span>   <span class="comment">// 100 — dropdowns, tooltips</span>
+  <span class="property">zSticky</span>: <span class="keyword">number</span>     <span class="comment">// 200 — sticky headers, sidebars</span>
+  <span class="property">zOverlay</span>: <span class="keyword">number</span>    <span class="comment">// 300 — search overlays, backdrops</span>
+  <span class="property">zModal</span>: <span class="keyword">number</span>      <span class="comment">// 400 — modals, drawers</span>
+  <span class="property">zToast</span>: <span class="keyword">number</span>      <span class="comment">// 500 — toast notifications</span>
+}
+
+<span class="comment">// Main Theme interface</span>
+<span class="keyword">export interface</span> <span class="function">Theme</span> {
+  <span class="property">id</span>: <span class="keyword">string</span>
+  <span class="property">colors</span>?: <span class="function">ThemeColors</span>
+  <span class="property">typography</span>?: <span class="function">ThemeTypography</span>
+  <span class="property">spacing</span>?: <span class="function">ThemeSpacing</span>
+  <span class="property">visual</span>?: <span class="function">ThemeVisual</span>          <span class="comment">// ← Add this</span>
+  <span class="property">updatedAt</span>: <span class="keyword">string</span>
+  <span class="property">createdAt</span>: <span class="keyword">string</span>
+}
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3: Generate CSS Variables in Next.js -->
+  <section class="section" id="nextjs">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 3</span>
+        <span class="section-label">CSS Variable Generation in Next.js</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        src/app/layout.tsx
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Fetch visual data from Payload and inject CSS custom properties into the DOM
+        </p>
+
+<div class="code-block"><span class="comment">// src/app/layout.tsx</span>
+<span class="keyword">import</span> { <span class="function">getPayloadHMR</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/next/utilities'</span>
+<span class="keyword">import</span> <span class="function">config</span> <span class="keyword">from</span> <span class="string">'@payload-config'</span>
+
+<span class="keyword">export default async function</span> <span class="function">RootLayout</span>({ children }) {
+  <span class="keyword">const</span> payload = <span class="keyword">await</span> <span class="function">getPayloadHMR</span>({ config })
+
+  <span class="comment">// Fetch theme global</span>
+  <span class="keyword">const</span> theme = <span class="keyword">await</span> payload.<span class="function">findGlobal</span>({
+    <span class="property">slug</span>: <span class="string">'theme'</span>,
+  })
+
+  <span class="comment">// Generate visual CSS variables</span>
+  <span class="keyword">const</span> visual = theme?.visual || {}
+  <span class="keyword">const</span> visualVars = `
+    <span class="comment">/* Border Radius */</span>
+    <span class="property">--r-sm</span>: <span class="keyword">${</span>visual.radiusSm || <span class="number">8</span><span class="keyword">}</span>px;
+    <span class="property">--r-md</span>: <span class="keyword">${</span>visual.radiusMd || <span class="number">12</span><span class="keyword">}</span>px;
+    <span class="property">--r-lg</span>: <span class="keyword">${</span>visual.radiusLg || <span class="number">16</span><span class="keyword">}</span>px;
+    <span class="property">--r-xl</span>: <span class="keyword">${</span>visual.radiusXl || <span class="number">20</span><span class="keyword">}</span>px;
+    <span class="property">--r-full</span>: <span class="keyword">${</span>visual.radiusFull || <span class="number">9999</span><span class="keyword">}</span>px;
+
+    <span class="comment">/* Box Shadows */</span>
+    <span class="property">--sh-sm</span>: <span class="keyword">${</span>visual.shadowSm || <span class="string">'0 1px 3px rgba(10, 22, 40, 0.06)'</span><span class="keyword">}</span>;
+    <span class="property">--sh-md</span>: <span class="keyword">${</span>visual.shadowMd || <span class="string">'0 4px 20px rgba(10, 22, 40, 0.08)'</span><span class="keyword">}</span>;
+    <span class="property">--sh-lg</span>: <span class="keyword">${</span>visual.shadowLg || <span class="string">'0 8px 40px rgba(10, 22, 40, 0.12)'</span><span class="keyword">}</span>;
+    <span class="property">--sh-xl</span>: <span class="keyword">${</span>visual.shadowXl || <span class="string">'0 20px 60px rgba(10, 22, 40, 0.16)'</span><span class="keyword">}</span>;
+
+    <span class="comment">/* Z-index Scale */</span>
+    <span class="property">--z-dropdown</span>: <span class="keyword">${</span>visual.zDropdown || <span class="number">100</span><span class="keyword">}</span>;
+    <span class="property">--z-sticky</span>: <span class="keyword">${</span>visual.zSticky || <span class="number">200</span><span class="keyword">}</span>;
+    <span class="property">--z-overlay</span>: <span class="keyword">${</span>visual.zOverlay || <span class="number">300</span><span class="keyword">}</span>;
+    <span class="property">--z-modal</span>: <span class="keyword">${</span>visual.zModal || <span class="number">400</span><span class="keyword">}</span>;
+    <span class="property">--z-toast</span>: <span class="keyword">${</span>visual.zToast || <span class="number">500</span><span class="keyword">}</span>;
+  `
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">html</span> lang=<span class="string">"nl"</span>&gt;
+      &lt;<span class="keyword">head</span>&gt;
+        &lt;<span class="keyword">style</span> dangerouslySetInnerHTML={{
+          __html: `:root { ${visualVars} }`
+        }} /&gt;
+      &lt;/<span class="keyword">head</span>&gt;
+      &lt;<span class="keyword">body</span>&gt;{children}&lt;/<span class="keyword">body</span>&gt;
+    &lt;/<span class="keyword">html</span>&gt;
+  )
+}
+</div>
+
+        <p style="font-size:13px;color:var(--grey-dark);margin-top:16px">
+          <strong>Usage in components:</strong>
+        </p>
+
+<div class="code-block"><span class="comment">// Example: Card component with visual tokens</span>
+&lt;<span class="keyword">div</span> className=<span class="string">"card"</span>&gt;
+  Card content
+&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">/* styles.css */</span>
+.<span class="function">card</span> {
+  <span class="property">border-radius</span>: <span class="function">var</span>(<span class="property">--r-md</span>);      <span class="comment">/* 12px default */</span>
+  <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-sm</span>);          <span class="comment">/* Subtle lift */</span>
+  <span class="property">transition</span>: box-shadow <span class="number">0.2s</span> ease;
+}
+
+.<span class="function">card</span>:hover {
+  <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-md</span>);          <span class="comment">/* Elevated on hover */</span>
+}
+
+.<span class="function">modal</span> {
+  <span class="property">border-radius</span>: <span class="function">var</span>(<span class="property">--r-xl</span>);       <span class="comment">/* 20px overlay panels */</span>
+  <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-lg</span>);          <span class="comment">/* Large elevation */</span>
+  <span class="property">z-index</span>: <span class="function">var</span>(<span class="property">--z-modal</span>);          <span class="comment">/* Layer 400 */</span>
+}
+
+.<span class="function">toast</span> {
+  <span class="property">z-index</span>: <span class="function">var</span>(<span class="property">--z-toast</span>);          <span class="comment">/* Topmost layer (500) */</span>
+}
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 4: Admin Panel -->
+  <section class="section" id="admin">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 4</span>
+        <span class="section-label">Admin Panel Structure</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Admin UI Preview
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Navigate to: <strong>Globals → Theme → Visual tab</strong>
+        </p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Group</th>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td rowspan="5"><strong>Border Radius</strong></td>
+              <td><code>--r-sm</code></td>
+              <td>Number</td>
+              <td>8px</td>
+              <td>Buttons, inputs, small cards</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--r-md</code></td>
+              <td>Number</td>
+              <td>12px</td>
+              <td>Cards, modals, panels (default)</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--r-lg</code></td>
+              <td>Number</td>
+              <td>16px</td>
+              <td>Large cards, hero sections</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--r-xl</code></td>
+              <td>Number</td>
+              <td>20px</td>
+              <td>Overlay panels</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--r-full</code></td>
+              <td>Number</td>
+              <td>9999px</td>
+              <td>Pills, avatars, badges</td>
+            </tr>
+
+            <tr>
+              <td rowspan="4"><strong>Box Shadows</strong></td>
+              <td><code>--sh-sm</code></td>
+              <td>Text</td>
+              <td>0 1px 3px rgba(...)</td>
+              <td>Subtle lift, default cards</td>
+            </tr>
+            <tr>
+              <td><code>--sh-md</code></td>
+              <td>Text</td>
+              <td>0 4px 20px rgba(...)</td>
+              <td>Hover states, dropdowns</td>
+            </tr>
+            <tr>
+              <td><code>--sh-lg</code></td>
+              <td>Text</td>
+              <td>0 8px 40px rgba(...)</td>
+              <td>Modals, overlays</td>
+            </tr>
+            <tr>
+              <td><code>--sh-xl</code></td>
+              <td>Text</td>
+              <td>0 20px 60px rgba(...)</td>
+              <td>Floating panels, mega menus</td>
+            </tr>
+
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td rowspan="5"><strong>Z-index Scale</strong></td>
+              <td><code>--z-dropdown</code></td>
+              <td>Number</td>
+              <td>100</td>
+              <td>Dropdowns, tooltips</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--z-sticky</code></td>
+              <td>Number</td>
+              <td>200</td>
+              <td>Sticky headers, sidebars</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--z-overlay</code></td>
+              <td>Number</td>
+              <td>300</td>
+              <td>Search overlays, backdrops</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--z-modal</code></td>
+              <td>Number</td>
+              <td>400</td>
+              <td>Modals, drawers</td>
+            </tr>
+            <tr style="background:rgba(0,137,123,0.03)">
+              <td><code>--z-toast</code></td>
+              <td>Number</td>
+              <td>500</td>
+              <td>Toast notifications (topmost)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-info">
+          <i data-lucide="palette"></i>
+          <div>
+            <strong>Customization Flexibility:</strong> Unlike spacing tokens (which are locked), visual tokens CAN be customized per vertical. For example, the "Beauty" vertical might prefer softer shadows (lower opacity) or tighter border radius (6px instead of 8px) for a more refined aesthetic.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5: Testing Checklist -->
+  <section class="section" id="testing">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 5</span>
+        <span class="section-label">Testing Checklist</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        8 Tests to Run
+      </div>
+      <div class="box-content">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:40px">#</th>
+              <th>Test</th>
+              <th>Expected Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Admin Panel Access</strong><br>Navigate to <code>Globals → Theme → Visual</code></td>
+              <td>✅ All 14 fields visible in 3 collapsible groups</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>CSS Variable Generation</strong><br>Inspect DOM: <code>&lt;style&gt;:root { --r-sm: 8px; --sh-md: ...; --z-modal: 400; }&lt;/style&gt;</code></td>
+              <td>✅ All 14 visual variables present in <code>&lt;head&gt;</code></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>TypeScript Type Safety</strong><br>Try accessing <code>theme.visual.radiusMd</code> in IDE</td>
+              <td>✅ Autocomplete works, type is <code>number</code></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Border Radius Usage</strong><br>Add <code>border-radius: var(--r-md);</code> to a component</td>
+              <td>✅ Computed style shows <code>12px</code></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Shadow Usage</strong><br>Add <code>box-shadow: var(--sh-lg);</code> to a modal</td>
+              <td>✅ Computed style shows <code>0 8px 40px rgba(10, 22, 40, 0.12)</code></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>Z-index Layering</strong><br>Create toast (z-toast) over modal (z-modal)</td>
+              <td>✅ Toast appears on top (500 > 400)</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>Database Migration</strong><br>Check PostgreSQL schema for <code>theme.visual</code> columns</td>
+              <td>✅ Columns: <code>radiusSm</code>, <code>shadowMd</code>, <code>zModal</code>, etc. exist</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td><strong>Default Values</strong><br>Delete theme global, restart app</td>
+              <td>✅ Fallback values apply (8, 12, 16, 20, 9999px for radius)</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 6: Database Migration -->
+  <section class="section" id="migration">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 6</span>
+        <span class="section-label">Database Migration</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        PostgreSQL Migration Commands
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          After adding the Visual tab to Theme.ts, generate and run a database migration
+        </p>
+
+<div class="code-block"><span class="comment"># 1. Generate migration</span>
+npx payload migrate:create add_visual_to_theme
+
+<span class="comment"># 2. Check the generated SQL (should add 14 columns to theme table)</span>
+cat src/migrations/XXXX_add_visual_to_theme.ts
+
+<span class="comment"># 3. Run migration</span>
+npx payload migrate
+
+<span class="comment"># 4. Verify columns exist</span>
+psql $DATABASE_URL -c <span class="string">"\d theme"</span>
+<span class="comment"># Should show: radiusSm, radiusMd, ..., shadowSm, ..., zDropdown, ... columns</span>
+</div>
+
+        <p style="font-size:13px;color:var(--grey-dark);margin-top:16px;margin-bottom:8px">
+          <strong>Expected SQL (generated migration):</strong>
+        </p>
+
+<div class="code-block"><span class="comment">-- Auto-generated by Payload</span>
+
+<span class="comment">-- Border Radius columns</span>
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"radius_sm"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">8</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"radius_md"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">12</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"radius_lg"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">16</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"radius_xl"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">20</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"radius_full"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">9999</span>;
+
+<span class="comment">-- Box Shadow columns</span>
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"shadow_sm"</span> <span class="keyword">text</span> <span class="keyword">DEFAULT</span> <span class="string">'0 1px 3px rgba(10, 22, 40, 0.06)'</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"shadow_md"</span> <span class="keyword">text</span> <span class="keyword">DEFAULT</span> <span class="string">'0 4px 20px rgba(10, 22, 40, 0.08)'</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"shadow_lg"</span> <span class="keyword">text</span> <span class="keyword">DEFAULT</span> <span class="string">'0 8px 40px rgba(10, 22, 40, 0.12)'</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"shadow_xl"</span> <span class="keyword">text</span> <span class="keyword">DEFAULT</span> <span class="string">'0 20px 60px rgba(10, 22, 40, 0.16)'</span>;
+
+<span class="comment">-- Z-index columns</span>
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"z_dropdown"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">100</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"z_sticky"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">200</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"z_overlay"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">300</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"z_modal"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">400</span>;
+<span class="keyword">ALTER TABLE</span> <span class="string">"theme"</span> <span class="keyword">ADD COLUMN</span> <span class="string">"z_toast"</span> <span class="keyword">integer</span> <span class="keyword">DEFAULT</span> <span class="number">500</span>;
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 7: Troubleshooting -->
+  <section class="section" id="troubleshooting">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 7</span>
+        <span class="section-label">Troubleshooting</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Common Issues & Solutions
+      </div>
+      <div class="box-content">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Cause</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>CSS variables not appearing</strong><br><code>--r-md</code> is <code>undefined</code></td>
+              <td>Theme global not fetched or visual data missing</td>
+              <td>1. Check <code>theme?.visual</code> in layout.tsx<br>2. Verify fallback values: <code>visual.radiusMd || 12</code><br>3. Restart dev server</td>
+            </tr>
+            <tr>
+              <td><strong>Z-index conflicts</strong><br>Toast appears behind modal</td>
+              <td>Arbitrary z-index values used somewhere</td>
+              <td>1. Search codebase for hardcoded z-index<br>2. Replace with <code>var(--z-*)</code> tokens<br>3. Verify layering: dropdown(100) < sticky(200) < overlay(300) < modal(400) < toast(500)</td>
+            </tr>
+            <tr>
+              <td><strong>Migration failed</strong><br>"Column already exists"</td>
+              <td>Previous migration already added columns</td>
+              <td>1. Check existing columns: <code>psql -c "\d theme"</code><br>2. Skip migration or manually remove duplicate SQL</td>
+            </tr>
+            <tr>
+              <td><strong>TypeScript errors</strong><br>Property 'visual' does not exist</td>
+              <td>ThemeVisual interface not added to Theme type</td>
+              <td>Update <code>src/types/theme.ts</code>:<br><code>visual?: ThemeVisual</code></td>
+            </tr>
+            <tr>
+              <td><strong>Shadows not rendering</strong><br>Box shadow appears flat</td>
+              <td>Shadow value syntax error or missing quotes</td>
+              <td>1. Verify shadow format: <code>'0 Xpx Ypx rgba(...)'</code><br>2. Check for missing quotes in layout.tsx<br>3. Inspect computed styles in DevTools</td>
+            </tr>
+            <tr>
+              <td><strong>Build error</strong><br>Cannot find module './visual'</td>
+              <td>File not created or wrong path</td>
+              <td>1. Verify file exists: <code>src/globals/visual/index.ts</code><br>2. Check import path in Theme.ts</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 8: Advanced Usage -->
+  <section class="section" id="advanced">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Step 8</span>
+        <span class="section-label">Advanced Usage & Vertical Customization</span>
+      </div>
+    </div>
+
+    <!-- Vertical Overrides -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Vertical-Specific Visual Overrides
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Visual tokens CAN be customized per vertical for distinct aesthetic treatments
+        </p>
+
+<div class="code-block"><span class="comment">/* src/styles/verticals/beauty.css */</span>
+<span class="comment">/* Beauty vertical: softer shadows, tighter radius for refined aesthetic */</span>
+[<span class="property">data-vertical</span>=<span class="string">"beauty"</span>] {
+  <span class="property">--r-sm</span>: <span class="number">6</span>px;    <span class="comment">/* Tighter radius (8px → 6px) */</span>
+  <span class="property">--r-md</span>: <span class="number">10</span>px;   <span class="comment">/* More refined (12px → 10px) */</span>
+
+  <span class="comment">/* Softer shadows (lower opacity) */</span>
+  <span class="property">--sh-sm</span>: <span class="number">0</span> <span class="number">1</span>px <span class="number">3</span>px <span class="function">rgba</span>(<span class="number">10</span>, <span class="number">22</span>, <span class="number">40</span>, <span class="number">0.04</span>);  <span class="comment">/* 0.06 → 0.04 */</span>
+  <span class="property">--sh-md</span>: <span class="number">0</span> <span class="number">4</span>px <span class="number">20</span>px <span class="function">rgba</span>(<span class="number">10</span>, <span class="number">22</span>, <span class="number">40</span>, <span class="number">0.06</span>);  <span class="comment">/* 0.08 → 0.06 */</span>
+}
+
+<span class="comment">/* src/styles/verticals/horeca.css */</span>
+<span class="comment">/* Horeca vertical: warmer shadows, no changes to radius */</span>
+[<span class="property">data-vertical</span>=<span class="string">"horeca"</span>] {
+  <span class="comment">/* Warmer shadow color (navy → warm brown) */</span>
+  <span class="property">--sh-sm</span>: <span class="number">0</span> <span class="number">1</span>px <span class="number">3</span>px <span class="function">rgba</span>(<span class="number">44</span>, <span class="number">24</span>, <span class="number">16</span>, <span class="number">0.06</span>);  <span class="comment">/* Matches --warm color */</span>
+  <span class="property">--sh-md</span>: <span class="number">0</span> <span class="number">4</span>px <span class="number">20</span>px <span class="function">rgba</span>(<span class="number">44</span>, <span class="number">24</span>, <span class="number">16</span>, <span class="number">0.08</span>);
+}
+
+<span class="comment">/* src/styles/verticals/automotive.css */</span>
+<span class="comment">/* Automotive vertical: sharper edges, stronger shadows for bold aesthetic */</span>
+[<span class="property">data-vertical</span>=<span class="string">"automotive"</span>] {
+  <span class="property">--r-sm</span>: <span class="number">4</span>px;    <span class="comment">/* Sharper corners (8px → 4px) */</span>
+  <span class="property">--r-md</span>: <span class="number">8</span>px;    <span class="comment">/* More angular (12px → 8px) */</span>
+
+  <span class="comment">/* Stronger shadows for dramatic effect */</span>
+  <span class="property">--sh-md</span>: <span class="number">0</span> <span class="number">4</span>px <span class="number">20</span>px <span class="function">rgba</span>(<span class="number">10</span>, <span class="number">22</span>, <span class="number">40</span>, <span class="number">0.12</span>);  <span class="comment">/* 0.08 → 0.12 */</span>
+  <span class="property">--sh-lg</span>: <span class="number">0</span> <span class="number">8</span>px <span class="number">40</span>px <span class="function">rgba</span>(<span class="number">10</span>, <span class="number">22</span>, <span class="number">40</span>, <span class="number">0.16</span>);  <span class="comment">/* 0.12 → 0.16 */</span>
+}
+</div>
+
+        <div class="alert alert-info">
+          <i data-lucide="palette"></i>
+          <div>
+            <strong>Design Flexibility:</strong> Visual tokens are the most flexible design tokens. Radius affects perceived "softness" vs "sharpness", shadows affect depth perception, and both can be adjusted per vertical to match brand personality. The z-index scale should remain consistent across all verticals.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Animation & Transitions -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Animated Shadow & Radius Transitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Smooth transitions between visual states for polished interactions
+        </p>
+
+<div class="code-block"><span class="comment">/* Card with animated shadow on hover */</span>
+.<span class="function">card</span> {
+  <span class="property">border-radius</span>: <span class="function">var</span>(<span class="property">--r-md</span>);
+  <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-sm</span>);
+  <span class="property">transition</span>: box-shadow <span class="number">0.3s</span> cubic-bezier(<span class="number">0.4</span>, <span class="number">0</span>, <span class="number">0.2</span>, <span class="number">1</span>),
+              transform <span class="number">0.3s</span> cubic-bezier(<span class="number">0.4</span>, <span class="number">0</span>, <span class="number">0.2</span>, <span class="number">1</span>);
+}
+
+.<span class="function">card</span>:hover {
+  <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-md</span>);  <span class="comment">/* Elevates on hover */</span>
+  <span class="property">transform</span>: <span class="function">translateY</span>(<span class="number">-2</span>px);      <span class="comment">/* Subtle lift */</span>
+}
+
+<span class="comment">/* Button with shadow press effect */</span>
+.<span class="function">button</span> {
+  <span class="property">border-radius</span>: <span class="function">var</span>(<span class="property">--r-sm</span>);
+  <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-sm</span>);
+  <span class="property">transition</span>: all <span class="number">0.15s</span> ease;
+}
+
+.<span class="function">button</span>:active {
+  <span class="property">box-shadow</span>: none;                 <span class="comment">/* Flatten on press */</span>
+  <span class="property">transform</span>: <span class="function">translateY</span>(<span class="number">1</span>px);       <span class="comment">/* Press down */</span>
+}
+
+<span class="comment">/* Modal with staggered entrance animation */</span>
+.<span class="function">modal</span> {
+  <span class="property">border-radius</span>: <span class="function">var</span>(<span class="property">--r-xl</span>);
+  <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-lg</span>);
+  <span class="property">z-index</span>: <span class="function">var</span>(<span class="property">--z-modal</span>);
+  <span class="property">animation</span>: modalEnter <span class="number">0.3s</span> cubic-bezier(<span class="number">0.4</span>, <span class="number">0</span>, <span class="number">0.2</span>, <span class="number">1</span>);
+}
+
+<span class="keyword">@keyframes</span> <span class="function">modalEnter</span> {
+  <span class="keyword">from</span> {
+    <span class="property">opacity</span>: <span class="number">0</span>;
+    <span class="property">transform</span>: <span class="function">scale</span>(<span class="number">0.95</span>);
+    <span class="property">box-shadow</span>: none;
+  }
+  <span class="keyword">to</span> {
+    <span class="property">opacity</span>: <span class="number">1</span>;
+    <span class="property">transform</span>: <span class="function">scale</span>(<span class="number">1</span>);
+    <span class="property">box-shadow</span>: <span class="function">var</span>(<span class="property">--sh-lg</span>);
+  }
+}
+</div>
+
+      </div>
+    </div>
+
+    <!-- Z-index Debugging -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Z-index Debugging Utility
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          DevTools helper to visualize z-index stacking across all layers
+        </p>
+
+<div class="code-block"><span class="comment">// src/utils/debugZIndex.ts</span>
+<span class="comment">// Add this to your browser DevTools console for z-index debugging</span>
+
+<span class="keyword">export function</span> <span class="function">debugZIndex</span>() {
+  <span class="keyword">const</span> elements = <span class="keyword">Array</span>.<span class="function">from</span>(document.<span class="function">querySelectorAll</span>(<span class="string">'*'</span>))
+  <span class="keyword">const</span> zIndexMap = <span class="keyword">new</span> <span class="function">Map</span>()
+
+  elements.<span class="function">forEach</span>(el => {
+    <span class="keyword">const</span> zIndex = window.<span class="function">getComputedStyle</span>(el).zIndex
+    <span class="keyword">if</span> (zIndex !== <span class="string">'auto'</span>) {
+      <span class="keyword">const</span> layer = <span class="function">parseInt</span>(zIndex)
+      <span class="keyword">if</span> (!zIndexMap.<span class="function">has</span>(layer)) {
+        zIndexMap.<span class="function">set</span>(layer, [])
+      }
+      zIndexMap.<span class="function">get</span>(layer).<span class="function">push</span>({
+        <span class="property">element</span>: el,
+        <span class="property">tag</span>: el.tagName,
+        <span class="property">class</span>: el.className,
+      })
+    }
+  })
+
+  console.<span class="function">log</span>(<span class="string">'🔍 Z-index Stack Analysis:'</span>)
+  <span class="keyword">Array</span>.<span class="function">from</span>(zIndexMap.<span class="function">keys</span>())
+    .<span class="function">sort</span>((a, b) => b - a)
+    .<span class="function">forEach</span>(layer => {
+      <span class="keyword">const</span> items = zIndexMap.<span class="function">get</span>(layer)
+      console.<span class="function">log</span>(`\nLayer ${layer}:`, items.<span class="function">length</span>, <span class="string">'elements'</span>)
+      items.<span class="function">forEach</span>(item => {
+        console.<span class="function">log</span>(`  - <${item.tag}> .${item.class}`)
+      })
+    })
+
+  <span class="comment">// Expected layers:</span>
+  <span class="comment">// 500: Toasts (topmost)</span>
+  <span class="comment">// 400: Modals, drawers</span>
+  <span class="comment">// 300: Overlays, backdrops</span>
+  <span class="comment">// 200: Sticky headers</span>
+  <span class="comment">// 100: Dropdowns, tooltips</span>
+}
+
+<span class="comment">// Usage in browser console:</span>
+<span class="comment">// > debugZIndex()</span>
+</div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- COMPLETION CHECKLIST -->
+  <section class="section" id="checklist">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">✅ Completion Checklist</span>
+        <span class="section-label">Verify Implementation</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+          Before marking this implementation complete, verify all items:
+        </p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:40px">✓</th>
+              <th>Item</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>☐</td>
+              <td><strong>Visual tab created</strong></td>
+              <td><code>src/globals/visual/index.ts</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Imported into Theme.ts</strong></td>
+              <td><code>src/globals/Theme.ts</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>TypeScript interface added</strong></td>
+              <td><code>src/types/theme.ts</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>CSS variables generated</strong></td>
+              <td><code>src/app/layout.tsx</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Database migration run</strong></td>
+              <td><code>npx payload migrate</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Admin panel verified</strong></td>
+              <td>Globals → Theme → Visual (14 fields in 3 groups)</td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>Z-index debugging utility created</strong> (optional)</td>
+              <td><code>src/utils/debugZIndex.ts</code></td>
+            </tr>
+            <tr>
+              <td>☐</td>
+              <td><strong>All 8 tests passing</strong></td>
+              <td>See Step 5: Testing Checklist</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:24px;padding:16px;background:var(--grey-light);border-radius:var(--r-sm);border-left:4px solid var(--teal)">
+          <p style="font-size:13px;color:var(--grey-700);font-weight:600;margin-bottom:8px">
+            🎯 Expected Outcome
+          </p>
+          <p style="font-size:12px;color:var(--grey-dark);line-height:1.6">
+            After completing all steps, your design system will have consistent border radius (5 sizes), elevation through shadows (4 levels), and proper z-index layering (5 layers) across all 202 components. Visual tokens are customizable per vertical, allowing aesthetic differentiation while maintaining structural consistency across your 10-vertical multi-tenant platform.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>

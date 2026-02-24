@@ -3,19 +3,22 @@ import { checkRole } from '@/access/utilities'
 import { slugField } from 'payload'
 
 // Importeer alle custom blocks
-import { Hero } from '@/branches/shared/blocks/Hero'
+import { Hero } from '@/branches/shared/blocks/Hero/config'
 import { Content } from '@/branches/shared/blocks/Content/config'
 import { TwoColumn } from '@/branches/shared/blocks/TwoColumn/config'
-import { CTA } from '@/branches/shared/blocks/CTA'
-import { Features } from '@/branches/shared/blocks/Features' // Features/USPs
-import { FAQ } from '@/branches/shared/blocks/FAQ'
-import { TestimonialsBlock } from '@/branches/shared/blocks/TestimonialsBlock'
+import { CTA } from '@/branches/shared/blocks/CTA/config'
+import { CallToAction } from '@/branches/shared/blocks/CallToAction/config' // B30 - Inline CTA
+import { Features } from '@/branches/shared/blocks/Features/config' // Features/USPs (B02)
+import { Services } from '@/branches/shared/blocks/Services/config' // Services (B07)
+import { FAQ } from '@/branches/shared/blocks/FAQ/config'
+import { Testimonials as TestimonialsBlock } from '@/branches/shared/blocks/Testimonials/config'
 import { CasesBlock } from '@/branches/shared/blocks/CasesBlock'
 import { LogoBar } from '@/branches/shared/blocks/LogoBar/config'
 import { CategoryGrid } from '@/branches/ecommerce/blocks/CategoryGrid'
 import { Stats } from '@/branches/shared/blocks/Stats/config'
 import { Team } from '@/branches/shared/blocks/Team/config'
-import { Services } from '@/branches/shared/blocks/Services/config'
+// REMOVED: Old Services block - replaced by Features (B02) in Sprint 3
+// import { Services } from '@/branches/shared/blocks/Services/config'
 import { Contact } from '@/branches/shared/blocks/Contact/config'
 import { ContactFormBlock } from '@/branches/shared/blocks/ContactFormBlock/config'
 import { Newsletter } from '@/branches/shared/blocks/Newsletter/config'
@@ -188,23 +191,24 @@ export const Pages: CollectionConfig = {
         // ── E-commerce blokken ──
         ProductGrid,
         CategoryGrid, // Product categorieën
-        // Features block - only if services collection is enabled
-        ...(disabledCollections.has('services') ? [] : [Features]), // Features/USPs
         QuickOrder,
 
         // ── Conversie blokken ──
         CTA,
+        CallToAction, // B30 - Inline CTA (mid-page soft CTAs)
         Contact, // Contact information display
         ContactFormBlock, // Contact form with sidebar
         Newsletter, // Email newsletter signup
 
         // ── Social proof & Portfolio ──
+        Features, // Features/USPs grid (B02)
+        Services, // Services catalog with links (B07)
         TestimonialsBlock, // Klant reviews
         // Cases block - only if cases collection is enabled
         ...(disabledCollections.has('cases') ? [] : [CasesBlock]), // Portfolio/projecten
         LogoBar, // Partner/klant logo's
         Stats,
-        Services, // Services/features grid
+        // REMOVED: Services (old) - replaced by Features (B02) in Sprint 3
 
         // ── Informatief ──
         FAQ,

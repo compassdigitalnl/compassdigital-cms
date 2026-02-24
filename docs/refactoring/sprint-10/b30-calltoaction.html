@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B30 - CallToAction (Inline) | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ====================================
+       COMPASS DESIGN SYSTEM - GLOBAL TOKENS
+       ==================================== */
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ====================================
+       BASE STYLES
+       ==================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ====================================
+       TYPOGRAPHY
+       ==================================== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-serif);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    h1 { font-size: 36px; margin-bottom: 24px; }
+    h2 { font-size: 24px; margin-bottom: 20px; }
+    h3 { font-size: 18px; margin-bottom: 12px; }
+
+    p {
+      margin-bottom: 16px;
+      color: var(--grey-dark);
+    }
+
+    /* ====================================
+       DOCUMENTATION COMPONENTS
+       ==================================== */
+    .doc-header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .doc-header-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .block-id {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      height: 32px;
+      padding: 0 12px;
+      background: var(--teal);
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: 8px;
+    }
+
+    .block-type {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      background: var(--grey-mid);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: 6px;
+    }
+
+    .doc-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+      margin-bottom: 24px;
+    }
+
+    .section-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--teal-glow);
+      color: var(--teal);
+      border-radius: 8px;
+      font-size: 18px;
+    }
+
+    /* Code Blocks */
+    .code-box {
+      background: var(--navy);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 24px 0;
+    }
+
+    .code-box-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--navy-light);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .code-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .code-dot-red { background: #FF6B6B; }
+    .code-dot-yellow { background: #F59E0B; }
+    .code-dot-green { background: #00C853; }
+
+    .code-box-title {
+      color: rgba(255,255,255,0.6);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-left: 8px;
+    }
+
+    .code-content {
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      color: #E8ECF1;
+      overflow-x: auto;
+    }
+
+    .code-content pre {
+      margin: 0;
+    }
+
+    /* Syntax Highlighting */
+    .code-keyword { color: #C678DD; }
+    .code-string { color: #98C379; }
+    .code-number { color: #D19A66; }
+    .code-comment { color: #5C6370; font-style: italic; }
+    .code-function { color: #61AFEF; }
+    .code-property { color: #E06C75; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 12px;
+    }
+
+    thead {
+      background: var(--grey-light);
+    }
+
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+      vertical-align: top;
+    }
+
+    tbody tr:hover {
+      background: var(--grey-light);
+    }
+
+    /* Lists */
+    ul, ol {
+      margin: 16px 0 16px 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: var(--grey-dark);
+    }
+
+    /* Info Box */
+    .info-box {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 24px 0;
+    }
+
+    .info-box p {
+      color: var(--navy);
+      margin: 0;
+    }
+
+    .info-box strong {
+      color: var(--navy);
+    }
+
+    /* Warning Box */
+    .warning-box {
+      background: var(--amber-light);
+      border-left: 4px solid var(--amber);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 24px 0;
+    }
+
+    .warning-box p {
+      color: var(--navy);
+      margin: 0;
+    }
+
+    /* Success Box */
+    .success-box {
+      background: var(--green-light);
+      border-left: 4px solid var(--green);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 24px 0;
+    }
+
+    .success-box p {
+      color: var(--navy);
+      margin: 0;
+    }
+
+    /* Inline Code */
+    code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--grey-light);
+      color: var(--teal);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 10px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: 6px;
+    }
+
+    .badge-primary { background: var(--teal-glow); color: var(--teal); }
+    .badge-neutral { background: var(--grey-light); color: var(--grey-dark); }
+    .badge-success { background: var(--green-light); color: #166534; }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--grey);
+      margin: 32px 0;
+    }
+
+    /* ====================================
+       B30 CALLTOACTION (INLINE) COMPONENTS
+       ==================================== */
+
+    /* CTA Container */
+    .cta-inline {
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+      margin: 48px 0;
+    }
+
+    /* Background Variants */
+    .cta-inline--white {
+      background: white;
+      border: 1px solid var(--grey);
+    }
+
+    .cta-inline--grey {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+    }
+
+    .cta-inline--teal {
+      background: var(--teal-glow);
+      border: 1px solid rgba(0, 137, 123, 0.2);
+    }
+
+    /* CTA Title */
+    .cta-inline__title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      line-height: 1.3;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    /* CTA Description */
+    .cta-inline__description {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--grey-dark);
+      max-width: 640px;
+      margin: 0 auto 24px;
+    }
+
+    /* CTA Button */
+    .cta-inline__button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      padding: 0 24px;
+      background: var(--teal);
+      color: white;
+      font-weight: 600;
+      font-size: 13px;
+      border: none;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .cta-inline__button:hover {
+      background: var(--teal-dark);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    /* ====================================
+       RESPONSIVE
+       ==================================== */
+    @media (max-width: 768px) {
+      body {
+        padding: 24px 16px;
+      }
+
+      .doc-header,
+      .doc-section {
+        padding: 24px 20px;
+      }
+
+      h1 { font-size: 28px; }
+      h2 { font-size: 20px; }
+
+      .code-content {
+        font-size: 11px;
+        padding: 20px 16px;
+      }
+
+      table {
+        font-size: 11px;
+      }
+
+      th, td {
+        padding: 10px 12px;
+      }
+
+      .cta-inline {
+        padding: 24px 20px;
+      }
+
+      .cta-inline__title {
+        font-size: 20px;
+      }
+
+      .cta-inline__description {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ====================================
+         BLOCK HEADER
+         ==================================== -->
+    <div class="doc-header">
+      <div class="doc-header-top">
+        <span class="block-id">B30</span>
+        <h1 style="margin: 0; flex: 1;">CallToAction (Inline)</h1>
+        <span class="block-type">Neutral</span>
+      </div>
+      <p style="font-size: 15px; color: var(--grey-dark); margin: 0;">
+        Inline CTA variant (simpler dan B3). Titel, beschrijving, 1 button. Light of teal background. Gebruik voor mid-page conversie punten.
+      </p>
+    </div>
+
+    <!-- ====================================
+         1. VISUAL EXAMPLES
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">👁️</span> Visual Examples</h2>
+
+      <h3>Variant: White Background</h3>
+      <div class="cta-inline cta-inline--white">
+        <h3 class="cta-inline__title">Klaar om te starten?</h3>
+        <p class="cta-inline__description">
+          Ontdek hoe ons platform jouw business kan transformeren. Probeer het gratis voor 14 dagen, zonder creditcard.
+        </p>
+        <a href="#" class="cta-inline__button">Start gratis trial</a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h3>Variant: Grey Background</h3>
+      <div class="cta-inline cta-inline--grey">
+        <h3 class="cta-inline__title">Hulp nodig bij je keuze?</h3>
+        <p class="cta-inline__description">
+          Onze productspecialisten helpen je graag de perfecte oplossing te vinden voor jouw situatie.
+        </p>
+        <a href="#" class="cta-inline__button">Neem contact op</a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h3>Variant: Teal Background</h3>
+      <div class="cta-inline cta-inline--teal">
+        <h3 class="cta-inline__title">Mis geen enkele update</h3>
+        <p class="cta-inline__description">
+          Ontvang tips, best practices en productnieuws direct in je inbox. Schrijf je in voor onze maandelijkse nieuwsbrief.
+        </p>
+        <a href="#" class="cta-inline__button">Schrijf je in</a>
+      </div>
+    </div>
+
+    <!-- ====================================
+         2. PAYLOAD CMS SCHEMA
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">⚙️</span> Payload CMS Schema</h2>
+
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">blocks/CallToAction.ts</span>
+        </div>
+        <div class="code-content">
+<pre><span class="code-keyword">import</span> { Block } <span class="code-keyword">from</span> <span class="code-string">'payload/types'</span>
+
+<span class="code-keyword">export</span> <span class="code-keyword">const</span> <span class="code-function">CallToAction</span>: Block = {
+  <span class="code-property">slug</span>: <span class="code-string">'calltoaction'</span>,
+  <span class="code-property">labels</span>: {
+    <span class="code-property">singular</span>: <span class="code-string">'CallToAction (Inline)'</span>,
+    <span class="code-property">plural</span>: <span class="code-string">'CallToAction (Inline) Blocks'</span>,
+  },
+  <span class="code-property">fields</span>: [
+    {
+      <span class="code-property">name</span>: <span class="code-string">'title'</span>,
+      <span class="code-property">type</span>: <span class="code-string">'text'</span>,
+      <span class="code-property">required</span>: <span class="code-keyword">true</span>,
+      <span class="code-property">label</span>: <span class="code-string">'Titel'</span>,
+    },
+    {
+      <span class="code-property">name</span>: <span class="code-string">'description'</span>,
+      <span class="code-property">type</span>: <span class="code-string">'textarea'</span>,
+      <span class="code-property">label</span>: <span class="code-string">'Beschrijving'</span>,
+    },
+    {
+      <span class="code-property">name</span>: <span class="code-string">'buttonLabel'</span>,
+      <span class="code-property">type</span>: <span class="code-string">'text'</span>,
+      <span class="code-property">required</span>: <span class="code-keyword">true</span>,
+      <span class="code-property">label</span>: <span class="code-string">'Button Label'</span>,
+    },
+    {
+      <span class="code-property">name</span>: <span class="code-string">'buttonLink'</span>,
+      <span class="code-property">type</span>: <span class="code-string">'text'</span>,
+      <span class="code-property">required</span>: <span class="code-keyword">true</span>,
+      <span class="code-property">label</span>: <span class="code-string">'Button Link'</span>,
+    },
+    {
+      <span class="code-property">name</span>: <span class="code-string">'backgroundColor'</span>,
+      <span class="code-property">type</span>: <span class="code-string">'select'</span>,
+      <span class="code-property">defaultValue</span>: <span class="code-string">'grey'</span>,
+      <span class="code-property">options</span>: [
+        { <span class="code-property">label</span>: <span class="code-string">'White'</span>, <span class="code-property">value</span>: <span class="code-string">'white'</span> },
+        { <span class="code-property">label</span>: <span class="code-string">'Grey'</span>, <span class="code-property">value</span>: <span class="code-string">'grey'</span> },
+        { <span class="code-property">label</span>: <span class="code-string">'Teal'</span>, <span class="code-property">value</span>: <span class="code-string">'teal'</span> },
+      ],
+      <span class="code-property">label</span>: <span class="code-string">'Achtergrondkleur'</span>,
+    },
+  ],
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================
+         3. TYPESCRIPT INTERFACE
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">📘</span> TypeScript Interface</h2>
+
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">types/blocks.ts</span>
+        </div>
+        <div class="code-content">
+<pre><span class="code-keyword">export interface</span> CallToActionBlock {
+  <span class="code-property">blockType</span>: <span class="code-string">'calltoaction'</span>
+  <span class="code-property">title</span>: <span class="code-keyword">string</span>
+  <span class="code-property">description</span>?: <span class="code-keyword">string</span>
+  <span class="code-property">buttonLabel</span>: <span class="code-keyword">string</span>
+  <span class="code-property">buttonLink</span>: <span class="code-keyword">string</span>
+  <span class="code-property">backgroundColor</span>: <span class="code-string">'white'</span> | <span class="code-string">'grey'</span> | <span class="code-string">'teal'</span>
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================
+         4. REACT COMPONENT
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">⚛️</span> React Component</h2>
+
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">components/blocks/CallToAction.tsx</span>
+        </div>
+        <div class="code-content">
+<pre><span class="code-keyword">import</span> React <span class="code-keyword">from</span> <span class="code-string">'react'</span>
+<span class="code-keyword">import</span> { CallToActionBlock } <span class="code-keyword">from</span> <span class="code-string">'@/types/blocks'</span>
+
+<span class="code-keyword">export const</span> <span class="code-function">CallToAction</span>: React.FC&lt;CallToActionBlock&gt; = ({
+  title,
+  description,
+  buttonLabel,
+  buttonLink,
+  backgroundColor = <span class="code-string">'grey'</span>,
+}) => {
+  <span class="code-keyword">return</span> (
+    &lt;<span class="code-keyword">div</span> className={<span class="code-string">`cta-inline cta-inline--${backgroundColor}`</span>}&gt;
+      &lt;<span class="code-keyword">h3</span> className=<span class="code-string">"cta-inline__title"</span>&gt;{title}&lt;/<span class="code-keyword">h3</span>&gt;
+      {description && (
+        &lt;<span class="code-keyword">p</span> className=<span class="code-string">"cta-inline__description"</span>&gt;{description}&lt;/<span class="code-keyword">p</span>&gt;
+      )}
+      &lt;<span class="code-keyword">a</span> href={buttonLink} className=<span class="code-string">"cta-inline__button"</span>&gt;
+        {buttonLabel}
+      &lt;/<span class="code-keyword">a</span>&gt;
+    &lt;/<span class="code-keyword">div</span>&gt;
+  )
+}</pre>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <p><strong>💡 Tip:</strong> Voor Next.js gebruik <code>Link</code> component in plaats van <code>&lt;a&gt;</code> voor client-side routing.</p>
+      </div>
+    </div>
+
+    <!-- ====================================
+         5. CSS/TAILWIND IMPLEMENTATION
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">🎨</span> CSS/Tailwind Implementation</h2>
+
+      <h3>Vanilla CSS (zoals hierboven)</h3>
+      <p>Zie de <code>&lt;style&gt;</code> sectie van dit document voor complete CSS implementatie.</p>
+
+      <div class="divider"></div>
+
+      <h3>Tailwind CSS Variant</h3>
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">components/blocks/CallToAction.tsx</span>
+        </div>
+        <div class="code-content">
+<pre><span class="code-keyword">const</span> backgrounds = {
+  white: <span class="code-string">'bg-white border border-grey'</span>,
+  grey: <span class="code-string">'bg-grey-light border border-grey'</span>,
+  teal: <span class="code-string">'bg-teal-glow border border-teal/20'</span>,
+}
+
+&lt;<span class="code-keyword">div</span> className={<span class="code-string">`rounded-xl p-8 text-center my-12 ${backgrounds[backgroundColor]}`</span>}&gt;
+  &lt;<span class="code-keyword">h3</span> className=<span class="code-string">"font-serif text-2xl leading-tight text-navy mb-3"</span>&gt;
+    {title}
+  &lt;/<span class="code-keyword">h3</span>&gt;
+  {description && (
+    &lt;<span class="code-keyword">p</span> className=<span class="code-string">"text-sm leading-relaxed text-grey-dark max-w-2xl mx-auto mb-6"</span>&gt;
+      {description}
+    &lt;/<span class="code-keyword">p</span>&gt;
+  )}
+  &lt;<span class="code-keyword">a</span>
+    href={buttonLink}
+    className=<span class="code-string">"inline-flex items-center justify-center h-11 px-6 bg-teal text-white font-semibold text-sm rounded-lg hover:bg-teal-dark hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"</span>
+  &gt;
+    {buttonLabel}
+  &lt;/<span class="code-keyword">a</span>&gt;
+&lt;/<span class="code-keyword">div</span>&gt;</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================
+         6. DESIGN TOKENS & SPECS
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">📐</span> Design Tokens & Specs</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Container</strong></td>
+            <td><code>border-radius</code></td>
+            <td><code>var(--radius)</code></td>
+            <td>12px</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>padding</code></td>
+            <td>32px</td>
+            <td>24px op mobile</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>text-align</code></td>
+            <td>center</td>
+            <td>Altijd gecentreerd</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>margin</code></td>
+            <td>48px 0</td>
+            <td>Verticale spacing</td>
+          </tr>
+          <tr>
+            <td><strong>Title</strong></td>
+            <td><code>font-family</code></td>
+            <td><code>var(--font-serif)</code></td>
+            <td>DM Serif Display</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>font-size</code></td>
+            <td>24px</td>
+            <td>20px op mobile</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>line-height</code></td>
+            <td>1.3</td>
+            <td>Tight voor headlines</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>color</code></td>
+            <td><code>var(--navy)</code></td>
+            <td>#0A1628</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>margin-bottom</code></td>
+            <td>12px</td>
+            <td>Spacing naar description</td>
+          </tr>
+          <tr>
+            <td><strong>Description</strong></td>
+            <td><code>font-size</code></td>
+            <td>14px</td>
+            <td>13px op mobile</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>line-height</code></td>
+            <td>1.6</td>
+            <td>Comfortable reading</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>color</code></td>
+            <td><code>var(--grey-dark)</code></td>
+            <td>#64748B</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>max-width</code></td>
+            <td>640px</td>
+            <td>Centered, leesbaarheid</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>margin-bottom</code></td>
+            <td>24px</td>
+            <td>Spacing naar button</td>
+          </tr>
+          <tr>
+            <td><strong>Button</strong></td>
+            <td><code>height</code></td>
+            <td>44px</td>
+            <td>Touch-friendly size</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>padding</code></td>
+            <td>0 24px</td>
+            <td>Horizontale spacing</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>background</code></td>
+            <td><code>var(--teal)</code></td>
+            <td>#00897B</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>color</code></td>
+            <td>white</td>
+            <td>Altijd wit</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>font-weight</code></td>
+            <td>600</td>
+            <td>Semibold</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>font-size</code></td>
+            <td>13px</td>
+            <td>Body text size</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>border-radius</code></td>
+            <td><code>var(--radius-sm)</code></td>
+            <td>8px</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>transition</code></td>
+            <td><code>var(--transition)</code></td>
+            <td>0.2s cubic-bezier</td>
+          </tr>
+          <tr>
+            <td><strong>Button :hover</strong></td>
+            <td><code>background</code></td>
+            <td><code>var(--teal-dark)</code></td>
+            <td>#00695C</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>box-shadow</code></td>
+            <td><code>var(--shadow-md)</code></td>
+            <td>Elevate on hover</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>transform</code></td>
+            <td>translateY(-2px)</td>
+            <td>Subtle lift</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Background Variants</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Variant</th>
+            <th>Background</th>
+            <th>Border</th>
+            <th>Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-neutral">white</span></td>
+            <td>white (#FAFBFC)</td>
+            <td>1px solid var(--grey)</td>
+            <td>Op gekleurde backgrounds</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-neutral">grey</span></td>
+            <td>var(--grey-light) (#F1F4F8)</td>
+            <td>1px solid var(--grey)</td>
+            <td>Default, subtle contrast</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-primary">teal</span></td>
+            <td>var(--teal-glow) (rgba(0,137,123,0.12))</td>
+            <td>1px solid rgba(0,137,123,0.2)</td>
+            <td>Extra aandacht, highlight</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====================================
+         7. USAGE GUIDELINES
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">📚</span> Usage Guidelines</h2>
+
+      <h3>✅ When to Use</h3>
+      <ul>
+        <li><strong>Mid-page conversions:</strong> Na sections met uitleg/features een actie trigger</li>
+        <li><strong>Soft CTAs:</strong> Niet-agressieve calls-to-action (vs. B3 die hero-achtig is)</li>
+        <li><strong>Content breaks:</strong> Tussen lange content pagina's om engagement te behouden</li>
+        <li><strong>Form follow-ups:</strong> Na contactforms: "Of bel ons direct: ..."</li>
+        <li><strong>Alternative actions:</strong> Secundaire conversie routes aanbieden</li>
+      </ul>
+
+      <h3>❌ When NOT to Use</h3>
+      <ul>
+        <li><strong>Hero sections:</strong> Gebruik B1 Hero Block met integrated CTA</li>
+        <li><strong>Page-ending CTAs:</strong> Gebruik B3 CTA Block (gradient, dramatisch)</li>
+        <li><strong>Multiple buttons:</strong> Dit block heeft 1 button (B3 heeft primary+secondary)</li>
+        <li><strong>Complex layouts:</strong> Dit is text-only, gebruik B9 TwoColumn voor split layouts</li>
+      </ul>
+
+      <h3>Content Guidelines</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Length</th>
+            <th>Best Practices</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Title</strong></td>
+            <td>3-8 woorden</td>
+            <td>
+              • Gebruik actieve taal ("Start vandaag", "Krijg toegang")<br>
+              • Maak het specifiek ("Word klant" vs "Aan de slag")<br>
+              • Test vragende vorm ("Klaar om te groeien?")
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Description</strong></td>
+            <td>1-2 zinnen (max 120 karakters)</td>
+            <td>
+              • Focus op benefit, niet feature<br>
+              • Optioneel: verwijder weerstand ("Geen creditcard", "Gratis")<br>
+              • Houd het scanbaar (korte zinnen)
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Button Label</strong></td>
+            <td>2-4 woorden</td>
+            <td>
+              • Gebruik eerste persoon ("Start mijn trial" > "Start trial")<br>
+              • Wees specifiek ("Download gids" > "Meer info")<br>
+              • Test urgentie ("Probeer nu gratis")
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Background Selection Guide</h3>
+      <ul>
+        <li><strong>White:</strong> Op gekleurde page backgrounds (navy, teal sections)</li>
+        <li><strong>Grey:</strong> Default op white page backgrounds (subtiel, niet invasief)</li>
+        <li><strong>Teal:</strong> High-priority CTAs die extra aandacht verdienen</li>
+      </ul>
+
+      <div class="warning-box">
+        <p><strong>⚠️ Let op:</strong> Gebruik max. 1-2 inline CTAs per pagina. Te veel verwateren de conversie rates.</p>
+      </div>
+    </div>
+
+    <!-- ====================================
+         8. INTEGRATION EXAMPLES
+         ==================================== -->
+    <div class="doc-section">
+      <h2><span class="section-icon">🔗</span> Integration Examples</h2>
+
+      <h3>Voorbeeld 1: Na Features Section</h3>
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">page-layout.tsx</span>
+        </div>
+        <div class="code-content">
+<pre>&lt;Features features={page.features} /&gt;
+
+&lt;CallToAction
+  title=<span class="code-string">"Overtuigd? Start vandaag nog"</span>
+  description=<span class="code-string">"Probeer 14 dagen gratis, geen creditcard vereist."</span>
+  buttonLabel=<span class="code-string">"Start gratis trial"</span>
+  buttonLink=<span class="code-string">"/aanmelden"</span>
+  backgroundColor=<span class="code-string">"grey"</span>
+/&gt;
+
+&lt;Testimonials testimonials={page.testimonials} /&gt;</pre>
+        </div>
+      </div>
+
+      <h3>Voorbeeld 2: Als Alternatieve Actie</h3>
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">pricing-page.tsx</span>
+        </div>
+        <div class="code-content">
+<pre>&lt;Pricing plans={page.plans} /&gt;
+
+&lt;CallToAction
+  title=<span class="code-string">"Niet zeker welk plan bij je past?"</span>
+  description=<span class="code-string">"Onze experts helpen je de juiste keuze maken."</span>
+  buttonLabel=<span class="code-string">"Plan een demo"</span>
+  buttonLink=<span class="code-string">"/demo"</span>
+  backgroundColor=<span class="code-string">"teal"</span>
+/&gt;</pre>
+        </div>
+      </div>
+
+      <h3>Voorbeeld 3: In Blog Content</h3>
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">blog-post.tsx</span>
+        </div>
+        <div class="code-content">
+<pre>&lt;RichText content={post.content} /&gt;
+
+<span class="code-comment">// Mid-article CTA</span>
+&lt;CallToAction
+  title=<span class="code-string">"Wil je meer tips zoals deze?"</span>
+  description=<span class="code-string">"Download onze gratis gids met 50+ best practices."</span>
+  buttonLabel=<span class="code-string">"Download gratis gids"</span>
+  buttonLink=<span class="code-string">"/downloads/best-practices-gids"</span>
+  backgroundColor=<span class="code-string">"white"</span>
+/&gt;
+
+&lt;RichText content={post.moreContent} /&gt;</pre>
+        </div>
+      </div>
+
+      <h3>Voorbeeld 4: Payload CMS Content</h3>
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-box-title">Payload Admin - Page Editor</span>
+        </div>
+        <div class="code-content">
+<pre>{
+  <span class="code-string">"blockType"</span>: <span class="code-string">"calltoaction"</span>,
+  <span class="code-string">"title"</span>: <span class="code-string">"Klaar om te starten met Compass?"</span>,
+  <span class="code-string">"description"</span>: <span class="code-string">"Ontdek hoe 2000+ bedrijven hun sales verbeteren met ons platform."</span>,
+  <span class="code-string">"buttonLabel"</span>: <span class="code-string">"Bekijk casestudies"</span>,
+  <span class="code-string">"buttonLink"</span>: <span class="code-string">"/klanten"</span>,
+  <span class="code-string">"backgroundColor"</span>: <span class="code-string">"grey"</span>
+}</pre>
+        </div>
+      </div>
+
+      <div class="success-box">
+        <p><strong>✅ Pro Tip:</strong> Test verschillende plaatsingen met A/B testing. CTAs na testimonials converteren vaak 20-30% beter dan mid-content CTAs.</p>
+      </div>
+    </div>
+
+    <!-- ====================================
+         FOOTER
+         ==================================== -->
+    <div class="divider"></div>
+    <div style="text-align: center; color: var(--grey-mid); font-size: 12px; padding: 24px 0;">
+      <p><strong>Compass Design System</strong> • B30 CallToAction (Inline) Block</p>
+      <p style="margin-top: 8px;">Laatste update: Februari 2024 • Versie 2.0</p>
+    </div>
+
+  </div>
+</body>
+</html>

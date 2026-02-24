@@ -1,33 +1,118 @@
-/**
- * CallToAction Component - 100% Theme Variable Compliant
- *
- * Already compliant - uses shadcn UI components and CMSLink with theme variables.
- * No hardcoded colors present.
- */
 import React from 'react'
+import Link from 'next/link'
+import type { CallToActionBlock } from '@/payload-types'
 
-import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
-import { RichText } from '@/branches/shared/components/common/RichText'
-import { CMSLink } from '@/branches/shared/components/common/Link'
+/**
+ * B30 - CallToAction (Inline) Component
+ *
+ * Compact, centered CTA for mid-page conversions.
+ * Features single button, 3 background variants, hover effects.
+ */
 
-export const CallToActionBlock: React.FC<
-  CTABlockProps & {
-    id?: string | number
-    className?: string
-  }
-> = ({ links, richText }) => {
+export const CallToActionComponent: React.FC<CallToActionBlock> = ({
+  title,
+  description,
+  buttonLabel,
+  buttonLink,
+  backgroundColor = 'grey',
+}) => {
+  // Background variant styling
+  const bgClasses = {
+    white: 'bg-white',
+    grey: 'bg-grey-light',
+    teal: 'bg-teal-glow',
+  }[backgroundColor]
+
+  // Text color for different backgrounds
+  const textClasses = {
+    white: 'text-navy',
+    grey: 'text-navy',
+    teal: 'text-navy',
+  }[backgroundColor]
+
+  // Button styling for different backgrounds
+  const buttonClasses = {
+    white: 'bg-teal hover:bg-teal-dark text-white',
+    grey: 'bg-teal hover:bg-teal-dark text-white',
+    teal: 'bg-navy hover:bg-navy-light text-white',
+  }[backgroundColor]
+
+  // Determine if link is internal or external
+  const isExternal = buttonLink?.startsWith('http')
+  const ButtonWrapper = isExternal ? 'a' : Link
+
   return (
-    <div className="container">
-      <div className="bg-card rounded border-border border p-4 flex flex-col gap-8 md:flex-row md:justify-between md:items-center">
-        <div className="max-w-3xl flex items-center">
-          {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
-        </div>
-        <div className="flex flex-col gap-8">
-          {(links || []).map(({ link }, i) => {
-            return <CMSLink key={i} size="lg" {...link} />
-          })}
+    <section className="py-12 md:py-16">
+      <div className="container mx-auto px-6">
+        <div
+          className={`
+            ${bgClasses}
+            rounded-xl
+            px-6 py-8
+            md:px-8 md:py-10
+            text-center
+            transition-all duration-200
+          `}
+        >
+          {/* Title */}
+          <h2
+            className={`
+              ${textClasses}
+              font-serif
+              text-2xl md:text-3xl
+              font-semibold
+              mb-3
+            `}
+          >
+            {title}
+          </h2>
+
+          {/* Description (optional) */}
+          {description && (
+            <p
+              className={`
+                ${textClasses}
+                text-sm md:text-base
+                opacity-80
+                max-w-2xl
+                mx-auto
+                mb-6
+              `}
+            >
+              {description}
+            </p>
+          )}
+
+          {/* Button */}
+          <ButtonWrapper
+            href={buttonLink}
+            {...(isExternal && {
+              target: '_blank',
+              rel: 'noopener noreferrer',
+            })}
+            className={`
+              inline-flex
+              items-center
+              justify-center
+              ${buttonClasses}
+              px-8 py-3
+              rounded-lg
+              font-semibold
+              text-sm md:text-base
+              transition-all
+              duration-200
+              hover:shadow-lg
+              hover:-translate-y-0.5
+              focus:outline-none
+              focus:ring-2
+              focus:ring-teal
+              focus:ring-offset-2
+            `}
+          >
+            {buttonLabel}
+          </ButtonWrapper>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

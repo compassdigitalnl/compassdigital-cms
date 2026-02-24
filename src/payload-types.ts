@@ -1164,15 +1164,18 @@ export interface Page {
         | TwoColumnBlock
         | ProductGridBlock
         | CategoryGridBlock
-        | FeaturesBlock
         | QuickOrderBlock
         | CTABlock
+        | CallToActionBlock
+        | ContactBlock
         | ContactFormBlock
+        | NewsletterBlock
+        | FeaturesBlock
+        | ServicesBlock
         | TestimonialsBlock
         | CasesBlock
         | LogoBarBlock
         | StatsBlock
-        | ServicesBlock
         | FAQBlock
         | TeamBlock
         | AccordionBlock
@@ -1352,15 +1355,15 @@ export interface SpacerBlock {
  */
 export interface HeroBlock {
   /**
-   * Small overline text above the title (e.g., "Welkom bij...")
+   * Optional small text above the main title (e.g., "Welkom bij Compass")
    */
   subtitle?: string | null;
   /**
-   * Main hero heading (H1)
+   * Primary heading (H1). Keep under 60 characters for readability.
    */
   title: string;
   /**
-   * Supporting text below the title
+   * Supporting text with rich formatting (paragraphs, bold, italic, links)
    */
   description?: {
     root: {
@@ -1380,24 +1383,24 @@ export interface HeroBlock {
   buttons?:
     | {
         label: string;
+        /**
+         * URL or path (e.g., /contact or https://example.com)
+         */
         link: string;
         style?: ('primary' | 'secondary' | 'ghost') | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Choose how the hero is laid out
+   * Choose hero layout style
    */
-  variant: 'default' | 'split' | 'centered';
-  backgroundStyle: 'gradient' | 'solid' | 'image';
+  variant?: ('default' | 'split' | 'centered') | null;
+  backgroundStyle?: ('gradient' | 'image' | 'solid') | null;
   /**
-   * Only shown when Background Style is "Solid Color"
-   */
-  backgroundColor?: ('navy' | 'white' | 'bg' | 'teal') | null;
-  /**
-   * Only shown when Background Style is "Image"
+   * Recommended: 1920x1080px, WebP format, < 200KB
    */
   backgroundImage?: (number | null) | Media;
+  backgroundColor?: ('navy' | 'white' | 'bg' | 'teal') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
@@ -1408,7 +1411,7 @@ export interface HeroBlock {
  */
 export interface ContentBlock {
   /**
-   * Rich text editor with support for headings, lists, links, and text formatting.
+   * Full rich text editor with all Lexical features
    */
   content: {
     root: {
@@ -1426,7 +1429,7 @@ export interface ContentBlock {
     [k: string]: unknown;
   };
   /**
-   * Controls the maximum width of the content container. Narrow for blog posts, wide for documentation, full for tables/galleries.
+   * Narrow = optimal reading width (45-75 characters per line)
    */
   maxWidth?: ('narrow' | 'wide' | 'full') | null;
   id?: string | null;
@@ -1658,40 +1661,6 @@ export interface CategoryGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeaturesBlock".
- */
-export interface FeaturesBlock {
-  /**
-   * Optional heading for the features section
-   */
-  title?: string | null;
-  /**
-   * Optional introduction text
-   */
-  description?: string | null;
-  features?:
-    | {
-        /**
-         * Lucide icon name (e.g., Shield, Zap, Award, Truck)
-         */
-        icon: string;
-        title: string;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  variant: 'grid-3' | 'grid-4' | 'list';
-  /**
-   * Visual style for the feature icons
-   */
-  iconStyle: 'glow' | 'solid' | 'outlined';
-  alignment: 'center' | 'left';
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'features';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "QuickOrderBlock".
  */
 export interface QuickOrderBlock {
@@ -1766,17 +1735,226 @@ export interface CTABlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  /**
+   * CTA headline (3-8 words). Use active language (e.g., "Ready to get started?")
+   */
+  title: string;
+  /**
+   * Optional supporting text (1-2 sentences, max 120 characters)
+   */
+  description?: string | null;
+  /**
+   * Button text (2-4 words). Use first person (e.g., "Start mijn trial" > "Start trial")
+   */
+  buttonLabel: string;
+  /**
+   * URL or path for the button (e.g., /contact or https://example.com)
+   */
+  buttonLink: string;
+  /**
+   * Grey = default (subtle), Teal = high-priority (extra attention)
+   */
+  backgroundColor?: ('white' | 'grey' | 'teal') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'calltoaction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock".
+ */
+export interface ContactBlock {
+  title: string;
+  subtitle?: string | null;
+  address?: {
+    street?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+  };
+  phone?: string | null;
+  email?: string | null;
+  /**
+   * Add opening hours for each day or day range
+   */
+  openingHours?:
+    | {
+        day: string;
+        hours: string;
+        id?: string | null;
+      }[]
+    | null;
+  showMap?: boolean | null;
+  /**
+   * Get embed URL from Google Maps "Share" → "Embed a map"
+   */
+  mapUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contact';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ContactFormBlock".
  */
 export interface ContactFormBlock {
-  heading?: string | null;
+  title?: string | null;
+  description?: string | null;
+  showPhone?: boolean | null;
+  showSubject?: boolean | null;
   /**
-   * Optionele intro tekst boven het formulier
+   * Email address to receive form submissions
    */
-  intro?: string | null;
+  submitTo: string;
+  /**
+   * Optional contact information displayed alongside the form
+   */
+  contactInfo?: {
+    phone?: string | null;
+    email?: string | null;
+    address?: string | null;
+    hours?: string | null;
+  };
+  /**
+   * Message shown after successful form submission
+   */
+  successMessage?: string | null;
+  /**
+   * Message shown when form submission fails
+   */
+  errorMessage?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'contactForm';
+  blockType: 'contactform';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsletterBlock".
+ */
+export interface NewsletterBlock {
+  /**
+   * Hoofdtitel van de newsletter sectie
+   */
+  title: string;
+  /**
+   * Tekst op de submit button
+   */
+  buttonLabel?: string | null;
+  /**
+   * Korte beschrijving onder de titel (optioneel)
+   */
+  description?: string | null;
+  /**
+   * Placeholder text voor email input
+   */
+  placeholder?: string | null;
+  /**
+   * Achtergrondkleur van de sectie
+   */
+  backgroundColor?: ('white' | 'grey' | 'teal' | 'navy') | null;
+  /**
+   * Privacy text onder het formulier
+   */
+  privacyText?: string | null;
+  /**
+   * Bericht getoond na succesvolle inschrijving
+   */
+  successMessage?: string | null;
+  /**
+   * Bericht getoond bij foutmelding
+   */
+  errorMessage?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'newsletter';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturesBlock".
+ */
+export interface FeaturesBlock {
+  /**
+   * Heading above the features grid (e.g., "Waarom Compass Digital?")
+   */
+  title?: string | null;
+  /**
+   * Optional subheading text below title
+   */
+  description?: string | null;
+  features?:
+    | {
+        /**
+         * Lucide icon name (e.g., "Zap", "Palette", "ShieldCheck"). See https://lucide.dev
+         */
+        icon: string;
+        title: string;
+        /**
+         * Short description (max 2-3 sentences)
+         */
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  variant?: ('grid-3' | 'grid-4' | 'list') | null;
+  iconStyle?: ('glow' | 'solid' | 'outlined') | null;
+  alignment?: ('center' | 'left') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'features';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesBlock".
+ */
+export interface ServicesBlock {
+  /**
+   * Small overline text above main title (optional)
+   */
+  subtitle?: string | null;
+  /**
+   * Main section heading (optional)
+   */
+  title?: string | null;
+  /**
+   * Brief description below title (optional, max 2-3 sentences)
+   */
+  description?: string | null;
+  /**
+   * Number of service cards per row on desktop. Automatically stacks on mobile.
+   */
+  columns: '2' | '3' | '4';
+  /**
+   * Add 2-12 service cards. Recommended: 3, 6, or 9 items for best visual balance.
+   */
+  services: {
+    /**
+     * Lucide icon name (e.g., "package", "code", "rocket"). Browse icons at lucide.dev
+     */
+    icon: string;
+    /**
+     * Icon color theme
+     */
+    iconColor: 'teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral';
+    title: string;
+    /**
+     * Service description (1-2 sentences, max 150 chars recommended)
+     */
+    description: string;
+    /**
+     * Optional link URL (e.g., /services/setup or https://example.com)
+     */
+    link?: string | null;
+    /**
+     * CTA link text (shown only if link URL is provided)
+     */
+    linkText?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'services';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1784,29 +1962,32 @@ export interface ContactFormBlock {
  */
 export interface TestimonialsBlock {
   /**
-   * Optional heading (e.g., "What Our Clients Say")
+   * Optional heading above testimonials
    */
   title?: string | null;
+  /**
+   * Customer testimonials with quotes, ratings, and avatars
+   */
   testimonials?:
     | {
         quote: string;
         author: string;
         role?: string | null;
         /**
-         * Profile photo (falls back to initials if not provided)
+         * Optional profile photo (square, min 80x80px)
          */
         avatar?: (number | null) | Media;
         /**
-         * Star rating from 1 to 5
+         * Star rating out of 5
          */
-        rating: number;
+        rating?: number | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Choose how testimonials are displayed
+   * Grid = static 3-col layout. Carousel = interactive slider. Featured = single large quote.
    */
-  variant: 'grid' | 'carousel' | 'featured';
+  variant?: ('grid' | 'carousel' | 'featured') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'testimonials';
@@ -2021,83 +2202,25 @@ export interface StatsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServicesBlock".
- */
-export interface ServicesBlock {
-  /**
-   * Small overline text above main title (optional)
-   */
-  subtitle?: string | null;
-  /**
-   * Main section heading (optional)
-   */
-  title?: string | null;
-  /**
-   * Brief description below title (optional, max 2-3 sentences)
-   */
-  description?: string | null;
-  /**
-   * Number of service cards per row on desktop. Automatically stacks on mobile.
-   */
-  columns: '2' | '3' | '4';
-  /**
-   * Add 2-12 services or features. Each service has an icon, title, description, and optional link.
-   */
-  services?:
-    | {
-        /**
-         * Lucide icon name (e.g., "package", "code", "truck"). Browse icons at lucide.dev
-         */
-        icon?: string | null;
-        /**
-         * Icon color from Theme global tokens
-         */
-        iconColor?: ('teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral') | null;
-        /**
-         * Name of the service or feature (e.g., "Fast Shipping")
-         */
-        title: string;
-        /**
-         * Brief description of the service (1-2 sentences)
-         */
-        description?: string | null;
-        /**
-         * Optional link URL (e.g., /services/setup or https://example.com)
-         */
-        link?: string | null;
-        /**
-         * Text for the link (e.g., "Learn more", "Get started")
-         */
-        linkText?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Background color from Theme global. Maps to CSS variables: --color-white, --color-bg, etc.
-   */
-  backgroundColor?: ('white' | 'bg' | 'grey' | 'tealLight' | 'navyLight') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'services';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FAQBlock".
  */
 export interface FAQBlock {
   /**
-   * Optional heading (e.g., "Frequently Asked Questions")
+   * Optional heading above FAQ items (DM Serif Display)
    */
   title?: string | null;
   /**
-   * Optional introduction text
+   * Optional subheading text
    */
   description?: string | null;
+  /**
+   * Add question/answer pairs. Click + icon expands to show answer.
+   */
   faqs?:
     | {
         question: string;
         /**
-         * Rich text answer with formatting options
+         * Full rich text support (bold, lists, links, etc.)
          */
         answer: {
           root: {
@@ -2118,9 +2241,9 @@ export interface FAQBlock {
       }[]
     | null;
   /**
-   * Choose how FAQs are displayed
+   * Single = vertical stack (max 720px). Two = side-by-side on desktop.
    */
-  variant: 'single-column' | 'two-column';
+  variant?: ('single-column' | 'two-column') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'faq';
@@ -6745,15 +6868,18 @@ export interface PagesSelect<T extends boolean = true> {
         twocolumn?: T | TwoColumnBlockSelect<T>;
         productGrid?: T | ProductGridBlockSelect<T>;
         categoryGrid?: T | CategoryGridBlockSelect<T>;
-        features?: T | FeaturesBlockSelect<T>;
         quickOrder?: T | QuickOrderBlockSelect<T>;
         cta?: T | CTABlockSelect<T>;
-        contactForm?: T | ContactFormBlockSelect<T>;
+        calltoaction?: T | CallToActionBlockSelect<T>;
+        contact?: T | ContactBlockSelect<T>;
+        contactform?: T | ContactFormBlockSelect<T>;
+        newsletter?: T | NewsletterBlockSelect<T>;
+        features?: T | FeaturesBlockSelect<T>;
+        services?: T | ServicesBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
         cases?: T | CasesBlockSelect<T>;
         logobar?: T | LogoBarBlockSelect<T>;
         stats?: T | StatsBlockSelect<T>;
-        services?: T | ServicesBlockSelect<T>;
         faq?: T | FAQBlockSelect<T>;
         team?: T | TeamBlockSelect<T>;
         accordion?: T | AccordionBlockSelect<T>;
@@ -6871,8 +6997,8 @@ export interface HeroBlockSelect<T extends boolean = true> {
       };
   variant?: T;
   backgroundStyle?: T;
-  backgroundColor?: T;
   backgroundImage?: T;
+  backgroundColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -6969,27 +7095,6 @@ export interface CategoryGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeaturesBlock_select".
- */
-export interface FeaturesBlockSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  features?:
-    | T
-    | {
-        icon?: T;
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  variant?: T;
-  iconStyle?: T;
-  alignment?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "QuickOrderBlock_select".
  */
 export interface QuickOrderBlockSelect<T extends boolean = true> {
@@ -7027,11 +7132,125 @@ export interface CTABlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock_select".
+ */
+export interface CallToActionBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  buttonLabel?: T;
+  buttonLink?: T;
+  backgroundColor?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock_select".
+ */
+export interface ContactBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  address?:
+    | T
+    | {
+        street?: T;
+        postalCode?: T;
+        city?: T;
+      };
+  phone?: T;
+  email?: T;
+  openingHours?:
+    | T
+    | {
+        day?: T;
+        hours?: T;
+        id?: T;
+      };
+  showMap?: T;
+  mapUrl?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ContactFormBlock_select".
  */
 export interface ContactFormBlockSelect<T extends boolean = true> {
-  heading?: T;
-  intro?: T;
+  title?: T;
+  description?: T;
+  showPhone?: T;
+  showSubject?: T;
+  submitTo?: T;
+  contactInfo?:
+    | T
+    | {
+        phone?: T;
+        email?: T;
+        address?: T;
+        hours?: T;
+      };
+  successMessage?: T;
+  errorMessage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsletterBlock_select".
+ */
+export interface NewsletterBlockSelect<T extends boolean = true> {
+  title?: T;
+  buttonLabel?: T;
+  description?: T;
+  placeholder?: T;
+  backgroundColor?: T;
+  privacyText?: T;
+  successMessage?: T;
+  errorMessage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturesBlock_select".
+ */
+export interface FeaturesBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  features?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  variant?: T;
+  iconStyle?: T;
+  alignment?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesBlock_select".
+ */
+export interface ServicesBlockSelect<T extends boolean = true> {
+  subtitle?: T;
+  title?: T;
+  description?: T;
+  columns?: T;
+  services?:
+    | T
+    | {
+        icon?: T;
+        iconColor?: T;
+        title?: T;
+        description?: T;
+        link?: T;
+        linkText?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -7109,30 +7328,6 @@ export interface StatsBlockSelect<T extends boolean = true> {
         value?: T;
         label?: T;
         description?: T;
-        id?: T;
-      };
-  backgroundColor?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServicesBlock_select".
- */
-export interface ServicesBlockSelect<T extends boolean = true> {
-  subtitle?: T;
-  title?: T;
-  description?: T;
-  columns?: T;
-  services?:
-    | T
-    | {
-        icon?: T;
-        iconColor?: T;
-        title?: T;
-        description?: T;
-        link?: T;
-        linkText?: T;
         id?: T;
       };
   backgroundColor?: T;

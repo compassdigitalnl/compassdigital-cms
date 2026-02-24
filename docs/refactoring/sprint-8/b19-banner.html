@@ -1,0 +1,2575 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B19: Banner Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --amber-dark: #D97706;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--amber);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BANNER COMPONENT STYLES
+       ═══════════════════════════════════════════════════════════ */
+    .banner {
+      position: relative;
+      width: 100%;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Variant: Announcement (Navy) */
+    .banner-announcement {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    /* Variant: Promo (Teal) */
+    .banner-promo {
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: white;
+    }
+
+    /* Variant: Warning (Amber) */
+    .banner-warning {
+      background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+      color: white;
+    }
+
+    .banner-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      max-width: 1000px;
+      justify-content: center;
+    }
+
+    .banner-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    .banner-message {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .banner-link {
+      color: inherit;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .banner-link:hover {
+      opacity: 0.8;
+    }
+
+    .banner-dismiss {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .banner-dismiss:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .banner-dismiss i {
+      width: 16px;
+      height: 16px;
+      color: white;
+    }
+
+    /* Sticky variant */
+    .banner-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 640px) {
+      .banner {
+        padding: 12px 16px;
+        font-size: 13px;
+      }
+
+      .banner-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .banner-icon {
+        display: none;
+      }
+
+      .banner-dismiss {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--amber);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--amber-light), #FFF8E1);
+      border: 2px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DEMO CONTROLS
+       ═══════════════════════════════════════════════════════════ */
+    .demo-controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .demo-btn {
+      padding: 8px 16px;
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .demo-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .demo-btn.active {
+      border-color: var(--amber);
+      background: var(--amber-light);
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Banner Block<span>Chapter 3 — CMS Blocks</span></div>
+    <span class="header-badge">Status</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+  <section class="section" id="block-banner">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B19</span>
+        <span class="section-label">Banner Block</span>
+      </div>
+      <span class="tag" style="background:var(--amber);color:white">Status</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:24px">
+      Full-width horizontal banner for announcements, promotions, or warnings. Displays at the top of pages, optionally sticky. 3 color variants (announcement/promo/warning), dismissible, with optional CTA link. Responsive design collapses to vertical stack on mobile.
+    </p>
+
+    <!-- VISUAL PREVIEW: ANNOUNCEMENT -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Announcement (Navy)
+      </div>
+      <div class="box-content" style="padding:0;background:var(--bg)">
+        <div class="banner banner-announcement">
+          <div class="banner-content">
+            <i data-lucide="bell" class="banner-icon"></i>
+            <span class="banner-message">Nieuwe functionaliteit beschikbaar!</span>
+            <a href="#" class="banner-link">Bekijk de updates →</a>
+          </div>
+          <button class="banner-dismiss" onclick="this.closest('.banner').style.display='none'">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISUAL PREVIEW: PROMO -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Promo (Teal)
+      </div>
+      <div class="box-content" style="padding:0;background:var(--bg)">
+        <div class="banner banner-promo">
+          <div class="banner-content">
+            <i data-lucide="gift" class="banner-icon"></i>
+            <span class="banner-message">Gratis verzending op alle bestellingen boven €50</span>
+            <a href="#" class="banner-link">Shop nu →</a>
+          </div>
+          <button class="banner-dismiss" onclick="this.closest('.banner').style.display='none'">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISUAL PREVIEW: WARNING -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Warning (Amber)
+      </div>
+      <div class="box-content" style="padding:0;background:var(--bg)">
+        <div class="banner banner-warning">
+          <div class="banner-content">
+            <i data-lucide="alert-triangle" class="banner-icon"></i>
+            <span class="banner-message">Geplande onderhoudswerkzaamheden op zondag 2 maart van 02:00-06:00</span>
+            <a href="#" class="banner-link">Meer informatie →</a>
+          </div>
+          <button class="banner-dismiss" onclick="this.closest('.banner').style.display='none'">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISUAL PREVIEW: STICKY BANNER -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Sticky Variant (Scrolls with page)
+      </div>
+      <div class="box-content" style="padding:0;background:var(--bg);max-height:300px;overflow-y:auto">
+        <div class="banner banner-promo banner-sticky">
+          <div class="banner-content">
+            <i data-lucide="zap" class="banner-icon"></i>
+            <span class="banner-message">Flash Sale! 20% korting op geselecteerde items</span>
+            <a href="#" class="banner-link">Shop flash deals →</a>
+          </div>
+          <button class="banner-dismiss" onclick="this.closest('.banner').style.display='none'">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div style="padding:40px;background:white;height:400px">
+          <p style="color:var(--grey-mid);font-size:13px">Scroll down to see the sticky banner remain at the top...</p>
+          <p style="color:var(--grey-mid);font-size:13px;margin-top:20px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYLOAD SCHEMA -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Payload Schema (Compact)
+      </div>
+      <div class="box-content">
+        <div class="code-block">
+{ slug: 'banner', fields: [
+  { name: 'variant', type: 'select', options: ['announcement', 'promo', 'warning'], required: true },
+  { name: 'message', type: 'text', required: true },
+  { name: 'icon', type: 'select', options: ['bell', 'gift', 'alert-triangle', 'info', 'zap', 'star'] },
+  { name: 'link', type: 'group', fields: [
+    { name: 'text', type: 'text' },
+    { name: 'url', type: 'text' }
+  ]},
+  { name: 'dismissible', type: 'checkbox', defaultValue: true },
+  { name: 'sticky', type: 'checkbox', defaultValue: false }
+]}
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPLEMENTATION GUIDE -->
+    <div style="margin-top:48px">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:32px;border-bottom:2px solid var(--grey);padding-bottom:16px">Complete Implementation Guide (8 Steps)</h3>
+
+      <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">1</span>
+          <span class="step-title">Payload Block Configuration</span>
+        </div>
+        <div class="step-content">
+          <p class="step-description">
+            Top banner block with 3 color variants, dismissible functionality, optional sticky positioning, and CTA link support.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">TypeScript</span>
+              <span class="code-path">src/branches/blocks/shared/Banner/config.ts</span>
+            </div>
+            <pre><code>import type { Block } from 'payload'
+
+export const Banner: Block = {
+  slug: 'banner',
+  labels: {
+    singular: 'Banner Block',
+    plural: 'Banner Blocks',
+  },
+  interfaceName: 'BannerBlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Banner Type',
+              required: true,
+              defaultValue: 'announcement',
+              options: [
+                {
+                  label: 'Announcement (Navy) - General updates',
+                  value: 'announcement'
+                },
+                {
+                  label: 'Promo (Teal) - Promotions & offers',
+                  value: 'promo'
+                },
+                {
+                  label: 'Warning (Amber) - Important notices',
+                  value: 'warning'
+                },
+              ],
+              admin: {
+                description: 'Choose banner style based on message type',
+              },
+            },
+            {
+              name: 'message',
+              type: 'text',
+              label: 'Banner Message',
+              required: true,
+              maxLength: 150,
+              admin: {
+                description: 'Keep concise (max 150 characters for best mobile display)',
+              },
+            },
+            {
+              name: 'icon',
+              type: 'select',
+              label: 'Icon (Optional)',
+              options: [
+                { label: 'Bell (Notification)', value: 'bell' },
+                { label: 'Gift (Promotion)', value: 'gift' },
+                { label: 'Alert Triangle (Warning)', value: 'alert-triangle' },
+                { label: 'Info (Information)', value: 'info' },
+                { label: 'Zap (Flash/Urgent)', value: 'zap' },
+                { label: 'Star (Featured)', value: 'star' },
+                { label: 'None', value: 'none' },
+              ],
+              defaultValue: 'bell',
+              admin: {
+                description: 'Icon shown before message (hidden on mobile)',
+              },
+            },
+            {
+              name: 'link',
+              type: 'group',
+              label: 'Call-to-Action Link',
+              admin: {
+                description: 'Optional link displayed after message',
+              },
+              fields: [
+                {
+                  name: 'text',
+                  type: 'text',
+                  label: 'Link Text',
+                  admin: {
+                    placeholder: 'Learn more →',
+                  },
+                },
+                {
+                  name: 'url',
+                  type: 'text',
+                  label: 'URL',
+                  admin: {
+                    placeholder: '/promo-page',
+                  },
+                },
+                {
+                  name: 'newTab',
+                  type: 'checkbox',
+                  label: 'Open in new tab',
+                  defaultValue: false,
+                },
+              ],
+            },
+          ],
+        },
+        // TAB 2: BEHAVIOR
+        {
+          label: 'Behavior',
+          fields: [
+            {
+              name: 'dismissible',
+              type: 'checkbox',
+              label: 'Allow users to dismiss banner',
+              defaultValue: true,
+              admin: {
+                description: 'Shows X button. Dismissal saved to localStorage.',
+              },
+            },
+            {
+              name: 'dismissalKey',
+              type: 'text',
+              label: 'Dismissal Storage Key',
+              admin: {
+                description: 'Unique key for localStorage. Change to re-show dismissed banner.',
+                placeholder: 'banner-promo-2024-03',
+                condition: (data) => data?.dismissible === true,
+              },
+            },
+            {
+              name: 'sticky',
+              type: 'checkbox',
+              label: 'Make banner sticky (stays at top on scroll)',
+              defaultValue: false,
+              admin: {
+                description: 'Use for important messages that should always be visible',
+              },
+            },
+            {
+              name: 'showFrom',
+              type: 'date',
+              label: 'Show From (Optional)',
+              admin: {
+                date: {
+                  pickerAppearance: 'dayAndTime',
+                },
+                description: 'Auto-hide banner before this date',
+              },
+            },
+            {
+              name: 'showUntil',
+              type: 'date',
+              label: 'Show Until (Optional)',
+              admin: {
+                date: {
+                  pickerAppearance: 'dayAndTime',
+                },
+                description: 'Auto-hide banner after this date',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: TYPESCRIPT TYPES -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">2</span>
+          <span class="step-title">TypeScript Types</span>
+        </div>
+        <div class="step-content">
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">TypeScript</span>
+              <span class="code-path">src/branches/blocks/shared/Banner/types.ts</span>
+            </div>
+            <pre><code>export type BannerVariant = 'announcement' | 'promo' | 'warning'
+
+export type BannerIcon =
+  | 'bell'
+  | 'gift'
+  | 'alert-triangle'
+  | 'info'
+  | 'zap'
+  | 'star'
+  | 'none'
+
+export interface BannerLink {
+  text?: string
+  url?: string
+  newTab?: boolean
+}
+
+export interface BannerBlock {
+  blockType: 'banner'
+  variant: BannerVariant
+  message: string
+  icon?: BannerIcon
+  link?: BannerLink
+  dismissible: boolean
+  dismissalKey?: string
+  sticky: boolean
+  showFrom?: string // ISO date
+  showUntil?: string // ISO date
+}
+
+export interface BannerComponentProps {
+  block: BannerBlock
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: REACT COMPONENT -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">3</span>
+          <span class="step-title">React Server Component</span>
+        </div>
+        <div class="step-content">
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">TypeScript</span>
+              <span class="code-path">src/branches/blocks/shared/Banner/Component.tsx</span>
+            </div>
+            <pre><code>'use client'
+
+import React, { useEffect, useState } from 'react'
+import type { BannerComponentProps } from './types'
+import { cn } from '@/utilities/cn'
+import * as Icons from 'lucide-react'
+
+export function Banner({ block }: BannerComponentProps) {
+  const {
+    variant = 'announcement',
+    message,
+    icon = 'bell',
+    link,
+    dismissible = true,
+    dismissalKey,
+    sticky = false,
+    showFrom,
+    showUntil,
+  } = block
+
+  const [isVisible, setIsVisible] = useState(true)
+
+  // Check if banner should be shown based on dates and dismissal
+  useEffect(() => {
+    // Check date range
+    const now = new Date()
+    if (showFrom && new Date(showFrom) > now) {
+      setIsVisible(false)
+      return
+    }
+    if (showUntil && new Date(showUntil) < now) {
+      setIsVisible(false)
+      return
+    }
+
+    // Check localStorage for dismissal
+    if (dismissible && dismissalKey) {
+      const isDismissed = localStorage.getItem(`banner-dismissed-${dismissalKey}`)
+      if (isDismissed) {
+        setIsVisible(false)
+      }
+    }
+  }, [showFrom, showUntil, dismissible, dismissalKey])
+
+  const handleDismiss = () => {
+    if (dismissalKey) {
+      localStorage.setItem(`banner-dismissed-${dismissalKey}`, 'true')
+    }
+    setIsVisible(false)
+  }
+
+  if (!isVisible) return null
+
+  // Icon component
+  const IconComponent = icon !== 'none' && Icons[icon as keyof typeof Icons]
+
+  return (
+    <div
+      className={cn(
+        'banner',
+        `banner-${variant}`,
+        sticky && 'banner-sticky',
+      )}
+    >
+      <div className="banner-content">
+        {IconComponent && (
+          <IconComponent className="banner-icon" />
+        )}
+        <span className="banner-message">{message}</span>
+        {link?.text && link?.url && (
+          <a
+            href={link.url}
+            className="banner-link"
+            target={link.newTab ? '_blank' : undefined}
+            rel={link.newTab ? 'noopener noreferrer' : undefined}
+          >
+            {link.text}
+          </a>
+        )}
+      </div>
+      {dismissible && (
+        <button
+          className="banner-dismiss"
+          onClick={handleDismiss}
+          aria-label="Dismiss banner"
+        >
+          <Icons.X className="banner-icon" />
+        </button>
+      )}
+    </div>
+  )
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: TAILWIND STYLES -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">4</span>
+          <span class="step-title">Tailwind CSS Styles</span>
+        </div>
+        <div class="step-content">
+          <p class="step-description">
+            Add banner styles to your global CSS or component styles. Using Tailwind utilities with custom banner classes.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">CSS</span>
+              <span class="code-path">src/branches/blocks/shared/Banner/styles.css</span>
+            </div>
+            <pre><code>/* Banner Base Styles */
+.banner {
+  @apply relative w-full py-3.5 px-5 flex items-center justify-center gap-4;
+  @apply text-sm transition-all duration-300;
+}
+
+/* Banner Variants */
+.banner-announcement {
+  background: linear-gradient(135deg, theme('colors.navy.DEFAULT'), theme('colors.navy.light'));
+  @apply text-white;
+}
+
+.banner-promo {
+  background: linear-gradient(135deg, theme('colors.teal.DEFAULT'), theme('colors.teal.light'));
+  @apply text-white;
+}
+
+.banner-warning {
+  background: linear-gradient(135deg, theme('colors.amber.DEFAULT'), theme('colors.amber.dark'));
+  @apply text-white;
+}
+
+/* Banner Content */
+.banner-content {
+  @apply flex items-center gap-3 flex-1 max-w-4xl justify-center;
+}
+
+.banner-icon {
+  @apply w-5 h-5 flex-shrink-0 opacity-90;
+}
+
+.banner-message {
+  @apply text-sm font-medium leading-relaxed;
+}
+
+.banner-link {
+  @apply font-bold underline underline-offset-2 whitespace-nowrap;
+  @apply transition-opacity hover:opacity-80;
+}
+
+/* Dismiss Button */
+.banner-dismiss {
+  @apply w-8 h-8 border-0 rounded-lg cursor-pointer flex items-center justify-center;
+  @apply flex-shrink-0 transition-all;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.banner-dismiss:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Sticky Variant */
+.banner-sticky {
+  @apply sticky top-0 z-[100];
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .banner {
+    @apply py-3 px-4 text-[13px];
+  }
+
+  .banner-content {
+    @apply flex-col items-start gap-2;
+  }
+
+  .banner-icon {
+    @apply hidden;
+  }
+
+  .banner-dismiss {
+    @apply absolute top-2 right-2;
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5: ADMIN PANEL STRUCTURE -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">4</span>
+          <span class="step-title">Admin Panel Interface</span>
+        </div>
+        <div class="step-content">
+          <div class="admin-preview">
+            <div class="admin-section">
+              <div class="admin-label">Tab 1: Content</div>
+              <div class="admin-fields">
+                <div class="admin-field">
+                  <label>Banner Type *</label>
+                  <select>
+                    <option>Announcement (Navy) - General updates</option>
+                    <option>Promo (Teal) - Promotions & offers</option>
+                    <option>Warning (Amber) - Important notices</option>
+                  </select>
+                  <span class="field-hint">Choose banner style based on message type</span>
+                </div>
+
+                <div class="admin-field">
+                  <label>Banner Message *</label>
+                  <input type="text" placeholder="Nieuwe functionaliteit beschikbaar!" value="Gratis verzending op alle bestellingen boven €50">
+                  <span class="field-hint">Keep concise (max 150 characters for best mobile display)</span>
+                </div>
+
+                <div class="admin-field">
+                  <label>Icon (Optional)</label>
+                  <select>
+                    <option>Bell (Notification)</option>
+                    <option>Gift (Promotion)</option>
+                    <option>Alert Triangle (Warning)</option>
+                    <option>Info (Information)</option>
+                    <option>Zap (Flash/Urgent)</option>
+                    <option>Star (Featured)</option>
+                    <option>None</option>
+                  </select>
+                  <span class="field-hint">Icon shown before message (hidden on mobile)</span>
+                </div>
+
+                <div class="admin-field">
+                  <label>Call-to-Action Link</label>
+                  <div style="display:grid;gap:12px;margin-top:8px">
+                    <input type="text" placeholder="Link Text (e.g., Learn more →)" value="Shop nu →">
+                    <input type="text" placeholder="URL (e.g., /promo-page)" value="/promotions">
+                    <label style="display:flex;align-items:center;gap:8px;margin:0">
+                      <input type="checkbox">
+                      Open in new tab
+                    </label>
+                  </div>
+                  <span class="field-hint">Optional link displayed after message</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-section">
+              <div class="admin-label">Tab 2: Behavior</div>
+              <div class="admin-fields">
+                <div class="admin-field">
+                  <label style="display:flex;align-items:center;gap:8px;margin:0">
+                    <input type="checkbox" checked>
+                    Allow users to dismiss banner
+                  </label>
+                  <span class="field-hint">Shows X button. Dismissal saved to localStorage.</span>
+                </div>
+
+                <div class="admin-field">
+                  <label>Dismissal Storage Key</label>
+                  <input type="text" placeholder="banner-promo-2024-03" value="flash-sale-march-2024">
+                  <span class="field-hint">Unique key for localStorage. Change to re-show dismissed banner.</span>
+                </div>
+
+                <div class="admin-field">
+                  <label style="display:flex;align-items:center;gap:8px;margin:0">
+                    <input type="checkbox">
+                    Make banner sticky (stays at top on scroll)
+                  </label>
+                  <span class="field-hint">Use for important messages that should always be visible</span>
+                </div>
+
+                <div class="admin-field">
+                  <label>Show From (Optional)</label>
+                  <input type="datetime-local">
+                  <span class="field-hint">Auto-hide banner before this date</span>
+                </div>
+
+                <div class="admin-field">
+                  <label>Show Until (Optional)</label>
+                  <input type="datetime-local">
+                  <span class="field-hint">Auto-hide banner after this date</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6: TESTING CHECKLIST -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">5</span>
+          <span class="step-title">Testing Checklist</span>
+        </div>
+        <div class="step-content">
+          <ul class="testing-checklist">
+            <li><strong>Variant Colors:</strong> Test all 3 variants (announcement/promo/warning). Verify gradient backgrounds, text color contrast (WCAG AA minimum 4.5:1). Test in dark mode if applicable.</li>
+            <li><strong>Dismissal:</strong> Click X button, verify banner disappears. Check localStorage for dismissal key. Reload page - banner should stay hidden. Change dismissalKey in admin - banner should reappear.</li>
+            <li><strong>Date Range:</strong> Set showFrom to future date - banner hidden. Set showUntil to past date - banner hidden. Set valid date range - banner visible. Test timezone handling.</li>
+            <li><strong>Sticky Behavior:</strong> Enable sticky, scroll page - banner stays at top with z-index 100. Test with existing sticky header - verify z-index stacking. Disable sticky - banner scrolls with page.</li>
+            <li><strong>Links:</strong> Test link with internal URL (/page), external URL (https://...), hash link (#section). Test "Open in new tab" - verify target="_blank" and rel="noopener noreferrer". Test without link - verify no empty space.</li>
+            <li><strong>Icons:</strong> Test each icon option (bell, gift, alert-triangle, info, zap, star). Verify icon color matches text. Test "None" - no icon shown. Test icon hidden on mobile.</li>
+            <li><strong>Mobile Responsive:</strong> Test at 320px, 375px, 414px widths. Verify vertical stack layout. Verify icon hidden, dismiss button absolute positioned. Test long message wrapping. Test link wraps to new line.</li>
+            <li><strong>Accessibility:</strong> Test keyboard navigation (Tab to dismiss button, Enter to dismiss). Test screen reader (message announced, dismiss button labeled). Test high contrast mode. Verify focus ring visible on dismiss button.</li>
+            <li><strong>Performance:</strong> Test with multiple banners on one page. Verify no layout shift on dismissal. Test localStorage cleanup (old keys removed). Test with slow network - verify no flash of banner before dismissal check.</li>
+            <li><strong>Edge Cases:</strong> Test very long message (150+ chars) - verify truncation or scroll. Test message with HTML special chars (&lt;, &gt;, &amp;) - verify proper escaping. Test without message - verify validation error in admin.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 7: DATABASE MIGRATION -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">6</span>
+          <span class="step-title">Database Migration</span>
+        </div>
+        <div class="step-content">
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">SQL</span>
+              <span class="code-path">migrations/YYYYMMDDHHMMSS_add_banner_block.sql</span>
+            </div>
+            <pre><code>-- Add Banner block type
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'banner';
+
+-- Create banner_blocks table
+CREATE TABLE IF NOT EXISTS banner_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  variant VARCHAR(20) NOT NULL DEFAULT 'announcement'
+    CHECK (variant IN ('announcement', 'promo', 'warning')),
+  message TEXT NOT NULL,
+  icon VARCHAR(30) DEFAULT 'bell'
+    CHECK (icon IN ('bell', 'gift', 'alert-triangle', 'info', 'zap', 'star', 'none')),
+
+  -- Link fields (nullable group)
+  link_text VARCHAR(100),
+  link_url TEXT,
+  link_new_tab BOOLEAN DEFAULT false,
+
+  -- Behavior fields
+  dismissible BOOLEAN DEFAULT true,
+  dismissal_key VARCHAR(100),
+  sticky BOOLEAN DEFAULT false,
+  show_from TIMESTAMPTZ,
+  show_until TIMESTAMPTZ,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  -- Constraints
+  CONSTRAINT link_complete CHECK (
+    (link_text IS NULL AND link_url IS NULL) OR
+    (link_text IS NOT NULL AND link_url IS NOT NULL)
+  ),
+  CONSTRAINT dismissal_key_required CHECK (
+    dismissible = false OR dismissal_key IS NOT NULL
+  ),
+  CONSTRAINT date_range_valid CHECK (
+    show_from IS NULL OR show_until IS NULL OR show_from < show_until
+  )
+);
+
+-- Create indexes
+CREATE INDEX idx_banner_blocks_block_id ON banner_blocks(block_id);
+CREATE INDEX idx_banner_blocks_variant ON banner_blocks(variant);
+CREATE INDEX idx_banner_blocks_date_range ON banner_blocks(show_from, show_until)
+  WHERE show_from IS NOT NULL OR show_until IS NOT NULL;
+CREATE INDEX idx_banner_blocks_dismissal_key ON banner_blocks(dismissal_key)
+  WHERE dismissal_key IS NOT NULL;
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_banner_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_banner_blocks_updated_at
+  BEFORE UPDATE ON banner_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_banner_blocks_updated_at();
+
+-- Comments
+COMMENT ON TABLE banner_blocks IS 'Top banner blocks for announcements, promotions, and warnings';
+COMMENT ON COLUMN banner_blocks.variant IS 'Visual style: announcement (navy), promo (teal), warning (amber)';
+COMMENT ON COLUMN banner_blocks.message IS 'Banner message text (max 150 chars recommended)';
+COMMENT ON COLUMN banner_blocks.icon IS 'Lucide icon name shown before message';
+COMMENT ON COLUMN banner_blocks.dismissal_key IS 'Unique key for localStorage dismissal tracking';
+COMMENT ON COLUMN banner_blocks.sticky IS 'If true, banner stays at top on scroll with z-index 100';
+COMMENT ON COLUMN banner_blocks.show_from IS 'Auto-hide banner before this date';
+COMMENT ON COLUMN banner_blocks.show_until IS 'Auto-hide banner after this date';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_banner_blocks_updated_at ON banner_blocks;
+DROP FUNCTION IF EXISTS update_banner_blocks_updated_at();
+DROP INDEX IF EXISTS idx_banner_blocks_dismissal_key;
+DROP INDEX IF EXISTS idx_banner_blocks_date_range;
+DROP INDEX IF EXISTS idx_banner_blocks_variant;
+DROP INDEX IF EXISTS idx_banner_blocks_block_id;
+DROP TABLE IF EXISTS banner_blocks;
+*/</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 8: TROUBLESHOOTING -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">7</span>
+          <span class="step-title">Troubleshooting Guide</span>
+        </div>
+        <div class="step-content">
+          <div class="troubleshooting-grid">
+            <div class="trouble-item">
+              <div class="trouble-title">Banner doesn't dismiss on click</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> localStorage not accessible (private browsing) or dismissalKey missing.<br>
+                <strong>Fix:</strong> Add try-catch around localStorage access. Fallback to sessionStorage. Verify dismissalKey is set in admin. Test dismissible checkbox is enabled.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Dismissed banner reappears on refresh</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> dismissalKey changed or localStorage cleared.<br>
+                <strong>Fix:</strong> Check dismissalKey hasn't changed in admin. Test localStorage persistence across page loads. Verify no code clearing localStorage on init. Use browser DevTools → Application → Local Storage to debug.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Banner not sticky on scroll</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Sticky class not applied or z-index conflict.<br>
+                <strong>Fix:</strong> Verify "sticky" checkbox enabled in admin. Check CSS: position: sticky; top: 0; z-index: 100. Test parent container has no overflow: hidden. Inspect with DevTools to verify computed position.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Banner overlaps existing sticky header</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Z-index stacking issue or both elements sticky at top: 0.<br>
+                <strong>Fix:</strong> If header should be above: set header z-index: 200, banner z-index: 100. If banner should be above: swap z-indexes. Or: render banner inside header component with relative positioning.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Icon not showing</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Lucide icon not imported or icon name mismatch.<br>
+                <strong>Fix:</strong> Verify lucide-react installed: npm list lucide-react. Check icon name matches Lucide docs (kebab-case). Test icon prop not "none". Import all icons: import * as Icons from 'lucide-react'. Fallback: render bell icon if icon not found.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Link not clickable</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Link URL missing or dismiss button overlapping.<br>
+                <strong>Fix:</strong> Verify both link.text and link.url are set. Test z-index on link vs dismiss button. Check pointer-events not disabled. Inspect with DevTools to verify &lt;a&gt; element rendered. Test hover state changes cursor to pointer.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Mobile layout broken</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Mobile styles not applying or viewport too narrow.<br>
+                <strong>Fix:</strong> Test @media (max-width: 640px) styles apply in DevTools. Verify flex-direction: column on .banner-content. Check dismiss button absolute positioning. Test with actual device, not just DevTools emulation. Verify message wraps (no white-space: nowrap).
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Banner causes layout shift on page load</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Banner rendered after initial paint or height not reserved.<br>
+                <strong>Fix:</strong> Check dismissal logic runs synchronously before render. Use CSS: min-height or skeleton placeholder. Measure Cumulative Layout Shift (CLS) in Lighthouse. Consider server-side dismissal check if user logged in.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Date range not working</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Date comparison issue or timezone mismatch.<br>
+                <strong>Fix:</strong> Verify showFrom/showUntil are ISO strings. Use new Date() for comparison. Test with dates in past, present, future. Check server vs client timezone handling. Log comparison values: console.log(now, showFrom, showUntil). Test with real dates, not "test" strings.
+              </div>
+            </div>
+
+            <div class="trouble-item">
+              <div class="trouble-title">Banner shows when it shouldn't (or vice versa)</div>
+              <div class="trouble-solution">
+                <strong>Cause:</strong> Visibility logic error or useEffect dependency issues.<br>
+                <strong>Fix:</strong> Add debug logs in useEffect. Verify all conditions: date range, dismissal, isVisible state. Test each condition independently. Check useEffect dependencies include all used state/props. Verify no race condition between date check and dismissal check.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 8: CONFIG REGISTRATION -->
+      <div class="implementation-step">
+        <div class="step-header">
+          <span class="step-number">8</span>
+          <span class="step-title">Config Registration</span>
+        </div>
+        <div class="step-content">
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">TypeScript</span>
+              <span class="code-path">src/payload.config.ts</span>
+            </div>
+            <pre><code>import { Banner } from '@/branches/blocks/shared/Banner/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [Banner, /* ... */],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">TypeScript</span>
+              <span class="code-path">src/components/RenderBlocks.tsx</span>
+            </div>
+            <pre><code>import { Banner } from '@/branches/blocks/shared/Banner/Component'
+
+export function RenderBlocks({ blocks }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'banner':
+            return <Banner key={index} block={block} />
+          // ...
+        }
+      })}
+    </>
+  )
+}</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">TypeScript</span>
+              <span class="code-path">src/branches/blocks/shared/Banner/index.ts</span>
+            </div>
+            <pre><code>export { Banner as BannerConfig } from './config'
+export { Banner as BannerComponent } from './Component'
+export type { BannerBlock, BannerComponentProps, BannerVariant, BannerIcon, BannerLink } from './types'</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USAGE GUIDELINES -->
+    <div class="usage-notes">
+      <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+      <ul class="usage-list">
+        <li><strong>Announcement (Navy):</strong> General updates, new features, blog posts, company news. Neutral tone, informational. Example: "New dashboard available! Check out the updates →"</li>
+        <li><strong>Promo (Teal):</strong> Sales, discounts, limited offers, free shipping. Positive tone, action-oriented. Example: "Summer Sale! 30% off all items. Shop now →"</li>
+        <li><strong>Warning (Amber):</strong> Maintenance notices, service interruptions, important policy changes. Urgent but not alarming. Example: "Scheduled maintenance on Sunday 2-6 AM. Learn more →"</li>
+        <li><strong>Message Length:</strong> Keep under 100 characters for single-line display. Max 150 characters before mobile wrapping. Test on 320px viewport. Prioritize clarity over creativity.</li>
+        <li><strong>Dismissal Keys:</strong> Use format: "banner-{type}-{date}" (e.g., "banner-promo-2024-03"). Change key to re-show banner to all users. Never reuse keys for different messages.</li>
+        <li><strong>Sticky Banners:</strong> Only use for critical messages (security alerts, service outages). Never use for promotions. Test with existing sticky elements (header, chat widget). Verify mobile UX doesn't block content.</li>
+        <li><strong>Date Ranges:</strong> Always set showUntil for time-sensitive messages (sales, events). Use showFrom for scheduled announcements (release dates). Test timezone handling for global audiences.</li>
+        <li><strong>Icons:</strong> Use icons that reinforce message meaning. Bell = general update, Gift = promotion, Alert Triangle = warning, Zap = urgent/flash, Star = featured/new. Avoid decorative icons.</li>
+        <li><strong>Links:</strong> Always include link for more info (landing page, blog post, help doc). Use action-oriented text ("Shop now", "Learn more", "See details"). Test link works before publishing.</li>
+        <li><strong>Multiple Banners:</strong> Only show ONE banner at a time. Use priority system if multiple active. Test: promo banners expire, fall back to announcement banner, fall back to no banner.</li>
+        <li><strong>Accessibility:</strong> Ensure 4.5:1 contrast ratio (white text on colored backgrounds). Provide descriptive link text. Don't rely solely on color to convey meaning. Test with screen readers.</li>
+        <li><strong>Performance:</strong> Banner is client component for dismissal. Consider server-side dismissal check for logged-in users. Minimize localStorage writes. Clean up old dismissal keys periodically.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ==============================================
+       DEVELOPER IMPLEMENTATION GUIDE
+       ============================================== -->
+  <section class="section" id="implementation">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <h1 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 12px;">
+        Developer Implementation Guide
+      </h1>
+      <p style="font-size: 14px; color: var(--grey-dark);">
+        Complete 8-step guide for implementing the Banner block in Payload CMS 3.0 + Next.js
+      </p>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Create the Payload CMS block configuration with 3 color variants, dismissible functionality, optional sticky positioning, and scheduled visibility.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/navigation-info/Banner/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+
+export const Banner: Block = {
+  slug: 'banner',
+  labels: {
+    singular: 'Banner Block',
+    plural: 'Banner Blocks',
+  },
+  interfaceName: 'BannerBlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Banner Type',
+              required: true,
+              defaultValue: 'announcement',
+              options: [
+                {
+                  label: 'Announcement (Navy) - General updates',
+                  value: 'announcement'
+                },
+                {
+                  label: 'Promo (Teal) - Promotions & offers',
+                  value: 'promo'
+                },
+                {
+                  label: 'Warning (Amber) - Important notices',
+                  value: 'warning'
+                },
+              ],
+              admin: {
+                description: 'Choose banner style based on message type',
+              },
+            },
+            {
+              name: 'message',
+              type: 'text',
+              label: 'Banner Message',
+              required: true,
+              maxLength: 150,
+              admin: {
+                description: 'Keep concise (max 150 characters for best mobile display)',
+              },
+            },
+            {
+              name: 'icon',
+              type: 'select',
+              label: 'Icon (Optional)',
+              options: [
+                { label: 'Bell (Notification)', value: 'bell' },
+                { label: 'Gift (Promotion)', value: 'gift' },
+                { label: 'Alert Triangle (Warning)', value: 'alert-triangle' },
+                { label: 'Info (Information)', value: 'info' },
+                { label: 'Zap (Flash/Urgent)', value: 'zap' },
+                { label: 'Star (Featured)', value: 'star' },
+                { label: 'None', value: 'none' },
+              ],
+              defaultValue: 'bell',
+              admin: {
+                description: 'Icon shown before message (hidden on mobile)',
+              },
+            },
+            {
+              name: 'link',
+              type: 'group',
+              label: 'Call-to-Action Link',
+              admin: {
+                description: 'Optional link displayed after message',
+              },
+              fields: [
+                {
+                  name: 'text',
+                  type: 'text',
+                  label: 'Link Text',
+                  admin: {
+                    placeholder: 'Learn more →',
+                  },
+                },
+                {
+                  name: 'url',
+                  type: 'text',
+                  label: 'URL',
+                  admin: {
+                    placeholder: '/promo-page',
+                  },
+                },
+                {
+                  name: 'newTab',
+                  type: 'checkbox',
+                  label: 'Open in new tab',
+                  defaultValue: false,
+                },
+              ],
+            },
+          ],
+        },
+        // TAB 2: BEHAVIOR
+        {
+          label: 'Behavior',
+          fields: [
+            {
+              name: 'dismissible',
+              type: 'checkbox',
+              label: 'Allow users to dismiss banner',
+              defaultValue: true,
+              admin: {
+                description: 'Shows X button. Dismissal saved to localStorage.',
+              },
+            },
+            {
+              name: 'dismissalKey',
+              type: 'text',
+              label: 'Dismissal Storage Key',
+              admin: {
+                description: 'Unique key for localStorage. Change to re-show dismissed banner.',
+                placeholder: 'banner-promo-2024-03',
+                condition: (data, siblingData) => siblingData?.dismissible === true,
+              },
+            },
+            {
+              name: 'sticky',
+              type: 'checkbox',
+              label: 'Make banner sticky (stays at top on scroll)',
+              defaultValue: false,
+              admin: {
+                description: 'Use for important messages that should always be visible',
+              },
+            },
+            {
+              name: 'showFrom',
+              type: 'date',
+              label: 'Show From (Optional)',
+              admin: {
+                date: {
+                  pickerAppearance: 'dayAndTime',
+                },
+                description: 'Auto-hide banner before this date',
+              },
+            },
+            {
+              name: 'showUntil',
+              type: 'date',
+              label: 'Show Until (Optional)',
+              admin: {
+                date: {
+                  pickerAppearance: 'dayAndTime',
+                },
+                description: 'Auto-hide banner after this date',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPE DEFINITIONS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Type Definitions</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Define TypeScript interfaces for type-safe development with the Banner block.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/navigation-info/Banner/types.ts</span>
+          </div>
+          <pre><code>export type BannerVariant = 'announcement' | 'promo' | 'warning'
+
+export type BannerIcon =
+  | 'bell'
+  | 'gift'
+  | 'alert-triangle'
+  | 'info'
+  | 'zap'
+  | 'star'
+  | 'none'
+
+export interface BannerLink {
+  text?: string
+  url?: string
+  newTab?: boolean
+}
+
+export interface BannerBlock {
+  blockType: 'banner'
+  variant: BannerVariant
+  message: string
+  icon?: BannerIcon
+  link?: BannerLink
+  dismissible: boolean
+  dismissalKey?: string
+  sticky: boolean
+  showFrom?: string // ISO date
+  showUntil?: string // ISO date
+}
+
+export interface BannerComponentProps {
+  block: BannerBlock
+}
+
+// Type Guards
+export function isBannerBlock(block: any): block is BannerBlock {
+  return block?.blockType === 'banner'
+}
+
+export function hasLink(block: BannerBlock): boolean {
+  return !!(block.link?.text && block.link?.url)
+}
+
+export function shouldShowBanner(block: BannerBlock, dismissedKeys: string[]): boolean {
+  const now = new Date()
+
+  // Check date range
+  if (block.showFrom && new Date(block.showFrom) > now) return false
+  if (block.showUntil && new Date(block.showUntil) < now) return false
+
+  // Check dismissal
+  if (block.dismissible && block.dismissalKey && dismissedKeys.includes(block.dismissalKey)) {
+    return false
+  }
+
+  return true
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT IMPLEMENTATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Client Component</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Create the Next.js React client component with dismissal logic, date-based visibility, and localStorage persistence.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript React</span>
+            <span class="code-path">src/branches/blocks/navigation-info/Banner/Component.tsx</span>
+          </div>
+          <pre><code>'use client'
+
+import React, { useEffect, useState } from 'react'
+import type { BannerComponentProps } from './types'
+import { cn } from '@/utilities/cn'
+import * as Icons from 'lucide-react'
+
+export function Banner({ block }: BannerComponentProps) {
+  const {
+    variant = 'announcement',
+    message,
+    icon = 'bell',
+    link,
+    dismissible = true,
+    dismissalKey,
+    sticky = false,
+    showFrom,
+    showUntil,
+  } = block
+
+  const [isVisible, setIsVisible] = useState(true)
+
+  // Check if banner should be shown based on dates and dismissal
+  useEffect(() => {
+    // Check date range
+    const now = new Date()
+    if (showFrom && new Date(showFrom) > now) {
+      setIsVisible(false)
+      return
+    }
+    if (showUntil && new Date(showUntil) < now) {
+      setIsVisible(false)
+      return
+    }
+
+    // Check localStorage for dismissal
+    if (dismissible && dismissalKey) {
+      try {
+        const isDismissed = localStorage.getItem(`banner-dismissed-${dismissalKey}`)
+        if (isDismissed) {
+          setIsVisible(false)
+        }
+      } catch (error) {
+        // localStorage not available (private browsing, etc.)
+        console.warn('Banner: localStorage not available', error)
+      }
+    }
+  }, [showFrom, showUntil, dismissible, dismissalKey])
+
+  const handleDismiss = () => {
+    if (dismissalKey) {
+      try {
+        localStorage.setItem(`banner-dismissed-${dismissalKey}`, 'true')
+      } catch (error) {
+        console.warn('Banner: Failed to save dismissal', error)
+      }
+    }
+    setIsVisible(false)
+  }
+
+  if (!isVisible) return null
+
+  // Icon component
+  const IconComponent = icon !== 'none' ? Icons[icon as keyof typeof Icons] : null
+
+  return (
+    <div
+      className={cn(
+        'banner',
+        `banner-${variant}`,
+        sticky && 'banner-sticky',
+      )}
+    >
+      <div className="banner-content">
+        {IconComponent && (
+          <IconComponent className="banner-icon" />
+        )}
+        <span className="banner-message">{message}</span>
+        {link?.text && link?.url && (
+          <a
+            href={link.url}
+            className="banner-link"
+            target={link.newTab ? '_blank' : undefined}
+            rel={link.newTab ? 'noopener noreferrer' : undefined}
+          >
+            {link.text}
+          </a>
+        )}
+      </div>
+      {dismissible && (
+        <button
+          className="banner-dismiss"
+          onClick={handleDismiss}
+          aria-label="Dismiss banner"
+        >
+          <Icons.X className="w-4 h-4" />
+        </button>
+      )}
+    </div>
+  )
+}</code></pre>
+        </div>
+
+        <div class="usage-notes">
+          <div class="usage-title">Component Features</div>
+          <ul class="usage-list">
+            <li><strong>Client Component:</strong> Uses 'use client' for localStorage and state management</li>
+            <li><strong>Date-Based Visibility:</strong> Automatically shows/hides based on showFrom/showUntil dates</li>
+            <li><strong>Persistent Dismissal:</strong> Stores dismissal state in localStorage with unique key</li>
+            <li><strong>Error Handling:</strong> Gracefully handles localStorage unavailability (private browsing)</li>
+            <li><strong>Accessible:</strong> Proper ARIA labels, keyboard navigation, semantic HTML</li>
+            <li><strong>Dynamic Icons:</strong> Uses Lucide React icons with fallback for 'none'</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: TAILWIND CSS STYLES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Tailwind CSS Styles</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Add banner styles to your global CSS or component styles. Using Tailwind utilities with custom banner classes.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">CSS</span>
+            <span class="code-path">src/branches/blocks/navigation-info/Banner/styles.css</span>
+          </div>
+          <pre><code>/* Banner Base Styles */
+.banner {
+  @apply relative w-full py-3.5 px-5 flex items-center justify-center gap-4;
+  @apply text-sm transition-all duration-300;
+}
+
+/* Banner Variants */
+.banner-announcement {
+  background: linear-gradient(135deg, theme('colors.navy.DEFAULT'), theme('colors.navy.light'));
+  @apply text-white;
+}
+
+.banner-promo {
+  background: linear-gradient(135deg, theme('colors.teal.DEFAULT'), theme('colors.teal.light'));
+  @apply text-white;
+}
+
+.banner-warning {
+  background: linear-gradient(135deg, theme('colors.amber.DEFAULT'), theme('colors.amber.dark'));
+  @apply text-white;
+}
+
+/* Banner Content */
+.banner-content {
+  @apply flex items-center gap-3 flex-1 max-w-4xl justify-center;
+}
+
+.banner-icon {
+  @apply w-5 h-5 flex-shrink-0 opacity-90;
+}
+
+.banner-message {
+  @apply text-sm font-medium leading-relaxed;
+}
+
+.banner-link {
+  @apply font-bold underline underline-offset-2 whitespace-nowrap;
+  @apply transition-opacity hover:opacity-80;
+}
+
+/* Dismiss Button */
+.banner-dismiss {
+  @apply w-8 h-8 border-0 rounded-lg cursor-pointer flex items-center justify-center;
+  @apply flex-shrink-0 transition-all;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.banner-dismiss:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.banner-dismiss:focus-visible {
+  @apply outline-none ring-2 ring-white ring-offset-2;
+}
+
+/* Sticky Variant */
+.banner-sticky {
+  @apply sticky top-0 z-[100];
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .banner {
+    @apply py-3 px-4 text-[13px];
+  }
+
+  .banner-content {
+    @apply flex-col items-start gap-2;
+  }
+
+  .banner-icon {
+    @apply hidden;
+  }
+
+  .banner-dismiss {
+    @apply absolute top-2 right-2;
+  }
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">tailwind.config.ts (Required theme colors)</span>
+          </div>
+          <pre><code>// tailwind.config.ts
+export default {
+  theme: {
+    extend: {
+      colors: {
+        navy: {
+          DEFAULT: '#0A1628',
+          light: '#121F33',
+        },
+        teal: {
+          DEFAULT: '#00897B',
+          light: '#26A69A',
+          dark: '#00695C',
+        },
+        amber: {
+          DEFAULT: '#F59E0B',
+          dark: '#D97706',
+        },
+      },
+    },
+  },
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Admin Panel Interface</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          How content editors interact with the Banner block in Payload CMS admin.
+        </p>
+
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Tab 1: Content</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Banner Type *</label>
+                <select>
+                  <option>Announcement (Navy) - General updates</option>
+                  <option selected>Promo (Teal) - Promotions & offers</option>
+                  <option>Warning (Amber) - Important notices</option>
+                </select>
+                <span class="field-hint">Choose banner style based on message type</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Banner Message * (max 150 chars)</label>
+                <input type="text" value="Gratis verzending op alle bestellingen boven €50">
+                <span class="field-hint">Keep concise for best mobile display</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Icon (Optional)</label>
+                <select>
+                  <option>Bell (Notification)</option>
+                  <option selected>Gift (Promotion)</option>
+                  <option>Alert Triangle (Warning)</option>
+                  <option>Info (Information)</option>
+                  <option>Zap (Flash/Urgent)</option>
+                  <option>Star (Featured)</option>
+                  <option>None</option>
+                </select>
+                <span class="field-hint">Icon shown before message (hidden on mobile)</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Call-to-Action Link</label>
+                <div style="display:grid;gap:12px;margin-top:8px">
+                  <input type="text" placeholder="Link Text (e.g., Learn more →)" value="Shop nu →">
+                  <input type="text" placeholder="URL (e.g., /promo-page)" value="/promotions">
+                  <label style="display:flex;align-items:center;gap:8px;margin:0">
+                    <input type="checkbox">
+                    Open in new tab
+                  </label>
+                </div>
+                <span class="field-hint">Optional link displayed after message</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Tab 2: Behavior</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label style="display:flex;align-items:center;gap:8px;margin:0">
+                  <input type="checkbox" checked>
+                  Allow users to dismiss banner
+                </label>
+                <span class="field-hint">Shows X button. Dismissal saved to localStorage.</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Dismissal Storage Key</label>
+                <input type="text" placeholder="banner-promo-2024-03" value="flash-sale-march-2024">
+                <span class="field-hint">Unique key for localStorage. Change to re-show dismissed banner.</span>
+              </div>
+
+              <div class="admin-field">
+                <label style="display:flex;align-items:center;gap:8px;margin:0">
+                  <input type="checkbox">
+                  Make banner sticky (stays at top on scroll)
+                </label>
+                <span class="field-hint">Use for important messages that should always be visible</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Show From (Optional)</label>
+                <input type="datetime-local">
+                <span class="field-hint">Auto-hide banner before this date</span>
+              </div>
+
+              <div class="admin-field">
+                <label>Show Until (Optional)</label>
+                <input type="datetime-local">
+                <span class="field-hint">Auto-hide banner after this date</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li><strong>Variant Colors:</strong> Test all 3 variants (announcement/promo/warning). Verify gradient backgrounds, text color contrast (WCAG AA minimum 4.5:1). Test in dark mode if applicable.</li>
+          <li><strong>Dismissal Persistence:</strong> Click X button, verify banner disappears. Check localStorage for dismissal key. Reload page - banner should stay hidden. Change dismissalKey in admin - banner should reappear.</li>
+          <li><strong>Date Range Visibility:</strong> Set showFrom to future date - banner hidden. Set showUntil to past date - banner hidden. Set valid date range - banner visible. Test timezone handling for global audiences.</li>
+          <li><strong>Sticky Behavior:</strong> Enable sticky, scroll page - banner stays at top with z-index 100. Test with existing sticky header - verify z-index stacking. Disable sticky - banner scrolls with page.</li>
+          <li><strong>Links & Navigation:</strong> Test link with internal URL (/page), external URL (https://...), hash link (#section). Test "Open in new tab" - verify target="_blank" and rel="noopener noreferrer". Test without link - verify no empty space.</li>
+          <li><strong>Icons:</strong> Test each icon option (bell, gift, alert-triangle, info, zap, star). Verify icon color matches text. Test "None" - no icon shown. Test icon hidden on mobile (max-width: 640px).</li>
+          <li><strong>Mobile Responsive:</strong> Test at 320px, 375px, 414px widths. Verify vertical stack layout. Verify icon hidden, dismiss button absolute positioned (top-right). Test long message wrapping. Test link wraps to new line.</li>
+          <li><strong>Accessibility:</strong> Test keyboard navigation (Tab to dismiss button, Enter to dismiss). Test screen reader (message announced, dismiss button labeled). Test high contrast mode. Verify focus ring visible on dismiss button.</li>
+          <li><strong>LocalStorage Edge Cases:</strong> Test in private browsing mode (should gracefully handle localStorage errors). Test with localStorage disabled. Test with multiple banners using same dismissalKey. Clean up old dismissal keys periodically.</li>
+          <li><strong>Performance:</strong> Test with multiple banners on one page. Verify no layout shift on dismissal (use Chrome Lighthouse CLS metric). Test with slow network - verify no flash of banner before dismissal check. Measure render time.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 7: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Generate and run database migrations for production PostgreSQL deployment.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">Bash</span>
+          </div>
+          <pre><code># Generate migration
+npx payload migrate:create add_banner_block
+
+# Review generated SQL in src/migrations/
+# Expected table: pages_blocks_banner
+
+# Run migration
+npx payload migrate</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_banner_block.sql</span>
+          </div>
+          <pre><code>-- Add Banner block type
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'banner';
+
+-- Create banner_blocks table
+CREATE TABLE IF NOT EXISTS banner_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  variant VARCHAR(20) NOT NULL DEFAULT 'announcement'
+    CHECK (variant IN ('announcement', 'promo', 'warning')),
+  message TEXT NOT NULL,
+  icon VARCHAR(30) DEFAULT 'bell'
+    CHECK (icon IN ('bell', 'gift', 'alert-triangle', 'info', 'zap', 'star', 'none')),
+
+  -- Link fields (nullable group)
+  link_text VARCHAR(100),
+  link_url TEXT,
+  link_new_tab BOOLEAN DEFAULT false,
+
+  -- Behavior fields
+  dismissible BOOLEAN DEFAULT true,
+  dismissal_key VARCHAR(100),
+  sticky BOOLEAN DEFAULT false,
+  show_from TIMESTAMPTZ,
+  show_until TIMESTAMPTZ,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  -- Constraints
+  CONSTRAINT link_complete CHECK (
+    (link_text IS NULL AND link_url IS NULL) OR
+    (link_text IS NOT NULL AND link_url IS NOT NULL)
+  ),
+  CONSTRAINT dismissal_key_required CHECK (
+    dismissible = false OR dismissal_key IS NOT NULL
+  ),
+  CONSTRAINT date_range_valid CHECK (
+    show_from IS NULL OR show_until IS NULL OR show_from < show_until
+  ),
+  CONSTRAINT message_length CHECK (char_length(message) <= 150)
+);
+
+-- Create indexes
+CREATE INDEX idx_banner_blocks_block_id ON banner_blocks(block_id);
+CREATE INDEX idx_banner_blocks_variant ON banner_blocks(variant);
+CREATE INDEX idx_banner_blocks_date_range ON banner_blocks(show_from, show_until)
+  WHERE show_from IS NOT NULL OR show_until IS NOT NULL;
+CREATE INDEX idx_banner_blocks_dismissal_key ON banner_blocks(dismissal_key)
+  WHERE dismissal_key IS NOT NULL;
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_banner_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_banner_blocks_updated_at
+  BEFORE UPDATE ON banner_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_banner_blocks_updated_at();
+
+-- Comments
+COMMENT ON TABLE banner_blocks IS 'Top banner blocks for announcements, promotions, and warnings';
+COMMENT ON COLUMN banner_blocks.variant IS 'Visual style: announcement (navy), promo (teal), warning (amber)';
+COMMENT ON COLUMN banner_blocks.message IS 'Banner message text (max 150 chars recommended)';
+COMMENT ON COLUMN banner_blocks.icon IS 'Lucide icon name shown before message';
+COMMENT ON COLUMN banner_blocks.dismissal_key IS 'Unique key for localStorage dismissal tracking';
+COMMENT ON COLUMN banner_blocks.sticky IS 'If true, banner stays at top on scroll with z-index 100';
+COMMENT ON COLUMN banner_blocks.show_from IS 'Auto-hide banner before this date';
+COMMENT ON COLUMN banner_blocks.show_until IS 'Auto-hide banner after this date';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_banner_blocks_updated_at ON banner_blocks;
+DROP FUNCTION IF EXISTS update_banner_blocks_updated_at();
+DROP INDEX IF EXISTS idx_banner_blocks_dismissal_key;
+DROP INDEX IF EXISTS idx_banner_blocks_date_range;
+DROP INDEX IF EXISTS idx_banner_blocks_variant;
+DROP INDEX IF EXISTS idx_banner_blocks_block_id;
+DROP TABLE IF EXISTS banner_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: TROUBLESHOOTING GUIDE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Banner doesn't dismiss on click</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> localStorage not accessible (private browsing) or dismissalKey missing.<br>
+              <strong>Fix:</strong> Add try-catch around localStorage access (already in Component.tsx). Verify dismissalKey is set in admin. Test dismissible checkbox is enabled. Check browser console for errors. Fallback to sessionStorage if needed.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Dismissed banner reappears on refresh</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> dismissalKey changed or localStorage cleared.<br>
+              <strong>Fix:</strong> Check dismissalKey hasn't changed in admin. Test localStorage persistence across page loads. Verify no code clearing localStorage on init. Use browser DevTools → Application → Local Storage to debug. Ensure key format: "banner-dismissed-{dismissalKey}".
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Banner not sticky on scroll</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Sticky class not applied or z-index conflict.<br>
+              <strong>Fix:</strong> Verify "sticky" checkbox enabled in admin. Check CSS: position: sticky; top: 0; z-index: 100. Test parent container has no overflow: hidden. Inspect with DevTools to verify computed position. Check Tailwind class "banner-sticky" is applied.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Banner overlaps existing sticky header</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Z-index stacking issue or both elements sticky at top: 0.<br>
+              <strong>Fix:</strong> If header should be above: set header z-index: 200, banner z-index: 100. If banner should be above: swap z-indexes. Or: render banner inside header component with relative positioning. Consider adjusting header top position when banner present.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Icon not showing</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Lucide icon not imported or icon name mismatch.<br>
+              <strong>Fix:</strong> Verify lucide-react installed: npm list lucide-react. Check icon name matches Lucide docs (kebab-case for alert-triangle). Test icon prop not "none". Import all icons: import * as Icons from 'lucide-react'. Check IconComponent renders: {IconComponent && <IconComponent />}.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Link not clickable</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Link URL missing or dismiss button overlapping.<br>
+              <strong>Fix:</strong> Verify both link.text and link.url are set. Test z-index on link vs dismiss button. Check pointer-events not disabled. Inspect with DevTools to verify &lt;a&gt; element rendered. Test hover state changes cursor to pointer. Verify conditional: {link?.text && link?.url && (...)}.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Mobile layout broken</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Mobile styles not applying or viewport too narrow.<br>
+              <strong>Fix:</strong> Test @media (max-width: 640px) styles apply in DevTools. Verify flex-direction: column on .banner-content. Check dismiss button absolute positioning (top-2 right-2). Test with actual device, not just DevTools emulation. Verify message wraps (no white-space: nowrap on message).
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Banner causes layout shift on page load</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Banner rendered after initial paint or height not reserved.<br>
+              <strong>Fix:</strong> Check dismissal logic runs synchronously before render. Use CSS: min-height or skeleton placeholder. Measure Cumulative Layout Shift (CLS) in Lighthouse (should be < 0.1). Consider server-side dismissal check if user logged in. Use Next.js dynamic import with ssr: false if needed.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Date range not working</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Date comparison issue or timezone mismatch.<br>
+              <strong>Fix:</strong> Verify showFrom/showUntil are ISO strings from database. Use new Date() for comparison. Test with dates in past, present, future. Check server vs client timezone handling. Log comparison values: console.log(now, showFrom, showUntil). Ensure Payload date picker saves in ISO 8601 format.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Banner shows when it shouldn't (or vice versa)</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Visibility logic error or useEffect dependency issues.<br>
+              <strong>Fix:</strong> Add debug logs in useEffect. Verify all conditions: date range, dismissal, isVisible state. Test each condition independently. Check useEffect dependencies include all used state/props. Verify no race condition between date check and dismissal check. Test initial state: useState(true) vs useState(false).
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Gradient background not rendering</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind theme colors not configured or CSS not imported.<br>
+              <strong>Fix:</strong> Verify tailwind.config.ts has navy/teal/amber colors defined. Check styles.css is imported in layout.tsx or _app.tsx. Test CSS class .banner-{variant} applies correct gradient. Use DevTools to inspect computed background-image property. Ensure Tailwind processes gradient syntax correctly.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Multiple banners show at once</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Multiple banner blocks added to same page.<br>
+              <strong>Fix:</strong> Implement priority system: only render first banner with valid date range. Or: create dedicated global banner collection (singleton). Or: add banner position field (top/bottom) to allow multiple. Document best practice: one banner per page. Consider banner queue/rotation system for multiple promotions.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIG REGISTRATION -->
+    <div class="usage-notes">
+      <div class="usage-title">Step 9: Config Registration</div>
+      <ul class="usage-list">
+        <li><strong>Payload Config:</strong> Import banner block in payload.config.ts → collections.pages.fields.layout.blocks array</li>
+        <li><strong>RenderBlocks:</strong> Add case 'banner': return &lt;Banner block={block} /&gt; in RenderBlocks.tsx switch statement</li>
+        <li><strong>Index Export:</strong> Create src/branches/blocks/navigation-info/Banner/index.ts exporting config, component, and types</li>
+        <li><strong>Global Import:</strong> Import styles.css in src/app/layout.tsx or global CSS file</li>
+        <li><strong>Verification:</strong> Check banner appears in admin blocks list, can create/edit/delete banners, frontend renders correctly</li>
+      </ul>
+    </div>
+
+    <!-- USAGE GUIDELINES -->
+    <div class="usage-notes" style="margin-top:32px">
+      <div class="usage-title">Usage Guidelines</div>
+      <ul class="usage-list">
+        <li><strong>Announcement (Navy):</strong> General updates, new features, blog posts, company news. Neutral tone, informational. Example: "New dashboard available! Check out the updates →"</li>
+        <li><strong>Promo (Teal):</strong> Sales, discounts, limited offers, free shipping. Positive tone, action-oriented. Example: "Summer Sale! 30% off all items. Shop now →"</li>
+        <li><strong>Warning (Amber):</strong> Maintenance notices, service interruptions, important policy changes. Urgent but not alarming. Example: "Scheduled maintenance on Sunday 2-6 AM. Learn more →"</li>
+        <li><strong>Message Length:</strong> Keep under 100 characters for single-line display. Max 150 characters before mobile wrapping. Test on 320px viewport. Prioritize clarity over creativity.</li>
+        <li><strong>Dismissal Keys:</strong> Use format: "banner-{type}-{date}" (e.g., "banner-promo-2024-03"). Change key to re-show banner to all users. Never reuse keys for different messages.</li>
+        <li><strong>Sticky Banners:</strong> Only use for critical messages (security alerts, service outages). Never use for promotions. Test with existing sticky elements (header, chat widget). Verify mobile UX doesn't block content.</li>
+        <li><strong>Date Ranges:</strong> Always set showUntil for time-sensitive messages (sales, events). Use showFrom for scheduled announcements (release dates). Test timezone handling for global audiences.</li>
+        <li><strong>Icons:</strong> Use icons that reinforce message meaning. Bell = general update, Gift = promotion, Alert Triangle = warning, Zap = urgent/flash, Star = featured/new. Avoid decorative icons.</li>
+        <li><strong>Links:</strong> Always include link for more info (landing page, blog post, help doc). Use action-oriented text ("Shop now", "Learn more", "See details"). Test link works before publishing.</li>
+        <li><strong>Multiple Banners:</strong> Only show ONE banner at a time. Use priority system if multiple active. Test: promo banners expire, fall back to announcement banner, fall back to no banner.</li>
+        <li><strong>Accessibility:</strong> Ensure 4.5:1 contrast ratio (white text on colored backgrounds). Provide descriptive link text. Don't rely solely on color to convey meaning. Test with screen readers (NVDA, VoiceOver).</li>
+        <li><strong>Performance:</strong> Banner is client component for dismissal. Minimize localStorage writes. Clean up old dismissal keys periodically (30-90 days). Monitor CLS metric. Consider server-side dismissal check for logged-in users.</li>
+      </ul>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

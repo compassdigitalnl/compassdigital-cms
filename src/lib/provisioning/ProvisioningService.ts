@@ -200,10 +200,29 @@ export class ProvisioningService {
         deploymentUrl: deploymentResult.url,
       })
 
-      // ── Step 7b: Create first admin user in client CMS ────────────────────
+      // ── Step 7b: Initialize Meilisearch indexes ────────────────────────────
+      await reportProgress('deploying', 'Initializing search indexes (Meilisearch)...', 81)
+
+      try {
+        const { initializeMeilisearchIndexes } = await import('@/lib/meilisearch/initializeIndexes')
+
+        await initializeMeilisearchIndexes({
+          clientId: input.clientId,
+          indexPrefix: input.clientId,
+        })
+
+        logs.push(`Meilisearch indexes initialized: ${input.clientId}_*`)
+        await reportProgress('deploying', 'Search indexes initialized', 82)
+      } catch (meilisearchError: any) {
+        logs.push(`⚠️ Meilisearch initialization failed: ${meilisearchError.message}`)
+        console.warn('[ProvisioningService] Meilisearch warning:', meilisearchError.message)
+        // Non-fatal: search can be initialized later
+      }
+
+      // ── Step 7c: Create first admin user in client CMS ────────────────────
       // After deployment the Payload app boots — we create the first user via REST API
       // (Payload allows unauthenticated first-user creation when no users exist yet)
-      await reportProgress('deploying', 'Creating admin user for client CMS...', 81)
+      await reportProgress('deploying', 'Creating admin user for client CMS...', 83)
 
       let adminEmail: string | undefined
       let initialAdminPassword: string | undefined
@@ -222,7 +241,7 @@ export class ProvisioningService {
         initialAdminPassword = adminResult.password
         logs.push(`Admin user created: ${adminEmail}`)
 
-        await reportProgress('deploying', `Admin user created: ${adminEmail}`, 82, {
+        await reportProgress('deploying', `Admin user created: ${adminEmail}`, 84, {
           adminEmail,
         })
       } catch (adminError: any) {

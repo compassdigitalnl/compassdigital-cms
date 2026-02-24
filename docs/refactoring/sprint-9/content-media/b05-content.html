@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Content Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Content Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-content">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B5</span>
+        <span class="section-label">Content Block</span>
+      </div>
+      <span class="tag" style="background:var(--teal);color:white">Primary</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Rich text content area powered by Payload Lexical editor. Supports headings, lists, links, images, code blocks. 3 width variants: narrow (640px), wide (900px), full.
+    </p>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Narrow Width
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <div style="max-width:640px;margin:0 auto">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:20px;line-height:1.3">Over Compass Digital</h2>
+
+          <p style="font-size:15px;color:var(--grey-dark);line-height:1.7;margin-bottom:20px">
+            Compass Digital is een <strong>multi-tenant e-commerce platform</strong> dat speciaal is ontworpen voor bedrijven die meerdere webshops willen beheren vanuit één centrale locatie. Met ondersteuning voor 10 verschillende branches en meer dan 156 componenten, biedt Compass Digital een complete oplossing voor moderne e-commerce.
+          </p>
+
+          <h3 style="font-size:20px;font-weight:700;color:var(--navy);margin:28px 0 14px">Key Features</h3>
+
+          <ul style="font-size:14px;color:var(--grey-dark);line-height:1.8;padding-left:20px;margin-bottom:20px">
+            <li>Multi-tenant architectuur met complete data isolatie</li>
+            <li>10 pre-built industry themes (medisch, horeca, bouw, etc.)</li>
+            <li>156+ production-ready componenten</li>
+            <li>B2B en B2C functionaliteit (staffelprijzen, offertes, etc.)</li>
+            <li>Payload CMS 3.0 met Lexical editor</li>
+          </ul>
+
+          <div style="background:var(--teal-glow);border-left:3px solid var(--teal);padding:16px 20px;border-radius:8px;margin:24px 0">
+            <p style="font-size:13px;color:var(--grey-700);margin:0;line-height:1.6">
+              💡 <strong>Pro Tip:</strong> Start met één van de pre-built themes en pas deze aan naar jouw huisstijl in minder dan 30 minuten door alleen 3 CSS variables te wijzigen.
+            </p>
+          </div>
+
+          <p style="font-size:15px;color:var(--grey-dark);line-height:1.7;margin-bottom:20px">
+            Het platform is gebouwd op <strong>Next.js 15</strong> en gebruikt moderne technologieën zoals React Server Components, edge caching, en optimistic UI updates voor een razendsnelle gebruikerservaring.
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Content Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'content'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'content'</span>, <span class="property">type</span>: <span class="string">'richText'</span>,
+      <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+        <span class="property">features</span>: [
+          <span class="function">HeadingFeature</span>(),
+          <span class="function">BoldFeature</span>(),
+          <span class="function">ItalicFeature</span>(),
+          <span class="function">LinkFeature</span>(),
+          <span class="function">UnorderedListFeature</span>(),
+          <span class="function">OrderedListFeature</span>(),
+          <span class="function">BlockquoteFeature</span>(),
+          <span class="function">InlineCodeFeature</span>(),
+          <span class="function">CodeBlockFeature</span>()
+        ]
+      })
+    },
+    { <span class="property">name</span>: <span class="string">'maxWidth'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'narrow'</span>, <span class="string">'wide'</span>, <span class="string">'full'</span>],
+      <span class="property">defaultValue</span>: <span class="string">'narrow'</span>
+    }
+  ]
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Wide Width (900px)
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <div style="max-width:900px;margin:0 auto">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:20px;line-height:1.3">Design System Approach</h2>
+
+          <p style="font-size:15px;color:var(--grey-dark);line-height:1.7;margin-bottom:20px">
+            The wide width variant is perfect for <strong>full-width content blocks</strong> that need more breathing room, such as case studies, documentation pages, or feature comparisons.
+          </p>
+
+          <div class="grid-3" style="margin:32px 0">
+            <div style="padding:20px;background:var(--grey-light);border-radius:12px">
+              <h4 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px">Design Tokens</h4>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">Single source of truth for colors, typography, spacing, and visual styles.</p>
+            </div>
+            <div style="padding:20px;background:var(--grey-light);border-radius:12px">
+              <h4 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px">Components</h4>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">156+ reusable UI components built with Tailwind CSS and React.</p>
+            </div>
+            <div style="padding:20px;background:var(--grey-light);border-radius:12px">
+              <h4 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px">CMS Blocks</h4>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">31 flexible content blocks for page building via Payload CMS.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Full Width
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <div style="max-width:100%;margin:0 auto">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:20px;line-height:1.3">Full Width Content</h2>
+
+          <p style="font-size:15px;color:var(--grey-dark);line-height:1.7;margin-bottom:20px">
+            The full width variant spans the entire container width. Perfect for <strong>wide tables</strong>, image galleries, or sections that need maximum horizontal space.
+          </p>
+
+          <div style="background:var(--blue-light);border:1px solid #BFDBFE;border-radius:12px;padding:20px;margin:24px 0">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:24px;">ℹ️</span>
+              <div>
+                <h4 style="font-size:14px;font-weight:700;color:#1E40AF;margin-bottom:4px">Info Block Example</h4>
+                <p style="font-size:13px;color:#1E40AF;margin:0;line-height:1.6">This demonstrates how callout boxes and alerts can be used within the rich text editor to highlight important information.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Content/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Content/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> {
+  <span class="function">lexicalEditor</span>,
+  <span class="function">HeadingFeature</span>,
+  <span class="function">BoldFeature</span>,
+  <span class="function">ItalicFeature</span>,
+  <span class="function">LinkFeature</span>,
+  <span class="function">UnorderedListFeature</span>,
+  <span class="function">OrderedListFeature</span>,
+  <span class="function">BlockquoteFeature</span>,
+  <span class="function">InlineCodeFeature</span>,
+  <span class="function">CodeBlockFeature</span>,
+  <span class="function">ParagraphFeature</span>,
+  <span class="function">UnderlineFeature</span>,
+  <span class="function">StrikethroughFeature</span>,
+} <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical'</span>
+
+<span class="keyword">export const</span> <span class="function">Content</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'content'</span>,
+  labels: {
+    singular: <span class="string">'Content Block'</span>,
+    plural: <span class="string">'Content Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'content'</span>,
+      <span class="property">type</span>: <span class="string">'richText'</span>,
+      <span class="property">label</span>: <span class="string">'Content'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+        <span class="property">features</span>: ({ defaultFeatures }) => [
+          <span class="function">ParagraphFeature</span>(),
+          <span class="function">HeadingFeature</span>({
+            enabledHeadingSizes: [<span class="string">'h2'</span>, <span class="string">'h3'</span>, <span class="string">'h4'</span>, <span class="string">'h5'</span>, <span class="string">'h6'</span>],
+          }),
+          <span class="function">BoldFeature</span>(),
+          <span class="function">ItalicFeature</span>(),
+          <span class="function">UnderlineFeature</span>(),
+          <span class="function">StrikethroughFeature</span>(),
+          <span class="function">LinkFeature</span>({
+            fields: [
+              {
+                <span class="property">name</span>: <span class="string">'rel'</span>,
+                <span class="property">label</span>: <span class="string">'Rel Attribute'</span>,
+                <span class="property">type</span>: <span class="string">'select'</span>,
+                <span class="property">options</span>: [
+                  { label: <span class="string">'noopener'</span>, value: <span class="string">'noopener'</span> },
+                  { label: <span class="string">'noreferrer'</span>, value: <span class="string">'noreferrer'</span> },
+                  { label: <span class="string">'nofollow'</span>, value: <span class="string">'nofollow'</span> },
+                ],
+                <span class="property">hasMany</span>: <span class="keyword">true</span>,
+              },
+            ],
+          }),
+          <span class="function">UnorderedListFeature</span>(),
+          <span class="function">OrderedListFeature</span>(),
+          <span class="function">BlockquoteFeature</span>(),
+          <span class="function">InlineCodeFeature</span>(),
+          <span class="function">CodeBlockFeature</span>(),
+        ],
+      }),
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Rich text editor with support for headings, lists, links, formatting, and code blocks.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'maxWidth'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Max Width'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'narrow'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'Narrow (640px)'</span>,
+          <span class="property">value</span>: <span class="string">'narrow'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Wide (900px)'</span>,
+          <span class="property">value</span>: <span class="string">'wide'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Full (100%)'</span>,
+          <span class="property">value</span>: <span class="string">'full'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Controls the maximum width of the content container. Narrow for blog posts, wide for documentation, full for tables/galleries.'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">SerializedEditorState</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/lexical'</span>
+
+<span class="keyword">export interface</span> <span class="function">ContentBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'content'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">content</span>: <span class="function">SerializedEditorState</span>
+  <span class="property">maxWidth</span>: <span class="string">'narrow'</span> | <span class="string">'wide'</span> | <span class="string">'full'</span>
+}
+
+<span class="comment">// Type guard to check if a block is a ContentBlock</span>
+<span class="keyword">export function</span> <span class="function">isContentBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">ContentBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'content'</span>
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Content/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Content/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">RichText</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/react'</span>
+<span class="keyword">import</span> { <span class="function">ContentBlock</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+
+<span class="keyword">interface</span> <span class="function">ContentProps</span> {
+  <span class="property">block</span>: <span class="function">ContentBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">Content</span>: React.<span class="function">FC</span>&lt;<span class="function">ContentProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { content, maxWidth } = block
+
+  <span class="comment">// Map maxWidth to Tailwind classes</span>
+  <span class="keyword">const</span> maxWidthClass = {
+    narrow: <span class="string">'max-w-2xl'</span>,      <span class="comment">// 640px</span>
+    wide: <span class="string">'max-w-4xl'</span>,        <span class="comment">// 900px</span>
+    full: <span class="string">'max-w-full'</span>,       <span class="comment">// 100%</span>
+  }[maxWidth]
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-12 md:py-16"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'mx-auto'</span>, maxWidthClass)}&gt;
+          &lt;<span class="keyword">div</span> className=<span class="string">"prose prose-slate max-w-none prose-headings:font-display prose-headings:text-navy prose-a:text-teal prose-a:no-underline hover:prose-a:underline"</span>&gt;
+            &lt;<span class="function">RichText</span> data={content} /&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Alternative: Custom Prose Styles</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          If you want more control over the typography, create a custom prose configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// tailwind.config.ts</span>
+<span class="keyword">import</span> type { <span class="function">Config</span> } <span class="keyword">from</span> <span class="string">'tailwindcss'</span>
+
+<span class="keyword">export default</span> {
+  <span class="comment">// ... other config</span>
+  theme: {
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            <span class="comment">// Headings</span>
+            <span class="string">'h2'</span>: {
+              fontFamily: <span class="string">'DM Serif Display, Georgia, serif'</span>,
+              fontSize: <span class="string">'32px'</span>,
+              color: <span class="string">'var(--navy)'</span>,
+              marginBottom: <span class="string">'20px'</span>,
+              lineHeight: <span class="string">'1.3'</span>,
+            },
+            <span class="string">'h3'</span>: {
+              fontSize: <span class="string">'20px'</span>,
+              fontWeight: <span class="string">'700'</span>,
+              color: <span class="string">'var(--navy)'</span>,
+              marginTop: <span class="string">'28px'</span>,
+              marginBottom: <span class="string">'14px'</span>,
+            },
+            <span class="comment">// Paragraphs</span>
+            <span class="string">'p'</span>: {
+              fontSize: <span class="string">'15px'</span>,
+              color: <span class="string">'var(--grey-dark)'</span>,
+              lineHeight: <span class="string">'1.7'</span>,
+              marginBottom: <span class="string">'20px'</span>,
+            },
+            <span class="comment">// Lists</span>
+            <span class="string">'ul'</span>: {
+              fontSize: <span class="string">'14px'</span>,
+              color: <span class="string">'var(--grey-dark)'</span>,
+              lineHeight: <span class="string">'1.8'</span>,
+              paddingLeft: <span class="string">'20px'</span>,
+              marginBottom: <span class="string">'20px'</span>,
+            },
+            <span class="comment">// Links</span>
+            <span class="string">'a'</span>: {
+              color: <span class="string">'var(--teal)'</span>,
+              textDecoration: <span class="string">'none'</span>,
+              <span class="string">'&:hover'</span>: {
+                textDecoration: <span class="string">'underline'</span>,
+                textUnderlineOffset: <span class="string">'2px'</span>,
+              },
+            },
+            <span class="comment">// Blockquotes / Info boxes</span>
+            <span class="string">'blockquote'</span>: {
+              background: <span class="string">'var(--teal-glow)'</span>,
+              borderLeft: <span class="string">'3px solid var(--teal)'</span>,
+              padding: <span class="string">'16px 20px'</span>,
+              borderRadius: <span class="string">'8px'</span>,
+              margin: <span class="string">'24px 0'</span>,
+              fontSize: <span class="string">'13px'</span>,
+              color: <span class="string">'var(--grey-700)'</span>,
+            },
+            <span class="comment">// Code blocks</span>
+            <span class="string">'code'</span>: {
+              fontFamily: <span class="string">'JetBrains Mono, monospace'</span>,
+              fontSize: <span class="string">'11px'</span>,
+              background: <span class="string">'var(--grey-light)'</span>,
+              padding: <span class="string">'2px 6px'</span>,
+              borderRadius: <span class="string">'3px'</span>,
+              color: <span class="string">'var(--teal-dark)'</span>,
+            },
+          },
+        },
+      },
+    },
+  },
+} <span class="keyword">satisfies</span> <span class="function">Config</span>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Content block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--teal);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">📝</span>
+            Content Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Content (Rich Text)</div>
+              <div style="background:var(--grey-light);padding:8px;border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                ┌─────────────────────────────────────┐<br>
+                │ <strong>B</strong> <em>I</em> <u>U</u> 🔗 H2 H3 • ○ &lt;/&gt;     │ <span style="color:var(--grey-mid);">← Toolbar</span><br>
+                ├─────────────────────────────────────┤<br>
+                │                                     │<br>
+                │ Type your content here...           │<br>
+                │                                     │<br>
+                │ Support for headings, lists,        │<br>
+                │ links, code, and more.              │<br>
+                │                                     │<br>
+                └─────────────────────────────────────┘
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Max Width</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                <option>Narrow (640px)</option>
+                <option>Wide (900px)</option>
+                <option>Full (100%)</option>
+              </select>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">
+                Controls the maximum width of the content container
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Content Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. Rich text editor loads:</strong> Click "Add Content Block" → Lexical editor initializes with toolbar
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. All Lexical features work:</strong> Test bold, italic, headings (H2-H6), lists (UL/OL), links, blockquotes, code
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Max width variants render:</strong> Test all 3 variants (narrow/wide/full) → verify max-width CSS classes applied
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Content saves and persists:</strong> Save page → reload admin → content still present and editable
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Preview matches frontend:</strong> Click "Preview" → styling matches production (prose, colors, spacing)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. TypeScript compilation:</strong> Run <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">npm run build</code> → no TypeScript errors
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Content block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Content block</span>
+npx payload migrate:create add_content_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for content (jsonb) and maxWidth (varchar)</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.content (type: jsonb) — stores serialized Lexical state</span>
+<span class="comment"># - pages_blocks.max_width (type: varchar) — enum: 'narrow', 'wide', 'full'</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('content', 'max_width');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#  column_name | data_type</span>
+<span class="comment"># -------------+-----------</span>
+<span class="comment">#  content     | jsonb</span>
+<span class="comment">#  max_width   | varchar</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Lexical editor not loading</td>
+              <td>Check imports: <code>@payloadcms/richtext-lexical</code> installed? Run <code>npm install @payloadcms/richtext-lexical</code></td>
+            </tr>
+            <tr>
+              <td>Content not rendering on frontend</td>
+              <td>Verify <code>&lt;RichText data={content} /&gt;</code> component imported from <code>@payloadcms/richtext-lexical/react</code></td>
+            </tr>
+            <tr>
+              <td>Max width not applied</td>
+              <td>Check className mapping in Component.tsx → ensure Tailwind classes (<code>max-w-2xl</code>, <code>max-w-4xl</code>) are correct</td>
+            </tr>
+            <tr>
+              <td>Prose styles not working</td>
+              <td>Install <code>@tailwindcss/typography</code>: <code>npm install -D @tailwindcss/typography</code> and add to <code>plugins: [require('@tailwindcss/typography')]</code></td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code> → check <code>pages_blocks</code> table has <code>content</code> and <code>max_width</code> columns</td>
+            </tr>
+            <tr>
+              <td>TypeScript error: SerializedEditorState</td>
+              <td>Import from correct path: <code>import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'</code></td>
+            </tr>
+            <tr>
+              <td>Toolbar features missing</td>
+              <td>Check <code>features</code> array in lexicalEditor config → ensure all desired features imported and added</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Content block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Content</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Content/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">Content</span>,  <span class="comment">// ← Add Content block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// CTA,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">Content</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Content/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

@@ -1,209 +1,150 @@
-/**
- * Hero Component - 100% Theme Variable Compliant
- *
- * Refactored from hardcoded teal/navy gradients, inline styles with fallbacks,
- * and hardcoded button states to theme variables.
- * All colors now use CSS variables from ThemeProvider.
- */
-'use client'
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { serializeLexical } from '@/utilities/serializeLexical'
 import type { HeroBlock } from '@/payload-types'
-import { OptimizedBackgroundImage } from '@/branches/shared/components/utilities/OptimizedImage'
-import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
+import type { Media } from '@/payload-types'
+
+/**
+ * B01 - Hero Block Component
+ *
+ * Modern hero section with 3 layout variants and flexible backgrounds.
+ *
+ * FEATURES:
+ * - 3 variants: default (centered), split (text left/image right), centered compact
+ * - 3 background styles: gradient (navy/teal), image with overlay, solid color
+ * - Rich text description with Lexical serialization
+ * - Up to 3 CTA buttons with 3 styles each
+ * - Responsive design with mobile-first approach
+ * - Next.js Image optimization for background images
+ *
+ * @see docs/refactoring/sprint-9/shared/b01-hero.html
+ */
 
 export const HeroBlockComponent: React.FC<HeroBlock> = ({
-  title,
   subtitle,
-  primaryCTA,
-  secondaryCTA,
-  style,
-  layout = 'centered',
-  sectionLabel,
-  badge,
-  titleAccent,
-  stats,
+  title,
+  description,
+  buttons = [],
+  variant = 'default',
+  backgroundStyle = 'gradient',
   backgroundImage,
-  backgroundImageUrl,
+  backgroundColor = 'navy',
 }) => {
-  const hasImage = style === 'image' && (backgroundImage || backgroundImageUrl)
-
-  // Render title with accent
-  const renderTitle = () => {
-    if (!titleAccent || !title?.includes(titleAccent)) {
-      return <h1 className="text-white text-5xl md:text-6xl font-extrabold mb-6 leading-tight">{title}</h1>
-    }
-
-    const parts = title.split(titleAccent)
-    return (
-      <h1 className="text-white text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-        {parts[0]}
-        <span className="bg-gradient-primary bg-clip-text text-transparent">
-          {titleAccent}
-        </span>
-        {parts.slice(1).join(titleAccent)}
-      </h1>
-    )
+  // Variant classes
+  const variantClasses = {
+    default: 'text-center py-12 md:py-16 lg:py-20',
+    split: 'py-12 md:py-16',
+    centered: 'text-center py-10 md:py-12',
   }
 
-  // Two-column layout variant
-  if (layout === 'two-column') {
-    return (
-      <section className="relative bg-gradient-secondary py-20 px-4 overflow-hidden">
-        {/* Decorative gradient glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary-glow rounded-full blur-3xl pointer-events-none" />
-
-        {/* Content container */}
-        <div className="container mx-auto max-w-7xl relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left column: Text content */}
-            <div className="text-white">
-              {sectionLabel && <SectionLabel label={sectionLabel} className="text-primary-light" />}
-
-              {badge && (
-                <div className="inline-block mb-6 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-white/70">
-                  {badge}
-                </div>
-              )}
-
-              {renderTitle()}
-
-              {subtitle && (
-                <p className="text-lg md:text-xl text-white/70 mb-8 leading-relaxed">
-                  {subtitle}
-                </p>
-              )}
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-4">
-                {primaryCTA?.text && (
-                  <Link
-                    href={primaryCTA.link || '#'}
-                    className="px-8 py-4 bg-primary hover:bg-primary-light text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-                  >
-                    {primaryCTA.text}
-                  </Link>
-                )}
-                {secondaryCTA?.text && (
-                  <Link
-                    href={secondaryCTA.link || '#'}
-                    className="px-8 py-4 bg-white/5 hover:bg-white/10 border-2 border-white/20 hover:border-white/40 text-white font-semibold rounded-xl transition-all duration-300"
-                  >
-                    {secondaryCTA.text}
-                  </Link>
-                )}
-              </div>
-            </div>
-
-            {/* Right column: Stats panel */}
-            {stats && stats.length > 0 && (
-              <div className="relative">
-                {/* Glass morphism card */}
-                <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
-                  {/* Decorative accent line */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-primary rounded-t-3xl" />
-
-                  {/* Stats grid */}
-                  <div className="grid grid-cols-2 gap-6">
-                    {stats.slice(0, 4).map((stat, idx) => (
-                      <div key={idx} className="text-center">
-                        <div className="text-4xl md:text-5xl font-extrabold text-white mb-2">
-                          {stat.number}
-                          {stat.suffix && (
-                            <span className="text-primary-light">{stat.suffix}</span>
-                          )}
-                        </div>
-                        <div className="text-sm text-white/60 uppercase tracking-wide">
-                          {stat.label}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Decorative glow behind card */}
-                <div className="absolute inset-0 bg-primary-glow rounded-3xl blur-2xl -z-10 transform translate-y-4" />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Bottom accent line */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-      </section>
-    )
+  // Background styles
+  const bgClasses = {
+    gradient: 'bg-gradient-to-br from-navy to-navy-light text-white relative overflow-hidden',
+    image: 'relative text-white',
+    solid: {
+      navy: 'bg-navy text-white',
+      white: 'bg-white text-navy',
+      bg: 'bg-grey-light text-navy',
+      teal: 'bg-teal text-white',
+    },
   }
 
-  // Centered layout (original behavior - backwards compatible)
-  if (hasImage) {
-    return (
-      <OptimizedBackgroundImage
-        media={backgroundImage || backgroundImageUrl || ''}
-        alt={title || 'Hero background'}
-        overlay="dark"
-        className="hero py-20 px-4"
-      >
-        <div className="container mx-auto max-w-4xl text-center text-white">
-          {sectionLabel && <SectionLabel label={sectionLabel} className="text-white/80" />}
-          <h1 className="text-white text-5xl font-bold mb-6">{title}</h1>
-          {subtitle && <p className="text-white/90 text-xl mb-8">{subtitle}</p>}
+  const backgroundClass =
+    backgroundStyle === 'gradient'
+      ? bgClasses.gradient
+      : backgroundStyle === 'image'
+      ? bgClasses.image
+      : bgClasses.solid[backgroundColor as keyof typeof bgClasses.solid]
 
-          <div className="flex gap-4 justify-center">
-            {primaryCTA?.text && (
-              <a
-                href={primaryCTA.link}
-                className="btn btn-primary px-8 py-4 bg-primary hover:bg-primary-light text-white rounded-xl transition-colors duration-300 shadow-lg hover:scale-105"
-              >
-                {primaryCTA.text}
-              </a>
-            )}
-            {secondaryCTA?.text && (
-              <a
-                href={secondaryCTA.link}
-                className="btn btn-secondary px-8 py-4 border-2 border-white/20 hover:border-white/40 rounded-xl bg-white/10 text-white transition-all duration-300 hover:bg-white/10"
-              >
-                {secondaryCTA.text}
-              </a>
-            )}
-          </div>
-        </div>
-      </OptimizedBackgroundImage>
-    )
+  // Button styles
+  const buttonStyles = {
+    primary: 'bg-teal text-white hover:bg-teal-dark shadow-sm',
+    secondary: 'bg-transparent border-2 border-current hover:bg-white/10',
+    ghost: 'text-current hover:underline',
   }
 
-  // Centered no-image variant
   return (
-    <section className="hero relative py-20 px-4" data-style={style}>
-      <div
-        className={`container mx-auto max-w-4xl text-center relative z-10 ${hasImage ? 'text-white' : ''}`}
-      >
-        {sectionLabel && <SectionLabel label={sectionLabel} />}
-        <h1 className="text-5xl font-bold mb-6">{title}</h1>
-        {subtitle && <p className="text-xl mb-8">{subtitle}</p>}
+    <section className={`hero-block ${variantClasses[variant]} ${backgroundClass} rounded-2xl`}>
+      {/* Gradient glow effect */}
+      {backgroundStyle === 'gradient' && (
+        <div className="absolute top-[-40px] right-[-40px] w-[200px] h-[200px] bg-[radial-gradient(circle,_rgba(0,137,123,0.12),_transparent_70%)] rounded-full pointer-events-none" />
+      )}
 
-        <div className="flex gap-4 justify-center">
-          {primaryCTA?.text && (
-            <a
-              href={primaryCTA.link}
-              className="btn btn-primary px-8 py-4 bg-primary hover:bg-primary-light text-white rounded-xl transition-colors duration-300 shadow-lg hover:scale-105"
-            >
-              {primaryCTA.text}
-            </a>
-          )}
-          {secondaryCTA?.text && (
-            <a
-              href={secondaryCTA.link}
-              className={`btn btn-secondary px-8 py-4 border-2 rounded-xl transition-all duration-300 ${
-                hasImage
-                  ? 'border-white/20 hover:border-white/40 text-white bg-white/10 hover:bg-white/10'
-                  : 'border-secondary text-secondary-color hover:bg-secondary hover:text-white'
-              }`}
-            >
-              {secondaryCTA.text}
-            </a>
+      {/* Background image */}
+      {backgroundStyle === 'image' && backgroundImage && (
+        <div className="absolute inset-0 z-0">
+          {typeof backgroundImage === 'object' && backgroundImage !== null && 'url' in backgroundImage && (
+            <>
+              <Image
+                src={backgroundImage.url!}
+                alt={(backgroundImage as Media).alt || ''}
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-navy/70" />
+            </>
           )}
         </div>
+      )}
+
+      {/* Content container */}
+      <div
+        className={`relative z-10 max-w-7xl mx-auto px-6 ${
+          variant === 'split' ? 'grid md:grid-cols-2 gap-8 md:gap-12 items-center' : ''
+        }`}
+      >
+        <div className={variant === 'split' ? '' : 'max-w-3xl mx-auto'}>
+          {subtitle && (
+            <p className="text-[11px] md:text-xs font-bold uppercase tracking-wider text-teal-light mb-3 md:mb-4">
+              {subtitle}
+            </p>
+          )}
+          <h1 className="font-display text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 leading-tight">
+            {title}
+          </h1>
+          {description && (
+            <div className="text-sm md:text-base opacity-90 mb-6 md:mb-8 leading-relaxed">
+              {serializeLexical({ nodes: description })}
+            </div>
+          )}
+          {buttons && buttons.length > 0 && (
+            <div
+              className={`flex gap-3 ${
+                variant === 'default' || variant === 'centered' ? 'justify-center' : ''
+              } flex-wrap`}
+            >
+              {buttons.map((btn, idx) => {
+                if (!btn || typeof btn !== 'object' || !('label' in btn) || !('link' in btn)) {
+                  return null
+                }
+                const buttonStyle = 'style' in btn ? btn.style : 'primary'
+                return (
+                  <Link
+                    key={idx}
+                    href={btn.link}
+                    className={`inline-block px-6 py-3 rounded-lg text-sm font-bold transition-all duration-200 ${
+                      buttonStyles[buttonStyle as keyof typeof buttonStyles]
+                    }`}
+                  >
+                    {btn.label}
+                  </Link>
+                )
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Split layout visual placeholder */}
+        {variant === 'split' && (
+          <div className="bg-grey-light rounded-2xl aspect-video flex items-center justify-center text-6xl">
+            📱
+          </div>
+        )}
       </div>
     </section>
   )
 }
+
+export default HeroBlockComponent

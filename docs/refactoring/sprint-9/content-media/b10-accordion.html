@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accordion Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACCORDION COMPONENT STYLES
+   ═══════════════════════════════════════════════════════════ */
+.accordion-item {
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  transition: all var(--dur);
+}
+
+.accordion-item:hover {
+  border-color: var(--teal-light);
+}
+
+.accordion-item.active {
+  background: var(--teal-glow);
+  border-color: var(--teal);
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all var(--dur);
+}
+
+.accordion-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  user-select: none;
+}
+
+.accordion-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--grey-mid);
+  transition: all var(--dur);
+}
+
+.accordion-item.active .accordion-icon {
+  color: var(--teal);
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s var(--ease);
+  border-top: 1px solid transparent;
+}
+
+.accordion-item.active .accordion-content {
+  max-height: 1000px;
+  border-top-color: var(--grey);
+}
+
+.accordion-content-inner {
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Accordion Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-accordion">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B10</span>
+        <span class="section-label">Accordion Block</span>
+      </div>
+      <span class="tag" style="background:var(--teal);color:white">Primary</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Collapsible content sections. Similar to FAQ but for longer content. Single item open at a time.
+    </p>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview
+      </div>
+      <div class="box-content" style="padding:32px;background:white">
+        <div style="max-width:800px;margin:0 auto">
+          <div class="accordion-item active">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">Setup & Onboarding</div>
+              <i data-lucide="chevron-down" class="accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                Volledige onboarding met persoonlijke begeleiding. We helpen je met database setup, theme customization, product import, en payment gateway integratie.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">Training & Support</div>
+              <i data-lucide="chevron-down" class="accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                Uitgebreide training voor jouw team (online of on-site). 24/7 support via email, chat, en telefoon. Toegang tot kennisbank met 200+ tutorials en video's.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">Maintenance & Updates</div>
+              <i data-lucide="chevron-down" class="accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                Automatische updates voor alle features en security patches. Dagelijkse backups met 30-dagen retentie. Performance monitoring en optimization.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Accordion — Payload Schema</span>
+{ <span class="property">slug</span>: <span class="string">'accordion'</span>, <span class="property">fields</span>: [
+  { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+  { <span class="property">name</span>: <span class="string">'items'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'content'</span>, <span class="property">type</span>: <span class="string">'richText'</span>, <span class="property">required</span>: <span class="keyword">true</span> }
+  ]}
+]}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Accordion/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Accordion/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> {
+  <span class="function">lexicalEditor</span>,
+  <span class="function">BoldFeature</span>,
+  <span class="function">ItalicFeature</span>,
+  <span class="function">LinkFeature</span>,
+  <span class="function">UnorderedListFeature</span>,
+  <span class="function">OrderedListFeature</span>,
+  <span class="function">ParagraphFeature</span>,
+} <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical'</span>
+
+<span class="keyword">export const</span> <span class="function">Accordion</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'accordion'</span>,
+  labels: {
+    singular: <span class="string">'Accordion Block'</span>,
+    plural: <span class="string">'Accordion Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Section Title'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional section title displayed above the accordion (e.g., "Frequently Asked Questions")'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'items'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Accordion Items'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">minRows</span>: <span class="number">1</span>,
+      <span class="property">maxRows</span>: <span class="number">12</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'title'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Item Title'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Accordion item header (always visible)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'content'</span>,
+          <span class="property">type</span>: <span class="string">'richText'</span>,
+          <span class="property">label</span>: <span class="string">'Content'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+            <span class="property">features</span>: ({ defaultFeatures }) => [
+              <span class="function">ParagraphFeature</span>(),
+              <span class="function">BoldFeature</span>(),
+              <span class="function">ItalicFeature</span>(),
+              <span class="function">LinkFeature</span>({
+                fields: [
+                  {
+                    <span class="property">name</span>: <span class="string">'rel'</span>,
+                    <span class="property">label</span>: <span class="string">'Rel Attribute'</span>,
+                    <span class="property">type</span>: <span class="string">'select'</span>,
+                    <span class="property">options</span>: [
+                      { label: <span class="string">'noopener'</span>, value: <span class="string">'noopener'</span> },
+                      { label: <span class="string">'noreferrer'</span>, value: <span class="string">'noreferrer'</span> },
+                    ],
+                    <span class="property">hasMany</span>: <span class="keyword">true</span>,
+                  },
+                ],
+              }),
+              <span class="function">UnorderedListFeature</span>(),
+              <span class="function">OrderedListFeature</span>(),
+            ],
+          }),
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Expandable content for this accordion item (supports basic formatting and lists)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'defaultOpen'</span>,
+          <span class="property">type</span>: <span class="string">'checkbox'</span>,
+          <span class="property">label</span>: <span class="string">'Open by Default'</span>,
+          <span class="property">defaultValue</span>: <span class="keyword">false</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Check to make this item expanded on page load (only one item should be default open)'</span>,
+          },
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Add collapsible content sections. Only one item can be open at a time (accordion behavior).'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'allowMultipleOpen'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Allow Multiple Items Open'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">false</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Enable to allow multiple accordion items to be open simultaneously (changes behavior from accordion to expandable list)'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">SerializedEditorState</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/lexical'</span>
+
+<span class="keyword">export interface</span> <span class="function">AccordionItem</span> {
+  <span class="property">title</span>: <span class="keyword">string</span>
+  <span class="property">content</span>: <span class="function">SerializedEditorState</span>
+  <span class="property">defaultOpen</span>?: <span class="keyword">boolean</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">AccordionBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'accordion'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">items</span>: <span class="function">AccordionItem</span>[]
+  <span class="property">allowMultipleOpen</span>?: <span class="keyword">boolean</span>
+}
+
+<span class="comment">// Type guard to check if a block is an AccordionBlock</span>
+<span class="keyword">export function</span> <span class="function">isAccordionBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">AccordionBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'accordion'</span>
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Accordion/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Accordion/Component.tsx</span>
+<span class="string">'use client'</span>
+
+<span class="keyword">import</span> React, { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">RichText</span> } <span class="keyword">from</span> <span class="string">'@payloadcms/richtext-lexical/react'</span>
+<span class="keyword">import</span> { <span class="function">AccordionBlock</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> { ChevronDown } <span class="keyword">from</span> <span class="string">'lucide-react'</span>
+
+<span class="keyword">interface</span> <span class="function">AccordionProps</span> {
+  <span class="property">block</span>: <span class="function">AccordionBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">Accordion</span>: React.<span class="function">FC</span>&lt;<span class="function">AccordionProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { title, items, allowMultipleOpen } = block
+
+  <span class="comment">// Find default open item (first item with defaultOpen: true)</span>
+  <span class="keyword">const</span> defaultOpenIndex = items.findIndex((item) => item.defaultOpen)
+
+  <span class="comment">// Track which items are open (use Set for multiple open support)</span>
+  <span class="keyword">const</span> [openItems, setOpenItems] = useState&lt;<span class="keyword">Set</span>&lt;<span class="keyword">number</span>&gt;&gt;(
+    <span class="keyword">new</span> <span class="keyword">Set</span>(defaultOpenIndex >= <span class="number">0</span> ? [defaultOpenIndex] : [])
+  )
+
+  <span class="keyword">const</span> <span class="function">toggleItem</span> = (index: <span class="keyword">number</span>) => {
+    setOpenItems((prev) => {
+      <span class="keyword">const</span> newSet = <span class="keyword">new</span> <span class="keyword">Set</span>(allowMultipleOpen ? prev : [])
+
+      <span class="keyword">if</span> (prev.has(index)) {
+        <span class="comment">// Close this item</span>
+        newSet.delete(index)
+      } <span class="keyword">else</span> {
+        <span class="comment">// Open this item</span>
+        newSet.add(index)
+      }
+
+      <span class="keyword">return</span> newSet
+    })
+  }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-12 md:py-16"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        &lt;<span class="keyword">div</span> className=<span class="string">"mx-auto max-w-3xl"</span>&gt;
+          {title && (
+            &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-2xl md:text-3xl text-navy mb-6 text-center"</span>&gt;
+              {title}
+            &lt;/<span class="keyword">h2</span>&gt;
+          )}
+
+          &lt;<span class="keyword">div</span> className=<span class="string">"space-y-2"</span>&gt;
+            {items.map((item, index) => {
+              <span class="keyword">const</span> isOpen = openItems.has(index)
+
+              <span class="keyword">return</span> (
+                &lt;<span class="keyword">div</span>
+                  key={item.id || index}
+                  className={<span class="function">cn</span>(
+                    <span class="string">'border border-grey rounded-xl overflow-hidden transition-all duration-200'</span>,
+                    isOpen && <span class="string">'bg-teal-glow border-teal'</span>,
+                    !isOpen && <span class="string">'hover:border-teal-light'</span>
+                  )}
+                &gt;
+                  <span class="comment">{/* Accordion Header */}</span>
+                  &lt;<span class="keyword">button</span>
+                    onClick={() => <span class="function">toggleItem</span>(index)}
+                    className=<span class="string">"w-full flex items-center justify-between px-5 py-4 text-left transition-all"</span>
+                    aria-expanded={isOpen}
+                    aria-controls={<span class="string">`accordion-content-</span>${index}<span class="string">`</span>}
+                  &gt;
+                    &lt;<span class="keyword">span</span> className=<span class="string">"font-bold text-[15px] text-navy pr-4"</span>&gt;
+                      {item.title}
+                    &lt;/<span class="keyword">span</span>&gt;
+
+                    &lt;ChevronDown
+                      className={<span class="function">cn</span>(
+                        <span class="string">'w-[18px] h-[18px] flex-shrink-0 transition-all duration-200'</span>,
+                        isOpen ? <span class="string">'text-teal rotate-180'</span> : <span class="string">'text-grey-mid'</span>
+                      )}
+                    /&gt;
+                  &lt;/<span class="keyword">button</span>&gt;
+
+                  <span class="comment">{/* Accordion Content */}</span>
+                  &lt;<span class="keyword">div</span>
+                    id={<span class="string">`accordion-content-</span>${index}<span class="string">`</span>}
+                    className={<span class="function">cn</span>(
+                      <span class="string">'overflow-hidden transition-all duration-300 ease-out'</span>,
+                      isOpen ? <span class="string">'max-h-[1000px] border-t border-grey'</span> : <span class="string">'max-h-0'</span>
+                    )}
+                  &gt;
+                    &lt;<span class="keyword">div</span> className=<span class="string">"px-5 py-4 text-[13px] text-grey-dark leading-relaxed prose prose-sm max-w-none prose-p:mb-3 prose-ul:my-2 prose-li:my-1"</span>&gt;
+                      &lt;<span class="function">RichText</span> data={item.content} /&gt;
+                    &lt;/<span class="keyword">div</span>&gt;
+                  &lt;/<span class="keyword">div</span>&gt;
+                &lt;/<span class="keyword">div</span>&gt;
+              )
+            })}
+          &lt;/<span class="keyword">div</span>&gt;
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Alternative: CSS-only Accordion (No JavaScript)</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          For better SEO and progressive enhancement, you can implement a CSS-only accordion using <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;details&gt;</code> and <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;summary&gt;</code>:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// CSS-only Accordion (Progressive Enhancement)</span>
+<span class="keyword">export const</span> <span class="function">AccordionNoJS</span>: React.<span class="function">FC</span>&lt;<span class="function">AccordionProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { title, items } = block
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-12 md:py-16"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        &lt;<span class="keyword">div</span> className=<span class="string">"mx-auto max-w-3xl"</span>&gt;
+          {title && (
+            &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-2xl md:text-3xl text-navy mb-6 text-center"</span>&gt;
+              {title}
+            &lt;/<span class="keyword">h2</span>&gt;
+          )}
+
+          &lt;<span class="keyword">div</span> className=<span class="string">"space-y-2"</span>&gt;
+            {items.map((item, index) => (
+              &lt;<span class="keyword">details</span>
+                key={item.id || index}
+                open={item.defaultOpen}
+                className=<span class="string">"group border border-grey rounded-xl overflow-hidden transition-all hover:border-teal-light open:bg-teal-glow open:border-teal"</span>
+              &gt;
+                &lt;<span class="keyword">summary</span> className=<span class="string">"flex items-center justify-between px-5 py-4 cursor-pointer list-none [&amp;::-webkit-details-marker]:hidden"</span>&gt;
+                  &lt;<span class="keyword">span</span> className=<span class="string">"font-bold text-[15px] text-navy pr-4"</span>&gt;
+                    {item.title}
+                  &lt;/<span class="keyword">span</span>&gt;
+                  &lt;<span class="keyword">svg</span>
+                    className=<span class="string">"w-[18px] h-[18px] flex-shrink-0 text-grey-mid transition-transform duration-200 group-open:rotate-180 group-open:text-teal"</span>
+                    fill=<span class="string">"none"</span>
+                    stroke=<span class="string">"currentColor"</span>
+                    viewBox=<span class="string">"0 0 24 24"</span>
+                  &gt;
+                    &lt;<span class="keyword">path</span>
+                      strokeLinecap=<span class="string">"round"</span>
+                      strokeLinejoin=<span class="string">"round"</span>
+                      strokeWidth={<span class="number">2</span>}
+                      d=<span class="string">"M19 9l-7 7-7-7"</span>
+                    /&gt;
+                  &lt;/<span class="keyword">svg</span>&gt;
+                &lt;/<span class="keyword">summary</span>&gt;
+
+                &lt;<span class="keyword">div</span> className=<span class="string">"px-5 py-4 border-t border-grey text-[13px] text-grey-dark leading-relaxed prose prose-sm max-w-none"</span>&gt;
+                  &lt;<span class="function">RichText</span> data={item.content} /&gt;
+                &lt;/<span class="keyword">div</span>&gt;
+              &lt;/<span class="keyword">details</span>&gt;
+            ))}
+          &lt;/<span class="keyword">div</span>&gt;
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add an Accordion block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--teal);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">📋</span>
+            Accordion Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Section Title (Optional)</div>
+              <input type="text" placeholder="e.g., Frequently Asked Questions" disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Accordion Items (Array)</div>
+              <div style="background:var(--grey-light);padding:10px;border-radius:6px;margin-bottom:8px;">
+                <div style="font-weight:700;margin-bottom:6px;color:var(--navy);font-size:10px;">Item 1</div>
+                <div style="margin-bottom:6px;">
+                  <div style="font-size:10px;color:var(--grey-mid);margin-bottom:2px;">Title:</div>
+                  <input type="text" value="Setup & Onboarding" disabled style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;">
+                </div>
+                <div style="margin-bottom:6px;">
+                  <div style="font-size:10px;color:var(--grey-mid);margin-bottom:2px;">Content (Rich Text):</div>
+                  <div style="background:white;padding:6px;border:1px solid var(--grey);border-radius:4px;font-size:9px;color:var(--grey-mid);">
+                    Lexical editor with formatting...
+                  </div>
+                </div>
+                <div>
+                  <label style="display:flex;align-items:center;gap:6px;font-size:10px;">
+                    <input type="checkbox" checked disabled>
+                    <span>Open by Default</span>
+                  </label>
+                </div>
+              </div>
+              <button disabled style="padding:6px 12px;background:var(--teal);color:white;border:none;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;">+ Add Item</button>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:11px;">
+                <input type="checkbox" disabled>
+                <span style="font-weight:700;color:var(--navy);">Allow Multiple Items Open</span>
+              </label>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;margin-left:22px;">
+                Enable to allow multiple accordion items to be open simultaneously
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Accordion Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. Array field works:</strong> Click "Add Accordion Items" → can add/remove/reorder items
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Rich text editor loads:</strong> Each item has functional Lexical editor with formatting
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Default open works:</strong> Check "Open by Default" on one item → that item renders expanded on frontend
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Single open behavior:</strong> Click item → opens, click another → first closes (accordion mode)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Multiple open mode:</strong> Enable "Allow Multiple Items Open" → can open multiple items simultaneously
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Animations smooth:</strong> Verify chevron rotation and content slide transitions work smoothly
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Accordion block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Accordion block</span>
+npx payload migrate:create add_accordion_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for accordion data</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.title (type: varchar) — optional section title</span>
+<span class="comment"># - pages_blocks.allow_multiple_open (type: boolean) — behavior flag</span>
+<span class="comment"># - New table: pages_blocks_items (for accordion items array)</span>
+<span class="comment">#   - id (uuid/serial)</span>
+<span class="comment">#   - parent_id (foreign key to pages_blocks)</span>
+<span class="comment">#   - title (varchar) — item title</span>
+<span class="comment">#   - content (jsonb) — serialized Lexical state</span>
+<span class="comment">#   - default_open (boolean)</span>
+<span class="comment">#   - _order (integer) — array position</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks_items';"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#  column_name    | data_type</span>
+<span class="comment"># ----------------+-----------</span>
+<span class="comment">#  id             | uuid</span>
+<span class="comment">#  parent_id      | uuid</span>
+<span class="comment">#  title          | varchar</span>
+<span class="comment">#  content        | jsonb</span>
+<span class="comment">#  default_open   | boolean</span>
+<span class="comment">#  _order         | integer</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Array items not saving</td>
+              <td>Check migration: <code>pages_blocks_items</code> table must exist with <code>parent_id</code> foreign key to <code>pages_blocks</code></td>
+            </tr>
+            <tr>
+              <td>Multiple items open at once (when shouldn't)</td>
+              <td>Verify <code>allowMultipleOpen</code> is <code>false</code> in admin. Check component logic closes other items when opening new one.</td>
+            </tr>
+            <tr>
+              <td>Content doesn't expand/collapse</td>
+              <td>Check <code>max-height</code> transition CSS. Ensure <code>overflow: hidden</code> is set on accordion content wrapper.</td>
+            </tr>
+            <tr>
+              <td>Chevron icon not rotating</td>
+              <td>Verify icon has <code>transition: transform 0.2s</code> and <code>rotate-180</code> class applied when open.</td>
+            </tr>
+            <tr>
+              <td>Default open item not working</td>
+              <td>Check <code>defaultOpen</code> boolean saved correctly. Ensure initial state in React uses <code>findIndex</code> to locate default item.</td>
+            </tr>
+            <tr>
+              <td>Items reorder incorrectly</td>
+              <td>Verify <code>_order</code> column in database. Payload should auto-manage this. Check array sorting in query.</td>
+            </tr>
+            <tr>
+              <td>CSS-only version doesn't work</td>
+              <td>Ensure using <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> elements. Check <code>open</code> attribute for default open.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Accordion block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Accordion</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Accordion/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">Accordion</span>,  <span class="comment">// ← Add Accordion block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// FAQ,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">Accordion</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Accordion/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'accordion'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Accordion</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'faq'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">FAQ</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>SEO & Accessibility Notes:</strong>
+        </p>
+        <ul style="font-size:13px;color:var(--grey-dark);line-height:1.7;padding-left:20px;">
+          <li>✅ Use semantic HTML: <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;details&gt;</code> / <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;summary&gt;</code> for better SEO (all content indexable)</li>
+          <li>✅ Add <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">aria-expanded</code> and <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">aria-controls</code> for screen readers</li>
+          <li>✅ Keyboard navigation: Space/Enter to toggle, Arrow keys to move between items</li>
+          <li>✅ Focus visible: Add focus ring (<code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">focus:ring-2 ring-teal-glow</code>) to headers</li>
+          <li>✅ Prefers-reduced-motion: Disable transitions for users who prefer reduced motion</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Difference: Accordion vs FAQ Block</strong>
+        </p>
+        <table class="table" style="margin-top:12px;">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Accordion Block</th>
+              <th>FAQ Block</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Content Type</strong></td>
+              <td>Longer content, rich text</td>
+              <td>Short Q&A pairs, plain text</td>
+            </tr>
+            <tr>
+              <td><strong>Behavior</strong></td>
+              <td>Single/multiple open modes</td>
+              <td>Always single open</td>
+            </tr>
+            <tr>
+              <td><strong>Schema.org</strong></td>
+              <td>No structured data</td>
+              <td>Automatic FAQPage JSON-LD</td>
+            </tr>
+            <tr>
+              <td><strong>Use Case</strong></td>
+              <td>Service details, onboarding steps</td>
+              <td>Customer questions, help docs</td>
+            </tr>
+            <tr>
+              <td><strong>Max Width</strong></td>
+              <td>Fixed 800px (max-w-3xl)</td>
+              <td>Fixed 800px (max-w-3xl)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+
+  // Accordion toggle function (for demo only)
+  function toggleAccordion(header) {
+    const item = header.closest('.accordion-item');
+    const allItems = document.querySelectorAll('.accordion-item');
+
+    // Close all other items (single open mode)
+    allItems.forEach(otherItem => {
+      if (otherItem !== item) {
+        otherItem.classList.remove('active');
+      }
+    });
+
+    // Toggle current item
+    item.classList.toggle('active');
+
+    // Reinitialize icons after DOM change
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
+</script>
+
+</body>
+</html>

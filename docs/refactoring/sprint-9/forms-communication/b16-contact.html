@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B16: Contact Block — Plastimed Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ==============================================
+       CSS DESIGN TOKENS — Complete Design System
+       ============================================== */
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ==============================================
+       BASE STYLES
+       ============================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ==============================================
+       SECTION STYLES
+       ============================================== */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .section-label {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'DM Serif Display', serif;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* ==============================================
+       BOX COMPONENT (macOS Window Style)
+       ============================================== */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: var(--grey-light);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #28CA42; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ==============================================
+       CONTACT BLOCK COMPONENT
+       ============================================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 16px;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--teal-glow);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .contact-details h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .contact-details p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .contact-details a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .contact-details a:hover {
+      color: var(--teal-dark);
+      text-decoration: underline;
+    }
+
+    .opening-hours {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .opening-hour-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .opening-hour-row:last-child {
+      border-bottom: none;
+    }
+
+    .opening-hour-day {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .opening-hour-time {
+      color: var(--grey-dark);
+    }
+
+    .contact-map {
+      background: var(--grey-light);
+      border-radius: 12px;
+      overflow: hidden;
+      height: 400px;
+      position: relative;
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--grey-mid);
+    }
+
+    .contact-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    /* ==============================================
+       USAGE NOTES & CODE BLOCKS
+       ============================================== */
+    .usage-notes {
+      background: var(--blue-light);
+      border: 1px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .usage-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .usage-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .code-block {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .code-header {
+      background: var(--navy-light);
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-lang {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* ==============================================
+       IMPLEMENTATION GUIDE STYLES
+       ============================================== */
+    .impl-section {
+      margin-bottom: 48px;
+    }
+
+    .impl-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .impl-step {
+      background: var(--teal);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .impl-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'DM Serif Display', serif;
+    }
+
+    .impl-description {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .checklist {
+      background: var(--green-light);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .checklist-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .checklist ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      padding: 6px 0 6px 24px;
+      position: relative;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .checklist li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .troubleshooting {
+      background: var(--amber-light);
+      border: 1px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .troubleshooting-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .troubleshooting-item {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(245,158,11,0.3);
+    }
+
+    .troubleshooting-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .troubleshooting-problem {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .troubleshooting-solution {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ==============================================
+         VISUAL REFERENCE SECTION
+         ============================================== -->
+    <section class="section" id="block-contact">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B16</span>
+          <span class="section-label">Contact Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Contact sectie met adres, telefoon, email, openingstijden. Optioneel met embedded map (Google Maps iframe).
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview — Contact Info + Map
+        </div>
+        <div class="box-content" style="padding:32px;background:var(--bg)">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <h2 style="font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 8px;">Neem contact op</h2>
+            <p style="font-size: 14px; color: var(--grey-dark);">Wij staan altijd voor je klaar</p>
+          </div>
+
+          <div class="contact-grid">
+            <!-- Contact Information -->
+            <div class="contact-info">
+              <!-- Address -->
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i data-lucide="map-pin" style="width:20px;height:20px"></i>
+                </div>
+                <div class="contact-details">
+                  <h3>Adres</h3>
+                  <p>
+                    Keizersgracht 123<br>
+                    1015 DJ Amsterdam
+                  </p>
+                </div>
+              </div>
+
+              <!-- Phone -->
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i data-lucide="phone" style="width:20px;height:20px"></i>
+                </div>
+                <div class="contact-details">
+                  <h3>Telefoon</h3>
+                  <p><a href="tel:+31201234567">020 - 123 45 67</a></p>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i data-lucide="mail" style="width:20px;height:20px"></i>
+                </div>
+                <div class="contact-details">
+                  <h3>Email</h3>
+                  <p><a href="mailto:info@plastimed.nl">info@plastimed.nl</a></p>
+                </div>
+              </div>
+
+              <!-- Opening Hours -->
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i data-lucide="clock" style="width:20px;height:20px"></i>
+                </div>
+                <div class="contact-details">
+                  <h3>Openingstijden</h3>
+                  <div class="opening-hours">
+                    <div class="opening-hour-row">
+                      <span class="opening-hour-day">Maandag - Vrijdag</span>
+                      <span class="opening-hour-time">09:00 - 17:00</span>
+                    </div>
+                    <div class="opening-hour-row">
+                      <span class="opening-hour-day">Zaterdag</span>
+                      <span class="opening-hour-time">10:00 - 14:00</span>
+                    </div>
+                    <div class="opening-hour-row">
+                      <span class="opening-hour-day">Zondag</span>
+                      <span class="opening-hour-time">Gesloten</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map -->
+            <div class="contact-map">
+              <div class="map-placeholder">
+                <i data-lucide="map" style="width:48px;height:48px;color:var(--grey-mid)"></i>
+                <p style="font-size:13px;font-weight:600">Google Maps wordt hier getoond</p>
+                <p style="font-size:11px">iframe met Google Maps embed URL</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="usage-notes">
+        <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+        <ul class="usage-list">
+          <li><strong>Layout:</strong> 2-column grid (contact info left, map right), stacks on mobile</li>
+          <li><strong>Icons:</strong> Lucide icons in teal glow circles (40px)</li>
+          <li><strong>Map:</strong> Optional Google Maps iframe (400px height)</li>
+          <li><strong>Opening Hours:</strong> Array of day/time pairs with separator lines</li>
+          <li><strong>Links:</strong> Phone and email are clickable (tel:, mailto:)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         DEVELOPER IMPLEMENTATION GUIDE
+         ============================================== -->
+    <section class="section" id="implementation">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h1 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 12px;">
+          Developer Implementation Guide
+        </h1>
+        <p style="font-size: 14px; color: var(--grey-dark);">
+          Complete 8-step guide for implementing the Contact block in Payload CMS 3.0 + Next.js
+        </p>
+      </div>
+
+      <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 1</span>
+          <span class="impl-title">Payload Block Configuration</span>
+        </div>
+
+        <p class="impl-description">
+          Create the Payload CMS block configuration with grouped fields for address and array field for opening hours.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/branches/blocks/forms-communication/Contact/config.ts</span>
+          </div>
+          <pre><code>// src/branches/blocks/forms-communication/Contact/config.ts
+import { Block } from 'payload/types'
+
+export const Contact: Block = {
+  slug: 'contact',
+  labels: {
+    singular: 'Contact Block',
+    plural: 'Contact Blocks',
+  },
+  fields: [
+    // Header
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Section Title',
+          required: true,
+          admin: {
+            width: '60%',
+            placeholder: 'Neem contact op'
+          }
+        },
+        {
+          name: 'subtitle',
+          type: 'text',
+          label: 'Subtitle',
+          admin: {
+            width: '40%',
+            placeholder: 'Wij staan altijd voor je klaar'
+          }
+        }
+      ]
+    },
+
+    // Address Group
+    {
+      name: 'address',
+      type: 'group',
+      label: 'Address',
+      fields: [
+        {
+          name: 'street',
+          type: 'text',
+          label: 'Street Address',
+          admin: {
+            placeholder: 'Keizersgracht 123'
+          }
+        },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'postalCode',
+              type: 'text',
+              label: 'Postal Code',
+              admin: {
+                width: '40%',
+                placeholder: '1015 DJ'
+              }
+            },
+            {
+              name: 'city',
+              type: 'text',
+              label: 'City',
+              admin: {
+                width: '60%',
+                placeholder: 'Amsterdam'
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    // Contact Details
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'phone',
+          type: 'text',
+          label: 'Phone Number',
+          admin: {
+            width: '50%',
+            placeholder: '020 - 123 45 67'
+          }
+        },
+        {
+          name: 'email',
+          type: 'email',
+          label: 'Email Address',
+          admin: {
+            width: '50%',
+            placeholder: 'info@plastimed.nl'
+          }
+        }
+      ]
+    },
+
+    // Opening Hours
+    {
+      name: 'openingHours',
+      type: 'array',
+      label: 'Opening Hours',
+      admin: {
+        description: 'Add opening hours for each day or day range',
+      },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'day',
+              type: 'text',
+              label: 'Day(s)',
+              required: true,
+              admin: {
+                width: '50%',
+                placeholder: 'Maandag - Vrijdag'
+              }
+            },
+            {
+              name: 'hours',
+              type: 'text',
+              label: 'Hours',
+              required: true,
+              admin: {
+                width: '50%',
+                placeholder: '09:00 - 17:00'
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    // Map Settings
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'showMap',
+          type: 'checkbox',
+          label: 'Show Map',
+          defaultValue: true,
+          admin: {
+            width: '30%'
+          }
+        },
+        {
+          name: 'mapUrl',
+          type: 'text',
+          label: 'Google Maps Embed URL',
+          admin: {
+            width: '70%',
+            condition: (data, siblingData) => siblingData?.showMap,
+            placeholder: 'https://www.google.com/maps/embed?pb=...',
+            description: 'Get embed URL from Google Maps "Share" → "Embed a map"'
+          }
+        }
+      ]
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 2: TYPESCRIPT TYPE DEFINITIONS -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 2</span>
+          <span class="impl-title">TypeScript Type Definitions</span>
+        </div>
+
+        <p class="impl-description">
+          Define TypeScript interfaces for type-safe development with the Contact block.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/types/blocks.ts</span>
+          </div>
+          <pre><code>// src/types/blocks.ts
+export interface ContactAddress {
+  street?: string
+  postalCode?: string
+  city?: string
+}
+
+export interface OpeningHour {
+  day: string
+  hours: string
+  id?: string
+}
+
+export interface ContactBlock {
+  blockType: 'contact'
+  id?: string
+  title: string
+  subtitle?: string
+  address?: ContactAddress
+  phone?: string
+  email?: string
+  openingHours?: OpeningHour[]
+  showMap: boolean
+  mapUrl?: string
+}
+
+// Type Guards
+export function isContactBlock(block: any): block is ContactBlock {
+  return block?.blockType === 'contact'
+}
+
+export function hasAddress(block: ContactBlock): boolean {
+  return !!(block.address?.street || block.address?.city)
+}
+
+export function hasOpeningHours(block: ContactBlock): boolean {
+  return !!(block.openingHours && block.openingHours.length > 0)
+}
+
+// Helper Functions
+export function formatAddress(address: ContactAddress): string {
+  const parts = [address.street, `${address.postalCode} ${address.city}`.trim()]
+  return parts.filter(Boolean).join(', ')
+}
+
+export function formatPhoneLink(phone: string): string {
+  // Remove all non-numeric characters except +
+  return `tel:${phone.replace(/[^0-9+]/g, '')}`
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 3: REACT COMPONENT IMPLEMENTATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 3</span>
+          <span class="impl-title">React Component Implementation</span>
+        </div>
+
+        <p class="impl-description">
+          Create the Next.js React component with Tailwind CSS styling and responsive layout.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript React</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/branches/blocks/forms-communication/Contact/Component.tsx</span>
+          </div>
+          <pre><code>// src/branches/blocks/forms-communication/Contact/Component.tsx
+'use client'
+
+import React from 'react'
+import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import type { ContactBlock } from '@/types/blocks'
+
+interface ContactProps {
+  block: ContactBlock
+}
+
+export const Contact: React.FC&lt;ContactProps&gt; = ({ block }) =&gt; {
+  const {
+    title,
+    subtitle,
+    address,
+    phone,
+    email,
+    openingHours,
+    showMap,
+    mapUrl
+  } = block
+
+  const hasAddress = address?.street || address?.city
+  const hasOpeningHours = openingHours &amp;&amp; openingHours.length &gt; 0
+
+  return (
+    &lt;section className="py-16 md:py-20"&gt;
+      &lt;div className="container mx-auto px-6"&gt;
+        {/* Header */}
+        {(title || subtitle) &amp;&amp; (
+          &lt;div className="text-center mb-12"&gt;
+            {title &amp;&amp; &lt;h2 className="font-serif text-3xl md:text-4xl text-navy mb-3"&gt;{title}&lt;/h2&gt;}
+            {subtitle &amp;&amp; &lt;p className="text-base text-grey-dark max-w-2xl mx-auto"&gt;{subtitle}&lt;/p&gt;}
+          &lt;/div&gt;
+        )}
+
+        {/* Contact Grid */}
+        &lt;div className="grid md:grid-cols-2 gap-12 md:gap-16 max-w-5xl mx-auto"&gt;
+          {/* Contact Information */}
+          &lt;div className="flex flex-col gap-8"&gt;
+            {/* Address */}
+            {hasAddress &amp;&amp; (
+              &lt;div className="flex gap-4"&gt;
+                &lt;div className="w-10 h-10 bg-teal-glow rounded-lg flex items-center justify-center flex-shrink-0"&gt;
+                  &lt;MapPin className="w-5 h-5 text-teal" /&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;h3 className="font-bold text-sm text-navy mb-2"&gt;Adres&lt;/h3&gt;
+                  &lt;p className="text-sm text-grey-dark leading-relaxed"&gt;
+                    {address.street &amp;&amp; (
+                      &lt;&gt;
+                        {address.street}
+                        &lt;br /&gt;
+                      &lt;/&gt;
+                    )}
+                    {(address.postalCode || address.city) &amp;&amp; (
+                      &lt;&gt;
+                        {address.postalCode} {address.city}
+                      &lt;/&gt;
+                    )}
+                  &lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            )}
+
+            {/* Phone */}
+            {phone &amp;&amp; (
+              &lt;div className="flex gap-4"&gt;
+                &lt;div className="w-10 h-10 bg-teal-glow rounded-lg flex items-center justify-center flex-shrink-0"&gt;
+                  &lt;Phone className="w-5 h-5 text-teal" /&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;h3 className="font-bold text-sm text-navy mb-2"&gt;Telefoon&lt;/h3&gt;
+                  &lt;a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} className="text-sm text-teal hover:text-teal-dark transition"&gt;
+                    {phone}
+                  &lt;/a&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            )}
+
+            {/* Email */}
+            {email &amp;&amp; (
+              &lt;div className="flex gap-4"&gt;
+                &lt;div className="w-10 h-10 bg-teal-glow rounded-lg flex items-center justify-center flex-shrink-0"&gt;
+                  &lt;Mail className="w-5 h-5 text-teal" /&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;h3 className="font-bold text-sm text-navy mb-2"&gt;Email&lt;/h3&gt;
+                  &lt;a href={`mailto:${email}`} className="text-sm text-teal hover:text-teal-dark transition"&gt;
+                    {email}
+                  &lt;/a&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            )}
+
+            {/* Opening Hours */}
+            {hasOpeningHours &amp;&amp; (
+              &lt;div className="flex gap-4"&gt;
+                &lt;div className="w-10 h-10 bg-teal-glow rounded-lg flex items-center justify-center flex-shrink-0"&gt;
+                  &lt;Clock className="w-5 h-5 text-teal" /&gt;
+                &lt;/div&gt;
+                &lt;div className="flex-1"&gt;
+                  &lt;h3 className="font-bold text-sm text-navy mb-2"&gt;Openingstijden&lt;/h3&gt;
+                  &lt;div className="flex flex-col gap-2"&gt;
+                    {openingHours.map((hour, index) =&gt; (
+                      &lt;div key={hour.id || index} className="flex justify-between text-sm py-2 border-b border-grey last:border-b-0"&gt;
+                        &lt;span className="font-semibold text-navy"&gt;{hour.day}&lt;/span&gt;
+                        &lt;span className="text-grey-dark"&gt;{hour.hours}&lt;/span&gt;
+                      &lt;/div&gt;
+                    ))}
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            )}
+          &lt;/div&gt;
+
+          {/* Map */}
+          {showMap &amp;&amp; mapUrl &amp;&amp; (
+            &lt;div className="bg-grey-light rounded-xl overflow-hidden h-96 md:h-auto min-h-96"&gt;
+              &lt;iframe
+                src={mapUrl}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps Location"
+              &gt;&lt;/iframe&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}</code></pre>
+        </div>
+
+        <div class="usage-notes">
+          <div class="usage-title"><i data-lucide="lightbulb"></i> Component Features</div>
+          <ul class="usage-list">
+            <li><strong>Responsive:</strong> 2-column grid on desktop, stacks on mobile</li>
+            <li><strong>Icons:</strong> Lucide icons with teal glow background</li>
+            <li><strong>Clickable Links:</strong> Phone (tel:) and email (mailto:) are automatically linked</li>
+            <li><strong>Optional Map:</strong> Google Maps iframe only shown when showMap is true</li>
+            <li><strong>Conditional Rendering:</strong> Only shows sections that have data</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 4</span>
+          <span class="impl-title">Admin Panel Structure</span>
+        </div>
+
+        <p class="impl-description">
+          How content editors interact with the Contact block in Payload CMS admin.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="layout"></i> Admin UI Flow</span>
+          </div>
+          <pre><code>CONTACT BLOCK — Admin Interface
+
+┌─────────────────────────────────────────────────────┐
+│ 📍 Contact Block                                     │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│ Section Title: [Neem contact op              ] 60% │
+│ Subtitle:      [Wij staan altijd voor je...  ] 40% │
+│                                                      │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ ADDRESS                                             │
+│                                                      │
+│ Street:      [Keizersgracht 123               ]    │
+│ Postal Code: [1015 DJ                 ] 40%        │
+│ City:        [Amsterdam               ] 60%        │
+│                                                      │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ CONTACT DETAILS                                     │
+│                                                      │
+│ Phone:  [020 - 123 45 67            ] 50%          │
+│ Email:  [info@plastimed.nl          ] 50%          │
+│                                                      │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ OPENING HOURS                                       │
+│                                                      │
+│ ┌── Hour 1 ────────────────────────────────┐       │
+│ │ Day(s): [Maandag - Vrijdag     ] 50%    │       │
+│ │ Hours:  [09:00 - 17:00         ] 50%    │       │
+│ └──────────────────────────────────────────┘       │
+│                                                      │
+│ ┌── Hour 2 ────────────────────────────────┐       │
+│ │ Day(s): [Zaterdag              ] 50%    │       │
+│ │ Hours:  [10:00 - 14:00         ] 50%    │       │
+│ └──────────────────────────────────────────┘       │
+│                                                      │
+│ ┌── Hour 3 ────────────────────────────────┐       │
+│ │ Day(s): [Zondag                ] 50%    │       │
+│ │ Hours:  [Gesloten              ] 50%    │       │
+│ └──────────────────────────────────────────┘       │
+│                                                      │
+│ [+ Add Opening Hour]                                │
+│                                                      │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ MAP SETTINGS                                        │
+│                                                      │
+│ ☑ Show Map                                    30%  │
+│ Map URL: [https://www.google.com/maps...  ] 70%   │
+│          ℹ Get embed URL from Google Maps           │
+│            "Share" → "Embed a map"                  │
+│                                                      │
+└─────────────────────────────────────────────────────┘
+
+💡 EDITOR WORKFLOW:
+1. Enter section title and optional subtitle
+2. Fill in address details (street, postal code, city)
+3. Add contact details (phone, email)
+4. Add opening hours (day ranges + times)
+5. Check "Show Map" and paste Google Maps embed URL
+6. Preview shows complete contact section with map</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 5: TESTING CHECKLIST -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 5</span>
+          <span class="impl-title">Testing Checklist</span>
+        </div>
+
+        <div class="checklist">
+          <div class="checklist-title">✓ Pre-Deployment Testing</div>
+          <ul>
+            <li>Test with all fields populated (full contact info + map)</li>
+            <li>Test with minimal data (only title, phone, email)</li>
+            <li>Verify phone link works (tel: protocol)</li>
+            <li>Verify email link works (mailto: protocol)</li>
+            <li>Test map embed with valid Google Maps URL</li>
+            <li>Test responsive behavior on mobile (grid stacks)</li>
+            <li>Verify map iframe loads correctly (no CORS errors)</li>
+            <li>Test opening hours display with varying numbers of entries</li>
+            <li>Verify conditional rendering (map only shows when enabled)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 6: DATABASE MIGRATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 6</span>
+          <span class="impl-title">Database Migration</span>
+        </div>
+
+        <p class="impl-description">
+          Generate and run database migrations for production PostgreSQL deployment.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="database"></i> Bash</span>
+          </div>
+          <pre><code># Generate migration
+npx payload migrate:create add_contact_block
+
+# Review generated SQL in src/migrations/
+# Expected tables:
+# - pages_blocks_contact
+# - pages_blocks_contact_opening_hours
+
+# Run migration
+npx payload migrate</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="database"></i> SQL Schema</span>
+          </div>
+          <pre><code>-- pages_blocks_contact
+CREATE TABLE pages_blocks_contact (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL,
+  _path TEXT NOT NULL,
+  id SERIAL PRIMARY KEY,
+  title VARCHAR NOT NULL,
+  subtitle VARCHAR,
+  address_street VARCHAR,
+  address_postal_code VARCHAR,
+  address_city VARCHAR,
+  phone VARCHAR,
+  email VARCHAR,
+  show_map BOOLEAN DEFAULT true,
+  map_url TEXT,
+  block_name VARCHAR
+);
+
+-- pages_blocks_contact_opening_hours
+CREATE TABLE pages_blocks_contact_opening_hours (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL REFERENCES pages_blocks_contact(id) ON DELETE CASCADE,
+  id SERIAL PRIMARY KEY,
+  day VARCHAR NOT NULL,
+  hours VARCHAR NOT NULL
+);
+
+CREATE INDEX idx_contact_parent ON pages_blocks_contact(_parent_id);
+CREATE INDEX idx_contact_hours_parent ON pages_blocks_contact_opening_hours(_parent_id);</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 7: TROUBLESHOOTING GUIDE -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 7</span>
+          <span class="impl-title">Troubleshooting Guide</span>
+        </div>
+
+        <div class="troubleshooting">
+          <div class="troubleshooting-title">⚠️ Common Issues & Solutions</div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Map iframe not loading</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure you're using the <strong>embed URL</strong> from Google Maps, not the regular sharing link.
+              Go to Google Maps → Share → "Embed a map" → Copy the iframe src URL. Should start with
+              <code>https://www.google.com/maps/embed?pb=...</code>
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Map shows "This page can't load Google Maps correctly"</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> You may need a Google Maps API key for production. Add API key restriction to allow your domain.
+              Alternatively, use the public embed URL without restrictions for simple embeds.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Phone link not working on mobile</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure phone number is formatted correctly in tel: link. Remove all spaces, dashes, parentheses.
+              Example: <code>tel:+31201234567</code> instead of <code>tel:020 - 123 45 67</code>. The formatPhoneLink helper does this automatically.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Opening hours not displaying</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Check that <code>openingHours</code> array is populated and each entry has both <code>day</code> and <code>hours</code> fields.
+              Verify conditional rendering: <code>{hasOpeningHours && (...)}</code> is working correctly.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Address not showing line breaks</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure you're using <code>&lt;br /&gt;</code> JSX elements between address lines, not string concatenation.
+              Check component code for proper conditional rendering of street and city on separate lines.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Icons not rendering</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Verify lucide-react is installed: <code>npm install lucide-react</code>.
+              Check imports: <code>import { MapPin, Phone, Mail, Clock } from 'lucide-react'</code>.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Map column empty when showMap is true</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Check condition logic: <code>{showMap && mapUrl && (...)}</code> requires BOTH fields to be true/populated.
+              If showMap is checked but mapUrl is empty, nothing will render. Add admin-side validation or show placeholder.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Grid not stacking on mobile</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Verify Tailwind responsive classes: <code>grid md:grid-cols-2</code> defaults to 1 column,
+              switches to 2 columns at md breakpoint (768px). Test with browser dev tools mobile viewport.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 8: CONFIG REGISTRATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 8</span>
+          <span class="impl-title">Config Registration</span>
+        </div>
+
+        <p class="impl-description">
+          Register the Contact block in your Payload config and Next.js rendering map.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="settings"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">payload.config.ts</span>
+          </div>
+          <pre><code>// payload.config.ts
+import { Contact } from './src/branches/blocks/forms-communication/Contact/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            Contact, // ← Add block here
+            // ... other blocks
+          ]
+        }
+      ]
+    }
+  ]
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>// src/components/RenderBlocks.tsx
+import { Contact } from '@/branches/blocks/forms-communication/Contact/Component'
+import type { ContactBlock } from '@/types/blocks'
+
+const blockComponents = {
+  contact: Contact,
+  // ... other blocks
+}
+
+export const RenderBlocks: React.FC<{ blocks: any[] }> = ({ blocks }) => {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        const Block = blockComponents[block.blockType]
+        if (!Block) return null
+        return <Block key={block.id || index} block={block} />
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="usage-notes">
+          <div class="usage-title"><i data-lucide="check-circle"></i> Verification Steps</div>
+          <ul class="usage-list">
+            <li>Block appears in admin panel blocks list</li>
+            <li>Can create contact section with all fields</li>
+            <li>Frontend renders contact info correctly</li>
+            <li>Phone and email links work on mobile</li>
+            <li>Google Maps iframe loads without errors</li>
+            <li>Opening hours display with proper formatting</li>
+            <li>Responsive layout works on all screen sizes</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

@@ -1,5 +1,21 @@
 import type { Block } from 'payload'
 
+/**
+ * B02 - Features Block Configuration
+ *
+ * Features/USPs grid with Lucide icons and flexible layouts.
+ *
+ * FEATURES:
+ * - 3 layout variants (grid-3, grid-4, list)
+ * - 3 icon styles (glow, solid, outlined)
+ * - 2 alignment options (center, left)
+ * - Lucide React icons (2,000+ options)
+ * - Min 2, max 12 features
+ * - Tab structure (Content + Layout)
+ *
+ * @see docs/refactoring/sprint-9/shared/b02-features.html
+ */
+
 export const Features: Block = {
   slug: 'features',
   interfaceName: 'FeaturesBlock',
@@ -19,55 +35,54 @@ export const Features: Block = {
               type: 'text',
               label: 'Section Title',
               admin: {
-                description: 'Optional heading for the features section',
+                description: 'Heading above the features grid (e.g., "Waarom Compass Digital?")',
                 placeholder: 'Waarom kiezen voor ons?',
               },
             },
             {
               name: 'description',
               type: 'textarea',
-              label: 'Description',
+              label: 'Section Description',
               admin: {
+                description: 'Optional subheading text below title',
                 rows: 2,
-                description: 'Optional introduction text',
               },
             },
             {
               name: 'features',
               type: 'array',
-              label: 'Features / USPs',
+              label: 'Features',
               minRows: 2,
               maxRows: 12,
               fields: [
                 {
                   name: 'icon',
                   type: 'text',
-                  label: 'Icon (Lucide)',
+                  label: 'Lucide Icon Name',
                   required: true,
                   admin: {
-                    description: 'Lucide icon name (e.g., Shield, Zap, Award, Truck)',
-                    placeholder: 'Shield',
-                    components: {
-                      Field: '@/branches/shared/components/admin/IconPickerField#IconPickerField',
-                    },
+                    description:
+                      'Lucide icon name (e.g., "Zap", "Palette", "ShieldCheck"). See https://lucide.dev',
+                    placeholder: 'Zap',
                   },
                 },
                 {
                   name: 'title',
                   type: 'text',
-                  label: 'Title',
+                  label: 'Feature Title',
                   required: true,
                   admin: {
-                    placeholder: '30+ jaar expertise',
+                    placeholder: 'Snelle levering',
                   },
                 },
                 {
                   name: 'description',
                   type: 'textarea',
-                  label: 'Description',
+                  label: 'Feature Description',
                   admin: {
+                    description: 'Short description (max 2-3 sentences)',
                     rows: 2,
-                    placeholder: 'Sinds 1994 actief als betrouwbare partner',
+                    placeholder: 'Binnen 24 uur geleverd',
                   },
                 },
               ],
@@ -75,18 +90,26 @@ export const Features: Block = {
           ],
         },
         {
-          label: 'Design',
+          label: 'Layout',
           fields: [
             {
               name: 'variant',
               type: 'select',
-              label: 'Layout',
+              label: 'Layout Variant',
               defaultValue: 'grid-3',
-              required: true,
               options: [
-                { label: '3 Columns', value: 'grid-3' },
-                { label: '4 Columns', value: 'grid-4' },
-                { label: 'List View', value: 'list' },
+                {
+                  label: '3 Columns Grid',
+                  value: 'grid-3',
+                },
+                {
+                  label: '4 Columns Grid',
+                  value: 'grid-4',
+                },
+                {
+                  label: 'List Layout (Horizontal)',
+                  value: 'list',
+                },
               ],
             },
             {
@@ -94,22 +117,26 @@ export const Features: Block = {
               type: 'select',
               label: 'Icon Style',
               defaultValue: 'glow',
-              required: true,
               options: [
-                { label: 'Glow (Teal background with shine)', value: 'glow' },
-                { label: 'Solid (Filled background)', value: 'solid' },
-                { label: 'Outlined (Border only)', value: 'outlined' },
+                {
+                  label: 'Glow Background (Teal)',
+                  value: 'glow',
+                },
+                {
+                  label: 'Solid Circle (Teal)',
+                  value: 'solid',
+                },
+                {
+                  label: 'Outlined',
+                  value: 'outlined',
+                },
               ],
-              admin: {
-                description: 'Visual style for the feature icons',
-              },
             },
             {
               name: 'alignment',
               type: 'select',
               label: 'Content Alignment',
               defaultValue: 'center',
-              required: true,
               options: [
                 { label: 'Center', value: 'center' },
                 { label: 'Left', value: 'left' },

@@ -1,97 +1,77 @@
-/**
- * CTA Component - 100% Theme Variable Compliant
- *
- * Refactored from hardcoded teal gradient, inline styles with fallbacks,
- * and hover handlers to theme variables. All colors now use CSS variables from ThemeProvider.
- */
-'use client'
 import React from 'react'
 import Link from 'next/link'
 import type { CTABlock } from '@/payload-types'
 
+/**
+ * B03 - CTA Block Component
+ *
+ * Call-to-action section with 3 variants and 3 background styles.
+ *
+ * @see docs/refactoring/sprint-9/shared/b03-cta.html
+ */
+
 export const CTABlockComponent: React.FC<CTABlock> = ({
   title,
-  text,
-  buttonText,
-  buttonLink,
-  secondaryButtonText,
-  secondaryButtonLink,
-  style,
-  variant = 'full-width',
+  description,
+  buttons = [],
+  variant = 'centered',
+  style = 'dark',
 }) => {
-  // Card variant (afgeronde kaart met gradient)
-  if (variant === 'card') {
-    return (
-      <section className="py-16 md:py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          {/* Gradient card met decoratieve elementen */}
-          <div className="relative bg-gradient-primary rounded-3xl p-10 md:p-14 overflow-hidden shadow-2xl">
-            {/* Decorative radial gradient circle */}
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
-
-            {/* Content */}
-            <div className="relative z-10 text-center text-white">
-              <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
-                {title}
-              </h2>
-              {text && <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">{text}</p>}
-
-              {/* Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center">
-                {buttonText && (
-                  <Link
-                    href={buttonLink || '#'}
-                    className="px-8 py-4 bg-white text-primary font-bold rounded-xl transition-all duration-300 hover:bg-white/90 hover:scale-105 shadow-lg"
-                  >
-                    {buttonText}
-                  </Link>
-                )}
-                {secondaryButtonText && (
-                  <Link
-                    href={secondaryButtonLink || '#'}
-                    className="px-8 py-4 bg-transparent border-2 border-white/50 hover:border-white text-white font-bold rounded-xl transition-all duration-300 hover:bg-white/10"
-                  >
-                    {secondaryButtonText}
-                  </Link>
-                )}
-              </div>
-            </div>
-
-            {/* Decorative bottom accent */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-          </div>
-        </div>
-      </section>
-    )
+  const bgStyles = {
+    dark: 'bg-gradient-to-br from-navy to-navy-light text-white',
+    light: 'bg-white text-navy border border-grey',
+    gradient: 'bg-gradient-to-r from-teal to-teal-dark text-white',
   }
 
-  // Full-width variant (original behavior - backwards compatible)
+  const buttonStyles = {
+    primary: 'bg-teal text-white hover:bg-teal-dark',
+    secondary: 'bg-transparent border-2 border-current hover:bg-white/10',
+    ghost: 'text-current hover:underline',
+  }
+
   return (
-    <section
-      className="cta py-20 px-4 bg-primary text-white"
-    >
-      <div className="container mx-auto max-w-3xl text-center">
-        <h2 className="text-white text-4xl font-bold mb-4">{title}</h2>
-        {text && <p className="text-white/90 text-xl mb-8">{text}</p>}
-
-        <div className="flex flex-wrap gap-4 justify-center">
-          <a
-            href={buttonLink}
-            className="btn px-8 py-4 bg-white text-primary rounded-xl font-semibold inline-block transition-all duration-300 hover:bg-secondary hover:text-white hover:scale-105 shadow-lg"
-          >
-            {buttonText}
-          </a>
-
-          {secondaryButtonText && (
-            <a
-              href={secondaryButtonLink || '#'}
-              className="btn px-8 py-4 bg-transparent border-2 border-white/20 hover:border-white text-white rounded-xl font-semibold inline-block transition-all duration-300 hover:bg-white/10"
+    <section className={`cta-block py-12 md:py-16 rounded-2xl ${bgStyles[style as keyof typeof bgStyles]}`}>
+      <div className="max-w-7xl mx-auto px-6">
+        <div
+          className={`${
+            variant === 'split'
+              ? 'flex flex-col md:flex-row justify-between items-center gap-6'
+              : 'text-center max-w-3xl mx-auto'
+          }`}
+        >
+          <div className={variant === 'split' ? 'flex-1' : ''}>
+            <h2 className="font-display text-2xl md:text-3xl mb-3">{title}</h2>
+            {description && <p className="text-sm md:text-base opacity-90">{description}</p>}
+          </div>
+          {buttons && buttons.length > 0 && (
+            <div
+              className={`flex gap-3 flex-wrap ${
+                variant === 'centered' ? 'justify-center mt-6' : variant === 'split' ? '' : 'justify-center mt-6'
+              }`}
             >
-              {secondaryButtonText}
-            </a>
+              {buttons.map((btn, idx) => {
+                if (!btn || typeof btn !== 'object' || !('label' in btn) || !('link' in btn)) {
+                  return null
+                }
+                const buttonStyle = 'style' in btn ? btn.style : 'primary'
+                return (
+                  <Link
+                    key={idx}
+                    href={btn.link}
+                    className={`inline-block px-6 py-3 rounded-lg text-sm font-bold transition-all duration-200 ${
+                      buttonStyles[buttonStyle as keyof typeof buttonStyles]
+                    }`}
+                  >
+                    {btn.label}
+                  </Link>
+                )
+              })}
+            </div>
           )}
         </div>
       </div>
     </section>
   )
 }
+
+export default CTABlockComponent

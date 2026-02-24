@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LogoBar Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOGOBAR — Component Styles
+   ═══════════════════════════════════════════════════════════ */
+.logobar-title {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--grey-mid);
+  margin-bottom: 24px;
+}
+
+.logobar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.logobar-item {
+  width: 120px;
+  min-width: 120px;
+  height: 60px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: grayscale(100%);
+  opacity: 0.5;
+  transition: all 0.2s var(--ease);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.logobar-item:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.logobar-item img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+/* Auto-scroll animation */
+@keyframes scroll-logos {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.logobar-container.auto-scroll {
+  animation: scroll-logos 20s linear infinite;
+  justify-content: flex-start;
+}
+
+.logobar-container.auto-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .logobar-container {
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 8px 16px;
+  }
+
+  .logobar-item {
+    width: 100px;
+    min-width: 100px;
+    height: 50px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">LogoBar Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-logobar">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B11</span>
+        <span class="section-label">Logo Bar Block</span>
+      </div>
+      <span class="tag" style="background:var(--grey-mid);color:white">Neutral</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Client/partner logo carousel. Grayscale hover effect, optional auto-scroll, mobile-responsive horizontal scrolling. Perfect for trust indicators and partner showcases.
+    </p>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Default (Static)
+      </div>
+      <div class="box-content" style="padding:32px;background:var(--grey-light)">
+        <div class="logobar-title">Vertrouwd door 500+ bedrijven</div>
+        <div class="logobar-container">
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy)">LOGO 1</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy)">LOGO 2</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy)">LOGO 3</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy)">LOGO 4</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy)">LOGO 5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// LogoBar Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'logobar'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'autoScroll'</span>, <span class="property">type</span>: <span class="string">'checkbox'</span>, <span class="property">defaultValue</span>: <span class="keyword">false</span> },
+    { <span class="property">name</span>: <span class="string">'logos'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">fields</span>: [
+      { <span class="property">name</span>: <span class="string">'image'</span>, <span class="property">type</span>: <span class="string">'upload'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+      { <span class="property">name</span>: <span class="string">'name'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+      { <span class="property">name</span>: <span class="string">'link'</span>, <span class="property">type</span>: <span class="string">'text'</span> }
+    ]}
+  ]
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Without Title
+      </div>
+      <div class="box-content" style="padding:32px;background:white">
+        <div class="logobar-container">
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy);font-size:14px">BRAND A</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy);font-size:14px">BRAND B</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy);font-size:14px">BRAND C</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy);font-size:14px">BRAND D</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy);font-size:14px">BRAND E</div>
+          </div>
+          <div class="logobar-item">
+            <div style="font-weight:800;color:var(--navy);font-size:14px">BRAND F</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Dark Background Variant
+      </div>
+      <div class="box-content" style="padding:48px;background:linear-gradient(135deg, var(--navy), var(--navy-light))">
+        <div class="logobar-title" style="color:rgba(255,255,255,0.4)">Onze partners</div>
+        <div class="logobar-container">
+          <div class="logobar-item" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1)">
+            <div style="font-weight:800;color:white;font-size:13px">PARTNER 1</div>
+          </div>
+          <div class="logobar-item" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1)">
+            <div style="font-weight:800;color:white;font-size:13px">PARTNER 2</div>
+          </div>
+          <div class="logobar-item" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1)">
+            <div style="font-weight:800;color:white;font-size:13px">PARTNER 3</div>
+          </div>
+          <div class="logobar-item" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1)">
+            <div style="font-weight:800;color:white;font-size:13px">PARTNER 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/LogoBar/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/LogoBar/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">LogoBar</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'logobar'</span>,
+  labels: {
+    singular: <span class="string">'Logo Bar'</span>,
+    plural: <span class="string">'Logo Bars'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Title'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional overline text above logos (e.g., "Vertrouwd door 500+ bedrijven")'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'logos'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Logos'</span>,
+      <span class="property">minRows</span>: 3,
+      <span class="property">maxRows</span>: 12,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'image'</span>,
+          <span class="property">type</span>: <span class="string">'upload'</span>,
+          <span class="property">relationTo</span>: <span class="string">'media'</span>,
+          <span class="property">label</span>: <span class="string">'Logo Image'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Upload logo image (recommended: 240x120px, PNG/SVG with transparent background)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'name'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Company Name'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Used for alt text accessibility'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'link'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Link URL'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Optional link to company website (leave empty if no link needed)'</span>,
+          },
+          <span class="property">validate</span>: (val) => {
+            <span class="keyword">if</span> (!val) <span class="keyword">return true</span>
+            <span class="keyword">try</span> {
+              <span class="keyword">new</span> <span class="function">URL</span>(val)
+              <span class="keyword">return true</span>
+            } <span class="keyword">catch</span> {
+              <span class="keyword">return</span> <span class="string">'Must be a valid URL (e.g., https://example.com)'</span>
+            }
+          },
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Add 3-12 client/partner logos. Logos will auto-scroll on mobile if more than 5.'</span>,
+        <span class="property">initCollapsed</span>: <span class="keyword">true</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'autoScroll'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Enable Auto-Scroll'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">false</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Enable automatic horizontal scrolling animation (pauses on hover). Best for 8+ logos.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'variant'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Background Variant'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'light'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'Light (Grey background)'</span>,
+          <span class="property">value</span>: <span class="string">'light'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'White (Clean background)'</span>,
+          <span class="property">value</span>: <span class="string">'white'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Dark (Navy gradient)'</span>,
+          <span class="property">value</span>: <span class="string">'dark'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Choose background style to match surrounding sections'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'@/payload-types'</span>
+
+<span class="keyword">export interface</span> <span class="function">Logo</span> {
+  <span class="property">image</span>: <span class="keyword">string</span> | <span class="function">Media</span>
+  <span class="property">name</span>: <span class="keyword">string</span>
+  <span class="property">link</span>?: <span class="keyword">string</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">LogoBarBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'logobar'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">logos</span>: <span class="function">Logo</span>[]
+  <span class="property">autoScroll</span>?: <span class="keyword">boolean</span>
+  <span class="property">variant</span>: <span class="string">'light'</span> | <span class="string">'white'</span> | <span class="string">'dark'</span>
+}
+
+<span class="comment">// Type guard to check if a block is a LogoBarBlock</span>
+<span class="keyword">export function</span> <span class="function">isLogoBarBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">LogoBarBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'logobar'</span>
+}
+
+<span class="comment">// Helper to extract image URL from Media object or string</span>
+<span class="keyword">export function</span> <span class="function">getLogoImageUrl</span>(image: <span class="keyword">string</span> | <span class="function">Media</span>): <span class="keyword">string</span> {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> image === <span class="string">'string'</span>) <span class="keyword">return</span> image
+  <span class="keyword">return</span> image?.url || <span class="string">''</span>
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/LogoBar/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/LogoBar/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> Image <span class="keyword">from</span> <span class="string">'next/image'</span>
+<span class="keyword">import</span> { <span class="function">LogoBarBlock</span>, <span class="function">getLogoImageUrl</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+
+<span class="keyword">interface</span> <span class="function">LogoBarProps</span> {
+  <span class="property">block</span>: <span class="function">LogoBarBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">LogoBar</span>: React.<span class="function">FC</span>&lt;<span class="function">LogoBarProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { title, logos, autoScroll, variant = <span class="string">'light'</span> } = block
+
+  <span class="comment">// Background variant classes</span>
+  <span class="keyword">const</span> backgroundClass = {
+    light: <span class="string">'bg-grey-light'</span>,
+    white: <span class="string">'bg-white'</span>,
+    dark: <span class="string">'bg-gradient-to-br from-navy to-navy-light'</span>,
+  }[variant]
+
+  <span class="keyword">const</span> titleColorClass = variant === <span class="string">'dark'</span>
+    ? <span class="string">'text-white/40'</span>
+    : <span class="string">'text-grey-mid'</span>
+
+  <span class="keyword">const</span> logoCardClass = variant === <span class="string">'dark'</span>
+    ? <span class="string">'bg-white/8 border border-white/10'</span>
+    : <span class="string">'bg-white border border-grey'</span>
+
+  <span class="comment">// Duplicate logos for infinite scroll effect if autoScroll enabled</span>
+  <span class="keyword">const</span> displayLogos = autoScroll ? [...logos, ...logos] : logos
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className={<span class="function">cn</span>(<span class="string">'py-12 md:py-16'</span>, backgroundClass)}&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        {title && (
+          &lt;<span class="keyword">p</span> className={<span class="function">cn</span>(
+            <span class="string">'text-center text-xs font-bold uppercase tracking-wider mb-6'</span>,
+            titleColorClass
+          )}&gt;
+            {title}
+          &lt;/<span class="keyword">p</span>&gt;
+        )}
+
+        &lt;<span class="keyword">div</span>
+          className={<span class="function">cn</span>(
+            <span class="string">'flex items-center gap-8 max-w-5xl mx-auto overflow-x-auto py-2'</span>,
+            autoScroll ? <span class="string">'justify-start animate-scroll-horizontal'</span> : <span class="string">'justify-between'</span>
+          )}
+          style={autoScroll ? {
+            animation: <span class="string">'scroll-logos 20s linear infinite'</span>,
+          } : {}}
+        &gt;
+          {displayLogos.map((logo, index) => {
+            <span class="keyword">const</span> imageUrl = <span class="function">getLogoImageUrl</span>(logo.image)
+            <span class="keyword">const</span> LogoWrapper = logo.link ? <span class="string">'a'</span> : <span class="string">'div'</span>
+
+            <span class="keyword">return</span> (
+              &lt;LogoWrapper
+                key={`${logo.name}-${index}`}
+                href={logo.link || <span class="keyword">undefined</span>}
+                target={logo.link ? <span class="string">'_blank'</span> : <span class="keyword">undefined</span>}
+                rel={logo.link ? <span class="string">'noopener noreferrer'</span> : <span class="keyword">undefined</span>}
+                className={<span class="function">cn</span>(
+                  <span class="string">'flex items-center justify-center rounded-lg transition-all duration-200'</span>,
+                  <span class="string">'grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-105'</span>,
+                  <span class="string">'w-[120px] min-w-[120px] h-[60px] flex-shrink-0'</span>,
+                  logoCardClass,
+                  logo.link && <span class="string">'cursor-pointer'</span>
+                )}
+              &gt;
+                {imageUrl ? (
+                  &lt;Image
+                    src={imageUrl}
+                    alt={logo.name}
+                    width={120}
+                    height={60}
+                    className=<span class="string">"max-w-[90%] max-h-[90%] object-contain"</span>
+                  /&gt;
+                ) : (
+                  &lt;<span class="keyword">span</span> className=<span class="string">"font-bold text-sm text-navy"</span>&gt;
+                    {logo.name}
+                  &lt;/<span class="keyword">span</span>&gt;
+                )}
+              &lt;/LogoWrapper&gt;
+            )
+          })}
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>CSS Animation for Auto-Scroll:</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add to your global CSS or Tailwind config:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// tailwind.config.ts</span>
+<span class="keyword">export default</span> {
+  theme: {
+    extend: {
+      keyframes: {
+        <span class="string">'scroll-logos'</span>: {
+          <span class="string">'0%'</span>: { transform: <span class="string">'translateX(0)'</span> },
+          <span class="string">'100%'</span>: { transform: <span class="string">'translateX(-50%)'</span> },
+        },
+      },
+      animation: {
+        <span class="string">'scroll-horizontal'</span>: <span class="string">'scroll-logos 20s linear infinite'</span>,
+      },
+    },
+  },
+}
+
+<span class="comment">// Or in globals.css:</span>
+@keyframes scroll-logos {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-horizontal {
+  animation: scroll-logos 20s linear infinite;
+}
+
+.animate-scroll-horizontal:hover {
+  animation-play-state: paused;
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a LogoBar block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--grey-mid);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">🏢</span>
+            Logo Bar Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Title</div>
+              <input type="text" placeholder="Vertrouwd door 500+ bedrijven" disabled style="width:100%;padding:8px;border:1px solid var(--grey);border-radius:4px;font-size:12px;">
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">
+                Optional overline text above logos
+              </div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);display:flex;align-items:center;justify-content:space-between;">
+                <span>Logos (3-12)</span>
+                <button disabled style="padding:4px 10px;background:var(--teal);color:white;border:none;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;">+ Add Logo</button>
+              </div>
+
+              <div style="margin-top:8px;padding:8px;background:var(--grey-light);border-radius:4px;border-left:3px solid var(--teal);">
+                <div style="font-weight:700;font-size:10px;color:var(--navy);margin-bottom:6px;">Logo 1</div>
+                <div style="font-size:10px;color:var(--grey-mid);margin-bottom:4px;">• Image: Upload logo (240x120px recommended)</div>
+                <div style="font-size:10px;color:var(--grey-mid);margin-bottom:4px;">• Name: "Company Name" (required for alt text)</div>
+                <div style="font-size:10px;color:var(--grey-mid);">• Link: https://example.com (optional)</div>
+              </div>
+
+              <div style="margin-top:6px;padding:8px;background:var(--grey-light);border-radius:4px;border-left:3px solid var(--grey);">
+                <div style="font-weight:700;font-size:10px;color:var(--grey-mid);">Logo 2, Logo 3...</div>
+              </div>
+
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:6px;">
+                Add 3-12 logos. Auto-scrolls on mobile if more than 5.
+              </div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);display:flex;align-items:center;gap:8px;">
+                <input type="checkbox" disabled>
+                <span>Enable Auto-Scroll</span>
+              </div>
+              <div style="font-size:10px;color:var(--grey-mid);">
+                Enable automatic horizontal scrolling (pauses on hover). Best for 8+ logos.
+              </div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Background Variant</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                <option>Light (Grey background)</option>
+                <option>White (Clean background)</option>
+                <option>Dark (Navy gradient)</option>
+              </select>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">
+                Choose background style to match surrounding sections
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Logo Bar" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. Logo upload works:</strong> Click "Add Logo" → Upload image → verify image appears in preview
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Validation works:</strong> Try adding <4 logos (should show error), try invalid URL (should show error)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Grayscale hover effect:</strong> On frontend, hover over logos → verify they colorize and scale
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Auto-scroll animation:</strong> Enable auto-scroll checkbox → verify logos scroll horizontally, pause on hover
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Background variants:</strong> Test all 3 variants (light/white/dark) → verify correct backgrounds and logo card styles
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Mobile responsive:</strong> Resize browser to mobile width → verify horizontal scroll works, logos maintain size
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>8. Links work:</strong> Add link to logo → click on frontend → verify opens in new tab with proper rel attributes
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>9. TypeScript compilation:</strong> Run <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">npm run build</code> → no TypeScript errors
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the LogoBar block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for LogoBar block</span>
+npx payload migrate:create add_logobar_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for logobar fields and logos array relationship</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.title (type: varchar, nullable)</span>
+<span class="comment"># - pages_blocks.auto_scroll (type: boolean, default: false)</span>
+<span class="comment"># - pages_blocks.variant (type: varchar, default: 'light')</span>
+<span class="comment"># - pages_blocks_logos table (for array relationship):</span>
+<span class="comment">#   - id, _order, _parent_id, image_id, name, link</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('title', 'auto_scroll', 'variant');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#  column_name  | data_type</span>
+<span class="comment"># --------------+-----------</span>
+<span class="comment">#  title        | varchar</span>
+<span class="comment">#  auto_scroll  | boolean</span>
+<span class="comment">#  variant      | varchar</span>
+
+<span class="comment"># Verify logos relationship table exists</span>
+psql -d your_database -c "\d pages_blocks_logos"
+
+<span class="comment"># Should show columns: id, _order, _parent_id, image_id, name, link</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Logo images not displaying</td>
+              <td>Check <code>getLogoImageUrl()</code> helper returns correct URL. Verify Media collection configured correctly. Check image uploaded to <code>/media</code> folder.</td>
+            </tr>
+            <tr>
+              <td>Grayscale filter not working</td>
+              <td>Ensure Tailwind CSS has <code>filter</code> and <code>grayscale</code> utilities enabled. Check browser support for CSS filters (IE11 not supported).</td>
+            </tr>
+            <tr>
+              <td>Auto-scroll animation not smooth</td>
+              <td>Verify keyframes in <code>tailwind.config.ts</code>. Check logos are duplicated (doubled) when autoScroll is true. Ensure <code>animation-play-state: paused</code> on hover.</td>
+            </tr>
+            <tr>
+              <td>Mobile horizontal scroll not working</td>
+              <td>Add <code>overflow-x: auto</code> to container. Ensure logos have <code>flex-shrink: 0</code> and fixed width. Test on real mobile device, not just browser resize.</td>
+            </tr>
+            <tr>
+              <td>Links not opening in new tab</td>
+              <td>Check <code>target="_blank"</code> and <code>rel="noopener noreferrer"</code> are set on <code>&lt;a&gt;</code> tag. Verify link field has valid URL.</td>
+            </tr>
+            <tr>
+              <td>Database error: logos array not saving</td>
+              <td>Run migration: <code>npx payload migrate</code>. Check <code>pages_blocks_logos</code> table exists with correct foreign key relationship to <code>pages_blocks</code>.</td>
+            </tr>
+            <tr>
+              <td>Variant styles not applying</td>
+              <td>Check Tailwind classes exist: <code>bg-grey-light</code>, <code>bg-navy</code>, <code>from-navy</code>, <code>to-navy-light</code>. Verify <code>backgroundClass</code> mapping in Component.tsx.</td>
+            </tr>
+            <tr>
+              <td>TypeScript error: Media type not found</td>
+              <td>Import <code>Media</code> from <code>@/payload-types</code> (auto-generated). Run <code>npx payload generate:types</code> to regenerate types after schema changes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the LogoBar block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">LogoBar</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/LogoBar/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">LogoBar</span>,  <span class="comment">// ← Add LogoBar block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// Content,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">LogoBar</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/LogoBar/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'logobar'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">LogoBar</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Best Practices & Usage Tips
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;color:var(--grey-dark);line-height:1.7;">
+          <div style="margin-bottom:16px;">
+            <strong style="color:var(--navy);">Logo Image Guidelines:</strong>
+            <ul style="margin-left:20px;margin-top:6px;">
+              <li>Recommended size: 240x120px (2:1 aspect ratio)</li>
+              <li>Format: PNG or SVG with transparent background</li>
+              <li>File size: Keep under 50KB for fast loading</li>
+              <li>Color: Upload color versions — grayscale filter applied automatically</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <strong style="color:var(--navy);">When to Use Auto-Scroll:</strong>
+            <ul style="margin-left:20px;margin-top:6px;">
+              <li>8+ logos: Creates continuous infinite scroll effect</li>
+              <li>Space constraints: Fits many logos in limited horizontal space</li>
+              <li>Trade shows/events: Eye-catching movement draws attention</li>
+              <li>Don't use: For 3-6 logos (static display is cleaner)</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <strong style="color:var(--navy);">Variant Selection Guide:</strong>
+            <ul style="margin-left:20px;margin-top:6px;">
+              <li><strong>Light:</strong> Default choice, works with most page layouts</li>
+              <li><strong>White:</strong> Clean minimal look, good after content blocks</li>
+              <li><strong>Dark:</strong> High contrast, use before/after hero sections</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <strong style="color:var(--navy);">Accessibility Considerations:</strong>
+            <ul style="margin-left:20px;margin-top:6px;">
+              <li>Always fill in "Company Name" field for proper alt text</li>
+              <li>Auto-scroll pauses on hover for keyboard navigation</li>
+              <li>Logo links open in new tab with <code>rel="noopener noreferrer"</code></li>
+              <li>Consider adding <code>aria-label</code> to section for screen readers</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--blue-light);border-left:3px solid var(--blue);padding:12px 16px;border-radius:6px;">
+            <strong style="color:#1E40AF;font-size:12px;">💡 Pro Tip:</strong>
+            <p style="color:#1E40AF;margin:6px 0 0;font-size:12px;line-height:1.6;">
+              For maximum trust-building impact, use 6-8 recognizable logos arranged in order of brand recognition (strongest first/last). Add title like "Trusted by industry leaders" for extra credibility.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

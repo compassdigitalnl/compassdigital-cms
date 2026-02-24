@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B21: Quick Order Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--amber-light);
+      color: #92400E;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       QUICK ORDER VISUAL
+       ═══════════════════════════════════════════════════════════ */
+    .quick-order-preview {
+      background: var(--grey-light);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .qo-header {
+      margin-bottom: 24px;
+    }
+
+    .qo-subtitle {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .qo-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .qo-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .qo-upload {
+      background: white;
+      border: 2px dashed var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .qo-upload:hover {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .qo-upload-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .qo-upload-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .qo-upload-text {
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .qo-upload-link {
+      color: var(--teal);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .qo-table {
+      width: 100%;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .qo-table thead {
+      background: var(--grey-light);
+    }
+
+    .qo-table th {
+      padding: 12px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .qo-table td {
+      padding: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .qo-table tbody tr:hover {
+      background: var(--grey-light);
+    }
+
+    .qo-input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    .qo-input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .qo-input.sku {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    .qo-qty-stepper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .qo-qty-btn {
+      width: 28px;
+      height: 28px;
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .qo-qty-btn:hover {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: white;
+    }
+
+    .qo-qty-input {
+      width: 50px;
+      padding: 6px;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .qo-remove-btn {
+      width: 28px;
+      height: 28px;
+      background: var(--coral-light);
+      border: none;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 16px;
+      color: var(--coral);
+      font-weight: 700;
+    }
+
+    .qo-remove-btn:hover {
+      background: var(--coral);
+      color: white;
+    }
+
+    .qo-add-row {
+      width: 100%;
+      padding: 12px;
+      background: var(--grey-light);
+      border: 1px dashed var(--grey);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .qo-add-row:hover {
+      background: var(--teal-glow);
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .qo-summary {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .qo-summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .qo-summary-row.total {
+      padding-top: 12px;
+      border-top: 2px solid var(--grey);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .qo-summary-value {
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .qo-submit {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .qo-submit:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .qo-info {
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .qo-info-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qo-info-text {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCK
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 24px;
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      white-space: pre;
+      margin-bottom: 24px;
+    }
+
+    .code-block .comment { color: #6A9955; }
+    .code-block .property { color: #9CDCFE; }
+    .code-block .string { color: #CE9178; }
+    .code-block .number { color: #B5CEA8; }
+    .code-block .function { color: #DCDCAA; }
+    .code-block .keyword { color: #C586C0; }
+
+    /* ═══════════════════════════════════════════════════════════
+       TABLE
+       ═══════════════════════════════════════════════════════════ */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table thead {
+      background: var(--grey-light);
+    }
+
+    .table th {
+      text-align: left;
+      padding: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--grey);
+      vertical-align: top;
+    }
+
+    .table code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--teal);
+    }
+
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Quick Order Block<span>Ecommerce Branch — B21</span></div>
+    <span class="header-badge">Status Block</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" id="visual-reference">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Visual Reference</span>
+        <span class="section-label">Direct extraction from compass-design-system.html (section #block-quickorder)</span>
+      </div>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+      Bulk order table. Gebruiker kan SKU/naam invoeren + quantity, direct toevoegen aan cart. Vooral voor B2B klanten die herhaalde bestellingen plaatsen met bekende artikelnummers.
+    </p>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Quick Order Table
+      </div>
+      <div class="box-content">
+        <div class="quick-order-preview">
+
+          <!-- Header -->
+          <div class="qo-header">
+            <div class="qo-subtitle">B2B Snelbestellen</div>
+            <div class="qo-title">Bulk Order</div>
+            <div class="qo-description">
+              Voer meerdere artikelnummers en hoeveelheden in om snel een grote bestelling te plaatsen. Ideaal voor repeat orders.
+            </div>
+          </div>
+
+          <!-- CSV Upload -->
+          <div class="qo-upload">
+            <div class="qo-upload-icon">📋</div>
+            <div class="qo-upload-title">Upload CSV bestand</div>
+            <div class="qo-upload-text">
+              Sleep hier je CSV bestand of <span class="qo-upload-link">klik om te uploaden</span><br>
+              Format: SKU, Hoeveelheid (bijv: "MED-001, 50")
+            </div>
+          </div>
+
+          <!-- Order Table -->
+          <table class="qo-table">
+            <thead>
+              <tr>
+                <th style="width:40%">SKU / Artikelnummer</th>
+                <th style="width:35%">Productnaam</th>
+                <th style="width:15%">Aantal</th>
+                <th style="width:10%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1 (filled) -->
+              <tr>
+                <td><input type="text" class="qo-input sku" value="MED-10245" placeholder="Bijv: MED-10245"></td>
+                <td><input type="text" class="qo-input" value="Nitrile handschoenen M" placeholder="Auto-vult na SKU"></td>
+                <td>
+                  <div class="qo-qty-stepper">
+                    <button class="qo-qty-btn">−</button>
+                    <input type="text" class="qo-qty-input" value="50">
+                    <button class="qo-qty-btn">+</button>
+                  </div>
+                </td>
+                <td><button class="qo-remove-btn">×</button></td>
+              </tr>
+
+              <!-- Row 2 (filled) -->
+              <tr>
+                <td><input type="text" class="qo-input sku" value="MED-20133" placeholder="Bijv: MED-10245"></td>
+                <td><input type="text" class="qo-input" value="Alcohol gel 500ml" placeholder="Auto-vult na SKU"></td>
+                <td>
+                  <div class="qo-qty-stepper">
+                    <button class="qo-qty-btn">−</button>
+                    <input type="text" class="qo-qty-input" value="25">
+                    <button class="qo-qty-btn">+</button>
+                  </div>
+                </td>
+                <td><button class="qo-remove-btn">×</button></td>
+              </tr>
+
+              <!-- Row 3 (filled) -->
+              <tr>
+                <td><input type="text" class="qo-input sku" value="MED-30891" placeholder="Bijv: MED-10245"></td>
+                <td><input type="text" class="qo-input" value="Mondkapjes FFP2" placeholder="Auto-vult na SKU"></td>
+                <td>
+                  <div class="qo-qty-stepper">
+                    <button class="qo-qty-btn">−</button>
+                    <input type="text" class="qo-qty-input" value="10">
+                    <button class="qo-qty-btn">+</button>
+                  </div>
+                </td>
+                <td><button class="qo-remove-btn">×</button></td>
+              </tr>
+
+              <!-- Row 4 (empty) -->
+              <tr>
+                <td><input type="text" class="qo-input sku" placeholder="Bijv: MED-10245"></td>
+                <td><input type="text" class="qo-input" placeholder="Auto-vult na SKU"></td>
+                <td>
+                  <div class="qo-qty-stepper">
+                    <button class="qo-qty-btn">−</button>
+                    <input type="text" class="qo-qty-input" value="1">
+                    <button class="qo-qty-btn">+</button>
+                  </div>
+                </td>
+                <td><button class="qo-remove-btn">×</button></td>
+              </tr>
+
+              <!-- Row 5 (empty) -->
+              <tr>
+                <td><input type="text" class="qo-input sku" placeholder="Bijv: MED-10245"></td>
+                <td><input type="text" class="qo-input" placeholder="Auto-vult na SKU"></td>
+                <td>
+                  <div class="qo-qty-stepper">
+                    <button class="qo-qty-btn">−</button>
+                    <input type="text" class="qo-qty-input" value="1">
+                    <button class="qo-qty-btn">+</button>
+                  </div>
+                </td>
+                <td><button class="qo-remove-btn">×</button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Add Row Button -->
+          <button class="qo-add-row">
+            <span>+</span>
+            <span>Rij toevoegen</span>
+          </button>
+
+          <!-- Summary -->
+          <div class="qo-summary">
+            <div class="qo-summary-row">
+              <span>Totaal aantal producten:</span>
+              <span class="qo-summary-value">3</span>
+            </div>
+            <div class="qo-summary-row">
+              <span>Totaal aantal stuks:</span>
+              <span class="qo-summary-value">85</span>
+            </div>
+            <div class="qo-summary-row total">
+              <span>Geschatte waarde:</span>
+              <span class="qo-summary-value">€ 1.247,50</span>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="qo-submit">
+            <span>🛒</span>
+            <span>Toevoegen aan winkelwagen (3 producten)</span>
+          </button>
+
+          <!-- Info Box -->
+          <div class="qo-info">
+            <div class="qo-info-title">
+              <span>💡</span>
+              <span>Tip: SKU Autocomplete</span>
+            </div>
+            <div class="qo-info-text">
+              Begin met typen in het SKU veld en zie directe suggesties. Je kunt ook de productnaam invoeren, ons systeem zoekt automatisch het juiste artikel.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Developer Implementation Guide</span>
+        <span class="section-label">Complete 8-step Payload CMS integration</span>
+      </div>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/ecommerce/cart/QuickOrder/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/ecommerce/cart/QuickOrder/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="property">QuickOrder</span>: <span class="function">Block</span> = {
+  <span class="property">slug</span>: <span class="string">'quickorder'</span>,
+  <span class="property">labels</span>: {
+    <span class="property">singular</span>: <span class="string">'Quick Order'</span>,
+    <span class="property">plural</span>: <span class="string">'Quick Orders'</span>,
+  },
+  <span class="property">fields</span>: [
+    <span class="comment">// Section Content</span>
+    {
+      <span class="property">name</span>: <span class="string">'subtitle'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Subtitle/Overline'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'B2B Snelbestellen'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Kleine overline tekst boven de titel'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Section Title'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'Bulk Order'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Hoofdtitel van de quick order sectie'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'description'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Description'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'Voer meerdere artikelnummers en hoeveelheden in om snel een grote bestelling te plaatsen.'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Uitleg onder de titel'</span>,
+      },
+    },
+
+    <span class="comment">// Table Configuration</span>
+    {
+      <span class="property">type</span>: <span class="string">'row'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'defaultRows'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Default Aantal Rijen'</span>,
+          <span class="property">defaultValue</span>: <span class="number">5</span>,
+          <span class="property">min</span>: <span class="number">1</span>,
+          <span class="property">max</span>: <span class="number">20</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'33%'</span>,
+            <span class="property">description</span>: <span class="string">'Aantal lege rijen bij laden'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'maxRows'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Maximum Rijen'</span>,
+          <span class="property">defaultValue</span>: <span class="number">50</span>,
+          <span class="property">min</span>: <span class="number">5</span>,
+          <span class="property">max</span>: <span class="number">100</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'33%'</span>,
+            <span class="property">description</span>: <span class="string">'Max aantal rijen gebruiker kan toevoegen'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'minAutocompleteChars'</span>,
+          <span class="property">type</span>: <span class="string">'number'</span>,
+          <span class="property">label</span>: <span class="string">'Min Chars voor Autocomplete'</span>,
+          <span class="property">defaultValue</span>: <span class="number">2</span>,
+          <span class="property">min</span>: <span class="number">1</span>,
+          <span class="property">max</span>: <span class="number">5</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'33%'</span>,
+            <span class="property">description</span>: <span class="string">'Minimum aantal karakters voor autocomplete'</span>,
+          },
+        },
+      ],
+    },
+
+    <span class="comment">// CSV Upload Settings</span>
+    {
+      <span class="property">name</span>: <span class="string">'allowCsvUpload'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Enable CSV Upload'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Toon CSV upload zone voor bulk import'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'uploadHelpText'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'CSV Upload Help Text'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'Format: SKU, Hoeveelheid (bijv: "MED-001, 50")'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">condition</span>: (data) => data.allowCsvUpload === <span class="keyword">true</span>,
+        <span class="property">description</span>: <span class="string">'Help text onder CSV upload zone'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'maxCsvFileSize'</span>,
+      <span class="property">type</span>: <span class="string">'number'</span>,
+      <span class="property">label</span>: <span class="string">'Max CSV File Size (MB)'</span>,
+      <span class="property">defaultValue</span>: <span class="number">5</span>,
+      <span class="property">min</span>: <span class="number">1</span>,
+      <span class="property">max</span>: <span class="number">10</span>,
+      <span class="property">admin</span>: {
+        <span class="property">condition</span>: (data) => data.allowCsvUpload === <span class="keyword">true</span>,
+      },
+    },
+
+    <span class="comment">// Info Box (optional)</span>
+    {
+      <span class="property">name</span>: <span class="string">'showInfoBox'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Show Info/Tips Box'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">type</span>: <span class="string">'row'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">condition</span>: (data) => data.showInfoBox === <span class="keyword">true</span>,
+      },
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'infoTitle'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Info Box Title'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'Tip: SKU Autocomplete'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'50%'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'infoIcon'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Info Icon (emoji)'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'💡'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'50%'</span>,
+          },
+        },
+      ],
+    },
+    {
+      <span class="property">name</span>: <span class="string">'infoText'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Info Box Text'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'Begin met typen in het SKU veld en zie directe suggesties.'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">condition</span>: (data) => data.showInfoBox === <span class="keyword">true</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create type-safe interfaces for the QuickOrder block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/ecommerce/cart/QuickOrder/types.ts</span>
+
+<span class="keyword">export interface</span> <span class="function">QuickOrderBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'quickorder'</span>
+  <span class="property">subtitle</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">string</span>
+  <span class="property">defaultRows</span>: <span class="keyword">number</span>
+  <span class="property">maxRows</span>: <span class="keyword">number</span>
+  <span class="property">minAutocompleteChars</span>: <span class="keyword">number</span>
+  <span class="property">allowCsvUpload</span>: <span class="keyword">boolean</span>
+  <span class="property">uploadHelpText</span>?: <span class="keyword">string</span>
+  <span class="property">maxCsvFileSize</span>?: <span class="keyword">number</span>
+  <span class="property">showInfoBox</span>: <span class="keyword">boolean</span>
+  <span class="property">infoTitle</span>?: <span class="keyword">string</span>
+  <span class="property">infoIcon</span>?: <span class="keyword">string</span>
+  <span class="property">infoText</span>?: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">QuickOrderRow</span> {
+  <span class="property">sku</span>: <span class="keyword">string</span>
+  <span class="property">productName</span>?: <span class="keyword">string</span>
+  <span class="property">quantity</span>: <span class="keyword">number</span>
+  <span class="property">price</span>?: <span class="keyword">number</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">QuickOrderProps</span> {
+  <span class="property">block</span>: <span class="function">QuickOrderBlock</span>
+}
+    </div>
+
+    <!-- STEP 3: USAGE IN COMPONENTS -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: Usage in Next.js Components
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          React component implementation met SKU autocomplete en CSV parsing:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/ecommerce/cart/QuickOrder/Component.tsx</span>
+<span class="string">'use client'</span>
+
+<span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">QuickOrderProps</span>, <span class="function">QuickOrderRow</span> } <span class="keyword">from</span> <span class="string">'./types'</span>
+
+<span class="keyword">export function</span> <span class="function">QuickOrder</span>({ block }: <span class="function">QuickOrderProps</span>) {
+  <span class="keyword">const</span> [rows, <span class="function">setRows</span>] = <span class="function">useState</span>&lt;<span class="function">QuickOrderRow</span>[]&gt;(
+    <span class="function">Array</span>(block.defaultRows).<span class="function">fill</span>({ <span class="property">sku</span>: <span class="string">''</span>, <span class="property">quantity</span>: <span class="number">1</span> })
+  )
+
+  <span class="comment">// SKU Autocomplete handler</span>
+  <span class="keyword">const</span> <span class="function">handleSkuChange</span> = <span class="keyword">async</span> (index: <span class="keyword">number</span>, sku: <span class="keyword">string</span>) => {
+    <span class="keyword">if</span> (sku.length >= block.minAutocompleteChars) {
+      <span class="comment">// Fetch product suggestions from API</span>
+      <span class="keyword">const</span> suggestions = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`/api/products/search?sku=</span>${sku}<span class="string">`</span>)
+      <span class="comment">// Show autocomplete dropdown</span>
+    }
+  }
+
+  <span class="comment">// CSV Upload handler</span>
+  <span class="keyword">const</span> <span class="function">handleCsvUpload</span> = (file: <span class="function">File</span>) => {
+    <span class="keyword">const</span> reader = <span class="keyword">new</span> <span class="function">FileReader</span>()
+    reader.<span class="function">onload</span> = (e) => {
+      <span class="keyword">const</span> text = e.target.result
+      <span class="keyword">const</span> lines = text.<span class="function">split</span>(<span class="string">'\n'</span>)
+      <span class="keyword">const</span> parsed = lines.<span class="function">map</span>(line => {
+        <span class="keyword">const</span> [sku, qty] = line.<span class="function">split</span>(<span class="string">','</span>)
+        <span class="keyword">return</span> { <span class="property">sku</span>: sku.<span class="function">trim</span>(), <span class="property">quantity</span>: <span class="function">parseInt</span>(qty) || <span class="number">1</span> }
+      })
+      <span class="function">setRows</span>(parsed)
+    }
+    reader.<span class="function">readAsText</span>(file)
+  }
+
+  <span class="comment">// Add to cart handler</span>
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = <span class="keyword">async</span> () => {
+    <span class="keyword">const</span> filledRows = rows.<span class="function">filter</span>(r => r.sku)
+    <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/cart/bulk-add'</span>, {
+      <span class="property">method</span>: <span class="string">'POST'</span>,
+      <span class="property">body</span>: JSON.<span class="function">stringify</span>({ <span class="property">items</span>: filledRows }),
+    })
+  }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"quick-order-block"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        {block.subtitle && (
+          &lt;<span class="keyword">p</span> className=<span class="string">"subtitle"</span>&gt;{block.subtitle}&lt;/<span class="keyword">p</span>&gt;
+        )}
+        &lt;<span class="keyword">h2</span> className=<span class="string">"title"</span>&gt;{block.title}&lt;/<span class="keyword">h2</span>&gt;
+        {block.description && (
+          &lt;<span class="keyword">p</span> className=<span class="string">"description"</span>&gt;{block.description}&lt;/<span class="keyword">p</span>&gt;
+        )}
+
+        {block.allowCsvUpload && (
+          &lt;<span class="keyword">div</span> className=<span class="string">"csv-upload"</span>&gt;
+            &lt;<span class="keyword">input</span>
+              type=<span class="string">"file"</span>
+              accept=<span class="string">".csv"</span>
+              onChange={(e) => <span class="function">handleCsvUpload</span>(e.target.files[<span class="number">0</span>])}
+            /&gt;
+            &lt;<span class="keyword">p</span>&gt;{block.uploadHelpText}&lt;/<span class="keyword">p</span>&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+
+        &lt;<span class="keyword">table</span> className=<span class="string">"quick-order-table"</span>&gt;
+          {<span class="comment">/* Table rows implementation */</span>}
+        &lt;/<span class="keyword">table</span>&gt;
+
+        &lt;<span class="keyword">button</span> onClick={<span class="function">handleSubmit</span>} className=<span class="string">"submit-btn"</span>&gt;
+          Toevoegen aan winkelwagen
+        &lt;/<span class="keyword">button</span>&gt;
+
+        {block.showInfoBox && (
+          &lt;<span class="keyword">div</span> className=<span class="string">"info-box"</span>&gt;
+            &lt;<span class="keyword">h4</span>&gt;{block.infoIcon} {block.infoTitle}&lt;/<span class="keyword">h4</span>&gt;
+            &lt;<span class="keyword">p</span>&gt;{block.infoText}&lt;/<span class="keyword">p</span>&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add this block to a Page's <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">layout</code> field, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--amber);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">📦</span>
+            Quick Order Block
+          </div>
+          <div style="margin-left:28px;">
+            <div style="font-size:11px;color:var(--grey-dark);margin-bottom:8px;">
+              <div style="margin-bottom:4px;">▸ <strong>Content Fields</strong></div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - subtitle: text → "B2B Snelbestellen"<br>
+                - title: text (required) → "Bulk Order"<br>
+                - description: textarea → instructies
+              </div>
+
+              <div style="margin-top:8px;">▸ <strong>Table Configuration</strong> (row met 3 velden)</div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - Default Aantal Rijen: number (1-20) → default: 5<br>
+                - Maximum Rijen: number (5-100) → default: 50<br>
+                - Min Chars Autocomplete: number (1-5) → default: 2
+              </div>
+
+              <div style="margin-top:8px;">▸ <strong>CSV Upload Settings</strong></div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - ☑ Enable CSV Upload → default: true<br>
+                - Als enabled: uploadHelpText (textarea)<br>
+                - Als enabled: maxCsvFileSize (number 1-10 MB)
+              </div>
+
+              <div style="margin-top:8px;">▸ <strong>Info Box</strong> (conditional)</div>
+              <div style="margin-left:16px;font-family:var(--font-mono);font-size:10px;color:var(--grey-mid);">
+                - ☑ Show Info/Tips Box<br>
+                - Als checked: infoTitle + infoIcon (row)<br>
+                - Als checked: infoText (textarea)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block beschikbaar:</strong> Navigate to Pages → Edit → Add block → "Quick Order" verschijnt in lijst
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. Table rows rendering:</strong> Default 5 lege rijen zichtbaar, "Rij toevoegen" knop werkt
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. SKU autocomplete:</strong> Type 2+ chars in SKU field → autocomplete dropdown verschijnt met suggesties
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. CSV upload:</strong> Upload valid CSV → rows vullen automatisch met SKU + quantity
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Quantity steppers:</strong> + en − buttons werken, manual input accepteert alleen numbers
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Order summary:</strong> Real-time update van totaal aantal producten, stuks, en geschatte waarde
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Add to cart:</strong> Submit button disabled als geen filled rows → na submit producten in cart
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>BELANGRIJK:</strong> Na toevoegen van QuickOrder block aan je Page collection, genereer een database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Genereer migration voor nieuwe block type</span>
+npx payload migrate:create add_quickorder_block
+
+<span class="comment"># Review gegenereerde migration in src/migrations/</span>
+<span class="comment"># Het moet een ALTER TABLE bevatten voor de pages_blocks table</span>
+
+<span class="comment"># Voer migration uit</span>
+npx payload migrate
+
+<span class="comment"># Verificatie in database (PostgreSQL)</span>
+SELECT * FROM pages_blocks WHERE block_type = 'quickorder';
+<span class="comment"># Moet leeg zijn (nog geen instances)</span>
+
+<span class="comment"># Test: Maak een page met QuickOrder block in admin</span>
+<span class="comment"># Sla op → refresh database query</span>
+<span class="comment"># Moet nu 1 rij tonen met je block data</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Block niet zichtbaar in admin</td>
+              <td>Check <code>payload.config.ts</code> → blocks array in Pages collection → moet <code>QuickOrder</code> bevatten</td>
+            </tr>
+            <tr>
+              <td>Autocomplete werkt niet</td>
+              <td>Check API endpoint <code>/api/products/search</code> bestaat → return format: <code>[{ sku, name, price }]</code></td>
+            </tr>
+            <tr>
+              <td>CSV upload faalt</td>
+              <td>Check file size limit → max <code>maxCsvFileSize</code> MB → verify CSV format (SKU,Quantity per line)</td>
+            </tr>
+            <tr>
+              <td>Add to cart niet werkend</td>
+              <td>Check <code>/api/cart/bulk-add</code> endpoint → accepts array of <code>{ sku, quantity }</code> objects</td>
+            </tr>
+            <tr>
+              <td>Conditional fields niet zichtbaar</td>
+              <td>Check <code>admin.condition</code> → enable checkboxes in admin → save → conditional fields verschijnen</td>
+            </tr>
+            <tr>
+              <td>TypeScript errors op row state</td>
+              <td>Regenerate types: <code>npx payload generate:types</code> → import <code>QuickOrderRow</code> type</td>
+            </tr>
+            <tr>
+              <td>Table rows maximum niet werkend</td>
+              <td>Check frontend validation → <code>rows.length >= block.maxRows</code> → disable "Rij toevoegen" button</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Voeg QuickOrder toe aan je Pages collection's <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">blocks</code> field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">QuickOrder</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/ecommerce/cart/QuickOrder/config'</span>
+<span class="keyword">import</span> { <span class="function">ProductGrid</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/ecommerce/product/ProductGrid/config'</span>
+<span class="comment">// ... other block imports</span>
+
+<span class="keyword">export const</span> <span class="property">Pages</span>: <span class="function">CollectionConfig</span> = {
+  <span class="property">slug</span>: <span class="string">'pages'</span>,
+  <span class="property">fields</span>: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'layout'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">ProductGrid</span>,
+        <span class="function">QuickOrder</span>,  <span class="comment">// ← Add here!</span>
+        <span class="comment">// ... other blocks</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

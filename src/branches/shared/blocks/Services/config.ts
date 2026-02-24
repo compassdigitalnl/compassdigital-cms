@@ -1,5 +1,31 @@
 import type { Block } from 'payload'
 
+/**
+ * B07 - Services Block Configuration
+ *
+ * Service grid with icons, colors, descriptions, and optional links.
+ *
+ * FEATURES:
+ * - 6 icon color themes (teal, blue, green, purple, amber, coral)
+ * - Lucide React icons (1000+ icons available)
+ * - Optional section header (subtitle + title + description)
+ * - 2/3/4 column responsive grid
+ * - Optional CTA links per service
+ * - Min 2, max 12 services
+ *
+ * USE CASES:
+ * - Service catalogs with detail page links
+ * - Support options overview
+ * - Feature showcases with more info links
+ * - "What we do" sections
+ *
+ * DIFFERENCE FROM B02 (Features):
+ * - B07 = Service catalog WITH links to detail pages
+ * - B02 = USPs/Features WITHOUT links (purely informational)
+ *
+ * @see docs/refactoring/sprint-9/shared/b07-services.html
+ */
+
 export const Services: Block = {
   slug: 'services',
   interfaceName: 'ServicesBlock',
@@ -8,6 +34,7 @@ export const Services: Block = {
     plural: 'Services Blocks',
   },
   fields: [
+    // Section Header Fields
     {
       type: 'row',
       fields: [
@@ -18,6 +45,7 @@ export const Services: Block = {
           admin: {
             width: '50%',
             description: 'Small overline text above main title (optional)',
+            placeholder: 'Onze Services',
           },
         },
         {
@@ -27,6 +55,7 @@ export const Services: Block = {
           admin: {
             width: '50%',
             description: 'Main section heading (optional)',
+            placeholder: 'Alles wat je nodig hebt',
           },
         },
       ],
@@ -37,6 +66,8 @@ export const Services: Block = {
       label: 'Section Description',
       admin: {
         description: 'Brief description below title (optional, max 2-3 sentences)',
+        placeholder: 'Wij bieden een complete suite van diensten...',
+        rows: 2,
       },
     },
     {
@@ -64,12 +95,15 @@ export const Services: Block = {
           'Number of service cards per row on desktop. Automatically stacks on mobile.',
       },
     },
+
+    // Services Array
     {
       name: 'services',
       type: 'array',
       label: 'Services',
       minRows: 2,
       maxRows: 12,
+      required: true,
       fields: [
         {
           type: 'row',
@@ -77,11 +111,12 @@ export const Services: Block = {
             {
               name: 'icon',
               type: 'text',
-              label: 'Icon',
+              label: 'Lucide Icon Name',
+              required: true,
               admin: {
-                width: '50%',
+                width: '40%',
                 description:
-                  'Lucide icon name (e.g., "package", "code", "truck"). Browse icons at lucide.dev',
+                  'Lucide icon name (e.g., "package", "code", "rocket"). Browse icons at lucide.dev',
                 placeholder: 'package',
               },
             },
@@ -90,36 +125,41 @@ export const Services: Block = {
               type: 'select',
               label: 'Icon Color',
               defaultValue: 'teal',
+              required: true,
               options: [
-                { label: 'Teal (theme.colors.teal)', value: 'teal' },
-                { label: 'Blue (theme.colors.blue)', value: 'blue' },
-                { label: 'Green (theme.colors.green)', value: 'green' },
-                { label: 'Purple (theme.colors.purple)', value: 'purple' },
-                { label: 'Amber (theme.colors.amber)', value: 'amber' },
-                { label: 'Coral (theme.colors.coral)', value: 'coral' },
+                { label: 'Teal (Primary)', value: 'teal' },
+                { label: 'Blue', value: 'blue' },
+                { label: 'Green', value: 'green' },
+                { label: 'Purple', value: 'purple' },
+                { label: 'Amber', value: 'amber' },
+                { label: 'Coral', value: 'coral' },
               ],
               admin: {
-                width: '50%',
-                description: 'Icon color from Theme global tokens',
+                width: '30%',
+                description: 'Icon color theme',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Service Title',
+              required: true,
+              admin: {
+                width: '30%',
+                placeholder: 'Multi-Tenant Setup',
               },
             },
           ],
         },
         {
-          name: 'title',
-          type: 'text',
-          label: 'Service Title',
-          required: true,
-          admin: {
-            description: 'Name of the service or feature (e.g., "Fast Shipping")',
-          },
-        },
-        {
           name: 'description',
           type: 'textarea',
           label: 'Description',
+          required: true,
           admin: {
-            description: 'Brief description of the service (1-2 sentences)',
+            description: 'Service description (1-2 sentences, max 150 chars recommended)',
+            placeholder: 'Complete platform setup met custom branding en domein configuratie.',
+            rows: 2,
           },
         },
         {
@@ -131,8 +171,9 @@ export const Services: Block = {
               label: 'Link URL',
               admin: {
                 width: '60%',
-                description: 'Optional link URL (e.g., /services/setup or https://example.com)',
-                placeholder: '/services/detail',
+                description:
+                  'Optional link URL (e.g., /services/setup or https://example.com)',
+                placeholder: '/services/setup',
               },
             },
             {
@@ -142,7 +183,8 @@ export const Services: Block = {
               defaultValue: 'Meer info',
               admin: {
                 width: '40%',
-                description: 'Text for the link (e.g., "Learn more", "Get started")',
+                description: 'CTA link text (shown only if link URL is provided)',
+                placeholder: 'Meer info',
               },
             },
           ],
@@ -150,25 +192,8 @@ export const Services: Block = {
       ],
       admin: {
         description:
-          'Add 2-12 services or features. Each service has an icon, title, description, and optional link.',
+          'Add 2-12 service cards. Recommended: 3, 6, or 9 items for best visual balance.',
         initCollapsed: true,
-      },
-    },
-    {
-      name: 'backgroundColor',
-      type: 'select',
-      label: 'Background Color',
-      defaultValue: 'white',
-      options: [
-        { label: 'White (theme.colors.white)', value: 'white' },
-        { label: 'Light Background (theme.colors.bg)', value: 'bg' },
-        { label: 'Light Grey (theme.colors.grey)', value: 'grey' },
-        { label: 'Teal Light (theme.colors.tealLight)', value: 'tealLight' },
-        { label: 'Navy Light (theme.colors.navyLight)', value: 'navyLight' },
-      ],
-      admin: {
-        description:
-          'Background color from Theme global. Maps to CSS variables: --color-white, --color-bg, etc.',
       },
     },
   ],

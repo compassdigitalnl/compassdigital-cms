@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image Gallery Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GALLERY STYLES
+   ═══════════════════════════════════════════════════════════ */
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: all var(--dur);
+  aspect-ratio: 4/3;
+  background: var(--grey-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--grey);
+}
+
+.gallery-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh-md);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-item-emoji {
+  font-size: 48px;
+}
+
+.gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(10, 22, 40, 0.8), transparent);
+  color: white;
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity var(--dur);
+}
+
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: rgba(10, 22, 40, 0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  backdrop-filter: blur(8px);
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: var(--r-lg);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--r-sm);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--dur);
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox-caption {
+  position: absolute;
+  bottom: -44px;
+  left: 0;
+  right: 0;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-item-emoji {
+    font-size: 32px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Image Gallery Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-gallery">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B28</span>
+        <span class="section-label">Image Gallery Block</span>
+      </div>
+      <span class="tag" style="background:var(--grey-mid);color:white">Neutral</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Image gallery with lightbox functionality. Supports grid or masonry layout with 2, 3, or 4 columns. Each image can have an optional caption.
+    </p>
+
+    <!-- Grid Layout - 3 Columns -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Grid Layout (3 Columns)
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <h3 style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:24px;text-align:center">Project Gallery</h3>
+
+        <div class="grid-3">
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🏥</span>
+            <div class="gallery-caption">Medical Equipment Installation</div>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🔬</span>
+            <div class="gallery-caption">Laboratory Setup</div>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🏢</span>
+            <div class="gallery-caption">Facility Overview</div>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">💊</span>
+            <div class="gallery-caption">Pharmaceutical Storage</div>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🩺</span>
+            <div class="gallery-caption">Diagnostic Equipment</div>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🧪</span>
+            <div class="gallery-caption">Research Laboratory</div>
+          </div>
+        </div>
+
+        <p style="font-size:12px;color:var(--grey-mid);text-align:center;margin-top:24px;">
+          💡 Click any image to open lightbox
+        </p>
+
+      </div>
+    </div>
+
+    <!-- Grid Layout - 4 Columns -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Grid Layout (4 Columns)
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <h3 style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:24px;text-align:center">Product Gallery</h3>
+
+        <div class="grid-4">
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🧤</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">💉</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🩹</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🧬</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🔭</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">⚗️</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🧫</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🩺</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Grid Layout - 2 Columns -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — Grid Layout (2 Columns, Large Images)
+      </div>
+      <div class="box-content" style="padding:40px;background:white">
+
+        <div class="grid-2">
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">🏗️</span>
+            <div class="gallery-caption">Before Construction</div>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-item-emoji">✨</span>
+            <div class="gallery-caption">After Completion</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Image Gallery Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'gallery'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'layout'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'grid'</span>, <span class="string">'masonry'</span>],
+      <span class="property">defaultValue</span>: <span class="string">'grid'</span>
+    },
+    { <span class="property">name</span>: <span class="string">'columns'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>],
+      <span class="property">defaultValue</span>: <span class="string">'3'</span>
+    },
+    { <span class="property">name</span>: <span class="string">'images'</span>, <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">fields</span>: [
+        { <span class="property">name</span>: <span class="string">'image'</span>, <span class="property">type</span>: <span class="string">'upload'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+        { <span class="property">name</span>: <span class="string">'caption'</span>, <span class="property">type</span>: <span class="string">'text'</span> }
+      ]
+    },
+    { <span class="property">name</span>: <span class="string">'enableLightbox'</span>, <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">true</span>
+    }
+  ]
+}
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/ImageGallery/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/ImageGallery/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">ImageGallery</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'gallery'</span>,
+  labels: {
+    singular: <span class="string">'Image Gallery'</span>,
+    plural: <span class="string">'Image Galleries'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Gallery Title'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional heading displayed above the gallery'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'layout'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Layout'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'grid'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'Grid (Equal Height)'</span>,
+          <span class="property">value</span>: <span class="string">'grid'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Masonry (Natural Height)'</span>,
+          <span class="property">value</span>: <span class="string">'masonry'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Grid keeps all images same height, masonry allows different heights'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'columns'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Columns'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'3'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'2 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'2'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'3 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'3'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'4 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'4'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Number of columns on desktop (auto-responsive on mobile)'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'images'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Gallery Images'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">minRows</span>: <span class="number">1</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'image'</span>,
+          <span class="property">type</span>: <span class="string">'upload'</span>,
+          <span class="property">label</span>: <span class="string">'Image'</span>,
+          <span class="property">relationTo</span>: <span class="string">'media'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Recommended: 1200x900px or higher for best quality'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'caption'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Caption'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Optional caption shown on hover and in lightbox'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'alt'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Alt Text'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Accessibility: describe the image for screen readers'</span>,
+          },
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">components</span>: {
+          <span class="property">RowLabel</span>: ({ data, index }) => {
+            <span class="keyword">return</span> data?.caption || data?.alt || `Image ${index + <span class="number">1</span>}`
+          },
+        },
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'enableLightbox'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Enable Lightbox'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Allow users to click images to view in fullscreen lightbox'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'spacing'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Image Spacing'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'normal'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'Tight (8px)'</span>,
+          <span class="property">value</span>: <span class="string">'tight'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Normal (16px)'</span>,
+          <span class="property">value</span>: <span class="string">'normal'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Loose (24px)'</span>,
+          <span class="property">value</span>: <span class="string">'loose'</span>,
+        },
+      ],
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'./payload-types'</span>
+
+<span class="keyword">export interface</span> <span class="function">GalleryImage</span> {
+  <span class="property">image</span>: <span class="keyword">string</span> | <span class="function">Media</span>
+  <span class="property">caption</span>?: <span class="keyword">string</span>
+  <span class="property">alt</span>?: <span class="keyword">string</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">ImageGalleryBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'gallery'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">layout</span>: <span class="string">'grid'</span> | <span class="string">'masonry'</span>
+  <span class="property">columns</span>: <span class="string">'2'</span> | <span class="string">'3'</span> | <span class="string">'4'</span>
+  <span class="property">images</span>: <span class="function">GalleryImage</span>[]
+  <span class="property">enableLightbox</span>: <span class="keyword">boolean</span>
+  <span class="property">spacing</span>: <span class="string">'tight'</span> | <span class="string">'normal'</span> | <span class="string">'loose'</span>
+}
+
+<span class="comment">// Type guard to check if a block is an ImageGalleryBlock</span>
+<span class="keyword">export function</span> <span class="function">isImageGalleryBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">ImageGalleryBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'gallery'</span>
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/ImageGallery/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/ImageGallery/Component.tsx</span>
+<span class="string">'use client'</span>
+
+<span class="keyword">import</span> React, { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> Image <span class="keyword">from</span> <span class="string">'next/image'</span>
+<span class="keyword">import</span> { <span class="function">ImageGalleryBlock</span>, <span class="function">GalleryImage</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'@/types/payload-types'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> { <span class="function">X</span> } <span class="keyword">from</span> <span class="string">'lucide-react'</span>
+
+<span class="keyword">interface</span> <span class="function">ImageGalleryProps</span> {
+  <span class="property">block</span>: <span class="function">ImageGalleryBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">ImageGallery</span>: React.<span class="function">FC</span>&lt;<span class="function">ImageGalleryProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { title, layout, columns, images, enableLightbox, spacing } = block
+  <span class="keyword">const</span> [lightboxIndex, setLightboxIndex] = <span class="function">useState</span>&lt;<span class="keyword">number</span> | <span class="keyword">null</span>&gt;(<span class="keyword">null</span>)
+
+  <span class="comment">// Map columns to Tailwind grid classes</span>
+  <span class="keyword">const</span> columnClass = {
+    <span class="string">'2'</span>: <span class="string">'grid-cols-1 md:grid-cols-2'</span>,
+    <span class="string">'3'</span>: <span class="string">'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'</span>,
+    <span class="string">'4'</span>: <span class="string">'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'</span>,
+  }[columns]
+
+  <span class="comment">// Map spacing to gap classes</span>
+  <span class="keyword">const</span> gapClass = {
+    tight: <span class="string">'gap-2'</span>,
+    normal: <span class="string">'gap-4'</span>,
+    loose: <span class="string">'gap-6'</span>,
+  }[spacing]
+
+  <span class="comment">// Get media URL helper</span>
+  <span class="keyword">const</span> <span class="function">getMediaUrl</span> = (media: <span class="keyword">string</span> | <span class="function">Media</span>): <span class="keyword">string</span> => {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> media === <span class="string">'string'</span>) <span class="keyword">return</span> media
+    <span class="keyword">return</span> media?.url || <span class="string">''</span>
+  }
+
+  <span class="comment">// Get media alt helper</span>
+  <span class="keyword">const</span> <span class="function">getMediaAlt</span> = (media: <span class="keyword">string</span> | <span class="function">Media</span>, fallback?: <span class="keyword">string</span>): <span class="keyword">string</span> => {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> media === <span class="string">'string'</span>) <span class="keyword">return</span> fallback || <span class="string">'Gallery image'</span>
+    <span class="keyword">return</span> media?.alt || fallback || <span class="string">'Gallery image'</span>
+  }
+
+  <span class="comment">// Open lightbox</span>
+  <span class="keyword">const</span> <span class="function">openLightbox</span> = (index: <span class="keyword">number</span>) => {
+    <span class="keyword">if</span> (enableLightbox) {
+      setLightboxIndex(index)
+      document.body.style.overflow = <span class="string">'hidden'</span>
+    }
+  }
+
+  <span class="comment">// Close lightbox</span>
+  <span class="keyword">const</span> <span class="function">closeLightbox</span> = () => {
+    setLightboxIndex(<span class="keyword">null</span>)
+    document.body.style.overflow = <span class="string">''</span>
+  }
+
+  <span class="comment">// Navigate lightbox</span>
+  <span class="keyword">const</span> <span class="function">nextImage</span> = () => {
+    <span class="keyword">if</span> (lightboxIndex !== <span class="keyword">null</span>) {
+      setLightboxIndex((lightboxIndex + <span class="number">1</span>) % images.length)
+    }
+  }
+
+  <span class="keyword">const</span> <span class="function">prevImage</span> = () => {
+    <span class="keyword">if</span> (lightboxIndex !== <span class="keyword">null</span>) {
+      setLightboxIndex((lightboxIndex - <span class="number">1</span> + images.length) % images.length)
+    }
+  }
+
+  <span class="comment">// Keyboard navigation</span>
+  React.<span class="function">useEffect</span>(() => {
+    <span class="keyword">const</span> <span class="function">handleKeyDown</span> = (e: KeyboardEvent) => {
+      <span class="keyword">if</span> (lightboxIndex === <span class="keyword">null</span>) <span class="keyword">return</span>
+      <span class="keyword">if</span> (e.key === <span class="string">'Escape'</span>) <span class="function">closeLightbox</span>()
+      <span class="keyword">if</span> (e.key === <span class="string">'ArrowRight'</span>) <span class="function">nextImage</span>()
+      <span class="keyword">if</span> (e.key === <span class="string">'ArrowLeft'</span>) <span class="function">prevImage</span>()
+    }
+
+    window.<span class="function">addEventListener</span>(<span class="string">'keydown'</span>, handleKeyDown)
+    <span class="keyword">return</span> () => window.<span class="function">removeEventListener</span>(<span class="string">'keydown'</span>, handleKeyDown)
+  }, [lightboxIndex])
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-12 md:py-16"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        {title && (
+          &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-3xl text-navy text-center mb-8"</span>&gt;
+            {title}
+          &lt;/<span class="keyword">h2</span>&gt;
+        )}
+
+        &lt;<span class="keyword">div</span>
+          className={<span class="function">cn</span>(
+            <span class="string">'grid'</span>,
+            columnClass,
+            gapClass,
+            layout === <span class="string">'masonry'</span> && <span class="string">'auto-rows-auto'</span>
+          )}
+        &gt;
+          {images.map((item, index) => {
+            <span class="keyword">const</span> imageUrl = <span class="function">getMediaUrl</span>(item.image)
+            <span class="keyword">const</span> imageAlt = <span class="function">getMediaAlt</span>(item.image, item.alt)
+
+            <span class="keyword">return</span> (
+              &lt;<span class="keyword">div</span>
+                key={item.id || index}
+                className=<span class="string">"group relative overflow-hidden rounded-xl cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-md"</span>
+                onClick={() => <span class="function">openLightbox</span>(index)}
+              &gt;
+                &lt;<span class="keyword">div</span> className=<span class="string">"relative aspect-[4/3] bg-grey-light"</span>&gt;
+                  &lt;<span class="function">Image</span>
+                    src={imageUrl}
+                    alt={imageAlt}
+                    fill
+                    className=<span class="string">"object-cover"</span>
+                    sizes=<span class="string">"(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"</span>
+                  /&gt;
+
+                  {item.caption && (
+                    &lt;<span class="keyword">div</span> className=<span class="string">"absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity"</span>&gt;
+                      &lt;<span class="keyword">p</span> className=<span class="string">"text-white text-sm"</span>&gt;{item.caption}&lt;/<span class="keyword">p</span>&gt;
+                    &lt;/<span class="keyword">div</span>&gt;
+                  )}
+                &lt;/<span class="keyword">div</span>&gt;
+              &lt;/<span class="keyword">div</span>&gt;
+            )
+          })}
+        &lt;/<span class="keyword">div</span>&gt;
+
+        {<span class="comment">/* Lightbox */</span>}
+        {enableLightbox && lightboxIndex !== <span class="keyword">null</span> && (
+          &lt;<span class="keyword">div</span>
+            className=<span class="string">"fixed inset-0 z-modal bg-navy/95 backdrop-blur-md flex items-center justify-center p-10"</span>
+            onClick={closeLightbox}
+          &gt;
+            &lt;<span class="keyword">button</span>
+              onClick={closeLightbox}
+              className=<span class="string">"absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg flex items-center justify-center transition-colors"</span>
+            &gt;
+              &lt;<span class="function">X</span> className=<span class="string">"w-5 h-5 text-white"</span> /&gt;
+            &lt;/<span class="keyword">button</span>&gt;
+
+            &lt;<span class="keyword">div</span> className=<span class="string">"relative max-w-[90vw] max-h-[90vh]"</span> onClick={(e) => e.<span class="function">stopPropagation</span>()}&gt;
+              &lt;<span class="function">Image</span>
+                src={<span class="function">getMediaUrl</span>(images[lightboxIndex].image)}
+                alt={<span class="function">getMediaAlt</span>(images[lightboxIndex].image, images[lightboxIndex].alt)}
+                width={<span class="number">1200</span>}
+                height={<span class="number">900</span>}
+                className=<span class="string">"max-w-full max-h-[90vh] object-contain rounded-lg"</span>
+              /&gt;
+
+              {images[lightboxIndex].caption && (
+                &lt;<span class="keyword">p</span> className=<span class="string">"text-white text-center mt-4 text-sm"</span>&gt;
+                  {images[lightboxIndex].caption}
+                &lt;/<span class="keyword">p</span>&gt;
+              )}
+            &lt;/<span class="keyword">div</span>&gt;
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add an Image Gallery block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--grey-mid);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">🖼️</span>
+            Image Gallery Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Gallery Title (Optional)</div>
+              <input type="text" placeholder="e.g., Project Gallery" disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+              <div style="padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+                <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Layout</div>
+                <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+                  <option>Grid (Equal Height)</option>
+                  <option>Masonry (Natural Height)</option>
+                </select>
+              </div>
+              <div style="padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+                <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Columns</div>
+                <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+                  <option>2 Columns</option>
+                  <option selected>3 Columns</option>
+                  <option>4 Columns</option>
+                </select>
+              </div>
+              <div style="padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+                <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Spacing</div>
+                <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+                  <option>Tight (8px)</option>
+                  <option selected>Normal (16px)</option>
+                  <option>Loose (24px)</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);display:flex;align-items:center;justify-content:space-between;">
+                <span>Gallery Images</span>
+                <button disabled style="padding:4px 12px;background:var(--teal);color:white;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;">+ Add Image</button>
+              </div>
+              <div style="margin-top:8px;padding:10px;background:var(--grey-light);border:1px dashed var(--grey);border-radius:6px;">
+                <div style="font-size:10px;color:var(--grey-mid);margin-bottom:6px;">Image 1</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <div>
+                    <div style="font-weight:600;margin-bottom:4px;font-size:10px;">Image</div>
+                    <div style="padding:6px 8px;background:white;border:1px solid var(--grey);border-radius:4px;font-size:10px;">📸 Upload Image</div>
+                  </div>
+                  <div>
+                    <div style="font-weight:600;margin-bottom:4px;font-size:10px;">Caption</div>
+                    <input type="text" placeholder="Optional caption" disabled style="width:100%;padding:6px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;">
+                  </div>
+                </div>
+                <div style="margin-top:6px;">
+                  <div style="font-weight:600;margin-bottom:4px;font-size:10px;">Alt Text</div>
+                  <input type="text" placeholder="Describe the image" disabled style="width:100%;padding:6px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;">
+                </div>
+              </div>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                <input type="checkbox" checked disabled style="width:16px;height:16px;">
+                <span style="font-weight:700;color:var(--navy);">Enable Lightbox</span>
+              </label>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;margin-left:24px;">
+                Allow users to click images to view in fullscreen
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Image Gallery" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. Image upload works:</strong> Click "Add Image" → upload test image → verify thumbnail appears
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Multiple images can be added:</strong> Add 6+ images → verify drag-to-reorder works
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. All layout variants render:</strong> Test grid vs masonry → verify visual difference
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Column options work:</strong> Test 2, 3, 4 columns → verify responsive behavior
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Lightbox functionality:</strong> Click image → lightbox opens → Esc/arrows work → close button works
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Captions display correctly:</strong> Add caption → verify shows on hover and in lightbox
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>8. Responsive behavior:</strong> Test on mobile → verify grid collapses to 1 column
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>9. Image optimization:</strong> Check Network tab → verify Next.js Image optimization active
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>10. Accessibility:</strong> Test with screen reader → verify alt text announced
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Image Gallery block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Image Gallery block</span>
+npx payload migrate:create add_image_gallery_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for gallery configuration and images array</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.title (type: varchar, nullable)</span>
+<span class="comment"># - pages_blocks.layout (type: varchar) — enum: 'grid', 'masonry'</span>
+<span class="comment"># - pages_blocks.columns (type: varchar) — enum: '2', '3', '4'</span>
+<span class="comment"># - pages_blocks.enable_lightbox (type: boolean, default: true)</span>
+<span class="comment"># - pages_blocks.spacing (type: varchar) — enum: 'tight', 'normal', 'loose'</span>
+
+<span class="comment"># Additionally, a junction table for images array:</span>
+<span class="comment"># - pages_blocks_images (id, parent_id, image_id, caption, alt, _order)</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('title', 'layout', 'columns', 'enable_lightbox', 'spacing');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#   column_name     | data_type</span>
+<span class="comment"># ------------------+-----------</span>
+<span class="comment">#   title           | varchar</span>
+<span class="comment">#   layout          | varchar</span>
+<span class="comment">#   columns         | varchar</span>
+<span class="comment">#   enable_lightbox | boolean</span>
+<span class="comment">#   spacing         | varchar</span>
+
+<span class="comment"># Check images junction table</span>
+psql -d your_database -c "\d pages_blocks_images"
+
+<span class="comment"># Expected structure:</span>
+<span class="comment">#   id (primary key, auto-increment)</span>
+<span class="comment">#   parent_id (foreign key to pages_blocks.id)</span>
+<span class="comment">#   image_id (foreign key to media.id)</span>
+<span class="comment">#   caption (varchar, nullable)</span>
+<span class="comment">#   alt (varchar, nullable)</span>
+<span class="comment">#   _order (integer) — for array ordering</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Images not displaying</td>
+              <td>Check <code>relationTo: 'media'</code> matches your Media collection slug. Verify images uploaded to correct collection.</td>
+            </tr>
+            <tr>
+              <td>Lightbox not opening</td>
+              <td>Ensure component is marked <code>'use client'</code> — lightbox requires client-side JavaScript for state management.</td>
+            </tr>
+            <tr>
+              <td>Grid layout not responsive</td>
+              <td>Check Tailwind classes: <code>grid-cols-1 md:grid-cols-2 lg:grid-cols-3</code> ensures mobile-first responsive behavior.</td>
+            </tr>
+            <tr>
+              <td>Images too large / slow loading</td>
+              <td>Verify using Next.js <code>&lt;Image&gt;</code> component with proper <code>sizes</code> prop for responsive optimization.</td>
+            </tr>
+            <tr>
+              <td>Masonry layout not working</td>
+              <td>Masonry requires CSS Grid or third-party library (e.g., <code>react-masonry-css</code>). Example implementation uses CSS Grid with <code>auto-rows-auto</code>.</td>
+            </tr>
+            <tr>
+              <td>Keyboard navigation not working</td>
+              <td>Check <code>useEffect</code> dependency array includes <code>lightboxIndex</code> to re-register event listeners.</td>
+            </tr>
+            <tr>
+              <td>Caption not showing on hover</td>
+              <td>Verify <code>group</code> and <code>group-hover:opacity-100</code> classes applied. Check caption has content in admin.</td>
+            </tr>
+            <tr>
+              <td>TypeScript error on Media type</td>
+              <td>Import <code>Media</code> from <code>@/types/payload-types</code> (auto-generated by Payload). Run <code>payload generate:types</code> if missing.</td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code> → verify <code>pages_blocks_images</code> table exists.</td>
+            </tr>
+            <tr>
+              <td>Alt text not accessible</td>
+              <td>Ensure <code>alt</code> field passed to <code>&lt;Image alt={} /&gt;</code> prop. Test with screen reader (NVDA/JAWS).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Image Gallery block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">ImageGallery</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/ImageGallery/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">ImageGallery</span>,  <span class="comment">// ← Add Image Gallery block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Content,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">ImageGallery</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/ImageGallery/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'gallery'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">ImageGallery</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Optional Enhancement:</strong> Add advanced masonry layout with third-party library:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Install react-masonry-css for better masonry support</span>
+npm install react-masonry-css
+
+<span class="comment"># Then in Component.tsx:</span>
+<span class="keyword">import</span> Masonry <span class="keyword">from</span> <span class="string">'react-masonry-css'</span>
+
+<span class="comment">// Replace grid div with:</span>
+{layout === <span class="string">'masonry'</span> ? (
+  &lt;<span class="function">Masonry</span>
+    breakpointCols={{
+      <span class="keyword">default</span>: <span class="function">parseInt</span>(columns),
+      <span class="number">1024</span>: <span class="number">3</span>,
+      <span class="number">768</span>: <span class="number">2</span>,
+      <span class="number">640</span>: <span class="number">1</span>,
+    }}
+    className=<span class="string">"masonry-grid"</span>
+    columnClassName=<span class="string">"masonry-grid-column"</span>
+  &gt;
+    {<span class="comment">/* Image items */</span>}
+  &lt;/<span class="function">Masonry</span>&gt;
+) : (
+  &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'grid'</span>, columnClass, gapClass)}&gt;
+    {<span class="comment">/* Image items */</span>}
+  &lt;/<span class="keyword">div</span>&gt;
+)}
+
+<span class="comment">// Add to globals.css:</span>
+.<span class="property">masonry-grid</span> {
+  display: flex;
+  width: auto;
+  margin-left: -<span class="number">16</span>px;
+}
+
+.<span class="property">masonry-grid-column</span> {
+  padding-left: <span class="number">16</span>px;
+  background-clip: padding-box;
+}
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

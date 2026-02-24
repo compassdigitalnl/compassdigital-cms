@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spacer Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--grey-mid);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: rgba(255,255,255,0.5);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SPACER DEMO STYLES
+   ═══════════════════════════════════════════════════════════ */
+.spacer-demo {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  padding: 32px;
+}
+
+.demo-block {
+  background: var(--teal-bg);
+  border: 2px dashed var(--teal);
+  border-radius: var(--r-sm);
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal-dark);
+}
+
+.spacer-sm {
+  height: 24px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--grey-light) 0px,
+    var(--grey-light) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  position: relative;
+}
+
+.spacer-md {
+  height: 48px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--grey-light) 0px,
+    var(--grey-light) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  position: relative;
+}
+
+.spacer-lg {
+  height: 80px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--grey-light) 0px,
+    var(--grey-light) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  position: relative;
+}
+
+.spacer-xl {
+  height: 120px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--grey-light) 0px,
+    var(--grey-light) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  position: relative;
+}
+
+.spacer-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid var(--grey);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--grey-dark);
+  font-family: var(--font-mono);
+}
+
+.spacer-divider {
+  height: 1px;
+  background: var(--grey);
+  margin: 24px 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .spacer-xl {
+    height: 80px;
+  }
+
+  .spacer-lg {
+    height: 64px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">▦</div>
+    <div class="header-title">Spacer Block<span>Vertical Spacing</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-spacer">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B26</span>
+        <span class="section-label">Spacer Block</span>
+      </div>
+      <span class="tag" style="background:var(--grey-mid);color:white">Neutral</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Vertical spacing block for creating whitespace between content sections. 4 sizes: <strong>sm (24px)</strong>, <strong>md (48px)</strong>, <strong>lg (80px)</strong>, <strong>xl (120px)</strong>. Optional horizontal divider line. Mobile-responsive with reduced heights on small screens.
+    </p>
+
+    <!-- SIZE COMPARISON -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — All 4 Sizes
+      </div>
+      <div class="box-content" style="padding:0">
+        <div class="spacer-demo">
+          <div class="demo-block">Content Block Above</div>
+
+          <div class="spacer-sm">
+            <div class="spacer-label">SM • 24px</div>
+          </div>
+
+          <div class="demo-block">Content Block Below (sm spacer)</div>
+
+          <div class="spacer-md">
+            <div class="spacer-label">MD • 48px</div>
+          </div>
+
+          <div class="demo-block">Content Block Below (md spacer)</div>
+
+          <div class="spacer-lg">
+            <div class="spacer-label">LG • 80px</div>
+          </div>
+
+          <div class="demo-block">Content Block Below (lg spacer)</div>
+
+          <div class="spacer-xl">
+            <div class="spacer-label">XL • 120px</div>
+          </div>
+
+          <div class="demo-block">Content Block Below (xl spacer)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Spacer Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'spacer'</span>,
+  <span class="property">fields</span>: [
+    {
+      <span class="property">name</span>: <span class="string">'size'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'md'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">options</span>: [
+        { <span class="property">label</span>: <span class="string">'Small (24px)'</span>, <span class="property">value</span>: <span class="string">'sm'</span> },
+        { <span class="property">label</span>: <span class="string">'Medium (48px)'</span>, <span class="property">value</span>: <span class="string">'md'</span> },
+        { <span class="property">label</span>: <span class="string">'Large (80px)'</span>, <span class="property">value</span>: <span class="string">'lg'</span> },
+        { <span class="property">label</span>: <span class="string">'Extra Large (120px)'</span>, <span class="property">value</span>: <span class="string">'xl'</span> }
+      ]
+    },
+    {
+      <span class="property">name</span>: <span class="string">'showDivider'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">false</span>,
+      <span class="property">label</span>: <span class="string">'Show horizontal divider line'</span>
+    }
+  ]
+}
+    </div>
+
+    <!-- WITH DIVIDER -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — With Divider Line
+      </div>
+      <div class="box-content" style="padding:0">
+        <div class="spacer-demo">
+          <div class="demo-block">Section Above</div>
+
+          <div style="height:48px;display:flex;align-items:center;justify-content:center;position:relative">
+            <div style="position:absolute;left:0;right:0;top:50%;height:1px;background:var(--grey)"></div>
+            <div class="spacer-label">MD with Divider</div>
+          </div>
+
+          <div class="demo-block">Section Below</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIZE REFERENCE TABLE -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Size Reference Table
+      </div>
+      <div class="box-content" style="padding:0">
+        <table class="table" style="margin:0">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Height (Desktop)</th>
+              <th>Height (Mobile)</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>sm</code></td>
+              <td>24px</td>
+              <td>24px</td>
+              <td>Minimal breathing room between related sections</td>
+            </tr>
+            <tr>
+              <td><code>md</code></td>
+              <td>48px</td>
+              <td>48px</td>
+              <td>Standard spacing between unrelated content blocks (default)</td>
+            </tr>
+            <tr>
+              <td><code>lg</code></td>
+              <td>80px</td>
+              <td>64px</td>
+              <td>Large gap between major page sections</td>
+            </tr>
+            <tr>
+              <td><code>xl</code></td>
+              <td>120px</td>
+              <td>80px</td>
+              <td>Extra-large gap for dramatic separation (hero to content)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Spacer/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Spacer/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Spacer</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'spacer'</span>,
+  labels: {
+    singular: <span class="string">'Spacer Block'</span>,
+    plural: <span class="string">'Spacer Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'size'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Spacing Size'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'md'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'Small (24px)'</span>,
+          <span class="property">value</span>: <span class="string">'sm'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Medium (48px)'</span>,
+          <span class="property">value</span>: <span class="string">'md'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Large (80px)'</span>,
+          <span class="property">value</span>: <span class="string">'lg'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Extra Large (120px)'</span>,
+          <span class="property">value</span>: <span class="string">'xl'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Controls the vertical spacing height. Heights automatically reduce on mobile devices for better proportion.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'showDivider'</span>,
+      <span class="property">type</span>: <span class="string">'checkbox'</span>,
+      <span class="property">label</span>: <span class="string">'Show Divider Line'</span>,
+      <span class="property">defaultValue</span>: <span class="keyword">false</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Display a horizontal divider line in the center of the spacing. Useful for visual separation between sections.'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">export interface</span> <span class="function">SpacerBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'spacer'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">size</span>: <span class="string">'sm'</span> | <span class="string">'md'</span> | <span class="string">'lg'</span> | <span class="string">'xl'</span>
+  <span class="property">showDivider</span>?: <span class="keyword">boolean</span>
+}
+
+<span class="comment">// Type guard to check if a block is a SpacerBlock</span>
+<span class="keyword">export function</span> <span class="function">isSpacerBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">SpacerBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'spacer'</span>
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Spacer/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Spacer/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">SpacerBlock</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+
+<span class="keyword">interface</span> <span class="function">SpacerProps</span> {
+  <span class="property">block</span>: <span class="function">SpacerBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">Spacer</span>: React.<span class="function">FC</span>&lt;<span class="function">SpacerProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { size, showDivider } = block
+
+  <span class="comment">// Map size to Tailwind height classes</span>
+  <span class="comment">// Desktop: sm=24px, md=48px, lg=80px, xl=120px</span>
+  <span class="comment">// Mobile: sm=24px, md=48px, lg=64px, xl=80px (reduced)</span>
+  <span class="keyword">const</span> heightClass = {
+    sm: <span class="string">'h-6'</span>,              <span class="comment">// 24px (no mobile change)</span>
+    md: <span class="string">'h-12'</span>,             <span class="comment">// 48px (no mobile change)</span>
+    lg: <span class="string">'h-20 md:h-[80px]'</span>, <span class="comment">// 80px desktop, 64px mobile</span>
+    xl: <span class="string">'h-20 md:h-[120px]'</span>,<span class="comment">// 120px desktop, 80px mobile</span>
+  }[size]
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'relative'</span>, heightClass)} aria-hidden=<span class="string">"true"</span>&gt;
+      {showDivider && (
+        &lt;<span class="keyword">div</span> className=<span class="string">"absolute inset-0 flex items-center"</span>&gt;
+          &lt;<span class="keyword">div</span> className=<span class="string">"w-full border-t border-grey"</span> /&gt;
+        &lt;/<span class="keyword">div</span>&gt;
+      )}
+    &lt;/<span class="keyword">div</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Alternative: Custom CSS Classes</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          If you prefer more explicit control over spacing, create custom CSS classes:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/app/globals.css (or your main CSS file)</span>
+<span class="comment">/* Spacer Block Sizes */</span>
+.<span class="property">spacer-sm</span> {
+  <span class="property">height</span>: <span class="number">24</span><span class="keyword">px</span>;
+}
+
+.<span class="property">spacer-md</span> {
+  <span class="property">height</span>: <span class="number">48</span><span class="keyword">px</span>;
+}
+
+.<span class="property">spacer-lg</span> {
+  <span class="property">height</span>: <span class="number">80</span><span class="keyword">px</span>;
+}
+
+.<span class="property">spacer-xl</span> {
+  <span class="property">height</span>: <span class="number">120</span><span class="keyword">px</span>;
+}
+
+<span class="comment">/* Mobile responsiveness */</span>
+<span class="keyword">@media</span> (<span class="property">max-width</span>: <span class="number">768</span><span class="keyword">px</span>) {
+  .<span class="property">spacer-lg</span> {
+    <span class="property">height</span>: <span class="number">64</span><span class="keyword">px</span>;
+  }
+
+  .<span class="property">spacer-xl</span> {
+    <span class="property">height</span>: <span class="number">80</span><span class="keyword">px</span>;
+  }
+}
+
+<span class="comment">/* Divider line */</span>
+.<span class="property">spacer-divider</span> {
+  <span class="property">position</span>: <span class="keyword">relative</span>;
+  <span class="property">display</span>: <span class="keyword">flex</span>;
+  <span class="property">align-items</span>: <span class="keyword">center</span>;
+}
+
+.<span class="property">spacer-divider</span>::<span class="keyword">before</span> {
+  <span class="property">content</span>: <span class="string">''</span>;
+  <span class="property">position</span>: <span class="keyword">absolute</span>;
+  <span class="property">left</span>: <span class="number">0</span>;
+  <span class="property">right</span>: <span class="number">0</span>;
+  <span class="property">top</span>: <span class="number">50</span><span class="keyword">%</span>;
+  <span class="property">height</span>: <span class="number">1</span><span class="keyword">px</span>;
+  <span class="property">background</span>: <span class="function">var</span>(--grey);
+}
+    </div>
+
+    <div class="code-block" style="margin-top:12px;">
+<span class="comment">// Updated Component.tsx using custom classes</span>
+<span class="keyword">export const</span> <span class="function">Spacer</span>: React.<span class="function">FC</span>&lt;<span class="function">SpacerProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { size, showDivider } = block
+
+  <span class="keyword">const</span> sizeClass = <span class="string">`spacer-<span class="property">${size}</span>`</span>
+  <span class="keyword">const</span> dividerClass = showDivider ? <span class="string">'spacer-divider'</span> : <span class="string">''</span>
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">div</span>
+      className={<span class="function">cn</span>(sizeClass, dividerClass)}
+      aria-hidden=<span class="string">"true"</span>
+      role=<span class="string">"separator"</span>
+    /&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Spacer block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--grey-mid);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">▦</span>
+            Spacer Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Spacing Size</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                <option>Small (24px)</option>
+                <option selected>Medium (48px)</option>
+                <option>Large (80px)</option>
+                <option>Extra Large (120px)</option>
+              </select>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">
+                Controls the vertical spacing height (responsive on mobile)
+              </div>
+            </div>
+            <div style="margin-bottom:0;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                <input type="checkbox" style="width:16px;height:16px;">
+                <div>
+                  <div style="font-weight:700;color:var(--navy);">Show Divider Line</div>
+                  <div style="font-size:10px;color:var(--grey-mid);margin-top:2px;">
+                    Display a horizontal divider line in the center
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: USAGE GUIDE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Usage Guidelines & Best Practices
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>When to Use</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>sm</code></td>
+              <td>Minimal spacing between tightly related sections</td>
+              <td>Between a paragraph and an infobox within the same content block</td>
+            </tr>
+            <tr>
+              <td><code>md</code></td>
+              <td>Standard spacing between distinct content blocks (default)</td>
+              <td>Between a testimonials section and a features section</td>
+            </tr>
+            <tr>
+              <td><code>lg</code></td>
+              <td>Large gap between major page sections</td>
+              <td>Between main content and footer CTA section</td>
+            </tr>
+            <tr>
+              <td><code>xl</code></td>
+              <td>Extra-large gap for dramatic separation</td>
+              <td>Between hero section and first content section (landing pages)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:20px;background:var(--blue-light);border:1px solid #BFDBFE;border-radius:8px;padding:16px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <span style="font-size:20px;">💡</span>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#1E40AF;margin-bottom:6px;">Pro Tips</div>
+              <ul style="font-size:12px;color:#1E40AF;line-height:1.7;margin:0;padding-left:16px;">
+                <li><strong>Default to md:</strong> Medium spacing works for 80% of use cases — start here</li>
+                <li><strong>Use dividers sparingly:</strong> Only when you need visual separation (e.g., between chapters)</li>
+                <li><strong>Mobile-first:</strong> Large spacers automatically reduce on mobile to prevent excessive whitespace</li>
+                <li><strong>Alternative to margin:</strong> Spacer blocks are more flexible than component margins in page builders</li>
+                <li><strong>Accessibility:</strong> Spacers use <code>aria-hidden="true"</code> to hide from screen readers</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Spacer Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. All 4 sizes render correctly:</strong> Test sm/md/lg/xl → verify heights match expected values (24/48/80/120px)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Mobile responsiveness works:</strong> Resize browser → lg reduces to 64px, xl reduces to 80px on mobile
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Divider line toggles:</strong> Enable "Show Divider Line" → horizontal line appears centered in spacer
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Between different block types:</strong> Test spacer between Hero → Content → CTA → correct spacing applied
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Default value works:</strong> Add new Spacer block → defaults to "md" size, no divider
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Visual consistency:</strong> Spacer heights feel proportional on both desktop and mobile devices
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Spacer block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Spacer block</span>
+npx payload migrate:create add_spacer_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for size (varchar) and showDivider (boolean)</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.size (type: varchar) — enum: 'sm', 'md', 'lg', 'xl'</span>
+<span class="comment"># - pages_blocks.show_divider (type: boolean) — default: false</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('size', 'show_divider');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#  column_name  | data_type</span>
+<span class="comment"># --------------+-----------</span>
+<span class="comment">#  size         | varchar</span>
+<span class="comment">#  show_divider | boolean</span>
+    </div>
+
+    <!-- STEP 8: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Spacer height not applied</td>
+              <td>Check Tailwind classes → ensure height classes (<code>h-6</code>, <code>h-12</code>, etc.) are correct and included in safelist if using dynamic classes</td>
+            </tr>
+            <tr>
+              <td>Mobile heights not reducing</td>
+              <td>Verify responsive classes → <code>h-20 md:h-[80px]</code> pattern ensures mobile-first approach with desktop override</td>
+            </tr>
+            <tr>
+              <td>Divider line not showing</td>
+              <td>Check conditional rendering → <code>showDivider && (...)</code> → ensure boolean field saves correctly in database</td>
+            </tr>
+            <tr>
+              <td>Spacing inconsistent across pages</td>
+              <td>Ensure all spacers use the same size system → avoid mixing Tailwind classes with custom pixel values</td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code> → verify <code>pages_blocks</code> table has <code>size</code> and <code>show_divider</code> columns</td>
+            </tr>
+            <tr>
+              <td>TypeScript error on size prop</td>
+              <td>Check type definition → ensure <code>size</code> is typed as union <code>'sm' | 'md' | 'lg' | 'xl'</code> not <code>string</code></td>
+            </tr>
+            <tr>
+              <td>Divider line too thick/thin</td>
+              <td>Adjust CSS → <code>border-t</code> uses 1px by default, can customize with <code>border-t-2</code> or custom CSS</td>
+            </tr>
+            <tr>
+              <td>Spacer collapsing (no height)</td>
+              <td>Ensure explicit height classes → avoid relying on content height, spacers must have fixed height values</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 9: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 9: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Spacer block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Spacer</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Spacer/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">Spacer</span>,  <span class="comment">// ← Add Spacer block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Content,</span>
+        <span class="comment">// CTA,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">Spacer</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Spacer/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'spacer'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Spacer</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 10: REAL-WORLD EXAMPLE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 10: Real-World Page Layout Example
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Example page structure demonstrating proper use of spacer sizes:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// Example: Landing Page Layout</span>
+[
+  { <span class="property">blockType</span>: <span class="string">'hero'</span>, <span class="property">title</span>: <span class="string">'Welcome to Compass'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'xl'</span> },  <span class="comment">// ← Extra-large gap after hero</span>
+  { <span class="property">blockType</span>: <span class="string">'features'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'md'</span> },  <span class="comment">// ← Standard gap</span>
+  { <span class="property">blockType</span>: <span class="string">'testimonials'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'md'</span> },
+  { <span class="property">blockType</span>: <span class="string">'pricing'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'lg'</span>, <span class="property">showDivider</span>: <span class="keyword">true</span> },  <span class="comment">// ← Large gap with divider before CTA</span>
+  { <span class="property">blockType</span>: <span class="string">'cta'</span>, <span class="property">title</span>: <span class="string">'Ready to get started?'</span> }
+]
+
+<span class="comment">// Example: Documentation Page</span>
+[
+  { <span class="property">blockType</span>: <span class="string">'content'</span>, <span class="property">title</span>: <span class="string">'Introduction'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'sm'</span> },  <span class="comment">// ← Minimal gap within same topic</span>
+  { <span class="property">blockType</span>: <span class="string">'infobox'</span>, <span class="property">variant</span>: <span class="string">'info'</span>, <span class="property">content</span>: <span class="string">'Important note...'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'md'</span>, <span class="property">showDivider</span>: <span class="keyword">true</span> },  <span class="comment">// ← Section break</span>
+  { <span class="property">blockType</span>: <span class="string">'content'</span>, <span class="property">title</span>: <span class="string">'Getting Started'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'md'</span> },
+  { <span class="property">blockType</span>: <span class="string">'code'</span>, <span class="property">language</span>: <span class="string">'typescript'</span>, <span class="property">code</span>: <span class="string">'...'</span> }
+]
+
+<span class="comment">// Example: Blog Post</span>
+[
+  { <span class="property">blockType</span>: <span class="string">'content'</span>, <span class="property">content</span>: <span class="string">'Article content...'</span> },
+  { <span class="property">blockType</span>: <span class="string">'spacer'</span>, <span class="property">size</span>: <span class="string">'lg'</span> },  <span class="comment">// ← Large gap before related articles</span>
+  { <span class="property">blockType</span>: <span class="string">'blogPreview'</span>, <span class="property">title</span>: <span class="string">'Related Articles'</span> }
+]
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>
