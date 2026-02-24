@@ -13,15 +13,15 @@ import { UnorderedListFeatureClient as UnorderedListFeatureClient_e70f5e05f09f93
 import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { IndentFeatureClient as IndentFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { TableFeatureClient as TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { IconPickerField as IconPickerField_96fa91b3a1147f26fe9c9a414cfa6358 } from '@/branches/shared/components/admin/IconPickerField'
-import { SEOScorePanel as SEOScorePanel_6ccdf1604ea00b0dd3eb22dad6ce4df8 } from '@/branches/shared/components/seo/SEOScorePanel'
-import { SchemaPreviewPanel as SchemaPreviewPanel_778ef300d0f9e2079aa27a8b3c38813c } from '@/branches/shared/components/seo/SchemaPreviewPanel'
+import { IconPickerField as IconPickerField_971468ac2d2d4a25a1bfb0b043e30b67 } from '@/branches/shared/components/admin/IconPickerField'
+import { SEOScorePanel as SEOScorePanel_a23a88f7c25b06e661f74a0aec632ed0 } from '@/branches/shared/components/seo/SEOScorePanel'
+import { SchemaPreviewPanel as SchemaPreviewPanel_e96cef551ebcf92461de42edb24d3a5c } from '@/branches/shared/components/seo/SchemaPreviewPanel'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { NullField as NullField_2268e15cf932e44cda3df092f02d84c5 } from '@/branches/shared/components/admin/NullField'
+import { NullField as NullField_65771864c29fb151b1f8974401271cc7 } from '@/branches/shared/components/admin/NullField'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
@@ -34,11 +34,11 @@ import { InlineCodeFeatureClient as InlineCodeFeatureClient_e70f5e05f09f93e00b99
 import { SuperscriptFeatureClient as SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { SubscriptFeatureClient as SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { AdminLogo as AdminLogo_aa0a2d19d38a4839dbd373417e210b89 } from '@/branches/shared/components/admin/AdminLogo'
-import { BeforeDashboard as BeforeDashboard_1a7510af427896d367a49dbf838d2de6 } from '@/branches/shared/components/admin/BeforeDashboard'
-import { BeforeLogin as BeforeLogin_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/branches/shared/components/admin/BeforeLogin'
+import { AdminLogo as AdminLogo_2c011273ec82b6bdd2c32c4619882e8b } from '@/branches/shared/components/admin/AdminLogo'
+import { BeforeDashboard as BeforeDashboard_370a0e4b6d4d7854fd06eb69c91906c3 } from '@/branches/shared/components/admin/BeforeDashboard'
+import { BeforeLogin as BeforeLogin_a48052c918f273f5b689a72a49236fc6 } from '@/branches/shared/components/admin/BeforeLogin'
 import { ClientSwitcher as ClientSwitcher_82149deeee1bead037f3e238046d2065 } from '@/branches/platform/components/ClientSwitcher'
-import { HideCollections as HideCollections_3fd2c7c4a7062b8d1d183ccc45b7298d } from '@/branches/shared/components/admin/HideCollections'
+import { HideCollections as HideCollections_4bbecc5ee8d23bad6c2d4b6dfc729a7f } from '@/branches/shared/components/admin/HideCollections'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -57,15 +57,15 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#LinkFeatureClient": LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#IndentFeatureClient": IndentFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#TableFeatureClient": TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/components/IconPickerField#IconPickerField": IconPickerField_96fa91b3a1147f26fe9c9a414cfa6358,
-  "@/components/seo/SEOScorePanel#SEOScorePanel": SEOScorePanel_6ccdf1604ea00b0dd3eb22dad6ce4df8,
-  "@/components/seo/SchemaPreviewPanel#SchemaPreviewPanel": SchemaPreviewPanel_778ef300d0f9e2079aa27a8b3c38813c,
+  "@/branches/shared/components/admin/IconPickerField#IconPickerField": IconPickerField_971468ac2d2d4a25a1bfb0b043e30b67,
+  "@/branches/shared/components/seo/SEOScorePanel#SEOScorePanel": SEOScorePanel_a23a88f7c25b06e661f74a0aec632ed0,
+  "@/branches/shared/components/seo/SchemaPreviewPanel#SchemaPreviewPanel": SchemaPreviewPanel_e96cef551ebcf92461de42edb24d3a5c,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@/components/admin/NullField#NullField": NullField_2268e15cf932e44cda3df092f02d84c5,
+  "@/branches/shared/components/admin/NullField#NullField": NullField_65771864c29fb151b1f8974401271cc7,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
@@ -78,10 +78,10 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#SuperscriptFeatureClient": SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#SubscriptFeatureClient": SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#StrikethroughFeatureClient": StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/components/AdminLogo#AdminLogo": AdminLogo_aa0a2d19d38a4839dbd373417e210b89,
-  "@/components/BeforeDashboard#BeforeDashboard": BeforeDashboard_1a7510af427896d367a49dbf838d2de6,
-  "@/components/BeforeLogin#BeforeLogin": BeforeLogin_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@/branches/shared/components/admin/AdminLogo#AdminLogo": AdminLogo_2c011273ec82b6bdd2c32c4619882e8b,
+  "@/branches/shared/components/admin/BeforeDashboard#BeforeDashboard": BeforeDashboard_370a0e4b6d4d7854fd06eb69c91906c3,
+  "@/branches/shared/components/admin/BeforeLogin#BeforeLogin": BeforeLogin_a48052c918f273f5b689a72a49236fc6,
   "@/branches/platform/components/ClientSwitcher#ClientSwitcher": ClientSwitcher_82149deeee1bead037f3e238046d2065,
-  "@/components/admin/HideCollections#HideCollections": HideCollections_3fd2c7c4a7062b8d1d183ccc45b7298d,
+  "@/branches/shared/components/admin/HideCollections#HideCollections": HideCollections_4bbecc5ee8d23bad6c2d4b6dfc729a7f,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

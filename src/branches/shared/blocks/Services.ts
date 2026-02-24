@@ -141,7 +141,7 @@ export const Services: Block = {
             placeholder: 'Shield',
             condition: (data, siblingData) => siblingData.iconType === 'lucide',
             components: {
-              Field: '@/components/IconPickerField#IconPickerField',
+              Field: '@/branches/shared/components/admin/IconPickerField#IconPickerField',
             },
           },
         },

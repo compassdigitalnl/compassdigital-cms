@@ -58,7 +58,7 @@ export const ServicesCollection: CollectionConfig = {
         placeholder: 'Shield',
         condition: (data) => data?.iconType === 'lucide',
         components: {
-          Field: '@/components/IconPickerField#IconPickerField',
+          Field: '@/branches/shared/components/admin/IconPickerField#IconPickerField',
         },
       },
     },

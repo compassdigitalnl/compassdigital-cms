@@ -220,7 +220,7 @@ export const Pages: CollectionConfig = {
       admin: {
         position: 'sidebar',
         components: {
-          Field: '@/components/seo/SEOScorePanel#SEOScorePanel',
+          Field: '@/branches/shared/components/seo/SEOScorePanel#SEOScorePanel',
         },
       },
     },
@@ -232,7 +232,7 @@ export const Pages: CollectionConfig = {
       admin: {
         position: 'sidebar',
         components: {
-          Field: '@/components/seo/SchemaPreviewPanel#SchemaPreviewPanel',
+          Field: '@/branches/shared/components/seo/SchemaPreviewPanel#SchemaPreviewPanel',
         },
       },
     },
