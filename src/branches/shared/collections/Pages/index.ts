@@ -16,7 +16,9 @@ import { CategoryGrid } from '@/branches/ecommerce/blocks/CategoryGrid'
 import { Stats } from '@/branches/shared/blocks/Stats/config'
 import { Team } from '@/branches/shared/blocks/Team/config'
 import { Services } from '@/branches/shared/blocks/Services/config'
-import { ContactFormBlock } from '@/branches/shared/blocks/ContactFormBlock'
+import { Contact } from '@/branches/shared/blocks/Contact/config'
+import { ContactFormBlock } from '@/branches/shared/blocks/ContactFormBlock/config'
+import { Newsletter } from '@/branches/shared/blocks/Newsletter/config'
 import { ImageGallery } from '@/branches/shared/blocks/ImageGallery/config'
 import { Video } from '@/branches/shared/blocks/Video/config'
 import { Map } from '@/branches/shared/blocks/Map'
@@ -192,7 +194,9 @@ export const Pages: CollectionConfig = {
 
         // ── Conversie blokken ──
         CTA,
-        ContactFormBlock,
+        Contact, // Contact information display
+        ContactFormBlock, // Contact form with sidebar
+        Newsletter, // Email newsletter signup
 
         // ── Social proof & Portfolio ──
         TestimonialsBlock, // Klant reviews

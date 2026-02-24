@@ -1,20 +1,48 @@
 'use client'
 
 import React, { useState } from 'react'
-import type { ContactFormBlock } from '@/payload-types'
+import { Phone, Mail, MapPin, Clock, Loader2, CheckCircle, XCircle } from 'lucide-react'
 import { useRecaptcha } from '@/hooks/useRecaptcha'
 
 /**
- * ContactFormBlock Component - 100% Theme Variable Compliant
+ * B25 - ContactForm Block Component
  *
- * Refactored from hardcoded success/error colors to theme variables.
- * All status colors now use CSS variables from ThemeProvider:
- * - Success states → bg-success-light, border-success, text-success, text-success-dark
- * - Error states → bg-error-light, border-error, text-error
- * - Primary button → bg-primary (already using var)
+ * Full-featured contact form with configurable fields and contact info sidebar.
+ *
+ * FEATURES:
+ * - Form fields: name, email, phone (optional), subject (optional), message
+ * - Configurable field visibility (showPhone, showSubject)
+ * - Client-side validation with error messages
+ * - Form submission to /api/contact endpoint
+ * - Success/error states with custom messages
+ * - Contact info sidebar (phone, email, address, hours)
+ * - 2-column responsive layout (form left, sidebar right)
+ * - reCAPTCHA integration for spam protection
+ * - Loading state with spinner
+ *
+ * @see src/branches/shared/blocks/ContactFormBlock/config.ts
+ * @see docs/refactoring/sprint-7/b25-contactform.html
  */
 
-type FormData = {
+interface ContactInfo {
+  phone?: string
+  email?: string
+  address?: string
+  hours?: string
+}
+
+interface ContactFormBlockProps {
+  title?: string
+  description?: string
+  showPhone?: boolean
+  showSubject?: boolean
+  submitTo: string
+  contactInfo?: ContactInfo
+  successMessage?: string
+  errorMessage?: string
+}
+
+interface FormData {
   name: string
   email: string
   phone?: string
@@ -24,7 +52,16 @@ type FormData = {
 
 type FormErrors = Partial<Record<keyof FormData, string>>
 
-export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading, intro }) => {
+export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
+  title = 'Neem contact op',
+  description,
+  showPhone = true,
+  showSubject = true,
+  submitTo,
+  contactInfo,
+  successMessage = 'Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.',
+  errorMessage = 'Er ging iets mis. Probeer het opnieuw of neem direct contact op.',
+}) => {
   const { executeRecaptcha, isConfigured } = useRecaptcha()
 
   const [formData, setFormData] = useState<FormData>({
@@ -38,7 +75,6 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
   const [errors, setErrors] = useState<FormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
@@ -55,8 +91,8 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
       newErrors.email = 'Ongeldig e-mailadres'
     }
 
-    // Phone validation (optional, but if provided, check format)
-    if (formData.phone && !/^[\d\s\-\+\(\)]+$/.test(formData.phone)) {
+    // Phone validation (if shown and provided)
+    if (showPhone && formData.phone && !/^[\d\s\-\+\(\)]+$/.test(formData.phone)) {
       newErrors.phone = 'Ongeldig telefoonnummer'
     }
 
@@ -80,7 +116,6 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
 
     setIsSubmitting(true)
     setSubmitStatus('idle')
-    setErrorMessage('')
 
     try {
       // Get reCAPTCHA token (if configured)
@@ -100,13 +135,13 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
         },
         body: JSON.stringify({
           ...formData,
+          submitTo,
           recaptchaToken,
         }),
       })
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.error || 'Failed to send message')
+        throw new Error('Form submission failed')
       }
 
       setSubmitStatus('success')
@@ -117,154 +152,300 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = ({ heading,
         subject: '',
         message: '',
       })
+      setErrors({})
     } catch (error) {
-      console.error('[Contact Form] Submission error:', error)
+      console.error('Form submission error:', error)
       setSubmitStatus('error')
-      setErrorMessage(
-        error instanceof Error && error.message.includes('reCAPTCHA')
-          ? 'Spam verificatie mislukt. Probeer het opnieuw.'
-          : 'Er is iets misgegaan. Probeer het later opnieuw.'
-      )
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handleChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+  const handleChange = (field: keyof FormData) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: e.target.value,
+    }))
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+      setErrors((prev) => ({
+        ...prev,
+        [field]: undefined,
+      }))
     }
   }
 
+  const hasContactInfo = contactInfo && (contactInfo.phone || contactInfo.email || contactInfo.address || contactInfo.hours)
+
   return (
-    <section className="contact-form py-16 px-4">
-      <div className="container mx-auto max-w-2xl">
-        {heading && <h2 className="text-3xl font-bold mb-4 text-center">{heading}</h2>}
-        {intro && <p className="text-center mb-8 text-gray-600">{intro}</p>}
+    <section className="py-16 md:py-20">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl md:text-4xl text-navy mb-3">
+            {title}
+          </h2>
+          {description && (
+            <p className="text-base text-grey-dark max-w-2xl mx-auto">
+              {description}
+            </p>
+          )}
+        </div>
 
-        {submitStatus === 'success' ? (
-          <div className="p-6 rounded-lg text-center bg-success-light border-2 border-success">
-            <svg className="w-16 h-16 mx-auto mb-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <h3 className="text-xl font-semibold mb-2 text-success-dark">Bericht verzonden!</h3>
-            <p className="text-success-dark">Bedankt voor uw bericht. We nemen zo snel mogelijk contact met u op.</p>
-            <button
-              onClick={() => setSubmitStatus('idle')}
-              className="mt-4 px-6 py-2 rounded font-semibold bg-success text-white hover:opacity-90 transition-opacity"
-            >
-              Nog een bericht versturen
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Field */}
-            <div>
-              <label htmlFor="name" className="block mb-2 font-semibold">
-                Naam <span className="text-error">*</span>
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.name ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
-                }`}
-                placeholder="Uw naam"
-              />
-              {errors.name && <p className="mt-1 text-sm text-error">{errors.name}</p>}
-            </div>
-
-            {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block mb-2 font-semibold">
-                E-mailadres <span className="text-error">*</span>
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.email ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
-                }`}
-                placeholder="uw.email@voorbeeld.nl"
-              />
-              {errors.email && <p className="mt-1 text-sm text-error">{errors.email}</p>}
-            </div>
-
-            {/* Phone Field (Optional) */}
-            <div>
-              <label htmlFor="phone" className="block mb-2 font-semibold">
-                Telefoonnummer
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleChange('phone', e.target.value)}
-                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.phone ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
-                }`}
-                placeholder="06 12345678"
-              />
-              {errors.phone && <p className="mt-1 text-sm text-error">{errors.phone}</p>}
-            </div>
-
-            {/* Subject Field (Optional) */}
-            <div>
-              <label htmlFor="subject" className="block mb-2 font-semibold">
-                Onderwerp
-              </label>
-              <input
-                id="subject"
-                type="text"
-                value={formData.subject}
-                onChange={(e) => handleChange('subject', e.target.value)}
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Waar gaat uw bericht over?"
-              />
-            </div>
-
-            {/* Message Field */}
-            <div>
-              <label htmlFor="message" className="block mb-2 font-semibold">
-                Bericht <span className="text-error">*</span>
-              </label>
-              <textarea
-                id="message"
-                value={formData.message}
-                onChange={(e) => handleChange('message', e.target.value)}
-                rows={6}
-                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 ${
-                  errors.message ? 'border-error focus:ring-error' : 'focus:ring-blue-500'
-                }`}
-                placeholder="Typ hier uw bericht..."
-              />
-              {errors.message && <p className="mt-1 text-sm text-error">{errors.message}</p>}
-            </div>
-
-            {/* Error Message */}
-            {submitStatus === 'error' && (
-              <div className="p-4 rounded bg-error-light border border-error">
-                <p className="text-error">{errorMessage}</p>
+        {/* Form Grid */}
+        <div className={`max-w-6xl mx-auto grid grid-cols-1 ${hasContactInfo ? 'lg:grid-cols-3' : ''} gap-12`}>
+          {/* Contact Form */}
+          <div className={hasContactInfo ? 'lg:col-span-2' : 'max-w-2xl mx-auto w-full'}>
+            {submitStatus === 'success' ? (
+              <div className="bg-green-50 border border-green-500 rounded-xl p-8 text-center">
+                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-green-900 mb-2">
+                  Bericht verstuurd!
+                </h3>
+                <p className="text-[13px] text-green-700 mb-6">
+                  {successMessage}
+                </p>
+                <button
+                  onClick={() => setSubmitStatus('idle')}
+                  className="text-[13px] font-semibold text-green-600 hover:text-green-700 transition-colors"
+                >
+                  Nieuw bericht verzenden →
+                </button>
               </div>
-            )}
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Name & Email Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Name */}
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-semibold text-navy mb-2">
+                      Naam *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={formData.name}
+                      onChange={handleChange('name')}
+                      className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors ${
+                        errors.name
+                          ? 'border-coral bg-coral-50'
+                          : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
+                      } outline-none`}
+                      placeholder="Je volledige naam"
+                    />
+                    {errors.name && (
+                      <p className="mt-1.5 text-[11px] text-coral">{errors.name}</p>
+                    )}
+                  </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full p-3 rounded font-semibold text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ backgroundColor: 'var(--color-primary, #3b82f6)' }}
-            >
-              {isSubmitting ? 'Bezig met verzenden...' : 'Verstuur bericht'}
-            </button>
-          </form>
-        )}
+                  {/* Email */}
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-navy mb-2">
+                      E-mailadres *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={handleChange('email')}
+                      className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors ${
+                        errors.email
+                          ? 'border-coral bg-coral-50'
+                          : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
+                      } outline-none`}
+                      placeholder="je@email.com"
+                    />
+                    {errors.email && (
+                      <p className="mt-1.5 text-[11px] text-coral">{errors.email}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Phone & Subject Row (conditional) */}
+                {(showPhone || showSubject) && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* Phone */}
+                    {showPhone && (
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-semibold text-navy mb-2">
+                          Telefoon
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          value={formData.phone}
+                          onChange={handleChange('phone')}
+                          className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors ${
+                            errors.phone
+                              ? 'border-coral bg-coral-50'
+                              : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
+                          } outline-none`}
+                          placeholder="020 - 123 45 67"
+                        />
+                        {errors.phone && (
+                          <p className="mt-1.5 text-[11px] text-coral">{errors.phone}</p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Subject */}
+                    {showSubject && (
+                      <div>
+                        <label htmlFor="subject" className="block text-sm font-semibold text-navy mb-2">
+                          Onderwerp
+                        </label>
+                        <input
+                          type="text"
+                          id="subject"
+                          value={formData.subject}
+                          onChange={handleChange('subject')}
+                          className="w-full px-4 py-3 text-[13px] border border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20 rounded-lg outline-none transition-colors"
+                          placeholder="Waar gaat je vraag over?"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Message */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-semibold text-navy mb-2">
+                    Bericht *
+                  </label>
+                  <textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={handleChange('message')}
+                    rows={6}
+                    className={`w-full px-4 py-3 text-[13px] border rounded-lg transition-colors resize-none ${
+                      errors.message
+                        ? 'border-coral bg-coral-50'
+                        : 'border-grey bg-white hover:border-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
+                    } outline-none`}
+                    placeholder="Beschrijf je vraag of opmerking..."
+                  />
+                  {errors.message && (
+                    <p className="mt-1.5 text-[11px] text-coral">{errors.message}</p>
+                  )}
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full md:w-auto px-8 py-3.5 bg-teal text-white text-sm font-bold rounded-lg hover:bg-teal-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Verzenden...
+                      </>
+                    ) : (
+                      'Verstuur bericht'
+                    )}
+                  </button>
+                </div>
+
+                {/* Error Message */}
+                {submitStatus === 'error' && (
+                  <div className="bg-coral-50 border border-coral rounded-lg p-4 flex items-start gap-3">
+                    <XCircle className="w-5 h-5 text-coral flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-semibold text-coral-900 mb-1">
+                        Er ging iets mis
+                      </p>
+                      <p className="text-[13px] text-coral-700">
+                        {errorMessage}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </form>
+            )}
+          </div>
+
+          {/* Contact Info Sidebar */}
+          {hasContactInfo && (
+            <div className="bg-grey-light rounded-xl p-6 space-y-5">
+              <h3 className="font-bold text-base text-navy mb-4">
+                Contact informatie
+              </h3>
+
+              {contactInfo!.phone && (
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-teal-glow flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-4 h-4 text-teal" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-grey-dark uppercase tracking-wide mb-1">
+                      Telefoon
+                    </p>
+                    <a
+                      href={`tel:${contactInfo!.phone.replace(/\s/g, '')}`}
+                      className="text-sm font-semibold text-navy hover:text-teal transition-colors"
+                    >
+                      {contactInfo!.phone}
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {contactInfo!.email && (
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-teal-glow flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-4 h-4 text-teal" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-grey-dark uppercase tracking-wide mb-1">
+                      Email
+                    </p>
+                    <a
+                      href={`mailto:${contactInfo!.email}`}
+                      className="text-sm font-semibold text-navy hover:text-teal transition-colors break-all"
+                    >
+                      {contactInfo!.email}
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {contactInfo!.address && (
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-teal-glow flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4 h-4 text-teal" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-grey-dark uppercase tracking-wide mb-1">
+                      Adres
+                    </p>
+                    <p className="text-[13px] text-navy whitespace-pre-line">
+                      {contactInfo!.address}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {contactInfo!.hours && (
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-teal-glow flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-4 h-4 text-teal" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-grey-dark uppercase tracking-wide mb-1">
+                      Openingstijden
+                    </p>
+                    <p className="text-[13px] text-navy">
+                      {contactInfo!.hours}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )

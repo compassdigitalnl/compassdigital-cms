@@ -14,7 +14,9 @@ import { LogoBarBlockComponent } from '@/branches/shared/blocks/LogoBar/Componen
 import { StatsBlockComponent } from '@/branches/shared/blocks/Stats/Component'
 import { TeamBlockComponent } from '@/branches/shared/blocks/Team/Component'
 import { ServicesBlockComponent } from '@/branches/shared/blocks/Services/Component'
+import { ContactBlockComponent } from '@/branches/shared/blocks/Contact/Component'
 import { ContactFormBlockComponent } from '@/branches/shared/blocks/ContactFormBlock/Component'
+import { NewsletterBlockComponent } from '@/branches/shared/blocks/Newsletter/Component'
 import { PricingBlockComponent } from '@/branches/shared/blocks/Pricing/Component'
 import { ImageGalleryBlockComponent } from '@/branches/shared/blocks/ImageGallery/Component'
 import { VideoBlockComponent } from '@/branches/shared/blocks/Video/Component'
@@ -56,7 +58,9 @@ const blockComponents: Record<string, React.FC<any>> = {
   stats: StatsBlockComponent,
   team: TeamBlockComponent,
   services: ServicesBlockComponent,
+  contact: ContactBlockComponent,
   contactForm: ContactFormBlockComponent,
+  newsletter: NewsletterBlockComponent,
   pricing: PricingBlockComponent,
   imageGallery: ImageGalleryBlockComponent,
   video: VideoBlockComponent,
