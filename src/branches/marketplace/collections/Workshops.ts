@@ -56,22 +56,9 @@ export const Workshops: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Automatisch gegenereerd uit de titel',
-            hooks: {
-        beforeValidate: [autoGenerateSlugFromName],
       },
-    },
       hooks: {
-        beforeValidate: [
-          ({ value, data }) => {
-            if (data?.title && !value) {
-              return data.title
-                .toLowerCase()
-                .replace(/ /g, '-')
-                .replace(/[^\w-]+/g, '')
-            }
-            return value
-          },
-        ],
+        beforeValidate: [autoGenerateSlugFromName],
       },
     },
     {

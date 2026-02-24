@@ -56,22 +56,9 @@ export const Vendors: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Automatisch gegenereerd uit de naam',
-            hooks: {
-        beforeValidate: [autoGenerateSlugFromName],
       },
-    },
       hooks: {
-        beforeValidate: [
-          ({ value, data }) => {
-            if (data?.name && !value) {
-              return data.name
-                .toLowerCase()
-                .replace(/ /g, '-')
-                .replace(/[^\w-]+/g, '')
-            }
-            return value
-          },
-        ],
+        beforeValidate: [autoGenerateSlugFromName],
       },
     },
     {
