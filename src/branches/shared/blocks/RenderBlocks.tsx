@@ -13,6 +13,7 @@ import { TestimonialsBlockComponent } from '@/branches/shared/blocks/Testimonial
 import { LogoBarBlockComponent } from '@/branches/shared/blocks/LogoBar/Component'
 import { StatsBlockComponent } from '@/branches/shared/blocks/Stats/Component'
 import { TeamBlockComponent } from '@/branches/shared/blocks/Team/Component'
+import { ServicesBlockComponent } from '@/branches/shared/blocks/Services/Component'
 import { ContactFormBlockComponent } from '@/branches/shared/blocks/ContactFormBlock/Component'
 import { PricingBlockComponent } from '@/branches/shared/blocks/Pricing/Component'
 import { ImageGalleryBlockComponent } from '@/branches/shared/blocks/ImageGallery/Component'
@@ -21,6 +22,9 @@ import { MapBlockComponent } from '@/branches/shared/blocks/Map/Component'
 import { AccordionBlockComponent } from '@/branches/shared/blocks/Accordion/Component'
 import { SpacerBlockComponent } from '@/branches/shared/blocks/Spacer/Component'
 import { BlogPreviewBlockComponent } from '@/branches/shared/blocks/BlogPreview/Component'
+import { BannerBlockComponent } from '@/branches/shared/blocks/Banner/Component'
+import { ComparisonBlockComponent } from '@/branches/shared/blocks/Comparison/Component'
+import { InfoBoxBlockComponent } from '@/branches/shared/blocks/InfoBox/Component'
 
 // ─── ECOMMERCE BLOCKS (shop feature) ──────────────────────────────
 import { CategoryGrid } from '@/branches/ecommerce/blocks/CategoryGrid/Component'
@@ -48,9 +52,10 @@ const blockComponents: Record<string, React.FC<any>> = {
   cta: CTABlockComponent,
   twoColumn: TwoColumnBlockComponent,
   testimonials: TestimonialsBlockComponent,
-  logoBar: LogoBarBlockComponent,
+  logobar: LogoBarBlockComponent,
   stats: StatsBlockComponent,
   team: TeamBlockComponent,
+  services: ServicesBlockComponent,
   contactForm: ContactFormBlockComponent,
   pricing: PricingBlockComponent,
   imageGallery: ImageGalleryBlockComponent,
@@ -58,7 +63,10 @@ const blockComponents: Record<string, React.FC<any>> = {
   map: MapBlockComponent,
   accordion: AccordionBlockComponent,
   spacer: SpacerBlockComponent,
-  'blog-preview': BlogPreviewBlockComponent,
+  blogpreview: BlogPreviewBlockComponent,
+  banner: BannerBlockComponent,
+  comparison: ComparisonBlockComponent,
+  infobox: InfoBoxBlockComponent,
 
   // ─── ECOMMERCE (only if shop enabled) ──────────────────────────────
   ...(isFeatureEnabled('shop')

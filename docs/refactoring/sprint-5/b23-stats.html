@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stats Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STATS BLOCK COMPONENT STYLES
+   ═══════════════════════════════════════════════════════════ */
+.stats-block {
+  padding: 60px 24px;
+}
+
+.stats-block.bg-white {
+  background: white;
+}
+
+.stats-block.bg-grey {
+  background: var(--grey-light);
+}
+
+.stats-block.bg-teal {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-block.bg-teal::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.stats-block.bg-navy {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-block.bg-navy::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.stats-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.stats-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.stats-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--navy);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.stats-block.bg-teal .stats-title,
+.stats-block.bg-navy .stats-title {
+  color: white;
+}
+
+.stats-description {
+  font-size: 15px;
+  color: var(--grey-dark);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.stats-block.bg-teal .stats-description,
+.stats-block.bg-navy .stats-description {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  background: var(--teal-glow);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.stats-block.bg-teal .stat-icon,
+.stats-block.bg-navy .stat-icon {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 400;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.stats-block.bg-teal .stat-value,
+.stats-block.bg-navy .stat-value {
+  color: white;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--grey-dark);
+  font-weight: 600;
+  display: block;
+}
+
+.stats-block.bg-teal .stat-label,
+.stats-block.bg-navy .stat-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.stat-description {
+  font-size: 13px;
+  color: var(--grey-mid);
+  margin-top: 6px;
+  line-height: 1.4;
+  max-width: 220px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stats-block.bg-teal .stat-description,
+.stats-block.bg-navy .stat-description {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .stats-title {
+    font-size: 28px;
+  }
+
+  .stat-value {
+    font-size: 40px;
+  }
+
+  .stats-block {
+    padding: 48px 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Stats Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-stats">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B23</span>
+        <span class="section-label">Stats Block</span>
+      </div>
+      <span class="tag" style="background:var(--amber);color:white">Status</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Statistics showcase block for displaying key metrics and achievements. Supports 2-4 columns with large serif numbers, labels, optional icons, and descriptions. Perfect for highlighting company stats, achievements, or KPIs. Available in 4 background variants: white, grey, teal gradient, and navy gradient.
+    </p>
+
+    <!-- VARIANT 1: 4 COLUMNS - WHITE BACKGROUND -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 4 Columns (White Background)
+      </div>
+      <div class="box-content" style="padding:0;">
+
+        <div class="stats-block bg-white">
+          <div class="stats-inner">
+            <div class="stats-header">
+              <h2 class="stats-title">Trusted by Professionals</h2>
+              <p class="stats-description">Our platform serves thousands of businesses worldwide with industry-leading service and support.</p>
+            </div>
+
+            <div class="grid-4">
+              <div class="stat-item">
+                <div class="stat-icon">🏥</div>
+                <span class="stat-value">500+</span>
+                <span class="stat-label">Active Clients</span>
+                <span class="stat-description">Medical facilities using our platform daily</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-icon">⚡</div>
+                <span class="stat-value">99.9%</span>
+                <span class="stat-label">Uptime</span>
+                <span class="stat-description">Guaranteed service availability 24/7</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-icon">🎯</div>
+                <span class="stat-value">24/7</span>
+                <span class="stat-label">Support</span>
+                <span class="stat-description">Expert help whenever you need it</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-icon">📦</div>
+                <span class="stat-value">50K+</span>
+                <span class="stat-label">Products</span>
+                <span class="stat-description">Extensive medical supply catalog</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VARIANT 2: 3 COLUMNS - GREY BACKGROUND -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 3 Columns (Grey Background)
+      </div>
+      <div class="box-content" style="padding:0;">
+
+        <div class="stats-block bg-grey">
+          <div class="stats-inner">
+            <div class="stats-header">
+              <h2 class="stats-title">Platform Performance</h2>
+            </div>
+
+            <div class="grid-3">
+              <div class="stat-item">
+                <div class="stat-icon">📊</div>
+                <span class="stat-value">€2.5M</span>
+                <span class="stat-label">Annual Revenue</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-icon">🚀</div>
+                <span class="stat-value">35%</span>
+                <span class="stat-label">Growth Rate</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-icon">⭐</div>
+                <span class="stat-value">4.8/5</span>
+                <span class="stat-label">Customer Rating</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VARIANT 3: 2 COLUMNS - TEAL GRADIENT -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 2 Columns (Teal Gradient)
+      </div>
+      <div class="box-content" style="padding:0;">
+
+        <div class="stats-block bg-teal">
+          <div class="stats-inner">
+            <div class="stats-header">
+              <h2 class="stats-title">Why Choose Us</h2>
+              <p class="stats-description">Industry-leading expertise and service quality that sets us apart.</p>
+            </div>
+
+            <div class="grid-2">
+              <div class="stat-item">
+                <div class="stat-icon">🏆</div>
+                <span class="stat-value">15+</span>
+                <span class="stat-label">Years Experience</span>
+                <span class="stat-description">Serving the medical industry since 2008</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-icon">✓</div>
+                <span class="stat-value">100%</span>
+                <span class="stat-label">Certified Products</span>
+                <span class="stat-description">All products meet ISO standards</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VARIANT 4: 3 COLUMNS - NAVY GRADIENT (NO ICONS) -->
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 3 Columns (Navy Gradient, No Icons)
+      </div>
+      <div class="box-content" style="padding:0;">
+
+        <div class="stats-block bg-navy">
+          <div class="stats-inner">
+            <div class="stats-header">
+              <h2 class="stats-title">Delivering Excellence</h2>
+              <p class="stats-description">Numbers that speak for our commitment to quality and customer satisfaction.</p>
+            </div>
+
+            <div class="grid-3">
+              <div class="stat-item">
+                <span class="stat-value">1,200+</span>
+                <span class="stat-label">Healthcare Partners</span>
+              </div>
+
+              <div class="stat-item">
+                <span class="stat-value">&lt; 24h</span>
+                <span class="stat-label">Delivery Time</span>
+              </div>
+
+              <div class="stat-item">
+                <span class="stat-value">98%</span>
+                <span class="stat-label">Customer Retention</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAYLOAD SCHEMA -->
+    <div class="code-block">
+<span class="comment">// Stats Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'stats'</span>,
+  <span class="property">fields</span>: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Section Title'</span>
+    },
+    {
+      <span class="property">name</span>: <span class="string">'description'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Section Description'</span>
+    },
+    {
+      <span class="property">name</span>: <span class="string">'columns'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [
+        { <span class="property">label</span>: <span class="string">'2 Columns'</span>, <span class="property">value</span>: <span class="string">'2'</span> },
+        { <span class="property">label</span>: <span class="string">'3 Columns'</span>, <span class="property">value</span>: <span class="string">'3'</span> },
+        { <span class="property">label</span>: <span class="string">'4 Columns'</span>, <span class="property">value</span>: <span class="string">'4'</span> }
+      ],
+      <span class="property">defaultValue</span>: <span class="string">'3'</span>
+    },
+    {
+      <span class="property">name</span>: <span class="string">'stats'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Statistics'</span>,
+      <span class="property">minRows</span>: <span class="number">2</span>,
+      <span class="property">maxRows</span>: <span class="number">4</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'value'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">label</span>: <span class="string">'Value'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'The number/stat to display (e.g. "500+", "99.9%", "24/7")'</span>
+          }
+        },
+        {
+          <span class="property">name</span>: <span class="string">'label'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">label</span>: <span class="string">'Label'</span>
+        },
+        {
+          <span class="property">name</span>: <span class="string">'description'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Description'</span>
+        },
+        {
+          <span class="property">name</span>: <span class="string">'icon'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Icon (Emoji or Lucide Icon Name)'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Emoji (🏥) or Lucide icon name (activity, award, users, etc.)'</span>
+          }
+        }
+      ]
+    },
+    {
+      <span class="property">name</span>: <span class="string">'backgroundColor'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [
+        { <span class="property">label</span>: <span class="string">'White'</span>, <span class="property">value</span>: <span class="string">'white'</span> },
+        { <span class="property">label</span>: <span class="string">'Light Grey'</span>, <span class="property">value</span>: <span class="string">'grey'</span> },
+        { <span class="property">label</span>: <span class="string">'Teal Gradient'</span>, <span class="property">value</span>: <span class="string">'teal'</span> },
+        { <span class="property">label</span>: <span class="string">'Navy Gradient'</span>, <span class="property">value</span>: <span class="string">'navy'</span> }
+      ],
+      <span class="property">defaultValue</span>: <span class="string">'white'</span>
+    }
+  ]
+}
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Stats/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Stats/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Stats</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'stats'</span>,
+  labels: {
+    singular: <span class="string">'Stats Block'</span>,
+    plural: <span class="string">'Stats Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Section Title'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional heading for the stats section (e.g., "Trusted by Professionals")'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'description'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Section Description'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional subtitle/description below the title'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'columns'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Number of Columns'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'3'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'2 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'2'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'3 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'3'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'4 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'4'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Controls the grid layout. 4 columns on desktop, responsive on mobile.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'stats'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Statistics'</span>,
+      <span class="property">minRows</span>: <span class="number">2</span>,
+      <span class="property">maxRows</span>: <span class="number">4</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'value'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">label</span>: <span class="string">'Statistic Value'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'The number/stat to display. Can include units (e.g., "500+", "99.9%", "24/7", "€2.5M")'</span>,
+            <span class="property">placeholder</span>: <span class="string">'e.g., 500+, 99.9%, 24/7'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'label'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">label</span>: <span class="string">'Label'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Short label describing the statistic (e.g., "Active Clients", "Uptime", "Support")'</span>,
+            <span class="property">placeholder</span>: <span class="string">'e.g., Active Clients'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'description'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Description'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Optional longer description below the label'</span>,
+            <span class="property">placeholder</span>: <span class="string">'e.g., Medical facilities using our platform daily'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'icon'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Icon'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Emoji (🏥, ⚡, 🎯) or Lucide icon name (activity, award, users, package, etc.)'</span>,
+            <span class="property">placeholder</span>: <span class="string">'🏥 or activity'</span>,
+          },
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Add 2-4 statistics. Number of stats should match the selected column count for best results.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'backgroundColor'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Background Style'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'white'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'White'</span>,
+          <span class="property">value</span>: <span class="string">'white'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Light Grey'</span>,
+          <span class="property">value</span>: <span class="string">'grey'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Teal Gradient'</span>,
+          <span class="property">value</span>: <span class="string">'teal'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Navy Gradient'</span>,
+          <span class="property">value</span>: <span class="string">'navy'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Teal/Navy gradients feature a decorative radial glow overlay'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">export interface</span> <span class="function">Stat</span> {
+  <span class="property">value</span>: <span class="keyword">string</span>
+  <span class="property">label</span>: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">string</span>
+  <span class="property">icon</span>?: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">StatsBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'stats'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">string</span>
+  <span class="property">columns</span>: <span class="string">'2'</span> | <span class="string">'3'</span> | <span class="string">'4'</span>
+  <span class="property">stats</span>: <span class="function">Stat</span>[]
+  <span class="property">backgroundColor</span>: <span class="string">'white'</span> | <span class="string">'grey'</span> | <span class="string">'teal'</span> | <span class="string">'navy'</span>
+}
+
+<span class="comment">// Type guard to check if a block is a StatsBlock</span>
+<span class="keyword">export function</span> <span class="function">isStatsBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">StatsBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'stats'</span>
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Stats/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Stats/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { <span class="function">StatsBlock</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+
+<span class="keyword">interface</span> <span class="function">StatsProps</span> {
+  <span class="property">block</span>: <span class="function">StatsBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">Stats</span>: React.<span class="function">FC</span>&lt;<span class="function">StatsProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { title, description, columns, stats, backgroundColor } = block
+
+  <span class="comment">// Map columns to grid classes</span>
+  <span class="keyword">const</span> gridClass = {
+    <span class="string">'2'</span>: <span class="string">'grid-cols-1 md:grid-cols-2'</span>,
+    <span class="string">'3'</span>: <span class="string">'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'</span>,
+    <span class="string">'4'</span>: <span class="string">'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'</span>,
+  }[columns]
+
+  <span class="comment">// Map background to classes</span>
+  <span class="keyword">const</span> bgClass = {
+    white: <span class="string">'bg-white'</span>,
+    grey: <span class="string">'bg-grey-light'</span>,
+    teal: <span class="string">'bg-gradient-to-br from-teal to-teal-dark relative overflow-hidden'</span>,
+    navy: <span class="string">'bg-gradient-to-br from-navy to-navy-light relative overflow-hidden'</span>,
+  }[backgroundColor]
+
+  <span class="keyword">const</span> isDark = backgroundColor === <span class="string">'teal'</span> || backgroundColor === <span class="string">'navy'</span>
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className={<span class="function">cn</span>(<span class="string">'py-16 md:py-20'</span>, bgClass)}&gt;
+      {<span class="comment">/* Decorative glow for gradient backgrounds */</span>}
+      {isDark && (
+        &lt;<span class="keyword">div</span> className=<span class="string">"absolute -top-1/2 -right-[10%] w-[400px] h-[400px] bg-radial-glow rounded-full pointer-events-none opacity-10"</span> /&gt;
+      )}
+
+      &lt;<span class="keyword">div</span> className=<span class="string">"container relative z-10"</span>&gt;
+        {<span class="comment">/* Header */</span>}
+        {(title || description) && (
+          &lt;<span class="keyword">div</span> className=<span class="string">"text-center mb-12 md:mb-16"</span>&gt;
+            {title && (
+              &lt;<span class="keyword">h2</span> className={<span class="function">cn</span>(
+                <span class="string">'font-display text-4xl md:text-5xl mb-3'</span>,
+                isDark ? <span class="string">'text-white'</span> : <span class="string">'text-navy'</span>
+              )}&gt;
+                {title}
+              &lt;/<span class="keyword">h2</span>&gt;
+            )}
+            {description && (
+              &lt;<span class="keyword">p</span> className={<span class="function">cn</span>(
+                <span class="string">'text-base max-w-2xl mx-auto'</span>,
+                isDark ? <span class="string">'text-white/70'</span> : <span class="string">'text-grey-dark'</span>
+              )}&gt;
+                {description}
+              &lt;/<span class="keyword">p</span>&gt;
+            )}
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+
+        {<span class="comment">/* Stats Grid */</span>}
+        &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'grid gap-8 md:gap-12'</span>, gridClass)}&gt;
+          {stats.map((stat, index) => (
+            &lt;<span class="keyword">div</span> key={index} className=<span class="string">"text-center"</span>&gt;
+              {<span class="comment">/* Icon */</span>}
+              {stat.icon && (
+                &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(
+                  <span class="string">'w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center text-3xl'</span>,
+                  isDark ? <span class="string">'bg-white/15'</span> : <span class="string">'bg-teal-glow'</span>
+                )}&gt;
+                  {<span class="comment">/* Render emoji or Lucide icon */</span>}
+                  {stat.icon.length &lt;= <span class="number">2</span> ? (
+                    &lt;<span class="keyword">span</span>&gt;{stat.icon}&lt;/<span class="keyword">span</span>&gt;
+                  ) : (
+                    &lt;<span class="keyword">i</span> data-lucide={stat.icon} className=<span class="string">"w-7 h-7"</span> /&gt;
+                  )}
+                &lt;/<span class="keyword">div</span>&gt;
+              )}
+
+              {<span class="comment">/* Value */</span>}
+              &lt;<span class="keyword">span</span> className={<span class="function">cn</span>(
+                <span class="string">'font-display text-5xl md:text-6xl block mb-2'</span>,
+                isDark ? <span class="string">'text-white'</span> : <span class="string">'text-navy'</span>
+              )}&gt;
+                {stat.value}
+              &lt;/<span class="keyword">span</span>&gt;
+
+              {<span class="comment">/* Label */</span>}
+              &lt;<span class="keyword">span</span> className={<span class="function">cn</span>(
+                <span class="string">'text-sm font-semibold block'</span>,
+                isDark ? <span class="string">'text-white/80'</span> : <span class="string">'text-grey-dark'</span>
+              )}&gt;
+                {stat.label}
+              &lt;/<span class="keyword">span</span>&gt;
+
+              {<span class="comment">/* Description */</span>}
+              {stat.description && (
+                &lt;<span class="keyword">span</span> className={<span class="function">cn</span>(
+                  <span class="string">'text-xs mt-1.5 block max-w-[220px] mx-auto'</span>,
+                  isDark ? <span class="string">'text-white/60'</span> : <span class="string">'text-grey-mid'</span>
+                )}&gt;
+                  {stat.description}
+                &lt;/<span class="keyword">span</span>&gt;
+              )}
+            &lt;/<span class="keyword">div</span>&gt;
+          ))}
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Note:</strong> Initialize Lucide icons on component mount for icon support:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// Add to your app/layout.tsx or _app.tsx</span>
+<span class="keyword">import</span> { <span class="function">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>
+
+<span class="keyword">export default function</span> <span class="function">Layout</span>({ children }) {
+  <span class="function">useEffect</span>(() => {
+    <span class="comment">// Initialize Lucide icons after component mounts</span>
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> window !== <span class="string">'undefined'</span> && window.lucide) {
+      window.lucide.createIcons()
+    }
+  }, [])
+
+  <span class="keyword">return</span> &lt;&gt;{children}&lt;/&gt;
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Stats block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--amber);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">📊</span>
+            Stats Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Section Title</div>
+              <input type="text" placeholder="e.g., Trusted by Professionals" disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Section Description</div>
+              <textarea disabled placeholder="Optional subtitle..." style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;resize:vertical;"></textarea>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Number of Columns</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+                <option>2 Columns</option>
+                <option selected>3 Columns</option>
+                <option>4 Columns</option>
+              </select>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Statistics (Array)</div>
+              <div style="background:var(--grey-light);padding:10px;border-radius:6px;margin-bottom:8px;">
+                <div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:6px;">Stat #1</div>
+                <input type="text" placeholder="Value (e.g., 500+)" disabled style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;margin-bottom:4px;">
+                <input type="text" placeholder="Label (e.g., Active Clients)" disabled style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;margin-bottom:4px;">
+                <input type="text" placeholder="Description (optional)" disabled style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;margin-bottom:4px;">
+                <input type="text" placeholder="Icon (🏥 or activity)" disabled style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;">
+              </div>
+              <div style="background:var(--grey-light);padding:10px;border-radius:6px;margin-bottom:8px;">
+                <div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:6px;">Stat #2</div>
+                <input type="text" placeholder="Value" disabled style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:4px;font-size:10px;">
+              </div>
+              <button disabled style="padding:6px 12px;background:var(--teal);color:white;border:none;border-radius:6px;font-size:10px;font-weight:700;opacity:0.6;">+ Add Stat (max 4)</button>
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Background Style</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;">
+                <option selected>White</option>
+                <option>Light Grey</option>
+                <option>Teal Gradient</option>
+                <option>Navy Gradient</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Stats Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. All fields are editable:</strong> Can add title, description, select columns (2/3/4), and configure stats array
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Stats array validation:</strong> Minimum 2 stats required, maximum 4 allowed
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Background variants render:</strong> Test all 4 backgrounds (white, grey, teal gradient, navy gradient)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Grid layouts work:</strong> Verify 2/3/4 column grids display correctly on desktop and are responsive on mobile
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Icons display correctly:</strong> Test both emoji icons (🏥) and Lucide icons (activity, award, etc.)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Typography matches design:</strong> Values use DM Serif Display font at correct size (48px desktop)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Stats block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Stats block</span>
+npx payload migrate:create add_stats_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for:</span>
+<span class="comment"># - title (varchar, nullable)</span>
+<span class="comment"># - description (text, nullable)</span>
+<span class="comment"># - columns (varchar, default '3')</span>
+<span class="comment"># - background_color (varchar, default 'white')</span>
+<span class="comment"># - stats (jsonb) — stores array of stat objects</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># pages_blocks.title → varchar (nullable)</span>
+<span class="comment"># pages_blocks.description → text (nullable)</span>
+<span class="comment"># pages_blocks.columns → varchar (default '3')</span>
+<span class="comment"># pages_blocks.background_color → varchar (default 'white')</span>
+<span class="comment"># pages_blocks.stats → jsonb (array of Stat objects)</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'pages_blocks' AND column_name IN ('title', 'description', 'columns', 'background_color', 'stats');"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#  column_name      | data_type</span>
+<span class="comment"># ------------------+-----------</span>
+<span class="comment">#  title            | varchar</span>
+<span class="comment">#  description      | text</span>
+<span class="comment">#  columns          | varchar</span>
+<span class="comment">#  background_color | varchar</span>
+<span class="comment">#  stats            | jsonb</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Stats array not saving</td>
+              <td>Check migration applied: <code>npx payload migrate</code> → verify <code>stats</code> column exists and is type <code>jsonb</code></td>
+            </tr>
+            <tr>
+              <td>Grid layout not responsive</td>
+              <td>Verify Tailwind breakpoints: <code>md:grid-cols-2</code>, <code>lg:grid-cols-3</code>, etc. Check Tailwind config includes these classes</td>
+            </tr>
+            <tr>
+              <td>Lucide icons not rendering</td>
+              <td>Ensure <code>lucide.createIcons()</code> called after mount. Add to <code>useEffect</code> in layout or component</td>
+            </tr>
+            <tr>
+              <td>Gradient backgrounds missing glow</td>
+              <td>Check pseudo-element CSS: <code>::before</code> with <code>radial-gradient</code> applied and positioned correctly</td>
+            </tr>
+            <tr>
+              <td>Font not DM Serif Display</td>
+              <td>Verify font imported: <code>@import url('...')</code> in globals.css and <code>font-display</code> class uses <code>font-family: var(--font-display)</code></td>
+            </tr>
+            <tr>
+              <td>Min/max rows validation failing</td>
+              <td>Check Payload config: <code>minRows: 2</code>, <code>maxRows: 4</code> in stats array field definition</td>
+            </tr>
+            <tr>
+              <td>Colors not matching design</td>
+              <td>Verify CSS custom properties in Tailwind config: <code>--navy</code>, <code>--teal</code>, <code>--grey-dark</code>, etc.</td>
+            </tr>
+            <tr>
+              <td>TypeScript error on block type</td>
+              <td>Import correct type: <code>import { StatsBlock } from '@/types/blocks'</code> and ensure <code>blockType: 'stats'</code> matches</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Stats block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Stats</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Stats/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">Stats</span>,  <span class="comment">// ← Add Stats block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// CTA,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">Stats</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Stats/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'stats'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Stats</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Additional Tailwind Config:</strong> Add custom utilities for radial gradient glow:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// tailwind.config.ts</span>
+<span class="keyword">import</span> type { <span class="function">Config</span> } <span class="keyword">from</span> <span class="string">'tailwindcss'</span>
+
+<span class="keyword">export default</span> {
+  <span class="comment">// ... other config</span>
+  theme: {
+    extend: {
+      backgroundImage: {
+        <span class="string">'radial-glow'</span>: <span class="string">'radial-gradient(circle, currentColor, transparent 60%)'</span>,
+      },
+      fontFamily: {
+        display: [<span class="string">'DM Serif Display'</span>, <span class="string">'Georgia'</span>, <span class="string">'serif'</span>],
+      },
+      colors: {
+        navy: {
+          DEFAULT: <span class="string">'#0A1628'</span>,
+          light: <span class="string">'#121F33'</span>,
+        },
+        teal: {
+          DEFAULT: <span class="string">'#00897B'</span>,
+          light: <span class="string">'#26A69A'</span>,
+          dark: <span class="string">'#00695C'</span>,
+          glow: <span class="string">'rgba(0, 137, 123, 0.15)'</span>,
+        },
+      },
+    },
+  },
+} <span class="keyword">satisfies</span> <span class="function">Config</span>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

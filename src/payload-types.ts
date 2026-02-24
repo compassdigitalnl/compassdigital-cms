@@ -1156,9 +1156,11 @@ export interface Page {
    */
   layout?:
     | (
+        | BannerBlock
         | SpacerBlock
         | HeroBlock
         | ContentBlock
+        | MediaBlock
         | TwoColumnBlock
         | ProductGridBlock
         | CategoryGridBlock
@@ -1170,12 +1172,81 @@ export interface Page {
         | CasesBlock
         | LogoBarBlock
         | StatsBlock
+        | ServicesBlock
         | FAQBlock
         | TeamBlock
         | AccordionBlock
-        | BlogPreviewBlock
+        | {
+            /**
+             * Main section heading (optional, e.g., "Laatste Blog Posts")
+             */
+            title?: string | null;
+            /**
+             * Number of cards per row on desktop
+             */
+            columns: '2' | '3';
+            /**
+             * Brief description below title (optional, max 2 sentences)
+             */
+            description?: string | null;
+            /**
+             * Select 2-6 blog posts to display. Order matters: first = left.
+             */
+            posts: (number | BlogPost)[];
+            /**
+             * Display post excerpt below title (recommended for better preview)
+             */
+            showExcerpt?: boolean | null;
+            /**
+             * Display estimated reading time (e.g., "5 min read")
+             */
+            showReadTime?: boolean | null;
+            /**
+             * Show category badge overlay on thumbnail (recommended)
+             */
+            showCategory?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'blogpreview';
+          }
+        | {
+            title: string;
+            description?: string | null;
+            /**
+             * Add 2-4 plans or products to compare
+             */
+            columns: {
+              name: string;
+              price: string;
+              /**
+               * Highlight this column with teal accent
+               */
+              featured?: boolean | null;
+              id?: string | null;
+            }[];
+            /**
+             * Add features to compare across plans
+             */
+            rows: {
+              feature: string;
+              /**
+               * Add values for each comparison column (must match number of columns)
+               */
+              values: {
+                type: 'check' | 'x' | 'text';
+                text?: string | null;
+                id?: string | null;
+              }[];
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'comparison';
+          }
+        | InfoBoxBlock
         | ImageGalleryBlock
         | VideoBlock
+        | CodeBlock
         | MapBlock
         | ConstructionHeroBlock
         | ServicesGridBlock
@@ -1215,10 +1286,62 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BannerBlock".
+ */
+export interface BannerBlock {
+  /**
+   * Gradient background color and semantic meaning
+   */
+  variant: 'announcement' | 'promo' | 'warning';
+  /**
+   * Short announcement message (max 150 characters)
+   */
+  message: string;
+  /**
+   * Optional call-to-action button text
+   */
+  ctaText?: string | null;
+  /**
+   * URL for CTA button (internal or external)
+   */
+  ctaLink?: string | null;
+  /**
+   * Allow users to close this banner with an X button
+   */
+  dismissible?: boolean | null;
+  /**
+   * Unique identifier for localStorage (e.g., "promo-2026-feb"). Users who dismiss this banner will not see it again.
+   */
+  dismissalKey: string;
+  /**
+   * Keep banner fixed at top of screen when scrolling (z-index: 100)
+   */
+  sticky?: boolean | null;
+  /**
+   * Banner appears starting from this date (optional)
+   */
+  showFrom?: string | null;
+  /**
+   * Banner disappears after this date (optional)
+   */
+  showUntil?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'banner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "SpacerBlock".
  */
 export interface SpacerBlock {
-  height: 'small' | 'medium' | 'large' | 'xlarge';
+  /**
+   * Vertical spacing amount. Automatically reduces on mobile for better UX.
+   */
+  size: 'sm' | 'md' | 'lg' | 'xl';
+  /**
+   * Add a subtle horizontal line in the middle of the spacing
+   */
+  showDivider?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'spacer';
@@ -1285,7 +1408,7 @@ export interface HeroBlock {
  */
 export interface ContentBlock {
   /**
-   * Full rich text editor with all formatting options
+   * Rich text editor with support for headings, lists, links, and text formatting.
    */
   content: {
     root: {
@@ -1303,19 +1426,97 @@ export interface ContentBlock {
     [k: string]: unknown;
   };
   /**
-   * Maximum width of the content container
+   * Controls the maximum width of the content container. Narrow for blog posts, wide for documentation, full for tables/galleries.
    */
-  maxWidth: 'narrow' | 'wide' | 'full';
+  maxWidth?: ('narrow' | 'wide' | 'full') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock".
+ */
+export interface MediaBlock {
+  /**
+   * Choose whether to display an image or video
+   */
+  mediaType?: ('image' | 'video') | null;
+  /**
+   * Position of media relative to text content
+   */
+  mediaPosition?: ('left' | 'right') | null;
+  /**
+   * Upload an image or video file. For videos, use MP4 format for best compatibility.
+   */
+  media: number | Media;
+  /**
+   * YouTube or Vimeo embed URL. If provided, this will be used instead of uploaded video file.
+   */
+  videoUrl?: string | null;
+  /**
+   * Controls the width ratio between media and text columns
+   */
+  split?: ('50-50' | '60-40' | '40-60') | null;
+  /**
+   * Small text above title (e.g., "Video Tour", "Product Showcase")
+   */
+  subtitle?: string | null;
+  /**
+   * Main heading for this section
+   */
+  title: string;
+  /**
+   * Text content displayed next to media. Supports paragraphs, bold, italic, links, and lists.
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  buttons?:
+    | {
+        label: string;
+        variant?: ('primary' | 'secondary' | 'outline' | 'success' | 'danger') | null;
+        /**
+         * Link URL (e.g., "/contact", "https://example.com")
+         */
+        url: string;
+        newTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Background color from Theme global. Maps to CSS variables: --color-white, --color-bg, etc.
+   */
+  backgroundColor?: ('white' | 'bg' | 'grey' | 'tealLight' | 'tealGlow' | 'navy' | 'navyLight') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'media';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TwoColumnBlock".
  */
 export interface TwoColumnBlock {
-  leftColumn: {
+  /**
+   * Controls the width ratio between the two columns. 50/50 for equal width, 60/40 for left emphasis, 40/60 for right emphasis.
+   */
+  split?: ('50-50' | '60-40' | '40-60') | null;
+  /**
+   * Content for the left column. Supports headings, lists, links, and text formatting.
+   */
+  columnOne: {
     root: {
       type: string;
       children: {
@@ -1330,7 +1531,10 @@ export interface TwoColumnBlock {
     };
     [k: string]: unknown;
   };
-  rightColumn: {
+  /**
+   * Content for the right column. Supports headings, lists, links, and text formatting.
+   */
+  columnTwo: {
     root: {
       type: string;
       children: {
@@ -1345,11 +1549,9 @@ export interface TwoColumnBlock {
     };
     [k: string]: unknown;
   };
-  ratio?: ('50-50' | '40-60' | '60-40' | '33-67' | '67-33') | null;
-  alignment?: ('top' | 'center' | 'bottom') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'twoColumn';
+  blockType: 'twocolumn';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1732,103 +1934,151 @@ export interface Case {
  * via the `definition` "LogoBarBlock".
  */
 export interface LogoBarBlock {
-  heading?: string | null;
   /**
-   * Kies tussen herbruikbare partners of unieke logo's voor deze pagina
+   * Optional heading above logos (e.g., "Trusted by leading companies", "Our partners")
    */
-  source: 'collection' | 'manual';
+  title?: string | null;
   /**
-   * Kies welke partner logo's je wilt tonen uit de collection
-   */
-  partners?: (number | Partner)[] | null;
-  /**
-   * Toon alleen partners uit een specifieke categorie (alleen bij collection mode)
-   */
-  category?: ('all' | 'klant' | 'partner' | 'leverancier' | 'certificering' | 'media') | null;
-  /**
-   * Maximaal aantal logo's om te tonen
-   */
-  limit?: number | null;
-  /**
-   * Toon alleen partners die zijn gemarkeerd als "Uitgelicht"
-   */
-  showFeaturedOnly?: boolean | null;
-  /**
-   * Voeg handmatig logo's toe (alleen voor deze pagina)
+   * Add 3-20 client/partner logos. Logos will auto-scroll on mobile if more than 5. Best results: upload logos with transparent backgrounds.
    */
   logos?:
     | {
+        /**
+         * Upload company logo (PNG, SVG recommended). Logos will be displayed in grayscale and colorize on hover.
+         */
         image: number | Media;
+        /**
+         * Used for alt text accessibility (e.g., "Microsoft", "Google")
+         */
         name: string;
+        /**
+         * Optional link to company website (leave empty if no link needed). Must be full URL (e.g., https://example.com)
+         */
         link?: string | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Tekst modus toont merknamen als grote bold tekst
+   * Enable automatic horizontal scrolling animation (pauses on hover). Best for 8+ logos. Creates an infinite carousel effect.
    */
-  displayMode?: ('image' | 'text') | null;
-  layout?: ('grid' | 'carousel') | null;
+  autoScroll?: boolean | null;
+  /**
+   * Choose background style to match surrounding sections. Dark variant inverts logos to white for visibility.
+   */
+  variant?: ('light' | 'white' | 'dark') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'logoBar';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "partners".
- */
-export interface Partner {
-  id: number;
-  /**
-   * Naam van het partner bedrijf of klant
-   */
-  name: string;
-  /**
-   * Upload het logo van de partner/klant (bij voorkeur SVG of PNG met transparante achtergrond)
-   */
-  logo: number | Media;
-  /**
-   * Website van de partner (optioneel)
-   */
-  website?: string | null;
-  /**
-   * Type relatie
-   */
-  category?: ('klant' | 'partner' | 'leverancier' | 'certificering' | 'media') | null;
-  /**
-   * Korte beschrijving van de samenwerking
-   */
-  description?: string | null;
-  /**
-   * Toon dit logo op homepage of belangrijke pagina's
-   */
-  featured?: boolean | null;
-  /**
-   * Sorteer volgorde (lager = eerder getoond)
-   */
-  order?: number | null;
-  status?: ('published' | 'draft') | null;
-  updatedAt: string;
-  createdAt: string;
+  blockType: 'logobar';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatsBlock".
  */
 export interface StatsBlock {
-  heading?: string | null;
+  /**
+   * Optional heading above statistics (e.g., "Our Impact", "By the Numbers")
+   */
+  title?: string | null;
+  /**
+   * Number of statistics per row on desktop
+   */
+  columns: '2' | '3' | '4';
+  /**
+   * Optional introductory text below title (1-2 sentences)
+   */
+  description?: string | null;
+  /**
+   * Add 2-4 key statistics. Best practices: Use round numbers, add context with icons, keep labels short.
+   */
   stats?:
     | {
-        number: string;
-        suffix?: string | null;
+        /**
+         * Optional emoji or icon (e.g., "📊", "🚀", "⭐"). Leave empty for minimal design without icon.
+         */
+        icon?: string | null;
+        /**
+         * The statistic number/value (e.g., "500+", "€2.5M", "< 24h", "98%"). Keep it short and impactful.
+         */
+        value: string;
+        /**
+         * Description of what the stat represents (e.g., "Happy Clients", "Revenue", "Uptime")
+         */
         label: string;
+        /**
+         * Optional extra context (e.g., "Since 2020", "And growing"). Shows below the label in smaller text.
+         */
+        description?: string | null;
         id?: string | null;
       }[]
     | null;
-  layout?: ('grid-2' | 'grid-3' | 'grid-4') | null;
+  /**
+   * Background color/gradient from Theme global. Gradient variants use white text for better contrast.
+   */
+  backgroundColor?: ('white' | 'grey' | 'tealGradient' | 'navyGradient') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'stats';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesBlock".
+ */
+export interface ServicesBlock {
+  /**
+   * Small overline text above main title (optional)
+   */
+  subtitle?: string | null;
+  /**
+   * Main section heading (optional)
+   */
+  title?: string | null;
+  /**
+   * Brief description below title (optional, max 2-3 sentences)
+   */
+  description?: string | null;
+  /**
+   * Number of service cards per row on desktop. Automatically stacks on mobile.
+   */
+  columns: '2' | '3' | '4';
+  /**
+   * Add 2-12 services or features. Each service has an icon, title, description, and optional link.
+   */
+  services?:
+    | {
+        /**
+         * Lucide icon name (e.g., "package", "code", "truck"). Browse icons at lucide.dev
+         */
+        icon?: string | null;
+        /**
+         * Icon color from Theme global tokens
+         */
+        iconColor?: ('teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral') | null;
+        /**
+         * Name of the service or feature (e.g., "Fast Shipping")
+         */
+        title: string;
+        /**
+         * Brief description of the service (1-2 sentences)
+         */
+        description?: string | null;
+        /**
+         * Optional link URL (e.g., /services/setup or https://example.com)
+         */
+        link?: string | null;
+        /**
+         * Text for the link (e.g., "Learn more", "Get started")
+         */
+        linkText?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Background color from Theme global. Maps to CSS variables: --color-white, --color-bg, etc.
+   */
+  backgroundColor?: ('white' | 'bg' | 'grey' | 'tealLight' | 'navyLight') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'services';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1880,24 +2130,64 @@ export interface FAQBlock {
  * via the `definition` "TeamBlock".
  */
 export interface TeamBlock {
-  heading?: string | null;
-  intro?: string | null;
+  /**
+   * Small overline text above main title (optional)
+   */
+  subtitle?: string | null;
+  /**
+   * Main section heading (optional)
+   */
+  title?: string | null;
+  /**
+   * Brief introduction to the team (optional, 1-2 sentences)
+   */
+  description?: string | null;
+  /**
+   * Number of team members per row on desktop
+   */
+  columns: '2' | '3' | '4';
+  /**
+   * Shape of team member photos
+   */
+  photoStyle?: ('square' | 'circle') | null;
+  /**
+   * Add 2-20 team members. Each member has a photo, name, role, bio, email, and optional social links.
+   */
   members?:
     | {
-        photo?: (number | null) | Media;
         /**
-         * Directe URL naar foto (gebruikt voor AI-gegenereerde teams)
+         * Team member headshot (recommended: square aspect ratio, 500x500px minimum for best quality)
          */
-        photoUrl?: string | null;
+        photo: number | Media;
         name: string;
         role: string;
+        /**
+         * Short biography (2-3 sentences). Highlight expertise, experience, or achievements.
+         */
         bio?: string | null;
+        /**
+         * Contact email (optional). Will be displayed as a clickable mailto: link.
+         */
         email?: string | null;
+        /**
+         * Full LinkedIn profile URL
+         */
         linkedin?: string | null;
+        /**
+         * Full Twitter/X profile URL
+         */
+        twitter?: string | null;
+        /**
+         * Full GitHub profile URL
+         */
+        github?: string | null;
         id?: string | null;
       }[]
     | null;
-  layout?: ('grid-2' | 'grid-3' | 'grid-4') | null;
+  /**
+   * Background color from Theme global. Light backgrounds work best for team sections.
+   */
+  backgroundColor?: ('white' | 'bg' | 'grey') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'team';
@@ -1907,10 +2197,19 @@ export interface TeamBlock {
  * via the `definition` "AccordionBlock".
  */
 export interface AccordionBlock {
-  heading?: string | null;
+  /**
+   * Optional heading above the accordion items
+   */
+  title?: string | null;
   items?:
     | {
+        /**
+         * The clickable heading for this accordion item
+         */
         title: string;
+        /**
+         * The content revealed when this item is expanded. Supports rich text formatting.
+         */
         content: {
           root: {
             type: string;
@@ -1930,7 +2229,7 @@ export interface AccordionBlock {
       }[]
     | null;
   /**
-   * Als uit, sluit het openen van één item de andere automatisch
+   * If disabled, opening one item will automatically close others (single-open mode)
    */
   allowMultiple?: boolean | null;
   id?: string | null;
@@ -1939,71 +2238,411 @@ export interface AccordionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BlogPreviewBlock".
+ * via the `definition` "blog-posts".
  */
-export interface BlogPreviewBlock {
-  heading?: string | null;
-  intro?: string | null;
+export interface BlogPost {
+  id: number;
+  title: string;
   /**
-   * Maximaal aantal blog berichten om te tonen
+   * Auto-gegenereerd uit titel (kan handmatig overschreven worden)
    */
-  limit?: number | null;
+  slug: string;
   /**
-   * Optioneel: toon alleen berichten uit deze categorie
+   * Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph
    */
-  category?: (number | null) | ProductCategory;
-  layout?: ('grid-2' | 'grid-3') | null;
+  excerpt: string;
   /**
-   * Toon de excerpt onder de titel
+   * Grote afbeelding bovenaan artikel (360px hoog)
    */
-  showExcerpt?: boolean | null;
-  showDate?: boolean | null;
-  showAuthor?: boolean | null;
+  featuredImage?: (number | null) | Media;
+  /**
+   * Als er geen afbeelding is: toon een emoji als placeholder (bijv: 🧤)
+   */
+  featuredImageEmoji?: string | null;
+  /**
+   * Selecteer 1 of meer categorieën. Eerste categorie wordt gebruikt in URL.
+   */
+  categories: (number | BlogCategory)[];
+  /**
+   * Badge getoond op hero image (top-left)
+   */
+  featuredTag?: ('none' | 'guide' | 'new' | 'featured' | 'tip' | 'news') | null;
+  /**
+   * Zoektermen en onderwerpen (getoond onderaan artikel)
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Wordt getoond in author box
+   */
+  author?: (number | null) | User;
+  /**
+   * Optioneel: overschrijf auteur bio voor dit artikel
+   */
+  authorBio?: string | null;
+  /**
+   * Automatisch berekend, maar kan handmatig overschreven worden
+   */
+  readingTime?: number | null;
+  /**
+   * Wordt automatisch bijgewerkt bij elke page view
+   */
+  viewCount?: number | null;
+  /**
+   * Toon als grote featured card bovenaan blog archive
+   */
+  featured?: boolean | null;
+  /**
+   * Layout template voor dit artikel
+   */
+  template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
+  /**
+   * Type content - bepaalt badge/icon in overzicht en kennisbank filtering
+   */
+  contentType?: ('article' | 'guide' | 'elearning' | 'download' | 'video') | null;
+  /**
+   * Bepaal wie toegang heeft tot dit artikel en hoe de paywall werkt
+   */
+  contentAccess: {
+    /**
+     * Wie kan dit artikel volledig lezen?
+     */
+    accessLevel: 'free' | 'premium';
+    /**
+     * Hoeveel woorden gratis te lezen? (bijv. 200). Daarna wordt paywall getoond.
+     */
+    previewLength?: number | null;
+    /**
+     * Custom bericht op paywall. Als leeg: standaard "Upgrade naar Pro" bericht.
+     */
+    lockMessage?: string | null;
+  };
+  /**
+   * Producten genoemd in artikel (getoond in sidebar + inline embeds)
+   */
+  relatedProducts?: (number | Product)[] | null;
+  /**
+   * Handmatig geselecteerde gerelateerde artikelen (max 3)
+   */
+  relatedPosts?: (number | BlogPost)[] | null;
+  /**
+   * Optioneel: voeg FAQ toe voor Google rich snippets
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Toon automatische inhoudsopgave in sidebar (Template 1)
+   */
+  enableTOC?: boolean | null;
+  /**
+   * Toon LinkedIn, Email, Link, Print buttons onderaan artikel
+   */
+  enableShare?: boolean | null;
+  /**
+   * Toon comment sectie onderaan artikel (toekomstige feature)
+   */
+  enableComments?: boolean | null;
+  publishedAt?: string | null;
+  status?: ('published' | 'draft') | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories".
+ */
+export interface BlogCategory {
+  id: number;
+  name: string;
+  /**
+   * Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}
+   */
+  slug: string;
+  /**
+   * Optioneel: maak dit een subcategorie van een andere categorie (hierarchisch)
+   */
+  parent?: (number | null) | BlogCategory;
+  /**
+   * Korte beschrijving van deze categorie (optioneel, gebruikt in SEO)
+   */
+  description?: string | null;
+  /**
+   * Lucide icon voor categorie badges en chips
+   */
+  icon?:
+    | (
+        | 'BookOpen'
+        | 'Lightbulb'
+        | 'Sparkles'
+        | 'Stethoscope'
+        | 'ShieldCheck'
+        | 'Newspaper'
+        | 'GraduationCap'
+        | 'Microscope'
+        | 'Settings'
+        | 'TrendingUp'
+        | 'Target'
+        | 'Wrench'
+      )
+    | null;
+  /**
+   * Kleur voor categorie badges en article cards (gebruikt CSS custom properties)
+   */
+  color?: ('teal' | 'blue' | 'green' | 'coral' | 'purple' | 'amber' | 'pink') | null;
+  /**
+   * Optionele header afbeelding voor categorie overzichtspagina
+   */
+  image?: (number | null) | Media;
+  /**
+   * Sorteervolgorde (lager = eerder)
+   */
+  displayOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "InfoBoxBlock".
+ */
+export interface InfoBoxBlock {
+  /**
+   * Color scheme and semantic meaning of the notification
+   */
+  variant: 'info' | 'success' | 'warning' | 'error';
+  /**
+   * Lucide icon name (e.g., "info", "check-circle", "alert-triangle", "x-circle"). Leave empty for auto-icon based on variant.
+   */
+  icon?: string | null;
+  /**
+   * Bold heading for the notification (keep under 50 chars)
+   */
+  title: string;
+  /**
+   * Detailed explanation (supports bold, italic, links, inline code)
+   */
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Allow users to close this notification with an X button
+   */
+  dismissible?: boolean | null;
+  /**
+   * If dismissible, remember dismissal across page loads (uses localStorage)
+   */
+  persistent?: boolean | null;
+  /**
+   * Unique key for localStorage (e.g., "dismissed-db-warning"). Required if persistent.
+   */
+  storageKey?: string | null;
+  /**
+   * Content container width
+   */
+  maxWidth?: ('narrow' | 'wide' | 'full') | null;
+  marginTop?: ('none' | 'sm' | 'md' | 'lg') | null;
+  marginBottom?: ('none' | 'sm' | 'md' | 'lg') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'blog-preview';
+  blockType: 'infobox';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ImageGalleryBlock".
  */
 export interface ImageGalleryBlock {
-  heading?: string | null;
+  /**
+   * Optional heading above the gallery
+   */
+  title?: string | null;
   images?:
     | {
+        /**
+         * Upload an image file (JPG, PNG, WebP recommended)
+         */
         image: number | Media;
+        /**
+         * Text displayed when hovering over or viewing the image in lightbox
+         */
         caption?: string | null;
         id?: string | null;
       }[]
     | null;
-  layout?: ('grid' | 'masonry' | 'carousel') | null;
+  /**
+   * Number of columns in the gallery grid
+   */
   columns?: ('2' | '3' | '4') | null;
+  /**
+   * Aspect ratio for image containers. "Auto" preserves original dimensions.
+   */
+  aspectRatio?: ('16-9' | '4-3' | '1-1' | 'auto') | null;
+  /**
+   * Allow users to click images to view them in a full-screen lightbox
+   */
+  enableLightbox?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'imageGallery';
+  blockType: 'gallery';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "VideoBlock".
  */
 export interface VideoBlock {
-  heading?: string | null;
   /**
-   * YouTube, Vimeo of directe video link
+   * Optional heading displayed above the video
    */
-  videoUrl: string;
+  title?: string | null;
   /**
-   * Thumbnail die getoond wordt voordat de video wordt afgespeeld
+   * Where the video is hosted
    */
-  posterImage?: (number | null) | Media;
+  source: 'youtube' | 'vimeo' | 'upload';
+  /**
+   * Aspect ratio of the video player
+   */
   aspectRatio?: ('16-9' | '4-3' | '1-1' | '21-9') | null;
   /**
-   * Let op: veel browsers blokkeren autoplay met geluid
+   * Full YouTube video URL (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+   */
+  youtubeUrl?: string | null;
+  /**
+   * Full Vimeo video URL (e.g., https://vimeo.com/123456789)
+   */
+  vimeoUrl?: string | null;
+  /**
+   * Upload a video file (MP4 recommended for best browser compatibility)
+   */
+  videoFile?: (number | null) | Media;
+  /**
+   * Thumbnail image shown before the video plays. Highly recommended for self-hosted videos.
+   */
+  posterImage?: (number | null) | Media;
+  /**
+   * Text displayed below the video
+   */
+  caption?: string | null;
+  /**
+   * Auto-play video when page loads (most browsers block autoplay with sound)
    */
   autoplay?: boolean | null;
+  /**
+   * Display video player controls (play, pause, volume, etc.)
+   */
+  controls?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'video';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CodeBlock".
+ */
+export interface CodeBlock {
+  /**
+   * Programming language for syntax highlighting
+   */
+  language:
+    | 'typescript'
+    | 'javascript'
+    | 'python'
+    | 'java'
+    | 'csharp'
+    | 'go'
+    | 'rust'
+    | 'php'
+    | 'ruby'
+    | 'swift'
+    | 'kotlin'
+    | 'html'
+    | 'css'
+    | 'sql'
+    | 'bash'
+    | 'json'
+    | 'yaml'
+    | 'markdown'
+    | 'plaintext';
+  /**
+   * Display line numbers in the code block
+   */
+  showLineNumbers?: boolean | null;
+  /**
+   * Display a filename/path above the code (e.g., "src/components/Button.tsx")
+   */
+  filename?: string | null;
+  /**
+   * Paste or type your code here. It will be syntax highlighted on the frontend.
+   */
+  code: string;
+  /**
+   * Optional explanation or context displayed below the code block
+   */
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'code';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2679,6 +3318,44 @@ export interface CTABannerBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta-banner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  /**
+   * Naam van het partner bedrijf of klant
+   */
+  name: string;
+  /**
+   * Upload het logo van de partner/klant (bij voorkeur SVG of PNG met transparante achtergrond)
+   */
+  logo: number | Media;
+  /**
+   * Website van de partner (optioneel)
+   */
+  website?: string | null;
+  /**
+   * Type relatie
+   */
+  category?: ('klant' | 'partner' | 'leverancier' | 'certificering' | 'media') | null;
+  /**
+   * Korte beschrijving van de samenwerking
+   */
+  description?: string | null;
+  /**
+   * Toon dit logo op homepage of belangrijke pagina's
+   */
+  featured?: boolean | null;
+  /**
+   * Sorteer volgorde (lager = eerder getoond)
+   */
+  order?: number | null;
+  status?: ('published' | 'draft') | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4193,222 +4870,6 @@ export interface AbTestResult {
    * Where the user came from
    */
   referrer?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-posts".
- */
-export interface BlogPost {
-  id: number;
-  title: string;
-  /**
-   * Auto-gegenereerd uit titel (kan handmatig overschreven worden)
-   */
-  slug: string;
-  /**
-   * Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph
-   */
-  excerpt: string;
-  /**
-   * Grote afbeelding bovenaan artikel (360px hoog)
-   */
-  featuredImage?: (number | null) | Media;
-  /**
-   * Als er geen afbeelding is: toon een emoji als placeholder (bijv: 🧤)
-   */
-  featuredImageEmoji?: string | null;
-  /**
-   * Selecteer 1 of meer categorieën. Eerste categorie wordt gebruikt in URL.
-   */
-  categories: (number | BlogCategory)[];
-  /**
-   * Badge getoond op hero image (top-left)
-   */
-  featuredTag?: ('none' | 'guide' | 'new' | 'featured' | 'tip' | 'news') | null;
-  /**
-   * Zoektermen en onderwerpen (getoond onderaan artikel)
-   */
-  tags?:
-    | {
-        tag: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Wordt getoond in author box
-   */
-  author?: (number | null) | User;
-  /**
-   * Optioneel: overschrijf auteur bio voor dit artikel
-   */
-  authorBio?: string | null;
-  /**
-   * Automatisch berekend, maar kan handmatig overschreven worden
-   */
-  readingTime?: number | null;
-  /**
-   * Wordt automatisch bijgewerkt bij elke page view
-   */
-  viewCount?: number | null;
-  /**
-   * Toon als grote featured card bovenaan blog archive
-   */
-  featured?: boolean | null;
-  /**
-   * Layout template voor dit artikel
-   */
-  template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
-  /**
-   * Type content - bepaalt badge/icon in overzicht en kennisbank filtering
-   */
-  contentType?: ('article' | 'guide' | 'elearning' | 'download' | 'video') | null;
-  /**
-   * Bepaal wie toegang heeft tot dit artikel en hoe de paywall werkt
-   */
-  contentAccess: {
-    /**
-     * Wie kan dit artikel volledig lezen?
-     */
-    accessLevel: 'free' | 'premium';
-    /**
-     * Hoeveel woorden gratis te lezen? (bijv. 200). Daarna wordt paywall getoond.
-     */
-    previewLength?: number | null;
-    /**
-     * Custom bericht op paywall. Als leeg: standaard "Upgrade naar Pro" bericht.
-     */
-    lockMessage?: string | null;
-  };
-  /**
-   * Producten genoemd in artikel (getoond in sidebar + inline embeds)
-   */
-  relatedProducts?: (number | Product)[] | null;
-  /**
-   * Handmatig geselecteerde gerelateerde artikelen (max 3)
-   */
-  relatedPosts?: (number | BlogPost)[] | null;
-  /**
-   * Optioneel: voeg FAQ toe voor Google rich snippets
-   */
-  faq?:
-    | {
-        question: string;
-        answer: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Toon automatische inhoudsopgave in sidebar (Template 1)
-   */
-  enableTOC?: boolean | null;
-  /**
-   * Toon LinkedIn, Email, Link, Print buttons onderaan artikel
-   */
-  enableShare?: boolean | null;
-  /**
-   * Toon comment sectie onderaan artikel (toekomstige feature)
-   */
-  enableComments?: boolean | null;
-  publishedAt?: string | null;
-  status?: ('published' | 'draft') | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
-     */
-    focusKeyword?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    /**
-     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
-     */
-    canonicalUrl?: string | null;
-    /**
-     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
-     */
-    noIndex?: boolean | null;
-    /**
-     * Prevent search engines from following links on this page.
-     */
-    noFollow?: boolean | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-categories".
- */
-export interface BlogCategory {
-  id: number;
-  name: string;
-  /**
-   * Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}
-   */
-  slug: string;
-  /**
-   * Optioneel: maak dit een subcategorie van een andere categorie (hierarchisch)
-   */
-  parent?: (number | null) | BlogCategory;
-  /**
-   * Korte beschrijving van deze categorie (optioneel, gebruikt in SEO)
-   */
-  description?: string | null;
-  /**
-   * Lucide icon voor categorie badges en chips
-   */
-  icon?:
-    | (
-        | 'BookOpen'
-        | 'Lightbulb'
-        | 'Sparkles'
-        | 'Stethoscope'
-        | 'ShieldCheck'
-        | 'Newspaper'
-        | 'GraduationCap'
-        | 'Microscope'
-        | 'Settings'
-        | 'TrendingUp'
-        | 'Target'
-        | 'Wrench'
-      )
-    | null;
-  /**
-   * Kleur voor categorie badges en article cards (gebruikt CSS custom properties)
-   */
-  color?: ('teal' | 'blue' | 'green' | 'coral' | 'purple' | 'amber' | 'pink') | null;
-  /**
-   * Optionele header afbeelding voor categorie overzichtspagina
-   */
-  image?: (number | null) | Media;
-  /**
-   * Sorteervolgorde (lager = eerder)
-   */
-  displayOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -6276,10 +6737,12 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        banner?: T | BannerBlockSelect<T>;
         spacer?: T | SpacerBlockSelect<T>;
         hero?: T | HeroBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
-        twoColumn?: T | TwoColumnBlockSelect<T>;
+        media?: T | MediaBlockSelect<T>;
+        twocolumn?: T | TwoColumnBlockSelect<T>;
         productGrid?: T | ProductGridBlockSelect<T>;
         categoryGrid?: T | CategoryGridBlockSelect<T>;
         features?: T | FeaturesBlockSelect<T>;
@@ -6288,14 +6751,58 @@ export interface PagesSelect<T extends boolean = true> {
         contactForm?: T | ContactFormBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
         cases?: T | CasesBlockSelect<T>;
-        logoBar?: T | LogoBarBlockSelect<T>;
+        logobar?: T | LogoBarBlockSelect<T>;
         stats?: T | StatsBlockSelect<T>;
+        services?: T | ServicesBlockSelect<T>;
         faq?: T | FAQBlockSelect<T>;
         team?: T | TeamBlockSelect<T>;
         accordion?: T | AccordionBlockSelect<T>;
-        'blog-preview'?: T | BlogPreviewBlockSelect<T>;
-        imageGallery?: T | ImageGalleryBlockSelect<T>;
+        blogpreview?:
+          | T
+          | {
+              title?: T;
+              columns?: T;
+              description?: T;
+              posts?: T;
+              showExcerpt?: T;
+              showReadTime?: T;
+              showCategory?: T;
+              id?: T;
+              blockName?: T;
+            };
+        comparison?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              columns?:
+                | T
+                | {
+                    name?: T;
+                    price?: T;
+                    featured?: T;
+                    id?: T;
+                  };
+              rows?:
+                | T
+                | {
+                    feature?: T;
+                    values?:
+                      | T
+                      | {
+                          type?: T;
+                          text?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        infobox?: T | InfoBoxBlockSelect<T>;
+        gallery?: T | ImageGalleryBlockSelect<T>;
         video?: T | VideoBlockSelect<T>;
+        code?: T | CodeBlockSelect<T>;
         map?: T | MapBlockSelect<T>;
         'construction-hero'?: T | ConstructionHeroBlockSelect<T>;
         'services-grid'?: T | ServicesGridBlockSelect<T>;
@@ -6321,10 +6828,28 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BannerBlock_select".
+ */
+export interface BannerBlockSelect<T extends boolean = true> {
+  variant?: T;
+  message?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  dismissible?: T;
+  dismissalKey?: T;
+  sticky?: T;
+  showFrom?: T;
+  showUntil?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "SpacerBlock_select".
  */
 export interface SpacerBlockSelect<T extends boolean = true> {
-  height?: T;
+  size?: T;
+  showDivider?: T;
   id?: T;
   blockName?: T;
 }
@@ -6363,13 +6888,38 @@ export interface ContentBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock_select".
+ */
+export interface MediaBlockSelect<T extends boolean = true> {
+  mediaType?: T;
+  mediaPosition?: T;
+  media?: T;
+  videoUrl?: T;
+  split?: T;
+  subtitle?: T;
+  title?: T;
+  content?: T;
+  buttons?:
+    | T
+    | {
+        label?: T;
+        variant?: T;
+        url?: T;
+        newTab?: T;
+        id?: T;
+      };
+  backgroundColor?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TwoColumnBlock_select".
  */
 export interface TwoColumnBlockSelect<T extends boolean = true> {
-  leftColumn?: T;
-  rightColumn?: T;
-  ratio?: T;
-  alignment?: T;
+  split?: T;
+  columnOne?: T;
+  columnTwo?: T;
   id?: T;
   blockName?: T;
 }
@@ -6530,12 +7080,7 @@ export interface CasesBlockSelect<T extends boolean = true> {
  * via the `definition` "LogoBarBlock_select".
  */
 export interface LogoBarBlockSelect<T extends boolean = true> {
-  heading?: T;
-  source?: T;
-  partners?: T;
-  category?: T;
-  limit?: T;
-  showFeaturedOnly?: T;
+  title?: T;
   logos?:
     | T
     | {
@@ -6544,8 +7089,8 @@ export interface LogoBarBlockSelect<T extends boolean = true> {
         link?: T;
         id?: T;
       };
-  displayMode?: T;
-  layout?: T;
+  autoScroll?: T;
+  variant?: T;
   id?: T;
   blockName?: T;
 }
@@ -6554,16 +7099,43 @@ export interface LogoBarBlockSelect<T extends boolean = true> {
  * via the `definition` "StatsBlock_select".
  */
 export interface StatsBlockSelect<T extends boolean = true> {
-  heading?: T;
+  title?: T;
+  columns?: T;
+  description?: T;
   stats?:
     | T
     | {
-        number?: T;
-        suffix?: T;
+        icon?: T;
+        value?: T;
         label?: T;
+        description?: T;
         id?: T;
       };
-  layout?: T;
+  backgroundColor?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesBlock_select".
+ */
+export interface ServicesBlockSelect<T extends boolean = true> {
+  subtitle?: T;
+  title?: T;
+  description?: T;
+  columns?: T;
+  services?:
+    | T
+    | {
+        icon?: T;
+        iconColor?: T;
+        title?: T;
+        description?: T;
+        link?: T;
+        linkText?: T;
+        id?: T;
+      };
+  backgroundColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -6590,21 +7162,25 @@ export interface FAQBlockSelect<T extends boolean = true> {
  * via the `definition` "TeamBlock_select".
  */
 export interface TeamBlockSelect<T extends boolean = true> {
-  heading?: T;
-  intro?: T;
+  subtitle?: T;
+  title?: T;
+  description?: T;
+  columns?: T;
+  photoStyle?: T;
   members?:
     | T
     | {
         photo?: T;
-        photoUrl?: T;
         name?: T;
         role?: T;
         bio?: T;
         email?: T;
         linkedin?: T;
+        twitter?: T;
+        github?: T;
         id?: T;
       };
-  layout?: T;
+  backgroundColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -6613,7 +7189,7 @@ export interface TeamBlockSelect<T extends boolean = true> {
  * via the `definition` "AccordionBlock_select".
  */
 export interface AccordionBlockSelect<T extends boolean = true> {
-  heading?: T;
+  title?: T;
   items?:
     | T
     | {
@@ -6627,17 +7203,19 @@ export interface AccordionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BlogPreviewBlock_select".
+ * via the `definition` "InfoBoxBlock_select".
  */
-export interface BlogPreviewBlockSelect<T extends boolean = true> {
-  heading?: T;
-  intro?: T;
-  limit?: T;
-  category?: T;
-  layout?: T;
-  showExcerpt?: T;
-  showDate?: T;
-  showAuthor?: T;
+export interface InfoBoxBlockSelect<T extends boolean = true> {
+  variant?: T;
+  icon?: T;
+  title?: T;
+  description?: T;
+  dismissible?: T;
+  persistent?: T;
+  storageKey?: T;
+  maxWidth?: T;
+  marginTop?: T;
+  marginBottom?: T;
   id?: T;
   blockName?: T;
 }
@@ -6646,7 +7224,7 @@ export interface BlogPreviewBlockSelect<T extends boolean = true> {
  * via the `definition` "ImageGalleryBlock_select".
  */
 export interface ImageGalleryBlockSelect<T extends boolean = true> {
-  heading?: T;
+  title?: T;
   images?:
     | T
     | {
@@ -6654,8 +7232,9 @@ export interface ImageGalleryBlockSelect<T extends boolean = true> {
         caption?: T;
         id?: T;
       };
-  layout?: T;
   columns?: T;
+  aspectRatio?: T;
+  enableLightbox?: T;
   id?: T;
   blockName?: T;
 }
@@ -6664,11 +7243,29 @@ export interface ImageGalleryBlockSelect<T extends boolean = true> {
  * via the `definition` "VideoBlock_select".
  */
 export interface VideoBlockSelect<T extends boolean = true> {
-  heading?: T;
-  videoUrl?: T;
-  posterImage?: T;
+  title?: T;
+  source?: T;
   aspectRatio?: T;
+  youtubeUrl?: T;
+  vimeoUrl?: T;
+  videoFile?: T;
+  posterImage?: T;
+  caption?: T;
   autoplay?: T;
+  controls?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CodeBlock_select".
+ */
+export interface CodeBlockSelect<T extends boolean = true> {
+  language?: T;
+  showLineNumbers?: T;
+  filename?: T;
+  code?: T;
+  caption?: T;
   id?: T;
   blockName?: T;
 }
@@ -10706,33 +11303,6 @@ export interface ChatbotSettingsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "InfoBoxBlock".
- */
-export interface InfoBoxBlock {
-  /**
-   * Kies het type en de kleur van de info box
-   */
-  type: 'info' | 'warning' | 'success' | 'danger';
-  /**
-   * Kies een Lucide icon voor de info box
-   */
-  icon?:
-    | ('Lightbulb' | 'AlertTriangle' | 'Info' | 'CheckCircle' | 'Zap' | 'Target' | 'Bell' | 'Shield' | 'Pin' | 'Search')
-    | null;
-  /**
-   * Optionele titel voor de info box
-   */
-  title?: string | null;
-  /**
-   * De hoofdtekst van de info box
-   */
-  content: string;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'infobox';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

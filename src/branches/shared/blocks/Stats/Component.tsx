@@ -1,25 +1,11 @@
-/**
- * Stats Component - 100% Theme Variable Compliant
- *
- * Refactored from hardcoded blue background to theme variables.
- * All colors now use CSS variables from ThemeProvider.
- */
 import React from 'react'
-import type { StatsBlock } from '@/payload-types'
 
-export const StatsBlockComponent: React.FC<StatsBlock> = ({ heading, stats, layout }) => {
+export const StatsBlockComponent: React.FC<any> = ({ block }) => {
   return (
-    <section className="stats py-16 px-4 bg-primary text-white">
-      <div className="container mx-auto">
-        {heading && <h2 className="text-3xl font-bold mb-12 text-center">{heading}</h2>}
-        <div className={`grid gap-8 ${layout === 'grid-4' ? 'md:grid-cols-4' : layout === 'grid-2' ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
-          {stats?.map((stat, index) => (
-            <div key={index} className="stat-item text-center">
-              <p className="text-5xl font-bold mb-2">{stat.number}{stat.suffix}</p>
-              <p className="text-lg opacity-90">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+    <section className="stats-block">
+      <div className="container">
+        <p>Stats Block - Component coming in Sprint 5 Phase 2</p>
+        <pre>{JSON.stringify(block, null, 2)}</pre>
       </div>
     </section>
   )

@@ -1,172 +1,209 @@
-/**
- * BlogPreview Component - 100% Theme Variable Compliant
- *
- * Refactored from inline styles with fallbacks to theme variables.
- * All colors now use CSS variables from ThemeProvider.
- */
 import React from 'react'
-import type { BlogPreviewBlock } from '@/payload-types'
-import { getPayload } from 'payload'
-import config from '@payload-config'
-import Image from 'next/image'
 import Link from 'next/link'
-import { imageService } from '@/lib/images/ImageService'
+import Image from 'next/image'
+import { Calendar, ArrowRight, Clock } from 'lucide-react'
+import { format } from 'date-fns'
+import { nl } from 'date-fns/locale'
+import type { Media } from '@/payload-types'
 
-export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlock> = async ({
-  heading,
-  intro,
-  limit = 6,
-  category,
-  layout,
-  showExcerpt = true,
-  showDate = true,
-  showAuthor = false,
-}) => {
-  const payload = await getPayload({ config })
+/**
+ * B12 - Blog Preview Block Component
+ *
+ * Displays a grid of blog post cards with thumbnails, categories, and metadata.
+ *
+ * FEATURES:
+ * - Responsive grid: 3 cols → 2 cols @900px → 1 col @640px
+ * - Card hover effects (lift + shadow)
+ * - Category badge overlay with backdrop blur
+ * - Optional excerpt display
+ * - Optional read time calculation
+ * - Date formatting (Dutch locale)
+ *
+ * @see src/branches/shared/blocks/BlogPreview/config.ts
+ * @see docs/refactoring/sprint-6/b12-blog-preview.html
+ */
 
-  // Build query with optional category filter
-  const where: any = {
-    status: { equals: 'published' },
-  }
+interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  excerpt?: string
+  thumbnail?: string | Media | null
+  category?: {
+    title: string
+  } | string | null
+  publishedAt?: string
+  content?: any // Lexical content for read time calculation
+}
 
-  if (category && typeof category === 'object' && 'id' in category) {
-    where.categories = {
-      contains: category.id,
+interface BlogPreviewBlockProps {
+  title?: string
+  description?: string
+  columns?: '2' | '3'
+  posts?: (string | BlogPost)[]
+  showExcerpt?: boolean
+  showReadTime?: boolean
+  showCategory?: boolean
+}
+
+// Helper: Calculate estimated read time from Lexical content
+function calculateReadTime(content: any): number {
+  if (!content) return 0
+
+  // Extract text from Lexical JSON structure
+  const extractText = (node: any): string => {
+    if (!node) return ''
+    if (typeof node === 'string') return node
+    if (node.text) return node.text
+    if (node.children) {
+      return node.children.map((child: any) => extractText(child)).join(' ')
     }
+    return ''
   }
 
-  // Query blog posts
-  const posts = await payload.find({
-    collection: 'blog-posts',
-    where,
-    limit,
-    sort: '-publishedAt',
-    depth: 2, // Populate author and categories
-  })
+  const text = extractText(content)
+  const wordCount = text.split(/\s+/).filter(Boolean).length
+  const wordsPerMinute = 200
+  return Math.ceil(wordCount / wordsPerMinute)
+}
 
-  // If no posts, show empty state
-  if (!posts.docs || posts.docs.length === 0) {
-    return (
-      <section className="blog-preview py-16 px-4">
-        <div className="container mx-auto text-center">
-          {heading && <h2 className="text-3xl font-bold mb-4">{heading}</h2>}
-          {intro && <p className="mb-12 max-w-2xl mx-auto text-gray-600">{intro}</p>}
-          <p className="text-gray-500">Nog geen blog berichten beschikbaar.</p>
-        </div>
-      </section>
-    )
+// Type guard: Check if posts are populated (not just IDs)
+function isPopulatedPost(post: any): post is BlogPost {
+  return post && typeof post === 'object' && 'title' in post
+}
+
+export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlockProps> = ({
+  title,
+  description,
+  columns = '3',
+  posts = [],
+  showExcerpt = true,
+  showReadTime = false,
+  showCategory = true,
+}) => {
+  // Filter out unpopulated posts
+  const populatedPosts = posts.filter(isPopulatedPost)
+
+  if (populatedPosts.length === 0) {
+    return null
   }
+
+  // Map columns to Tailwind grid classes
+  const gridClass = columns === '2' ? 'md:grid-cols-2' : 'md:grid-cols-3'
 
   return (
-    <section className="blog-preview py-16 px-4">
-      <div className="container mx-auto">
-        {heading && <h2 className="text-3xl font-bold mb-4 text-center">{heading}</h2>}
-        {intro && <p className="text-center mb-12 max-w-2xl mx-auto text-gray-600">{intro}</p>}
+    <section className="py-16 md:py-20">
+      <div className="container mx-auto px-6">
+        {/* Section Header (optional) */}
+        {(title || description) && (
+          <div className="text-center mb-12 md:mb-16">
+            {title && (
+              <h2 className="font-display text-3xl md:text-4xl text-navy mb-3">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="text-base text-grey-dark max-w-2xl mx-auto">
+                {description}
+              </p>
+            )}
+          </div>
+        )}
 
-        <div
-          className={`grid gap-8 ${
-            layout === 'grid-2' ? 'md:grid-cols-2' : 'md:grid-cols-3'
-          }`}
-        >
-          {posts.docs.map((post) => {
-            // Get featured image URL (uploaded or placeholder)
-            const featuredImageUrl =
-              typeof post.featuredImage === 'object' && post.featuredImage !== null
-                ? post.featuredImage.url
-                : imageService.getBlogImage(post.slug)
+        {/* Blog Posts Grid */}
+        <div className={`grid gap-6 ${gridClass}`}>
+          {populatedPosts.map((post) => {
+            // Extract thumbnail URL
+            const thumbnailUrl =
+              typeof post.thumbnail === 'object' && post.thumbnail?.url
+                ? post.thumbnail.url
+                : null
 
-            // Get author name
-            const authorName =
-              typeof post.author === 'object' && post.author !== null
-                ? (post.author as any).name || 'Auteur'
-                : 'Auteur'
+            const thumbnailAlt =
+              typeof post.thumbnail === 'object' && post.thumbnail?.alt
+                ? post.thumbnail.alt
+                : post.title
 
-            // Format date
-            const formattedDate = post.publishedAt
-              ? new Date(post.publishedAt).toLocaleDateString('nl-NL', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })
-              : ''
+            // Extract category title
+            const categoryTitle =
+              typeof post.category === 'object' && post.category?.title
+                ? post.category.title
+                : null
+
+            // Calculate read time
+            const readTime = showReadTime && post.content ? calculateReadTime(post.content) : 0
 
             return (
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
-                className="blog-card group block overflow-hidden rounded-lg border border-primary hover:border-primary-light transition-all duration-300 hover:shadow-xl"
+                className="group block bg-white border border-grey rounded-xl overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-1"
               >
-                {/* Featured Image */}
-                <div className="relative w-full h-48 overflow-hidden">
-                  <Image
-                    src={featuredImageUrl}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  {/* Meta Info */}
-                  {(showDate || showAuthor) && (
-                    <div className="flex items-center gap-3 mb-3 text-sm text-gray-600">
-                      {showDate && formattedDate && (
-                        <time dateTime={post.publishedAt}>{formattedDate}</time>
-                      )}
-                      {showDate && showAuthor && formattedDate && <span>•</span>}
-                      {showAuthor && <span>{authorName}</span>}
-                    </div>
+                {/* Thumbnail */}
+                <div className="relative h-48 bg-gradient-to-br from-teal to-teal-light overflow-hidden">
+                  {thumbnailUrl && (
+                    <Image
+                      src={thumbnailUrl}
+                      alt={thumbnailAlt}
+                      fill
+                      className="object-cover transition-transform duration-200 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
+                    />
                   )}
 
+                  {/* Category Badge */}
+                  {showCategory && categoryTitle && (
+                    <div className="absolute top-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wide rounded-md">
+                      {categoryTitle}
+                    </div>
+                  )}
+                </div>
+
+                {/* Card Body */}
+                <div className="p-5">
                   {/* Title */}
-                  <h3
-                    className="text-xl font-semibold text-primary mb-3 group-hover:underline"
-                  >
+                  <h3 className="font-display text-lg text-navy mb-2 line-clamp-2">
                     {post.title}
                   </h3>
 
                   {/* Excerpt */}
                   {showExcerpt && post.excerpt && (
-                    <p className="text-gray-600 line-clamp-3 mb-4">{post.excerpt}</p>
+                    <p className="text-sm text-grey-dark leading-relaxed mb-4 line-clamp-2">
+                      {post.excerpt}
+                    </p>
                   )}
 
-                  {/* Read More Link */}
-                  <span
-                    className="inline-flex items-center gap-2 font-semibold text-secondary-color group-hover:gap-3 transition-all"
-                  >
-                    Lees meer
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </span>
+                  {/* Meta */}
+                  <div className="flex items-center justify-between pt-3 border-t border-grey">
+                    <div className="flex items-center gap-2 text-xs text-grey-mid">
+                      <Calendar size={14} />
+                      {post.publishedAt && (
+                        <span>
+                          {format(new Date(post.publishedAt), 'd MMM yyyy', {
+                            locale: nl,
+                          })}
+                        </span>
+                      )}
+                      {readTime > 0 && (
+                        <>
+                          <span className="text-grey-mid">•</span>
+                          <Clock size={14} />
+                          <span>{readTime} min</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Read More Link */}
+                    <div className="flex items-center gap-1 text-xs font-bold text-teal group-hover:gap-2 transition-all">
+                      <span>Lees meer</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  </div>
                 </div>
               </Link>
             )
           })}
         </div>
-
-        {/* View All Link (if more posts exist) */}
-        {posts.totalDocs > limit && (
-          <div className="text-center mt-12">
-            <Link
-              href="/blog/"
-              className="inline-block px-6 py-3 rounded-lg font-semibold bg-primary hover:bg-primary-light text-white transition-all duration-300"
-            >
-              Bekijk alle blog berichten
-            </Link>
-          </div>
-        )}
       </div>
     </section>
   )

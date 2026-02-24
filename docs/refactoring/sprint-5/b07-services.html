@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Services Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SERVICE CARD — Component Specific
+   ═══════════════════════════════════════════════════════════ */
+.service-card {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all var(--dur);
+  cursor: pointer;
+}
+
+.service-card:hover {
+  box-shadow: var(--sh-md);
+  transform: translateY(-2px);
+}
+
+.service-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.service-icon i {
+  width: 24px;
+  height: 24px;
+}
+
+.service-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.service-description {
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.service-link {
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap var(--dur);
+}
+
+.service-link:hover {
+  gap: 8px;
+}
+
+.service-link i {
+  width: 14px;
+  height: 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Services Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-services">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B7</span>
+        <span class="section-label">Services Block</span>
+      </div>
+      <span class="tag" style="background:var(--teal);color:white">Primary</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Service cards grid met icon, title, description, link. 2, 3, of 4 columns. Support voor Lucide icons, custom icon colors, en optionele CTA buttons.
+    </p>
+
+    <!-- 2 COLUMN VARIANT -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 2 Columns
+      </div>
+      <div class="box-content" style="padding:32px">
+        <div class="grid-2">
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--teal-glow)">
+              <i data-lucide="package" style="color:var(--teal)"></i>
+            </div>
+            <h3 class="service-title">Multi-Tenant Setup</h3>
+            <p class="service-description">Complete tenant onboarding, theme customization, en database setup binnen 24 uur.</p>
+            <a href="#" class="service-link" style="color:var(--teal)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--blue-light)">
+              <i data-lucide="code" style="color:var(--blue)"></i>
+            </div>
+            <h3 class="service-title">Custom Development</h3>
+            <p class="service-description">Maatwerk componenten, integraties met externe systemen, of verticaal-specifieke features.</p>
+            <a href="#" class="service-link" style="color:var(--blue)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 COLUMN VARIANT -->
+    <div class="box" style="margin-top:16px">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 3 Columns
+      </div>
+      <div class="box-content" style="padding:32px">
+        <div class="grid-3">
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--green-light)">
+              <i data-lucide="rocket" style="color:var(--green)"></i>
+            </div>
+            <h3 class="service-title">Launch Support</h3>
+            <p class="service-description">24/7 support tijdens je go-live week, inclusief monitoring en directe troubleshooting.</p>
+            <a href="#" class="service-link" style="color:var(--green)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--purple-light)">
+              <i data-lucide="graduation-cap" style="color:var(--purple)"></i>
+            </div>
+            <h3 class="service-title">Training & Workshops</h3>
+            <p class="service-description">On-site of online training voor je team, van admin panel tot development best practices.</p>
+            <a href="#" class="service-link" style="color:var(--purple)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--amber-light)">
+              <i data-lucide="headphones" style="color:var(--amber)"></i>
+            </div>
+            <h3 class="service-title">Premium Support</h3>
+            <p class="service-description">Dedicated support engineer, max 2-hour response time, en directe hotline toegang.</p>
+            <a href="#" class="service-link" style="color:var(--amber)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 COLUMN VARIANT -->
+    <div class="box" style="margin-top:16px">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 4 Columns
+      </div>
+      <div class="box-content" style="padding:32px">
+        <div class="grid-4">
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--teal-glow)">
+              <i data-lucide="shield-check" style="color:var(--teal)"></i>
+            </div>
+            <h3 class="service-title">Security Audit</h3>
+            <p class="service-description">Complete security scan van je instance met rapportage en fixes.</p>
+            <a href="#" class="service-link" style="color:var(--teal)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--blue-light)">
+              <i data-lucide="zap" style="color:var(--blue)"></i>
+            </div>
+            <h3 class="service-title">Performance</h3>
+            <p class="service-description">Speed optimization, caching setup, en CDN configuratie.</p>
+            <a href="#" class="service-link" style="color:var(--blue)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--green-light)">
+              <i data-lucide="database" style="color:var(--green)"></i>
+            </div>
+            <h3 class="service-title">Data Migration</h3>
+            <p class="service-description">Migratie van bestaande e-commerce naar Compass platform.</p>
+            <a href="#" class="service-link" style="color:var(--green)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--purple-light)">
+              <i data-lucide="line-chart" style="color:var(--purple)"></i>
+            </div>
+            <h3 class="service-title">Analytics</h3>
+            <p class="service-description">Custom dashboards, KPI tracking, en conversion optimization.</p>
+            <a href="#" class="service-link" style="color:var(--purple)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VARIANT WITH SECTION TITLE -->
+    <div class="box" style="margin-top:16px">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — With Section Title
+      </div>
+      <div class="box-content" style="padding:40px 32px">
+        <div style="text-align:center;margin-bottom:40px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px">Onze Services</div>
+          <h2 style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:12px">Alles wat je nodig hebt</h2>
+          <p style="font-size:15px;color:var(--grey-dark);max-width:640px;margin:0 auto">Van setup tot support, wij begeleiden je door elke stap van je e-commerce journey.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--teal-glow)">
+              <i data-lucide="settings" style="color:var(--teal)"></i>
+            </div>
+            <h3 class="service-title">Setup & Configuratie</h3>
+            <p class="service-description">Wij installeren, configureren en testen je volledige Compass instance.</p>
+            <a href="#" class="service-link" style="color:var(--teal)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--blue-light)">
+              <i data-lucide="palette" style="color:var(--blue)"></i>
+            </div>
+            <h3 class="service-title">Design Customization</h3>
+            <p class="service-description">Pas je theme aan naar je huisstijl met onze design experts.</p>
+            <a href="#" class="service-link" style="color:var(--blue)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="service-card">
+            <div class="service-icon" style="background:var(--green-light)">
+              <i data-lucide="plug" style="color:var(--green)"></i>
+            </div>
+            <h3 class="service-title">Integraties</h3>
+            <p class="service-description">Koppel je ERP, CRM, payment providers en verzendpartners.</p>
+            <a href="#" class="service-link" style="color:var(--green)">
+              Meer info <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Services Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'services'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'subtitle'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'textarea'</span> },
+    { <span class="property">name</span>: <span class="string">'columns'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>],
+      <span class="property">defaultValue</span>: <span class="string">'3'</span>
+    },
+    { <span class="property">name</span>: <span class="string">'services'</span>, <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">fields</span>: [
+        { <span class="property">name</span>: <span class="string">'icon'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="comment">// Lucide icon name</span>
+          <span class="property">admin</span>: { <span class="property">description</span>: <span class="string">'Icon name from lucide.dev (e.g. "package", "code")'</span> }
+        },
+        { <span class="property">name</span>: <span class="string">'iconColor'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+          <span class="property">options</span>: [
+            { <span class="property">label</span>: <span class="string">'Teal'</span>, <span class="property">value</span>: <span class="string">'teal'</span> },
+            { <span class="property">label</span>: <span class="string">'Blue'</span>, <span class="property">value</span>: <span class="string">'blue'</span> },
+            { <span class="property">label</span>: <span class="string">'Green'</span>, <span class="property">value</span>: <span class="string">'green'</span> },
+            { <span class="property">label</span>: <span class="string">'Purple'</span>, <span class="property">value</span>: <span class="string">'purple'</span> },
+            { <span class="property">label</span>: <span class="string">'Amber'</span>, <span class="property">value</span>: <span class="string">'amber'</span> },
+            { <span class="property">label</span>: <span class="string">'Coral'</span>, <span class="property">value</span>: <span class="string">'coral'</span> }
+          ],
+          <span class="property">defaultValue</span>: <span class="string">'teal'</span>
+        },
+        { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+        { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'textarea'</span> },
+        { <span class="property">name</span>: <span class="string">'link'</span>, <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">admin</span>: { <span class="property">description</span>: <span class="string">'Link URL (e.g. /services/setup)'</span> }
+        },
+        { <span class="property">name</span>: <span class="string">'linkText'</span>, <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'Meer info'</span>
+        }
+      ]
+    }
+  ]
+}
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Services/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Services/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Services</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'services'</span>,
+  labels: {
+    singular: <span class="string">'Services Block'</span>,
+    plural: <span class="string">'Services Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">type</span>: <span class="string">'row'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'subtitle'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Subtitle'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'50%'</span>,
+            <span class="property">description</span>: <span class="string">'Small overline text above main title (optional)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'title'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Section Title'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">width</span>: <span class="string">'50%'</span>,
+            <span class="property">description</span>: <span class="string">'Main section heading (optional)'</span>,
+          },
+        },
+      ],
+    },
+    {
+      <span class="property">name</span>: <span class="string">'description'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Section Description'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Brief description below title (optional, max 2-3 sentences)'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'columns'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Grid Columns'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'3'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'2 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'2'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'3 Columns (Recommended)'</span>,
+          <span class="property">value</span>: <span class="string">'3'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'4 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'4'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Number of service cards per row on desktop. Auto-responsive on mobile.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'services'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Service Items'</span>,
+      <span class="property">minRows</span>: <span class="number">2</span>,
+      <span class="property">maxRows</span>: <span class="number">12</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Add 2-12 service cards. Recommended: 3, 6, or 9 items for best visual balance.'</span>,
+      },
+      <span class="property">fields</span>: [
+        {
+          <span class="property">type</span>: <span class="string">'row'</span>,
+          <span class="property">fields</span>: [
+            {
+              <span class="property">name</span>: <span class="string">'icon'</span>,
+              <span class="property">type</span>: <span class="string">'text'</span>,
+              <span class="property">label</span>: <span class="string">'Icon Name'</span>,
+              <span class="property">required</span>: <span class="keyword">true</span>,
+              <span class="property">admin</span>: {
+                <span class="property">width</span>: <span class="string">'40%'</span>,
+                <span class="property">description</span>: <span class="string">'Lucide icon name (e.g. "package", "code", "rocket"). Browse: lucide.dev'</span>,
+                <span class="property">placeholder</span>: <span class="string">'package'</span>,
+              },
+            },
+            {
+              <span class="property">name</span>: <span class="string">'iconColor'</span>,
+              <span class="property">type</span>: <span class="string">'select'</span>,
+              <span class="property">label</span>: <span class="string">'Icon Color'</span>,
+              <span class="property">defaultValue</span>: <span class="string">'teal'</span>,
+              <span class="property">required</span>: <span class="keyword">true</span>,
+              <span class="property">options</span>: [
+                { <span class="property">label</span>: <span class="string">'Teal (Primary)'</span>, <span class="property">value</span>: <span class="string">'teal'</span> },
+                { <span class="property">label</span>: <span class="string">'Blue'</span>, <span class="property">value</span>: <span class="string">'blue'</span> },
+                { <span class="property">label</span>: <span class="string">'Green'</span>, <span class="property">value</span>: <span class="string">'green'</span> },
+                { <span class="property">label</span>: <span class="string">'Purple'</span>, <span class="property">value</span>: <span class="string">'purple'</span> },
+                { <span class="property">label</span>: <span class="string">'Amber'</span>, <span class="property">value</span>: <span class="string">'amber'</span> },
+                { <span class="property">label</span>: <span class="string">'Coral'</span>, <span class="property">value</span>: <span class="string">'coral'</span> },
+              ],
+              <span class="property">admin</span>: {
+                <span class="property">width</span>: <span class="string">'30%'</span>,
+                <span class="property">description</span>: <span class="string">'Icon color theme'</span>,
+              },
+            },
+            {
+              <span class="property">name</span>: <span class="string">'title'</span>,
+              <span class="property">type</span>: <span class="string">'text'</span>,
+              <span class="property">label</span>: <span class="string">'Service Title'</span>,
+              <span class="property">required</span>: <span class="keyword">true</span>,
+              <span class="property">admin</span>: {
+                <span class="property">width</span>: <span class="string">'30%'</span>,
+                <span class="property">placeholder</span>: <span class="string">'Multi-Tenant Setup'</span>,
+              },
+            },
+          ],
+        },
+        {
+          <span class="property">name</span>: <span class="string">'description'</span>,
+          <span class="property">type</span>: <span class="string">'textarea'</span>,
+          <span class="property">label</span>: <span class="string">'Description'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Service description (1-2 sentences, max 150 chars recommended)'</span>,
+            <span class="property">placeholder</span>: <span class="string">'Complete tenant onboarding, theme customization, en database setup binnen 24 uur.'</span>,
+          },
+        },
+        {
+          <span class="property">type</span>: <span class="string">'row'</span>,
+          <span class="property">fields</span>: [
+            {
+              <span class="property">name</span>: <span class="string">'link'</span>,
+              <span class="property">type</span>: <span class="string">'text'</span>,
+              <span class="property">label</span>: <span class="string">'Link URL'</span>,
+              <span class="property">admin</span>: {
+                <span class="property">width</span>: <span class="string">'60%'</span>,
+                <span class="property">description</span>: <span class="string">'Link destination (optional, e.g. /services/setup or https://...)'</span>,
+                <span class="property">placeholder</span>: <span class="string">'/services/setup'</span>,
+              },
+            },
+            {
+              <span class="property">name</span>: <span class="string">'linkText'</span>,
+              <span class="property">type</span>: <span class="string">'text'</span>,
+              <span class="property">label</span>: <span class="string">'Link Text'</span>,
+              <span class="property">defaultValue</span>: <span class="string">'Meer info'</span>,
+              <span class="property">admin</span>: {
+                <span class="property">width</span>: <span class="string">'40%'</span>,
+                <span class="property">description</span>: <span class="string">'CTA link text (shown only if link URL is provided)'</span>,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">export type</span> <span class="function">IconColor</span> = <span class="string">'teal'</span> | <span class="string">'blue'</span> | <span class="string">'green'</span> | <span class="string">'purple'</span> | <span class="string">'amber'</span> | <span class="string">'coral'</span>
+
+<span class="keyword">export interface</span> <span class="function">ServiceItem</span> {
+  <span class="property">icon</span>: <span class="keyword">string</span>
+  <span class="property">iconColor</span>: <span class="function">IconColor</span>
+  <span class="property">title</span>: <span class="keyword">string</span>
+  <span class="property">description</span>: <span class="keyword">string</span>
+  <span class="property">link</span>?: <span class="keyword">string</span>
+  <span class="property">linkText</span>?: <span class="keyword">string</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">ServicesBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'services'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">subtitle</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">string</span>
+  <span class="property">columns</span>: <span class="string">'2'</span> | <span class="string">'3'</span> | <span class="string">'4'</span>
+  <span class="property">services</span>: <span class="function">ServiceItem</span>[]
+}
+
+<span class="comment">// Type guard to check if a block is a ServicesBlock</span>
+<span class="keyword">export function</span> <span class="function">isServicesBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">ServicesBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'services'</span>
+}
+
+<span class="comment">// Helper type for icon color mapping</span>
+<span class="keyword">export const</span> iconColorMap: <span class="function">Record</span>&lt;<span class="function">IconColor</span>, { bg: <span class="keyword">string</span>; color: <span class="keyword">string</span> }&gt; = {
+  teal: { bg: <span class="string">'bg-teal-50'</span>, color: <span class="string">'text-teal-600'</span> },
+  blue: { bg: <span class="string">'bg-blue-50'</span>, color: <span class="string">'text-blue-600'</span> },
+  green: { bg: <span class="string">'bg-green-50'</span>, color: <span class="string">'text-green-600'</span> },
+  purple: { bg: <span class="string">'bg-purple-50'</span>, color: <span class="string">'text-purple-600'</span> },
+  amber: { bg: <span class="string">'bg-amber-50'</span>, color: <span class="string">'text-amber-600'</span> },
+  coral: { bg: <span class="string">'bg-red-50'</span>, color: <span class="string">'text-red-600'</span> },
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Services/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Services/Component.tsx</span>
+<span class="string">'use client'</span>
+
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'next/link'</span>
+<span class="keyword">import</span> { <span class="function">ServicesBlock</span>, <span class="function">iconColorMap</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> * <span class="keyword">as</span> LucideIcons <span class="keyword">from</span> <span class="string">'lucide-react'</span>
+
+<span class="keyword">interface</span> <span class="function">ServicesProps</span> {
+  <span class="property">block</span>: <span class="function">ServicesBlock</span>
+}
+
+<span class="keyword">export const</span> <span class="function">Services</span>: React.<span class="function">FC</span>&lt;<span class="function">ServicesProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { subtitle, title, description, columns, services } = block
+
+  <span class="comment">// Map columns to Tailwind grid classes</span>
+  <span class="keyword">const</span> gridClass = {
+    <span class="string">'2'</span>: <span class="string">'md:grid-cols-2'</span>,
+    <span class="string">'3'</span>: <span class="string">'md:grid-cols-3'</span>,
+    <span class="string">'4'</span>: <span class="string">'md:grid-cols-2 lg:grid-cols-4'</span>,
+  }[columns]
+
+  <span class="comment">// Helper to get Lucide icon component by name</span>
+  <span class="keyword">const</span> <span class="function">getIcon</span> = (iconName: <span class="keyword">string</span>) => {
+    <span class="keyword">const</span> IconComponent = LucideIcons[
+      iconName <span class="keyword">as</span> <span class="keyword">keyof</span> <span class="keyword">typeof</span> LucideIcons
+    ] <span class="keyword">as</span> React.<span class="function">ComponentType</span>&lt;<span class="function">LucideIcons.LucideProps</span>&gt;
+
+    <span class="keyword">return</span> IconComponent || LucideIcons.Package <span class="comment">// Fallback to Package icon</span>
+  }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-16 md:py-20"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+        {<span class="comment">/* Section Header (optional) */</span>}
+        {(title || subtitle || description) && (
+          &lt;<span class="keyword">div</span> className=<span class="string">"max-w-3xl mx-auto text-center mb-12 md:mb-16"</span>&gt;
+            {subtitle && (
+              &lt;<span class="keyword">div</span> className=<span class="string">"text-xs font-bold uppercase tracking-wider text-teal mb-2"</span>&gt;
+                {subtitle}
+              &lt;/<span class="keyword">div</span>&gt;
+            )}
+            {title && (
+              &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-3xl md:text-4xl text-navy mb-3"</span>&gt;
+                {title}
+              &lt;/<span class="keyword">h2</span>&gt;
+            )}
+            {description && (
+              &lt;<span class="keyword">p</span> className=<span class="string">"text-base text-grey-dark leading-relaxed"</span>&gt;
+                {description}
+              &lt;/<span class="keyword">p</span>&gt;
+            )}
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+
+        {<span class="comment">/* Services Grid */</span>}
+        &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'grid gap-5'</span>, gridClass)}&gt;
+          {services.map((service, index) => {
+            <span class="keyword">const</span> Icon = <span class="function">getIcon</span>(service.icon)
+            <span class="keyword">const</span> colorTheme = iconColorMap[service.iconColor]
+
+            <span class="keyword">return</span> (
+              &lt;<span class="keyword">div</span>
+                key={service.id || index}
+                className=<span class="string">"group bg-white border border-grey rounded-xl p-6 transition-all duration-200 hover:shadow-md hover:-translate-y-1 cursor-pointer"</span>
+              &gt;
+                {<span class="comment">/* Icon */</span>}
+                &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(
+                  <span class="string">'w-12 h-12 rounded-xl flex items-center justify-center mb-4'</span>,
+                  colorTheme.bg
+                )}&gt;
+                  &lt;Icon className={<span class="function">cn</span>(<span class="string">'w-6 h-6'</span>, colorTheme.color)} /&gt;
+                &lt;/<span class="keyword">div</span>&gt;
+
+                {<span class="comment">/* Title */</span>}
+                &lt;<span class="keyword">h3</span> className=<span class="string">"text-base font-bold text-navy mb-2"</span>&gt;
+                  {service.title}
+                &lt;/<span class="keyword">h3</span>&gt;
+
+                {<span class="comment">/* Description */</span>}
+                &lt;<span class="keyword">p</span> className=<span class="string">"text-sm text-grey-dark leading-relaxed mb-3"</span>&gt;
+                  {service.description}
+                &lt;/<span class="keyword">p</span>&gt;
+
+                {<span class="comment">/* Link (optional) */</span>}
+                {service.link && (
+                  &lt;Link
+                    href={service.link}
+                    className={<span class="function">cn</span>(
+                      <span class="string">'inline-flex items-center gap-1 text-sm font-semibold transition-all group-hover:gap-2'</span>,
+                      colorTheme.color
+                    )}
+                  &gt;
+                    {service.linkText || <span class="string">'Meer info'</span>}
+                    &lt;LucideIcons.ArrowRight className=<span class="string">"w-3.5 h-3.5"</span> /&gt;
+                  &lt;/Link&gt;
+                )}
+              &lt;/<span class="keyword">div</span>&gt;
+            )
+          })}
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Services block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--teal);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">⚙️</span>
+            Services Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Subtitle (Optional)</div>
+              <input type="text" disabled placeholder="Onze Services" style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Section Title (Optional)</div>
+              <input type="text" disabled placeholder="Alles wat je nodig hebt" style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+            </div>
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Grid Columns</div>
+              <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                <option>2 Columns</option>
+                <option selected>3 Columns (Recommended)</option>
+                <option>4 Columns</option>
+              </select>
+            </div>
+            <div style="margin-bottom:0;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:8px;color:var(--navy);display:flex;align-items:center;justify-content:space-between;">
+                Service Items
+                <button disabled style="padding:4px 10px;background:var(--teal);color:white;border:none;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;">+ Add Service</button>
+              </div>
+              <div style="background:var(--grey-light);padding:10px;border-radius:4px;margin-bottom:8px;">
+                <div style="font-weight:600;margin-bottom:6px;font-size:10px;color:var(--navy);">Service 1</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;">
+                  <div>
+                    <div style="font-size:9px;color:var(--grey-mid);margin-bottom:2px;">Icon Name</div>
+                    <input type="text" disabled value="package" style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:3px;font-size:10px;">
+                  </div>
+                  <div>
+                    <div style="font-size:9px;color:var(--grey-mid);margin-bottom:2px;">Icon Color</div>
+                    <select disabled style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:3px;font-size:10px;background:white;">
+                      <option>Teal (Primary)</option>
+                    </select>
+                  </div>
+                </div>
+                <div style="margin-bottom:6px;">
+                  <div style="font-size:9px;color:var(--grey-mid);margin-bottom:2px;">Title</div>
+                  <input type="text" disabled value="Multi-Tenant Setup" style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:3px;font-size:10px;">
+                </div>
+                <div style="margin-bottom:6px;">
+                  <div style="font-size:9px;color:var(--grey-mid);margin-bottom:2px;">Description</div>
+                  <textarea disabled rows="2" style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:3px;font-size:10px;">Complete tenant onboarding...</textarea>
+                </div>
+                <div style="display:grid;grid-template-columns:60% 40%;gap:8px;">
+                  <div>
+                    <div style="font-size:9px;color:var(--grey-mid);margin-bottom:2px;">Link URL (Optional)</div>
+                    <input type="text" disabled placeholder="/services/setup" style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:3px;font-size:10px;">
+                  </div>
+                  <div>
+                    <div style="font-size:9px;color:var(--grey-mid);margin-bottom:2px;">Link Text</div>
+                    <input type="text" disabled value="Meer info" style="width:100%;padding:4px 8px;border:1px solid var(--grey);border-radius:3px;font-size:10px;">
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:10px;color:var(--grey-mid);font-style:italic;">+ 2 more services...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Services Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. All fields render correctly:</strong> Add Services Block → verify all fields present (subtitle, title, description, columns, services array)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Service array works:</strong> Click "+ Add Service" → fill in fields → verify all inputs working (icon, color, title, description, link)
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Grid columns apply:</strong> Test all 3 column options (2, 3, 4) → verify CSS grid classes applied correctly on frontend
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Lucide icons render:</strong> Try different icon names (package, code, rocket) → verify icons display correctly on frontend
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Icon colors work:</strong> Test all 6 color options → verify background and icon colors match design system
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Links are optional:</strong> Create service without link → verify no link displayed. Add link → verify arrow + hover animation works
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>8. Responsive layout:</strong> Test on mobile (< 768px) → grid collapses to 1 column, cards remain readable
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>9. Hover states work:</strong> Hover over service cards → shadow elevation + translateY animation triggers
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>10. TypeScript compilation:</strong> Run <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">npm run build</code> → no TypeScript errors
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Services block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Services block</span>
+npx payload migrate:create add_services_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for services array and related fields</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.subtitle (type: varchar, nullable)</span>
+<span class="comment"># - pages_blocks.title (type: varchar, nullable)</span>
+<span class="comment"># - pages_blocks.description (type: text, nullable)</span>
+<span class="comment"># - pages_blocks.columns (type: varchar, enum: '2', '3', '4')</span>
+<span class="comment"># - pages_blocks_services (new table for array relationship):</span>
+<span class="comment">#   - id (primary key)</span>
+<span class="comment">#   - _order (integer)</span>
+<span class="comment">#   - _parent_id (foreign key to pages_blocks)</span>
+<span class="comment">#   - icon (varchar)</span>
+<span class="comment">#   - icon_color (varchar)</span>
+<span class="comment">#   - title (varchar)</span>
+<span class="comment">#   - description (text)</span>
+<span class="comment">#   - link (varchar, nullable)</span>
+<span class="comment">#   - link_text (varchar, nullable)</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT table_name FROM information_schema.tables WHERE table_name LIKE '%blocks%services%';"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#       table_name</span>
+<span class="comment"># -------------------------</span>
+<span class="comment">#  pages_blocks_services</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Icons not displaying</td>
+              <td>Check lucide-react installed: <code>npm install lucide-react</code>. Verify icon name matches lucide.dev library (case-sensitive: "package", not "Package")</td>
+            </tr>
+            <tr>
+              <td>Fallback icon always showing</td>
+              <td>Icon name mismatch. Check <code>getIcon()</code> helper → ensure icon exists in Lucide library. Use browser DevTools to inspect component props.</td>
+            </tr>
+            <tr>
+              <td>Grid not responsive</td>
+              <td>Missing Tailwind breakpoints. Verify <code>gridClass</code> mapping includes <code>md:</code> and <code>lg:</code> prefixes. Test with browser DevTools responsive mode.</td>
+            </tr>
+            <tr>
+              <td>Icon colors not applying</td>
+              <td>Check <code>iconColorMap</code> imported correctly. Ensure Tailwind config includes custom color utilities (teal-50, blue-50, etc). Run <code>npm run build</code> to regenerate CSS.</td>
+            </tr>
+            <tr>
+              <td>Services array empty on save</td>
+              <td>Database migration not applied. Run <code>npx payload migrate</code> → verify <code>pages_blocks_services</code> table exists in database.</td>
+            </tr>
+            <tr>
+              <td>Link hover animation not working</td>
+              <td>Check transition classes on Link component. Ensure <code>group-hover:gap-2</code> class present. Verify parent has <code>group</code> class.</td>
+            </tr>
+            <tr>
+              <td>TypeScript error on iconColorMap</td>
+              <td>Ensure <code>IconColor</code> type defined in types file. Check Tailwind class strings are correct (no typos in color names).</td>
+            </tr>
+            <tr>
+              <td>Section header not showing</td>
+              <td>Conditional render checks <code>(title || subtitle || description)</code> → at least one must have value. Verify fields saved in admin panel.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Services block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Services</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Services/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">Services</span>,  <span class="comment">// ← Add Services block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// Content,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">Services</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Services/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'services'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Services</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'content'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Content</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Pro Tip:</strong> Install lucide-react icons package:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Install lucide-react (required for icons)</span>
+npm install lucide-react
+
+<span class="comment"># Browse available icons at https://lucide.dev</span>
+<span class="comment"># Icon names are kebab-case: package, code, rocket, shield-check, etc.</span>
+
+<span class="comment"># Verify installation</span>
+npm list lucide-react
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B15: Comparison Table Block — Plastimed Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ==============================================
+       CSS DESIGN TOKENS — Complete Design System
+       ============================================== */
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ==============================================
+       BASE STYLES
+       ============================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ==============================================
+       SECTION STYLES
+       ============================================== */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .section-label {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'DM Serif Display', serif;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* ==============================================
+       BOX COMPONENT (macOS Window Style)
+       ============================================== */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: var(--grey-light);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #28CA42; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ==============================================
+       COMPARISON TABLE COMPONENT
+       ============================================== */
+    .comparison-table {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .comparison-header {
+      display: grid;
+      grid-template-columns: 200px repeat(3, 1fr);
+      background: var(--grey-light);
+    }
+
+    .comparison-header-cell {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .comparison-header-cell:first-child {
+      text-align: left;
+      background: white;
+    }
+
+    .comparison-plan-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .comparison-plan-price {
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 200px repeat(3, 1fr);
+      border-top: 1px solid var(--grey);
+    }
+
+    .comparison-cell {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .comparison-cell:first-child {
+      justify-content: flex-start;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--grey-light);
+    }
+
+    .comparison-check {
+      width: 20px;
+      height: 20px;
+      color: var(--green);
+    }
+
+    .comparison-x {
+      width: 20px;
+      height: 20px;
+      color: var(--grey-mid);
+    }
+
+    .comparison-featured {
+      background: rgba(0,137,123,0.04);
+    }
+
+    .comparison-featured .comparison-plan-name {
+      color: var(--teal);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .comparison-header,
+      .comparison-row {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-header-cell:first-child {
+        display: none;
+      }
+
+      .comparison-cell:first-child {
+        background: var(--grey-light);
+        justify-content: center;
+        font-weight: 700;
+        padding: 12px;
+      }
+    }
+
+    /* ==============================================
+       USAGE NOTES & CODE BLOCKS
+       ============================================== */
+    .usage-notes {
+      background: var(--blue-light);
+      border: 1px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .usage-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .usage-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .code-block {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .code-header {
+      background: var(--navy-light);
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-lang {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* ==============================================
+       IMPLEMENTATION GUIDE STYLES
+       ============================================== */
+    .impl-section {
+      margin-bottom: 48px;
+    }
+
+    .impl-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .impl-step {
+      background: var(--teal);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .impl-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'DM Serif Display', serif;
+    }
+
+    .impl-description {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .checklist {
+      background: var(--green-light);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .checklist-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .checklist ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      padding: 6px 0 6px 24px;
+      position: relative;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .checklist li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .troubleshooting {
+      background: var(--amber-light);
+      border: 1px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .troubleshooting-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .troubleshooting-item {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(245,158,11,0.3);
+    }
+
+    .troubleshooting-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .troubleshooting-problem {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .troubleshooting-solution {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ==============================================
+         VISUAL REFERENCE SECTION
+         ============================================== -->
+    <section class="section" id="block-comparison">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B15</span>
+          <span class="section-label">Comparison Table Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Feature comparison table. 3-4 columns (plans/products), checkmarks/X for features, featured column highlight.
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview — 3 Plans
+        </div>
+        <div class="box-content" style="padding:32px;background:var(--bg)">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <h2 style="font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 8px;">Kies het juiste abonnement</h2>
+            <p style="font-size: 14px; color: var(--grey-dark);">Vergelijk de features en kies wat bij jou past</p>
+          </div>
+
+          <div class="comparison-table">
+            <div class="comparison-header">
+              <div class="comparison-header-cell"></div>
+              <div class="comparison-header-cell">
+                <div class="comparison-plan-name">Basic</div>
+                <div class="comparison-plan-price">€29/maand</div>
+              </div>
+              <div class="comparison-header-cell comparison-featured">
+                <div class="comparison-plan-name">Pro</div>
+                <div class="comparison-plan-price">€79/maand</div>
+              </div>
+              <div class="comparison-header-cell">
+                <div class="comparison-plan-name">Enterprise</div>
+                <div class="comparison-plan-price">Op maat</div>
+              </div>
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-cell">Producten</div>
+              <div class="comparison-cell">100</div>
+              <div class="comparison-cell comparison-featured">1.000</div>
+              <div class="comparison-cell">Onbeperkt</div>
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-cell">Gebruikers</div>
+              <div class="comparison-cell">2</div>
+              <div class="comparison-cell comparison-featured">10</div>
+              <div class="comparison-cell">Onbeperkt</div>
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-cell">Email support</div>
+              <div class="comparison-cell"><i data-lucide="check" class="comparison-check"></i></div>
+              <div class="comparison-cell comparison-featured"><i data-lucide="check" class="comparison-check"></i></div>
+              <div class="comparison-cell"><i data-lucide="check" class="comparison-check"></i></div>
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-cell">Chat support</div>
+              <div class="comparison-cell"><i data-lucide="x" class="comparison-x"></i></div>
+              <div class="comparison-cell comparison-featured"><i data-lucide="check" class="comparison-check"></i></div>
+              <div class="comparison-cell"><i data-lucide="check" class="comparison-check"></i></div>
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-cell">Dedicated manager</div>
+              <div class="comparison-cell"><i data-lucide="x" class="comparison-x"></i></div>
+              <div class="comparison-cell comparison-featured"><i data-lucide="x" class="comparison-x"></i></div>
+              <div class="comparison-cell"><i data-lucide="check" class="comparison-check"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="usage-notes">
+        <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+        <ul class="usage-list">
+          <li><strong>Columns:</strong> Fixed 200px for feature labels, equal width for plans</li>
+          <li><strong>Featured:</strong> Light teal background (rgba(0,137,123,0.04)) on featured column</li>
+          <li><strong>Icons:</strong> Lucide check (green) / x (grey-mid), 20px size</li>
+          <li><strong>Values:</strong> Can be checkmarks, X's, or text (numbers, "Unlimited", etc.)</li>
+          <li><strong>Header:</strong> Grey background with plan name + price</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         DEVELOPER IMPLEMENTATION GUIDE
+         ============================================== -->
+    <section class="section" id="implementation">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h1 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 12px;">
+          Developer Implementation Guide
+        </h1>
+        <p style="font-size: 14px; color: var(--grey-dark);">
+          Complete 8-step guide for implementing the Comparison Table block in Payload CMS 3.0 + Next.js
+        </p>
+      </div>
+
+      <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 1</span>
+          <span class="impl-title">Payload Block Configuration</span>
+        </div>
+
+        <p class="impl-description">
+          Create the Payload CMS block configuration with array fields for columns and rows.
+          This block supports 2-4 comparison columns (plans/products) with flexible feature rows.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/branches/blocks/navigation-info/Comparison/config.ts</span>
+          </div>
+          <pre><code>// src/branches/blocks/navigation-info/Comparison/config.ts
+import { Block } from 'payload/types'
+
+export const Comparison: Block = {
+  slug: 'comparison',
+  labels: {
+    singular: 'Comparison Table Block',
+    plural: 'Comparison Table Blocks',
+  },
+  fields: [
+    // Header Content
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Section Title',
+          required: true,
+          admin: {
+            width: '60%',
+            placeholder: 'Kies het juiste abonnement'
+          }
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Description',
+          admin: {
+            width: '40%',
+            placeholder: 'Vergelijk de features en kies wat bij jou past'
+          }
+        }
+      ]
+    },
+
+    // Comparison Columns (Plans/Products)
+    {
+      name: 'columns',
+      type: 'array',
+      label: 'Comparison Columns',
+      minRows: 2,
+      maxRows: 4,
+      required: true,
+      admin: {
+        description: 'Add 2-4 plans or products to compare',
+      },
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          label: 'Plan/Product Name',
+          required: true,
+          admin: {
+            placeholder: 'Basic, Pro, Enterprise...'
+          }
+        },
+        {
+          name: 'price',
+          type: 'text',
+          label: 'Price',
+          required: true,
+          admin: {
+            placeholder: '€29/maand, Op maat...'
+          }
+        },
+        {
+          name: 'featured',
+          type: 'checkbox',
+          label: 'Featured Plan',
+          defaultValue: false,
+          admin: {
+            description: 'Highlight this column with teal accent'
+          }
+        }
+      ]
+    },
+
+    // Feature Rows
+    {
+      name: 'rows',
+      type: 'array',
+      label: 'Feature Rows',
+      minRows: 1,
+      required: true,
+      admin: {
+        description: 'Add features to compare across plans',
+      },
+      fields: [
+        {
+          name: 'feature',
+          type: 'text',
+          label: 'Feature Name',
+          required: true,
+          admin: {
+            placeholder: 'Producten, Gebruikers, Email support...'
+          }
+        },
+        {
+          name: 'values',
+          type: 'array',
+          label: 'Values per Column',
+          required: true,
+          admin: {
+            description: 'Add values for each comparison column (must match number of columns)',
+          },
+          fields: [
+            {
+              name: 'type',
+              type: 'select',
+              label: 'Value Type',
+              required: true,
+              defaultValue: 'text',
+              options: [
+                { label: 'Check Mark (✓)', value: 'check' },
+                { label: 'X Mark (✗)', value: 'x' },
+                { label: 'Text/Number', value: 'text' }
+              ]
+            },
+            {
+              name: 'text',
+              type: 'text',
+              label: 'Text Value',
+              admin: {
+                condition: (data, siblingData) => siblingData?.type === 'text',
+                placeholder: '100, Onbeperkt, 2-5 dagen...'
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 2: TYPESCRIPT TYPE DEFINITIONS -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 2</span>
+          <span class="impl-title">TypeScript Type Definitions</span>
+        </div>
+
+        <p class="impl-description">
+          Define TypeScript interfaces for type-safe development with the Comparison Table block.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/types/blocks.ts</span>
+          </div>
+          <pre><code>// src/types/blocks.ts
+export interface ComparisonColumn {
+  name: string
+  price: string
+  featured: boolean
+  id?: string
+}
+
+export interface ComparisonValue {
+  type: 'check' | 'x' | 'text'
+  text?: string
+  id?: string
+}
+
+export interface ComparisonRow {
+  feature: string
+  values: ComparisonValue[]
+  id?: string
+}
+
+export interface ComparisonBlock {
+  blockType: 'comparison'
+  id?: string
+  title: string
+  description?: string
+  columns: ComparisonColumn[]
+  rows: ComparisonRow[]
+}
+
+// Type Guards
+export function isComparisonBlock(block: any): block is ComparisonBlock {
+  return block?.blockType === 'comparison'
+}
+
+export function validateComparisonData(block: ComparisonBlock): boolean {
+  // Validate that each row has values matching number of columns
+  const columnCount = block.columns.length
+  return block.rows.every(row => row.values.length === columnCount)
+}
+
+// Helper Functions
+export function getFeaturedColumnIndex(columns: ComparisonColumn[]): number | null {
+  const index = columns.findIndex(col => col.featured)
+  return index >= 0 ? index : null
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 3: REACT COMPONENT IMPLEMENTATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 3</span>
+          <span class="impl-title">React Component Implementation</span>
+        </div>
+
+        <p class="impl-description">
+          Create the Next.js React component with Tailwind CSS styling and responsive layout.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript React</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/branches/blocks/navigation-info/Comparison/Component.tsx</span>
+          </div>
+          <pre><code>// src/branches/blocks/navigation-info/Comparison/Component.tsx
+'use client'
+
+import React from 'react'
+import { Check, X } from 'lucide-react'
+import type { ComparisonBlock, ComparisonColumn, ComparisonRow, ComparisonValue } from '@/types/blocks'
+
+interface ComparisonProps {
+  block: ComparisonBlock
+}
+
+const ComparisonCell: React.FC<{ value: ComparisonValue }> = ({ value }) => {
+  switch (value.type) {
+    case 'check':
+      return <Check className="w-5 h-5 text-green-600" />
+    case 'x':
+      return <X className="w-5 h-5 text-grey-mid" />
+    case 'text':
+      return <span className="text-sm text-navy">{value.text}</span>
+    default:
+      return null
+  }
+}
+
+export const Comparison: React.FC<ComparisonProps> = ({ block }) => {
+  const { title, description, columns, rows } = block
+
+  // Calculate grid template columns
+  const gridCols = `200px repeat(${columns.length}, 1fr)`
+
+  return (
+    <section className="py-16 md:py-20">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        {(title || description) && (
+          <div className="text-center mb-12">
+            {title && (
+              <h2 className="font-serif text-3xl md:text-4xl text-navy mb-3">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="text-base text-grey-dark max-w-2xl mx-auto">
+                {description}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Comparison Table */}
+        <div className="max-w-4xl mx-auto bg-white border border-grey rounded-2xl overflow-hidden">
+          {/* Header Row */}
+          <div
+            className="grid bg-grey-light border-b border-grey"
+            style={{ gridTemplateColumns: gridCols }}
+          >
+            <div className="bg-white"></div>
+            {columns.map((column, index) => (
+              <div
+                key={column.id || index}
+                className={`p-5 text-center ${
+                  column.featured ? 'bg-teal-glow' : ''
+                }`}
+              >
+                <div
+                  className={`font-bold text-base mb-1 ${
+                    column.featured ? 'text-teal' : 'text-navy'
+                  }`}
+                >
+                  {column.name}
+                </div>
+                <div className="text-sm text-grey-mid">
+                  {column.price}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Feature Rows */}
+          {rows.map((row, rowIndex) => (
+            <div
+              key={row.id || rowIndex}
+              className="grid border-t border-grey"
+              style={{ gridTemplateColumns: gridCols }}
+            >
+              {/* Feature Label */}
+              <div className="bg-grey-light px-4 py-4 flex items-center font-semibold text-sm text-navy">
+                {row.feature}
+              </div>
+
+              {/* Values */}
+              {row.values.map((value, valueIndex) => {
+                const isFeatured = columns[valueIndex]?.featured
+                return (
+                  <div
+                    key={value.id || valueIndex}
+                    className={`px-4 py-4 flex items-center justify-center ${
+                      isFeatured ? 'bg-teal-glow' : ''
+                    }`}
+                  >
+                    <ComparisonCell value={value} />
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile View: Stack Cards */}
+        <div className="lg:hidden mt-8 space-y-4">
+          {columns.map((column, colIndex) => (
+            <div
+              key={column.id || colIndex}
+              className={`bg-white border rounded-xl overflow-hidden ${
+                column.featured ? 'border-teal shadow-md' : 'border-grey'
+              }`}
+            >
+              {/* Column Header */}
+              <div className={`p-4 ${column.featured ? 'bg-teal-glow' : 'bg-grey-light'}`}>
+                <div className={`font-bold text-lg ${column.featured ? 'text-teal' : 'text-navy'}`}>
+                  {column.name}
+                </div>
+                <div className="text-sm text-grey-mid">{column.price}</div>
+              </div>
+
+              {/* Features */}
+              <div className="divide-y divide-grey">
+                {rows.map((row, rowIndex) => (
+                  <div key={row.id || rowIndex} className="flex items-center justify-between p-4">
+                    <span className="font-medium text-sm text-navy">{row.feature}</span>
+                    <ComparisonCell value={row.values[colIndex]} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}</code></pre>
+        </div>
+
+        <div class="usage-notes">
+          <div class="usage-title"><i data-lucide="lightbulb"></i> Component Features</div>
+          <ul class="usage-list">
+            <li><strong>Responsive:</strong> Desktop shows full table, mobile stacks columns as cards</li>
+            <li><strong>Featured Column:</strong> Automatically applies teal background to featured plan</li>
+            <li><strong>Dynamic Grid:</strong> Grid columns adapt to 2-4 comparison columns</li>
+            <li><strong>Icon Support:</strong> Lucide icons for check/x marks with proper colors</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 4</span>
+          <span class="impl-title">Admin Panel Structure</span>
+        </div>
+
+        <p class="impl-description">
+          How content editors interact with the Comparison Table block in Payload CMS admin.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="layout"></i> Admin UI Flow</span>
+          </div>
+          <pre><code>COMPARISON TABLE BLOCK — Admin Interface
+
+┌─────────────────────────────────────────────────────┐
+│ 📊 Comparison Table Block                           │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│ Section Title: [Kies het juiste abonnement       ] │
+│ Description:   [Vergelijk de features...         ] │
+│                                                      │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ COMPARISON COLUMNS (2-4)                            │
+│                                                      │
+│ ┌── Column 1 ──────────────────────────────┐       │
+│ │ Name:     [Basic                       ] │       │
+│ │ Price:    [€29/maand                   ] │       │
+│ │ ☐ Featured Plan                          │       │
+│ └──────────────────────────────────────────┘       │
+│                                                      │
+│ ┌── Column 2 ──────────────────────────────┐       │
+│ │ Name:     [Pro                         ] │       │
+│ │ Price:    [€79/maand                   ] │       │
+│ │ ☑ Featured Plan                          │       │
+│ └──────────────────────────────────────────┘       │
+│                                                      │
+│ ┌── Column 3 ──────────────────────────────┐       │
+│ │ Name:     [Enterprise                  ] │       │
+│ │ Price:    [Op maat                     ] │       │
+│ │ ☐ Featured Plan                          │       │
+│ └──────────────────────────────────────────┘       │
+│                                                      │
+│ [+ Add Column]                                      │
+│                                                      │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ FEATURE ROWS                                        │
+│                                                      │
+│ ┌── Row 1 ─────────────────────────────────┐       │
+│ │ Feature: [Producten                    ] │       │
+│ │                                           │       │
+│ │ Values (3):                               │       │
+│ │  Column 1: ◉ Text/Number  [100        ] │       │
+│ │  Column 2: ◉ Text/Number  [1.000      ] │       │
+│ │  Column 3: ◉ Text/Number  [Onbeperkt  ] │       │
+│ └───────────────────────────────────────────┘       │
+│                                                      │
+│ ┌── Row 2 ─────────────────────────────────┐       │
+│ │ Feature: [Email support                ] │       │
+│ │                                           │       │
+│ │ Values (3):                               │       │
+│ │  Column 1: ◉ Check Mark (✓)             │       │
+│ │  Column 2: ◉ Check Mark (✓)             │       │
+│ │  Column 3: ◉ Check Mark (✓)             │       │
+│ └───────────────────────────────────────────┘       │
+│                                                      │
+│ ┌── Row 3 ─────────────────────────────────┐       │
+│ │ Feature: [Dedicated manager            ] │       │
+│ │                                           │       │
+│ │ Values (3):                               │       │
+│ │  Column 1: ◉ X Mark (✗)                 │       │
+│ │  Column 2: ◉ X Mark (✗)                 │       │
+│ │  Column 3: ◉ Check Mark (✓)             │       │
+│ └───────────────────────────────────────────┘       │
+│                                                      │
+│ [+ Add Feature Row]                                 │
+│                                                      │
+└─────────────────────────────────────────────────────┘
+
+💡 EDITOR WORKFLOW:
+1. Enter section title and optional description
+2. Add 2-4 comparison columns (plans/products)
+3. Mark one column as "Featured" for highlight
+4. Add feature rows with comparison values
+5. For each value, choose: Check mark, X mark, or custom text
+6. Preview shows full responsive comparison table</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 5: TESTING CHECKLIST -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 5</span>
+          <span class="impl-title">Testing Checklist</span>
+        </div>
+
+        <div class="checklist">
+          <div class="checklist-title">✓ Pre-Deployment Testing</div>
+          <ul>
+            <li>Create comparison table with 2, 3, and 4 columns</li>
+            <li>Test featured column highlighting (teal background)</li>
+            <li>Verify check marks, X marks, and text values all render correctly</li>
+            <li>Test responsive behavior on mobile (stacked cards)</li>
+            <li>Validate that row values match column count</li>
+            <li>Test empty state handling (minimum 2 columns, 1 row required)</li>
+            <li>Verify admin panel validation prevents mismatched data</li>
+            <li>Test with long feature names and long text values</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 6: DATABASE MIGRATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 6</span>
+          <span class="impl-title">Database Migration</span>
+        </div>
+
+        <p class="impl-description">
+          Generate and run database migrations for production PostgreSQL deployment.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="database"></i> Bash</span>
+          </div>
+          <pre><code># Generate migration
+npx payload migrate:create add_comparison_block
+
+# Review generated SQL in src/migrations/
+# Expected tables:
+# - pages_blocks_comparison
+# - pages_blocks_comparison_columns
+# - pages_blocks_comparison_rows
+# - pages_blocks_comparison_rows_values
+
+# Run migration
+npx payload migrate</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="database"></i> SQL Schema</span>
+          </div>
+          <pre><code>-- pages_blocks_comparison
+CREATE TABLE pages_blocks_comparison (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL,
+  _path TEXT NOT NULL,
+  id SERIAL PRIMARY KEY,
+  title VARCHAR,
+  description TEXT,
+  block_name VARCHAR
+);
+
+-- pages_blocks_comparison_columns
+CREATE TABLE pages_blocks_comparison_columns (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL REFERENCES pages_blocks_comparison(id) ON DELETE CASCADE,
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  price VARCHAR NOT NULL,
+  featured BOOLEAN DEFAULT false
+);
+
+-- pages_blocks_comparison_rows
+CREATE TABLE pages_blocks_comparison_rows (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL REFERENCES pages_blocks_comparison(id) ON DELETE CASCADE,
+  id SERIAL PRIMARY KEY,
+  feature VARCHAR NOT NULL
+);
+
+-- pages_blocks_comparison_rows_values
+CREATE TABLE pages_blocks_comparison_rows_values (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL REFERENCES pages_blocks_comparison_rows(id) ON DELETE CASCADE,
+  id SERIAL PRIMARY KEY,
+  type VARCHAR NOT NULL CHECK (type IN ('check', 'x', 'text')),
+  text VARCHAR
+);
+
+CREATE INDEX idx_comparison_parent ON pages_blocks_comparison(_parent_id);
+CREATE INDEX idx_comparison_columns_parent ON pages_blocks_comparison_columns(_parent_id);
+CREATE INDEX idx_comparison_rows_parent ON pages_blocks_comparison_rows(_parent_id);
+CREATE INDEX idx_comparison_values_parent ON pages_blocks_comparison_rows_values(_parent_id);</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 7: TROUBLESHOOTING GUIDE -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 7</span>
+          <span class="impl-title">Troubleshooting Guide</span>
+        </div>
+
+        <div class="troubleshooting">
+          <div class="troubleshooting-title">⚠️ Common Issues & Solutions</div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Table columns are misaligned</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure grid-template-columns is properly set with dynamic column count.
+              Check that CSS uses <code>gridTemplateColumns: `200px repeat(${columns.length}, 1fr)`</code>.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Row values don't match column count</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Implement validation in admin panel. Add server-side validation using
+              <code>validateComparisonData()</code> helper to ensure each row has exactly <code>columns.length</code> values.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Featured column highlighting not working</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Verify <code>column.featured</code> boolean is correctly saved. Check CSS class
+              <code>bg-teal-glow</code> is applied to featured cells. Ensure only ONE column is marked as featured.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Icons (check/x) not rendering</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Verify lucide-react is installed (<code>npm install lucide-react</code>).
+              Check import statement: <code>import { Check, X } from 'lucide-react'</code>. Ensure ComparisonCell component is rendering correctly.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Mobile view not showing stacked cards</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Check that mobile view <code>div.lg:hidden</code> is present in component.
+              Verify Tailwind responsive classes are working. Test with browser dev tools mobile viewport.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Migration fails with foreign key errors</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure parent tables are created before child tables. Check ON DELETE CASCADE is set.
+              Run <code>npx payload migrate:status</code> to check pending migrations.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Text values showing "undefined"</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Verify <code>value.text</code> is populated when <code>value.type === 'text'</code>.
+              Add admin condition to show text input only when type is 'text'. Check null/undefined handling in ComparisonCell.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Table overflows on small screens</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Hide desktop table view on mobile with <code>@media (max-width: 768px)</code>.
+              Show stacked cards instead. Consider adding horizontal scroll for tablet sizes if needed.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 8: CONFIG REGISTRATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 8</span>
+          <span class="impl-title">Config Registration</span>
+        </div>
+
+        <p class="impl-description">
+          Register the Comparison Table block in your Payload config and Next.js rendering map.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="settings"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">payload.config.ts</span>
+          </div>
+          <pre><code>// payload.config.ts
+import { Comparison } from './src/branches/blocks/navigation-info/Comparison/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            Comparison, // ← Add block here
+            // ... other blocks
+          ]
+        }
+      ]
+    }
+  ]
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>// src/components/RenderBlocks.tsx
+import { Comparison } from '@/branches/blocks/navigation-info/Comparison/Component'
+import type { ComparisonBlock } from '@/types/blocks'
+
+const blockComponents = {
+  comparison: Comparison,
+  // ... other blocks
+}
+
+export const RenderBlocks: React.FC<{ blocks: any[] }> = ({ blocks }) => {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        const Block = blockComponents[block.blockType]
+        if (!Block) return null
+        return <Block key={block.id || index} block={block} />
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="usage-notes">
+          <div class="usage-title"><i data-lucide="check-circle"></i> Verification Steps</div>
+          <ul class="usage-list">
+            <li>Block appears in admin panel blocks list</li>
+            <li>Can create comparison table with multiple columns</li>
+            <li>Frontend renders comparison table correctly</li>
+            <li>Featured column shows teal highlight</li>
+            <li>Mobile view shows stacked cards</li>
+            <li>TypeScript compilation has no errors</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

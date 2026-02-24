@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --green-dark: #00A844;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #D97706;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --sidebar-width: 280px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.table th {
+  padding: 10px 12px;
+  background: var(--grey-light);
+  border-bottom: 2px solid var(--grey);
+  font-weight: 700;
+  color: var(--grey-700);
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.table tr:hover {
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.table code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--teal-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TEAM CARD STYLES
+   ═══════════════════════════════════════════════════════════ */
+.team-card {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: all var(--dur);
+  box-shadow: var(--sh-sm);
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+
+.team-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, var(--grey-light), var(--grey));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-photo.circle {
+  border-radius: var(--r-full);
+  margin: 24px;
+  width: calc(100% - 48px);
+}
+
+.team-info {
+  padding: 20px;
+}
+
+.team-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.team-role {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 11px;
+}
+
+.team-bio {
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.team-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--grey-light);
+}
+
+.team-email {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--grey-dark);
+  text-decoration: none;
+  transition: color var(--dur);
+  flex: 1;
+}
+
+.team-email i {
+  width: 14px;
+  height: 14px;
+  color: var(--teal);
+}
+
+.team-email:hover {
+  color: var(--teal);
+}
+
+.team-social {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.team-social-link {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  background: var(--grey-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-dark);
+  text-decoration: none;
+  transition: all var(--dur);
+}
+
+.team-social-link:hover {
+  background: var(--teal);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.team-social-link i {
+  width: 16px;
+  height: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">Team Block<span>CMS Block</span></div>
+    <span class="header-badge">Chapter 3 — CMS Blocks</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-team">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B24</span>
+        <span class="section-label">Team Block</span>
+      </div>
+      <span class="tag" style="background:var(--amber);color:white">Status</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Team members grid. Photo, name, role, bio, social links. Supports 2, 3, or 4 column layouts with optional circle or square photo variants.
+    </p>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 3 Columns (Default)
+      </div>
+      <div class="box-content" style="padding:40px;background:var(--bg)">
+
+        <div style="text-align:center;margin-bottom:48px">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--navy);margin-bottom:12px;line-height:1.2">Ons Team</h2>
+          <p style="font-size:15px;color:var(--grey-dark);max-width:600px;margin:0 auto">
+            Maak kennis met de experts achter Compass Digital. Gepassioneerde professionals die dagelijks werken aan innovatieve e-commerce oplossingen.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <!-- Team Member 1 -->
+          <div class="team-card">
+            <div class="team-photo">👨‍💼</div>
+            <div class="team-info">
+              <h3 class="team-name">Mark van den Berg</h3>
+              <div class="team-role">CEO & Founder</div>
+              <p class="team-bio">15 jaar ervaring in e-commerce en digitale transformatie. Helpt bedrijven met innovatieve online strategieën.</p>
+              <div class="team-contact">
+                <a href="mailto:mark@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                  <span>mark@compass.nl</span>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link" title="LinkedIn">
+                    <i data-lucide="linkedin"></i>
+                  </a>
+                  <a href="#" class="team-social-link" title="Twitter">
+                    <i data-lucide="twitter"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Member 2 -->
+          <div class="team-card">
+            <div class="team-photo">👩‍💻</div>
+            <div class="team-info">
+              <h3 class="team-name">Sophie Janssen</h3>
+              <div class="team-role">Lead Developer</div>
+              <p class="team-bio">Specialist in Payload CMS en Next.js. Bouwt schaalbare platformen voor complexe e-commerce omgevingen.</p>
+              <div class="team-contact">
+                <a href="mailto:sophie@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                  <span>sophie@compass.nl</span>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link" title="LinkedIn">
+                    <i data-lucide="linkedin"></i>
+                  </a>
+                  <a href="#" class="team-social-link" title="GitHub">
+                    <i data-lucide="github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Member 3 -->
+          <div class="team-card">
+            <div class="team-photo">👨‍🎨</div>
+            <div class="team-info">
+              <h3 class="team-name">Lucas de Vries</h3>
+              <div class="team-role">UX/UI Designer</div>
+              <p class="team-bio">Creëert gebruiksvriendelijke interfaces en design systems. Gespecialiseerd in B2B en B2C e-commerce platforms.</p>
+              <div class="team-contact">
+                <a href="mailto:lucas@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                  <span>lucas@compass.nl</span>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link" title="LinkedIn">
+                    <i data-lucide="linkedin"></i>
+                  </a>
+                  <a href="#" class="team-social-link" title="Dribbble">
+                    <i data-lucide="dribbble"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 4 Columns
+      </div>
+      <div class="box-content" style="padding:40px;background:var(--bg)">
+
+        <div style="text-align:center;margin-bottom:48px">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--navy);margin-bottom:12px;line-height:1.2">Leiderschap Team</h2>
+          <p style="font-size:15px;color:var(--grey-dark);max-width:600px;margin:0 auto">
+            Het management team dat Compass Digital naar nieuwe hoogten brengt.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <div class="team-card">
+            <div class="team-photo">👨‍💼</div>
+            <div class="team-info">
+              <h3 class="team-name">Peter Bakker</h3>
+              <div class="team-role">CTO</div>
+              <p class="team-bio">20 jaar technische expertise in schaalbare cloud architecturen.</p>
+              <div class="team-contact">
+                <a href="mailto:peter@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link"><i data-lucide="linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-photo">👩‍💼</div>
+            <div class="team-info">
+              <h3 class="team-name">Emma Visser</h3>
+              <div class="team-role">CFO</div>
+              <p class="team-bio">Financieel stratege met focus op duurzame groei en innovatie.</p>
+              <div class="team-contact">
+                <a href="mailto:emma@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link"><i data-lucide="linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-photo">👨‍🔬</div>
+            <div class="team-info">
+              <h3 class="team-name">Tom de Wit</h3>
+              <div class="team-role">Head of Sales</div>
+              <p class="team-bio">Expert in B2B sales en klantrelaties met 12 jaar ervaring.</p>
+              <div class="team-contact">
+                <a href="mailto:tom@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link"><i data-lucide="linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-photo">👩‍🏫</div>
+            <div class="team-info">
+              <h3 class="team-name">Lisa Mulder</h3>
+              <div class="team-role">Head of Support</div>
+              <p class="team-bio">Leidt ons support team met focus op klanttevredenheid.</p>
+              <div class="team-contact">
+                <a href="mailto:lisa@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link"><i data-lucide="linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Visual Preview — 2 Columns with Circle Photos
+      </div>
+      <div class="box-content" style="padding:40px;background:var(--bg)">
+
+        <div style="text-align:center;margin-bottom:48px">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--navy);margin-bottom:12px;line-height:1.2">Adviseurs</h2>
+          <p style="font-size:15px;color:var(--grey-dark);max-width:600px;margin:0 auto">
+            Ervaren professionals die ons team adviseren en ondersteunen.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div class="team-card">
+            <div class="team-photo circle">🧑‍💼</div>
+            <div class="team-info">
+              <h3 class="team-name">Dr. Jan Smit</h3>
+              <div class="team-role">Strategic Advisor</div>
+              <p class="team-bio">Voormalig CEO van meerdere succesvolle e-commerce bedrijven. Adviseert over internationale groei en marktexpansie. 25 jaar ervaring in digitale transformatie.</p>
+              <div class="team-contact">
+                <a href="mailto:jan@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                  <span>jan@compass.nl</span>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link" title="LinkedIn">
+                    <i data-lucide="linkedin"></i>
+                  </a>
+                  <a href="#" class="team-social-link" title="Twitter">
+                    <i data-lucide="twitter"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-photo circle">👩‍🔬</div>
+            <div class="team-info">
+              <h3 class="team-name">Prof. Anna Vermeer</h3>
+              <div class="team-role">Technical Advisor</div>
+              <p class="team-bio">Professor AI & Machine Learning aan TU Delft. Helpt ons met innovatieve technologieën en data science oplossingen voor e-commerce.</p>
+              <div class="team-contact">
+                <a href="mailto:anna@compass.nl" class="team-email">
+                  <i data-lucide="mail"></i>
+                  <span>anna@compass.nl</span>
+                </a>
+                <div class="team-social">
+                  <a href="#" class="team-social-link" title="LinkedIn">
+                    <i data-lucide="linkedin"></i>
+                  </a>
+                  <a href="#" class="team-social-link" title="GitHub">
+                    <i data-lucide="github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Payload CMS Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: Payload Block Configuration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Team/config.ts</code> with the following configuration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Team/config.ts</span>
+<span class="keyword">import</span> { <span class="function">Block</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+
+<span class="keyword">export const</span> <span class="function">Team</span>: <span class="function">Block</span> = {
+  slug: <span class="string">'team'</span>,
+  labels: {
+    singular: <span class="string">'Team Block'</span>,
+    plural: <span class="string">'Team Blocks'</span>,
+  },
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Section Title'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Main heading for the team section (e.g., "Our Team")'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'description'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Section Description'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional introductory text displayed below the title'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'columns'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Grid Columns'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'3'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'2 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'2'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'3 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'3'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'4 Columns'</span>,
+          <span class="property">value</span>: <span class="string">'4'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Number of columns in the grid layout (responsive on mobile)'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'photoVariant'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Photo Shape'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'square'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'Square'</span>,
+          <span class="property">value</span>: <span class="string">'square'</span>,
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Circle'</span>,
+          <span class="property">value</span>: <span class="string">'circle'</span>,
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Choose between square or circular team photos'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'members'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Team Members'</span>,
+      <span class="property">minRows</span>: <span class="number">1</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'photo'</span>,
+          <span class="property">type</span>: <span class="string">'upload'</span>,
+          <span class="property">relationTo</span>: <span class="string">'media'</span>,
+          <span class="property">label</span>: <span class="string">'Photo'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Team member photo (recommended: 400x400px square)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'name'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Full Name'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Team member full name'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'role'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Job Title / Role'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Job title or role (e.g., "CEO & Founder")'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'bio'</span>,
+          <span class="property">type</span>: <span class="string">'textarea'</span>,
+          <span class="property">label</span>: <span class="string">'Biography'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Short bio or description (2-3 sentences recommended)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'email'</span>,
+          <span class="property">type</span>: <span class="string">'email'</span>,
+          <span class="property">label</span>: <span class="string">'Email Address'</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Optional: contact email (displayed with mail icon)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'social'</span>,
+          <span class="property">type</span>: <span class="string">'array'</span>,
+          <span class="property">label</span>: <span class="string">'Social Media Links'</span>,
+          <span class="property">maxRows</span>: <span class="number">4</span>,
+          <span class="property">fields</span>: [
+            {
+              <span class="property">name</span>: <span class="string">'platform'</span>,
+              <span class="property">type</span>: <span class="string">'select'</span>,
+              <span class="property">label</span>: <span class="string">'Platform'</span>,
+              <span class="property">required</span>: <span class="keyword">true</span>,
+              <span class="property">options</span>: [
+                { <span class="property">label</span>: <span class="string">'LinkedIn'</span>, <span class="property">value</span>: <span class="string">'linkedin'</span> },
+                { <span class="property">label</span>: <span class="string">'Twitter'</span>, <span class="property">value</span>: <span class="string">'twitter'</span> },
+                { <span class="property">label</span>: <span class="string">'Facebook'</span>, <span class="property">value</span>: <span class="string">'facebook'</span> },
+                { <span class="property">label</span>: <span class="string">'Instagram'</span>, <span class="property">value</span>: <span class="string">'instagram'</span> },
+                { <span class="property">label</span>: <span class="string">'GitHub'</span>, <span class="property">value</span>: <span class="string">'github'</span> },
+                { <span class="property">label</span>: <span class="string">'Dribbble'</span>, <span class="property">value</span>: <span class="string">'dribbble'</span> },
+              ],
+            },
+            {
+              <span class="property">name</span>: <span class="string">'url'</span>,
+              <span class="property">type</span>: <span class="string">'text'</span>,
+              <span class="property">label</span>: <span class="string">'Profile URL'</span>,
+              <span class="property">required</span>: <span class="keyword">true</span>,
+              <span class="property">validate</span>: <span class="keyword">val</span> => {
+                <span class="keyword">if</span> (!val) <span class="keyword">return</span> <span class="keyword">true</span>
+                <span class="keyword">const</span> urlPattern = <span class="string">/^https?:\/\/.+/</span>
+                <span class="keyword">return</span> urlPattern.<span class="function">test</span>(val) || <span class="string">'Must be a valid URL starting with http:// or https://'</span>
+              },
+            },
+          ],
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Add team members with photos, roles, bios, and social links'</span>,
+      },
+    },
+  ],
+}
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: TypeScript Type Definitions
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/types/blocks.ts</code> for type safety:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/types/blocks.ts</span>
+<span class="keyword">import</span> { <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'./payload-types'</span>
+
+<span class="keyword">export type</span> <span class="function">SocialPlatform</span> =
+  | <span class="string">'linkedin'</span>
+  | <span class="string">'twitter'</span>
+  | <span class="string">'facebook'</span>
+  | <span class="string">'instagram'</span>
+  | <span class="string">'github'</span>
+  | <span class="string">'dribbble'</span>
+
+<span class="keyword">export interface</span> <span class="function">SocialLink</span> {
+  <span class="property">platform</span>: <span class="function">SocialPlatform</span>
+  <span class="property">url</span>: <span class="keyword">string</span>
+}
+
+<span class="keyword">export interface</span> <span class="function">TeamMember</span> {
+  <span class="property">photo</span>: <span class="keyword">string</span> | <span class="function">Media</span>
+  <span class="property">name</span>: <span class="keyword">string</span>
+  <span class="property">role</span>: <span class="keyword">string</span>
+  <span class="property">bio</span>?: <span class="keyword">string</span>
+  <span class="property">email</span>?: <span class="keyword">string</span>
+  <span class="property">social</span>?: <span class="function">SocialLink</span>[]
+}
+
+<span class="keyword">export interface</span> <span class="function">TeamBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'team'</span>
+  <span class="property">id</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>?: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">string</span>
+  <span class="property">columns</span>: <span class="string">'2'</span> | <span class="string">'3'</span> | <span class="string">'4'</span>
+  <span class="property">photoVariant</span>: <span class="string">'square'</span> | <span class="string">'circle'</span>
+  <span class="property">members</span>: <span class="function">TeamMember</span>[]
+}
+
+<span class="comment">// Type guard to check if a block is a TeamBlock</span>
+<span class="keyword">export function</span> <span class="function">isTeamBlock</span>(block: <span class="keyword">any</span>): block <span class="keyword">is</span> <span class="function">TeamBlock</span> {
+  <span class="keyword">return</span> block?.blockType === <span class="string">'team'</span>
+}
+
+<span class="comment">// Helper to get icon name from platform</span>
+<span class="keyword">export function</span> <span class="function">getSocialIcon</span>(platform: <span class="function">SocialPlatform</span>): <span class="keyword">string</span> {
+  <span class="keyword">const</span> icons = {
+    linkedin: <span class="string">'linkedin'</span>,
+    twitter: <span class="string">'twitter'</span>,
+    facebook: <span class="string">'facebook'</span>,
+    instagram: <span class="string">'instagram'</span>,
+    github: <span class="string">'github'</span>,
+    dribbble: <span class="string">'dribbble'</span>,
+  }
+  <span class="keyword">return</span> icons[platform]
+}
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT USAGE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React Component Implementation
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Create <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">src/branches/blocks/shared/Team/Component.tsx</code> to render the block:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/branches/blocks/shared/Team/Component.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> Image <span class="keyword">from</span> <span class="string">'next/image'</span>
+<span class="keyword">import</span> { <span class="function">TeamBlock</span>, <span class="function">getSocialIcon</span>, <span class="function">Media</span> } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> { <span class="function">cn</span> } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> {
+  <span class="function">Mail</span>,
+  <span class="function">Linkedin</span>,
+  <span class="function">Twitter</span>,
+  <span class="function">Facebook</span>,
+  <span class="function">Instagram</span>,
+  <span class="function">Github</span>,
+  <span class="function">Dribbble</span>
+} <span class="keyword">from</span> <span class="string">'lucide-react'</span>
+
+<span class="keyword">interface</span> <span class="function">TeamProps</span> {
+  <span class="property">block</span>: <span class="function">TeamBlock</span>
+}
+
+<span class="keyword">const</span> iconMap = {
+  linkedin: Linkedin,
+  twitter: Twitter,
+  facebook: Facebook,
+  instagram: Instagram,
+  github: Github,
+  dribbble: Dribbble,
+}
+
+<span class="keyword">export const</span> <span class="function">Team</span>: React.<span class="function">FC</span>&lt;<span class="function">TeamProps</span>&gt; = ({ block }) => {
+  <span class="keyword">const</span> { title, description, columns, photoVariant, members } = block
+
+  <span class="comment">// Map columns to Tailwind grid classes</span>
+  <span class="keyword">const</span> gridClass = {
+    <span class="string">'2'</span>: <span class="string">'md:grid-cols-2'</span>,
+    <span class="string">'3'</span>: <span class="string">'md:grid-cols-2 lg:grid-cols-3'</span>,
+    <span class="string">'4'</span>: <span class="string">'md:grid-cols-2 lg:grid-cols-4'</span>,
+  }[columns]
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span> className=<span class="string">"py-16 md:py-24"</span>&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"container"</span>&gt;
+
+        {<span class="comment">/* Section Header */</span>}
+        {(title || description) && (
+          &lt;<span class="keyword">div</span> className=<span class="string">"text-center mb-12 md:mb-16"</span>&gt;
+            {title && (
+              &lt;<span class="keyword">h2</span> className=<span class="string">"font-display text-3xl md:text-4xl text-navy mb-3"</span>&gt;
+                {title}
+              &lt;/<span class="keyword">h2</span>&gt;
+            )}
+            {description && (
+              &lt;<span class="keyword">p</span> className=<span class="string">"text-grey-dark text-base max-w-2xl mx-auto"</span>&gt;
+                {description}
+              &lt;/<span class="keyword">p</span>&gt;
+            )}
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+
+        {<span class="comment">/* Team Grid */</span>}
+        &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(<span class="string">'grid gap-6'</span>, gridClass)}&gt;
+          {members.<span class="function">map</span>((member, index) => {
+            <span class="keyword">const</span> photoUrl = <span class="keyword">typeof</span> member.photo === <span class="string">'string'</span>
+              ? member.photo
+              : (member.photo <span class="keyword">as</span> <span class="function">Media</span>)?.url
+
+            <span class="keyword">return</span> (
+              &lt;<span class="keyword">div</span>
+                key={index}
+                className=<span class="string">"group bg-white border border-grey rounded-xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200"</span>
+              &gt;
+                {<span class="comment">/* Photo */</span>}
+                &lt;<span class="keyword">div</span> className={<span class="function">cn</span>(
+                  <span class="string">"relative aspect-square bg-grey-light overflow-hidden"</span>,
+                  photoVariant === <span class="string">'circle'</span> && <span class="string">"m-6 rounded-full"</span>
+                )}&gt;
+                  {photoUrl ? (
+                    &lt;<span class="function">Image</span>
+                      src={photoUrl}
+                      alt={member.name}
+                      fill
+                      className=<span class="string">"object-cover"</span>
+                    /&gt;
+                  ) : (
+                    &lt;<span class="keyword">div</span> className=<span class="string">"w-full h-full flex items-center justify-center text-6xl"</span>&gt;
+                      👤
+                    &lt;/<span class="keyword">div</span>&gt;
+                  )}
+                &lt;/<span class="keyword">div</span>&gt;
+
+                {<span class="comment">/* Info */</span>}
+                &lt;<span class="keyword">div</span> className=<span class="string">"p-5"</span>&gt;
+                  &lt;<span class="keyword">h3</span> className=<span class="string">"font-display text-xl font-bold text-navy mb-1"</span>&gt;
+                    {member.name}
+                  &lt;/<span class="keyword">h3</span>&gt;
+                  &lt;<span class="keyword">div</span> className=<span class="string">"text-xs font-bold uppercase tracking-wide text-teal mb-3"</span>&gt;
+                    {member.role}
+                  &lt;/<span class="keyword">div</span>&gt;
+
+                  {member.bio && (
+                    &lt;<span class="keyword">p</span> className=<span class="string">"text-sm text-grey-dark leading-relaxed mb-4"</span>&gt;
+                      {member.bio}
+                    &lt;/<span class="keyword">p</span>&gt;
+                  )}
+
+                  {<span class="comment">/* Contact & Social */</span>}
+                  {(member.email || member.social?.length > <span class="number">0</span>) && (
+                    &lt;<span class="keyword">div</span> className=<span class="string">"flex items-center gap-2 pt-3 border-t border-grey-light"</span>&gt;
+                      {member.email && (
+                        &lt;<span class="keyword">a</span>
+                          href={`mailto:${member.email}`}
+                          className=<span class="string">"flex items-center gap-1.5 text-xs text-grey-dark hover:text-teal transition-colors flex-1"</span>
+                        &gt;
+                          &lt;<span class="function">Mail</span> className=<span class="string">"w-3.5 h-3.5 text-teal"</span> /&gt;
+                          &lt;<span class="keyword">span</span> className=<span class="string">"truncate"</span>&gt;{member.email}&lt;/<span class="keyword">span</span>&gt;
+                        &lt;/<span class="keyword">a</span>&gt;
+                      )}
+
+                      {member.social && member.social.length > <span class="number">0</span> && (
+                        &lt;<span class="keyword">div</span> className=<span class="string">"flex gap-1.5 ml-auto"</span>&gt;
+                          {member.social.<span class="function">map</span>((link, idx) => {
+                            <span class="keyword">const</span> Icon = iconMap[link.platform]
+                            <span class="keyword">return</span> (
+                              &lt;<span class="keyword">a</span>
+                                key={idx}
+                                href={link.url}
+                                target=<span class="string">"_blank"</span>
+                                rel=<span class="string">"noopener noreferrer"</span>
+                                className=<span class="string">"w-8 h-8 rounded-lg bg-grey-light flex items-center justify-center text-grey-dark hover:bg-teal hover:text-white hover:-translate-y-0.5 transition-all"</span>
+                                title={link.platform}
+                              &gt;
+                                &lt;<span class="function">Icon</span> className=<span class="string">"w-4 h-4"</span> /&gt;
+                              &lt;/<span class="keyword">a</span>&gt;
+                            )
+                          })}
+                        &lt;/<span class="keyword">div</span>&gt;
+                      )}
+                    &lt;/<span class="keyword">div</span>&gt;
+                  )}
+                &lt;/<span class="keyword">div</span>&gt;
+              &lt;/<span class="keyword">div</span>&gt;
+            )
+          })}
+        &lt;/<span class="keyword">div</span>&gt;
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Admin Panel Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          When you add a Team block to a page in <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">/admin</code>, you will see:
+        </p>
+        <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px;margin-top:12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <span style="width:20px;height:20px;background:var(--amber);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">👥</span>
+            Team Block
+          </div>
+          <div style="margin-left:28px;font-size:11px;color:var(--grey-dark);">
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Section Title</div>
+              <input type="text" placeholder="Our Team" disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">Main heading for the team section</div>
+            </div>
+
+            <div style="margin-bottom:12px;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Section Description</div>
+              <textarea placeholder="Meet our team..." disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;resize:vertical;min-height:60px;"></textarea>
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:4px;">Optional introductory text</div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;">
+              <div style="flex:1;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+                <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Grid Columns</div>
+                <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                  <option>2 Columns</option>
+                  <option selected>3 Columns</option>
+                  <option>4 Columns</option>
+                </select>
+              </div>
+              <div style="flex:1;padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+                <div style="font-weight:700;margin-bottom:6px;color:var(--navy);">Photo Shape</div>
+                <select disabled style="width:100%;padding:6px 10px;border:1px solid var(--grey);border-radius:4px;font-size:11px;background:white;">
+                  <option selected>Square</option>
+                  <option>Circle</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="padding:12px;background:white;border:1px solid var(--grey);border-radius:6px;">
+              <div style="font-weight:700;margin-bottom:8px;color:var(--navy);display:flex;align-items:center;justify-content:space-between;">
+                <span>Team Members</span>
+                <button disabled style="padding:4px 10px;background:var(--teal);color:white;border:none;border-radius:4px;font-size:10px;cursor:pointer;">+ Add Member</button>
+              </div>
+
+              <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:6px;padding:10px;margin-bottom:8px;">
+                <div style="font-weight:600;margin-bottom:8px;color:var(--navy);font-size:11px;">Member 1</div>
+                <div style="font-size:10px;color:var(--grey-mid);line-height:1.6;">
+                  • Photo (upload)<br>
+                  • Name (text)<br>
+                  • Role (text)<br>
+                  • Bio (textarea)<br>
+                  • Email (optional)<br>
+                  • Social Links (array: platform + URL)
+                </div>
+              </div>
+
+              <div style="font-size:10px;color:var(--grey-mid);margin-top:8px;">
+                Add team members with photos, roles, bios, and social links
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Testing Checklist
+      </div>
+      <div class="box-content">
+        <div style="font-size:13px;line-height:1.8;">
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>1. Block appears in page builder:</strong> Navigate to Pages → Edit → Blocks → Add Block → "Team Block" is visible
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>2. All fields load correctly:</strong> Title, description, columns, photoVariant, and members array all render in admin
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>3. Photo upload works:</strong> Upload team member photo → verify image appears in admin and frontend
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>4. Grid layouts render correctly:</strong> Test 2, 3, and 4 column layouts → verify responsive behavior on mobile
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>5. Photo variants work:</strong> Test square vs circle photo shapes → verify CSS classes applied correctly
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>6. Social links functional:</strong> Add LinkedIn, Twitter, etc. → verify icons display and links open correctly
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>7. Email validation works:</strong> Enter invalid email → verify validation error shows
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>8. Hover effects work:</strong> Hover over team cards and social icons → verify transitions smooth
+          </div>
+          <div style="margin-bottom:8px;">
+            <input type="checkbox" style="margin-right:8px;">
+            <strong>9. TypeScript compilation:</strong> Run <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">npm run build</code> → no TypeScript errors
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 6: Database Migration
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          ⚠️ <strong>IMPORTANT:</strong> After creating the Team block, generate a database migration:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment"># Generate migration for Team block</span>
+npx payload migrate:create add_team_block
+
+<span class="comment"># Review generated migration file in src/migrations/</span>
+<span class="comment"># It should contain ALTER TABLE statements for pages_blocks table</span>
+<span class="comment"># Adding columns for team block fields</span>
+
+<span class="comment"># Expected schema changes:</span>
+<span class="comment"># - pages_blocks.title (type: varchar)</span>
+<span class="comment"># - pages_blocks.description (type: text)</span>
+<span class="comment"># - pages_blocks.columns (type: varchar) — enum: '2', '3', '4'</span>
+<span class="comment"># - pages_blocks.photo_variant (type: varchar) — enum: 'square', 'circle'</span>
+<span class="comment"># - pages_blocks_members (type: new table) — array of team members</span>
+<span class="comment">#   - photo_id (foreign key to media)</span>
+<span class="comment">#   - name (varchar)</span>
+<span class="comment">#   - role (varchar)</span>
+<span class="comment">#   - bio (text)</span>
+<span class="comment">#   - email (varchar)</span>
+<span class="comment"># - pages_blocks_members_social (type: new table) — array of social links</span>
+<span class="comment">#   - platform (varchar)</span>
+<span class="comment">#   - url (varchar)</span>
+
+<span class="comment"># Apply migration to database</span>
+npx payload migrate
+
+<span class="comment"># Verify in database (PostgreSQL example)</span>
+psql -d your_database -c "SELECT table_name FROM information_schema.tables WHERE table_name LIKE 'pages_blocks%' AND table_name LIKE '%member%';"
+
+<span class="comment"># Expected output:</span>
+<span class="comment">#           table_name</span>
+<span class="comment"># --------------------------------</span>
+<span class="comment">#  pages_blocks_members</span>
+<span class="comment">#  pages_blocks_members_social</span>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 7: Common Issues & Solutions
+      </div>
+      <div class="box-content">
+        <table class="table" style="margin:0;">
+          <thead>
+            <tr>
+              <th style="width:40%">Issue</th>
+              <th>Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Photos not displaying on frontend</td>
+              <td>Check photo URL extraction: <code>typeof member.photo === 'string' ? member.photo : member.photo?.url</code>. Ensure Media type properly imported.</td>
+            </tr>
+            <tr>
+              <td>Grid layout broken on mobile</td>
+              <td>Verify responsive classes: <code>grid md:grid-cols-2 lg:grid-cols-3</code>. Check Tailwind config includes breakpoints.</td>
+            </tr>
+            <tr>
+              <td>Social icons not showing</td>
+              <td>Ensure lucide-react installed: <code>npm install lucide-react</code>. Check iconMap includes all platforms.</td>
+            </tr>
+            <tr>
+              <td>Circle photos not round</td>
+              <td>Check className: <code>photoVariant === 'circle' && 'rounded-full'</code>. Verify parent container has <code>m-6</code> for padding.</td>
+            </tr>
+            <tr>
+              <td>Email validation not working</td>
+              <td>Check validate function in config.ts → ensure regex <code>/^https?:\/\/.+/</code> tests URL correctly.</td>
+            </tr>
+            <tr>
+              <td>Database error on save</td>
+              <td>Run migration: <code>npx payload migrate</code> → verify <code>pages_blocks_members</code> and <code>pages_blocks_members_social</code> tables exist.</td>
+            </tr>
+            <tr>
+              <td>TypeScript error: Media type not found</td>
+              <td>Import from correct path: <code>import { Media } from '@/types/payload-types'</code> (auto-generated by Payload).</td>
+            </tr>
+            <tr>
+              <td>Hover effects not working</td>
+              <td>Check Tailwind classes: <code>hover:shadow-lg hover:-translate-y-1 transition-all</code>. Ensure group class on parent for nested hovers.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="box" style="margin-top:24px;">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 8: Register Block in Payload Config
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          Add the Team block to your Pages collection's blocks field:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// src/collections/Pages.ts</span>
+<span class="keyword">import</span> { <span class="function">CollectionConfig</span> } <span class="keyword">from</span> <span class="string">'payload/types'</span>
+<span class="keyword">import</span> { <span class="function">Team</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Team/config'</span>
+<span class="comment">// Import other blocks...</span>
+
+<span class="keyword">export const</span> <span class="function">Pages</span>: <span class="function">CollectionConfig</span> = {
+  slug: <span class="string">'pages'</span>,
+  fields: [
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'slug'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">unique</span>: <span class="keyword">true</span>,
+    },
+    {
+      <span class="property">name</span>: <span class="string">'blocks'</span>,
+      <span class="property">type</span>: <span class="string">'blocks'</span>,
+      <span class="property">label</span>: <span class="string">'Page Blocks'</span>,
+      <span class="property">blocks</span>: [
+        <span class="function">Team</span>,  <span class="comment">// ← Add Team block here</span>
+        <span class="comment">// Hero,</span>
+        <span class="comment">// Features,</span>
+        <span class="comment">// CTA,</span>
+        <span class="comment">// etc...</span>
+      ],
+    },
+  ],
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>Next Step:</strong> Add the block component to your page renderer:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// app/(frontend)/[...slug]/page.tsx</span>
+<span class="keyword">import</span> { <span class="function">Team</span> } <span class="keyword">from</span> <span class="string">'@/branches/blocks/shared/Team/Component'</span>
+
+<span class="keyword">export default function</span> <span class="function">Page</span>({ page }) {
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">main</span>&gt;
+      {page.blocks?.map((block, index) => {
+        <span class="keyword">switch</span> (block.blockType) {
+          <span class="keyword">case</span> <span class="string">'team'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Team</span> key={index} block={block} /&gt;
+
+          <span class="comment">// Other blocks...</span>
+          <span class="keyword">case</span> <span class="string">'hero'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Hero</span> key={index} block={block} /&gt;
+
+          <span class="keyword">case</span> <span class="string">'features'</span>:
+            <span class="keyword">return</span> &lt;<span class="function">Features</span> key={index} block={block} /&gt;
+
+          <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="keyword">null</span>
+        }
+      })}
+    &lt;/<span class="keyword">main</span>&gt;
+  )
+}
+    </div>
+
+    <div class="box" style="margin-top:16px;">
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>✅ Implementation Complete!</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);line-height:1.6;">
+          Your Team block is now fully integrated with Payload CMS. You can:
+        </p>
+        <ul style="font-size:13px;color:var(--grey-dark);line-height:1.8;padding-left:20px;margin-top:8px;">
+          <li>Add team members with photos via the admin panel</li>
+          <li>Choose between 2, 3, or 4 column layouts</li>
+          <li>Toggle between square and circular photo styles</li>
+          <li>Add bio, email, and social media links for each member</li>
+          <li>Customize section title and description</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

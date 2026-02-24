@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B31: Newsletter Block - Complete Implementation Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* === CSS DESIGN TOKENS === */
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --black: #0F172A;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* === BASE STYLES === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--black);
+      background: var(--bg);
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* === TYPOGRAPHY === */
+    h1, h2, h3 {
+      font-family: 'DM Serif Display', serif;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--navy);
+    }
+
+    h1 { font-size: 36px; margin-bottom: 16px; }
+    h2 { font-size: 28px; margin-bottom: 16px; }
+    h3 { font-size: 20px; margin-bottom: 12px; }
+
+    p {
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: var(--navy);
+      color: var(--teal-light);
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 16px 0;
+      line-height: 1.6;
+    }
+
+    /* === SECTION LAYOUT === */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .section-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--teal);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin-right: 12px;
+    }
+
+    .section-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* === NEWSLETTER STYLES === */
+    .newsletter-block {
+      text-align: center;
+      padding: 64px 32px;
+      border-radius: 16px;
+      margin: 24px 0;
+    }
+
+    .newsletter-block.bg-white {
+      background: white;
+      border: 1px solid var(--grey);
+    }
+
+    .newsletter-block.bg-grey {
+      background: var(--grey-light);
+    }
+
+    .newsletter-block.bg-teal {
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      color: white;
+    }
+
+    .newsletter-block.bg-navy {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white;
+    }
+
+    .newsletter-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .bg-teal .newsletter-title,
+    .bg-navy .newsletter-title {
+      color: white;
+    }
+
+    .newsletter-description {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bg-teal .newsletter-description,
+    .bg-navy .newsletter-description {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .newsletter-form {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      background: white;
+      color: var(--black);
+      transition: var(--transition);
+    }
+
+    .newsletter-input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .newsletter-input::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .newsletter-button {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .newsletter-button:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .newsletter-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .bg-navy .newsletter-button {
+      background: white;
+      color: var(--navy);
+    }
+
+    .bg-navy .newsletter-button:hover {
+      background: var(--grey-light);
+    }
+
+    .newsletter-privacy {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .bg-teal .newsletter-privacy,
+    .bg-navy .newsletter-privacy {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* === ALERT BOXES === */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border-radius: var(--radius);
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .alert-success {
+      background: var(--green-light);
+      border: 1px solid var(--green);
+      color: #166534;
+    }
+
+    .alert-error {
+      background: var(--coral-light);
+      border: 1px solid var(--coral);
+      color: #991B1B;
+    }
+
+    .alert-info {
+      background: var(--blue-light);
+      border: 1px solid var(--blue);
+      color: #1E3A8A;
+    }
+
+    .alert svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+    }
+
+    /* === LISTS === */
+    ul, ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: var(--grey-dark);
+    }
+
+    li strong {
+      color: var(--navy);
+    }
+
+    /* === TABLES === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 12px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--grey-light);
+    }
+
+    td code {
+      font-size: 10px;
+    }
+
+    /* === GRID LAYOUTS === */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .newsletter-button {
+        width: 100%;
+      }
+    }
+
+    /* === DIVIDER === */
+    .divider {
+      height: 1px;
+      background: var(--grey);
+      margin: 32px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ============================================================ -->
+    <!-- VISUAL REFERENCE -->
+    <!-- ============================================================ -->
+
+    <section class="section" id="block-newsletter">
+      <div class="section-header">
+        <div>
+          <span class="section-id">B31</span>
+          <span class="section-label">Newsletter Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="margin-bottom: 24px;">
+        Newsletter signup form. Email input met submit button. Centered layout. Beschikbaar in 4 background varianten: white, grey, teal, navy.
+      </p>
+
+      <!-- Payload Schema -->
+      <div style="background: var(--navy); color: var(--teal-light); padding: 20px; border-radius: var(--radius); margin-bottom: 24px;">
+        <pre style="margin: 0; padding: 0; background: transparent;">{ slug: 'newsletter', fields: [
+  { name: 'title', type: 'text', required: true },
+  { name: 'description', type: 'textarea' },
+  { name: 'placeholder', type: 'text', defaultValue: 'Je email adres...' },
+  { name: 'buttonLabel', type: 'text', defaultValue: 'Inschrijven' },
+  { name: 'backgroundColor', type: 'select',
+    options: ['white', 'grey', 'teal', 'navy'],
+    defaultValue: 'teal' },
+  { name: 'privacyText', type: 'text',
+    defaultValue: 'We respecteren je privacy. Geen spam.' }
+]}</pre>
+      </div>
+
+      <!-- White Background Variant -->
+      <h3 style="margin-top: 32px; margin-bottom: 16px;">Variant 1: White Background</h3>
+      <div class="newsletter-block bg-white">
+        <h2 class="newsletter-title">Blijf op de hoogte</h2>
+        <p class="newsletter-description">
+          Ontvang exclusieve tips, productupdates en speciale aanbiedingen direct in je inbox.
+        </p>
+        <form class="newsletter-form" onsubmit="return false;">
+          <input
+            type="email"
+            class="newsletter-input"
+            placeholder="Je email adres..."
+            required
+          >
+          <button type="submit" class="newsletter-button">
+            Inschrijven
+          </button>
+        </form>
+        <p class="newsletter-privacy">
+          We respecteren je privacy. Geen spam.
+        </p>
+      </div>
+
+      <!-- Grey Background Variant -->
+      <h3 style="margin-top: 32px; margin-bottom: 16px;">Variant 2: Grey Background</h3>
+      <div class="newsletter-block bg-grey">
+        <h2 class="newsletter-title">Schrijf je in voor onze nieuwsbrief</h2>
+        <p class="newsletter-description">
+          Mis geen enkele update. Ontvang wekelijks de beste content en exclusieve deals.
+        </p>
+        <form class="newsletter-form" onsubmit="return false;">
+          <input
+            type="email"
+            class="newsletter-input"
+            placeholder="naam@bedrijf.nl"
+            required
+          >
+          <button type="submit" class="newsletter-button">
+            Aanmelden
+          </button>
+        </form>
+        <p class="newsletter-privacy">
+          Uitschrijven kan altijd. Privacy gegarandeerd.
+        </p>
+      </div>
+
+      <!-- Teal Background Variant (Default) -->
+      <h3 style="margin-top: 32px; margin-bottom: 16px;">Variant 3: Teal Background (Default)</h3>
+      <div class="newsletter-block bg-teal">
+        <h2 class="newsletter-title">Ontvang 10% korting</h2>
+        <p class="newsletter-description">
+          Schrijf je nu in en ontvang direct 10% korting op je eerste bestelling. Plus exclusieve insider tips!
+        </p>
+        <form class="newsletter-form" onsubmit="return false;">
+          <input
+            type="email"
+            class="newsletter-input"
+            placeholder="Je email adres..."
+            required
+          >
+          <button type="submit" class="newsletter-button">
+            Claim korting
+          </button>
+        </form>
+        <p class="newsletter-privacy">
+          We respecteren je privacy. Geen spam.
+        </p>
+      </div>
+
+      <!-- Navy Background Variant -->
+      <h3 style="margin-top: 32px; margin-bottom: 16px;">Variant 4: Navy Background</h3>
+      <div class="newsletter-block bg-navy">
+        <h2 class="newsletter-title">Join 10.000+ professionals</h2>
+        <p class="newsletter-description">
+          Ontvang maandelijks expertinzichten, case studies en industry trends direct in je inbox.
+        </p>
+        <form class="newsletter-form" onsubmit="return false;">
+          <input
+            type="email"
+            class="newsletter-input"
+            placeholder="Jouw werk email..."
+            required
+          >
+          <button type="submit" class="newsletter-button">
+            Subscribe
+          </button>
+        </form>
+        <p class="newsletter-privacy">
+          No spam, unsubscribe at any time.
+        </p>
+      </div>
+
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================================ -->
+    <!-- DEVELOPER IMPLEMENTATION GUIDE (8 STEPS) -->
+    <!-- ============================================================ -->
+
+    <section class="section" id="implementation">
+      <h1>📘 Developer Implementation Guide</h1>
+      <p style="font-size: 14px; margin-bottom: 24px;">
+        Complete 8-step guide voor implementatie van de <strong>Newsletter Block</strong> in Payload CMS 3.0 + Next.js.
+        Volg alle stappen in volgorde voor een volledig werkende newsletter signup met email service integratie.
+      </p>
+
+      <div class="alert alert-info">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <strong>Branch Path:</strong> Dit block behoort tot de <code>forms-communication</code> branch.<br>
+          Alle bestanden bevinden zich in: <code>src/branches/blocks/forms-communication/Newsletter/</code>
+        </div>
+      </div>
+
+      <!-- STEP 1: PAYLOAD CONFIGURATION -->
+      <h2 style="margin-top: 48px;">Step 1: Payload Block Configuration</h2>
+      <p>
+        Definieer de Newsletter block in Payload met configureerbare background, teksten, en formulier opties.
+      </p>
+
+      <pre>// src/branches/blocks/forms-communication/Newsletter/config.ts
+import { Block } from 'payload'
+
+export const Newsletter: Block = {
+  slug: 'newsletter',
+  labels: {
+    singular: 'Newsletter Block',
+    plural: 'Newsletter Blocks',
+  },
+  fields: [
+    // Header Content
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          defaultValue: 'Blijf op de hoogte',
+          admin: {
+            width: '60%',
+            description: 'Hoofdtitel van de newsletter sectie',
+          },
+        },
+        {
+          name: 'buttonLabel',
+          type: 'text',
+          defaultValue: 'Inschrijven',
+          admin: {
+            width: '40%',
+            description: 'Tekst op de submit button',
+          },
+        },
+      ],
+    },
+
+    // Description
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        description: 'Korte beschrijving onder de titel (optioneel)',
+      },
+    },
+
+    // Form Configuration
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'placeholder',
+          type: 'text',
+          defaultValue: 'Je email adres...',
+          admin: {
+            width: '50%',
+            description: 'Placeholder text voor email input',
+          },
+        },
+        {
+          name: 'backgroundColor',
+          type: 'select',
+          defaultValue: 'teal',
+          options: [
+            { label: 'White', value: 'white' },
+            { label: 'Grey', value: 'grey' },
+            { label: 'Teal', value: 'teal' },
+            { label: 'Navy', value: 'navy' },
+          ],
+          admin: {
+            width: '50%',
+            description: 'Achtergrond kleur van de sectie',
+          },
+        },
+      ],
+    },
+
+    // Privacy Text
+    {
+      name: 'privacyText',
+      type: 'text',
+      defaultValue: 'We respecteren je privacy. Geen spam.',
+      admin: {
+        description: 'Privacy text onder het formulier',
+      },
+    },
+
+    // Success Message
+    {
+      name: 'successMessage',
+      type: 'text',
+      defaultValue: 'Bedankt voor je inschrijving! Check je inbox.',
+      admin: {
+        description: 'Bericht getoond na succesvolle inschrijving',
+      },
+    },
+
+    // Email Service Configuration
+    {
+      type: 'collapsible',
+      label: 'Email Service Settings',
+      fields: [
+        {
+          name: 'listId',
+          type: 'text',
+          admin: {
+            description: 'Mailchimp/Resend audience/list ID (optioneel)',
+            placeholder: 'abc123def456',
+          },
+        },
+        {
+          name: 'tags',
+          type: 'text',
+          admin: {
+            description: 'Comma-separated tags voor segmentatie (optioneel)',
+            placeholder: 'newsletter,website',
+          },
+        },
+      ],
+    },
+  ],
+}</pre>
+
+      <!-- STEP 2: TYPESCRIPT TYPES -->
+      <h2 style="margin-top: 48px;">Step 2: TypeScript Interfaces</h2>
+      <p>
+        Definieer type-safe interfaces voor de Newsletter block en API responses.
+      </p>
+
+      <pre>// src/types/blocks.ts
+export interface NewsletterBlock {
+  blockType: 'newsletter'
+  id?: string
+  title: string
+  description?: string
+  placeholder: string
+  buttonLabel: string
+  backgroundColor: 'white' | 'grey' | 'teal' | 'navy'
+  privacyText: string
+  successMessage: string
+  listId?: string
+  tags?: string
+}
+
+export interface NewsletterSubscription {
+  email: string
+  listId?: string
+  tags?: string[]
+  subscribedAt: Date
+  source: string // 'newsletter-block', 'footer', etc.
+}
+
+export interface NewsletterResponse {
+  success: boolean
+  message: string
+  error?: string
+}
+
+// Validation helper
+export function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+export function validateNewsletterEmail(email: string): string | null {
+  if (!email || email.trim().length === 0) {
+    return 'Email adres is verplicht'
+  }
+  if (!isValidEmail(email)) {
+    return 'Voer een geldig email adres in'
+  }
+  if (email.length > 255) {
+    return 'Email adres is te lang'
+  }
+  return null
+}</pre>
+
+      <!-- STEP 3: REACT COMPONENT -->
+      <h2 style="margin-top: 48px;">Step 3: React Component</h2>
+      <p>
+        Newsletter formulier met client-side validatie, loading states, en success/error feedback.
+      </p>
+
+      <pre>// src/branches/blocks/forms-communication/Newsletter/Component.tsx
+'use client'
+
+import React, { useState } from 'react'
+import { Send, CheckCircle, AlertCircle } from 'lucide-react'
+import type { NewsletterBlock } from '@/types/blocks'
+
+interface NewsletterProps {
+  block: NewsletterBlock
+}
+
+export const Newsletter: React.FC&lt;NewsletterProps&gt; = ({ block }) => {
+  const {
+    title,
+    description,
+    placeholder,
+    buttonLabel,
+    backgroundColor,
+    privacyText,
+    successMessage,
+    listId,
+    tags,
+  } = block
+
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState&lt;'idle' | 'loading' | 'success' | 'error'&gt;('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          listId,
+          tags: tags?.split(',').map(t => t.trim()),
+          source: 'newsletter-block',
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setStatus('success')
+        setEmail('')
+
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => {
+          setStatus('idle')
+        }, 5000)
+      } else {
+        setStatus('error')
+        setErrorMessage(data.message || 'Er is iets misgegaan')
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error)
+      setStatus('error')
+      setErrorMessage('Kan geen verbinding maken met de server')
+    }
+  }
+
+  // Background class mapping
+  const bgClass = {
+    white: 'bg-white border border-grey',
+    grey: 'bg-grey-light',
+    teal: 'bg-gradient-to-br from-teal-dark to-teal text-white',
+    navy: 'bg-gradient-to-br from-navy to-navy-light text-white',
+  }[backgroundColor]
+
+  // Text color classes
+  const isDark = backgroundColor === 'teal' || backgroundColor === 'navy'
+  const titleClass = isDark ? 'text-white' : 'text-navy'
+  const descClass = isDark ? 'text-white/80' : 'text-grey-dark'
+  const privacyClass = isDark ? 'text-white/60' : 'text-grey-mid'
+  const buttonClass = backgroundColor === 'navy'
+    ? 'bg-white text-navy hover:bg-grey-light'
+    : 'bg-teal text-white hover:bg-teal-dark'
+
+  return (
+    &lt;section className={`py-16 md:py-20 px-8 text-center rounded-2xl ${bgClass}`}&gt;
+      &lt;div className="max-w-2xl mx-auto"&gt;
+        {/* Success Message */}
+        {status === 'success' && (
+          &lt;div className="mb-6 flex items-center justify-center gap-3 bg-green-light border border-green text-green-dark rounded-xl p-4"&gt;
+            &lt;CheckCircle className="w-5 h-5 flex-shrink-0" /&gt;
+            &lt;p className="text-sm font-medium"&gt;{successMessage}&lt;/p&gt;
+          &lt;/div&gt;
+        )}
+        {/* Error Message */}
+        {status === 'error' && (
+          &lt;div className="mb-6 flex items-center justify-center gap-3 bg-coral-light border border-coral text-coral-dark rounded-xl p-4"&gt;
+            &lt;AlertCircle className="w-5 h-5 flex-shrink-0" /&gt;
+            &lt;p className="text-sm font-medium"&gt;{errorMessage}&lt;/p&gt;
+          &lt;/div&gt;
+        )}
+        {/* Header */}
+        &lt;h2 className={`text-3xl md:text-4xl font-serif mb-4 ${titleClass}`}&gt;{title}&lt;/h2&gt;
+        {description && &lt;p className={`text-base mb-8 ${descClass}`}&gt;{description}&lt;/p&gt;}
+        {/* Form */}
+        &lt;form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-4"&gt;
+          &lt;input
+            type="email"
+            value={email}
+            onChange={(e) =&gt; setEmail(e.target.value)}
+            placeholder={placeholder}
+            required
+            disabled={status === 'loading' || status === 'success'}
+            className="flex-1 px-4 py-3 text-sm border-2 border-grey rounded-lg bg-white text-black placeholder-grey-mid focus:border-teal focus:ring-3 focus:ring-teal-glow focus:outline-none transition-all disabled:opacity-50"
+          /&gt;
+          &lt;button
+            type="submit"
+            disabled={status === 'loading' || status === 'success'}
+            className={`px-6 py-3 text-sm font-semibold rounded-lg transition-all whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed hover:transform hover:-translate-y-0.5 hover:shadow-md ${buttonClass}`}
+          &gt;
+            {status === 'loading' ? (
+              &lt;span className="flex items-center gap-2"&gt;
+                &lt;svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"&gt;
+                  &lt;circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /&gt;
+                  &lt;path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /&gt;
+                &lt;/svg&gt;
+                Bezig...
+              &lt;/span&gt;
+            ) : (
+              &lt;span className="flex items-center gap-2"&gt;
+                &lt;Send className="w-4 h-4" /&gt;
+                {buttonLabel}
+              &lt;/span&gt;
+            )}
+          &lt;/button&gt;
+        &lt;/form&gt;
+        {/* Privacy Text */}
+        &lt;p className={`text-xs ${privacyClass}`}&gt;{privacyText}&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}
+
+export default Newsletter</pre>
+
+      <!-- STEP 4: API ENDPOINT -->
+      <h2 style="margin-top: 48px;">Step 4: API Endpoint</h2>
+      <p>
+        Next.js API route voor newsletter inschrijvingen met email service integratie (Resend/Mailchimp).
+      </p>
+
+      <pre>// src/app/api/newsletter/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+import { validateNewsletterEmail } from '@/types/blocks'
+
+// Example using Resend (install: npm install resend)
+import { Resend } from 'resend'
+const resend = new Resend(process.env.RESEND_API_KEY)
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const { email, listId, tags, source } = body
+
+    // Validate email
+    const validationError = validateNewsletterEmail(email)
+    if (validationError) {
+      return NextResponse.json(
+        { success: false, message: validationError },
+        { status: 400 }
+      )
+    }
+
+    // Option 1: Using Resend Audiences
+    if (listId) {
+      await resend.contacts.create({
+        email,
+        audienceId: listId,
+        // Optional: add custom fields
+        firstName: undefined, // Can be extended to capture name
+        unsubscribed: false,
+      })
+    }
+
+    // Option 2: Store in database (recommended for full control)
+    // const { data: subscription } = await payload.create({
+    //   collection: 'newsletter-subscriptions',
+    //   data: {
+    //     email,
+    //     listId,
+    //     tags: tags || [],
+    //     source,
+    //     subscribedAt: new Date().toISOString(),
+    //     ipAddress: request.headers.get('x-forwarded-for') || 'unknown',
+    //     userAgent: request.headers.get('user-agent') || 'unknown',
+    //   },
+    // })
+
+    // Option 3: Send welcome email
+    await resend.emails.send({
+      from: 'Newsletter &lt;newsletter@yourdomain.com&gt;',
+      to: email,
+      subject: 'Welkom bij onze nieuwsbrief! 🎉',
+      html: `
+        &lt;div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+          &lt;h1 style="color: #00897B;"&gt;Bedankt voor je inschrijving!&lt;/h1&gt;
+          &lt;p&gt;Je ontvangt vanaf nu regelmatig updates, tips en exclusieve aanbiedingen.&lt;/p&gt;
+          &lt;p style="color: #64748B; font-size: 12px; margin-top: 32px;"&gt;
+            Wil je geen emails meer ontvangen?
+            &lt;a href="https://yourdomain.com/unsubscribe?email=${encodeURIComponent(email)}" style="color: #00897B;"&gt;
+              Uitschrijven
+            &lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/div&gt;
+      `,
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: 'Je bent succesvol ingeschreven!',
+    })
+  } catch (error: any) {
+    console.error('Newsletter subscription error:', error)
+
+    // Handle duplicate email error
+    if (error.message?.includes('already exists') || error.message?.includes('duplicate')) {
+      return NextResponse.json(
+        { success: false, message: 'Dit email adres is al ingeschreven' },
+        { status: 400 }
+      )
+    }
+
+    return NextResponse.json(
+      { success: false, message: 'Er is een fout opgetreden. Probeer het later opnieuw.' },
+      { status: 500 }
+    )
+  }
+}</pre>
+
+      <!-- STEP 5: TESTING CHECKLIST -->
+      <h2 style="margin-top: 48px;">Step 5: Testing Checklist</h2>
+      <p>Verifieer dat alle functionaliteit correct werkt:</p>
+
+      <ol>
+        <li><strong>Form submission:</strong> Test newsletter inschrijving met geldig email adres</li>
+        <li><strong>Email validation:</strong> Test met ongeldige emails (geen @, geen domein, te lang)</li>
+        <li><strong>Loading state:</strong> Verifieer dat button disabled is tijdens submission</li>
+        <li><strong>Success state:</strong> Check dat success message verschijnt en form wordt gereset</li>
+        <li><strong>Error handling:</strong> Test API error door service uit te zetten</li>
+        <li><strong>Duplicate detection:</strong> Probeer hetzelfde email 2x in te schrijven</li>
+        <li><strong>Background variants:</strong> Test alle 4 background kleuren (white/grey/teal/navy)</li>
+        <li><strong>Responsive layout:</strong> Verifieer dat form stacks op mobile (&lt;640px)</li>
+        <li><strong>Welcome email:</strong> Check dat welcome email correct wordt verzonden</li>
+        <li><strong>Database logging:</strong> Verifieer dat inschrijving correct wordt opgeslagen</li>
+      </ol>
+
+      <!-- STEP 6: DATABASE MIGRATION -->
+      <h2 style="margin-top: 48px;">Step 6: Database Migration</h2>
+      <p>
+        PostgreSQL schema voor de Newsletter block in pages + optionele subscriptions tracking.
+      </p>
+
+      <pre>-- Newsletter block configuration in pages
+CREATE TABLE pages_blocks_newsletter (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL REFERENCES pages(id) ON DELETE CASCADE,
+  _path TEXT NOT NULL,
+  id SERIAL PRIMARY KEY,
+  title VARCHAR NOT NULL,
+  description TEXT,
+  placeholder VARCHAR DEFAULT 'Je email adres...',
+  button_label VARCHAR DEFAULT 'Inschrijven',
+  background_color VARCHAR DEFAULT 'teal'
+    CHECK (background_color IN ('white', 'grey', 'teal', 'navy')),
+  privacy_text VARCHAR DEFAULT 'We respecteren je privacy. Geen spam.',
+  success_message VARCHAR DEFAULT 'Bedankt voor je inschrijving! Check je inbox.',
+  list_id VARCHAR,
+  tags VARCHAR,
+  block_name VARCHAR
+);
+
+CREATE INDEX idx_pages_blocks_newsletter_parent
+  ON pages_blocks_newsletter(_parent_id);
+CREATE INDEX idx_pages_blocks_newsletter_path
+  ON pages_blocks_newsletter(_path);
+
+-- Optional: Newsletter subscriptions tracking table
+CREATE TABLE newsletter_subscriptions (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  list_id VARCHAR,
+  tags TEXT[], -- PostgreSQL array for tags
+  source VARCHAR DEFAULT 'newsletter-block',
+  subscribed_at TIMESTAMP DEFAULT NOW(),
+  unsubscribed_at TIMESTAMP,
+  ip_address VARCHAR,
+  user_agent TEXT,
+  confirmed BOOLEAN DEFAULT false,
+  confirmation_token VARCHAR,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_newsletter_email ON newsletter_subscriptions(email);
+CREATE INDEX idx_newsletter_subscribed ON newsletter_subscriptions(subscribed_at);
+CREATE INDEX idx_newsletter_confirmed ON newsletter_subscriptions(confirmed);
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_newsletter_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER newsletter_updated_at
+  BEFORE UPDATE ON newsletter_subscriptions
+  FOR EACH ROW
+  EXECUTE FUNCTION update_newsletter_updated_at();</pre>
+
+      <p style="margin-top: 16px;">
+        <strong>Genereer de migratie:</strong>
+      </p>
+      <pre>npx payload migrate:create add_newsletter_block</pre>
+
+      <!-- STEP 7: TROUBLESHOOTING -->
+      <h2 style="margin-top: 48px;">Step 7: Troubleshooting Guide</h2>
+      <p>Oplossingen voor veelvoorkomende problemen:</p>
+
+      <div class="grid-2">
+        <div>
+          <h3>1. Form submit doet niks</h3>
+          <p><strong>Oorzaak:</strong> Client component niet correct gemarkeerd</p>
+          <p><strong>Oplossing:</strong> Controleer dat <code>'use client'</code> bovenaan Component.tsx staat</p>
+        </div>
+
+        <div>
+          <h3>2. Email wordt niet verzonden</h3>
+          <p><strong>Oorzaak:</strong> RESEND_API_KEY niet geconfigureerd</p>
+          <p><strong>Oplossing:</strong> Check .env file en Resend dashboard voor API key</p>
+        </div>
+
+        <div>
+          <h3>3. Success message blijft hangen</h3>
+          <p><strong>Oorzaak:</strong> Auto-hide timeout werkt niet</p>
+          <p><strong>Oplossing:</strong> Verifieer setTimeout() in handleSubmit functie</p>
+        </div>
+
+        <div>
+          <h3>4. Duplicate error niet friendly</h3>
+          <p><strong>Oorzaak:</strong> Email service error niet correct afgehandeld</p>
+          <p><strong>Oplossing:</strong> Check error.message parsing in catch block</p>
+        </div>
+
+        <div>
+          <h3>5. Background kleuren werken niet</h3>
+          <p><strong>Oorzaak:</strong> Tailwind classes niet geconfigureerd</p>
+          <p><strong>Oplossing:</strong> Voeg custom colors toe aan tailwind.config.ts</p>
+        </div>
+
+        <div>
+          <h3>6. Form niet responsive</h3>
+          <p><strong>Oorzaak:</strong> sm: breakpoint classes ontbreken</p>
+          <p><strong>Oplossing:</strong> Gebruik flex-col sm:flex-row voor form container</p>
+        </div>
+
+        <div>
+          <h3>7. Loading spinner niet zichtbaar</h3>
+          <p><strong>Oorzaak:</strong> SVG viewBox verkeerd of className ontbreekt</p>
+          <p><strong>Oplossing:</strong> Check animate-spin class en SVG viewBox="0 0 24 24"</p>
+        </div>
+
+        <div>
+          <h3>8. Subscriptions niet in database</h3>
+          <p><strong>Oorzaak:</strong> Payload.create() call gecommentarieerd</p>
+          <p><strong>Oplossing:</strong> Uncommment database save in route.ts (Option 2)</p>
+        </div>
+      </div>
+
+      <!-- STEP 8: CONFIG REGISTRATION -->
+      <h2 style="margin-top: 48px;">Step 8: Config Registration</h2>
+      <p>Registreer het Newsletter block in Payload config en RenderBlocks component:</p>
+
+      <pre>// src/payload.config.ts
+import { Newsletter } from '@/branches/blocks/forms-communication/Newsletter/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'blocks',
+          type: 'blocks',
+          blocks: [
+            // ... other blocks
+            Newsletter, // ← Add here
+          ],
+        },
+      ],
+    },
+  ],
+})</pre>
+
+      <pre>// src/components/RenderBlocks.tsx
+import { Newsletter as NewsletterComponent } from '@/branches/blocks/forms-communication/Newsletter/Component'
+
+const blockComponents = {
+  // ... other blocks
+  newsletter: NewsletterComponent,
+}
+
+export const RenderBlocks: React.FC&lt;{ blocks: Block[] }&gt; = ({ blocks }) => {
+  return (
+    &lt;&gt;
+      {blocks?.map((block, index) => {
+        const BlockComponent = blockComponents[block.blockType]
+        if (!BlockComponent) return null
+        return &lt;BlockComponent key={block.id || index} block={block} /&gt;
+      })}
+    &lt;/&gt;
+  )
+}</pre>
+
+      <div class="alert alert-success" style="margin-top: 32px;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <strong>Implementation Complete!</strong> De Newsletter block is nu volledig functioneel.
+          Test alle background variants en verifieer dat emails correct worden verzonden naar je email service.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ADDITIONAL RESOURCES -->
+    <!-- ============================================================ -->
+
+    <section class="section">
+      <h2>📚 Additional Resources</h2>
+
+      <h3 style="margin-top: 24px;">Email Service Integration</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>NPM Package</th>
+            <th>Documentation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Resend</strong> (recommended)</td>
+            <td><code>npm install resend</code></td>
+            <td><a href="https://resend.com/docs" target="_blank">resend.com/docs</a></td>
+          </tr>
+          <tr>
+            <td><strong>Mailchimp</strong></td>
+            <td><code>npm install @mailchimp/mailchimp_marketing</code></td>
+            <td><a href="https://mailchimp.com/developer" target="_blank">mailchimp.com/developer</a></td>
+          </tr>
+          <tr>
+            <td><strong>SendGrid</strong></td>
+            <td><code>npm install @sendgrid/mail</code></td>
+            <td><a href="https://docs.sendgrid.com" target="_blank">docs.sendgrid.com</a></td>
+          </tr>
+          <tr>
+            <td><strong>ConvertKit</strong></td>
+            <td><code>npm install convertkit-api</code></td>
+            <td><a href="https://developers.convertkit.com" target="_blank">developers.convertkit.com</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top: 32px;">Environment Variables</h3>
+      <pre># .env.local
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+NEWSLETTER_FROM_EMAIL=newsletter@yourdomain.com
+NEWSLETTER_DEFAULT_LIST_ID=abc123def456</pre>
+
+      <h3 style="margin-top: 32px;">Related Blocks</h3>
+      <ul>
+        <li><strong>B16 - Contact Block:</strong> General contact information display</li>
+        <li><strong>B17 - Form Block:</strong> Flexible form builder for custom forms</li>
+        <li><strong>B25 - ContactForm Block:</strong> Complete contact form with sidebar</li>
+      </ul>
+
+      <h3 style="margin-top: 32px;">Design Tokens Used</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+            <td>Default background gradient, focus ring, button background</td>
+          </tr>
+          <tr>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Navy background variant, text color on light backgrounds</td>
+          </tr>
+          <tr>
+            <td><code>--grey-light</code></td>
+            <td>#F1F4F8</td>
+            <td>Grey background variant</td>
+          </tr>
+          <tr>
+            <td><code>--teal-glow</code></td>
+            <td>rgba(0, 137, 123, 0.12)</td>
+            <td>Focus ring shadow on input field</td>
+          </tr>
+          <tr>
+            <td><code>--radius</code></td>
+            <td>12px</td>
+            <td>Input field and button border radius</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+  </div>
+
+  <footer style="text-align: center; padding: 48px 24px; color: var(--grey-mid); font-size: 12px;">
+    <p>B31: Newsletter Block - Complete Implementation Guide</p>
+    <p style="margin-top: 8px;">
+      Part of Plastimed Design System |
+      <a href="../../compass-design-system.html" style="color: var(--teal); text-decoration: none;">View Full Design System</a>
+    </p>
+  </footer>
+
+</body>
+</html>

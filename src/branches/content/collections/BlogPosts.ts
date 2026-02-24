@@ -17,7 +17,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 // Blog-specific blocks
-import { InfoBox } from '@/branches/shared/blocks/InfoBox'
+import { InfoBox } from '@/branches/shared/blocks/InfoBox/config'
 import { ProductEmbed } from '@/branches/ecommerce/blocks/ProductEmbed'
 import { ComparisonTable } from '@/branches/ecommerce/blocks/ComparisonTable'
 import { FAQ } from '@/branches/shared/blocks/FAQ'

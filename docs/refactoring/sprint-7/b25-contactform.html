@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B25: ContactForm Block — Plastimed Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ==============================================
+       CSS DESIGN TOKENS — Complete Design System
+       ============================================== */
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ==============================================
+       BASE STYLES
+       ============================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ==============================================
+       SECTION STYLES
+       ============================================== */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .section-label {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'DM Serif Display', serif;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* ==============================================
+       BOX COMPONENT (macOS Window Style)
+       ============================================== */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: var(--grey-light);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #28CA42; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ==============================================
+       CONTACT FORM COMPONENT
+       ============================================== */
+    .contactform-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .form-wrapper {
+      background: white;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .form-label-required::after {
+      content: ' *';
+      color: var(--coral);
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .form-button {
+      padding: 12px 24px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      background: var(--teal);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-button:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-sidebar {
+      background: var(--grey-light);
+      border-radius: 12px;
+      padding: 32px;
+    }
+
+    .sidebar-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .sidebar-icon {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .sidebar-details {
+      flex: 1;
+    }
+
+    .sidebar-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-dark);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-value {
+      font-size: 13px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    .sidebar-value a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .sidebar-value a:hover {
+      color: var(--teal-dark);
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .contactform-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    /* ==============================================
+       USAGE NOTES & CODE BLOCKS
+       ============================================== */
+    .usage-notes {
+      background: var(--blue-light);
+      border: 1px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .usage-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .usage-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .code-block {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .code-header {
+      background: var(--navy-light);
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-lang {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* ==============================================
+       IMPLEMENTATION GUIDE STYLES
+       ============================================== */
+    .impl-section {
+      margin-bottom: 48px;
+    }
+
+    .impl-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .impl-step {
+      background: var(--teal);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .impl-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'DM Serif Display', serif;
+    }
+
+    .impl-description {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .checklist {
+      background: var(--green-light);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .checklist-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .checklist ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      padding: 6px 0 6px 24px;
+      position: relative;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .checklist li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .troubleshooting {
+      background: var(--amber-light);
+      border: 1px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .troubleshooting-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .troubleshooting-item {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(245,158,11,0.3);
+    }
+
+    .troubleshooting-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .troubleshooting-problem {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .troubleshooting-solution {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ==============================================
+         VISUAL REFERENCE SECTION
+         ============================================== -->
+    <section class="section" id="block-contactform">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B25</span>
+          <span class="section-label">ContactForm Block</span>
+        </div>
+        <span class="tag" style="background:var(--amber);color:white">Status</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Dedicated contact form. Preset fields: naam, email, telefoon, onderwerp, bericht. Split layout met contactinfo rechts.
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview — Contact Form + Info Sidebar
+        </div>
+        <div class="box-content" style="padding:32px;background:var(--bg)">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <h2 style="font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 8px;">Neem contact op</h2>
+            <p style="font-size: 14px; color: var(--grey-dark);">Vul het formulier in en we nemen zo snel mogelijk contact met je op</p>
+          </div>
+
+          <div class="contactform-grid">
+            <!-- Contact Form -->
+            <div class="form-wrapper">
+              <form>
+                <!-- Name -->
+                <div class="form-group">
+                  <label class="form-label form-label-required">Naam</label>
+                  <input type="text" class="form-input" placeholder="Je volledige naam">
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                  <label class="form-label form-label-required">Email</label>
+                  <input type="email" class="form-input" placeholder="naam@voorbeeld.nl">
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                  <label class="form-label">Telefoon</label>
+                  <input type="tel" class="form-input" placeholder="06 12 34 56 78">
+                </div>
+
+                <!-- Subject -->
+                <div class="form-group">
+                  <label class="form-label">Onderwerp</label>
+                  <input type="text" class="form-input" placeholder="Waar kunnen we je mee helpen?">
+                </div>
+
+                <!-- Message -->
+                <div class="form-group">
+                  <label class="form-label form-label-required">Bericht</label>
+                  <textarea class="form-textarea" placeholder="Typ hier je bericht..."></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="form-button">
+                  <span>Verstuur bericht</span>
+                  <i data-lucide="send" style="width:16px;height:16px"></i>
+                </button>
+              </form>
+            </div>
+
+            <!-- Contact Info Sidebar -->
+            <div class="form-sidebar">
+              <h3 class="sidebar-title">Contactgegevens</h3>
+
+              <!-- Phone -->
+              <div class="sidebar-item">
+                <div class="sidebar-icon">
+                  <i data-lucide="phone" style="width:18px;height:18px"></i>
+                </div>
+                <div class="sidebar-details">
+                  <div class="sidebar-label">Telefoon</div>
+                  <div class="sidebar-value"><a href="tel:+31201234567">020 - 123 45 67</a></div>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="sidebar-item">
+                <div class="sidebar-icon">
+                  <i data-lucide="mail" style="width:18px;height:18px"></i>
+                </div>
+                <div class="sidebar-details">
+                  <div class="sidebar-label">Email</div>
+                  <div class="sidebar-value"><a href="mailto:info@plastimed.nl">info@plastimed.nl</a></div>
+                </div>
+              </div>
+
+              <!-- Address -->
+              <div class="sidebar-item">
+                <div class="sidebar-icon">
+                  <i data-lucide="map-pin" style="width:18px;height:18px"></i>
+                </div>
+                <div class="sidebar-details">
+                  <div class="sidebar-label">Adres</div>
+                  <div class="sidebar-value">
+                    Keizersgracht 123<br>
+                    1015 DJ Amsterdam
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="usage-notes">
+        <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+        <ul class="usage-list">
+          <li><strong>Layout:</strong> 2-column grid (form left 2fr, info sidebar right 1fr), stacks on mobile</li>
+          <li><strong>Required Fields:</strong> Name, Email, Message (marked with red asterisk)</li>
+          <li><strong>Optional Fields:</strong> Phone and Subject (configurable via checkboxes)</li>
+          <li><strong>Sidebar:</strong> Grey background with white icon circles</li>
+          <li><strong>Validation:</strong> Client-side + server-side validation required</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         DEVELOPER IMPLEMENTATION GUIDE
+         ============================================== -->
+    <section class="section" id="implementation">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h1 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 12px;">
+          Developer Implementation Guide
+        </h1>
+        <p style="font-size: 14px; color: var(--grey-dark);">
+          Complete 8-step guide for implementing the ContactForm block in Payload CMS 3.0 + Next.js
+        </p>
+      </div>
+
+      <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 1</span>
+          <span class="impl-title">Payload Block Configuration</span>
+        </div>
+
+        <p class="impl-description">
+          Create the Payload CMS block configuration with preset form fields and configurable contact info sidebar.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/branches/blocks/forms-communication/ContactForm/config.ts</span>
+          </div>
+          <pre><code>// src/branches/blocks/forms-communication/ContactForm/config.ts
+import { Block } from 'payload/types'
+
+export const ContactForm: Block = {
+  slug: 'contactform',
+  labels: {
+    singular: 'Contact Form Block',
+    plural: 'Contact Form Blocks',
+  },
+  fields: [
+    // Header
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Form Title',
+          defaultValue: 'Neem contact op',
+          admin: {
+            width: '60%'
+          }
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Description',
+          admin: {
+            width: '40%',
+            placeholder: 'Vul het formulier in...'
+          }
+        }
+      ]
+    },
+
+    // Form Configuration
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'showPhone',
+          type: 'checkbox',
+          label: 'Show Phone Field',
+          defaultValue: true,
+          admin: {
+            width: '33%'
+          }
+        },
+        {
+          name: 'showSubject',
+          type: 'checkbox',
+          label: 'Show Subject Field',
+          defaultValue: true,
+          admin: {
+            width: '33%'
+          }
+        },
+        {
+          name: 'submitTo',
+          type: 'email',
+          label: 'Submit To Email',
+          required: true,
+          admin: {
+            width: '34%',
+            placeholder: 'contact@company.com'
+          }
+        }
+      ]
+    },
+
+    // Contact Info Sidebar
+    {
+      name: 'contactInfo',
+      type: 'group',
+      label: 'Contact Info Sidebar',
+      fields: [
+        {
+          name: 'phone',
+          type: 'text',
+          label: 'Phone Number',
+          admin: {
+            placeholder: '020 - 123 45 67'
+          }
+        },
+        {
+          name: 'email',
+          type: 'email',
+          label: 'Email Address',
+          admin: {
+            placeholder: 'info@company.com'
+          }
+        },
+        {
+          name: 'address',
+          type: 'textarea',
+          label: 'Address',
+          admin: {
+            placeholder: 'Street, City, Postal Code'
+          }
+        }
+      ]
+    },
+
+    // Success Message
+    {
+      name: 'successMessage',
+      type: 'text',
+      label: 'Success Message',
+      defaultValue: 'Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.',
+      admin: {
+        description: 'Message shown after successful form submission'
+      }
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 2: TYPESCRIPT TYPE DEFINITIONS -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 2</span>
+          <span class="impl-title">TypeScript Type Definitions</span>
+        </div>
+
+        <p class="impl-description">
+          Define TypeScript interfaces for type-safe development with the ContactForm block.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/types/blocks.ts</span>
+          </div>
+          <pre><code>// src/types/blocks.ts
+export interface ContactInfo {
+  phone?: string
+  email?: string
+  address?: string
+}
+
+export interface ContactFormBlock {
+  blockType: 'contactform'
+  id?: string
+  title: string
+  description?: string
+  showPhone: boolean
+  showSubject: boolean
+  submitTo: string
+  contactInfo?: ContactInfo
+  successMessage: string
+}
+
+// Form Submission Types
+export interface ContactFormData {
+  name: string
+  email: string
+  phone?: string
+  subject?: string
+  message: string
+}
+
+export interface ContactFormResponse {
+  success: boolean
+  message: string
+  errors?: {
+    field: string
+    message: string
+  }[]
+}
+
+// Type Guards
+export function isContactFormBlock(block: any): block is ContactFormBlock {
+  return block?.blockType === 'contactform'
+}
+
+export function hasContactInfo(block: ContactFormBlock): boolean {
+  const info = block.contactInfo
+  return !!(info?.phone || info?.email || info?.address)
+}
+
+// Validation
+export function validateContactFormData(data: ContactFormData): string[] {
+  const errors: string[] = []
+
+  if (!data.name || data.name.trim().length < 2) {
+    errors.push('Naam is verplicht (minimaal 2 tekens)')
+  }
+
+  if (!data.email || !isValidEmail(data.email)) {
+    errors.push('Geldig email adres is verplicht')
+  }
+
+  if (!data.message || data.message.trim().length < 10) {
+    errors.push('Bericht is verplicht (minimaal 10 tekens)')
+  }
+
+  return errors
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 3: REACT COMPONENT IMPLEMENTATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 3</span>
+          <span class="impl-title">React Component Implementation</span>
+        </div>
+
+        <p class="impl-description">
+          Create the Next.js React component with form handling, validation, and API submission.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript React</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/branches/blocks/forms-communication/ContactForm/Component.tsx</span>
+          </div>
+          <pre><code>// src/branches/blocks/forms-communication/ContactForm/Component.tsx
+'use client'
+
+import React, { useState } from 'react'
+import { MapPin, Phone, Mail, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import type { ContactFormBlock, ContactFormData } from '@/types/blocks'
+
+interface ContactFormProps {
+  block: ContactFormBlock
+}
+
+export const ContactForm: React.FC&lt;ContactFormProps&gt; = ({ block }) =&gt; {
+  const {
+    title,
+    description,
+    showPhone,
+    showSubject,
+    submitTo,
+    contactInfo,
+    successMessage
+  } = block
+
+  const [formData, setFormData] = useState&lt;ContactFormData&gt;({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+  })
+
+  const [status, setStatus] = useState&lt;'idle' | 'loading' | 'success' | 'error'&gt;('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement | HTMLTextAreaElement&gt;) =&gt; {
+    setFormData(prev =&gt; ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) =&gt; {
+    e.preventDefault()
+    setStatus('loading')
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          submitTo
+        })
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setStatus('success')
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        })
+      } else {
+        setStatus('error')
+        setErrorMessage(data.message || 'Er is iets misgegaan')
+      }
+    } catch (error) {
+      setStatus('error')
+      setErrorMessage('Kan geen verbinding maken met de server')
+    }
+  }
+
+  const hasContactInfo = contactInfo?.phone || contactInfo?.email || contactInfo?.address
+
+  return (
+    &lt;section className="py-16 md:py-20"&gt;
+      &lt;div className="container mx-auto px-6"&gt;
+        {/* Header */}
+        {(title || description) && (
+          &lt;div className="text-center mb-12"&gt;
+            {title && &lt;h2 className="font-serif text-3xl md:text-4xl text-navy mb-3"&gt;{title}&lt;/h2&gt;}
+            {description && &lt;p className="text-base text-grey-dark max-w-2xl mx-auto"&gt;{description}&lt;/p&gt;}
+          &lt;/div&gt;
+        )}
+        {/* Success Message */}
+        {status === 'success' && (
+          &lt;div className="max-w-3xl mx-auto mb-8 p-4 bg-green-light border border-green rounded-lg flex items-center gap-3"&gt;
+            &lt;CheckCircle className="w-5 h-5 text-green flex-shrink-0" /&gt;
+            &lt;p className="text-sm text-navy"&gt;{successMessage}&lt;/p&gt;
+          &lt;/div&gt;
+        )}
+        {/* Error Message */}
+        {status === 'error' && (
+          &lt;div className="max-w-3xl mx-auto mb-8 p-4 bg-coral-light border border-coral rounded-lg flex items-center gap-3"&gt;
+            &lt;AlertCircle className="w-5 h-5 text-coral flex-shrink-0" /&gt;
+            &lt;p className="text-sm text-navy"&gt;{errorMessage}&lt;/p&gt;
+          &lt;/div&gt;
+        )}
+
+        {/* Form Grid */}
+        &lt;div className="grid lg:grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto"&gt;
+          {/* Contact Form */}
+          &lt;div className="lg:col-span-2"&gt;
+            &lt;form onSubmit={handleSubmit} className="space-y-5"&gt;
+              {/* Name */}
+              &lt;div&gt;
+                &lt;label htmlFor="name" className="block text-sm font-semibold text-navy mb-2"&gt;
+                  Naam &lt;span className="text-coral"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 text-sm border-1.5 border-grey rounded-lg focus:outline-none focus:border-teal focus:ring-3 focus:ring-teal-glow transition"
+                  placeholder="Je volledige naam"
+                /&gt;
+              &lt;/div&gt;
+
+              {/* Email */}
+              &lt;div&gt;
+                &lt;label htmlFor="email" className="block text-sm font-semibold text-navy mb-2"&gt;
+                  Email &lt;span className="text-coral"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 text-sm border-1.5 border-grey rounded-lg focus:outline-none focus:border-teal focus:ring-3 focus:ring-teal-glow transition"
+                  placeholder="naam@voorbeeld.nl"
+                /&gt;
+              &lt;/div&gt;
+
+              {/* Phone (optional) */}
+              {showPhone && (
+                &lt;div&gt;
+                  &lt;label htmlFor="phone" className="block text-sm font-semibold text-navy mb-2"&gt;
+                    Telefoon
+                  &lt;/label&gt;
+                  &lt;input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 text-sm border-1.5 border-grey rounded-lg focus:outline-none focus:border-teal focus:ring-3 focus:ring-teal-glow transition"
+                    placeholder="06 12 34 56 78"
+                  /&gt;
+                &lt;/div&gt;
+              )}
+
+              {/* Subject (optional) */}
+              {showSubject && (
+                &lt;div&gt;
+                  &lt;label htmlFor="subject" className="block text-sm font-semibold text-navy mb-2"&gt;
+                    Onderwerp
+                  &lt;/label&gt;
+                  &lt;input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 text-sm border-1.5 border-grey rounded-lg focus:outline-none focus:border-teal focus:ring-3 focus:ring-teal-glow transition"
+                    placeholder="Waar kunnen we je mee helpen?"
+                  /&gt;
+                &lt;/div&gt;
+              )}
+
+              {/* Message */}
+              &lt;div&gt;
+                &lt;label htmlFor="message" className="block text-sm font-semibold text-navy mb-2"&gt;
+                  Bericht &lt;span className="text-coral"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={5}
+                  className="w-full px-4 py-3 text-sm border-1.5 border-grey rounded-lg focus:outline-none focus:border-teal focus:ring-3 focus:ring-teal-glow transition resize-vertical"
+                  placeholder="Typ hier je bericht..."
+                /&gt;
+              &lt;/div&gt;
+
+              {/* Submit Button */}
+              &lt;button
+                type="submit"
+                disabled={status === 'loading'}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-teal text-white text-sm font-bold rounded-lg hover:bg-teal-dark transition disabled:opacity-50 disabled:cursor-not-allowed"
+              &gt;
+                &lt;span&gt;{status === 'loading' ? 'Versturen...' : 'Verstuur bericht'}&lt;/span&gt;
+                &lt;Send className="w-4 h-4" /&gt;
+              &lt;/button&gt;
+            &lt;/form&gt;
+          &lt;/div&gt;
+
+          {/* Contact Info Sidebar */}
+          {hasContactInfo && (
+            &lt;div className="bg-grey-light rounded-xl p-8"&gt;
+              &lt;h3 className="font-serif text-xl text-navy mb-6"&gt;Contactgegevens&lt;/h3&gt;
+              &lt;div className="space-y-5"&gt;
+                {/* Phone */}
+                {contactInfo.phone && (
+                  &lt;div className="flex gap-3"&gt;
+                    &lt;div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center flex-shrink-0"&gt;
+                      &lt;Phone className="w-4.5 h-4.5 text-teal" /&gt;
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                      &lt;div className="text-xs font-bold uppercase tracking-wide text-grey-dark mb-1"&gt;Telefoon&lt;/div&gt;
+                      &lt;a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, '')}`} className="text-sm text-teal hover:text-teal-dark transition"&gt;
+                        {contactInfo.phone}
+                      &lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                )}
+                {/* Email */}
+                {contactInfo.email && (
+                  &lt;div className="flex gap-3"&gt;
+                    &lt;div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center flex-shrink-0"&gt;
+                      &lt;Mail className="w-4.5 h-4.5 text-teal" /&gt;
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                      &lt;div className="text-xs font-bold uppercase tracking-wide text-grey-dark mb-1"&gt;Email&lt;/div&gt;
+                      &lt;a href={`mailto:${contactInfo.email}`} className="text-sm text-teal hover:text-teal-dark transition"&gt;
+                        {contactInfo.email}
+                      &lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                )}
+                {/* Address */}
+                {contactInfo.address && (
+                  &lt;div className="flex gap-3"&gt;
+                    &lt;div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center flex-shrink-0"&gt;
+                      &lt;MapPin className="w-4.5 h-4.5 text-teal" /&gt;
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                      &lt;div className="text-xs font-bold uppercase tracking-wide text-grey-dark mb-1"&gt;Adres&lt;/div&gt;
+                      &lt;p className="text-sm text-navy whitespace-pre-line"&gt;{contactInfo.address}&lt;/p&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                )}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}</code></pre>
+        </div>
+
+        <div class="usage-notes">
+          <div class="usage-title"><i data-lucide="lightbulb"></i> Component Features</div>
+          <ul class="usage-list">
+            <li><strong>Form State:</strong> React useState for form data and submission status</li>
+            <li><strong>Validation:</strong> HTML5 required fields + custom validation on submit</li>
+            <li><strong>Success/Error States:</strong> Visual feedback with colored banners</li>
+            <li><strong>Optional Fields:</strong> Phone and Subject only shown when enabled</li>
+            <li><strong>Responsive:</strong> 2/3 form + 1/3 sidebar on desktop, stacks on mobile</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 4: API ENDPOINT -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 4</span>
+          <span class="impl-title">API Endpoint Implementation</span>
+        </div>
+
+        <p class="impl-description">
+          Create the Next.js API route for handling contact form submissions.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/app/api/contact/route.ts</span>
+          </div>
+          <pre><code>// src/app/api/contact/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+import { validateContactFormData } from '@/types/blocks'
+import { sendEmail } from '@/lib/email' // Using Resend or Nodemailer
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const { name, email, phone, subject, message, submitTo } = body
+
+    // Validate input
+    const errors = validateContactFormData({ name, email, phone, subject, message })
+    if (errors.length > 0) {
+      return NextResponse.json({
+        success: false,
+        message: errors.join(', '),
+        errors: errors.map(err => ({ field: 'general', message: err }))
+      }, { status: 400 })
+    }
+
+    // Send email
+    const emailHtml = `
+      <h2>Nieuw contactformulier bericht</h2>
+      <p><strong>Naam:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      ${phone ? `<p><strong>Telefoon:</strong> ${phone}</p>` : ''}
+      ${subject ? `<p><strong>Onderwerp:</strong> ${subject}</p>` : ''}
+      <p><strong>Bericht:</strong></p>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+    `
+
+    await sendEmail({
+      to: submitTo,
+      replyTo: email,
+      subject: subject || `Contact formulier van ${name}`,
+      html: emailHtml
+    })
+
+    // Optional: Save to database
+    // await payload.create({
+    //   collection: 'form-submissions',
+    //   data: { name, email, phone, subject, message }
+    // })
+
+    return NextResponse.json({
+      success: true,
+      message: 'Bedankt voor je bericht!'
+    })
+
+  } catch (error) {
+    console.error('Contact form error:', error)
+    return NextResponse.json({
+      success: false,
+      message: 'Er is een fout opgetreden bij het versturen van je bericht.'
+    }, { status: 500 })
+  }
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 5: TESTING CHECKLIST -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 5</span>
+          <span class="impl-title">Testing Checklist</span>
+        </div>
+
+        <div class="checklist">
+          <div class="checklist-title">✓ Pre-Deployment Testing</div>
+          <ul>
+            <li>Test form submission with all fields filled</li>
+            <li>Test form submission with only required fields (name, email, message)</li>
+            <li>Verify required field validation (empty fields blocked)</li>
+            <li>Verify email format validation</li>
+            <li>Test optional fields (phone, subject) show/hide based on config</li>
+            <li>Verify success message displays after submission</li>
+            <li>Verify error message displays on API failure</li>
+            <li>Test responsive layout on mobile (form stacks above sidebar)</li>
+            <li>Verify email delivery to submitTo address</li>
+            <li>Test phone and email links in sidebar work correctly</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 6: DATABASE MIGRATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 6</span>
+          <span class="impl-title">Database Migration</span>
+        </div>
+
+        <p class="impl-description">
+          Generate and run database migrations for production PostgreSQL deployment.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="database"></i> Bash</span>
+          </div>
+          <pre><code># Generate migration
+npx payload migrate:create add_contactform_block
+
+# Review generated SQL in src/migrations/
+# Expected table:
+# - pages_blocks_contactform
+
+# Run migration
+npx payload migrate</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="database"></i> SQL Schema</span>
+          </div>
+          <pre><code>-- pages_blocks_contactform
+CREATE TABLE pages_blocks_contactform (
+  _order INTEGER NOT NULL,
+  _parent_id INTEGER NOT NULL,
+  _path TEXT NOT NULL,
+  id SERIAL PRIMARY KEY,
+  title VARCHAR NOT NULL,
+  description TEXT,
+  show_phone BOOLEAN DEFAULT true,
+  show_subject BOOLEAN DEFAULT true,
+  submit_to VARCHAR NOT NULL,
+  contact_info_phone VARCHAR,
+  contact_info_email VARCHAR,
+  contact_info_address TEXT,
+  success_message VARCHAR NOT NULL,
+  block_name VARCHAR
+);
+
+CREATE INDEX idx_contactform_parent ON pages_blocks_contactform(_parent_id);</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="database"></i> Optional: Form Submissions Collection</span>
+          </div>
+          <pre><code>-- Optional: Track form submissions in database
+CREATE TABLE form_submissions (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  phone VARCHAR,
+  subject VARCHAR,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  ip_address VARCHAR,
+  user_agent TEXT
+);
+
+CREATE INDEX idx_submissions_email ON form_submissions(email);
+CREATE INDEX idx_submissions_created ON form_submissions(created_at);</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 7: TROUBLESHOOTING GUIDE -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 7</span>
+          <span class="impl-title">Troubleshooting Guide</span>
+        </div>
+
+        <div class="troubleshooting">
+          <div class="troubleshooting-title">⚠️ Common Issues & Solutions</div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Form submits but email not received</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Check email service configuration (Resend/Nodemailer). Verify <code>submitTo</code> email is valid.
+              Check spam folder. Enable email service logging to debug. Verify API key is set correctly in environment variables.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Success message not clearing form</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure <code>setFormData()</code> is called with empty values after successful submission.
+              Check that form inputs have <code>value={formData.fieldName}</code> bound correctly.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Optional fields (phone/subject) not hiding</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Verify <code>showPhone</code> and <code>showSubject</code> boolean props are being passed correctly.
+              Check conditional rendering: <code>{showPhone && (...)}</code>. Ensure Payload admin checkboxes are saved correctly.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Form validation not working</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure <code>required</code> attribute is set on HTML inputs.
+              Add <code>type="email"</code> for email field. Implement server-side validation in API route using
+              <code>validateContactFormData()</code> helper function.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ CORS errors when submitting form</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure API route is in same Next.js app (not external). If using external API,
+              add CORS headers to API response. For Next.js internal API routes, CORS is handled automatically.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Sidebar not stacking on mobile</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Verify grid class: <code>grid lg:grid-cols-3</code> defaults to 1 column on mobile.
+              Form uses <code>lg:col-span-2</code> on desktop. Test with browser dev tools mobile viewport.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Focus ring not showing on inputs</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Ensure Tailwind focus classes are applied: <code>focus:border-teal focus:ring-3 focus:ring-teal-glow</code>.
+              Check <code>outline: none</code> is set to remove default browser outline. Verify teal-glow color is defined in Tailwind config.
+            </div>
+          </div>
+
+          <div class="troubleshooting-item">
+            <div class="troubleshooting-problem">❌ Duplicate form submissions</div>
+            <div class="troubleshooting-solution">
+              <strong>Solution:</strong> Disable submit button during submission: <code>disabled={status === 'loading'}</code>.
+              Add debouncing to prevent double-clicks. Track submission state and prevent re-submission until complete.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 8: CONFIG REGISTRATION -->
+      <div class="impl-section">
+        <div class="impl-header">
+          <span class="impl-step">STEP 8</span>
+          <span class="impl-title">Config Registration</span>
+        </div>
+
+        <p class="impl-description">
+          Register the ContactForm block in your Payload config and Next.js rendering map.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="settings"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">payload.config.ts</span>
+          </div>
+          <pre><code>// payload.config.ts
+import { ContactForm } from './src/branches/blocks/forms-communication/ContactForm/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            ContactForm, // ← Add block here
+            // ... other blocks
+          ]
+        }
+      ]
+    }
+  ]
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang"><i data-lucide="code"></i> TypeScript</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.6);">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>// src/components/RenderBlocks.tsx
+import { ContactForm } from '@/branches/blocks/forms-communication/ContactForm/Component'
+import type { ContactFormBlock } from '@/types/blocks'
+
+const blockComponents = {
+  contactform: ContactForm,
+  // ... other blocks
+}
+
+export const RenderBlocks: React.FC<{ blocks: any[] }> = ({ blocks }) => {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        const Block = blockComponents[block.blockType]
+        if (!Block) return null
+        return <Block key={block.id || index} block={block} />
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="usage-notes">
+          <div class="usage-title"><i data-lucide="check-circle"></i> Verification Steps</div>
+          <ul class="usage-list">
+            <li>Block appears in admin panel blocks list</li>
+            <li>Can configure form fields and contact info in admin</li>
+            <li>Form renders correctly on frontend with conditional fields</li>
+            <li>Form submission works and sends email to submitTo address</li>
+            <li>Success and error states display correctly</li>
+            <li>Sidebar contact info displays with clickable links</li>
+            <li>Responsive layout works on all screen sizes</li>
+            <li>Validation prevents empty required fields</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

@@ -5,23 +5,29 @@ import { slugField } from 'payload'
 // Importeer alle custom blocks
 import { Hero } from '@/branches/shared/blocks/Hero'
 import { Content } from '@/branches/shared/blocks/Content/config'
-import { TwoColumn } from '@/branches/shared/blocks/TwoColumn'
+import { TwoColumn } from '@/branches/shared/blocks/TwoColumn/config'
 import { CTA } from '@/branches/shared/blocks/CTA'
 import { Features } from '@/branches/shared/blocks/Features' // Features/USPs
 import { FAQ } from '@/branches/shared/blocks/FAQ'
 import { TestimonialsBlock } from '@/branches/shared/blocks/TestimonialsBlock'
 import { CasesBlock } from '@/branches/shared/blocks/CasesBlock'
-import { LogoBar } from '@/branches/shared/blocks/LogoBar'
+import { LogoBar } from '@/branches/shared/blocks/LogoBar/config'
 import { CategoryGrid } from '@/branches/ecommerce/blocks/CategoryGrid'
-import { Stats } from '@/branches/shared/blocks/Stats'
-import { Team } from '@/branches/shared/blocks/Team'
+import { Stats } from '@/branches/shared/blocks/Stats/config'
+import { Team } from '@/branches/shared/blocks/Team/config'
+import { Services } from '@/branches/shared/blocks/Services/config'
 import { ContactFormBlock } from '@/branches/shared/blocks/ContactFormBlock'
-import { ImageGallery } from '@/branches/shared/blocks/ImageGallery'
-import { Video } from '@/branches/shared/blocks/Video'
+import { ImageGallery } from '@/branches/shared/blocks/ImageGallery/config'
+import { Video } from '@/branches/shared/blocks/Video/config'
 import { Map } from '@/branches/shared/blocks/Map'
-import { Accordion } from '@/branches/shared/blocks/Accordion'
-import { Spacer } from '@/branches/shared/blocks/Spacer'
-import { BlogPreview } from '@/branches/shared/blocks/BlogPreview'
+import { Accordion } from '@/branches/shared/blocks/Accordion/config'
+import { Code } from '@/branches/shared/blocks/Code/config'
+import { MediaBlock } from '@/branches/shared/blocks/MediaBlock/config'
+import { Spacer } from '@/branches/shared/blocks/Spacer/config'
+import { BlogPreview } from '@/branches/shared/blocks/BlogPreview/config'
+import { Banner } from '@/branches/shared/blocks/Banner/config'
+import { Comparison } from '@/branches/shared/blocks/Comparison/config'
+import { InfoBox } from '@/branches/shared/blocks/InfoBox/config'
 
 // E-commerce blocks
 import { ProductGrid } from '@/branches/ecommerce/blocks/ProductGrid'
@@ -168,11 +174,13 @@ export const Pages: CollectionConfig = {
       },
       blocks: [
         // ── Layout ──
+        Banner, // Top announcement/promo banners
         Spacer,
 
         // ── Basis blokken ──
         Hero,
         Content,
+        MediaBlock,
         TwoColumn,
 
         // ── E-commerce blokken ──
@@ -192,16 +200,20 @@ export const Pages: CollectionConfig = {
         ...(disabledCollections.has('cases') ? [] : [CasesBlock]), // Portfolio/projecten
         LogoBar, // Partner/klant logo's
         Stats,
+        Services, // Services/features grid
 
         // ── Informatief ──
         FAQ,
         Team,
         Accordion,
         BlogPreview,
+        Comparison, // Feature comparison tables
+        InfoBox, // Status notification callouts
 
         // ── Media ──
         ImageGallery,
         Video,
+        Code,
         Map,
 
         // ═══════════════════════════════════════════════════════════════════════════
