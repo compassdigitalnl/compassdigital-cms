@@ -9,7 +9,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 export const MediaBlock: Block = {
-  slug: 'media',
+  slug: 'mediaBlock',
   interfaceName: 'MediaBlock',
   labels: {
     singular: 'Media Block',

@@ -59,7 +59,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   calltoaction: CallToActionComponent,
   twoColumn: TwoColumnBlockComponent,
   testimonials: TestimonialsBlockComponent,
-  logobar: LogoBarBlockComponent,
+  logoBar: LogoBarBlockComponent,
   stats: StatsBlockComponent,
   team: TeamBlockComponent,
   // REMOVED: services (old) - replaced by features (B02) in Sprint 3
@@ -72,7 +72,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   map: MapBlockComponent,
   accordion: AccordionBlockComponent,
   spacer: SpacerBlockComponent,
-  blogpreview: BlogPreviewBlockComponent,
+  'blog-preview': BlogPreviewBlockComponent,
   banner: BannerBlockComponent,
   comparison: ComparisonBlockComponent,
   infobox: InfoBoxBlockComponent,

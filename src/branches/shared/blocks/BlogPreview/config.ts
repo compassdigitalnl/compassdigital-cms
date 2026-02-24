@@ -30,7 +30,7 @@ import { Block } from 'payload'
  * @see docs/refactoring/sprint-6/b12-blog-preview.html
  */
 export const BlogPreview: Block = {
-  slug: 'blogpreview',
+  slug: 'blog-preview',
   labels: {
     singular: 'Blog Preview Block',
     plural: 'Blog Preview Blocks',

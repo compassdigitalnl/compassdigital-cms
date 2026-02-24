@@ -19,7 +19,7 @@ import type { Block } from 'payload'
  */
 
 export const ContactFormBlock: Block = {
-  slug: 'contactform',
+  slug: 'contactForm',
   interfaceName: 'ContactFormBlock',
   labels: {
     singular: 'Contactformulier',

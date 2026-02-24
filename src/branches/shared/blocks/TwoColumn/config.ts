@@ -14,7 +14,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 export const TwoColumn: Block = {
-  slug: 'twocolumn',
+  slug: 'twoColumn',
   interfaceName: 'TwoColumnBlock',
   labels: {
     singular: 'Two Column Block',

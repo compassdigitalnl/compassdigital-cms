@@ -1,7 +1,7 @@
 import type { Block } from 'payload'
 
 export const LogoBar: Block = {
-  slug: 'logobar',
+  slug: 'logoBar',
   interfaceName: 'LogoBarBlock',
   labels: {
     singular: 'Logo Bar Block',
