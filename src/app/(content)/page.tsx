@@ -20,6 +20,7 @@ export default async function PlastimedHomepage() {
 
   try {
     // Fetch the homepage from Pages collection (slug = 'home')
+    // Using depth: 1 to reduce memory footprint during SSR
     const { docs } = await payload.find({
       collection: 'pages',
       where: {
@@ -27,7 +28,7 @@ export default async function PlastimedHomepage() {
           equals: 'home',
         },
       },
-      depth: 2,
+      depth: 1, // Reduced from 2 to prevent OOM on pages with many blocks
     })
     page = docs[0] as Page
   } catch (error) {

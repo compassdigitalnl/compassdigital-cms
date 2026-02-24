@@ -13,8 +13,8 @@ import type {
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
 } from '@/payload-types'
-import { BannerBlock } from '@/branches/shared/blocks/Banner/Component'
-import { CallToActionBlock } from '@/branches/shared/blocks/CallToAction/Component'
+import { BannerBlockComponent } from '@/branches/shared/blocks/Banner/Component'
+import { CallToActionComponent } from '@/branches/shared/blocks/CallToAction/Component'
 import { cn } from '@/utilities/cn'
 
 type NodeTypes =
@@ -24,7 +24,7 @@ type NodeTypes =
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   blocks: {
-    banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
+    banner: ({ node }) => <BannerBlockComponent className="col-start-2 mb-4" {...node.fields} />,
     mediaBlock: ({ node }) => (
       <MediaBlock
         className="col-start-1 col-span-3"
@@ -36,7 +36,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
       />
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
-    cta: ({ node }) => <CallToActionBlock {...node.fields} />,
+    cta: ({ node }) => <CallToActionComponent {...node.fields} />,
   },
 })
 

@@ -122,6 +122,7 @@ export interface Config {
     'email-subscribers': EmailSubscriber;
     'email-lists': EmailList;
     'email-templates': EmailTemplate;
+    'email-api-keys': EmailApiKey;
     'email-campaigns': EmailCampaign;
     'automation-rules': AutomationRule;
     'automation-flows': AutomationFlow;
@@ -195,6 +196,7 @@ export interface Config {
     'email-subscribers': EmailSubscribersSelect<false> | EmailSubscribersSelect<true>;
     'email-lists': EmailListsSelect<false> | EmailListsSelect<true>;
     'email-templates': EmailTemplatesSelect<false> | EmailTemplatesSelect<true>;
+    'email-api-keys': EmailApiKeysSelect<false> | EmailApiKeysSelect<true>;
     'email-campaigns': EmailCampaignsSelect<false> | EmailCampaignsSelect<true>;
     'automation-rules': AutomationRulesSelect<false> | AutomationRulesSelect<true>;
     'automation-flows': AutomationFlowsSelect<false> | AutomationFlowsSelect<true>;
@@ -6462,6 +6464,140 @@ export interface EmailTemplate {
   createdAt: string;
 }
 /**
+ * Manage API keys for email marketing API access
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-api-keys".
+ */
+export interface EmailApiKey {
+  id: number;
+  /**
+   * Friendly name to identify this API key (e.g., "Production API", "Staging Server")
+   */
+  name: string;
+  /**
+   * Optional description of what this key is used for
+   */
+  description?: string | null;
+  /**
+   * SHA-256 hash of the API key (for secure storage)
+   */
+  keyHash: string;
+  /**
+   * First 12 characters of the key (for identification)
+   */
+  keyPrefix: string;
+  /**
+   * Environment this key is for (live or test)
+   */
+  environment: 'live' | 'test';
+  /**
+   * Key status (only active keys can be used)
+   */
+  status: 'active' | 'inactive' | 'revoked';
+  /**
+   * Permissions granted to this API key
+   */
+  scopes: (
+    | 'subscribers:read'
+    | 'subscribers:create'
+    | 'subscribers:update'
+    | 'subscribers:delete'
+    | 'lists:read'
+    | 'lists:create'
+    | 'lists:update'
+    | 'lists:delete'
+    | 'campaigns:read'
+    | 'campaigns:create'
+    | 'campaigns:update'
+    | 'campaigns:send'
+    | 'campaigns:delete'
+    | 'templates:read'
+    | 'templates:create'
+    | 'templates:update'
+    | 'templates:delete'
+    | 'analytics:read'
+    | 'events:send'
+    | 'automation:read'
+    | 'automation:trigger'
+  )[];
+  /**
+   * Rate limiting configuration for this API key
+   */
+  rateLimit: {
+    /**
+     * Maximum requests per minute for this key
+     */
+    requestsPerMinute: number;
+    /**
+     * Maximum requests per hour for this key
+     */
+    requestsPerHour: number;
+    /**
+     * Maximum requests per day for this key
+     */
+    requestsPerDay: number;
+  };
+  /**
+   * Usage statistics for this API key
+   */
+  usage?: {
+    /**
+     * Total requests made with this key
+     */
+    totalRequests?: number | null;
+    /**
+     * Last time this key was used
+     */
+    lastUsedAt?: string | null;
+    /**
+     * IP address that last used this key
+     */
+    lastUsedIp?: string | null;
+    /**
+     * Last endpoint accessed with this key
+     */
+    lastUsedEndpoint?: string | null;
+  };
+  security?: {
+    /**
+     * IP addresses allowed to use this key (empty = all IPs allowed)
+     */
+    allowedIps?:
+      | {
+          ip: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Optional expiry date for this key (empty = never expires)
+     */
+    expiresAt?: string | null;
+    /**
+     * Previous key hash (if this key was rotated)
+     */
+    rotatedFrom?: string | null;
+    /**
+     * When this key was last rotated
+     */
+    rotatedAt?: string | null;
+  };
+  /**
+   * Tenant this API key belongs to
+   */
+  tenant: number | Client;
+  /**
+   * User who created this API key
+   */
+  createdBy?: (number | null) | User;
+  /**
+   * Optional webhook URL to notify on key usage/errors
+   */
+  webhookUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Create and manage email marketing campaigns
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -7744,6 +7880,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'email-templates';
         value: number | EmailTemplate;
+      } | null)
+    | ({
+        relationTo: 'email-api-keys';
+        value: number | EmailApiKey;
       } | null)
     | ({
         relationTo: 'email-campaigns';
@@ -10559,6 +10699,52 @@ export interface EmailTemplatesSelect<T extends boolean = true> {
   syncStatus?: T;
   syncError?: T;
   isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-api-keys_select".
+ */
+export interface EmailApiKeysSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  keyHash?: T;
+  keyPrefix?: T;
+  environment?: T;
+  status?: T;
+  scopes?: T;
+  rateLimit?:
+    | T
+    | {
+        requestsPerMinute?: T;
+        requestsPerHour?: T;
+        requestsPerDay?: T;
+      };
+  usage?:
+    | T
+    | {
+        totalRequests?: T;
+        lastUsedAt?: T;
+        lastUsedIp?: T;
+        lastUsedEndpoint?: T;
+      };
+  security?:
+    | T
+    | {
+        allowedIps?:
+          | T
+          | {
+              ip?: T;
+              id?: T;
+            };
+        expiresAt?: T;
+        rotatedFrom?: T;
+        rotatedAt?: T;
+      };
+  tenant?: T;
+  createdBy?: T;
+  webhookUrl?: T;
   updatedAt?: T;
   createdAt?: T;
 }
