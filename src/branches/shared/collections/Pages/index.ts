@@ -7,7 +7,7 @@ import { Hero } from '@/branches/shared/blocks/Hero'
 import { Content } from '@/branches/shared/blocks/Content/config'
 import { TwoColumn } from '@/branches/shared/blocks/TwoColumn'
 import { CTA } from '@/branches/shared/blocks/CTA'
-import { Services } from '@/branches/shared/blocks/Services' // Features/USPs
+import { Features } from '@/branches/shared/blocks/Features' // Features/USPs
 import { FAQ } from '@/branches/shared/blocks/FAQ'
 import { TestimonialsBlock } from '@/branches/shared/blocks/TestimonialsBlock'
 import { CasesBlock } from '@/branches/shared/blocks/CasesBlock'
@@ -178,8 +178,8 @@ export const Pages: CollectionConfig = {
         // ── E-commerce blokken ──
         ProductGrid,
         CategoryGrid, // Product categorieën
-        // Services block - only if services collection is enabled
-        ...(disabledCollections.has('services') ? [] : [Services]), // Features/USPs
+        // Features block - only if services collection is enabled
+        ...(disabledCollections.has('services') ? [] : [Features]), // Features/USPs
         QuickOrder,
 
         // ── Conversie blokken ──

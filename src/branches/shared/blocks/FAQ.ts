@@ -1,136 +1,104 @@
 import type { Block } from 'payload'
+import {
+  BoldFeature,
+  ItalicFeature,
+  lexicalEditor,
+  LinkFeature,
+  ParagraphFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
+} from '@payloadcms/richtext-lexical'
 
 export const FAQ: Block = {
   slug: 'faq',
   interfaceName: 'FAQBlock',
   labels: {
     singular: 'FAQ',
-    plural: 'FAQ\'s',
+    plural: 'FAQs',
   },
   fields: [
     {
-      name: 'heading',
-      type: 'text',
-      label: 'Sectie titel',
-      defaultValue: 'Veelgestelde vragen',
-    },
-    {
-      name: 'intro',
-      type: 'textarea',
-      label: 'Intro tekst',
-      admin: {
-        rows: 2,
-        description: 'Optionele introductie tekst voor de FAQ sectie',
-      },
-    },
-    {
-      name: 'source',
-      type: 'select',
-      label: 'Bron',
-      defaultValue: 'manual',
-      required: true,
-      options: [
-        { label: 'Vanuit FAQ collection', value: 'collection' },
-        { label: 'Handmatig ingevoerd', value: 'manual' },
-      ],
-      admin: {
-        description: 'Kies tussen herbruikbare FAQ\'s of unieke vragen voor deze pagina',
-      },
-    },
-    {
-      name: 'faqs',
-      type: 'relationship',
-      relationTo: 'faqs',
-      hasMany: true,
-      label: 'Selecteer FAQ\'s',
-      admin: {
-        description: 'Kies welke FAQ\'s je wilt tonen uit de collection',
-        condition: (data, siblingData) => siblingData?.source === 'collection',
-      },
-    },
-    {
-      name: 'category',
-      type: 'select',
-      label: 'Filter op categorie',
-      options: [
-        { label: 'Alle categorieën', value: 'all' },
-        { label: 'Algemeen', value: 'algemeen' },
-        { label: 'Producten', value: 'producten' },
-        { label: 'Verzending & Levering', value: 'verzending' },
-        { label: 'Retourneren', value: 'retourneren' },
-        { label: 'Betaling', value: 'betaling' },
-        { label: 'Account & Privacy', value: 'account' },
-        { label: 'Technische Support', value: 'support' },
-        { label: 'Overig', value: 'overig' },
-      ],
-      defaultValue: 'all',
-      admin: {
-        description: 'Toon alleen FAQ\'s uit een specifieke categorie (alleen bij collection mode)',
-        condition: (data, siblingData) =>
-          siblingData?.source === 'collection' && !siblingData?.faqs,
-      },
-    },
-    {
-      name: 'limit',
-      type: 'number',
-      label: 'Maximum aantal',
-      defaultValue: 10,
-      min: 1,
-      max: 30,
-      admin: {
-        description: 'Maximaal aantal FAQ\'s om te tonen',
-        condition: (data, siblingData) =>
-          siblingData?.source === 'collection' && !siblingData?.faqs,
-      },
-    },
-    {
-      name: 'showFeaturedOnly',
-      type: 'checkbox',
-      label: 'Alleen uitgelichte FAQ\'s',
-      defaultValue: false,
-      admin: {
-        description: 'Toon alleen FAQ\'s die zijn gemarkeerd als "Uitgelicht"',
-        condition: (data, siblingData) =>
-          siblingData?.source === 'collection' && !siblingData?.faqs,
-      },
-    },
-    {
-      name: 'items',
-      type: 'array',
-      label: 'Handmatige Vragen & Antwoorden',
-      labels: {
-        singular: 'Vraag',
-        plural: 'Vragen',
-      },
-      minRows: 1,
-      maxRows: 20,
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'question',
-          type: 'text',
-          label: 'Vraag',
-          required: true,
+          label: 'Content',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Section Title',
+              admin: {
+                description: 'Optional heading (e.g., "Frequently Asked Questions")',
+                placeholder: 'Veelgestelde vragen',
+              },
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Description',
+              admin: {
+                rows: 2,
+                description: 'Optional introduction text',
+              },
+            },
+            {
+              name: 'faqs',
+              type: 'array',
+              label: 'Questions & Answers',
+              minRows: 1,
+              fields: [
+                {
+                  name: 'question',
+                  type: 'text',
+                  label: 'Question',
+                  required: true,
+                  admin: {
+                    placeholder: 'Wat zijn de leveringskosten?',
+                  },
+                },
+                {
+                  name: 'answer',
+                  type: 'richText',
+                  label: 'Answer',
+                  required: true,
+                  editor: lexicalEditor({
+                    features: () => [
+                      ParagraphFeature(),
+                      BoldFeature(),
+                      ItalicFeature(),
+                      LinkFeature(),
+                      UnorderedListFeature(),
+                      OrderedListFeature(),
+                    ],
+                  }),
+                  admin: {
+                    description: 'Rich text answer with formatting options',
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
-          name: 'answer',
-          type: 'richText',
-          label: 'Antwoord',
-          required: true,
+          label: 'Design',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Layout',
+              defaultValue: 'single-column',
+              required: true,
+              options: [
+                { label: 'Single Column (Stacked)', value: 'single-column' },
+                { label: 'Two Columns (Side by side)', value: 'two-column' },
+              ],
+              admin: {
+                description: 'Choose how FAQs are displayed',
+              },
+            },
+          ],
         },
       ],
-      admin: {
-        description: 'Voeg handmatig vragen en antwoorden toe (alleen voor deze pagina)',
-        condition: (data, siblingData) => siblingData?.source === 'manual',
-      },
-    },
-    {
-      name: 'generateSchema',
-      type: 'checkbox',
-      label: 'FAQ Schema genereren (voor Google)',
-      defaultValue: true,
-      admin: {
-        description: 'Voegt gestructureerde data toe zodat FAQ\'s in Google zoekresultaten verschijnen',
-      },
     },
   ],
 }

@@ -73,6 +73,7 @@ export interface Config {
     partners: Partner;
     services: Service;
     notifications: Notification;
+    themes: Theme;
     products: Product;
     'product-categories': ProductCategory;
     brands: Brand;
@@ -137,6 +138,7 @@ export interface Config {
     partners: PartnersSelect<false> | PartnersSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     notifications: NotificationsSelect<false> | NotificationsSelect<true>;
+    themes: ThemesSelect<false> | ThemesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
@@ -199,7 +201,7 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     settings: Setting;
-    theme: Theme;
+    theme: Theme1;
     header: Header;
     footer: Footer;
     'meilisearch-settings': MeilisearchSetting;
@@ -1227,69 +1229,52 @@ export interface SpacerBlock {
  */
 export interface HeroBlock {
   /**
-   * Kies hoe de hero eruit ziet
+   * Small overline text above the title (e.g., "Welkom bij...")
    */
-  style: 'default' | 'image' | 'gradient' | 'minimal';
+  subtitle?: string | null;
   /**
-   * Kies de layout structuur
-   */
-  layout?: ('centered' | 'two-column') | null;
-  /**
-   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
-   */
-  sectionLabel?: string | null;
-  /**
-   * Kleine pill-shaped label boven de titel (bijv. "Sinds 1994 — 30+ jaar ervaring")
-   */
-  badge?: string | null;
-  /**
-   * De grote koptekst (H1)
+   * Main hero heading (H1)
    */
   title: string;
   /**
-   * Dit deel van de titel krijgt een gradient kleur (bijv. "medische" in "Uw partner in medische hulpmiddelen")
+   * Supporting text below the title
    */
-  titleAccent?: string | null;
-  /**
-   * Korte tekst onder de titel
-   */
-  subtitle?: string | null;
-  primaryCTA?: {
-    text?: string | null;
-    link?: string | null;
-  };
-  secondaryCTA?: {
-    text?: string | null;
-    link?: string | null;
-  };
-  /**
-   * Toon statistieken in een glasmorfisme kaart rechts (max 4 items)
-   */
-  stats?:
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  buttons?:
     | {
-        /**
-         * Bijv. "4000" of "30"
-         */
-        number: string;
-        /**
-         * Bijv. "+" of "%" (optioneel)
-         */
-        suffix?: string | null;
-        /**
-         * Bijv. "Producten" of "Jaar ervaring"
-         */
         label: string;
+        link: string;
+        style?: ('primary' | 'secondary' | 'ghost') | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Alleen zichtbaar bij stijl "Met afbeelding"
+   * Choose how the hero is laid out
+   */
+  variant: 'default' | 'split' | 'centered';
+  backgroundStyle: 'gradient' | 'solid' | 'image';
+  /**
+   * Only shown when Background Style is "Solid Color"
+   */
+  backgroundColor?: ('navy' | 'white' | 'bg' | 'teal') | null;
+  /**
+   * Only shown when Background Style is "Image"
    */
   backgroundImage?: (number | null) | Media;
-  /**
-   * Directe URL naar afbeelding (gebruikt voor AI-gegenereerde sites)
-   */
-  backgroundImageUrl?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
@@ -1299,42 +1284,28 @@ export interface HeroBlock {
  * via the `definition` "ContentBlock".
  */
 export interface ContentBlock {
-  columns?:
-    | {
-        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-        richText?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        enableLink?: boolean | null;
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
-          url?: string | null;
-          label: string;
-          /**
-           * Choose how the link should be rendered.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Full rich text editor with all formatting options
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Maximum width of the content container
+   */
+  maxWidth: 'narrow' | 'wide' | 'full';
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
@@ -1489,113 +1460,33 @@ export interface CategoryGridBlock {
  */
 export interface FeaturesBlock {
   /**
-   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   * Optional heading for the features section
    */
-  sectionLabel?: string | null;
-  heading?: string | null;
-  intro?: string | null;
+  title?: string | null;
   /**
-   * Donkere stijl toont glasmorfisme kaarten op navy achtergrond
+   * Optional introduction text
    */
-  backgroundStyle?: ('light' | 'dark') | null;
-  /**
-   * Kies tussen herbruikbare services of unieke features voor deze pagina
-   */
-  source: 'collection' | 'manual';
-  /**
-   * Kies welke diensten/features je wilt tonen uit de collection
-   */
-  services?: (number | Service)[] | null;
-  /**
-   * Toon alleen services uit een specifieke categorie (alleen bij collection mode)
-   */
-  category?: ('all' | 'algemeen' | 'technisch' | 'marketing' | 'support' | 'consulting' | 'training' | 'usps') | null;
-  /**
-   * Maximaal aantal services om te tonen
-   */
-  limit?: number | null;
-  /**
-   * Toon alleen services die zijn gemarkeerd als "Uitgelicht"
-   */
-  showFeaturedOnly?: boolean | null;
-  /**
-   * Voeg handmatig features/USPs toe (alleen voor deze pagina)
-   */
+  description?: string | null;
   features?:
     | {
-        iconType?: ('lucide' | 'upload') | null;
         /**
-         * Kies een professional icon (bijv: Shield, Truck, Award)
+         * Lucide icon name (e.g., Shield, Zap, Award, Truck)
          */
-        iconName?: string | null;
-        /**
-         * Upload een custom SVG/PNG icon
-         */
-        iconUpload?: (number | null) | Media;
-        name: string;
-        description: string;
-        link?: string | null;
+        icon: string;
+        title: string;
+        description?: string | null;
         id?: string | null;
       }[]
     | null;
-  layout?: ('horizontal' | 'grid-2' | 'grid-3' | 'grid-4' | 'grid-5' | 'grid-6') | null;
+  variant: 'grid-3' | 'grid-4' | 'list';
   /**
-   * Visual stijl van de features
+   * Visual style for the feature icons
    */
-  style?: ('cards' | 'clean' | 'trust-bar') | null;
-  /**
-   * Animatie bij hover over items
-   */
-  showHoverEffect?: boolean | null;
+  iconStyle: 'glow' | 'solid' | 'outlined';
+  alignment: 'center' | 'left';
   id?: string | null;
   blockName?: string | null;
   blockType: 'features';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: number;
-  /**
-   * Bijv. "Website Development", "SEO Optimalisatie", "24/7 Support"
-   */
-  name: string;
-  /**
-   * Korte beschrijving van de dienst/feature
-   */
-  description: string;
-  /**
-   * Kies tussen Lucide icon library of upload een eigen icon
-   */
-  iconType?: ('lucide' | 'upload') | null;
-  /**
-   * Bijv: Shield, Truck, Award, CheckCircle, Zap
-   */
-  iconName?: string | null;
-  /**
-   * Upload een SVG/PNG icon (alleen gebruikt als Icon Type = Upload)
-   */
-  iconUpload?: (number | null) | Media;
-  /**
-   * Link naar meer informatie over deze dienst
-   */
-  link?: string | null;
-  /**
-   * Categoriseer de dienst voor betere filtering
-   */
-  category?: ('algemeen' | 'technisch' | 'marketing' | 'support' | 'consulting' | 'training' | 'usps') | null;
-  /**
-   * Toon deze dienst op homepage of belangrijke pagina's
-   */
-  featured?: boolean | null;
-  /**
-   * Sorteer volgorde (lager = eerder getoond)
-   */
-  order?: number | null;
-  status?: ('published' | 'draft') | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1650,20 +1541,23 @@ export interface QuickOrderBlock {
  */
 export interface CTABlock {
   /**
-   * Kaart variant toont een afgeronde kaart binnen de container
+   * Main CTA headline
    */
-  variant?: ('full-width' | 'card') | null;
   title: string;
-  text?: string | null;
-  buttonText: string;
-  buttonLink: string;
   /**
-   * Optionele tweede knop met ghost stijl
+   * Supporting text below the title
    */
-  secondaryButtonText?: string | null;
-  secondaryButtonLink?: string | null;
-  style?: ('primary' | 'secondary' | 'outline') | null;
-  backgroundImage?: (number | null) | Media;
+  description?: string | null;
+  buttons?:
+    | {
+        label: string;
+        link: string;
+        style?: ('primary' | 'secondary' | 'ghost') | null;
+        id?: string | null;
+      }[]
+    | null;
+  variant: 'centered' | 'split' | 'full-width';
+  style: 'dark' | 'light' | 'gradient';
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
@@ -1688,58 +1582,32 @@ export interface ContactFormBlock {
  */
 export interface TestimonialsBlock {
   /**
-   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
+   * Optional heading (e.g., "What Our Clients Say")
    */
-  sectionLabel?: string | null;
-  heading?: string | null;
-  /**
-   * Optionele introductie tekst voor de testimonials sectie
-   */
-  intro?: string | null;
-  source: 'collection' | 'manual';
-  testimonials?: (number | Testimonial)[] | null;
-  manualTestimonials?:
+  title?: string | null;
+  testimonials?:
     | {
-        name: string;
-        role?: string | null;
-        company?: string | null;
         quote: string;
-        rating: number;
-        photo?: (number | null) | Media;
+        author: string;
+        role?: string | null;
         /**
-         * Bijv. "Via Google Reviews", "Via Kiyoh", "Via Trustpilot"
+         * Profile photo (falls back to initials if not provided)
          */
-        source?: string | null;
+        avatar?: (number | null) | Media;
+        /**
+         * Star rating from 1 to 5
+         */
+        rating: number;
         id?: string | null;
       }[]
     | null;
-  layout?: ('carousel' | 'grid-2' | 'grid-3') | null;
+  /**
+   * Choose how testimonials are displayed
+   */
+  variant: 'grid' | 'carousel' | 'featured';
   id?: string | null;
   blockName?: string | null;
   blockType: 'testimonials';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: number;
-  name: string;
-  role?: string | null;
-  company: string;
-  photo?: (number | null) | Media;
-  quote: string;
-  /**
-   * Sterren (1-5)
-   */
-  rating: number;
-  /**
-   * Toon op homepage
-   */
-  featured?: boolean | null;
-  status?: ('published' | 'draft') | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1967,39 +1835,20 @@ export interface StatsBlock {
  * via the `definition` "FAQBlock".
  */
 export interface FAQBlock {
-  heading?: string | null;
   /**
-   * Optionele introductie tekst voor de FAQ sectie
+   * Optional heading (e.g., "Frequently Asked Questions")
    */
-  intro?: string | null;
+  title?: string | null;
   /**
-   * Kies tussen herbruikbare FAQ's of unieke vragen voor deze pagina
+   * Optional introduction text
    */
-  source: 'collection' | 'manual';
-  /**
-   * Kies welke FAQ's je wilt tonen uit de collection
-   */
-  faqs?: (number | Faq)[] | null;
-  /**
-   * Toon alleen FAQ's uit een specifieke categorie (alleen bij collection mode)
-   */
-  category?:
-    | ('all' | 'algemeen' | 'producten' | 'verzending' | 'retourneren' | 'betaling' | 'account' | 'support' | 'overig')
-    | null;
-  /**
-   * Maximaal aantal FAQ's om te tonen
-   */
-  limit?: number | null;
-  /**
-   * Toon alleen FAQ's die zijn gemarkeerd als "Uitgelicht"
-   */
-  showFeaturedOnly?: boolean | null;
-  /**
-   * Voeg handmatig vragen en antwoorden toe (alleen voor deze pagina)
-   */
-  items?:
+  description?: string | null;
+  faqs?:
     | {
         question: string;
+        /**
+         * Rich text answer with formatting options
+         */
         answer: {
           root: {
             type: string;
@@ -2019,58 +1868,12 @@ export interface FAQBlock {
       }[]
     | null;
   /**
-   * Voegt gestructureerde data toe zodat FAQ's in Google zoekresultaten verschijnen
+   * Choose how FAQs are displayed
    */
-  generateSchema?: boolean | null;
+  variant: 'single-column' | 'two-column';
   id?: string | null;
   blockName?: string | null;
   blockType: 'faq';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs".
- */
-export interface Faq {
-  id: number;
-  /**
-   * De veelgestelde vraag
-   */
-  question: string;
-  /**
-   * Het antwoord op de vraag (ondersteunt rich text)
-   */
-  answer: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Categoriseer de vraag voor betere filtering
-   */
-  category?:
-    | ('algemeen' | 'producten' | 'verzending' | 'retourneren' | 'betaling' | 'account' | 'support' | 'overig')
-    | null;
-  /**
-   * Toon deze vraag op homepage of belangrijke pagina's
-   */
-  featured?: boolean | null;
-  /**
-   * Sorteer volgorde (lager = eerder getoond)
-   */
-  order?: number | null;
-  status?: ('published' | 'draft') | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2878,6 +2681,52 @@ export interface CTABannerBlock {
   blockType: 'cta-banner';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  /**
+   * Bijv. "Website Development", "SEO Optimalisatie", "24/7 Support"
+   */
+  name: string;
+  /**
+   * Korte beschrijving van de dienst/feature
+   */
+  description: string;
+  /**
+   * Kies tussen Lucide icon library of upload een eigen icon
+   */
+  iconType?: ('lucide' | 'upload') | null;
+  /**
+   * Bijv: Shield, Truck, Award, CheckCircle, Zap
+   */
+  iconName?: string | null;
+  /**
+   * Upload een SVG/PNG icon (alleen gebruikt als Icon Type = Upload)
+   */
+  iconUpload?: (number | null) | Media;
+  /**
+   * Link naar meer informatie over deze dienst
+   */
+  link?: string | null;
+  /**
+   * Categoriseer de dienst voor betere filtering
+   */
+  category?: ('algemeen' | 'technisch' | 'marketing' | 'support' | 'consulting' | 'training' | 'usps') | null;
+  /**
+   * Toon deze dienst op homepage of belangrijke pagina's
+   */
+  featured?: boolean | null;
+  /**
+   * Sorteer volgorde (lager = eerder getoond)
+   */
+  order?: number | null;
+  status?: ('published' | 'draft') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Gebruikersnotificaties en meldingen
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3466,6 +3315,94 @@ export interface Return {
    * Bedrag toegevoegd als tegoed indien gekozen als oplossing
    */
   storeCreditAmount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Multi-tenant theme configurations for all 10 industry verticals
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "themes".
+ */
+export interface Theme {
+  id: number;
+  /**
+   * Weergavenaam (bijv. "Beauty/Salon", "Horeca", "Bouw")
+   */
+  name: string;
+  /**
+   * URL-veilige identifier (bijv. "beauty", "horeca", "bouw") — gebruikt in data-theme attribuut
+   */
+  slug: string;
+  /**
+   * Korte beschrijving van deze vertical
+   */
+  description?: string | null;
+  /**
+   * Enkele emoji die deze vertical representeert (bijv. "✨", "🍽️", "🏗️")
+   */
+  icon?: string | null;
+  /**
+   * ⚠️ Slechts ÉÉN thema moet als standaard gemarkeerd zijn (fallback als geen thema gespecificeerd)
+   */
+  isDefault?: boolean | null;
+  /**
+   * Hex kleur (bijv. #E91E63 voor Beauty, #C9A84C voor Horeca)
+   */
+  primaryColor?: string | null;
+  primaryColorLight?: string | null;
+  primaryColorDark?: string | null;
+  /**
+   * Hex kleur (bijv. #1a1a2e voor Beauty, #2C1810 voor Horeca)
+   */
+  darkSurface?: string | null;
+  darkSurfaceLight?: string | null;
+  customColors?:
+    | {
+        /**
+         * bijv. "pink", "gold", "warm" (wordt --pink, --gold, --warm)
+         */
+        tokenName: string;
+        /**
+         * Hex kleur (bijv. #EC4899) of RGBA
+         */
+        tokenValue: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Lettertypefamilie voor body tekst (bijv. "DM Sans", "Plus Jakarta Sans")
+   */
+  bodyFont?: string | null;
+  /**
+   * Optioneel — override heading lettertype (standaard naar body font indien niet ingesteld)
+   */
+  headingFont?: string | null;
+  /**
+   * Hoofdgradiënt voor buttons, CTAs, en interactieve elementen
+   */
+  primaryGradient?: string | null;
+  /**
+   * Subtiele overlay gradiënt voor hero sections (lage opacity)
+   */
+  heroGradient?: string | null;
+  /**
+   * Standaard: 8px — kan overschrijven voor strakkere/lossere esthetiek
+   */
+  borderRadiusSm?: number | null;
+  /**
+   * Standaard: 12px
+   */
+  borderRadiusMd?: number | null;
+  /**
+   * Aantal HTML templates voor deze vertical (informatief)
+   */
+  templateCount?: number | null;
+  /**
+   * Aantal vertical-specifieke componenten (informatief)
+   */
+  uniqueComponentCount?: number | null;
+  status?: ('active' | 'development' | 'archived') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -4472,6 +4409,75 @@ export interface BlogCategory {
    * Sorteervolgorde (lager = eerder)
    */
   displayOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  /**
+   * De veelgestelde vraag
+   */
+  question: string;
+  /**
+   * Het antwoord op de vraag (ondersteunt rich text)
+   */
+  answer: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Categoriseer de vraag voor betere filtering
+   */
+  category?:
+    | ('algemeen' | 'producten' | 'verzending' | 'retourneren' | 'betaling' | 'account' | 'support' | 'overig')
+    | null;
+  /**
+   * Toon deze vraag op homepage of belangrijke pagina's
+   */
+  featured?: boolean | null;
+  /**
+   * Sorteer volgorde (lager = eerder getoond)
+   */
+  order?: number | null;
+  status?: ('published' | 'draft') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  name: string;
+  role?: string | null;
+  company: string;
+  photo?: (number | null) | Media;
+  quote: string;
+  /**
+   * Sterren (1-5)
+   */
+  rating: number;
+  /**
+   * Toon op homepage
+   */
+  featured?: boolean | null;
+  status?: ('published' | 'draft') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -5941,6 +5947,10 @@ export interface PayloadLockedDocument {
         value: number | Notification;
       } | null)
     | ({
+        relationTo: 'themes';
+        value: number | Theme;
+      } | null)
+    | ({
         relationTo: 'products';
         value: number | Product;
       } | null)
@@ -6323,35 +6333,21 @@ export interface SpacerBlockSelect<T extends boolean = true> {
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
-  style?: T;
-  layout?: T;
-  sectionLabel?: T;
-  badge?: T;
-  title?: T;
-  titleAccent?: T;
   subtitle?: T;
-  primaryCTA?:
+  title?: T;
+  description?: T;
+  buttons?:
     | T
     | {
-        text?: T;
-        link?: T;
-      };
-  secondaryCTA?:
-    | T
-    | {
-        text?: T;
-        link?: T;
-      };
-  stats?:
-    | T
-    | {
-        number?: T;
-        suffix?: T;
         label?: T;
+        link?: T;
+        style?: T;
         id?: T;
       };
+  variant?: T;
+  backgroundStyle?: T;
+  backgroundColor?: T;
   backgroundImage?: T;
-  backgroundImageUrl?: T;
   id?: T;
   blockName?: T;
 }
@@ -6360,24 +6356,8 @@ export interface HeroBlockSelect<T extends boolean = true> {
  * via the `definition` "ContentBlock_select".
  */
 export interface ContentBlockSelect<T extends boolean = true> {
-  columns?:
-    | T
-    | {
-        size?: T;
-        richText?: T;
-        enableLink?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
-        id?: T;
-      };
+  content?: T;
+  maxWidth?: T;
   id?: T;
   blockName?: T;
 }
@@ -6442,29 +6422,19 @@ export interface CategoryGridBlockSelect<T extends boolean = true> {
  * via the `definition` "FeaturesBlock_select".
  */
 export interface FeaturesBlockSelect<T extends boolean = true> {
-  sectionLabel?: T;
-  heading?: T;
-  intro?: T;
-  backgroundStyle?: T;
-  source?: T;
-  services?: T;
-  category?: T;
-  limit?: T;
-  showFeaturedOnly?: T;
+  title?: T;
+  description?: T;
   features?:
     | T
     | {
-        iconType?: T;
-        iconName?: T;
-        iconUpload?: T;
-        name?: T;
+        icon?: T;
+        title?: T;
         description?: T;
-        link?: T;
         id?: T;
       };
-  layout?: T;
-  style?: T;
-  showHoverEffect?: T;
+  variant?: T;
+  iconStyle?: T;
+  alignment?: T;
   id?: T;
   blockName?: T;
 }
@@ -6490,15 +6460,18 @@ export interface QuickOrderBlockSelect<T extends boolean = true> {
  * via the `definition` "CTABlock_select".
  */
 export interface CTABlockSelect<T extends boolean = true> {
-  variant?: T;
   title?: T;
-  text?: T;
-  buttonText?: T;
-  buttonLink?: T;
-  secondaryButtonText?: T;
-  secondaryButtonLink?: T;
+  description?: T;
+  buttons?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+        style?: T;
+        id?: T;
+      };
+  variant?: T;
   style?: T;
-  backgroundImage?: T;
   id?: T;
   blockName?: T;
 }
@@ -6517,24 +6490,18 @@ export interface ContactFormBlockSelect<T extends boolean = true> {
  * via the `definition` "TestimonialsBlock_select".
  */
 export interface TestimonialsBlockSelect<T extends boolean = true> {
-  sectionLabel?: T;
-  heading?: T;
-  intro?: T;
-  source?: T;
-  testimonials?: T;
-  manualTestimonials?:
+  title?: T;
+  testimonials?:
     | T
     | {
-        name?: T;
-        role?: T;
-        company?: T;
         quote?: T;
+        author?: T;
+        role?: T;
+        avatar?: T;
         rating?: T;
-        photo?: T;
-        source?: T;
         id?: T;
       };
-  layout?: T;
+  variant?: T;
   id?: T;
   blockName?: T;
 }
@@ -6605,21 +6572,16 @@ export interface StatsBlockSelect<T extends boolean = true> {
  * via the `definition` "FAQBlock_select".
  */
 export interface FAQBlockSelect<T extends boolean = true> {
-  heading?: T;
-  intro?: T;
-  source?: T;
-  faqs?: T;
-  category?: T;
-  limit?: T;
-  showFeaturedOnly?: T;
-  items?:
+  title?: T;
+  description?: T;
+  faqs?:
     | T
     | {
         question?: T;
         answer?: T;
         id?: T;
       };
-  generateSchema?: T;
+  variant?: T;
   id?: T;
   blockName?: T;
 }
@@ -6980,6 +6942,40 @@ export interface NotificationsSelect<T extends boolean = true> {
   sendEmail?: T;
   emailSent?: T;
   emailSentAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "themes_select".
+ */
+export interface ThemesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  icon?: T;
+  isDefault?: T;
+  primaryColor?: T;
+  primaryColorLight?: T;
+  primaryColorDark?: T;
+  darkSurface?: T;
+  darkSurfaceLight?: T;
+  customColors?:
+    | T
+    | {
+        tokenName?: T;
+        tokenValue?: T;
+        id?: T;
+      };
+  bodyFont?: T;
+  headingFont?: T;
+  primaryGradient?: T;
+  heroGradient?: T;
+  borderRadiusSm?: T;
+  borderRadiusMd?: T;
+  templateCount?: T;
+  uniqueComponentCount?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -9220,7 +9216,7 @@ export interface Setting {
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "theme".
  */
-export interface Theme {
+export interface Theme1 {
   id: number;
   /**
    * Deep navy used for dark surfaces, cards, headers. Provides strong contrast.

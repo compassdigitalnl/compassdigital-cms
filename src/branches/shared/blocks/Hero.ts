@@ -1,172 +1,152 @@
 import type { Block } from 'payload'
-import { sectionLabelField } from '@/fields/sectionLabel'
+import {
+  BoldFeature,
+  ItalicFeature,
+  lexicalEditor,
+  ParagraphFeature,
+} from '@payloadcms/richtext-lexical'
 
 export const Hero: Block = {
   slug: 'hero',
   interfaceName: 'HeroBlock',
   labels: {
     singular: 'Hero',
-    plural: 'Hero\'s',
+    plural: 'Heroes',
   },
   fields: [
     {
-      name: 'style',
-      type: 'select',
-      label: 'Stijl',
-      defaultValue: 'default',
-      required: true,
-      options: [
-        { label: 'Standaard (met achtergrondkleur)', value: 'default' },
-        { label: 'Met afbeelding', value: 'image' },
-        { label: 'Met gradient', value: 'gradient' },
-        { label: 'Minimaal (alleen tekst)', value: 'minimal' },
-      ],
-      admin: {
-        description: 'Kies hoe de hero eruit ziet',
-      },
-    },
-    {
-      name: 'layout',
-      type: 'select',
-      label: 'Layout',
-      defaultValue: 'centered',
-      options: [
-        { label: 'Gecentreerd (standaard)', value: 'centered' },
-        { label: 'Twee kolommen (tekst + stats panel)', value: 'two-column' },
-      ],
-      admin: {
-        description: 'Kies de layout structuur',
-      },
-    },
-    sectionLabelField,
-    {
-      name: 'badge',
-      type: 'text',
-      label: 'Badge / Label',
-      admin: {
-        description: 'Kleine pill-shaped label boven de titel (bijv. "Sinds 1994 — 30+ jaar ervaring")',
-      },
-    },
-    {
-      name: 'title',
-      type: 'text',
-      label: 'Titel',
-      required: true,
-      admin: {
-        description: 'De grote koptekst (H1)',
-      },
-    },
-    {
-      name: 'titleAccent',
-      type: 'text',
-      label: 'Accent tekst in titel',
-      admin: {
-        description:
-          'Dit deel van de titel krijgt een gradient kleur (bijv. "medische" in "Uw partner in medische hulpmiddelen")',
-      },
-    },
-    {
-      name: 'subtitle',
-      type: 'textarea',
-      label: 'Subtekst',
-      admin: {
-        description: 'Korte tekst onder de titel',
-        rows: 3,
-      },
-    },
-    {
-      name: 'primaryCTA',
-      type: 'group',
-      label: 'Primaire knop',
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'text',
-          type: 'text',
-          label: 'Knoptekst',
-          defaultValue: 'Neem contact op',
+          label: 'Content',
+          fields: [
+            {
+              name: 'subtitle',
+              type: 'text',
+              label: 'Subtitle',
+              admin: {
+                description: 'Small overline text above the title (e.g., "Welkom bij...")',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Title',
+              required: true,
+              admin: {
+                description: 'Main hero heading (H1)',
+              },
+            },
+            {
+              name: 'description',
+              type: 'richText',
+              label: 'Description',
+              editor: lexicalEditor({
+                features: () => [ParagraphFeature(), BoldFeature(), ItalicFeature()],
+              }),
+              admin: {
+                description: 'Supporting text below the title',
+              },
+            },
+            {
+              name: 'buttons',
+              type: 'array',
+              label: 'Call to Action Buttons',
+              minRows: 1,
+              maxRows: 3,
+              fields: [
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Button Text',
+                  required: true,
+                  admin: {
+                    placeholder: 'Neem contact op',
+                  },
+                },
+                {
+                  name: 'link',
+                  type: 'text',
+                  label: 'Button Link',
+                  required: true,
+                  admin: {
+                    placeholder: '/contact',
+                  },
+                },
+                {
+                  name: 'style',
+                  type: 'select',
+                  label: 'Button Style',
+                  defaultValue: 'primary',
+                  options: [
+                    { label: 'Primary (Teal)', value: 'primary' },
+                    { label: 'Secondary (White outline)', value: 'secondary' },
+                    { label: 'Ghost (Text only)', value: 'ghost' },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
-          name: 'link',
-          type: 'text',
-          label: 'Link',
-          defaultValue: '/contact',
-        },
-      ],
-    },
-    {
-      name: 'secondaryCTA',
-      type: 'group',
-      label: 'Secundaire knop (optioneel)',
-      fields: [
-        {
-          name: 'text',
-          type: 'text',
-          label: 'Knoptekst',
-        },
-        {
-          name: 'link',
-          type: 'text',
-          label: 'Link',
-        },
-      ],
-    },
-    {
-      name: 'stats',
-      type: 'array',
-      label: 'Statistieken (rechter paneel)',
-      maxRows: 4,
-      admin: {
-        condition: (data, siblingData) => siblingData?.layout === 'two-column',
-        description: 'Toon statistieken in een glasmorfisme kaart rechts (max 4 items)',
-      },
-      fields: [
-        {
-          name: 'number',
-          type: 'text',
-          label: 'Getal',
-          required: true,
-          admin: {
-            description: 'Bijv. "4000" of "30"',
-          },
-        },
-        {
-          name: 'suffix',
-          type: 'text',
-          label: 'Achtervoegsel',
-          admin: {
-            description: 'Bijv. "+" of "%" (optioneel)',
-          },
-        },
-        {
-          name: 'label',
-          type: 'text',
-          label: 'Label',
-          required: true,
-          admin: {
-            description: 'Bijv. "Producten" of "Jaar ervaring"',
-          },
+          label: 'Design',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Layout Variant',
+              defaultValue: 'default',
+              required: true,
+              options: [
+                { label: 'Default (Full-width, centered)', value: 'default' },
+                { label: 'Split (Text left, image right)', value: 'split' },
+                { label: 'Centered Compact', value: 'centered' },
+              ],
+              admin: {
+                description: 'Choose how the hero is laid out',
+              },
+            },
+            {
+              name: 'backgroundStyle',
+              type: 'select',
+              label: 'Background Style',
+              defaultValue: 'gradient',
+              required: true,
+              options: [
+                { label: 'Gradient (Navy to Dark)', value: 'gradient' },
+                { label: 'Solid Color', value: 'solid' },
+                { label: 'Image', value: 'image' },
+              ],
+            },
+            {
+              name: 'backgroundColor',
+              type: 'select',
+              label: 'Background Color',
+              defaultValue: 'navy',
+              options: [
+                { label: 'Navy (Dark blue)', value: 'navy' },
+                { label: 'White', value: 'white' },
+                { label: 'Light Grey', value: 'bg' },
+                { label: 'Teal', value: 'teal' },
+              ],
+              admin: {
+                condition: (data, siblingData) => siblingData?.backgroundStyle === 'solid',
+                description: 'Only shown when Background Style is "Solid Color"',
+              },
+            },
+            {
+              name: 'backgroundImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Background Image',
+              admin: {
+                condition: (data, siblingData) => siblingData?.backgroundStyle === 'image',
+                description: 'Only shown when Background Style is "Image"',
+              },
+            },
+          ],
         },
       ],
-    },
-    {
-      name: 'backgroundImage',
-      type: 'upload',
-      label: 'Achtergrondafbeelding',
-      relationTo: 'media',
-      admin: {
-        condition: (data, siblingData) => siblingData?.style === 'image',
-        description: 'Alleen zichtbaar bij stijl "Met afbeelding"',
-      },
-    },
-    {
-      name: 'backgroundImageUrl',
-      type: 'text',
-      label: 'Achtergrondafbeelding URL (placeholder)',
-      admin: {
-        condition: (data, siblingData) => siblingData?.style === 'image',
-        description: 'Directe URL naar afbeelding (gebruikt voor AI-gegenereerde sites)',
-        readOnly: true,
-      },
     },
   ],
 }

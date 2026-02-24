@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B02: Features Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Features Block<span>Shared Branch — B02</span></div>
+    <span class="header-badge">Primary</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <section class="section" id="block-features">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B2</span>
+          <span class="section-label">Features Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Feature grid met icon, title, description per item. 3 variants: grid-3, grid-4, list layout. Icons via Lucide, teal accent colors.
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview
+        </div>
+        <div class="box-content" style="padding:32px;background:white">
+
+          <div style="text-align:center;margin-bottom:32px">
+            <h2 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:10px">Waarom Compass Digital?</h2>
+            <p style="font-size:14px;color:var(--grey-mid);max-width:560px;margin:0 auto">Alles wat je nodig hebt voor een professionele multi-tenant e-commerce platform</p>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+            <div style="text-align:center">
+              <div style="width:56px;height:56px;background:var(--teal-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+                <i data-lucide="zap" style="width:28px;height:28px;color:var(--teal)"></i>
+              </div>
+              <h3 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px">Supersnel</h3>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">Gebouwd op Next.js 15 met edge caching. Pagina's laden in < 200ms.</p>
+            </div>
+            <div style="text-align:center">
+              <div style="width:56px;height:56px;background:var(--teal-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+                <i data-lucide="palette" style="width:28px;height:28px;color:var(--teal)"></i>
+              </div>
+              <h3 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px">Volledig Themable</h3>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">10 pre-built themes. Switch met 3 CSS variables. White-label ready.</p>
+            </div>
+            <div style="text-align:center">
+              <div style="width:56px;height:56px;background:var(--teal-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+                <i data-lucide="shield-check" style="width:28px;height:28px;color:var(--teal)"></i>
+              </div>
+              <h3 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px">Enterprise Secure</h3>
+              <p style="font-size:13px;color:var(--grey-dark);line-height:1.6">SOC2 compliant, GDPR ready, built-in 2FA, role-based access.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="comment">// Features Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'features'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'textarea'</span> },
+    { <span class="property">name</span>: <span class="string">'variant'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'grid-3'</span>, <span class="string">'grid-4'</span>, <span class="string">'list'</span>] },
+    { <span class="property">name</span>: <span class="string">'features'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">fields</span>: [
+        { <span class="property">name</span>: <span class="string">'icon'</span>, <span class="property">type</span>: <span class="string">'text'</span> }, <span class="comment">// Lucide icon name</span>
+        { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+        { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'textarea'</span> }
+      ]}
+  ]
+}
+      </div>
+    </section>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:48px">
+    <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid var(--grey)">
+      Complete Implementation Guide (8 Steps)
+    </h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Define the Features block schema in Payload CMS with title, description, variant options (grid-3, grid-4, list), and features array with icon, title, and description fields.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/features/Features/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+
+export const Features: Block = {
+  slug: 'features',
+  interfaceName: 'FeaturesBlock',
+  labels: {
+    singular: 'Features',
+    plural: 'Features',
+  },
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Section Title',
+              admin: {
+                description: 'Heading above the features grid (e.g., "Waarom Compass Digital?")',
+              },
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Section Description',
+              admin: {
+                description: 'Optional subheading text below title',
+              },
+            },
+            {
+              name: 'features',
+              type: 'array',
+              label: 'Features',
+              minRows: 2,
+              maxRows: 12,
+              fields: [
+                {
+                  name: 'icon',
+                  type: 'text',
+                  label: 'Lucide Icon Name',
+                  required: true,
+                  admin: {
+                    description: 'Lucide icon name (e.g., "zap", "palette", "shield-check"). See https://lucide.dev',
+                  },
+                },
+                {
+                  name: 'title',
+                  type: 'text',
+                  label: 'Feature Title',
+                  required: true,
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  label: 'Feature Description',
+                  admin: {
+                    description: 'Short description (max 2-3 sentences)',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Layout',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Layout Variant',
+              defaultValue: 'grid-3',
+              options: [
+                {
+                  label: '3 Columns Grid',
+                  value: 'grid-3',
+                },
+                {
+                  label: '4 Columns Grid',
+                  value: 'grid-4',
+                },
+                {
+                  label: 'List Layout (Horizontal)',
+                  value: 'list',
+                },
+              ],
+            },
+            {
+              name: 'iconStyle',
+              type: 'select',
+              label: 'Icon Style',
+              defaultValue: 'glow',
+              options: [
+                {
+                  label: 'Glow Background (Teal)',
+                  value: 'glow',
+                },
+                {
+                  label: 'Solid Circle (Teal)',
+                  value: 'solid',
+                },
+                {
+                  label: 'Outlined',
+                  value: 'outlined',
+                },
+              ],
+            },
+            {
+              name: 'alignment',
+              type: 'select',
+              label: 'Content Alignment',
+              defaultValue: 'center',
+              options: [
+                { label: 'Center', value: 'center' },
+                { label: 'Left', value: 'left' },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          TypeScript interfaces for type-safe Features block props and data structures.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/features/Features/types.ts</span>
+          </div>
+          <pre><code>export interface Feature {
+  icon: string // Lucide icon name
+  title: string
+  description?: string
+}
+
+export interface FeaturesBlock {
+  blockType: 'features'
+  blockName?: string
+  title?: string
+  description?: string
+  features: Feature[]
+  variant?: 'grid-3' | 'grid-4' | 'list'
+  iconStyle?: 'glow' | 'solid' | 'outlined'
+  alignment?: 'center' | 'left'
+}
+
+export interface FeaturesComponentProps {
+  block: FeaturesBlock
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Components</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Server component for rendering the Features block with dynamic icon loading from Lucide React.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript (Server Component)</span>
+            <span class="code-path">src/branches/blocks/shared/features/Features/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import { FeaturesClient } from './FeaturesClient'
+import type { FeaturesBlock, FeaturesComponentProps } from './types'
+
+export function Features({ block }: FeaturesComponentProps) {
+  const {
+    title,
+    description,
+    features,
+    variant = 'grid-3',
+    iconStyle = 'glow',
+    alignment = 'center',
+  } = block
+
+  return (
+    <section className="features-block py-12 md:py-16 bg-white">
+      <div className="max-w-[1200px] mx-auto px-6">
+        {(title || description) && (
+          <div className={`mb-8 md:mb-12 ${alignment === 'center' ? 'text-center' : ''}`}>
+            {title && (
+              <h2 className="font-serif text-2xl md:text-3xl text-[#0A1628] mb-3">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="text-sm md:text-base text-[#94A3B8] max-w-[560px] mx-auto">
+                {description}
+              </p>
+            )}
+          </div>
+        )}
+
+        <FeaturesClient
+          features={features}
+          variant={variant}
+          iconStyle={iconStyle}
+          alignment={alignment}
+        />
+      </div>
+    </section>
+  )
+}
+
+export default Features</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript (Client Component)</span>
+            <span class="code-path">src/branches/blocks/shared/features/Features/FeaturesClient.tsx</span>
+          </div>
+          <pre><code>'use client'
+
+import React from 'react'
+import * as LucideIcons from 'lucide-react'
+import type { Feature } from './types'
+
+interface FeaturesClientProps {
+  features: Feature[]
+  variant: 'grid-3' | 'grid-4' | 'list'
+  iconStyle: 'glow' | 'solid' | 'outlined'
+  alignment: 'center' | 'left'
+}
+
+export function FeaturesClient({
+  features,
+  variant,
+  iconStyle,
+  alignment,
+}: FeaturesClientProps) {
+  const gridCols = {
+    'grid-3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    'grid-4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+    list: 'grid-cols-1',
+  }
+
+  const iconBgStyles = {
+    glow: 'bg-[rgba(0,137,123,0.12)]',
+    solid: 'bg-[#00897B]',
+    outlined: 'border-2 border-[#00897B]',
+  }
+
+  const iconColorStyles = {
+    glow: 'text-[#00897B]',
+    solid: 'text-white',
+    outlined: 'text-[#00897B]',
+  }
+
+  return (
+    <div className={`grid ${gridCols[variant]} gap-6 md:gap-8`}>
+      {features.map((feature, idx) => {
+        const IconComponent = (LucideIcons as any)[
+          feature.icon.charAt(0).toUpperCase() + feature.icon.slice(1).replace(/-([a-z])/g, (g) => g[1].toUpperCase())
+        ]
+
+        return (
+          <div
+            key={idx}
+            className={`feature-card ${alignment === 'center' ? 'text-center' : ''} ${variant === 'list' ? 'flex gap-4 items-start' : ''}`}
+          >
+            {/* Icon */}
+            <div
+              className={`
+                ${variant === 'list' ? 'w-14 h-14 flex-shrink-0' : 'w-14 h-14 mb-4'}
+                ${alignment === 'center' && variant !== 'list' ? 'mx-auto' : ''}
+                ${iconBgStyles[iconStyle]}
+                rounded-[14px]
+                flex
+                items-center
+                justify-center
+              `}
+            >
+              {IconComponent ? (
+                <IconComponent className={`w-7 h-7 ${iconColorStyles[iconStyle]}`} />
+              ) : (
+                <span className={`text-xl ${iconColorStyles[iconStyle]}`}>?</span>
+              )}
+            </div>
+
+            {/* Content */}
+            <div className={variant === 'list' ? 'flex-1' : ''}>
+              <h3 className="text-base font-bold text-[#0A1628] mb-2">
+                {feature.title}
+              </h3>
+              {feature.description && (
+                <p className="text-[13px] text-[#64748B] leading-relaxed">
+                  {feature.description}
+                </p>
+              )}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Structure</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Admin interface organization with tabbed layout for content and layout configuration.
+        </p>
+
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Content Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Section Title</label>
+                <input type="text" placeholder="Waarom Compass Digital?" />
+              </div>
+              <div class="admin-field">
+                <label>Section Description</label>
+                <textarea placeholder="Alles wat je nodig hebt voor een professionele multi-tenant e-commerce platform"></textarea>
+              </div>
+              <div class="admin-field">
+                <label>Features (Min 2, Max 12)</label>
+                <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:12px;margin-top:8px;margin-bottom:8px">
+                  <div style="font-size:12px;font-weight:600;margin-bottom:8px">Feature 1</div>
+                  <input type="text" placeholder="Icon name (e.g., zap)" style="margin-bottom:6px" />
+                  <input type="text" placeholder="Feature Title" style="margin-bottom:6px" />
+                  <textarea placeholder="Feature description (2-3 sentences max)"></textarea>
+                </div>
+                <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:12px;margin-bottom:8px">
+                  <div style="font-size:12px;font-weight:600;margin-bottom:8px">Feature 2</div>
+                  <input type="text" placeholder="Icon name (e.g., palette)" style="margin-bottom:6px" />
+                  <input type="text" placeholder="Feature Title" style="margin-bottom:6px" />
+                  <textarea placeholder="Feature description"></textarea>
+                </div>
+                <span class="field-hint">+ Add Feature</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Layout Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Layout Variant</label>
+                <select>
+                  <option value="grid-3" selected>3 Columns Grid</option>
+                  <option value="grid-4">4 Columns Grid</option>
+                  <option value="list">List Layout (Horizontal)</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Icon Style</label>
+                <select>
+                  <option value="glow" selected>Glow Background (Teal)</option>
+                  <option value="solid">Solid Circle (Teal)</option>
+                  <option value="outlined">Outlined</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Content Alignment</label>
+                <select>
+                  <option value="center" selected>Center</option>
+                  <option value="left">Left</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Comprehensive testing checklist covering all variants, icon loading, and responsive behavior.
+        </p>
+
+        <ul class="testing-checklist">
+          <li>
+            <strong>Grid Layouts:</strong> Test all 3 variants (grid-3, grid-4, list) at desktop/tablet/mobile breakpoints. Verify grid-3 shows 3→2→1 columns, grid-4 shows 4→2→1, list stays single column.
+          </li>
+          <li>
+            <strong>Icon Loading:</strong> Test with valid Lucide icon names (zap, palette, shield-check). Verify icons load dynamically from lucide-react package. Check fallback "?" displays for invalid icon names.
+          </li>
+          <li>
+            <strong>Icon Styles:</strong> Verify all 3 icon styles render correctly: glow (teal bg with 12% opacity), solid (teal bg + white icon), outlined (2px teal border + teal icon).
+          </li>
+          <li>
+            <strong>Content Alignment:</strong> Test center vs left alignment for both grid and list variants. Confirm icons align correctly (centered in grid, left in list). Check text alignment matches setting.
+          </li>
+          <li>
+            <strong>Feature Count:</strong> Test with minimum 2 features and maximum 12 features. Verify grid wraps correctly with odd numbers (e.g., 5 features in grid-3 layout). Check spacing consistency.
+          </li>
+          <li>
+            <strong>Responsive Behavior:</strong> Confirm mobile (< 640px) always shows 1 column. Tablet (640-1024px) shows 2 columns. Desktop (>= 1024px) respects variant setting (3 or 4 columns).
+          </li>
+          <li>
+            <strong>Typography & Spacing:</strong> Verify title uses DM Serif Display at 24-28px. Feature titles use Plus Jakarta Sans Bold 16px. Descriptions use 13px with grey-dark color. Check consistent 24px gaps between cards.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          SQL migration to add the Features block fields to the blocks table and create necessary indexes.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_features_block.sql</span>
+          </div>
+          <pre><code>-- Add Features block type to blocks table
+
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'features';
+
+-- Create features_blocks table
+CREATE TABLE IF NOT EXISTS features_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  -- Content fields
+  title TEXT,
+  description TEXT,
+
+  -- Layout fields
+  variant VARCHAR(20) NOT NULL DEFAULT 'grid-3'
+    CHECK (variant IN ('grid-3', 'grid-4', 'list')),
+  icon_style VARCHAR(20) NOT NULL DEFAULT 'glow'
+    CHECK (icon_style IN ('glow', 'solid', 'outlined')),
+  alignment VARCHAR(10) NOT NULL DEFAULT 'center'
+    CHECK (alignment IN ('center', 'left')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT fk_block FOREIGN KEY (block_id) REFERENCES blocks(id) ON DELETE CASCADE
+);
+
+-- Create junction table for features array
+CREATE TABLE IF NOT EXISTS features_items (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  features_block_id UUID NOT NULL REFERENCES features_blocks(id) ON DELETE CASCADE,
+  icon TEXT NOT NULL, -- Lucide icon name
+  title TEXT NOT NULL,
+  description TEXT,
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT unique_feature_order UNIQUE (features_block_id, order_index),
+  CONSTRAINT min_2_features CHECK (
+    (SELECT COUNT(*) FROM features_items WHERE features_block_id = features_items.features_block_id) >= 2
+  ),
+  CONSTRAINT max_12_features CHECK (
+    (SELECT COUNT(*) FROM features_items WHERE features_block_id = features_items.features_block_id) <= 12
+  )
+);
+
+-- Create indexes for performance
+CREATE INDEX idx_features_blocks_block_id
+  ON features_blocks(block_id);
+
+CREATE INDEX idx_features_blocks_variant
+  ON features_blocks(variant);
+
+CREATE INDEX idx_features_items_block_id
+  ON features_items(features_block_id);
+
+CREATE INDEX idx_features_items_order
+  ON features_items(features_block_id, order_index);
+
+-- Add trigger for updated_at timestamp
+CREATE OR REPLACE FUNCTION update_features_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_features_blocks_updated_at
+  BEFORE UPDATE ON features_blocks
+  FOR EACH ROW
+  EXECUTE FUNCTION update_features_blocks_updated_at();
+
+-- Add comments for documentation
+COMMENT ON TABLE features_blocks IS
+  'Stores Features block configuration for displaying feature grids with icons';
+COMMENT ON TABLE features_items IS
+  'Individual features within a Features block (min 2, max 12 per block)';
+
+-- Rollback script (commented out, uncomment to rollback)
+/*
+DROP TRIGGER IF EXISTS trigger_features_blocks_updated_at ON features_blocks;
+DROP FUNCTION IF EXISTS update_features_blocks_updated_at();
+DROP INDEX IF EXISTS idx_features_items_order;
+DROP INDEX IF EXISTS idx_features_items_block_id;
+DROP INDEX IF EXISTS idx_features_blocks_variant;
+DROP INDEX IF EXISTS idx_features_blocks_block_id;
+DROP TABLE IF EXISTS features_items;
+DROP TABLE IF EXISTS features_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Icons not loading or showing "?"</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Invalid Lucide icon name, incorrect PascalCase conversion, or lucide-react not installed.<br>
+              <strong>Fix:</strong> Verify icon names at lucide.dev. Ensure lucide-react package is installed: npm install lucide-react. Check PascalCase conversion logic handles hyphens correctly (shield-check → ShieldCheck). Add console.log to debug IconComponent lookup.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Grid not responsive on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind breakpoint classes not applying or CSS conflicts.<br>
+              <strong>Fix:</strong> Verify Tailwind config includes md: and lg: breakpoints. Check grid-cols-1 md:grid-cols-2 lg:grid-cols-3 classes are correct. Test at exact breakpoints (640px, 1024px). Clear Tailwind cache and rebuild.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Icon background glow not showing teal color</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind not recognizing rgba(0,137,123,0.12) or custom class purged.<br>
+              <strong>Fix:</strong> Use Tailwind arbitrary values: bg-[rgba(0,137,123,0.12)]. Alternatively, add to tailwind.config.js theme.extend.colors: 'teal-glow': 'rgba(0, 137, 123, 0.12)'. Whitelist class in safelist if using JIT mode.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">List layout icons not aligning left</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Flex shrink causing icon size changes or alignment classes missing.<br>
+              <strong>Fix:</strong> Add flex-shrink-0 to icon container div. Verify parent has flex gap-4 items-start classes. Check icon width/height are fixed (w-14 h-14). Remove any margin-auto classes that override alignment.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Feature descriptions too long breaking layout</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> No max length validation or line clamp on descriptions.<br>
+              <strong>Fix:</strong> Add validation in Payload config: validate: (val) => val.length <= 200. Apply CSS line clamp: className="line-clamp-3" or max-h-[4.5rem] overflow-hidden. Add character counter in admin panel for UX.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Uneven card heights in grid layout</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Variable description lengths creating inconsistent heights.<br>
+              <strong>Fix:</strong> Add min-h-[200px] to feature-card div for consistent baseline. Alternatively, use CSS Grid with grid-auto-rows: 1fr. Or add line-clamp-3 to descriptions to equalize content height.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Icons pixelated or blurry at high DPI</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> SVG icons not scaling correctly or size mismatch.<br>
+              <strong>Fix:</strong> Ensure IconComponent receives className with w-7 h-7 (28px). Verify SVG viewBox is correct. Use strokeWidth={2} prop for consistent line weights. Test on Retina/HiDPI displays. Avoid rasterized icon formats (PNG/JPG).
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Section title not using DM Serif Display font</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> font-serif class not applying or font not loaded.<br>
+              <strong>Fix:</strong> Verify Google Fonts import includes DM Serif Display in layout/head. Check tailwind.config.js has fontFamily.serif: ['DM Serif Display', 'serif']. Apply font-serif class to h2 element. Inspect computed styles in DevTools.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Register the Features block in Payload config and Next.js rendering components.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { buildConfig } from 'payload'
+import { Features } from '@/branches/blocks/shared/features/Features/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            Features,
+            // ... other blocks
+          ],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import { Features } from '@/branches/blocks/shared/features/Features/Component'
+
+interface RenderBlocksProps {
+  blocks: any[]
+}
+
+export function RenderBlocks({ blocks }: RenderBlocksProps) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'features':
+            return <Features key={index} block={block} />
+          // ... other block cases
+          default:
+            return null
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/features/Features/index.ts</span>
+          </div>
+          <pre><code>export { Features as FeaturesConfig } from './config'
+export { Features as FeaturesComponent } from './Component'
+export { FeaturesClient } from './FeaturesClient'
+export type { FeaturesBlock, Feature, FeaturesComponentProps } from './types'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Title:</strong> DM Serif Display, 24-28px, centered or left-aligned</li>
+      <li><strong>Icons:</strong> Lucide icons only, 28px size, 3 styles (glow/solid/outlined)</li>
+      <li><strong>Features:</strong> Min 2, max 12 features per block, keep descriptions under 200 chars</li>
+      <li><strong>Variants:</strong> Grid-3 (3 cols), Grid-4 (4 cols), List (horizontal icon + text)</li>
+      <li><strong>Grid:</strong> Desktop: 3/4 cols, Tablet (640px): 2 cols, Mobile: 1 col</li>
+      <li><strong>Spacing:</strong> 24px gap between cards, 32px bottom margin for section</li>
+      <li><strong>Alignment:</strong> Center (icons+text centered) or Left (icons+text left-aligned)</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'features', fields: [
+  { name: 'title', type: 'text' },
+  { name: 'description', type: 'textarea' },
+  { name: 'features', type: 'array', minRows: 2, maxRows: 12, fields: [
+      { name: 'icon', type: 'text', required: true }, // Lucide icon name
+      { name: 'title', type: 'text', required: true },
+      { name: 'description', type: 'textarea' }
+    ]},
+  { name: 'variant', type: 'select', options: ['grid-3', 'grid-4', 'list'], defaultValue: 'grid-3' },
+  { name: 'iconStyle', type: 'select', options: ['glow', 'solid', 'outlined'], defaultValue: 'glow' },
+  { name: 'alignment', type: 'select', options: ['center', 'left'], defaultValue: 'center' }
+]}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

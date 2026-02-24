@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B01: Hero Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Hero Block<span>Shared Branch — B01</span></div>
+    <span class="header-badge">Primary</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <section class="section" id="block-hero">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B1</span>
+          <span class="section-label">Hero Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Full-width hero section met optionele subtitle (overline), main title (DM Serif Display), rich text description, button array, en background image/gradient. Gebruikt voor page headers, landing pages, campaign pages.
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview — 3 Variants
+        </div>
+        <div class="box-content" style="padding:0;background:var(--bg)">
+
+          <!-- Variant 1: Default -->
+          <div style="background:linear-gradient(135deg, var(--navy), var(--navy-light));padding:48px 32px;text-align:center;position:relative;overflow:hidden;border-radius:16px;margin-bottom:16px">
+            <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle, var(--teal-glow), transparent 70%);border-radius:50%"></div>
+            <div style="position:relative;z-index:1;max-width:720px;margin:0 auto">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal-light);margin-bottom:12px">Welkom bij Compass Digital</div>
+              <h1 style="font-family:'DM Serif Display',serif;font-size:36px;color:white;margin-bottom:16px;line-height:1.2">Complete Design System voor Multi-Tenant E-commerce</h1>
+              <p style="font-size:15px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.6">156+ componenten, 10 industry verticals, volledig themable. Van medisch tot horeca, van bouw tot events — één platform, eindeloze mogelijkheden.</p>
+              <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                <button style="padding:12px 24px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">Bekijk Demo</button>
+                <button style="padding:12px 24px;background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">Documentatie</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Variant 2: Split Layout -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:40px;background:white;border:1px solid var(--grey);border-radius:16px;margin-bottom:16px">
+            <div style="display:flex;flex-direction:column;justify-content:center">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:10px">Nieuwe Feature</div>
+              <h2 style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:14px;line-height:1.2">3-Level Layered Navigation</h2>
+              <p style="font-size:14px;color:var(--grey-dark);margin-bottom:20px;line-height:1.6">Hover-based mega menu met 3 kolommen (L1/L2/L3), instant subcategory preview, promo cards, en seamless keyboard navigation.</p>
+              <div style="display:flex;gap:10px">
+                <button style="padding:10px 20px;background:var(--navy);color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">Probeer Nu</button>
+                <button style="padding:10px 20px;background:transparent;color:var(--navy);border:1.5px solid var(--grey);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">Lees Meer</button>
+              </div>
+            </div>
+            <div style="background:var(--grey-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:48px">📱</div>
+          </div>
+
+          <!-- Variant 3: Centered Compact -->
+          <div style="padding:32px;text-align:center;background:var(--teal-glow);border-radius:16px">
+            <h2 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:12px">Start je eigen webshop vandaag</h2>
+            <p style="font-size:14px;color:var(--grey-dark);margin-bottom:20px;max-width:520px;margin-left:auto;margin-right:auto">Alles wat je nodig hebt voor een professionele B2B of B2C webshop. Binnen 24 uur live.</p>
+            <button style="padding:11px 22px;background:var(--teal);color:white;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer">Gratis Demo Aanvragen</button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="comment">// Hero Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'hero'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'subtitle'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'richText'</span> },
+    { <span class="property">name</span>: <span class="string">'variant'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'default'</span>, <span class="string">'centered'</span>, <span class="string">'split'</span>] },
+    { <span class="property">name</span>: <span class="string">'buttons'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">fields</span>: [
+        { <span class="property">name</span>: <span class="string">'label'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+        { <span class="property">name</span>: <span class="string">'link'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+        { <span class="property">name</span>: <span class="string">'style'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+          <span class="property">options</span>: [<span class="string">'primary'</span>, <span class="string">'secondary'</span>, <span class="string">'ghost'</span>] }
+      ]},
+    { <span class="property">name</span>: <span class="string">'backgroundImage'</span>, <span class="property">type</span>: <span class="string">'upload'</span> },
+    { <span class="property">name</span>: <span class="string">'backgroundStyle'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'gradient'</span>, <span class="string">'image'</span>, <span class="string">'solid'</span>] }
+  ]
+}
+      </div>
+
+      <div class="code-block">
+<span class="comment">// Hero Block — TypeScript Interface</span>
+<span class="keyword">interface</span> <span class="function">HeroBlockProps</span> {
+  <span class="property">subtitle</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">any</span> <span class="comment">// Lexical editor content</span>
+  <span class="property">variant</span>?: <span class="string">'default'</span> | <span class="string">'centered'</span> | <span class="string">'split'</span>
+  <span class="property">buttons</span>?: {
+    <span class="property">label</span>: <span class="keyword">string</span>
+    <span class="property">link</span>: <span class="keyword">string</span>
+    <span class="property">style</span>: <span class="string">'primary'</span> | <span class="string">'secondary'</span> | <span class="string">'ghost'</span>
+  }[]
+  <span class="property">backgroundImage</span>?: {
+    <span class="property">url</span>: <span class="keyword">string</span>
+    <span class="property">alt</span>: <span class="keyword">string</span>
+  }
+  <span class="property">backgroundStyle</span>?: <span class="string">'gradient'</span> | <span class="string">'image'</span> | <span class="string">'solid'</span>
+}
+      </div>
+
+      <div class="code-block">
+<span class="comment">// Hero Block — React Component</span>
+<span class="keyword">import</span> { serializeLexical } <span class="keyword">from</span> <span class="string">'@/utilities/serializeLexical'</span>
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">HeroBlock</span>: React.FC&lt;HeroBlockProps&gt; = ({
+  subtitle,
+  title,
+  description,
+  variant = <span class="string">'default'</span>,
+  buttons = [],
+  backgroundImage,
+  backgroundStyle = <span class="string">'gradient'</span>
+}) =&gt; {
+  <span class="keyword">const</span> variantClasses = {
+    <span class="property">default</span>: <span class="string">'hero-default'</span>,
+    <span class="property">centered</span>: <span class="string">'hero-centered'</span>,
+    <span class="property">split</span>: <span class="string">'hero-split'</span>
+  }
+
+  <span class="keyword">const</span> backgroundStyles = <span class="function">getBackgroundStyles</span>(backgroundStyle, backgroundImage)
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">section</span>
+      <span class="property">className</span>={<span class="string">`hero-block ${variantClasses[variant]}`</span>}
+      <span class="property">style</span>={backgroundStyles}
+    &gt;
+      &lt;<span class="keyword">div</span> <span class="property">className</span>=<span class="string">"hero-content container"</span>&gt;
+        {subtitle &amp;&amp; (
+          &lt;<span class="keyword">p</span> <span class="property">className</span>=<span class="string">"hero-subtitle"</span>&gt;{subtitle}&lt;/<span class="keyword">p</span>&gt;
+        )}
+        &lt;<span class="keyword">h1</span> <span class="property">className</span>=<span class="string">"hero-title"</span>&gt;{title}&lt;/<span class="keyword">h1</span>&gt;
+        {description &amp;&amp; (
+          &lt;<span class="keyword">div</span> <span class="property">className</span>=<span class="string">"hero-description"</span>&gt;
+            {<span class="function">serializeLexical</span>(description)}
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+        {buttons.<span class="property">length</span> &gt; <span class="number">0</span> &amp;&amp; (
+          &lt;<span class="keyword">div</span> <span class="property">className</span>=<span class="string">"hero-buttons"</span>&gt;
+            {buttons.<span class="function">map</span>((btn, idx) =&gt; (
+              &lt;<span class="keyword">a</span>
+                <span class="property">key</span>={idx}
+                <span class="property">href</span>={btn.link}
+                <span class="property">className</span>={<span class="string">`btn btn-${btn.style}`</span>}
+              &gt;
+                {btn.label}
+              &lt;/<span class="keyword">a</span>&gt;
+            ))}
+          &lt;/<span class="keyword">div</span>&gt;
+        )}
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/<span class="keyword">section</span>&gt;
+  )
+}
+      </div>
+
+      <div class="box" style="background:var(--blue-light);border-left:3px solid var(--blue);padding:20px;margin-top:24px">
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--blue);display:flex;align-items:center;gap:8px">
+          <i data-lucide="book-open" style="width:16px;height:16px"></i>
+          Usage Notes &amp; Best Practices
+        </h4>
+        <ul style="font-size:13px;line-height:1.8;color:var(--grey-dark);margin-left:20px">
+          <li><strong>Variant Selection:</strong> Use <code>default</code> for full-width impact pages, <code>split</code> for feature announcements with imagery, <code>centered</code> for short conversion-focused CTAs.</li>
+          <li><strong>Title Typography:</strong> Always uses DM Serif Display for visual hierarchy. Keep titles under 60 characters for readability.</li>
+          <li><strong>Background Gradients:</strong> Default navy gradient includes teal glow pseudo-element (top-right, 200-280px circle) for brand consistency across all hero variants.</li>
+          <li><strong>Button Array:</strong> Supports up to 3 buttons. Primary button should be first (most important action). Use ghost style for tertiary actions.</li>
+          <li><strong>Accessibility:</strong> Title is always H1 (one per page). Ensure color contrast ratio ≥ 4.5:1 for text on gradient backgrounds.</li>
+          <li><strong>Performance:</strong> Background images should be optimized (WebP format, max 1920px wide, ~200KB). Use Payload's image optimization.</li>
+          <li><strong>Mobile Behavior:</strong> Split layout automatically stacks at &lt;768px. Reduce font sizes: title 28px, body 14px on mobile.</li>
+          <li><strong>CMS Integration:</strong> Rich text description supports all Lexical editor features (bold, italic, links, lists). Sanitize user input.</li>
+        </ul>
+      </div>
+    </section>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:48px">
+    <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid var(--grey)">
+      Complete Implementation Guide (8 Steps)
+    </h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Define the Hero block schema in Payload CMS with subtitle, title, description (rich text), variant options, button array, and background configuration.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/hero/Hero/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+
+export const Hero: Block = {
+  slug: 'hero',
+  interfaceName: 'HeroBlock',
+  labels: {
+    singular: 'Hero',
+    plural: 'Heroes',
+  },
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'subtitle',
+              type: 'text',
+              label: 'Subtitle (Overline)',
+              admin: {
+                description: 'Optional small text above the main title (e.g., "Welkom bij Compass")',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Main Title',
+              required: true,
+              admin: {
+                description: 'Primary heading (H1). Keep under 60 characters for readability.',
+              },
+            },
+            {
+              name: 'description',
+              type: 'richText',
+              label: 'Description',
+              admin: {
+                description: 'Supporting text with rich formatting (paragraphs, lists, links)',
+              },
+            },
+            {
+              name: 'buttons',
+              type: 'array',
+              label: 'Call-to-Action Buttons',
+              maxRows: 3,
+              fields: [
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Button Label',
+                  required: true,
+                },
+                {
+                  name: 'link',
+                  type: 'text',
+                  label: 'Button Link',
+                  required: true,
+                  admin: {
+                    description: 'URL or path (e.g., /contact or https://example.com)',
+                  },
+                },
+                {
+                  name: 'style',
+                  type: 'select',
+                  label: 'Button Style',
+                  defaultValue: 'primary',
+                  options: [
+                    {
+                      label: 'Primary (Teal)',
+                      value: 'primary',
+                    },
+                    {
+                      label: 'Secondary (Outlined)',
+                      value: 'secondary',
+                    },
+                    {
+                      label: 'Ghost (Text Link)',
+                      value: 'ghost',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Design',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Layout Variant',
+              defaultValue: 'default',
+              options: [
+                {
+                  label: 'Default (Centered, Full-Width)',
+                  value: 'default',
+                },
+                {
+                  label: 'Split (Text Left, Image Right)',
+                  value: 'split',
+                },
+                {
+                  label: 'Centered Compact',
+                  value: 'centered',
+                },
+              ],
+              admin: {
+                description: 'Choose hero layout style',
+              },
+            },
+            {
+              name: 'backgroundStyle',
+              type: 'select',
+              label: 'Background Style',
+              defaultValue: 'gradient',
+              options: [
+                {
+                  label: 'Gradient (Navy with Teal Glow)',
+                  value: 'gradient',
+                },
+                {
+                  label: 'Image',
+                  value: 'image',
+                },
+                {
+                  label: 'Solid Color',
+                  value: 'solid',
+                },
+              ],
+            },
+            {
+              name: 'backgroundImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Background Image',
+              admin: {
+                condition: (data, siblingData) => siblingData?.backgroundStyle === 'image',
+                description: 'Recommended: 1920x1080px, WebP format, < 200KB',
+              },
+            },
+            {
+              name: 'backgroundColor',
+              type: 'select',
+              label: 'Background Color',
+              defaultValue: 'navy',
+              options: [
+                { label: 'Navy', value: 'navy' },
+                { label: 'White', value: 'white' },
+                { label: 'Light Gray', value: 'bg' },
+                { label: 'Teal', value: 'teal' },
+              ],
+              admin: {
+                condition: (data, siblingData) => siblingData?.backgroundStyle === 'solid',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          TypeScript interfaces for type-safe Hero block props and data structures.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/hero/Hero/types.ts</span>
+          </div>
+          <pre><code>import type { Media } from '@/payload-types'
+
+export interface HeroButton {
+  label: string
+  link: string
+  style: 'primary' | 'secondary' | 'ghost'
+}
+
+export interface HeroBlock {
+  blockType: 'hero'
+  blockName?: string
+  subtitle?: string
+  title: string
+  description?: any // Lexical rich text JSON
+  buttons?: HeroButton[]
+  variant?: 'default' | 'split' | 'centered'
+  backgroundStyle?: 'gradient' | 'image' | 'solid'
+  backgroundImage?: Media | string
+  backgroundColor?: 'navy' | 'white' | 'bg' | 'teal'
+}
+
+export interface HeroComponentProps {
+  block: HeroBlock
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Components</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Server component for rendering the Hero block with Next.js Image optimization and Lexical rich text serialization.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript (Server Component)</span>
+            <span class="code-path">src/branches/blocks/shared/hero/Hero/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { serializeLexical } from '@/utilities/serializeLexical'
+import type { HeroBlock, HeroComponentProps } from './types'
+
+export function Hero({ block }: HeroComponentProps) {
+  const {
+    subtitle,
+    title,
+    description,
+    buttons = [],
+    variant = 'default',
+    backgroundStyle = 'gradient',
+    backgroundImage,
+    backgroundColor = 'navy',
+  } = block
+
+  // Variant classes
+  const variantClasses = {
+    default: 'hero-default text-center py-12 md:py-16 lg:py-20',
+    split: 'hero-split py-12 md:py-16',
+    centered: 'hero-centered text-center py-10 md:py-12',
+  }
+
+  // Background styles
+  const bgClasses = {
+    gradient: 'bg-gradient-to-br from-[#0A1628] to-[#121F33] text-white relative overflow-hidden',
+    image: 'relative text-white',
+    solid: {
+      navy: 'bg-[#0A1628] text-white',
+      white: 'bg-white text-[#0A1628]',
+      bg: 'bg-[#F5F7FA] text-[#0A1628]',
+      teal: 'bg-[#00897B] text-white',
+    },
+  }
+
+  const backgroundClass =
+    backgroundStyle === 'gradient'
+      ? bgClasses.gradient
+      : backgroundStyle === 'image'
+      ? bgClasses.image
+      : bgClasses.solid[backgroundColor]
+
+  // Button styles
+  const buttonStyles = {
+    primary: 'bg-[#00897B] text-white hover:bg-[#00695C] shadow-sm',
+    secondary: 'bg-transparent border-2 border-current hover:bg-white/10',
+    ghost: 'text-current hover:underline',
+  }
+
+  return (
+    <section className={`hero-block ${variantClasses[variant]} ${backgroundClass} rounded-2xl`}>
+      {/* Gradient glow effect */}
+      {backgroundStyle === 'gradient' && (
+        <div className="absolute top-[-40px] right-[-40px] w-[200px] h-[200px] bg-[radial-gradient(circle,_rgba(0,137,123,0.12),_transparent_70%)] rounded-full pointer-events-none" />
+      )}
+
+      {/* Background image */}
+      {backgroundStyle === 'image' && backgroundImage && (
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={typeof backgroundImage === 'string' ? backgroundImage : backgroundImage.url}
+            alt={typeof backgroundImage === 'object' && backgroundImage.alt ? backgroundImage.alt : ''}
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-[#0A1628]/70" />
+        </div>
+      )}
+
+      {/* Content container */}
+      <div className={`relative z-10 max-w-[1200px] mx-auto px-6 ${variant === 'split' ? 'grid md:grid-cols-2 gap-8 md:gap-12 items-center' : ''}`}>
+        <div className={variant === 'split' ? '' : 'max-w-[720px] mx-auto'}>
+          {subtitle && (
+            <p className="text-[11px] md:text-xs font-bold uppercase tracking-wider text-[#26A69A] mb-3 md:mb-4">
+              {subtitle}
+            </p>
+          )}
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 leading-tight">
+            {title}
+          </h1>
+          {description && (
+            <div className="text-sm md:text-base opacity-80 mb-6 md:mb-8 leading-relaxed">
+              {serializeLexical({ nodes: description })}
+            </div>
+          )}
+          {buttons.length > 0 && (
+            <div className={`flex gap-3 ${variant === 'default' || variant === 'centered' ? 'justify-center' : ''} flex-wrap`}>
+              {buttons.map((btn, idx) => (
+                <Link
+                  key={idx}
+                  href={btn.link}
+                  className={`inline-block px-6 py-3 rounded-lg text-sm font-bold transition-all duration-200 ${buttonStyles[btn.style]}`}
+                >
+                  {btn.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Split layout image/content area */}
+        {variant === 'split' && (
+          <div className="bg-[#F1F4F8] rounded-2xl aspect-video flex items-center justify-center text-6xl">
+            📱
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+export default Hero</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Structure</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Admin interface organization with tabbed layout for content and design configuration.
+        </p>
+
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Content Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Subtitle (Overline)</label>
+                <input type="text" placeholder="Welkom bij Compass Digital" />
+                <span class="field-hint">Optional small text above the main title</span>
+              </div>
+              <div class="admin-field">
+                <label>Main Title *</label>
+                <input type="text" placeholder="Complete Design System voor Multi-Tenant E-commerce" />
+                <span class="field-hint">Primary heading (H1). Keep under 60 characters.</span>
+              </div>
+              <div class="admin-field">
+                <label>Description</label>
+                <textarea placeholder="156+ componenten, 10 industry verticals..."></textarea>
+                <span class="field-hint">Rich text editor with formatting options</span>
+              </div>
+              <div class="admin-field">
+                <label>Call-to-Action Buttons (Max 3)</label>
+                <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:12px;margin-top:8px">
+                  <div style="font-size:12px;font-weight:600;margin-bottom:8px">Button 1</div>
+                  <input type="text" placeholder="Button Label" style="margin-bottom:8px" />
+                  <input type="text" placeholder="/contact" style="margin-bottom:8px" />
+                  <select>
+                    <option>Primary (Teal)</option>
+                    <option>Secondary (Outlined)</option>
+                    <option>Ghost (Text Link)</option>
+                  </select>
+                </div>
+                <span class="field-hint">+ Add Button</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Design Tab</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Layout Variant</label>
+                <select>
+                  <option value="default" selected>Default (Centered, Full-Width)</option>
+                  <option value="split">Split (Text Left, Image Right)</option>
+                  <option value="centered">Centered Compact</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Background Style</label>
+                <select>
+                  <option value="gradient" selected>Gradient (Navy with Teal Glow)</option>
+                  <option value="image">Image</option>
+                  <option value="solid">Solid Color</option>
+                </select>
+              </div>
+              <div class="admin-field">
+                <label>Background Image</label>
+                <div style="background:var(--grey-light);border:1px dashed var(--grey);border-radius:8px;padding:20px;text-align:center;color:var(--grey-mid);font-size:12px">
+                  Drop image or click to upload<br>
+                  Recommended: 1920x1080px, WebP, < 200KB
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Comprehensive testing checklist covering all variants, responsive behavior, and accessibility requirements.
+        </p>
+
+        <ul class="testing-checklist">
+          <li>
+            <strong>Variant Rendering:</strong> Verify all 3 variants (default, split, centered) render correctly with proper layout, alignment, and spacing at desktop/tablet/mobile breakpoints.
+          </li>
+          <li>
+            <strong>Background Styles:</strong> Test gradient (with teal glow pseudo-element), image (with overlay), and solid color backgrounds. Confirm text contrast meets WCAG 4.5:1 ratio.
+          </li>
+          <li>
+            <strong>Button Array:</strong> Add 1, 2, and 3 buttons with different styles (primary, secondary, ghost). Verify proper gap spacing, hover states, and click behavior.
+          </li>
+          <li>
+            <strong>Rich Text Description:</strong> Test Lexical editor features (bold, italic, links, lists, paragraphs). Confirm serializeLexical outputs valid React components.
+          </li>
+          <li>
+            <strong>Mobile Responsiveness:</strong> Verify split layout stacks vertically on mobile. Check font sizes reduce correctly (title: 28px, body: 14px). Test button wrapping with flex-wrap.
+          </li>
+          <li>
+            <strong>Image Optimization:</strong> Confirm Next.js Image component loads background images with priority flag. Test WebP format support, lazy loading disabled for hero.
+          </li>
+          <li>
+            <strong>Accessibility:</strong> Verify title uses H1 tag (only one per page). Test keyboard navigation for buttons. Check screen reader announces subtitle as supporting text.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          SQL migration to add the Hero block fields to the blocks table and create necessary indexes.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_hero_block.sql</span>
+          </div>
+          <pre><code>-- Add Hero block type to blocks table
+-- This migration assumes a polymorphic blocks table structure
+
+-- Add block type enum value if using enums
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'hero';
+
+-- Create hero_blocks table for block-specific data
+CREATE TABLE IF NOT EXISTS hero_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  -- Content fields
+  subtitle TEXT,
+  title TEXT NOT NULL,
+  description JSONB, -- Lexical rich text JSON
+
+  -- Design fields
+  variant VARCHAR(20) NOT NULL DEFAULT 'default'
+    CHECK (variant IN ('default', 'split', 'centered')),
+  background_style VARCHAR(20) NOT NULL DEFAULT 'gradient'
+    CHECK (background_style IN ('gradient', 'image', 'solid')),
+  background_image_id UUID REFERENCES media(id) ON DELETE SET NULL,
+  background_color VARCHAR(10) DEFAULT 'navy'
+    CHECK (background_color IN ('navy', 'white', 'bg', 'teal')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT fk_block FOREIGN KEY (block_id) REFERENCES blocks(id) ON DELETE CASCADE,
+  CONSTRAINT fk_background_image FOREIGN KEY (background_image_id) REFERENCES media(id) ON DELETE SET NULL
+);
+
+-- Create junction table for buttons array
+CREATE TABLE IF NOT EXISTS hero_buttons (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  hero_block_id UUID NOT NULL REFERENCES hero_blocks(id) ON DELETE CASCADE,
+  label TEXT NOT NULL,
+  link TEXT NOT NULL,
+  style VARCHAR(20) NOT NULL DEFAULT 'primary'
+    CHECK (style IN ('primary', 'secondary', 'ghost')),
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT unique_button_order UNIQUE (hero_block_id, order_index)
+);
+
+-- Create indexes for performance
+CREATE INDEX idx_hero_blocks_block_id
+  ON hero_blocks(block_id);
+
+CREATE INDEX idx_hero_blocks_variant
+  ON hero_blocks(variant);
+
+CREATE INDEX idx_hero_buttons_hero_block_id
+  ON hero_buttons(hero_block_id);
+
+CREATE INDEX idx_hero_buttons_order
+  ON hero_buttons(hero_block_id, order_index);
+
+-- Add trigger for updated_at timestamp
+CREATE OR REPLACE FUNCTION update_hero_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_hero_blocks_updated_at
+  BEFORE UPDATE ON hero_blocks
+  FOR EACH ROW
+  EXECUTE FUNCTION update_hero_blocks_updated_at();
+
+-- Add comment for documentation
+COMMENT ON TABLE hero_blocks IS
+  'Stores Hero block configuration for page headers, landing pages, and campaign banners';
+COMMENT ON TABLE hero_buttons IS
+  'Junction table for call-to-action buttons in Hero blocks (max 3 per block)';
+
+-- Rollback script (commented out, uncomment to rollback)
+/*
+DROP TRIGGER IF EXISTS trigger_hero_blocks_updated_at ON hero_blocks;
+DROP FUNCTION IF EXISTS update_hero_blocks_updated_at();
+DROP INDEX IF EXISTS idx_hero_buttons_order;
+DROP INDEX IF EXISTS idx_hero_buttons_hero_block_id;
+DROP INDEX IF EXISTS idx_hero_blocks_variant;
+DROP INDEX IF EXISTS idx_hero_blocks_block_id;
+DROP TABLE IF EXISTS hero_buttons;
+DROP TABLE IF EXISTS hero_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Background image not displaying</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Next.js Image component requires width/height or fill prop, or image URL is incorrect.<br>
+              <strong>Fix:</strong> Verify backgroundImage.url exists and is absolute (https://...). Ensure Image component has fill prop with object-cover class. Check next.config.js has domain whitelisted in images.domains array.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Gradient glow effect not visible</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Pseudo-element positioned outside viewport or z-index too low.<br>
+              <strong>Fix:</strong> Confirm parent section has position: relative and overflow: hidden. Verify glow div has position: absolute with negative top/right values (-40px). Check radial-gradient uses rgba(0,137,123,0.12) for correct opacity.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Rich text description renders as [object Object]</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Lexical JSON passed directly to React without serialization.<br>
+              <strong>Fix:</strong> Import serializeLexical utility from @/utilities/serializeLexical. Call serializeLexical({ nodes: description }) to convert Lexical JSON to React components. Ensure description is not null before passing.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Buttons overlapping on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Button container missing flex-wrap or gap too large.<br>
+              <strong>Fix:</strong> Add flex-wrap class to button container div. Reduce gap from gap-4 to gap-3 on mobile. Test with 3 long button labels ("Start Free Trial Today"). Consider stacking vertically (flex-col) on screens < 480px.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Split layout not stacking on mobile</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Grid columns not responsive or md: breakpoint not applying.<br>
+              <strong>Fix:</strong> Verify parent div has grid md:grid-cols-2 classes. Check Tailwind config includes all breakpoints. Test at exact 768px width. Ensure no min-width CSS overriding grid behavior.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Text contrast too low on gradient background</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Navy gradient too light or text opacity too high.<br>
+              <strong>Fix:</strong> Darken gradient: from-[#0A1628] to-[#06101B] (darker endpoint). Reduce description opacity from 0.8 to 0.7. Add text-shadow: 0 2px 4px rgba(0,0,0,0.3) for better readability. Test with WebAIM contrast checker.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Subtitle not showing teal color</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Parent text-white class overriding subtitle color, or Tailwind purging class.<br>
+              <strong>Fix:</strong> Use !important: text-[#26A69A]! or override with inline style. Ensure text-[#26A69A] is whitelisted in tailwind.config.js safelist. Check subtitle element not inheriting color: currentColor.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Hero block not taking full width</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Parent container has max-width constraint or padding issues.<br>
+              <strong>Fix:</strong> Add w-full class to section element. Remove any max-w-* classes on hero container. Check parent page layout doesn't have restrictive container. For full-bleed hero, use negative margins: -mx-6 on section with px-6 on inner content.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Register the Hero block in Payload config and Next.js rendering components.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { buildConfig } from 'payload'
+import { Hero } from '@/branches/blocks/shared/hero/Hero/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [
+            Hero,
+            // ... other blocks
+          ],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import { Hero } from '@/branches/blocks/shared/hero/Hero/Component'
+
+interface RenderBlocksProps {
+  blocks: any[]
+}
+
+export function RenderBlocks({ blocks }: RenderBlocksProps) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'hero':
+            return <Hero key={index} block={block} />
+          // ... other block cases
+          default:
+            return null
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/hero/Hero/index.ts</span>
+          </div>
+          <pre><code>export { Hero as HeroConfig } from './config'
+export { Hero as HeroComponent } from './Component'
+export type { HeroBlock, HeroButton, HeroComponentProps } from './types'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Title:</strong> Always H1, DM Serif Display font, 36-48px, keep under 60 characters</li>
+      <li><strong>Subtitle:</strong> 11-12px, uppercase, teal color (#26A69A), optional overline</li>
+      <li><strong>Description:</strong> Rich text (Lexical), 14-15px, opacity 70-80% on dark backgrounds</li>
+      <li><strong>Buttons:</strong> Max 3 buttons, primary first (most important action), 12px gap</li>
+      <li><strong>Variants:</strong> Default (centered), Split (2-col on desktop), Centered (compact CTA)</li>
+      <li><strong>Background:</strong> Gradient (navy + teal glow), Image (with overlay), Solid color</li>
+      <li><strong>Mobile:</strong> Stack split layout, reduce title to 28px, body to 14px, maintain contrast</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'hero', fields: [
+  { name: 'subtitle', type: 'text' },
+  { name: 'title', type: 'text', required: true },
+  { name: 'description', type: 'richText' },
+  { name: 'buttons', type: 'array', maxRows: 3, fields: [
+      { name: 'label', type: 'text', required: true },
+      { name: 'link', type: 'text', required: true },
+      { name: 'style', type: 'select', options: ['primary', 'secondary', 'ghost'] }
+    ]},
+  { name: 'variant', type: 'select', options: ['default', 'split', 'centered'], defaultValue: 'default' },
+  { name: 'backgroundStyle', type: 'select', options: ['gradient', 'image', 'solid'], defaultValue: 'gradient' },
+  { name: 'backgroundImage', type: 'upload', relationTo: 'media' },
+  { name: 'backgroundColor', type: 'select', options: ['navy', 'white', 'bg', 'teal'], defaultValue: 'navy' }
+]}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

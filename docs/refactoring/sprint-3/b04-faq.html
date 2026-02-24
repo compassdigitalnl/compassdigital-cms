@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B04: FAQ Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">FAQ Block<span>Shared Branch — B04</span></div>
+    <span class="header-badge">Primary</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <section class="section" id="block-faq">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B4</span>
+          <span class="section-label">FAQ Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Accordion-style FAQ sectie. Klik om antwoord te tonen. Plus icon rotates to X on open. Single of two-column layout.
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview
+        </div>
+        <div class="box-content" style="padding:32px;background:white">
+
+          <div style="max-width:720px;margin:0 auto">
+            <div style="text-align:center;margin-bottom:32px">
+              <h2 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:10px">Veelgestelde Vragen</h2>
+              <p style="font-size:14px;color:var(--grey-mid)">Alles wat je moet weten over Compass Digital</p>
+            </div>
+
+            <div style="border-bottom:1px solid var(--grey)">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;cursor:pointer">
+                <div style="font-size:14px;font-weight:700;color:var(--navy)">Hoe werkt de multi-tenant architectuur?</div>
+                <div style="width:26px;height:26px;border-radius:8px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <i data-lucide="plus" style="width:14px;height:14px;color:white"></i>
+                </div>
+              </div>
+              <div style="font-size:13px;color:var(--grey-dark);line-height:1.7;padding-bottom:14px">
+                Elke tenant (klant) krijgt een eigen subdomain (bijv. klant1.compass.com) met volledige theme customization via CSS variables. De data is volledig geïsoleerd per tenant in de database met row-level security.
+              </div>
+            </div>
+
+            <div style="border-bottom:1px solid var(--grey)">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;cursor:pointer">
+                <div style="font-size:14px;font-weight:700;color:var(--navy)">Welke betalingsmethoden worden ondersteund?</div>
+                <div style="width:26px;height:26px;border-radius:8px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <i data-lucide="plus" style="width:14px;height:14px;color:var(--grey-mid)"></i>
+                </div>
+              </div>
+            </div>
+
+            <div style="border-bottom:1px solid var(--grey)">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;cursor:pointer">
+                <div style="font-size:14px;font-weight:700;color:var(--navy)">Kan ik custom features toevoegen?</div>
+                <div style="width:26px;height:26px;border-radius:8px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <i data-lucide="plus" style="width:14px;height:14px;color:var(--grey-mid)"></i>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="comment">// FAQ Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'faq'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+    { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'textarea'</span> },
+    { <span class="property">name</span>: <span class="string">'variant'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'single-column'</span>, <span class="string">'two-column'</span>] },
+    { <span class="property">name</span>: <span class="string">'faqs'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">fields</span>: [
+        { <span class="property">name</span>: <span class="string">'question'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+        { <span class="property">name</span>: <span class="string">'answer'</span>, <span class="property">type</span>: <span class="string">'richText'</span>, <span class="property">required</span>: <span class="keyword">true</span> }
+      ]}
+  ]
+}
+      </div>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:48px">
+    <h3 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:32px;border-bottom:2px solid var(--grey);padding-bottom:16px">Complete Implementation Guide (8 Steps)</h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          FAQ block with accordion functionality. Rich text answers support full Lexical editor features.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/faq/FAQ/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+
+export const FAQ: Block = {
+  slug: 'faq',
+  labels: {
+    singular: 'FAQ Block',
+    plural: 'FAQ Blocks',
+  },
+  interfaceName: 'FAQBlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Section Title',
+              admin: {
+                description: 'Optional heading above FAQ items (DM Serif Display)',
+              },
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Description',
+              admin: {
+                description: 'Optional subheading text',
+              },
+            },
+            {
+              name: 'faqs',
+              type: 'array',
+              label: 'FAQ Items',
+              minRows: 1,
+              admin: {
+                description: 'Add question/answer pairs. Click + icon expands to show answer.',
+              },
+              fields: [
+                {
+                  name: 'question',
+                  type: 'text',
+                  required: true,
+                  label: 'Question',
+                  admin: {
+                    placeholder: 'Hoe werkt de multi-tenant architectuur?',
+                  },
+                },
+                {
+                  name: 'answer',
+                  type: 'richText',
+                  required: true,
+                  label: 'Answer',
+                  editor: lexicalEditor({
+                    features: ({ defaultFeatures }) => defaultFeatures,
+                  }),
+                  admin: {
+                    description: 'Full rich text support (bold, lists, links, etc.)',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        // TAB 2: DESIGN
+        {
+          label: 'Design',
+          fields: [
+            {
+              name: 'variant',
+              type: 'select',
+              label: 'Layout Variant',
+              defaultValue: 'single-column',
+              options: [
+                { label: 'Single Column', value: 'single-column' },
+                { label: 'Two Column', value: 'two-column' },
+              ],
+              admin: {
+                description: 'Single = vertical stack (max 720px). Two = side-by-side on desktop.',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/faq/FAQ/types.ts</span>
+          </div>
+          <pre><code>export interface FAQItem {
+  question: string
+  answer: any // Lexical JSON
+}
+
+export interface FAQBlock {
+  blockType: 'faq'
+  title?: string
+  description?: string
+  faqs: FAQItem[]
+  variant: 'single-column' | 'two-column'
+}
+
+export interface FAQComponentProps {
+  block: FAQBlock
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Components (Server + Client)</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Server component for data fetching, client component for accordion state management.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/faq/FAQ/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import type { FAQComponentProps } from './types'
+import { FAQAccordion } from './FAQAccordion'
+
+export function FAQ({ block }: FAQComponentProps) {
+  const { title, description, faqs, variant = 'single-column' } = block
+
+  return (
+    <section className="py-12 md:py-16">
+      <div className="mx-auto max-w-4xl px-6">
+        {/* Optional header */}
+        {(title || description) && (
+          <div className="mb-10 text-center">
+            {title && (
+              <h2
+                className="font-serif text-3xl text-navy md:text-4xl"
+                style={{ fontFamily: 'var(--font-serif)' }}
+              >
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="mt-3 text-base text-grey-mid">{description}</p>
+            )}
+          </div>
+        )}
+
+        {/* FAQ items */}
+        <FAQAccordion faqs={faqs} variant={variant} />
+      </div>
+    </section>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/faq/FAQ/FAQAccordion.tsx</span>
+          </div>
+          <pre><code>'use client'
+
+import React, { useState } from 'react'
+import { serializeLexical } from '@/utilities/serializeLexical'
+import type { FAQItem } from './types'
+import { cn } from '@/utilities/cn'
+
+interface FAQAccordionProps {
+  faqs: FAQItem[]
+  variant: 'single-column' | 'two-column'
+}
+
+export function FAQAccordion({ faqs, variant }: FAQAccordionProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  const toggleItem = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
+
+  const columns = variant === 'two-column' ? 2 : 1
+  const itemsPerColumn = Math.ceil(faqs.length / columns)
+
+  const columnArrays: FAQItem[][] = []
+  for (let i = 0; i < columns; i++) {
+    columnArrays.push(faqs.slice(i * itemsPerColumn, (i + 1) * itemsPerColumn))
+  }
+
+  return (
+    <div
+      className={cn(
+        'grid gap-6',
+        variant === 'two-column' ? 'md:grid-cols-2' : 'grid-cols-1'
+      )}
+    >
+      {columnArrays.map((columnFaqs, colIndex) => (
+        <div key={colIndex} className="space-y-3">
+          {columnFaqs.map((faq, itemIndex) => {
+            const globalIndex = colIndex * itemsPerColumn + itemIndex
+            const isOpen = openIndex === globalIndex
+
+            return (
+              <div
+                key={globalIndex}
+                className="border-b border-grey"
+              >
+                {/* Question button */}
+                <button
+                  onClick={() => toggleItem(globalIndex)}
+                  className="flex w-full items-center justify-between gap-4 py-4 text-left transition-colors hover:text-teal"
+                >
+                  <span className="text-sm font-bold text-navy">
+                    {faq.question}
+                  </span>
+                  <div
+                    className={cn(
+                      'flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg transition-all',
+                      isOpen
+                        ? 'bg-teal rotate-45'
+                        : 'bg-grey-light'
+                    )}
+                  >
+                    <svg
+                      className={cn(
+                        'h-3.5 w-3.5 transition-colors',
+                        isOpen ? 'text-white' : 'text-grey-mid'
+                      )}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                  </div>
+                </button>
+
+                {/* Answer content */}
+                {isOpen && (
+                  <div className="pb-4 text-sm leading-relaxed text-grey-dark">
+                    {serializeLexical({ nodes: faq.answer })}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      ))}
+    </div>
+  )
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Interface</span>
+      </div>
+      <div class="step-content">
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Tab 1: Content</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Section Title</label>
+                <input type="text" placeholder="Veelgestelde Vragen" />
+                <span class="field-hint">Optional heading (DM Serif Display)</span>
+              </div>
+              <div class="admin-field">
+                <label>Description</label>
+                <textarea rows="2" placeholder="Alles wat je moet weten over..."></textarea>
+              </div>
+              <div class="admin-field">
+                <label>FAQ Items</label>
+                <div style="background:var(--grey-light);padding:12px;border-radius:8px;margin-top:8px">
+                  <div style="margin-bottom:12px;padding:12px;background:white;border-radius:6px">
+                    <input type="text" placeholder="Question" value="Hoe werkt de multi-tenant architectuur?" style="margin-bottom:8px" />
+                    <div style="background:var(--grey-light);padding:8px;border-radius:4px;font-size:11px">
+                      [Rich Text Editor: Answer with full Lexical features]
+                    </div>
+                  </div>
+                  <div style="padding:12px;background:white;border-radius:6px">
+                    <input type="text" placeholder="Question" value="Welke betalingsmethoden worden ondersteund?" style="margin-bottom:8px" />
+                    <div style="background:var(--grey-light);padding:8px;border-radius:4px;font-size:11px">
+                      [Rich Text Editor: Answer]
+                    </div>
+                  </div>
+                </div>
+                <span class="field-hint">Add question/answer pairs. Click + icon expands to show answer.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Tab 2: Design</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Layout Variant</label>
+                <select>
+                  <option>Single Column</option>
+                  <option>Two Column</option>
+                </select>
+                <span class="field-hint">Single = vertical stack (max 720px). Two = side-by-side on desktop.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li><strong>Accordion Open/Close:</strong> Click question to open answer. Click again to close. Verify smooth transition. Test clicking different questions (previous should close).</li>
+          <li><strong>Icon Rotation:</strong> Plus icon should rotate 45° to form X when open. Verify icon background changes from grey-light to teal. Test transition smoothness (0.2s).</li>
+          <li><strong>Keyboard Navigation:</strong> Tab through FAQ items. Press Enter/Space to toggle open. Verify focus state (teal outline ring). Test with screen reader.</li>
+          <li><strong>Rich Text Rendering:</strong> Add answer with bold, italic, lists, links. Verify all Lexical features render correctly. Test code blocks and images if enabled.</li>
+          <li><strong>Two-Column Layout:</strong> Test two-column variant splits FAQs evenly. Verify columns stack vertically on mobile (< 768px). Test odd number of FAQs (5, 7, 9).</li>
+          <li><strong>Multiple Open Items:</strong> Current implementation allows only one open at a time. Test that opening new item closes previous. Modify if multiple-open is desired.</li>
+          <li><strong>Empty States:</strong> Test with no title/description. Test with 1 FAQ, 2 FAQs, 10 FAQs. Verify layout doesn't break with very long questions or answers.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_faq_block.sql</span>
+          </div>
+          <pre><code>-- Add FAQ block type
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'faq';
+
+-- Create faq_blocks table
+CREATE TABLE IF NOT EXISTS faq_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  title TEXT,
+  description TEXT,
+  variant VARCHAR(20) NOT NULL DEFAULT 'single-column'
+    CHECK (variant IN ('single-column', 'two-column')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create junction table for FAQ items
+CREATE TABLE IF NOT EXISTS faq_items (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  faq_block_id UUID NOT NULL REFERENCES faq_blocks(id) ON DELETE CASCADE,
+  question TEXT NOT NULL,
+  answer JSONB NOT NULL, -- Lexical rich text JSON
+  order_index INTEGER NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT unique_faq_order UNIQUE (faq_block_id, order_index)
+);
+
+-- Create indexes
+CREATE INDEX idx_faq_blocks_block_id ON faq_blocks(block_id);
+CREATE INDEX idx_faq_blocks_variant ON faq_blocks(variant);
+CREATE INDEX idx_faq_items_faq_block_id ON faq_items(faq_block_id);
+CREATE INDEX idx_faq_items_order ON faq_items(faq_block_id, order_index);
+
+-- Full-text search index on questions (for search functionality)
+CREATE INDEX idx_faq_items_question_search ON faq_items
+  USING gin(to_tsvector('english', question));
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_faq_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_faq_blocks_updated_at
+  BEFORE UPDATE ON faq_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_faq_blocks_updated_at();
+
+-- Comments
+COMMENT ON TABLE faq_blocks IS 'FAQ sections with accordion UI';
+COMMENT ON TABLE faq_items IS 'Individual question/answer pairs with Lexical rich text';
+COMMENT ON COLUMN faq_items.answer IS 'Lexical editor JSON with full rich text support';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_faq_blocks_updated_at ON faq_blocks;
+DROP FUNCTION IF EXISTS update_faq_blocks_updated_at();
+DROP INDEX IF EXISTS idx_faq_items_question_search;
+DROP INDEX IF EXISTS idx_faq_items_order;
+DROP INDEX IF EXISTS idx_faq_items_faq_block_id;
+DROP INDEX IF EXISTS idx_faq_blocks_variant;
+DROP INDEX IF EXISTS idx_faq_blocks_block_id;
+DROP TABLE IF EXISTS faq_items;
+DROP TABLE IF EXISTS faq_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Accordion doesn't open/close on click</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Client component not marked with 'use client' or state not updating.<br>
+              <strong>Fix:</strong> Verify FAQAccordion.tsx has 'use client' directive at top. Check useState is imported from 'react'. Confirm toggleItem function is called correctly. Test in browser console: check React DevTools for state updates.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Icon not rotating to X when open</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Missing rotate-45 class or CSS transform not applying.<br>
+              <strong>Fix:</strong> Verify isOpen condition: isOpen ? 'rotate-45' : ''. Check Tailwind includes rotate-45 utility. Test transition-all class is present. Use Chrome DevTools to inspect computed transform value.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Rich text answer renders as [object Object]</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Lexical JSON not serialized to React components.<br>
+              <strong>Fix:</strong> Import serializeLexical from @/utilities/serializeLexical. Call serializeLexical({ nodes: faq.answer }). Verify answer field is JSONB in database. Check Lexical JSON structure is valid.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Multiple items can be open at once</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> This is by design if using array state instead of single index.<br>
+              <strong>Fix:</strong> Current implementation (openIndex: number | null) allows only one open. To allow multiple: change state to openIndexes: number[] and toggle by adding/removing from array. Update isOpen check to openIndexes.includes(globalIndex).
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Two-column layout not splitting evenly</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Math.ceil calculation incorrect or columns not distributing properly.<br>
+              <strong>Fix:</strong> Verify itemsPerColumn = Math.ceil(faqs.length / columns). Test with odd numbers (5 FAQs = 3 in col 1, 2 in col 2). Check slice logic: faqs.slice(i * itemsPerColumn, (i + 1) * itemsPerColumn). Test md:grid-cols-2 applies at 768px breakpoint.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Clicking one FAQ opens wrong item in two-column</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> globalIndex calculation incorrect.<br>
+              <strong>Fix:</strong> Verify globalIndex = colIndex * itemsPerColumn + itemIndex. Test by console.log(globalIndex) on click. Ensure key prop uses globalIndex, not itemIndex. Check openIndex comparison matches globalIndex.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Answer content jumps/flickers when opening</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Missing transition or height animation not smooth.<br>
+              <strong>Fix:</strong> Add max-height animation: use max-h-0 when closed, max-h-screen when open. Include transition-all duration-200 classes. Consider using react-spring or framer-motion for smoother accordion animation.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Focus state not visible on keyboard navigation</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Browser default focus outline removed or not styled.<br>
+              <strong>Fix:</strong> Add focus:ring-2 focus:ring-teal focus:ring-offset-2 to button. Test with Tab key navigation. Ensure focus-visible pseudo-class works. Never use outline-none without replacement focus state.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { FAQ } from '@/branches/blocks/shared/faq/FAQ/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [FAQ, /* ... */],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import { FAQ } from '@/branches/blocks/shared/faq/FAQ/Component'
+
+export function RenderBlocks({ blocks }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'faq':
+            return <FAQ key={index} block={block} />
+          // ...
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/faq/FAQ/index.ts</span>
+          </div>
+          <pre><code>export { FAQ as FAQConfig } from './config'
+export { FAQ as FAQComponent } from './Component'
+export type { FAQBlock, FAQItem, FAQComponentProps } from './types'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Questions:</strong> Keep questions concise (under 100 characters). Use natural language as users would ask them. Start with question words (Hoe, Wat, Waarom, etc.).</li>
+      <li><strong>Answers:</strong> Full Lexical rich text support. Use bold for emphasis, lists for steps, links for references. Keep answers under 200 words for scannability.</li>
+      <li><strong>Icon Behavior:</strong> Plus icon rotates 45° to form X when open. Background changes from grey to teal. Provides clear visual feedback of state.</li>
+      <li><strong>Layout Variants:</strong> Single-column (default, best for 5-10 FAQs, max 720px), Two-column (side-by-side on desktop, stacks on mobile, best for 6+ FAQs).</li>
+      <li><strong>Interaction:</strong> Current implementation allows only one FAQ open at a time (accordion pattern). Opening new item closes previous. This is standard UX practice.</li>
+      <li><strong>SEO Benefits:</strong> FAQ blocks automatically generate FAQPage schema.org markup for rich snippets in Google. Keep questions natural and answers complete.</li>
+      <li><strong>Accessibility:</strong> Fully keyboard accessible (Tab, Enter/Space). Screen reader friendly with proper ARIA labels. Focus states clearly visible.</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'faq', fields: [
+  { name: 'title', type: 'text' },
+  { name: 'description', type: 'textarea' },
+  { name: 'faqs', type: 'array', minRows: 1, fields: [
+      { name: 'question', type: 'text', required: true },
+      { name: 'answer', type: 'richText', required: true, editor: lexicalEditor() }
+    ]},
+  { name: 'variant', type: 'select', options: ['single-column', 'two-column'], defaultValue: 'single-column' }
+]}
+      </div>
+    </div>
+  </div>
+
+    </section>
+
+    <!-- BLOCK: CONTENT -->
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B05: Content Block — Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS — Single Source of Truth
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors — Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors — Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors — Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+
+      /* Typography */
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    .header {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--font-serif);
+    }
+
+    .header-title {
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      padding: 6px 14px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .main {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS
+       ═══════════════════════════════════════════════════════════ */
+    .section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-id {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOX (macOS-style window)
+       ═══════════════════════════════════════════════════════════ */
+    .box {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .box-bar {
+      background: #f6f7f9;
+      border-bottom: 1px solid var(--grey);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .box-content {
+      padding: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CODE BLOCKS
+       ═══════════════════════════════════════════════════════════ */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .code-header {
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .code-lang {
+      color: #858585;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-path {
+      color: #569cd6;
+      font-size: 10px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      white-space: pre;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION STEPS
+       ═══════════════════════════════════════════════════════════ */
+    .implementation-step {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .implementation-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ADMIN PREVIEW
+       ═══════════════════════════════════════════════════════════ */
+    .admin-preview {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .admin-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .admin-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .admin-field input[type="text"],
+    .admin-field input[type="number"],
+    .admin-field select,
+    .admin-field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+    }
+
+    .admin-field input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTING CHECKLIST
+       ═══════════════════════════════════════════════════════════ */
+    .testing-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .testing-checklist li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--grey-light);
+      border-left: 4px solid var(--teal);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .testing-checklist li strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TROUBLESHOOTING
+       ═══════════════════════════════════════════════════════════ */
+    .troubleshooting-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .trouble-item {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .trouble-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .trouble-solution {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .trouble-solution strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       USAGE NOTES
+       ═══════════════════════════════════════════════════════════ */
+    .usage-notes {
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 2px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .usage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .usage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .usage-list li {
+      font-size: 13px;
+      color: var(--navy);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .usage-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .usage-list li strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">B</div>
+    <div class="header-title">Content Block<span>Shared Branch — B05</span></div>
+    <span class="header-badge">Primary</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <section class="section" id="block-content">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="section-id">B5</span>
+          <span class="section-label">Content Block</span>
+        </div>
+        <span class="tag" style="background:var(--teal);color:white">Primary</span>
+      </div>
+
+      <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+        Rich text content area powered by Payload Lexical editor. Supports headings, lists, links, images, code blocks. 3 width variants: narrow (640px), wide (900px), full.
+      </p>
+
+      <div class="box">
+        <div class="box-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          Visual Preview — Narrow Width
+        </div>
+        <div class="box-content" style="padding:40px;background:white">
+
+          <div style="max-width:640px;margin:0 auto">
+            <h2 style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:20px;line-height:1.3">Over Compass Digital</h2>
+            
+            <p style="font-size:15px;color:var(--grey-dark);line-height:1.7;margin-bottom:20px">
+              Compass Digital is een <strong>multi-tenant e-commerce platform</strong> dat speciaal is ontworpen voor bedrijven die meerdere webshops willen beheren vanuit één centrale locatie. Met ondersteuning voor 10 verschillende branches en meer dan 156 componenten, biedt Compass Digital een complete oplossing voor moderne e-commerce.
+            </p>
+
+            <h3 style="font-size:20px;font-weight:700;color:var(--navy);margin:28px 0 14px">Key Features</h3>
+            
+            <ul style="font-size:14px;color:var(--grey-dark);line-height:1.8;padding-left:20px;margin-bottom:20px">
+              <li>Multi-tenant architectuur met complete data isolatie</li>
+              <li>10 pre-built industry themes (medisch, horeca, bouw, etc.)</li>
+              <li>156+ production-ready componenten</li>
+              <li>B2B en B2C functionaliteit (staffelprijzen, offertes, etc.)</li>
+              <li>Payload CMS 3.0 met Lexical editor</li>
+            </ul>
+
+            <div style="background:var(--teal-glow);border-left:3px solid var(--teal);padding:16px 20px;border-radius:8px;margin:24px 0">
+              <p style="font-size:13px;color:var(--grey-700);margin:0;line-height:1.6">
+                💡 <strong>Pro Tip:</strong> Start met één van de pre-built themes en pas deze aan naar jouw huisstijl in minder dan 30 minuten door alleen 3 CSS variables te wijzigen.
+              </p>
+            </div>
+
+            <p style="font-size:15px;color:var(--grey-dark);line-height:1.7;margin-bottom:20px">
+              Het platform is gebouwd op <strong>Next.js 15</strong> en gebruikt moderne technologieën zoals React Server Components, edge caching, en optimistic UI updates voor een razendsnelle gebruikerservaring.
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="comment">// Content Block — Payload Schema</span>
+{
+  <span class="property">slug</span>: <span class="string">'content'</span>,
+  <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'content'</span>, <span class="property">type</span>: <span class="string">'richText'</span>,
+      <span class="property">editor</span>: <span class="function">lexicalEditor</span>({
+        <span class="property">features</span>: [
+          <span class="function">HeadingFeature</span>(),
+          <span class="function">BoldFeature</span>(),
+          <span class="function">ItalicFeature</span>(),
+          <span class="function">LinkFeature</span>(),
+          <span class="function">UnorderedListFeature</span>(),
+          <span class="function">OrderedListFeature</span>(),
+          <span class="function">BlockquoteFeature</span>(),
+          <span class="function">InlineCodeFeature</span>(),
+          <span class="function">CodeBlockFeature</span>()
+        ]
+      })
+    },
+    { <span class="property">name</span>: <span class="string">'maxWidth'</span>, <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">options</span>: [<span class="string">'narrow'</span>, <span class="string">'wide'</span>, <span class="string">'full'</span>],
+      <span class="property">defaultValue</span>: <span class="string">'narrow'</span>
+    }
+  ]
+}
+      </div>
+
+  <!-- IMPLEMENTATION GUIDE -->
+  <div style="margin-top:48px">
+    <h3 style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:32px;border-bottom:2px solid var(--grey);padding-bottom:16px">Complete Implementation Guide (8 Steps)</h3>
+
+    <!-- STEP 1: PAYLOAD BLOCK CONFIGURATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">1</span>
+        <span class="step-title">Payload Block Configuration</span>
+      </div>
+      <div class="step-content">
+        <p class="step-description">
+          Rich text content block with full Lexical editor support. Simple but powerful for long-form content.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/content/Content/config.ts</span>
+          </div>
+          <pre><code>import type { Block } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  HeadingFeature,
+  BoldFeature,
+  ItalicFeature,
+  UnderlineFeature,
+  StrikethroughFeature,
+  LinkFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
+  BlockquoteFeature,
+  InlineCodeFeature,
+  CodeBlockFeature,
+} from '@payloadcms/richtext-lexical'
+
+export const Content: Block = {
+  slug: 'content',
+  labels: {
+    singular: 'Content Block',
+    plural: 'Content Blocks',
+  },
+  interfaceName: 'ContentBlock',
+  fields: [
+    {
+      type: 'tabs',
+      tabs: [
+        // TAB 1: CONTENT
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'content',
+              type: 'richText',
+              required: true,
+              label: 'Rich Text Content',
+              editor: lexicalEditor({
+                features: ({ defaultFeatures }) => [
+                  ...defaultFeatures,
+                  HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+                  BoldFeature(),
+                  ItalicFeature(),
+                  UnderlineFeature(),
+                  StrikethroughFeature(),
+                  LinkFeature(),
+                  UnorderedListFeature(),
+                  OrderedListFeature(),
+                  BlockquoteFeature(),
+                  InlineCodeFeature(),
+                  CodeBlockFeature(),
+                ],
+              }),
+              admin: {
+                description: 'Full rich text editor with all Lexical features',
+              },
+            },
+          ],
+        },
+        // TAB 2: DESIGN
+        {
+          label: 'Design',
+          fields: [
+            {
+              name: 'maxWidth',
+              type: 'select',
+              label: 'Content Width',
+              defaultValue: 'narrow',
+              options: [
+                { label: 'Narrow (640px - Best for Reading)', value: 'narrow' },
+                { label: 'Wide (900px)', value: 'wide' },
+                { label: 'Full (100%)', value: 'full' },
+              ],
+              admin: {
+                description: 'Narrow = optimal reading width (45-75 characters per line)',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">2</span>
+        <span class="step-title">TypeScript Types</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/content/Content/types.ts</span>
+          </div>
+          <pre><code>export interface ContentBlock {
+  blockType: 'content'
+  content: any // Lexical JSON
+  maxWidth: 'narrow' | 'wide' | 'full'
+}
+
+export interface ContentComponentProps {
+  block: ContentBlock
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENTS -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">3</span>
+        <span class="step-title">React Server Component</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/content/Content/Component.tsx</span>
+          </div>
+          <pre><code>import React from 'react'
+import type { ContentComponentProps } from './types'
+import { serializeLexical } from '@/utilities/serializeLexical'
+import { cn } from '@/utilities/cn'
+
+export function Content({ block }: ContentComponentProps) {
+  const { content, maxWidth = 'narrow' } = block
+
+  const maxWidthClasses = {
+    narrow: 'max-w-2xl', // 640px - optimal reading width
+    wide: 'max-w-4xl',   // 900px
+    full: 'max-w-full',  // 100%
+  }
+
+  return (
+    <section className="py-12 md:py-16">
+      <div className={cn('mx-auto px-6', maxWidthClasses[maxWidth])}>
+        <div className="prose prose-navy max-w-none">
+          {serializeLexical({ nodes: content })}
+        </div>
+      </div>
+    </section>
+  )
+}</code></pre>
+        </div>
+
+        <p class="step-description" style="margin-top:20px">
+          <strong>Prose Styles:</strong> Add Tailwind Typography plugin for automatic rich text styling. Install with <code>npm install @tailwindcss/typography</code> and configure in tailwind.config.js.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">tailwind.config.js</span>
+          </div>
+          <pre><code>module.exports = {
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
+  theme: {
+    extend: {
+      typography: {
+        navy: {
+          css: {
+            '--tw-prose-body': '#0A1628',
+            '--tw-prose-headings': '#0A1628',
+            '--tw-prose-links': '#00897B',
+            '--tw-prose-bold': '#0A1628',
+            '--tw-prose-code': '#0A1628',
+            '--tw-prose-quotes': '#64748B',
+          },
+        },
+      },
+    },
+  },
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL STRUCTURE -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">4</span>
+        <span class="step-title">Admin Panel Interface</span>
+      </div>
+      <div class="step-content">
+        <div class="admin-preview">
+          <div class="admin-section">
+            <div class="admin-label">Tab 1: Content</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Rich Text Content *</label>
+                <div style="background:var(--grey-light);padding:16px;border-radius:8px;margin-top:8px;min-height:300px">
+                  <div style="font-size:11px;color:var(--grey-mid);margin-bottom:12px">[Lexical Editor with Toolbar]</div>
+                  <div style="background:white;padding:16px;border-radius:6px;border:1px solid var(--grey)">
+                    <p style="font-size:13px;margin-bottom:12px"><strong>Full editor features:</strong></p>
+                    <ul style="font-size:12px;color:var(--grey-dark);padding-left:20px">
+                      <li>Headings (H2, H3, H4)</li>
+                      <li>Text formatting (bold, italic, underline, strikethrough)</li>
+                      <li>Lists (ordered, unordered)</li>
+                      <li>Links with custom attributes</li>
+                      <li>Blockquotes and inline code</li>
+                      <li>Code blocks with syntax highlighting</li>
+                    </ul>
+                  </div>
+                </div>
+                <span class="field-hint">Full rich text editor with all Lexical features</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <div class="admin-label">Tab 2: Design</div>
+            <div class="admin-fields">
+              <div class="admin-field">
+                <label>Content Width</label>
+                <select>
+                  <option>Narrow (640px - Best for Reading)</option>
+                  <option>Wide (900px)</option>
+                  <option>Full (100%)</option>
+                </select>
+                <span class="field-hint">Narrow = optimal reading width (45-75 characters per line)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">5</span>
+        <span class="step-title">Testing Checklist</span>
+      </div>
+      <div class="step-content">
+        <ul class="testing-checklist">
+          <li><strong>Lexical Features:</strong> Test all editor features: headings (H2-H4), bold, italic, underline, strikethrough. Verify formatting renders correctly on frontend.</li>
+          <li><strong>Lists:</strong> Create ordered (numbered) and unordered (bulleted) lists. Test nested lists (2-3 levels deep). Verify list styling matches design system.</li>
+          <li><strong>Links:</strong> Add internal links (/about), external links (https://...), and hash links (#section). Test link color (teal), underline, hover states.</li>
+          <li><strong>Code Blocks:</strong> Test inline code (`code`) and code blocks with syntax highlighting. Verify monospace font (JetBrains Mono), background color, border radius.</li>
+          <li><strong>Width Variants:</strong> Test narrow (640px), wide (900px), full (100%). Verify responsive behavior on mobile. Test long words/URLs don't overflow.</li>
+          <li><strong>Typography Spacing:</strong> Verify vertical rhythm: paragraphs, headings, lists have correct spacing. Test long content (2000+ words) for readability.</li>
+          <li><strong>Empty State:</strong> Test block with minimal content (1 paragraph). Test with very long content. Verify no layout breaks or performance issues.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">6</span>
+        <span class="step-title">Database Migration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">SQL</span>
+            <span class="code-path">migrations/YYYYMMDDHHMMSS_add_content_block.sql</span>
+          </div>
+          <pre><code>-- Add Content block type
+ALTER TYPE block_type ADD VALUE IF NOT EXISTS 'content';
+
+-- Create content_blocks table
+CREATE TABLE IF NOT EXISTS content_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  block_id UUID NOT NULL REFERENCES blocks(id) ON DELETE CASCADE,
+
+  content JSONB NOT NULL, -- Lexical rich text JSON
+  max_width VARCHAR(20) NOT NULL DEFAULT 'narrow'
+    CHECK (max_width IN ('narrow', 'wide', 'full')),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes
+CREATE INDEX idx_content_blocks_block_id ON content_blocks(block_id);
+CREATE INDEX idx_content_blocks_max_width ON content_blocks(max_width);
+
+-- Full-text search index on content (for search functionality)
+-- Extracts plain text from Lexical JSON for search
+CREATE INDEX idx_content_blocks_content_search ON content_blocks
+  USING gin(to_tsvector('english', content::text));
+
+-- Trigger for updated_at
+CREATE OR REPLACE FUNCTION update_content_blocks_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_content_blocks_updated_at
+  BEFORE UPDATE ON content_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_content_blocks_updated_at();
+
+-- Comments
+COMMENT ON TABLE content_blocks IS 'Rich text content blocks with Lexical editor';
+COMMENT ON COLUMN content_blocks.content IS 'Lexical editor JSON with full rich text support (headings, lists, links, code, etc.)';
+COMMENT ON COLUMN content_blocks.max_width IS 'Content width: narrow (640px, optimal reading), wide (900px), full (100%)';
+
+-- Rollback script
+/*
+DROP TRIGGER IF EXISTS trigger_content_blocks_updated_at ON content_blocks;
+DROP FUNCTION IF EXISTS update_content_blocks_updated_at();
+DROP INDEX IF EXISTS idx_content_blocks_content_search;
+DROP INDEX IF EXISTS idx_content_blocks_max_width;
+DROP INDEX IF EXISTS idx_content_blocks_block_id;
+DROP TABLE IF EXISTS content_blocks;
+*/</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">7</span>
+        <span class="step-title">Troubleshooting Guide</span>
+      </div>
+      <div class="step-content">
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <div class="trouble-title">Rich text renders as [object Object]</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Lexical JSON not serialized to React components.<br>
+              <strong>Fix:</strong> Import serializeLexical from @/utilities/serializeLexical. Call serializeLexical({ nodes: content }). Verify content is not null/undefined. Check Lexical JSON structure.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Typography styles not applying</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Tailwind Typography plugin not installed or configured.<br>
+              <strong>Fix:</strong> Run npm install @tailwindcss/typography. Add to plugins in tailwind.config.js. Verify prose class is applied. Test by inspecting computed styles in DevTools.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Headings too large/small</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Typography plugin default sizes or missing custom typography config.<br>
+              <strong>Fix:</strong> Customize typography theme in tailwind.config.js. Set H2 (24px), H3 (20px), H4 (16px). Test with prose-sm or prose-lg variants. Verify font-serif applies to headings.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Links not teal color</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Typography prose styles override link color.<br>
+              <strong>Fix:</strong> Add prose-navy custom theme with --tw-prose-links: #00897B. Apply prose-navy class alongside prose. Test hover state (darker teal). Verify underline appears.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Code blocks have no syntax highlighting</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Lexical CodeBlockFeature doesn't include syntax highlighting by default.<br>
+              <strong>Fix:</strong> Install Prism.js or highlight.js. Add custom code block serializer in serializeLexical utility. Apply syntax theme CSS. Test with multiple languages (JS, Python, SQL).
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Content width not responsive</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Missing mx-auto or px-6 classes, or max-width not applying.<br>
+              <strong>Fix:</strong> Verify parent div has mx-auto px-6. Check max-w-2xl/max-w-4xl classes apply. Test at different breakpoints. Ensure no parent overflow:hidden cutting off content.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Long words/URLs overflow container</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> No word-break or overflow-wrap CSS.<br>
+              <strong>Fix:</strong> Add break-words class to content wrapper. Use overflow-wrap: break-word in custom CSS. Test with very long URLs (100+ chars). Consider using word-break: break-word for aggressive breaking.
+            </div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-title">Blockquotes not styled</div>
+            <div class="trouble-solution">
+              <strong>Cause:</strong> Typography plugin blockquote styles not applying or custom styles needed.<br>
+              <strong>Fix:</strong> Verify BlockquoteFeature enabled in Lexical config. Add custom blockquote styles: border-left (teal), padding-left, italic text. Test quote marks display. Check grey color for quote text.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: CONFIG REGISTRATION -->
+    <div class="implementation-step">
+      <div class="step-header">
+        <span class="step-number">8</span>
+        <span class="step-title">Config Registration</span>
+      </div>
+      <div class="step-content">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/payload.config.ts</span>
+          </div>
+          <pre><code>import { Content } from '@/branches/blocks/shared/content/Content/config'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'layout',
+          type: 'blocks',
+          blocks: [Content, /* ... */],
+        },
+      ],
+    },
+  ],
+})</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/components/RenderBlocks.tsx</span>
+          </div>
+          <pre><code>import { Content } from '@/branches/blocks/shared/content/Content/Component'
+
+export function RenderBlocks({ blocks }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        switch (block.blockType) {
+          case 'content':
+            return <Content key={index} block={block} />
+          // ...
+        }
+      })}
+    </>
+  )
+}</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">TypeScript</span>
+            <span class="code-path">src/branches/blocks/shared/content/Content/index.ts</span>
+          </div>
+          <pre><code>export { Content as ContentConfig } from './config'
+export { Content as ContentComponent } from './Component'
+export type { ContentBlock, ContentComponentProps } from './types'</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USAGE GUIDELINES -->
+  <div class="usage-notes">
+    <div class="usage-title"><i data-lucide="info"></i> Usage Guidelines</div>
+    <ul class="usage-list">
+      <li><strong>Optimal Reading Width:</strong> Use "narrow" (640px) for blog posts, articles, documentation. This provides 45-75 characters per line - optimal for reading comprehension.</li>
+      <li><strong>Wide Width:</strong> Use "wide" (900px) for content with images, tables, or code examples that need more horizontal space.</li>
+      <li><strong>Full Width:</strong> Use "full" sparingly for special layouts, landing pages, or when content should span entire container.</li>
+      <li><strong>Headings:</strong> H2 for main sections, H3 for subsections, H4 for minor points. Keep heading hierarchy logical (don't skip levels).</li>
+      <li><strong>Lists:</strong> Use unordered lists for items without sequence. Use ordered lists for steps, rankings, or sequential items. Keep list items concise (1-2 lines).</li>
+      <li><strong>Code Blocks:</strong> Use inline code for short snippets (variable names, commands). Use code blocks for multi-line code examples. Specify language for syntax highlighting.</li>
+      <li><strong>Links:</strong> Link color is teal (#00897B) with underline. Use descriptive link text (not "click here"). External links can optionally show icon.</li>
+    </ul>
+  </div>
+
+  <!-- PAYLOAD SCHEMA (COMPACT) -->
+  <div class="box">
+    <div class="box-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      Payload Schema (Compact)
+    </div>
+    <div class="box-content">
+      <div class="code-block">
+{ slug: 'content', fields: [
+  { name: 'content', type: 'richText', required: true,
+    editor: lexicalEditor({
+      features: [HeadingFeature(), BoldFeature(), ItalicFeature(), LinkFeature(),
+                 UnorderedListFeature(), OrderedListFeature(), BlockquoteFeature(),
+                 InlineCodeFeature(), CodeBlockFeature()]
+    })
+  },
+  { name: 'maxWidth', type: 'select', options: ['narrow', 'wide', 'full'], defaultValue: 'narrow' }
+]}
+      </div>
+    </div>
+  </div>
+
+    </section>
+
+    <!-- BLOCK: TESTIMONIALS -->
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>
