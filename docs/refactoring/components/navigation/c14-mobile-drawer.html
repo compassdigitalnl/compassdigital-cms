@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14-MobileDrawer - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --coral: #FF6B6B;
+      --green: #00C853;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .demo-trigger {
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 12px 24px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .demo-trigger:hover {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+    }
+
+    .demo-trigger svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* === Mobile Drawer Core === */
+    .mobile-drawer-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 22, 40, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 299;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1),
+                  visibility 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .mobile-drawer-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 85vw;
+      background: white;
+      z-index: 300;
+      transform: translateX(-100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 4px 0 24px rgba(10,22,40,0.12);
+    }
+
+    .mobile-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* === Header === */
+    .md-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border-bottom: 1px solid var(--grey);
+      flex-shrink: 0;
+    }
+
+    .md-header img {
+      height: 28px;
+      width: auto;
+    }
+
+    .md-close {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--grey-light);
+      color: var(--grey-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .md-close:hover {
+      background: var(--grey);
+      color: var(--navy);
+    }
+
+    .md-close svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* === Body === */
+    .md-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 0;
+    }
+
+    .md-section-label {
+      padding: 8px 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+    }
+
+    .md-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--navy);
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+      position: relative;
+    }
+
+    .md-item:hover {
+      background: var(--grey-light);
+    }
+
+    .md-item svg:first-child {
+      width: 18px;
+      height: 18px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .md-item .md-arrow {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+      margin-left: auto;
+      transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
+      flex-shrink: 0;
+    }
+
+    .md-item.open .md-arrow {
+      transform: rotate(90deg);
+    }
+
+    /* === Submenu (L1) === */
+    .md-sub {
+      display: none;
+      background: var(--grey-light);
+    }
+
+    .md-sub.open {
+      display: block;
+    }
+
+    .md-sub .md-item {
+      padding-left: 52px;
+      font-size: 12px;
+    }
+
+    .md-sub .md-item svg:first-child {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* === Submenu L2 === */
+    .md-sub .md-sub {
+      background: white;
+    }
+
+    .md-sub .md-sub .md-item {
+      padding-left: 72px;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .md-sub .md-sub .md-item:hover {
+      background: var(--grey-light);
+    }
+
+    /* === Footer === */
+    .md-footer {
+      flex-shrink: 0;
+      border-top: 1px solid var(--grey);
+      padding: 16px;
+      background: white;
+    }
+
+    .md-footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .md-footer-contact a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .md-footer-contact a:hover {
+      color: var(--teal);
+    }
+
+    .md-footer-contact svg {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+    }
+
+    .md-footer-toggles {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .md-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .md-toggle-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    /* === Price Toggle (Mini) === */
+    .price-toggle-mini {
+      display: inline-flex;
+      background: var(--grey-light);
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .price-toggle-mini button {
+      border: none;
+      background: transparent;
+      padding: 4px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--grey-dark);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .price-toggle-mini button.active {
+      background: var(--teal);
+      color: white;
+    }
+
+    /* === Language Toggle (Mini) === */
+    .lang-toggle-mini {
+      display: inline-flex;
+      background: var(--grey-light);
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .lang-toggle-mini button {
+      border: none;
+      background: transparent;
+      padding: 4px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--grey-dark);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lang-toggle-mini button.active {
+      background: white;
+      color: var(--navy);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* === Documentation Styles === */
+    .doc-container {
+      max-width: 900px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 48px;
+    }
+
+    .doc-container h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .doc-container .subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 32px;
+    }
+
+    .doc-container h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-container h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-container p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .doc-container ul, .doc-container ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-container li {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .doc-container code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-container pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .doc-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .doc-container th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-container td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .info-box {
+      background: var(--teal-glow);
+      border-left: 3px solid var(--teal);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin-bottom: 0;
+      color: var(--navy);
+    }
+
+    /* === Scrollbar === */
+    .md-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .md-body::-webkit-scrollbar-track {
+      background: var(--grey-light);
+    }
+
+    .md-body::-webkit-scrollbar-thumb {
+      background: var(--grey);
+      border-radius: 3px;
+    }
+
+    .md-body::-webkit-scrollbar-thumb:hover {
+      background: var(--grey-mid);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === LIVE DEMO === -->
+  <div class="demo-section">
+    <h2>Live Demo</h2>
+    <button class="demo-trigger" onclick="openDrawer()">
+      <i data-lucide="menu"></i>
+      Open Mobile Drawer
+    </button>
+  </div>
+
+  <!-- === Mobile Drawer Component === -->
+  <div class="mobile-drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+  <div class="mobile-drawer" id="mobileDrawer">
+    <!-- Header -->
+    <div class="md-header">
+      <img src="data:image/svg+xml,%3Csvg width='120' height='32' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='0' y='24' font-family='Plus Jakarta Sans' font-size='20' font-weight='800' fill='%230A1628'%3ECompass%3C/text%3E%3C/svg%3E" alt="Compass">
+      <button class="md-close" onclick="closeDrawer()" aria-label="Sluit menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="md-body">
+      <!-- Categorieën Section -->
+      <div class="md-section-label">Categorieën</div>
+
+      <!-- L1: Diagnostiek -->
+      <div class="md-item" onclick="toggleSub(this)">
+        <i data-lucide="stethoscope"></i>
+        <span>Diagnostiek</span>
+        <i data-lucide="chevron-right" class="md-arrow"></i>
+      </div>
+      <div class="md-sub">
+        <!-- L2: Bloeddrukmeters -->
+        <div class="md-item" onclick="toggleSub(this)">
+          <i data-lucide="activity"></i>
+          <span>Bloeddrukmeters</span>
+          <i data-lucide="chevron-right" class="md-arrow"></i>
+        </div>
+        <div class="md-sub">
+          <div class="md-item">
+            <i data-lucide="circle"></i>
+            <span>Handmatig</span>
+          </div>
+          <div class="md-item">
+            <i data-lucide="circle"></i>
+            <span>Automatisch</span>
+          </div>
+          <div class="md-item">
+            <i data-lucide="circle"></i>
+            <span>Manchetten</span>
+          </div>
+        </div>
+
+        <!-- L2: Thermometers -->
+        <div class="md-item" onclick="toggleSub(this)">
+          <i data-lucide="thermometer"></i>
+          <span>Thermometers</span>
+          <i data-lucide="chevron-right" class="md-arrow"></i>
+        </div>
+        <div class="md-sub">
+          <div class="md-item">
+            <i data-lucide="circle"></i>
+            <span>Digitaal</span>
+          </div>
+          <div class="md-item">
+            <i data-lucide="circle"></i>
+            <span>Infrarood</span>
+          </div>
+          <div class="md-item">
+            <i data-lucide="circle"></i>
+            <span>Contactloos</span>
+          </div>
+        </div>
+
+        <div class="md-item">
+          <i data-lucide="heart-pulse"></i>
+          <span>Stethoscopen</span>
+        </div>
+      </div>
+
+      <!-- L1: EHBO -->
+      <div class="md-item" onclick="toggleSub(this)">
+        <i data-lucide="cross"></i>
+        <span>EHBO</span>
+        <i data-lucide="chevron-right" class="md-arrow"></i>
+      </div>
+      <div class="md-sub">
+        <div class="md-item">
+          <i data-lucide="bandage"></i>
+          <span>Pleisters & Verbanden</span>
+        </div>
+        <div class="md-item">
+          <i data-lucide="briefcase-medical"></i>
+          <span>EHBO Koffers</span>
+        </div>
+        <div class="md-item">
+          <i data-lucide="droplet"></i>
+          <span>Desinfectie</span>
+        </div>
+      </div>
+
+      <!-- L1: Handschoenen -->
+      <div class="md-item" onclick="toggleSub(this)">
+        <i data-lucide="shield-check"></i>
+        <span>Handschoenen</span>
+        <i data-lucide="chevron-right" class="md-arrow"></i>
+      </div>
+      <div class="md-sub">
+        <div class="md-item">
+          <i data-lucide="circle"></i>
+          <span>Latex</span>
+        </div>
+        <div class="md-item">
+          <i data-lucide="circle"></i>
+          <span>Nitrile</span>
+        </div>
+        <div class="md-item">
+          <i data-lucide="circle"></i>
+          <span>Vinyl</span>
+        </div>
+      </div>
+
+      <!-- Service Links Section -->
+      <div class="md-section-label">Service</div>
+      <div class="md-item">
+        <i data-lucide="clipboard-list"></i>
+        <span>Bestellijsten</span>
+      </div>
+      <div class="md-item">
+        <i data-lucide="file-text"></i>
+        <span>Offertes</span>
+      </div>
+      <div class="md-item">
+        <i data-lucide="package"></i>
+        <span>Mijn bestellingen</span>
+      </div>
+      <div class="md-item">
+        <i data-lucide="heart"></i>
+        <span>Favorieten</span>
+      </div>
+
+      <!-- Account Section -->
+      <div class="md-section-label">Account</div>
+      <div class="md-item">
+        <i data-lucide="user"></i>
+        <span>Mijn account</span>
+      </div>
+      <div class="md-item">
+        <i data-lucide="log-in"></i>
+        <span>Inloggen</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="md-footer">
+      <div class="md-footer-contact">
+        <a href="tel:0251247233">
+          <i data-lucide="phone"></i>
+          <span>0251‑247233</span>
+        </a>
+        <a href="mailto:info@compass.nl">
+          <i data-lucide="mail"></i>
+          <span>info@compass.nl</span>
+        </a>
+      </div>
+
+      <div class="md-footer-toggles">
+        <!-- B2B/B2C Toggle -->
+        <div class="md-toggle-row">
+          <div class="md-toggle-label">Prijzen</div>
+          <div class="price-toggle-mini">
+            <button class="active" onclick="switchPrice(this, 'b2b')">B2B</button>
+            <button onclick="switchPrice(this, 'b2c')">B2C</button>
+          </div>
+        </div>
+
+        <!-- Language Toggle -->
+        <div class="md-toggle-row">
+          <div class="md-toggle-label">Taal</div>
+          <div class="lang-toggle-mini">
+            <button class="active" onclick="switchLang(this, 'nl')">NL</button>
+            <button onclick="switchLang(this, 'en')">EN</button>
+            <button onclick="switchLang(this, 'de')">DE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === DOCUMENTATION === -->
+  <div class="doc-container">
+    <h1>C14-MobileDrawer</h1>
+    <p class="subtitle">Mobile hamburger menu with nested accordion navigation, contact info, and toggles</p>
+
+    <!-- STEP 1 -->
+    <h2>STEP 1: Component Overview</h2>
+    <p><strong>C14-MobileDrawer</strong> is the mobile navigation drawer that appears from the left side when users tap the hamburger menu icon on mobile devices (<768px). It provides full site navigation with nested accordion menus up to 3 levels deep, contact information, and B2B/B2C + language toggles.</p>
+
+    <p><strong>Key features:</strong></p>
+    <ul>
+      <li><strong>3-section layout:</strong> Header (logo + close), scrollable body (categories), footer (contact + toggles)</li>
+      <li><strong>Nested accordions:</strong> Up to 3 levels deep (L1 → L2 → L3) with expand/collapse arrows</li>
+      <li><strong>Smooth animations:</strong> Transform translateX(-100%) with backdrop blur effect</li>
+      <li><strong>Contact quick access:</strong> Phone and email links in footer</li>
+      <li><strong>Inline toggles:</strong> B2B/B2C price toggle and language switcher in footer</li>
+      <li><strong>Smart hierarchy:</strong> Visual differentiation per level (padding, background, icon size)</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Mobile-only component:</strong> This drawer is hidden on desktop (≥768px). Desktop uses C14-MegaNavigation instead.</p>
+    </div>
+
+    <!-- STEP 2 -->
+    <h2>STEP 2: When to Use</h2>
+    <p>Use C14-MobileDrawer when:</p>
+    <ul>
+      <li>Building mobile navigation for viewports <768px</li>
+      <li>You need nested category navigation (product categories, service types, content sections)</li>
+      <li>You want to combine navigation with utility links (account, orders, favorites)</li>
+      <li>You need quick access to contact methods (phone, email)</li>
+      <li>You want users to switch B2B/B2C pricing or language without leaving the menu</li>
+    </ul>
+
+    <p><strong>Don't use when:</strong></p>
+    <ul>
+      <li>Building desktop navigation (≥768px) — use C14-MegaNavigation instead</li>
+      <li>You only have 1-2 top-level items — use a simple mobile menu instead</li>
+      <li>You need search functionality in the drawer — integrate C14-SearchBar separately</li>
+    </ul>
+
+    <!-- STEP 3 -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Layout</h3>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td>Drawer width</td>
+        <td>320px (max 85vw)</td>
+        <td>Fixed width, responsive on very small screens</td>
+      </tr>
+      <tr>
+        <td>Position</td>
+        <td>fixed, top/left/bottom: 0</td>
+        <td>Full-height drawer on left side</td>
+      </tr>
+      <tr>
+        <td>Z-index</td>
+        <td>300 (backdrop: 299)</td>
+        <td>Above all content, below toasts</td>
+      </tr>
+      <tr>
+        <td>Header height</td>
+        <td>~60px (auto)</td>
+        <td>Logo + close button section</td>
+      </tr>
+      <tr>
+        <td>Footer height</td>
+        <td>~140px (auto)</td>
+        <td>Contact + toggles section</td>
+      </tr>
+    </table>
+
+    <h3>Colors</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Color</th>
+        <th>Token</th>
+      </tr>
+      <tr>
+        <td>Drawer background</td>
+        <td>#FFFFFF</td>
+        <td>white</td>
+      </tr>
+      <tr>
+        <td>Backdrop</td>
+        <td>rgba(10,22,40,0.6) + blur</td>
+        <td>navy with opacity</td>
+      </tr>
+      <tr>
+        <td>L1 submenu bg</td>
+        <td>#F1F4F8</td>
+        <td>--grey-light</td>
+      </tr>
+      <tr>
+        <td>L2 submenu bg</td>
+        <td>#FFFFFF</td>
+        <td>white</td>
+      </tr>
+      <tr>
+        <td>Section labels</td>
+        <td>#94A3B8</td>
+        <td>--grey-mid</td>
+      </tr>
+      <tr>
+        <td>Icons</td>
+        <td>#00897B</td>
+        <td>--teal</td>
+      </tr>
+      <tr>
+        <td>Arrows</td>
+        <td>#94A3B8</td>
+        <td>--grey-mid</td>
+      </tr>
+      <tr>
+        <td>Active toggle</td>
+        <td>#00897B</td>
+        <td>--teal</td>
+      </tr>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Size</th>
+        <th>Weight</th>
+        <th>Color</th>
+      </tr>
+      <tr>
+        <td>Section labels</td>
+        <td>10px</td>
+        <td>700</td>
+        <td>grey-mid</td>
+      </tr>
+      <tr>
+        <td>L1 items</td>
+        <td>13px</td>
+        <td>500</td>
+        <td>navy</td>
+      </tr>
+      <tr>
+        <td>L2/L3 items</td>
+        <td>12px</td>
+        <td>500 / 400</td>
+        <td>navy</td>
+      </tr>
+      <tr>
+        <td>Contact links</td>
+        <td>12px</td>
+        <td>500</td>
+        <td>navy</td>
+      </tr>
+      <tr>
+        <td>Toggle labels</td>
+        <td>11px</td>
+        <td>600</td>
+        <td>grey-dark</td>
+      </tr>
+      <tr>
+        <td>Toggle buttons</td>
+        <td>10px</td>
+        <td>700</td>
+        <td>grey-dark / white (active)</td>
+      </tr>
+    </table>
+
+    <h3>Spacing</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Padding</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Header</td>
+        <td>16px</td>
+        <td>All sides</td>
+      </tr>
+      <tr>
+        <td>L1 items</td>
+        <td>12px 16px</td>
+        <td>Vertical, horizontal</td>
+      </tr>
+      <tr>
+        <td>L2 items</td>
+        <td>12px 16px 12px 52px</td>
+        <td>Indented 52px from left</td>
+      </tr>
+      <tr>
+        <td>L3 items</td>
+        <td>12px 16px 12px 72px</td>
+        <td>Indented 72px from left</td>
+      </tr>
+      <tr>
+        <td>Footer</td>
+        <td>16px</td>
+        <td>All sides</td>
+      </tr>
+      <tr>
+        <td>Section labels</td>
+        <td>8px 16px</td>
+        <td>Vertical, horizontal</td>
+      </tr>
+    </table>
+
+    <h3>Icons</h3>
+    <table>
+      <tr>
+        <th>Level</th>
+        <th>Size</th>
+        <th>Color</th>
+      </tr>
+      <tr>
+        <td>L1 category icons</td>
+        <td>18px</td>
+        <td>teal</td>
+      </tr>
+      <tr>
+        <td>L2 category icons</td>
+        <td>16px</td>
+        <td>teal</td>
+      </tr>
+      <tr>
+        <td>Chevron arrows</td>
+        <td>16px</td>
+        <td>grey-mid</td>
+      </tr>
+      <tr>
+        <td>Close button</td>
+        <td>20px</td>
+        <td>grey-dark</td>
+      </tr>
+      <tr>
+        <td>Contact icons</td>
+        <td>16px</td>
+        <td>teal</td>
+      </tr>
+    </table>
+
+    <!-- STEP 4 -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>HTML Structure</h3>
+    <pre>&lt;!-- Backdrop --&gt;
+&lt;div class="mobile-drawer-backdrop" onclick="closeDrawer()"&gt;&lt;/div&gt;
+
+&lt;!-- Drawer --&gt;
+&lt;div class="mobile-drawer" id="mobileDrawer"&gt;
+  &lt;!-- Header --&gt;
+  &lt;div class="md-header"&gt;
+    &lt;img src="logo.png" alt="Brand"&gt;
+    &lt;button class="md-close" onclick="closeDrawer()"&gt;
+      &lt;i data-lucide="x"&gt;&lt;/i&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Body --&gt;
+  &lt;div class="md-body"&gt;
+    &lt;div class="md-section-label"&gt;Categorieën&lt;/div&gt;
+
+    &lt;!-- L1 Item with submenu --&gt;
+    &lt;div class="md-item" onclick="toggleSub(this)"&gt;
+      &lt;i data-lucide="stethoscope"&gt;&lt;/i&gt;
+      &lt;span&gt;Diagnostiek&lt;/span&gt;
+      &lt;i data-lucide="chevron-right" class="md-arrow"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="md-sub"&gt;
+      &lt;!-- L2 items here --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Footer --&gt;
+  &lt;div class="md-footer"&gt;
+    &lt;div class="md-footer-contact"&gt;
+      &lt;a href="tel:0251247233"&gt;
+        &lt;i data-lucide="phone"&gt;&lt;/i&gt;
+        &lt;span&gt;0251‑247233&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="md-footer-toggles"&gt;
+      &lt;!-- B2B/B2C + Language toggles --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>JavaScript Functions</h3>
+    <table>
+      <tr>
+        <th>Function</th>
+        <th>Purpose</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td><code>openDrawer()</code></td>
+        <td>Opens the drawer</td>
+        <td>Called by hamburger button</td>
+      </tr>
+      <tr>
+        <td><code>closeDrawer()</code></td>
+        <td>Closes the drawer</td>
+        <td>Called by close button, backdrop click, ESC key</td>
+      </tr>
+      <tr>
+        <td><code>toggleSub(item)</code></td>
+        <td>Expands/collapses accordion submenu</td>
+        <td>Called on L1/L2 items with submenus</td>
+      </tr>
+      <tr>
+        <td><code>switchPrice(btn, type)</code></td>
+        <td>Switches B2B/B2C pricing</td>
+        <td>Called by price toggle buttons</td>
+      </tr>
+      <tr>
+        <td><code>switchLang(btn, lang)</code></td>
+        <td>Switches language</td>
+        <td>Called by language toggle buttons</td>
+      </tr>
+    </table>
+
+    <h3>CSS Classes</h3>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><code>.mobile-drawer-backdrop</code></td>
+        <td>Dark overlay behind drawer</td>
+      </tr>
+      <tr>
+        <td><code>.mobile-drawer</code></td>
+        <td>Main drawer container</td>
+      </tr>
+      <tr>
+        <td><code>.mobile-drawer.open</code></td>
+        <td>Drawer visible state</td>
+      </tr>
+      <tr>
+        <td><code>.md-header</code></td>
+        <td>Top section (logo + close)</td>
+      </tr>
+      <tr>
+        <td><code>.md-body</code></td>
+        <td>Scrollable content area</td>
+      </tr>
+      <tr>
+        <td><code>.md-footer</code></td>
+        <td>Bottom section (contact + toggles)</td>
+      </tr>
+      <tr>
+        <td><code>.md-section-label</code></td>
+        <td>Category section headers</td>
+      </tr>
+      <tr>
+        <td><code>.md-item</code></td>
+        <td>Menu items (all levels)</td>
+      </tr>
+      <tr>
+        <td><code>.md-item.open</code></td>
+        <td>Expanded accordion state (rotates arrow)</td>
+      </tr>
+      <tr>
+        <td><code>.md-sub</code></td>
+        <td>Submenu container (hidden by default)</td>
+      </tr>
+      <tr>
+        <td><code>.md-sub.open</code></td>
+        <td>Visible submenu</td>
+      </tr>
+      <tr>
+        <td><code>.md-arrow</code></td>
+        <td>Chevron arrow icon</td>
+      </tr>
+    </table>
+
+    <!-- STEP 5 -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Overall Structure</h3>
+    <ul>
+      <li><strong>Fixed position:</strong> <code>position: fixed; top: 0; left: 0; bottom: 0;</code></li>
+      <li><strong>Width:</strong> 320px (max 85vw for very small screens)</li>
+      <li><strong>Flexbox column:</strong> <code>display: flex; flex-direction: column;</code></li>
+      <li><strong>Header:</strong> <code>flex-shrink: 0</code> (fixed height)</li>
+      <li><strong>Body:</strong> <code>flex: 1; overflow-y: auto;</code> (scrollable, takes remaining space)</li>
+      <li><strong>Footer:</strong> <code>flex-shrink: 0</code> (fixed height)</li>
+    </ul>
+
+    <h3>Animation</h3>
+    <ul>
+      <li><strong>Closed state:</strong> <code>transform: translateX(-100%)</code></li>
+      <li><strong>Open state:</strong> <code>transform: translateX(0)</code></li>
+      <li><strong>Transition:</strong> <code>0.35s cubic-bezier(0.4,0,0.2,1)</code></li>
+      <li><strong>Backdrop:</strong> Fades in/out with <code>opacity</code> transition</li>
+    </ul>
+
+    <h3>Accordion Hierarchy</h3>
+    <table>
+      <tr>
+        <th>Level</th>
+        <th>Background</th>
+        <th>Left Padding</th>
+        <th>Font Size</th>
+      </tr>
+      <tr>
+        <td>L1 (parent)</td>
+        <td>white</td>
+        <td>16px</td>
+        <td>13px</td>
+      </tr>
+      <tr>
+        <td>L1 submenu bg</td>
+        <td>grey-light</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>L2 (children)</td>
+        <td>grey-light</td>
+        <td>52px</td>
+        <td>12px</td>
+      </tr>
+      <tr>
+        <td>L2 submenu bg</td>
+        <td>white</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>L3 (grandchildren)</td>
+        <td>white</td>
+        <td>72px</td>
+        <td>12px</td>
+      </tr>
+    </table>
+
+    <h3>Footer Layout</h3>
+    <ul>
+      <li><strong>Contact section:</strong> Flex column, gap 8px, margin-bottom 16px</li>
+      <li><strong>Toggles section:</strong> Flex column, gap 12px</li>
+      <li><strong>Toggle rows:</strong> Flex row, space-between (label left, toggle right)</li>
+    </ul>
+
+    <!-- STEP 6 -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>ESC key:</strong> Closes the drawer (add <code>keydown</code> event listener)</li>
+      <li><strong>Tab navigation:</strong> All interactive elements (items, buttons, links) must be focusable</li>
+      <li><strong>Focus trap:</strong> When drawer is open, focus should stay within drawer (prevent tabbing to content behind)</li>
+      <li><strong>Focus management:</strong> When drawer opens, focus close button; when closes, return focus to hamburger</li>
+    </ul>
+
+    <h3>ARIA Attributes</h3>
+    <pre>&lt;!-- Hamburger button (in header) --&gt;
+&lt;button aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobileDrawer"&gt;
+
+&lt;!-- Drawer --&gt;
+&lt;div class="mobile-drawer"
+     id="mobileDrawer"
+     role="navigation"
+     aria-label="Mobile navigation"&gt;
+
+&lt;!-- Close button --&gt;
+&lt;button class="md-close"
+        aria-label="Sluit menu"&gt;
+
+&lt;!-- Accordion items --&gt;
+&lt;div class="md-item"
+     role="button"
+     tabindex="0"
+     aria-expanded="false"
+     aria-controls="diagSub"&gt;
+
+&lt;div class="md-sub" id="diagSub"&gt;</pre>
+
+    <h3>Screen Reader Support</h3>
+    <ul>
+      <li>Add <code>aria-label</code> to all icon-only buttons (close, toggle buttons)</li>
+      <li>Use <code>aria-expanded</code> to indicate accordion state (true/false)</li>
+      <li>Use <code>aria-controls</code> to connect accordion triggers to their submenus</li>
+      <li>Add <code>role="navigation"</code> to drawer container</li>
+      <li>Section labels should use <code>aria-label</code> or be real headings (<code>&lt;h2&gt;</code>)</li>
+    </ul>
+
+    <h3>Focus Styling</h3>
+    <pre>.md-item:focus,
+.md-close:focus,
+.price-toggle-mini button:focus,
+.lang-toggle-mini button:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}</pre>
+
+    <!-- STEP 7 -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Integration with Header</h3>
+    <p>The mobile drawer is triggered by a hamburger button in C14-MegaNavigation. Ensure proper integration:</p>
+    <pre>&lt;!-- In mobile header (&lt;768px) --&gt;
+&lt;button class="mobile-menu-btn"
+        onclick="openDrawer()"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobileDrawer"&gt;
+  &lt;i data-lucide="menu"&gt;&lt;/i&gt;
+&lt;/button&gt;</pre>
+
+    <h3>Body Scroll Lock</h3>
+    <p>When drawer is open, prevent scrolling of main page content:</p>
+    <pre>function openDrawer() {
+  document.getElementById('mobileDrawer').classList.add('open');
+  document.getElementById('drawerBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden'; // Lock scroll
+}
+
+function closeDrawer() {
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('drawerBackdrop').classList.remove('open');
+  document.body.style.overflow = ''; // Unlock scroll
+}</pre>
+
+    <h3>Accordion State Management</h3>
+    <p>Only one L1 section should be open at a time (optional, for cleaner UX):</p>
+    <pre>function toggleSub(item) {
+  const isOpen = item.classList.contains('open');
+  const sub = item.nextElementSibling;
+
+  // Optional: Close all other L1 accordions
+  if (!isOpen && item.parentElement.classList.contains('md-body')) {
+    const allL1Items = document.querySelectorAll('.md-body > .md-item');
+    allL1Items.forEach(i => {
+      i.classList.remove('open');
+      if (i.nextElementSibling) i.nextElementSibling.classList.remove('open');
+    });
+  }
+
+  // Toggle current item
+  item.classList.toggle('open');
+  if (sub) sub.classList.toggle('open');
+
+  // Update ARIA
+  const isNowOpen = item.classList.contains('open');
+  item.setAttribute('aria-expanded', isNowOpen);
+}</pre>
+
+    <h3>Persistence</h3>
+    <p>Save user preferences to localStorage:</p>
+    <pre>function switchPrice(btn, type) {
+  // Remove active from all buttons in this toggle group
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Save to localStorage
+  localStorage.setItem('priceType', type);
+
+  // Dispatch event for other components to listen
+  window.dispatchEvent(new CustomEvent('priceTypeChanged', { detail: { type } }));
+}
+
+function switchLang(btn, lang) {
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  localStorage.setItem('language', lang);
+  window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+}</pre>
+
+    <h3>Responsive Behavior</h3>
+    <pre>/* Hide drawer trigger on desktop */
+@media (min-width: 768px) {
+  .mobile-menu-btn {
+    display: none;
+  }
+
+  .mobile-drawer,
+  .mobile-drawer-backdrop {
+    display: none; /* Or just don't render on desktop */
+  }
+}</pre>
+
+    <h3>Performance</h3>
+    <ul>
+      <li><strong>Use CSS transforms:</strong> <code>translateX()</code> is GPU-accelerated, smoother than <code>left</code> animation</li>
+      <li><strong>Lazy-load submenus:</strong> For very deep navigation, only render visible submenus (use <code>display: none</code> instead of <code>v-if</code>)</li>
+      <li><strong>Debounce scroll:</strong> If adding scroll-based effects, debounce scroll events</li>
+    </ul>
+
+    <!-- STEP 8 -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variations</h3>
+    <p>This component can be adapted for different use cases:</p>
+
+    <h4>1. E-commerce Drawer</h4>
+    <ul>
+      <li>Add search bar at top of <code>.md-body</code> (integrate C14-SearchBar)</li>
+      <li>Add "Recent searches" section above categories</li>
+      <li>Add promo banner in footer (above contact)</li>
+    </ul>
+
+    <h4>2. SaaS/Dashboard Drawer</h4>
+    <ul>
+      <li>Remove product categories, use app navigation instead</li>
+      <li>Add user profile card in header (avatar + name + role)</li>
+      <li>Add notification count badges to menu items</li>
+      <li>Remove B2B/B2C toggle, add dark mode toggle instead</li>
+    </ul>
+
+    <h4>3. Content/Blog Drawer</h4>
+    <ul>
+      <li>Replace product categories with content categories (Articles, Guides, Videos)</li>
+      <li>Add social links in footer</li>
+      <li>Remove price toggle, keep only language switcher</li>
+    </ul>
+
+    <h4>4. Multi-brand Drawer</h4>
+    <ul>
+      <li>Add brand/site switcher at top of drawer (dropdown)</li>
+      <li>Each brand has different logo, colors, categories</li>
+      <li>Use data attributes to theme drawer: <code>data-brand="plastimed"</code></li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <table>
+      <tr>
+        <th>Component</th>
+        <th>Relationship</th>
+      </tr>
+      <tr>
+        <td>C14-MegaNavigation</td>
+        <td>Desktop equivalent — mobile drawer replaces mega nav on <768px</td>
+      </tr>
+      <tr>
+        <td>C14-SearchBar</td>
+        <td>Can be integrated at top of drawer body for mobile search</td>
+      </tr>
+      <tr>
+        <td>C14-PriceToggle</td>
+        <td>Full-size version of the mini toggle in drawer footer</td>
+      </tr>
+      <tr>
+        <td>C14-LanguageSwitcher</td>
+        <td>Full-size version of the mini toggle in drawer footer</td>
+      </tr>
+      <tr>
+        <td>C14-HeaderActions</td>
+        <td>Desktop action buttons (cart, user, etc.) — mobile shows cart in header, others in drawer</td>
+      </tr>
+      <tr>
+        <td>C2-MiniCart</td>
+        <td>Cart flyout — triggered by cart button in mobile header (not in drawer)</td>
+      </tr>
+    </table>
+
+    <h3>Common Patterns</h3>
+
+    <h4>Pattern 1: Drawer + Search Overlay</h4>
+    <p>Mobile header has both hamburger (navigation) and search icon:</p>
+    <ul>
+      <li>Hamburger opens <code>.mobile-drawer</code> from left</li>
+      <li>Search icon opens <code>.is-overlay</code> (C1) full-screen search</li>
+      <li>Both have separate backdrops, same z-index priority</li>
+    </ul>
+
+    <h4>Pattern 2: Drawer with Cart Badge</h4>
+    <p>Show cart count in drawer footer (not just in header):</p>
+    <pre>&lt;div class="md-footer"&gt;
+  &lt;a href="/cart" class="md-cart-link"&gt;
+    &lt;i data-lucide="shopping-cart"&gt;&lt;/i&gt;
+    &lt;span&gt;Winkelwagen&lt;/span&gt;
+    &lt;span class="cart-count"&gt;3&lt;/span&gt;
+  &lt;/a&gt;
+  &lt;!-- Contact info below --&gt;
+&lt;/div&gt;</pre>
+
+    <h4>Pattern 3: Nested Mega Drawer</h4>
+    <p>For very complex navigation, use a "drill-down" pattern instead of accordions:</p>
+    <ul>
+      <li>L1 item click slides in a new full-screen panel (L2 items)</li>
+      <li>Add "Back" button at top of L2 panel</li>
+      <li>Breadcrumb trail shows: Home > Diagnostiek > Bloeddrukmeters</li>
+      <li>More mobile-friendly for deep hierarchies (avoids nested scrolling)</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Implementation complete!</strong> This component is 100% standalone with embedded CSS, JavaScript, and complete documentation. Copy this file to your project and integrate with your navigation system.</p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // === Drawer Functions ===
+    function openDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('drawerBackdrop');
+
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Focus close button for accessibility
+      setTimeout(() => {
+        drawer.querySelector('.md-close').focus();
+      }, 350);
+    }
+
+    function closeDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('drawerBackdrop');
+
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // === Accordion Toggle ===
+    function toggleSub(item) {
+      const isOpen = item.classList.contains('open');
+      const sub = item.nextElementSibling;
+
+      // Optional: Close all other L1 accordions (only if this is an L1 item)
+      if (!isOpen && item.parentElement.classList.contains('md-body')) {
+        const allL1Items = document.querySelectorAll('.md-body > .md-item');
+        allL1Items.forEach(i => {
+          if (i !== item) {
+            i.classList.remove('open');
+            if (i.nextElementSibling && i.nextElementSibling.classList.contains('md-sub')) {
+              i.nextElementSibling.classList.remove('open');
+            }
+          }
+        });
+      }
+
+      // Toggle current item
+      item.classList.toggle('open');
+      if (sub && sub.classList.contains('md-sub')) {
+        sub.classList.toggle('open');
+      }
+
+      // Update ARIA
+      const isNowOpen = item.classList.contains('open');
+      item.setAttribute('aria-expanded', isNowOpen);
+    }
+
+    // === Price Toggle ===
+    function switchPrice(btn, type) {
+      // Remove active from siblings
+      const siblings = btn.parentElement.querySelectorAll('button');
+      siblings.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Save to localStorage
+      localStorage.setItem('priceType', type);
+
+      // Dispatch custom event
+      window.dispatchEvent(new CustomEvent('priceTypeChanged', {
+        detail: { type }
+      }));
+
+      console.log('Price type switched to:', type);
+    }
+
+    // === Language Toggle ===
+    function switchLang(btn, lang) {
+      // Remove active from siblings
+      const siblings = btn.parentElement.querySelectorAll('button');
+      siblings.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Save to localStorage
+      localStorage.setItem('language', lang);
+
+      // Dispatch custom event
+      window.dispatchEvent(new CustomEvent('languageChanged', {
+        detail: { lang }
+      }));
+
+      console.log('Language switched to:', lang);
+    }
+
+    // === ESC Key to Close ===
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const drawer = document.getElementById('mobileDrawer');
+        if (drawer.classList.contains('open')) {
+          closeDrawer();
+        }
+      }
+    });
+
+    // === Load saved preferences ===
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load price type
+      const savedPriceType = localStorage.getItem('priceType') || 'b2b';
+      const priceToggle = document.querySelector('.price-toggle-mini');
+      if (priceToggle) {
+        const buttons = priceToggle.querySelectorAll('button');
+        buttons.forEach(btn => {
+          const type = btn.textContent.toLowerCase();
+          if (type === savedPriceType) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+
+      // Load language
+      const savedLang = localStorage.getItem('language') || 'nl';
+      const langToggle = document.querySelector('.lang-toggle-mini');
+      if (langToggle) {
+        const buttons = langToggle.querySelectorAll('button');
+        buttons.forEach(btn => {
+          const lang = btn.textContent.toLowerCase();
+          if (lang === savedLang) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14 - Branches Dropdown | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --blue-light: #E3F2FD;
+      --coral-light: #FFF0F0;
+      --amber-light: #FFF8E1;
+      --green-light: #E8F5E9;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Branches Dropdown */
+    .branch-dropdown {
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      border-top: 2px solid var(--teal);
+      padding: 24px 28px;
+      min-width: 560px;
+      max-width: 640px;
+    }
+
+    /* Dropdown Title */
+    .branch-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .branch-title i {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+    }
+
+    /* Branch Grid */
+    .branch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* Branch Item Card */
+    .branch-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--navy);
+      transition: all 0.15s;
+      border: 1px solid var(--grey);
+    }
+
+    .branch-item:hover {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    /* Branch Icon */
+    .branch-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Branch Info */
+    .branch-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .branch-count {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .branch-dropdown {
+        min-width: 100%;
+        max-width: 100%;
+      }
+
+      .branch-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Demo Styles */
+    .demo-container {
+      margin-bottom: 40px;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    .demo-note {
+      background: var(--grey-light);
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-top: 16px;
+    }
+
+    .demo-note strong {
+      color: var(--navy);
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <div class="demo-label">Branches Dropdown (Industry Navigation)</div>
+    <div class="branch-dropdown">
+      <div class="branch-title">
+        <i data-lucide="building-2"></i>
+        Assortiment per branche
+      </div>
+      <div class="branch-grid">
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:var(--teal-glow)">🏥</div>
+          <div>
+            <div class="branch-name">Huisartsen</div>
+            <div class="branch-count">1.240 producten</div>
+          </div>
+        </a>
+
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:var(--blue-light)">🦷</div>
+          <div>
+            <div class="branch-name">Tandartsen</div>
+            <div class="branch-count">680 producten</div>
+          </div>
+        </a>
+
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:var(--coral-light)">👶</div>
+          <div>
+            <div class="branch-name">Verloskundigen</div>
+            <div class="branch-count">420 producten</div>
+          </div>
+        </a>
+
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:var(--amber-light)">💆</div>
+          <div>
+            <div class="branch-name">Fysiotherapeuten</div>
+            <div class="branch-count">340 producten</div>
+          </div>
+        </a>
+
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:var(--green-light)">🏠</div>
+          <div>
+            <div class="branch-name">Thuiszorg</div>
+            <div class="branch-count">560 producten</div>
+          </div>
+        </a>
+
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:rgba(156,39,176,0.08)">🐾</div>
+          <div>
+            <div class="branch-name">Dierenartsen</div>
+            <div class="branch-count">290 producten</div>
+          </div>
+        </a>
+
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:var(--blue-light)">💉</div>
+          <div>
+            <div class="branch-name">Dermatologie</div>
+            <div class="branch-count">180 producten</div>
+          </div>
+        </a>
+
+        <a href="#" class="branch-item">
+          <div class="branch-icon" style="background:var(--amber-light)">🏫</div>
+          <div>
+            <div class="branch-name">Scholen & BHV</div>
+            <div class="branch-count">210 producten</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="demo-note">
+      <strong>Note:</strong> In production, this dropdown appears on hover over "Branches" nav link. Teal border top, rounded bottom corners, 2-column grid.
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C14 - Branches Dropdown</p>
+    <p><strong>Parent:</strong> C14-MegaNavigation (Navbar)</p>
+    <p><strong>Category:</strong> Navigation / Dropdown</p>
+    <p><strong>Complexiteit:</strong> Low (grid of cards)</p>
+
+    <h3>Purpose:</h3>
+    <p>Industry-specific navigation dropdown showing product categories organized by professional branches (e.g., doctors, dentists, physiotherapists).</p>
+
+    <h3>Structure:</h3>
+    <ul>
+      <li><strong>Title:</strong> "Assortiment per branche" with building icon</li>
+      <li><strong>2-Column Grid:</strong> Branch cards in responsive grid</li>
+      <li><strong>Branch Cards:</strong> Icon (emoji), name, product count</li>
+    </ul>
+
+    <h3>Visual Features:</h3>
+    <ul>
+      <li>White background with teal top border (2px)</li>
+      <li>Rounded bottom corners (16px)</li>
+      <li>Shadow elevation (--shadow-lg)</li>
+      <li>Colored icon backgrounds (teal, blue, coral, amber, green)</li>
+      <li>Hover effect (teal border + teal-glow background)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Multi-industry B2B platforms (medical, construction, horeca)</li>
+      <li>Webshops serving multiple professional verticals</li>
+      <li>Sites with industry-specific product catalogs</li>
+      <li>Platforms where users identify by profession/industry</li>
+    </ul>
+
+    <h3>Common Industries/Branches:</h3>
+    <ul>
+      <li><strong>Medical:</strong> Huisartsen, Tandartsen, Fysiotherapeuten, Verloskundigen</li>
+      <li><strong>Construction:</strong> Electricians, Plumbers, Contractors, Architects</li>
+      <li><strong>Horeca:</strong> Restaurants, Cafes, Hotels, Catering</li>
+      <li><strong>Beauty:</strong> Salons, Spas, Barbershops, Nail studios</li>
+      <li><strong>Automotive:</strong> Garages, Dealerships, Body shops, Detailing</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Single-industry sites (no need for branch navigation)</li>
+      <li>B2C-only platforms (consumers don't identify by profession)</li>
+      <li>Sites with <4 branches (not worth a dropdown)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Dropdown Container */
+background: white
+border-radius: 16px
+box-shadow: var(--shadow-lg)    /* 0 16px 48px rgba(10,22,40,0.12) */
+border-top: 2px solid var(--teal)
+padding: 24px 28px
+min-width: 560px
+max-width: 640px
+
+/* Title */
+font-family: 'Plus Jakarta Sans'
+font-size: 13px
+font-weight: 800
+color: var(--navy)
+margin-bottom: 14px
+gap: 8px                        /* Between icon and text */
+
+/* Title Icon */
+width/height: 16px
+color: var(--teal)
+
+/* Grid */
+display: grid
+grid-template-columns: 1fr 1fr  /* 2 columns */
+gap: 8px
+
+/* Branch Card */
+padding: 12px 16px
+border-radius: 10px
+border: 1px solid var(--grey)
+gap: 12px                       /* Between icon and info */
+
+/* Branch Card Hover */
+border-color: var(--teal)
+background: var(--teal-glow)    /* rgba(0,137,123,0.12) */
+
+/* Branch Icon */
+width/height: 40px
+border-radius: 10px
+font-size: 20px                 /* Emoji size */
+
+/* Branch Icon Backgrounds (Varies) */
+--teal-glow: rgba(0,137,123,0.12)
+--blue-light: #E3F2FD
+--coral-light: #FFF0F0
+--amber-light: #FFF8E1
+--green-light: #E8F5E9
+
+/* Branch Name */
+font-size: 14px
+font-weight: 700
+color: var(--navy)
+
+/* Branch Count */
+font-size: 12px
+color: var(--grey-mid)          /* #94A3B8 */
+
+/* Responsive */
+@media (max-width: 640px):
+  grid-template-columns: 1fr    /* Single column */</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  title: 'Assortiment per branche',
+  icon: 'building-2',
+  branches: [
+    {
+      id: 'huisartsen',
+      name: 'Huisartsen',
+      emoji: '🏥',
+      iconBg: 'var(--teal-glow)',
+      productCount: 1240,
+      url: '/branches/huisartsen'
+    },
+    {
+      id: 'tandartsen',
+      name: 'Tandartsen',
+      emoji: '🦷',
+      iconBg: 'var(--blue-light)',
+      productCount: 680,
+      url: '/branches/tandartsen'
+    },
+    // ... more branches
+  ]
+}</pre>
+
+    <h3>Dynamic Product Count:</h3>
+    <pre>// Fetch real-time product counts
+async function loadBranchCounts() {
+  const response = await fetch('/api/branches/counts');
+  const counts = await response.json();
+
+  Object.keys(counts).forEach(branchId => {
+    const countEl = document.querySelector(
+      `[data-branch="${branchId}"] .branch-count`
+    );
+    if (countEl) {
+      countEl.textContent = `${counts[branchId].toLocaleString()} producten`;
+    }
+  });
+}</pre>
+
+    <h3>Icon Background Assignment:</h3>
+    <pre>// Auto-assign icon backgrounds based on index
+const iconBgs = [
+  'var(--teal-glow)',
+  'var(--blue-light)',
+  'var(--coral-light)',
+  'var(--amber-light)',
+  'var(--green-light)',
+  'rgba(156,39,176,0.08)'  // purple
+];
+
+function getIconBg(index) {
+  return iconBgs[index % iconBgs.length];
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>Dropdown Positioning:</h3>
+    <pre>/* In navbar context */
+.nav-link {
+  position: relative;
+}
+
+.branch-dropdown {
+  position: absolute;
+  top: 100%;        /* Below nav link */
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: all 0.25s;
+  z-index: 185;     /* Above other content */
+}
+
+.nav-link:hover > .branch-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}</pre>
+
+    <h3>Grid Layout:</h3>
+    <pre>/* 2-column grid */
+.branch-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* Single column on mobile */
+@media (max-width: 640px) {
+  .branch-grid {
+    grid-template-columns: 1fr;
+  }
+}</pre>
+
+    <h3>Card Layout:</h3>
+    <pre>/* Branch card flexbox */
+.branch-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;        /* Icon to info spacing */
+}
+
+/* Icon fixed width, info flexible */
+.branch-icon {
+  flex-shrink: 0;   /* Don't shrink icon */
+  width: 40px;
+  height: 40px;
+}
+
+.branch-info {
+  flex: 1;          /* Take remaining space */
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>Tab:</strong> Navigate to "Branches" nav link</li>
+      <li><strong>Enter/Space:</strong> Open dropdown</li>
+      <li><strong>Tab:</strong> Navigate through branch cards</li>
+      <li><strong>Escape:</strong> Close dropdown</li>
+      <li><strong>Arrow Down/Up:</strong> Navigate cards (optional enhancement)</li>
+    </ul>
+
+    <h3>ARIA Attributes:</h3>
+    <pre>&lt;div class="nav-link" aria-haspopup="true" aria-expanded="false"&gt;
+  &lt;i data-lucide="building-2" aria-hidden="true"&gt;&lt;/i&gt;
+  Branches
+  &lt;i data-lucide="chevron-down" class="chev" aria-hidden="true"&gt;&lt;/i&gt;
+
+  &lt;div class="branch-dropdown" role="menu" aria-label="Branches navigation"&gt;
+    &lt;div class="branch-title"&gt;
+      &lt;i data-lucide="building-2" aria-hidden="true"&gt;&lt;/i&gt;
+      Assortiment per branche
+    &lt;/div&gt;
+
+    &lt;div class="branch-grid"&gt;
+      &lt;a href="/branches/huisartsen" class="branch-item" role="menuitem"&gt;
+        &lt;div class="branch-icon" aria-hidden="true"&gt;🏥&lt;/div&gt;
+        &lt;div&gt;
+          &lt;div class="branch-name"&gt;Huisartsen&lt;/div&gt;
+          &lt;div class="branch-count"&gt;1.240 producten&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Focus Management:</h3>
+    <ul>
+      <li>Visible focus ring on branch cards</li>
+      <li>Focus returns to trigger link when dropdown closes</li>
+      <li>Trap focus within dropdown when open (optional)</li>
+    </ul>
+
+    <h3>Screen Reader Support:</h3>
+    <ul>
+      <li>Dropdown has <code>role="menu"</code></li>
+      <li>Cards have <code>role="menuitem"</code></li>
+      <li>Icons marked <code>aria-hidden="true"</code></li>
+      <li>Product counts announced as part of link text</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>Hover/Click Toggle:</h3>
+    <pre>// Toggle dropdown on click (mobile-friendly)
+const navLink = document.querySelector('.nav-link[aria-haspopup="true"]');
+const dropdown = navLink.querySelector('.branch-dropdown');
+
+navLink.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  const isOpen = navLink.getAttribute('aria-expanded') === 'true';
+
+  if (isOpen) {
+    navLink.setAttribute('aria-expanded', 'false');
+    dropdown.style.opacity = '0';
+    dropdown.style.visibility = 'hidden';
+  } else {
+    navLink.setAttribute('aria-expanded', 'true');
+    dropdown.style.opacity = '1';
+    dropdown.style.visibility = 'visible';
+  }
+});
+
+// Close on outside click
+document.addEventListener('click', (e) => {
+  if (!navLink.contains(e.target)) {
+    navLink.setAttribute('aria-expanded', 'false');
+    dropdown.style.opacity = '0';
+    dropdown.style.visibility = 'hidden';
+  }
+});</pre>
+
+    <h3>Analytics Tracking:</h3>
+    <pre>// Track branch clicks
+document.querySelectorAll('.branch-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    const branchName = item.querySelector('.branch-name').textContent;
+
+    trackEvent('branch_click', {
+      branch: branchName,
+      location: 'navbar_dropdown'
+    });
+  });
+});</pre>
+
+    <h3>Performance:</h3>
+    <ul>
+      <li>Lazy-load product counts on dropdown open</li>
+      <li>Cache branch data in localStorage (24h TTL)</li>
+      <li>Use emoji for icons (no image requests)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Layout Variations:</h3>
+    <ul>
+      <li><strong>2-Column Grid:</strong> Default (560-640px width)</li>
+      <li><strong>3-Column Grid:</strong> Wider dropdown (800px+, 12+ branches)</li>
+      <li><strong>Single Column:</strong> Narrow dropdown (mobile, <640px)</li>
+      <li><strong>With Images:</strong> Replace emoji with real branch images</li>
+    </ul>
+
+    <h3>Alternative Patterns:</h3>
+    <pre>// Mega dropdown with categories
+{
+  title: 'Shop by Industry',
+  categories: [
+    {
+      name: 'Healthcare',
+      branches: ['Huisartsen', 'Tandartsen', ...]
+    },
+    {
+      name: 'Wellness',
+      branches: ['Fysiotherapeuten', 'Thuiszorg', ...]
+    }
+  ]
+}</pre>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C14-MegaNavigation:</strong> Parent component (navbar)</li>
+      <li><strong>C14-FlyoutMenu:</strong> Similar dropdown pattern (3-level nav)</li>
+      <li><strong>CategoryGrid:</strong> Similar card grid (product categories)</li>
+    </ul>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// Branches collection
+{
+  slug: 'branches',
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'emoji',
+      type: 'text',
+      admin: {
+        description: 'Single emoji for icon (e.g. 🏥)'
+      }
+    },
+    {
+      name: 'iconBg',
+      type: 'select',
+      options: [
+        { label: 'Teal', value: 'var(--teal-glow)' },
+        { label: 'Blue', value: 'var(--blue-light)' },
+        { label: 'Coral', value: 'var(--coral-light)' },
+        { label: 'Amber', value: 'var(--amber-light)' },
+        { label: 'Green', value: 'var(--green-light)' }
+      ]
+    },
+    {
+      name: 'productCount',
+      type: 'number',
+      admin: {
+        description: 'Auto-calculated from products relationship'
+      }
+    },
+    {
+      name: 'showInDropdown',
+      type: 'checkbox',
+      defaultValue: true
+    },
+    {
+      name: 'order',
+      type: 'number',
+      admin: {
+        description: 'Display order in dropdown'
+      }
+    }
+  ]
+}</pre>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Demo: Log branch clicks
+    document.querySelectorAll('.branch-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const name = item.querySelector('.branch-name').textContent;
+        const count = item.querySelector('.branch-count').textContent;
+        console.log('Clicked branch:', name, '-', count);
+      });
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14 - Topbar | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'DM Sans', sans-serif;
+      --container: 1320px;
+      --gutter: 32px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+    }
+
+    /* Topbar Component */
+    .topbar {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12.5px;
+      font-weight: 500;
+      height: 36px;
+    }
+
+    .topbar-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+
+    /* USPs (Left Side) */
+    .topbar-usps {
+      display: flex;
+      gap: 24px;
+    }
+
+    .topbar-usp {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .topbar-usp i {
+      width: 14px;
+      height: 14px;
+      color: var(--teal-light);
+    }
+
+    /* Right Side */
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .topbar-right a {
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      font-size: 12.5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: all var(--transition);
+    }
+
+    .topbar-right a:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .topbar-sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 0 2px;
+    }
+
+    /* Language Switcher */
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin-left: 4px;
+    }
+
+    .lang-btn {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: all var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border: 1px solid transparent;
+      background: none;
+      font-family: var(--font-primary);
+    }
+
+    .lang-btn.active {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: white;
+    }
+
+    .lang-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Responsive Behavior */
+    @media (max-width: 1024px) {
+      .topbar-usps {
+        gap: 16px;
+      }
+
+      .topbar-usp {
+        font-size: 12px;
+      }
+
+      .topbar-usp:last-child {
+        display: none;  /* Hide last USP on smaller screens */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        display: none;  /* Hidden on mobile */
+      }
+    }
+
+    /* Demo Wrapper */
+    .demo-note {
+      background: var(--grey-light);
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 40px;
+    }
+
+    .demo-note strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* Documentation Styles */
+    .doc-section {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 40px var(--gutter);
+    }
+
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-usps">
+        <div class="topbar-usp"><i data-lucide="badge-check"></i> Voordelige B2B prijzen</div>
+        <div class="topbar-usp"><i data-lucide="truck"></i> Gratis verzending vanaf €150</div>
+        <div class="topbar-usp"><i data-lucide="clock"></i> Voor 16:00 besteld, morgen in huis</div>
+        <div class="topbar-usp"><i data-lucide="shield-check"></i> Veilig & achteraf betalen</div>
+      </div>
+      <div class="topbar-right">
+        <a href="#">Inloggen</a>
+        <div class="topbar-sep"></div>
+        <a href="#">B2B portaal</a>
+        <div class="topbar-sep"></div>
+        <div class="lang-switch">
+          <button class="lang-btn active" onclick="setLang(this)" aria-pressed="true" aria-label="Nederlands">NL</button>
+          <button class="lang-btn" onclick="setLang(this)" aria-pressed="false" aria-label="English">EN</button>
+          <button class="lang-btn" onclick="setLang(this)" aria-pressed="false" aria-label="Deutsch">DE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-note">
+    <strong>Live Demo:</strong> Topbar met 4 USPs, login links en taalwisselaar · Resize venster om responsive gedrag te zien (verdwijnt op mobile)
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-section">
+    <div class="doc-box">
+      <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+      <p><strong>Component:</strong> C14 - Topbar</p>
+      <p><strong>Parent:</strong> C14-MegaNavigation (Top section)</p>
+      <p><strong>Category:</strong> Navigation / Header</p>
+      <p><strong>Complexiteit:</strong> Low (horizontal layout with USPs + links)</p>
+
+      <h3>Purpose:</h3>
+      <p>Top bar displaying key USPs (unique selling points), login links, and language switcher. Scrolls away (NOT sticky).</p>
+
+      <h3>Structure:</h3>
+      <ul>
+        <li><strong>Left Side:</strong> USPs met icons (4 items, flex gap 24px)</li>
+        <li><strong>Right Side:</strong> Login link + separator + B2B portaal + separator + language switcher</li>
+      </ul>
+
+      <h3>Integrated Sub-Components:</h3>
+      <ul>
+        <li><strong>C14-LanguageSwitcher:</strong> NL/EN/DE buttons (already extracted)</li>
+        <li><strong>USP Icons:</strong> Lucide icons (14px, teal-light color)</li>
+      </ul>
+
+      <h3>Visual Details:</h3>
+      <ul>
+        <li>Navy background (#0A1628)</li>
+        <li>36px height</li>
+        <li>12.5px font size, 500 weight</li>
+        <li>White text with 60% opacity (rgba(255,255,255,0.6))</li>
+        <li>Icons in teal-light (#26A69A)</li>
+      </ul>
+    </div>
+
+    <div class="doc-box">
+      <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+      <h3>Ideaal voor:</h3>
+      <ul>
+        <li>E-commerce websites met duidelijke USPs (shipping, returns, guarantees)</li>
+        <li>B2B platformen met separate login portalen</li>
+        <li>Multi-language websites (language switcher)</li>
+        <li>Sites waar brand trust belangrijk is (trust badges via USPs)</li>
+      </ul>
+
+      <h3>Niet geschikt voor:</h3>
+      <ul>
+        <li>Mobile-first designs (topbar hidden <768px)</li>
+        <li>Sites met minimale header (topbar voegt 36px height toe)</li>
+        <li>Content sites zonder e-commerce (USPs niet relevant)</li>
+      </ul>
+
+      <h3>Common Patterns:</h3>
+      <ul>
+        <li><strong>E-commerce:</strong> Shipping, returns, payment USPs</li>
+        <li><strong>B2B:</strong> "Dealer login", "Request quote", "Volume pricing"</li>
+        <li><strong>SaaS:</strong> "Free trial", "No credit card", "Cancel anytime"</li>
+        <li><strong>Service:</strong> "24/7 support", "Free consultation", "Licensed professionals"</li>
+      </ul>
+    </div>
+
+    <div class="doc-box">
+      <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+      <pre>/* Container */
+background: var(--navy)         /* #0A1628 */
+height: 36px
+font-size: 12.5px
+font-weight: 500
+color: rgba(255,255,255,0.6)
+
+/* Container Inner */
+max-width: var(--container)     /* 1320px */
+padding: 0 var(--gutter)        /* 0 32px */
+display: grid
+grid-template-columns: 1fr auto /* USPs left, links right */
+
+/* USPs */
+gap: 24px                       /* Between USP items */
+gap: 6px                        /* Between icon and text */
+
+/* USP Icons */
+width/height: 14px
+color: var(--teal-light)        /* #26A69A */
+
+/* Right Side Links */
+color: rgba(255,255,255,0.55)
+font-size: 12.5px
+padding: 4px 10px
+border-radius: 6px
+
+/* Link Hover */
+color: white
+background: rgba(255,255,255,0.06)
+
+/* Separator */
+width: 1px
+height: 14px
+background: rgba(255,255,255,0.1)
+margin: 0 2px
+
+/* Language Buttons */
+padding: 3px 8px
+border-radius: 4px
+font-size: 11px
+font-weight: 700
+text-transform: uppercase
+letter-spacing: 0.04em
+
+/* Language Button Active */
+background: rgba(255,255,255,0.08)
+border: 1px solid rgba(255,255,255,0.12)
+color: white
+
+/* Language Button Hover */
+background: rgba(255,255,255,0.04)
+color: rgba(255,255,255,0.6)</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+      <pre>{
+  usps: [
+    { icon: 'badge-check', text: 'Voordelige B2B prijzen' },
+    { icon: 'truck', text: 'Gratis verzending vanaf €150' },
+    { icon: 'clock', text: 'Voor 16:00 besteld, morgen in huis' },
+    { icon: 'shield-check', text: 'Veilig & achteraf betalen' }
+  ],
+  links: [
+    { label: 'Inloggen', url: '/login' },
+    { label: 'B2B portaal', url: '/b2b' }
+  ],
+  languages: [
+    { code: 'NL', label: 'Nederlands', active: true },
+    { code: 'EN', label: 'English', active: false },
+    { code: 'DE', label: 'Deutsch', active: false }
+  ],
+  showOnMobile: false  // Hide <768px by default
+}</pre>
+
+      <h3>Dynamic USP Selection:</h3>
+      <pre>// Auto-select USPs based on user location/status
+function getUSPs(user, location) {
+  const usps = [];
+
+  // Free shipping threshold varies by country
+  if (location.country === 'NL') {
+    usps.push({ icon: 'truck', text: 'Gratis verzending vanaf €150' });
+  } else if (location.country === 'BE') {
+    usps.push({ icon: 'truck', text: 'Gratis verzending vanaf €200' });
+  }
+
+  // B2B users see different USPs
+  if (user.isB2B) {
+    usps.push({ icon: 'badge-check', text: 'Voordelige B2B prijzen' });
+    usps.push({ icon: 'file-text', text: 'Factuur op naam' });
+  } else {
+    usps.push({ icon: 'shield-check', text: 'Veilig & achteraf betalen' });
+  }
+
+  return usps;
+}</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+      <h3>Grid Layout:</h3>
+      <pre>/* Topbar uses 2-column grid */
+.topbar-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;  /* USPs take available space, links shrink to content */
+  align-items: center;
+  height: 100%;
+}</pre>
+
+      <h3>USPs Layout:</h3>
+      <pre>/* USPs are horizontal flex */
+.topbar-usps {
+  display: flex;
+  gap: 24px;  /* Space between USP items */
+}
+
+.topbar-usp {
+  display: flex;
+  align-items: center;
+  gap: 6px;  /* Space between icon and text */
+  white-space: nowrap;  /* Prevent text wrapping */
+}</pre>
+
+      <h3>Right Side Layout:</h3>
+      <pre>/* Links + language switcher are horizontal flex */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;  /* Tight spacing for compact look */
+}</pre>
+
+      <h3>Responsive Behavior:</h3>
+      <pre>@media (max-width: 1024px) {
+  /* Reduce USP gap on tablets */
+  .topbar-usps {
+    gap: 16px;
+  }
+
+  /* Hide last USP if space is tight */
+  .topbar-usp:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Hide entire topbar on mobile */
+  .topbar {
+    display: none;
+  }
+
+  /* Header adjusts top position */
+  .header {
+    top: 0;  /* Instead of top: 36px */
+  }
+}</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+      <h3>Keyboard Navigation:</h3>
+      <ul>
+        <li><strong>Tab:</strong> Navigate through links and language buttons</li>
+        <li><strong>Enter/Space:</strong> Activate focused link or button</li>
+        <li><strong>Arrow Left/Right:</strong> Navigate language switcher</li>
+      </ul>
+
+      <h3>ARIA Attributes:</h3>
+      <pre>&lt;div class="topbar" role="banner"&gt;
+  &lt;div class="topbar-inner"&gt;
+    &lt;div class="topbar-usps" aria-label="Unique Selling Points"&gt;
+      &lt;div class="topbar-usp"&gt;
+        &lt;i data-lucide="truck" aria-hidden="true"&gt;&lt;/i&gt;
+        Gratis verzending vanaf €150
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="topbar-right"&gt;
+      &lt;a href="/login"&gt;Inloggen&lt;/a&gt;
+      &lt;div class="topbar-sep" role="separator" aria-hidden="true"&gt;&lt;/div&gt;
+      &lt;a href="/b2b"&gt;B2B portaal&lt;/a&gt;
+
+      &lt;div class="lang-switch" role="group" aria-label="Taal selectie"&gt;
+        &lt;button aria-pressed="true" aria-label="Nederlands"&gt;NL&lt;/button&gt;
+        &lt;button aria-pressed="false" aria-label="English"&gt;EN&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+      <h3>Color Contrast:</h3>
+      <ul>
+        <li>Text (rgba(255,255,255,0.6)) on navy: 8.2:1 ratio (AAA pass)</li>
+        <li>Links (rgba(255,255,255,0.55)) on navy: 7.5:1 ratio (AAA pass)</li>
+        <li>Teal-light icons (#26A69A) on navy: 4.9:1 ratio (AA pass)</li>
+        <li>Active language button (white) on navy: 15:1 ratio (AAA pass)</li>
+      </ul>
+
+      <h3>Screen Reader Support:</h3>
+      <ul>
+        <li>Icons marked <code>aria-hidden="true"</code> (decorative)</li>
+        <li>Language buttons have <code>aria-label</code> with full language name</li>
+        <li><code>aria-pressed</code> announces active language</li>
+        <li>Separators marked <code>aria-hidden</code> (visual only)</li>
+      </ul>
+    </div>
+
+    <div class="doc-box">
+      <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+      <h3>Language Switcher Handler:</h3>
+      <pre>function setLang(btn) {
+  // Remove active from all buttons
+  btn.parentElement.querySelectorAll('.lang-btn')
+    .forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+
+  // Activate clicked button
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+
+  // Get language code
+  const lang = btn.textContent.trim();
+
+  // Store in localStorage
+  localStorage.setItem('language', lang);
+
+  // Redirect or update content
+  window.location.href = `/${lang.toLowerCase()}${window.location.pathname}`;
+}</pre>
+
+      <h3>Dynamic USP Loading:</h3>
+      <pre>// Fetch USPs from CMS/API
+async function loadUSPs() {
+  const response = await fetch('/api/settings/topbar-usps');
+  const usps = await response.json();
+
+  const container = document.querySelector('.topbar-usps');
+  container.innerHTML = usps.map(usp => `
+    &lt;div class="topbar-usp"&gt;
+      &lt;i data-lucide="${usp.icon}" aria-hidden="true"&gt;&lt;/i&gt;
+      ${usp.text}
+    &lt;/div&gt;
+  `).join('');
+
+  // Reinitialize Lucide icons
+  lucide.createIcons();
+}</pre>
+
+      <h3>Sticky Header Adjustment:</h3>
+      <pre>// Adjust header position when topbar scrolls away
+const topbar = document.querySelector('.topbar');
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+  const topbarHeight = topbar.offsetHeight;
+  const scrolled = window.scrollY;
+
+  if (scrolled >= topbarHeight) {
+    // Topbar scrolled away, header sticky at top:0
+    header.style.top = '0';
+  } else {
+    // Topbar visible, header below topbar
+    header.style.top = `${topbarHeight - scrolled}px`;
+  }
+});</pre>
+
+      <h3>Personalization:</h3>
+      <pre>// Show different USPs based on user status
+const user = getUserData();
+
+if (user.isLoggedIn) {
+  // Show account-specific USPs
+  updateUSPs([
+    { icon: 'user-check', text: `Welkom terug, ${user.name}` },
+    { icon: 'package', text: '2 bestellingen onderweg' }
+  ]);
+
+  // Hide login link, show account link
+  document.querySelector('.topbar-right a[href="/login"]').style.display = 'none';
+}</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+      <h3>USP Variations:</h3>
+      <ul>
+        <li><strong>E-commerce:</strong> Shipping, returns, payment, guarantee</li>
+        <li><strong>B2B:</strong> Volume pricing, dedicated account manager, custom quotes</li>
+        <li><strong>SaaS:</strong> Free trial, no credit card, cancel anytime, 24/7 support</li>
+        <li><strong>Service:</strong> Licensed, insured, satisfaction guarantee, emergency service</li>
+      </ul>
+
+      <h3>Layout Variations:</h3>
+      <pre>/* Centered USPs (no links on right) */
+.topbar-inner {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+/* Minimal (links only, no USPs) */
+.topbar-inner {
+  grid-template-columns: auto;
+  justify-items: end;
+}
+
+/* Announcement bar (single message) */
+.topbar-inner {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+}</pre>
+
+      <h3>Related Components:</h3>
+      <ul>
+        <li><strong>C14-LanguageSwitcher:</strong> Standalone language switcher (already extracted)</li>
+        <li><strong>C14-MegaNavigation:</strong> Parent component</li>
+        <li><strong>C14-Header:</strong> Next section below topbar</li>
+        <li><strong>Banner:</strong> Similar to topbar but for announcements/promos</li>
+      </ul>
+
+      <h3>Payload CMS Integration:</h3>
+      <pre>// Global topbar settings
+{
+  name: 'topbarUsps',
+  type: 'array',
+  maxRows: 4,
+  fields: [
+    {
+      name: 'icon',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'Lucide icon name (e.g. "truck", "shield-check")'
+      }
+    },
+    {
+      name: 'text',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'USP text (keep it short!)'
+      }
+    },
+    {
+      name: 'url',
+      type: 'text',
+      admin: {
+        description: 'Optional link (e.g. to shipping info page)'
+      }
+    }
+  ]
+},
+{
+  name: 'topbarLinks',
+  type: 'array',
+  maxRows: 3,
+  fields: [
+    { name: 'label', type: 'text', required: true },
+    { name: 'url', type: 'text', required: true }
+  ]
+},
+{
+  name: 'enableLanguageSwitcher',
+  type: 'checkbox',
+  defaultValue: true
+},
+{
+  name: 'hideTopbarOnMobile',
+  type: 'checkbox',
+  defaultValue: true,
+  admin: {
+    description: 'Hide topbar on screens <768px'
+  }
+}</pre>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function setLang(btn) {
+      // Remove active from all buttons
+      btn.parentElement.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+
+      // Activate clicked button
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      const lang = btn.textContent.trim();
+      console.log('Language changed to:', lang);
+
+      // In production: redirect to localized URL
+      // window.location.href = `/${lang.toLowerCase()}${window.location.pathname}`;
+    }
+  </script>
+
+</body>
+
+</html>

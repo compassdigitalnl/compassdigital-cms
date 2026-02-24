@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14 - Header Actions | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --coral: #FF6B6B;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'DM Sans', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Header Actions Container */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Base Button */
+    .h-btn {
+      height: 42px;
+      border-radius: 10px;
+      border: 1.5px solid transparent;
+      background: var(--grey-light);
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      position: relative;
+      font-family: var(--font-primary);
+      text-decoration: none;
+    }
+
+    .h-btn i {
+      width: 19px;
+      height: 19px;
+    }
+
+    .h-btn:hover {
+      background: var(--teal-glow);
+      border-color: rgba(0, 137, 123, 0.15);
+      color: var(--teal);
+    }
+
+    /* Icon-Only Button (Square) */
+    .h-btn-icon {
+      width: 42px;
+    }
+
+    /* Cart Button (Primary CTA) */
+    .h-btn-cart {
+      width: auto;
+      padding: 0 16px 0 12px;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 13.5px;
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+
+    .h-btn-cart i {
+      color: white;
+    }
+
+    .h-btn-cart:hover {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    /* Cart Count Badge */
+    .cart-count {
+      background: var(--coral);
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+    }
+
+    /* Separator */
+    .actions-sep {
+      width: 1px;
+      height: 24px;
+      background: var(--grey);
+      margin: 0 4px;
+    }
+
+    /* Responsive - Hide desktop-only elements */
+    @media (max-width: 768px) {
+      .desktop-only {
+        display: none !important;
+      }
+    }
+
+    /* Demo Styles */
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      margin-bottom: 32px;
+    }
+
+    .demo-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <div class="demo-section">
+      <div class="demo-label">Desktop (Full)</div>
+      <div class="header-actions">
+        <button class="h-btn h-btn-icon desktop-only" title="Bestellijsten">
+          <i data-lucide="clipboard-list"></i>
+        </button>
+        <button class="h-btn h-btn-icon" title="Mijn account">
+          <i data-lucide="user"></i>
+        </button>
+        <div class="actions-sep desktop-only"></div>
+        <button class="h-btn h-btn-cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-count">3</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">Mobile (Compact - Resize Window <768px)</div>
+      <div class="header-actions">
+        <!-- Bestellijsten button hidden on mobile (desktop-only) -->
+        <button class="h-btn h-btn-icon" title="Mijn account">
+          <i data-lucide="user"></i>
+        </button>
+        <!-- Separator hidden on mobile -->
+        <button class="h-btn h-btn-cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-count">3</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">Variants: Different Icons</div>
+      <div class="header-actions">
+        <button class="h-btn h-btn-icon" title="Favorieten">
+          <i data-lucide="heart"></i>
+        </button>
+        <button class="h-btn h-btn-icon" title="Vergelijk">
+          <i data-lucide="git-compare"></i>
+        </button>
+        <button class="h-btn h-btn-icon" title="Notificaties">
+          <i data-lucide="bell"></i>
+          <span class="cart-count" style="position: absolute; top: -6px; right: -6px;">2</span>
+        </button>
+        <div class="actions-sep"></div>
+        <button class="h-btn h-btn-cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-count">12</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C14 - Header Actions</p>
+    <p><strong>Parent:</strong> C14-MegaNavigation (Header section)</p>
+    <p><strong>Category:</strong> Navigation / Actions</p>
+    <p><strong>Complexiteit:</strong> Low (button group with badges)</p>
+
+    <h3>Purpose:</h3>
+    <p>Action buttons in header right section: account access, cart, and optional utilities (bestellijsten, favorieten, etc.).</p>
+
+    <h3>Structure:</h3>
+    <ul>
+      <li><strong>Icon Buttons:</strong> 42x42px square buttons (bestellijsten, user, etc.)</li>
+      <li><strong>Separator:</strong> 1px vertical line (optional, desktop-only)</li>
+      <li><strong>Cart Button:</strong> Primary CTA with cart count badge (navy bg)</li>
+    </ul>
+
+    <h3>Elements:</h3>
+    <ul>
+      <li><strong>Bestellijsten:</strong> Clipboard-list icon (desktop-only)</li>
+      <li><strong>User Account:</strong> User icon (always visible)</li>
+      <li><strong>Separator:</strong> Visual divider (desktop-only)</li>
+      <li><strong>Shopping Cart:</strong> Cart icon + count badge (primary action)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>E-commerce websites (cart is core functionality)</li>
+      <li>B2B platforms (bestellijsten = order lists)</li>
+      <li>Sites requiring user authentication (account button)</li>
+      <li>Desktop-first layouts (full button set)</li>
+    </ul>
+
+    <h3>Common Action Buttons:</h3>
+    <ul>
+      <li><strong>E-commerce:</strong> Favorieten, Vergelijk, Cart, Account</li>
+      <li><strong>B2B:</strong> Bestellijsten, Offertes, Cart, Account</li>
+      <li><strong>SaaS:</strong> Notificaties, Help, Settings, Account</li>
+      <li><strong>Content:</strong> Saved Articles, Bookmarks, Profile</li>
+    </ul>
+
+    <h3>Responsive Behavior:</h3>
+    <ul>
+      <li><strong>Desktop (>768px):</strong> Full button set with separators</li>
+      <li><strong>Mobile (<768px):</strong> Essential buttons only (user + cart)</li>
+      <li>Optional buttons marked <code>desktop-only</code> hide on mobile</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Container */
+display: flex
+align-items: center
+gap: 6px
+
+/* Base Button */
+height: 42px
+border-radius: 10px
+border: 1.5px solid transparent
+background: var(--grey-light)    /* #F1F4F8 */
+color: var(--navy)               /* #0A1628 */
+
+/* Icon Size */
+width/height: 19px
+
+/* Button Hover */
+background: var(--teal-glow)     /* rgba(0,137,123,0.12) */
+border-color: rgba(0,137,123,0.15)
+color: var(--teal)               /* #00897B */
+
+/* Icon-Only Button (Square) */
+width: 42px                      /* Same as height = square */
+
+/* Cart Button (Primary) */
+width: auto
+padding: 0 16px 0 12px
+gap: 8px
+font-weight: 700
+font-size: 13.5px
+background: var(--navy)
+color: white
+
+/* Cart Button Hover */
+background: var(--teal)
+border-color: var(--teal)
+
+/* Cart Count Badge */
+background: var(--coral)         /* #FF6B6B */
+color: white
+font-size: 10px
+font-weight: 800
+min-width: 18px
+height: 18px
+border-radius: 100px             /* Pill shape */
+padding: 0 5px
+
+/* Separator */
+width: 1px
+height: 24px
+background: var(--grey)
+margin: 0 4px</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  buttons: [
+    {
+      icon: 'clipboard-list',
+      label: 'Bestellijsten',
+      url: '/account/bestellijsten',
+      desktopOnly: true
+    },
+    {
+      icon: 'user',
+      label: 'Mijn account',
+      url: '/account',
+      desktopOnly: false
+    }
+  ],
+  separator: true,  // Show separator before cart
+  cart: {
+    count: 3,
+    url: '/cart',
+    showCount: true
+  }
+}</pre>
+
+    <h3>Dynamic Cart Count:</h3>
+    <pre>// Update cart count dynamically
+function updateCartCount(count) {
+  const badge = document.querySelector('.cart-count');
+
+  if (count > 0) {
+    badge.textContent = count > 99 ? '99+' : count;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+
+  // Animate badge on count change
+  badge.style.transform = 'scale(1.2)';
+  setTimeout(() => {
+    badge.style.transform = 'scale(1)';
+  }, 200);
+}
+
+// Listen for cart updates
+document.addEventListener('cartupdate', (e) => {
+  updateCartCount(e.detail.count);
+});</pre>
+
+    <h3>Notification Badge (Generic):</h3>
+    <pre>// Add notification badge to any button
+&lt;button class="h-btn h-btn-icon" style="position: relative;"&gt;
+  &lt;i data-lucide="bell"&gt;&lt;/i&gt;
+  &lt;span class="cart-count" style="position: absolute; top: -6px; right: -6px;"&gt;
+    5
+  &lt;/span&gt;
+&lt;/button&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>Flexbox Layout:</h3>
+    <pre>/* Actions container */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;          /* Tight spacing between buttons */
+}
+
+/* Separator adds visual grouping */
+.actions-sep {
+  margin: 0 4px;     /* Extra space around separator */
+}</pre>
+
+    <h3>In Header Grid:</h3>
+    <pre>/* Header uses 3-column grid */
+.header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;  /* Logo, Search, Actions */
+}
+
+/* Actions justify to right */
+.header-actions {
+  justify-self: end;
+}</pre>
+
+    <h3>Responsive Rules:</h3>
+    <pre>@media (max-width: 768px) {
+  /* Hide desktop-only buttons */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Keep cart button always visible */
+  .h-btn-cart {
+    /* Essential on mobile */
+  }
+}</pre>
+
+    <h3>Z-Index for Dropdowns:</h3>
+    <pre>/* If buttons trigger dropdowns/menus */
+.h-btn-dropdown {
+  position: relative;
+  z-index: 100;  /* Above content, below modal */
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>Tab:</strong> Navigate through action buttons</li>
+      <li><strong>Enter/Space:</strong> Activate focused button</li>
+      <li>Logical tab order: left to right (bestellijsten → user → cart)</li>
+    </ul>
+
+    <h3>ARIA Attributes:</h3>
+    <pre>&lt;div class="header-actions" role="navigation" aria-label="Account and cart actions"&gt;
+  &lt;button class="h-btn h-btn-icon" aria-label="Bestellijsten"&gt;
+    &lt;i data-lucide="clipboard-list" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+
+  &lt;button class="h-btn h-btn-icon" aria-label="Mijn account"&gt;
+    &lt;i data-lucide="user" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+
+  &lt;div class="actions-sep" role="separator" aria-hidden="true"&gt;&lt;/div&gt;
+
+  &lt;button class="h-btn h-btn-cart" aria-label="Winkelwagen (3 items)"&gt;
+    &lt;i data-lucide="shopping-cart" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;span class="cart-count" aria-hidden="true"&gt;3&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Focus Management:</h3>
+    <ul>
+      <li>Visible focus ring via <code>:focus-visible</code></li>
+      <li>Hover state distinct from focus state</li>
+      <li>Badge count announced in button <code>aria-label</code></li>
+    </ul>
+
+    <h3>Screen Reader Support:</h3>
+    <ul>
+      <li>Icons marked <code>aria-hidden="true"</code></li>
+      <li>Buttons have descriptive <code>aria-label</code></li>
+      <li>Cart count included in aria-label: "Winkelwagen (3 items)"</li>
+      <li>Cart count changes announced via live region (optional)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>Cart Count Animation:</h3>
+    <pre>// Animate cart count on add-to-cart
+function animateCartAdd(newCount) {
+  const cartBtn = document.querySelector('.h-btn-cart');
+  const badge = cartBtn.querySelector('.cart-count');
+
+  // Update count
+  badge.textContent = newCount;
+
+  // Pulse animation
+  cartBtn.style.transform = 'scale(1.1)';
+  badge.style.transform = 'scale(1.3)';
+
+  setTimeout(() => {
+    cartBtn.style.transform = 'scale(1)';
+    badge.style.transform = 'scale(1)';
+  }, 300);
+
+  // Update aria-label
+  cartBtn.setAttribute('aria-label', `Winkelwagen (${newCount} items)`);
+}</pre>
+
+    <h3>User Authentication State:</h3>
+    <pre>// Show different button based on login state
+const userBtn = document.querySelector('.h-btn[title="Mijn account"]');
+
+if (user.isLoggedIn) {
+  // Show user avatar or initials
+  userBtn.innerHTML = `
+    &lt;div class="user-avatar"&gt;${user.initials}&lt;/div&gt;
+  `;
+  userBtn.title = user.name;
+} else {
+  // Show login icon
+  userBtn.innerHTML = `&lt;i data-lucide="user"&gt;&lt;/i&gt;`;
+  userBtn.title = 'Inloggen';
+}</pre>
+
+    <h3>Dropdown Integration:</h3>
+    <pre>// Add dropdown to user button
+&lt;div class="h-btn-wrapper"&gt;
+  &lt;button class="h-btn h-btn-icon" onclick="toggleUserMenu()"&gt;
+    &lt;i data-lucide="user"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="user-dropdown"&gt;
+    &lt;a href="/account"&gt;Mijn account&lt;/a&gt;
+    &lt;a href="/orders"&gt;Bestellingen&lt;/a&gt;
+    &lt;a href="/logout"&gt;Uitloggen&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Performance:</h3>
+    <ul>
+      <li>Cart count fetched on page load, cached in localStorage</li>
+      <li>Use debounced API calls for cart updates</li>
+      <li>Lucide icons loaded once, reused across buttons</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Button Variations:</h3>
+    <ul>
+      <li><strong>Icon-Only (Square):</strong> 42x42px for clean minimal look</li>
+      <li><strong>With Label:</strong> Add text next to icon on desktop</li>
+      <li><strong>With Badge:</strong> Notification count (top-right corner)</li>
+      <li><strong>Primary (Cart):</strong> Navy background, white icon</li>
+    </ul>
+
+    <h3>Common Icon Sets:</h3>
+    <pre>// E-commerce
+clipboard-list  // Bestellijsten
+heart           // Favorieten
+git-compare     // Vergelijk
+user            // Account
+shopping-cart   // Cart
+
+// B2B
+file-text       // Offertes
+package         // Orders
+headphones      // Support
+
+// SaaS
+bell            // Notificaties
+help-circle     // Help
+settings        // Instellingen</pre>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C14-MegaNavigation:</strong> Parent header component</li>
+      <li><strong>C2-MiniCart:</strong> Flyout triggered by cart button</li>
+      <li><strong>UserDropdown:</strong> Menu triggered by user button</li>
+      <li><strong>C11-NotificationCenter:</strong> Panel triggered by bell button</li>
+    </ul>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// Global header settings
+{
+  name: 'headerActions',
+  type: 'group',
+  fields: [
+    {
+      name: 'showBestellijsten',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        description: 'Show order lists button (B2B only)'
+      }
+    },
+    {
+      name: 'cartCountSource',
+      type: 'select',
+      options: ['session', 'api', 'local'],
+      defaultValue: 'session'
+    }
+  ]
+}</pre>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Demo: Animate cart count on button click
+    document.querySelectorAll('.h-btn-cart').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const badge = this.querySelector('.cart-count');
+        const currentCount = parseInt(badge.textContent);
+        const newCount = currentCount + 1;
+
+        // Update count
+        badge.textContent = newCount;
+
+        // Animate
+        this.style.transform = 'scale(1.1)';
+        badge.style.transform = 'scale(1.3)';
+
+        setTimeout(() => {
+          this.style.transform = 'scale(1)';
+          badge.style.transform = 'scale(1)';
+        }, 300);
+
+        console.log('Added to cart, new count:', newCount);
+      });
+    });
+  </script>
+
+</body>
+
+</html>

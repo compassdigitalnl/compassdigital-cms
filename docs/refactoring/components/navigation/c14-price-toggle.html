@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14 - Price Toggle | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'DM Sans', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Price Toggle Component */
+    .price-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      background: var(--grey-light);
+      border-radius: 6px;
+      border: 1px solid var(--grey);
+      overflow: hidden;
+    }
+
+    .price-toggle-btn {
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      background: none;
+      color: var(--grey-mid);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .price-toggle-btn.active {
+      background: var(--teal);
+      color: white;
+    }
+
+    .price-toggle-btn:hover:not(.active) {
+      color: var(--navy);
+    }
+
+    .price-toggle-btn:focus {
+      outline: none;
+      box-shadow: inset 0 0 0 2px rgba(0,137,123,0.3);
+    }
+
+    /* Variant: Large (for product pages) */
+    .price-toggle.large {
+      border-radius: 8px;
+    }
+
+    .price-toggle.large .price-toggle-btn {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+
+    /* Variant: With Label */
+    .price-toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .price-toggle-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      white-space: nowrap;
+    }
+
+    /* Demo Styles */
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      margin-bottom: 32px;
+    }
+
+    .demo-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <div class="demo-section">
+      <div class="demo-label">Default Size</div>
+      <div class="price-toggle">
+        <button class="price-toggle-btn active" onclick="setPriceMode(this)">B2B</button>
+        <button class="price-toggle-btn" onclick="setPriceMode(this)">B2C</button>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">Large Variant</div>
+      <div class="price-toggle large">
+        <button class="price-toggle-btn active" onclick="setPriceMode(this)">B2B</button>
+        <button class="price-toggle-btn" onclick="setPriceMode(this)">B2C</button>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">With Label</div>
+      <div class="price-toggle-wrap">
+        <span class="price-toggle-label">Prijsweergave:</span>
+        <div class="price-toggle">
+          <button class="price-toggle-btn active" onclick="setPriceMode(this)">B2B</button>
+          <button class="price-toggle-btn" onclick="setPriceMode(this)">B2C</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C14 - Price Toggle</p>
+    <p><strong>Parent:</strong> C14-MegaNavigation (embedded in SearchBar) / Standalone</p>
+    <p><strong>Category:</strong> Navigation / Controls</p>
+    <p><strong>Complexiteit:</strong> Low (simple toggle)</p>
+
+    <h3>Purpose:</h3>
+    <p>Switch tussen B2B (zakelijk) en B2C (particulier) prijsweergave op e-commerce platforms met dual pricing.</p>
+
+    <h3>Variants:</h3>
+    <ul>
+      <li><strong>Default:</strong> 11px font, 5px 10px padding (in search bar)</li>
+      <li><strong>Large:</strong> 12px font, 8px 16px padding (on product pages, pricing pages)</li>
+      <li><strong>With Label:</strong> Optional "Prijsweergave:" label left of toggle</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>E-commerce platforms die zowel B2B als B2C klanten bedienen</li>
+      <li>Groothandels met consumentendivisie</li>
+      <li>Sites met volumekortingen (B2B) en enkele aankopen (B2C)</li>
+      <li>Medische/industriële leveranciers die ook particulieren bedienen</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Pure B2C webshops (geen dual pricing)</li>
+      <li>Pure B2B platformen (één prijstype)</li>
+      <li>Sites waar prijsverschil irrelevant is</li>
+    </ul>
+
+    <h3>Common Placements:</h3>
+    <ul>
+      <li><strong>Header Search Bar:</strong> Global price mode (meest gebruikelijk)</li>
+      <li><strong>Product Pages:</strong> Local toggle per product</li>
+      <li><strong>Pricing Pages:</strong> Switch tussen tarievenplannen</li>
+      <li><strong>Account Settings:</strong> Default prijsweergave instelling</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Container */
+background: var(--grey-light)   /* #F1F4F8 */
+border: 1px solid var(--grey)   /* #E8ECF1 */
+border-radius: 6px              /* default */
+border-radius: 8px              /* large variant */
+
+/* Button Default State */
+font-size: 11px                 /* default */
+font-size: 12px                 /* large */
+font-weight: 700
+padding: 5px 10px               /* default */
+padding: 8px 16px               /* large */
+color: var(--grey-mid)          /* #94A3B8 */
+letter-spacing: 0.02em
+
+/* Button Active State */
+background: var(--teal)         /* #00897B */
+color: white
+
+/* Button Hover State (not active) */
+color: var(--navy)              /* #0A1628 */
+
+/* Button Focus State */
+box-shadow: inset 0 0 0 2px rgba(0,137,123,0.3)
+
+/* Transition */
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  defaultMode: 'B2B',          // 'B2B' | 'B2C'
+  size: 'default',             // 'default' | 'large'
+  showLabel: false,            // Show "Prijsweergave:" label
+  labelText: 'Prijsweergave:', // Custom label text
+  onChange: (mode) => {
+    // Handle price mode change
+    // Update product prices globally
+    // Store in localStorage
+    // Trigger price recalculation
+  }
+}</pre>
+
+    <h3>State Management:</h3>
+    <pre>// Store selected mode in localStorage
+function setPriceMode(mode) {
+  localStorage.setItem('priceMode', mode);
+
+  // Dispatch custom event for other components
+  document.dispatchEvent(
+    new CustomEvent('pricemodechange', {
+      detail: { mode }
+    })
+  );
+
+  // Update all prices on page
+  updatePrices(mode);
+}
+
+// Listen for mode changes
+document.addEventListener('pricemodechange', (e) => {
+  const mode = e.detail.mode;
+  updateProductPrices(mode);
+});</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>Standalone Layout:</h3>
+    <pre>/* Toggle is inline-flex, can be placed anywhere */
+.price-toggle {
+  display: inline-flex;  /* Shrinks to content */
+}
+
+/* With label wrapper */
+.price-toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}</pre>
+
+    <h3>Embedded in Search Bar:</h3>
+    <pre>/* Absolute positioning in search field */
+.price-toggle {
+  position: absolute;
+  right: 48px;           /* Space for keyboard shortcut */
+  top: 50%;
+  transform: translateY(-50%);
+}</pre>
+
+    <h3>Responsive Behavior:</h3>
+    <pre>@media (max-width: 768px) {
+  /* Hide from search bar on mobile */
+  .search-wrap .price-toggle {
+    display: none;
+  }
+
+  /* Show standalone toggle below search */
+  .mobile-price-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+  }
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>Tab:</strong> Focus toggle buttons</li>
+      <li><strong>Arrow Left/Right:</strong> Navigate between B2B/B2C</li>
+      <li><strong>Enter/Space:</strong> Activate focused button</li>
+    </ul>
+
+    <h3>ARIA Attributes:</h3>
+    <pre>&lt;div class="price-toggle" role="group" aria-label="Prijsweergave selectie"&gt;
+  &lt;button
+    class="price-toggle-btn active"
+    aria-pressed="true"
+    aria-label="B2B prijzen weergeven"
+  &gt;
+    B2B
+  &lt;/button&gt;
+  &lt;button
+    class="price-toggle-btn"
+    aria-pressed="false"
+    aria-label="B2C prijzen weergeven"
+  &gt;
+    B2C
+  &lt;/button&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Focus Management:</h3>
+    <ul>
+      <li>Clear focus ring: <code>inset 0 0 0 2px rgba(0,137,123,0.3)</code></li>
+      <li>Focus ring inside button to prevent layout shift</li>
+      <li>Active state clearly visible (teal background)</li>
+    </ul>
+
+    <h3>Screen Reader Support:</h3>
+    <ul>
+      <li>Role <code>group</code> indicates related buttons</li>
+      <li><code>aria-pressed</code> announces toggle state</li>
+      <li><code>aria-label</code> on container and buttons for context</li>
+      <li>State changes announced automatically</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>Basic Click Handler:</h3>
+    <pre>function setPriceMode(btn) {
+  // Get container
+  const container = btn.parentElement;
+
+  // Remove active from all buttons
+  container.querySelectorAll('.price-toggle-btn')
+    .forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+
+  // Activate clicked button
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+
+  // Get mode
+  const mode = btn.textContent.trim();
+
+  // Store in localStorage
+  localStorage.setItem('priceMode', mode);
+
+  // Dispatch event
+  document.dispatchEvent(
+    new CustomEvent('pricemodechange', {
+      detail: { mode }
+    })
+  );
+}</pre>
+
+    <h3>Initialize on Page Load:</h3>
+    <pre>// Restore saved mode
+document.addEventListener('DOMContentLoaded', () => {
+  const savedMode = localStorage.getItem('priceMode') || 'B2B';
+  const button = document.querySelector(
+    `.price-toggle-btn:contains("${savedMode}")`
+  );
+
+  if (button && !button.classList.contains('active')) {
+    button.click();
+  }
+});</pre>
+
+    <h3>Keyboard Arrow Navigation:</h3>
+    <pre>document.querySelectorAll('.price-toggle').forEach(toggle => {
+  toggle.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      e.preventDefault();
+
+      const buttons = [...toggle.querySelectorAll('.price-toggle-btn')];
+      const currentIndex = buttons.findIndex(b => b === document.activeElement);
+
+      let nextIndex;
+      if (e.key === 'ArrowRight') {
+        nextIndex = (currentIndex + 1) % buttons.length;
+      } else {
+        nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+      }
+
+      buttons[nextIndex].focus();
+      buttons[nextIndex].click();
+    }
+  });
+});</pre>
+
+    <h3>Global Price Updates:</h3>
+    <pre>function updatePrices(mode) {
+  // Update all product prices on page
+  document.querySelectorAll('[data-price-b2b][data-price-b2c]').forEach(el => {
+    const b2bPrice = el.dataset.priceB2b;
+    const b2cPrice = el.dataset.priceB2c;
+
+    el.textContent = mode === 'B2B' ? b2bPrice : b2cPrice;
+  });
+
+  // Update staffel tables visibility
+  document.querySelectorAll('.staffel-table').forEach(table => {
+    table.style.display = mode === 'B2B' ? 'block' : 'none';
+  });
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Size Variations:</h3>
+    <ul>
+      <li><strong>Default (11px, 5px 10px):</strong> For header search bar</li>
+      <li><strong>Large (12px, 8px 16px):</strong> For product pages, pricing tables</li>
+      <li><strong>Custom:</strong> Override with CSS variables if needed</li>
+    </ul>
+
+    <h3>Alternative Labels:</h3>
+    <pre>// Multi-language support
+{ B2B: 'Zakelijk', B2C: 'Particulier' }
+{ B2B: 'Business', B2C: 'Consumer' }
+{ B2B: 'Wholesale', B2C: 'Retail' }
+{ B2B: 'Professioneel', B2C: 'Privé' }</pre>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C14-SearchBar:</strong> Contains embedded price toggle</li>
+      <li><strong>C4-StaffelCalculator:</strong> Shows B2B volume pricing</li>
+      <li><strong>ProductCard:</strong> Shows different prices based on mode</li>
+    </ul>
+
+    <h3>Integration Patterns:</h3>
+    <ul>
+      <li><strong>Global Mode:</strong> One toggle in header affects entire site</li>
+      <li><strong>Local Mode:</strong> Per-product toggle on product pages</li>
+      <li><strong>User Preference:</strong> Saved in account settings, auto-applied</li>
+    </ul>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// Global settings
+{
+  name: 'enableDualPricing',
+  type: 'checkbox',
+  defaultValue: true,
+  admin: {
+    description: 'Schakel B2B/B2C prijsweergave in'
+  }
+},
+{
+  name: 'defaultPriceMode',
+  type: 'select',
+  options: [
+    { label: 'B2B (Zakelijk)', value: 'B2B' },
+    { label: 'B2C (Particulier)', value: 'B2C' }
+  ],
+  defaultValue: 'B2B',
+  admin: {
+    condition: (data) => data.enableDualPricing
+  }
+}
+
+// Product collection
+{
+  name: 'priceB2B',
+  type: 'number',
+  required: true,
+  admin: { description: 'Zakelijke prijs (excl. BTW)' }
+},
+{
+  name: 'priceB2C',
+  type: 'number',
+  required: true,
+  admin: { description: 'Consumentenprijs (incl. BTW)' }
+}</pre>
+  </div>
+
+  <script>
+    function setPriceMode(btn) {
+      // Remove active from all buttons in same toggle
+      btn.parentElement.querySelectorAll('.price-toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+
+      // Activate clicked button
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      // Get mode and dispatch event
+      const mode = btn.textContent.trim();
+      console.log('Price mode changed to:', mode);
+
+      document.dispatchEvent(new CustomEvent('pricemodechange', {
+        detail: { mode }
+      }));
+    }
+
+    // Keyboard arrow navigation
+    document.querySelectorAll('.price-toggle').forEach(toggle => {
+      toggle.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.preventDefault();
+
+          const buttons = [...toggle.querySelectorAll('.price-toggle-btn')];
+          const currentIndex = buttons.findIndex(b => b === document.activeElement);
+
+          let nextIndex;
+          if (e.key === 'ArrowRight') {
+            nextIndex = (currentIndex + 1) % buttons.length;
+          } else {
+            nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+          }
+
+          buttons[nextIndex].focus();
+        }
+      });
+    });
+
+    // Listen for mode changes
+    document.addEventListener('pricemodechange', (e) => {
+      console.log('Global price mode update:', e.detail.mode);
+    });
+  </script>
+
+</body>
+
+</html>

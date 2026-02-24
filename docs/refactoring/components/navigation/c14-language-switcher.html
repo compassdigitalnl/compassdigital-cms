@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14 - Language Switcher | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --grey: #E8ECF1;
+      --grey-mid: #94A3B8;
+      --font-primary: 'Plus Jakarta Sans', sans-serif;
+      --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      --space-1: 4px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Component Styles */
+    .c14-lang-switcher {
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .c14-lang-switcher button {
+      padding: 3px 7px;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .c14-lang-switcher button.active {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+      color: white;
+    }
+
+    .c14-lang-switcher button:hover:not(.active) {
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Variant: With Flags */
+    .c14-lang-switcher.with-flags button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+    }
+
+    .c14-lang-switcher.with-flags .flag {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* Variant: Dropdown */
+    .c14-lang-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .c14-lang-dropdown-btn {
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .c14-lang-dropdown-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .c14-lang-dropdown-btn i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .c14-lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(10,22,40,0.12);
+      min-width: 160px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all var(--transition);
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .c14-lang-dropdown.open .c14-lang-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .c14-lang-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--navy);
+      text-decoration: none;
+      transition: background var(--transition);
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+    }
+
+    .c14-lang-dropdown-item:hover {
+      background: var(--grey-light);
+    }
+
+    .c14-lang-dropdown-item.active {
+      background: var(--teal-glow);
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    .c14-lang-dropdown-item .flag {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* Demo wrapper */
+    .demo-wrapper {
+      background: var(--navy);
+      padding: 20px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .demo-section {
+      margin-bottom: 24px;
+    }
+
+    .demo-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--grey-mid);
+      margin-bottom: 12px;
+    }
+
+    .doc-box {
+      margin-top: 40px;
+      padding: 24px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 12px;
+    }
+
+    .doc-box h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .doc-box h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 16px 0 12px;
+    }
+
+    .doc-box p, .doc-box li {
+      font-size: 13px;
+      color: var(--grey-mid);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .doc-box code {
+      background: #F1F4F8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255,255,255,0.9);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-section">
+    <div class="demo-label">Variant 1: Button Group (2-5 languages)</div>
+    <div class="demo-wrapper">
+      <div class="c14-lang-switcher">
+        <button class="active">NL</button>
+        <button>EN</button>
+        <button>DE</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <div class="demo-label">Variant 2: With Flags</div>
+    <div class="demo-wrapper">
+      <div class="c14-lang-switcher with-flags">
+        <button class="active"><span class="flag">🇳🇱</span> NL</button>
+        <button><span class="flag">🇬🇧</span> EN</button>
+        <button><span class="flag">🇩🇪</span> DE</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <div class="demo-label">Variant 3: Dropdown (6+ languages)</div>
+    <div class="demo-wrapper">
+      <div class="c14-lang-dropdown" id="langDropdown">
+        <button class="c14-lang-dropdown-btn" onclick="toggleLangDropdown()">
+          <span class="flag">🇳🇱</span>
+          <span>Nederlands</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="c14-lang-dropdown-menu">
+          <button class="c14-lang-dropdown-item active" onclick="selectLanguage(this, 'nl', '🇳🇱', 'Nederlands')">
+            <span class="flag">🇳🇱</span>
+            <span>Nederlands</span>
+          </button>
+          <button class="c14-lang-dropdown-item" onclick="selectLanguage(this, 'en', '🇬🇧', 'English')">
+            <span class="flag">🇬🇧</span>
+            <span>English</span>
+          </button>
+          <button class="c14-lang-dropdown-item" onclick="selectLanguage(this, 'de', '🇩🇪', 'Deutsch')">
+            <span class="flag">🇩🇪</span>
+            <span>Deutsch</span>
+          </button>
+          <button class="c14-lang-dropdown-item" onclick="selectLanguage(this, 'fr', '🇫🇷', 'Français')">
+            <span class="flag">🇫🇷</span>
+            <span>Français</span>
+          </button>
+          <button class="c14-lang-dropdown-item" onclick="selectLanguage(this, 'es', '🇪🇸', 'Español')">
+            <span class="flag">🇪🇸</span>
+            <span>Español</span>
+          </button>
+          <button class="c14-lang-dropdown-item" onclick="selectLanguage(this, 'it', '🇮🇹', 'Italiano')">
+            <span class="flag">🇮🇹</span>
+            <span>Italiano</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C14 - Language Switcher</p>
+    <p><strong>Category:</strong> Navigation / Header</p>
+    <p><strong>Gebruik:</strong> Language selection (typically used in topbar)</p>
+    <p><strong>Varianten:</strong> 3 variants</p>
+
+    <h3>Variants:</h3>
+    <ul>
+      <li><strong>Button Group:</strong> 2-5 languages, horizontal buttons (NL/EN/DE)</li>
+      <li><strong>With Flags:</strong> Same as button group but with flag emojis (🇳🇱 NL / 🇬🇧 EN)</li>
+      <li><strong>Dropdown:</strong> 6+ languages, saves space, full language names with flags</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>When to Use Each Variant:</h3>
+    <ul>
+      <li><strong>Button Group:</strong> 2-5 languages, clean minimal look, topbar placement</li>
+      <li><strong>With Flags:</strong> 2-5 languages, more visual/recognizable, helps visual learners</li>
+      <li><strong>Dropdown:</strong> 6+ languages, saves horizontal space, footer or mobile</li>
+    </ul>
+
+    <h3>General Use Cases:</h3>
+    <ul>
+      <li>Multi-language websites requiring language selection</li>
+      <li>B2B/B2C platforms serving international customers</li>
+      <li>Typically placed in topbar (top-right corner)</li>
+      <li>E-commerce sites with multiple country/region support</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Single-language sites (obviously!)</li>
+      <li>Mobile-only apps (topbar hidden on mobile, use dropdown in footer instead)</li>
+      <li>Sites where language is auto-detected and rarely changed</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <h3>Variant 1 & 2: Button Group (With/Without Flags)</h3>
+    <pre>/* Button Default */
+padding: 3px 7px           /* without flags */
+padding: 3px 10px          /* with flags (extra space) */
+font-size: 10px
+font-weight: 700
+background: rgba(255,255,255,0.02)
+border: 1px solid rgba(255,255,255,0.06)
+border-radius: 4px
+color: rgba(255,255,255,0.35)
+gap: 4px                   /* between flag and text */
+
+/* Button Active */
+background: rgba(255,255,255,0.08)
+border-color: rgba(255,255,255,0.12)
+color: white
+
+/* Button Hover (not active) */
+background: rgba(255,255,255,0.04)
+color: rgba(255,255,255,0.6)
+
+/* Flag Emoji */
+font-size: 14px</pre>
+
+    <h3>Variant 3: Dropdown</h3>
+    <pre>/* Dropdown Button */
+padding: 5px 12px
+font-size: 11px
+font-weight: 700
+background: rgba(255,255,255,0.06)
+border: 1px solid rgba(255,255,255,0.1)
+border-radius: 5px
+color: white
+gap: 6px
+
+/* Dropdown Menu */
+background: white
+border: 1px solid var(--grey)
+border-radius: 8px
+box-shadow: 0 8px 24px rgba(10,22,40,0.12)
+min-width: 160px
+z-index: 100
+
+/* Dropdown Item */
+padding: 10px 14px
+font-size: 13px
+color: var(--navy)
+gap: 8px                   /* between flag and text */
+
+/* Dropdown Item Hover */
+background: var(--grey-light)
+
+/* Dropdown Item Active */
+background: var(--teal-glow)
+color: var(--teal)
+font-weight: 600
+
+/* Flag in Dropdown */
+font-size: 18px</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  languages: [
+    { code: 'NL', label: 'Nederlands', active: true },
+    { code: 'EN', label: 'English', active: false },
+    { code: 'DE', label: 'Deutsch', active: false }
+  ],
+  onChange: (code) => { /* handle language change */ }
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <ul>
+      <li>Always displayed inline (flex container)</li>
+      <li>4px gap between buttons</li>
+      <li>Typically placed in <code>.c14-topbar-right</code></li>
+      <li>Should be preceded by login link + divider</li>
+      <li>Buttons have equal width (determined by content)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <ul>
+      <li>Buttons must have <code>aria-label</code> (e.g., "Switch to English")</li>
+      <li>Active button has <code>aria-current="true"</code></li>
+      <li>All buttons keyboard focusable (native button element)</li>
+      <li>Focus state should be visible (add focus ring if needed)</li>
+      <li>Language codes should use <code>lang</code> attribute</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <h3>State Management</h3>
+    <p>Active language is stored in cookies/localStorage and applied on page load</p>
+
+    <h3>JavaScript Behavior</h3>
+    <pre>// Click handler
+buttons.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const langCode = e.target.textContent;
+    setActiveLang(langCode);
+    window.location.href = `/${langCode.toLowerCase()}${window.location.pathname}`;
+  });
+});</pre>
+
+    <h3>Integration with Topbar</h3>
+    <p>Always placed inside <code>.c14-topbar-right</code> after login link and divider</p>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>3 Implemented Variants:</h3>
+    <ul>
+      <li><strong>Button Group:</strong> Clean minimal (NL / EN / DE)</li>
+      <li><strong>With Flags:</strong> Visual recognition (🇳🇱 NL / 🇬🇧 EN / 🇩🇪 DE)</li>
+      <li><strong>Dropdown:</strong> Space-efficient (6+ languages with full names)</li>
+    </ul>
+
+    <h3>Additional Customizations:</h3>
+    <ul>
+      <li><strong>SVG Flags:</strong> Replace emoji flags with SVG for pixel-perfect rendering</li>
+      <li><strong>Full Names on Desktop:</strong> "Nederlands" instead of "NL" on wide screens</li>
+      <li><strong>Auto-detect:</strong> Show user's browser language as default active</li>
+      <li><strong>Mobile Responsive:</strong> Switch to dropdown on mobile for button variants</li>
+    </ul>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C14-Topbar:</strong> Parent container for this component</li>
+      <li><strong>C14-PriceToggle:</strong> Similar button group pattern (B2B/B2C)</li>
+      <li><strong>C14-MegaNavigation:</strong> Full header with topbar integration</li>
+    </ul>
+
+    <h3>Flag Emoji Reference:</h3>
+    <pre>🇳🇱 NL - Netherlands
+🇬🇧 EN - United Kingdom / English
+🇩🇪 DE - Germany / Deutsch
+🇫🇷 FR - France / Français
+🇪🇸 ES - Spain / Español
+🇮🇹 IT - Italy / Italiano
+🇵🇹 PT - Portugal / Português
+🇵🇱 PL - Poland / Polski
+🇸🇪 SE - Sweden / Svenska
+🇩🇰 DK - Denmark / Dansk</pre>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    // Dropdown toggle
+    function toggleLangDropdown() {
+      const dropdown = document.getElementById('langDropdown');
+      dropdown.classList.toggle('open');
+    }
+
+    // Select language from dropdown
+    function selectLanguage(item, code, flag, name) {
+      // Update button
+      const btn = document.querySelector('.c14-lang-dropdown-btn');
+      btn.innerHTML = `
+        <span class="flag">${flag}</span>
+        <span>${name}</span>
+        <i data-lucide="chevron-down"></i>
+      `;
+      lucide.createIcons();
+
+      // Update active state
+      document.querySelectorAll('.c14-lang-dropdown-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+
+      // Close dropdown
+      document.getElementById('langDropdown').classList.remove('open');
+
+      // Store language
+      localStorage.setItem('language', code);
+
+      console.log('Language changed to:', code, name);
+
+      // In production: redirect to localized URL
+      // window.location.href = `/${code}${window.location.pathname}`;
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('langDropdown');
+      if (dropdown && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+      }
+    });
+
+    // Button group handler (for variants 1 & 2)
+    document.querySelectorAll('.c14-lang-switcher button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Remove active from siblings
+        this.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+
+        // Add active to clicked
+        this.classList.add('active');
+
+        const lang = this.textContent.trim();
+        console.log('Language changed to:', lang);
+
+        // In production: redirect
+        // window.location.href = `/${lang.toLowerCase()}${window.location.pathname}`;
+      });
+    });
+  </script>
+
+</body>
+</html>

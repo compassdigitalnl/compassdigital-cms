@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14 - Search Bar | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --radius: 12px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Search Bar Wrapper */
+    .search-wrap {
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    /* Search Field */
+    .search-field {
+      width: 100%;
+      height: 44px;
+      padding: 0 100px 0 48px;
+      border: 2px solid var(--grey);
+      border-radius: var(--radius);
+      font-family: var(--font-primary);
+      font-size: 14.5px;
+      color: var(--navy);
+      background: var(--grey-light);
+      transition: all var(--transition);
+      outline: none;
+    }
+
+    .search-field::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .search-field:focus {
+      border-color: var(--teal);
+      background: white;
+      box-shadow: 0 0 0 4px var(--teal-glow);
+    }
+
+    /* Search Icon (Left) */
+    .search-icon-left {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .search-icon-left i {
+      width: 18px;
+      height: 18px;
+      color: var(--grey-mid);
+      transition: color var(--transition);
+    }
+
+    .search-field:focus ~ .search-icon-left i {
+      color: var(--teal);
+    }
+
+    /* B2B/B2C Toggle */
+    .price-toggle {
+      position: absolute;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: var(--grey-light);
+      border-radius: 6px;
+      border: 1px solid var(--grey);
+      overflow: hidden;
+    }
+
+    .price-toggle-btn {
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      background: none;
+      color: var(--grey-mid);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .price-toggle-btn.active {
+      background: var(--teal);
+      color: white;
+    }
+
+    .price-toggle-btn:hover:not(.active) {
+      color: var(--navy);
+    }
+
+    /* Keyboard Shortcut */
+    .search-shortcut {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--grey-mid);
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 5px;
+      padding: 2px 7px;
+      pointer-events: none;
+    }
+
+    /* Demo Styles */
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+      margin-bottom: 40px;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <div class="demo-label">Live Demo - Search Bar</div>
+    <div class="search-wrap">
+      <input class="search-field" type="text" placeholder="Zoek op product, merk of artikelnummer…">
+      <div class="search-icon-left">
+        <i data-lucide="search"></i>
+      </div>
+      <div class="price-toggle">
+        <button class="price-toggle-btn active" onclick="setPriceMode(this)">B2B</button>
+        <button class="price-toggle-btn" onclick="setPriceMode(this)">B2C</button>
+      </div>
+      <div class="search-shortcut">⌘K</div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C14 - Search Bar</p>
+    <p><strong>Parent:</strong> C14-MegaNavigation (Header section)</p>
+    <p><strong>Category:</strong> Navigation / Search</p>
+    <p><strong>Complexiteit:</strong> Medium (3 integrated elements)</p>
+
+    <h3>Integrated Elements:</h3>
+    <ul>
+      <li><strong>Search Field:</strong> Text input met focus states</li>
+      <li><strong>Search Icon:</strong> Left-positioned icon (18px, reacts to focus)</li>
+      <li><strong>Price Toggle:</strong> B2B/B2C switch (embedded, right side)</li>
+      <li><strong>Keyboard Shortcut:</strong> ⌘K hint (right side, disabled state)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>E-commerce platforms met product search</li>
+      <li>B2B/B2C dual-pricing webshops</li>
+      <li>Sites met keyboard-first navigation (⌘K shortcut)</li>
+      <li>Desktop-first designs (mobile shows simplified version)</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Mobile-only designs (too wide, 600px max-width)</li>
+      <li>B2C-only sites (price toggle redundant)</li>
+      <li>Content sites without product search</li>
+    </ul>
+
+    <h3>Integration Points:</h3>
+    <ul>
+      <li><strong>C1-InstantSearch:</strong> Opens on input focus/⌘K</li>
+      <li><strong>Search API:</strong> Debounced autocomplete calls</li>
+      <li><strong>Local Storage:</strong> Recent searches persistence</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Colors */
+--grey: #E8ECF1          /* Border default */
+--grey-light: #F1F4F8    /* Background default */
+--grey-mid: #94A3B8      /* Placeholder, icon, shortcut */
+--navy: #0A1628          /* Text color */
+--teal: #00897B          /* Focus border, active toggle */
+--teal-glow: rgba(0,137,123,0.12)  /* Focus shadow */
+
+/* Dimensions */
+height: 44px
+max-width: 600px
+border-radius: 12px
+border: 2px solid
+
+/* Padding */
+padding: 0 100px 0 48px  /* Right space for toggle+shortcut, left for icon */
+
+/* Typography */
+font-size: 14.5px
+font-family: 'DM Sans'
+
+/* Focus State */
+border-color: var(--teal)
+background: white
+box-shadow: 0 0 0 4px var(--teal-glow)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  placeholder: 'Zoek op product, merk of artikelnummer…',
+  defaultPriceMode: 'B2B',  // 'B2B' | 'B2C'
+  showPriceToggle: true,
+  showKeyboardShortcut: true,
+  keyboardShortcut: '⌘K',    // '⌘K' (Mac) or 'Ctrl+K' (Windows)
+  onSearch: (query) => { /* Handle search */ },
+  onPriceModeChange: (mode) => { /* Handle B2B/B2C switch */ },
+  onFocus: () => { /* Open InstantSearch overlay */ }
+}</pre>
+
+    <h3>Event Handlers:</h3>
+    <pre>// Search input
+searchField.addEventListener('input', debounce((e) => {
+  const query = e.target.value;
+  if (query.length >= 2) {
+    fetchAutocomplete(query);
+  }
+}, 300));
+
+// Keyboard shortcut
+document.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    searchField.focus();
+  }
+});</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>Positioning in Header:</h3>
+    <pre>/* Header uses CSS Grid */
+.header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;  /* Logo, Search, Actions */
+  gap: 32px;
+}
+
+/* Search centers itself */
+.search-wrap {
+  justify-self: center;  /* Centers in grid column */
+  max-width: 600px;
+  width: 100%;
+}</pre>
+
+    <h3>Internal Layout (Absolute Positioning):</h3>
+    <ul>
+      <li><strong>Search Icon:</strong> <code>left: 16px</code>, centered vertically</li>
+      <li><strong>Price Toggle:</strong> <code>right: 48px</code>, centered vertically</li>
+      <li><strong>Keyboard Shortcut:</strong> <code>right: 12px</code>, centered vertically</li>
+    </ul>
+
+    <h3>Responsive Behavior:</h3>
+    <pre>@media (max-width: 768px) {
+  .search-field {
+    padding-right: 16px;  /* Remove space for toggle */
+  }
+  .price-toggle {
+    display: none;  /* Hide on mobile */
+  }
+  .search-shortcut {
+    display: none;  /* Hide on mobile */
+  }
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>⌘K / Ctrl+K:</strong> Focus search field from anywhere</li>
+      <li><strong>Tab:</strong> Navigate to search field</li>
+      <li><strong>Escape:</strong> Clear search and close InstantSearch overlay</li>
+      <li><strong>Arrow Down:</strong> Navigate autocomplete suggestions</li>
+    </ul>
+
+    <h3>ARIA Attributes:</h3>
+    <pre>&lt;div class="search-wrap" role="search"&gt;
+  &lt;input
+    type="text"
+    class="search-field"
+    placeholder="Zoek op product, merk of artikelnummer…"
+    aria-label="Product zoeken"
+    aria-describedby="search-shortcut"
+    autocomplete="off"
+    autocapitalize="off"
+    spellcheck="false"
+  &gt;
+  &lt;div class="search-shortcut" id="search-shortcut" aria-hidden="true"&gt;⌘K&lt;/div&gt;
+  &lt;div class="price-toggle" role="group" aria-label="Prijsweergave"&gt;
+    &lt;button aria-pressed="true"&gt;B2B&lt;/button&gt;
+    &lt;button aria-pressed="false"&gt;B2C&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Focus Management:</h3>
+    <ul>
+      <li>Focus ring: <code>box-shadow: 0 0 0 4px var(--teal-glow)</code></li>
+      <li>Icon color changes with focus state (grey → teal)</li>
+      <li>Clear visual feedback for all states</li>
+    </ul>
+
+    <h3>Screen Reader Support:</h3>
+    <ul>
+      <li>Search field has <code>aria-label</code></li>
+      <li>Price toggle buttons have <code>aria-pressed</code> state</li>
+      <li>Keyboard shortcut marked <code>aria-hidden="true"</code> (visual only)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>Price Toggle State Management:</h3>
+    <pre>function setPriceMode(btn) {
+  // Remove active from all buttons
+  btn.parentElement.querySelectorAll('.price-toggle-btn')
+    .forEach(b => b.classList.remove('active'));
+
+  // Add active to clicked button
+  btn.classList.add('active');
+
+  // Update aria-pressed
+  btn.parentElement.querySelectorAll('button')
+    .forEach(b => b.setAttribute('aria-pressed', 'false'));
+  btn.setAttribute('aria-pressed', 'true');
+
+  // Trigger price mode change event
+  const mode = btn.textContent;
+  document.dispatchEvent(new CustomEvent('pricemodechange', { detail: { mode } }));
+}</pre>
+
+    <h3>Keyboard Shortcut Detection:</h3>
+    <pre>// Detect OS and show correct shortcut
+const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+const shortcutText = isMac ? '⌘K' : 'Ctrl+K';
+document.querySelector('.search-shortcut').textContent = shortcutText;
+
+// Listen for keyboard shortcut
+document.addEventListener('keydown', (e) => {
+  const isShortcut = isMac
+    ? e.metaKey && e.key === 'k'
+    : e.ctrlKey && e.key === 'k';
+
+  if (isShortcut) {
+    e.preventDefault();
+    document.querySelector('.search-field').focus();
+  }
+});</pre>
+
+    <h3>InstantSearch Integration:</h3>
+    <pre>const searchField = document.querySelector('.search-field');
+
+// Open InstantSearch on focus
+searchField.addEventListener('focus', () => {
+  document.getElementById('instantSearchOverlay')?.classList.add('open');
+});
+
+// Debounced autocomplete
+let debounceTimer;
+searchField.addEventListener('input', (e) => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    if (e.target.value.length >= 2) {
+      fetchAutocomplete(e.target.value);
+    }
+  }, 300);
+});</pre>
+
+    <h3>Performance:</h3>
+    <ul>
+      <li>Debounce autocomplete (300ms) to reduce API calls</li>
+      <li>Use <code>autocomplete="off"</code> to prevent browser dropdown interference</li>
+      <li>Lazy-load search results (only fetch when needed)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Variations:</h3>
+    <ul>
+      <li><strong>Without Price Toggle:</strong> B2C-only sites, wider padding-right: 48px</li>
+      <li><strong>Without Keyboard Shortcut:</strong> Mobile-only version</li>
+      <li><strong>Compact:</strong> 38px height for smaller headers</li>
+      <li><strong>With Voice Search:</strong> Add microphone icon right of toggle</li>
+    </ul>
+
+    <h3>Sub-Components:</h3>
+    <ul>
+      <li><strong>C14-PriceToggle:</strong> Standalone B2B/B2C switch (can be extracted)</li>
+    </ul>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C1-InstantSearch:</strong> Overlay triggered by this search bar</li>
+      <li><strong>C14-MegaNavigation:</strong> Parent component (header)</li>
+    </ul>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// Global header settings
+{
+  name: 'searchPlaceholder',
+  type: 'text',
+  defaultValue: 'Zoek op product, merk of artikelnummer…',
+  admin: {
+    description: 'Placeholder tekst in zoekbalk'
+  }
+},
+{
+  name: 'showPriceToggle',
+  type: 'checkbox',
+  defaultValue: true,
+  admin: {
+    description: 'Toon B2B/B2C prijsweergave toggle'
+  }
+},
+{
+  name: 'defaultPriceMode',
+  type: 'select',
+  options: ['B2B', 'B2C'],
+  defaultValue: 'B2B',
+  admin: {
+    condition: (data) => data.showPriceToggle
+  }
+}</pre>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function setPriceMode(btn) {
+      btn.parentElement.querySelectorAll('.price-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // Keyboard shortcut demo
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        document.querySelector('.search-field').focus();
+      }
+    });
+  </script>
+
+</body>
+
+</html>
