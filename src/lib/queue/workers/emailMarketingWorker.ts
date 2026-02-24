@@ -16,6 +16,7 @@ import { ListmonkClient } from '@/lib/email/listmonk/client'
 import type { Payload } from 'payload'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { getUsageTracker } from '@/lib/email/billing/usage-tracker'
 
 // ═══════════════════════════════════════════════════════════
 // JOB TYPE DEFINITIONS
@@ -219,6 +220,7 @@ async function processStartCampaign(job: Job<StartCampaignJob>): Promise<void> {
 
   const payload = await getPayloadInstance()
   const listmonk = getListmonkClient()
+  const usageTracker = getUsageTracker()
 
   // Fetch campaign
   const campaign = await payload.findByID({
@@ -232,6 +234,31 @@ async function processStartCampaign(job: Job<StartCampaignJob>): Promise<void> {
 
   if (!campaign.listmonkCampaignId) {
     throw new Error(`Campaign ${campaignId} not synced to Listmonk`)
+  }
+
+  // ✅ RATE LIMITING CHECK
+  const usageCheck = await usageTracker.canSendEmail(String(tenantId))
+  if (!usageCheck.allowed) {
+    console.error(`[EmailWorker] Rate limit reached for tenant ${tenantId}: ${usageCheck.reason}`)
+
+    // Update campaign status
+    await payload.update({
+      collection: 'email-campaigns',
+      id: campaignId,
+      data: {
+        status: 'paused',
+        syncError: `Rate limit reached: ${usageCheck.reason}`,
+      },
+    })
+
+    throw new Error(`Rate limit reached: ${usageCheck.reason}`)
+  }
+
+  // Log usage warning if approaching limit
+  if (usageCheck.usage && usageCheck.usage.usagePercentage >= 80) {
+    console.warn(
+      `[EmailWorker] Tenant ${tenantId} at ${usageCheck.usage.usagePercentage}% of email quota (${usageCheck.usage.emailsSent}/${usageCheck.usage.includedEmails})`
+    )
   }
 
   try {

@@ -23,11 +23,13 @@ import { enterFlow } from '../flows/executor'
 export async function processEvent(eventPayload: EventPayload): Promise<{
   success: boolean
   triggeredRules: number
+  triggeredFlows: number
   queuedExecutions: number
   errors: string[]
 }> {
   const errors: string[] = []
   let triggeredRules = 0
+  let triggeredFlows = 0
   let queuedExecutions = 0
 
   try {
@@ -67,13 +69,48 @@ export async function processEvent(eventPayload: EventPayload): Promise<{
       }
     }
 
+    // Find and trigger matching flows
+    const flows = await findMatchingFlows(
+      payload,
+      eventPayload.eventType,
+      eventPayload.tenantId
+    )
+
+    console.log(`[Automation Engine] Found ${flows.length} potential flows`)
+
+    // Process each flow
+    for (const flow of flows) {
+      try {
+        // Only trigger for subscriber events that have a subscriberId
+        if (eventPayload.subscriberId) {
+          const result = await enterFlow(
+            flow.id,
+            eventPayload.subscriberId,
+            eventPayload,
+            eventPayload.tenantId
+          )
+
+          if (result.success) {
+            triggeredFlows++
+            console.log(`[Automation Engine] Flow "${flow.name}" triggered for subscriber ${eventPayload.subscriberId}`)
+          } else if (result.error && !result.error.includes('already in flow') && !result.error.includes('conditions not met')) {
+            errors.push(`Flow "${flow.name}": ${result.error}`)
+          }
+        }
+      } catch (error: any) {
+        console.error(`[Automation Engine] Error triggering flow "${flow.name}":`, error)
+        errors.push(`Flow "${flow.name}": ${error.message}`)
+      }
+    }
+
     console.log(
-      `[Automation Engine] Completed: ${triggeredRules} triggered, ${queuedExecutions} queued`
+      `[Automation Engine] Completed: ${triggeredRules} rules triggered, ${triggeredFlows} flows triggered, ${queuedExecutions} queued`
     )
 
     return {
       success: errors.length === 0,
       triggeredRules,
+      triggeredFlows,
       queuedExecutions,
       errors,
     }
@@ -82,6 +119,7 @@ export async function processEvent(eventPayload: EventPayload): Promise<{
     return {
       success: false,
       triggeredRules,
+      triggeredFlows,
       queuedExecutions,
       errors: [error.message],
     }
@@ -128,6 +166,46 @@ async function findMatchingRules(
     return result.docs || []
   } catch (error) {
     console.error('[Automation Engine] Error finding rules:', error)
+    return []
+  }
+}
+
+/**
+ * Find automation flows matching event type and tenant
+ */
+async function findMatchingFlows(
+  payload: any,
+  eventType: EventType,
+  tenantId: string
+): Promise<any[]> {
+  try {
+    const result = await payload.find({
+      collection: 'automation-flows',
+      where: {
+        and: [
+          {
+            status: {
+              equals: 'active',
+            },
+          },
+          {
+            'entry.eventType': {
+              equals: eventType,
+            },
+          },
+          {
+            tenant: {
+              equals: tenantId,
+            },
+          },
+        ],
+      },
+      limit: 100, // Reasonable limit
+    })
+
+    return result.docs || []
+  } catch (error) {
+    console.error('[Automation Engine] Error finding flows:', error)
     return []
   }
 }

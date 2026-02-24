@@ -111,7 +111,7 @@ import { MenuItems } from '@/branches/horeca/collections/MenuItems'
 import { Reservations } from '@/branches/horeca/collections/Reservations'
 import { Events } from '@/branches/horeca/collections/Events'
 
-// Email Marketing Branch (6 collections - Feature flagged)
+// Email Marketing Branch (7 collections - Feature flagged)
 import { emailMarketingFeatures } from '@/lib/features'
 import {
   EmailSubscribers,
@@ -121,6 +121,7 @@ import {
   AutomationRules,
   AutomationFlows,
   FlowInstances,
+  EmailEvents,
 } from '@/branches/shared/collections/email-marketing'
 
 // Globals (Consolidated: 8 → 6 globals!)
@@ -373,6 +374,7 @@ export default buildConfig({
         _col(AutomationRules),
         _col(AutomationFlows),
         _col(FlowInstances),
+        _col(EmailEvents),
       ] : []),
     ].filter(Boolean) : []),
 

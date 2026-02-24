@@ -6,7 +6,9 @@
  */
 
 import type { CollectionConfig } from 'payload'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+
+const isPlatformMode = isFeatureEnabled('platform')
 
 export const FlowInstances: CollectionConfig = {
   slug: 'flow-instances',
@@ -18,15 +20,22 @@ export const FlowInstances: CollectionConfig = {
     description: 'Individual user progress through automation flows',
   },
   access: {
-    // Tenant isolation
+    // Tenant isolation (only in multi-tenant/platform mode)
     read: ({ req: { user } }) => {
       if (!user) return false
       if (user.role === 'super-admin') return true
-      return {
-        tenant: {
-          equals: user.tenant,
-        },
+
+      // Multi-tenant mode: filter by tenant
+      if (isPlatformMode && user.tenant) {
+        return {
+          tenant: {
+            equals: user.tenant,
+          },
+        }
       }
+
+      // Single-tenant mode: user can read all flow instances
+      return true
     },
     create: ({ req: { user } }) => {
       if (!user) return false
@@ -224,28 +233,32 @@ export const FlowInstances: CollectionConfig = {
     },
 
     // ═══════════════════════════════════════════════════════════
-    // TENANT & METADATA
+    // TENANT & METADATA (Platform mode only)
     // ═══════════════════════════════════════════════════════════
-    {
-      name: 'tenant',
-      type: 'relationship',
-      relationTo: 'tenants',
-      required: true,
-      admin: {
-        position: 'sidebar',
-        condition: () => false,
-      },
-      hooks: {
-        beforeValidate: [
-          async ({ req, data }) => {
-            if (req.user && !data?.tenant) {
-              return req.user.tenant
-            }
-            return data?.tenant
-          },
-        ],
-      },
-    },
+    ...(isPlatformMode
+      ? [
+          {
+            name: 'tenant',
+            type: 'relationship',
+            relationTo: 'clients',
+            required: true,
+            admin: {
+              position: 'sidebar',
+              condition: () => false,
+            },
+            hooks: {
+              beforeValidate: [
+                async ({ req, data }) => {
+                  if (req.user && !data?.tenant) {
+                    return req.user.tenant
+                  }
+                  return data?.tenant
+                },
+              ],
+            },
+          } as const,
+        ]
+      : []),
   ],
   hooks: {
     beforeChange: [

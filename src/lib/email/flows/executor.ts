@@ -11,7 +11,7 @@ import { redis } from '@/lib/queue/redis'
 import { evaluateCondition } from '../automation/conditions'
 import type { EventPayload } from '../automation/types'
 import { delayToMilliseconds } from '../automation/types'
-import { listmonkClient } from '../listmonk/client'
+import { getListmonkClient } from '../listmonk/client'
 
 // ═══════════════════════════════════════════════════════════
 // FLOW ENTRY
@@ -273,7 +273,7 @@ async function executeSendEmail(instance: any, step: any) {
 
   if (!subscriber) throw new Error('Subscriber not found')
 
-  await listmonkClient.sendTransactionalEmail({
+  await getListmonkClient().sendTransactionalEmail({
     subscriberId: subscriber.listmonkId,
     templateId: template.listmonkId,
     data: instance.entryEventData?.metadata || {},
@@ -311,7 +311,7 @@ async function executeAddToList(instance: any, step: any) {
     id: instance.subscriber,
   })
 
-  await listmonkClient.addSubscriberToList(subscriber.listmonkId, list.listmonkId)
+  await getListmonkClient().addSubscriberToList(subscriber.listmonkId, list.listmonkId)
 
   console.log(`[Flow Executor] Added to list: ${list.name}`)
 }
@@ -329,7 +329,7 @@ async function executeRemoveFromList(instance: any, step: any) {
     id: instance.subscriber,
   })
 
-  await listmonkClient.removeSubscriberFromList(subscriber.listmonkId, list.listmonkId)
+  await getListmonkClient().removeSubscriberFromList(subscriber.listmonkId, list.listmonkId)
 
   console.log(`[Flow Executor] Removed from list: ${list.name}`)
 }
@@ -345,7 +345,7 @@ async function executeAddTag(instance: any, step: any) {
   const currentTags = subscriber.attributes?.tags || []
   const updatedTags = [...new Set([...currentTags, step.tagName])]
 
-  await listmonkClient.updateSubscriber(subscriber.listmonkId, {
+  await getListmonkClient().updateSubscriber(subscriber.listmonkId, {
     attribs: {
       ...subscriber.attributes,
       tags: updatedTags,
@@ -366,7 +366,7 @@ async function executeRemoveTag(instance: any, step: any) {
   const currentTags = subscriber.attributes?.tags || []
   const updatedTags = currentTags.filter((tag: string) => tag !== step.tagName)
 
-  await listmonkClient.updateSubscriber(subscriber.listmonkId, {
+  await getListmonkClient().updateSubscriber(subscriber.listmonkId, {
     attribs: {
       ...subscriber.attributes,
       tags: updatedTags,

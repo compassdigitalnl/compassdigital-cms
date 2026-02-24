@@ -6,7 +6,9 @@
  */
 
 import type { CollectionConfig } from 'payload'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+
+const isPlatformMode = isFeatureEnabled('platform')
 
 export const AutomationRules: CollectionConfig = {
   slug: 'automation-rules',
@@ -14,19 +16,28 @@ export const AutomationRules: CollectionConfig = {
     hidden: !emailMarketingFeatures.campaigns(),
     group: 'Email Marketing',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'trigger', 'status', 'stats', 'tenant', 'updatedAt'],
+    defaultColumns: isPlatformMode
+      ? ['name', 'trigger', 'status', 'stats', 'tenant', 'updatedAt']
+      : ['name', 'trigger', 'status', 'stats', 'updatedAt'],
     description: 'Create event-driven automation rules for email campaigns',
   },
   access: {
-    // Tenant isolation
+    // Tenant isolation (only in multi-tenant/platform mode)
     read: ({ req: { user } }) => {
       if (!user) return false
       if (user.role === 'super-admin') return true
-      return {
-        tenant: {
-          equals: user.tenant,
-        },
+
+      // Multi-tenant mode: filter by tenant
+      if (isFeatureEnabled('platform') && user.tenant) {
+        return {
+          tenant: {
+            equals: user.tenant,
+          },
+        }
       }
+
+      // Single-tenant mode: user can read all automation rules
+      return true
     },
     create: ({ req: { user } }) => {
       if (!user) return false
@@ -402,29 +413,33 @@ export const AutomationRules: CollectionConfig = {
     },
 
     // ═══════════════════════════════════════════════════════════
-    // TENANT & METADATA
+    // TENANT & METADATA (Platform mode only)
     // ═══════════════════════════════════════════════════════════
-    {
-      name: 'tenant',
-      type: 'relationship',
-      relationTo: 'tenants',
-      required: true,
-      admin: {
-        position: 'sidebar',
-        condition: () => false, // Hide from form (auto-populated)
-      },
-      hooks: {
-        beforeValidate: [
-          async ({ req, data }) => {
-            // Auto-populate tenant from user
-            if (req.user && !data?.tenant) {
-              return req.user.tenant
-            }
-            return data?.tenant
-          },
-        ],
-      },
-    },
+    ...(isPlatformMode
+      ? [
+          {
+            name: 'tenant',
+            type: 'relationship',
+            relationTo: 'clients',
+            required: true,
+            admin: {
+              position: 'sidebar',
+              condition: () => false, // Hide from form (auto-populated)
+            },
+            hooks: {
+              beforeValidate: [
+                async ({ req, data }) => {
+                  // Auto-populate tenant from user
+                  if (req.user && !data?.tenant) {
+                    return req.user.tenant
+                  }
+                  return data?.tenant
+                },
+              ],
+            },
+          } as const,
+        ]
+      : []),
   ],
   hooks: {
     beforeChange: [

@@ -123,6 +123,10 @@ export interface Config {
     'email-lists': EmailList;
     'email-templates': EmailTemplate;
     'email-campaigns': EmailCampaign;
+    'automation-rules': AutomationRule;
+    'automation-flows': AutomationFlow;
+    'flow-instances': FlowInstance;
+    'email-events': EmailEvent;
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
@@ -192,6 +196,10 @@ export interface Config {
     'email-lists': EmailListsSelect<false> | EmailListsSelect<true>;
     'email-templates': EmailTemplatesSelect<false> | EmailTemplatesSelect<true>;
     'email-campaigns': EmailCampaignsSelect<false> | EmailCampaignsSelect<true>;
+    'automation-rules': AutomationRulesSelect<false> | AutomationRulesSelect<true>;
+    'automation-flows': AutomationFlowsSelect<false> | AutomationFlowsSelect<true>;
+    'flow-instances': FlowInstancesSelect<false> | FlowInstancesSelect<true>;
+    'email-events': EmailEventsSelect<false> | EmailEventsSelect<true>;
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
@@ -6657,6 +6665,492 @@ export interface EmailCampaign {
   createdAt: string;
 }
 /**
+ * Create event-driven automation rules for email campaigns
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "automation-rules".
+ */
+export interface AutomationRule {
+  id: number;
+  /**
+   * Internal name for this automation rule
+   */
+  name: string;
+  /**
+   * Describe what this automation does
+   */
+  description?: string | null;
+  /**
+   * Only active rules will process events
+   */
+  status: 'draft' | 'active' | 'paused';
+  trigger: {
+    /**
+     * Which event triggers this automation?
+     */
+    eventType:
+      | 'user.signup'
+      | 'user.updated'
+      | 'user.login'
+      | 'subscriber.added'
+      | 'subscriber.confirmed'
+      | 'subscriber.unsubscribed'
+      | 'subscriber.list_changed'
+      | 'order.placed'
+      | 'order.completed'
+      | 'order.cancelled'
+      | 'cart.abandoned'
+      | 'product.purchased'
+      | 'email.opened'
+      | 'email.clicked'
+      | 'email.bounced'
+      | 'campaign.completed'
+      | 'custom.event';
+    /**
+     * Custom event name (when event type is "custom.event")
+     */
+    customEventName?: string | null;
+  };
+  /**
+   * Optional: Add conditions to filter when this automation runs
+   */
+  conditions?:
+    | {
+        /**
+         * Field name to check (e.g., "email", "order.total", "user.role")
+         */
+        field: string;
+        operator:
+          | 'equals'
+          | 'not_equals'
+          | 'contains'
+          | 'not_contains'
+          | 'greater_than'
+          | 'less_than'
+          | 'starts_with'
+          | 'ends_with'
+          | 'is_empty'
+          | 'is_not_empty';
+        /**
+         * Value to compare against (not needed for "is_empty" operators)
+         */
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Actions to perform when this rule is triggered
+   */
+  actions: {
+    type: 'send_email' | 'add_to_list' | 'remove_from_list' | 'add_tag' | 'remove_tag' | 'wait' | 'webhook';
+    /**
+     * Email template to send
+     */
+    emailTemplate?: (number | null) | EmailTemplate;
+    /**
+     * Email list to modify
+     */
+    list?: (number | null) | EmailList;
+    /**
+     * Tag name
+     */
+    tagName?: string | null;
+    waitDuration?: {
+      /**
+       * Wait duration
+       */
+      value: number;
+      unit: 'minutes' | 'hours' | 'days' | 'weeks';
+    };
+    /**
+     * Webhook URL to call
+     */
+    webhookUrl?: string | null;
+    webhookMethod?: ('POST' | 'GET' | 'PUT' | 'PATCH') | null;
+    id?: string | null;
+  }[];
+  timing?: {
+    /**
+     * Add a delay before executing this rule?
+     */
+    delayEnabled?: boolean | null;
+    delay?: {
+      /**
+       * Delay duration
+       */
+      value: number;
+      unit: 'minutes' | 'hours' | 'days' | 'weeks';
+    };
+    /**
+     * Max times this rule can trigger per user (leave empty for unlimited)
+     */
+    maxExecutions?: number | null;
+  };
+  /**
+   * Automation performance statistics
+   */
+  stats?: {
+    /**
+     * Total times this rule was triggered
+     */
+    timesTriggered?: number | null;
+    /**
+     * Times this rule completed successfully
+     */
+    timesSucceeded?: number | null;
+    /**
+     * Times this rule failed to execute
+     */
+    timesFailed?: number | null;
+    /**
+     * Last time this rule was triggered
+     */
+    lastTriggered?: string | null;
+    /**
+     * Last error message (if any)
+     */
+    lastError?: string | null;
+  };
+  tenant?: (number | null) | Client;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Multi-step automation workflows with state tracking
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "automation-flows".
+ */
+export interface AutomationFlow {
+  id: number;
+  /**
+   * Flow name (e.g., "Welcome Sequence", "Onboarding Flow")
+   */
+  name: string;
+  /**
+   * Describe what this flow does
+   */
+  description?: string | null;
+  /**
+   * Only active flows will accept new entries
+   */
+  status: 'draft' | 'active' | 'paused';
+  /**
+   * What triggers users to enter this flow?
+   */
+  entryTrigger: {
+    /**
+     * Which event starts this flow?
+     */
+    eventType:
+      | 'user.signup'
+      | 'subscriber.added'
+      | 'subscriber.confirmed'
+      | 'order.placed'
+      | 'cart.abandoned'
+      | 'email.clicked'
+      | 'custom.event';
+    /**
+     * Custom event name (when event type is "custom.event")
+     */
+    customEventName?: string | null;
+  };
+  /**
+   * Optional: Add conditions to filter who can enter this flow
+   */
+  entryConditions?:
+    | {
+        /**
+         * Field name to check (e.g., "email", "order.total")
+         */
+        field: string;
+        operator: 'equals' | 'greater_than' | 'less_than' | 'contains';
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Flow steps (executed in sequence)
+   */
+  steps: {
+    /**
+     * Step name (for internal reference)
+     */
+    name: string;
+    type:
+      | 'send_email'
+      | 'wait'
+      | 'add_to_list'
+      | 'remove_from_list'
+      | 'add_tag'
+      | 'remove_tag'
+      | 'condition'
+      | 'webhook'
+      | 'exit';
+    /**
+     * Email template to send
+     */
+    emailTemplate?: (number | null) | EmailTemplate;
+    waitDuration?: {
+      value: number;
+      unit: 'hours' | 'days' | 'weeks';
+    };
+    /**
+     * Email list
+     */
+    list?: (number | null) | EmailList;
+    /**
+     * Tag name
+     */
+    tagName?: string | null;
+    /**
+     * Branching logic
+     */
+    condition?: {
+      /**
+       * Field to check
+       */
+      field: string;
+      operator: 'equals' | 'greater_than' | 'contains';
+      value: string;
+      /**
+       * Go to step # if condition is true (1-indexed)
+       */
+      ifTrue?: number | null;
+      /**
+       * Go to step # if condition is false (1-indexed)
+       */
+      ifFalse?: number | null;
+    };
+    /**
+     * Webhook URL
+     */
+    webhookUrl?: string | null;
+    /**
+     * Reason for exiting flow
+     */
+    exitReason?: string | null;
+    id?: string | null;
+  }[];
+  /**
+   * Optional: Conditions that will exit users from this flow early
+   */
+  exitConditions?:
+    | {
+        eventType?: ('subscriber.unsubscribed' | 'order.placed' | 'custom.event') | null;
+        customEventName?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Flow performance statistics
+   */
+  stats?: {
+    /**
+     * Total users who entered this flow
+     */
+    totalEntries?: number | null;
+    /**
+     * Users currently in this flow
+     */
+    activeInstances?: number | null;
+    /**
+     * Users who completed this flow
+     */
+    completedInstances?: number | null;
+    /**
+     * Users who exited early
+     */
+    exitedInstances?: number | null;
+    /**
+     * Last time someone entered this flow
+     */
+    lastEntry?: string | null;
+  };
+  settings?: {
+    /**
+     * Allow users to re-enter this flow after completion?
+     */
+    allowReentry?: boolean | null;
+    /**
+     * Max times a user can enter this flow (leave empty for unlimited)
+     */
+    maxEntriesPerUser?: number | null;
+  };
+  tenant?: (number | null) | Client;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Individual user progress through automation flows
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "flow-instances".
+ */
+export interface FlowInstance {
+  id: number;
+  /**
+   * The flow this instance belongs to
+   */
+  flow: number | AutomationFlow;
+  /**
+   * The subscriber in this flow
+   */
+  subscriber: number | EmailSubscriber;
+  /**
+   * Current status of this flow instance
+   */
+  status: 'active' | 'completed' | 'exited' | 'failed';
+  /**
+   * Current step index (0-indexed)
+   */
+  currentStep: number;
+  /**
+   * Name of current step (for display)
+   */
+  currentStepName?: string | null;
+  /**
+   * When this instance started
+   */
+  startedAt: string;
+  /**
+   * When this instance completed
+   */
+  completedAt?: string | null;
+  /**
+   * When the next step is scheduled to execute
+   */
+  nextStepScheduledAt?: string | null;
+  /**
+   * History of steps executed in this flow
+   */
+  stepHistory?:
+    | {
+        stepIndex: number;
+        stepName: string;
+        stepType: string;
+        executedAt: string;
+        success?: boolean | null;
+        /**
+         * Error message if step failed
+         */
+        error?: string | null;
+        /**
+         * Additional step execution data
+         */
+        metadata?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Event data that triggered entry into this flow
+   */
+  entryEventData?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Reason for exiting flow (if exited early)
+   */
+  exitReason?: string | null;
+  /**
+   * Last error encountered
+   */
+  lastError?: string | null;
+  /**
+   * Number of retries attempted
+   */
+  retryCount?: number | null;
+  tenant?: (number | null) | Client;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Email activity tracking for billing and analytics
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-events".
+ */
+export interface EmailEvent {
+  id: number;
+  /**
+   * Type of email event
+   */
+  type: 'sent' | 'delivered' | 'opened' | 'clicked' | 'bounced' | 'complained' | 'unsubscribed' | 'failed';
+  /**
+   * Campaign this event belongs to (if applicable)
+   */
+  campaign?: (number | null) | EmailCampaign;
+  /**
+   * Subscriber who received this email
+   */
+  subscriber: number | EmailSubscriber;
+  /**
+   * Template used (if applicable)
+   */
+  template?: (number | null) | EmailTemplate;
+  /**
+   * Email provider message ID (for tracking)
+   */
+  messageId?: string | null;
+  /**
+   * Email subject line
+   */
+  subject?: string | null;
+  /**
+   * Recipient email address
+   */
+  recipientEmail: string;
+  /**
+   * URL that was clicked (for click events)
+   */
+  clickedUrl?: string | null;
+  /**
+   * Type of bounce (for bounce events)
+   */
+  bounceType?: ('hard' | 'soft') | null;
+  /**
+   * Bounce reason details
+   */
+  bounceReason?: string | null;
+  /**
+   * Failure reason (for failed events)
+   */
+  failureReason?: string | null;
+  /**
+   * Additional event metadata (IP, user agent, etc.)
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Source of this email send
+   */
+  source?: ('campaign' | 'automation' | 'flow' | 'transactional') | null;
+  tenant?: (number | null) | Client;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Inkomende onboarding-verzoeken van nieuwe klanten
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -7254,6 +7748,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'email-campaigns';
         value: number | EmailCampaign;
+      } | null)
+    | ({
+        relationTo: 'automation-rules';
+        value: number | AutomationRule;
+      } | null)
+    | ({
+        relationTo: 'automation-flows';
+        value: number | AutomationFlow;
+      } | null)
+    | ({
+        relationTo: 'flow-instances';
+        value: number | FlowInstance;
+      } | null)
+    | ({
+        relationTo: 'email-events';
+        value: number | EmailEvent;
       } | null)
     | ({
         relationTo: 'client-requests';
@@ -10118,6 +10628,200 @@ export interface EmailCampaignsSelect<T extends boolean = true> {
   lastSyncedAt?: T;
   syncStatus?: T;
   syncError?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "automation-rules_select".
+ */
+export interface AutomationRulesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  status?: T;
+  trigger?:
+    | T
+    | {
+        eventType?: T;
+        customEventName?: T;
+      };
+  conditions?:
+    | T
+    | {
+        field?: T;
+        operator?: T;
+        value?: T;
+        id?: T;
+      };
+  actions?:
+    | T
+    | {
+        type?: T;
+        emailTemplate?: T;
+        list?: T;
+        tagName?: T;
+        waitDuration?:
+          | T
+          | {
+              value?: T;
+              unit?: T;
+            };
+        webhookUrl?: T;
+        webhookMethod?: T;
+        id?: T;
+      };
+  timing?:
+    | T
+    | {
+        delayEnabled?: T;
+        delay?:
+          | T
+          | {
+              value?: T;
+              unit?: T;
+            };
+        maxExecutions?: T;
+      };
+  stats?:
+    | T
+    | {
+        timesTriggered?: T;
+        timesSucceeded?: T;
+        timesFailed?: T;
+        lastTriggered?: T;
+        lastError?: T;
+      };
+  tenant?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "automation-flows_select".
+ */
+export interface AutomationFlowsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  status?: T;
+  entryTrigger?:
+    | T
+    | {
+        eventType?: T;
+        customEventName?: T;
+      };
+  entryConditions?:
+    | T
+    | {
+        field?: T;
+        operator?: T;
+        value?: T;
+        id?: T;
+      };
+  steps?:
+    | T
+    | {
+        name?: T;
+        type?: T;
+        emailTemplate?: T;
+        waitDuration?:
+          | T
+          | {
+              value?: T;
+              unit?: T;
+            };
+        list?: T;
+        tagName?: T;
+        condition?:
+          | T
+          | {
+              field?: T;
+              operator?: T;
+              value?: T;
+              ifTrue?: T;
+              ifFalse?: T;
+            };
+        webhookUrl?: T;
+        exitReason?: T;
+        id?: T;
+      };
+  exitConditions?:
+    | T
+    | {
+        eventType?: T;
+        customEventName?: T;
+        id?: T;
+      };
+  stats?:
+    | T
+    | {
+        totalEntries?: T;
+        activeInstances?: T;
+        completedInstances?: T;
+        exitedInstances?: T;
+        lastEntry?: T;
+      };
+  settings?:
+    | T
+    | {
+        allowReentry?: T;
+        maxEntriesPerUser?: T;
+      };
+  tenant?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "flow-instances_select".
+ */
+export interface FlowInstancesSelect<T extends boolean = true> {
+  flow?: T;
+  subscriber?: T;
+  status?: T;
+  currentStep?: T;
+  currentStepName?: T;
+  startedAt?: T;
+  completedAt?: T;
+  nextStepScheduledAt?: T;
+  stepHistory?:
+    | T
+    | {
+        stepIndex?: T;
+        stepName?: T;
+        stepType?: T;
+        executedAt?: T;
+        success?: T;
+        error?: T;
+        metadata?: T;
+        id?: T;
+      };
+  entryEventData?: T;
+  exitReason?: T;
+  lastError?: T;
+  retryCount?: T;
+  tenant?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-events_select".
+ */
+export interface EmailEventsSelect<T extends boolean = true> {
+  type?: T;
+  campaign?: T;
+  subscriber?: T;
+  template?: T;
+  messageId?: T;
+  subject?: T;
+  recipientEmail?: T;
+  clickedUrl?: T;
+  bounceType?: T;
+  bounceReason?: T;
+  failureReason?: T;
+  metadata?: T;
+  source?: T;
+  tenant?: T;
   updatedAt?: T;
   createdAt?: T;
 }
