@@ -100,6 +100,16 @@ export interface ClientFeatures {
   chatbot?: boolean
   abTesting?: boolean
 
+  // === EMAIL MARKETING ===
+  emailMarketing?: boolean
+  // Email Marketing sub-features
+  emailCampaigns?: boolean
+  emailAutomation?: boolean
+  emailFlows?: boolean
+  emailGrapesEditor?: boolean
+  emailDeliverability?: boolean
+  emailAnalytics?: boolean
+
   // Legacy - keeping for backwards compatibility
   productReviews?: boolean
 }
@@ -255,6 +265,15 @@ export const features = {
   chatbot: isFeatureEnabled('chatbot'),
   abTesting: isFeatureEnabled('ab_testing'),
 
+  // === EMAIL MARKETING ===
+  emailMarketing: isFeatureEnabled('email_marketing'),
+  emailCampaigns: isFeatureEnabled('email_campaigns'),
+  emailAutomation: isFeatureEnabled('email_automation'),
+  emailFlows: isFeatureEnabled('email_flows'),
+  emailGrapesEditor: isFeatureEnabled('email_grapes_editor'),
+  emailDeliverability: isFeatureEnabled('email_deliverability'),
+  emailAnalytics: isFeatureEnabled('email_analytics'),
+
   // Legacy
   productReviews: isFeatureEnabled('product_reviews'),
 } as const
@@ -289,6 +308,7 @@ export const featureCategories = {
   sprint6: ['subscriptions', 'giftVouchers', 'licenses', 'loyalty'],
   content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
   advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
+  emailMarketing: ['emailMarketing', 'emailCampaigns', 'emailAutomation', 'emailFlows', 'emailGrapesEditor', 'emailDeliverability', 'emailAnalytics'],
 } as const
 
 /**
@@ -389,6 +409,15 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     authentication: 'ENABLE_AUTHENTICATION',
     chatbot: 'ENABLE_CHATBOT',
     abTesting: 'ENABLE_AB_TESTING',
+
+    // === EMAIL MARKETING ===
+    emailMarketing: 'ENABLE_EMAIL_MARKETING',
+    emailCampaigns: 'ENABLE_EMAIL_CAMPAIGNS',
+    emailAutomation: 'ENABLE_EMAIL_AUTOMATION',
+    emailFlows: 'ENABLE_EMAIL_FLOWS',
+    emailGrapesEditor: 'ENABLE_EMAIL_GRAPES_EDITOR',
+    emailDeliverability: 'ENABLE_EMAIL_DELIVERABILITY',
+    emailAnalytics: 'ENABLE_EMAIL_ANALYTICS',
 
     // Legacy
     productReviews: 'ENABLE_PRODUCT_REVIEWS',
@@ -500,3 +529,17 @@ export function isCollectionVisible(
   // Fallback to ENV check
   return isFeatureEnabled(requiredFeature)
 }
+
+/**
+ * Email Marketing Feature Helpers
+ * Structured feature checks for email marketing module
+ */
+export const emailMarketingFeatures = {
+  isEnabled: () => features.emailMarketing,
+  campaigns: () => features.emailMarketing && features.emailCampaigns,
+  automation: () => features.emailMarketing && features.emailAutomation,
+  flows: () => features.emailMarketing && features.emailFlows,
+  grapesEditor: () => features.emailMarketing && features.emailGrapesEditor,
+  deliverability: () => features.emailMarketing && features.emailDeliverability,
+  analytics: () => features.emailMarketing && features.emailAnalytics,
+} as const

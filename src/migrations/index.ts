@@ -7,6 +7,8 @@ import * as migration_20260223_115055_add_theme_status_colors_and_gradients from
 import * as migration_20260224_110327_add_compass_design_tokens from './20260224_110327_add_compass_design_tokens';
 import * as migration_20260224_120000_add_themes_collection from './20260224_120000_add_themes_collection';
 import * as migration_20260224_200947_sprint10_schema from './20260224_200947_sprint10_schema';
+import * as migration_20260224_211305_email_marketing_collections from './20260224_211305_email_marketing_collections';
+import * as migration_20260224_211435_email_marketing_indexes from './20260224_211435_email_marketing_indexes';
 
 export const migrations = [
   {
@@ -52,6 +54,16 @@ export const migrations = [
   {
     up: migration_20260224_200947_sprint10_schema.up,
     down: migration_20260224_200947_sprint10_schema.down,
-    name: '20260224_200947_sprint10_schema'
+    name: '20260224_200947_sprint10_schema',
+  },
+  {
+    up: migration_20260224_211305_email_marketing_collections.up,
+    down: migration_20260224_211305_email_marketing_collections.down,
+    name: '20260224_211305_email_marketing_collections',
+  },
+  {
+    up: migration_20260224_211435_email_marketing_indexes.up,
+    down: migration_20260224_211435_email_marketing_indexes.down,
+    name: '20260224_211435_email_marketing_indexes',
   },
 ];

@@ -1,0 +1,360 @@
+/**
+ * GrapesJS Email Editor Styles
+ *
+ * Custom styling for the GrapesJS editor interface
+ * Ensures it looks good in Payload CMS admin panel
+ */
+
+/* ═══════════════════════════════════════════════════════════
+   EDITOR CONTAINER
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-one-bg {
+  background-color: #ffffff;
+}
+
+.gjs-two-color {
+  color: #3b82f6;
+}
+
+.gjs-three-bg {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+.gjs-four-color,
+.gjs-four-color-h:hover {
+  color: #3b82f6;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PANELS
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-pn-panel {
+  background-color: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+}
+
+.gjs-pn-btn {
+  color: #6b7280;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.gjs-pn-btn:hover {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.gjs-pn-active {
+  background-color: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BLOCKS
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-block {
+  min-height: 80px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+  background-color: #ffffff;
+}
+
+.gjs-block:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.gjs-block__media {
+  color: #3b82f6;
+}
+
+.gjs-block-label {
+  font-size: 12px;
+  color: #111827;
+  font-weight: 500;
+}
+
+/* Block categories */
+.gjs-block-category {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.gjs-block-category .gjs-title {
+  background-color: #f9fafb;
+  color: #111827;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 15px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CANVAS
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-cv-canvas {
+  background-color: #f3f4f6;
+}
+
+.gjs-frame-wrapper {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLBAR
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-toolbar {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gjs-toolbar-item {
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.gjs-toolbar-item:hover {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LAYERS PANEL
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-layer {
+  color: #111827;
+}
+
+.gjs-layer:hover {
+  background-color: #f9fafb;
+}
+
+.gjs-layer.gjs-selected {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.gjs-layer__icon {
+  color: #6b7280;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STYLE MANAGER
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-sm-sector {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.gjs-sm-sector .gjs-sm-title {
+  background-color: #f9fafb;
+  color: #111827;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 10px 15px;
+}
+
+.gjs-sm-property {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.gjs-sm-label {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.gjs-field,
+.gjs-field-select,
+.gjs-field-input {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #111827;
+  transition: all 0.2s;
+}
+
+.gjs-field:focus,
+.gjs-field-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TRAIT MANAGER
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-trt-trait {
+  border-bottom: 1px solid #f3f4f6;
+  padding: 10px;
+}
+
+.gjs-trt-trait__wrp-label {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.gjs-trt-trait__wrp-input input,
+.gjs-trt-trait__wrp-input select {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #111827;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.gjs-trt-trait__wrp-input input:focus,
+.gjs-trt-trait__wrp-input select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-mdl-dialog {
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.gjs-mdl-header {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 20px;
+}
+
+.gjs-mdl-title {
+  color: #111827;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.gjs-mdl-content {
+  padding: 20px;
+  color: #111827;
+}
+
+.gjs-btn-prim {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.gjs-btn-prim:hover {
+  background-color: #2563eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DEVICE BUTTONS (Responsive Preview)
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-pn-devices-c {
+  display: flex;
+  gap: 4px;
+}
+
+.gjs-pn-device {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #6b7280;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.gjs-pn-device:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.gjs-pn-device.gjs-pn-active {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE VIEWER
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-cm-editor {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.CodeMirror {
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBARS (Webkit)
+   ═══════════════════════════════════════════════════════════ */
+
+.gjs-pn-panel::-webkit-scrollbar,
+.gjs-blocks-c::-webkit-scrollbar,
+.gjs-sm-sectors::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gjs-pn-panel::-webkit-scrollbar-track,
+.gjs-blocks-c::-webkit-scrollbar-track,
+.gjs-sm-sectors::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+
+.gjs-pn-panel::-webkit-scrollbar-thumb,
+.gjs-blocks-c::-webkit-scrollbar-thumb,
+.gjs-sm-sectors::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.gjs-pn-panel::-webkit-scrollbar-thumb:hover,
+.gjs-blocks-c::-webkit-scrollbar-thumb:hover,
+.gjs-sm-sectors::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM BLOCKS STYLING
+   ═══════════════════════════════════════════════════════════ */
+
+/* Branding category highlight */
+.gjs-block-category[data-title="Branding"] .gjs-title {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1e40af;
+}
+
+/* Listmonk category highlight */
+.gjs-block-category[data-title="Listmonk Variables"] .gjs-title {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #78350f;
+}
+
+/* E-commerce category highlight */
+.gjs-block-category[data-title="E-commerce"] .gjs-title {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #064e3b;
+}

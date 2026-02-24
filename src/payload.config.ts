@@ -111,6 +111,18 @@ import { MenuItems } from '@/branches/horeca/collections/MenuItems'
 import { Reservations } from '@/branches/horeca/collections/Reservations'
 import { Events } from '@/branches/horeca/collections/Events'
 
+// Email Marketing Branch (6 collections - Feature flagged)
+import { emailMarketingFeatures } from '@/lib/features'
+import {
+  EmailSubscribers,
+  EmailLists,
+  EmailTemplates,
+  EmailCampaigns,
+  AutomationRules,
+  AutomationFlows,
+  FlowInstances,
+} from '@/branches/shared/collections/email-marketing'
+
 // Globals (Consolidated: 8 → 6 globals!)
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
@@ -348,6 +360,21 @@ export default buildConfig({
     _col(MenuItems),
     _col(Reservations),
     _col(Events),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // EMAIL MARKETING BRANCH - Email campaigns, lists, subscribers (Feature flagged)
+    // ═══════════════════════════════════════════════════════════════════════════
+    ...(emailMarketingFeatures.isEnabled() ? [
+      _col(EmailSubscribers),
+      _col(EmailLists),
+      _col(EmailTemplates),
+      ...(emailMarketingFeatures.campaigns() ? [
+        _col(EmailCampaigns),
+        _col(AutomationRules),
+        _col(AutomationFlows),
+        _col(FlowInstances),
+      ] : []),
+    ].filter(Boolean) : []),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)

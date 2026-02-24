@@ -58,6 +58,14 @@ const PARENT_FEATURES: Record<string, keyof ClientFeatures> = {
   // Marketplace sub-features
   vendor_reviews: 'vendors',
   workshops: 'vendors',
+
+  // Email Marketing sub-features
+  email_campaigns: 'emailMarketing',
+  email_automation: 'emailMarketing',
+  email_flows: 'emailMarketing',
+  email_grapes_editor: 'emailMarketing',
+  email_deliverability: 'emailMarketing',
+  email_analytics: 'emailMarketing',
 }
 
 /**

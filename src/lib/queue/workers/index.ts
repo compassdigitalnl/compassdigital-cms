@@ -5,24 +5,46 @@
  */
 
 import { contentAnalysisWorker } from './contentAnalysisWorker'
+import { emailMarketingWorker } from './emailMarketingWorker'
+import { automationWorker } from './automationWorker'
+import { flowWorker } from './flowWorker'
+import { emailMarketingFeatures } from '@/lib/features'
+
+const workers: any[] = []
 
 console.log('🚀 Starting all workers...')
+
+// Always start content analysis worker
+workers.push(contentAnalysisWorker)
 console.log('✅ Content Analysis Worker: Running')
+
+// Start email marketing workers if feature is enabled
+if (emailMarketingFeatures.campaigns()) {
+  workers.push(emailMarketingWorker)
+  workers.push(automationWorker)
+  workers.push(flowWorker)
+  console.log('✅ Email Marketing Worker: Running')
+  console.log('✅ Automation Worker: Running')
+  console.log('✅ Flow Worker: Running')
+} else {
+  console.log('⏸️  Email Marketing Worker: Disabled (feature flag off)')
+  console.log('⏸️  Automation Worker: Disabled (feature flag off)')
+  console.log('⏸️  Flow Worker: Disabled (feature flag off)')
+}
+
 console.log('')
 console.log('Workers are ready to process jobs!')
 console.log('Press Ctrl+C to stop')
 
 // Handle graceful shutdown
-process.on('SIGTERM', async () => {
+async function shutdown() {
   console.log('\n⏳ Shutting down workers...')
-  await contentAnalysisWorker.close()
-  console.log('✅ Workers stopped')
-  process.exit(0)
-})
 
-process.on('SIGINT', async () => {
-  console.log('\n⏳ Shutting down workers...')
-  await contentAnalysisWorker.close()
+  await Promise.all(workers.map(worker => worker.close()))
+
   console.log('✅ Workers stopped')
   process.exit(0)
-})
+}
+
+process.on('SIGTERM', shutdown)
+process.on('SIGINT', shutdown)

@@ -5,7 +5,7 @@ import { isFeatureEnabled } from '@/lib/features'
 // ─── SHARED BLOCKS (always available) ────────────────────────────
 import { ContentBlock } from '@/branches/shared/blocks/Content/Component'
 import { HeroBlockComponent } from '@/branches/shared/blocks/Hero/Component'
-import { FeaturesBlock } from '@/branches/shared/blocks/Features/Component'
+import { FeaturesBlockComponent } from '@/branches/shared/blocks/Features/Component'
 import { ServicesBlockComponent } from '@/branches/shared/blocks/Services/Component'
 import { FAQBlockComponent } from '@/branches/shared/blocks/FAQ/Component'
 import { CTABlockComponent } from '@/branches/shared/blocks/CTA/Component'
@@ -52,7 +52,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   // ─── SHARED (always available) ────────────────────────────────────
   content: ContentBlock,
   hero: HeroBlockComponent,
-  features: FeaturesBlock,
+  features: FeaturesBlockComponent,
   services: ServicesBlockComponent,
   faq: FAQBlockComponent,
   cta: CTABlockComponent,

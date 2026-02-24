@@ -119,6 +119,10 @@ export interface Config {
     menuItems: MenuItem;
     reservations: Reservation;
     events: Event;
+    'email-subscribers': EmailSubscriber;
+    'email-lists': EmailList;
+    'email-templates': EmailTemplate;
+    'email-campaigns': EmailCampaign;
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
@@ -184,6 +188,10 @@ export interface Config {
     menuItems: MenuItemsSelect<false> | MenuItemsSelect<true>;
     reservations: ReservationsSelect<false> | ReservationsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    'email-subscribers': EmailSubscribersSelect<false> | EmailSubscribersSelect<true>;
+    'email-lists': EmailListsSelect<false> | EmailListsSelect<true>;
+    'email-templates': EmailTemplatesSelect<false> | EmailTemplatesSelect<true>;
+    'email-campaigns': EmailCampaignsSelect<false> | EmailCampaignsSelect<true>;
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
@@ -1210,7 +1218,7 @@ export interface Page {
             showCategory?: boolean | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'blogpreview';
+            blockType: 'blog-preview';
           }
         | {
             title: string;
@@ -1505,7 +1513,7 @@ export interface MediaBlock {
   backgroundColor?: ('white' | 'bg' | 'grey' | 'tealLight' | 'tealGlow' | 'navy' | 'navyLight') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'media';
+  blockType: 'mediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1554,7 +1562,7 @@ export interface TwoColumnBlock {
   };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'twocolumn';
+  blockType: 'twoColumn';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1827,7 +1835,7 @@ export interface ContactFormBlock {
   errorMessage?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'contactform';
+  blockType: 'contactForm';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2149,7 +2157,7 @@ export interface LogoBarBlock {
   variant?: ('light' | 'white' | 'dark') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'logobar';
+  blockType: 'logoBar';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2668,7 +2676,7 @@ export interface ImageGalleryBlock {
   enableLightbox?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'gallery';
+  blockType: 'imageGallery';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6132,6 +6140,523 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Manage email marketing subscribers synced with Listmonk
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-subscribers".
+ */
+export interface EmailSubscriber {
+  id: number;
+  /**
+   * Subscriber email address
+   */
+  email: string;
+  /**
+   * Subscriber full name
+   */
+  name: string;
+  /**
+   * Subscriber status in Listmonk
+   */
+  status: 'enabled' | 'disabled' | 'blocklisted';
+  /**
+   * Tenant this subscriber belongs to
+   */
+  tenant: number | Client;
+  /**
+   * Email lists this subscriber is part of
+   */
+  lists?: (number | EmailList)[] | null;
+  /**
+   * Custom attributes for this subscriber (synced to Listmonk attribs)
+   */
+  customFields?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  preferences?: {
+    /**
+     * Subscriber opted in for marketing emails
+     */
+    marketingEmails?: boolean | null;
+    /**
+     * Subscriber opted in for product updates
+     */
+    productUpdates?: boolean | null;
+    /**
+     * Subscriber opted in for newsletter
+     */
+    newsletter?: boolean | null;
+  };
+  /**
+   * How this subscriber was added
+   */
+  source?: ('manual' | 'website' | 'import' | 'api' | 'checkout') | null;
+  /**
+   * Listmonk subscriber ID (auto-synced)
+   */
+  listmonkId?: number | null;
+  /**
+   * Last synced with Listmonk
+   */
+  lastSyncedAt?: string | null;
+  /**
+   * Sync status with Listmonk
+   */
+  syncStatus?: ('synced' | 'pending' | 'error') | null;
+  /**
+   * Last sync error message (if any)
+   */
+  syncError?: string | null;
+  /**
+   * Tags for organizing subscribers
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage email lists for segmenting subscribers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-lists".
+ */
+export interface EmailList {
+  id: number;
+  /**
+   * List name (e.g., "Newsletter Subscribers", "VIP Customers")
+   */
+  name: string;
+  /**
+   * What is this list for?
+   */
+  description?: string | null;
+  /**
+   * Public lists allow self-subscription, private lists are admin-managed
+   */
+  type: 'public' | 'private';
+  /**
+   * Double opt-in requires email confirmation, single opt-in is immediate
+   */
+  optin: 'single' | 'double';
+  /**
+   * Tenant this list belongs to
+   */
+  tenant: number | Client;
+  /**
+   * Number of subscribers in this list
+   */
+  subscriberCount?: number | null;
+  /**
+   * Settings for public subscription forms
+   */
+  subscriptionSettings?: {
+    /**
+     * Send welcome email on subscription
+     */
+    welcomeEmail?: boolean | null;
+    /**
+     * Template for welcome email
+     */
+    welcomeEmailTemplate?: (number | null) | EmailTemplate;
+    /**
+     * URL to redirect after subscription
+     */
+    confirmationPage?: string | null;
+  };
+  /**
+   * Tags for organizing lists
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * List category for organization
+   */
+  category?: ('newsletter' | 'marketing' | 'transactional' | 'updates' | 'customers' | 'other') | null;
+  /**
+   * Listmonk list ID (auto-synced)
+   */
+  listmonkId?: number | null;
+  /**
+   * Last synced with Listmonk
+   */
+  lastSyncedAt?: string | null;
+  /**
+   * Sync status with Listmonk
+   */
+  syncStatus?: ('synced' | 'pending' | 'error') | null;
+  /**
+   * Last sync error message (if any)
+   */
+  syncError?: string | null;
+  /**
+   * Active lists can receive campaigns, inactive lists are archived
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Create and manage email templates with visual editor
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-templates".
+ */
+export interface EmailTemplate {
+  id: number;
+  /**
+   * Template name (e.g., "Welcome Email", "Product Launch")
+   */
+  name: string;
+  /**
+   * What is this template used for?
+   */
+  description?: string | null;
+  /**
+   * Campaign templates are for bulk emails, transactional are for automated emails
+   */
+  type: 0 | 1;
+  /**
+   * Use this as the default template for this type
+   */
+  isDefault?: boolean | null;
+  /**
+   * Default subject line (can be overridden in campaigns)
+   */
+  defaultSubject?: string | null;
+  /**
+   * Email preheader text (preview text shown in inbox)
+   */
+  preheader?: string | null;
+  /**
+   * Use visual editor (GrapesJS) or raw HTML
+   */
+  useVisualEditor?: boolean | null;
+  /**
+   * Visual email template editor
+   */
+  grapesData?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * HTML content (auto-generated from visual editor or manually written)
+   */
+  html: string;
+  /**
+   * Template variables that can be replaced in campaigns
+   */
+  variables?: {
+    /**
+     * Define custom variables (e.g., {{company_name}}, {{product_name}})
+     */
+    list?:
+      | {
+          /**
+           * Variable name (without {{ }})
+           */
+          name: string;
+          /**
+           * Human-readable label
+           */
+          label: string;
+          /**
+           * Default value if not provided
+           */
+          defaultValue?: string | null;
+          /**
+           * Is this variable required?
+           */
+          required?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Built-in Listmonk variables always available
+     */
+    builtIn?: {};
+  };
+  /**
+   * Tenant this template belongs to
+   */
+  tenant: number | Client;
+  /**
+   * Template category for organization
+   */
+  category?: ('welcome' | 'newsletter' | 'promotional' | 'transactional' | 'notification' | 'other') | null;
+  /**
+   * Tags for organizing templates
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Settings for testing this template
+   */
+  testSettings?: {
+    /**
+     * Email addresses for test sends
+     */
+    testRecipients?:
+      | {
+          email: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Last time this template was tested
+     */
+    lastTestedAt?: string | null;
+  };
+  /**
+   * Listmonk template ID (auto-synced)
+   */
+  listmonkId?: number | null;
+  /**
+   * Last synced with Listmonk
+   */
+  lastSyncedAt?: string | null;
+  /**
+   * Sync status with Listmonk
+   */
+  syncStatus?: ('synced' | 'pending' | 'error') | null;
+  /**
+   * Last sync error message (if any)
+   */
+  syncError?: string | null;
+  /**
+   * Active templates can be used in campaigns
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Create and manage email marketing campaigns
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-campaigns".
+ */
+export interface EmailCampaign {
+  id: number;
+  /**
+   * Internal campaign name (not shown to subscribers)
+   */
+  name: string;
+  /**
+   * Email subject line
+   */
+  subject: string;
+  /**
+   * Preview text shown in inbox
+   */
+  preheader?: string | null;
+  /**
+   * Sender name (e.g., "John from Acme Inc")
+   */
+  fromName?: string | null;
+  /**
+   * Sender email (leave empty to use default from SMTP config)
+   */
+  fromEmail?: string | null;
+  /**
+   * Reply-to email address (optional)
+   */
+  replyTo?: string | null;
+  /**
+   * Use existing template or create custom HTML
+   */
+  contentType: 'template' | 'custom';
+  /**
+   * Select template to use
+   */
+  template?: (number | null) | EmailTemplate;
+  /**
+   * Variables to replace in template (e.g., {"product_name": "Pro Plan"})
+   */
+  templateVariables?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Custom HTML content
+   */
+  html?: string | null;
+  /**
+   * Which email lists to send this campaign to
+   */
+  lists: (number | EmailList)[];
+  /**
+   * Exclude subscribers from these lists (optional)
+   */
+  excludeLists?: (number | EmailList)[] | null;
+  /**
+   * Advanced segmentation (optional)
+   */
+  segmentRules?: {
+    /**
+     * Enable segmentation
+     */
+    enabled?: boolean | null;
+    /**
+     * SQL WHERE clause for filtering (e.g., "attribs->>'country' = 'NL'")
+     */
+    query?: string | null;
+  };
+  /**
+   * When to send this campaign (leave empty for draft)
+   */
+  scheduledFor?: string | null;
+  /**
+   * Timezone for scheduled send
+   */
+  timezone?: ('Europe/Amsterdam' | 'America/New_York' | 'America/Los_Angeles' | 'UTC') | null;
+  /**
+   * Campaign status
+   */
+  status: 'draft' | 'scheduled' | 'running' | 'paused' | 'finished' | 'cancelled';
+  /**
+   * When campaign started sending
+   */
+  startedAt?: string | null;
+  /**
+   * When campaign finished sending
+   */
+  completedAt?: string | null;
+  /**
+   * Campaign performance statistics
+   */
+  stats?: {
+    /**
+     * Total emails sent
+     */
+    sent?: number | null;
+    /**
+     * Successfully delivered
+     */
+    delivered?: number | null;
+    /**
+     * Bounced emails
+     */
+    bounced?: number | null;
+    /**
+     * Unique opens
+     */
+    opened?: number | null;
+    /**
+     * Unique clicks
+     */
+    clicked?: number | null;
+    /**
+     * Open rate (%)
+     */
+    openRate?: number | null;
+    /**
+     * Click rate (%)
+     */
+    clickRate?: number | null;
+    /**
+     * Bounce rate (%)
+     */
+    bounceRate?: number | null;
+    /**
+     * Unsubscribes from this campaign
+     */
+    unsubscribed?: number | null;
+  };
+  /**
+   * Tenant this campaign belongs to
+   */
+  tenant: number | Client;
+  /**
+   * Campaign category
+   */
+  category?: ('newsletter' | 'promotional' | 'product_update' | 'announcement' | 'other') | null;
+  /**
+   * Tags for organizing campaigns
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * A/B testing settings (optional)
+   */
+  abTest?: {
+    /**
+     * Enable A/B testing
+     */
+    enabled?: boolean | null;
+    /**
+     * Test variants
+     */
+    variants?:
+      | {
+          /**
+           * Variant name (e.g., "Version A")
+           */
+          name: string;
+          /**
+           * Test subject line
+           */
+          subject: string;
+          /**
+           * Percentage of recipients (%)
+           */
+          percentage: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Listmonk campaign ID (auto-synced)
+   */
+  listmonkCampaignId?: number | null;
+  /**
+   * Last synced with Listmonk
+   */
+  lastSyncedAt?: string | null;
+  /**
+   * Sync status with Listmonk
+   */
+  syncStatus?: ('synced' | 'pending' | 'error') | null;
+  /**
+   * Last sync error message (if any)
+   */
+  syncError?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Inkomende onboarding-verzoeken van nieuwe klanten
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6715,6 +7240,22 @@ export interface PayloadLockedDocument {
         value: number | Event;
       } | null)
     | ({
+        relationTo: 'email-subscribers';
+        value: number | EmailSubscriber;
+      } | null)
+    | ({
+        relationTo: 'email-lists';
+        value: number | EmailList;
+      } | null)
+    | ({
+        relationTo: 'email-templates';
+        value: number | EmailTemplate;
+      } | null)
+    | ({
+        relationTo: 'email-campaigns';
+        value: number | EmailCampaign;
+      } | null)
+    | ({
         relationTo: 'client-requests';
         value: number | ClientRequest;
       } | null)
@@ -6864,26 +7405,26 @@ export interface PagesSelect<T extends boolean = true> {
         spacer?: T | SpacerBlockSelect<T>;
         hero?: T | HeroBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
-        media?: T | MediaBlockSelect<T>;
-        twocolumn?: T | TwoColumnBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+        twoColumn?: T | TwoColumnBlockSelect<T>;
         productGrid?: T | ProductGridBlockSelect<T>;
         categoryGrid?: T | CategoryGridBlockSelect<T>;
         quickOrder?: T | QuickOrderBlockSelect<T>;
         cta?: T | CTABlockSelect<T>;
         calltoaction?: T | CallToActionBlockSelect<T>;
         contact?: T | ContactBlockSelect<T>;
-        contactform?: T | ContactFormBlockSelect<T>;
+        contactForm?: T | ContactFormBlockSelect<T>;
         newsletter?: T | NewsletterBlockSelect<T>;
         features?: T | FeaturesBlockSelect<T>;
         services?: T | ServicesBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
         cases?: T | CasesBlockSelect<T>;
-        logobar?: T | LogoBarBlockSelect<T>;
+        logoBar?: T | LogoBarBlockSelect<T>;
         stats?: T | StatsBlockSelect<T>;
         faq?: T | FAQBlockSelect<T>;
         team?: T | TeamBlockSelect<T>;
         accordion?: T | AccordionBlockSelect<T>;
-        blogpreview?:
+        'blog-preview'?:
           | T
           | {
               title?: T;
@@ -6926,7 +7467,7 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         infobox?: T | InfoBoxBlockSelect<T>;
-        gallery?: T | ImageGalleryBlockSelect<T>;
+        imageGallery?: T | ImageGalleryBlockSelect<T>;
         video?: T | VideoBlockSelect<T>;
         code?: T | CodeBlockSelect<T>;
         map?: T | MapBlockSelect<T>;
@@ -9393,6 +9934,195 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-subscribers_select".
+ */
+export interface EmailSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  name?: T;
+  status?: T;
+  tenant?: T;
+  lists?: T;
+  customFields?: T;
+  preferences?:
+    | T
+    | {
+        marketingEmails?: T;
+        productUpdates?: T;
+        newsletter?: T;
+      };
+  source?: T;
+  listmonkId?: T;
+  lastSyncedAt?: T;
+  syncStatus?: T;
+  syncError?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-lists_select".
+ */
+export interface EmailListsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  type?: T;
+  optin?: T;
+  tenant?: T;
+  subscriberCount?: T;
+  subscriptionSettings?:
+    | T
+    | {
+        welcomeEmail?: T;
+        welcomeEmailTemplate?: T;
+        confirmationPage?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  category?: T;
+  listmonkId?: T;
+  lastSyncedAt?: T;
+  syncStatus?: T;
+  syncError?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-templates_select".
+ */
+export interface EmailTemplatesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  type?: T;
+  isDefault?: T;
+  defaultSubject?: T;
+  preheader?: T;
+  useVisualEditor?: T;
+  grapesData?: T;
+  html?: T;
+  variables?:
+    | T
+    | {
+        list?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+            };
+        builtIn?: T | {};
+      };
+  tenant?: T;
+  category?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  testSettings?:
+    | T
+    | {
+        testRecipients?:
+          | T
+          | {
+              email?: T;
+              id?: T;
+            };
+        lastTestedAt?: T;
+      };
+  listmonkId?: T;
+  lastSyncedAt?: T;
+  syncStatus?: T;
+  syncError?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-campaigns_select".
+ */
+export interface EmailCampaignsSelect<T extends boolean = true> {
+  name?: T;
+  subject?: T;
+  preheader?: T;
+  fromName?: T;
+  fromEmail?: T;
+  replyTo?: T;
+  contentType?: T;
+  template?: T;
+  templateVariables?: T;
+  html?: T;
+  lists?: T;
+  excludeLists?: T;
+  segmentRules?:
+    | T
+    | {
+        enabled?: T;
+        query?: T;
+      };
+  scheduledFor?: T;
+  timezone?: T;
+  status?: T;
+  startedAt?: T;
+  completedAt?: T;
+  stats?:
+    | T
+    | {
+        sent?: T;
+        delivered?: T;
+        bounced?: T;
+        opened?: T;
+        clicked?: T;
+        openRate?: T;
+        clickRate?: T;
+        bounceRate?: T;
+        unsubscribed?: T;
+      };
+  tenant?: T;
+  category?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  abTest?:
+    | T
+    | {
+        enabled?: T;
+        variants?:
+          | T
+          | {
+              name?: T;
+              subject?: T;
+              percentage?: T;
+              id?: T;
+            };
+      };
+  listmonkCampaignId?: T;
+  lastSyncedAt?: T;
+  syncStatus?: T;
+  syncError?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "client-requests_select".
  */
 export interface ClientRequestsSelect<T extends boolean = true> {
@@ -10230,288 +10960,480 @@ export interface Theme1 {
   createdAt?: string | null;
 }
 /**
- * Alle header-gerelateerde instellingen: TopBar, AlertBar, Navigatie, Branding
+ * Complete header configuratie: Topbar, Navigation, Search, Mobile Drawer, Talen & Prijzen
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header".
  */
 export interface Header {
   id: number;
-  topBar?: {
-    /**
-     * Schakel de TopBar in of uit
-     */
+  /**
+   * Mega Nav: Topbar + Header + Navigatie balk (ideaal voor webshops). Single Row: Alles op 1 rij (compacte sites). Minimal: Alleen logo en acties (landing pages).
+   */
+  layoutType: 'mega-nav' | 'single-row' | 'minimal';
+  /**
+   * Topbar met USP berichten, links, taalwisselaar en prijs toggle. Configureer in "Topbar" tab.
+   */
+  showTopbar?: boolean | null;
+  /**
+   * Alert bar met belangrijke mededelingen. Configureer in "Alert Bar" tab.
+   */
+  showAlertBar?: boolean | null;
+  /**
+   * Hoofdnavigatie menu. Configureer in "Navigatie" tab. Niet beschikbaar bij Minimal layout.
+   */
+  showNavigation?: boolean | null;
+  /**
+   * Zoekbalk in header. Op mobile wordt dit een search icon met overlay. Configureer in "Zoeken" tab.
+   */
+  showSearchBar?: boolean | null;
+  /**
+   * Let op: Als "Toon Topbar" uitstaat in Layout tab, wordt de topbar niet getoond, zelfs als deze hier aanstaat.
+   */
+  topbarEnabled?: boolean | null;
+  /**
+   * CSS variabele (bijv: var(--color-primary)) of hex code (#0A1628). Gebruik CSS vars voor theme compliance!
+   */
+  topbarBgColor?: string | null;
+  /**
+   * CSS variabele of hex code. Gebruik var(--color-white) aanbevolen.
+   */
+  topbarTextColor?: string | null;
+  /**
+   * USP berichten aan de linkerkant (bijv: "Gratis verzending vanaf €150")
+   */
+  topbarMessages?:
+    | {
+        /**
+         * Lucide icon naam
+         */
+        icon?:
+          | (
+              | ''
+              | 'BadgeCheck'
+              | 'Truck'
+              | 'Shield'
+              | 'Award'
+              | 'Zap'
+              | 'CreditCard'
+              | 'Lock'
+              | 'RefreshCw'
+              | 'CheckCircle'
+            )
+          | null;
+        text: string;
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Actie links aan de rechterkant (bijv: "Klant worden", "Contact"). Verschijnen VOOR de taalwisselaar/prijs toggle.
+   */
+  topbarRightLinks?:
+    | {
+        label: string;
+        link: string;
+        icon?: ('' | 'Phone' | 'Mail' | 'MapPin' | 'Clock' | 'Users') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Taalwisselaar in topbar (rechts). Bij 2-3 talen: button group. Bij 4+ talen: dropdown.
+   */
+  enableLanguageSwitcher?: boolean | null;
+  /**
+   * Configureer beschikbare talen. Eerste taal met isDefault=true wordt standaard.
+   */
+  languages?:
+    | {
+        /**
+         * Hoofdletters (NL, EN, DE, FR, ES, IT, etc.)
+         */
+        code: string;
+        label: string;
+        /**
+         * Optioneel maar aanbevolen voor visuele herkenning
+         */
+        flag?: string | null;
+        /**
+         * Slechts 1 taal mag default zijn
+         */
+        isDefault?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Prijs wisselaar in topbar (rechts). Gebruikers kunnen schakelen tussen particuliere en zakelijke prijzen.
+   */
+  enablePriceToggle?: boolean | null;
+  priceToggle?: {
+    defaultMode?: ('b2c' | 'b2b') | null;
+    b2cLabel?: string | null;
+    b2bLabel?: string | null;
+  };
+  /**
+   * Toon een alert bar bovenaan alle pagina's (boven topbar). Let op: Als "Toon Alert Bar" uitstaat in Layout tab, wordt deze niet getoond.
+   */
+  alertBarEnabled?: boolean | null;
+  /**
+   * De boodschap die getoond wordt
+   */
+  alertBarMessage?: string | null;
+  /**
+   * Type bepaalt de kleur (tenzij custom colors ingeschakeld)
+   */
+  alertBarType?: ('info' | 'success' | 'warning' | 'error' | 'promo') | null;
+  /**
+   * Lucide icon naam
+   */
+  alertBarIcon?:
+    | (
+        | ''
+        | 'Info'
+        | 'CheckCircle'
+        | 'AlertCircle'
+        | 'XCircle'
+        | 'Gift'
+        | 'Zap'
+        | 'Bell'
+        | 'Megaphone'
+        | 'Award'
+        | 'Truck'
+      )
+    | null;
+  alertBarLink?: {
     enabled?: boolean | null;
     /**
-     * Hex kleurcode voor achtergrond (bijv: #0A1628)
+     * Bijvoorbeeld: "Bekijk aanbiedingen"
+     */
+    label?: string | null;
+    /**
+     * Interne (/shop) of externe URL
+     */
+    url?: string | null;
+  };
+  /**
+   * Gebruikers kunnen de alert sluiten (wordt opgeslagen in localStorage)
+   */
+  alertBarDismissible?: boolean | null;
+  /**
+   * Automatisch tonen/verbergen op basis van datums
+   */
+  alertBarSchedule?: {
+    useSchedule?: boolean | null;
+    /**
+     * Alert wordt getoond vanaf deze datum
+     */
+    startDate?: string | null;
+    /**
+     * Alert wordt verborgen na deze datum
+     */
+    endDate?: string | null;
+  };
+  /**
+   * Overschrijf standaard kleuren voor dit type
+   */
+  alertBarCustomColors?: {
+    useCustomColors?: boolean | null;
+    /**
+     * CSS var of hex code (bijv. var(--color-info) of #0A1628)
      */
     backgroundColor?: string | null;
     /**
-     * Hex kleurcode voor tekst (bijv: #FFFFFF)
+     * CSS var of hex code
      */
     textColor?: string | null;
-    /**
-     * USP's en belangrijke berichten aan de linkerkant
-     */
-    leftMessages?:
-      | {
-          /**
-           * Kies een Lucide icon
-           */
-          icon?:
-            | (
-                | ''
-                | 'BadgeCheck'
-                | 'Truck'
-                | 'Shield'
-                | 'Award'
-                | 'Phone'
-                | 'Mail'
-                | 'Clock'
-                | 'MapPin'
-                | 'CheckCircle'
-                | 'CreditCard'
-                | 'Lock'
-                | 'Zap'
-                | 'Gift'
-                | 'RefreshCw'
-                | 'Users'
-              )
-            | null;
-          text: string;
-          link?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-    /**
-     * Actie links aan de rechterkant (bijv: Klant worden, Contact)
-     */
-    rightLinks?:
-      | {
-          label: string;
-          link: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  alertBar?: {
-    /**
-     * Toon een melding bovenaan alle pagina's
-     */
-    enabled?: boolean | null;
-    /**
-     * De boodschap die getoond wordt
-     */
-    message?: string | null;
-    /**
-     * Type bepaalt de kleur
-     */
-    type?: ('info' | 'success' | 'warning' | 'error' | 'promo') | null;
-    /**
-     * Kies een Lucide icon
-     */
-    icon?:
-      | (
-          | ''
-          | 'BadgeCheck'
-          | 'Truck'
-          | 'Award'
-          | 'Gift'
-          | 'Zap'
-          | 'AlertCircle'
-          | 'Info'
-          | 'CheckCircle'
-          | 'Bell'
-          | 'Megaphone'
-        )
-      | null;
-    link?: {
-      enabled?: boolean | null;
-      /**
-       * Bijvoorbeeld: "Bekijk aanbiedingen"
-       */
-      label?: string | null;
-      /**
-       * Interne (/shop) of externe URL
-       */
-      url?: string | null;
-    };
-    /**
-     * Gebruikers kunnen de alert sluiten
-     */
-    dismissible?: boolean | null;
-    /**
-     * Automatisch tonen/verbergen op basis van datums
-     */
-    schedule?: {
-      useSchedule?: boolean | null;
-      /**
-       * Alert wordt getoond vanaf deze datum
-       */
-      startDate?: string | null;
-      /**
-       * Alert wordt verborgen na deze datum
-       */
-      endDate?: string | null;
-    };
-    /**
-     * Overschrijf standaard kleuren voor dit type
-     */
-    customColors?: {
-      useCustomColors?: boolean | null;
-      /**
-       * Hex code (bijv. #0A1628)
-       */
-      backgroundColor?: string | null;
-      /**
-       * Hex code (bijv. #FFFFFF)
-       */
-      textColor?: string | null;
-    };
   };
   /**
-   * Optional: Override site logo specifically for header. Leave empty to use logo from Site Settings.
+   * Upload het site logo. Laat leeg om het logo uit Site Settings te gebruiken. PNG/SVG aanbevolen.
    */
-  logoOverride?: (number | null) | Media;
+  logo?: (number | null) | Media;
   /**
-   * Optional: Override site name specifically for header. Leave empty to use name from Site Settings.
+   * Logo hoogte in pixels. 32px = standaard, 40-48px = groot, 20-28px = klein. Breedte schaalt automatisch.
    */
-  siteNameOverride?: string | null;
+  logoHeight?: number | null;
   /**
-   * Optioneel: Dit deel wordt in de primaire kleur getoond (bijv. "med" in "plastimed"). Laat leeg als je geen accent wilt.
+   * URL waar het logo naartoe linkt. Standaard: homepage (/).
+   */
+  logoUrl?: string | null;
+  /**
+   * Optioneel: Overschrijf sitenaam alleen voor header. Laat leeg om sitenaam uit Site Settings te gebruiken.
+   */
+  siteName?: string | null;
+  /**
+   * Optioneel: Dit deel wordt in de primary kleur getoond (bijv. "med" in "plastimed"). Laat leeg als je geen accent wilt.
    */
   siteNameAccent?: string | null;
   /**
-   * Show/hide the search bar in header
+   * Op mobile (<768px) logo tonen? Uit voor extra ruimte voor andere elementen.
    */
-  enableSearch?: boolean | null;
+  showLogoOnMobile?: boolean | null;
+  /**
+   * Handmatig: Je beheert alle items zelf. Categorie-gedreven: Automatisch uit Products categorieën (ideaal voor webshops). Hybride: Beste van beide werelden.
+   */
+  navigationMode: 'manual' | 'categories' | 'hybrid';
+  /**
+   * Configureer hoe product categorieën in de navigatie worden getoond
+   */
+  categoryNavigation?: {
+    /**
+     * Toon emoji/icons voor elke categorie in de navigatiebalk
+     */
+    showCategoryIcons?: boolean | null;
+    /**
+     * Toon aantal producten per subcategorie in het mega menu
+     */
+    showProductCount?: boolean | null;
+    /**
+     * Bepaalt hoeveel content er in het mega menu wordt getoond
+     */
+    megaMenuStyle: 'subcategories' | 'with-products' | 'full';
+    /**
+     * Maximaal aantal categorieën in de navigatiebalk (1-12). Te veel items passen niet op het scherm.
+     */
+    maxCategories?: number | null;
+    /**
+     * Aantal populaire producten per categorie (alleen bij stijl "with-products" of "full")
+     */
+    maxProductsInMega?: number | null;
+  };
+  /**
+   * Extra items zoals "Aanbiedingen", "Nieuw", etc. Deze verschijnen altijd in de navigatie, ongeacht de modus.
+   */
+  specialNavItems?:
+    | {
+        label: string;
+        icon?: ('' | 'Flame' | 'Star' | 'Gift' | 'Sparkles' | 'Package' | 'Tag' | 'Zap') | null;
+        url: string;
+        /**
+         * Toont in accent kleur (bijv. coral/teal) voor extra aandacht
+         */
+        highlight?: boolean | null;
+        position?: ('start' | 'end') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Zelf menu items toevoegen. In hybride modus worden deze getoond naast de categorie items.
+   */
+  manualNavItems?:
+    | {
+        label: string;
+        icon?:
+          | (
+              | ''
+              | 'Home'
+              | 'Package'
+              | 'Building2'
+              | 'Users'
+              | 'Award'
+              | 'FileText'
+              | 'ShoppingCart'
+              | 'Mail'
+              | 'Phone'
+              | 'Info'
+            )
+          | null;
+        type?: ('page' | 'external' | 'mega') | null;
+        page?: (number | null) | Page;
+        url?: string | null;
+        /**
+         * Voeg meerdere kolommen toe voor een mega dropdown menu
+         */
+        megaColumns?:
+          | {
+              title?: string | null;
+              links?:
+                | {
+                    label: string;
+                    url: string;
+                    icon?: string | null;
+                    description?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Simpele dropdown (geen mega menu)
+         */
+        subItems?:
+          | {
+              label: string;
+              page?: (number | null) | Page;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  ctaButton?: {
+    /**
+     * Toon een opvallende CTA knop rechts in de navigatiebalk (bijv. "Contact", "Offerte aanvragen")
+     */
+    enabled?: boolean | null;
+    text?: string | null;
+    link?: string | null;
+    style?: ('primary' | 'secondary' | 'outline') | null;
+  };
+  /**
+   * Let op: Als "Toon Zoekbalk" uitstaat in Layout tab, wordt de zoekbalk niet getoond, zelfs als deze hier aanstaat.
+   */
+  searchEnabled?: boolean | null;
   searchPlaceholder?: string | null;
   /**
-   * Shows phone number from Shop Settings
+   * Toon deze hint in de zoekbalk (bijv. ⌘K op Mac, Ctrl+K op Windows). De shortcut moet in frontend code geïmplementeerd worden.
    */
-  showPhone?: boolean | null;
-  showWishlist?: boolean | null;
-  showAccount?: boolean | null;
-  showCart?: boolean | null;
+  searchKeyboardShortcut?: string | null;
   /**
-   * Add custom action buttons to the header
+   * Op mobile: altijd overlay. Op desktop: overlay optioneel (als uit: inline search dropdown).
    */
-  customButtons?:
+  enableSearchOverlay?: boolean | null;
+  /**
+   * Autocomplete suggesties tijdens het typen
+   */
+  enableSearchSuggestions?: boolean | null;
+  /**
+   * Quick links die onder de zoekbalk verschijnen wanneer deze focus heeft (bijv. "Alle producten", "Nieuw", "Sale")
+   */
+  searchCategories?:
     | {
         label: string;
         url: string;
+        icon?: ('' | 'Package' | 'Sparkles' | 'Flame' | 'Star' | 'Tag') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Toon telefoon knop met nummer uit Shop Settings. Op mobile: click-to-call link.
+   */
+  showPhoneButton?: boolean | null;
+  /**
+   * Toon winkelwagen icon met badge (aantal items).
+   */
+  showCartButton?: boolean | null;
+  /**
+   * Toon account/login knop. Als ingelogd: dropdown met account opties.
+   */
+  showAccountButton?: boolean | null;
+  /**
+   * Toon wishlist/favorieten knop met badge (aantal items).
+   */
+  showWishlistButton?: boolean | null;
+  /**
+   * Voeg extra actie knoppen toe (bijv. "Vergelijk", "Downloads", etc.). Verschijnen NA de standaard knoppen.
+   */
+  customActionButtons?:
+    | {
         /**
-         * Kies een Lucide icon
+         * Voor accessibility (screen readers)
          */
-        icon?:
-          | ('' | 'Phone' | 'Mail' | 'MapPin' | 'ShoppingCart' | 'User' | 'Clipboard' | 'CreditCard' | 'Search')
-          | null;
+        label: string;
+        /**
+         * Lucide icon naam
+         */
+        icon:
+          | 'Search'
+          | 'ShoppingCart'
+          | 'User'
+          | 'Heart'
+          | 'Scale'
+          | 'Clipboard'
+          | 'Phone'
+          | 'Mail'
+          | 'MapPin'
+          | 'Download'
+          | 'Bell'
+          | 'Settings';
+        url: string;
+        /**
+         * Toon een count badge (bijv. aantal items). Badge waarde moet via JavaScript geüpdatet worden.
+         */
+        showBadge?: boolean | null;
+        /**
+         * Toon deze knop ook op mobile (<768px)? Ruimte is beperkt!
+         */
+        showOnMobile?: boolean | null;
         style?: ('default' | 'primary' | 'secondary') | null;
         id?: string | null;
       }[]
     | null;
-  navigation: {
-    /**
-     * Bepaalt hoe het navigatiemenu wordt opgebouwd. Categorie-gedreven is ideaal voor webshops.
-     */
-    mode: 'manual' | 'categories' | 'hybrid';
-    /**
-     * Configureer hoe product categorieën in de navigatie worden getoond
-     */
-    categorySettings?: {
-      /**
-       * Toon emoji/icons voor elke categorie in de navigatiebalk
-       */
-      showIcons?: boolean | null;
-      /**
-       * Toon aantal producten per subcategorie in het mega menu
-       */
-      showProductCount?: boolean | null;
-      /**
-       * Bepaalt hoeveel content er in het mega menu wordt getoond
-       */
-      megaMenuStyle: 'subcategories' | 'with-products' | 'full';
-      /**
-       * Maximaal aantal categorieën in de navigatiebalk (1-20). Meer items kunnen niet op het scherm passen.
-       */
-      maxItems?: number | null;
-      /**
-       * Aantal populaire producten per categorie in mega menu (alleen bij stijl "with-products" of "full")
-       */
-      maxProductsInMegaMenu?: number | null;
-    };
-    /**
-     * Extra items zoals "Aanbiedingen", "Nieuw", etc. Deze verschijnen altijd in de navigatie, ongeacht de modus.
-     */
-    specialItems?:
-      | {
-          label: string;
-          /**
-           * Kies een Lucide icon
-           */
-          icon?: ('' | 'Flame' | 'Star' | 'Gift' | 'Sparkles' | 'Package' | 'Tag' | 'Truck' | 'Zap') | null;
-          url: string;
-          /**
-           * Toont in coral/rood kleur voor extra aandacht
-           */
-          highlight?: boolean | null;
-          /**
-           * Waar dit item in de navigatie verschijnt
-           */
-          position?: ('start' | 'end') | null;
-          id?: string | null;
-        }[]
-      | null;
-    /**
-     * Voeg zelf menu items toe. In hybride modus worden deze getoond naast de categorie items.
-     */
-    items?:
-      | {
-          label: string;
-          /**
-           * Kies een Lucide icon
-           */
-          icon?:
-            | (
-                | ''
-                | 'Package'
-                | 'Building2'
-                | 'Users'
-                | 'Award'
-                | 'FileText'
-                | 'ShoppingCart'
-                | 'Mail'
-                | 'Phone'
-                | 'Home'
-              )
-            | null;
-          type?: ('page' | 'external') | null;
-          page?: (number | null) | Page;
-          url?: string | null;
-          children?:
-            | {
-                label: string;
-                page?: (number | null) | Page;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    ctaButton?: {
-      text?: string | null;
-      link?: string | null;
-      show?: boolean | null;
-    };
+  /**
+   * Breedte van de mobile drawer in pixels. 320px = standaard (100% op kleine phones), 360-400px = breed.
+   */
+  mobileDrawerWidth?: number | null;
+  /**
+   * Van welke kant schuift de mobile drawer in?
+   */
+  mobileDrawerPosition?: ('left' | 'right') | null;
+  /**
+   * Toon telefoon en email onderaan de mobile drawer (uit Shop Settings).
+   */
+  showMobileContactInfo?: boolean | null;
+  /**
+   * Overschrijf contact info alleen voor mobile drawer. Laat leeg om info uit Shop Settings te gebruiken.
+   */
+  mobileContactInfo?: {
+    phone?: string | null;
+    email?: string | null;
   };
   /**
-   * Header stays visible when scrolling
+   * Toon taalwisselaar en/of prijs toggle onderaan de mobile drawer (als deze ingeschakeld zijn).
+   */
+  showMobileToggles?: boolean | null;
+  /**
+   * Bij welke breedte (px) schakelt de header naar mobile modus? 768px = standaard (tablet), 1024px = alleen phone.
+   */
+  mobileBreakpoint?: number | null;
+  /**
+   * AANBEVOLEN: Gebruik kleuren uit Theme Global (var(--color-*)). Als uit: gebruik custom hex codes hieronder.
+   */
+  useThemeColors?: boolean | null;
+  /**
+   * Achtergrondkleur van de hoofdheader. Gebruik CSS variabele (var(--color-white)) of hex code (#FFFFFF).
+   */
+  headerBgColor?: string | null;
+  /**
+   * Achtergrondkleur van de navigatiebalk (alleen bij mega-nav layout). Gebruik var(--color-primary) aanbevolen.
+   */
+  navBgColor?: string | null;
+  /**
+   * Tekstkleur in de navigatiebalk. Gebruik var(--color-white) aanbevolen.
+   */
+  navTextColor?: string | null;
+  /**
+   * Optioneel: Andere achtergrondkleur als header sticky wordt. Laat leeg om zelfde kleur te gebruiken.
+   */
+  stickyHeaderBg?: string | null;
+  /**
+   * Toon schaduw onder header wanneer sticky (scroll)
+   */
+  stickyHeaderShadow?: boolean | null;
+  /**
+   * Header blijft bovenaan vast zitten bij scrollen. Aanbevolen voor betere navigatie.
    */
   stickyHeader?: boolean | null;
   /**
-   * Show shadow beneath header
+   * Wanneer wordt header sticky? "Scroll-up" = verschijnt bij terugscrollen (space-saving).
    */
-  showShadow?: boolean | null;
+  stickyBehavior?: ('always' | 'scroll-up' | 'scroll-down') | null;
+  /**
+   * Verberg de topbar automatisch bij scrollen om ruimte te besparen. Topbar verschijnt weer bij terugscrollen.
+   */
+  hideTopbarOnScroll?: boolean | null;
+  /**
+   * Smooth animations voor dropdowns, mobile drawer, sticky header, etc. Zet uit voor betere performance op langzame devices.
+   */
+  enableAnimations?: boolean | null;
+  /**
+   * Vertraging voordat dropdown menu opent bij hover (in milliseconden). 150ms = standaard, 0ms = instant.
+   */
+  dropdownOpenDelay?: number | null;
+  /**
+   * Vertraging voordat dropdown menu sluit na mouse-out (in milliseconden). 300ms = standaard (tijd om terug te bewegen).
+   */
+  dropdownCloseDelay?: number | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -11121,126 +12043,191 @@ export interface ThemeSelect<T extends boolean = true> {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  topBar?:
+  layoutType?: T;
+  showTopbar?: T;
+  showAlertBar?: T;
+  showNavigation?: T;
+  showSearchBar?: T;
+  topbarEnabled?: T;
+  topbarBgColor?: T;
+  topbarTextColor?: T;
+  topbarMessages?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        link?: T;
+        id?: T;
+      };
+  topbarRightLinks?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+        icon?: T;
+        id?: T;
+      };
+  enableLanguageSwitcher?: T;
+  languages?:
+    | T
+    | {
+        code?: T;
+        label?: T;
+        flag?: T;
+        isDefault?: T;
+        id?: T;
+      };
+  enablePriceToggle?: T;
+  priceToggle?:
+    | T
+    | {
+        defaultMode?: T;
+        b2cLabel?: T;
+        b2bLabel?: T;
+      };
+  alertBarEnabled?: T;
+  alertBarMessage?: T;
+  alertBarType?: T;
+  alertBarIcon?: T;
+  alertBarLink?:
     | T
     | {
         enabled?: T;
+        label?: T;
+        url?: T;
+      };
+  alertBarDismissible?: T;
+  alertBarSchedule?:
+    | T
+    | {
+        useSchedule?: T;
+        startDate?: T;
+        endDate?: T;
+      };
+  alertBarCustomColors?:
+    | T
+    | {
+        useCustomColors?: T;
         backgroundColor?: T;
         textColor?: T;
-        leftMessages?:
+      };
+  logo?: T;
+  logoHeight?: T;
+  logoUrl?: T;
+  siteName?: T;
+  siteNameAccent?: T;
+  showLogoOnMobile?: T;
+  navigationMode?: T;
+  categoryNavigation?:
+    | T
+    | {
+        showCategoryIcons?: T;
+        showProductCount?: T;
+        megaMenuStyle?: T;
+        maxCategories?: T;
+        maxProductsInMega?: T;
+      };
+  specialNavItems?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        url?: T;
+        highlight?: T;
+        position?: T;
+        id?: T;
+      };
+  manualNavItems?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        type?: T;
+        page?: T;
+        url?: T;
+        megaColumns?:
           | T
           | {
-              icon?: T;
-              text?: T;
-              link?: T;
+              title?: T;
+              links?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    icon?: T;
+                    description?: T;
+                    id?: T;
+                  };
               id?: T;
             };
-        rightLinks?:
+        subItems?:
           | T
           | {
               label?: T;
-              link?: T;
+              page?: T;
               id?: T;
             };
+        id?: T;
       };
-  alertBar?:
+  ctaButton?:
     | T
     | {
         enabled?: T;
-        message?: T;
-        type?: T;
-        icon?: T;
-        link?:
-          | T
-          | {
-              enabled?: T;
-              label?: T;
-              url?: T;
-            };
-        dismissible?: T;
-        schedule?:
-          | T
-          | {
-              useSchedule?: T;
-              startDate?: T;
-              endDate?: T;
-            };
-        customColors?:
-          | T
-          | {
-              useCustomColors?: T;
-              backgroundColor?: T;
-              textColor?: T;
-            };
+        text?: T;
+        link?: T;
+        style?: T;
       };
-  logoOverride?: T;
-  siteNameOverride?: T;
-  siteNameAccent?: T;
-  enableSearch?: T;
+  searchEnabled?: T;
   searchPlaceholder?: T;
-  showPhone?: T;
-  showWishlist?: T;
-  showAccount?: T;
-  showCart?: T;
-  customButtons?:
+  searchKeyboardShortcut?: T;
+  enableSearchOverlay?: T;
+  enableSearchSuggestions?: T;
+  searchCategories?:
     | T
     | {
         label?: T;
         url?: T;
         icon?: T;
+        id?: T;
+      };
+  showPhoneButton?: T;
+  showCartButton?: T;
+  showAccountButton?: T;
+  showWishlistButton?: T;
+  customActionButtons?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        url?: T;
+        showBadge?: T;
+        showOnMobile?: T;
         style?: T;
         id?: T;
       };
-  navigation?:
+  mobileDrawerWidth?: T;
+  mobileDrawerPosition?: T;
+  showMobileContactInfo?: T;
+  mobileContactInfo?:
     | T
     | {
-        mode?: T;
-        categorySettings?:
-          | T
-          | {
-              showIcons?: T;
-              showProductCount?: T;
-              megaMenuStyle?: T;
-              maxItems?: T;
-              maxProductsInMegaMenu?: T;
-            };
-        specialItems?:
-          | T
-          | {
-              label?: T;
-              icon?: T;
-              url?: T;
-              highlight?: T;
-              position?: T;
-              id?: T;
-            };
-        items?:
-          | T
-          | {
-              label?: T;
-              icon?: T;
-              type?: T;
-              page?: T;
-              url?: T;
-              children?:
-                | T
-                | {
-                    label?: T;
-                    page?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        ctaButton?:
-          | T
-          | {
-              text?: T;
-              link?: T;
-              show?: T;
-            };
+        phone?: T;
+        email?: T;
       };
+  showMobileToggles?: T;
+  mobileBreakpoint?: T;
+  useThemeColors?: T;
+  headerBgColor?: T;
+  navBgColor?: T;
+  navTextColor?: T;
+  stickyHeaderBg?: T;
+  stickyHeaderShadow?: T;
   stickyHeader?: T;
-  showShadow?: T;
+  stickyBehavior?: T;
+  hideTopbarOnScroll?: T;
+  enableAnimations?: T;
+  dropdownOpenDelay?: T;
+  dropdownCloseDelay?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
