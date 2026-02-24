@@ -1,7 +1,7 @@
 'use client'
 
 import { Message } from '@/branches/shared/components/common/Message'
-import { Price } from '@/branches/shared/components/features/ecommerce/Price'
+import { Price } from '@/branches/ecommerce/components/features/ecommerce/Price'
 import { Button } from '@/branches/shared/components/ui/button'
 import { Input } from '@/branches/shared/components/ui/input'
 import { Label } from '@/branches/shared/components/ui/label'
@@ -15,7 +15,7 @@ import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import { ChevronDown, ChevronUp, ShoppingBag, Lock, CreditCard, MapPin, Mail } from 'lucide-react'
 
 import { cssVariables } from '@/cssVariables'
-import { CheckoutForm } from '@/branches/shared/components/forms/CheckoutForm'
+import { CheckoutForm } from '@/branches/ecommerce/components/forms/CheckoutForm'
 import { useAddresses, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { CheckoutAddresses } from '@/branches/ecommerce/components/checkout/CheckoutAddresses'

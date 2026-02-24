@@ -90,7 +90,7 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link href="/register/" className="text-sm hover:text-teal-400 transition-colors">
+              <Link href="/auth/register/" className="text-sm hover:text-teal-400 transition-colors">
                 Klant worden
               </Link>
             </li>

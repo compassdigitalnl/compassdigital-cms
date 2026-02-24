@@ -51,7 +51,7 @@ import { AlertBar } from './AlertBar'
 import { MobileDrawer } from './MobileDrawer'
 import { NavigationBar } from './NavigationBar'
 import { useSearch } from '@/branches/shared/components/features/search/search/SearchProvider'
-import { useMiniCart } from '@/branches/shared/components/ui/MiniCart'
+import { useMiniCart } from '@/branches/ecommerce/components/ui/MiniCart'
 import type { Settings } from '@/payload-types'
 
 type Props = {

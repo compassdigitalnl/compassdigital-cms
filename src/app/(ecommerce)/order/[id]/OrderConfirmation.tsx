@@ -371,7 +371,7 @@ export function OrderConfirmation({ orderId }: OrderConfirmationProps) {
               eigen dashboard.
             </p>
             <Link
-              href="/register/"
+              href="/auth/register/"
               className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-bold hover:bg-teal-500 transition-all relative"
             >
               <UserPlus className="w-4 h-4" />

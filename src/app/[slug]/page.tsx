@@ -6,9 +6,9 @@ import { RenderBlocks } from '@/branches/shared/blocks/RenderBlocks'
 import { JsonLdSchema } from '@/branches/shared/components/seo/JsonLdSchema'
 import { generateMeta } from '@/utilities/generateMeta'
 import type { Page, Product } from '@/payload-types'
-import ProductTemplate1 from '@/app/(ecommerce)/shop/[slug]/ProductTemplate1'
-import ProductTemplate2 from '@/app/(ecommerce)/shop/[slug]/ProductTemplate2'
-import ProductTemplate3 from '@/app/(ecommerce)/shop/[slug]/ProductTemplate3'
+import ProductTemplate1 from '@/branches/ecommerce/components/templates/products/ProductTemplate1'
+import ProductTemplate2 from '@/branches/ecommerce/components/templates/products/ProductTemplate2'
+import ProductTemplate3 from '@/branches/ecommerce/components/templates/products/ProductTemplate3'
 import ShopArchiveTemplate1 from '@/app/(ecommerce)/shop/ShopArchiveTemplate1'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
@@ -20,20 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const payload = await getPayload({ config: configPromise })
 
-  // 1. Try CMS page first (highest priority)
-  const pages = await payload.find({
-    collection: 'pages',
-    limit: 1,
-    where: { slug: { equals: slug } },
-    depth: 0,
-    select: { title: true, meta: true },
-  })
-
-  if (pages.docs[0]) {
-    return generateMeta({ doc: pages.docs[0] })
-  }
-
-  // 2. Try product
+  // 1. Try product first (HIGHEST PRIORITY - WooCommerce style)
   const products = await payload.find({
     collection: 'products',
     limit: 1,
@@ -55,7 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
   }
 
-  // 3. Try category
+  // 2. Try category
   const categories = await payload.find({
     collection: 'product-categories',
     limit: 1,
@@ -71,6 +58,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
   }
 
+  // 3. Try CMS page last (LOWEST PRIORITY - prevents blocking products)
+  const pages = await payload.find({
+    collection: 'pages',
+    limit: 1,
+    where: { slug: { equals: slug } },
+    depth: 0,
+    select: { title: true, meta: true },
+  })
+
+  if (pages.docs[0]) {
+    return generateMeta({ doc: pages.docs[0] })
+  }
+
   return { title: 'Niet gevonden' }
 }
 
@@ -78,25 +78,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const { slug = 'home' } = await params
   const payload = await getPayload({ config: configPromise })
 
-  // ── 1. Try CMS Page first (highest priority) ──────────────────
-  const pages = await payload.find({
-    collection: 'pages',
-    limit: 1,
-    where: { slug: { equals: slug } },
-  })
-
-  const page = pages.docs[0] as Page | undefined
-
-  if (page) {
-    return (
-      <article className="pt-16 pb-24">
-        <JsonLdSchema page={page} />
-        <RenderBlocks blocks={page.layout} />
-      </article>
-    )
-  }
-
-  // ── 2. Try Product ─────────────────────────────────────────────
+  // ── 1. Try Product FIRST (HIGHEST PRIORITY - WooCommerce style) ──
+  // This prevents CMS pages from blocking product URLs (e.g. CMS page "laptop" blocking product "laptop")
   const products = await payload.find({
     collection: 'products',
     limit: 1,
@@ -142,7 +125,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     )
   }
 
-  // ── 3. Try Category ────────────────────────────────────────────
+  // ── 2. Try Category ────────────────────────────────────────────
   const categories = await payload.find({
     collection: 'product-categories',
     limit: 1,
@@ -173,6 +156,24 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           totalProducts={totalDocs}
         />
       </div>
+    )
+  }
+
+  // ── 3. Try CMS Page LAST (LOWEST PRIORITY - fallback) ─────────
+  const pages = await payload.find({
+    collection: 'pages',
+    limit: 1,
+    where: { slug: { equals: slug } },
+  })
+
+  const page = pages.docs[0] as Page | undefined
+
+  if (page) {
+    return (
+      <article className="pt-16 pb-24">
+        <JsonLdSchema page={page} />
+        <RenderBlocks blocks={page.layout} />
+      </article>
     )
   }
 
