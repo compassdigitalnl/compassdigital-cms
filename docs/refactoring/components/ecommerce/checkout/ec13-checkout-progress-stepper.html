@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC13: CheckoutProgressStepper — Compass Design System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ================================
+       DESIGN TOKENS
+       ================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --green: #00C853;
+      --green-glow: rgba(0, 200, 83, 0.3);
+      --teal-glow: rgba(0, 137, 123, 0.4);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-24: 24px;
+      --space-32: 32px;
+      --space-48: 48px;
+      --space-50: 50px;
+
+      /* Border Radius */
+      --radius: 12px;
+      --radius-lg: 14px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-step-completed: 0 2px 8px var(--green-glow);
+      --shadow-step-active: 0 4px 12px var(--teal-glow);
+      --shadow-step-pending: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ================================
+       BASE STYLES
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ================================
+       DEMO SECTION STYLES
+       ================================ */
+    .demo-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      border: 1px solid var(--grey);
+    }
+
+    .demo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    /* ================================
+       COMPONENT: EC13 CheckoutProgressStepper
+       ================================ */
+
+    /* Wrapper container */
+    .checkout-progress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      padding: 0 var(--space-8);
+    }
+
+    /* Connection lines background */
+    .progress-line {
+      position: absolute;
+      top: 20px; /* Aligns with center of 40px circles */
+      left: var(--space-50);
+      right: var(--space-50);
+      height: 2px;
+      background: var(--grey);
+      z-index: 0;
+    }
+
+    /* Filled progress line (green for completed steps) */
+    .progress-line-fill {
+      height: 100%;
+      background: var(--green);
+      transition: width var(--transition);
+    }
+
+    /* Individual step container */
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Step circle */
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: var(--space-8);
+      transition: all var(--transition);
+    }
+
+    /* Step label */
+    .step-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      transition: color var(--transition);
+    }
+
+    /* ================================
+       STEP STATES
+       ================================ */
+
+    /* Completed state (green with checkmark) */
+    .step.completed .step-circle {
+      background: var(--green);
+      color: white;
+      box-shadow: var(--shadow-step-completed);
+    }
+
+    .step.completed .step-label {
+      color: var(--green);
+    }
+
+    /* Active state (teal with number) */
+    .step.active .step-circle {
+      background: var(--teal);
+      color: white;
+      box-shadow: var(--shadow-step-active);
+    }
+
+    .step.active .step-label {
+      color: var(--teal);
+    }
+
+    /* Pending state (grey with number) */
+    .step.pending .step-circle {
+      background: var(--bg);
+      color: var(--grey-mid);
+      box-shadow: var(--shadow-step-pending);
+    }
+
+    .step.pending .step-label {
+      color: var(--grey-mid);
+    }
+
+    /* ================================
+       RESPONSIVE
+       ================================ */
+    @media (max-width: 640px) {
+      .checkout-progress {
+        max-width: 100%;
+      }
+
+      /* Hide step labels on very small screens */
+      .step-label {
+        font-size: 10px;
+        max-width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* Adjust circle size on mobile */
+      .step-circle {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .progress-line {
+        top: 18px; /* Adjust for smaller circles */
+        left: 40px;
+        right: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      /* Hide labels completely on very small screens */
+      .step-label {
+        display: none;
+      }
+
+      .step-circle {
+        margin-bottom: 0;
+      }
+
+      .progress-line {
+        left: 32px;
+        right: 32px;
+      }
+    }
+
+    /* ================================
+       DOCUMENTATION STYLES
+       ================================ */
+    .doc-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-section p, .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .doc-section ul, .doc-section ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--grey);
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .token-table td {
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      background: white;
+      border: 1px solid var(--grey);
+    }
+
+    /* Variant demo buttons */
+    .variant-controls {
+      display: flex;
+      gap: var(--space-8);
+      margin-bottom: var(--space-24);
+      flex-wrap: wrap;
+    }
+
+    .variant-btn {
+      background: var(--teal);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .variant-btn:hover {
+      background: var(--teal-light);
+      transform: translateY(-1px);
+    }
+
+    .variant-btn.active {
+      background: var(--navy);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ================================
+         LIVE DEMO
+         ================================ -->
+    <div class="demo-section">
+      <div class="demo-title">EC13: CheckoutProgressStepper — Live Demo</div>
+      <div class="demo-description">
+        4-step checkout progress indicator with 3 states: completed (green ✓), active (teal number), pending (grey number).
+      </div>
+
+      <!-- Interactive controls -->
+      <div class="variant-controls">
+        <button class="variant-btn" onclick="setProgress(1)">Step 1 (Gegevens)</button>
+        <button class="variant-btn" onclick="setProgress(2)">Step 2 (Verzending)</button>
+        <button class="variant-btn" onclick="setProgress(3)">Step 3 (Betaling)</button>
+        <button class="variant-btn" onclick="setProgress(4)">Step 4 (Bevestiging)</button>
+      </div>
+
+      <!-- Progress Stepper -->
+      <div class="checkout-progress" id="progress-stepper">
+        <!-- Connection line with fill -->
+        <div class="progress-line">
+          <div class="progress-line-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Step 1: Gegevens -->
+        <div class="step completed" data-step="1">
+          <div class="step-circle">
+            <i data-lucide="check" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="step-label">Gegevens</div>
+        </div>
+
+        <!-- Step 2: Verzending -->
+        <div class="step active" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-label">Verzending</div>
+        </div>
+
+        <!-- Step 3: Betaling -->
+        <div class="step pending" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-label">Betaling</div>
+        </div>
+
+        <!-- Step 4: Bevestiging -->
+        <div class="step pending" data-step="4">
+          <div class="step-circle">4</div>
+          <div class="step-label">Bevestiging</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================
+         DOCUMENTATION
+         ================================ -->
+
+    <!-- STEP 1: Component Overview -->
+    <div class="doc-section">
+      <h2>STEP 1: Component Overview</h2>
+
+      <p><strong>Component ID:</strong> EC13</p>
+      <p><strong>Component Name:</strong> CheckoutProgressStepper</p>
+      <p><strong>Category:</strong> UI Elements / Progress Indicators</p>
+      <p><strong>Source File:</strong> <code>ef3-checkout.html</code> (lines 14-49)</p>
+      <p><strong>Output File:</strong> <code>/refactoring/components/ui-elements/ec13-checkout-progress-stepper.html</code></p>
+
+      <h3>Purpose</h3>
+      <p>
+        4-step horizontal progress indicator specifically designed for the checkout flow. Shows user's current position in the checkout process (Gegevens → Verzending → Betaling → Bevestiging) with clear visual states for completed, active, and pending steps.
+      </p>
+
+      <h3>Visual Pattern</h3>
+      <ul>
+        <li>Horizontal layout with 4 evenly-spaced step circles</li>
+        <li>Connection lines between steps (grey background, green fill for completed)</li>
+        <li>Step circles (40px diameter) with 3px white border</li>
+        <li>3 states: completed (green ✓), active (teal number), pending (grey number)</li>
+        <li>Step labels below circles (12px, 600 weight)</li>
+        <li>Max-width 600px, centered on page</li>
+      </ul>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>✅ Visual progress tracking (connection line fills left-to-right)</li>
+        <li>✅ 3 distinct states (completed, active, pending)</li>
+        <li>✅ Green checkmark for completed steps (success feedback)</li>
+        <li>✅ Stronger shadow on active step (visual emphasis)</li>
+        <li>✅ Smooth transitions between states</li>
+        <li>✅ Responsive design (hides labels on mobile)</li>
+        <li>✅ Color-coded: green (done), teal (current), grey (todo)</li>
+        <li>✅ Fixed 4 steps (checkout-specific, not configurable)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 2: When to Use -->
+    <div class="doc-section">
+      <h2>STEP 2: When to Use</h2>
+
+      <h3>✅ USE this component when:</h3>
+      <ul>
+        <li>✅ Checkout flow — show progress through 4 steps</li>
+        <li>✅ Multi-step forms — indicate current position</li>
+        <li>✅ Onboarding flows — guide users through setup</li>
+        <li>✅ Wizard interfaces — sequential data entry</li>
+        <li>✅ Order tracking — show fulfillment stages (adapt states)</li>
+      </ul>
+
+      <h3>❌ DON'T use this component when:</h3>
+      <ul>
+        <li>❌ Single-page checkout — no steps to track</li>
+        <li>❌ Non-linear flows — users can jump between steps</li>
+        <li>❌ Loading indicators — use spinner or skeleton instead</li>
+        <li>❌ Generic progress (0-100%) — use progress bar instead</li>
+        <li>❌ More than 5 steps — too crowded, consider vertical stepper</li>
+      </ul>
+
+      <h3>Integration Points</h3>
+      <ul>
+        <li><strong>Page location:</strong> Top of checkout page, above form content</li>
+        <li><strong>Step 1 (Gegevens):</strong> Personal info + delivery address (EC14)</li>
+        <li><strong>Step 2 (Verzending):</strong> Shipping method selection (EC11)</li>
+        <li><strong>Step 3 (Betaling):</strong> Payment method selection (EC12)</li>
+        <li><strong>Step 4 (Bevestiging):</strong> Order review + T&C acceptance</li>
+        <li><strong>Related components:</strong>
+          <ul>
+            <li>C25: ProgressSteps (generic progress indicator, reusable pattern)</li>
+            <li>EC11: ShippingMethodCard</li>
+            <li>EC12: PaymentMethodCard</li>
+            <li>EC14: AddressForm</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- STEP 3: Design Tokens -->
+    <div class="doc-section">
+      <h2>STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--green</code></td>
+            <td>#00C853</td>
+            <td>Completed step circle bg, progress line fill, label text</td>
+          </tr>
+          <tr>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+            <td>Active step circle bg, label text</td>
+          </tr>
+          <tr>
+            <td><code>--bg</code></td>
+            <td>#F5F7FA</td>
+            <td>Pending step circle bg</td>
+          </tr>
+          <tr>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+            <td>Progress line background (unfilled)</td>
+          </tr>
+          <tr>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+            <td>Pending step number + label text</td>
+          </tr>
+          <tr>
+            <td><code>--white</code></td>
+            <td>#FAFBFC</td>
+            <td>Step circle border (creates gap from line), checkmark/number color</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font</th>
+            <th>Size</th>
+            <th>Weight</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Step number</td>
+            <td>Plus Jakarta Sans</td>
+            <td>18px</td>
+            <td>700</td>
+            <td>white (completed/active) or grey-mid (pending)</td>
+          </tr>
+          <tr>
+            <td>Step label</td>
+            <td>Plus Jakarta Sans</td>
+            <td>12px</td>
+            <td>600</td>
+            <td>green (completed), teal (active), grey-mid (pending)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spacing (4px grid)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--space-8</code></td>
+            <td>8px</td>
+            <td>Circle → label gap (margin-bottom), container side padding</td>
+          </tr>
+          <tr>
+            <td><code>--space-50</code></td>
+            <td>50px</td>
+            <td>Progress line left/right offset (centers under circles)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Component Dimensions</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Width</th>
+            <th>Height</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container</td>
+            <td>max 600px</td>
+            <td>auto (~56px)</td>
+            <td>Centered with margin: 0 auto</td>
+          </tr>
+          <tr>
+            <td>Step circle</td>
+            <td>40px</td>
+            <td>40px</td>
+            <td>Border-radius: 50%, border: 3px solid white</td>
+          </tr>
+          <tr>
+            <td>Progress line</td>
+            <td>auto (calculated)</td>
+            <td>2px</td>
+            <td>Positioned absolute, left: 50px, right: 50px, top: 20px</td>
+          </tr>
+          <tr>
+            <td>Checkmark icon</td>
+            <td>20px</td>
+            <td>20px</td>
+            <td>Lucide "check" icon</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Shadows</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Shadow</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Completed</td>
+            <td><code>0 2px 8px rgba(0, 200, 83, 0.3)</code> (green glow)</td>
+          </tr>
+          <tr>
+            <td>Active</td>
+            <td><code>0 4px 12px rgba(0, 137, 123, 0.4)</code> (teal glow, stronger)</td>
+          </tr>
+          <tr>
+            <td>Pending</td>
+            <td><code>0 2px 8px rgba(0, 0, 0, 0.05)</code> (subtle grey)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 4: Props & Configuration -->
+    <div class="doc-section">
+      <h2>STEP 4: Props & Configuration</h2>
+
+      <h3>React Component Interface</h3>
+      <pre>
+interface CheckoutProgressStepperProps {
+  // Current active step (1-4)
+  currentStep: 1 | 2 | 3 | 4;
+
+  // Step labels (optional override)
+  steps?: {
+    id: number;
+    label: string;
+  }[];
+
+  // Styling
+  className?: string;
+
+  // Callbacks (optional)
+  onStepClick?: (step: number) => void; // Allow clicking completed steps
+}
+
+// Default steps
+const DEFAULT_STEPS = [
+  { id: 1, label: 'Gegevens' },
+  { id: 2, label: 'Verzending' },
+  { id: 3, label: 'Betaling' },
+  { id: 4, label: 'Bevestiging' },
+];
+      </pre>
+
+      <h3>Step States Logic</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>Condition</th>
+            <th>State</th>
+            <th>Circle Content</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1, 2, 3, 4</td>
+            <td>step &lt; currentStep</td>
+            <td><code>completed</code></td>
+            <td>Green checkmark icon</td>
+          </tr>
+          <tr>
+            <td>1, 2, 3, 4</td>
+            <td>step === currentStep</td>
+            <td><code>active</code></td>
+            <td>White step number</td>
+          </tr>
+          <tr>
+            <td>1, 2, 3, 4</td>
+            <td>step &gt; currentStep</td>
+            <td><code>pending</code></td>
+            <td>Grey step number</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Progress Line Fill Width</h3>
+      <pre>
+// Calculate progress line fill percentage
+const progressWidth = ((currentStep - 1) / (totalSteps - 1)) * 100;
+
+// Examples:
+Step 1: (1-1) / (4-1) = 0%    (no progress yet)
+Step 2: (2-1) / (4-1) = 33.33% (1 step completed)
+Step 3: (3-1) / (4-1) = 66.67% (2 steps completed)
+Step 4: (4-1) / (4-1) = 100%   (all completed)
+      </pre>
+
+      <h3>Configuration Examples</h3>
+      <pre>
+// Usage in checkout page
+
+&lt;CheckoutProgressStepper currentStep={2} /&gt;
+
+// With custom step labels (e.g., for subscription flow)
+
+&lt;CheckoutProgressStepper
+  currentStep={3}
+  steps={[
+    { id: 1, label: 'Plan' },
+    { id: 2, label: 'Account' },
+    { id: 3, label: 'Betaling' },
+    { id: 4, label: 'Bevestiging' },
+  ]}
+/&gt;
+
+// With click handler (allow navigation to completed steps)
+
+&lt;CheckoutProgressStepper
+  currentStep={3}
+  onStepClick={(step) => {
+    if (step &lt; currentStep) {
+      router.push(`/checkout/step-${step}`);
+    }
+  }}
+/&gt;
+      </pre>
+    </div>
+
+    <!-- STEP 5: Layout Rules -->
+    <div class="doc-section">
+      <h2>STEP 5: Layout Rules</h2>
+
+      <h3>Container Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>flex</code></li>
+        <li><strong>Alignment:</strong> <code>align-items: center; justify-content: space-between;</code></li>
+        <li><strong>Max-width:</strong> 600px (optimal for 4 steps)</li>
+        <li><strong>Margin:</strong> <code>0 auto</code> (center on page)</li>
+        <li><strong>Position:</strong> <code>relative</code> (for absolute line positioning)</li>
+        <li><strong>Padding:</strong> 8px side padding (prevents edge clipping)</li>
+      </ul>
+
+      <h3>Progress Line Positioning</h3>
+      <ul>
+        <li><strong>Position:</strong> <code>absolute</code></li>
+        <li><strong>Top:</strong> 20px (centers vertically with 40px circles)</li>
+        <li><strong>Left/Right:</strong> 50px (creates proper spacing to circle edges)</li>
+        <li><strong>Height:</strong> 2px</li>
+        <li><strong>Z-index:</strong> 0 (behind circles)</li>
+        <li><strong>Fill:</strong> Inner div with <code>width: X%</code> (calculated based on progress)</li>
+      </ul>
+
+      <h3>Step Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>flex; flex-direction: column;</code></li>
+        <li><strong>Alignment:</strong> <code>align-items: center;</code></li>
+        <li><strong>Z-index:</strong> 1 (above progress line)</li>
+        <li><strong>Structure:</strong>
+          <ol>
+            <li>Circle (40×40px, margin-bottom: 8px)</li>
+            <li>Label (12px, centered)</li>
+          </ol>
+        </li>
+      </ul>
+
+      <h3>Spacing Breakdown</h3>
+      <pre>
+Container:           600px max-width, centered
+├── Progress line:   absolute, top: 20px, 2px height
+│   └── Fill:        width: 0-100% (based on progress)
+└── Steps:           4 items, space-between
+    ├── Circle:      40×40px, border: 3px white, margin-bottom: 8px
+    └── Label:       12px, centered below circle
+
+Side margins:        50px (left/right offset for progress line)
+Step spacing:        auto (space-between distributes evenly)
+      </pre>
+
+      <h3>Responsive Behavior</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Breakpoint</th>
+            <th>Circle Size</th>
+            <th>Label Size</th>
+            <th>Line Offset</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&gt;640px</td>
+            <td>40×40px</td>
+            <td>12px</td>
+            <td>50px</td>
+          </tr>
+          <tr>
+            <td>481-640px</td>
+            <td>36×36px</td>
+            <td>10px (truncated)</td>
+            <td>40px</td>
+          </tr>
+          <tr>
+            <td>&lt;480px</td>
+            <td>36×36px</td>
+            <td>hidden</td>
+            <td>32px</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 6: Accessibility -->
+    <div class="doc-section">
+      <h2>STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <pre>
+&lt;nav aria-label="Checkout progress" class="checkout-progress"&gt;
+  &lt;ol class="progress-steps"&gt;
+    &lt;li class="step completed" aria-current="false"&gt;
+      &lt;span class="step-circle" aria-label="Completed"&gt;✓&lt;/span&gt;
+      &lt;span class="step-label"&gt;Gegevens&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="step active" aria-current="step"&gt;
+      &lt;span class="step-circle" aria-label="Current step 2 of 4"&gt;2&lt;/span&gt;
+      &lt;span class="step-label"&gt;Verzending&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="step pending" aria-current="false"&gt;
+      &lt;span class="step-circle" aria-label="Pending step 3 of 4"&gt;3&lt;/span&gt;
+      &lt;span class="step-label"&gt;Betaling&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="step pending" aria-current="false"&gt;
+      &lt;span class="step-circle" aria-label="Pending step 4 of 4"&gt;4&lt;/span&gt;
+      &lt;span class="step-label"&gt;Bevestiging&lt;/span&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+      </pre>
+
+      <h3>ARIA Attributes</h3>
+      <ul>
+        <li>✅ <code>aria-label="Checkout progress"</code> on container</li>
+        <li>✅ <code>aria-current="step"</code> on active step</li>
+        <li>✅ <code>aria-label</code> on step circles to announce state + position</li>
+        <li>✅ Progress line hidden from screen readers (decorative)</li>
+        <li>✅ Use <code>&lt;ol&gt;</code> for ordered list of steps (semantic)</li>
+      </ul>
+
+      <h3>Screen Reader Announcements</h3>
+      <ul>
+        <li>✅ "Checkout progress, list with 4 items"</li>
+        <li>✅ "Step 1, Gegevens, completed"</li>
+        <li>✅ "Step 2, Verzending, current step, 2 of 4"</li>
+        <li>✅ "Step 3, Betaling, pending, 3 of 4"</li>
+        <li>✅ On step change: "Now on step 3: Betaling"</li>
+      </ul>
+
+      <h3>Keyboard Navigation (if interactive)</h3>
+      <p>If steps are clickable (allow navigation to completed steps):</p>
+      <ul>
+        <li>✅ <strong>Tab:</strong> Focus first/next clickable step</li>
+        <li>✅ <strong>Enter/Space:</strong> Navigate to focused step</li>
+        <li>✅ <strong>Arrow keys (←→):</strong> Move between steps</li>
+        <li>✅ Disabled state for pending steps (can't click future steps)</li>
+      </ul>
+
+      <h3>Color Accessibility</h3>
+      <ul>
+        <li>✅ Don't rely on color alone — use icons (checkmark) + text (labels)</li>
+        <li>✅ High contrast ratios:
+          <ul>
+            <li>Green circle (#00C853) on white: 4.5:1 ✓</li>
+            <li>Teal circle (#00897B) on white: 4.5:1 ✓</li>
+            <li>White text on green: 12.6:1 ✓</li>
+          </ul>
+        </li>
+        <li>✅ Grey pending state still readable (not too faint)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 7: Implementation Notes -->
+    <div class="doc-section">
+      <h2>STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component</h3>
+      <pre>
+'use client';
+
+import { Check } from 'lucide-react';
+
+interface Step {
+  id: number;
+  label: string;
+}
+
+const DEFAULT_STEPS: Step[] = [
+  { id: 1, label: 'Gegevens' },
+  { id: 2, label: 'Verzending' },
+  { id: 3, label: 'Betaling' },
+  { id: 4, label: 'Bevestiging' },
+];
+
+export function CheckoutProgressStepper({
+  currentStep,
+  steps = DEFAULT_STEPS,
+  onStepClick,
+  className = '',
+}: {
+  currentStep: number;
+  steps?: Step[];
+  onStepClick?: (step: number) => void;
+  className?: string;
+}) {
+  // Calculate progress line fill width
+  const progressWidth = ((currentStep - 1) / (steps.length - 1)) * 100;
+
+  // Determine step state
+  const getStepState = (stepId: number) => {
+    if (stepId &lt; currentStep) return 'completed';
+    if (stepId === currentStep) return 'active';
+    return 'pending';
+  };
+
+  return (
+    &lt;nav
+      aria-label="Checkout progress"
+      className={`checkout-progress ${className}`}
+    &gt;
+      {/* Progress line */}
+      &lt;div className="progress-line"&gt;
+        &lt;div
+          className="progress-line-fill"
+          style={{ width: `${progressWidth}%` }}
+        /&gt;
+      &lt;/div&gt;
+
+      {/* Steps */}
+      {steps.map((step) => {
+        const state = getStepState(step.id);
+        const isClickable = onStepClick && state === 'completed';
+
+        return (
+          &lt;div
+            key={step.id}
+            className={`step ${state}`}
+            aria-current={state === 'active' ? 'step' : undefined}
+            onClick={() => isClickable && onStepClick(step.id)}
+            style={{ cursor: isClickable ? 'pointer' : 'default' }}
+          &gt;
+            &lt;div className="step-circle"&gt;
+              {state === 'completed' ? (
+                &lt;Check size={20} /&gt;
+              ) : (
+                step.id
+              )}
+            &lt;/div&gt;
+            &lt;div className="step-label"&gt;{step.label}&lt;/div&gt;
+          &lt;/div&gt;
+        );
+      })}
+    &lt;/nav&gt;
+  );
+}
+      </pre>
+
+      <h3>State Management in Checkout Flow</h3>
+      <pre>
+// Checkout page with step tracking
+
+'use client';
+
+import { useState } from 'react';
+import { CheckoutProgressStepper } from '@/components/ui-elements/ec13-checkout-progress-stepper';
+
+export default function CheckoutPage() {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const handleStepComplete = () => {
+    if (currentStep &lt; 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handleStepBack = () => {
+    if (currentStep &gt; 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  return (
+    &lt;div className="checkout-container"&gt;
+      &lt;CheckoutProgressStepper
+        currentStep={currentStep}
+        onStepClick={setCurrentStep} // Allow navigation to completed steps
+      /&gt;
+
+      {currentStep === 1 && &lt;AddressForm onNext={handleStepComplete} /&gt;}
+      {currentStep === 2 && &lt;ShippingSelection onNext={handleStepComplete} onBack={handleStepBack} /&gt;}
+      {currentStep === 3 && &lt;PaymentSelection onNext={handleStepComplete} onBack={handleStepBack} /&gt;}
+      {currentStep === 4 && &lt;OrderReview onBack={handleStepBack} /&gt;}
+    &lt;/div&gt;
+  );
+}
+      </pre>
+
+      <h3>URL-based Step Tracking</h3>
+      <pre>
+// Using Next.js router for step tracking (better for back button)
+
+import { useRouter, useSearchParams } from 'next/navigation';
+
+export default function CheckoutPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentStep = parseInt(searchParams.get('step') || '1');
+
+  const goToStep = (step: number) => {
+    router.push(`/checkout?step=${step}`);
+  };
+
+  return (
+    &lt;CheckoutProgressStepper
+      currentStep={currentStep}
+      onStepClick={goToStep}
+    /&gt;
+  );
+}
+      </pre>
+
+      <h3>Payload CMS Integration</h3>
+      <pre>
+// Store checkout progress in Order document
+
+{
+  name: 'checkoutStep',
+  type: 'select',
+  options: [
+    { label: 'Gegevens', value: '1' },
+    { label: 'Verzending', value: '2' },
+    { label: 'Betaling', value: '3' },
+    { label: 'Bevestiging', value: '4' },
+  ],
+  defaultValue: '1',
+  admin: {
+    description: 'Current step in checkout flow (for abandoned cart recovery)',
+  },
+}
+
+// Track where users drop off
+{
+  name: 'abandonedAt',
+  type: 'select',
+  options: [
+    { label: 'Step 1: Gegevens', value: '1' },
+    { label: 'Step 2: Verzending', value: '2' },
+    { label: 'Step 3: Betaling', value: '3' },
+    { label: 'Completed', value: 'completed' },
+  ],
+  admin: {
+    description: 'Step where checkout was abandoned',
+  },
+}
+      </pre>
+
+      <h3>Animation Enhancement</h3>
+      <pre>
+// Animate progress line fill and step state changes
+
+.progress-line-fill {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-circle {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step.completed .step-circle {
+  animation: completePulse 0.5s ease-in-out;
+}
+
+@keyframes completePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+      </pre>
+    </div>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <div class="doc-section">
+      <h2>STEP 8: Variations & Related Components</h2>
+
+      <h3>Variations</h3>
+
+      <h4>1. Clickable Steps (Navigation)</h4>
+      <p>Allow users to click completed steps to go back:</p>
+      <pre>
+.step.completed {
+  cursor: pointer;
+}
+
+.step.completed:hover .step-circle {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px var(--green-glow);
+}
+      </pre>
+
+      <h4>2. Vertical Layout (Mobile)</h4>
+      <p>Stack steps vertically on very narrow screens:</p>
+      <pre>
+@media (max-width: 400px) {
+  .checkout-progress {
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 200px;
+  }
+
+  .progress-line {
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+
+  .step {
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .step-circle {
+    margin-right: 12px;
+    margin-bottom: 0;
+  }
+}
+      </pre>
+
+      <h4>3. With Step Descriptions</h4>
+      <p>Add brief description under each step label:</p>
+      <pre>
+&lt;div class="step-label"&gt;
+  &lt;div class="step-name"&gt;Gegevens&lt;/div&gt;
+  &lt;div class="step-desc"&gt;Adres &amp; contact&lt;/div&gt;
+&lt;/div&gt;
+
+.step-desc {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--grey-mid);
+  margin-top: 2px;
+}
+      </pre>
+
+      <h4>4. Compact Variant (Small Circles)</h4>
+      <p>For sidebars or narrow layouts:</p>
+      <pre>
+.checkout-progress.compact .step-circle {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+.checkout-progress.compact .step-label {
+  font-size: 10px;
+}
+      </pre>
+
+      <h3>Related Components</h3>
+
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>ID</th>
+            <th>Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ProgressSteps</td>
+            <td>C25</td>
+            <td>Generic reusable pattern, same visual style</td>
+          </tr>
+          <tr>
+            <td>AddressForm</td>
+            <td>EC14</td>
+            <td>Step 1: Gegevens</td>
+          </tr>
+          <tr>
+            <td>ShippingMethodCard</td>
+            <td>EC11</td>
+            <td>Step 2: Verzending</td>
+          </tr>
+          <tr>
+            <td>PaymentMethodCard</td>
+            <td>EC12</td>
+            <td>Step 3: Betaling</td>
+          </tr>
+          <tr>
+            <td>OrderSummary</td>
+            <td>EC07</td>
+            <td>Shows throughout checkout flow</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Design System References</h3>
+      <ul>
+        <li><strong>Source:</strong> <code>ef3-checkout.html</code> (lines 14-49)</li>
+        <li><strong>Pattern:</strong> Adapted from C25 ProgressSteps (checkout-specific 4 steps)</li>
+        <li><strong>Related blocks:</strong> None (UI element only)</li>
+        <li><strong>Similar components:</strong>
+          <ul>
+            <li>Order tracking steps (adapt states: Processing → Shipped → Delivered)</li>
+            <li>Onboarding wizard steps</li>
+            <li>Multi-step form indicators</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✅ Progress line fills correctly (0%, 33%, 67%, 100%)</li>
+        <li>✅ Completed steps show green checkmark (not number)</li>
+        <li>✅ Active step has stronger shadow than others</li>
+        <li>✅ Pending steps are grey and disabled</li>
+        <li>✅ Transitions smooth between states</li>
+        <li>✅ Circles have 3px white border (visible gap from line)</li>
+        <li>✅ Labels match step states (green/teal/grey)</li>
+        <li>✅ Mobile: labels hidden on very small screens (&lt;480px)</li>
+        <li>✅ Screen reader announces current step</li>
+        <li>✅ <code>aria-current="step"</code> on active step</li>
+        <li>✅ If clickable: completed steps navigate back</li>
+        <li>✅ If clickable: pending steps don't respond to clicks</li>
+        <li>✅ Progress persists on page refresh (URL or state)</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- Interactive demo script -->
+  <script>
+    function setProgress(step) {
+      const stepper = document.getElementById('progress-stepper');
+      const steps = stepper.querySelectorAll('.step');
+      const progressFill = document.getElementById('progress-fill');
+
+      // Update all steps
+      steps.forEach((stepEl, index) => {
+        const stepNumber = index + 1;
+        const circle = stepEl.querySelector('.step-circle');
+
+        // Remove all state classes
+        stepEl.classList.remove('completed', 'active', 'pending');
+
+        // Add appropriate state class
+        if (stepNumber < step) {
+          stepEl.classList.add('completed');
+          // Replace number with checkmark
+          circle.innerHTML = '<i data-lucide="check" style="width:20px;height:20px;"></i>';
+        } else if (stepNumber === step) {
+          stepEl.classList.add('active');
+          circle.textContent = stepNumber;
+        } else {
+          stepEl.classList.add('pending');
+          circle.textContent = stepNumber;
+        }
+      });
+
+      // Update progress line fill
+      const progressWidth = ((step - 1) / (steps.length - 1)) * 100;
+      progressFill.style.width = `${progressWidth}%`;
+
+      // Reinitialize Lucide icons for new checkmarks
+      lucide.createIcons();
+
+      // Update button states
+      document.querySelectorAll('.variant-btn').forEach((btn, index) => {
+        if (index + 1 === step) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // Set initial active button
+    setProgress(2);
+  </script>
+</body>
+</html>

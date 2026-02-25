@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC07: OrderSummary — Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --green: #00C853;
+      --white: #FAFBFC;
+      --grey: #E8ECF1;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-jakarta: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing */
+      --radius: 12px;
+      --radius-lg: 16px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: #F5F7FA;
+      padding: 48px 24px;
+      margin: 0;
+    }
+
+    .demo-container {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .demo-title {
+      font-family: var(--font-jakarta);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-subtitle {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 32px;
+    }
+
+    .demo-section {
+      margin-bottom: 32px;
+    }
+
+    .demo-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       EC07: ORDER SUMMARY COMPONENT
+       ═══════════════════════════════════════════════════════════ */
+
+    .order-summary {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    /* Sticky positioning (optional, for cart sidebar) */
+    .order-summary--sticky {
+      position: sticky;
+      top: 90px;
+    }
+
+    .order-summary__header {
+      font-family: var(--font-jakarta);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .order-summary__header svg {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .order-summary__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+
+    .order-summary__label {
+      color: var(--grey-dark);
+    }
+
+    .order-summary__value {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Discount row (green) */
+    .order-summary__value--discount {
+      color: var(--green);
+    }
+
+    /* Divider */
+    .order-summary__divider {
+      border: none;
+      border-top: 1px solid var(--grey);
+      margin: 8px 0;
+    }
+
+    /* Total row */
+    .order-summary__total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0 4px;
+    }
+
+    .order-summary__total-label {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .order-summary__total-value {
+      font-family: var(--font-jakarta);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .order-summary__total-value small {
+      font-size: 22px;
+    }
+
+    .order-summary__tax-note {
+      text-align: right;
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-bottom: 20px;
+    }
+
+    /* Actions section */
+    .order-summary__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .order-summary__btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .order-summary__btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .order-summary__btn--primary {
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: white;
+      box-shadow: 0 4px 20px rgba(0, 137, 123, 0.4);
+    }
+
+    .order-summary__btn--primary:hover {
+      box-shadow: 0 6px 28px rgba(0, 137, 123, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .order-summary__btn--secondary {
+      background: var(--white);
+      color: var(--navy);
+      border: 1.5px solid var(--grey);
+      padding: 14px;
+      font-size: 14px;
+    }
+
+    .order-summary__btn--secondary:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .order-summary__btn--secondary svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES (same as other components)
+       ═══════════════════════════════════════════════════════════ */
+
+    .docs {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 48px;
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .docs h2 {
+      font-family: var(--font-jakarta);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 32px 0 16px 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .docs h2:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .docs h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px 0;
+    }
+
+    .docs p, .docs li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--grey-dark);
+    }
+
+    .docs code {
+      background: #F5F7FA;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 16px 0;
+    }
+
+    .docs table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .docs th {
+      background: #F5F7FA;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .docs td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .docs .tag {
+      display: inline-block;
+      background: #E8F5E9;
+      color: #166534;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .docs .tag--critical {
+      background: #FFF0F0;
+      color: #DC2626;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="demo-container">
+    <div class="demo-title">EC07: OrderSummary</div>
+    <div class="demo-subtitle">Sidebar component displaying cart totals, discounts, and checkout CTA</div>
+
+    <!-- Basic Cart Summary -->
+    <div class="demo-section">
+      <h3>Cart Page Sidebar</h3>
+      <div class="order-summary">
+        <div class="order-summary__header">
+          <i data-lucide="receipt"></i>
+          Overzicht
+        </div>
+
+        <div class="order-summary__row">
+          <span class="order-summary__label">Subtotaal</span>
+          <span class="order-summary__value">€ 61,35</span>
+        </div>
+        <div class="order-summary__row">
+          <span class="order-summary__label">Korting (SUMMER10)</span>
+          <span class="order-summary__value order-summary__value--discount">−€ 6,14</span>
+        </div>
+        <div class="order-summary__row">
+          <span class="order-summary__label">Verzendkosten</span>
+          <span class="order-summary__value">€ 6,95</span>
+        </div>
+        <div class="order-summary__row">
+          <span class="order-summary__label">BTW (21%)</span>
+          <span class="order-summary__value">€ 13,03</span>
+        </div>
+
+        <hr class="order-summary__divider">
+
+        <div class="order-summary__total">
+          <span class="order-summary__total-label">Totaal</span>
+          <span class="order-summary__total-value">€ 75<small>,19</small></span>
+        </div>
+        <div class="order-summary__tax-note">Inclusief BTW</div>
+
+        <div class="order-summary__actions">
+          <button class="order-summary__btn order-summary__btn--primary">
+            <i data-lucide="lock"></i>
+            Naar betalen
+          </button>
+          <button class="order-summary__btn order-summary__btn--secondary">
+            <i data-lucide="file-text"></i>
+            Offerte aanvragen
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Free Shipping Achieved -->
+    <div class="demo-section">
+      <h3>Free Shipping Achieved</h3>
+      <div class="order-summary">
+        <div class="order-summary__header">
+          <i data-lucide="receipt"></i>
+          Overzicht
+        </div>
+
+        <div class="order-summary__row">
+          <span class="order-summary__label">Subtotaal</span>
+          <span class="order-summary__value">€ 124,80</span>
+        </div>
+        <div class="order-summary__row">
+          <span class="order-summary__label">Verzendkosten</span>
+          <span class="order-summary__value order-summary__value--discount">Gratis</span>
+        </div>
+        <div class="order-summary__row">
+          <span class="order-summary__label">BTW (21%)</span>
+          <span class="order-summary__value">€ 26,21</span>
+        </div>
+
+        <hr class="order-summary__divider">
+
+        <div class="order-summary__total">
+          <span class="order-summary__total-label">Totaal</span>
+          <span class="order-summary__total-value">€ 124<small>,80</small></span>
+        </div>
+        <div class="order-summary__tax-note">Inclusief BTW</div>
+
+        <div class="order-summary__actions">
+          <button class="order-summary__btn order-summary__btn--primary">
+            <i data-lucide="lock"></i>
+            Naar betalen
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Discount Applied -->
+    <div class="demo-section">
+      <h3>No Discount Applied</h3>
+      <div class="order-summary">
+        <div class="order-summary__header">
+          <i data-lucide="receipt"></i>
+          Overzicht
+        </div>
+
+        <div class="order-summary__row">
+          <span class="order-summary__label">Subtotaal</span>
+          <span class="order-summary__value">€ 38,85</span>
+        </div>
+        <div class="order-summary__row">
+          <span class="order-summary__label">Verzendkosten</span>
+          <span class="order-summary__value">€ 6,95</span>
+        </div>
+        <div class="order-summary__row">
+          <span class="order-summary__label">BTW (21%)</span>
+          <span class="order-summary__value">€ 9,62</span>
+        </div>
+
+        <hr class="order-summary__divider">
+
+        <div class="order-summary__total">
+          <span class="order-summary__total-label">Totaal</span>
+          <span class="order-summary__total-value">€ 55<small>,42</small></span>
+        </div>
+        <div class="order-summary__tax-note">Inclusief BTW</div>
+
+        <div class="order-summary__actions">
+          <button class="order-summary__btn order-summary__btn--primary">
+            <i data-lucide="lock"></i>
+            Naar betalen
+          </button>
+          <button class="order-summary__btn order-summary__btn--secondary">
+            <i data-lucide="file-text"></i>
+            Offerte aanvragen
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="docs">
+    <h2>📋 STEP 1: Component Overview</h2>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td><strong>Component ID</strong></td>
+        <td>EC07</td>
+      </tr>
+      <tr>
+        <td><strong>Component Name</strong></td>
+        <td>OrderSummary</td>
+      </tr>
+      <tr>
+        <td><strong>Category</strong></td>
+        <td>E-commerce / Cart</td>
+      </tr>
+      <tr>
+        <td><strong>Source File</strong></td>
+        <td><code>ef2-cart.html</code> (lines 132-192)</td>
+      </tr>
+      <tr>
+        <td><strong>Target Folder</strong></td>
+        <td><code>/refactoring/components/ecommerce/</code></td>
+      </tr>
+      <tr>
+        <td><strong>Priority</strong></td>
+        <td><span class="tag tag--critical">CRITICAL</span></td>
+      </tr>
+    </table>
+
+    <p><strong>Description:</strong> Sidebar component displaying order totals breakdown (subtotal, discount, shipping, tax) with grand total and checkout CTA buttons. Used in cart pages, checkout reviews, and order confirmations.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>Line-by-line breakdown of costs</li>
+      <li>Discount display (green, negative value)</li>
+      <li>Free shipping indicator</li>
+      <li>Tax calculation (21% BTW)</li>
+      <li>Grand total (large, bold, Jakarta Sans 28px 800)</li>
+      <li>Tax-inclusive note</li>
+      <li>Primary CTA: "Naar betalen" (gradient teal button)</li>
+      <li>Secondary CTA: "Offerte aanvragen" (outline button)</li>
+      <li>Sticky positioning option (for cart sidebar)</li>
+    </ul>
+
+    <h2>🎯 STEP 2: When to Use</h2>
+
+    <p><strong>Use this component when:</strong></p>
+    <ul>
+      <li>Displaying cart totals on cart page (right sidebar)</li>
+      <li>Showing order breakdown on checkout page</li>
+      <li>Reviewing order before confirmation</li>
+      <li>Displaying final order totals on confirmation page</li>
+      <li>In mini cart flyout (condensed version)</li>
+    </ul>
+
+    <p><strong>Common Design Patterns:</strong></p>
+    <ul>
+      <li><strong>Cart Sidebar:</strong> Sticky sidebar at <code>top: 90px</code> (below header)</li>
+      <li><strong>Checkout:</strong> Right column, static positioning</li>
+      <li><strong>Order Confirmation:</strong> Read-only (no CTAs), center-aligned</li>
+      <li><strong>Mini Cart:</strong> Compact version at bottom of flyout</li>
+    </ul>
+
+    <p><strong>Do NOT use when:</strong></p>
+    <ul>
+      <li>Cart is empty (show empty state instead)</li>
+      <li>On product pages (use price display only)</li>
+      <li>For single-item quick orders (too much overhead)</li>
+    </ul>
+
+    <h2>🎨 STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table>
+      <tr>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td><code>--white</code></td>
+        <td>#FAFBFC</td>
+        <td>Card background</td>
+      </tr>
+      <tr>
+        <td><code>--grey</code></td>
+        <td>#E8ECF1</td>
+        <td>Border, divider</td>
+      </tr>
+      <tr>
+        <td><code>--grey-mid</code></td>
+        <td>#94A3B8</td>
+        <td>Tax note</td>
+      </tr>
+      <tr>
+        <td><code>--grey-dark</code></td>
+        <td>#64748B</td>
+        <td>Row labels</td>
+      </tr>
+      <tr>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>Header, values, total</td>
+      </tr>
+      <tr>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Header icon, button gradient start</td>
+      </tr>
+      <tr>
+        <td><code>--teal-light</code></td>
+        <td>#26A69A</td>
+        <td>Button gradient end</td>
+      </tr>
+      <tr>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>Discount value</td>
+      </tr>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Font</th>
+        <th>Size</th>
+        <th>Weight</th>
+      </tr>
+      <tr>
+        <td>Header</td>
+        <td>Plus Jakarta Sans</td>
+        <td>18px</td>
+        <td>800</td>
+      </tr>
+      <tr>
+        <td>Row label</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>400</td>
+      </tr>
+      <tr>
+        <td>Row value</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>600</td>
+      </tr>
+      <tr>
+        <td>Total label</td>
+        <td>DM Sans</td>
+        <td>16px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Total value</td>
+        <td>Plus Jakarta Sans</td>
+        <td>28px</td>
+        <td>800</td>
+      </tr>
+      <tr>
+        <td>Tax note</td>
+        <td>DM Sans</td>
+        <td>12px</td>
+        <td>400</td>
+      </tr>
+      <tr>
+        <td>Primary button</td>
+        <td>DM Sans</td>
+        <td>16px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Secondary button</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>600</td>
+      </tr>
+    </table>
+
+    <h3>Spacing & Layout</h3>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Card padding</td>
+        <td>28px</td>
+      </tr>
+      <tr>
+        <td>Header margin-bottom</td>
+        <td>20px</td>
+      </tr>
+      <tr>
+        <td>Row padding</td>
+        <td>10px 0</td>
+      </tr>
+      <tr>
+        <td>Divider margin</td>
+        <td>8px 0</td>
+      </tr>
+      <tr>
+        <td>Total padding</td>
+        <td>14px 0 4px</td>
+      </tr>
+      <tr>
+        <td>Tax note margin-bottom</td>
+        <td>20px</td>
+      </tr>
+      <tr>
+        <td>Button gap</td>
+        <td>12px</td>
+      </tr>
+      <tr>
+        <td>Primary button padding</td>
+        <td>16px</td>
+      </tr>
+      <tr>
+        <td>Secondary button padding</td>
+        <td>14px</td>
+      </tr>
+      <tr>
+        <td>Border radius</td>
+        <td>16px (card), 12px (buttons)</td>
+      </tr>
+    </table>
+
+    <h3>Icons</h3>
+    <table>
+      <tr>
+        <th>Usage</th>
+        <th>Icon</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>Header</td>
+        <td><code>receipt</code></td>
+        <td>20px</td>
+      </tr>
+      <tr>
+        <td>Primary button</td>
+        <td><code>lock</code></td>
+        <td>20px</td>
+      </tr>
+      <tr>
+        <td>Secondary button</td>
+        <td><code>file-text</code></td>
+        <td>18px</td>
+      </tr>
+    </table>
+
+    <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface OrderSummaryProps {
+  // Price Breakdown
+  subtotal: number
+  discount?: number
+  discountCode?: string
+  shipping: number | 'free'
+  tax: number
+  total: number
+
+  // Display Options
+  showQuoteButton?: boolean     // Show "Offerte aanvragen" (default: true)
+  sticky?: boolean              // Apply sticky positioning (default: false)
+  readonly?: boolean            // Hide action buttons (default: false)
+
+  // Customization
+  taxRate?: number              // Default: 21 (%)
+  taxLabel?: string             // Default: "BTW (21%)"
+  currencySymbol?: string       // Default: '€'
+  locale?: string               // Default: 'nl-NL'
+
+  // Actions
+  onCheckout?: () => void
+  onRequestQuote?: () => void
+
+  // Styling
+  className?: string
+}
+</pre>
+
+    <h3>Usage Examples</h3>
+    <pre>
+// Basic usage
+import { OrderSummary } from '@/components/ecommerce/OrderSummary'
+
+&lt;OrderSummary
+  subtotal={61.35}
+  discount={6.14}
+  discountCode="SUMMER10"
+  shipping={6.95}
+  tax={13.03}
+  total={75.19}
+  onCheckout={() => router.push('/checkout')}
+  onRequestQuote={() => setQuoteModalOpen(true)}
+/&gt;
+
+// Free shipping
+&lt;OrderSummary
+  subtotal={124.80}
+  shipping="free"
+  tax={26.21}
+  total={124.80}
+/&gt;
+
+// Sticky sidebar (cart page)
+&lt;OrderSummary
+  subtotal={61.35}
+  shipping={6.95}
+  tax={13.03}
+  total={68.30}
+  sticky={true}
+/&gt;
+
+// Readonly (order confirmation)
+&lt;OrderSummary
+  subtotal={61.35}
+  shipping={6.95}
+  tax={13.03}
+  total={68.30}
+  readonly={true}
+/&gt;
+
+// No quote button (B2C only)
+&lt;OrderSummary
+  subtotal={38.85}
+  shipping={6.95}
+  tax={9.62}
+  total={55.42}
+  showQuoteButton={false}
+/&gt;
+</pre>
+
+    <h3>Auto-Calculation Hook</h3>
+    <pre>
+// Hook to calculate order totals from cart items
+export function useOrderSummary(cart: Cart, discountCode?: string) {
+  const subtotal = cart.items.reduce((sum, item) =>
+    sum + (item.price * item.quantity), 0
+  )
+
+  // Apply discount
+  let discount = 0
+  if (discountCode) {
+    const coupon = await fetchCoupon(discountCode)
+    discount = coupon.type === 'percentage'
+      ? subtotal * (coupon.value / 100)
+      : coupon.value
+  }
+
+  const subtotalAfterDiscount = subtotal - discount
+
+  // Calculate shipping
+  const shipping = subtotalAfterDiscount >= 60 ? 0 : 6.95
+
+  // Calculate tax (21%)
+  const tax = (subtotalAfterDiscount + shipping) * 0.21
+
+  const total = subtotalAfterDiscount + shipping + tax
+
+  return {
+    subtotal,
+    discount,
+    shipping,
+    tax,
+    total
+  }
+}
+</pre>
+
+    <h2>📐 STEP 5: Layout Rules</h2>
+
+    <p><strong>Container Behavior:</strong></p>
+    <ul>
+      <li>Width: 380px (typical sidebar width)</li>
+      <li>White card with 1px grey border</li>
+      <li>16px border radius</li>
+      <li>28px internal padding</li>
+    </ul>
+
+    <p><strong>Sticky Positioning (Cart Sidebar):</strong></p>
+    <pre>
+.order-summary--sticky {
+  position: sticky;
+  top: 90px;  /* Below header (64px) + gap (26px) */
+}
+</pre>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <table>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Behavior</th>
+      </tr>
+      <tr>
+        <td>&lt; 768px (Mobile)</td>
+        <td>
+          • Full-width (not sidebar)<br>
+          • Position: static (not sticky)<br>
+          • Padding: 20px<br>
+          • Total font-size: 24px
+        </td>
+      </tr>
+      <tr>
+        <td>≥ 768px (Desktop)</td>
+        <td>
+          • Fixed width: 380px<br>
+          • Sticky positioning enabled<br>
+          • Padding: 28px<br>
+          • Total font-size: 28px
+        </td>
+      </tr>
+    </table>
+
+    <p><strong>Z-index:</strong> None (unless sticky, then natural stacking order)</p>
+
+    <h2>♿ STEP 6: Accessibility</h2>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre>
+&lt;aside class="order-summary" aria-label="Order summary"&gt;
+  &lt;h2 class="order-summary__header"&gt;
+    &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+    Overzicht
+  &lt;/h2&gt;
+
+  &lt;dl class="order-summary__breakdown"&gt;
+    &lt;div class="order-summary__row"&gt;
+      &lt;dt class="order-summary__label"&gt;Subtotaal&lt;/dt&gt;
+      &lt;dd class="order-summary__value"&gt;€ 61,35&lt;/dd&gt;
+    &lt;/div&gt;
+    &lt;!-- More rows --&gt;
+  &lt;/dl&gt;
+
+  &lt;div class="order-summary__actions"&gt;
+    &lt;button&gt;...&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;
+</pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>&lt;aside&gt;</code> wrapper with <code>aria-label="Order summary"</code></li>
+      <li>Use <code>&lt;dl&gt;</code> (definition list) for breakdown rows</li>
+      <li><code>aria-hidden="true"</code> on decorative icons</li>
+      <li>Buttons have clear text labels (no icon-only)</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li><strong>Tab:</strong> Focus primary button → secondary button</li>
+      <li><strong>Enter/Space:</strong> Activate focused button</li>
+    </ul>
+
+    <p><strong>Screen Reader Experience:</strong></p>
+    <ul>
+      <li>"Order summary. Subtotal: 61 euro en 35 cent. Discount SUMMER10: minus 6 euro en 14 cent. Shipping: 6 euro en 95 cent. Tax 21 percent: 13 euro en 3 cent. Total: 75 euro en 19 cent, including tax."</li>
+      <li>Buttons announce: "Naar betalen, button" and "Offerte aanvragen, button"</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul>
+      <li>Navy header on white: 14.5:1 ✓ WCAG AAA</li>
+      <li>Grey-dark labels: 4.5:1 ✓ WCAG AA</li>
+      <li>Green discount: 4.8:1 ✓ WCAG AA</li>
+    </ul>
+
+    <h2>💻 STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+'use client'
+
+import { Receipt, Lock, FileText } from 'lucide-react'
+
+export function OrderSummary({
+  subtotal,
+  discount,
+  discountCode,
+  shipping,
+  tax,
+  total,
+  showQuoteButton = true,
+  sticky = false,
+  readonly = false,
+  taxRate = 21,
+  currencySymbol = '€',
+  locale = 'nl-NL',
+  onCheckout,
+  onRequestQuote
+}: OrderSummaryProps) {
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2
+    }).format(amount)
+  }
+
+  const isShippingFree = shipping === 'free' || shipping === 0
+
+  return (
+    &lt;aside
+      className={`order-summary ${sticky ? 'order-summary--sticky' : ''}`}
+      aria-label="Order summary"
+    &gt;
+      &lt;h2 className="order-summary__header"&gt;
+        &lt;Receipt aria-hidden="true" /&gt;
+        Overzicht
+      &lt;/h2&gt;
+
+      &lt;dl className="order-summary__breakdown"&gt;
+        &lt;div className="order-summary__row"&gt;
+          &lt;dt className="order-summary__label"&gt;Subtotaal&lt;/dt&gt;
+          &lt;dd className="order-summary__value"&gt;
+            {formatCurrency(subtotal)}
+          &lt;/dd&gt;
+        &lt;/div&gt;
+
+        {discount && discount > 0 && (
+          &lt;div className="order-summary__row"&gt;
+            &lt;dt className="order-summary__label"&gt;
+              Korting {discountCode && `(${discountCode})`}
+            &lt;/dt&gt;
+            &lt;dd className="order-summary__value order-summary__value--discount"&gt;
+              −{formatCurrency(discount)}
+            &lt;/dd&gt;
+          &lt;/div&gt;
+        )}
+
+        &lt;div className="order-summary__row"&gt;
+          &lt;dt className="order-summary__label"&gt;Verzendkosten&lt;/dt&gt;
+          &lt;dd className="order-summary__value order-summary__value--discount"&gt;
+            {isShippingFree ? 'Gratis' : formatCurrency(shipping as number)}
+          &lt;/dd&gt;
+        &lt;/div&gt;
+
+        &lt;div className="order-summary__row"&gt;
+          &lt;dt className="order-summary__label"&gt;BTW ({taxRate}%)&lt;/dt&gt;
+          &lt;dd className="order-summary__value"&gt;{formatCurrency(tax)}&lt;/dd&gt;
+        &lt;/div&gt;
+      &lt;/dl&gt;
+
+      &lt;hr className="order-summary__divider" /&gt;
+
+      &lt;div className="order-summary__total"&gt;
+        &lt;span className="order-summary__total-label"&gt;Totaal&lt;/span&gt;
+        &lt;span className="order-summary__total-value"&gt;
+          {currencySymbol} {Math.floor(total)}
+          &lt;small&gt;,{((total % 1) * 100).toFixed(0).padStart(2, '0')}&lt;/small&gt;
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div className="order-summary__tax-note"&gt;Inclusief BTW&lt;/div&gt;
+
+      {!readonly && (
+        &lt;div className="order-summary__actions"&gt;
+          &lt;button
+            className="order-summary__btn order-summary__btn--primary"
+            onClick={onCheckout}
+          &gt;
+            &lt;Lock size={20} /&gt;
+            Naar betalen
+          &lt;/button&gt;
+
+          {showQuoteButton && (
+            &lt;button
+              className="order-summary__btn order-summary__btn--secondary"
+              onClick={onRequestQuote}
+            &gt;
+              &lt;FileText size={18} /&gt;
+              Offerte aanvragen
+            &lt;/button&gt;
+          )}
+        &lt;/div&gt;
+      )}
+    &lt;/aside&gt;
+  )
+}
+</pre>
+
+    <h3>Important Implementation Details</h3>
+    <ul>
+      <li><strong>Currency Formatting:</strong> Use <code>Intl.NumberFormat</code> for locale-aware formatting</li>
+      <li><strong>Sticky Positioning:</strong> Only on desktop, use <code>top: 90px</code> to account for header</li>
+      <li><strong>Free Shipping:</strong> Accept <code>'free'</code> string or <code>0</code> number, display "Gratis"</li>
+      <li><strong>Discount Display:</strong> Always show negative sign (−) and green color</li>
+      <li><strong>Total Formatting:</strong> Split euros and cents with <code>&lt;small&gt;</code> tag</li>
+      <li><strong>Semantic HTML:</strong> Use <code>&lt;aside&gt;</code>, <code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code>, <code>&lt;dd&gt;</code></li>
+    </ul>
+
+    <h2>🎭 STEP 8: Variations & Related Components</h2>
+
+    <h3>Variations</h3>
+    <table>
+      <tr>
+        <th>Variation</th>
+        <th>Description</th>
+        <th>Use Case</th>
+      </tr>
+      <tr>
+        <td><strong>Sticky Sidebar</strong></td>
+        <td>position: sticky, top: 90px</td>
+        <td>Cart page right sidebar</td>
+      </tr>
+      <tr>
+        <td><strong>Readonly</strong></td>
+        <td>No action buttons</td>
+        <td>Order confirmation, invoice</td>
+      </tr>
+      <tr>
+        <td><strong>Compact</strong></td>
+        <td>Smaller padding, 14px font</td>
+        <td>Mini cart flyout</td>
+      </tr>
+      <tr>
+        <td><strong>B2C Only</strong></td>
+        <td>No quote button</td>
+        <td>Consumer-facing stores</td>
+      </tr>
+    </table>
+
+    <h3>Future Enhancements</h3>
+    <ul>
+      <li><strong>Payment Icons:</strong> Show accepted payment methods (cards, PayPal, etc.)</li>
+      <li><strong>Installment Option:</strong> "Or 3 payments of € X with Klarna"</li>
+      <li><strong>Loyalty Points:</strong> "Earn 75 points with this purchase"</li>
+      <li><strong>Savings Highlight:</strong> "You saved € 12.50 today!" banner</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>EC05: FreeShippingProgress</strong> — Often displayed above this component</li>
+      <li><strong>EC08: CouponInput</strong> — Embedded within this component</li>
+      <li><strong>EC09: TrustSignals</strong> — Displayed below action buttons</li>
+      <li><strong>C2: MiniCart Flyout</strong> — Contains compact version</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ All totals calculate correctly</li>
+      <li>✓ Discount displays as negative (green)</li>
+      <li>✓ Free shipping shows "Gratis"</li>
+      <li>✓ Tax percentage displays correctly</li>
+      <li>✓ Total splits euros and cents</li>
+      <li>✓ Currency formatting respects locale</li>
+      <li>✓ Sticky positioning works on scroll</li>
+      <li>✓ Readonly mode hides buttons</li>
+      <li>✓ Quote button optional</li>
+      <li>✓ Checkout button calls onCheckout</li>
+      <li>✓ Quote button calls onRequestQuote</li>
+      <li>✓ Screen readers read breakdown correctly</li>
+      <li>✓ Keyboard navigation works</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       JAVASCRIPT
+       ═══════════════════════════════════════════════════════════ -->
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

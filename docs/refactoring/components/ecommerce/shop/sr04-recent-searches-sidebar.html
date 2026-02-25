@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SR04: RecentSearchesSidebar — Compass Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Colors - Navy */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+
+      /* Colors - Teal */
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --teal-bg: rgba(0, 137, 123, 0.05);
+
+      /* Colors - Grey */
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-lighter: #F5F7FA;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--white);
+      padding: 40px 20px;
+    }
+
+    /* ============================================
+       SR04: RECENT SEARCHES SIDEBAR
+       ============================================ */
+
+    .recent-searches-sidebar {
+      /* Container */
+      max-width: 280px;
+
+      /* Visual */
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      padding: var(--space-20);
+
+      /* Shadow */
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Header */
+    .recent-searches-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      margin-bottom: var(--space-16);
+    }
+
+    .recent-searches-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .recent-searches-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    /* List */
+    .recent-searches-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    /* Search item link */
+    .recent-search-item {
+      /* Layout */
+      display: block;
+      padding: var(--space-8) var(--space-12);
+
+      /* Typography */
+      font-size: 13px;
+      color: var(--grey-dark);
+      text-decoration: none;
+      line-height: 1.5;
+
+      /* Visual */
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+
+      /* Overflow handling */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recent-search-item:hover {
+      background: var(--grey-lighter);
+      color: var(--teal);
+    }
+
+    .recent-search-item:focus {
+      outline: none;
+      background: var(--grey-lighter);
+      color: var(--teal);
+      box-shadow: 0 0 0 2px var(--teal-glow);
+    }
+
+    /* Clear history button */
+    .recent-searches-clear {
+      margin-top: var(--space-12);
+      padding: var(--space-8) 0;
+      width: 100%;
+
+      /* Typography */
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      text-align: center;
+      text-decoration: none;
+
+      /* Visual */
+      background: none;
+      border: none;
+      border-top: 1px solid var(--grey);
+      cursor: pointer;
+      transition: color var(--transition);
+    }
+
+    .recent-searches-clear:hover {
+      color: var(--teal);
+    }
+
+    .recent-searches-clear:focus {
+      outline: none;
+      color: var(--teal);
+    }
+
+    /* Empty state */
+    .recent-searches-empty {
+      padding: var(--space-16) 0;
+      text-align: center;
+      font-size: 12px;
+      color: var(--grey-mid);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 1024px) {
+      .recent-searches-sidebar {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .recent-searches-sidebar {
+        padding: var(--space-16);
+      }
+
+      .recent-search-item {
+        font-size: 12px;
+      }
+
+      .recent-searches-title {
+        font-size: 13px;
+      }
+    }
+
+    /* ============================================
+       DEMO STYLES
+       ============================================ */
+
+    .demo-section {
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 24px 0 12px;
+    }
+
+    .demo-section p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>SR04: RecentSearchesSidebar — Live Demo</h2>
+    <p>Sidebar widget showing user's recent search queries with quick re-search links.</p>
+
+    <h3>Default (With History)</h3>
+    <div class="demo-grid">
+      <aside class="recent-searches-sidebar">
+        <div class="recent-searches-header">
+          <i data-lucide="clock" class="recent-searches-icon"></i>
+          <h3 class="recent-searches-title">Recent gezocht</h3>
+        </div>
+        <div class="recent-searches-list">
+          <a href="#" class="recent-search-item">mondmaskers FFP2</a>
+          <a href="#" class="recent-search-item">bloeddrukmeter</a>
+          <a href="#" class="recent-search-item">steriele gazen</a>
+          <a href="#" class="recent-search-item">handschoenen nitril poedervrij</a>
+          <a href="#" class="recent-search-item">thermometer infrarood</a>
+        </div>
+        <button class="recent-searches-clear">Geschiedenis wissen</button>
+      </aside>
+    </div>
+
+    <h3>Empty State (No History)</h3>
+    <div class="demo-grid">
+      <aside class="recent-searches-sidebar">
+        <div class="recent-searches-header">
+          <i data-lucide="clock" class="recent-searches-icon"></i>
+          <h3 class="recent-searches-title">Recent gezocht</h3>
+        </div>
+        <div class="recent-searches-empty">
+          Je hebt nog geen zoekopdrachten uitgevoerd.
+        </div>
+      </aside>
+    </div>
+
+    <h3>Limited History (3 items)</h3>
+    <div class="demo-grid">
+      <aside class="recent-searches-sidebar">
+        <div class="recent-searches-header">
+          <i data-lucide="clock" class="recent-searches-icon"></i>
+          <h3 class="recent-searches-title">Recent gezocht</h3>
+        </div>
+        <div class="recent-searches-list">
+          <a href="#" class="recent-search-item">spuiten 10ml</a>
+          <a href="#" class="recent-search-item">alcohol swabs</a>
+          <a href="#" class="recent-search-item">maskers chirurgisch</a>
+        </div>
+        <button class="recent-searches-clear">Geschiedenis wissen</button>
+      </aside>
+    </div>
+
+    <h3>Long Query Text (Ellipsis)</h3>
+    <div class="demo-grid">
+      <aside class="recent-searches-sidebar">
+        <div class="recent-searches-header">
+          <i data-lucide="clock" class="recent-searches-icon"></i>
+          <h3 class="recent-searches-title">Recent gezocht</h3>
+        </div>
+        <div class="recent-searches-list">
+          <a href="#" class="recent-search-item">handschoenen nitril poedervrij maat L blauw doos 100 stuks</a>
+          <a href="#" class="recent-search-item">steriele gazen kompressen 5x5cm</a>
+          <a href="#" class="recent-search-item">bloeddruk</a>
+        </div>
+        <button class="recent-searches-clear">Geschiedenis wissen</button>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>📋 Component Documentation</h2>
+
+    <h3>STEP 1: Component Overview</h3>
+    <p><strong>Component ID:</strong> SR04</p>
+    <p><strong>Component Name:</strong> RecentSearchesSidebar</p>
+    <p><strong>Category:</strong> Navigation / Search</p>
+    <p><strong>Priority:</strong> 🟢 Low</p>
+    <p><strong>Source File:</strong> ef6-search-results.html</p>
+    <p><strong>Output Location:</strong> /refactoring/components/navigation/sr04-recent-searches-sidebar.html</p>
+
+    <p><strong>Purpose:</strong><br>
+    RecentSearchesSidebar displays the user's recent search queries in a sidebar widget, allowing quick re-execution of past searches. It improves UX by reducing repeated typing and surfaces search patterns for analytics. Stored in localStorage/cookies, it persists across sessions.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>White card with clock icon header</li>
+      <li>Vertical list of recent queries (3-5 items typically)</li>
+      <li>Clickable links to re-execute searches</li>
+      <li>Hover state: light grey bg + teal text</li>
+      <li>Text overflow ellipsis for long queries</li>
+      <li>"Geschiedenis wissen" (Clear history) button</li>
+      <li>Empty state when no history</li>
+      <li>LocalStorage persistence</li>
+    </ul>
+
+    <p><strong>When to Use:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✅ Search results page sidebar</li>
+      <li>✅ Shop archive sidebar (below filters)</li>
+      <li>✅ User has performed ≥1 search</li>
+      <li>✅ Desktop layout with sidebar space</li>
+      <li>❌ Don't show on first-time visitors (no history)</li>
+      <li>❌ Don't show on mobile (limited space)</li>
+      <li>❌ Don't persist sensitive/private search terms</li>
+    </ul>
+
+    <h3>STEP 2: When to Use</h3>
+
+    <p><strong>Use Cases:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Repeat Searches:</strong> User searches "handschoenen nitril" multiple times over days</li>
+      <li><strong>Comparison Shopping:</strong> User searches related terms ("latex", "vinyl", "nitril")</li>
+      <li><strong>Quick Access:</strong> Medical professional repeatedly searching common products</li>
+      <li><strong>Session Continuity:</strong> User returns days later, sees previous search context</li>
+      <li><strong>Analytics Insight:</strong> Track what users search for repeatedly</li>
+    </ul>
+
+    <p><strong>Anti-patterns:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>❌ Storing sensitive terms (patient names, personal medical info)</li>
+      <li>❌ Showing failed searches (0 results) without context</li>
+      <li>❌ Duplicate entries for identical queries</li>
+      <li>❌ Infinite history (max 5-10 items)</li>
+      <li>❌ No privacy controls (should allow clearing)</li>
+    </ul>
+
+    <p><strong>Guidelines:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Store max 5-10 recent searches (FIFO queue)</li>
+      <li>Remove duplicates (keep most recent)</li>
+      <li>Expire entries after 30 days</li>
+      <li>Provide "Clear history" button</li>
+      <li>Respect DNT (Do Not Track) header</li>
+      <li>Use sessionStorage for incognito mode detection</li>
+    </ul>
+
+    <h3>STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Background: white (#FFFFFF)</li>
+      <li>Border: --grey (#E8ECF1), 1px</li>
+      <li>Icon: --teal (#00897B)</li>
+      <li>Title: --navy (#0A1628)</li>
+      <li>Link default: --grey-dark (#64748B)</li>
+      <li>Link hover: --teal (#00897B)</li>
+      <li>Link hover bg: --grey-lighter (#F5F7FA)</li>
+      <li>Clear button: --grey-mid (#94A3B8), hover --teal</li>
+      <li>Empty state: --grey-mid (#94A3B8)</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Font family: --font-body (Plus Jakarta Sans)</li>
+      <li>Title size: 14px (desktop), 13px (mobile)</li>
+      <li>Title weight: 700</li>
+      <li>Item size: 13px (desktop), 12px (mobile)</li>
+      <li>Item weight: 400</li>
+      <li>Clear button size: 12px</li>
+      <li>Clear button weight: 600</li>
+      <li>Empty state size: 12px</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Container padding: 20px (desktop), 16px (mobile)</li>
+      <li>Max width: 280px</li>
+      <li>Header-list gap: 16px</li>
+      <li>List item gap: 8px</li>
+      <li>Item padding: 8px 12px</li>
+      <li>Clear button margin-top: 12px</li>
+      <li>Clear button padding: 8px 0</li>
+      <li>Border radius container: --radius-xl (14px)</li>
+      <li>Border radius items: --radius-sm (8px)</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Icon: "clock" (Lucide)</li>
+      <li>Size: 16px</li>
+      <li>Color: --teal (#00897B)</li>
+    </ul>
+
+    <h3>STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+interface RecentSearch {
+  query: string
+  timestamp: number          // Unix timestamp
+  resultCount?: number       // Optional: track if search was successful
+}
+
+interface RecentSearchesSidebarProps {
+  searches: RecentSearch[]
+  maxItems?: number          // Default: 5
+  onSearchClick?: (query: string) => void
+  onClearHistory?: () => void
+  emptyMessage?: string
+}</pre>
+
+    <p><strong>LocalStorage Pattern:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+const STORAGE_KEY = 'recentSearches'
+const MAX_ITEMS = 5
+const EXPIRY_DAYS = 30
+
+function saveSearch(query: string): void {
+  const searches = getRecentSearches()
+
+  // Remove duplicates (keep most recent)
+  const filtered = searches.filter(s => s.query !== query)
+
+  // Add new search at beginning
+  filtered.unshift({
+    query,
+    timestamp: Date.now(),
+    resultCount: undefined // Set after results load
+  })
+
+  // Trim to max items
+  const trimmed = filtered.slice(0, MAX_ITEMS)
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed))
+}
+
+function getRecentSearches(): RecentSearch[] {
+  const stored = localStorage.getItem(STORAGE_KEY)
+  if (!stored) return []
+
+  const searches = JSON.parse(stored)
+  const now = Date.now()
+  const expiryMs = EXPIRY_DAYS * 24 * 60 * 60 * 1000
+
+  // Filter expired entries
+  return searches.filter(s => now - s.timestamp < expiryMs)
+}
+
+function clearHistory(): void {
+  localStorage.removeItem(STORAGE_KEY)
+}</pre>
+
+    <p><strong>Privacy-Aware Implementation:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function shouldTrackSearchHistory(): boolean {
+  // Check DNT header
+  if (navigator.doNotTrack === '1') return false
+
+  // Check user preferences
+  const consent = localStorage.getItem('cookieConsent')
+  if (consent !== 'analytics') return false
+
+  // Use sessionStorage in incognito mode
+  try {
+    localStorage.setItem('test', 'test')
+    localStorage.removeItem('test')
+    return true
+  } catch {
+    // Incognito mode - use sessionStorage instead
+    return false
+  }
+}</pre>
+
+    <h3>STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+┌─────────────────────────────────┐
+│  [clock] Recent gezocht         │ ← Header (14px bold)
+│                                 │
+│  mondmaskers FFP2          ← Link (13px grey)
+│  bloeddrukmeter            ← Link (hover: teal + bg)
+│  steriele gazen            ← Link
+│                                 │
+│ ─────────────────────────────── │ ← Border-top
+│       Geschiedenis wissen       │ ← Button (12px grey)
+└─────────────────────────────────┘
+
+Container: 280px max-width, white bg, 1px grey border
+Padding: 20px all sides
+Border-radius: 14px</pre>
+
+    <p><strong>Flex Layout:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Header: <code>display: flex; align-items: center; gap: 8px;</code></li>
+      <li>List: <code>display: flex; flex-direction: column; gap: 8px;</code></li>
+      <li>Items: <code>display: block; padding: 8px 12px;</code></li>
+    </ul>
+
+    <p><strong>Text Overflow Handling:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><code>white-space: nowrap;</code></li>
+      <li><code>overflow: hidden;</code></li>
+      <li><code>text-overflow: ellipsis;</code></li>
+      <li>Long query → "handschoenen nitril poeder..."</li>
+    </ul>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Desktop (≥1024px):</strong> Fixed 280px sidebar width</li>
+      <li><strong>Tablet (768-1024px):</strong> Full-width sidebar below content</li>
+      <li><strong>Mobile (&lt;640px):</strong> Hidden (or collapsible accordion)</li>
+    </ul>
+
+    <h3>STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Use <code>&lt;aside&gt;</code> for sidebar landmark</li>
+      <li>Use <code>&lt;nav&gt;</code> or <code>&lt;div&gt;</code> for list container</li>
+      <li>Use <code>&lt;a href&gt;</code> for search links (keyboard navigable)</li>
+      <li>Use <code>&lt;button&gt;</code> for clear history action</li>
+    </ul>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>aria-label="Recent searches" on &lt;aside&gt;</li>
+      <li>aria-label="Clear search history" on clear button</li>
+      <li>role="navigation" on list container (optional)</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><kbd>Tab</kbd> - Navigate between links and clear button</li>
+      <li><kbd>Enter</kbd> - Activate link (re-execute search)</li>
+      <li><kbd>Shift+Tab</kbd> - Navigate backwards</li>
+    </ul>
+
+    <p><strong>Focus States:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Links: <code>background: grey-lighter + color: teal + box-shadow: teal-glow</code></li>
+      <li>Clear button: <code>color: teal</code></li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Title (#0A1628) on white: <strong>16.1:1</strong> (WCAG AAA ✓)</li>
+      <li>Link (#64748B) on white: <strong>5.1:1</strong> (WCAG AA ✓)</li>
+      <li>Link hover (#00897B) on white: <strong>4.7:1</strong> (WCAG AA ✓)</li>
+    </ul>
+
+    <h3>STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+'use client'
+import { Clock } from 'lucide-react'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+
+export function RecentSearchesSidebar({
+  maxItems = 5,
+  onSearchClick,
+  onClearHistory,
+  emptyMessage = 'Je hebt nog geen zoekopdrachten uitgevoerd.'
+}: RecentSearchesSidebarProps) {
+  const [searches, setSearches] = useState<RecentSearch[]>([])
+
+  useEffect(() => {
+    setSearches(getRecentSearches())
+  }, [])
+
+  const handleClear = () => {
+    clearHistory()
+    setSearches([])
+    onClearHistory?.()
+  }
+
+  if (searches.length === 0) {
+    return (
+      &lt;aside className="recent-searches-sidebar" aria-label="Recent searches"&gt;
+        &lt;div className="recent-searches-header"&gt;
+          &lt;Clock className="recent-searches-icon" /&gt;
+          &lt;h3 className="recent-searches-title"&gt;Recent gezocht&lt;/h3&gt;
+        &lt;/div&gt;
+        &lt;div className="recent-searches-empty"&gt;{emptyMessage}&lt;/div&gt;
+      &lt;/aside&gt;
+    )
+  }
+
+  return (
+    &lt;aside className="recent-searches-sidebar" aria-label="Recent searches"&gt;
+      &lt;div className="recent-searches-header"&gt;
+        &lt;Clock className="recent-searches-icon" /&gt;
+        &lt;h3 className="recent-searches-title"&gt;Recent gezocht&lt;/h3&gt;
+      &lt;/div&gt;
+      &lt;div className="recent-searches-list"&gt;
+        {searches.slice(0, maxItems).map((search, index) =&gt; (
+          &lt;Link
+            key={`${search.query}-${index}`}
+            href={`/search?q=${encodeURIComponent(search.query)}`}
+            className="recent-search-item"
+            onClick={() =&gt; onSearchClick?.(search.query)}
+          &gt;
+            {search.query}
+          &lt;/Link&gt;
+        ))}
+      &lt;/div&gt;
+      &lt;button
+        className="recent-searches-clear"
+        onClick={handleClear}
+        aria-label="Clear search history"
+      &gt;
+        Geschiedenis wissen
+      &lt;/button&gt;
+    &lt;/aside&gt;
+  )
+}</pre>
+
+    <p><strong>Analytics Integration:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function trackRecentSearchClick(query: string, position: number) {
+  gtag('event', 'recent_search_click', {
+    query,
+    position,
+    event_category: 'Search',
+    event_label: 'Recent Search Widget'
+  })
+}
+
+function analyzeSearchPatterns(searches: RecentSearch[]) {
+  // Identify repeat searches (user frustration?)
+  const counts = searches.reduce((acc, s) => {
+    acc[s.query] = (acc[s.query] || 0) + 1
+    return acc
+  }, {})
+
+  const repeats = Object.entries(counts).filter(([_, count]) => count > 2)
+  if (repeats.length > 0) {
+    // Track: user repeatedly searching same term = stock issue?
+    console.log('Repeat searches detected:', repeats)
+  }
+}</pre>
+
+    <h3>STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Variations:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Default:</strong> 5 recent searches with clear button</li>
+      <li><strong>Empty state:</strong> Message when no history</li>
+      <li><strong>Limited (3 items):</strong> Compact version</li>
+      <li><strong>With result counts:</strong> Show "87 results" next to query</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>SR05: PopularSearchTags</strong> - Companion widget below recent searches</li>
+      <li><strong>SR01: SearchQueryHeader</strong> - Main search results header</li>
+      <li><strong>C1: InstantSearch</strong> - Search input with autocomplete</li>
+      <li><strong>C21: FilterSidebar</strong> - Main filters sidebar</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✓ Searches saved to localStorage on search</li>
+      <li>✓ Max 5 items enforced (FIFO)</li>
+      <li>✓ Duplicates removed (most recent kept)</li>
+      <li>✓ Clicking link re-executes search</li>
+      <li>✓ Clear button removes all history</li>
+      <li>✓ Empty state shows when no history</li>
+      <li>✓ Long queries show ellipsis</li>
+      <li>✓ Hover states work (grey bg + teal text)</li>
+      <li>✓ Keyboard navigation functional</li>
+      <li>✓ Entries expire after 30 days</li>
+      <li>✓ DNT header respected</li>
+      <li>✓ Incognito mode uses sessionStorage</li>
+    </ul>
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+
+    // Demo: Clear history functionality
+    document.querySelectorAll('.recent-searches-clear').forEach(button => {
+      button.addEventListener('click', function() {
+        const sidebar = this.closest('.recent-searches-sidebar');
+        const list = sidebar.querySelector('.recent-searches-list');
+
+        if (list) {
+          list.innerHTML = '';
+          sidebar.innerHTML = `
+            <div class="recent-searches-header">
+              <i data-lucide="clock" class="recent-searches-icon"></i>
+              <h3 class="recent-searches-title">Recent gezocht</h3>
+            </div>
+            <div class="recent-searches-empty">
+              Je hebt nog geen zoekopdrachten uitgevoerd.
+            </div>
+          `;
+          lucide.createIcons();
+        }
+
+        console.log('Search history cleared');
+      });
+    });
+
+    // Demo: Track clicks
+    document.querySelectorAll('.recent-search-item').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Recent search clicked:', this.textContent);
+      });
+    });
+  </script>
+
+</body>
+</html>

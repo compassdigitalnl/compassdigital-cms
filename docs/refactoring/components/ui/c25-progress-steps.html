@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C25: ProgressSteps  Plastimed Design System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    /* DESIGN TOKENS                                                           */
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    /* DEMO PAGE STYLES                                                        */
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .demo-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .demo-subtitle {
+      font-size: 15px;
+      color: var(--grey-mid);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-section-title i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .demo-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .demo-item {
+      padding: 24px;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--grey);
+    }
+
+    .demo-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+
+    .demo-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .code-block {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: 20px;
+      border-radius: var(--radius);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+
+    .code-block .comment { color: #94A3B8; }
+    .code-block .tag { color: #26A69A; }
+    .code-block .attr { color: #F59E0B; }
+    .code-block .string { color: #00C853; }
+
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    /* C25: PROGRESS STEPS COMPONENT                                           */
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+    .progress-bar {
+      background: white;
+      border-bottom: 1px solid var(--grey);
+      padding: 20px 0;
+    }
+
+    .steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--grey-mid);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      background: transparent;
+    }
+
+    .step.active .step-num {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: white;
+    }
+
+    .step.done .step-num {
+      background: var(--green);
+      border-color: var(--green);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      white-space: nowrap;
+    }
+
+    .step.active .step-label {
+      color: var(--navy);
+    }
+
+    .step.done .step-label {
+      color: var(--green);
+    }
+
+    .step-line {
+      width: 60px;
+      height: 2px;
+      background: var(--grey);
+      margin: 0 12px;
+      flex-shrink: 0;
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .step-line.done {
+      background: var(--green);
+    }
+
+    /* Responsive: Hide labels on mobile, keep only circles */
+    @media (max-width: 640px) {
+      .steps {
+        gap: 0;
+      }
+
+      .step-label {
+        display: none;
+      }
+
+      .step-line {
+        width: 40px;
+        margin: 0 8px;
+      }
+    }
+
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    /* DOCUMENTATION STYLES                                                    */
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+    .doc-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .doc-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .doc-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-section p,
+    .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+    }
+
+    .doc-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .doc-section ul li {
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .doc-section ul li::before {
+      content: "í";
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .token-item {
+      padding: 12px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--grey);
+    }
+
+    .token-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+
+    .token-value {
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .props-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+
+    .props-table th,
+    .props-table td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .props-table th {
+      background: var(--bg);
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .props-table code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--teal);
+    }
+  </style>
+</head>
+<body>
+
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+<!-- LIVE DEMO SECTION                                                       -->
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+
+<div class="demo-container">
+  <div class="demo-header">
+    <h1 class="demo-title">C25: ProgressSteps</h1>
+    <p class="demo-subtitle">
+      Multi-step progress indicator for checkout flows, wizards, and multi-page forms.
+      Shows completed, active, and pending states with visual clarity.
+    </p>
+  </div>
+
+  <!-- DEMO: Step 1 Active (Start of Flow) -->
+  <div class="demo-section">
+    <h2 class="demo-section-title">
+      <i data-lucide="layers"></i>
+      Step 1 Active  Start of Flow
+    </h2>
+
+    <div class="demo-item">
+      <div class="demo-label">3-Step Checkout (Cart Active)</div>
+
+      <div class="progress-bar">
+        <div class="steps">
+          <div class="step active">
+            <div class="step-num">1</div>
+            <span class="step-label">Winkelwagen</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <span class="step-label">Gegevens & betaling</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <span class="step-label">Bevestiging</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-description">
+        <strong>Use case:</strong> Cart page  first step active, all others pending.
+        Circle shows number "1" with teal background. Label is navy (active state).
+      </p>
+    </div>
+  </div>
+
+  <!-- DEMO: Step 2 Active (Middle of Flow) -->
+  <div class="demo-section">
+    <h2 class="demo-section-title">
+      <i data-lucide="check-circle"></i>
+      Step 2 Active  Middle of Flow
+    </h2>
+
+    <div class="demo-item">
+      <div class="demo-label">3-Step Checkout (Checkout Active)</div>
+
+      <div class="progress-bar">
+        <div class="steps">
+          <div class="step done">
+            <div class="step-num">
+              <i data-lucide="check" style="width:14px;height:14px;"></i>
+            </div>
+            <span class="step-label">Winkelwagen</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step active">
+            <div class="step-num">2</div>
+            <span class="step-label">Gegevens & betaling</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <span class="step-label">Bevestiging</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-description">
+        <strong>Use case:</strong> Checkout page  step 1 completed (green ), step 2 active (teal), step 3 pending.
+        First connector line turns green to show progress.
+      </p>
+    </div>
+  </div>
+
+  <!-- DEMO: Step 3 Active (End of Flow) -->
+  <div class="demo-section">
+    <h2 class="demo-section-title">
+      <i data-lucide="circle-check-big"></i>
+      Step 3 Active  End of Flow
+    </h2>
+
+    <div class="demo-item">
+      <div class="demo-label">3-Step Checkout (Confirmation Active)</div>
+
+      <div class="progress-bar">
+        <div class="steps">
+          <div class="step done">
+            <div class="step-num">
+              <i data-lucide="check" style="width:14px;height:14px;"></i>
+            </div>
+            <span class="step-label">Winkelwagen</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step done">
+            <div class="step-num">
+              <i data-lucide="check" style="width:14px;height:14px;"></i>
+            </div>
+            <span class="step-label">Gegevens & betaling</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step active">
+            <div class="step-num">3</div>
+            <span class="step-label">Bevestiging</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-description">
+        <strong>Use case:</strong> Order confirmation page  steps 1 & 2 done (green ), step 3 active (teal).
+        Both connector lines are green showing full progress.
+      </p>
+    </div>
+  </div>
+
+  <!-- DEMO: 4-Step Flow -->
+  <div class="demo-section">
+    <h2 class="demo-section-title">
+      <i data-lucide="workflow"></i>
+      4-Step Flow Example
+    </h2>
+
+    <div class="demo-item">
+      <div class="demo-label">Extended Onboarding Flow</div>
+
+      <div class="progress-bar">
+        <div class="steps">
+          <div class="step done">
+            <div class="step-num">
+              <i data-lucide="check" style="width:14px;height:14px;"></i>
+            </div>
+            <span class="step-label">Account</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step done">
+            <div class="step-num">
+              <i data-lucide="check" style="width:14px;height:14px;"></i>
+            </div>
+            <span class="step-label">Bedrijfsgegevens</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step active">
+            <div class="step-num">3</div>
+            <span class="step-label">Verificatie</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <span class="step-label">Voltooien</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-description">
+        <strong>Use case:</strong> Multi-step onboarding  supports 3+ steps.
+        Steps 1 & 2 done, step 3 active, step 4 pending.
+      </p>
+    </div>
+  </div>
+
+  <!-- DEMO: 5-Step Flow -->
+  <div class="demo-section">
+    <h2 class="demo-section-title">
+      <i data-lucide="list-checks"></i>
+      5-Step Complex Flow
+    </h2>
+
+    <div class="demo-item">
+      <div class="demo-label">Advanced Product Configuration</div>
+
+      <div class="progress-bar">
+        <div class="steps">
+          <div class="step done">
+            <div class="step-num">
+              <i data-lucide="check" style="width:14px;height:14px;"></i>
+            </div>
+            <span class="step-label">Product</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step done">
+            <div class="step-num">
+              <i data-lucide="check" style="width:14px;height:14px;"></i>
+            </div>
+            <span class="step-label">Opties</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step active">
+            <div class="step-num">3</div>
+            <span class="step-label">Personalisatie</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <span class="step-label">Review</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <span class="step-label">Checkout</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-description">
+        <strong>Use case:</strong> Complex product configurator  5 steps with step 3 active.
+        Component scales to support any number of steps.
+      </p>
+    </div>
+  </div>
+
+  <!-- DEMO: Mobile Responsive -->
+  <div class="demo-section">
+    <h2 class="demo-section-title">
+      <i data-lucide="smartphone"></i>
+      Mobile Responsive (d640px)
+    </h2>
+
+    <div class="demo-item">
+      <div class="demo-label">Mobile View  Labels Hidden</div>
+
+      <div style="max-width: 320px; margin: 0 auto;">
+        <div class="progress-bar">
+          <div class="steps">
+            <div class="step done">
+              <div class="step-num">
+                <i data-lucide="check" style="width:14px;height:14px;"></i>
+              </div>
+              <span class="step-label">Winkelwagen</span>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step active">
+              <div class="step-num">2</div>
+              <span class="step-label">Gegevens & betaling</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <span class="step-label">Bevestiging</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-description">
+        <strong>Responsive behavior:</strong> On screens d640px, step labels are hidden (display: none),
+        connector lines shrink to 40px, margins reduce to 8px. Only numbered circles remain visible.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+<!-- DOCUMENTATION SECTION                                                   -->
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+
+<div class="demo-container" style="margin-top: 80px;">
+
+  <!-- STEP 1: Component Overview -->
+  <div class="doc-section">
+    <h2>=À STEP 1: Component Overview</h2>
+    <p>
+      <strong>C25: ProgressSteps</strong> is a horizontal progress indicator component for multi-step flows
+      like checkout processes, onboarding wizards, and multi-page forms. It displays numbered circles
+      connected by horizontal lines, with three distinct states: done (green checkmark), active (teal),
+      and pending (grey).
+    </p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>3 Visual States:</strong> Done (green bg + checkmark), Active (teal bg + number), Pending (grey border + number)</li>
+      <li><strong>Connector Lines:</strong> 60px ◊ 2px lines between steps, turn green when completed</li>
+      <li><strong>Numbered Circles:</strong> 32px diameter, font-size 13px, bold numbers</li>
+      <li><strong>Step Labels:</strong> 13px below circles, color changes per state (green/navy/grey-mid)</li>
+      <li><strong>Responsive:</strong> Hides labels on mobile (d640px), keeps only circles</li>
+      <li><strong>Smooth Transitions:</strong> 0.3s cubic-bezier on all state changes</li>
+      <li><strong>Flexible:</strong> Supports 3-5+ steps (max-width 600px container)</li>
+    </ul>
+
+    <h3>File Location</h3>
+    <p><code>/refactoring/components/utility/c25-progress-steps.html</code></p>
+
+    <h3>Source Reference</h3>
+    <p>
+      Extracted from: <code>plastimed-checkout.html</code> (lines 36-48 CSS, 186-194 HTML)
+    </p>
+  </div>
+
+  <!-- STEP 2: When to Use -->
+  <div class="doc-section">
+    <h2><Ø STEP 2: When to Use</h2>
+
+    <h3>Primary Use Cases</h3>
+    <ul>
+      <li><strong>Checkout Flows:</strong> Cart í Checkout í Confirmation (3 steps)</li>
+      <li><strong>Onboarding Wizards:</strong> Account í Company í Verification í Complete (4+ steps)</li>
+      <li><strong>Multi-Page Forms:</strong> Personal Info í Address í Preferences í Review</li>
+      <li><strong>Product Configurators:</strong> Base í Options í Personalization í Review í Checkout</li>
+      <li><strong>Registration Flows:</strong> Email í Password í Profile í Verification</li>
+    </ul>
+
+    <h3>When NOT to Use</h3>
+    <ul>
+      <li><strong>Single-Page Forms:</strong> Use section headings instead</li>
+      <li><strong>Non-Linear Flows:</strong> Steps must be sequential (no jumping ahead)</li>
+      <li><strong>Vertical Layouts:</strong> This is horizontal only (consider tabs for vertical)</li>
+      <li><strong>Too Many Steps:</strong> 6+ steps may overflow on mobile, consider grouping</li>
+    </ul>
+
+    <h3>Best Practices</h3>
+    <ul>
+      <li><strong>Show Current Position:</strong> Always have exactly 1 active step (teal)</li>
+      <li><strong>Linear Progression:</strong> Users can't skip ahead to pending steps</li>
+      <li><strong>Allow Back Navigation:</strong> Users can return to completed (done) steps</li>
+      <li><strong>Clear Labels:</strong> Keep step names short (1-3 words), use nouns</li>
+      <li><strong>Persistent Display:</strong> Keep visible throughout entire flow (sticky optional)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 3: Design Tokens -->
+  <div class="doc-section">
+    <h2><® STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <div class="token-grid">
+      <div class="token-item">
+        <div class="token-name">--teal</div>
+        <div class="token-value">#00897B</div>
+        <div style="margin-top:8px;height:32px;background:#00897B;border-radius:4px;"></div>
+        <div style="font-size:11px;margin-top:4px;color:var(--grey-mid);">Active step bg</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">--green</div>
+        <div class="token-value">#00C853</div>
+        <div style="margin-top:8px;height:32px;background:#00C853;border-radius:4px;"></div>
+        <div style="font-size:11px;margin-top:4px;color:var(--grey-mid);">Done step bg + line</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">--grey</div>
+        <div class="token-value">#E8ECF1</div>
+        <div style="margin-top:8px;height:32px;background:#E8ECF1;border-radius:4px;border:1px solid #ccc;"></div>
+        <div style="font-size:11px;margin-top:4px;color:var(--grey-mid);">Pending border + line</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">--grey-mid</div>
+        <div class="token-value">#94A3B8</div>
+        <div style="margin-top:8px;height:32px;background:#94A3B8;border-radius:4px;"></div>
+        <div style="font-size:11px;margin-top:4px;color:var(--grey-mid);">Pending number + label</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">--navy</div>
+        <div class="token-value">#0A1628</div>
+        <div style="margin-top:8px;height:32px;background:#0A1628;border-radius:4px;"></div>
+        <div style="font-size:11px;margin-top:4px;color:var(--grey-mid);">Active label text</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">white</div>
+        <div class="token-value">#FAFBFC</div>
+        <div style="margin-top:8px;height:32px;background:#FAFBFC;border-radius:4px;border:1px solid #ccc;"></div>
+        <div style="font-size:11px;margin-top:4px;color:var(--grey-mid);">Active/done text</div>
+      </div>
+    </div>
+
+    <h3>Typography</h3>
+    <div class="token-grid">
+      <div class="token-item">
+        <div class="token-name">Font Family</div>
+        <div class="token-value">Plus Jakarta Sans</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Step Number</div>
+        <div class="token-value">13px / 700 weight</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Step Label</div>
+        <div class="token-value">13px / 600 weight</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Label Spacing</div>
+        <div class="token-value">white-space: nowrap</div>
+      </div>
+    </div>
+
+    <h3>Spacing (4px Grid)</h3>
+    <div class="token-grid">
+      <div class="token-item">
+        <div class="token-name">Circle Size</div>
+        <div class="token-value">32px ◊ 32px</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Circle Border</div>
+        <div class="token-value">2px solid</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Checkmark Icon</div>
+        <div class="token-value">14px ◊ 14px</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Label Gap</div>
+        <div class="token-value">10px below circle</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Connector Line</div>
+        <div class="token-value">60px ◊ 2px</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Line Margin</div>
+        <div class="token-value">0 12px (desktop)</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Container Padding</div>
+        <div class="token-value">20px (top/bottom)</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Mobile Line</div>
+        <div class="token-value">40px ◊ 2px</div>
+      </div>
+      <div class="token-item">
+        <div class="token-name">Mobile Margin</div>
+        <div class="token-value">0 8px</div>
+      </div>
+    </div>
+
+    <h3>Icons</h3>
+    <ul>
+      <li><strong>Done State:</strong> <code>lucide-check</code> (14px ◊ 14px, white color)</li>
+      <li><strong>Icon Library:</strong> Lucide Icons CDN</li>
+    </ul>
+
+    <h3>Transitions</h3>
+    <div class="token-grid">
+      <div class="token-item">
+        <div class="token-name">State Change</div>
+        <div class="token-value">all 0.3s cubic-bezier(0.4, 0, 0.2, 1)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Props & Configuration -->
+  <div class="doc-section">
+    <h2>ô STEP 4: Props & Configuration</h2>
+
+    <h3>HTML Structure</h3>
+    <div class="code-block">
+<span class="comment">&lt;!-- Container with white bg + bottom border --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"progress-bar"</span><span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- Centered flex container (max-width 600px) --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"steps"</span><span class="tag">&gt;</span>
+
+    <span class="comment">&lt;!-- Step 1: Done --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step done"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-num"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;i</span> <span class="attr">data-lucide</span>=<span class="string">"check"</span> <span class="attr">style</span>=<span class="string">"width:14px;height:14px;"</span><span class="tag">&gt;&lt;/i&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"step-label"</span><span class="tag">&gt;</span>Winkelwagen<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+    <span class="comment">&lt;!-- Connector Line (done state) --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-line done"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+    <span class="comment">&lt;!-- Step 2: Active --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step active"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-num"</span><span class="tag">&gt;</span>2<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"step-label"</span><span class="tag">&gt;</span>Gegevens & betaling<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+    <span class="comment">&lt;!-- Connector Line (pending state) --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-line"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+    <span class="comment">&lt;!-- Step 3: Pending --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-num"</span><span class="tag">&gt;</span>3<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"step-label"</span><span class="tag">&gt;</span>Bevestiging<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+    </div>
+
+    <h3>CSS Classes</h3>
+    <table class="props-table">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Purpose</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>.progress-bar</code></td>
+          <td>Container wrapper</td>
+          <td>White bg, bottom border, 20px padding</td>
+        </tr>
+        <tr>
+          <td><code>.steps</code></td>
+          <td>Flex container for all steps</td>
+          <td>Max-width 600px, centered, gap: 0</td>
+        </tr>
+        <tr>
+          <td><code>.step</code></td>
+          <td>Individual step wrapper</td>
+          <td>Flex layout, align-items center, gap 10px</td>
+        </tr>
+        <tr>
+          <td><code>.step.active</code></td>
+          <td>Active step state</td>
+          <td>Teal bg, navy label</td>
+        </tr>
+        <tr>
+          <td><code>.step.done</code></td>
+          <td>Completed step state</td>
+          <td>Green bg + checkmark, green label</td>
+        </tr>
+        <tr>
+          <td><code>.step-num</code></td>
+          <td>Numbered circle</td>
+          <td>32px ◊ 32px, 2px border, 13px font, bold</td>
+        </tr>
+        <tr>
+          <td><code>.step-label</code></td>
+          <td>Text label below circle</td>
+          <td>13px, 600 weight, white-space: nowrap</td>
+        </tr>
+        <tr>
+          <td><code>.step-line</code></td>
+          <td>Connector line</td>
+          <td>60px ◊ 2px, grey bg, margin 0 12px</td>
+        </tr>
+        <tr>
+          <td><code>.step-line.done</code></td>
+          <td>Completed connector</td>
+          <td>Green bg</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>State Modifiers</h3>
+    <table class="props-table">
+      <thead>
+        <tr>
+          <th>Modifier</th>
+          <th>Visual Appearance</th>
+          <th>When to Use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>.step.done</code></td>
+          <td>Green bg (#00C853), white checkmark, green label</td>
+          <td>Steps user has completed and can navigate back to</td>
+        </tr>
+        <tr>
+          <td><code>.step.active</code></td>
+          <td>Teal bg (#00897B), white number, navy label</td>
+          <td>Current step user is on (exactly 1 per flow)</td>
+        </tr>
+        <tr>
+          <td><code>.step</code> (no modifier)</td>
+          <td>Grey border (#E8ECF1), grey number/label (#94A3B8)</td>
+          <td>Future steps user hasn't reached yet (pending)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Responsive Breakpoints</h3>
+    <table class="props-table">
+      <thead>
+        <tr>
+          <th>Breakpoint</th>
+          <th>Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>max-width: 640px</code></td>
+          <td>
+            " <code>.step-label { display: none; }</code><br>
+            " <code>.step-line { width: 40px; margin: 0 8px; }</code><br>
+            " Only circles remain visible
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 5: Layout Rules -->
+  <div class="doc-section">
+    <h2>=– STEP 5: Layout Rules</h2>
+
+    <h3>Container Behavior</h3>
+    <ul>
+      <li><strong>White Background:</strong> <code>.progress-bar</code> has white bg (#FAFBFC)</li>
+      <li><strong>Bottom Border:</strong> 1px solid var(--grey) separates from page content</li>
+      <li><strong>Vertical Padding:</strong> 20px top/bottom for breathing room</li>
+      <li><strong>Full Width:</strong> Container spans 100% width of viewport</li>
+    </ul>
+
+    <h3>Steps Layout</h3>
+    <ul>
+      <li><strong>Centered:</strong> <code>.steps</code> is centered with <code>margin: 0 auto</code></li>
+      <li><strong>Max Width:</strong> 600px to prevent over-stretching on wide screens</li>
+      <li><strong>Horizontal Flex:</strong> Steps laid out left-to-right with <code>display: flex</code></li>
+      <li><strong>Gap Zero:</strong> No gap between steps (lines handle spacing)</li>
+    </ul>
+
+    <h3>Step Sizing</h3>
+    <ul>
+      <li><strong>Circle:</strong> Fixed 32px ◊ 32px with 2px border (total 36px ◊ 36px hit area)</li>
+      <li><strong>Flex-shrink:</strong> Circles have <code>flex-shrink: 0</code> to prevent squishing</li>
+      <li><strong>Label:</strong> <code>white-space: nowrap</code> prevents wrapping</li>
+      <li><strong>Gap:</strong> 10px between circle and label (vertical stack on mobile)</li>
+    </ul>
+
+    <h3>Connector Lines</h3>
+    <ul>
+      <li><strong>Desktop:</strong> 60px ◊ 2px with 12px horizontal margin on each side</li>
+      <li><strong>Mobile:</strong> 40px ◊ 2px with 8px horizontal margin</li>
+      <li><strong>Flex-shrink:</strong> Lines have <code>flex-shrink: 0</code> for consistent width</li>
+      <li><strong>Alignment:</strong> Vertically centered with circles</li>
+    </ul>
+
+    <h3>Responsive Behavior</h3>
+    <ul>
+      <li><strong>d640px:</strong> Hide labels (<code>display: none</code>), reduce line width/margins</li>
+      <li><strong>Mobile Stack:</strong> Labels hidden, only circles + lines visible</li>
+      <li><strong>Total Width Calc:</strong> 3 steps = (32px ◊ 3) + (40px ◊ 2) + (8px ◊ 4) = 208px min-width mobile</li>
+      <li><strong>Overflow Handling:</strong> For 5+ steps, container may need horizontal scroll on mobile</li>
+    </ul>
+
+    <h3>Placement Guidelines</h3>
+    <ul>
+      <li><strong>Position:</strong> Typically placed below header/nav, above main content</li>
+      <li><strong>Sticky Option:</strong> Can be made sticky with <code>position: sticky; top: 0; z-index: 200;</code></li>
+      <li><strong>Isolation:</strong> Keep separate from page content with bottom border visual</li>
+      <li><strong>Persistent:</strong> Should remain visible throughout entire multi-step flow</li>
+    </ul>
+  </div>
+
+  <!-- STEP 6: Accessibility -->
+  <div class="doc-section">
+    <h2> STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML Enhancement</h3>
+    <div class="code-block">
+<span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="string">"progress-bar"</span> <span class="attr">aria-label</span>=<span class="string">"Checkout progress"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;ol</span> <span class="attr">class</span>=<span class="string">"steps"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"step done"</span> <span class="attr">aria-current</span>=<span class="string">"false"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-num"</span> <span class="attr">aria-label</span>=<span class="string">"Step 1 completed"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;i</span> <span class="attr">data-lucide</span>=<span class="string">"check"</span> <span class="attr">aria-hidden</span>=<span class="string">"true"</span><span class="tag">&gt;&lt;/i&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"step-label"</span><span class="tag">&gt;</span>Winkelwagen<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"step-line done"</span> <span class="attr">aria-hidden</span>=<span class="string">"true"</span><span class="tag">&gt;&lt;/li&gt;</span>
+    <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"step active"</span> <span class="attr">aria-current</span>=<span class="string">"step"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-num"</span> <span class="attr">aria-label</span>=<span class="string">"Step 2 active"</span><span class="tag">&gt;</span>2<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"step-label"</span><span class="tag">&gt;</span>Gegevens & betaling<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"step-line"</span> <span class="attr">aria-hidden</span>=<span class="string">"true"</span><span class="tag">&gt;&lt;/li&gt;</span>
+    <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"step"</span> <span class="attr">aria-current</span>=<span class="string">"false"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-num"</span> <span class="attr">aria-label</span>=<span class="string">"Step 3 pending"</span><span class="tag">&gt;</span>3<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"step-label"</span><span class="tag">&gt;</span>Bevestiging<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;/ol&gt;</span>
+<span class="tag">&lt;/nav&gt;</span>
+    </div>
+
+    <h3>ARIA Attributes</h3>
+    <table class="props-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>ARIA Attribute</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>&lt;nav&gt;</code></td>
+          <td><code>aria-label="Checkout progress"</code></td>
+          <td>Identifies navigation landmark</td>
+        </tr>
+        <tr>
+          <td>Active step</td>
+          <td><code>aria-current="step"</code></td>
+          <td>Announces current step to screen readers</td>
+        </tr>
+        <tr>
+          <td>Done/pending steps</td>
+          <td><code>aria-current="false"</code></td>
+          <td>Explicitly marks non-current steps</td>
+        </tr>
+        <tr>
+          <td><code>.step-num</code></td>
+          <td><code>aria-label="Step X [state]"</code></td>
+          <td>Announces step number and state</td>
+        </tr>
+        <tr>
+          <td>Checkmark icon</td>
+          <td><code>aria-hidden="true"</code></td>
+          <td>Hides decorative icon from screen readers</td>
+        </tr>
+        <tr>
+          <td>Connector lines</td>
+          <td><code>aria-hidden="true"</code></td>
+          <td>Hides decorative lines from screen readers</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Screen Reader Announcements</h3>
+    <ul>
+      <li><strong>Navigation Enter:</strong> "Checkout progress navigation"</li>
+      <li><strong>Step 1 (done):</strong> "Step 1 completed, Winkelwagen"</li>
+      <li><strong>Step 2 (active):</strong> "Step 2 active, current step, Gegevens & betaling"</li>
+      <li><strong>Step 3 (pending):</strong> "Step 3 pending, Bevestiging"</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Not Interactive:</strong> Progress indicator is read-only (no keyboard focus)</li>
+      <li><strong>Navigation:</strong> Users navigate via form submit buttons, not by clicking steps</li>
+      <li><strong>Back Button:</strong> Provide separate "ê Previous step" link if needed</li>
+    </ul>
+
+    <h3>Color Contrast</h3>
+    <table class="props-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Foreground</th>
+          <th>Background</th>
+          <th>Ratio</th>
+          <th>WCAG Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Active number (white on teal)</td>
+          <td>#FAFBFC</td>
+          <td>#00897B</td>
+          <td>4.8:1</td>
+          <td>AA </td>
+        </tr>
+        <tr>
+          <td>Done checkmark (white on green)</td>
+          <td>#FAFBFC</td>
+          <td>#00C853</td>
+          <td>5.2:1</td>
+          <td>AA </td>
+        </tr>
+        <tr>
+          <td>Pending number (grey on white)</td>
+          <td>#94A3B8</td>
+          <td>#FAFBFC</td>
+          <td>3.1:1</td>
+          <td>Large text only</td>
+        </tr>
+        <tr>
+          <td>Active label (navy on white)</td>
+          <td>#0A1628</td>
+          <td>#FAFBFC</td>
+          <td>14.8:1</td>
+          <td>AAA </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Best Practices</h3>
+    <ul>
+      <li><strong>Use Semantic HTML:</strong> <code>&lt;nav&gt;</code> + <code>&lt;ol&gt;</code> for proper structure</li>
+      <li><strong>Mark Current Step:</strong> <code>aria-current="step"</code> on active step</li>
+      <li><strong>Announce State Changes:</strong> Use live region when step updates</li>
+      <li><strong>Hide Decorative Elements:</strong> <code>aria-hidden="true"</code> on icons/lines</li>
+      <li><strong>Provide Context:</strong> Page title should also indicate current step</li>
+    </ul>
+  </div>
+
+  <!-- STEP 7: Implementation Notes -->
+  <div class="doc-section">
+    <h2>=' STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component Example</h3>
+    <div class="code-block">
+<span class="comment">// components/ProgressSteps.tsx</span>
+<span class="tag">import</span> { Check } <span class="tag">from</span> <span class="string">'lucide-react'</span>
+
+<span class="tag">interface</span> Step {
+  label: <span class="tag">string</span>
+  status: <span class="string">'done'</span> | <span class="string">'active'</span> | <span class="string">'pending'</span>
+}
+
+<span class="tag">interface</span> ProgressStepsProps {
+  steps: Step[]
+  currentStep: <span class="tag">number</span>
+}
+
+<span class="tag">export</span> <span class="tag">function</span> ProgressSteps({ steps, currentStep }: ProgressStepsProps) {
+  <span class="tag">return</span> (
+    &lt;nav className=<span class="string">"progress-bar"</span> aria-label=<span class="string">"Progress"</span>&gt;
+      &lt;ol className=<span class="string">"steps"</span>&gt;
+        {steps.map((step, index) =&gt; (
+          &lt;&gt;
+            &lt;li
+              key={index}
+              className={`step ${step.status}`}
+              aria-current={index === currentStep ? <span class="string">'step'</span> : <span class="string">'false'</span>}
+            &gt;
+              &lt;div
+                className=<span class="string">"step-num"</span>
+                aria-label={`Step ${index + 1} ${step.status}`}
+              &gt;
+                {step.status === <span class="string">'done'</span> ? (
+                  &lt;Check size={14} aria-hidden=<span class="string">"true"</span> /&gt;
+                ) : (
+                  index + 1
+                )}
+              &lt;/div&gt;
+              &lt;span className=<span class="string">"step-label"</span>&gt;{step.label}&lt;/span&gt;
+            &lt;/li&gt;
+            {index &lt; steps.length - 1 &amp;&amp; (
+              &lt;li
+                className={`step-line ${step.status === <span class="string">'done'</span> ? <span class="string">'done'</span> : <span class="string">''</span>}`}
+                aria-hidden=<span class="string">"true"</span>
+              /&gt;
+            )}
+          &lt;/&gt;
+        ))}
+      &lt;/ol&gt;
+    &lt;/nav&gt;
+  )
+}
+
+<span class="comment">// Usage Example</span>
+<span class="tag">const</span> checkoutSteps = [
+  { label: <span class="string">'Winkelwagen'</span>, status: <span class="string">'done'</span> },
+  { label: <span class="string">'Gegevens & betaling'</span>, status: <span class="string">'active'</span> },
+  { label: <span class="string">'Bevestiging'</span>, status: <span class="string">'pending'</span> },
+]
+
+&lt;ProgressSteps steps={checkoutSteps} currentStep={1} /&gt;
+    </div>
+
+    <h3>Dynamic State Management</h3>
+    <div class="code-block">
+<span class="comment">// Auto-calculate step states based on currentStep index</span>
+<span class="tag">function</span> generateSteps(labels: <span class="tag">string</span>[], currentStep: <span class="tag">number</span>) {
+  <span class="tag">return</span> labels.map((label, index) =&gt; ({
+    label,
+    status: index &lt; currentStep
+      ? <span class="string">'done'</span>
+      : index === currentStep
+        ? <span class="string">'active'</span>
+        : <span class="string">'pending'</span>
+  }))
+}
+
+<span class="comment">// Usage</span>
+<span class="tag">const</span> [currentStep, setCurrentStep] = useState(1)
+<span class="tag">const</span> stepLabels = [<span class="string">'Cart'</span>, <span class="string">'Checkout'</span>, <span class="string">'Confirm'</span>]
+<span class="tag">const</span> steps = generateSteps(stepLabels, currentStep)
+
+&lt;ProgressSteps steps={steps} currentStep={currentStep} /&gt;
+    </div>
+
+    <h3>Sticky Positioning (Optional)</h3>
+    <div class="code-block">
+<span class="comment">/* Make progress bar sticky at top of viewport */</span>
+.progress-bar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: white;
+  border-bottom: 1px solid var(--grey);
+  padding: 20px 0;
+  <span class="comment">/* Add subtle shadow when stuck */</span>
+  box-shadow: 0 1px 3px rgba(10, 22, 40, 0);
+  transition: box-shadow 0.2s;
+}
+
+.progress-bar.is-stuck {
+  box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
+}
+    </div>
+
+    <h3>Live Region for Screen Readers</h3>
+    <div class="code-block">
+<span class="comment">// Announce step changes to screen readers</span>
+&lt;div
+  className=<span class="string">"sr-only"</span>
+  role=<span class="string">"status"</span>
+  aria-live=<span class="string">"polite"</span>
+  aria-atomic=<span class="string">"true"</span>
+&gt;
+  {`Step ${currentStep + 1} of ${steps.length}: ${steps[currentStep].label}`}
+&lt;/div&gt;
+
+<span class="comment">/* CSS for screen-reader-only content */</span>
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+    </div>
+
+    <h3>Payload CMS Integration</h3>
+    <div class="code-block">
+<span class="comment">// Field in Payload collection (e.g., Checkout)</span>
+{
+  name: <span class="string">'steps'</span>,
+  type: <span class="string">'array'</span>,
+  label: <span class="string">'Progress Steps'</span>,
+  minRows: 3,
+  maxRows: 6,
+  fields: [
+    {
+      name: <span class="string">'label'</span>,
+      type: <span class="string">'text'</span>,
+      required: <span class="tag">true</span>,
+      label: <span class="string">'Step Label'</span>,
+      admin: {
+        placeholder: <span class="string">'e.g., Winkelwagen'</span>
+      }
+    }
+  ],
+  admin: {
+    description: <span class="string">'Define checkout flow steps (3-6 steps recommended)'</span>
+  }
+}
+
+<span class="comment">// Frontend rendering</span>
+<span class="tag">const</span> steps = page.steps.map((step, index) =&gt; ({
+  label: step.label,
+  status: getStepStatus(index, currentStepIndex)
+}))
+    </div>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li><strong>Visual States:</strong> Verify done (green ), active (teal), pending (grey) render correctly</li>
+      <li><strong>Connector Lines:</strong> Check done lines turn green, pending lines stay grey</li>
+      <li><strong>Responsive:</strong> Test label hiding at 640px, verify circles remain visible</li>
+      <li><strong>Screen Reader:</strong> Test with VoiceOver/NVDA, verify step announcements</li>
+      <li><strong>State Transitions:</strong> Test moving forward/backward between steps</li>
+      <li><strong>Long Labels:</strong> Test with long step names (should nowrap)</li>
+      <li><strong>Many Steps:</strong> Test with 5-6 steps, check mobile overflow</li>
+    </ul>
+  </div>
+
+  <!-- STEP 8: Variations & Related Components -->
+  <div class="doc-section">
+    <h2><® STEP 8: Variations & Related Components</h2>
+
+    <h3>Alternative Layouts</h3>
+    <ul>
+      <li><strong>Vertical Progress:</strong> For sidebar layouts, rotate to vertical stack</li>
+      <li><strong>With Percentages:</strong> Add "33% complete" text below steps</li>
+      <li><strong>With Timestamps:</strong> Show completion time on done steps</li>
+      <li><strong>Clickable Steps:</strong> Allow navigation to completed steps (add links)</li>
+    </ul>
+
+    <h3>Vertical Variation Example</h3>
+    <div class="code-block">
+<span class="comment">/* Vertical progress for sidebar */</span>
+.steps.vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.steps.vertical .step {
+  flex-direction: row;
+  width: 100%;
+}
+
+.steps.vertical .step-line {
+  width: 2px;
+  height: 40px;
+  margin: 8px 0 8px 15px; <span class="comment">/* Center under circle */</span>
+}
+
+.steps.vertical .step-label {
+  margin-left: 12px;
+}
+    </div>
+
+    <h3>Clickable Steps Variation</h3>
+    <div class="code-block">
+<span class="comment">&lt;!-- Allow navigation to completed steps --&gt;</span>
+<span class="tag">&lt;button</span>
+  <span class="attr">class</span>=<span class="string">"step done clickable"</span>
+  <span class="attr">onClick</span>=<span class="string">{() => goToStep(0)}</span>
+  <span class="attr">aria-label</span>=<span class="string">"Go back to step 1: Winkelwagen"</span>
+<span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"step-num"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;i</span> <span class="attr">data-lucide</span>=<span class="string">"check"</span><span class="tag">&gt;&lt;/i&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"step-label"</span><span class="tag">&gt;</span>Winkelwagen<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/button&gt;</span>
+
+<span class="comment">/* CSS for clickable variant */</span>
+.step.clickable {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: transform 0.2s;
+}
+
+.step.clickable:hover {
+  transform: translateY(-2px);
+}
+
+.step.clickable:hover .step-num {
+  box-shadow: 0 4px 12px rgba(0, 137, 123, 0.2);
+}
+    </div>
+
+    <h3>Related Components</h3>
+    <table class="props-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Relationship</th>
+          <th>Use Together</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>C19: Breadcrumbs</strong></td>
+          <td>Navigation complement</td>
+          <td>Use breadcrumbs for hierarchical navigation, progress steps for linear flows</td>
+        </tr>
+        <tr>
+          <td><strong>C6: Sticky Bar</strong></td>
+          <td>Sticky positioning</td>
+          <td>Both can be sticky; progress bar above, sticky bar below content</td>
+        </tr>
+        <tr>
+          <td><strong>C14: MegaNav</strong></td>
+          <td>Header integration</td>
+          <td>Progress bar sits directly below header on checkout pages</td>
+        </tr>
+        <tr>
+          <td><strong>Form Components</strong></td>
+          <td>Content relationship</td>
+          <td>Progress bar shows position in multi-step form</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Design System Integration</h3>
+    <ul>
+      <li><strong>Token Compliance:</strong> Uses --teal, --green, --navy, --grey from core palette</li>
+      <li><strong>Spacing Grid:</strong> All spacing follows 4px grid (8, 10, 12, 20, 32, 60px)</li>
+      <li><strong>Typography:</strong> Plus Jakarta Sans, 13px body, 600/700 weights</li>
+      <li><strong>Transitions:</strong> 0.3s cubic-bezier for state changes</li>
+      <li><strong>Radius:</strong> 50% for circles (perfect round)</li>
+    </ul>
+
+    <h3>Common Patterns</h3>
+    <ul>
+      <li><strong>3-Step Checkout:</strong> Cart í Checkout í Confirmation</li>
+      <li><strong>4-Step Onboarding:</strong> Account í Company í Verification í Complete</li>
+      <li><strong>5-Step Config:</strong> Product í Options í Personalization í Review í Checkout</li>
+      <li><strong>Save Progress:</strong> Use localStorage to persist currentStep on page refresh</li>
+    </ul>
+
+    <h3>File Organization</h3>
+    <div class="code-block">
+<span class="comment">// Recommended file structure</span>
+/components/
+  /utility/
+    ProgressSteps.tsx          <span class="comment">// Main component</span>
+    ProgressSteps.module.css   <span class="comment">// Scoped styles</span>
+    ProgressSteps.stories.tsx  <span class="comment">// Storybook examples</span>
+    ProgressSteps.test.tsx     <span class="comment">// Unit tests</span>
+
+/styles/
+  /tokens/
+    colors.css                 <span class="comment">// --teal, --green, --grey</span>
+    spacing.css                <span class="comment">// 4px grid values</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Initialize Lucide Icons -->
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

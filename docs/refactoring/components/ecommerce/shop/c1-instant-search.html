@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C1 - Instant Search Overlay | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --green: #00C853;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Demo Trigger */
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-primary);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .demo-btn:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 137, 123, 0.2);
+    }
+
+    .demo-btn i {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Instant Search Overlay */
+    .is-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s;
+    }
+
+    .is-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .is-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 22, 40, 0.5);
+      backdrop-filter: blur(4px);
+    }
+
+    .is-panel {
+      position: relative;
+      max-width: 720px;
+      margin: 80px auto 0;
+      background: white;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      transform: translateY(-12px);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: calc(100vh - 120px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .is-overlay.open .is-panel {
+      transform: translateY(0);
+    }
+
+    /* Input Section */
+    .is-input-wrap {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .is-input-wrap > i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .is-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: var(--font-primary);
+      font-size: 17px;
+      color: var(--navy);
+    }
+
+    .is-input::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .is-esc {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--grey-mid);
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+
+    .is-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: none;
+      background: var(--grey-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition);
+    }
+
+    .is-close i {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+    }
+
+    .is-close:hover {
+      background: var(--grey);
+    }
+
+    /* Results Body */
+    .is-body {
+      overflow-y: auto;
+      padding: 0;
+      flex: 1;
+    }
+
+    .is-section {
+      padding: 16px 24px;
+    }
+
+    .is-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--grey-mid);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .is-section-title i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Product Results */
+    .is-product {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.12s;
+      text-decoration: none;
+      color: inherit;
+      margin-bottom: 4px;
+    }
+
+    .is-product:hover {
+      background: var(--teal-glow);
+    }
+
+    .is-product-img {
+      width: 48px;
+      height: 48px;
+      background: var(--grey-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .is-product-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .is-product-brand {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+    }
+
+    .is-product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 2px 0;
+    }
+
+    .is-product-name mark {
+      background: var(--teal-glow);
+      color: var(--teal);
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+
+    .is-product-sku {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .is-product-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .is-product-price {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .is-product-stock {
+      font-size: 11px;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+      margin-top: 2px;
+    }
+
+    .is-product-stock .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    /* Category/Brand/Article Links */
+    .is-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.12s;
+      text-decoration: none;
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .is-link:hover {
+      background: var(--teal-glow);
+      color: var(--teal);
+    }
+
+    .is-link i {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+      flex-shrink: 0;
+    }
+
+    .is-link:hover i {
+      color: var(--teal);
+    }
+
+    .is-link-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .is-link-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .is-link-badge.cat {
+      background: var(--teal-glow);
+      color: var(--teal);
+    }
+
+    .is-link-badge.brand {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    .is-link-badge.article {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+
+    /* Footer */
+    .is-footer {
+      padding: 12px 24px;
+      border-top: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      background: var(--grey-light);
+    }
+
+    .is-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .is-footer-left kbd {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+
+    .is-footer-all {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap var(--transition);
+    }
+
+    .is-footer-all:hover {
+      gap: 8px;
+    }
+
+    .is-footer-all i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .is-panel {
+        margin: 40px 16px 0;
+        max-height: calc(100vh - 80px);
+      }
+
+      .is-product {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .is-product-right {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <button class="demo-btn" onclick="openSearch()">
+      <i data-lucide="search"></i>
+      Open Instant Search (⌘K)
+    </button>
+  </div>
+
+  <!-- INSTANT SEARCH OVERLAY -->
+  <div class="is-overlay" id="searchOverlay">
+    <div class="is-backdrop" onclick="closeSearch()"></div>
+    <div class="is-panel">
+      <div class="is-input-wrap">
+        <i data-lucide="search"></i>
+        <input
+          class="is-input"
+          id="searchInput"
+          type="text"
+          placeholder="Zoek producten, merken of artikelen…"
+          value="nitrile"
+        >
+        <span class="is-esc">ESC</span>
+        <button class="is-close" onclick="closeSearch()" aria-label="Sluit zoeken">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="is-body">
+        <!-- Products Section -->
+        <div class="is-section">
+          <div class="is-section-title">
+            <i data-lucide="package"></i> Producten
+          </div>
+          <a href="#" class="is-product">
+            <div class="is-product-img">🧤</div>
+            <div class="is-product-info">
+              <div class="is-product-brand">Hartmann</div>
+              <div class="is-product-name">Peha-soft <mark>Nitrile</mark> Fino</div>
+              <div class="is-product-sku">Art. 942210</div>
+            </div>
+            <div class="is-product-right">
+              <div class="is-product-price">€8,25</div>
+              <div class="is-product-stock"><span class="dot"></span> Op voorraad</div>
+            </div>
+          </a>
+          <a href="#" class="is-product">
+            <div class="is-product-img">🧤</div>
+            <div class="is-product-info">
+              <div class="is-product-brand">Hartmann</div>
+              <div class="is-product-name">Peha-soft <mark>Nitrile</mark> Guard</div>
+              <div class="is-product-sku">Art. 942215</div>
+            </div>
+            <div class="is-product-right">
+              <div class="is-product-price">€9,75</div>
+              <div class="is-product-stock"><span class="dot"></span> Op voorraad</div>
+            </div>
+          </a>
+          <a href="#" class="is-product">
+            <div class="is-product-img">🧤</div>
+            <div class="is-product-info">
+              <div class="is-product-brand">Ansell</div>
+              <div class="is-product-name">Micro-Touch <mark>Nitrile</mark></div>
+              <div class="is-product-sku">Art. AT7412</div>
+            </div>
+            <div class="is-product-right">
+              <div class="is-product-price">€11,25</div>
+              <div class="is-product-stock"><span class="dot"></span> Op voorraad</div>
+            </div>
+          </a>
+          <a href="#" class="is-product">
+            <div class="is-product-img">🧤</div>
+            <div class="is-product-info">
+              <div class="is-product-brand">Abena</div>
+              <div class="is-product-name">Classic <mark>Nitrile</mark> Poedervrij</div>
+              <div class="is-product-sku">Art. AB9920</div>
+            </div>
+            <div class="is-product-right">
+              <div class="is-product-price">€7,95</div>
+              <div class="is-product-stock"><span class="dot"></span> Op voorraad</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="is-section">
+          <div class="is-section-title">
+            <i data-lucide="folder"></i> Categorieën
+          </div>
+          <a href="#" class="is-link">
+            <i data-lucide="hand"></i>
+            Nitrile handschoenen
+            <span class="is-link-badge cat">Categorie</span>
+            <span class="is-link-count">34</span>
+          </a>
+          <a href="#" class="is-link">
+            <i data-lucide="shield"></i>
+            Chemisch bestendige handschoenen
+            <span class="is-link-badge cat">Categorie</span>
+            <span class="is-link-count">6</span>
+          </a>
+        </div>
+
+        <!-- Brands Section -->
+        <div class="is-section">
+          <div class="is-section-title">
+            <i data-lucide="award"></i> Merken
+          </div>
+          <a href="#" class="is-link">
+            <i data-lucide="award"></i>
+            Hartmann
+            <span class="is-link-badge brand">Merk</span>
+            <span class="is-link-count">14</span>
+          </a>
+          <a href="#" class="is-link">
+            <i data-lucide="award"></i>
+            Ansell
+            <span class="is-link-badge brand">Merk</span>
+            <span class="is-link-count">8</span>
+          </a>
+        </div>
+
+        <!-- Knowledge Base Section -->
+        <div class="is-section" style="border-top: 1px solid var(--grey); padding-top: 16px;">
+          <div class="is-section-title">
+            <i data-lucide="book-open"></i> Kennisbank
+          </div>
+          <a href="#" class="is-link">
+            <i data-lucide="file-text"></i>
+            De complete gids voor medische handschoenen
+            <span class="is-link-badge article">Artikel</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="is-footer">
+        <div class="is-footer-left">
+          <kbd>↑</kbd> <kbd>↓</kbd> navigeren · <kbd>↵</kbd> openen · <kbd>esc</kbd> sluiten
+        </div>
+        <a href="#" class="is-footer-all">
+          Alle 34 resultaten <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C1 - Instant Search Overlay</p>
+    <p><strong>Category:</strong> E-commerce / Navigation</p>
+    <p><strong>Complexiteit:</strong> High (overlay, keyboard nav, live search, result grouping)</p>
+
+    <h3>Purpose:</h3>
+    <p>Full-screen search overlay with live results grouped by type (products, categories, brands, knowledge base). Provides instant feedback as users type, with keyboard navigation support.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Full-screen overlay with backdrop blur</li>
+      <li>Live search with instant results (debounced API calls)</li>
+      <li>Grouped results: Products, Categories, Brands, Knowledge</li>
+      <li>Keyboard shortcuts (⌘K to open, ESC to close, ↑↓ to navigate)</li>
+      <li>Product result cards with image, brand, name, SKU, price, stock</li>
+      <li>Highlight matching text in results</li>
+      <li>Footer with keyboard hints and "View all" link</li>
+      <li>Smooth animations (slide up, fade in)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>E-commerce sites met grote productcatalogi (500+ producten)</li>
+      <li>B2B platforms met SKU/artikel nummer zoeken</li>
+      <li>Sites met multiple content types (producten + kennisbank + merken)</li>
+      <li>Power users die keyboard shortcuts waarderen</li>
+      <li>Modern, app-like interfaces (SaaS style)</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Simpele sites met <50 producten (gebruik dropdown search)</li>
+      <li>Mobile-first sites (overlay is desktop-oriented)</li>
+      <li>Sites waar search niet primary navigation is</li>
+      <li>Older audiences niet gewend aan keyboard shortcuts</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Open with ⌘K (Mac) / Ctrl+K (Windows) keyboard shortcut</li>
+      <li>Show minimum 3 characters before searching (performance)</li>
+      <li>Debounce API calls (300ms wait after typing stops)</li>
+      <li>Group results by relevance: Products first, then categories, brands, content</li>
+      <li>Show max 4-5 results per group, link to "View all" for more</li>
+      <li>Highlight matching search terms in results</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Overlay */
+z-index: 500                        /* Above everything */
+background: rgba(10,22,40,0.5)      /* Navy semi-transparent */
+backdrop-filter: blur(4px)          /* Blur background */
+
+/* Panel */
+max-width: 720px
+margin: 80px auto 0
+background: white
+border-radius: 20px                 /* Large rounded corners */
+box-shadow: 0 16px 48px rgba(10,22,40,0.12)
+max-height: calc(100vh - 120px)    /* Leave space top/bottom */
+
+/* Input Section */
+padding: 20px 24px
+border-bottom: 1px solid var(--grey)
+font-size: 17px                    /* Large, readable input */
+icon-color: var(--teal)            /* Search icon teal */
+
+/* Product Card */
+padding: 10px 12px
+border-radius: 10px
+hover-background: var(--teal-glow) /* Subtle teal highlight */
+
+/* Product Image Placeholder */
+width: 48px, height: 48px
+background: var(--grey-light)
+border-radius: 10px
+font-size: 24px                    /* Emoji size */
+
+/* Product Brand Label */
+font-size: 10px
+font-weight: 700
+text-transform: uppercase
+letter-spacing: 0.04em
+color: var(--teal)
+
+/* Product Name */
+font-size: 14px
+font-weight: 600
+color: var(--navy)
+
+/* Highlight Match */
+background: var(--teal-glow)       /* Subtle teal bg */
+color: var(--teal)                 /* Teal text */
+padding: 0 2px
+border-radius: 2px
+
+/* Product SKU */
+font-family: 'JetBrains Mono'      /* Monospace for codes */
+font-size: 11px
+color: var(--grey-mid)
+
+/* Product Price */
+font-family: 'Plus Jakarta Sans'
+font-size: 15px
+font-weight: 800
+color: var(--navy)
+
+/* Stock Indicator */
+font-size: 11px
+color: var(--green)
+dot-size: 6px × 6px
+dot-color: var(--green)
+
+/* Section Title */
+font-size: 11px
+font-weight: 800
+text-transform: uppercase
+letter-spacing: 0.08em
+color: var(--grey-mid)
+
+/* Link Results */
+font-size: 14px
+font-weight: 500
+padding: 8px 12px
+hover-background: var(--teal-glow)
+
+/* Badges */
+/* Category */ background: var(--teal-glow), color: var(--teal)
+/* Brand */    background: #E3F2FD, color: #2196F3
+/* Article */  background: #FFF8E1, color: #F59E0B
+
+/* Footer */
+background: var(--grey-light)
+padding: 12px 24px
+border-top: 1px solid var(--grey)
+
+/* Keyboard Shortcuts */
+background: white
+border: 1px solid var(--grey)
+padding: 1px 6px
+border-radius: 4px
+font-family: 'JetBrains Mono'
+font-size: 10px
+
+/* Animations */
+overlay-transition: all 0.25s
+panel-transform: translateY(-12px) → translateY(0)
+panel-transition: transform 0.3s cubic-bezier(0.4,0,0.2,1)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  placeholder: 'Zoek producten, merken of artikelen…',
+  minChars: 3,              // Min characters before searching
+  debounceMs: 300,          // Wait 300ms after typing stops
+  maxResults: {
+    products: 5,
+    categories: 3,
+    brands: 3,
+    articles: 2
+  },
+  showSKU: true,            // Show article numbers
+  showStock: true,          // Show stock status
+  showKeyboardHints: true,  // Show footer keyboard shortcuts
+  highlightMatches: true,   // Highlight search term in results
+  searchEndpoint: '/api/search',
+  onOpen: () => {},
+  onClose: () => {},
+  onSelect: (result) => {
+    // Navigate to result.url
+  }
+}</pre>
+
+    <h3>API Response Format:</h3>
+    <pre>{
+  query: "nitrile",
+  total: 34,
+  results: {
+    products: [
+      {
+        id: 123,
+        name: "Peha-soft Nitrile Fino",
+        brand: "Hartmann",
+        sku: "942210",
+        price: 8.25,
+        currency: "EUR",
+        stock: "in_stock",
+        image: "/images/products/942210.jpg",
+        url: "/producten/peha-soft-nitrile-fino"
+      }
+    ],
+    categories: [
+      {
+        id: 45,
+        name: "Nitrile handschoenen",
+        icon: "hand",
+        count: 34,
+        url: "/categorie/nitrile-handschoenen"
+      }
+    ],
+    brands: [
+      {
+        id: 12,
+        name: "Hartmann",
+        count: 14,
+        url: "/merk/hartmann"
+      }
+    ],
+    articles: [
+      {
+        id: 789,
+        title: "De complete gids voor medische handschoenen",
+        type: "kennisbank",
+        url: "/kennisbank/gids-medische-handschoenen"
+      }
+    ]
+  }
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>Overlay Structure:</h3>
+    <pre>Fixed overlay (z-index: 500)
+├── Backdrop (blur, click to close)
+└── Panel (max-width: 720px, centered)
+    ├── Input Section (fixed height, flex-shrink: 0)
+    ├── Results Body (flex: 1, scrollable)
+    │   ├── Products Section
+    │   ├── Categories Section
+    │   ├── Brands Section
+    │   └── Knowledge Base Section
+    └── Footer (fixed height, flex-shrink: 0)</pre>
+
+    <h3>Spacing:</h3>
+    <pre>Panel margin-top: 80px          /* Space from top */
+Panel max-height: calc(100vh - 120px)
+Input padding: 20px 24px
+Section padding: 16px 24px
+Product card padding: 10px 12px
+Product card gap: 14px
+Footer padding: 12px 24px</pre>
+
+    <h3>Responsive Behavior:</h3>
+    <pre>@media (max-width: 768px) {
+  .is-panel {
+    margin: 40px 16px 0;      /* Less top space */
+    max-height: calc(100vh - 80px);
+  }
+
+  .is-product {
+    flex-direction: column;    /* Stack on mobile */
+    align-items: flex-start;
+  }
+
+  .is-product-right {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .is-footer-left {
+    display: none;             /* Hide keyboard hints */
+  }
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>⌘K / Ctrl+K:</strong> Open search overlay (global shortcut)</li>
+      <li><strong>ESC:</strong> Close overlay</li>
+      <li><strong>↑ / ↓:</strong> Navigate through results</li>
+      <li><strong>Enter:</strong> Open selected result</li>
+      <li><strong>Tab:</strong> Focus close button</li>
+    </ul>
+
+    <h3>ARIA Attributes:</h3>
+    <pre>&lt;div
+  class="is-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Zoeken"
+&gt;
+  &lt;input
+    type="search"
+    role="combobox"
+    aria-expanded="true"
+    aria-controls="search-results"
+    aria-activedescendant="result-0"
+    aria-autocomplete="list"
+  /&gt;
+
+  &lt;div id="search-results" role="listbox"&gt;
+    &lt;div role="group" aria-labelledby="products-heading"&gt;
+      &lt;h3 id="products-heading"&gt;Producten&lt;/h3&gt;
+      &lt;a
+        href="/product/123"
+        role="option"
+        id="result-0"
+        aria-selected="true"
+      &gt;
+        Peha-soft Nitrile Fino
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Focus Management:</h3>
+    <ul>
+      <li>Auto-focus input field when overlay opens</li>
+      <li>Trap focus within overlay (prevent tabbing to background)</li>
+      <li>Restore focus to trigger element when closing</li>
+      <li>Visual focus indicator on all interactive elements</li>
+    </ul>
+
+    <h3>Screen Reader Support:</h3>
+    <ul>
+      <li>Announce overlay opening: "Search dialog opened"</li>
+      <li>Announce result count: "34 results found for 'nitrile'"</li>
+      <li>Announce active result on arrow navigation</li>
+      <li>Use semantic HTML: <code>&lt;nav&gt;</code>, <code>&lt;section&gt;</code>, proper headings</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>React Component (TypeScript):</h3>
+    <pre>import { useState, useEffect, useRef } from 'react';
+import { Search, X, Package, Folder, Award, BookOpen } from 'lucide-react';
+
+interface SearchResult {
+  products: Product[];
+  categories: Category[];
+  brands: Brand[];
+  articles: Article[];
+}
+
+export function InstantSearch() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState&lt;SearchResult | null&gt;(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const inputRef = useRef&lt;HTMLInputElement&gt;(null);
+
+  // Global keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsOpen(true);
+      }
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
+  // Auto-focus input
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [isOpen]);
+
+  // Debounced search
+  useEffect(() => {
+    if (query.length < 3) {
+      setResults(null);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      setResults(data.results);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  // Arrow navigation
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex(i => i + 1);
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex(i => Math.max(0, i - 1));
+    }
+    if (e.key === 'Enter') {
+      // Navigate to active result
+    }
+  };
+
+  return (
+    &lt;div className={`is-overlay ${isOpen ? 'open' : ''}`}&gt;
+      &lt;div className="is-backdrop" onClick={() =&gt; setIsOpen(false)} /&gt;
+      &lt;div className="is-panel"&gt;
+        &lt;div className="is-input-wrap"&gt;
+          &lt;Search size={20} /&gt;
+          &lt;input
+            ref={inputRef}
+            className="is-input"
+            type="search"
+            placeholder="Zoek producten, merken of artikelen…"
+            value={query}
+            onChange={e =&gt; setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+          /&gt;
+          &lt;span className="is-esc"&gt;ESC&lt;/span&gt;
+          &lt;button className="is-close" onClick={() =&gt; setIsOpen(false)}&gt;
+            &lt;X size={16} /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div className="is-body"&gt;
+          {results?.products && (
+            &lt;ProductResults products={results.products} query={query} /&gt;
+          )}
+          {/* Categories, Brands, Articles... */}
+        &lt;/div&gt;
+
+        &lt;div className="is-footer"&gt;
+          &lt;div className="is-footer-left"&gt;
+            &lt;kbd&gt;↑&lt;/kbd&gt; &lt;kbd&gt;↓&lt;/kbd&gt; navigeren · &lt;kbd&gt;↵&lt;/kbd&gt; openen
+          &lt;/div&gt;
+          &lt;a href={`/zoeken?q=${query}`} className="is-footer-all"&gt;
+            Alle resultaten
+          &lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+
+    <h3>Highlight Matches:</h3>
+    <pre>function highlightMatch(text: string, query: string) {
+  const regex = new RegExp(`(${query})`, 'gi');
+  return text.replace(regex, '&lt;mark&gt;$1&lt;/mark&gt;');
+}
+
+// Usage:
+&lt;div
+  className="is-product-name"
+  dangerouslySetInnerHTML={{
+    __html: highlightMatch(product.name, query)
+  }}
+/&gt;</pre>
+
+    <h3>Backend Search API:</h3>
+    <pre>// Example: Next.js API Route
+export default async function handler(req, res) {
+  const { q } = req.query;
+
+  if (!q || q.length < 3) {
+    return res.json({ results: null });
+  }
+
+  // Search products (fuzzy match on name, SKU, brand)
+  const products = await db.product.findMany({
+    where: {
+      OR: [
+        { name: { contains: q, mode: 'insensitive' } },
+        { sku: { contains: q, mode: 'insensitive' } },
+        { brand: { name: { contains: q, mode: 'insensitive' } } }
+      ]
+    },
+    take: 5,
+    include: { brand: true }
+  });
+
+  // Search categories, brands, articles...
+  const categories = await db.category.findMany({ ... });
+  const brands = await db.brand.findMany({ ... });
+  const articles = await db.article.findMany({ ... });
+
+  res.json({
+    query: q,
+    total: products.length + categories.length + brands.length + articles.length,
+    results: { products, categories, brands, articles }
+  });
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Result Type Badges:</h3>
+    <ul>
+      <li><strong>Categorie:</strong> Teal background (#00897B glow), teal text</li>
+      <li><strong>Merk:</strong> Blue background (#E3F2FD), blue text (#2196F3)</li>
+      <li><strong>Artikel:</strong> Amber background (#FFF8E1), amber text (#F59E0B)</li>
+      <li><strong>Product:</strong> No badge (default result type)</li>
+    </ul>
+
+    <h3>Alternative Layouts:</h3>
+    <ul>
+      <li><strong>Grid View:</strong> Products in 2-column grid (wider overlay)</li>
+      <li><strong>Compact View:</strong> Smaller product cards, no images</li>
+      <li><strong>Single Column:</strong> All result types mixed (no grouping)</li>
+    </ul>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C14-SearchBar:</strong> Trigger element in header</li>
+      <li><strong>C22-FilterSidebar:</strong> Advanced search with filters</li>
+      <li><strong>Search Results Page:</strong> Full page view (from "View all" link)</li>
+    </ul>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// Global search endpoint
+import { Payload } from 'payload';
+
+export async function globalSearch(query: string) {
+  const payload = await getPayload();
+
+  // Search across multiple collections
+  const [products, posts, pages] = await Promise.all([
+    payload.find({
+      collection: 'products',
+      where: {
+        or: [
+          { name: { contains: query } },
+          { sku: { contains: query } }
+        ]
+      },
+      limit: 5
+    }),
+    payload.find({
+      collection: 'posts',
+      where: { title: { contains: query } },
+      limit: 3
+    }),
+    payload.find({
+      collection: 'pages',
+      where: { title: { contains: query } },
+      limit: 3
+    })
+  ]);
+
+  return {
+    products: products.docs,
+    articles: [...posts.docs, ...pages.docs]
+  };
+}</pre>
+
+    <h3>Performance Optimization:</h3>
+    <ul>
+      <li>Debounce API calls (300ms)</li>
+      <li>Implement search result caching (Redis, 5 min TTL)</li>
+      <li>Use Elasticsearch/Algolia for large catalogs (10k+ products)</li>
+      <li>Lazy load images in results</li>
+      <li>Limit results per section (5 products, 3 categories, etc.)</li>
+    </ul>
+
+    <h3>Analytics Tracking:</h3>
+    <pre>// Track search queries
+analytics.track('Search Performed', {
+  query: 'nitrile',
+  resultCount: 34,
+  categories: ['Producten', 'Categorieën', 'Merken'],
+  timestamp: Date.now()
+});
+
+// Track result clicks
+analytics.track('Search Result Clicked', {
+  query: 'nitrile',
+  resultType: 'product',
+  resultId: 123,
+  resultPosition: 1
+});</pre>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Search overlay controls
+    function openSearch() {
+      const overlay = document.getElementById('searchOverlay');
+      overlay.classList.add('open');
+      setTimeout(() => {
+        document.getElementById('searchInput').focus();
+      }, 100);
+    }
+
+    function closeSearch() {
+      document.getElementById('searchOverlay').classList.remove('open');
+    }
+
+    // Global keyboard shortcut (⌘K / Ctrl+K)
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openSearch();
+      }
+      if (e.key === 'Escape') {
+        closeSearch();
+      }
+    });
+
+    // Click backdrop to close
+    document.querySelector('.is-backdrop')?.addEventListener('click', closeSearch);
+  </script>
+
+</body>
+</html>

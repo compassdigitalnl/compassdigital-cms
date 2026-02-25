@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC09: TrustSignals — Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --white: #FAFBFC;
+      --grey: #E8ECF1;
+      --grey-dark: #64748B;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: #F5F7FA;
+      padding: 48px 24px;
+      margin: 0;
+    }
+
+    .demo-container {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .demo-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-subtitle {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 32px;
+    }
+
+    .demo-section {
+      margin-bottom: 24px;
+    }
+
+    .demo-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       EC09: TRUST SIGNALS COMPONENT
+       ═══════════════════════════════════════════════════════════ */
+
+    .trust-signals {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 20px 0;
+      border-top: 1px solid var(--grey);
+    }
+
+    .trust-signals__item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .trust-signals__item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* Compact variant (no border, smaller gaps) */
+    .trust-signals--compact {
+      padding: 0;
+      border-top: none;
+      gap: 6px;
+    }
+
+    .trust-signals--compact .trust-signals__item {
+      font-size: 12px;
+    }
+
+    .trust-signals--compact .trust-signals__item svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Horizontal variant (for tight spaces) */
+    .trust-signals--horizontal {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* In card variant (with white background) */
+    .trust-signals--card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    /* Documentation styles */
+    .docs {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 48px;
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .docs h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 32px 0 16px 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .docs h2:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .docs h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px 0;
+    }
+
+    .docs p, .docs li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--grey-dark);
+    }
+
+    .docs code {
+      background: #F5F7FA;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 16px 0;
+    }
+
+    .docs table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .docs th {
+      background: #F5F7FA;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .docs td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .docs .tag {
+      display: inline-block;
+      background: #E8F5E9;
+      color: #166534;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .docs .tag--critical {
+      background: #FFF0F0;
+      color: #DC2626;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="demo-container">
+    <div class="demo-title">EC09: TrustSignals</div>
+    <div class="demo-subtitle">Conversion-boosting trust badges displayed below checkout CTA</div>
+
+    <!-- Default (Vertical) -->
+    <div class="demo-section">
+      <h3>Default (Vertical, in OrderSummary)</h3>
+      <div class="trust-signals">
+        <div class="trust-signals__item">
+          <i data-lucide="shield-check"></i>
+          Veilig betalen met SSL
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="rotate-ccw"></i>
+          30 dagen retourrecht
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="truck"></i>
+          Morgen in huis
+        </div>
+      </div>
+    </div>
+
+    <!-- Compact Variant -->
+    <div class="demo-section">
+      <h3>Compact Variant (Mini Cart)</h3>
+      <div class="trust-signals trust-signals--compact">
+        <div class="trust-signals__item">
+          <i data-lucide="shield-check"></i>
+          Veilig betalen met SSL
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="rotate-ccw"></i>
+          30 dagen retourrecht
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="truck"></i>
+          Morgen in huis
+        </div>
+      </div>
+    </div>
+
+    <!-- Horizontal Variant -->
+    <div class="demo-section">
+      <h3>Horizontal Variant (Tight Spaces)</h3>
+      <div class="trust-signals trust-signals--horizontal">
+        <div class="trust-signals__item">
+          <i data-lucide="shield-check"></i>
+          Veilig betalen
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="rotate-ccw"></i>
+          30 dagen retour
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="truck"></i>
+          Morgen in huis
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Variant -->
+    <div class="demo-section">
+      <h3>Card Variant (Standalone)</h3>
+      <div class="trust-signals trust-signals--card">
+        <div class="trust-signals__item">
+          <i data-lucide="shield-check"></i>
+          Veilig betalen met SSL
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="rotate-ccw"></i>
+          30 dagen retourrecht
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="truck"></i>
+          Morgen in huis
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="award"></i>
+          Keurmerk gecertificeerd
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Signals -->
+    <div class="demo-section">
+      <h3>Custom Trust Signals</h3>
+      <div class="trust-signals">
+        <div class="trust-signals__item">
+          <i data-lucide="package-check"></i>
+          Gratis verzending vanaf € 60
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="credit-card"></i>
+          Achteraf betalen mogelijk
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="phone"></i>
+          Klantenservice 24/7
+        </div>
+        <div class="trust-signals__item">
+          <i data-lucide="star"></i>
+          4,8/5 sterren (2.400+ reviews)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="docs">
+    <h2>📋 STEP 1: Component Overview</h2>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td><strong>Component ID</strong></td>
+        <td>EC09</td>
+      </tr>
+      <tr>
+        <td><strong>Component Name</strong></td>
+        <td>TrustSignals</td>
+      </tr>
+      <tr>
+        <td><strong>Category</strong></td>
+        <td>E-commerce / Conversion</td>
+      </tr>
+      <tr>
+        <td><strong>Source File</strong></td>
+        <td><code>ef2-cart.html</code> (lines 178-191)</td>
+      </tr>
+      <tr>
+        <td><strong>Target Folder</strong></td>
+        <td><code>/refactoring/components/ecommerce/</code></td>
+      </tr>
+      <tr>
+        <td><strong>Priority</strong></td>
+        <td><span class="tag tag--critical">CRITICAL</span></td>
+      </tr>
+    </table>
+
+    <p><strong>Description:</strong> List of trust-building badges/signals (SSL, return policy, fast shipping, certifications) displayed near checkout CTAs to reduce cart abandonment and increase conversions.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>Icon + text layout (16px teal icons)</li>
+      <li>Vertical list with 8px gaps</li>
+      <li>Top border separator</li>
+      <li>Common signals: SSL, return policy, shipping, support</li>
+      <li>Configurable via CMS</li>
+      <li>Multiple variants (compact, horizontal, card)</li>
+    </ul>
+
+    <h2>🎯 STEP 2: When to Use</h2>
+
+    <p><strong>Use this component when:</strong></p>
+    <ul>
+      <li>Below checkout CTA in EC07: OrderSummary</li>
+      <li>In mini cart flyout footer</li>
+      <li>On checkout page sidebar</li>
+      <li>On product pages near "Add to cart" button</li>
+      <li>In footer of quote request forms</li>
+    </ul>
+
+    <p><strong>Common Design Patterns:</strong></p>
+    <ul>
+      <li><strong>Cart Sidebar:</strong> Below action buttons, above payment icons</li>
+      <li><strong>Checkout:</strong> In order summary sidebar</li>
+      <li><strong>Product Page:</strong> Horizontal variant below ATC button</li>
+      <li><strong>Footer:</strong> Site-wide trust indicators</li>
+    </ul>
+
+    <p><strong>Do NOT use when:</strong></p>
+    <ul>
+      <li>In product listings (too much noise)</li>
+      <li>Above the fold on homepage (save space for content)</li>
+      <li>More than 4-5 signals (overwhelms user)</li>
+    </ul>
+
+    <h2>🎨 STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table>
+      <tr>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td><code>--grey</code></td>
+        <td>#E8ECF1</td>
+        <td>Top border</td>
+      </tr>
+      <tr>
+        <td><code>--grey-dark</code></td>
+        <td>#64748B</td>
+        <td>Text</td>
+      </tr>
+      <tr>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Icons</td>
+      </tr>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <tr>
+        <th>Variant</th>
+        <th>Font</th>
+        <th>Size</th>
+        <th>Weight</th>
+      </tr>
+      <tr>
+        <td>Default</td>
+        <td>DM Sans</td>
+        <td>13px</td>
+        <td>400</td>
+      </tr>
+      <tr>
+        <td>Compact</td>
+        <td>DM Sans</td>
+        <td>12px</td>
+        <td>400</td>
+      </tr>
+    </table>
+
+    <h3>Spacing & Layout</h3>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value (Default)</th>
+        <th>Value (Compact)</th>
+      </tr>
+      <tr>
+        <td>Padding (top/bottom)</td>
+        <td>20px 0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>Gap (items)</td>
+        <td>8px</td>
+        <td>6px</td>
+      </tr>
+      <tr>
+        <td>Gap (icon to text)</td>
+        <td>8px</td>
+        <td>8px</td>
+      </tr>
+      <tr>
+        <td>Border top</td>
+        <td>1px solid grey</td>
+        <td>none</td>
+      </tr>
+    </table>
+
+    <h3>Icons</h3>
+    <table>
+      <tr>
+        <th>Signal</th>
+        <th>Icon</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>SSL / Secure Payment</td>
+        <td><code>shield-check</code></td>
+        <td>16px (14px compact)</td>
+      </tr>
+      <tr>
+        <td>Return Policy</td>
+        <td><code>rotate-ccw</code></td>
+        <td>16px</td>
+      </tr>
+      <tr>
+        <td>Fast Shipping</td>
+        <td><code>truck</code></td>
+        <td>16px</td>
+      </tr>
+      <tr>
+        <td>Customer Service</td>
+        <td><code>phone</code> or <code>headset</code></td>
+        <td>16px</td>
+      </tr>
+      <tr>
+        <td>Free Shipping</td>
+        <td><code>package-check</code></td>
+        <td>16px</td>
+      </tr>
+      <tr>
+        <td>Pay Later</td>
+        <td><code>credit-card</code></td>
+        <td>16px</td>
+      </tr>
+      <tr>
+        <td>Reviews/Rating</td>
+        <td><code>star</code></td>
+        <td>16px</td>
+      </tr>
+      <tr>
+        <td>Certification</td>
+        <td><code>award</code></td>
+        <td>16px</td>
+      </tr>
+    </table>
+
+    <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface TrustSignalsProps {
+  // Signals
+  signals?: {
+    icon: string          // Lucide icon name
+    text: string          // Display text
+  }[]
+
+  // Display Options
+  variant?: 'default' | 'compact' | 'horizontal' | 'card'  // Default: 'default'
+
+  // Styling
+  className?: string
+}
+</pre>
+
+    <h3>Usage Examples</h3>
+    <pre>
+// Default usage (vertical, in OrderSummary)
+import { TrustSignals } from '@/components/ecommerce/TrustSignals'
+
+&lt;TrustSignals
+  signals={[
+    { icon: 'shield-check', text: 'Veilig betalen met SSL' },
+    { icon: 'rotate-ccw', text: '30 dagen retourrecht' },
+    { icon: 'truck', text: 'Morgen in huis' }
+  ]}
+/&gt;
+
+// Compact variant (mini cart)
+&lt;TrustSignals
+  variant="compact"
+  signals={defaultSignals}
+/&gt;
+
+// Horizontal variant (product page)
+&lt;TrustSignals
+  variant="horizontal"
+  signals={[
+    { icon: 'shield-check', text: 'Veilig betalen' },
+    { icon: 'rotate-ccw', text: '30 dagen retour' }
+  ]}
+/&gt;
+
+// Card variant (standalone)
+&lt;TrustSignals
+  variant="card"
+  signals={[...]}
+/&gt;
+</pre>
+
+    <h3>Payload CMS Configuration</h3>
+    <pre>
+// In site-settings collection
+{
+  slug: 'site-settings',
+  fields: [
+    {
+      name: 'trustSignals',
+      type: 'array',
+      label: 'Trust Signals',
+      admin: {
+        description: 'Trust badges displayed on cart/checkout pages'
+      },
+      fields: [
+        {
+          name: 'icon',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'SSL / Secure', value: 'shield-check' },
+            { label: 'Return Policy', value: 'rotate-ccw' },
+            { label: 'Fast Shipping', value: 'truck' },
+            { label: 'Customer Service', value: 'phone' },
+            { label: 'Free Shipping', value: 'package-check' },
+            { label: 'Pay Later', value: 'credit-card' },
+            { label: 'Reviews', value: 'star' },
+            { label: 'Certification', value: 'award' }
+          ]
+        },
+        {
+          name: 'text',
+          type: 'text',
+          required: true,
+          admin: {
+            placeholder: 'Veilig betalen met SSL'
+          }
+        },
+        {
+          name: 'isActive',
+          type: 'checkbox',
+          defaultValue: true,
+          admin: {
+            description: 'Show/hide this signal'
+          }
+        }
+      ],
+      admin: {
+        initCollapsed: false,
+        components: {
+          RowLabel: ({ data }) => data?.text || 'Trust Signal'
+        }
+      }
+    }
+  ]
+}
+</pre>
+
+    <h2>📐 STEP 5: Layout Rules</h2>
+
+    <p><strong>Container Behavior:</strong></p>
+    <ul>
+      <li>Full-width within parent (typically EC07: OrderSummary)</li>
+      <li>Flexbox column layout (vertical stack)</li>
+      <li>8px gap between items</li>
+      <li>20px top/bottom padding</li>
+      <li>1px top border separator</li>
+    </ul>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <ul>
+      <li>Always vertical layout (no wrapping/stacking needed)</li>
+      <li>Icons and text scale naturally</li>
+      <li>Horizontal variant wraps items if needed</li>
+    </ul>
+
+    <p><strong>Z-index:</strong> None (static component)</p>
+
+    <h2>♿ STEP 6: Accessibility</h2>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre>
+&lt;ul class="trust-signals" aria-label="Trust signals"&gt;
+  &lt;li class="trust-signals__item"&gt;
+    &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+    Veilig betalen met SSL
+  &lt;/li&gt;
+  &lt;li class="trust-signals__item"&gt;
+    &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+    30 dagen retourrecht
+  &lt;/li&gt;
+  &lt;li class="trust-signals__item"&gt;
+    &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+    Morgen in huis
+  &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>&lt;ul&gt;</code> wrapper with <code>aria-label="Trust signals"</code></li>
+      <li><code>aria-hidden="true"</code> on decorative icons</li>
+      <li>Use semantic <code>&lt;li&gt;</code> elements</li>
+    </ul>
+
+    <p><strong>Screen Reader Experience:</strong></p>
+    <ul>
+      <li>"Trust signals. List, 3 items. Veilig betalen met SSL. 30 dagen retourrecht. Morgen in huis."</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong> Not applicable (informational component, no interactive elements)</p>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul>
+      <li>Grey-dark text on white: 4.5:1 ✓ WCAG AA</li>
+      <li>Teal icons on white: 4.7:1 ✓ WCAG AA</li>
+    </ul>
+
+    <h2>💻 STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+import * as Icons from 'lucide-react'
+
+const defaultSignals = [
+  { icon: 'shield-check', text: 'Veilig betalen met SSL' },
+  { icon: 'rotate-ccw', text: '30 dagen retourrecht' },
+  { icon: 'truck', text: 'Morgen in huis' }
+]
+
+export function TrustSignals({
+  signals = defaultSignals,
+  variant = 'default',
+  className = ''
+}: TrustSignalsProps) {
+
+  return (
+    &lt;ul
+      className={`trust-signals trust-signals--${variant} ${className}`}
+      aria-label="Trust signals"
+    &gt;
+      {signals.map((signal, index) => {
+        const IconComponent = Icons[signal.icon as keyof typeof Icons] as React.FC&lt;{
+          size?: number
+          'aria-hidden'?: boolean
+        }&gt;
+
+        return (
+          &lt;li key={index} className="trust-signals__item"&gt;
+            {IconComponent && (
+              &lt;IconComponent
+                size={variant === 'compact' ? 14 : 16}
+                aria-hidden="true"
+              /&gt;
+            )}
+            {signal.text}
+          &lt;/li&gt;
+        )
+      })}
+    &lt;/ul&gt;
+  )
+}
+</pre>
+
+    <h3>Fetch from CMS</h3>
+    <pre>
+// Server component
+export async function TrustSignalsFromCMS() {
+  const settings = await payload.findGlobal({
+    slug: 'site-settings'
+  })
+
+  const activeSignals = settings.trustSignals
+    ?.filter(s => s.isActive)
+    .map(s => ({ icon: s.icon, text: s.text }))
+
+  return &lt;TrustSignals signals={activeSignals} /&gt;
+}
+</pre>
+
+    <h3>Important Implementation Details</h3>
+    <ul>
+      <li><strong>Icon Mapping:</strong> Dynamically import from lucide-react using icon name strings</li>
+      <li><strong>Semantic HTML:</strong> Use <code>&lt;ul&gt;</code> and <code>&lt;li&gt;</code> for list semantics</li>
+      <li><strong>CMS Management:</strong> Store signals in global settings for easy updates</li>
+      <li><strong>Limit Signals:</strong> Max 3-4 signals for best conversion (too many = diluted trust)</li>
+    </ul>
+
+    <h2>🎭 STEP 8: Variations & Related Components</h2>
+
+    <h3>Variations</h3>
+    <table>
+      <tr>
+        <th>Variation</th>
+        <th>Description</th>
+        <th>Use Case</th>
+      </tr>
+      <tr>
+        <td><strong>Default</strong></td>
+        <td>Vertical list, top border, 20px padding</td>
+        <td>EC07: OrderSummary sidebar</td>
+      </tr>
+      <tr>
+        <td><strong>Compact</strong></td>
+        <td>Smaller text (12px), no border, less padding</td>
+        <td>Mini cart flyout</td>
+      </tr>
+      <tr>
+        <td><strong>Horizontal</strong></td>
+        <td>Row layout, wraps on narrow screens</td>
+        <td>Product page, checkout header</td>
+      </tr>
+      <tr>
+        <td><strong>Card</strong></td>
+        <td>White background, border, standalone</td>
+        <td>Landing pages, footer</td>
+      </tr>
+    </table>
+
+    <h3>Future Enhancements</h3>
+    <ul>
+      <li><strong>Tooltips:</strong> Expand on hover with more details</li>
+      <li><strong>Links:</strong> Click to view full policies (returns, shipping)</li>
+      <li><strong>Badge Images:</strong> Support for logo images (Trustpilot, etc.)</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>EC07: OrderSummary</strong> — Contains this component</li>
+      <li><strong>C2: MiniCart Flyout</strong> — Uses compact variant</li>
+      <li><strong>C15: Footer</strong> — May include trust signals</li>
+    </ul>
+
+    <h3>Conversion Impact</h3>
+    <p>Trust signals can increase checkout conversion by <strong>5-15%</strong> by addressing common objections:</p>
+    <ul>
+      <li>"Is my payment secure?" → SSL badge</li>
+      <li>"Can I return it?" → Return policy</li>
+      <li>"When will it arrive?" → Shipping info</li>
+      <li>"Can I trust this site?" → Certifications, reviews</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Icons load correctly from Lucide</li>
+      <li>✓ Text is readable (4.5:1 contrast)</li>
+      <li>✓ All variants render correctly</li>
+      <li>✓ CMS signals filter by isActive</li>
+      <li>✓ Max 4-5 signals displayed</li>
+      <li>✓ Screen readers announce list</li>
+      <li>✓ Icons hidden from screen readers</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       JAVASCRIPT
+       ═══════════════════════════════════════════════════════════ -->
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

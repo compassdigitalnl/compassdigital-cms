@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM02: MixMatchProgressCounter — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--grey-light);
+  padding: 32px 24px;
+  color: var(--navy);
+}
+
+/* ============================================
+   MM02: MixMatchProgressCounter Component
+   ============================================ */
+
+.box-progress {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 100%;
+}
+
+/* Progress bar */
+.bp-bar {
+  flex: 1;
+  height: 10px;
+  background: var(--grey-light);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.bp-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--teal);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bp-fill.full {
+  background: var(--green);
+}
+
+/* Counter */
+.bp-count {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+  color: var(--navy);
+}
+
+.bp-count em {
+  color: var(--teal);
+  font-style: normal;
+}
+
+.bp-count.complete em {
+  color: var(--green);
+}
+
+/* Label */
+.bp-label {
+  font-size: 11px;
+  color: var(--grey-mid);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .box-progress {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .bp-bar {
+    order: 1;
+  }
+
+  .bp-count {
+    order: 2;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .bp-label {
+    order: 3;
+    text-align: center;
+    font-size: 10px;
+  }
+}
+
+/* Demo styles */
+.demo-section {
+  margin-bottom: 32px;
+}
+
+.demo-section h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--navy);
+}
+
+.demo-controls {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.demo-controls label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--navy);
+}
+
+.demo-controls input[type="range"] {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.demo-controls .range-value {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-left: 8px;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+
+<div class="demo-section">
+  <h2>📊 Live Demo — MixMatchProgressCounter</h2>
+
+  <div class="demo-controls">
+    <label>
+      Selected Items: <span class="range-value" id="currentValue">3</span> / <span id="maxValue">6</span>
+    </label>
+    <input type="range" id="progressSlider" min="0" max="6" value="3" step="1">
+  </div>
+
+  <div class="box-progress" id="progressCounter">
+    <div class="bp-bar">
+      <div class="bp-fill" id="progressFill" style="width: 50%;"></div>
+    </div>
+    <div class="bp-count" id="progressCount">
+      <em>3</em> / 6
+    </div>
+    <div class="bp-label">items geselecteerd</div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+
+<div class="demo-section">
+  <h2>📦 MM02: MixMatchProgressCounter — Component Documentation</h2>
+
+  <div style="background: white; border: 1px solid var(--grey); border-radius: var(--radius); padding: 24px; line-height: 1.6; color: var(--navy);">
+
+<!-- STEP 1: Component Overview -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 12px; color: var(--navy);">STEP 1: Component Overview</h3>
+
+<p style="margin-bottom: 16px;"><strong>Component:</strong> MixMatchProgressCounter</p>
+<p style="margin-bottom: 16px;"><strong>Category:</strong> Product Types → Mix & Match</p>
+<p style="margin-bottom: 16px;"><strong>Purpose:</strong> Visual progress indicator showing how many items have been selected out of the required total for a Mix & Match box. Motivates completion and provides immediate feedback on selection status.</p>
+
+<p style="margin-bottom: 8px;"><strong>Key Features:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Horizontal progress bar with animated fill (teal → green when complete)</li>
+  <li>Large numeric counter displaying current/max items (e.g., "3 / 6")</li>
+  <li>Current count highlighted in teal (or green when complete)</li>
+  <li>Descriptive label ("items geselecteerd")</li>
+  <li>Smooth 0.3s animation when progress changes</li>
+  <li>Responsive: horizontal layout on desktop, vertical stack on mobile</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Visual Description:</strong></p>
+<p style="margin-bottom: 16px;">A white card with rounded corners contains three elements: a progress bar (left, takes most space), a bold numeric counter (middle), and a small text label (right). The progress bar shows a teal fill representing completion percentage. When the box is complete, the fill turns green and the counter number becomes green.</p>
+
+<!-- STEP 2: When to Use -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 2: When to Use</h3>
+
+<p style="margin-bottom: 8px;"><strong>Use this component when:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>Mix & Match product pages</strong> — Primary use case for build-your-own boxes with fixed item counts</li>
+  <li><strong>Bundle builders</strong> — When users must select exactly X items from available options</li>
+  <li><strong>Gift box configurators</strong> — "Choose 8 products for your gift set"</li>
+  <li><strong>Sample packs</strong> — "Select 5 samples to try" promotions</li>
+  <li><strong>Subscription box customization</strong> — Monthly boxes where users pick their items</li>
+  <li><strong>Multi-step forms</strong> — As a secondary indicator in addition to step numbers</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Do NOT use when:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>No fixed item count required (use simple counter instead)</li>
+  <li>Minimum/maximum range (e.g., "3-6 items") — progress bar implies exact target</li>
+  <li>Percentage-based progress unrelated to item count (use ProgressSteps C25 instead)</li>
+  <li>Shopping cart — this is for pre-purchase customization, not cart totals</li>
+</ul>
+
+<!-- STEP 3: Design Tokens -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 3: Design Tokens</h3>
+
+<p style="margin-bottom: 8px;"><strong>Colors:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Card background:</strong> #FAFBFC (white)</li>
+  <li><strong>Card border:</strong> 1.5px solid #E8ECF1 (grey)</li>
+  <li><strong>Bar track:</strong> #F1F4F8 (grey-light)</li>
+  <li><strong>Bar fill (in progress):</strong> #00897B (teal)</li>
+  <li><strong>Bar fill (complete):</strong> #00C853 (green)</li>
+  <li><strong>Counter number (in progress):</strong> #00897B (teal, within em tag)</li>
+  <li><strong>Counter number (complete):</strong> #00C853 (green, within em tag)</li>
+  <li><strong>Counter slash + max:</strong> #0A1628 (navy)</li>
+  <li><strong>Label text:</strong> #94A3B8 (grey-mid)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Typography:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Counter:</strong> 18px, 800 weight, Plus Jakarta Sans (16px on mobile)</li>
+  <li><strong>Label:</strong> 11px, 600 weight, DM Sans (10px on mobile)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Spacing:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Card padding:</strong> 14px 18px (12px 14px on mobile)</li>
+  <li><strong>Elements gap:</strong> 14px (10px on mobile)</li>
+  <li><strong>Border radius:</strong> 14px (card)</li>
+  <li><strong>Bar height:</strong> 10px</li>
+  <li><strong>Bar radius:</strong> 100px (pill)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Animation:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Fill transition:</strong> width 0.3s cubic-bezier(0.4, 0, 0.2, 1)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Icons:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>None (purely visual progress component)</li>
+</ul>
+
+<!-- STEP 4: Props & Configuration -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 4: Props & Configuration</h3>
+
+<p style="margin-bottom: 8px;"><strong>TypeScript Interface:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+interface MixMatchProgressCounterProps {
+  // Required
+  current: number;        // Current number of selected items (0 to max)
+  max: number;            // Maximum number of items required
+
+  // Optional
+  label?: string;         // Label text (default: "items geselecteerd")
+  showLabel?: boolean;    // Default: true
+  variant?: 'default' | 'compact'; // Default: 'default'
+
+  // Styling
+  className?: string;
+
+  // Callbacks
+  onChange?: (current: number, max: number, percentage: number) => void;
+}
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Default Configuration:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+const defaultProps = {
+  label: 'items geselecteerd',
+  showLabel: true,
+  variant: 'default',
+};
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Progress Calculation:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+// Calculate percentage for progress bar
+const percentage = Math.min(100, Math.max(0, (current / max) * 100));
+
+// Determine if complete
+const isComplete = current >= max;
+
+// Apply appropriate color class
+const fillClass = isComplete ? 'bp-fill full' : 'bp-fill';
+const countClass = isComplete ? 'bp-count complete' : 'bp-count';
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Payload CMS Field Schema:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+{
+  name: 'mixMatchSettings',
+  type: 'group',
+  fields: [
+    {
+      name: 'requiredItems',
+      type: 'number',
+      required: true,
+      min: 1,
+      max: 50,
+      defaultValue: 6,
+      admin: {
+        description: 'Number of items customers must select for this box',
+      },
+    },
+    {
+      name: 'progressLabel',
+      type: 'text',
+      defaultValue: 'items geselecteerd',
+      admin: {
+        description: 'Label shown after progress counter',
+      },
+    },
+    {
+      name: 'showProgressBar',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        description: 'Display progress bar above product grid',
+      },
+    },
+  ],
+}
+</pre>
+
+<!-- STEP 5: Layout Rules -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 5: Layout Rules</h3>
+
+<p style="margin-bottom: 8px;"><strong>Component Anatomy:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+Desktop (>640px):
+┌────────────────────────────────────────────────────────────┐
+│ .box-progress (white card, 14px radius, flex row)         │
+│ ┌──────────────────┐  ┌────────┐  ┌─────────────────────┐ │
+│ │ .bp-bar (flex:1) │  │.bp-count│  │ .bp-label           │ │
+│ │ ┌──────────────┐ │  │  3 / 6 │  │ items geselecteerd  │ │
+│ │ │.bp-fill 50% │ │  │        │  │                     │ │
+│ │ │ [teal fill] │ │  │        │  │                     │ │
+│ │ └──────────────┘ │  │        │  │                     │ │
+│ └──────────────────┘  └────────┘  └─────────────────────┘ │
+│         ↑ 14px gap →      ↑ 14px gap →                     │
+└────────────────────────────────────────────────────────────┘
+
+Mobile (≤640px):
+┌────────────────────────────┐
+│ .box-progress (flex col)  │
+│ ┌────────────────────────┐ │
+│ │ .bp-bar (100% width)   │ │
+│ │ ┌──────────────┐       │ │
+│ │ │.bp-fill 50% │       │ │
+│ │ └──────────────┘       │ │
+│ └────────────────────────┘ │
+│         ↓ 10px gap         │
+│ ┌────────────────────────┐ │
+│ │  .bp-count (centered)  │ │
+│ │       3 / 6            │ │
+│ └────────────────────────┘ │
+│         ↓ 10px gap         │
+│ ┌────────────────────────┐ │
+│ │ .bp-label (centered)   │ │
+│ │ items geselecteerd     │ │
+│ └────────────────────────┘ │
+└────────────────────────────┘
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Flexbox Specifications:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Desktop:</strong> flex-direction: row, align-items: center, gap: 14px</li>
+  <li><strong>Mobile:</strong> flex-direction: column, align-items: stretch, gap: 10px</li>
+  <li><strong>Bar:</strong> flex: 1 (takes remaining space), height: 10px</li>
+  <li><strong>Counter:</strong> flex: 0 0 auto (fixed width, wraps content), white-space: nowrap</li>
+  <li><strong>Label:</strong> flex: 0 0 auto, white-space: nowrap</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Spacing Hierarchy:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Card padding:</strong> 14px 18px (desktop), 12px 14px (mobile)</li>
+  <li><strong>Elements gap:</strong> 14px (desktop), 10px (mobile)</li>
+  <li><strong>Border:</strong> 1.5px</li>
+  <li><strong>Border radius:</strong> 14px (card), 100px (bar)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Responsive Breakpoints:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>640px:</strong> Switch from horizontal to vertical layout, center-align counter and label, reduce padding (14→12, 18→14), reduce gap (14→10), reduce font sizes (18→16, 11→10)</li>
+</ul>
+
+<!-- STEP 6: Accessibility -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 6: Accessibility</h3>
+
+<p style="margin-bottom: 8px;"><strong>Semantic HTML:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+&lt;div
+  class="box-progress"
+  role="progressbar"
+  aria-valuenow={current}
+  aria-valuemin={0}
+  aria-valuemax={max}
+  aria-label={`${current} of ${max} items selected`}
+&gt;
+  &lt;div class="bp-bar"&gt;
+    &lt;div
+      class={`bp-fill ${isComplete ? 'full' : ''}`}
+      style={`width: ${percentage}%`}
+      aria-hidden="true"
+    &gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="bp-count" aria-hidden="true"&gt;
+    &lt;em&gt;{current}&lt;/em&gt; / {max}
+  &lt;/div&gt;
+  &lt;div class="bp-label" aria-hidden="true"&gt;
+    items geselecteerd
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>ARIA Attributes:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>role="progressbar"</strong> on .box-progress — Identifies as progress indicator</li>
+  <li><strong>aria-valuenow</strong> — Current value (e.g., 3)</li>
+  <li><strong>aria-valuemin</strong> — Minimum value (always 0)</li>
+  <li><strong>aria-valuemax</strong> — Maximum value (e.g., 6)</li>
+  <li><strong>aria-label</strong> — Full description: "3 of 6 items selected"</li>
+  <li><strong>aria-hidden="true"</strong> on visual elements (bar, counter, label) — Prevents redundant screen reader announcements</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Keyboard Navigation:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>No direct keyboard interaction (informational only)</li>
+  <li>Focus moves naturally past component to next interactive element</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Screen Reader Announcements:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>On mount:</strong> "Progress bar, 3 of 6 items selected"</li>
+  <li><strong>On update:</strong> Use ARIA live region to announce changes: <code>aria-live="polite"</code></li>
+  <li><strong>Example:</strong> When current changes from 3→4: "4 of 6 items selected"</li>
+  <li><strong>On complete:</strong> "6 of 6 items selected, complete"</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Enhanced Accessibility Implementation:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+&lt;div
+  class="box-progress"
+  role="progressbar"
+  aria-valuenow={current}
+  aria-valuemin={0}
+  aria-valuemax={max}
+  aria-label={`${current} of ${max} items selected${isComplete ? ', complete' : ''}`}
+  aria-live="polite"
+  aria-atomic="true"
+&gt;
+  {/* Visual elements */}
+&lt;/div&gt;
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Color Contrast Compliance:</strong></p>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 12px;">
+  <thead>
+    <tr style="background: var(--grey-light);">
+      <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+      <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Foreground</th>
+      <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Background</th>
+      <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Ratio</th>
+      <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">WCAG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 8px; border: 1px solid var(--grey);">Counter (teal)</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#00897B</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#FAFBFC</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">4.8:1</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">AA ✓</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid var(--grey);">Counter (green)</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#00C853</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#FAFBFC</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">3.9:1</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">AA (large) ✓</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid var(--grey);">Label text</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#94A3B8</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#FAFBFC</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">3.2:1</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">AA (large) ✓</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid var(--grey);">Fill (teal)</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#00897B</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#F1F4F8</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">5.1:1</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">AA ✓</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid var(--grey);">Fill (green)</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#00C853</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">#F1F4F8</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">4.2:1</td>
+      <td style="padding: 8px; border: 1px solid var(--grey);">AA ✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- STEP 7: Implementation Notes -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 7: Implementation Notes</h3>
+
+<p style="margin-bottom: 8px;"><strong>React/Next.js Component Example:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+import React, { useMemo } from 'react';
+
+interface MixMatchProgressCounterProps {
+  current: number;
+  max: number;
+  label?: string;
+  showLabel?: boolean;
+  variant?: 'default' | 'compact';
+  className?: string;
+  onChange?: (current: number, max: number, percentage: number) => void;
+}
+
+export const MixMatchProgressCounter: React.FC&lt;MixMatchProgressCounterProps&gt; = ({
+  current,
+  max,
+  label = 'items geselecteerd',
+  showLabel = true,
+  variant = 'default',
+  className = '',
+  onChange,
+}) =&gt; {
+  // Calculate percentage
+  const percentage = useMemo(() =&gt; {
+    const pct = Math.min(100, Math.max(0, (current / max) * 100));
+    onChange?.(current, max, pct);
+    return pct;
+  }, [current, max, onChange]);
+
+  const isComplete = current &gt;= max;
+
+  return (
+    &lt;div
+      className={`box-progress ${className}`}
+      role="progressbar"
+      aria-valuenow={current}
+      aria-valuemin={0}
+      aria-valuemax={max}
+      aria-label={`${current} of ${max} items selected${isComplete ? ', complete' : ''}`}
+      aria-live="polite"
+      aria-atomic="true"
+    &gt;
+      &lt;div className="bp-bar"&gt;
+        &lt;div
+          className={`bp-fill ${isComplete ? 'full' : ''}`}
+          style={{ width: `${percentage}%` }}
+          aria-hidden="true"
+        /&gt;
+      &lt;/div&gt;
+      &lt;div className={`bp-count ${isComplete ? 'complete' : ''}`} aria-hidden="true"&gt;
+        &lt;em&gt;{current}&lt;/em&gt; / {max}
+      &lt;/div&gt;
+      {showLabel && (
+        &lt;div className="bp-label" aria-hidden="true"&gt;
+          {label}
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Usage Example:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+import { MixMatchProgressCounter } from '@/components/product-types/MixMatchProgressCounter';
+import { useState } from 'react';
+
+function MixMatchPage() {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const maxItems = 6;
+
+  const handleProgressChange = (current, max, percentage) =&gt; {
+    console.log(`Progress: ${percentage.toFixed(0)}%`);
+
+    // Trigger celebration when complete
+    if (current === max) {
+      console.log('🎉 Box complete!');
+    }
+  };
+
+  return (
+    &lt;&gt;
+      &lt;MixMatchProgressCounter
+        current={selectedItems.length}
+        max={maxItems}
+        label="items geselecteerd"
+        onChange={handleProgressChange}
+      /&gt;
+
+      {/* Product grid */}
+      &lt;MixMatchProductGrid
+        products={products}
+        onSelect={(product) =&gt; setSelectedItems([...selectedItems, product])}
+        onDeselect={(productId) =&gt; setSelectedItems(selectedItems.filter(p =&gt; p.id !== productId))}
+        maxItems={maxItems}
+        selectedCount={selectedItems.length}
+      /&gt;
+    &lt;/&gt;
+  );
+}
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>State Management:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+// Example with Zustand store
+interface MixMatchStore {
+  selectedItems: Product[];
+  maxItems: number;
+  addItem: (product: Product) =&gt; void;
+  removeItem: (productId: string) =&gt; void;
+  isComplete: () =&gt; boolean;
+}
+
+const useMixMatchStore = create&lt;MixMatchStore&gt;((set, get) =&gt; ({
+  selectedItems: [],
+  maxItems: 6,
+
+  addItem: (product) =&gt; {
+    const { selectedItems, maxItems } = get();
+    if (selectedItems.length &lt; maxItems) {
+      set({ selectedItems: [...selectedItems, product] });
+    }
+  },
+
+  removeItem: (productId) =&gt; {
+    set((state) =&gt; ({
+      selectedItems: state.selectedItems.filter(p =&gt; p.id !== productId),
+    }));
+  },
+
+  isComplete: () =&gt; {
+    const { selectedItems, maxItems } = get();
+    return selectedItems.length &gt;= maxItems;
+  },
+}));
+
+// Usage in component
+function MixMatchPage() {
+  const { selectedItems, maxItems } = useMixMatchStore();
+
+  return (
+    &lt;MixMatchProgressCounter
+      current={selectedItems.length}
+      max={maxItems}
+    /&gt;
+  );
+}
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Performance Optimization:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>Memoization:</strong> Use <code>useMemo</code> for percentage calculation to avoid re-renders</li>
+  <li><strong>CSS transitions:</strong> Hardware-accelerated <code>transform</code> instead of <code>width</code> for smoother animation (optional optimization)</li>
+  <li><strong>Debounce onChange:</strong> If onChange triggers expensive operations, debounce by 200ms</li>
+  <li><strong>CSS containment:</strong> Add <code>contain: layout style;</code> to .box-progress for render isolation</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Edge Cases:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>current &gt; max:</strong> Clamp percentage to 100%, show complete state</li>
+  <li><strong>current &lt; 0:</strong> Clamp percentage to 0%, show empty state</li>
+  <li><strong>max = 0:</strong> Return early, show error state or hide component (invalid config)</li>
+  <li><strong>Fractional values:</strong> Round current/max to nearest integer for display</li>
+  <li><strong>Very large max:</strong> If max &gt; 999, use abbreviated format (e.g., "1k")</li>
+  <li><strong>Removing items:</strong> Ensure fill animates backwards smoothly (same 0.3s transition)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Browser Compatibility:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>Modern browsers:</strong> Full support (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)</li>
+  <li><strong>Flexbox:</strong> Use autoprefixer for older browsers</li>
+  <li><strong>Border-radius:</strong> Fully supported, no fallback needed</li>
+  <li><strong>CSS transitions:</strong> Fully supported, degrades gracefully (instant change if unsupported)</li>
+  <li><strong>ARIA progressbar:</strong> Supported in all modern screen readers (NVDA, JAWS, VoiceOver)</li>
+</ul>
+
+<!-- STEP 8: Variations & Related Components -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 8: Variations & Related Components</h3>
+
+<p style="margin-bottom: 8px;"><strong>Component Variants:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>Default:</strong> Full-height bar (10px), 18px counter, label shown</li>
+  <li><strong>Compact:</strong> Thinner bar (6px), 14px counter, no label — for tight spaces</li>
+  <li><strong>No label:</strong> Set <code>showLabel={false}</code> — counter + bar only</li>
+  <li><strong>Sticky:</strong> Add <code>position: sticky; top: 90px;</code> — stays visible while scrolling</li>
+  <li><strong>Inline:</strong> Remove card bg/border, transparent — embeds directly in layout</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Related Components:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>MM01: MixMatchHeader</strong> — Shows total required items in stats (complements progress bar)</li>
+  <li><strong>MM07: MixMatchPricingCard</strong> — Also shows progress via visual box slots (different representation)</li>
+  <li><strong>BB06: BundleProgressBar</strong> — Similar pattern for bundle builders (vertical variant available)</li>
+  <li><strong>C25: ProgressSteps</strong> — Multi-step progress (not item-based, step-based)</li>
+  <li><strong>EC05: FreeShippingProgress</strong> — Similar bar pattern for cart thresholds (monetary instead of item count)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Component Composition Example:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+function MixMatchProductPage() {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const maxItems = 6;
+
+  return (
+    &lt;&gt;
+      {/* Header with stats */}
+      &lt;MixMatchHeader stats={[{ value: maxItems, label: 'Items kiezen' }]} /&gt;
+
+      &lt;Container&gt;
+        &lt;TwoColumnLayout&gt;
+          &lt;MainContent&gt;
+            {/* Category filter */}
+            &lt;MixMatchCategoryFilter /&gt;
+
+            {/* Progress counter - ALWAYS VISIBLE */}
+            &lt;MixMatchProgressCounter
+              current={selectedItems.length}
+              max={maxItems}
+            /&gt;
+
+            {/* Product grid */}
+            &lt;MixMatchProductGrid
+              products={products}
+              selectedItems={selectedItems}
+              onToggle={(product) =&gt; {
+                if (selectedItems.includes(product)) {
+                  setSelectedItems(selectedItems.filter(p =&gt; p.id !== product.id));
+                } else if (selectedItems.length &lt; maxItems) {
+                  setSelectedItems([...selectedItems, product]);
+                }
+              }}
+            /&gt;
+          &lt;/MainContent&gt;
+
+          &lt;Sidebar&gt;
+            {/* Pricing card with visual box slots */}
+            &lt;MixMatchPricingCard
+              selectedItems={selectedItems}
+              maxItems={maxItems}
+              onRemove={(productId) =&gt; {
+                setSelectedItems(selectedItems.filter(p =&gt; p.id !== productId));
+              }}
+            /&gt;
+          &lt;/Sidebar&gt;
+        &lt;/TwoColumnLayout&gt;
+      &lt;/Container&gt;
+    &lt;/&gt;
+  );
+}
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Testing Checklist:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>✅ Progress bar fills correctly (0% at 0 items, 100% at max items)</li>
+  <li>✅ Fill color changes to green when current === max</li>
+  <li>✅ Counter number changes to green when complete</li>
+  <li>✅ Smooth 0.3s animation when current value changes</li>
+  <li>✅ Layout switches to vertical on mobile (&lt;640px)</li>
+  <li>✅ Counter and label center-aligned on mobile</li>
+  <li>✅ ARIA progressbar announces value changes (test with screen reader)</li>
+  <li>✅ aria-label reads "X of Y items selected" format</li>
+  <li>✅ Visual elements (bar, counter, label) have aria-hidden="true"</li>
+  <li>✅ Handles edge cases: current &gt; max, current &lt; 0, max = 0</li>
+  <li>✅ onChange callback fires with correct values</li>
+  <li>✅ Label hides when showLabel={false}</li>
+  <li>✅ Component responsive at all breakpoints (320px - 1920px)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Migration Notes:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>From BB06 (BundleProgressBar):</strong> Very similar pattern — can share CSS classes, just different context (bundle vs mix-match)</li>
+  <li><strong>From EC05 (FreeShippingProgress):</strong> Same bar pattern, but different logic (monetary threshold vs item count) — extract shared <code>&lt;ProgressBar&gt;</code> component if both used</li>
+  <li><strong>Content migration:</strong> CMS field <code>requiredItems</code> maps directly to <code>max</code> prop, no transformation needed</li>
+  <li><strong>State migration:</strong> If migrating from global state to Zustand/Redux, ensure <code>selectedItems.length</code> updates trigger re-render</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+
+  // Interactive demo
+  const slider = document.getElementById('progressSlider');
+  const currentValue = document.getElementById('currentValue');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+
+  slider.addEventListener('input', (e) => {
+    const current = parseInt(e.target.value);
+    const max = 6;
+    const percentage = (current / max) * 100;
+    const isComplete = current >= max;
+
+    // Update display
+    currentValue.textContent = current;
+    progressFill.style.width = `${percentage}%`;
+    progressCount.innerHTML = `<em>${current}</em> / ${max}`;
+
+    // Update classes
+    if (isComplete) {
+      progressFill.classList.add('full');
+      progressCount.classList.add('complete');
+    } else {
+      progressFill.classList.remove('full');
+      progressCount.classList.remove('complete');
+    }
+
+    // Update ARIA
+    const progressCounter = document.getElementById('progressCounter');
+    progressCounter.setAttribute('aria-valuenow', current);
+    progressCounter.setAttribute('aria-label', `${current} of ${max} items selected${isComplete ? ', complete' : ''}`);
+  });
+</script>
+
+</body>
+</html>

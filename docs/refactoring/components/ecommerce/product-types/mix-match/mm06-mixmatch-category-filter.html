@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM06: MixMatchCategoryFilter — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--grey-light); padding: 32px; color: var(--navy); }
+
+/* MM06: MixMatchCategoryFilter */
+.cat-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.cat-tab {
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1.5px solid var(--grey);
+  background: white;
+  color: var(--grey-mid);
+  cursor: pointer;
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cat-tab:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.cat-tab.active {
+  background: var(--teal);
+  color: white;
+  border-color: var(--teal);
+}
+
+.cat-tab i {
+  width: 14px;
+  height: 14px;
+}
+
+.cat-count {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.cat-tab:not(.active) .cat-count {
+  background: var(--grey-light);
+}
+
+.demo-container {
+  max-width: 800px;
+  margin-bottom: 32px;
+}
+</style>
+</head>
+<body>
+
+<h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px;">🎯 Live Demo — MixMatchCategoryFilter</h2>
+
+<div class="demo-container">
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="setActive(this)">
+      <i data-lucide="grid"></i> Alles <span class="cat-count">32</span>
+    </button>
+    <button class="cat-tab" onclick="setActive(this)">
+      🥗 Salades <span class="cat-count">8</span>
+    </button>
+    <button class="cat-tab" onclick="setActive(this)">
+      🌯 Wraps <span class="cat-count">6</span>
+    </button>
+    <button class="cat-tab" onclick="setActive(this)">
+      🍲 Soepen <span class="cat-count">7</span>
+    </button>
+    <button class="cat-tab" onclick="setActive(this)">
+      🥤 Dranken <span class="cat-count">5</span>
+    </button>
+    <button class="cat-tab" onclick="setActive(this)">
+      🍪 Snacks <span class="cat-count">6</span>
+    </button>
+  </div>
+</div>
+
+<div style="background: white; border: 1px solid var(--grey); border-radius: 12px; padding: 24px; line-height: 1.6;">
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 12px;">📦 MM06: MixMatchCategoryFilter</h3>
+
+<p><strong>Purpose:</strong> Horizontal category filter tabs for Mix & Match product grids. Shows product count per category with emoji/icon.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Pill-style buttons (100px border-radius)</li>
+  <li>Active state: teal bg + white text</li>
+  <li>Inactive state: white bg + grey border + grey text</li>
+  <li>Product count badges (semi-transparent on active, grey-light on inactive)</li>
+  <li>Icon/emoji + label layout</li>
+  <li>Hover: teal border + teal text (inactive tabs)</li>
+  <li>Flex-wrap for responsive stacking</li>
+</ul>
+
+<p><strong>Design Tokens:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+  <li>Padding: 8px 16px</li>
+  <li>Gap: 4px (between tabs), 5px (icon to label)</li>
+  <li>Border-radius: 100px (pills)</li>
+  <li>Border: 1.5px solid #E8ECF1 (inactive) / #00897B (active/hover)</li>
+  <li>Font: 13px 700 DM Sans</li>
+  <li>Icon: 14×14px (Lucide) or emoji</li>
+  <li>Count badge: 10px 800, 1/6px padding, 100px radius</li>
+  <li>Active bg: #00897B (teal), text: white</li>
+  <li>Inactive bg: white, text: #94A3B8 (grey-mid)</li>
+  <li>Hover: border #00897B, text #00897B</li>
+</ul>
+
+<p><strong>TypeScript Interface:</strong></p>
+<pre style="background: var(--grey-light); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+interface MixMatchCategoryFilterProps {
+  categories: Array<{
+    id: string;
+    label: string;
+    icon?: string;  // Lucide icon name
+    emoji?: string; // Emoji character
+    count: number;
+  }>;
+  activeId: string;
+  onChange: (categoryId: string) => void;
+  showCounts?: boolean; // Default: true
+}
+</pre>
+
+<p><strong>React Example:</strong></p>
+<pre style="background: var(--grey-light); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+export const MixMatchCategoryFilter = ({ categories, activeId, onChange }) => (
+  &lt;div className="cat-tabs"&gt;
+    {categories.map((cat) => (
+      &lt;button
+        key={cat.id}
+        className={`cat-tab ${activeId === cat.id ? 'active' : ''}`}
+        onClick={() => onChange(cat.id)}
+      &gt;
+        {cat.icon && &lt;Icon name={cat.icon} size={14} /&gt;}
+        {cat.emoji && cat.emoji}
+        {cat.label}
+        &lt;span className="cat-count"&gt;{cat.count}&lt;/span&gt;
+      &lt;/button&gt;
+    ))}
+  &lt;/div&gt;
+);
+</pre>
+
+<p><strong>Usage Example:</strong></p>
+<pre style="background: var(--grey-light); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+const [activeCategory, setActiveCategory] = useState('all');
+
+&lt;MixMatchCategoryFilter
+  categories={[
+    { id: 'all', label: 'Alles', icon: 'grid', count: 32 },
+    { id: 'salades', label: 'Salades', emoji: '🥗', count: 8 },
+    { id: 'wraps', label: 'Wraps', emoji: '🌯', count: 6 },
+  ]}
+  activeId={activeCategory}
+  onChange={setActiveCategory}
+/&gt;
+</pre>
+
+<p><strong>Related Components:</strong> MM03 (MixMatchProductGrid - filtered by this component), EC03 (SubcategoryChips - similar pattern)</p>
+
+</div>
+
+<script>
+  lucide.createIcons();
+  function setActive(btn) {
+    document.querySelectorAll('.cat-tab').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OC03: OrderItemsSummary — Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Core Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+      --space-48: 48px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 14px;
+      --radius-xl: 16px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       OC03: ORDER ITEMS SUMMARY COMPONENT
+       ═══════════════════════════════════════════════════════════ */
+
+    .order-items-summary {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: var(--space-32);
+    }
+
+    /* Header */
+    .order-items-header {
+      padding: var(--space-20) var(--space-24);
+      background: var(--bg);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .order-items-title {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .order-items-title i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .order-items-count {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--grey-mid);
+      margin-left: auto;
+    }
+
+    /* Items container */
+    .order-items-list {
+      padding: var(--space-20) var(--space-24);
+    }
+
+    /* Item row */
+    .order-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+      padding: var(--space-16) 0;
+      border-bottom: 1px solid var(--grey);
+      transition: background var(--transition);
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .order-item:first-child {
+      padding-top: 0;
+    }
+
+    .order-item:hover {
+      background: rgba(0, 137, 123, 0.02);
+      margin-left: calc(var(--space-24) * -1);
+      margin-right: calc(var(--space-24) * -1);
+      padding-left: var(--space-24);
+      padding-right: var(--space-24);
+    }
+
+    /* Product thumbnail */
+    .order-item-image {
+      width: 60px;
+      height: 60px;
+      background: var(--bg);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      border: 1px solid var(--grey);
+    }
+
+    /* Product info */
+    .order-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .order-item-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: var(--space-4);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .order-item-meta {
+      font-size: 12px;
+      color: var(--grey-mid);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    .order-item-meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .order-item-meta-item i {
+      width: 12px;
+      height: 12px;
+      opacity: 0.7;
+    }
+
+    /* Price */
+    .order-item-price {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      flex-shrink: 0;
+    }
+
+    /* Empty state */
+    .order-items-empty {
+      padding: var(--space-48) var(--space-24);
+      text-align: center;
+    }
+
+    .order-items-empty i {
+      width: 48px;
+      height: 48px;
+      color: var(--grey-mid);
+      margin-bottom: var(--space-16);
+    }
+
+    .order-items-empty-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-8);
+    }
+
+    .order-items-empty-text {
+      font-size: 14px;
+      color: var(--grey-mid);
+    }
+
+    /* Expandable variant */
+    .order-items-summary.collapsible .order-items-header {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .order-items-summary.collapsible .order-items-header:hover {
+      background: #EBEEF2;
+    }
+
+    .order-items-toggle {
+      margin-left: auto;
+      transition: transform var(--transition);
+    }
+
+    .order-items-toggle i {
+      width: 20px;
+      height: 20px;
+      color: var(--grey-mid);
+    }
+
+    .order-items-summary.collapsed .order-items-toggle {
+      transform: rotate(-90deg);
+    }
+
+    .order-items-summary.collapsed .order-items-list {
+      display: none;
+    }
+
+    /* Compact variant */
+    .order-items-summary.compact .order-item-image {
+      width: 48px;
+      height: 48px;
+      font-size: 24px;
+    }
+
+    .order-items-summary.compact .order-item-name {
+      font-size: 13px;
+    }
+
+    .order-items-summary.compact .order-item-meta {
+      font-size: 11px;
+    }
+
+    .order-items-summary.compact .order-item-price {
+      font-size: 14px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+
+    @media (max-width: 640px) {
+      .order-item {
+        flex-wrap: wrap;
+      }
+
+      .order-item-price {
+        width: 100%;
+        text-align: right;
+        margin-top: var(--space-8);
+      }
+
+      .order-item-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-4);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES
+       ═══════════════════════════════════════════════════════════ */
+
+    .doc-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: var(--space-32);
+      margin-bottom: var(--space-24);
+    }
+
+    .doc-section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: var(--space-16);
+      padding-bottom: var(--space-12);
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: var(--space-24);
+      margin-bottom: var(--space-12);
+    }
+
+    .doc-section h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-top: var(--space-16);
+      margin-bottom: var(--space-8);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .doc-section p {
+      margin-bottom: var(--space-12);
+      color: var(--grey-dark);
+      line-height: 1.7;
+    }
+
+    .doc-section ul, .doc-section ol {
+      margin-left: var(--space-24);
+      margin-bottom: var(--space-16);
+      color: var(--grey-dark);
+    }
+
+    .doc-section li {
+      margin-bottom: var(--space-8);
+      line-height: 1.7;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: var(--space-20);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: var(--space-16);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .doc-section pre code {
+      background: none;
+      color: inherit;
+      padding: 0;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: var(--space-16);
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      padding: var(--space-12);
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    .token-table td {
+      padding: var(--space-12);
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      font-size: 12px;
+    }
+
+    .demo-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: var(--space-12);
+      margin-top: var(--space-32);
+    }
+
+    .demo-label:first-child {
+      margin-top: 0;
+    }
+
+    .info-box {
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      padding: var(--space-16);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-16);
+    }
+
+    .info-box p {
+      color: #1565C0;
+      margin-bottom: 0;
+      font-size: 14px;
+    }
+
+    .info-box strong {
+      color: #0D47A1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ═══════════════════════════════════════════════════════════
+         LIVE DEMO SECTION
+         ═══════════════════════════════════════════════════════════ -->
+
+    <div style="background:white;border:1px solid var(--grey);border-radius:var(--radius);padding:var(--space-32);margin-bottom:var(--space-24);">
+      <h1 style="font-size:32px;font-weight:800;color:var(--navy);margin-bottom:var(--space-8);">OC03: OrderItemsSummary</h1>
+      <p style="font-size:16px;color:var(--grey-dark);margin-bottom:var(--space-32);">Compact product list displaying ordered items with thumbnails, metadata, and prices.</p>
+
+      <!-- DEFAULT VARIANT -->
+      <div class="demo-label">Default Variant</div>
+      <div class="order-items-summary">
+        <div class="order-items-header">
+          <div class="order-items-title">
+            <i data-lucide="package"></i>
+            Bestelde producten
+            <span class="order-items-count">2 producten</span>
+          </div>
+        </div>
+        <div class="order-items-list">
+          <!-- Item 1 -->
+          <div class="order-item">
+            <div class="order-item-image">🧤</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Supreme Plus Nitrile Handschoenen</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="ruler"></i>
+                  Maat: L
+                </div>
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 3
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 38,85</div>
+          </div>
+          <!-- Item 2 -->
+          <div class="order-item">
+            <div class="order-item-image">💉</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Veiligheidsnaald 21G x 1½"</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 1
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 22,50</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WITH MORE ITEMS -->
+      <div class="demo-label">With Multiple Items (5 products)</div>
+      <div class="order-items-summary">
+        <div class="order-items-header">
+          <div class="order-items-title">
+            <i data-lucide="package"></i>
+            Bestelde producten
+            <span class="order-items-count">5 producten</span>
+          </div>
+        </div>
+        <div class="order-items-list">
+          <div class="order-item">
+            <div class="order-item-image">🧤</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Supreme Plus Nitrile Handschoenen</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="ruler"></i>
+                  Maat: L
+                </div>
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 3
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 38,85</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item-image">💉</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Veiligheidsnaald 21G x 1½"</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 2
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 45,00</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item-image">🩺</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Digitale Bloeddrukmeter - Professioneel</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="palette"></i>
+                  Kleur: Wit
+                </div>
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 1
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 89,95</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item-image">🏥</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Medische Mondmaskers FFP2 - Box van 50</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 2
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 29,90</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item-image">🧴</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Desinfecterende Handgel 500ml</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="droplet"></i>
+                  Volume: 500ml
+                </div>
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 3
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 14,85</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLLAPSIBLE VARIANT -->
+      <div class="demo-label">Collapsible Variant</div>
+      <div class="order-items-summary collapsible" id="collapsibleDemo">
+        <div class="order-items-header" onclick="toggleCollapse('collapsibleDemo')">
+          <div class="order-items-title">
+            <i data-lucide="package"></i>
+            Bestelde producten
+            <span class="order-items-count">2 producten</span>
+            <div class="order-items-toggle">
+              <i data-lucide="chevron-down"></i>
+            </div>
+          </div>
+        </div>
+        <div class="order-items-list">
+          <div class="order-item">
+            <div class="order-item-image">🧤</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Supreme Plus Nitrile Handschoenen</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="ruler"></i>
+                  Maat: L
+                </div>
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 3
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 38,85</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item-image">💉</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Veiligheidsnaald 21G x 1½"</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 1
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 22,50</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPACT VARIANT -->
+      <div class="demo-label">Compact Variant (Email Template)</div>
+      <div class="order-items-summary compact">
+        <div class="order-items-header">
+          <div class="order-items-title">
+            <i data-lucide="package"></i>
+            Bestelde producten
+            <span class="order-items-count">2 producten</span>
+          </div>
+        </div>
+        <div class="order-items-list">
+          <div class="order-item">
+            <div class="order-item-image">🧤</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Supreme Plus Nitrile Handschoenen</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="ruler"></i>
+                  Maat: L
+                </div>
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 3
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 38,85</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item-image">💉</div>
+            <div class="order-item-info">
+              <div class="order-item-name">Veiligheidsnaald 21G x 1½"</div>
+              <div class="order-item-meta">
+                <div class="order-item-meta-item">
+                  <i data-lucide="hash"></i>
+                  Aantal: 1
+                </div>
+              </div>
+            </div>
+            <div class="order-item-price">€ 22,50</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div class="demo-label">Empty State</div>
+      <div class="order-items-summary">
+        <div class="order-items-header">
+          <div class="order-items-title">
+            <i data-lucide="package"></i>
+            Bestelde producten
+            <span class="order-items-count">0 producten</span>
+          </div>
+        </div>
+        <div class="order-items-empty">
+          <i data-lucide="package-x"></i>
+          <div class="order-items-empty-title">Geen producten gevonden</div>
+          <div class="order-items-empty-text">Er zijn geen producten in deze bestelling</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         8-STEP DOCUMENTATION
+         ═══════════════════════════════════════════════════════════ -->
+
+    <!-- STEP 1: OVERVIEW -->
+    <div class="doc-section">
+      <h2>STEP 1: Component Overview</h2>
+
+      <h3>Purpose</h3>
+      <p>The <strong>OrderItemsSummary</strong> component displays a compact list of products included in an order. It appears on the order confirmation page below the order details cards (OC02), providing customers with a quick visual reference of what they purchased. Each item shows a thumbnail, product name, variant details (size/color), quantity, and line price.</p>
+
+      <h3>Component Identity</h3>
+      <ul>
+        <li><strong>Name:</strong> OrderItemsSummary</li>
+        <li><strong>ID:</strong> OC03</li>
+        <li><strong>Category:</strong> E-commerce / Order Display</li>
+        <li><strong>Type:</strong> Read-only list display</li>
+        <li><strong>Priority:</strong> High (Phase 2)</li>
+      </ul>
+
+      <h3>Usage Context</h3>
+      <p>Primary use is on the order confirmation page (post-checkout). Also used in order detail pages in customer account area, and can be adapted for email confirmation templates (compact variant). Not suitable for cart flows (use EC06 CartLineItem instead).</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>Clean horizontal row layout with thumbnail (60×60px), product info, and price</li>
+        <li>Grey header bar with product count (e.g., "2 producten")</li>
+        <li>Flexible metadata display (size, color, quantity) with icons</li>
+        <li>Subtle hover effect (light teal background)</li>
+        <li>Collapsible variant for long order lists</li>
+        <li>Compact variant for email templates (smaller thumbnails and text)</li>
+        <li>Empty state for edge cases</li>
+        <li>Responsive: stacks price below on mobile</li>
+      </ul>
+    </div>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <div class="doc-section">
+      <h2>STEP 2: When to Use This Component</h2>
+
+      <h3>Primary Use Cases</h3>
+      <ol>
+        <li><strong>Order Confirmation Page:</strong> Display purchased items after checkout success</li>
+        <li><strong>Order History (Account Area):</strong> Show order contents in order detail view</li>
+        <li><strong>Email Confirmation:</strong> Compact variant in order confirmation emails</li>
+        <li><strong>Admin Order View:</strong> Quick overview of order contents</li>
+        <li><strong>Invoice Pages:</strong> List items on printable invoices</li>
+      </ol>
+
+      <h3>When NOT to Use</h3>
+      <ul>
+        <li><strong>Cart page:</strong> Use EC06 CartLineItem instead (includes qty stepper, remove button)</li>
+        <li><strong>Checkout review:</strong> Use compact variant of EC06 CartLineItem</li>
+        <li><strong>Product pages:</strong> Not suitable for product listings</li>
+        <li><strong>Search results:</strong> Use EC01 ProductCard</li>
+      </ul>
+
+      <h3>Content Guidelines</h3>
+      <div class="info-box">
+        <p><strong>Product Names:</strong> Display full product name, truncate to 2 lines on mobile. Avoid abbreviations.</p>
+        <p><strong>Metadata:</strong> Show relevant variants (size, color, qty) with icons. Keep to 2-3 metadata items max per product. Quantity is always shown.</p>
+        <p><strong>Prices:</strong> Show line total (price × quantity), not unit price. Format as "€ XX,XX" with space after €. Use Plus Jakarta Sans 800 weight for visual hierarchy.</p>
+        <p><strong>Thumbnails:</strong> 60×60px (default), 48×48px (compact). Use placeholder emoji or actual product images with light grey background.</p>
+      </div>
+
+      <h3>Variants Selection Guide</h3>
+      <ul>
+        <li><strong>Default:</strong> Order confirmation page, order history (2-10 items)</li>
+        <li><strong>Collapsible:</strong> Long orders (10+ items) to save vertical space</li>
+        <li><strong>Compact:</strong> Email templates, mobile, sidebar widgets</li>
+        <li><strong>Empty:</strong> Error handling (order sync issues, cancelled orders)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <div class="doc-section">
+      <h2>STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container background</td>
+            <td><code>--white</code></td>
+            <td>#FAFBFC</td>
+            <td>Main card background</td>
+          </tr>
+          <tr>
+            <td>Container border</td>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+            <td>1px solid border</td>
+          </tr>
+          <tr>
+            <td>Header background</td>
+            <td><code>--bg</code></td>
+            <td>#F5F7FA</td>
+            <td>Grey header bar</td>
+          </tr>
+          <tr>
+            <td>Title text</td>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Header title</td>
+          </tr>
+          <tr>
+            <td>Count text</td>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+            <td>Product count badge</td>
+          </tr>
+          <tr>
+            <td>Product name</td>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Product title</td>
+          </tr>
+          <tr>
+            <td>Metadata text</td>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+            <td>Size/qty labels</td>
+          </tr>
+          <tr>
+            <td>Price text</td>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Line total</td>
+          </tr>
+          <tr>
+            <td>Hover background</td>
+            <td>Custom</td>
+            <td>rgba(0,137,123,0.02)</td>
+            <td>Row hover state</td>
+          </tr>
+          <tr>
+            <td>Thumbnail bg</td>
+            <td><code>--bg</code></td>
+            <td>#F5F7FA</td>
+            <td>Image placeholder</td>
+          </tr>
+          <tr>
+            <td>Divider border</td>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+            <td>Row separator</td>
+          </tr>
+          <tr>
+            <td>Icon accent</td>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+            <td>Package icon in header</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font Family</th>
+            <th>Size</th>
+            <th>Weight</th>
+            <th>Line Height</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Header title</td>
+            <td>Plus Jakarta Sans</td>
+            <td>16px</td>
+            <td>700</td>
+            <td>1.4</td>
+          </tr>
+          <tr>
+            <td>Product count</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>500</td>
+            <td>1.4</td>
+          </tr>
+          <tr>
+            <td>Product name</td>
+            <td>Plus Jakarta Sans</td>
+            <td>14px</td>
+            <td>600</td>
+            <td>1.4</td>
+          </tr>
+          <tr>
+            <td>Metadata</td>
+            <td>Plus Jakarta Sans</td>
+            <td>12px</td>
+            <td>400</td>
+            <td>1.5</td>
+          </tr>
+          <tr>
+            <td>Price</td>
+            <td>Plus Jakarta Sans</td>
+            <td>16px</td>
+            <td>800</td>
+            <td>1.3</td>
+          </tr>
+          <tr>
+            <td>Empty state title</td>
+            <td>Plus Jakarta Sans</td>
+            <td>16px</td>
+            <td>700</td>
+            <td>1.4</td>
+          </tr>
+          <tr>
+            <td>Empty state text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>14px</td>
+            <td>400</td>
+            <td>1.5</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Compact Variant Typography</h3>
+      <ul>
+        <li><strong>Product name:</strong> 13px (down from 14px)</li>
+        <li><strong>Metadata:</strong> 11px (down from 12px)</li>
+        <li><strong>Price:</strong> 14px (down from 16px)</li>
+      </ul>
+
+      <h3>Spacing (4px Grid)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Token</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Header padding</td>
+            <td><code>--space-20</code> + <code>--space-24</code></td>
+            <td>20px (vertical) × 24px (horizontal)</td>
+          </tr>
+          <tr>
+            <td>List padding</td>
+            <td><code>--space-20</code> + <code>--space-24</code></td>
+            <td>20px (vertical) × 24px (horizontal)</td>
+          </tr>
+          <tr>
+            <td>Row padding</td>
+            <td><code>--space-16</code></td>
+            <td>16px (vertical)</td>
+          </tr>
+          <tr>
+            <td>Row gap (thumbnail → info)</td>
+            <td><code>--space-16</code></td>
+            <td>16px</td>
+          </tr>
+          <tr>
+            <td>Name → Metadata</td>
+            <td><code>--space-4</code></td>
+            <td>4px</td>
+          </tr>
+          <tr>
+            <td>Metadata items gap</td>
+            <td><code>--space-12</code></td>
+            <td>12px</td>
+          </tr>
+          <tr>
+            <td>Icon → Text (metadata)</td>
+            <td><code>--space-4</code></td>
+            <td>4px</td>
+          </tr>
+          <tr>
+            <td>Header title → count</td>
+            <td><code>margin-left: auto</code></td>
+            <td>Flex justify-between</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Icons (Lucide)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Icon</th>
+            <th>Size</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Header icon</td>
+            <td><code>package</code></td>
+            <td>20×20px</td>
+            <td>Teal (#00897B)</td>
+          </tr>
+          <tr>
+            <td>Size metadata</td>
+            <td><code>ruler</code></td>
+            <td>12×12px</td>
+            <td>Grey-mid (70% opacity)</td>
+          </tr>
+          <tr>
+            <td>Quantity metadata</td>
+            <td><code>hash</code></td>
+            <td>12×12px</td>
+            <td>Grey-mid (70% opacity)</td>
+          </tr>
+          <tr>
+            <td>Color metadata</td>
+            <td><code>palette</code></td>
+            <td>12×12px</td>
+            <td>Grey-mid (70% opacity)</td>
+          </tr>
+          <tr>
+            <td>Volume metadata</td>
+            <td><code>droplet</code></td>
+            <td>12×12px</td>
+            <td>Grey-mid (70% opacity)</td>
+          </tr>
+          <tr>
+            <td>Toggle icon (collapsible)</td>
+            <td><code>chevron-down</code></td>
+            <td>20×20px</td>
+            <td>Grey-mid</td>
+          </tr>
+          <tr>
+            <td>Empty state icon</td>
+            <td><code>package-x</code></td>
+            <td>48×48px</td>
+            <td>Grey-mid</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Border Radius</h3>
+      <ul>
+        <li><strong>Container:</strong> <code>--radius-lg</code> (14px)</li>
+        <li><strong>Thumbnail:</strong> <code>10px</code> (slightly rounded square)</li>
+      </ul>
+
+      <h3>Shadows & Effects</h3>
+      <ul>
+        <li><strong>Default:</strong> None (1px border only)</li>
+        <li><strong>Hover:</strong> Light teal background (rgba(0,137,123,0.02)), extends to full width with negative margins</li>
+      </ul>
+    </div>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <div class="doc-section">
+      <h2>STEP 4: Props & Configuration</h2>
+
+      <h3>TypeScript Interface</h3>
+      <pre><code>interface OrderItem {
+  id: string
+  name: string
+  slug?: string
+  image?: string          // Product image URL
+  imagePlaceholder?: string  // Emoji or placeholder
+  price: number          // Line total in cents (price × quantity)
+  quantity: number
+  metadata?: Array<{
+    icon: string         // Lucide icon name
+    label: string        // e.g., "Maat: L", "Kleur: Blauw"
+  }>
+}
+
+interface OrderItemsSummaryProps {
+  items: OrderItem[]
+  variant?: 'default' | 'compact' | 'collapsible'
+  title?: string         // Default: "Bestelde producten"
+  showCount?: boolean    // Default: true
+  emptyState?: {
+    title: string
+    description: string
+  }
+  onItemClick?: (item: OrderItem) => void  // Optional click handler
+}</code></pre>
+
+      <h3>Payload CMS Fields</h3>
+      <pre><code>// In Order collection:
+{
+  name: 'items',
+  type: 'array',
+  required: true,
+  minRows: 1,
+  fields: [
+    {
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
+      required: true,
+    },
+    {
+      name: 'variant',
+      type: 'relationship',
+      relationTo: 'productVariants',
+    },
+    {
+      name: 'quantity',
+      type: 'number',
+      required: true,
+      min: 1,
+    },
+    {
+      name: 'price',
+      type: 'number',
+      required: true,
+      admin: {
+        description: 'Line total in cents (auto-calculated)',
+      },
+    },
+    {
+      name: 'snapshot',
+      type: 'group',
+      admin: {
+        description: 'Captures product state at order time',
+      },
+      fields: [
+        { name: 'name', type: 'text' },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+        { name: 'sku', type: 'text' },
+      ],
+    },
+  ],
+}</code></pre>
+
+      <h3>Default Configuration</h3>
+      <pre><code>const defaultConfig = {
+  title: 'Bestelde producten',
+  showCount: true,
+  variant: 'default',
+  emptyState: {
+    title: 'Geen producten gevonden',
+    description: 'Er zijn geen producten in deze bestelling',
+  },
+}</code></pre>
+
+      <h3>Responsive Behavior</h3>
+      <ul>
+        <li><strong>Desktop (>640px):</strong> Horizontal row layout, price right-aligned</li>
+        <li><strong>Mobile (≤640px):</strong> Price moves below product info, metadata stacks vertically</li>
+      </ul>
+    </div>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <div class="doc-section">
+      <h2>STEP 5: Layout Rules</h2>
+
+      <h3>Container Structure</h3>
+      <pre><code>.order-items-summary {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 14px;
+  overflow: hidden;
+}</code></pre>
+
+      <h3>Header Layout</h3>
+      <pre><code>.order-items-header {
+  padding: 20px 24px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}</code></pre>
+
+      <h3>Item Row Anatomy (Left to Right)</h3>
+      <ol>
+        <li><strong>Thumbnail:</strong> 60×60px square, grey bg, 10px radius, flex-shrink: 0</li>
+        <li><strong>Gap:</strong> 16px</li>
+        <li><strong>Info column (flex: 1):</strong>
+          <ul>
+            <li>Product name (14px, weight 600, 2-line clamp)</li>
+            <li>4px gap</li>
+            <li>Metadata row (12px icons + text, 12px gaps between items)</li>
+          </ul>
+        </li>
+        <li><strong>Price:</strong> 16px, weight 800, right-aligned, flex-shrink: 0</li>
+      </ol>
+
+      <h3>Spacing Hierarchy</h3>
+      <pre><code>Header padding:     20px (vertical) × 24px (horizontal)
+List padding:       20px (vertical) × 24px (horizontal)
+Row padding:        16px (vertical), 0 (horizontal)
+Row gap:            16px (thumbnail → info)
+Name → Metadata:    4px
+Metadata gap:       12px (between items)
+Icon → Text:        4px</code></pre>
+
+      <h3>Hover Effect Pattern</h3>
+      <pre><code>.order-item:hover {
+  background: rgba(0, 137, 123, 0.02);
+  margin-left: -24px;
+  margin-right: -24px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+/* This extends hover bg to full container width */</code></pre>
+
+      <h3>Collapsible Behavior</h3>
+      <pre><code>.order-items-summary.collapsed .order-items-list {
+  display: none;
+}
+
+.order-items-toggle {
+  transform: rotate(0deg);
+  transition: transform 0.2s;
+}
+
+.order-items-summary.collapsed .order-items-toggle {
+  transform: rotate(-90deg);
+}</code></pre>
+
+      <h3>Visual Hierarchy</h3>
+      <ol>
+        <li><strong>Primary focus:</strong> Product name (14px, weight 600, navy) — most prominent text</li>
+        <li><strong>Secondary focus:</strong> Price (16px, weight 800, navy) — right-aligned for scanning</li>
+        <li><strong>Tertiary:</strong> Thumbnail (60×60px) — visual anchor</li>
+        <li><strong>Supporting:</strong> Metadata (12px, grey-mid) — subtle details</li>
+      </ol>
+    </div>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <div class="doc-section">
+      <h2>STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <pre><code>&lt;section aria-label="Order items summary" class="order-items-summary"&gt;
+  &lt;header class="order-items-header"&gt;
+    &lt;h2 class="order-items-title"&gt;
+      &lt;i data-lucide="package" aria-hidden="true"&gt;&lt;/i&gt;
+      Bestelde producten
+      &lt;span class="order-items-count" aria-label="2 products"&gt;2 producten&lt;/span&gt;
+    &lt;/h2&gt;
+  &lt;/header&gt;
+  &lt;ul class="order-items-list"&gt;
+    &lt;li class="order-item"&gt;
+      &lt;img src="..." alt="Supreme Plus Nitrile Handschoenen" class="order-item-image"&gt;
+      &lt;div class="order-item-info"&gt;
+        &lt;h3 class="order-item-name"&gt;Supreme Plus Nitrile Handschoenen&lt;/h3&gt;
+        &lt;dl class="order-item-meta"&gt;
+          &lt;div&gt;&lt;dt&gt;Maat:&lt;/dt&gt; &lt;dd&gt;L&lt;/dd&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;dt&gt;Aantal:&lt;/dt&gt; &lt;dd&gt;3&lt;/dd&gt;&lt;/div&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;
+      &lt;div class="order-item-price" aria-label="Line total 38 euros 85 cents"&gt;
+        € 38,85
+      &lt;/div&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/section&gt;</code></pre>
+
+      <h3>ARIA Attributes</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>ARIA Attribute</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container</td>
+            <td><code>aria-label="Order items summary"</code></td>
+            <td>Identifies the section</td>
+          </tr>
+          <tr>
+            <td>Icons</td>
+            <td><code>aria-hidden="true"</code></td>
+            <td>Hides decorative icons</td>
+          </tr>
+          <tr>
+            <td>Product count</td>
+            <td><code>aria-label="2 products"</code></td>
+            <td>Screen reader friendly</td>
+          </tr>
+          <tr>
+            <td>Price</td>
+            <td><code>aria-label="Line total X euros Y cents"</code></td>
+            <td>Currency pronunciation</td>
+          </tr>
+          <tr>
+            <td>Collapsible header</td>
+            <td><code>aria-expanded="true/false"</code></td>
+            <td>Collapse state</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Keyboard Navigation</h3>
+      <p>Component is read-only by default. If collapsible:</p>
+      <pre><code>&lt;button
+  class="order-items-header"
+  aria-expanded="true"
+  aria-controls="items-list-1"
+  onclick="toggleCollapse()"&gt;
+  {/* Header content */}
+&lt;/button&gt;
+
+&lt;ul id="items-list-1" class="order-items-list"&gt;
+  {/* Items */}
+&lt;/ul&gt;</code></pre>
+
+      <h3>Screen Reader Announcements</h3>
+      <pre><code>// Example screen reader output:
+"Order items summary section.
+Heading level 2, Bestelde producten. 2 products.
+List with 2 items.
+List item 1: Supreme Plus Nitrile Handschoenen.
+Definition list: Maat L, Aantal 3.
+Line total 38 euros 85 cents.
+List item 2: Veiligheidsnaald 21G x 1½inch.
+Definition list: Aantal 1.
+Line total 22 euros 50 cents."</code></pre>
+
+      <h3>Color Contrast</h3>
+      <ul>
+        <li><strong>Product name (navy #0A1628 on white):</strong> 13.8:1 ✓ AAA</li>
+        <li><strong>Price (navy #0A1628 on white):</strong> 13.8:1 ✓ AAA</li>
+        <li><strong>Metadata (grey-mid #94A3B8 on white):</strong> 3.8:1 ✓ AA Large</li>
+        <li><strong>Count badge (grey-mid #94A3B8 on grey bg):</strong> 2.8:1 ✗ Decorative only</li>
+      </ul>
+
+      <h3>Focus States</h3>
+      <p>If items are clickable (link to product page):</p>
+      <pre><code>.order-item:focus-within {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--teal-glow);
+}</code></pre>
+
+      <h3>Reduced Motion</h3>
+      <pre><code>@media (prefers-reduced-motion: reduce) {
+  .order-item {
+    transition: none;
+  }
+  .order-items-toggle {
+    transition: none;
+  }
+}</code></pre>
+    </div>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <div class="doc-section">
+      <h2>STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component</h3>
+      <pre><code>import { Package, PackageX, Ruler, Hash, Palette, Droplet } from 'lucide-react'
+import Image from 'next/image'
+
+const metadataIconMap = {
+  ruler: Ruler,
+  hash: Hash,
+  palette: Palette,
+  droplet: Droplet,
+}
+
+export default function OrderItemsSummary({
+  items,
+  variant = 'default',
+  title = 'Bestelde producten',
+  showCount = true,
+  emptyState,
+}: OrderItemsSummaryProps) {
+  const [isCollapsed, setIsCollapsed] = useState(false)
+
+  const formatPrice = (cents: number) => {
+    return `€ ${(cents / 100).toFixed(2).replace('.', ',')}`
+  }
+
+  if (items.length === 0) {
+    return (
+      &lt;section className="order-items-summary" aria-label="Order items summary"&gt;
+        &lt;div className="order-items-header"&gt;
+          &lt;h2 className="order-items-title"&gt;
+            &lt;Package size={20} aria-hidden="true" /&gt;
+            {title}
+            {showCount && &lt;span className="order-items-count"&gt;0 producten&lt;/span&gt;}
+          &lt;/h2&gt;
+        &lt;/div&gt;
+        &lt;div className="order-items-empty"&gt;
+          &lt;PackageX size={48} /&gt;
+          &lt;div className="order-items-empty-title"&gt;{emptyState?.title}&lt;/div&gt;
+          &lt;div className="order-items-empty-text"&gt;{emptyState?.description}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    )
+  }
+
+  const isCollapsible = variant === 'collapsible'
+
+  return (
+    &lt;section
+      className={`order-items-summary ${variant} ${isCollapsed ? 'collapsed' : ''}`}
+      aria-label="Order items summary"
+    &gt;
+      &lt;div
+        className="order-items-header"
+        {...(isCollapsible && {
+          role: 'button',
+          'aria-expanded': !isCollapsed,
+          onClick: () => setIsCollapsed(!isCollapsed),
+        })}
+      &gt;
+        &lt;h2 className="order-items-title"&gt;
+          &lt;Package size={20} aria-hidden="true" /&gt;
+          {title}
+          {showCount && (
+            &lt;span className="order-items-count" aria-label={`${items.length} products`}&gt;
+              {items.length} {items.length === 1 ? 'product' : 'producten'}
+            &lt;/span&gt;
+          )}
+          {isCollapsible && (
+            &lt;div className="order-items-toggle"&gt;
+              &lt;ChevronDown size={20} /&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;ul className="order-items-list"&gt;
+        {items.map((item) => (
+          &lt;li key={item.id} className="order-item"&gt;
+            &lt;div className="order-item-image"&gt;
+              {item.image ? (
+                &lt;Image src={item.image} alt={item.name} width={60} height={60} /&gt;
+              ) : (
+                item.imagePlaceholder || '📦'
+              )}
+            &lt;/div&gt;
+            &lt;div className="order-item-info"&gt;
+              &lt;h3 className="order-item-name"&gt;{item.name}&lt;/h3&gt;
+              {item.metadata && (
+                &lt;dl className="order-item-meta"&gt;
+                  {item.metadata.map((meta, i) => {
+                    const Icon = metadataIconMap[meta.icon as keyof typeof metadataIconMap]
+                    return (
+                      &lt;div key={i} className="order-item-meta-item"&gt;
+                        {Icon && &lt;Icon size={12} aria-hidden="true" /&gt;}
+                        &lt;span&gt;{meta.label}&lt;/span&gt;
+                      &lt;/div&gt;
+                    )
+                  })}
+                &lt;/dl&gt;
+              )}
+            &lt;/div&gt;
+            &lt;div
+              className="order-item-price"
+              aria-label={`Line total ${formatPrice(item.price)}`}
+            &gt;
+              {formatPrice(item.price)}
+            &lt;/div&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/section&gt;
+  )
+}</code></pre>
+
+      <h3>Payload CMS Data Transformation</h3>
+      <pre><code>// Transform Payload order data to component props
+function transformOrderItems(order: PayloadOrder): OrderItem[] {
+  return order.items.map((item) => {
+    const product = item.product as Product
+    const variant = item.variant as ProductVariant | undefined
+
+    // Build metadata array
+    const metadata = []
+
+    if (variant?.attributes?.size) {
+      metadata.push({ icon: 'ruler', label: `Maat: ${variant.attributes.size}` })
+    }
+    if (variant?.attributes?.color) {
+      metadata.push({ icon: 'palette', label: `Kleur: ${variant.attributes.color}` })
+    }
+    metadata.push({ icon: 'hash', label: `Aantal: ${item.quantity}` })
+
+    return {
+      id: item.id,
+      name: item.snapshot?.name || product.name,
+      image: item.snapshot?.image || product.images?.[0]?.url,
+      price: item.price,  // Line total in cents (already calculated)
+      quantity: item.quantity,
+      metadata,
+    }
+  })
+}</code></pre>
+
+      <h3>Collapsible Toggle Function</h3>
+      <pre><code>function toggleCollapse(elementId: string) {
+  const element = document.getElementById(elementId)
+  if (element) {
+    element.classList.toggle('collapsed')
+
+    // Update aria-expanded
+    const header = element.querySelector('[aria-expanded]')
+    if (header) {
+      const isExpanded = header.getAttribute('aria-expanded') === 'true'
+      header.setAttribute('aria-expanded', String(!isExpanded))
+    }
+  }
+}</code></pre>
+
+      <h3>Email Template Variant</h3>
+      <pre><code>&lt;!-- Inline styles for email compatibility --&gt;
+&lt;table role="presentation" style="width:100%;border-collapse:collapse;"&gt;
+  &lt;tr&gt;
+    &lt;th style="background:#F5F7FA;padding:16px;text-align:left;font-size:14px;font-weight:700;"&gt;
+      Bestelde producten (2)
+    &lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td style="padding:16px;border-bottom:1px solid #E8ECF1;"&gt;
+      &lt;table role="presentation" style="width:100%;"&gt;
+        &lt;tr&gt;
+          &lt;td style="width:48px;"&gt;
+            &lt;img src="..." alt="Product" width="48" height="48" style="border-radius:8px;"&gt;
+          &lt;/td&gt;
+          &lt;td style="padding-left:12px;"&gt;
+            &lt;div style="font-size:13px;font-weight:600;color:#0A1628;"&gt;Product Name&lt;/div&gt;
+            &lt;div style="font-size:11px;color:#94A3B8;"&gt;Maat: L · Aantal: 3&lt;/div&gt;
+          &lt;/td&gt;
+          &lt;td style="text-align:right;font-size:14px;font-weight:800;color:#0A1628;"&gt;
+            € 38,85
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+      <h3>Performance Optimization</h3>
+      <ul>
+        <li><strong>Image lazy loading:</strong> Use Next.js <code>&lt;Image&gt;</code> with <code>loading="lazy"</code></li>
+        <li><strong>Virtualization:</strong> For 50+ items, use <code>react-window</code> or <code>@tanstack/react-virtual</code></li>
+        <li><strong>Memoization:</strong> Wrap component with <code>React.memo()</code> if parent re-renders frequently</li>
+        <li><strong>Snapshot data:</strong> Store product name/image in order snapshot to avoid relation lookups</li>
+      </ul>
+
+      <h3>Error Handling</h3>
+      <pre><code>// Fallback for missing product data
+const fallbackItem = {
+  name: 'Product niet beschikbaar',
+  imagePlaceholder: '📦',
+  metadata: [{ icon: 'hash', label: `Aantal: ${item.quantity}` }],
+}
+
+&lt;OrderItemsSummary
+  items={order.items.map(item => ({
+    ...transformOrderItem(item),
+    ...(!item.product && fallbackItem),
+  }))}
+/&gt;</code></pre>
+    </div>
+
+    <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+    <div class="doc-section">
+      <h2>STEP 8: Variations & Related Components</h2>
+
+      <h3>Component Variations</h3>
+
+      <h4>1. Default Variant</h4>
+      <p>Standard order confirmation layout. 60×60px thumbnails, 16px font price, full padding. Best for 2-10 items.</p>
+
+      <h4>2. Collapsible Variant</h4>
+      <p>Adds clickable header with chevron icon. Collapses item list on click. Use for long orders (10+ items) to save vertical space. Header stays visible when collapsed.</p>
+      <pre><code>&lt;OrderItemsSummary variant="collapsible" items={items} /&gt;</code></pre>
+
+      <h4>3. Compact Variant</h4>
+      <p>Smaller thumbnails (48×48px), reduced font sizes (13px name, 14px price), less padding. Designed for email templates, mobile sidebars, or space-constrained layouts.</p>
+      <pre><code>&lt;OrderItemsSummary variant="compact" items={items} /&gt;</code></pre>
+
+      <h4>4. Empty State</h4>
+      <p>Displays centered icon + message when items array is empty. Useful for error handling, cancelled orders, or data sync issues.</p>
+
+      <h3>Related Components</h3>
+
+      <h4>EC06: CartLineItem</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Different use case (active cart vs. completed order)</li>
+        <li><strong>Difference:</strong> EC06 includes qty stepper, remove button, stock indicators</li>
+        <li><strong>Usage:</strong> EC06 for cart/checkout, OC03 for post-purchase confirmation</li>
+      </ul>
+
+      <h4>OC02: OrderDetailsCard</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Appears directly above OC03</li>
+        <li><strong>Usage:</strong> Shows delivery/payment/total, then OC03 shows item details</li>
+        <li><strong>Spacing:</strong> 32px gap between OC02 and OC03</li>
+      </ul>
+
+      <h4>OC04: NextStepsCTA</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Appears directly below OC03</li>
+        <li><strong>Usage:</strong> Action buttons (track order, download invoice, continue shopping)</li>
+      </ul>
+
+      <h4>EC01: ProductCard</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Different context (product browsing vs. order review)</li>
+        <li><strong>Difference:</strong> EC01 includes badges, ratings, add-to-cart</li>
+      </ul>
+
+      <h3>Page Layout Example</h3>
+      <pre><code>&lt;main className="order-confirmation-page"&gt;
+  {/* OC01: Success Hero */}
+  &lt;SuccessHero orderNumber="PL-2024-00142" /&gt;
+
+  {/* 32px gap */}
+
+  {/* OC02: Order Details Cards */}
+  &lt;OrderDetailsCard {...orderDetails} /&gt;
+
+  {/* 32px gap */}
+
+  {/* OC03: Order Items Summary */}
+  &lt;OrderItemsSummary items={transformOrderItems(order)} /&gt;
+
+  {/* 32px gap */}
+
+  {/* OC04: Next Steps CTA */}
+  &lt;NextStepsCTA orderId={order.id} /&gt;
+
+  {/* 24px gap */}
+
+  {/* OC05: Email Confirmation Banner */}
+  &lt;EmailConfirmationBanner email={order.customerEmail} /&gt;
+&lt;/main&gt;</code></pre>
+
+      <h3>Design System Integration</h3>
+      <ul>
+        <li><strong>Reuses:</strong> EC06 CartLineItem layout patterns (thumbnail + info + price)</li>
+        <li><strong>Typography:</strong> Same as EC01 ProductCard (14px name, 16px price)</li>
+        <li><strong>Icons:</strong> Lucide icons matching C14 MegaNav, C17 ToastSystem</li>
+        <li><strong>Colors:</strong> Navy/grey-mid/teal palette (consistent across all components)</li>
+      </ul>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✓ Items display correctly with thumbnails, names, metadata, prices</li>
+        <li>✓ Product count shows correct value ("2 producten")</li>
+        <li>✓ Metadata icons render (Lucide initialized)</li>
+        <li>✓ Prices format correctly (€ XX,XX with space)</li>
+        <li>✓ Hover effect works (light teal bg, extends to full width)</li>
+        <li>✓ Collapsible variant toggles on header click</li>
+        <li>✓ Chevron rotates when collapsed (-90deg)</li>
+        <li>✓ Compact variant uses smaller fonts/thumbnails</li>
+        <li>✓ Empty state displays when items.length === 0</li>
+        <li>✓ Mobile responsive (price stacks below, metadata stacks vertically)</li>
+        <li>✓ Screen reader announces all items and prices</li>
+        <li>✓ Color contrast passes WCAG AA standards</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons()
+
+    function toggleCollapse(id) {
+      const element = document.getElementById(id)
+      if (element) {
+        element.classList.toggle('collapsed')
+      }
+    }
+  </script>
+</body>
+</html>

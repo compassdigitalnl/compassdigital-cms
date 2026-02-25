@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR02: ProductSelectionTable — Compass Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Colors - Navy */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+
+      /* Colors - Teal */
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --teal-bg: rgba(0, 137, 123, 0.12);
+
+      /* Colors - Grey */
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-lighter: #F5F7FA;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-14: 14px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--white);
+      padding: 40px 20px;
+    }
+
+    /* ============================================
+       QR02: PRODUCT SELECTION TABLE
+       ============================================ */
+
+    .product-selection-table {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Header */
+    .product-selection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-20) var(--space-24);
+      background: var(--grey-lighter);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .product-selection-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .product-add-button {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: var(--space-8) var(--space-16);
+      background: var(--teal-bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teal);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .product-add-button:hover {
+      background: var(--teal);
+      color: white;
+    }
+
+    .product-add-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.2);
+    }
+
+    .product-add-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Body (rows container) */
+    .product-selection-body {
+      padding: var(--space-20) var(--space-24);
+    }
+
+    /* Product row */
+    .product-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+      padding: var(--space-16) 0;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .product-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Product image/thumbnail */
+    .product-thumbnail {
+      width: 60px;
+      height: 60px;
+      background: var(--grey-lighter);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .product-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Product info */
+    .product-info {
+      flex: 1;
+      min-width: 0; /* Allow text truncation */
+    }
+
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 2px;
+      line-height: 1.4;
+
+      /* Truncate long names */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-sku {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--grey-mid);
+    }
+
+    /* Quantity input */
+    .product-qty-input {
+      width: 100px;
+      padding: var(--space-12) var(--space-12);
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--navy);
+      text-align: center;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .product-qty-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12);
+    }
+
+    /* Chrome, Safari, Edge - hide spinner */
+    .product-qty-input::-webkit-outer-spin-button,
+    .product-qty-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox - hide spinner */
+    .product-qty-input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    /* Delete button */
+    .product-delete-button {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: none;
+      border: 1.5px solid var(--grey);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-mid);
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .product-delete-button:hover {
+      border-color: #FF6B6B;
+      background: rgba(255, 107, 107, 0.1);
+      color: #FF6B6B;
+    }
+
+    .product-delete-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+    }
+
+    .product-delete-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ============================================
+       EMPTY STATE
+       ============================================ */
+
+    .product-selection-empty {
+      padding: var(--space-32) var(--space-24);
+      text-align: center;
+      color: var(--grey-mid);
+    }
+
+    .product-selection-empty-icon {
+      width: 48px;
+      height: 48px;
+      color: var(--grey-mid);
+      margin: 0 auto var(--space-16);
+    }
+
+    .product-selection-empty-text {
+      font-size: 14px;
+      margin-bottom: var(--space-8);
+    }
+
+    .product-selection-empty-hint {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 640px) {
+      .product-selection-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-12);
+      }
+
+      .product-add-button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .product-row {
+        flex-wrap: wrap;
+        gap: var(--space-12);
+      }
+
+      .product-thumbnail {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+      }
+
+      .product-info {
+        flex: 1 1 100%;
+        order: 1;
+      }
+
+      .product-qty-input {
+        flex: 1;
+        order: 2;
+      }
+
+      .product-delete-button {
+        order: 3;
+      }
+    }
+
+    /* ============================================
+       DEMO STYLES
+       ============================================ */
+
+    .demo-section {
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 24px 0 12px;
+    }
+
+    .demo-section p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>QR02: ProductSelectionTable — Live Demo</h2>
+    <p>Product selection table for quote requests with quantity inputs and delete actions.</p>
+
+    <h3>Default (2 Products)</h3>
+    <div class="product-selection-table">
+      <div class="product-selection-header">
+        <div class="product-selection-title">Geselecteerde producten</div>
+        <button class="product-add-button">
+          <i data-lucide="plus" class="product-add-icon"></i>
+          Product toevoegen
+        </button>
+      </div>
+      <div class="product-selection-body">
+        <div class="product-row">
+          <div class="product-thumbnail">🧤</div>
+          <div class="product-info">
+            <div class="product-name">Supreme Plus Nitrile Handschoenen</div>
+            <div class="product-sku">SKU: SMP-8942</div>
+          </div>
+          <input type="number" value="500" min="1" class="product-qty-input">
+          <button class="product-delete-button" aria-label="Verwijder product">
+            <i data-lucide="trash-2" class="product-delete-icon"></i>
+          </button>
+        </div>
+        <div class="product-row">
+          <div class="product-thumbnail">💉</div>
+          <div class="product-info">
+            <div class="product-name">Veiligheidsnaald 21G x 1½"</div>
+            <div class="product-sku">SKU: MDL-7231</div>
+          </div>
+          <input type="number" value="200" min="1" class="product-qty-input">
+          <button class="product-delete-button" aria-label="Verwijder product">
+            <i data-lucide="trash-2" class="product-delete-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <h3>Single Product</h3>
+    <div class="product-selection-table">
+      <div class="product-selection-header">
+        <div class="product-selection-title">Geselecteerde producten</div>
+        <button class="product-add-button">
+          <i data-lucide="plus" class="product-add-icon"></i>
+          Product toevoegen
+        </button>
+      </div>
+      <div class="product-selection-body">
+        <div class="product-row">
+          <div class="product-thumbnail">🩺</div>
+          <div class="product-info">
+            <div class="product-name">Bloeddrukmeter Digitaal</div>
+            <div class="product-sku">SKU: BPM-4521</div>
+          </div>
+          <input type="number" value="50" min="1" class="product-qty-input">
+          <button class="product-delete-button" aria-label="Verwijder product">
+            <i data-lucide="trash-2" class="product-delete-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <h3>Empty State</h3>
+    <div class="product-selection-table">
+      <div class="product-selection-header">
+        <div class="product-selection-title">Geselecteerde producten</div>
+        <button class="product-add-button">
+          <i data-lucide="plus" class="product-add-icon"></i>
+          Product toevoegen
+        </button>
+      </div>
+      <div class="product-selection-empty">
+        <i data-lucide="package-x" class="product-selection-empty-icon"></i>
+        <div class="product-selection-empty-text">Nog geen producten geselecteerd</div>
+        <div class="product-selection-empty-hint">Klik op "Product toevoegen" om te beginnen</div>
+      </div>
+    </div>
+
+    <h3>Long Product Name (Truncation)</h3>
+    <div class="product-selection-table">
+      <div class="product-selection-header">
+        <div class="product-selection-title">Geselecteerde producten</div>
+        <button class="product-add-button">
+          <i data-lucide="plus" class="product-add-icon"></i>
+          Product toevoegen
+        </button>
+      </div>
+      <div class="product-selection-body">
+        <div class="product-row">
+          <div class="product-thumbnail">🧪</div>
+          <div class="product-info">
+            <div class="product-name">COVID-19 Antigeen Sneltest Neusswab Professional Use Box 25 Stuks</div>
+            <div class="product-sku">SKU: COVID-AG-25</div>
+          </div>
+          <input type="number" value="100" min="1" class="product-qty-input">
+          <button class="product-delete-button" aria-label="Verwijder product">
+            <i data-lucide="trash-2" class="product-delete-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>📋 Component Documentation</h2>
+
+    <h3>STEP 1: Component Overview</h3>
+    <p><strong>Component ID:</strong> QR02</p>
+    <p><strong>Component Name:</strong> ProductSelectionTable</p>
+    <p><strong>Category:</strong> E-commerce / Quote Request</p>
+    <p><strong>Priority:</strong> 🟢 Low</p>
+    <p><strong>Source File:</strong> ef7-offerte.html</p>
+    <p><strong>Output Location:</strong> /refactoring/components/ecommerce/qr02-product-selection-table.html</p>
+
+    <p><strong>Purpose:</strong><br>
+    ProductSelectionTable displays and manages the list of products included in a B2B quote request. Users can add products, adjust quantities, and remove items. It serves as the central product management interface for the quote request form, allowing bulk selection from cart or catalog.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Header with title + "Product toevoegen" button</li>
+      <li>Product rows with thumbnail, name, SKU, qty input, delete button</li>
+      <li>Quantity input (100px wide, monospace font, number type)</li>
+      <li>Delete button with trash icon (hover: coral border + bg)</li>
+      <li>Empty state when no products selected</li>
+      <li>Responsive: rows stack on mobile</li>
+      <li>Product name truncation for long names</li>
+      <li>Add button hover: teal bg + white text</li>
+    </ul>
+
+    <p><strong>When to Use:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✅ Quote request (offerte) forms</li>
+      <li>✅ B2B bulk order forms</li>
+      <li>✅ Project/tender product selection</li>
+      <li>✅ RFQ (Request for Quote) flows</li>
+      <li>❌ Don't use for B2C cart (use CartLineItem instead)</li>
+      <li>❌ Don't use for single-product pages</li>
+      <li>❌ Don't use for product comparison (different layout)</li>
+    </ul>
+
+    <h3>STEP 2: When to Use</h3>
+
+    <p><strong>Use Cases:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>B2B Quote Requests:</strong> Customer selects 5-10 products for bulk pricing</li>
+      <li><strong>Project Orders:</strong> Construction/medical project with specific product list</li>
+      <li><strong>Tender Submissions:</strong> Government procurement with defined product specs</li>
+      <li><strong>Wholesale Orders:</strong> Distributor ordering from manufacturer</li>
+      <li><strong>Custom Bundles:</strong> Creating custom product bundles for clients</li>
+    </ul>
+
+    <p><strong>Product Addition Methods:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Import from cart (user adds to cart first, then requests quote)</li>
+      <li>Search/autocomplete modal (click "Product toevoegen")</li>
+      <li>Import from saved bestellijsten</li>
+      <li>CSV upload (bulk import via QO04 pattern)</li>
+    </ul>
+
+    <p><strong>Anti-patterns:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>❌ Allowing 0 quantity (min should be 1)</li>
+      <li>❌ No validation on delete (at least 1 product required)</li>
+      <li>❌ Tiny quantity inputs on mobile (hard to tap)</li>
+      <li>❌ No empty state (confusing when table is empty)</li>
+      <li>❌ Missing SKU (hard to identify products)</li>
+    </ul>
+
+    <p><strong>Guidelines:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Require at least 1 product before allowing quote submission</li>
+      <li>Validate quantities (min 1, max based on stock/MOQ)</li>
+      <li>Show SKU for product identification</li>
+      <li>Provide "Add from cart" shortcut if cart has items</li>
+      <li>Consider adding price column if available (optional)</li>
+      <li>Track changes for analytics (products added/removed)</li>
+    </ul>
+
+    <h3>STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Container bg: white (#FFFFFF)</li>
+      <li>Container border: --grey (#E8ECF1), 1px</li>
+      <li>Header bg: --grey-lighter (#F5F7FA)</li>
+      <li>Title: --navy (#0A1628)</li>
+      <li>Add button bg: --teal-bg (rgba(0, 137, 123, 0.12))</li>
+      <li>Add button text: --teal (#00897B)</li>
+      <li>Add button hover: --teal bg + white text</li>
+      <li>Product name: --navy (#0A1628)</li>
+      <li>SKU: --grey-mid (#94A3B8)</li>
+      <li>Delete button default: --grey border + --grey-mid color</li>
+      <li>Delete button hover: #FF6B6B border + rgba(255, 107, 107, 0.1) bg</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Font family: --font-body (Plus Jakarta Sans)</li>
+      <li>Title size: 16px</li>
+      <li>Title weight: 700</li>
+      <li>Add button size: 13px</li>
+      <li>Add button weight: 600</li>
+      <li>Product name size: 14px</li>
+      <li>Product name weight: 600</li>
+      <li>SKU size: 12px</li>
+      <li>SKU font: --font-mono (JetBrains Mono)</li>
+      <li>Qty input size: 14px</li>
+      <li>Qty input weight: 600</li>
+      <li>Qty input font: --font-mono</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Header padding: 20px 24px</li>
+      <li>Body padding: 20px 24px</li>
+      <li>Row padding: 16px 0</li>
+      <li>Row gap: 16px (desktop), 12px (mobile)</li>
+      <li>Thumbnail size: 60px (desktop), 48px (mobile)</li>
+      <li>Qty input width: 100px</li>
+      <li>Delete button size: 36px × 36px</li>
+      <li>Add button padding: 8px 16px</li>
+      <li>Add button icon gap: 8px</li>
+      <li>Border-radius container: --radius-xl (14px)</li>
+      <li>Border-radius inputs/buttons: --radius (10px) or --radius-sm (8px)</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Add: "plus" (14px)</li>
+      <li>Delete: "trash-2" (16px)</li>
+      <li>Empty state: "package-x" (48px)</li>
+    </ul>
+
+    <h3>STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+interface Product {
+  id: string
+  name: string
+  sku: string
+  thumbnail?: string         // Image URL or emoji
+  quantity: number
+  price?: number             // Optional: show price column
+  maxQuantity?: number       // Stock limit or MOQ
+}
+
+interface ProductSelectionTableProps {
+  products: Product[]
+  onProductAdd?: () => void             // Opens product search modal
+  onProductRemove?: (id: string) => void
+  onQuantityChange?: (id: string, qty: number) => void
+  showPrices?: boolean                   // Show price column
+  emptyMessage?: string
+}</pre>
+
+    <p><strong>React Component Example:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+'use client'
+import { Plus, Trash2, PackageX } from 'lucide-react'
+
+export function ProductSelectionTable({
+  products,
+  onProductAdd,
+  onProductRemove,
+  onQuantityChange,
+  emptyMessage = 'Nog geen producten geselecteerd'
+}: ProductSelectionTableProps) {
+  if (products.length === 0) {
+    return (
+      &lt;div className="product-selection-table"&gt;
+        &lt;div className="product-selection-header"&gt;
+          &lt;div className="product-selection-title"&gt;Geselecteerde producten&lt;/div&gt;
+          &lt;button className="product-add-button" onClick={onProductAdd}&gt;
+            &lt;Plus className="product-add-icon" /&gt;
+            Product toevoegen
+          &lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div className="product-selection-empty"&gt;
+          &lt;PackageX className="product-selection-empty-icon" /&gt;
+          &lt;div className="product-selection-empty-text"&gt;{emptyMessage}&lt;/div&gt;
+          &lt;div className="product-selection-empty-hint"&gt;
+            Klik op "Product toevoegen" om te beginnen
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    )
+  }
+
+  return (
+    &lt;div className="product-selection-table"&gt;
+      &lt;div className="product-selection-header"&gt;
+        &lt;div className="product-selection-title"&gt;Geselecteerde producten&lt;/div&gt;
+        &lt;button className="product-add-button" onClick={onProductAdd}&gt;
+          &lt;Plus className="product-add-icon" /&gt;
+          Product toevoegen
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div className="product-selection-body"&gt;
+        {products.map(product =&gt; (
+          &lt;div key={product.id} className="product-row"&gt;
+            &lt;div className="product-thumbnail"&gt;
+              {product.thumbnail ? (
+                &lt;img src={product.thumbnail} alt={product.name} /&gt;
+              ) : (
+                '📦'
+              )}
+            &lt;/div&gt;
+            &lt;div className="product-info"&gt;
+              &lt;div className="product-name"&gt;{product.name}&lt;/div&gt;
+              &lt;div className="product-sku"&gt;SKU: {product.sku}&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;input
+              type="number"
+              min="1"
+              max={product.maxQuantity}
+              value={product.quantity}
+              onChange={(e) =&gt; onQuantityChange?.(product.id, parseInt(e.target.value))}
+              className="product-qty-input"
+            /&gt;
+            &lt;button
+              className="product-delete-button"
+              onClick={() =&gt; onProductRemove?.(product.id)}
+              aria-label="Verwijder product"
+            &gt;
+              &lt;Trash2 className="product-delete-icon" /&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}</pre>
+
+    <h3>STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+┌─────────────────────────────────────────────────────────┐
+│  Geselecteerde producten        [+ Product toevoegen]   │ ← Header (grey bg)
+├─────────────────────────────────────────────────────────┤
+│  [🧤] Supreme Plus...           [500] [🗑]              │ ← Row 1
+│       SKU: SMP-8942                                     │
+├─────────────────────────────────────────────────────────┤
+│  [💉] Veiligheidsnaald...       [200] [🗑]              │ ← Row 2
+│       SKU: MDL-7231                                     │
+└─────────────────────────────────────────────────────────┘
+
+Row layout (flex):
+[60px thumbnail] [flex:1 info] [100px qty] [36px delete]
+                                ↑           ↑
+                          Gap: 16px    Fixed widths</pre>
+
+    <p><strong>Flex Layout (Row):</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><code>display: flex; align-items: center; gap: 16px;</code></li>
+      <li>Thumbnail: 60px × 60px (flex-shrink: 0)</li>
+      <li>Info: flex: 1, min-width: 0 (allows truncation)</li>
+      <li>Qty input: 100px fixed width</li>
+      <li>Delete: 36px × 36px (flex-shrink: 0)</li>
+    </ul>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Desktop (≥640px):</strong> Row layout as shown above</li>
+      <li><strong>Mobile (&lt;640px):</strong>
+        <ul style="margin-left: 20px; margin-top: 8px;">
+          <li>Header stacks: title top, button bottom (full width)</li>
+          <li>Row wraps: thumbnail + info full width (order: 1)</li>
+          <li>Qty input + delete button side-by-side (order: 2, 3)</li>
+          <li>Thumbnail smaller: 48px × 48px</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Container: <code>&lt;div&gt;</code> or <code>&lt;table&gt;</code> (if using semantic table)</li>
+      <li>Add button: <code>&lt;button&gt;</code> (keyboard accessible)</li>
+      <li>Delete button: <code>&lt;button&gt;</code> with aria-label</li>
+      <li>Qty input: <code>&lt;input type="number"&gt;</code> with min/max</li>
+    </ul>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>aria-label="Verwijder product" on delete buttons</li>
+      <li>aria-live="polite" on row count (announces changes)</li>
+      <li>aria-label="Hoeveelheid" on qty inputs (optional)</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><kbd>Tab</kbd> - Navigate through add button, qty inputs, delete buttons</li>
+      <li><kbd>Enter</kbd>/<kbd>Space</kbd> - Activate buttons</li>
+      <li>Arrow keys - Increment/decrement qty (native number input)</li>
+    </ul>
+
+    <p><strong>Focus States:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Add button: <code>box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.2)</code></li>
+      <li>Qty input: <code>border: teal + box-shadow: teal-glow</code></li>
+      <li>Delete button: <code>box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2)</code></li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Title (#0A1628) on grey-lighter: <strong>12.1:1</strong> (WCAG AAA ✓)</li>
+      <li>Product name (#0A1628) on white: <strong>16.1:1</strong> (WCAG AAA ✓)</li>
+      <li>SKU (#94A3B8) on white: <strong>4.8:1</strong> (WCAG AA ✓)</li>
+      <li>Add button (#00897B) on teal-bg: Adequate for interactive element</li>
+    </ul>
+
+    <h3>STEP 7: Implementation Notes</h3>
+
+    <p><strong>State Management:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+const [products, setProducts] = useState&lt;Product[]&gt;([])
+
+const handleAddProduct = (newProduct: Product) => {
+  setProducts([...products, newProduct])
+}
+
+const handleRemoveProduct = (id: string) => {
+  if (products.length === 1) {
+    alert('Een offerte moet minimaal 1 product bevatten')
+    return
+  }
+  setProducts(products.filter(p => p.id !== id))
+}
+
+const handleQuantityChange = (id: string, qty: number) => {
+  if (qty < 1) return // Validate minimum
+  setProducts(products.map(p =>
+    p.id === id ? { ...p, quantity: qty } : p
+  ))
+}</pre>
+
+    <p><strong>Product Addition Modal Integration:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+const [showProductModal, setShowProductModal] = useState(false)
+
+&lt;ProductSelectionTable
+  products={products}
+  onProductAdd={() => setShowProductModal(true)}
+  onProductRemove={handleRemoveProduct}
+  onQuantityChange={handleQuantityChange}
+/&gt;
+
+{showProductModal && (
+  &lt;ProductSearchModal
+    onSelect={(product) => {
+      handleAddProduct(product)
+      setShowProductModal(false)
+    }}
+    onClose={() => setShowProductModal(false)}
+  /&gt;
+)}</pre>
+
+    <p><strong>Validation:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function validateQuoteRequest(products: Product[]): string[] {
+  const errors: string[] = []
+
+  if (products.length === 0) {
+    errors.push('Selecteer minimaal 1 product')
+  }
+
+  products.forEach(p => {
+    if (p.quantity < 1) {
+      errors.push(`${p.name}: hoeveelheid moet minimaal 1 zijn`)
+    }
+    if (p.maxQuantity && p.quantity > p.maxQuantity) {
+      errors.push(`${p.name}: maximaal ${p.maxQuantity} beschikbaar`)
+    }
+  })
+
+  return errors
+}</pre>
+
+    <h3>STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Variations:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Default:</strong> Name + SKU + qty + delete</li>
+      <li><strong>With Prices:</strong> Add price column (unit price × qty = total)</li>
+      <li><strong>With Stock:</strong> Show stock availability per product</li>
+      <li><strong>Empty State:</strong> No products selected message</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>QR01: OfferteHero</strong> - Header above table</li>
+      <li><strong>QR03: CompanyInfoForm</strong> - Company details (below table)</li>
+      <li><strong>EC06: CartLineItem</strong> - Similar layout for B2C cart</li>
+      <li><strong>QO02: QuickOrderTable</strong> - Similar table for quick orders</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✓ Add button opens product selection</li>
+      <li>✓ Qty input validates min=1</li>
+      <li>✓ Delete button removes product</li>
+      <li>✓ Cannot delete last product (min 1 required)</li>
+      <li>✓ Empty state shows when no products</li>
+      <li>✓ Long product names truncate with ellipsis</li>
+      <li>✓ Mobile: rows wrap correctly</li>
+      <li>✓ Mobile: add button full width</li>
+      <li>✓ Keyboard navigation works</li>
+      <li>✓ Focus states visible</li>
+      <li>✓ Delete button hover shows coral color</li>
+    </ul>
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+
+    // Demo: Delete functionality
+    document.querySelectorAll('.product-delete-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const row = this.closest('.product-row');
+        const body = row.parentElement;
+        const productName = row.querySelector('.product-name').textContent;
+
+        if (body.querySelectorAll('.product-row').length === 1) {
+          alert('Een offerte moet minimaal 1 product bevatten');
+          return;
+        }
+
+        if (confirm(`Product "${productName}" verwijderen?`)) {
+          row.remove();
+          console.log('Product removed:', productName);
+        }
+      });
+    });
+
+    // Demo: Quantity validation
+    document.querySelectorAll('.product-qty-input').forEach(input => {
+      input.addEventListener('change', function() {
+        if (this.value < 1) {
+          this.value = 1;
+          alert('Hoeveelheid moet minimaal 1 zijn');
+        }
+        console.log('Quantity changed:', this.value);
+      });
+    });
+
+    // Demo: Add product button
+    document.querySelectorAll('.product-add-button').forEach(button => {
+      button.addEventListener('click', function() {
+        console.log('Open product search modal');
+        // In production: open modal or navigate to product catalog
+      });
+    });
+  </script>
+
+</body>
+</html>

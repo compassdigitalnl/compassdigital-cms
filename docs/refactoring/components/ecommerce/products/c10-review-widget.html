@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C10 - Review Widget | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --green: #00C853;
+      --amber: #F59E0B;
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; }
+
+    /* Reviews Card */
+    .reviews-card { background: white; border: 1px solid var(--grey); border-radius: 16px; padding: 28px; max-width: 700px; }
+    .rv-header { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--grey); }
+    .rv-summary { text-align: center; flex-shrink: 0; min-width: 120px; }
+    .rv-avg { font-family: var(--font-display); font-size: 48px; font-weight: 800; color: var(--navy); line-height: 1; }
+    .rv-stars-big { color: var(--amber); font-size: 18px; margin: 6px 0; }
+    .rv-total { font-size: 13px; color: var(--grey-mid); }
+    .rv-bars { flex: 1; }
+    .rv-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .rv-bar-label { font-size: 12px; font-weight: 600; color: var(--navy); width: 14px; text-align: right; }
+    .rv-bar-star { font-size: 12px; color: var(--amber); }
+    .rv-bar-track { flex: 1; height: 8px; background: var(--grey-light); border-radius: 100px; overflow: hidden; }
+    .rv-bar-fill { height: 100%; border-radius: 100px; background: var(--amber); }
+    .rv-bar-count { font-size: 11px; color: var(--grey-mid); width: 20px; }
+    .rv-write-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; background: var(--teal); color: white; border: none; border-radius: 8px; font-family: var(--font-primary); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+    .rv-write-btn:hover { background: var(--navy); }
+    .rv-write-btn i { width: 15px; height: 15px; }
+
+    .rv-list { display: flex; flex-direction: column; gap: 16px; }
+    .rv-item { padding: 16px 0; border-bottom: 1px solid var(--grey); }
+    .rv-item:last-child { border-bottom: none; }
+    .rv-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .rv-author { display: flex; align-items: center; gap: 10px; }
+    .rv-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-glow); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--teal); }
+    .rv-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+    .rv-verified { font-size: 11px; color: var(--green); font-weight: 600; display: flex; align-items: center; gap: 3px; }
+    .rv-verified i { width: 12px; height: 12px; }
+    .rv-date { font-size: 12px; color: var(--grey-mid); }
+    .rv-stars { color: var(--amber); font-size: 13px; margin-bottom: 6px; }
+    .rv-text { font-size: 14px; color: var(--grey-dark); line-height: 1.6; }
+    .rv-helpful { display: flex; align-items: center; gap: 12px; margin-top: 8px; font-size: 12px; color: var(--grey-mid); }
+    .rv-helpful-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1px solid var(--grey); border-radius: 100px; cursor: pointer; transition: all 0.15s; background: none; font-family: var(--font-primary); font-size: 12px; color: var(--grey-mid); }
+    .rv-helpful-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-glow); }
+    .rv-helpful-btn i { width: 12px; height: 12px; }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <div class="reviews-card">
+      <div class="rv-header">
+        <div class="rv-summary">
+          <div class="rv-avg">4.7</div>
+          <div class="rv-stars-big">★★★★★</div>
+          <div class="rv-total">23 reviews</div>
+          <button class="rv-write-btn"><i data-lucide="pen-line"></i> Review schrijven</button>
+        </div>
+        <div class="rv-bars">
+          <div class="rv-bar-row"><span class="rv-bar-label">5</span><span class="rv-bar-star">★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:74%;"></div></div><span class="rv-bar-count">17</span></div>
+          <div class="rv-bar-row"><span class="rv-bar-label">4</span><span class="rv-bar-star">★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:17%;"></div></div><span class="rv-bar-count">4</span></div>
+          <div class="rv-bar-row"><span class="rv-bar-label">3</span><span class="rv-bar-star">★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:4%;"></div></div><span class="rv-bar-count">1</span></div>
+          <div class="rv-bar-row"><span class="rv-bar-label">2</span><span class="rv-bar-star">★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:4%;"></div></div><span class="rv-bar-count">1</span></div>
+          <div class="rv-bar-row"><span class="rv-bar-label">1</span><span class="rv-bar-star">★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:0%;"></div></div><span class="rv-bar-count">0</span></div>
+        </div>
+      </div>
+      <div class="rv-list">
+        <div class="rv-item">
+          <div class="rv-item-header">
+            <div class="rv-author"><div class="rv-avatar">JV</div><div><div class="rv-name">Dr. J. de Vries</div><div class="rv-verified"><i data-lucide="badge-check"></i> Geverifieerde aankoop</div></div></div>
+            <div class="rv-date">14 feb 2026</div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+          <div class="rv-text">Uitstekende handschoenen. Goede pasvorm, dun genoeg voor fijn werk en toch stevig. We gebruiken ze dagelijks in onze praktijk en bestellen ze nu standaard via onze bestellijst.</div>
+          <div class="rv-helpful"><span>Was dit nuttig?</span><button class="rv-helpful-btn"><i data-lucide="thumbs-up"></i> Ja (4)</button><button class="rv-helpful-btn"><i data-lucide="thumbs-down"></i> Nee</button></div>
+        </div>
+        <div class="rv-item">
+          <div class="rv-item-header">
+            <div class="rv-author"><div class="rv-avatar">MK</div><div><div class="rv-name">M. Kowalski</div><div class="rv-verified"><i data-lucide="badge-check"></i> Geverifieerde aankoop</div></div></div>
+            <div class="rv-date">8 feb 2026</div>
+          </div>
+          <div class="rv-stars">★★★★☆</div>
+          <div class="rv-text">Prima kwaliteit voor de prijs. Maat M valt iets groter dan bij andere merken, dus bestel een maat kleiner als u twijfelt. Levering was snel — volgende dag in huis.</div>
+          <div class="rv-helpful"><span>Was dit nuttig?</span><button class="rv-helpful-btn"><i data-lucide="thumbs-up"></i> Ja (2)</button><button class="rv-helpful-btn"><i data-lucide="thumbs-down"></i> Nee</button></div>
+        </div>
+        <div class="rv-item">
+          <div class="rv-item-header">
+            <div class="rv-author"><div class="rv-avatar">SB</div><div><div class="rv-name">S. Bakker</div><div class="rv-verified"><i data-lucide="badge-check"></i> Geverifieerde aankoop</div></div></div>
+            <div class="rv-date">1 feb 2026</div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+          <div class="rv-text">Beste prijs-kwaliteitverhouding die we gevonden hebben. Vooral met de staffelkorting bij 10+ dozen is het echt voordelig. Aanrader voor elke praktijk.</div>
+          <div class="rv-helpful"><span>Was dit nuttig?</span><button class="rv-helpful-btn"><i data-lucide="thumbs-up"></i> Ja (6)</button><button class="rv-helpful-btn"><i data-lucide="thumbs-down"></i> Nee</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C10 - Review Widget</p>
+    <p><strong>Category:</strong> E-commerce / Social Proof</p>
+    <p><strong>Complexiteit:</strong> High (summary stats, rating bars, review list, helpful voting)</p>
+
+    <h3>Purpose:</h3>
+    <p>Complete review section for product pages. Shows aggregate rating, star distribution, individual reviews with verified badges, and helpful voting. Builds trust and influences purchase decisions.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Split layout: Summary (left) + Rating bars (right)</li>
+      <li>Large average score (48px, 800 weight)</li>
+      <li>Star distribution with visual bars (amber)</li>
+      <li>Review count</li>
+      <li>"Review schrijven" CTA button</li>
+      <li>Individual review cards with avatar (initials)</li>
+      <li>Verified purchase badge (green)</li>
+      <li>5-star rating display</li>
+      <li>Review text</li>
+      <li>Helpful buttons (thumbs up/down with count)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Product detail pages (all products)</li>
+      <li>Service pages (for service-based businesses)</li>
+      <li>Company reviews (testimonials page)</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Show only verified purchases (requires login + order check)</li>
+      <li>Sort by: Most helpful (default), Newest, Highest/Lowest rating</li>
+      <li>Pagination or "Load more" for 10+ reviews</li>
+      <li>Allow filtering by star rating (e.g., "Show only 5-star")</li>
+      <li>Include review images/photos (optional)</li>
+      <li>Reply to reviews (vendor/admin responses)</li>
+      <li>Report inappropriate reviews</li>
+      <li>Integrate with Google Reviews / Trustpilot for SEO</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Card */
+max-width: 700px
+padding: 28px
+border: 1px solid var(--grey)
+border-radius: 16px
+
+/* Average Score */
+font-size: 48px, font-weight: 800
+color: var(--navy)
+
+/* Rating Bars */
+height: 8px, border-radius: 100px
+background: var(--grey-light)
+fill: var(--amber)
+
+/* Review Item */
+padding: 16px 0
+border-bottom: 1px solid var(--grey)
+
+/* Avatar */
+size: 36px, border-radius: 50%
+background: var(--teal-glow)
+color: var(--teal)
+
+/* Helpful Buttons */
+padding: 4px 10px
+border: 1px solid var(--grey)
+border-radius: 100px
+hover: border var(--teal) + bg var(--teal-glow)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  product: { id: '123', name: 'Peha-soft Nitrile Fino' },
+  reviews: {
+    average: 4.7,
+    total: 23,
+    distribution: { 5: 17, 4: 4, 3: 1, 2: 1, 1: 0 },
+    items: [
+      {
+        id: 'r1',
+        author: { name: 'Dr. J. de Vries', initials: 'JV', verified: true },
+        rating: 5,
+        date: '2026-02-14',
+        text: 'Uitstekende handschoenen...',
+        helpful: { yes: 4, no: 0 }
+      }
+    ]
+  },
+  onWriteReview: () => {},
+  onHelpful: (reviewId, vote) => {},
+  sortBy: 'helpful', // 'helpful' | 'newest' | 'rating'
+  filterBy: null // null | 1-5 (star filter)
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Header: flex row, gap 24px
+  Left: Summary (min-width 120px, text-center)
+    - Avg score (48px)
+    - Stars (18px)
+    - Total count (13px)
+    - Write button
+  Right: Rating bars (flex 1)
+    - 5 rows (5★ → 1★)
+    - Flex: label + star + bar + count
+
+Review list: vertical stack, gap 16px
+Each item: padding 16px 0, border-bottom</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;section aria-labelledby="reviews-title"&gt;
+  &lt;h2 id="reviews-title"&gt;Klantbeoordelingen&lt;/h2&gt;
+  &lt;div role="img" aria-label="4.7 van 5 sterren"&gt;★★★★★&lt;/div&gt;
+  &lt;button aria-label="Review schrijven"&gt;Review schrijven&lt;/button&gt;
+
+  &lt;article aria-label="Review door Dr. J. de Vries"&gt;
+    &lt;div role="img" aria-label="5 van 5 sterren"&gt;★★★★★&lt;/div&gt;
+    &lt;button aria-label="Markeer als nuttig" aria-pressed="false"&gt;
+      Ja (4)
+    &lt;/button&gt;
+  &lt;/article&gt;
+&lt;/section&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function ReviewWidget({ product, reviews, onWriteReview, onHelpful }) {
+  const [sortBy, setSortBy] = useState('helpful');
+  const [filterBy, setFilterBy] = useState(null);
+
+  const sortedReviews = useMemo(() => {
+    let filtered = reviews.items;
+    if (filterBy) {
+      filtered = filtered.filter(r => r.rating === filterBy);
+    }
+
+    return filtered.sort((a, b) => {
+      if (sortBy === 'helpful') return b.helpful.yes - a.helpful.yes;
+      if (sortBy === 'newest') return new Date(b.date) - new Date(a.date);
+      if (sortBy === 'rating') return b.rating - a.rating;
+    });
+  }, [reviews, sortBy, filterBy]);
+
+  const handleHelpful = async (reviewId, vote) => {
+    await onHelpful(reviewId, vote);
+    // Update local state or refetch
+  };
+
+  return (
+    &lt;div className="reviews-card"&gt;
+      &lt;div className="rv-header"&gt;
+        &lt;div className="rv-summary"&gt;
+          &lt;div className="rv-avg"&gt;{reviews.average}&lt;/div&gt;
+          &lt;div className="rv-stars-big"&gt;{'★'.repeat(Math.round(reviews.average))}&lt;/div&gt;
+          &lt;div className="rv-total"&gt;{reviews.total} reviews&lt;/div&gt;
+          &lt;button className="rv-write-btn" onClick={onWriteReview}&gt;
+            &lt;PenLine size={15} /&gt; Review schrijven
+          &lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div className="rv-bars"&gt;
+          {[5, 4, 3, 2, 1].map(star => (
+            &lt;div key={star} className="rv-bar-row"&gt;
+              &lt;span className="rv-bar-label"&gt;{star}&lt;/span&gt;
+              &lt;span className="rv-bar-star"&gt;★&lt;/span&gt;
+              &lt;div className="rv-bar-track"&gt;
+                &lt;div className="rv-bar-fill" style={{ width: `${(reviews.distribution[star] / reviews.total) * 100}%` }} /&gt;
+              &lt;/div&gt;
+              &lt;span className="rv-bar-count"&gt;{reviews.distribution[star]}&lt;/span&gt;
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div className="rv-list"&gt;
+        {sortedReviews.map(review => (
+          &lt;article key={review.id} className="rv-item"&gt;
+            &lt;div className="rv-item-header"&gt;
+              &lt;div className="rv-author"&gt;
+                &lt;div className="rv-avatar"&gt;{review.author.initials}&lt;/div&gt;
+                &lt;div&gt;
+                  &lt;div className="rv-name"&gt;{review.author.name}&lt;/div&gt;
+                  {review.author.verified && (
+                    &lt;div className="rv-verified"&gt;
+                      &lt;BadgeCheck size={12} /&gt; Geverifieerde aankoop
+                    &lt;/div&gt;
+                  )}
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div className="rv-date"&gt;{formatDate(review.date)}&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div className="rv-stars"&gt;{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}&lt;/div&gt;
+            &lt;div className="rv-text"&gt;{review.text}&lt;/div&gt;
+            &lt;div className="rv-helpful"&gt;
+              &lt;span&gt;Was dit nuttig?&lt;/span&gt;
+              &lt;button className="rv-helpful-btn" onClick={() => handleHelpful(review.id, 'yes')}&gt;
+                &lt;ThumbsUp size={12} /&gt; Ja ({review.helpful.yes})
+              &lt;/button&gt;
+              &lt;button className="rv-helpful-btn" onClick={() => handleHelpful(review.id, 'no')}&gt;
+                &lt;ThumbsDown size={12} /&gt; Nee
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/article&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Variant:</strong> Compact version (summary only, link to full reviews)</li>
+      <li><strong>Variant:</strong> Review images/photos grid</li>
+      <li><strong>Variant:</strong> Vendor replies to reviews</li>
+      <li><strong>Related:</strong> Review submission form modal</li>
+      <li><strong>Related:</strong> Review schema markup (JSON-LD for SEO)</li>
+      <li><strong>Integration:</strong> Google Reviews widget</li>
+      <li><strong>Integration:</strong> Trustpilot/Kiyoh widget</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

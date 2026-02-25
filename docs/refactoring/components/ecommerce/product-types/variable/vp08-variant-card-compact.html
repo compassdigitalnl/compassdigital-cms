@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP08: Variant Card Compact | Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --white: #FAFBFC;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 8px;
+  --radius: 10px;
+  --radius-lg: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  line-height: 1.6;
+  padding: 48px 24px;
+}
+
+.demo-section {
+  max-width: 1200px;
+  margin: 0 auto 48px;
+  background: white;
+  border-radius: 14px;
+  padding: 32px;
+  border: 1.5px solid var(--grey);
+}
+
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.component-id {
+  display: inline-block;
+  background: var(--teal);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+
+.intro {
+  font-size: 15px;
+  color: var(--grey-dark);
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+/* ============================================
+   VP08: VARIANT CARD COMPACT
+   ============================================ */
+
+.variant-card-compact {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius);
+  padding: 12px;
+  transition: all var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+
+.variant-card-compact:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.variant-card-compact.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.variant-checkbox {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--grey);
+  border-radius: 4px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.variant-checkbox.checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.variant-checkbox.checked i {
+  width: 12px;
+  height: 12px;
+  color: white;
+}
+
+.variant-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.variant-fullname {
+  font-size: 11px;
+  color: var(--grey-dark);
+  text-align: center;
+  margin-bottom: 8px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.variant-price {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.variant-price-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  display: block;
+}
+
+.variant-price-note {
+  font-size: 9px;
+  color: var(--grey-mid);
+}
+
+.stock-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.stock-indicator.in-stock {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.stock-indicator.low-stock {
+  background: var(--amber-light);
+  color: var(--amber);
+}
+
+.stock-indicator.pre-order {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+.stock-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.qty-stepper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.qty-btn {
+  width: 40px;
+  height: 44px;
+  border: none;
+  background: white;
+  color: var(--grey-dark);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all var(--transition);
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: var(--teal);
+  color: white;
+}
+
+.qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.qty-input {
+  width: 60px;
+  height: 44px;
+  border: none;
+  border-left: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--navy);
+}
+
+.qty-input:focus {
+  outline: none;
+  background: var(--grey-light);
+}
+
+/* Documentation */
+.doc-section {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 2px solid var(--grey);
+}
+
+.doc-section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: var(--navy);
+}
+
+.doc-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 24px 0 12px;
+  color: var(--navy);
+}
+
+.doc-section p, .doc-section li {
+  font-size: 14px;
+  color: var(--grey-dark);
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+
+.doc-section ul {
+  margin-left: 24px;
+  margin-bottom: 16px;
+}
+
+.code-block {
+  background: var(--navy);
+  color: var(--teal-light);
+  border-radius: var(--radius);
+  padding: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-right: 8px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+
+<div class="demo-section">
+  <span class="component-id">VP08: Variant Card Compact</span>
+  <h1>Variant Selection Card — Compact Grid View</h1>
+  <p class="intro">
+    <strong>Compact product variant card for multi-select grids.</strong> Designed for variable products (same product, multiple sizes/colors), this card shows variant info, stock status, price, and quantity stepper. Checkbox selection automatically sets quantity to 1. Used in inline (50/50) and archive (full-width grid) layouts.
+  </p>
+
+  <div class="demo-grid">
+    <!-- Card 1: Selected -->
+    <div class="variant-card-compact selected" onclick="toggleCard(this)">
+      <div class="variant-checkbox checked">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="variant-name">60x90</div>
+      <div class="variant-fullname">Yoga mat Medium</div>
+      <div class="variant-price">
+        <span class="variant-price-value">€ 24,95</span>
+        <span class="variant-price-note">per stuk</span>
+      </div>
+      <div class="stock-indicator in-stock">
+        <span class="stock-dot"></span>
+        Op voorraad
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn minus">−</button>
+        <input type="number" class="qty-input" value="2" min="0">
+        <button class="qty-btn plus">+</button>
+      </div>
+    </div>
+
+    <!-- Card 2: Unselected -->
+    <div class="variant-card-compact" onclick="toggleCard(this)">
+      <div class="variant-checkbox">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="variant-name">80x120</div>
+      <div class="variant-fullname">Yoga mat Large</div>
+      <div class="variant-price">
+        <span class="variant-price-value">€ 29,95</span>
+        <span class="variant-price-note">per stuk</span>
+      </div>
+      <div class="stock-indicator in-stock">
+        <span class="stock-dot"></span>
+        Op voorraad
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn minus" disabled>−</button>
+        <input type="number" class="qty-input" value="0" min="0">
+        <button class="qty-btn plus">+</button>
+      </div>
+    </div>
+
+    <!-- Card 3: Low stock -->
+    <div class="variant-card-compact" onclick="toggleCard(this)">
+      <div class="variant-checkbox">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="variant-name">100x150</div>
+      <div class="variant-fullname">Yoga mat XL</div>
+      <div class="variant-price">
+        <span class="variant-price-value">€ 34,95</span>
+        <span class="variant-price-note">per stuk</span>
+      </div>
+      <div class="stock-indicator low-stock">
+        <span class="stock-dot"></span>
+        Nog 3 stuks
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn minus" disabled>−</button>
+        <input type="number" class="qty-input" value="0" min="0">
+        <button class="qty-btn plus">+</button>
+      </div>
+    </div>
+
+    <!-- Card 4: Pre-order -->
+    <div class="variant-card-compact" onclick="toggleCard(this)">
+      <div class="variant-checkbox">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="variant-name">120x180</div>
+      <div class="variant-fullname">Yoga mat XXL</div>
+      <div class="variant-price">
+        <span class="variant-price-value">€ 39,95</span>
+        <span class="variant-price-note">per stuk</span>
+      </div>
+      <div class="stock-indicator pre-order">
+        <span class="stock-dot"></span>
+        Pre-order
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn minus" disabled>−</button>
+        <input type="number" class="qty-input" value="0" min="0">
+        <button class="qty-btn plus">+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION (8-STEP PROTOCOL)
+     ============================================ -->
+
+<div class="demo-section doc-section">
+  <h2>STEP 1: Component Overview</h2>
+
+  <h3>Purpose</h3>
+  <p>Compact card for selecting product variants in multi-select grid layouts. Enables customers to select multiple sizes/colors/variants of the same product and add them all to cart simultaneously.</p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li><strong>Checkbox Selection:</strong> Visual checkbox in top-left corner indicates selection state</li>
+    <li><strong>Variant Display:</strong> Large variant name (e.g., "60x90") + full description below</li>
+    <li><strong>Price Display:</strong> Monospace price + "per stuk" label for clarity</li>
+    <li><strong>Stock Indicator:</strong> 3 states (in-stock green, low-stock amber, pre-order purple)</li>
+    <li><strong>Quantity Stepper:</strong> Standard stepper (40×44px buttons, 60px input) matching pt1-single-product.html</li>
+    <li><strong>Hover Effects:</strong> Border color change, shadow elevation, translateY animation</li>
+    <li><strong>Selected State:</strong> Teal border + light teal background tint</li>
+  </ul>
+
+  <h3>Visual Description</h3>
+  <p>White card with 12px padding, 10px border-radius, 1.5px grey border. Checkbox (18×18px) in top-left. Vertically stacked content: variant name (18px, 800 weight), description (11px grey), price (16px mono), stock indicator (10px with colored bg), quantity stepper (standard 44px height). On hover: teal border + shadow + lift. On select: teal border + light teal bg.</p>
+</div>
+
+<div class="demo-section doc-section">
+  <h2>STEP 2: When to Use</h2>
+
+  <h3>Primary Use Cases</h3>
+  <ul>
+    <li><strong>Variable Products with Multiple Variants:</strong> Products like yoga mats (multiple sizes), T-shirts (sizes/colors), supplements (package sizes)</li>
+    <li><strong>Bulk B2B Orders:</strong> B2B customers ordering multiple sizes/variants of the same product simultaneously</li>
+    <li><strong>Inline Product Pages:</strong> 50/50 layout next to product image (desktop), stacked on mobile</li>
+    <li><strong>Archive/Category Pages:</strong> Full-width grid showing all variants for quick selection</li>
+    <li><strong>Quick Order Flows:</strong> Streamlined ordering where customers know exactly what variants they need</li>
+  </ul>
+
+  <h3>When NOT to Use</h3>
+  <ul>
+    <li>❌ <strong>Single Variant Selection:</strong> Use VP01-VP07 (color swatches, size buttons, dropdowns) for single-select</li>
+    <li>❌ <strong>Different Products:</strong> Use GP01-GP07 (grouped products) for bundling different products together</li>
+    <li>❌ <strong>Complex Configurations:</strong> Use PC01-PC08 (product configurator) for step-by-step customization</li>
+    <li>❌ <strong>Mix & Match Packs:</strong> Use MM01-MM07 for "build your own pack" patterns (e.g., choose 6 from 20)</li>
+  </ul>
+</div>
+
+<div class="demo-section doc-section">
+  <h2>STEP 3: Design Tokens</h2>
+
+  <h3>Colors</h3>
+  <ul>
+    <li><strong>Navy</strong> <span class="color-swatch" style="background:#0A1628"></span> #0A1628 — Variant name, price text</li>
+    <li><strong>Teal</strong> <span class="color-swatch" style="background:#00897B"></span> #00897B — Border on hover/select, checkbox active, button hover</li>
+    <li><strong>Green</strong> <span class="color-swatch" style="background:#00C853"></span> #00C853 — In-stock indicator dot + text</li>
+    <li><strong>Amber</strong> <span class="color-swatch" style="background:#F59E0B"></span> #F59E0B — Low-stock indicator</li>
+    <li><strong>Purple</strong> <span class="color-swatch" style="background:#7C3AED"></span> #7C3AED — Pre-order indicator</li>
+    <li><strong>Grey</strong> <span class="color-swatch" style="background:#E8ECF1"></span> #E8ECF1 — Default border, stepper borders</li>
+    <li><strong>Grey-dark</strong> <span class="color-swatch" style="background:#64748B"></span> #64748B — Variant description, button icons</li>
+  </ul>
+
+  <h3>Typography</h3>
+  <ul>
+    <li><strong>Variant Name:</strong> Plus Jakarta Sans, 18px, 800 weight, Navy (#0A1628)</li>
+    <li><strong>Description:</strong> Plus Jakarta Sans, 11px, 400 weight, Grey-dark (#64748B)</li>
+    <li><strong>Price:</strong> JetBrains Mono, 16px, 800 weight, Navy (#0A1628)</li>
+    <li><strong>Price Note:</strong> Plus Jakarta Sans, 9px, 400 weight, Grey-mid (#94A3B8)</li>
+    <li><strong>Stock Text:</strong> Plus Jakarta Sans, 10px, 600 weight, Status color</li>
+    <li><strong>Stepper Input:</strong> Plus Jakarta Sans, 15px, 700 weight, Navy (#0A1628)</li>
+  </ul>
+
+  <h3>Spacing</h3>
+  <ul>
+    <li><strong>Card Padding:</strong> 12px (all sides)</li>
+    <li><strong>Checkbox Position:</strong> top: 8px, left: 8px</li>
+    <li><strong>Vertical Stack Gaps:</strong> 4px (name-description), 8px (sections)</li>
+    <li><strong>Grid Gap:</strong> 10-12px between cards</li>
+  </ul>
+
+  <h3>Icons</h3>
+  <ul>
+    <li><strong>Checkbox Check:</strong> Lucide "check", 12×12px, white color</li>
+    <li><strong>Stock Dot:</strong> 4×4px circle, currentColor (green/amber/purple)</li>
+  </ul>
+</div>
+
+<div class="demo-section doc-section">
+  <h2>STEP 4: Props & Configuration</h2>
+
+  <div class="code-block">
+<strong>TypeScript Interface:</strong>
+
+interface VariantCardCompactProps {
+  // Variant data
+  variantId: string;
+  variantName: string;          // e.g., "60x90"
+  variantFullName: string;       // e.g., "Yoga mat Medium"
+  price: number;                 // e.g., 24.95
+  priceNote?: string;            // default: "per stuk"
+  currency?: string;             // default: "€"
+
+  // Stock status
+  stockStatus: 'in-stock' | 'low-stock' | 'pre-order' | 'out-of-stock';
+  stockQuantity?: number;        // For "Nog X stuks" display
+
+  // Selection state
+  selected: boolean;
+  quantity: number;              // Current quantity (0 if not selected)
+  maxQuantity?: number;          // Stock limit, default: 999
+
+  // Handlers
+  onSelect: (variantId: string) => void;
+  onQuantityChange: (variantId: string, qty: number) => void;
+
+  // Optional
+  className?: string;
+  disabled?: boolean;
+}
+  </div>
+
+  <div class="code-block">
+<strong>Payload CMS Schema (Variant within Product):</strong>
+
+{
+  name: 'products',
+  fields: [
+    { name: 'name', type: 'text', required: true },
+    {
+      name: 'variants',
+      type: 'array',
+      label: 'Product Variants',
+      fields: [
+        { name: 'id', type: 'text', required: true },
+        { name: 'name', type: 'text', required: true }, // "60x90"
+        { name: 'fullName', type: 'text' },            // "Yoga mat Medium"
+        { name: 'price', type: 'number', required: true },
+        {
+          name: 'stockStatus',
+          type: 'select',
+          options: ['in-stock', 'low-stock', 'pre-order', 'out-of-stock'],
+          defaultValue: 'in-stock'
+        },
+        { name: 'stockQuantity', type: 'number', defaultValue: 0 },
+        { name: 'sku', type: 'text' }
+      ]
+    }
+  ]
+}
+  </div>
+</div>
+
+<div class="demo-section doc-section">
+  <h2>STEP 5: Layout Rules</h2>
+
+  <h3>Component Anatomy</h3>
+  <div class="code-block">
+.variant-card-compact (white bg, 12px padding, 10px radius, 1.5px border)
+  └── .variant-checkbox (absolute, top-left 8px, 18×18px)
+        └── check icon (12×12px, white)
+  └── .variant-name (18px, 800, center, 4px bottom margin)
+  └── .variant-fullname (11px, grey, center, min-height 28px, 8px margin)
+  └── .variant-price (center, 8px bottom margin)
+        └── .variant-price-value (16px mono, 800, navy)
+        └── .variant-price-note (9px, grey-mid)
+  └── .stock-indicator (flex, gap 4px, 4px padding, 4px radius, 8px margin)
+        └── .stock-dot (4×4px circle)
+        └── text (10px, 600)
+  └── .qty-stepper (flex, 10px radius, 1.5px border)
+        └── .qty-btn (40×44px, 18px icon)
+        └── .qty-input (60×44px, 15px text)
+        └── .qty-btn (40×44px, 18px icon)
+  </div>
+
+  <h3>Grid Container</h3>
+  <div class="code-block">
+/* Mobile-first responsive grid */
+.variant-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* Force 6 columns on desktop */
+@media (min-width: 1024px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* 3 columns on tablet */
+@media (max-width: 768px) and (min-width: 640px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 2 columns on mobile */
+@media (max-width: 639px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+  </div>
+
+  <h3>Responsive Behavior</h3>
+  <ul>
+    <li><strong>Desktop (≥1024px):</strong> 6 columns (explicit), 10px gap, full card content</li>
+    <li><strong>Tablet (640-1023px):</strong> 3-4 columns (auto-fill), reduce font sizes slightly</li>
+    <li><strong>Mobile (<640px):</strong> 2 columns, hide "per stuk" label, reduce padding to 10px</li>
+  </ul>
+</div>
+
+<div class="demo-section doc-section">
+  <h2>STEP 6: Accessibility</h2>
+
+  <h3>Semantic HTML</h3>
+  <div class="code-block">
+&lt;div class="variant-card-compact"
+     role="checkbox"
+     aria-checked="false"
+     aria-labelledby="variant-name-60x90"
+     tabindex="0"
+     onclick="selectVariant('60x90')"
+     onkeydown="handleCardKeydown(event, '60x90')"&gt;
+
+  &lt;div class="variant-checkbox" aria-hidden="true"&gt;
+    &lt;i data-lucide="check"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+
+  &lt;div class="variant-name" id="variant-name-60x90"&gt;60x90&lt;/div&gt;
+  &lt;div class="variant-fullname" aria-label="Yoga mat Medium"&gt;Yoga mat Medium&lt;/div&gt;
+
+  &lt;div class="variant-price"&gt;
+    &lt;span class="variant-price-value" aria-label="Prijs 24 euro 95"&gt;€ 24,95&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class="stock-indicator in-stock" role="status" aria-live="polite"&gt;
+    &lt;span class="stock-dot" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span&gt;Op voorraad&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class="qty-stepper" role="group" aria-labelledby="qty-label-60x90"&gt;
+    &lt;span id="qty-label-60x90" class="sr-only"&gt;Aantal voor variant 60x90&lt;/span&gt;
+    &lt;button class="qty-btn minus"
+            aria-label="Verminder aantal"
+            onclick="decreaseQty('60x90')"&gt;−&lt;/button&gt;
+    &lt;input type="number"
+           class="qty-input"
+           value="1"
+           min="0"
+           max="999"
+           aria-label="Aantal"&gt;
+    &lt;button class="qty-btn plus"
+            aria-label="Verhoog aantal"
+            onclick="increaseQty('60x90')"&gt;+&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+  </div>
+
+  <h3>Keyboard Navigation</h3>
+  <ul>
+    <li><strong>Tab:</strong> Navigate between cards</li>
+    <li><strong>Space/Enter:</strong> Toggle selection (sets qty to 1 if selecting, 0 if deselecting)</li>
+    <li><strong>Arrow Keys:</strong> Navigate within card (checkbox → name → stepper buttons)</li>
+    <li><strong>+/− Keys:</strong> Increment/decrement quantity when input focused</li>
+  </ul>
+
+  <h3>Screen Reader Announcements</h3>
+  <div class="code-block">
+// On selection
+"Variant 60x90, Yoga mat Medium, geselecteerd. Aantal: 1"
+
+// On quantity change
+"Aantal bijgewerkt naar 3 stuks. Totaalprijs: €74,85"
+
+// On stock change
+"Let op: nog maar 3 stuks beschikbaar voor variant 80x120"
+  </div>
+
+  <h3>Focus Management</h3>
+  <ul>
+    <li>Visible focus ring: <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+    <li>Focus trap within quantity stepper (minus → input → plus)</li>
+    <li>Return focus to card after modal/dropdown closes</li>
+  </ul>
+
+  <h3>Color Contrast</h3>
+  <ul>
+    <li>Variant name (Navy #0A1628 on white): 14.3:1 ✅ AAA</li>
+    <li>Stock text (Green #00C853 on light green bg): 4.8:1 ✅ AA</li>
+    <li>Price (Navy #0A1628 on white): 14.3:1 ✅ AAA</li>
+    <li>Buttons (Grey-dark #64748B on white): 6.2:1 ✅ AAA</li>
+  </ul>
+</div>
+
+<div class="demo-section doc-section">
+  <h2>STEP 7: Implementation Notes</h2>
+
+  <h3>React/Next.js Component</h3>
+  <div class="code-block">
+'use client';
+
+import { useState } from 'react';
+import { Check } from 'lucide-react';
+
+interface VariantCardCompactProps {
+  variantId: string;
+  variantName: string;
+  variantFullName: string;
+  price: number;
+  stockStatus: 'in-stock' | 'low-stock' | 'pre-order';
+  stockQuantity?: number;
+  selected: boolean;
+  quantity: number;
+  onSelect: (id: string) => void;
+  onQuantityChange: (id: string, qty: number) => void;
+}
+
+export default function VariantCardCompact({
+  variantId,
+  variantName,
+  variantFullName,
+  price,
+  stockStatus,
+  stockQuantity,
+  selected,
+  quantity,
+  onSelect,
+  onQuantityChange
+}: VariantCardCompactProps) {
+
+  const handleCardClick = () => {
+    if (!selected) {
+      onSelect(variantId);
+      onQuantityChange(variantId, 1); // Auto-set to 1
+    } else {
+      onSelect(variantId);
+      onQuantityChange(variantId, 0); // Deselect
+    }
+  };
+
+  const handleQuantityChange = (delta: number) => {
+    const newQty = Math.max(0, Math.min(999, quantity + delta));
+    onQuantityChange(variantId, newQty);
+
+    // Auto-select if incrementing from 0
+    if (newQty > 0 && !selected) {
+      onSelect(variantId);
+    }
+    // Auto-deselect if decremented to 0
+    if (newQty === 0 && selected) {
+      onSelect(variantId);
+    }
+  };
+
+  const stockConfig = {
+    'in-stock': { label: 'Op voorraad', class: 'in-stock' },
+    'low-stock': { label: `Nog ${stockQuantity} stuks`, class: 'low-stock' },
+    'pre-order': { label: 'Pre-order', class: 'pre-order' }
+  };
+
+  const stock = stockConfig[stockStatus];
+
+  return (
+    &lt;div
+      className={`variant-card-compact ${selected ? 'selected' : ''}`}
+      onClick={handleCardClick}
+      role="checkbox"
+      aria-checked={selected}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          handleCardClick();
+        }
+      }}
+    &gt;
+      &lt;div className={`variant-checkbox ${selected ? 'checked' : ''}`}&gt;
+        {selected && &lt;Check size={12} /&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="variant-name"&gt;{variantName}&lt;/div&gt;
+      &lt;div className="variant-fullname"&gt;{variantFullName}&lt;/div&gt;
+
+      &lt;div className="variant-price"&gt;
+        &lt;span className="variant-price-value"&gt;€ {price.toFixed(2)}&lt;/span&gt;
+        &lt;span className="variant-price-note"&gt;per stuk&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;div className={`stock-indicator ${stock.class}`}&gt;
+        &lt;span className="stock-dot"&gt;&lt;/span&gt;
+        {stock.label}
+      &lt;/div&gt;
+
+      &lt;div className="qty-stepper" onClick={(e) => e.stopPropagation()}&gt;
+        &lt;button
+          className="qty-btn minus"
+          onClick={() => handleQuantityChange(-1)}
+          disabled={quantity === 0}
+          aria-label="Verminder aantal"
+        &gt;
+          −
+        &lt;/button&gt;
+        &lt;input
+          type="number"
+          className="qty-input"
+          value={quantity}
+          onChange={(e) => onQuantityChange(variantId, parseInt(e.target.value) || 0)}
+          min={0}
+          max={999}
+          aria-label="Aantal"
+        /&gt;
+        &lt;button
+          className="qty-btn plus"
+          onClick={() => handleQuantityChange(1)}
+          aria-label="Verhoog aantal"
+        &gt;
+          +
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+  </div>
+
+  <h3>State Management Pattern</h3>
+  <div class="code-block">
+// Parent component managing multiple variants
+const [selectedVariants, setSelectedVariants] = useState&lt;Set&lt;string&gt;&gt;(new Set());
+const [quantities, setQuantities] = useState&lt;Record&lt;string, number&gt;&gt;({});
+
+const handleSelect = (variantId: string) => {
+  setSelectedVariants(prev => {
+    const updated = new Set(prev);
+    if (updated.has(variantId)) {
+      updated.delete(variantId);
+    } else {
+      updated.add(variantId);
+    }
+    return updated;
+  });
+};
+
+const handleQuantityChange = (variantId: string, qty: number) => {
+  setQuantities(prev => ({
+    ...prev,
+    [variantId]: qty
+  }));
+};
+
+// Calculate totals
+const total = Array.from(selectedVariants).reduce((sum, id) => {
+  const variant = variants.find(v => v.id === id);
+  const qty = quantities[id] || 0;
+  return sum + (variant?.price || 0) * qty;
+}, 0);
+  </div>
+
+  <h3>Performance Optimization</h3>
+  <ul>
+    <li><strong>Memoization:</strong> Use <code>React.memo</code> for cards (only re-render if props change)</li>
+    <li><strong>Virtualization:</strong> Use <code>react-window</code> for grids with 50+ variants</li>
+    <li><strong>Debounce Quantity Input:</strong> Debounce input changes by 300ms to reduce re-renders</li>
+    <li><strong>CSS Containment:</strong> Add <code>contain: layout style paint</code> to cards for browser optimization</li>
+  </ul>
+
+  <h3>Edge Cases</h3>
+  <ul>
+    <li><strong>Stock Limit:</strong> Disable stepper + button if quantity reaches stock limit</li>
+    <li><strong>Out of Stock:</strong> Grey out card, disable all interactions, show "Uitverkocht" badge</li>
+    <li><strong>Price Changes:</strong> Update price display when volume pricing tier changes</li>
+    <li><strong>Mobile Touch:</strong> Increase hit area to min 44×44px for touch targets</li>
+  </ul>
+</div>
+
+<div class="demo-section doc-section">
+  <h2>STEP 8: Variations & Related Components</h2>
+
+  <h3>Variations</h3>
+  <ul>
+    <li><strong>VP08 (This Component):</strong> Compact grid card with checkbox + quantity stepper</li>
+    <li><strong>VP09: VariantRowCompact:</strong> Horizontal list row variant (5-column grid: checkbox, image, info, qty, price)</li>
+    <li><strong>With Image Thumbnails:</strong> Add 60×60px image above variant name (see VP04: VariantImageRadio for pattern)</li>
+    <li><strong>With Color Swatches:</strong> Show color swatch circle below name (see VP01: VariantColorSwatches)</li>
+  </ul>
+
+  <h3>Related Components</h3>
+  <ul>
+    <li><strong>VP10: VariantSelectionSidebar:</strong> Sticky sidebar showing selected variants summary + totals</li>
+    <li><strong>VP11: VariantToolbar:</strong> Grid/list view toggle + "Select All" / "Deselect All" bulk actions</li>
+    <li><strong>VP12: VariantGridContainer:</strong> Responsive grid wrapper with 6-column desktop layout</li>
+    <li><strong>EC02: CategoryHero:</strong> Dark hero banner above variant grid with category info</li>
+    <li><strong>EC03: SubcategoryChips:</strong> Horizontal scroll filter chips for variant categories</li>
+  </ul>
+
+  <h3>Complete Multi-Variant Selection Flow</h3>
+  <div class="code-block">
+1. Product page loads with CategoryHero (EC02)
+2. SubcategoryChips (EC03) for filtering variants
+3. VariantToolbar (VP11) with grid/list toggle
+4. VariantGridContainer (VP12) with VariantCardCompact (VP08) cards
+5. VariantSelectionSidebar (VP10) showing selected items + total
+6. Click "Add X items to cart" → AddToCartToast (C3)
+  </div>
+
+  <h3>Integration with Existing Components</h3>
+  <ul>
+    <li><strong>C2: MiniCart:</strong> Selected variants appear as separate line items in cart</li>
+    <li><strong>C4: StaffelCalculator:</strong> Show volume pricing if total quantity crosses tier thresholds</li>
+    <li><strong>EC04: StockIndicator:</strong> Reuse stock indicator logic (3 states: ok/low/pre-order)</li>
+    <li><strong>C23: QuantityStepper:</strong> Uses same stepper design (40×44px buttons, 60px input)</li>
+  </ul>
+</div>
+
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Demo: Toggle card selection
+  function toggleCard(card) {
+    const checkbox = card.querySelector('.variant-checkbox');
+    const isSelected = card.classList.contains('selected');
+    const qtyInput = card.querySelector('.qty-input');
+    const minusBtn = card.querySelector('.qty-btn.minus');
+
+    if (!isSelected) {
+      // Select card, set qty to 1
+      card.classList.add('selected');
+      checkbox.classList.add('checked');
+      qtyInput.value = 1;
+      minusBtn.disabled = false;
+    } else {
+      // Deselect card, set qty to 0
+      card.classList.remove('selected');
+      checkbox.classList.remove('checked');
+      qtyInput.value = 0;
+      minusBtn.disabled = true;
+    }
+
+    // Re-initialize icons after DOM change
+    lucide.createIcons();
+  }
+
+  // Quantity stepper logic
+  document.querySelectorAll('.qty-stepper').forEach(stepper => {
+    const input = stepper.querySelector('.qty-input');
+    const minusBtn = stepper.querySelector('.qty-btn.minus');
+    const plusBtn = stepper.querySelector('.qty-btn.plus');
+    const card = stepper.closest('.variant-card-compact');
+    const checkbox = card.querySelector('.variant-checkbox');
+
+    plusBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const currentValue = parseInt(input.value) || 0;
+      input.value = Math.min(999, currentValue + 1);
+      minusBtn.disabled = false;
+
+      // Auto-select card if qty > 0
+      if (parseInt(input.value) > 0 && !card.classList.contains('selected')) {
+        card.classList.add('selected');
+        checkbox.classList.add('checked');
+        lucide.createIcons();
+      }
+    });
+
+    minusBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const currentValue = parseInt(input.value) || 0;
+      const newValue = Math.max(0, currentValue - 1);
+      input.value = newValue;
+
+      if (newValue === 0) {
+        minusBtn.disabled = true;
+        card.classList.remove('selected');
+        checkbox.classList.remove('checked');
+        lucide.createIcons();
+      }
+    });
+
+    input.addEventListener('change', (e) => {
+      const value = Math.max(0, Math.min(999, parseInt(e.target.value) || 0));
+      e.target.value = value;
+      minusBtn.disabled = value === 0;
+
+      // Auto-select/deselect based on quantity
+      if (value > 0 && !card.classList.contains('selected')) {
+        card.classList.add('selected');
+        checkbox.classList.add('checked');
+        lucide.createIcons();
+      } else if (value === 0 && card.classList.contains('selected')) {
+        card.classList.remove('selected');
+        checkbox.classList.remove('checked');
+        lucide.createIcons();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

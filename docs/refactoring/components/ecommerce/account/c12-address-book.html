@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C12 - Address Book Manager | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.14);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; }
+
+    /* Address Manager */
+    .addr-manager { max-width: 700px; }
+    .addr-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .addr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* Address Card */
+    .addr-card { background: white; border: 1.5px solid var(--grey); border-radius: 14px; padding: 18px; position: relative; transition: all 0.2s; }
+    .addr-card:hover { border-color: var(--teal); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04); }
+    .addr-card.primary { border-color: var(--teal); }
+    .addr-card.primary::before { content: 'Standaard'; position: absolute; top: 12px; right: 12px; background: var(--teal); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 100px; }
+    .ac-type { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--teal); margin-bottom: 8px; }
+    .ac-type i { width: 14px; height: 14px; }
+    .ac-name { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+    .ac-text { font-size: 13px; color: var(--grey-dark); line-height: 1.6; }
+    .ac-actions { display: flex; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--grey); }
+    .ac-btn { height: 30px; padding: 0 10px; border-radius: 6px; border: 1px solid var(--grey); background: white; cursor: pointer; font-family: var(--font-primary); font-size: 12px; font-weight: 600; color: var(--navy); transition: all 0.12s; display: flex; align-items: center; gap: 4px; }
+    .ac-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .ac-btn i { width: 12px; height: 12px; }
+    .ac-btn.delete { color: var(--coral); border-color: var(--coral-light); }
+    .ac-btn.delete:hover { background: var(--coral-light); }
+
+    /* Add New Card */
+    .addr-add { border: 2px dashed var(--grey); border-radius: 14px; padding: 28px; text-align: center; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .addr-add:hover { border-color: var(--teal); background: var(--teal-glow); }
+    .addr-add-icon { width: 40px; height: 40px; background: var(--grey-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .addr-add-icon i { width: 18px; height: 18px; color: var(--teal); }
+    .addr-add-text { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .addr-add-hint { font-size: 12px; color: var(--grey-mid); }
+
+    /* Edit Form */
+    .addr-edit { background: white; border: 1.5px solid var(--teal); border-radius: 14px; padding: 20px; box-shadow: var(--shadow-lg); max-width: 400px; margin-top: 16px; }
+    .ae-title { font-family: var(--font-display); font-size: 14px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .ae-title i { width: 16px; height: 16px; color: var(--teal); }
+    .ae-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .ae-row.full { grid-template-columns: 1fr; }
+    .ae-label { font-size: 11px; font-weight: 700; color: var(--grey-mid); margin-bottom: 3px; display: block; }
+    .ae-input { width: 100%; height: 36px; padding: 0 10px; border: 1.5px solid var(--grey); border-radius: 6px; font-family: var(--font-primary); font-size: 13px; color: var(--navy); outline: none; transition: all 0.2s; }
+    .ae-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-glow); }
+    .ae-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .ae-btn { height: 36px; padding: 0 16px; border-radius: 8px; font-family: var(--font-primary); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; border: none; }
+    .ae-btn.save { background: var(--teal); color: white; }
+    .ae-btn.save:hover { background: var(--navy); }
+    .ae-btn.cancel { background: var(--grey-light); color: var(--navy); border: 1px solid var(--grey); }
+    .ae-btn.cancel:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* Mobile */
+    @media(max-width: 640px) {
+      .addr-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <div class="addr-manager">
+      <div class="addr-header">
+        <div style="font-family: var(--font-display); font-size: 16px; font-weight: 800;">
+          Mijn adressen <span style="font-weight: 400; color: var(--grey-mid); font-size: 14px;">(3)</span>
+        </div>
+      </div>
+
+      <div class="addr-grid">
+        <!-- Primary Address -->
+        <div class="addr-card primary">
+          <div class="ac-type"><i data-lucide="building-2"></i> Praktijkadres</div>
+          <div class="ac-name">Huisartsenpraktijk De Vries</div>
+          <div class="ac-text">T.a.v. Jan de Vries<br>Breestraat 42<br>1941 EK Beverwijk</div>
+          <div class="ac-actions">
+            <button class="ac-btn"><i data-lucide="pen-line"></i> Bewerken</button>
+            <button class="ac-btn"><i data-lucide="copy"></i> Dupliceren</button>
+          </div>
+        </div>
+
+        <!-- Secondary Address -->
+        <div class="addr-card">
+          <div class="ac-type"><i data-lucide="file-text"></i> Factuuradres</div>
+          <div class="ac-name">Huisartsenpraktijk De Vries</div>
+          <div class="ac-text">Breestraat 42<br>1941 EK Beverwijk<br>KVK 12345678</div>
+          <div class="ac-actions">
+            <button class="ac-btn"><i data-lucide="pen-line"></i> Bewerken</button>
+            <button class="ac-btn"><i data-lucide="star"></i> Standaard</button>
+            <button class="ac-btn delete"><i data-lucide="trash-2"></i></button>
+          </div>
+        </div>
+
+        <!-- Third Address -->
+        <div class="addr-card">
+          <div class="ac-type"><i data-lucide="home"></i> Thuisadres</div>
+          <div class="ac-name">Jan de Vries</div>
+          <div class="ac-text">Kerkstraat 15<br>1941 BD Beverwijk</div>
+          <div class="ac-actions">
+            <button class="ac-btn"><i data-lucide="pen-line"></i> Bewerken</button>
+            <button class="ac-btn"><i data-lucide="star"></i> Standaard</button>
+            <button class="ac-btn delete"><i data-lucide="trash-2"></i></button>
+          </div>
+        </div>
+
+        <!-- Add New -->
+        <div class="addr-add">
+          <div class="addr-add-icon"><i data-lucide="plus"></i></div>
+          <div class="addr-add-text">Nieuw adres toevoegen</div>
+          <div class="addr-add-hint">Aflever- of factuuradres</div>
+        </div>
+      </div>
+
+      <!-- Inline Edit Form -->
+      <div class="addr-edit">
+        <div class="ae-title"><i data-lucide="pen-line"></i> Adres bewerken</div>
+        <div class="ae-row full">
+          <div><label class="ae-label">Bedrijfsnaam</label><input class="ae-input" value="Huisartsenpraktijk De Vries"></div>
+        </div>
+        <div class="ae-row">
+          <div><label class="ae-label">Voornaam</label><input class="ae-input" value="Jan"></div>
+          <div><label class="ae-label">Achternaam</label><input class="ae-input" value="de Vries"></div>
+        </div>
+        <div class="ae-row full">
+          <div><label class="ae-label">Straat + huisnummer</label><input class="ae-input" value="Breestraat 42"></div>
+        </div>
+        <div class="ae-row">
+          <div><label class="ae-label">Postcode</label><input class="ae-input" value="1941 EK"></div>
+          <div><label class="ae-label">Plaats</label><input class="ae-input" value="Beverwijk"></div>
+        </div>
+        <div class="ae-actions">
+          <button class="ae-btn save">Opslaan</button>
+          <button class="ae-btn cancel">Annuleren</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C12 - Address Book Manager</p>
+    <p><strong>Category:</strong> Account / Checkout</p>
+    <p><strong>Complexiteit:</strong> High (CRUD operations, primary address logic, inline editing, validation)</p>
+
+    <h3>Purpose:</h3>
+    <p>Address management interface for user accounts. Allows adding, editing, deleting, and setting default shipping/billing addresses. Used in My Account and during checkout for address selection.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>2-column grid layout (responsive to 1-col on mobile)</li>
+      <li>Address cards with type icons (building, file-text, home)</li>
+      <li>Primary address indicator (teal border + "Standaard" badge)</li>
+      <li>3 action buttons: Edit, Set as Default, Delete</li>
+      <li>Duplicate button for primary address (copy & modify)</li>
+      <li>Dashed "Add new" card with plus icon</li>
+      <li>Inline edit form (modal or expandable panel)</li>
+      <li>Validation for postal code, required fields</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>E-commerce checkout (shipping/billing address selection)</li>
+      <li>Account settings (/account/addresses)</li>
+      <li>B2B accounts (multiple delivery locations)</li>
+      <li>Subscription services (different billing addresses)</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Always have exactly ONE primary/default address</li>
+      <li>Prevent deletion of last address (require min 1)</li>
+      <li>Validate postal codes with regex or API (e.g., PostcodeAPI)</li>
+      <li>Auto-fill city from postal code (UX improvement)</li>
+      <li>Show address preview before saving</li>
+      <li>Confirm before deleting address</li>
+      <li>Allow "Duplicate" for creating similar addresses</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Card */
+border: 1.5px solid var(--grey)
+border-radius: 14px
+padding: 18px
+primary: border-color var(--teal)
+hover: border-color var(--teal) + box-shadow
+
+/* Primary Badge */
+position: absolute, top 12px, right 12px
+background: var(--teal), color: white
+font-size: 10px, font-weight: 700
+padding: 3px 8px, border-radius: 100px
+
+/* Type Label */
+font-size: 11px, 700, uppercase
+letter-spacing: 0.06em
+color: var(--teal)
+
+/* Actions */
+button height: 30px, padding: 0 10px
+border: 1px solid var(--grey)
+delete: color coral, border coral-light</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  addresses: [
+    {
+      id: 'addr-1',
+      type: 'shipping',  // 'shipping' | 'billing' | 'both'
+      isPrimary: true,
+      company: 'Huisartsenpraktijk De Vries',
+      firstName: 'Jan',
+      lastName: 'de Vries',
+      street: 'Breestraat 42',
+      postalCode: '1941 EK',
+      city: 'Beverwijk',
+      country: 'NL',
+      phone: '+31 20 123 4567',
+      kvk: '12345678'  // Optional for business
+    }
+  ],
+  onAdd: (address) => {},
+  onEdit: (addressId, updates) => {},
+  onDelete: (addressId) => {},
+  onSetPrimary: (addressId) => {},
+  onDuplicate: (addressId) => {},
+  maxAddresses: 10,
+  validatePostalCode: (code) => boolean
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Container: max-width 700px
+Grid: 2 columns, gap 12px
+Mobile: 1 column
+
+Card order:
+1. Primary address (always first, top-left)
+2. Other addresses (sorted by createdAt desc)
+3. Add new card (always last)
+
+Edit form: Below grid OR modal overlay</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;div role="region" aria-labelledby="addr-title"&gt;
+  &lt;h2 id="addr-title"&gt;Mijn adressen (3)&lt;/h2&gt;
+  &lt;div className="addr-grid"&gt;
+    &lt;article className="addr-card primary" aria-label="Standaard afleveradres"&gt;
+      &lt;div className="ac-type"&gt;
+        &lt;BuildingIcon aria-hidden="true" /&gt; Praktijkadres
+      &lt;/div&gt;
+      {/* address content */}
+      &lt;div className="ac-actions"&gt;
+        &lt;button aria-label="Bewerk praktijkadres"&gt;Bewerken&lt;/button&gt;
+        &lt;button aria-label="Verwijder adres"&gt;Verwijderen&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+// Form validation errors must be announced to screen readers
+&lt;input aria-invalid="true" aria-describedby="postal-error" /&gt;
+&lt;span id="postal-error" role="alert"&gt;Ongeldige postcode&lt;/span&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function AddressBook() {
+  const [addresses, setAddresses] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+
+  const handleSetPrimary = async (addressId) => {
+    await fetch(`/api/addresses/${addressId}/set-primary`, { method: 'POST' });
+    // Update local state: unset old primary, set new primary
+    setAddresses(prev => prev.map(a => ({
+      ...a,
+      isPrimary: a.id === addressId
+    })));
+  };
+
+  const handleDelete = async (addressId) => {
+    if (addresses.length === 1) {
+      toast.error('U moet minimaal 1 adres hebben');
+      return;
+    }
+
+    if (confirm('Weet u zeker dat u dit adres wilt verwijderen?')) {
+      await fetch(`/api/addresses/${addressId}`, { method: 'DELETE' });
+      setAddresses(prev => prev.filter(a => a.id !== addressId));
+    }
+  };
+
+  const handleDuplicate = (addressId) => {
+    const address = addresses.find(a => a.id === addressId);
+    setEditingId('new');
+    setFormData({ ...address, id: null, isPrimary: false });
+  };
+
+  const handleSave = async (formData) => {
+    if (formData.id) {
+      // Update existing
+      await fetch(`/api/addresses/${formData.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(formData)
+      });
+    } else {
+      // Create new
+      await fetch('/api/addresses', {
+        method: 'POST',
+        body: JSON.stringify(formData)
+      });
+    }
+    setEditingId(null);
+    refetch();
+  };
+
+  const sortedAddresses = useMemo(() => {
+    return [...addresses].sort((a, b) => {
+      if (a.isPrimary) return -1;
+      if (b.isPrimary) return 1;
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+  }, [addresses]);
+
+  return (
+    &lt;div className="addr-manager"&gt;
+      &lt;div className="addr-header"&gt;
+        &lt;h2&gt;Mijn adressen ({addresses.length})&lt;/h2&gt;
+      &lt;/div&gt;
+
+      &lt;div className="addr-grid"&gt;
+        {sortedAddresses.map(address => (
+          &lt;AddressCard
+            key={address.id}
+            address={address}
+            onEdit={() => setEditingId(address.id)}
+            onDelete={() => handleDelete(address.id)}
+            onSetPrimary={() => handleSetPrimary(address.id)}
+            onDuplicate={() => handleDuplicate(address.id)}
+          /&gt;
+        ))}
+        &lt;div className="addr-add" onClick={() => setEditingId('new')}&gt;
+          &lt;div className="addr-add-icon"&gt;&lt;Plus /&gt;&lt;/div&gt;
+          &lt;div className="addr-add-text"&gt;Nieuw adres toevoegen&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      {editingId && (
+        &lt;AddressEditForm
+          address={editingId === 'new' ? null : addresses.find(a => a.id === editingId)}
+          onSave={handleSave}
+          onCancel={() => setEditingId(null)}
+        /&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Variant:</strong> Checkout address selector (radio buttons + cards)</li>
+      <li><strong>Variant:</strong> Compact list view (for mobile)</li>
+      <li><strong>Related:</strong> Address autocomplete (Google Places API)</li>
+      <li><strong>Related:</strong> Postal code lookup (PostcodeAPI for NL/BE)</li>
+      <li><strong>Related:</strong> Address validation service</li>
+      <li><strong>Integration:</strong> Checkout flow (select existing or add new)</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

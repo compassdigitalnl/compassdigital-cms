@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import CheckoutTemplate1 from './CheckoutTemplate1'
+import CheckoutTemplate1 from '@/branches/ecommerce/templates/checkout/CheckoutTemplate1'
+import CheckoutTemplate2 from '@/branches/ecommerce/templates/checkout/CheckoutTemplate2'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 
@@ -30,11 +31,11 @@ export default async function CheckoutPageWrapper() {
     template = 'checkouttemplate1'
   }
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Checkout Template Switcher */}
-      {/* Template 2 will be added here later */}
-      <CheckoutTemplate1 />
-    </div>
-  )
+  // Template switcher based on settings
+  if (template === 'checkouttemplate2') {
+    return <CheckoutTemplate2 />
+  }
+
+  // Default to template 1
+  return <CheckoutTemplate1 />
 }

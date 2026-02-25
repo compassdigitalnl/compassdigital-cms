@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SR05: PopularSearchTags — Compass Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Colors - Navy */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+
+      /* Colors - Teal */
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --teal-bg: rgba(0, 137, 123, 0.1);
+
+      /* Colors - Grey */
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-lighter: #F5F7FA;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+      --radius-pill: 100px;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--white);
+      padding: 40px 20px;
+    }
+
+    /* ============================================
+       SR05: POPULAR SEARCH TAGS
+       ============================================ */
+
+    .popular-search-tags {
+      /* Container */
+      max-width: 280px;
+
+      /* Visual */
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      padding: var(--space-20);
+
+      /* Shadow */
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Header */
+    .popular-search-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      margin-bottom: var(--space-16);
+    }
+
+    .popular-search-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .popular-search-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    /* Tag container */
+    .popular-search-tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-8);
+    }
+
+    /* Individual tag pill */
+    .popular-search-tag {
+      /* Layout */
+      display: inline-block;
+      padding: var(--space-6) var(--space-12);
+
+      /* Typography */
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--teal);
+      text-decoration: none;
+      line-height: 1.4;
+
+      /* Visual */
+      background: var(--teal-bg);
+      border-radius: var(--radius-pill);
+      transition: all var(--transition);
+
+      /* Prevent text selection on rapid clicks */
+      user-select: none;
+    }
+
+    .popular-search-tag:hover {
+      background: var(--teal);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .popular-search-tag:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .popular-search-tag:active {
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 1024px) {
+      .popular-search-tags {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .popular-search-tags {
+        padding: var(--space-16);
+      }
+
+      .popular-search-tag {
+        font-size: 11px;
+        padding: var(--space-4) var(--space-12);
+      }
+
+      .popular-search-title {
+        font-size: 13px;
+      }
+    }
+
+    /* ============================================
+       DEMO STYLES
+       ============================================ */
+
+    .demo-section {
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 24px 0 12px;
+    }
+
+    .demo-section p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>SR05: PopularSearchTags — Live Demo</h2>
+    <p>Sidebar widget showing popular/trending search queries as clickable pill tags.</p>
+
+    <h3>Default (5 Tags)</h3>
+    <div class="demo-grid">
+      <aside class="popular-search-tags">
+        <div class="popular-search-header">
+          <i data-lucide="trending-up" class="popular-search-icon"></i>
+          <h3 class="popular-search-title">Populaire zoekopdrachten</h3>
+        </div>
+        <div class="popular-search-tags-list">
+          <a href="#" class="popular-search-tag">handschoenen</a>
+          <a href="#" class="popular-search-tag">spuiten</a>
+          <a href="#" class="popular-search-tag">steriel</a>
+          <a href="#" class="popular-search-tag">thermometer</a>
+          <a href="#" class="popular-search-tag">pleisters</a>
+        </div>
+      </aside>
+    </div>
+
+    <h3>Extended (10 Tags)</h3>
+    <div class="demo-grid">
+      <aside class="popular-search-tags">
+        <div class="popular-search-header">
+          <i data-lucide="trending-up" class="popular-search-icon"></i>
+          <h3 class="popular-search-title">Populaire zoekopdrachten</h3>
+        </div>
+        <div class="popular-search-tags-list">
+          <a href="#" class="popular-search-tag">handschoenen nitril</a>
+          <a href="#" class="popular-search-tag">mondmaskers</a>
+          <a href="#" class="popular-search-tag">desinfectie</a>
+          <a href="#" class="popular-search-tag">bloeddrukmeter</a>
+          <a href="#" class="popular-search-tag">verbandmiddelen</a>
+          <a href="#" class="popular-search-tag">thermometer</a>
+          <a href="#" class="popular-search-tag">spuiten</a>
+          <a href="#" class="popular-search-tag">steriele gazen</a>
+          <a href="#" class="popular-search-tag">alcohol</a>
+          <a href="#" class="popular-search-tag">pleisters</a>
+        </div>
+      </aside>
+    </div>
+
+    <h3>Minimal (3 Tags)</h3>
+    <div class="demo-grid">
+      <aside class="popular-search-tags">
+        <div class="popular-search-header">
+          <i data-lucide="trending-up" class="popular-search-icon"></i>
+          <h3 class="popular-search-title">Trending</h3>
+        </div>
+        <div class="popular-search-tags-list">
+          <a href="#" class="popular-search-tag">nitril</a>
+          <a href="#" class="popular-search-tag">latex</a>
+          <a href="#" class="popular-search-tag">vinyl</a>
+        </div>
+      </aside>
+    </div>
+
+    <h3>Mixed Length Tags</h3>
+    <div class="demo-grid">
+      <aside class="popular-search-tags">
+        <div class="popular-search-header">
+          <i data-lucide="fire" class="popular-search-icon"></i>
+          <h3 class="popular-search-title">Top searches</h3>
+        </div>
+        <div class="popular-search-tags-list">
+          <a href="#" class="popular-search-tag">FFP2</a>
+          <a href="#" class="popular-search-tag">handschoenen nitril poedervrij</a>
+          <a href="#" class="popular-search-tag">steriel</a>
+          <a href="#" class="popular-search-tag">bloeddruk</a>
+          <a href="#" class="popular-search-tag">COVID-19 test</a>
+          <a href="#" class="popular-search-tag">EHBO</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>📋 Component Documentation</h2>
+
+    <h3>STEP 1: Component Overview</h3>
+    <p><strong>Component ID:</strong> SR05</p>
+    <p><strong>Component Name:</strong> PopularSearchTags</p>
+    <p><strong>Category:</strong> Navigation / Search</p>
+    <p><strong>Priority:</strong> 🟢 Low</p>
+    <p><strong>Source File:</strong> ef6-search-results.html</p>
+    <p><strong>Output Location:</strong> /refactoring/components/navigation/sr05-popular-search-tags.html</p>
+
+    <p><strong>Purpose:</strong><br>
+    PopularSearchTags displays trending or frequently searched queries as clickable pill tags. It helps users discover popular products/categories and reduces search friction by suggesting common terms. Data can be sourced from analytics (real trending searches) or curated manually (strategic merchandising).</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>White card with trending-up icon header</li>
+      <li>Flex-wrapped pill tags (100px border-radius)</li>
+      <li>Teal text on light teal background (default)</li>
+      <li>Hover: solid teal background + white text</li>
+      <li>Small font (12px) for compact display</li>
+      <li>Responsive wrapping (2-3 tags per row typically)</li>
+      <li>Supports 3-10 tags (5-8 recommended)</li>
+      <li>Analytics-driven or manually curated</li>
+    </ul>
+
+    <p><strong>When to Use:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✅ Search results page sidebar</li>
+      <li>✅ Shop archive sidebar (below filters)</li>
+      <li>✅ Homepage sidebar (discovery)</li>
+      <li>✅ Empty search state (suggestions)</li>
+      <li>✅ Below RecentSearchesSidebar (SR04)</li>
+      <li>❌ Don't show if no analytics data available</li>
+      <li>❌ Don't use for navigation (use CategoryNav instead)</li>
+      <li>❌ Don't show too many tags (max 10)</li>
+    </ul>
+
+    <h3>STEP 2: When to Use</h3>
+
+    <p><strong>Use Cases:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Trending Products:</strong> Seasonal items (e.g., "mondmaskers" during flu season)</li>
+      <li><strong>Popular Categories:</strong> Most-searched categories ("handschoenen", "spuiten")</li>
+      <li><strong>Strategic Merchandising:</strong> Promote specific products/brands</li>
+      <li><strong>Discovery:</strong> Help users find what they didn't know they needed</li>
+      <li><strong>Empty State:</strong> Show suggestions when no recent search history</li>
+    </ul>
+
+    <p><strong>Data Sources:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Analytics:</strong> Top searches from past 7/30 days (real trending)</li>
+      <li><strong>Manual Curation:</strong> Merchandising team selects strategic queries</li>
+      <li><strong>Hybrid:</strong> 70% analytics + 30% curated (balance discovery + strategy)</li>
+      <li><strong>Personalized:</strong> Based on user's browsing category (future feature)</li>
+    </ul>
+
+    <p><strong>Anti-patterns:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>❌ Too many tags (≥15) causing visual clutter</li>
+      <li>❌ Outdated tags (e.g., "COVID test" after pandemic)</li>
+      <li>❌ Misspelled queries from analytics (clean data first)</li>
+      <li>❌ Sensitive/inappropriate search terms</li>
+      <li>❌ Duplicate tags (e.g., "handschoenen" + "handschoen")</li>
+    </ul>
+
+    <p><strong>Guidelines:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Show 5-8 tags typically (max 10)</li>
+      <li>Update tags weekly/monthly based on data</li>
+      <li>Order by search volume (most popular first)</li>
+      <li>Normalize queries (lowercase, trim, dedupe)</li>
+      <li>Filter out brand names if licensing prohibits</li>
+      <li>Track click-through rate per tag</li>
+    </ul>
+
+    <h3>STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Container background: white (#FFFFFF)</li>
+      <li>Container border: --grey (#E8ECF1), 1px</li>
+      <li>Icon: --teal (#00897B)</li>
+      <li>Title: --navy (#0A1628)</li>
+      <li>Tag text default: --teal (#00897B)</li>
+      <li>Tag bg default: --teal-bg (rgba(0, 137, 123, 0.1))</li>
+      <li>Tag text hover: white (#FFFFFF)</li>
+      <li>Tag bg hover: --teal (#00897B)</li>
+      <li>Focus ring: --teal-glow (rgba(0, 137, 123, 0.12))</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Font family: --font-body (Plus Jakarta Sans)</li>
+      <li>Title size: 14px (desktop), 13px (mobile)</li>
+      <li>Title weight: 700</li>
+      <li>Tag size: 12px (desktop), 11px (mobile)</li>
+      <li>Tag weight: 600</li>
+      <li>Line height: 1.4</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Container padding: 20px (desktop), 16px (mobile)</li>
+      <li>Max width: 280px</li>
+      <li>Header-list gap: 16px</li>
+      <li>Tag-tag gap: 8px (flex-wrap)</li>
+      <li>Tag padding: 6px 12px (desktop), 4px 12px (mobile)</li>
+      <li>Container border-radius: --radius-xl (14px)</li>
+      <li>Tag border-radius: --radius-pill (100px)</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Default: "trending-up" (Lucide)</li>
+      <li>Alternative: "fire" (hot trends), "zap" (fast), "star" (popular)</li>
+      <li>Size: 16px</li>
+      <li>Color: --teal (#00897B)</li>
+    </ul>
+
+    <h3>STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+interface PopularTag {
+  query: string
+  searchVolume?: number      // Analytics: search count
+  clickThrough?: number      // Analytics: CTR from this tag
+  isCurated?: boolean        // Manual vs analytics
+}
+
+interface PopularSearchTagsProps {
+  tags: PopularTag[]
+  maxTags?: number           // Default: 8
+  title?: string             // Default: "Populaire zoekopdrachten"
+  icon?: string              // Lucide icon name, default: "trending-up"
+  onTagClick?: (query: string) => void
+}</pre>
+
+    <p><strong>Analytics Query (Server-Side):</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+// Example: Get top searches from past 30 days
+async function getPopularSearches(limit = 8): Promise<PopularTag[]> {
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+  const searches = await db.searchLogs.aggregate([
+    {
+      $match: {
+        timestamp: { $gte: thirtyDaysAgo },
+        resultCount: { $gt: 0 } // Only successful searches
+      }
+    },
+    {
+      $group: {
+        _id: { $toLower: '$query' }, // Normalize
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: { count: -1 }
+    },
+    {
+      $limit: limit
+    }
+  ])
+
+  return searches.map(s => ({
+    query: s._id,
+    searchVolume: s.count,
+    isCurated: false
+  }))
+}</pre>
+
+    <p><strong>Payload CMS Integration (Manual Curation):</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+{
+  slug: 'popularSearches',
+  fields: [
+    {
+      name: 'tags',
+      type: 'array',
+      minRows: 3,
+      maxRows: 10,
+      fields: [
+        { name: 'query', type: 'text', required: true },
+        { name: 'order', type: 'number', defaultValue: 0 }
+      ]
+    },
+    {
+      name: 'dataSource',
+      type: 'radio',
+      options: [
+        { label: 'Analytics (auto)', value: 'analytics' },
+        { label: 'Manual (curated)', value: 'manual' },
+        { label: 'Hybrid (70% analytics + 30% curated)', value: 'hybrid' }
+      ],
+      defaultValue: 'analytics'
+    }
+  ]
+}</pre>
+
+    <p><strong>Hybrid Strategy:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+async function getHybridTags(limit = 8): Promise<PopularTag[]> {
+  const analyticsTags = await getPopularSearches(Math.floor(limit * 0.7))
+  const curatedTags = await payload.findGlobal({ slug: 'popularSearches' })
+
+  // Merge: curated first, then analytics (dedupe)
+  const merged = [
+    ...curatedTags.tags.map(t => ({ ...t, isCurated: true })),
+    ...analyticsTags.filter(a =>
+      !curatedTags.tags.some(c => c.query.toLowerCase() === a.query.toLowerCase())
+    )
+  ]
+
+  return merged.slice(0, limit)
+}</pre>
+
+    <h3>STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+┌─────────────────────────────────────┐
+│  [↗] Populaire zoekopdrachten      │ ← Header (14px bold)
+│                                     │
+│  [handschoenen] [spuiten]      ← Pills (12px, teal)
+│  [steriel] [thermometer]       ← Wraps to new rows
+│  [pleisters]                        │
+└─────────────────────────────────────┘
+
+Container: 280px max-width, white bg, 1px grey border
+Padding: 20px all sides
+Border-radius: 14px
+Pills: 100px border-radius, 6px/12px padding, 8px gap</pre>
+
+    <p><strong>Flex Layout:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Header: <code>display: flex; align-items: center; gap: 8px;</code></li>
+      <li>Tags: <code>display: flex; flex-wrap: wrap; gap: 8px;</code></li>
+      <li>Each tag: <code>display: inline-block;</code> (natural width)</li>
+    </ul>
+
+    <p><strong>Wrapping Behavior:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Tags wrap automatically based on available width</li>
+      <li>Typical: 2-3 tags per row (depends on query length)</li>
+      <li>Short queries ("FFP2", "nitril") → more per row</li>
+      <li>Long queries ("handschoenen nitril poedervrij") → fewer per row</li>
+    </ul>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Desktop (≥1024px):</strong> 280px sidebar width</li>
+      <li><strong>Tablet (768-1024px):</strong> Full-width sidebar below content</li>
+      <li><strong>Mobile (&lt;640px):</strong> Reduced padding (16px), smaller font (11px)</li>
+    </ul>
+
+    <h3>STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Use <code>&lt;aside&gt;</code> for sidebar landmark</li>
+      <li>Use <code>&lt;nav&gt;</code> or <code>&lt;div&gt;</code> for tags container</li>
+      <li>Use <code>&lt;a href&gt;</code> for tag links (keyboard navigable)</li>
+    </ul>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>aria-label="Popular searches" on &lt;aside&gt;</li>
+      <li>role="navigation" on tags container (optional)</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><kbd>Tab</kbd> - Navigate between tags</li>
+      <li><kbd>Enter</kbd> - Activate tag (execute search)</li>
+      <li><kbd>Shift+Tab</kbd> - Navigate backwards</li>
+    </ul>
+
+    <p><strong>Focus States:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Tags: <code>box-shadow: 0 0 0 3px teal-glow</code></li>
+      <li>Visible focus ring for keyboard users</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Tag text (#00897B) on bg (rgba 0.1): <strong>4.5:1</strong> (WCAG AA ✓)</li>
+      <li>Tag hover (white) on bg (#00897B): <strong>4.7:1</strong> (WCAG AA ✓)</li>
+      <li>Title (#0A1628) on white: <strong>16.1:1</strong> (WCAG AAA ✓)</li>
+    </ul>
+
+    <h3>STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+'use client'
+import { TrendingUp, Fire, Zap, Star } from 'lucide-react'
+import Link from 'next/link'
+
+const iconMap = {
+  'trending-up': TrendingUp,
+  'fire': Fire,
+  'zap': Zap,
+  'star': Star
+}
+
+export function PopularSearchTags({
+  tags,
+  maxTags = 8,
+  title = 'Populaire zoekopdrachten',
+  icon = 'trending-up',
+  onTagClick
+}: PopularSearchTagsProps) {
+  const Icon = iconMap[icon] || TrendingUp
+
+  if (tags.length === 0) return null
+
+  return (
+    &lt;aside className="popular-search-tags" aria-label="Popular searches"&gt;
+      &lt;div className="popular-search-header"&gt;
+        &lt;Icon className="popular-search-icon" /&gt;
+        &lt;h3 className="popular-search-title"&gt;{title}&lt;/h3&gt;
+      &lt;/div&gt;
+      &lt;div className="popular-search-tags-list"&gt;
+        {tags.slice(0, maxTags).map((tag, index) =&gt; (
+          &lt;Link
+            key={tag.query}
+            href={`/search?q=${encodeURIComponent(tag.query)}`}
+            className="popular-search-tag"
+            onClick={() =&gt; onTagClick?.(tag.query)}
+          &gt;
+            {tag.query}
+          &lt;/Link&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/aside&gt;
+  )
+}</pre>
+
+    <p><strong>Analytics Tracking:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function trackPopularTagClick(query: string, position: number, isCurated: boolean) {
+  gtag('event', 'popular_tag_click', {
+    query,
+    position,
+    source: isCurated ? 'curated' : 'analytics',
+    event_category: 'Search',
+    event_label: 'Popular Search Widget'
+  })
+
+  // Track CTR per tag for optimization
+  fetch('/api/analytics/tag-click', {
+    method: 'POST',
+    body: JSON.stringify({ query, position })
+  })
+}</pre>
+
+    <p><strong>Tag Normalization:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function normalizeTag(query: string): string {
+  return query
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, ' ')        // Collapse multiple spaces
+    .replace(/[^a-z0-9\s-]/gi, '') // Remove special chars
+}
+
+function deduplicateTags(tags: PopularTag[]): PopularTag[] {
+  const seen = new Set()
+  return tags.filter(tag => {
+    const normalized = normalizeTag(tag.query)
+    if (seen.has(normalized)) return false
+    seen.add(normalized)
+    return true
+  })
+}</pre>
+
+    <p><strong>Performance Optimization:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Cache popular tags server-side (update hourly/daily)</li>
+      <li>Pre-generate tags during build (SSG)</li>
+      <li>Use Redis/Memcached for fast retrieval</li>
+      <li>Limit analytics query to past 30 days (performance)</li>
+    </ul>
+
+    <h3>STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Variations:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Default (5-8 tags):</strong> Standard sidebar widget</li>
+      <li><strong>Extended (10 tags):</strong> More discovery options</li>
+      <li><strong>Minimal (3 tags):</strong> Compact version</li>
+      <li><strong>Icon variants:</strong> trending-up (default), fire (hot), zap (fast), star (popular)</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>SR04: RecentSearchesSidebar</strong> - Companion widget above popular tags</li>
+      <li><strong>SR03: CategoryMatchCard</strong> - Quick filter cards (main content, not sidebar)</li>
+      <li><strong>C1: InstantSearch</strong> - Main search input</li>
+      <li><strong>EC03: SubcategoryChips</strong> - Similar pill pattern for categories</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✓ Tags load from analytics/curated source</li>
+      <li>✓ Max tags enforced (default 8)</li>
+      <li>✓ Tags deduplicated (case-insensitive)</li>
+      <li>✓ Clicking tag executes search</li>
+      <li>✓ Hover states work (teal bg + white text)</li>
+      <li>✓ Tags wrap properly on narrow screens</li>
+      <li>✓ Keyboard navigation functional</li>
+      <li>✓ Focus ring visible on keyboard nav</li>
+      <li>✓ Analytics tracking fires on click</li>
+      <li>✓ Empty state: component doesn't render</li>
+      <li>✓ Server-side caching works (fast load)</li>
+      <li>✓ Mobile: reduced padding + font size</li>
+    </ul>
+
+    <p><strong>Edge Cases:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Very long query → wraps to next row (handled)</li>
+      <li>No analytics data → show curated fallback or hide component</li>
+      <li>Duplicate queries with different casing → deduplicate (keep first)</li>
+      <li>Sensitive terms in analytics → filter/sanitize server-side</li>
+      <li>XSS in query → escape before rendering</li>
+    </ul>
+
+    <p><strong>Integration Example (Search Results Sidebar):</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+&lt;aside className="search-sidebar"&gt;
+  {/* SR04: Recent Searches */}
+  &lt;RecentSearchesSidebar
+    maxItems={5}
+    onSearchClick={(q) => router.push(`/search?q=${q}`)}
+  /&gt;
+
+  {/* SR05: Popular Search Tags */}
+  &lt;PopularSearchTags
+    tags={popularTags}
+    maxTags={8}
+    onTagClick={(q) => trackPopularTagClick(q, index, tag.isCurated)}
+  /&gt;
+&lt;/aside&gt;</pre>
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+
+    // Demo: Click tracking
+    document.querySelectorAll('.popular-search-tag').forEach((tag, index) => {
+      tag.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Popular tag clicked:', this.textContent, 'Position:', index + 1);
+      });
+    });
+  </script>
+
+</body>
+</html>

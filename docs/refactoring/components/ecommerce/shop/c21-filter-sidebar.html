@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C21 - Filter Sidebar | Plastimed Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --bg: #F5F7FA;
+      --white: #FAFBFC;
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: var(--bg); padding: 24px; }
+
+    /* Demo Container */
+    .demo-wrapper { max-width: 1400px; margin: 0 auto; }
+    .demo-container { background: white; padding: 32px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 32px; }
+    .demo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--grey-mid); margin-bottom: 24px; }
+    .demo-grid { display: grid; grid-template-columns: 280px 1fr; gap: 32px; }
+    .demo-main { background: var(--bg); padding: 24px; border-radius: 12px; min-height: 600px; }
+
+    /* Filter Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 90px;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--grey); border-radius: 3px; }
+    .sidebar::-webkit-scrollbar-thumb:hover { background: var(--grey-mid); }
+
+    /* Filter Card */
+    .filter-card {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .filter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: background var(--transition);
+      user-select: none;
+    }
+
+    .filter-header:hover { background: var(--bg); }
+
+    .filter-header h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .filter-header h3 i {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+    }
+
+    .filter-header .toggle-icon i {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+      transition: transform var(--transition);
+    }
+
+    .filter-card.open .filter-header .toggle-icon i {
+      transform: rotate(180deg);
+    }
+
+    /* Filter Body */
+    .filter-body {
+      padding: 0 18px 16px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .filter-card.open .filter-body {
+      max-height: 600px;
+    }
+
+    /* Filter Option */
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--navy);
+      transition: color var(--transition);
+      user-select: none;
+    }
+
+    .filter-option:hover { color: var(--teal); }
+
+    .filter-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--grey);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+
+    .filter-option.checked .filter-checkbox {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .filter-option.checked .filter-checkbox::after {
+      content: '';
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .filter-option .f-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    /* Price Range Slider */
+    .price-range-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .price-input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1.5px solid var(--grey);
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+      color: var(--navy);
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .price-sep {
+      color: var(--grey-mid);
+      font-size: 13px;
+    }
+
+    .price-slider-track {
+      position: relative;
+      height: 6px;
+      background: var(--grey-light);
+      border-radius: 3px;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+
+    .price-slider-fill {
+      position: absolute;
+      height: 100%;
+      background: var(--teal);
+      border-radius: 3px;
+      left: 10%;
+      right: 30%;
+    }
+
+    .price-slider-thumb {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      background: white;
+      border: 2.5px solid var(--teal);
+      border-radius: 50%;
+      cursor: grab;
+      transition: all var(--transition);
+      box-shadow: 0 2px 6px rgba(10, 22, 40, 0.15);
+    }
+
+    .price-slider-thumb:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+      box-shadow: 0 4px 12px rgba(0, 137, 123, 0.3);
+    }
+
+    .price-slider-thumb:active {
+      cursor: grabbing;
+      box-shadow: 0 2px 8px rgba(0, 137, 123, 0.4);
+    }
+
+    .price-slider-thumb.left { left: 10%; }
+    .price-slider-thumb.right { left: 70%; }
+
+    /* Star Rating Filter */
+    .filter-stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .filter-stars i {
+      width: 14px;
+      height: 14px;
+      color: var(--amber);
+    }
+
+    .filter-stars i.empty {
+      color: var(--grey);
+    }
+
+    /* Filter Apply Button */
+    .filter-btn-apply {
+      width: 100%;
+      padding: 10px 18px;
+      border: 1.5px solid var(--grey);
+      background: white;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filter-btn-apply:hover {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: white;
+    }
+
+    /* Filter Reset */
+    .filter-reset {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      cursor: pointer;
+      transition: color var(--transition);
+      user-select: none;
+    }
+
+    .filter-reset:hover { color: var(--coral); }
+
+    .filter-reset i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Active Filters (Chips) */
+    .active-filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .active-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--teal-glow);
+      border: 1px solid var(--teal);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--teal);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .active-tag:hover {
+      background: var(--coral-light);
+      border-color: var(--coral);
+      color: var(--coral);
+    }
+
+    .active-tag i {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Mobile Responsive */
+    @media(max-width: 768px) {
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 12px;
+      }
+
+      .filter-card {
+        min-width: 200px;
+        flex-shrink: 0;
+        margin-bottom: 0;
+      }
+
+      .sidebar::-webkit-scrollbar { height: 4px; }
+    }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid #E8ECF1; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: #94A3B8; line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: """; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: #F1F4F8; padding: 3px 8px; border-radius: 5px; font-family: var(--font-mono); font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-wrapper">
+    <div class="demo-container">
+      <div class="demo-label">Live Demo: Filter Sidebar with Active Filters</div>
+
+      <!-- Active Filters Display -->
+      <div class="active-filters">
+        <div class="active-tag" onclick="removeFilter(this)">
+          Hartmann <i data-lucide="x"></i>
+        </div>
+        <div class="active-tag" onclick="removeFilter(this)">
+          Nitrile <i data-lucide="x"></i>
+        </div>
+        <div class="active-tag" onclick="removeFilter(this)">
+          Maat: S, M <i data-lucide="x"></i>
+        </div>
+        <div class="active-tag" onclick="removeFilter(this)">
+          Op voorraad <i data-lucide="x"></i>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <!-- FILTER SIDEBAR -->
+        <aside class="sidebar">
+
+          <!-- Filter: Merk -->
+          <div class="filter-card open">
+            <div class="filter-header" onclick="toggleFilter(this.parentElement)">
+              <h3><i data-lucide="award"></i> Merk</h3>
+              <span class="toggle-icon"><i data-lucide="chevron-down"></i></span>
+            </div>
+            <div class="filter-body">
+              <div class="filter-option checked" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Hartmann <span class="f-count">24</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Medline <span class="f-count">18</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Ansell <span class="f-count">14</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Sempermed <span class="f-count">11</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Cardinal Health <span class="f-count">8</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> B. Braun <span class="f-count">6</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter: Maat -->
+          <div class="filter-card open">
+            <div class="filter-header" onclick="toggleFilter(this.parentElement)">
+              <h3><i data-lucide="ruler"></i> Maat</h3>
+              <span class="toggle-icon"><i data-lucide="chevron-down"></i></span>
+            </div>
+            <div class="filter-body">
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> XS <span class="f-count">42</span>
+              </div>
+              <div class="filter-option checked" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> S <span class="f-count">68</span>
+              </div>
+              <div class="filter-option checked" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> M <span class="f-count">72</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> L <span class="f-count">70</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> XL <span class="f-count">58</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter: Prijs -->
+          <div class="filter-card open">
+            <div class="filter-header" onclick="toggleFilter(this.parentElement)">
+              <h3><i data-lucide="euro"></i> Prijs</h3>
+              <span class="toggle-icon"><i data-lucide="chevron-down"></i></span>
+            </div>
+            <div class="filter-body">
+              <div class="price-range-display">
+                <input class="price-input" type="text" value="¬ 2,50" id="price-min" readonly>
+                <span class="price-sep"></span>
+                <input class="price-input" type="text" value="¬ 45,00" id="price-max" readonly>
+              </div>
+              <div class="price-slider-track" id="price-slider">
+                <div class="price-slider-fill" id="price-fill"></div>
+                <div class="price-slider-thumb left" id="thumb-min"></div>
+                <div class="price-slider-thumb right" id="thumb-max"></div>
+              </div>
+              <button class="filter-btn-apply" onclick="applyPriceFilter()">Toepassen</button>
+            </div>
+          </div>
+
+          <!-- Filter: Materiaal -->
+          <div class="filter-card open">
+            <div class="filter-header" onclick="toggleFilter(this.parentElement)">
+              <h3><i data-lucide="layers"></i> Materiaal</h3>
+              <span class="toggle-icon"><i data-lucide="chevron-down"></i></span>
+            </div>
+            <div class="filter-body">
+              <div class="filter-option checked" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Nitrile <span class="f-count">34</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Latex <span class="f-count">18</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Vinyl <span class="f-count">12</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Neopreen <span class="f-count">5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter: Beoordeling -->
+          <div class="filter-card open">
+            <div class="filter-header" onclick="toggleFilter(this.parentElement)">
+              <h3><i data-lucide="star"></i> Beoordeling</h3>
+              <span class="toggle-icon"><i data-lucide="chevron-down"></i></span>
+            </div>
+            <div class="filter-body">
+              <div class="filter-option" onclick="toggleCheckbox(this)" style="gap:8px;">
+                <div class="filter-checkbox"></div>
+                <div class="filter-stars">
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                </div>
+                <span class="f-count">12</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)" style="gap:8px;">
+                <div class="filter-checkbox"></div>
+                <div class="filter-stars">
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star" class="empty"></i>
+                </div>
+                <span style="font-size:12px; color:var(--grey-mid);">& hoger</span>
+                <span class="f-count">38</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)" style="gap:8px;">
+                <div class="filter-checkbox"></div>
+                <div class="filter-stars">
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star"></i>
+                  <i data-lucide="star" class="empty"></i>
+                  <i data-lucide="star" class="empty"></i>
+                </div>
+                <span style="font-size:12px; color:var(--grey-mid);">& hoger</span>
+                <span class="f-count">52</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter: Beschikbaarheid -->
+          <div class="filter-card open">
+            <div class="filter-header" onclick="toggleFilter(this.parentElement)">
+              <h3><i data-lucide="package-check"></i> Beschikbaarheid</h3>
+              <span class="toggle-icon"><i data-lucide="chevron-down"></i></span>
+            </div>
+            <div class="filter-body">
+              <div class="filter-option checked" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Op voorraad <span class="f-count">81</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Binnen 3 dagen <span class="f-count">4</span>
+              </div>
+              <div class="filter-option" onclick="toggleCheckbox(this)">
+                <div class="filter-checkbox"></div> Op bestelling <span class="f-count">1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reset Filters -->
+          <div class="filter-reset" onclick="resetAllFilters()">
+            <i data-lucide="x-circle"></i> Alle filters wissen
+          </div>
+
+        </aside>
+
+        <!-- Demo Main Content Area -->
+        <div class="demo-main">
+          <p style="color: var(--grey-mid); font-size: 14px;">Product grid zou hier komen...</p>
+          <p style="color: var(--grey-mid); font-size: 14px; margin-top: 12px;">Filter de producten met de sidebar aan de linkerkant.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTATION -->
+    <div class="doc-box">
+      <h2>=Ë STEP 1: COMPONENT OVERVIEW</h2>
+      <p><strong>Component:</strong> C21 - Filter Sidebar</p>
+      <p><strong>Category:</strong> E-commerce / Product Discovery</p>
+      <p><strong>Complexiteit:</strong> High (collapsible sections, checkboxes, price slider, active filters)</p>
+
+      <h3>Purpose:</h3>
+      <p>Comprehensive filtering system for product category pages, search results, and archives. Allows users to narrow down large product catalogs using multiple criteria (brand, size, price range, material, rating, availability).</p>
+
+      <h3>Key Features:</h3>
+      <ul>
+        <li>Collapsible filter cards (smooth expand/collapse animation)</li>
+        <li>Checkbox filters with item counts (grey badge)</li>
+        <li>Dual-handle price range slider with min/max inputs</li>
+        <li>Star rating filter (5-star, 4+ stars, 3+ stars)</li>
+        <li>Active filter chips (removable tags with X icon)</li>
+        <li>Reset all filters link</li>
+        <li>Sticky positioning (top: 90px, follows scroll)</li>
+        <li>Icon-enriched section headers (Lucide icons in teal)</li>
+        <li>Responsive: Horizontal scroll on mobile (<768px)</li>
+      </ul>
+    </div>
+
+    <div class="doc-box">
+      <h2><¯ STEP 2: WHEN TO USE</h2>
+      <h3>Ideaal voor:</h3>
+      <ul>
+        <li>Product category pages (>20 products)</li>
+        <li>Search results pages (multi-faceted search)</li>
+        <li>B2B catalogs with technical specifications</li>
+        <li>Blog/article archives (category, author, date filters)</li>
+        <li>Admin data tables with complex filtering needs</li>
+      </ul>
+
+      <h3>Best Practices:</h3>
+      <ul>
+        <li>Show max 6-8 filter categories (avoid overwhelming users)</li>
+        <li>Always display item counts (shows availability before filtering)</li>
+        <li>Start with most-used filters open (brand, price, size)</li>
+        <li>Update URL with filter params (?brand=hartmann&size=s,m)</li>
+        <li>Show active filters as removable chips above product grid</li>
+        <li>Preserve filters when navigating back (localStorage/URL)</li>
+        <li>Show "No results" state when filters return 0 products</li>
+        <li>Auto-apply checkbox filters (no "Apply" button needed)</li>
+        <li>Require "Apply" button for price slider (prevents excessive API calls)</li>
+      </ul>
+
+      <h3>Don't Use When:</h3>
+      <ul>
+        <li>Product catalog has <20 items (not worth filtering)</li>
+        <li>Only 1-2 filter criteria available (use dropdown instead)</li>
+        <li>Mobile-first design (use modal/drawer filter panel)</li>
+      </ul>
+    </div>
+
+    <div class="doc-box">
+      <h2><¨ STEP 3: DESIGN TOKENS</h2>
+
+      <h3>Colors:</h3>
+      <pre>
+Primary Accent:  --teal (#00897B)          ’ Filter icons, active checkbox
+Hover State:     --teal-light (#26A69A)    ’ Button hover
+Focus Glow:      --teal-glow (rgba 0.12)   ’ Active filter chips
+Destructive:     --coral (#FF6B6B)         ’ Reset hover, remove chip
+Rating:          --amber (#F59E0B)         ’ Star icons
+Background:      --white (#FAFBFC)         ’ Card background
+Border:          --grey (#E8ECF1)          ’ Card borders, checkbox
+Text Primary:    --navy (#0A1628)          ’ Headings, labels
+Text Secondary:  --grey-mid (#94A3B8)      ’ Counts, helper text</pre>
+
+      <h3>Typography:</h3>
+      <pre>
+Section Header:  14px / 700 / --font-primary (DM Sans)
+Filter Option:   13px / 400 / --font-primary
+Item Count:      12px / 400 / --font-primary / --grey-mid
+Price Input:     13px / 600 / --font-mono (JetBrains Mono)</pre>
+
+      <h3>Spacing (4px grid):</h3>
+      <pre>
+Filter card gap:         12px
+Section padding:         14px 18px (header), 0 18px 16px (body)
+Checkbox size:           18px × 18px
+Icon size:               16px (headers), 14px (reset)
+Filter option padding:   10px 0
+Price slider height:     6px
+Slider thumb size:       18px × 18px
+Active chip padding:     6px 12px</pre>
+
+      <h3>Icons (Lucide):</h3>
+      <pre>
+award          ’ Merk (brand)
+ruler          ’ Maat (size)
+euro           ’ Prijs (price)
+layers         ’ Materiaal (material)
+star           ’ Beoordeling (rating)
+package-check  ’ Beschikbaarheid (availability)
+chevron-down   ’ Collapse toggle
+x-circle       ’ Reset all filters
+x              ’ Remove active filter chip</pre>
+
+      <h3>Layout:</h3>
+      <pre>
+Sidebar width:     280px (desktop)
+Position:          sticky, top: 90px
+Max-height:        calc(100vh - 110px)
+Border radius:     12px (cards), 8px (buttons/inputs)
+Mobile breakpoint: 768px (switch to horizontal scroll)</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2>™ STEP 4: PROPS & CONFIGURATION</h2>
+
+      <h3>React/TypeScript Props:</h3>
+      <pre>
+interface FilterSidebarProps {
+  filters: FilterGroup[];           // Array of filter categories
+  activeFilters: ActiveFilter[];    // Currently selected filters
+  onFilterChange: (filters: ActiveFilter[]) => void;
+  onResetAll: () => void;
+  sticky?: boolean;                 // Enable sticky positioning
+  stickyTop?: number;               // Sticky top offset (default: 90px)
+  defaultOpen?: string[];           // Filter IDs to open by default
+}
+
+interface FilterGroup {
+  id: string;                       // 'brand', 'size', 'price', etc.
+  label: string;                    // Display name
+  icon: string;                     // Lucide icon name
+  type: 'checkbox' | 'range' | 'rating';
+  options?: FilterOption[];         // For checkbox/rating filters
+  range?: { min: number; max: number; step: number; }; // For price slider
+  defaultOpen?: boolean;
+}
+
+interface FilterOption {
+  value: string;
+  label: string;
+  count: number;                    // Product count for this option
+}
+
+interface ActiveFilter {
+  groupId: string;
+  label: string;                    // Display label for chip
+  values: string[];                 // Selected values
+}</pre>
+
+      <h3>Usage Example:</h3>
+      <pre>
+const filters: FilterGroup[] = [
+  {
+    id: 'brand',
+    label: 'Merk',
+    icon: 'award',
+    type: 'checkbox',
+    defaultOpen: true,
+    options: [
+      { value: 'hartmann', label: 'Hartmann', count: 24 },
+      { value: 'medline', label: 'Medline', count: 18 },
+      { value: 'ansell', label: 'Ansell', count: 14 },
+    ]
+  },
+  {
+    id: 'price',
+    label: 'Prijs',
+    icon: 'euro',
+    type: 'range',
+    defaultOpen: true,
+    range: { min: 0, max: 100, step: 0.50 }
+  },
+  {
+    id: 'rating',
+    label: 'Beoordeling',
+    icon: 'star',
+    type: 'rating',
+    options: [
+      { value: '5', label: '5 sterren', count: 12 },
+      { value: '4+', label: '4+ sterren', count: 38 },
+      { value: '3+', label: '3+ sterren', count: 52 },
+    ]
+  }
+];
+
+&lt;FilterSidebar
+  filters={filters}
+  activeFilters={activeFilters}
+  onFilterChange={handleFilterChange}
+  onResetAll={resetFilters}
+  sticky={true}
+  stickyTop={90}
+/&gt;</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2>=Ð STEP 5: LAYOUT RULES</h2>
+
+      <h3>Desktop Layout (>768px):</h3>
+      <ul>
+        <li>Sidebar: 280px fixed width, sticky positioning (top: 90px)</li>
+        <li>Max-height: calc(100vh - 110px) with vertical scroll</li>
+        <li>Filter cards: 100% width, 12px gap between cards</li>
+        <li>All filters vertically stacked</li>
+        <li>Custom scrollbar: 6px width, grey thumb</li>
+      </ul>
+
+      <h3>Mobile Layout (<768px):</h3>
+      <ul>
+        <li>Sidebar: Horizontal scroll container</li>
+        <li>Filter cards: min-width 200px, no wrapping</li>
+        <li>Scrollbar: 4px height (horizontal)</li>
+        <li>Position: static (no sticky behavior)</li>
+        <li>Alternative: Replace with modal filter panel (recommended for mobile)</li>
+      </ul>
+
+      <h3>Filter Card States:</h3>
+      <pre>
+Collapsed (default):  max-height: 0, overflow: hidden
+Expanded (.open):     max-height: 600px, smooth transition (0.3s)
+Header hover:         background: var(--bg)
+Chevron rotation:     0deg ’ 180deg (expanded)</pre>
+
+      <h3>Grid Integration:</h3>
+      <pre>
+// Typical page layout
+.shop-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .shop-layout {
+    grid-template-columns: 1fr;
+  }
+}</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2> STEP 6: ACCESSIBILITY</h2>
+
+      <h3>Semantic HTML:</h3>
+      <ul>
+        <li>Use <code>&lt;aside role="complementary"&gt;</code> for sidebar container</li>
+        <li>Each filter card wrapped in <code>&lt;fieldset&gt;</code></li>
+        <li>Filter headers use <code>&lt;legend&gt;</code> or <code>&lt;h3&gt;</code></li>
+        <li>Checkboxes: actual <code>&lt;input type="checkbox"&gt;</code> (hidden, styled custom)</li>
+        <li>Price slider: <code>&lt;input type="range"&gt;</code> with <code>aria-valuemin/max/now</code></li>
+      </ul>
+
+      <h3>ARIA Attributes:</h3>
+      <pre>
+// Filter section (collapsible)
+&lt;div class="filter-card" aria-expanded="true"&gt;
+  &lt;button class="filter-header" aria-controls="filter-brand"&gt;
+    &lt;h3&gt;Merk&lt;/h3&gt;
+  &lt;/button&gt;
+  &lt;div id="filter-brand" class="filter-body"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+// Checkbox option
+&lt;label class="filter-option"&gt;
+  &lt;input type="checkbox" value="hartmann" aria-describedby="count-hartmann"&gt;
+  &lt;span&gt;Hartmann&lt;/span&gt;
+  &lt;span id="count-hartmann" class="f-count"&gt;24 producten&lt;/span&gt;
+&lt;/label&gt;
+
+// Price slider
+&lt;input
+  type="range"
+  id="price-min"
+  min="0"
+  max="100"
+  value="2.50"
+  aria-label="Minimum prijs"
+  aria-valuetext="¬2,50"
+/&gt;</pre>
+
+      <h3>Keyboard Navigation:</h3>
+      <ul>
+        <li><strong>Tab:</strong> Focus filter headers, checkboxes, slider thumbs, reset button</li>
+        <li><strong>Enter/Space:</strong> Toggle filter collapse, check/uncheck options</li>
+        <li><strong>Arrow keys:</strong> Adjust price slider (left/right: -/+ ¬0.50)</li>
+        <li><strong>Escape:</strong> Clear focus, close expanded filter (optional)</li>
+      </ul>
+
+      <h3>Screen Reader Announcements:</h3>
+      <pre>
+// When filter applied
+&lt;div role="status" aria-live="polite" class="sr-only"&gt;
+  Filter toegepast: Hartmann. 24 producten gevonden.
+&lt;/div&gt;
+
+// When filter removed
+&lt;div role="status" aria-live="polite"&gt;
+  Filter verwijderd: Hartmann. 86 producten gevonden.
+&lt;/div&gt;</pre>
+
+      <h3>Focus Management:</h3>
+      <ul>
+        <li>Visible focus ring: <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+        <li>Focus trap: Not needed (sidebar is not modal)</li>
+        <li>When removing active filter chip, focus moves to next chip (or reset button if last)</li>
+      </ul>
+    </div>
+
+    <div class="doc-box">
+      <h2>=' STEP 7: IMPLEMENTATION NOTES</h2>
+
+      <h3>State Management:</h3>
+      <pre>
+// React state example
+const [activeFilters, setActiveFilters] = useState&lt;ActiveFilter[]&gt;([]);
+const [openSections, setOpenSections] = useState&lt;string[]&gt;(['brand', 'price', 'size']);
+const [priceRange, setPriceRange] = useState({ min: 0, max: 100 });
+
+// Sync with URL (React Router or Next.js)
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const filters = parseFiltersFromURL(params);
+  setActiveFilters(filters);
+}, []);
+
+// Update URL when filters change
+useEffect(() => {
+  const params = buildURLFromFilters(activeFilters);
+  router.push(`/products?${params}`, undefined, { shallow: true });
+}, [activeFilters]);</pre>
+
+      <h3>Price Slider Implementation:</h3>
+      <pre>
+// Dual-handle range slider (vanilla JS example)
+const track = document.getElementById('price-slider');
+const thumbMin = document.getElementById('thumb-min');
+const thumbMax = document.getElementById('thumb-max');
+const fill = document.getElementById('price-fill');
+
+let isDragging = null;
+const min = 0, max = 100;
+
+thumbMin.addEventListener('mousedown', () => isDragging = 'min');
+thumbMax.addEventListener('mousedown', () => isDragging = 'max');
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+
+  const rect = track.getBoundingClientRect();
+  const percent = Math.max(0, Math.min(100,
+    (e.clientX - rect.left) / rect.width * 100
+  ));
+
+  if (isDragging === 'min') {
+    const maxPercent = parseFloat(thumbMax.style.left);
+    if (percent < maxPercent) {
+      thumbMin.style.left = percent + '%';
+      fill.style.left = percent + '%';
+      updatePriceInput('min', percent);
+    }
+  } else {
+    const minPercent = parseFloat(thumbMin.style.left);
+    if (percent > minPercent) {
+      thumbMax.style.left = percent + '%';
+      fill.style.right = (100 - percent) + '%';
+      updatePriceInput('max', percent);
+    }
+  }
+});
+
+document.addEventListener('mouseup', () => isDragging = null);</pre>
+
+      <h3>Filter Logic (API Integration):</h3>
+      <pre>
+// Build API query from active filters
+function buildFilterQuery(filters: ActiveFilter[]) {
+  const query: any = {};
+
+  filters.forEach(filter => {
+    switch(filter.groupId) {
+      case 'brand':
+        query.brand = filter.values; // ['hartmann', 'medline']
+        break;
+      case 'size':
+        query.size = filter.values;
+        break;
+      case 'price':
+        query.price_min = filter.values[0];
+        query.price_max = filter.values[1];
+        break;
+      case 'rating':
+        query.rating_min = parseInt(filter.values[0]);
+        break;
+      case 'stock':
+        query.in_stock = filter.values.includes('in-stock');
+        break;
+    }
+  });
+
+  return query;
+}
+
+// Example API call
+const fetchProducts = async (filters: ActiveFilter[]) => {
+  const query = buildFilterQuery(filters);
+  const response = await fetch('/api/products?' + new URLSearchParams(query));
+  const data = await response.json();
+  return data.products;
+};</pre>
+
+      <h3>Performance Optimization:</h3>
+      <ul>
+        <li><strong>Debounce price slider:</strong> Only trigger API call 300ms after user stops dragging</li>
+        <li><strong>Virtual scrolling:</strong> If >50 filter options, use react-window for checkbox lists</li>
+        <li><strong>Lazy load counts:</strong> Fetch item counts async after initial page load</li>
+        <li><strong>Sticky positioning:</strong> Use CSS <code>position: sticky</code> (no JS scroll listeners needed)</li>
+      </ul>
+
+      <h3>LocalStorage Persistence:</h3>
+      <pre>
+// Save filters to localStorage
+function saveFiltersToStorage(filters: ActiveFilter[]) {
+  localStorage.setItem('shop-filters', JSON.stringify(filters));
+}
+
+// Load filters on page load
+function loadFiltersFromStorage(): ActiveFilter[] {
+  const saved = localStorage.getItem('shop-filters');
+  return saved ? JSON.parse(saved) : [];
+}
+
+// Clear filters after 24 hours
+const filterTimestamp = localStorage.getItem('shop-filters-timestamp');
+if (Date.now() - parseInt(filterTimestamp) > 86400000) {
+  localStorage.removeItem('shop-filters');
+}</pre>
+    </div>
+
+    <div class="doc-box">
+      <h2>= STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+      <h3>Variations:</h3>
+      <ul>
+        <li><strong>Modal Filter Panel (Mobile):</strong> Replace sidebar with bottom sheet or fullscreen modal on mobile</li>
+        <li><strong>Horizontal Filter Bar:</strong> Show 3-4 most-used filters as dropdowns in horizontal toolbar</li>
+        <li><strong>Inline Filters:</strong> Embed filter dropdowns above product grid (no sidebar)</li>
+        <li><strong>Advanced Filters:</strong> Add multi-select dropdowns, color swatches, date range picker</li>
+      </ul>
+
+      <h3>Related Components:</h3>
+      <ul>
+        <li><strong>C22 - SortDropdown:</strong> Sort controls that work alongside filters</li>
+        <li><strong>C20 - Pagination:</strong> Page navigation for filtered results</li>
+        <li><strong>ProductCard:</strong> The items being filtered</li>
+        <li><strong>Active Filter Chips:</strong> Can be extracted as standalone component (C21a)</li>
+      </ul>
+
+      <h3>Integration Pattern:</h3>
+      <pre>
+// Typical shop archive layout
+&lt;div className="shop-page"&gt;
+  {/* Active filters */}
+  &lt;ActiveFilterChips
+    filters={activeFilters}
+    onRemove={removeFilter}
+    onReset={resetAll}
+  /&gt;
+
+  {/* Toolbar with sort */}
+  &lt;div className="shop-toolbar"&gt;
+    &lt;div className="result-count"&gt;
+      &lt;strong&gt;{filteredCount}&lt;/strong&gt; van {totalCount} producten
+    &lt;/div&gt;
+    &lt;SortDropdown value={sortBy} onChange={setSortBy} /&gt;
+  &lt;/div&gt;
+
+  {/* Main grid */}
+  &lt;div className="shop-grid"&gt;
+    &lt;FilterSidebar
+      filters={filters}
+      activeFilters={activeFilters}
+      onFilterChange={applyFilters}
+      sticky={true}
+    /&gt;
+
+    &lt;div className="product-grid"&gt;
+      {products.map(product =&gt; (
+        &lt;ProductCard key={product.id} {...product} /&gt;
+      ))}
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  {/* Pagination */}
+  &lt;Pagination
+    currentPage={page}
+    totalPages={totalPages}
+    onPageChange={setPage}
+  /&gt;
+&lt;/div&gt;</pre>
+
+      <h3>Payload CMS Integration:</h3>
+      <pre>
+// Block definition
+{
+  slug: 'filterSidebar',
+  fields: [
+    {
+      name: 'filters',
+      type: 'array',
+      fields: [
+        { name: 'id', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true },
+        { name: 'icon', type: 'text' },
+        { name: 'type', type: 'select', options: ['checkbox', 'range', 'rating'] },
+        { name: 'defaultOpen', type: 'checkbox', defaultValue: true },
+        {
+          name: 'options',
+          type: 'array',
+          admin: { condition: (data) => data.type === 'checkbox' },
+          fields: [
+            { name: 'value', type: 'text' },
+            { name: 'label', type: 'text' },
+            { name: 'count', type: 'number' }
+          ]
+        }
+      ]
+    },
+    { name: 'sticky', type: 'checkbox', defaultValue: true },
+    { name: 'stickyTop', type: 'number', defaultValue: 90 }
+  ]
+}</pre>
+
+      <h3>Testing Checklist:</h3>
+      <ul>
+        <li> Filter collapse/expand animation works smoothly</li>
+        <li> Checkbox filters update product count immediately</li>
+        <li> Price slider thumbs don't overlap (min stays left of max)</li>
+        <li> Active filter chips are removable with keyboard (Enter/Space)</li>
+        <li> Reset all filters clears all selections and chips</li>
+        <li> Sticky positioning works on scroll (desktop only)</li>
+        <li> Horizontal scroll works on mobile (<768px)</li>
+        <li> URL updates with filter params (shareable links)</li>
+        <li> Back button restores previous filter state</li>
+        <li> Screen reader announces filter changes</li>
+        <li> Focus ring visible on all interactive elements</li>
+        <li> Filter counts update after applying filters (reflect actual results)</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Toggle filter card open/closed
+    function toggleFilter(card) {
+      card.classList.toggle('open');
+    }
+
+    // Toggle checkbox state
+    function toggleCheckbox(option) {
+      option.classList.toggle('checked');
+      // In real app: trigger filter update and API call here
+      console.log('Filter toggled:', option.textContent.trim());
+    }
+
+    // Apply price filter
+    function applyPriceFilter() {
+      const min = document.getElementById('price-min').value;
+      const max = document.getElementById('price-max').value;
+      console.log('Price filter applied:', min, '’', max);
+      // In real app: trigger API call with price range
+    }
+
+    // Remove active filter chip
+    function removeFilter(chip) {
+      chip.style.opacity = '0';
+      chip.style.transform = 'scale(0.8)';
+      setTimeout(() => {
+        chip.remove();
+      }, 200);
+      console.log('Filter removed:', chip.textContent.trim());
+    }
+
+    // Reset all filters
+    function resetAllFilters() {
+      // Uncheck all checkboxes
+      document.querySelectorAll('.filter-option.checked').forEach(option => {
+        option.classList.remove('checked');
+      });
+
+      // Remove all active chips
+      document.querySelectorAll('.active-tag').forEach(chip => {
+        chip.remove();
+      });
+
+      // Reset price slider to defaults
+      document.getElementById('price-min').value = '¬ 0,00';
+      document.getElementById('price-max').value = '¬ 100,00';
+      document.getElementById('thumb-min').style.left = '0%';
+      document.getElementById('thumb-max').style.left = '100%';
+      document.getElementById('price-fill').style.left = '0%';
+      document.getElementById('price-fill').style.right = '0%';
+
+      console.log('All filters reset');
+    }
+
+    // Price slider drag functionality
+    let isDragging = null;
+    const track = document.getElementById('price-slider');
+    const thumbMin = document.getElementById('thumb-min');
+    const thumbMax = document.getElementById('thumb-max');
+    const fill = document.getElementById('price-fill');
+    const inputMin = document.getElementById('price-min');
+    const inputMax = document.getElementById('price-max');
+
+    function percentToPrice(percent) {
+      return Math.round(percent);
+    }
+
+    function updatePriceDisplay() {
+      const minPercent = parseFloat(thumbMin.style.left) || 10;
+      const maxPercent = parseFloat(thumbMax.style.left) || 70;
+      inputMin.value = `¬ ${percentToPrice(minPercent)},00`;
+      inputMax.value = `¬ ${percentToPrice(maxPercent)},00`;
+    }
+
+    thumbMin.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isDragging = 'min';
+    });
+
+    thumbMax.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isDragging = 'max';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+
+      const rect = track.getBoundingClientRect();
+      let percent = Math.max(0, Math.min(100,
+        ((e.clientX - rect.left) / rect.width) * 100
+      ));
+
+      if (isDragging === 'min') {
+        const maxPercent = parseFloat(thumbMax.style.left) || 70;
+        if (percent < maxPercent - 5) { // Min 5% gap
+          thumbMin.style.left = percent + '%';
+          fill.style.left = percent + '%';
+          updatePriceDisplay();
+        }
+      } else if (isDragging === 'max') {
+        const minPercent = parseFloat(thumbMin.style.left) || 10;
+        if (percent > minPercent + 5) { // Min 5% gap
+          thumbMax.style.left = percent + '%';
+          fill.style.right = (100 - percent) + '%';
+          updatePriceDisplay();
+        }
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = null;
+    });
+
+    // Touch support for mobile
+    thumbMin.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      isDragging = 'min';
+    });
+
+    thumbMax.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      isDragging = 'max';
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+
+      const touch = e.touches[0];
+      const rect = track.getBoundingClientRect();
+      let percent = Math.max(0, Math.min(100,
+        ((touch.clientX - rect.left) / rect.width) * 100
+      ));
+
+      if (isDragging === 'min') {
+        const maxPercent = parseFloat(thumbMax.style.left) || 70;
+        if (percent < maxPercent - 5) {
+          thumbMin.style.left = percent + '%';
+          fill.style.left = percent + '%';
+          updatePriceDisplay();
+        }
+      } else if (isDragging === 'max') {
+        const minPercent = parseFloat(thumbMin.style.left) || 10;
+        if (percent > minPercent + 5) {
+          thumbMax.style.left = percent + '%';
+          fill.style.right = (100 - percent) + '%';
+          updatePriceDisplay();
+        }
+      }
+    });
+
+    document.addEventListener('touchend', () => {
+      isDragging = null;
+    });
+  </script>
+</body>
+</html>

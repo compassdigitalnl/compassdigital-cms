@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC14: AddressForm — Compass Design System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ================================
+       DESIGN TOKENS
+       ================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --coral: #FF6B6B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 14px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    }
+
+    /* ================================
+       BASE STYLES
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ================================
+       DEMO SECTION STYLES
+       ================================ */
+    .demo-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      border: 1px solid var(--grey);
+    }
+
+    .demo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    /* ================================
+       COMPONENT: EC14 AddressForm
+       ================================ */
+
+    /* Form section container */
+    .form-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
+      margin-bottom: var(--space-24);
+    }
+
+    /* Section title */
+    .form-section-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-20);
+      padding-bottom: var(--space-12);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .form-section-title i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .optional {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--grey-mid);
+    }
+
+    /* Form grid (2-column layout) */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-16);
+    }
+
+    /* Form group (single field) */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    /* Span full width (for country dropdown, etc.) */
+    .form-group.span-2 {
+      grid-column: 1 / -1;
+    }
+
+    /* Form label */
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    /* Required indicator (red asterisk) */
+    .req {
+      color: var(--coral);
+      font-weight: 700;
+    }
+
+    /* Form input */
+    .form-input {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--navy);
+      background: var(--white);
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      transition: all var(--transition);
+      outline: none;
+    }
+
+    .form-input::placeholder {
+      color: var(--grey-mid);
+    }
+
+    /* Focus state */
+    .form-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Error state */
+    .form-group.error .form-input {
+      border-color: var(--coral);
+    }
+
+    .form-group.error .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.12);
+    }
+
+    /* Success state (after validation) */
+    .form-group.success .form-input {
+      border-color: var(--green);
+    }
+
+    /* Error message */
+    .error-message {
+      font-size: 12px;
+      color: var(--coral);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: -2px;
+    }
+
+    .error-message i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Helper text (below input) */
+    .helper-text {
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-top: -2px;
+    }
+
+    /* Saved addresses dropdown */
+    .saved-addresses {
+      background: var(--bg);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: var(--space-12);
+      margin-bottom: var(--space-16);
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .saved-addresses i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .saved-addresses select {
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .saved-addresses select:focus {
+      border-color: var(--teal);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Autocomplete suggestion */
+    .autocomplete-hint {
+      background: var(--teal-glow);
+      border: 1px solid var(--teal);
+      border-radius: var(--radius-sm);
+      padding: var(--space-8) var(--space-12);
+      font-size: 12px;
+      color: var(--teal);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    .autocomplete-hint i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Loading spinner (for autocomplete) */
+    .loading-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--grey);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ================================
+       RESPONSIVE
+       ================================ */
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.span-2 {
+        grid-column: 1;
+      }
+
+      .form-section {
+        padding: var(--space-16);
+      }
+
+      .demo-section {
+        padding: 20px;
+      }
+    }
+
+    /* ================================
+       DOCUMENTATION STYLES
+       ================================ */
+    .doc-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-section p, .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .doc-section ul, .doc-section ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--grey);
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .token-table td {
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      background: white;
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ================================
+         LIVE DEMO
+         ================================ -->
+    <div class="demo-section">
+      <div class="demo-title">EC14: AddressForm — Live Demo</div>
+      <div class="demo-description">
+        Shipping address form with validation, postcode autocomplete, and saved addresses (B2B).
+      </div>
+
+      <!-- Address Form -->
+      <div class="form-section">
+        <h2 class="form-section-title">
+          <i data-lucide="map-pin"></i>
+          Afleveradres
+        </h2>
+
+        <!-- Saved addresses (B2B only) -->
+        <div class="saved-addresses">
+          <i data-lucide="bookmark"></i>
+          <select id="saved-addresses" onchange="loadSavedAddress(this.value)">
+            <option value="">Selecteer opgeslagen adres...</option>
+            <option value="default">🏢 Hoofdlocatie — Breestraat 42, Beverwijk</option>
+            <option value="warehouse">📦 Magazijn — Industrieweg 15, Zaandam</option>
+            <option value="new">➕ Nieuw adres toevoegen</option>
+          </select>
+        </div>
+
+        <!-- Address fields -->
+        <form id="address-form" class="form-grid" novalidate>
+          <!-- First Name -->
+          <div class="form-group">
+            <label class="form-label">
+              Voornaam
+              <span class="req">*</span>
+            </label>
+            <input
+              class="form-input"
+              type="text"
+              name="firstName"
+              placeholder="Jan"
+              value="Jan"
+              required
+            >
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group">
+            <label class="form-label">
+              Achternaam
+              <span class="req">*</span>
+            </label>
+            <input
+              class="form-input"
+              type="text"
+              name="lastName"
+              placeholder="de Vries"
+              value="de Vries"
+              required
+            >
+          </div>
+
+          <!-- Street + Number -->
+          <div class="form-group">
+            <label class="form-label">
+              Straat + huisnummer
+              <span class="req">*</span>
+            </label>
+            <input
+              class="form-input"
+              type="text"
+              name="street"
+              placeholder="Breestraat 42"
+              value="Breestraat 42"
+              required
+            >
+          </div>
+
+          <!-- Addition (optional) -->
+          <div class="form-group">
+            <label class="form-label">Toevoeging</label>
+            <input
+              class="form-input"
+              type="text"
+              name="addition"
+              placeholder="Bijv. A, 2e etage"
+            >
+            <span class="helper-text">Appartement, verdieping, etc.</span>
+          </div>
+
+          <!-- Postal Code (with autocomplete) -->
+          <div class="form-group" id="postal-code-group">
+            <label class="form-label">
+              Postcode
+              <span class="req">*</span>
+            </label>
+            <input
+              class="form-input"
+              type="text"
+              name="postalCode"
+              placeholder="1234 AB"
+              value="1941 EK"
+              id="postal-code"
+              oninput="validatePostalCode(this)"
+              required
+            >
+            <!-- Autocomplete hint (shown on valid postcode) -->
+            <div class="autocomplete-hint" id="autocomplete-hint" style="display: none;">
+              <i data-lucide="sparkles"></i>
+              <span>Adres automatisch aangevuld</span>
+            </div>
+          </div>
+
+          <!-- City -->
+          <div class="form-group">
+            <label class="form-label">
+              Plaats
+              <span class="req">*</span>
+            </label>
+            <input
+              class="form-input"
+              type="text"
+              name="city"
+              placeholder="Amsterdam"
+              value="Beverwijk"
+              id="city"
+              required
+            >
+          </div>
+
+          <!-- Country (full width) -->
+          <div class="form-group span-2">
+            <label class="form-label">Land</label>
+            <select class="form-input" name="country">
+              <option value="NL" selected>Nederland</option>
+              <option value="BE">België</option>
+              <option value="DE">Duitsland</option>
+              <option value="FR">Frankrijk</option>
+              <option value="UK">Verenigd Koninkrijk</option>
+            </select>
+          </div>
+        </form>
+
+        <!-- Validation button for demo -->
+        <button
+          onclick="validateForm()"
+          style="margin-top:16px;background:var(--teal);color:white;border:none;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;"
+          onmouseover="this.style.background='var(--teal-light)'"
+          onmouseout="this.style.background='var(--teal)'"
+        >
+          Valideer formulier
+        </button>
+      </div>
+    </div>
+
+    <!-- ================================
+         DOCUMENTATION
+         ================================ -->
+
+    <!-- STEP 1: Component Overview -->
+    <div class="doc-section">
+      <h2>STEP 1: Component Overview</h2>
+
+      <p><strong>Component ID:</strong> EC14</p>
+      <p><strong>Component Name:</strong> AddressForm</p>
+      <p><strong>Category:</strong> Forms / Checkout</p>
+      <p><strong>Source File:</strong> <code>plastimed-checkout.html</code> (lines 227-241)</p>
+      <p><strong>Output File:</strong> <code>/refactoring/components/forms/ec14-address-form.html</code></p>
+
+      <h3>Purpose</h3>
+      <p>
+        Shipping address form for checkout flow (step 1: Gegevens). Collects delivery address with validation, postcode autocomplete (NL), and saved addresses dropdown for B2B customers. Provides clear visual feedback for required fields, validation errors, and successful input.
+      </p>
+
+      <h3>Visual Pattern</h3>
+      <ul>
+        <li>White card with border + rounded corners (14px radius)</li>
+        <li>Section header with icon (map-pin) + title</li>
+        <li>2-column grid layout (stacks to 1-column on mobile)</li>
+        <li>Form fields with labels + required indicators (red asterisks)</li>
+        <li>Input focus state: teal border + glow ring</li>
+        <li>Error state: coral border + error message below</li>
+        <li>Success state: green border (after validation)</li>
+      </ul>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>✅ 7 address fields (firstName, lastName, street, addition, postalCode, city, country)</li>
+        <li>✅ Required field indicators (red asterisk)</li>
+        <li>✅ Validation states (error, success)</li>
+        <li>✅ Error messages below invalid fields</li>
+        <li>✅ Postcode autocomplete (NL format: "1234 AB")</li>
+        <li>✅ Saved addresses dropdown (B2B only)</li>
+        <li>✅ Helper text for optional fields</li>
+        <li>✅ Country dropdown (NL, BE, DE, FR, UK)</li>
+        <li>✅ Responsive layout (2-col → 1-col on mobile)</li>
+        <li>✅ Fully keyboard accessible</li>
+      </ul>
+    </div>
+
+    <!-- STEP 2: When to Use -->
+    <div class="doc-section">
+      <h2>STEP 2: When to Use</h2>
+
+      <h3>✅ USE this component when:</h3>
+      <ul>
+        <li>✅ Checkout flow — step 1: collect shipping address</li>
+        <li>✅ Account settings — add/edit delivery address</li>
+        <li>✅ Address book management — create new address</li>
+        <li>✅ B2B checkout — saved addresses selector</li>
+        <li>✅ Order tracking — update delivery address</li>
+      </ul>
+
+      <h3>❌ DON'T use this component when:</h3>
+      <ul>
+        <li>❌ Billing address only — use simpler form (no autocomplete)</li>
+        <li>❌ Admin panel — use standard form inputs</li>
+        <li>❌ International shipping without country — add country field</li>
+        <li>❌ Digital products — no shipping address needed</li>
+      </ul>
+
+      <h3>Integration Points</h3>
+      <ul>
+        <li><strong>Checkout step:</strong> Step 1 (Gegevens) — before shipping/payment selection</li>
+        <li><strong>After submission:</strong> Navigate to step 2 (shipping method selection)</li>
+        <li><strong>Related components:</strong>
+          <ul>
+            <li>EC13: CheckoutProgressStepper (shows "Gegevens" as active)</li>
+            <li>EC11: ShippingMethodCard (next step)</li>
+            <li>C12: AddressBook (saved addresses management)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- STEP 3: Design Tokens -->
+    <div class="doc-section">
+      <h2>STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Label text, input text</td>
+          </tr>
+          <tr>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+            <td>Focus border, section icon</td>
+          </tr>
+          <tr>
+            <td><code>--teal-glow</code></td>
+            <td>rgba(0,137,123,0.12)</td>
+            <td>Focus ring shadow, autocomplete hint bg</td>
+          </tr>
+          <tr>
+            <td><code>--green</code></td>
+            <td>#00C853</td>
+            <td>Success state border (after validation)</td>
+          </tr>
+          <tr>
+            <td><code>--coral</code></td>
+            <td>#FF6B6B</td>
+            <td>Required asterisk, error border, error text</td>
+          </tr>
+          <tr>
+            <td><code>--white</code></td>
+            <td>#FAFBFC</td>
+            <td>Input background, card background</td>
+          </tr>
+          <tr>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+            <td>Default input border, section border</td>
+          </tr>
+          <tr>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+            <td>Placeholder text, helper text</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font</th>
+            <th>Size</th>
+            <th>Weight</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Section title</td>
+            <td>Plus Jakarta Sans</td>
+            <td>16px</td>
+            <td>700</td>
+            <td>var(--navy)</td>
+          </tr>
+          <tr>
+            <td>Field label</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>600</td>
+            <td>var(--navy)</td>
+          </tr>
+          <tr>
+            <td>Input text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>400</td>
+            <td>var(--navy)</td>
+          </tr>
+          <tr>
+            <td>Placeholder</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>400</td>
+            <td>var(--grey-mid)</td>
+          </tr>
+          <tr>
+            <td>Helper text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>12px</td>
+            <td>400</td>
+            <td>var(--grey-mid)</td>
+          </tr>
+          <tr>
+            <td>Error message</td>
+            <td>Plus Jakarta Sans</td>
+            <td>12px</td>
+            <td>500</td>
+            <td>var(--coral)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spacing (4px grid)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--space-6</code></td>
+            <td>6px</td>
+            <td>Label → input gap</td>
+          </tr>
+          <tr>
+            <td><code>--space-8</code></td>
+            <td>8px</td>
+            <td>Section icon → title gap, select padding</td>
+          </tr>
+          <tr>
+            <td><code>--space-12</code></td>
+            <td>12px</td>
+            <td>Title → border gap, saved addresses padding</td>
+          </tr>
+          <tr>
+            <td><code>--space-16</code></td>
+            <td>16px</td>
+            <td>Grid gap (between fields), saved addresses margin</td>
+          </tr>
+          <tr>
+            <td><code>--space-20</code></td>
+            <td>20px</td>
+            <td>Title margin-bottom, mobile padding</td>
+          </tr>
+          <tr>
+            <td><code>--space-24</code></td>
+            <td>24px</td>
+            <td>Section padding, section margin-bottom</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Border & Radius</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Input border</td>
+            <td>1.5px solid</td>
+            <td>Slightly thicker for clarity</td>
+          </tr>
+          <tr>
+            <td>Section border</td>
+            <td>1px solid</td>
+            <td>Subtle container outline</td>
+          </tr>
+          <tr>
+            <td>Input radius</td>
+            <td>8px (--radius-sm)</td>
+            <td>Form inputs</td>
+          </tr>
+          <tr>
+            <td>Section radius</td>
+            <td>14px (--radius-lg)</td>
+            <td>Form section card</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 4: Props & Configuration -->
+    <div class="doc-section">
+      <h2>STEP 4: Props & Configuration</h2>
+
+      <h3>React Component Interface</h3>
+      <pre>
+interface Address {
+  firstName: string;
+  lastName: string;
+  street: string;
+  addition?: string;
+  postalCode: string;
+  city: string;
+  country: string;
+}
+
+interface AddressFormProps {
+  // Initial values
+  initialValues?: Partial&lt;Address&gt;;
+
+  // Saved addresses (B2B)
+  savedAddresses?: {
+    id: string;
+    label: string;
+    address: Address;
+  }[];
+
+  // Callbacks
+  onSubmit: (address: Address) => void;
+  onValidate?: (errors: Record&lt;string, string&gt;) => void;
+
+  // Features
+  showSavedAddresses?: boolean;  // B2B only
+  enableAutocomplete?: boolean;   // NL postcode lookup
+  requiredFields?: string[];      // Default: firstName, lastName, street, postalCode, city
+
+  // Styling
+  className?: string;
+}
+      </pre>
+
+      <h3>Field Configuration</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>firstName</td>
+            <td>text</td>
+            <td>✅ Yes</td>
+            <td>Min 2 characters</td>
+          </tr>
+          <tr>
+            <td>lastName</td>
+            <td>text</td>
+            <td>✅ Yes</td>
+            <td>Min 2 characters</td>
+          </tr>
+          <tr>
+            <td>street</td>
+            <td>text</td>
+            <td>✅ Yes</td>
+            <td>Must include house number</td>
+          </tr>
+          <tr>
+            <td>addition</td>
+            <td>text</td>
+            <td>❌ No</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td>postalCode</td>
+            <td>text</td>
+            <td>✅ Yes</td>
+            <td>Format: "1234 AB" (NL) or country-specific</td>
+          </tr>
+          <tr>
+            <td>city</td>
+            <td>text</td>
+            <td>✅ Yes</td>
+            <td>Min 2 characters</td>
+          </tr>
+          <tr>
+            <td>country</td>
+            <td>select</td>
+            <td>✅ Yes</td>
+            <td>Must be valid ISO country code</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Configuration Examples</h3>
+      <pre>
+// Basic usage (checkout)
+&lt;AddressForm
+  onSubmit={(address) => {
+    saveShippingAddress(address);
+    goToNextStep();
+  }}
+/&gt;
+
+// With saved addresses (B2B)
+&lt;AddressForm
+  showSavedAddresses={true}
+  savedAddresses={user.savedAddresses}
+  onSubmit={handleAddressSubmit}
+/&gt;
+
+// With initial values (edit mode)
+&lt;AddressForm
+  initialValues={{
+    firstName: 'Jan',
+    lastName: 'de Vries',
+    street: 'Breestraat 42',
+    postalCode: '1941 EK',
+    city: 'Beverwijk',
+    country: 'NL',
+  }}
+  onSubmit={updateAddress}
+/&gt;
+
+// International shipping (disable NL autocomplete)
+&lt;AddressForm
+  enableAutocomplete={false}
+  onSubmit={handleInternationalAddress}
+/&gt;
+      </pre>
+    </div>
+
+    <!-- STEP 5: Layout Rules -->
+    <div class="doc-section">
+      <h2>STEP 5: Layout Rules</h2>
+
+      <h3>Section Container</h3>
+      <ul>
+        <li><strong>Background:</strong> white</li>
+        <li><strong>Border:</strong> 1px solid var(--grey)</li>
+        <li><strong>Border-radius:</strong> 14px (--radius-lg)</li>
+        <li><strong>Padding:</strong> 24px (desktop), 16px (mobile)</li>
+        <li><strong>Margin-bottom:</strong> 24px</li>
+      </ul>
+
+      <h3>Form Grid Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>grid</code></li>
+        <li><strong>Columns (desktop):</strong> <code>grid-template-columns: repeat(2, 1fr)</code></li>
+        <li><strong>Columns (mobile &lt;640px):</strong> <code>grid-template-columns: 1fr</code></li>
+        <li><strong>Gap:</strong> 16px (both row and column)</li>
+      </ul>
+
+      <h3>Field Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>flex; flex-direction: column;</code></li>
+        <li><strong>Gap:</strong> 6px (label → input)</li>
+        <li><strong>Full-width fields:</strong> Country dropdown (<code>grid-column: 1 / -1</code>)</li>
+      </ul>
+
+      <h3>Spacing Breakdown</h3>
+      <pre>
+Section:
+├── Title (16px, margin-bottom: 20px, border-bottom: 1px, padding-bottom: 12px)
+├── Saved addresses (optional, margin-bottom: 16px)
+└── Form grid (gap: 16px)
+    ├── Field 1 (firstName)
+    │   ├── Label (margin-bottom: 6px)
+    │   ├── Input (padding: 10px 14px)
+    │   └── Helper/Error (margin-top: -2px)
+    ├── Field 2 (lastName)
+    └── ...
+      </pre>
+
+      <h3>Responsive Behavior</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Breakpoint</th>
+            <th>Grid Columns</th>
+            <th>Section Padding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&gt;640px</td>
+            <td>2 columns</td>
+            <td>24px</td>
+          </tr>
+          <tr>
+            <td>&lt;640px</td>
+            <td>1 column (stacked)</td>
+            <td>16px</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 6: Accessibility -->
+    <div class="doc-section">
+      <h2>STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <ul>
+        <li>✅ <code>&lt;form&gt;</code> element with <code>novalidate</code> (custom validation)</li>
+        <li>✅ <code>&lt;label&gt;</code> for every input</li>
+        <li>✅ <code>required</code> attribute on required fields</li>
+        <li>✅ <code>name</code> attribute on all inputs (for form submission)</li>
+        <li>✅ <code>type</code> attributes: text, tel, email (where applicable)</li>
+      </ul>
+
+      <h3>ARIA Attributes</h3>
+      <pre>
+&lt;div class="form-group error"&gt;
+  &lt;label class="form-label" for="postal-code"&gt;
+    Postcode
+    &lt;span class="req" aria-label="required"&gt;*&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;input
+    class="form-input"
+    type="text"
+    id="postal-code"
+    name="postalCode"
+    aria-required="true"
+    aria-invalid="true"
+    aria-describedby="postal-code-error"
+    required
+  &gt;
+  &lt;div class="error-message" id="postal-code-error" role="alert"&gt;
+    &lt;i data-lucide="alert-circle"&gt;&lt;/i&gt;
+    Voer een geldige postcode in (bijv. 1234 AB)
+  &lt;/div&gt;
+&lt;/div&gt;
+      </pre>
+
+      <h3>Keyboard Navigation</h3>
+      <ul>
+        <li>✅ <strong>Tab:</strong> Focus next field</li>
+        <li>✅ <strong>Shift+Tab:</strong> Focus previous field</li>
+        <li>✅ <strong>Enter:</strong> Submit form (when focused on input)</li>
+        <li>✅ <strong>Escape:</strong> Clear current field (optional)</li>
+        <li>✅ Select dropdowns: Arrow keys to navigate options</li>
+      </ul>
+
+      <h3>Screen Reader Announcements</h3>
+      <ul>
+        <li>✅ "Voornaam, required, edit text"</li>
+        <li>✅ "Postcode, required, invalid entry, edit text, Voer een geldige postcode in"</li>
+        <li>✅ "Adres automatisch aangevuld" (on postcode autocomplete)</li>
+        <li>✅ Error messages announced with <code>role="alert"</code></li>
+      </ul>
+
+      <h3>Focus Management</h3>
+      <ul>
+        <li>✅ Visible focus ring: <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+        <li>✅ Focus first empty required field on form load</li>
+        <li>✅ Focus first error field after validation</li>
+      </ul>
+    </div>
+
+    <!-- STEP 7: Implementation Notes -->
+    <div class="doc-section">
+      <h2>STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component</h3>
+      <pre>
+'use client';
+
+import { useState } from 'react';
+import { MapPin, Bookmark, Sparkles } from 'lucide-react';
+
+export function AddressForm({ onSubmit, savedAddresses = [], showSavedAddresses = false }: AddressFormProps) {
+  const [formData, setFormData] = useState&lt;Address&gt;({
+    firstName: '',
+    lastName: '',
+    street: '',
+    addition: '',
+    postalCode: '',
+    city: '',
+    country: 'NL',
+  });
+
+  const [errors, setErrors] = useState&lt;Record&lt;string, string&gt;&gt;({});
+  const [autocompleteLoading, setAutocompleteLoading] = useState(false);
+
+  // Postcode autocomplete (NL only)
+  const handlePostalCodeChange = async (postalCode: string) => {
+    setFormData(prev => ({ ...prev, postalCode }));
+
+    if (formData.country === 'NL' && /^\d{4}\s?[A-Z]{2}$/i.test(postalCode)) {
+      setAutocompleteLoading(true);
+      try {
+        const response = await fetch(`/api/postcode-lookup?postal=${postalCode}`);
+        const data = await response.json();
+        setFormData(prev => ({
+          ...prev,
+          city: data.city,
+          street: data.street || prev.street,
+        }));
+      } catch (error) {
+        console.error('Postcode lookup failed:', error);
+      } finally {
+        setAutocompleteLoading(false);
+      }
+    }
+  };
+
+  // Load saved address
+  const loadSavedAddress = (addressId: string) => {
+    const saved = savedAddresses.find(a => a.id === addressId);
+    if (saved) {
+      setFormData(saved.address);
+    }
+  };
+
+  // Validate form
+  const validate = (): boolean => {
+    const newErrors: Record&lt;string, string&gt; = {};
+
+    if (!formData.firstName) newErrors.firstName = 'Voornaam is verplicht';
+    if (!formData.lastName) newErrors.lastName = 'Achternaam is verplicht';
+    if (!formData.street) newErrors.street = 'Straat + huisnummer is verplicht';
+    if (!formData.postalCode) {
+      newErrors.postalCode = 'Postcode is verplicht';
+    } else if (formData.country === 'NL' && !/^\d{4}\s?[A-Z]{2}$/i.test(formData.postalCode)) {
+      newErrors.postalCode = 'Voer een geldige Nederlandse postcode in (bijv. 1234 AB)';
+    }
+    if (!formData.city) newErrors.city = 'Plaats is verplicht';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Submit form
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      onSubmit(formData);
+    }
+  };
+
+  return (
+    &lt;div className="form-section"&gt;
+      &lt;h2 className="form-section-title"&gt;
+        &lt;MapPin size={20} /&gt;
+        Afleveradres
+      &lt;/h2&gt;
+
+      {showSavedAddresses && savedAddresses.length > 0 && (
+        &lt;div className="saved-addresses"&gt;
+          &lt;Bookmark size={20} /&gt;
+          &lt;select onChange={(e) => loadSavedAddress(e.target.value)}&gt;
+            &lt;option value=""&gt;Selecteer opgeslagen adres...&lt;/option&gt;
+            {savedAddresses.map((addr) => (
+              &lt;option key={addr.id} value={addr.id}&gt;{addr.label}&lt;/option&gt;
+            ))}
+            &lt;option value="new"&gt;➕ Nieuw adres toevoegen&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+      )}
+
+      &lt;form onSubmit={handleSubmit} className="form-grid" noValidate&gt;
+        {/* Fields here... */}
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+      </pre>
+
+      <h3>Postcode Autocomplete API</h3>
+      <pre>
+// /api/postcode-lookup/route.ts
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const postalCode = searchParams.get('postal');
+
+  if (!postalCode) {
+    return Response.json({ error: 'Postcode is required' }, { status: 400 });
+  }
+
+  try {
+    // Use Pro6PP, Postcode.nl, or similar service
+    const response = await fetch(
+      `https://api.pro6pp.nl/v2/autocomplete/nl/${postalCode}`,
+      {
+        headers: { 'Authorization': `Bearer ${process.env.POSTCODE_API_KEY}` },
+      }
+    );
+
+    const data = await response.json();
+
+    return Response.json({
+      city: data.city,
+      street: data.street,
+      municipality: data.municipality,
+    });
+  } catch (error) {
+    return Response.json({ error: 'Lookup failed' }, { status: 500 });
+  }
+}
+      </pre>
+
+      <h3>Payload CMS Integration</h3>
+      <pre>
+// In collections/Orders.ts
+
+{
+  name: 'shippingAddress',
+  type: 'group',
+  fields: [
+    { name: 'firstName', type: 'text', required: true },
+    { name: 'lastName', type: 'text', required: true },
+    { name: 'street', type: 'text', required: true },
+    { name: 'addition', type: 'text' },
+    { name: 'postalCode', type: 'text', required: true },
+    { name: 'city', type: 'text', required: true },
+    { name: 'country', type: 'select', options: ['NL', 'BE', 'DE', 'FR', 'UK'], defaultValue: 'NL' },
+  ],
+}
+
+// Saved addresses (B2B users)
+
+{
+  name: 'savedAddresses',
+  type: 'array',
+  fields: [
+    { name: 'label', type: 'text', required: true }, // "Hoofdlocatie", "Magazijn"
+    { name: 'firstName', type: 'text', required: true },
+    { name: 'lastName', type: 'text', required: true },
+    { name: 'street', type: 'text', required: true },
+    { name: 'addition', type: 'text' },
+    { name: 'postalCode', type: 'text', required: true },
+    { name: 'city', type: 'text', required: true },
+    { name: 'country', type: 'text', required: true },
+    { name: 'isDefault', type: 'checkbox', defaultValue: false },
+  ],
+}
+      </pre>
+    </div>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <div class="doc-section">
+      <h2>STEP 8: Variations & Related Components</h2>
+
+      <h3>Variations</h3>
+
+      <h4>1. Billing Address Form</h4>
+      <p>Same structure but without autocomplete, simpler layout:</p>
+      <pre>
+&lt;AddressForm
+  title="Factuuradres"
+  icon="file-text"
+  enableAutocomplete={false}
+  showSavedAddresses={false}
+/&gt;
+      </pre>
+
+      <h4>2. Compact Layout (Single Column)</h4>
+      <p>For narrow sidebars or mobile-first designs:</p>
+      <pre>
+.form-grid.compact {
+  grid-template-columns: 1fr;
+}
+      </pre>
+
+      <h4>3. With Company Field (B2B)</h4>
+      <p>Add company name field after name fields:</p>
+      <pre>
+&lt;div class="form-group span-2"&gt;
+  &lt;label class="form-label"&gt;Bedrijfsnaam&lt;/label&gt;
+  &lt;input class="form-input" type="text" name="company" /&gt;
+&lt;/div&gt;
+      </pre>
+
+      <h4>4. International Format</h4>
+      <p>Adjust postcode validation based on country:</p>
+      <pre>
+const POSTCODE_PATTERNS = {
+  NL: /^\d{4}\s?[A-Z]{2}$/i,     // 1234 AB
+  BE: /^\d{4}$/,                  // 1000
+  DE: /^\d{5}$/,                  // 12345
+  UK: /^[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}$/i, // SW1A 1AA
+};
+      </pre>
+
+      <h3>Related Components</h3>
+
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>ID</th>
+            <th>Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CheckoutProgressStepper</td>
+            <td>EC13</td>
+            <td>Shows "Gegevens" step as active</td>
+          </tr>
+          <tr>
+            <td>ShippingMethodCard</td>
+            <td>EC11</td>
+            <td>Next step after address entry</td>
+          </tr>
+          <tr>
+            <td>AddressBook</td>
+            <td>C12</td>
+            <td>Saved addresses management</td>
+          </tr>
+          <tr>
+            <td>PONumberInput</td>
+            <td>EC15</td>
+            <td>Additional B2B field (purchase order)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✅ Required fields show asterisks</li>
+        <li>✅ Validation errors appear below fields (not alerts)</li>
+        <li>✅ Focus state has teal border + glow ring</li>
+        <li>✅ Error state has coral border + error message</li>
+        <li>✅ Postcode autocomplete fills city (NL only)</li>
+        <li>✅ Saved addresses load all fields correctly</li>
+        <li>✅ Form submission prevented if validation fails</li>
+        <li>✅ Mobile: stacks to single column (&lt;640px)</li>
+        <li>✅ Tab key navigates through fields</li>
+        <li>✅ Screen reader announces errors with role="alert"</li>
+        <li>✅ Country dropdown allows keyboard selection</li>
+        <li>✅ Helper text visible for optional fields</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- Form validation script -->
+  <script>
+    function validateForm() {
+      const form = document.getElementById('address-form');
+      const inputs = form.querySelectorAll('input[required], select[required]');
+      let isValid = true;
+
+      // Clear previous errors
+      document.querySelectorAll('.form-group').forEach(group => {
+        group.classList.remove('error', 'success');
+        const existingError = group.querySelector('.error-message');
+        if (existingError) existingError.remove();
+      });
+
+      // Validate each required field
+      inputs.forEach(input => {
+        const group = input.closest('.form-group');
+        if (!input.value.trim()) {
+          isValid = false;
+          group.classList.add('error');
+          const label = group.querySelector('.form-label').textContent.replace(' *', '');
+          const errorMsg = document.createElement('div');
+          errorMsg.className = 'error-message';
+          errorMsg.innerHTML = `<i data-lucide="alert-circle"></i>${label} is verplicht`;
+          group.appendChild(errorMsg);
+        } else {
+          group.classList.add('success');
+        }
+      });
+
+      // Special validation for postcode
+      const postalCodeInput = document.getElementById('postal-code');
+      const postalCodeGroup = document.getElementById('postal-code-group');
+      const postalCodePattern = /^\d{4}\s?[A-Z]{2}$/i;
+
+      if (postalCodeInput.value && !postalCodePattern.test(postalCodeInput.value)) {
+        isValid = false;
+        postalCodeGroup.classList.remove('success');
+        postalCodeGroup.classList.add('error');
+        const existingError = postalCodeGroup.querySelector('.error-message');
+        if (existingError) existingError.remove();
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'error-message';
+        errorMsg.innerHTML = '<i data-lucide="alert-circle"></i>Voer een geldige postcode in (bijv. 1234 AB)';
+        postalCodeGroup.appendChild(errorMsg);
+      }
+
+      // Reinitialize Lucide icons for error icons
+      lucide.createIcons();
+
+      if (isValid) {
+        alert('✅ Formulier is geldig! Adres opgeslagen.');
+      } else {
+        alert('❌ Controleer de gemarkeerde velden.');
+      }
+    }
+
+    // Postcode autocomplete simulation
+    function validatePostalCode(input) {
+      const value = input.value.toUpperCase();
+      const postalCodeGroup = document.getElementById('postal-code-group');
+      const autocompleteHint = document.getElementById('autocomplete-hint');
+      const cityInput = document.getElementById('city');
+      const postalCodePattern = /^\d{4}\s?[A-Z]{2}$/;
+
+      // Remove previous error
+      postalCodeGroup.classList.remove('error');
+      const existingError = postalCodeGroup.querySelector('.error-message');
+      if (existingError) existingError.remove();
+
+      // If valid NL postcode, simulate autocomplete
+      if (postalCodePattern.test(value)) {
+        autocompleteHint.style.display = 'flex';
+        // Simulate API response (in production, call postcode API)
+        setTimeout(() => {
+          if (value === '1941 EK' || value === '1941EK') {
+            cityInput.value = 'Beverwijk';
+          }
+        }, 300);
+      } else {
+        autocompleteHint.style.display = 'none';
+      }
+    }
+
+    // Load saved address
+    function loadSavedAddress(value) {
+      const form = document.getElementById('address-form');
+      const inputs = {
+        firstName: form.querySelector('[name="firstName"]'),
+        lastName: form.querySelector('[name="lastName"]'),
+        street: form.querySelector('[name="street"]'),
+        addition: form.querySelector('[name="addition"]'),
+        postalCode: form.querySelector('[name="postalCode"]'),
+        city: form.querySelector('[name="city"]'),
+        country: form.querySelector('[name="country"]'),
+      };
+
+      if (value === 'default') {
+        inputs.firstName.value = 'Jan';
+        inputs.lastName.value = 'de Vries';
+        inputs.street.value = 'Breestraat 42';
+        inputs.addition.value = '';
+        inputs.postalCode.value = '1941 EK';
+        inputs.city.value = 'Beverwijk';
+        inputs.country.value = 'NL';
+      } else if (value === 'warehouse') {
+        inputs.firstName.value = 'Magazijn';
+        inputs.lastName.value = 'Manager';
+        inputs.street.value = 'Industrieweg 15';
+        inputs.addition.value = 'Hal B';
+        inputs.postalCode.value = '1502 AB';
+        inputs.city.value = 'Zaandam';
+        inputs.country.value = 'NL';
+      } else if (value === 'new') {
+        // Clear form
+        Object.values(inputs).forEach(input => {
+          if (input.tagName === 'SELECT') {
+            input.value = 'NL';
+          } else {
+            input.value = '';
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

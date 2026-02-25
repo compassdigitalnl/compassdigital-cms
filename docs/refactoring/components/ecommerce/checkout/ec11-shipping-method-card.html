@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC11: ShippingMethodCard — Plastimed Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --amber: #F59E0B;
+      --grey: #E8ECF1;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #F5F7FA;
+      padding: 48px 24px;
+      line-height: 1.5;
+    }
+
+    .demo-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      margin-bottom: 32px;
+      border: 1px solid var(--grey);
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .demo-section p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       EC11: SHIPPING METHOD CARD
+       ============================================ */
+
+    .shipping-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .shipping-method {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all var(--transition);
+    }
+
+    .shipping-method:hover {
+      border-color: var(--teal);
+      box-shadow: 0 4px 12px rgba(0, 137, 123, 0.1);
+    }
+
+    .shipping-method:has(input:checked) {
+      border-color: var(--teal);
+      background: var(--white);
+    }
+
+    .shipping-method:has(input:focus-visible) {
+      outline: 3px solid var(--teal-glow);
+      outline-offset: 2px;
+    }
+
+    .shipping-method__radio {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+
+    .shipping-method__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .shipping-method__icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .shipping-method__icon--truck {
+      color: var(--teal);
+    }
+
+    .shipping-method__icon--express {
+      color: var(--amber);
+    }
+
+    .shipping-method__icon--pickup {
+      color: var(--teal);
+    }
+
+    .shipping-method__name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+    }
+
+    .shipping-method__time {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.4;
+    }
+
+    .shipping-method__price {
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-top: auto;
+    }
+
+    .shipping-method__price--free {
+      color: var(--green);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .shipping-methods {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <!-- LIVE DEMO -->
+    <div class="demo-section">
+      <h2>EC11: ShippingMethodCard — Live Demo</h2>
+      <p>3 verzendmethoden met radio button selectie. Klik op een kaart om te selecteren.</p>
+
+      <div class="shipping-methods">
+        <!-- Standaard -->
+        <label class="shipping-method">
+          <input
+            type="radio"
+            name="shipping-demo"
+            value="standard"
+            class="shipping-method__radio"
+            checked
+          >
+          <div class="shipping-method__header">
+            <i data-lucide="truck" class="shipping-method__icon shipping-method__icon--truck"></i>
+            <div class="shipping-method__name">Standaard</div>
+          </div>
+          <div class="shipping-method__time">1-2 werkdagen</div>
+          <div class="shipping-method__price">€ 6,95</div>
+        </label>
+
+        <!-- Express -->
+        <label class="shipping-method">
+          <input
+            type="radio"
+            name="shipping-demo"
+            value="express"
+            class="shipping-method__radio"
+          >
+          <div class="shipping-method__header">
+            <i data-lucide="zap" class="shipping-method__icon shipping-method__icon--express"></i>
+            <div class="shipping-method__name">Express</div>
+          </div>
+          <div class="shipping-method__time">Morgen in huis</div>
+          <div class="shipping-method__price">€ 12,95</div>
+        </label>
+
+        <!-- Afhalen -->
+        <label class="shipping-method">
+          <input
+            type="radio"
+            name="shipping-demo"
+            value="pickup"
+            class="shipping-method__radio"
+          >
+          <div class="shipping-method__header">
+            <i data-lucide="package" class="shipping-method__icon shipping-method__icon--pickup"></i>
+            <div class="shipping-method__name">Afhalen</div>
+          </div>
+          <div class="shipping-method__time">Binnen 4 uur klaar</div>
+          <div class="shipping-method__price shipping-method__price--free">Gratis</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- DOCUMENTATION -->
+    <div class="demo-section" style="background:#0A1628;color:#E8ECF1;">
+      <h2 style="color:white;border-bottom:2px solid #00897B;padding-bottom:12px;margin-bottom:24px;">📦 EC11: ShippingMethodCard — Component Documentation</h2>
+
+      <!-- STEP 1: OVERVIEW -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 1: Component Overview</h3>
+      <p style="margin-bottom:16px;color:rgba(255,255,255,0.8);line-height:1.6;">
+        <strong style="color:white;">ID:</strong> EC11<br>
+        <strong style="color:white;">Name:</strong> ShippingMethodCard<br>
+        <strong style="color:white;">Category:</strong> E-commerce / Checkout<br>
+        <strong style="color:white;">Source:</strong> <code style="background:rgba(255,255,255,0.1);padding:2px 8px;border-radius:4px;">ef3-checkout.html</code> (lines 51-86)<br>
+        <strong style="color:white;">Priority:</strong> 🔴 Critical (Phase 1 - Checkout Flow)<br>
+        <strong style="color:white;">Complexity:</strong> Medium
+      </p>
+      <p style="margin-bottom:0;color:rgba(255,255,255,0.7);line-height:1.6;">
+        Selecteerbare verzendmethode kaarten voor de checkout flow. Radio button card met icon, naam, levertijd en prijs. Ondersteunt 3 standaard methoden: Standaard verzending, Express verzending, en Afhalen (gratis).
+      </p>
+
+      <!-- STEP 2: WHEN TO USE -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 2: When to Use</h3>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">✅ Use when:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Checkout flow met verzendmethode selectie (stap 2 van 4)</li>
+        <li>3+ verzendopties beschikbaar (Standaard/Express/Afhalen)</li>
+        <li>Visuele verschillen tussen methoden belangrijk zijn (icon + prijs)</li>
+        <li>Mobile-friendly selectie gewenst is (grote klikbare kaarten)</li>
+        <li>B2B en B2C orders (beide gebruiken verzending)</li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">❌ Don't use when:</strong></p>
+      <ul style="margin-bottom:0;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Alleen 1 verzendmethode beschikbaar (gebruik gewoon tekst)</li>
+        <li>Digitale producten (geen verzending nodig)</li>
+        <li>Quote request flow (nog geen checkout)</li>
+        <li>Meer dan 5 opties (wordt te druk, gebruik dropdown)</li>
+      </ul>
+
+      <!-- STEP 3: DESIGN TOKENS -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 3: Design Tokens</h3>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Colors:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;font-family:monospace;font-size:13px;">
+        <li>Border (selected): <span style="color:#00897B;">--teal (#00897B)</span></li>
+        <li>Border (default): <span style="color:#E8ECF1;">--grey (#E8ECF1)</span></li>
+        <li>Background: <span style="color:white;">white</span></li>
+        <li>Name text: <span style="color:#0A1628;">--navy (#0A1628)</span></li>
+        <li>Time text: <span style="color:#64748B;">--grey-dark (#64748B)</span></li>
+        <li>Price (paid): <span style="color:#0A1628;">--navy (#0A1628)</span></li>
+        <li>Price (free): <span style="color:#00C853;">--green (#00C853)</span></li>
+        <li>Icon truck/pickup: <span style="color:#00897B;">--teal (#00897B)</span></li>
+        <li>Icon express: <span style="color:#F59E0B;">--amber (#F59E0B)</span></li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Typography:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;font-family:monospace;font-size:13px;">
+        <li>Name: 14px, 700 weight, --navy</li>
+        <li>Time: 13px, 400 weight, --grey-dark</li>
+        <li>Price: 18px, 800 weight, Plus Jakarta Sans</li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Spacing:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;font-family:monospace;font-size:13px;">
+        <li>Card padding: 20px</li>
+        <li>Gap between elements: 8px</li>
+        <li>Grid gap: 16px</li>
+        <li>Radio button position: top-right (16px offset)</li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Icons:</strong></p>
+      <ul style="margin-bottom:0;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;font-family:monospace;font-size:13px;">
+        <li>Truck (Standaard): 20×20px, teal</li>
+        <li>Zap (Express): 20×20px, amber</li>
+        <li>Package (Afhalen): 20×20px, teal</li>
+      </ul>
+
+      <!-- STEP 4: PROPS & CONFIG -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 4: Props & Configuration</h3>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">TypeScript Interface:</strong></p>
+      <pre style="background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:16px;color:#E8ECF1;font-size:13px;line-height:1.6;"><code>interface ShippingMethod {
+  id: string
+  name: string
+  slug: 'standard' | 'express' | 'pickup'
+  icon: 'truck' | 'zap' | 'package'
+  description: string
+  deliveryTime: string
+  price: number
+  isFree?: boolean
+  estimatedDays?: number
+  availableForPostalCode?: (postalCode: string) => boolean
+}
+
+interface ShippingMethodCardProps {
+  method: ShippingMethod
+  selected: boolean
+  onSelect: (methodId: string) => void
+  disabled?: boolean
+  showDeliveryDate?: boolean
+  className?: string
+}</code></pre>
+
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Payload CMS Site Settings:</strong></p>
+      <pre style="background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:16px;color:#E8ECF1;font-size:13px;line-height:1.6;"><code>{
+  slug: 'site-settings',
+  fields: [
+    {
+      name: 'shippingMethods',
+      type: 'array',
+      label: 'Shipping Methods',
+      admin: { description: 'Configure available shipping methods' },
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+          defaultValue: 'Standaard'
+        },
+        {
+          name: 'slug',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'Standard', value: 'standard' },
+            { label: 'Express', value: 'express' },
+            { label: 'Pickup', value: 'pickup' },
+            { label: 'Same Day', value: 'same-day' }
+          ]
+        },
+        {
+          name: 'icon',
+          type: 'select',
+          options: ['truck', 'zap', 'package', 'clock'],
+          defaultValue: 'truck'
+        },
+        {
+          name: 'deliveryTime',
+          type: 'text',
+          required: true,
+          defaultValue: '1-2 werkdagen'
+        },
+        {
+          name: 'price',
+          type: 'number',
+          required: true,
+          defaultValue: 6.95,
+          admin: { step: 0.01 }
+        },
+        {
+          name: 'freeThreshold',
+          type: 'number',
+          admin: {
+            description: 'Free above this cart total (leave empty for always paid)'
+          }
+        },
+        {
+          name: 'isActive',
+          type: 'checkbox',
+          defaultValue: true
+        },
+        {
+          name: 'estimatedDays',
+          type: 'number',
+          admin: { description: 'Business days for delivery estimation' }
+        }
+      ]
+    }
+  ]
+}</code></pre>
+
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">React Component Example:</strong></p>
+      <pre style="background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:0;color:#E8ECF1;font-size:13px;line-height:1.6;"><code>'use client'
+
+import { Truck, Zap, Package } from 'lucide-react'
+
+const iconMap = {
+  truck: Truck,
+  zap: Zap,
+  package: Package
+}
+
+const iconColorMap = {
+  truck: 'text-teal',
+  zap: 'text-amber',
+  package: 'text-teal'
+}
+
+export function ShippingMethodCard({
+  method,
+  selected,
+  onSelect,
+  disabled = false
+}: ShippingMethodCardProps) {
+  const Icon = iconMap[method.icon]
+  const iconColor = iconColorMap[method.icon]
+
+  const isFree = method.price === 0 || method.isFree
+
+  return (
+    &lt;label
+      className={`
+        shipping-method
+        ${selected ? 'shipping-method--selected' : ''}
+        ${disabled ? 'shipping-method--disabled' : ''}
+      `}
+    &gt;
+      &lt;input
+        type="radio"
+        name="shipping-method"
+        value={method.id}
+        checked={selected}
+        onChange={() => onSelect(method.id)}
+        disabled={disabled}
+        className="shipping-method__radio"
+      /&gt;
+
+      &lt;div className="shipping-method__header"&gt;
+        &lt;Icon className={`shipping-method__icon ${iconColor}`} /&gt;
+        &lt;div className="shipping-method__name"&gt;{method.name}&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="shipping-method__time"&gt;{method.deliveryTime}&lt;/div&gt;
+
+      &lt;div className={`
+        shipping-method__price
+        ${isFree ? 'shipping-method__price--free' : ''}
+      `}&gt;
+        {isFree ? 'Gratis' : `€ ${method.price.toFixed(2)}`}
+      &lt;/div&gt;
+    &lt;/label&gt;
+  )
+}</code></pre>
+
+      <!-- STEP 5: LAYOUT RULES -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 5: Layout Rules</h3>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Container:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Grid layout: <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">repeat(auto-fit, minmax(240px, 1fr))</code></li>
+        <li>Gap: 16px tussen kaarten</li>
+        <li>Responsive: 3-col desktop → 1-col mobile (@768px)</li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Card:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Border: 2px solid (teal als selected, grey als default)</li>
+        <li>Border-radius: 14px</li>
+        <li>Padding: 20px</li>
+        <li>Display: flex, flex-direction: column</li>
+        <li>Price heeft <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">margin-top: auto</code> (stick to bottom)</li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Z-index:</strong></p>
+      <ul style="margin-bottom:0;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Radio button: absolute positioning, top-right</li>
+        <li>No z-index conflicts (flat layout)</li>
+      </ul>
+
+      <!-- STEP 6: ACCESSIBILITY -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 6: Accessibility</h3>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">ARIA & Semantics:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li><code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">&lt;label&gt;</code> wraps entire card (click anywhere selects)</li>
+        <li><code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">type="radio"</code> native radio input (keyboard accessible)</li>
+        <li><code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">name="shipping-method"</code> groups all options</li>
+        <li>Icons have descriptive class names (screenreader context via label text)</li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Keyboard Navigation:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Tab: Focus op radio buttons</li>
+        <li>Space/Enter: Select optie</li>
+        <li>Arrow keys: Navigate tussen radio buttons</li>
+        <li>Focus ring: <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">outline: 3px solid rgba(0,137,123,0.12)</code></li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Screen Readers:</strong></p>
+      <ul style="margin-bottom:0;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Announces: "Standaard, radio button, 1-2 werkdagen, € 6,95, checked/not checked"</li>
+        <li>Label text provides full context (icon is decorative)</li>
+        <li>Price and time are read as part of label</li>
+      </ul>
+
+      <!-- STEP 7: IMPLEMENTATION NOTES -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 7: Implementation Notes</h3>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">React/Next.js Integration:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>Use <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">useState</code> voor selected shipping method ID</li>
+        <li>Fetch shipping methods van Payload CMS Site Settings</li>
+        <li>Filter op <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">isActive: true</code></li>
+        <li>Calculate free shipping dynamically (cart total vs freeThreshold)</li>
+        <li>Update Order Summary wanneer methode wijzigt</li>
+      </ul>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">State Management:</strong></p>
+      <pre style="background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:16px;color:#E8ECF1;font-size:13px;line-height:1.6;"><code>const [selectedShipping, setSelectedShipping] = useState&lt;string | null&gt;(null)
+
+// Auto-select first method on mount
+useEffect(() => {
+  if (!selectedShipping && methods.length > 0) {
+    setSelectedShipping(methods[0].id)
+  }
+}, [methods, selectedShipping])
+
+// Update cart total when shipping changes
+useEffect(() => {
+  const method = methods.find(m => m.id === selectedShipping)
+  if (method) {
+    updateCartTotal({ shippingCost: method.price })
+  }
+}, [selectedShipping])</code></pre>
+
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Important Details:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>⚠️ Always show at least 1 shipping method (default: Standard)</li>
+        <li>⚠️ Disable Express/Same-Day voor bepaalde postcodes (rural areas)</li>
+        <li>⚠️ Show "Gratis" in green voor free shipping (price = 0)</li>
+        <li>⚠️ Hover state: teal border + subtle shadow</li>
+        <li>⚠️ Mobile: Stack kaarten verticaal (1 per rij)</li>
+        <li>⚠️ Delivery date calculation: Add estimatedDays to today (skip weekends)</li>
+      </ul>
+
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">API Validation Example:</strong></p>
+      <pre style="background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:0;color:#E8ECF1;font-size:13px;line-height:1.6;"><code>// app/api/checkout/validate-shipping/route.ts
+export async function POST(req: Request) {
+  const { methodId, postalCode, cartTotal } = await req.json()
+
+  const settings = await payload.findGlobal({ slug: 'site-settings' })
+  const method = settings.shippingMethods.find(m => m.slug === methodId)
+
+  if (!method || !method.isActive) {
+    return Response.json({
+      valid: false,
+      message: 'Deze verzendmethode is niet beschikbaar'
+    }, { status: 400 })
+  }
+
+  // Check free threshold
+  const isFree = method.freeThreshold && cartTotal >= method.freeThreshold
+  const finalPrice = isFree ? 0 : method.price
+
+  return Response.json({
+    valid: true,
+    price: finalPrice,
+    isFree,
+    estimatedDelivery: calculateDeliveryDate(method.estimatedDays)
+  })
+}</code></pre>
+
+      <!-- STEP 8: VARIATIONS -->
+      <h3 style="color:#00897B;font-size:16px;margin-top:32px;margin-bottom:12px;">STEP 8: Variations & Related Components</h3>
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Related Components:</strong></p>
+      <ul style="margin-bottom:16px;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li><strong style="color:white;">EC12:</strong> PaymentMethodCard (same pattern, different content)</li>
+        <li><strong style="color:white;">EC13:</strong> CheckoutProgressStepper (shows which step user is on)</li>
+        <li><strong style="color:white;">EC07:</strong> OrderSummary (displays selected shipping cost)</li>
+        <li><strong style="color:white;">EC05:</strong> FreeShippingProgress (shows progress to free shipping)</li>
+        <li><strong style="color:white;">C25:</strong> ProgressSteps (checkout step indicator)</li>
+      </ul>
+
+      <p style="margin-bottom:12px;color:rgba(255,255,255,0.8);"><strong style="color:white;">Testing Checklist:</strong></p>
+      <ul style="margin-bottom:0;padding-left:20px;color:rgba(255,255,255,0.7);line-height:1.8;">
+        <li>✓ Radio button selection werkt (1 selected at a time)</li>
+        <li>✓ Click anywhere op kaart selecteert de methode</li>
+        <li>✓ Hover state visible (teal border + shadow)</li>
+        <li>✓ Focus state visible (teal glow ring)</li>
+        <li>✓ Keyboard navigation (Tab, Space, Arrows)</li>
+        <li>✓ Price update in Order Summary</li>
+        <li>✓ Free shipping shows green "Gratis" text</li>
+        <li>✓ Mobile responsive (1 column)</li>
+        <li>✓ Icon colors correct (truck/pickup teal, express amber)</li>
+        <li>✓ Disabled state werkt (greyed out, not clickable)</li>
+        <li>✓ Screen reader announces all info correctly</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

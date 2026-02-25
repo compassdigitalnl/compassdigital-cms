@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C16-Newsletter - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-dark: #00695C;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --radius: 12px;
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .demo-section p {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    /* === C16: Newsletter Banner Variant === */
+    .nl-banner {
+      background: linear-gradient(135deg, var(--teal), #00695C);
+      border-radius: 20px;
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      max-width: 900px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative glow */
+    .nl-banner::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: 60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+      border-radius: 50%;
+    }
+
+    .nl-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .nl-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .nl-badge i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .nl-banner h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .nl-banner p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.4;
+    }
+
+    .nl-form {
+      display: flex;
+      gap: 8px;
+      position: relative;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .nl-input {
+      width: 280px;
+      height: 48px;
+      padding: 0 16px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: white;
+      background: rgba(255, 255, 255, 0.08);
+      outline: none;
+      transition: all var(--transition);
+    }
+
+    .nl-input::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .nl-input:focus {
+      border-color: white;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    }
+
+    .nl-submit {
+      height: 48px;
+      padding: 0 24px;
+      background: white;
+      color: var(--teal);
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .nl-submit:hover {
+      background: var(--navy);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .nl-submit i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* === C16: Newsletter Inline Variant === */
+    .nl-inline {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 400px;
+    }
+
+    .nli-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      color: var(--navy);
+    }
+
+    .nli-text {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 12px;
+    }
+
+    .nli-form {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nli-input {
+      flex: 1;
+      height: 42px;
+      padding: 0 14px;
+      border: 2px solid var(--grey);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      background: var(--grey-light);
+      outline: none;
+      transition: all var(--transition);
+    }
+
+    .nli-input::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .nli-input:focus {
+      border-color: var(--teal);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12);
+    }
+
+    .nli-btn {
+      height: 42px;
+      padding: 0 16px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .nli-btn:hover {
+      background: var(--navy);
+      transform: translateY(-1px);
+    }
+
+    .nli-btn i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .nli-hint {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nli-hint i {
+      width: 11px;
+      height: 11px;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .nl-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 28px 24px;
+      }
+
+      .nl-form {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .nl-input {
+        width: 100%;
+      }
+    }
+
+    /* === Documentation Styles === */
+    .doc-container {
+      max-width: 900px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 48px;
+    }
+
+    .doc-container h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .doc-container .subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 32px;
+    }
+
+    .doc-container h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-container h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-container p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .doc-container ul, .doc-container ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-container li {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .doc-container code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-container pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .doc-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .doc-container th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-container td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .info-box {
+      background: rgba(0, 137, 123, 0.08);
+      border-left: 3px solid var(--teal);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin-bottom: 0;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === LIVE DEMO === -->
+  <div class="demo-section">
+    <h2>Variant 1: Banner (Above Footer)</h2>
+    <p>Full-width promotional banner with gradient background</p>
+
+    <div class="nl-banner">
+      <div class="nl-content">
+        <div class="nl-badge">
+          <i data-lucide="sparkles"></i>
+          Blijf op de hoogte
+        </div>
+        <h3>Ontvang aanbiedingen & producttips</h3>
+        <p>Wekelijks het laatste nieuws, exclusieve kortingen en productlanceringen in uw inbox.</p>
+      </div>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="Uw e-mailadres" aria-label="E-mailadres">
+        <button class="nl-submit" type="submit">
+          <i data-lucide="send"></i>
+          Aanmelden
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Variant 2: Inline (Sidebar/Product Page)</h2>
+    <p>Compact card-style newsletter signup for sidebars</p>
+
+    <div class="nl-inline">
+      <div class="nli-title">Nieuwsbrief</div>
+      <div class="nli-text">Ontvang wekelijks aanbiedingen en producttips.</div>
+      <div class="nli-form">
+        <input class="nli-input" type="email" placeholder="Uw e-mailadres" aria-label="E-mailadres">
+        <button class="nli-btn" type="submit">
+          <i data-lucide="send"></i>
+          Aanmelden
+        </button>
+      </div>
+      <div class="nli-hint">
+        <i data-lucide="shield"></i>
+        Geen spam, uitschrijven wanneer u wilt
+      </div>
+    </div>
+  </div>
+
+  <!-- === DOCUMENTATION === -->
+  <div class="doc-container">
+    <h1>C16-Newsletter</h1>
+    <p class="subtitle">Newsletter signup component with 2 variants: banner and inline</p>
+
+    <!-- STEP 1 -->
+    <h2>STEP 1: Component Overview</h2>
+    <p><strong>C16-Newsletter</strong> provides email signup forms to grow your mailing list. It comes in two variants optimized for different placement contexts.</p>
+
+    <p><strong>Key features:</strong></p>
+    <ul>
+      <li><strong>2 variants:</strong> Banner (full-width, above footer) and Inline (compact, sidebar)</li>
+      <li><strong>Banner variant:</strong> Teal gradient background, decorative glow, badge + heading + description</li>
+      <li><strong>Inline variant:</strong> White card, minimal design, GDPR hint with shield icon</li>
+      <li><strong>Prominent CTA:</strong> Send icon + "Aanmelden" button with hover animation</li>
+      <li><strong>Fully responsive:</strong> Banner stacks vertically on mobile</li>
+    </ul>
+
+    <!-- STEP 2 -->
+    <h2>STEP 2: When to Use</h2>
+    <p>Use C16-Newsletter when:</p>
+    <ul>
+      <li><strong>Banner variant:</strong> Above footer, between content sections, as page-width CTA</li>
+      <li><strong>Inline variant:</strong> Sidebar, product page, blog post, modal</li>
+      <li>You want to grow email list with prominent signup form</li>
+      <li>Promoting specific benefits (discounts, tips, early access)</li>
+    </ul>
+
+    <p><strong>Don't use when:</strong></p>
+    <ul>
+      <li>Newsletter is not primary CTA (use simpler link instead)</li>
+      <li>Already have prominent signup in header (avoid duplication)</li>
+    </ul>
+
+    <!-- STEP 3 -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Banner Variant</h3>
+    <table>
+      <tr><th>Property</th><th>Value</th></tr>
+      <tr><td>Background</td><td>linear-gradient(135deg, #00897B, #00695C)</td></tr>
+      <tr><td>Border radius</td><td>20px</td></tr>
+      <tr><td>Padding</td><td>36px 40px</td></tr>
+      <tr><td>Max width</td><td>900px</td></tr>
+      <tr><td>Gap</td><td>32px (between content and form)</td></tr>
+    </table>
+
+    <h3>Inline Variant</h3>
+    <table>
+      <tr><th>Property</th><th>Value</th></tr>
+      <tr><td>Background</td><td>#FFFFFF</td></tr>
+      <tr><td>Border</td><td>1px solid #E8ECF1</td></tr>
+      <tr><td>Border radius</td><td>16px</td></tr>
+      <tr><td>Padding</td><td>24px</td></tr>
+      <tr><td>Max width</td><td>400px</td></tr>
+    </table>
+
+    <!-- STEP 4 -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>Banner Variant HTML</h3>
+    <pre>&lt;div class="nl-banner"&gt;
+  &lt;div class="nl-content"&gt;
+    &lt;div class="nl-badge"&gt;
+      &lt;i data-lucide="sparkles"&gt;&lt;/i&gt;
+      Blijf op de hoogte
+    &lt;/div&gt;
+    &lt;h3&gt;Ontvang aanbiedingen & producttips&lt;/h3&gt;
+    &lt;p&gt;Wekelijks het laatste nieuws, exclusieve kortingen...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="nl-form"&gt;
+    &lt;input class="nl-input" type="email" placeholder="Uw e-mailadres"&gt;
+    &lt;button class="nl-submit"&gt;
+      &lt;i data-lucide="send"&gt;&lt;/i&gt; Aanmelden
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Inline Variant HTML</h3>
+    <pre>&lt;div class="nl-inline"&gt;
+  &lt;div class="nli-title"&gt;Nieuwsbrief&lt;/div&gt;
+  &lt;div class="nli-text"&gt;Ontvang wekelijks aanbiedingen...&lt;/div&gt;
+  &lt;div class="nli-form"&gt;
+    &lt;input class="nli-input" type="email" placeholder="Uw e-mailadres"&gt;
+    &lt;button class="nli-btn"&gt;
+      &lt;i data-lucide="send"&gt;&lt;/i&gt; Aanmelden
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="nli-hint"&gt;
+    &lt;i data-lucide="shield"&gt;&lt;/i&gt; Geen spam, uitschrijven wanneer u wilt
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <!-- STEP 5 -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Banner Variant</h3>
+    <ul>
+      <li>Flexbox: <code>align-items: center; justify-content: space-between;</code></li>
+      <li>Content left, form right</li>
+      <li>Form width: 280px input + button (flex-shrink: 0)</li>
+      <li><strong>Mobile:</strong> Stack vertically, form full-width</li>
+    </ul>
+
+    <h3>Inline Variant</h3>
+    <ul>
+      <li>Vertical stack: title → text → form → hint</li>
+      <li>Form flexbox: input (flex: 1) + button (flex-shrink: 0)</li>
+    </ul>
+
+    <!-- STEP 6 -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <pre>&lt;form class="nl-form" aria-label="Nieuwsbrief aanmelding"&gt;
+  &lt;input
+    class="nl-input"
+    type="email"
+    placeholder="Uw e-mailadres"
+    aria-label="E-mailadres"
+    required
+  &gt;
+  &lt;button class="nl-submit" type="submit"&gt;
+    &lt;i data-lucide="send" aria-hidden="true"&gt;&lt;/i&gt;
+    Aanmelden
+  &lt;/button&gt;
+&lt;/form&gt;</pre>
+
+    <!-- STEP 7 -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Form Submission</h3>
+    <pre>// Example: Submit to email service
+document.querySelector('.nl-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = e.target.querySelector('.nl-input').value;
+
+  try {
+    const res = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+
+    if (res.ok) {
+      showToast('success', 'Bedankt!', 'U bent aangemeld voor de nieuwsbrief.');
+      e.target.reset();
+    }
+  } catch (err) {
+    showToast('error', 'Fout', 'Er ging iets mis. Probeer opnieuw.');
+  }
+});</pre>
+
+    <!-- STEP 8 -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variation: With Checkbox</h3>
+    <pre>&lt;div class="nli-checkbox"&gt;
+  &lt;input type="checkbox" id="gdpr" required&gt;
+  &lt;label for="gdpr"&gt;Ik ga akkoord met het privacybeleid&lt;/label&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>C15-Footer:</strong> Banner often placed directly above footer</li>
+      <li><strong>C17-ToastSystem:</strong> Show success/error toast after submission</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Implementation complete!</strong> Newsletter component with 2 context-optimized variants.</p>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

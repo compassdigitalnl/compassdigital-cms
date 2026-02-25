@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
-import { useToast } from '@/branches/shared/components/ui/Toast'
+import { useToast } from '@/branches/shared/components/ui/ToastSystem'
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'

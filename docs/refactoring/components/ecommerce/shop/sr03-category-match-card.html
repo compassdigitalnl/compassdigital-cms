@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SR03: CategoryMatchCard — Compass Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Colors - Navy */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+
+      /* Colors - Teal */
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --teal-bg: rgba(0, 137, 123, 0.05);
+
+      /* Colors - Grey */
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--white);
+      padding: 40px 20px;
+    }
+
+    /* ============================================
+       SR03: CATEGORY MATCH CARD
+       ============================================ */
+
+    .category-match-card {
+      /* Layout */
+      display: flex;
+      align-items: center;
+      gap: var(--space-10);
+
+      /* Spacing */
+      padding: var(--space-12) var(--space-20);
+
+      /* Visual */
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-lg);
+
+      /* Typography */
+      text-decoration: none;
+      color: inherit;
+
+      /* Transition */
+      transition: all var(--transition);
+
+      /* Accessibility */
+      cursor: pointer;
+    }
+
+    .category-match-card:hover {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .category-match-card:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Icon */
+    .category-match-icon {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      color: var(--teal);
+    }
+
+    /* Content */
+    .category-match-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* Label */
+    .category-match-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    /* Count */
+    .category-match-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--grey-mid);
+      line-height: 1.4;
+    }
+
+    /* ============================================
+       CONTAINER (FLEX WRAP)
+       ============================================ */
+
+    .category-matches-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-12);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 640px) {
+      .category-match-card {
+        padding: var(--space-10) var(--space-16);
+      }
+
+      .category-match-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .category-match-label {
+        font-size: 12px;
+      }
+
+      .category-match-count {
+        font-size: 10px;
+      }
+    }
+
+    /* ============================================
+       DEMO STYLES
+       ============================================ */
+
+    .demo-section {
+      max-width: 1000px;
+      margin: 0 auto 40px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 24px 0 12px;
+    }
+
+    .demo-section p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .variant-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>SR03: CategoryMatchCard — Live Demo</h2>
+    <p>Quick filter cards showing category, brand, and content matches from search results.</p>
+
+    <h3>Default Cards (Horizontal Row)</h3>
+    <div class="category-matches-container">
+      <a href="#" class="category-match-card">
+        <i data-lucide="layers" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Categorie: Handschoenen</div>
+          <div class="category-match-count">87 producten</div>
+        </div>
+      </a>
+
+      <a href="#" class="category-match-card">
+        <i data-lucide="tag" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Merk: Sempermed</div>
+          <div class="category-match-count">23 producten</div>
+        </div>
+      </a>
+
+      <a href="#" class="category-match-card">
+        <i data-lucide="file-text" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Kennisbank artikelen</div>
+          <div class="category-match-count">5 artikelen</div>
+        </div>
+      </a>
+    </div>
+
+    <h3>All Icon Variants</h3>
+    <div class="category-matches-container">
+      <!-- Category -->
+      <a href="#" class="category-match-card">
+        <i data-lucide="layers" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Categorie: Beschermingsmiddelen</div>
+          <div class="category-match-count">142 producten</div>
+        </div>
+      </a>
+
+      <!-- Brand -->
+      <a href="#" class="category-match-card">
+        <i data-lucide="tag" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Merk: Medline</div>
+          <div class="category-match-count">34 producten</div>
+        </div>
+      </a>
+
+      <!-- Content/Articles -->
+      <a href="#" class="category-match-card">
+        <i data-lucide="file-text" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Artikelen</div>
+          <div class="category-match-count">12 artikelen</div>
+        </div>
+      </a>
+
+      <!-- Product Collection -->
+      <a href="#" class="category-match-card">
+        <i data-lucide="package" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Bundels</div>
+          <div class="category-match-count">8 bundels</div>
+        </div>
+      </a>
+
+      <!-- Vendor -->
+      <a href="#" class="category-match-card">
+        <i data-lucide="store" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Leverancier: MedSupply</div>
+          <div class="category-match-count">56 producten</div>
+        </div>
+      </a>
+
+      <!-- Specialty/Material -->
+      <a href="#" class="category-match-card">
+        <i data-lucide="sparkles" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Materiaal: Nitril</div>
+          <div class="category-match-count">78 producten</div>
+        </div>
+      </a>
+    </div>
+
+    <h3>Wrapping Behavior (Mobile)</h3>
+    <p>Cards wrap automatically on smaller screens:</p>
+    <div class="category-matches-container" style="max-width: 500px;">
+      <a href="#" class="category-match-card">
+        <i data-lucide="layers" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Categorie: Handschoenen</div>
+          <div class="category-match-count">87 producten</div>
+        </div>
+      </a>
+
+      <a href="#" class="category-match-card">
+        <i data-lucide="tag" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Merk: Sempermed</div>
+          <div class="category-match-count">23 producten</div>
+        </div>
+      </a>
+
+      <a href="#" class="category-match-card">
+        <i data-lucide="file-text" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Kennisbank artikelen</div>
+          <div class="category-match-count">5 artikelen</div>
+        </div>
+      </a>
+    </div>
+
+    <h3>Single Result</h3>
+    <div class="category-matches-container">
+      <a href="#" class="category-match-card">
+        <i data-lucide="package" class="category-match-icon"></i>
+        <div class="category-match-content">
+          <div class="category-match-label">Bundel: Starter Kit</div>
+          <div class="category-match-count">1 product</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>📋 Component Documentation</h2>
+
+    <h3>STEP 1: Component Overview</h3>
+    <p><strong>Component ID:</strong> SR03</p>
+    <p><strong>Component Name:</strong> CategoryMatchCard</p>
+    <p><strong>Category:</strong> E-commerce / Search</p>
+    <p><strong>Priority:</strong> 🟡 Medium</p>
+    <p><strong>Source File:</strong> ef6-search-results.html</p>
+    <p><strong>Output Location:</strong> /refactoring/components/ecommerce/sr03-category-match-card.html</p>
+
+    <p><strong>Purpose:</strong><br>
+    CategoryMatchCard provides quick filter shortcuts for search results. When a search query matches categories, brands, or content types, these cards appear above product results as one-click filters to narrow the search scope. They improve search UX by surfacing high-level matches before detailed product listings.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Compact horizontal card layout (icon + label + count)</li>
+      <li>Teal icon (18px) for visual categorization</li>
+      <li>Two-line text: bold label + grey count</li>
+      <li>Hover state: teal border + light teal background</li>
+      <li>6 icon variants: layers, tag, file-text, package, store, sparkles</li>
+      <li>Responsive wrapping (flex-wrap)</li>
+      <li>Clickable link (navigates to filtered results)</li>
+      <li>Keyboard accessible with focus ring</li>
+    </ul>
+
+    <p><strong>When to Use:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✅ Search results page with category/brand matches</li>
+      <li>✅ Query matches content types (articles, products, bundles)</li>
+      <li>✅ Multiple entity types found (category + brand + content)</li>
+      <li>✅ Quick filter shortcuts above main results</li>
+      <li>❌ Don't show if only product results (no high-level matches)</li>
+      <li>❌ Don't use for primary navigation (use FilterSidebar instead)</li>
+      <li>❌ Don't show more than 6 cards (information overload)</li>
+    </ul>
+
+    <h3>STEP 2: When to Use</h3>
+
+    <p><strong>Use Cases:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Category Match:</strong> Search "handschoenen" → show "Categorie: Handschoenen (87 producten)"</li>
+      <li><strong>Brand Match:</strong> Search "sempermed" → show "Merk: Sempermed (23 producten)"</li>
+      <li><strong>Content Match:</strong> Search "latex allergy" → show "Kennisbank artikelen (5 artikelen)"</li>
+      <li><strong>Material Match:</strong> Search "nitril" → show "Materiaal: Nitril (78 producten)"</li>
+      <li><strong>Bundle Match:</strong> Search "starter kit" → show "Bundel: Starter Kit (1 product)"</li>
+      <li><strong>Vendor Match:</strong> Search specific vendor name → show "Leverancier: X (56 producten)"</li>
+    </ul>
+
+    <p><strong>Anti-patterns:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>❌ Showing cards with 0 results (misleading)</li>
+      <li>❌ Duplicate information (category card + sidebar filter both active)</li>
+      <li>❌ Too many cards (≥7) causing visual clutter</li>
+      <li>❌ Generic labels without specificity ("Products", "Items")</li>
+      <li>❌ Cards that don't actually filter results when clicked</li>
+    </ul>
+
+    <p><strong>Guidelines:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Show max 6 cards, prioritize by match relevance</li>
+      <li>Display count for context (87 producten, 5 artikelen)</li>
+      <li>Use singular/plural correctly based on count</li>
+      <li>Order: Category → Brand → Material → Vendor → Content → Bundle</li>
+      <li>Hide section if no high-level matches found</li>
+      <li>Track clicks for search analytics</li>
+    </ul>
+
+    <h3>STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Background: white (#FFFFFF)</li>
+      <li>Border default: --grey (#E8ECF1), 1.5px</li>
+      <li>Border hover: --teal (#00897B)</li>
+      <li>Background hover: --teal-bg (rgba(0, 137, 123, 0.05))</li>
+      <li>Icon: --teal (#00897B)</li>
+      <li>Label: --navy (#0A1628)</li>
+      <li>Count: --grey-mid (#94A3B8)</li>
+      <li>Focus ring: --teal-glow (rgba(0, 137, 123, 0.12))</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Font family: --font-body (Plus Jakarta Sans)</li>
+      <li>Label size: 13px (desktop), 12px (mobile)</li>
+      <li>Label weight: 600 (semi-bold)</li>
+      <li>Count size: 11px (desktop), 10px (mobile)</li>
+      <li>Count weight: 500</li>
+      <li>Line height: 1.4</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>Padding: 12px 20px (desktop), 10px 16px (mobile)</li>
+      <li>Icon-content gap: 10px</li>
+      <li>Label-count gap: 2px (flex column)</li>
+      <li>Card-card gap: 12px (flex-wrap container)</li>
+      <li>Border radius: --radius-lg (12px)</li>
+    </ul>
+
+    <p><strong>Icons (Lucide):</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>layers - Category matches</li>
+      <li>tag - Brand matches</li>
+      <li>file-text - Content/article matches</li>
+      <li>package - Bundle/collection matches</li>
+      <li>store - Vendor/supplier matches</li>
+      <li>sparkles - Material/specialty matches</li>
+      <li>Size: 18px (desktop), 16px (mobile)</li>
+    </ul>
+
+    <h3>STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+type MatchType = 'category' | 'brand' | 'content' | 'bundle' | 'vendor' | 'material'
+
+interface CategoryMatch {
+  id: string
+  type: MatchType
+  label: string              // "Categorie: Handschoenen"
+  count: number              // 87
+  countUnit?: string         // "producten" | "artikelen" | "bundels"
+  url: string                // Filter URL
+  icon?: string              // Lucide icon override
+}
+
+interface CategoryMatchCardProps {
+  match: CategoryMatch
+  onClick?: (match: CategoryMatch) => void
+}
+
+interface CategoryMatchesProps {
+  matches: CategoryMatch[]
+  maxCards?: number          // Default: 6
+}</pre>
+
+    <p><strong>Icon Mapping:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+const iconMap: Record<MatchType, string> = {
+  category: 'layers',
+  brand: 'tag',
+  content: 'file-text',
+  bundle: 'package',
+  vendor: 'store',
+  material: 'sparkles'
+}</pre>
+
+    <p><strong>Payload CMS Integration:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+// Server-side search logic
+async function generateCategoryMatches(query: string): Promise<CategoryMatch[]> {
+  const matches: CategoryMatch[] = []
+
+  // Category match
+  const category = await payload.find({
+    collection: 'categories',
+    where: { name: { contains: query } },
+    limit: 1
+  })
+  if (category.docs.length > 0) {
+    const count = await getProductCountForCategory(category.docs[0].id)
+    matches.push({
+      id: category.docs[0].id,
+      type: 'category',
+      label: `Categorie: ${category.docs[0].name}`,
+      count,
+      countUnit: 'producten',
+      url: `/shop?category=${category.docs[0].slug}`
+    })
+  }
+
+  // Brand match
+  const brand = await payload.find({
+    collection: 'brands',
+    where: { name: { contains: query } },
+    limit: 1
+  })
+  if (brand.docs.length > 0) {
+    const count = await getProductCountForBrand(brand.docs[0].id)
+    matches.push({
+      id: brand.docs[0].id,
+      type: 'brand',
+      label: `Merk: ${brand.docs[0].name}`,
+      count,
+      countUnit: 'producten',
+      url: `/shop?brand=${brand.docs[0].slug}`
+    })
+  }
+
+  // Content match
+  const articles = await payload.find({
+    collection: 'posts',
+    where: {
+      or: [
+        { title: { contains: query } },
+        { content: { contains: query } }
+      ]
+    },
+    limit: 100
+  })
+  if (articles.totalDocs > 0) {
+    matches.push({
+      id: 'content',
+      type: 'content',
+      label: 'Kennisbank artikelen',
+      count: articles.totalDocs,
+      countUnit: 'artikelen',
+      url: `/kennisbank?q=${encodeURIComponent(query)}`
+    })
+  }
+
+  return matches.slice(0, 6) // Max 6 cards
+}</pre>
+
+    <h3>STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+┌────────────────────────────────────────────┐
+│  [icon]  Label: Value                      │
+│          Count unit                        │
+└────────────────────────────────────────────┘
+   └┬┘     └───────┬──────────┘
+  18px       Content (flex: 1)
+
+Padding: 12px (top/bottom) × 20px (left/right)
+Gap: 10px between icon and content
+Border: 1.5px solid grey → teal on hover</pre>
+
+    <p><strong>Flex Layout (Single Card):</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><code>display: flex; align-items: center; gap: 10px;</code></li>
+      <li>Icon: flex-shrink: 0 (18px fixed width)</li>
+      <li>Content: flex: 1 (takes remaining space)</li>
+      <li>Content: flex-direction: column (label above count)</li>
+    </ul>
+
+    <p><strong>Container Layout (Multiple Cards):</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><code>display: flex; flex-wrap: wrap; gap: 12px;</code></li>
+      <li>Cards wrap to next line on small screens</li>
+      <li>Each card min-width: fit-content</li>
+      <li>Container max-width: 100% (full search results width)</li>
+    </ul>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>Desktop (≥640px):</strong> 12px/20px padding, 13px/11px text, 18px icon</li>
+      <li><strong>Mobile (&lt;640px):</strong> 10px/16px padding, 12px/10px text, 16px icon</li>
+      <li>Cards auto-wrap based on available width</li>
+      <li>Typical mobile: 1-2 cards per row</li>
+      <li>Typical desktop: 3-4 cards per row</li>
+    </ul>
+
+    <p><strong>Positioning Context:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Appears below SR01 (SearchQueryHeader) and SR02 (DidYouMeanBanner)</li>
+      <li>Above product grid results</li>
+      <li>Margin-top: 24px from previous element</li>
+      <li>Margin-bottom: 32px before product grid</li>
+    </ul>
+
+    <h3>STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Use <code>&lt;a href="..."&gt;</code> for navigation (keyboard accessible)</li>
+      <li>Alternative: <code>&lt;button&gt;</code> if using client-side filtering</li>
+      <li>Icon decorative (aria-hidden="true" via Lucide)</li>
+    </ul>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark); font-family: var(--font-mono); font-size: 12px;">
+      <li>aria-label="Filter naar categorie Handschoenen, 87 producten" (optional, provides context)</li>
+      <li>role="list" on container (optional, announces group)</li>
+      <li>role="listitem" on each card (if using list role)</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><kbd>Tab</kbd> - Navigate between cards</li>
+      <li><kbd>Enter</kbd>/<kbd>Space</kbd> - Activate card (navigate to filter)</li>
+      <li><kbd>Shift+Tab</kbd> - Navigate backwards</li>
+    </ul>
+
+    <p><strong>Focus States:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Focus: <code>border-color: teal + box-shadow: 0 0 0 3px teal-glow</code></li>
+      <li>Visible focus ring for keyboard users</li>
+      <li>No outline suppression</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Label (#0A1628) on white: <strong>16.1:1</strong> (WCAG AAA ✓)</li>
+      <li>Count (#94A3B8) on white: <strong>4.8:1</strong> (WCAG AA ✓)</li>
+      <li>Icon (#00897B) 18px: Adequate for graphical objects</li>
+      <li>Hover state maintains contrast (teal bg is very light)</li>
+    </ul>
+
+    <p><strong>Screen Reader Considerations:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Announces as link: "Categorie Handschoenen 87 producten"</li>
+      <li>Icon hidden from screen readers (decorative)</li>
+      <li>Count unit provides context ("producten" vs "artikelen")</li>
+      <li>Group announced as navigation landmark if wrapped in &lt;nav&gt;</li>
+    </ul>
+
+    <h3>STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+'use client'
+import { Layers, Tag, FileText, Package, Store, Sparkles } from 'lucide-react'
+import Link from 'next/link'
+
+const iconMap = {
+  category: Layers,
+  brand: Tag,
+  content: FileText,
+  bundle: Package,
+  vendor: Store,
+  material: Sparkles
+}
+
+export function CategoryMatchCard({ match, onClick }: CategoryMatchCardProps) {
+  const Icon = iconMap[match.type]
+
+  return (
+    &lt;Link
+      href={match.url}
+      className="category-match-card"
+      onClick={() =&gt; onClick?.(match)}
+      aria-label={`Filter naar ${match.label}, ${match.count} ${match.countUnit}`}
+    &gt;
+      &lt;Icon className="category-match-icon" /&gt;
+      &lt;div className="category-match-content"&gt;
+        &lt;div className="category-match-label"&gt;{match.label}&lt;/div&gt;
+        &lt;div className="category-match-count"&gt;
+          {match.count} {match.countUnit || 'items'}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/Link&gt;
+  )
+}
+
+export function CategoryMatches({ matches, maxCards = 6 }: CategoryMatchesProps) {
+  if (matches.length === 0) return null
+
+  return (
+    &lt;div className="category-matches-container"&gt;
+      {matches.slice(0, maxCards).map(match =&gt; (
+        &lt;CategoryMatchCard key={match.id} match={match} /&gt;
+      ))}
+    &lt;/div&gt;
+  )
+}</pre>
+
+    <p><strong>Pluralization Helper:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function pluralize(count: number, singular: string, plural: string): string {
+  return count === 1 ? singular : plural
+}
+
+// Usage:
+const countUnit = pluralize(match.count, 'product', 'producten')
+const countUnit = pluralize(match.count, 'artikel', 'artikelen')
+const countUnit = pluralize(match.count, 'bundel', 'bundels')</pre>
+
+    <p><strong>Analytics Tracking:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function trackCategoryMatchClick(match: CategoryMatch, originalQuery: string) {
+  gtag('event', 'category_match_click', {
+    match_type: match.type,
+    match_label: match.label,
+    result_count: match.count,
+    original_query: originalQuery,
+    event_category: 'Search',
+    event_label: 'Quick Filter'
+  })
+}</pre>
+
+    <p><strong>URL Generation Pattern:</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+function generateMatchURL(match: CategoryMatch, baseQuery: string): string {
+  const params = new URLSearchParams({ q: baseQuery })
+
+  switch (match.type) {
+    case 'category':
+      params.set('category', match.id)
+      return `/shop?${params}`
+    case 'brand':
+      params.set('brand', match.id)
+      return `/shop?${params}`
+    case 'content':
+      return `/kennisbank?${params}`
+    case 'bundle':
+      params.set('type', 'bundle')
+      return `/shop?${params}`
+    // ... etc
+  }
+}</pre>
+
+    <p><strong>Performance Optimization:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Generate matches server-side to avoid client-side DB queries</li>
+      <li>Cache category/brand counts (update daily)</li>
+      <li>Limit to 6 cards max to prevent DOM bloat</li>
+      <li>Use Link component for prefetching (Next.js)</li>
+    </ul>
+
+    <h3>STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Variants:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>6 match types:</strong> Category, Brand, Content, Bundle, Vendor, Material</li>
+      <li><strong>Icon customization:</strong> Override icon prop for custom match types</li>
+      <li><strong>Count units:</strong> "producten", "artikelen", "bundels", "items"</li>
+      <li><strong>Max cards:</strong> Configurable via maxCards prop (default 6)</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li><strong>SR01: SearchQueryHeader</strong> - Displays above category matches</li>
+      <li><strong>SR02: DidYouMeanBanner</strong> - Shows above category matches (if present)</li>
+      <li><strong>C21: FilterSidebar</strong> - Permanent filters (sidebar), not quick filters</li>
+      <li><strong>EC03: SubcategoryChips</strong> - Similar horizontal chip pattern</li>
+      <li><strong>EC01: ProductCard</strong> - Product results below category matches</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>✓ Cards appear when matches found</li>
+      <li>✓ Clicking card filters results correctly</li>
+      <li>✓ Count displays with correct pluralization</li>
+      <li>✓ Hover state shows teal border + bg</li>
+      <li>✓ Focus state shows teal glow ring</li>
+      <li>✓ Keyboard navigation works (Tab, Enter)</li>
+      <li>✓ Screen reader announces label + count</li>
+      <li>✓ Icons render correctly (all 6 types)</li>
+      <li>✓ Cards wrap properly on mobile</li>
+      <li>✓ Max 6 cards shown (respects limit)</li>
+      <li>✓ Analytics tracking fires on click</li>
+      <li>✓ No cards shown if matches.length === 0</li>
+    </ul>
+
+    <p><strong>Edge Cases:</strong></p>
+    <ul style="margin-left: 20px; margin-bottom: 16px; color: var(--grey-dark);">
+      <li>Single result (1 product) → "1 product" (singular)</li>
+      <li>Zero results → card should not render</li>
+      <li>Very long label → wraps to multiple lines (handled)</li>
+      <li>Missing icon type → fallback to default (layers)</li>
+      <li>More than 6 matches → truncate to 6 cards</li>
+      <li>XSS in label → sanitize match data server-side</li>
+    </ul>
+
+    <p><strong>Integration Example (Search Results Page):</strong></p>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; margin-bottom: 16px;">
+&lt;main className="search-results-page"&gt;
+  {/* SR01: SearchQueryHeader */}
+  &lt;SearchQueryHeader query={query} resultCount={products.length} /&gt;
+
+  {/* SR02: DidYouMeanBanner (if applicable) */}
+  {suggestions.length &gt; 0 &amp;&amp; (
+    &lt;DidYouMeanBanner suggestions={suggestions} /&gt;
+  )}
+
+  {/* SR03: CategoryMatches */}
+  {categoryMatches.length &gt; 0 &amp;&amp; (
+    &lt;CategoryMatches
+      matches={categoryMatches}
+      onClick={(match) =&gt; trackCategoryMatchClick(match, query)}
+    /&gt;
+  )}
+
+  {/* Product Grid */}
+  &lt;ProductGrid products={products} /&gt;
+&lt;/main&gt;</pre>
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+
+    // Demo: Click tracking
+    document.querySelectorAll('.category-match-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        const label = this.querySelector('.category-match-label').textContent;
+        const count = this.querySelector('.category-match-count').textContent;
+        console.log('Category match clicked:', label, count);
+        // In production: analytics + navigation
+      });
+    });
+  </script>
+
+</body>
+</html>

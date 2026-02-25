@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C9 - Compare Bar | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --font-primary: 'DM Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; text-align: center; }
+    .demo-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--teal); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .demo-btn i { width: 18px; height: 18px; }
+
+    /* Compare Bar */
+    .compare-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--navy); z-index: 280; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); padding: 14px 0; }
+    .compare-bar.show { transform: translateY(0); }
+    .compare-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 14px; }
+    .compare-label { color: rgba(255, 255, 255, 0.5); font-size: 13px; font-weight: 600; flex-shrink: 0; }
+    .compare-items { display: flex; gap: 8px; flex: 1; overflow-x: auto; }
+    .compare-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; flex-shrink: 0; }
+    .ci-img { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .ci-name { font-size: 13px; font-weight: 600; color: white; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ci-remove { width: 24px; height: 24px; border-radius: 6px; border: none; background: rgba(255, 255, 255, 0.1); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .ci-remove:hover { background: rgba(255, 107, 107, 0.2); }
+    .ci-remove i { width: 12px; height: 12px; color: rgba(255, 255, 255, 0.5); }
+    .compare-slot-empty { width: 120px; height: 52px; border: 2px dashed rgba(255, 255, 255, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(255, 255, 255, 0.2); flex-shrink: 0; }
+    .compare-btn { height: 42px; padding: 0 22px; background: var(--teal); color: white; border: none; border-radius: 10px; font-family: var(--font-primary); font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; flex-shrink: 0; display: flex; align-items: center; gap: 6px; }
+    .compare-btn:hover { background: var(--teal-light); }
+    .compare-btn i { width: 16px; height: 16px; }
+    .compare-close { width: 42px; height: 42px; border-radius: 10px; border: none; background: rgba(255, 255, 255, 0.08); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .compare-close:hover { background: rgba(255, 255, 255, 0.15); }
+    .compare-close i { width: 18px; height: 18px; color: rgba(255, 255, 255, 0.5); }
+
+    /* Mobile */
+    @media(max-width: 640px) {
+      .compare-items { max-width: 50vw; }
+    }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid #E8ECF1; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: #94A3B8; line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: #F1F4F8; padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <button class="demo-btn" onclick="toggleBar()">
+      <i data-lucide="columns-3"></i>
+      Toggle Compare Bar
+    </button>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C9 - Compare Bar</p>
+    <p><strong>Category:</strong> E-commerce / Product Discovery</p>
+    <p><strong>Complexiteit:</strong> Medium (multi-product state, horizontal scroll, dynamic slots)</p>
+
+    <h3>Purpose:</h3>
+    <p>Bottom-fixed bar showing selected products for comparison. Users can add products from shop pages, view side-by-side specs, and make informed purchase decisions.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Navy background (dark theme)</li>
+      <li>Max 4 product slots (2 filled, 2 empty)</li>
+      <li>Product cards with thumbnail, name, remove button</li>
+      <li>Empty slots with dashed border</li>
+      <li>Compare button (teal) to view comparison table</li>
+      <li>Close button to hide bar</li>
+      <li>Horizontal scroll for overflow</li>
+      <li>Slide-up animation</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Product categories with similar items (e.g., laptops, phones, medical supplies)</li>
+      <li>B2B catalogs with spec-heavy products</li>
+      <li>Shop pages with "Add to compare" checkbox on product cards</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Limit to 2-4 products (4 is optimal for desktop comparison)</li>
+      <li>Persist compare list in localStorage</li>
+      <li>Auto-open bar when first product added</li>
+      <li>Link to dedicated comparison page (/compare?ids=1,2,3)</li>
+      <li>Only allow same category products (enforce matching specs)</li>
+      <li>Show "Add to compare" on product cards (checkbox or icon button)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Bar */
+background: var(--navy)
+z-index: 280
+padding: 14px 0
+transform: translateY(100%) → translateY(0)
+
+/* Product Card */
+padding: 8px 12px
+background: rgba(255,255,255,0.08)
+border: 1px solid rgba(255,255,255,0.1)
+border-radius: 10px
+thumbnail: 36px × 36px
+
+/* Empty Slot */
+width: 120px, height: 52px
+border: 2px dashed rgba(255,255,255,0.1)
+
+/* Compare Button */
+height: 42px, padding 0 22px
+background: var(--teal)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  products: [
+    { id: '1', name: 'Peha-soft Nitrile Fino', image: '/img/p1.jpg' },
+    { id: '2', name: 'Micro-Touch Nitrile', image: '/img/p2.jpg' }
+  ],
+  maxProducts: 4,
+  onCompare: (productIds) => {
+    // Navigate to comparison page
+    router.push(`/compare?ids=${productIds.join(',')}`);
+  },
+  onRemove: (productId) => {},
+  onClose: () => {},
+  persistKey: 'compare_products'
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Container: max-width 1200px, padding 0 24px
+Layout: flex row, gap 14px
+
+Order (left to right):
+1. Label "Vergelijken (2/4)" (flex-shrink 0)
+2. Product items container (flex 1, overflow-x auto)
+3. Compare button (flex-shrink 0)
+4. Close button (flex-shrink 0)
+
+Mobile: Product items max-width 50vw (horizontal scroll)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;div className="compare-bar" role="region" aria-label="Product vergelijking"&gt;
+  &lt;button aria-label="Verwijder uit vergelijking"&gt;×&lt;/button&gt;
+  &lt;button aria-label="Vergelijk geselecteerde producten"&gt;Vergelijken&lt;/button&gt;
+&lt;/div&gt;
+
+// Screen reader announce when product added:
+"Product toegevoegd aan vergelijking. 2 van 4 producten geselecteerd."</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function CompareBar({ onCompare }) {
+  const [products, setProducts] = useState([]);
+  const maxProducts = 4;
+
+  const addProduct = (product) => {
+    if (products.length >= maxProducts) {
+      toast.error('Maximaal 4 producten kunnen vergeleken worden');
+      return;
+    }
+    setProducts([...products, product]);
+    localStorage.setItem('compare_products', JSON.stringify([...products, product]));
+  };
+
+  const removeProduct = (productId) => {
+    const updated = products.filter(p => p.id !== productId);
+    setProducts(updated);
+    localStorage.setItem('compare_products', JSON.stringify(updated));
+  };
+
+  return (
+    &lt;div className={`compare-bar ${products.length > 0 ? 'show' : ''}`}&gt;
+      &lt;div className="compare-inner"&gt;
+        &lt;div className="compare-label"&gt;Vergelijken ({products.length}/{maxProducts})&lt;/div&gt;
+        &lt;div className="compare-items"&gt;
+          {products.map(p => (
+            &lt;div key={p.id} className="compare-item"&gt;
+              &lt;img src={p.image} className="ci-img" /&gt;
+              &lt;div className="ci-name"&gt;{p.name}&lt;/div&gt;
+              &lt;button className="ci-remove" onClick={() => removeProduct(p.id)}&gt;
+                &lt;X size={12} /&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          ))}
+          {Array.from({ length: maxProducts - products.length }).map((_, i) => (
+            &lt;div key={i} className="compare-slot-empty"&gt;+ product&lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+        &lt;button className="compare-btn" onClick={() => onCompare(products.map(p => p.id))}&gt;
+          &lt;Columns3 size={16} /&gt; Vergelijken
+        &lt;/button&gt;
+        &lt;button className="compare-close" onClick={() => setProducts([])}&gt;
+          &lt;X size={18} /&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>C6-StickyBar:</strong> Uses similar bottom-fixed pattern</li>
+      <li><strong>ComparisonTable:</strong> Destination page with full specs side-by-side</li>
+      <li><strong>ProductCard:</strong> Add "Compare" checkbox/button</li>
+      <li><strong>Variant:</strong> Show quick specs preview on hover over product in bar</li>
+    </ul>
+  </div>
+
+  <!-- Compare Bar -->
+  <div class="compare-bar" id="compareBar">
+    <div class="compare-inner">
+      <div class="compare-label">Vergelijken (2/4)</div>
+      <div class="compare-items">
+        <div class="compare-item">
+          <div class="ci-img">🧤</div>
+          <div class="ci-name">Peha-soft Nitrile Fino</div>
+          <button class="ci-remove"><i data-lucide="x"></i></button>
+        </div>
+        <div class="compare-item">
+          <div class="ci-img">🧤</div>
+          <div class="ci-name">Micro-Touch Nitrile</div>
+          <button class="ci-remove"><i data-lucide="x"></i></button>
+        </div>
+        <div class="compare-slot-empty">+ product</div>
+        <div class="compare-slot-empty">+ product</div>
+      </div>
+      <button class="compare-btn"><i data-lucide="columns-3"></i> Vergelijken</button>
+      <button class="compare-close" onclick="toggleBar()"><i data-lucide="x"></i></button>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let barVisible = false;
+    function toggleBar() {
+      barVisible = !barVisible;
+      document.getElementById('compareBar').classList.toggle('show', barVisible);
+    }
+  </script>
+</body>
+</html>

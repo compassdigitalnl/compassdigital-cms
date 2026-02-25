@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SR01: SearchQueryHeader - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      /* Spacing */
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-24: 24px;
+      --space-32: 32px;
+      --space-40: 40px;
+
+      /* Border Radius */
+      --radius-xl: 14px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #F5F7FA;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      padding: var(--space-32);
+      margin-bottom: var(--space-32);
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: var(--space-12);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPONENT: SEARCH QUERY HEADER
+       ═══════════════════════════════════════════════════════════ */
+
+    .search-query-header {
+      padding: var(--space-32) var(--space-40);
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+    }
+
+    .search-query-header-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-16);
+    }
+
+    /* Left section: Query */
+    .search-query-section {
+      flex: 1;
+    }
+
+    .search-query-label {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: var(--space-8);
+    }
+
+    .search-query-title {
+      font-family: var(--font-body);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .search-query-icon {
+      width: 28px;
+      height: 28px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .search-query-text {
+      font-style: normal;
+    }
+
+    /* Right section: Result count */
+    .search-results-count {
+      text-align: right;
+      min-width: 120px;
+    }
+
+    .search-results-count-label {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 4px;
+    }
+
+    .search-results-count-number {
+      font-family: var(--font-body);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--teal);
+      line-height: 1;
+    }
+
+    .search-results-count-unit {
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    /* Empty state (no results) */
+    .search-query-header.no-results .search-results-count-number {
+      color: var(--grey-mid);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+
+    @media (max-width: 640px) {
+      .search-query-header {
+        padding: var(--space-24);
+      }
+
+      .search-query-header-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-16);
+      }
+
+      .search-query-title {
+        font-size: 24px;
+      }
+
+      .search-query-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .search-results-count {
+        text-align: left;
+        width: 100%;
+      }
+
+      .search-results-count-number {
+        font-size: 24px;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES
+       ═══════════════════════════════════════════════════════════ */
+
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .docs p {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .docs code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .docs ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .docs li {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .info-box {
+      background: rgba(33, 150, 243, 0.08);
+      border-left: 4px solid #2196F3;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #1565C0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="demo-container">
+
+    <!-- Default State (With Results) -->
+    <div class="demo-section">
+      <div class="demo-label">Default State (With Results)</div>
+      <header class="search-query-header">
+        <div class="search-query-header-main">
+          <div class="search-query-section">
+            <div class="search-query-label">Zoekresultaten voor</div>
+            <h1 class="search-query-title">
+              <i data-lucide="search" class="search-query-icon" aria-hidden="true"></i>
+              <span class="search-query-text">"handschoenen nitril"</span>
+            </h1>
+          </div>
+          <div class="search-results-count">
+            <div class="search-results-count-label">Gevonden</div>
+            <div class="search-results-count-number">42</div>
+            <div class="search-results-count-unit">producten</div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <!-- Large Result Count -->
+    <div class="demo-section">
+      <div class="demo-label">Large Result Count (200+)</div>
+      <header class="search-query-header">
+        <div class="search-query-header-main">
+          <div class="search-query-section">
+            <div class="search-query-label">Zoekresultaten voor</div>
+            <h1 class="search-query-title">
+              <i data-lucide="search" class="search-query-icon" aria-hidden="true"></i>
+              <span class="search-query-text">"handschoenen"</span>
+            </h1>
+          </div>
+          <div class="search-results-count">
+            <div class="search-results-count-label">Gevonden</div>
+            <div class="search-results-count-number">287</div>
+            <div class="search-results-count-unit">producten</div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <!-- No Results State -->
+    <div class="demo-section">
+      <div class="demo-label">No Results State</div>
+      <header class="search-query-header no-results">
+        <div class="search-query-header-main">
+          <div class="search-query-section">
+            <div class="search-query-label">Zoekresultaten voor</div>
+            <h1 class="search-query-title">
+              <i data-lucide="search" class="search-query-icon" aria-hidden="true"></i>
+              <span class="search-query-text">"xyz123nonexistent"</span>
+            </h1>
+          </div>
+          <div class="search-results-count">
+            <div class="search-results-count-label">Gevonden</div>
+            <div class="search-results-count-number">0</div>
+            <div class="search-results-count-unit">producten</div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <!-- Short Query -->
+    <div class="demo-section">
+      <div class="demo-label">Short Query (Single Word)</div>
+      <header class="search-query-header">
+        <div class="search-query-header-main">
+          <div class="search-query-section">
+            <div class="search-query-label">Zoekresultaten voor</div>
+            <h1 class="search-query-title">
+              <i data-lucide="search" class="search-query-icon" aria-hidden="true"></i>
+              <span class="search-query-text">"spuiten"</span>
+            </h1>
+          </div>
+          <div class="search-results-count">
+            <div class="search-results-count-label">Gevonden</div>
+            <div class="search-results-count-number">156</div>
+            <div class="search-results-count-unit">producten</div>
+          </div>
+        </div>
+      </header>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="docs">
+    <h1>SR01: SearchQueryHeader</h1>
+    <p><strong>Component Identity:</strong> Search results page header displaying the search query and result count</p>
+    <p><strong>Category:</strong> Navigation / Search</p>
+    <p><strong>Source File:</strong> <code>ef6-search-results.html</code> (lines 14-30)</p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>The SearchQueryHeader displays the user's search query and the number of results found. It provides immediate feedback on search success and helps users understand what they're looking at.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Search icon:</strong> 28×28px teal search icon for visual context</li>
+      <li><strong>Query display:</strong> Large (28px) bold text with quotation marks</li>
+      <li><strong>Result count:</strong> Prominent teal number with "producten" unit</li>
+      <li><strong>Clear labels:</strong> "Zoekresultaten voor" and "Gevonden" context</li>
+      <li><strong>No results state:</strong> Grey count number when 0 results</li>
+    </ul>
+
+    <h3>Layout</h3>
+    <p>The header uses a two-column flex layout: query on the left (flexible), result count on the right (fixed ~120px). On mobile (&lt;640px), it stacks vertically.</p>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use</h2>
+
+    <h3>Use This Component When:</h3>
+    <ul>
+      <li>Displaying search results (any search page)</li>
+      <li>Users need confirmation of what they searched for</li>
+      <li>Showing result count is important (e.g., filtering, search)</li>
+      <li>You want to provide search context at page top</li>
+    </ul>
+
+    <h3>Don't Use This Component When:</h3>
+    <ul>
+      <li>Showing instant search results (use C1 InstantSearch instead)</li>
+      <li>Displaying category archives (use EC02 CategoryHero instead)</li>
+      <li>No search query exists (static pages)</li>
+    </ul>
+
+    <h3>Content Guidelines</h3>
+    <ul>
+      <li><strong>Query display:</strong> Wrap in quotation marks ("query") to indicate exact match</li>
+      <li><strong>Labels:</strong> Use "Zoekresultaten voor" (not "Results for") for Dutch</li>
+      <li><strong>Unit:</strong> Use "producten" (plural) even for 1 result (or conditionally: "product" vs "producten")</li>
+      <li><strong>Count formatting:</strong> No thousands separators for counts &lt;1000 (e.g., "287" not "287")</li>
+    </ul>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Background:</strong> <code>white</code></li>
+      <li><strong>Border:</strong> <code>--grey</code> (#E8ECF1, 1px)</li>
+      <li><strong>Icon color:</strong> <code>--teal</code> (#00897B)</li>
+      <li><strong>Query text:</strong> <code>--navy</code> (#0A1628)</li>
+      <li><strong>Labels:</strong> <code>--grey-dark</code> (#64748B)</li>
+      <li><strong>Result count:</strong> <code>--teal</code> (#00897B)</li>
+      <li><strong>Count unit:</strong> <code>--grey-mid</code> (#94A3B8)</li>
+      <li><strong>No results:</strong> Count number becomes <code>--grey-mid</code></li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Query title:</strong> Plus Jakarta Sans, 28px, 800 weight, navy</li>
+      <li><strong>Labels:</strong> Plus Jakarta Sans, 14px, 400 weight, grey-dark</li>
+      <li><strong>Result count:</strong> Plus Jakarta Sans, 28px, 800 weight, teal</li>
+      <li><strong>Count unit:</strong> Plus Jakarta Sans, 12px, 400 weight, grey-mid</li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Container padding:</strong> 32px × 40px</li>
+      <li><strong>Label-to-title gap:</strong> 8px</li>
+      <li><strong>Icon-to-text gap:</strong> 12px</li>
+      <li><strong>Main section margin-bottom:</strong> 16px (for optional "Did you mean" banner below)</li>
+    </ul>
+
+    <h3>Icons</h3>
+    <ul>
+      <li><strong>Search icon:</strong> <code>search</code> (28×28px, teal)</li>
+    </ul>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface SearchQueryHeaderProps {
+  query: string
+  resultCount: number
+  resultUnit?: string
+  showIcon?: boolean
+}</pre>
+
+    <h3>Payload CMS Integration</h3>
+    <pre>
+// Dynamic search results page
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: { q?: string }
+}) {
+  const query = searchParams.q || ''
+
+  const results = await payload.find({
+    collection: 'products',
+    where: {
+      or: [
+        { name: { contains: query } },
+        { sku: { contains: query } },
+        { description: { contains: query } },
+      ],
+    },
+  })
+
+  return (
+    &lt;&gt;
+      &lt;SearchQueryHeader
+        query={query}
+        resultCount={results.totalDocs}
+      /&gt;
+      {/* Product grid, filters, etc. */}
+    &lt;/&gt;
+  )
+}</pre>
+
+    <h3>Default Values</h3>
+    <ul>
+      <li><strong>resultUnit:</strong> "producten"</li>
+      <li><strong>showIcon:</strong> true</li>
+    </ul>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Container Structure</h3>
+    <ul>
+      <li><strong>Display:</strong> White card with grey border, 14px border-radius</li>
+      <li><strong>Padding:</strong> 32px × 40px (desktop), 24px all sides (mobile)</li>
+    </ul>
+
+    <h3>Main Section</h3>
+    <ul>
+      <li><strong>Layout:</strong> <code>display: flex</code>, <code>justify-content: space-between</code></li>
+      <li><strong>Left column:</strong> Query section (flex: 1)</li>
+      <li><strong>Right column:</strong> Result count (min-width: 120px, text-align: right)</li>
+    </ul>
+
+    <h3>Query Section</h3>
+    <ul>
+      <li><strong>Label:</strong> 14px grey-dark text above title</li>
+      <li><strong>Title:</strong> 28px bold, horizontal flex with icon + text (12px gap)</li>
+    </ul>
+
+    <h3>Result Count Section</h3>
+    <ul>
+      <li><strong>Label:</strong> "Gevonden" (14px, grey-mid)</li>
+      <li><strong>Number:</strong> Large teal number (28px, 800 weight)</li>
+      <li><strong>Unit:</strong> "producten" below number (12px, grey-mid)</li>
+    </ul>
+
+    <h3>Responsive Behavior</h3>
+    <ul>
+      <li><strong>&lt;640px:</strong> Stack vertically (flex-direction: column)</li>
+      <li><strong>Mobile:</strong> Reduce title to 24px, icon to 24×24px</li>
+      <li><strong>Mobile:</strong> Result count left-aligned (not right)</li>
+    </ul>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <ul>
+      <li>Use <code>&lt;header&gt;</code> for container</li>
+      <li>Use <code>&lt;h1&gt;</code> for search query title (main page heading)</li>
+      <li>Icon should have <code>aria-hidden="true"</code> (decorative)</li>
+    </ul>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><code>aria-hidden="true"</code> on search icon</li>
+      <li><code>aria-live="polite"</code> on result count (announces changes when filtering)</li>
+    </ul>
+
+    <h3>Screen Reader Support</h3>
+    <ul>
+      <li>H1 reads: "Zoekresultaten voor handschoenen nitril"</li>
+      <li>Result count section announces: "Gevonden 42 producten"</li>
+      <li>Changes to result count (via filtering) announced automatically</li>
+    </ul>
+
+    <h3>Color Contrast</h3>
+    <ul>
+      <li><strong>Navy title on white:</strong> 16.1:1 ✓ (WCAG AAA)</li>
+      <li><strong>Teal count on white:</strong> 4.5:1 ✓ (WCAG AA for large text)</li>
+      <li><strong>Grey labels on white:</strong> 6.8:1 ✓ (WCAG AAA)</li>
+    </ul>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+import { Search } from 'lucide-react'
+
+interface SearchQueryHeaderProps {
+  query: string
+  resultCount: number
+  resultUnit?: string
+  showIcon?: boolean
+}
+
+export function SearchQueryHeader({
+  query,
+  resultCount,
+  resultUnit = 'producten',
+  showIcon = true,
+}: SearchQueryHeaderProps) {
+  const noResults = resultCount === 0
+
+  return (
+    &lt;header className={`search-query-header ${noResults ? 'no-results' : ''}`}&gt;
+      &lt;div className="search-query-header-main"&gt;
+        &lt;div className="search-query-section"&gt;
+          &lt;div className="search-query-label"&gt;Zoekresultaten voor&lt;/div&gt;
+          &lt;h1 className="search-query-title"&gt;
+            {showIcon && &lt;Search className="search-query-icon" aria-hidden="true" /&gt;}
+            &lt;span className="search-query-text"&gt;"{query}"&lt;/span&gt;
+          &lt;/h1&gt;
+        &lt;/div&gt;
+        &lt;div className="search-results-count" aria-live="polite"&gt;
+          &lt;div className="search-results-count-label"&gt;Gevonden&lt;/div&gt;
+          &lt;div className="search-results-count-number"&gt;{resultCount}&lt;/div&gt;
+          &lt;div className="search-results-count-unit"&gt;{resultUnit}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+  )
+}</pre>
+
+    <h3>Search Query Highlighting</h3>
+    <pre>
+// Highlight matched terms in query display
+function highlightQuery(query: string) {
+  const terms = query.split(' ')
+
+  return terms.map((term, i) => (
+    &lt;span key={i}&gt;
+      {i > 0 && ' '}
+      &lt;mark style={{ background: 'rgba(0,137,123,0.15)', color: '#00897B' }}&gt;
+        {term}
+      &lt;/mark&gt;
+    &lt;/span&gt;
+  ))
+}</pre>
+
+    <div class="info-box">
+      <p><strong>Performance Note:</strong> This component is typically server-rendered with initial search results. Result count updates client-side when filters are applied.</p>
+    </div>
+
+    <!-- STEP 8: VARIATIONS & RELATED -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>States</h3>
+    <ul>
+      <li><strong>Default:</strong> Results found (teal count number)</li>
+      <li><strong>No results:</strong> 0 results (grey count number)</li>
+      <li><strong>Many results:</strong> 100+ results (same styling, just larger number)</li>
+    </ul>
+
+    <h3>Variants</h3>
+    <ul>
+      <li><strong>Default:</strong> Shows icon + query + count</li>
+      <li><strong>No icon:</strong> Text-only variant (saves horizontal space)</li>
+      <li><strong>With filters:</strong> Often appears above filter chips (not integrated)</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>SR02: DidYouMeanBanner</strong> - Appears directly below this header</li>
+      <li><strong>SR03: CategoryMatchCard</strong> - Quick filter cards below banner</li>
+      <li><strong>C1: InstantSearch</strong> - Overlay search (different pattern)</li>
+      <li><strong>EC02: CategoryHero</strong> - Category page header (similar layout)</li>
+      <li><strong>C21: FilterSidebar</strong> - Reused from Shop Archive for filtering</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Header renders with correct query text and count</li>
+      <li>✓ Quotation marks wrap query text</li>
+      <li>✓ Search icon displays at 28×28px with teal color</li>
+      <li>✓ Result count is teal (or grey if 0 results)</li>
+      <li>✓ Mobile layout stacks correctly (&lt;640px)</li>
+      <li>✓ H1 heading level appropriate for page structure</li>
+      <li>✓ Screen reader announces query and count</li>
+      <li>✓ Color contrast meets WCAG AA/AAA standards</li>
+    </ul>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

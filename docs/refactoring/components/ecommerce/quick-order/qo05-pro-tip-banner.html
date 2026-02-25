@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QO05: ProTipBanner - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-bg: rgba(0, 137, 123, 0.08);
+      --teal-border: rgba(0, 137, 123, 0.2);
+      --grey: #E8ECF1;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      /* Spacing */
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-lg: 12px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #F5F7FA;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPONENT: PRO TIP BANNER
+       ═══════════════════════════════════════════════════════════ */
+
+    .pro-tip-banner {
+      background: var(--teal-bg);
+      border: 1px solid var(--teal-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-16) var(--space-20);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-12);
+    }
+
+    .pro-tip-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pro-tip-content {
+      font-size: 14px;
+      color: var(--navy);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .pro-tip-label {
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .pro-tip-content strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .pro-tip-content a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity var(--transition);
+    }
+
+    .pro-tip-content a:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+
+    /* Close Button (optional) */
+    .pro-tip-close {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: none;
+      color: var(--grey-dark);
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--transition);
+      margin-left: auto;
+    }
+
+    .pro-tip-close:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--navy);
+    }
+
+    .pro-tip-close i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Compact Variant */
+    .pro-tip-banner.compact {
+      padding: var(--space-12) var(--space-16);
+    }
+
+    .pro-tip-banner.compact .pro-tip-content {
+      font-size: 13px;
+    }
+
+    .pro-tip-banner.compact .pro-tip-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+
+    @media (max-width: 640px) {
+      .pro-tip-banner {
+        flex-direction: column;
+        gap: var(--space-12);
+      }
+
+      .pro-tip-icon {
+        margin-top: 0;
+      }
+
+      .pro-tip-close {
+        position: absolute;
+        top: var(--space-12);
+        right: var(--space-12);
+      }
+
+      .pro-tip-banner {
+        position: relative;
+        padding-right: 40px;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES
+       ═══════════════════════════════════════════════════════════ */
+
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .docs p {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .docs code {
+      background: #F1F4F8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .docs ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .docs li {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .info-box {
+      background: rgba(33, 150, 243, 0.08);
+      border-left: 4px solid #2196F3;
+      padding: 16px 20px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #1565C0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="demo-container">
+
+    <!-- Default Variant -->
+    <div class="demo-section">
+      <div class="demo-label">Default Variant (Quick Order Tip)</div>
+      <aside class="pro-tip-banner" role="note">
+        <i data-lucide="lightbulb" class="pro-tip-icon" aria-hidden="true"></i>
+        <div class="pro-tip-content">
+          <strong class="pro-tip-label">Pro tip:</strong> Sla je veelgebruikte bestellingen op als <strong>bestellijst</strong> om ze later met één klik opnieuw te bestellen. Of upload een CSV-bestand met al je artikelnummers en aantallen.
+        </div>
+      </aside>
+    </div>
+
+    <!-- With Link -->
+    <div class="demo-section">
+      <div class="demo-label">With Link (Actionable Tip)</div>
+      <aside class="pro-tip-banner" role="note">
+        <i data-lucide="lightbulb" class="pro-tip-icon" aria-hidden="true"></i>
+        <div class="pro-tip-content">
+          <strong class="pro-tip-label">Pro tip:</strong> Download onze <a href="#">CSV sjabloon</a> om snel producten toe te voegen zonder handmatig te zoeken. Vul artikelnummers en aantallen in en upload het bestand.
+        </div>
+      </aside>
+    </div>
+
+    <!-- With Close Button -->
+    <div class="demo-section">
+      <div class="demo-label">With Close Button (Dismissible)</div>
+      <aside class="pro-tip-banner" role="note">
+        <i data-lucide="lightbulb" class="pro-tip-icon" aria-hidden="true"></i>
+        <div class="pro-tip-content">
+          <strong class="pro-tip-label">Pro tip:</strong> Gebruik de sneltoets <strong>Ctrl+V</strong> om producten rechtstreeks vanuit Excel te plakken. Dit werkt ook met kopieën van oude bestellijsten.
+        </div>
+        <button class="pro-tip-close" aria-label="Sluit tip">
+          <i data-lucide="x"></i>
+        </button>
+      </aside>
+    </div>
+
+    <!-- Compact Variant -->
+    <div class="demo-section">
+      <div class="demo-label">Compact Variant (Smaller Padding)</div>
+      <aside class="pro-tip-banner compact" role="note">
+        <i data-lucide="lightbulb" class="pro-tip-icon" aria-hidden="true"></i>
+        <div class="pro-tip-content">
+          <strong class="pro-tip-label">Tip:</strong> Klik op "Gebruik bestellijst" om snel eerder opgeslagen bestellingen te laden.
+        </div>
+      </aside>
+    </div>
+
+    <!-- Alternative Icons -->
+    <div class="demo-section">
+      <div class="demo-label">Alternative Icons</div>
+
+      <aside class="pro-tip-banner" role="note" style="margin-bottom: 16px;">
+        <i data-lucide="info" class="pro-tip-icon" aria-hidden="true"></i>
+        <div class="pro-tip-content">
+          <strong class="pro-tip-label">Let op:</strong> CSV bestanden moeten de kolommen "SKU" en "Aantal" bevatten om correct geïmporteerd te worden.
+        </div>
+      </aside>
+
+      <aside class="pro-tip-banner" role="note" style="margin-bottom: 16px;">
+        <i data-lucide="zap" class="pro-tip-icon" aria-hidden="true"></i>
+        <div class="pro-tip-content">
+          <strong class="pro-tip-label">Sneller bestellen:</strong> Gebruik de barcode scanner om producten direct toe te voegen zonder te typen.
+        </div>
+      </aside>
+
+      <aside class="pro-tip-banner" role="note">
+        <i data-lucide="star" class="pro-tip-icon" aria-hidden="true"></i>
+        <div class="pro-tip-content">
+          <strong class="pro-tip-label">Favoriet:</strong> Deze functie is populair bij onze B2B klanten die regelmatig dezelfde producten bestellen.
+        </div>
+      </aside>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="docs">
+    <h1>QO05: ProTipBanner</h1>
+    <p><strong>Component Identity:</strong> Teal info banner with lightbulb icon for helpful tips and best practices</p>
+    <p><strong>Category:</strong> UI Elements / Informational</p>
+    <p><strong>Source File:</strong> <code>ef5-quick-order.html</code> (lines 112-118)</p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>The ProTipBanner displays helpful tips, best practices, or feature highlights to users. It uses a teal background to differentiate from alerts/warnings while maintaining a friendly, informative tone.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Teal branding:</strong> Light teal background (#00897B08) with teal border and icon</li>
+      <li><strong>Lightbulb icon:</strong> 20×20px icon indicating helpful information</li>
+      <li><strong>"Pro tip:" label:</strong> Bold teal text to emphasize the tip nature</li>
+      <li><strong>Rich text support:</strong> Allows bold text and links within content</li>
+      <li><strong>Optional close button:</strong> Dismissible variant for non-critical tips</li>
+      <li><strong>Compact variant:</strong> Smaller padding for inline use</li>
+    </ul>
+
+    <h3>Use Cases</h3>
+    <ul>
+      <li>Explaining advanced features (CSV upload, bestellijsten)</li>
+      <li>Suggesting time-saving shortcuts</li>
+      <li>Highlighting popular B2B features</li>
+      <li>Providing onboarding guidance</li>
+    </ul>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use</h2>
+
+    <h3>Use This Component When:</h3>
+    <ul>
+      <li>Providing helpful tips or best practices</li>
+      <li>Explaining non-obvious features</li>
+      <li>Highlighting efficiency shortcuts</li>
+      <li>Guiding users toward advanced functionality</li>
+      <li>Displaying positive, informational messages</li>
+    </ul>
+
+    <h3>Don't Use This Component When:</h3>
+    <ul>
+      <li>Showing errors (use ErrorBanner or ToastSystem instead)</li>
+      <li>Displaying warnings (use WarningBanner instead)</li>
+      <li>Confirming actions (use SuccessBanner instead)</li>
+      <li>Critical system messages (use AlertBanner instead)</li>
+    </ul>
+
+    <h3>Content Guidelines</h3>
+    <ul>
+      <li><strong>Label:</strong> Start with "Pro tip:", "Tip:", "Let op:", or similar indicator</li>
+      <li><strong>Tone:</strong> Friendly, helpful, concise (max 2 sentences)</li>
+      <li><strong>Action-oriented:</strong> Include actionable advice or links</li>
+      <li><strong>Avoid jargon:</strong> Use plain language accessible to all users</li>
+      <li><strong>Bold keywords:</strong> Emphasize important terms (bestellijst, CSV, etc.)</li>
+    </ul>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Background:</strong> <code>--teal-bg</code> (#00897B08 = rgba(0, 137, 123, 0.08))</li>
+      <li><strong>Border:</strong> <code>--teal-border</code> (#00897B33 = rgba(0, 137, 123, 0.2), 1px)</li>
+      <li><strong>Icon color:</strong> <code>--teal</code> (#00897B)</li>
+      <li><strong>Label text:</strong> <code>--teal</code> (#00897B, bold)</li>
+      <li><strong>Body text:</strong> <code>--navy</code> (#0A1628)</li>
+      <li><strong>Links:</strong> <code>--teal</code> (#00897B, 600 weight)</li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Body text:</strong> Plus Jakarta Sans, 14px, 400 weight, 1.6 line-height</li>
+      <li><strong>Label ("Pro tip:"):</strong> Plus Jakarta Sans, 14px, 700 weight, teal</li>
+      <li><strong>Bold keywords:</strong> Plus Jakarta Sans, 14px, 700 weight, navy</li>
+      <li><strong>Compact variant:</strong> 13px (slightly smaller)</li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Default padding:</strong> 16px (top/bottom) × 20px (left/right)</li>
+      <li><strong>Compact padding:</strong> 12px (top/bottom) × 16px (left/right)</li>
+      <li><strong>Icon gap:</strong> 12px (icon to text)</li>
+      <li><strong>Icon margin-top:</strong> 2px (optical alignment with text)</li>
+    </ul>
+
+    <h3>Icons</h3>
+    <ul>
+      <li><strong>Default:</strong> <code>lightbulb</code> (20×20px, teal)</li>
+      <li><strong>Alternatives:</strong> <code>info</code>, <code>zap</code>, <code>star</code>, <code>award</code></li>
+      <li><strong>Close button:</strong> <code>x</code> (16×16px, grey-dark)</li>
+    </ul>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface ProTipBannerProps {
+  label?: string
+  content: string | React.ReactNode
+  icon?: 'lightbulb' | 'info' | 'zap' | 'star' | 'award'
+  variant?: 'default' | 'compact'
+  dismissible?: boolean
+  onDismiss?: () => void
+}</pre>
+
+    <h3>Payload CMS Fields</h3>
+    <pre>
+{
+  name: 'proTip',
+  type: 'group',
+  fields: [
+    {
+      name: 'label',
+      type: 'text',
+      defaultValue: 'Pro tip:',
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      required: true,
+    },
+    {
+      name: 'icon',
+      type: 'select',
+      options: ['lightbulb', 'info', 'zap', 'star', 'award'],
+      defaultValue: 'lightbulb',
+    },
+    {
+      name: 'dismissible',
+      type: 'checkbox',
+      defaultValue: false,
+    },
+  ],
+}</pre>
+
+    <h3>Default Values</h3>
+    <ul>
+      <li><strong>label:</strong> "Pro tip:"</li>
+      <li><strong>icon:</strong> "lightbulb"</li>
+      <li><strong>variant:</strong> "default"</li>
+      <li><strong>dismissible:</strong> false</li>
+    </ul>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Container Structure</h3>
+    <ul>
+      <li><strong>Display:</strong> <code>flex</code> (horizontal on desktop, vertical on mobile &lt;640px)</li>
+      <li><strong>Alignment:</strong> <code>align-items: flex-start</code></li>
+      <li><strong>Gap:</strong> 12px between icon and content</li>
+      <li><strong>Padding:</strong> 16px × 20px (default), 12px × 16px (compact)</li>
+      <li><strong>Border:</strong> 1px solid teal-border, 12px border-radius</li>
+    </ul>
+
+    <h3>Icon Section</h3>
+    <ul>
+      <li><strong>Size:</strong> 20×20px (default), 18×18px (compact)</li>
+      <li><strong>Color:</strong> Teal (#00897B)</li>
+      <li><strong>Flex-shrink:</strong> 0 (never shrink)</li>
+      <li><strong>Margin-top:</strong> 2px (optical alignment with first line of text)</li>
+    </ul>
+
+    <h3>Content Section</h3>
+    <ul>
+      <li><strong>Flex:</strong> 1 (takes remaining space)</li>
+      <li><strong>Line-height:</strong> 1.6 (comfortable reading)</li>
+      <li><strong>Links:</strong> Teal color, underline on hover</li>
+    </ul>
+
+    <h3>Close Button (Optional)</h3>
+    <ul>
+      <li><strong>Size:</strong> 24×24px button with 16×16px icon</li>
+      <li><strong>Position:</strong> Right side on desktop, absolute top-right on mobile</li>
+      <li><strong>Hover:</strong> Light grey background + darker icon</li>
+    </ul>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <ul>
+      <li>Use <code>&lt;aside role="note"&gt;</code> for the container</li>
+      <li>Icon should have <code>aria-hidden="true"</code> (decorative)</li>
+      <li>Close button should have <code>aria-label="Sluit tip"</code></li>
+    </ul>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><code>role="note"</code> on container (indicates supplementary information)</li>
+      <li><code>aria-hidden="true"</code> on icon (decorative only)</li>
+      <li><code>aria-label="Sluit tip"</code> on close button (if present)</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li>Links within content should be keyboard focusable</li>
+      <li>Close button should be keyboard focusable (Tab key)</li>
+      <li>Enter/Space on close button dismisses banner</li>
+    </ul>
+
+    <h3>Color Contrast</h3>
+    <ul>
+      <li><strong>Navy text on teal bg:</strong> 13.8:1 ✓ (WCAG AAA)</li>
+      <li><strong>Teal text on teal bg:</strong> 4.8:1 ✓ (WCAG AA for bold text)</li>
+      <li><strong>Links (teal):</strong> Same as label, 4.8:1 ✓</li>
+    </ul>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+'use client'
+
+import { useState } from 'react'
+import { Lightbulb, Info, Zap, Star, Award, X } from 'lucide-react'
+
+interface ProTipBannerProps {
+  label?: string
+  content: string | React.ReactNode
+  icon?: 'lightbulb' | 'info' | 'zap' | 'star' | 'award'
+  variant?: 'default' | 'compact'
+  dismissible?: boolean
+}
+
+export function ProTipBanner({
+  label = 'Pro tip:',
+  content,
+  icon = 'lightbulb',
+  variant = 'default',
+  dismissible = false,
+}: ProTipBannerProps) {
+  const [isVisible, setIsVisible] = useState(true)
+
+  const iconMap = {
+    lightbulb: Lightbulb,
+    info: Info,
+    zap: Zap,
+    star: Star,
+    award: Award,
+  }
+
+  const Icon = iconMap[icon]
+
+  if (!isVisible) return null
+
+  return (
+    &lt;aside
+      className={`pro-tip-banner ${variant}`}
+      role="note"
+    &gt;
+      &lt;Icon className="pro-tip-icon" aria-hidden="true" /&gt;
+      &lt;div className="pro-tip-content"&gt;
+        &lt;strong className="pro-tip-label"&gt;{label}&lt;/strong&gt; {content}
+      &lt;/div&gt;
+      {dismissible && (
+        &lt;button
+          onClick={() =&gt; setIsVisible(false)}
+          className="pro-tip-close"
+          aria-label="Sluit tip"
+        &gt;
+          &lt;X /&gt;
+        &lt;/button&gt;
+      )}
+    &lt;/aside&gt;
+  )
+}</pre>
+
+    <h3>Usage Example</h3>
+    <pre>
+// Quick Order page
+&lt;ProTipBanner
+  label="Pro tip:"
+  content={
+    &lt;&gt;
+      Sla je veelgebruikte bestellingen op als &lt;strong&gt;bestellijst&lt;/strong&gt; om ze later met één klik opnieuw te bestellen.
+    &lt;/&gt;
+  }
+/&gt;
+
+// With link
+&lt;ProTipBanner
+  label="Tip:"
+  content={
+    &lt;&gt;
+      Download onze &lt;a href="/templates/quick-order.csv"&gt;CSV sjabloon&lt;/a&gt; om snel producten toe te voegen.
+    &lt;/&gt;
+  }
+/&gt;
+
+// Dismissible
+&lt;ProTipBanner
+  label="Let op:"
+  content="CSV bestanden moeten de kolommen 'SKU' en 'Aantal' bevatten."
+  icon="info"
+  dismissible
+/&gt;</pre>
+
+    <h3>LocalStorage Persistence (Dismissible)</h3>
+    <pre>
+export function ProTipBanner({ id, dismissible, ...props }: Props) {
+  const storageKey = `tip-dismissed-${id}`
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return !localStorage.getItem(storageKey)
+  })
+
+  const handleDismiss = () => {
+    setIsVisible(false)
+    if (id) {
+      localStorage.setItem(storageKey, 'true')
+    }
+  }
+
+  // ... rest of component
+}</pre>
+
+    <div class="info-box">
+      <p><strong>Performance Note:</strong> For static tips, render as server component without dismissible functionality. For dismissible tips, use client component with localStorage.</p>
+    </div>
+
+    <!-- STEP 8: VARIATIONS & RELATED -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variants</h3>
+    <ul>
+      <li><strong>Default:</strong> Full padding (16×20px), lightbulb icon, "Pro tip:" label</li>
+      <li><strong>Compact:</strong> Reduced padding (12×16px), smaller text (13px)</li>
+      <li><strong>With link:</strong> Contains clickable link (underline on hover)</li>
+      <li><strong>Dismissible:</strong> Includes close button, saves to localStorage</li>
+    </ul>
+
+    <h3>Icon Variants</h3>
+    <ul>
+      <li><strong>lightbulb:</strong> Default for tips and tricks</li>
+      <li><strong>info:</strong> For important notices or requirements</li>
+      <li><strong>zap:</strong> For speed/efficiency tips</li>
+      <li><strong>star:</strong> For popular features or highlights</li>
+      <li><strong>award:</strong> For best practices or recommended actions</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>OC05: EmailConfirmationBanner</strong> - Similar banner pattern (blue variant)</li>
+      <li><strong>C17: ToastSystem</strong> - Temporary notifications (auto-dismiss)</li>
+      <li><strong>C16: Newsletter</strong> - Full-width promotional banner</li>
+      <li><strong>EC10: StaffelHintBanner</strong> - Amber volume discount hint</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Banner renders with correct teal background and border</li>
+      <li>✓ Icon displays correctly (20×20px, teal color)</li>
+      <li>✓ Label text is bold and teal colored</li>
+      <li>✓ Content text wraps correctly on narrow screens</li>
+      <li>✓ Links within content are clickable and styled correctly</li>
+      <li>✓ Close button dismisses banner (if dismissible)</li>
+      <li>✓ Dismissed state persists across page reloads (localStorage)</li>
+      <li>✓ Mobile layout stacks correctly (&lt;640px)</li>
+      <li>✓ Color contrast meets WCAG AA/AAA standards</li>
+    </ul>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

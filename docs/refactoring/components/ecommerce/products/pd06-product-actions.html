@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PD06: ProductActions — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    /* Core colors */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+
+    /* Status colors */
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --coral: #FF6B6B;
+    --coral-light: #FFF0F0;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E1;
+
+    /* Neutrals */
+    --white: #FAFBFC;
+    --bg: #F5F7FA;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+
+    /* System */
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+    --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+    --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    padding: 48px 24px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .demo-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+    border: 1px solid var(--grey);
+  }
+
+  .demo-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-title i {
+    width: 24px;
+    height: 24px;
+    color: var(--teal);
+  }
+
+  .demo-desc {
+    font-size: 14px;
+    color: var(--grey-dark);
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--grey);
+  }
+
+  /* ================================
+     PD06: ProductActions Component
+     ================================ */
+
+  .product-actions {
+    /* Container */
+  }
+
+  /* Purchase row - main container */
+  .purchase-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--grey);
+  }
+
+  /* Quantity stepper wrapper */
+  .qty-wrap {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--grey);
+    border-radius: var(--radius);
+    overflow: hidden;
+    height: 52px;
+  }
+
+  /* Quantity +/− buttons */
+  .qty-btn {
+    width: 42px;
+    height: 100%;
+    border: none;
+    background: var(--grey-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--navy);
+    transition: background 0.1s;
+    font-weight: 600;
+  }
+
+  .qty-btn:hover {
+    background: var(--teal-glow);
+    color: var(--teal);
+  }
+
+  .qty-btn:active {
+    background: var(--teal-light);
+    color: white;
+  }
+
+  .qty-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Quantity input field */
+  .qty-val {
+    width: 48px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    outline: none;
+    background: white;
+    color: var(--navy);
+  }
+
+  /* Remove spinner arrows from number input */
+  .qty-val::-webkit-outer-spin-button,
+  .qty-val::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .qty-val[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  /* Add to cart button */
+  .add-btn {
+    flex: 1;
+    height: 52px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all var(--transition);
+    box-shadow: 0 4px 16px rgba(0, 137, 123, 0.3);
+  }
+
+  .add-btn:hover {
+    background: var(--navy);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(10, 22, 40, 0.4);
+  }
+
+  .add-btn:active {
+    transform: translateY(0);
+  }
+
+  .add-btn:disabled {
+    background: var(--grey-mid);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .add-btn:disabled:hover {
+    transform: none;
+  }
+
+  .add-btn i {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Wishlist heart button */
+  .wish-btn {
+    width: 52px;
+    height: 52px;
+    border: 2px solid var(--grey);
+    border-radius: var(--radius);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.12s;
+    flex-shrink: 0;
+    color: var(--grey-mid);
+  }
+
+  .wish-btn:hover {
+    border-color: var(--coral);
+    color: var(--coral);
+  }
+
+  .wish-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--teal-glow);
+    border-color: var(--teal);
+  }
+
+  .wish-btn.active {
+    background: var(--coral-light);
+    border-color: var(--coral);
+    color: var(--coral);
+  }
+
+  .wish-btn i {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Total price display (optional) */
+  .total-price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--grey-dark);
+    margin-top: 8px;
+  }
+
+  .total-price span {
+    font-size: 18px;
+    color: var(--navy);
+  }
+
+  /* Loading state for add button */
+  .add-btn.loading {
+    pointer-events: none;
+  }
+
+  .add-btn.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-left: 8px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Success state (added to cart) */
+  .add-btn.success {
+    background: var(--green);
+  }
+
+  .add-btn.success:hover {
+    background: #00A854;
+  }
+
+  /* Compact variant (for Quick View) */
+  .purchase-row.compact {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .purchase-row.compact .qty-wrap,
+  .purchase-row.compact .add-btn,
+  .purchase-row.compact .wish-btn {
+    height: 44px;
+  }
+
+  .purchase-row.compact .add-btn {
+    font-size: 14px;
+  }
+
+  .purchase-row.compact .qty-btn {
+    width: 36px;
+  }
+
+  .purchase-row.compact .wish-btn {
+    width: 44px;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 640px) {
+    .purchase-row {
+      flex-wrap: wrap;
+    }
+
+    .qty-wrap {
+      order: 1;
+    }
+
+    .add-btn {
+      order: 2;
+      flex: 1 1 calc(100% - 60px);
+      min-width: 0;
+    }
+
+    .wish-btn {
+      order: 3;
+    }
+  }
+
+  /* Stock validation message */
+  .stock-warning {
+    font-size: 12px;
+    color: var(--amber);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .stock-warning i {
+    width: 14px;
+    height: 14px;
+  }
+
+  .stock-error {
+    font-size: 12px;
+    color: var(--coral);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .stock-error i {
+    width: 14px;
+    height: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-container">
+
+  <!-- ============================================
+       LIVE DEMO SECTION
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="shopping-cart"></i>
+      PD06: ProductActions — Default
+    </div>
+    <div class="demo-desc">
+      Primary purchase actions: quantity stepper, add to cart button, and wishlist toggle. This is the main conversion point on every product page.
+    </div>
+
+    <div class="product-actions">
+      <div class="purchase-row" id="demo1">
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="decrementQty('demo1')">−</button>
+          <input class="qty-val" type="number" value="1" min="1" max="99" readonly>
+          <button class="qty-btn" onclick="incrementQty('demo1')">+</button>
+        </div>
+
+        <button class="add-btn" onclick="addToCart('demo1')">
+          <i data-lucide="shopping-cart"></i>
+          In winkelwagen — € 159,95
+        </button>
+
+        <button class="wish-btn" onclick="toggleWishlist(this)">
+          <i data-lucide="heart"></i>
+        </button>
+      </div>
+
+      <div class="total-price">
+        Totaal: <span id="total-demo1">€ 159,95</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: With Stock Limit
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="alert-triangle"></i>
+      Variant: Limited Stock (Max 5)
+    </div>
+    <div class="demo-desc">
+      Quantity stepper enforces stock limits. Shows warning when approaching max quantity.
+    </div>
+
+    <div class="product-actions">
+      <div class="purchase-row" id="demo2" data-max="5">
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="decrementQty('demo2')">−</button>
+          <input class="qty-val" type="number" value="1" min="1" max="5" readonly>
+          <button class="qty-btn" onclick="incrementQty('demo2')">+</button>
+        </div>
+
+        <button class="add-btn" onclick="addToCart('demo2')">
+          <i data-lucide="shopping-cart"></i>
+          In winkelwagen
+        </button>
+
+        <button class="wish-btn" onclick="toggleWishlist(this)">
+          <i data-lucide="heart"></i>
+        </button>
+      </div>
+
+      <div class="stock-warning" id="warning-demo2" style="display: none;">
+        <i data-lucide="alert-circle"></i>
+        Nog 5 stuks op voorraad
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: Out of Stock
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="x-circle"></i>
+      Variant: Out of Stock
+    </div>
+    <div class="demo-desc">
+      Disabled state when product is unavailable. CTA changes to "Waarschuw mij" notification signup.
+    </div>
+
+    <div class="product-actions">
+      <div class="purchase-row">
+        <div class="qty-wrap" style="opacity: 0.5; pointer-events: none;">
+          <button class="qty-btn" disabled>−</button>
+          <input class="qty-val" type="number" value="1" readonly>
+          <button class="qty-btn" disabled>+</button>
+        </div>
+
+        <button class="add-btn" disabled>
+          <i data-lucide="x-circle"></i>
+          Tijdelijk uitverkocht
+        </button>
+
+        <button class="wish-btn" onclick="toggleWishlist(this)">
+          <i data-lucide="heart"></i>
+        </button>
+      </div>
+
+      <div style="margin-top: 12px;">
+        <button class="add-btn" style="background: var(--amber); box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);">
+          <i data-lucide="bell"></i>
+          Waarschuw mij bij beschikbaarheid
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: Loading State
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="loader"></i>
+      Variant: Loading State
+    </div>
+    <div class="demo-desc">
+      Shows spinner while adding product to cart (API call). Click button to see animation.
+    </div>
+
+    <div class="product-actions">
+      <div class="purchase-row" id="demo3">
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="decrementQty('demo3')">−</button>
+          <input class="qty-val" type="number" value="1" min="1" max="99" readonly>
+          <button class="qty-btn" onclick="incrementQty('demo3')">+</button>
+        </div>
+
+        <button class="add-btn" onclick="simulateAddToCart(this)">
+          <i data-lucide="shopping-cart"></i>
+          In winkelwagen
+        </button>
+
+        <button class="wish-btn" onclick="toggleWishlist(this)">
+          <i data-lucide="heart"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: Compact (Quick View)
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="maximize-2"></i>
+      Variant: Compact (for Quick View Modal)
+    </div>
+    <div class="demo-desc">
+      Smaller height (44px instead of 52px) for use in Quick View modals or sidebars.
+    </div>
+
+    <div class="product-actions">
+      <div class="purchase-row compact" id="demo4">
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="decrementQty('demo4')">−</button>
+          <input class="qty-val" type="number" value="1" min="1" max="99" readonly>
+          <button class="qty-btn" onclick="incrementQty('demo4')">+</button>
+        </div>
+
+        <button class="add-btn">
+          <i data-lucide="shopping-cart"></i>
+          Toevoegen
+        </button>
+
+        <button class="wish-btn" onclick="toggleWishlist(this)">
+          <i data-lucide="heart"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: Variable Product (Price Updates)
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="sliders"></i>
+      Variant: Variable Product (Dynamic Price)
+    </div>
+    <div class="demo-desc">
+      Price in button updates dynamically based on selected variant + quantity. Use −/+ to see price change.
+    </div>
+
+    <div class="product-actions">
+      <div class="purchase-row" id="demo5" data-base-price="15995">
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="decrementQty('demo5'); updatePrice('demo5');">−</button>
+          <input class="qty-val" type="number" value="1" min="1" max="99" readonly>
+          <button class="qty-btn" onclick="incrementQty('demo5'); updatePrice('demo5');">+</button>
+        </div>
+
+        <button class="add-btn">
+          <i data-lucide="shopping-cart"></i>
+          In winkelwagen — <span id="price-demo5">€ 159,95</span>
+        </button>
+
+        <button class="wish-btn" onclick="toggleWishlist(this)">
+          <i data-lucide="heart"></i>
+        </button>
+      </div>
+
+      <div class="total-price">
+        Totaal: <span id="total-demo5">€ 159,95</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================
+     DOCUMENTATION SECTION (8-STEP PROTOCOL)
+     ============================================ -->
+
+<div class="demo-container" style="margin-top: 64px;">
+  <div class="demo-section" style="background: var(--navy); color: white;">
+    <h1 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 16px;">
+      🛒 PD06: ProductActions — Complete Documentation
+    </h1>
+    <p style="font-size: 16px; opacity: 0.8; margin-bottom: 0;">
+      Primary purchase actions: quantity stepper, add to cart, and wishlist. The main conversion component on product pages.
+      <br><strong>Version:</strong> 1.0 | <strong>Last updated:</strong> 25 Februari 2026 | <strong>Status:</strong> ✅ Production Ready
+    </p>
+  </div>
+</div>
+
+<div class="demo-container">
+
+  <!-- STEP 1: Component Overview -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 1: Component Overview
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Purpose</h3>
+    <p style="margin-bottom: 16px;">
+      <strong>PD06: ProductActions</strong> is the primary conversion component on product pages.
+      It combines three critical purchase actions in one cohesive row:
+      (1) quantity selection, (2) add to cart CTA, and (3) wishlist toggle.
+      This component is the culmination of the product page flow — everything above it (gallery, meta, variants)
+      leads to this moment where the user commits to purchasing.
+    </p>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Key Features</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Quantity Stepper:</strong> −/+ buttons with numeric input, enforces min/max limits</li>
+      <li><strong>Add to Cart Button:</strong> Large teal CTA with shopping cart icon, shows current price</li>
+      <li><strong>Wishlist Button:</strong> Heart icon toggle for saving products, coral hover state</li>
+      <li><strong>Stock Validation:</strong> Disables buttons when out of stock, shows warnings when low</li>
+      <li><strong>Loading State:</strong> Spinner animation during API calls</li>
+      <li><strong>Success Feedback:</strong> Green state + icon change when item added</li>
+      <li><strong>Dynamic Pricing:</strong> Price updates based on quantity × unit price (for variable products)</li>
+      <li><strong>Responsive Layout:</strong> Stacks on mobile (<640px), single row on desktop</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Component Hierarchy</h3>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+.product-actions
+├── .purchase-row (flex container)
+│   ├── .qty-wrap (quantity stepper)
+│   │   ├── button.qty-btn (−)
+│   │   ├── input.qty-val (number)
+│   │   └── button.qty-btn (+)
+│   ├── button.add-btn (primary CTA)
+│   └── button.wish-btn (wishlist heart)
+└── .total-price (optional total display)</pre>
+  </div>
+
+  <!-- STEP 2: When to Use -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 2: When to Use This Component
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">✅ Use ProductActions When:</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Product Detail Pages:</strong> Primary placement below variant selectors + config summary</li>
+      <li><strong>Quick View Modals (C5):</strong> Use compact variant (44px height)</li>
+      <li><strong>Sticky Add-to-Cart Bar (C6):</strong> Mobile sticky bar at bottom of screen</li>
+      <li><strong>Product Configurators:</strong> Below final configuration summary</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">❌ Don't Use ProductActions For:</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Product Cards:</strong> Use single "Add to cart" icon button instead (EC01 pattern)</li>
+      <li><strong>Cart Page:</strong> Use EC06: CartLineItem (includes remove button, not wishlist)</li>
+      <li><strong>Quick Order Table:</strong> Use QO03: QuickOrderRow (inline SKU input + qty)</li>
+      <li><strong>Comparison Table:</strong> Show simplified "Add" button without qty stepper</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Related Components:</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>C23: QuantityStepper</strong> — Standalone qty stepper (3 sizes), reused here</li>
+      <li><strong>C3: AddToCartToast</strong> — Toast notification shown after successful add</li>
+      <li><strong>C2: MiniCart</strong> — Flyout panel that opens after adding product</li>
+      <li><strong>VP07: ConfigSummary</strong> — Configuration total shown above ProductActions</li>
+      <li><strong>EC04: StockIndicator</strong> — Stock status badge shown in PD02 ProductMeta</li>
+      <li><strong>C8: BackInStock</strong> — Email notification form when out of stock</li>
+    </ul>
+  </div>
+
+  <!-- STEP 3: Design Tokens -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 3: Design Tokens
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Colors</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px;">
+      <div style="padding: 12px; background: var(--teal); color: white; border-radius: 8px; font-size: 12px;">
+        <strong>--teal</strong><br>#00897B<br>Add to cart button
+      </div>
+      <div style="padding: 12px; background: var(--navy); color: white; border-radius: 8px; font-size: 12px;">
+        <strong>--navy</strong><br>#0A1628<br>Hover state (dark)
+      </div>
+      <div style="padding: 12px; background: var(--coral); color: white; border-radius: 8px; font-size: 12px;">
+        <strong>--coral</strong><br>#FF6B6B<br>Wishlist hover
+      </div>
+      <div style="padding: 12px; background: var(--grey-light); color: var(--navy); border-radius: 8px; font-size: 12px;">
+        <strong>--grey-light</strong><br>#F1F4F8<br>Qty button bg
+      </div>
+      <div style="padding: 12px; background: var(--grey); color: var(--navy); border-radius: 8px; font-size: 12px;">
+        <strong>--grey</strong><br>#E8ECF1<br>Borders
+      </div>
+      <div style="padding: 12px; background: var(--green); color: white; border-radius: 8px; font-size: 12px;">
+        <strong>--green</strong><br>#00C853<br>Success state
+      </div>
+    </div>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Typography</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <thead>
+        <tr style="background: var(--grey-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Element</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Font</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Size</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><code>.add-btn</code></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">16px</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">800</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><code>.qty-btn</code></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">DM Sans</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">18px</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">600</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><code>.qty-val</code></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">JetBrains Mono</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">16px</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">700</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><code>.total-price</code></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">18px (value)</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">700</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Spacing (4px grid)</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><code>.purchase-row</code> → <code>gap: 8px</code>, <code>margin-top: 20px</code>, <code>padding-top: 18px</code></li>
+      <li><code>.qty-btn</code> → <code>width: 42px</code></li>
+      <li><code>.qty-val</code> → <code>width: 48px</code></li>
+      <li><code>.add-btn</code> / <code>.wish-btn</code> → <code>height: 52px</code></li>
+      <li><code>.wish-btn</code> → <code>width: 52px</code> (square)</li>
+      <li><strong>Compact variant:</strong> All heights → <code>44px</code></li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Icons (Lucide)</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Add to cart:</strong> <code>shopping-cart</code> (18×18px, white)</li>
+      <li><strong>Wishlist:</strong> <code>heart</code> (20×20px, grey-mid → coral on hover)</li>
+      <li><strong>Loading:</strong> CSS spinner (no icon)</li>
+      <li><strong>Success:</strong> <code>check-circle</code> (18×18px, white) — optional</li>
+      <li><strong>Out of stock:</strong> <code>x-circle</code> or <code>bell</code> (notify)</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Shadows & Transitions</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><code>.add-btn</code> → <code>box-shadow: 0 4px 16px rgba(0,137,123,0.3)</code></li>
+      <li><code>.add-btn:hover</code> → <code>box-shadow: 0 6px 20px rgba(10,22,40,0.4)</code></li>
+      <li><code>transition</code> → <code>0.2s cubic-bezier(0.4, 0, 0.2, 1)</code></li>
+      <li><code>transform: translateY(-1px)</code> on hover (lift effect)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 4: Props & Configuration -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 4: Props & Configuration
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">React/Next.js Component Props</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+interface ProductActionsProps {
+  // Product data
+  product: {
+    id: string;                       // Product ID
+    price: number;                    // Unit price in cents (e.g., 15995 = €159.95)
+    stock: {
+      status: 'ok' | 'low' | 'out';  // Stock availability
+      quantity?: number;              // Current stock count (for validation)
+    };
+  };
+
+  // Optional configuration
+  minQuantity?: number;               // Min qty (default: 1)
+  maxQuantity?: number;               // Max qty (default: 99, or stock quantity)
+  initialQuantity?: number;           // Starting qty (default: 1)
+  showTotalPrice?: boolean;           // Show total price below (default: true)
+  variant?: 'default' | 'compact';    // Size variant (default: 'default')
+
+  // Callbacks
+  onAddToCart?: (productId: string, quantity: number) => Promise<void>;
+  onWishlistToggle?: (productId: string, isActive: boolean) => void;
+  onQuantityChange?: (quantity: number) => void;
+
+  // Optional customization
+  addButtonText?: string;             // Custom CTA text (default: "In winkelwagen")
+  wishlistEnabled?: boolean;          // Show/hide wishlist button (default: true)
+  className?: string;                 // Additional CSS classes
+}</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">State Management</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+const [quantity, setQuantity] = useState(initialQuantity || 1);
+const [isWishlisted, setIsWishlisted] = useState(false);
+const [isLoading, setIsLoading] = useState(false);
+const [isSuccess, setIsSuccess] = useState(false);
+
+// Quantity validation
+const handleIncrement = () => {
+  const max = maxQuantity || product.stock.quantity || 99;
+  if (quantity < max) {
+    setQuantity(q => q + 1);
+    onQuantityChange?.(quantity + 1);
+  }
+};
+
+const handleDecrement = () => {
+  if (quantity > minQuantity) {
+    setQuantity(q => q - 1);
+    onQuantityChange?.(quantity - 1);
+  }
+};
+
+// Add to cart with loading state
+const handleAddToCart = async () => {
+  setIsLoading(true);
+  try {
+    await onAddToCart(product.id, quantity);
+    setIsSuccess(true);
+    setTimeout(() => setIsSuccess(false), 2000);
+  } catch (error) {
+    console.error('Failed to add to cart', error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+// Wishlist toggle
+const handleWishlistToggle = () => {
+  const newState = !isWishlisted;
+  setIsWishlisted(newState);
+  onWishlistToggle?.(product.id, newState);
+};</pre>
+  </div>
+
+  <!-- STEP 5: Layout Rules -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 5: Layout Rules
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Product Page Hierarchy</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;div class="product-layout"&gt;
+  &lt;!-- LEFT: Gallery --&gt;
+  &lt;PD01:ProductGallery /&gt;
+
+  &lt;!-- RIGHT: Product info --&gt;
+  &lt;div class="product-info"&gt;
+    &lt;PD02:ProductMeta /&gt;       {/* Category, title, rating, price */}
+    &lt;VP01:ColorSwatches /&gt;     {/* Variant selectors */}
+    &lt;VP02:SizeRadios /&gt;
+    &lt;VP03:VariantDropdown /&gt;
+    &lt;VP07:ConfigSummary /&gt;     {/* Configuration total */}
+
+    &lt;!-- THIS COMPONENT (ProductActions) --&gt;
+    &lt;PD06:ProductActions /&gt;
+
+    &lt;!-- Trust signals below --&gt;
+    &lt;EC09:TrustSignals /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Responsive Behavior</h3>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <thead>
+        <tr style="background: var(--grey-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Breakpoint</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Layout</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Desktop (≥640px)</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • Horizontal row: Qty (132px) + Add to Cart (flex 1) + Wishlist (52px)<br>
+            • Total price below (if enabled)
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Mobile (&lt;640px)</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • Flex-wrap: Qty + Wishlist in first row<br>
+            • Add to Cart full-width below
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Spacing Guidelines</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Above ProductActions:</strong> 20px margin-top, 18px padding-top, 1px border-top (grey)</li>
+      <li><strong>Below ProductActions:</strong> EC09 TrustSignals with 14px margin-top</li>
+      <li><strong>Internal gap:</strong> 8px between qty/add/wishlist buttons</li>
+      <li><strong>Total price:</strong> 8px margin-top if displayed</li>
+    </ul>
+  </div>
+
+  <!-- STEP 6: Accessibility -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 6: Accessibility (A11y)
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Semantic HTML</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;div class="product-actions"&gt;
+  &lt;div class="purchase-row" role="group" aria-label="Product aankoop opties"&gt;
+    &lt;!-- Quantity stepper --&gt;
+    &lt;div class="qty-wrap" role="group" aria-label="Aantal selecteren"&gt;
+      &lt;button
+        class="qty-btn"
+        aria-label="Aantal verminderen"
+        onclick="decrementQty()"
+        disabled={quantity <= minQuantity}
+      &gt;−&lt;/button&gt;
+
+      &lt;input
+        class="qty-val"
+        type="number"
+        value={quantity}
+        min={minQuantity}
+        max={maxQuantity}
+        aria-label="Aantal producten"
+        readonly
+      /&gt;
+
+      &lt;button
+        class="qty-btn"
+        aria-label="Aantal verhogen"
+        onclick="incrementQty()"
+        disabled={quantity >= maxQuantity}
+      &gt;+&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Add to cart button --&gt;
+    &lt;button
+      class="add-btn"
+      aria-label="Voeg {quantity} product(en) toe aan winkelwagen voor €{totalPrice}"
+      disabled={stock.status === 'out'}
+      onclick="addToCart()"
+    &gt;
+      &lt;i data-lucide="shopping-cart" aria-hidden="true"&gt;&lt;/i&gt;
+      In winkelwagen — € {price}
+    &lt;/button&gt;
+
+    &lt;!-- Wishlist button --&gt;
+    &lt;button
+      class="wish-btn"
+      aria-label={isWishlisted ? "Verwijder van verlanglijst" : "Voeg toe aan verlanglijst"}
+      aria-pressed={isWishlisted}
+      onclick="toggleWishlist()"
+    &gt;
+      &lt;i data-lucide="heart" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">ARIA Attributes</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><code>role="group"</code> on purchase row and qty stepper</li>
+      <li><code>aria-label</code> on all buttons (descriptive action text)</li>
+      <li><code>aria-pressed</code> on wishlist button (toggle state)</li>
+      <li><code>aria-hidden="true"</code> on decorative icons</li>
+      <li><code>aria-live="polite"</code> on stock warnings (announces changes)</li>
+      <li><code>disabled</code> attribute when stock is out or qty limits reached</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Keyboard Navigation</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Tab order:</strong> − button → input → + button → Add to cart → Wishlist</li>
+      <li><strong>− button:</strong> Activates with Enter/Space</li>
+      <li><strong>+ button:</strong> Activates with Enter/Space</li>
+      <li><strong>Qty input:</strong> Read-only, no direct editing (prevents invalid values)</li>
+      <li><strong>Add to cart:</strong> Activates with Enter/Space</li>
+      <li><strong>Wishlist:</strong> Activates with Enter/Space, announces state change</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Screen Reader Announcements</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+// Example: Announce quantity change
+function incrementQty() {
+  setQuantity(q => q + 1);
+
+  // Screen reader announces:
+  // "Aantal verhoogd naar 2"
+
+  // Optional: Announce approaching stock limit
+  if (quantity + 1 >= maxQuantity - 2) {
+    announceToSR(`Nog ${maxQuantity - quantity - 1} stuks beschikbaar`);
+  }
+}
+
+// Announce to screen reader
+function announceToSR(message) {
+  const liveRegion = document.querySelector('[aria-live="polite"]');
+  liveRegion.textContent = message;
+  setTimeout(() => liveRegion.textContent = '', 1000);
+}</pre>
+  </div>
+
+  <!-- STEP 7: Implementation Notes -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 7: Implementation Notes
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Stock Validation Logic</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+// Determine max quantity based on stock
+const getMaxQuantity = (product) => {
+  if (product.stock.status === 'out') return 0;
+  if (product.stock.status === 'low' && product.stock.quantity) {
+    return product.stock.quantity;
+  }
+  return 99; // Default max for 'ok' status
+};
+
+// Validate before adding to cart
+const handleAddToCart = async () => {
+  // Check stock availability
+  if (product.stock.status === 'out') {
+    showError('Dit product is tijdelijk uitverkocht');
+    return;
+  }
+
+  // Check quantity vs stock
+  const max = getMaxQuantity(product);
+  if (quantity > max) {
+    showError(`Nog maar ${max} stuks beschikbaar`);
+    setQuantity(max);
+    return;
+  }
+
+  // Proceed with add to cart
+  setIsLoading(true);
+  await onAddToCart(product.id, quantity);
+  setIsLoading(false);
+  setIsSuccess(true);
+};</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Dynamic Price Calculation</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+// For variable products, recalculate total when qty or variant changes
+const calculateTotalPrice = (basePrice, selectedVariants, quantity) => {
+  let unitPrice = basePrice;
+
+  // Add variant price modifiers
+  selectedVariants.forEach(variant => {
+    if (variant.priceModifier) {
+      unitPrice += variant.priceModifier; // e.g., +1000 (= +€10)
+    }
+  });
+
+  // Apply volume pricing (staffel)
+  const volumeDiscount = getVolumeDiscount(unitPrice, quantity);
+  if (volumeDiscount) {
+    unitPrice = volumeDiscount.unitPrice;
+  }
+
+  return unitPrice * quantity;
+};
+
+// Format price for display
+const formatPrice = (cents) => {
+  return `€ ${(cents / 100).toFixed(2).replace('.', ',')}`;
+};
+
+// Update button text with current price
+useEffect(() => {
+  const total = calculateTotalPrice(product.price, selectedVariants, quantity);
+  setButtonText(`In winkelwagen — ${formatPrice(total)}`);
+}, [quantity, selectedVariants]);</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Loading & Success States</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+const handleAddToCart = async () => {
+  setIsLoading(true);
+
+  try {
+    // API call to add product to cart
+    await fetch('/api/cart/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productId: product.id,
+        quantity,
+        variantId: selectedVariant?.id
+      })
+    });
+
+    // Success state
+    setIsSuccess(true);
+    setIsLoading(false);
+
+    // Show toast notification (C3)
+    showToast({
+      type: 'success',
+      title: 'Toegevoegd aan winkelwagen',
+      productName: product.title,
+      quantity
+    });
+
+    // Open minicart flyout (C2)
+    openMiniCart();
+
+    // Reset success state after 2s
+    setTimeout(() => setIsSuccess(false), 2000);
+
+  } catch (error) {
+    setIsLoading(false);
+    showError('Er ging iets mis. Probeer het opnieuw.');
+  }
+};</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Wishlist Integration</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+const handleWishlistToggle = async () => {
+  const newState = !isWishlisted;
+  setIsWishlisted(newState);
+
+  // Optimistic update (instant visual feedback)
+  try {
+    if (newState) {
+      // Add to wishlist
+      await fetch('/api/wishlist/add', {
+        method: 'POST',
+        body: JSON.stringify({ productId: product.id })
+      });
+      showToast({ type: 'success', message: 'Toegevoegd aan verlanglijst' });
+    } else {
+      // Remove from wishlist
+      await fetch('/api/wishlist/remove', {
+        method: 'DELETE',
+        body: JSON.stringify({ productId: product.id })
+      });
+      showToast({ type: 'info', message: 'Verwijderd van verlanglijst' });
+    }
+  } catch (error) {
+    // Revert on error
+    setIsWishlisted(!newState);
+    showError('Er ging iets mis');
+  }
+};</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Common Pitfalls</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li>❌ <strong>No stock validation:</strong> Always check stock before adding to cart (server-side too!)</li>
+      <li>❌ <strong>Editable qty input:</strong> Keep input readonly to prevent invalid values (use buttons only)</li>
+      <li>❌ <strong>No loading state:</strong> Users will double-click if no visual feedback → duplicate cart items</li>
+      <li>❌ <strong>Missing price updates:</strong> For variable products, recalculate price on variant/qty change</li>
+      <li>❌ <strong>No error handling:</strong> API can fail — always show error message to user</li>
+      <li>❌ <strong>Blocking UI during load:</strong> Disable only the add button, not qty/wishlist</li>
+      <li>❌ <strong>No success feedback:</strong> Show toast + open minicart so user knows item was added</li>
+    </ul>
+  </div>
+
+  <!-- STEP 8: Variations & Related Components -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 8: Variations & Related Components
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Component Variants</h3>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <thead>
+        <tr style="background: var(--grey-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Variant</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Use Case</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Default</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Standard product pages</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Height: 52px, all buttons visible</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Compact</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Quick View modals, sidebars</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Height: 44px, smaller padding</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Out of Stock</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Unavailable products</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • Disabled qty + add button<br>
+            • CTA: "Tijdelijk uitverkocht"<br>
+            • Alternative CTA: "Waarschuw mij" (amber)
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Variable Product</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Products with variants</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • Dynamic price in button<br>
+            • Recalculate on qty/variant change<br>
+            • Show total price below
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>B2B</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Business customers</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • Higher max qty (999)<br>
+            • Optional: "Offerte aanvragen" button<br>
+            • Price: excl. BTW
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Integration Examples</h3>
+
+    <h4 style="font-weight: 600; margin: 16px 0 8px; color: var(--navy);">1. Simple Product</h4>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;ProductActions
+  product={{
+    id: 'prod_123',
+    price: 2995,
+    stock: { status: 'ok' }
+  }}
+  onAddToCart={handleAddToCart}
+  onWishlistToggle={handleWishlistToggle}
+/&gt;</pre>
+
+    <h4 style="font-weight: 600; margin: 16px 0 8px; color: var(--navy);">2. Variable Product with Price Updates</h4>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;ProductActions
+  product={{
+    id: 'prod_456',
+    price: calculateVariantPrice(basePrice, selectedVariants),
+    stock: { status: 'ok' }
+  }}
+  onQuantityChange={(qty) => {
+    updateTotalPrice(qty);
+    checkStaffelHint(qty);
+  }}
+  showTotalPrice={true}
+/&gt;</pre>
+
+    <h4 style="font-weight: 600; margin: 16px 0 8px; color: var(--navy);">3. Low Stock with Limit</h4>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;ProductActions
+  product={{
+    id: 'prod_789',
+    price: 9995,
+    stock: { status: 'low', quantity: 5 }
+  }}
+  maxQuantity={5}
+  onAddToCart={handleAddToCart}
+/&gt;</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Future Enhancements</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Compare button:</strong> Add third icon button (vs icon) for product comparison</li>
+      <li><strong>Share button:</strong> Social sharing directly from actions row</li>
+      <li><strong>"Buy now" option:</strong> Second CTA button for direct checkout bypass</li>
+      <li><strong>Subscription toggle:</strong> For subscription products, show "Subscribe & save X%"</li>
+      <li><strong>Gift options:</strong> Checkbox "Dit is een cadeau" → shows gift wrap options</li>
+      <li><strong>Express checkout:</strong> Apple Pay / Google Pay buttons below primary CTA</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  // Quantity stepper functions
+  function incrementQty(demoId) {
+    const row = document.getElementById(demoId);
+    const input = row.querySelector('.qty-val');
+    const max = parseInt(input.max);
+    let val = parseInt(input.value);
+    if (val < max) {
+      input.value = val + 1;
+
+      // Show warning if approaching max
+      const warning = document.getElementById(`warning-${demoId}`);
+      if (warning && val + 1 >= max) {
+        warning.style.display = 'flex';
+      }
+    }
+  }
+
+  function decrementQty(demoId) {
+    const row = document.getElementById(demoId);
+    const input = row.querySelector('.qty-val');
+    const min = parseInt(input.min);
+    let val = parseInt(input.value);
+    if (val > min) {
+      input.value = val - 1;
+
+      // Hide warning
+      const warning = document.getElementById(`warning-${demoId}`);
+      if (warning) {
+        warning.style.display = 'none';
+      }
+    }
+  }
+
+  // Update price based on quantity
+  function updatePrice(demoId) {
+    const row = document.getElementById(demoId);
+    const qty = parseInt(row.querySelector('.qty-val').value);
+    const basePrice = parseInt(row.dataset.basePrice); // in cents
+    const total = basePrice * qty;
+
+    // Update button price
+    const priceEl = document.getElementById(`price-${demoId}`);
+    if (priceEl) {
+      priceEl.textContent = formatPrice(total);
+    }
+
+    // Update total price
+    const totalEl = document.getElementById(`total-${demoId}`);
+    if (totalEl) {
+      totalEl.textContent = formatPrice(total);
+    }
+  }
+
+  function formatPrice(cents) {
+    return `€ ${(cents / 100).toFixed(2).replace('.', ',')}`;
+  }
+
+  // Wishlist toggle
+  function toggleWishlist(btn) {
+    btn.classList.toggle('active');
+    const isActive = btn.classList.contains('active');
+    btn.setAttribute('aria-pressed', isActive);
+    console.log(isActive ? 'Added to wishlist' : 'Removed from wishlist');
+  }
+
+  // Add to cart (simple alert)
+  function addToCart(demoId) {
+    const row = document.getElementById(demoId);
+    const qty = row.querySelector('.qty-val').value;
+    alert(`${qty} product(en) toegevoegd aan winkelwagen!`);
+  }
+
+  // Simulate loading state
+  function simulateAddToCart(btn) {
+    btn.classList.add('loading');
+    btn.textContent = 'Bezig met toevoegen...';
+
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      btn.classList.add('success');
+      btn.innerHTML = '<i data-lucide="check-circle"></i> Toegevoegd!';
+      lucide.createIcons();
+
+      setTimeout(() => {
+        btn.classList.remove('success');
+        btn.innerHTML = '<i data-lucide="shopping-cart"></i> In winkelwagen';
+        lucide.createIcons();
+      }, 2000);
+    }, 1500);
+  }
+</script>
+
+</body>
+</html>

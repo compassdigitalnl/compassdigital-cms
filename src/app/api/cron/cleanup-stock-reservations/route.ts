@@ -7,26 +7,12 @@ import { cleanupExpiredReservations } from '@/lib/stock/reservations'
  * GET /api/cron/cleanup-stock-reservations
  *
  * Cron job endpoint to cleanup expired stock reservations.
- *
- * This should be called every 1-5 minutes by a cron service (e.g., Vercel Cron, GitHub Actions, or external cron-job.org).
+ * Should be called every 1-5 minutes by a cron service.
  *
  * Purpose:
  * - Release expired stock reservations (older than 15 minutes)
  * - Free up reserved stock for other customers
  * - Prevent stock from being locked indefinitely
- *
- * Setup:
- * 1. Vercel Cron (vercel.json):
- *    {
- *      "crons": [{
- *        "path": "/api/cron/cleanup-stock-reservations",
- *        "schedule": "*/5 * * * *"
- *      }]
- *    }
- *
- * 2. External Cron (cron-job.org):
- *    - URL: https://yourdomain.com/api/cron/cleanup-stock-reservations?secret=YOUR_CRON_SECRET
- *    - Schedule: */5 * * * * (every 5 minutes)
  *
  * Security:
  * - Requires CRON_SECRET in environment variables

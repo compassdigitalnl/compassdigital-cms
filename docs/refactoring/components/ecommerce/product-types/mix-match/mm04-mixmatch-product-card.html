@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM04: MixMatchProductCard — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --green: #00C853;
+  --amber: #F59E0B;
+  --coral: #FF6B6B;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--grey-light);
+  padding: 32px 24px;
+  color: var(--navy);
+}
+
+/* MM04: MixMatchProductCard */
+.mm-product {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.15s;
+  position: relative;
+  cursor: pointer;
+}
+
+.mm-product:hover {
+  border-color: var(--teal);
+  transform: translateY(-2px);
+  box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
+}
+
+.mm-product.in-box {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px var(--teal-glow);
+}
+
+/* Image area */
+.mmp-img {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  position: relative;
+  background: var(--grey-light);
+}
+
+/* Tags */
+.mmp-tag {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.tag-popular {
+  background: var(--amber);
+  color: white;
+}
+
+.tag-new {
+  background: var(--teal);
+  color: white;
+}
+
+.tag-vegan {
+  background: var(--green);
+  color: white;
+}
+
+.tag-spicy {
+  background: var(--coral);
+  color: white;
+}
+
+/* Checkmark */
+.mmp-check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--teal);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 137, 123, 0.3);
+}
+
+.mmp-check i {
+  width: 14px;
+  height: 14px;
+  color: white;
+}
+
+.mm-product.in-box .mmp-check {
+  display: flex;
+}
+
+/* Body */
+.mmp-body {
+  padding: 10px 12px;
+}
+
+.mmp-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mmp-meta {
+  font-size: 10px;
+  color: var(--grey-mid);
+  margin-bottom: 6px;
+  display: flex;
+  gap: 6px;
+}
+
+.mmp-meta span {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.mmp-meta i {
+  width: 10px;
+  height: 10px;
+}
+
+/* Footer */
+.mmp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mmp-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.mmp-price.included {
+  color: var(--green);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Quantity stepper */
+.mmp-qty {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px solid var(--grey);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mmp-qty-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--grey-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  transition: background 0.1s;
+}
+
+.mmp-qty-btn:hover {
+  background: var(--teal-glow);
+  color: var(--teal);
+}
+
+.mmp-qty-val {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 800;
+  background: white;
+}
+
+/* Add button */
+.mmp-add {
+  height: 28px;
+  padding: 0 12px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.12s;
+}
+
+.mmp-add:hover {
+  background: var(--navy);
+}
+
+.mmp-add i {
+  width: 12px;
+  height: 12px;
+}
+
+.mmp-add.added {
+  background: var(--green);
+}
+
+/* Demo styles */
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.demo-section h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--navy);
+}
+
+@media (max-width: 900px) {
+  .demo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- LIVE DEMO -->
+<div class="demo-section">
+  <h2>🎯 Live Demo — MixMatchProductCard</h2>
+
+  <div class="demo-grid">
+    <!-- Selected card -->
+    <div class="mm-product in-box">
+      <div class="mmp-img" style="background:linear-gradient(135deg,#a8e6cf,#dcedc1);">
+        🥗
+        <div class="mmp-tag tag-popular">⭐ Populair</div>
+        <div class="mmp-check"><i data-lucide="check"></i></div>
+      </div>
+      <div class="mmp-body">
+        <div class="mmp-name">Caesar Salade Classic</div>
+        <div class="mmp-meta">
+          <span><i data-lucide="flame"></i> 320 kcal</span>
+          <span><i data-lucide="clock"></i> Vers</span>
+        </div>
+        <div class="mmp-footer">
+          <div class="mmp-price included">✓ In box</div>
+          <div class="mmp-qty">
+            <button class="mmp-qty-btn">−</button>
+            <div class="mmp-qty-val">1</div>
+            <button class="mmp-qty-btn">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Not selected card -->
+    <div class="mm-product">
+      <div class="mmp-img" style="background:linear-gradient(135deg,#c7ecee,#dff9fb);">
+        🥗
+        <div class="mmp-check"><i data-lucide="check"></i></div>
+      </div>
+      <div class="mmp-body">
+        <div class="mmp-name">Griekse Feta Salade</div>
+        <div class="mmp-meta">
+          <span><i data-lucide="flame"></i> 290 kcal</span>
+          <span><i data-lucide="leaf"></i> Vegetarisch</span>
+        </div>
+        <div class="mmp-footer">
+          <div class="mmp-price">€ 4,95</div>
+          <button class="mmp-add" onclick="this.classList.add('added'); this.innerHTML='<i data-lucide=check></i> Toegevoegd'; this.closest('.mm-product').classList.add('in-box'); lucide.createIcons();">
+            <i data-lucide="plus"></i> Toevoegen
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New tag -->
+    <div class="mm-product">
+      <div class="mmp-img" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e);">
+        🌯
+        <div class="mmp-tag tag-new">Nieuw</div>
+        <div class="mmp-check"><i data-lucide="check"></i></div>
+      </div>
+      <div class="mmp-body">
+        <div class="mmp-name">Pulled Chicken Wrap</div>
+        <div class="mmp-meta">
+          <span><i data-lucide="flame"></i> 480 kcal</span>
+          <span><i data-lucide="clock"></i> Vers</span>
+        </div>
+        <div class="mmp-footer">
+          <div class="mmp-price">€ 5,50</div>
+          <button class="mmp-add">
+            <i data-lucide="plus"></i> Toevoegen
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCUMENTATION -->
+<div class="demo-section">
+  <h2>📦 MM04: MixMatchProductCard — Component Documentation</h2>
+
+  <div style="background: white; border: 1px solid var(--grey); border-radius: 12px; padding: 24px; line-height: 1.6; color: var(--navy);">
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 12px;">STEP 1: Component Overview</h3>
+
+<p><strong>Component:</strong> MixMatchProductCard</p>
+<p><strong>Purpose:</strong> Selectable product card for Mix & Match boxes with visual selection states, badges, quantity controls, and nutritional info.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Visual selection state with teal border + glow + checkmark</li>
+  <li>Product badges (Popular, New, Vegan, Spicy)</li>
+  <li>Gradient background with emoji/image</li>
+  <li>Nutritional meta (calories, dietary info)</li>
+  <li>Price display (€X,XX or "✓ In box" when selected)</li>
+  <li>Add button → Quantity stepper (when selected)</li>
+  <li>Hover effects (border change, lift)</li>
+</ul>
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 24px; margin-bottom: 12px;">STEP 2: When to Use</h3>
+
+<p><strong>Use when:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Mix & Match product pages</li>
+  <li>Build-your-own box interfaces</li>
+  <li>Multi-select product grids</li>
+</ul>
+
+<p><strong>Do NOT use when:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Shop archive/category pages (use EC01 ProductCard)</li>
+  <li>Single product pages (use full product layout)</li>
+  <li>Cart items (use EC06 CartLineItem)</li>
+</ul>
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 24px; margin-bottom: 12px;">STEP 3: Design Tokens</h3>
+
+<p><strong>Colors:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+  <li>Card bg: #FAFBFC (white)</li>
+  <li>Border (default): 1.5px #E8ECF1 (grey)</li>
+  <li>Border (hover): #00897B (teal)</li>
+  <li>Border (selected): #00897B + box-shadow 0 0 0 2px rgba(0,137,123,0.12)</li>
+  <li>Image bg: #F1F4F8 (grey-light) or gradient</li>
+  <li>Checkmark: #00897B (teal) circle, white icon</li>
+  <li>Tags: Amber/Teal/Green/Coral backgrounds</li>
+  <li>Price: JetBrains Mono, #0A1628 (navy)</li>
+  <li>Price (selected): DM Sans, #00C853 (green) "✓ In box"</li>
+  <li>Add button: #00897B (teal), hover #0A1628 (navy)</li>
+</ul>
+
+<p><strong>Typography:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+  <li>Product name: 13px, 700 weight, DM Sans</li>
+  <li>Meta text: 10px, 400 weight, grey-mid</li>
+  <li>Price: 14px, 700 weight, JetBrains Mono</li>
+  <li>Price (selected): 12px, 700 weight, DM Sans</li>
+  <li>Tag: 10px, 700 weight</li>
+  <li>Button: 11px, 800 weight</li>
+</ul>
+
+<p><strong>Spacing:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+  <li>Body padding: 10px 12px</li>
+  <li>Name margin-bottom: 2px</li>
+  <li>Meta margin-bottom: 6px, gap: 6px</li>
+  <li>Image height: 130px</li>
+  <li>Border radius: 16px (card), 8px (buttons/stepper), 4px (tags)</li>
+  <li>Checkmark: 26×26px circle, top: 6px, right: 6px</li>
+  <li>Tag: top: 6px, left: 6px, padding: 2px 8px</li>
+</ul>
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 24px; margin-bottom: 12px;">STEP 4: Props & Configuration</h3>
+
+<pre style="background: var(--grey-light); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+interface MixMatchProductCardProps {
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    image?: string;
+    emoji?: string;
+    gradient?: string;
+    calories?: number;
+    badges?: Array<'popular' | 'new' | 'vegan' | 'spicy'>;
+    meta?: Array<{ icon: string; text: string }>;
+  };
+  isSelected: boolean;
+  quantity?: number;
+  onToggle: () => void;
+  onQuantityChange?: (qty: number) => void;
+  isDisabled?: boolean;
+  maxReached?: boolean;
+}
+</pre>
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 24px; margin-bottom: 12px;">STEP 5-8: Summary</h3>
+
+<p><strong>Layout:</strong> Vertical card with image (130px) + body (10/12px padding) + footer (space-between flex)</p>
+
+<p><strong>States:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Default: Grey border, price shown, "Toevoegen" button</li>
+  <li>Hover: Teal border, translateY(-2px), shadow</li>
+  <li>Selected: Teal border + glow, checkmark visible, "✓ In box" text, quantity stepper</li>
+  <li>Disabled: Reduced opacity (when max items reached)</li>
+</ul>
+
+<p><strong>Accessibility:</strong> ARIA role="checkbox", aria-checked={isSelected}, keyboard navigation (Space/Enter to toggle)</p>
+
+<p><strong>Related Components:</strong> MM03 (ProductGrid container), MM05 (SelectionSummary shows selected items), EC01 (ProductCard for shop)</p>
+
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

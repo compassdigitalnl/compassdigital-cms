@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C11 - Notification Center | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --coral: #FF6B6B;
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.14);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; text-align: center; }
+
+    /* Notification Wrapper */
+    .notif-wrap { position: relative; display: inline-block; }
+    .notif-trigger { width: 44px; height: 44px; border-radius: 10px; border: 1.5px solid var(--grey); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; transition: all 0.2s; }
+    .notif-trigger:hover { border-color: var(--teal); background: var(--teal-glow); }
+    .notif-trigger i { width: 20px; height: 20px; color: var(--navy); }
+    .notif-badge { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: var(--coral); color: white; font-size: 10px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+
+    /* Dropdown */
+    .notif-dropdown { position: absolute; top: calc(100% + 8px); right: 0; width: 400px; background: white; border: 1px solid var(--grey); border-radius: 16px; box-shadow: var(--shadow-lg); z-index: 500; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+    .notif-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    /* Header */
+    .nd-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--grey); }
+    .nd-header h3 { font-family: var(--font-display); font-size: 15px; font-weight: 800; }
+    .nd-header-actions { display: flex; gap: 6px; }
+    .nd-header-btn { font-size: 12px; font-weight: 600; color: var(--teal); cursor: pointer; background: none; border: none; font-family: var(--font-primary); padding: 4px 8px; border-radius: 6px; transition: background 0.12s; }
+    .nd-header-btn:hover { background: var(--teal-glow); }
+
+    /* Tabs */
+    .nd-tabs { display: flex; border-bottom: 1px solid var(--grey); }
+    .nd-tab { flex: 1; padding: 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--grey-mid); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.12s; }
+    .nd-tab:hover { color: var(--teal); }
+    .nd-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+    .nd-tab .tab-badge { background: var(--coral); color: white; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 100px; margin-left: 4px; }
+
+    /* List */
+    .nd-list { max-height: 380px; overflow-y: auto; }
+    .nd-item { display: flex; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--grey); cursor: pointer; transition: background 0.1s; position: relative; }
+    .nd-item:hover { background: var(--grey-light); }
+    .nd-item:last-child { border-bottom: none; }
+    .nd-item.unread { background: rgba(0, 137, 123, 0.03); }
+    .nd-item.unread::before { content: ''; position: absolute; left: 8px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+    .nd-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .nd-icon i { width: 17px; height: 17px; }
+    .nd-body { flex: 1; min-width: 0; }
+    .nd-title { font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+    .nd-text { font-size: 12px; color: var(--grey-mid); margin-top: 2px; line-height: 1.3; }
+    .nd-time { font-size: 11px; color: var(--grey-mid); margin-top: 4px; display: flex; align-items: center; gap: 3px; }
+    .nd-time i { width: 11px; height: 11px; }
+
+    /* Footer */
+    .nd-footer { padding: 12px 20px; border-top: 1px solid var(--grey); text-align: center; }
+    .nd-footer a { font-size: 13px; font-weight: 600; color: var(--teal); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .nd-footer a:hover { text-decoration: underline; }
+    .nd-footer a i { width: 14px; height: 14px; }
+
+    /* Mobile */
+    @media(max-width: 640px) {
+      .notif-dropdown { width: calc(100vw - 40px); right: -60px; }
+    }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <div class="notif-wrap">
+      <button class="notif-trigger" onclick="toggleNotif()">
+        <i data-lucide="bell"></i>
+        <span class="notif-badge">4</span>
+      </button>
+
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          <h3>Meldingen</h3>
+          <div class="nd-header-actions">
+            <button class="nd-header-btn">Alles gelezen</button>
+          </div>
+        </div>
+        <div class="nd-tabs">
+          <div class="nd-tab active">Alles <span class="tab-badge">4</span></div>
+          <div class="nd-tab">Bestellingen <span class="tab-badge">2</span></div>
+          <div class="nd-tab">Voorraad <span class="tab-badge">1</span></div>
+          <div class="nd-tab">Systeem</div>
+        </div>
+        <div class="nd-list">
+          <div class="nd-item unread">
+            <div class="nd-icon" style="background: var(--green-light);"><i data-lucide="truck" style="color: var(--green);"></i></div>
+            <div class="nd-body">
+              <div class="nd-title">Bestelling #PM-2026-1847 is verzonden</div>
+              <div class="nd-text">Uw pakket is onderweg via PostNL. Track & trace: 3SPOST1234567</div>
+              <div class="nd-time"><i data-lucide="clock"></i> 2 uur geleden</div>
+            </div>
+          </div>
+          <div class="nd-item unread">
+            <div class="nd-icon" style="background: var(--teal-glow);"><i data-lucide="package" style="color: var(--teal);"></i></div>
+            <div class="nd-body">
+              <div class="nd-title">Weer op voorraad: Leukoplast Professional 5m</div>
+              <div class="nd-text">Een product van uw favorieten is weer leverbaar.</div>
+              <div class="nd-time"><i data-lucide="clock"></i> 4 uur geleden</div>
+            </div>
+          </div>
+          <div class="nd-item unread">
+            <div class="nd-icon" style="background: var(--blue-light);"><i data-lucide="file-text" style="color: var(--blue);"></i></div>
+            <div class="nd-body">
+              <div class="nd-title">Factuur F-2026-0187 beschikbaar</div>
+              <div class="nd-text">De factuur voor bestelling #PM-2026-1847 staat klaar voor download.</div>
+              <div class="nd-time"><i data-lucide="clock"></i> 5 uur geleden</div>
+            </div>
+          </div>
+          <div class="nd-item unread">
+            <div class="nd-icon" style="background: var(--amber-light);"><i data-lucide="repeat" style="color: var(--amber);"></i></div>
+            <div class="nd-body">
+              <div class="nd-title">Herhaalbestelling binnenkort verwerkt</div>
+              <div class="nd-text">Uw maandelijkse praktijkvoorraad wordt op 6 maart automatisch besteld.</div>
+              <div class="nd-time"><i data-lucide="clock"></i> 1 dag geleden</div>
+            </div>
+          </div>
+          <div class="nd-item">
+            <div class="nd-icon" style="background: var(--green-light);"><i data-lucide="check-circle" style="color: var(--green);"></i></div>
+            <div class="nd-body">
+              <div class="nd-title">Bestelling #PM-2026-1832 afgeleverd</div>
+              <div class="nd-text">Uw bestelling is succesvol afgeleverd op het afleveradres.</div>
+              <div class="nd-time"><i data-lucide="clock"></i> 3 dagen geleden</div>
+            </div>
+          </div>
+        </div>
+        <div class="nd-footer"><a href="#">Alle meldingen bekijken <i data-lucide="arrow-right"></i></a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C11 - Notification Center</p>
+    <p><strong>Category:</strong> Account / Communication</p>
+    <p><strong>Complexiteit:</strong> High (dropdown, tabs, filtering, unread states, color-coded categories)</p>
+
+    <h3>Purpose:</h3>
+    <p>Notification center dropdown from header bell icon. Shows order updates, stock alerts, invoices, and system messages. Improves engagement by keeping users informed of important account events.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Bell trigger button with coral unread badge</li>
+      <li>Dropdown panel (400px width, max-height 380px)</li>
+      <li>4 tabs: Alles, Bestellingen, Voorraad, Systeem (with count badges)</li>
+      <li>Color-coded notification icons (green/teal/blue/amber)</li>
+      <li>Unread indicator (teal dot + light teal background)</li>
+      <li>Notification title, description, timestamp</li>
+      <li>"Alles gelezen" button in header</li>
+      <li>Footer link to full notifications page</li>
+      <li>Click outside to close</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>E-commerce platforms (order tracking, stock alerts)</li>
+      <li>B2B accounts (invoices, credit notes, account updates)</li>
+      <li>Subscription services (renewal reminders, failed payments)</li>
+      <li>Any app with user-specific alerts</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Real-time updates via WebSocket or polling (every 30-60s)</li>
+      <li>Show max 5-10 notifications in dropdown (link to full page)</li>
+      <li>Auto-dismiss badge when dropdown opened</li>
+      <li>Persist read/unread state per user</li>
+      <li>Send email for critical notifications (failed payments, delivery issues)</li>
+      <li>Group similar notifications ("3 items back in stock")</li>
+      <li>Allow notification preferences in account settings</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Trigger Button */
+size: 44px × 44px
+border: 1.5px solid var(--grey)
+border-radius: 10px
+badge: 18px coral circle, top-right (-4px, -4px)
+
+/* Dropdown */
+width: 400px
+max-height: 380px (list section)
+border-radius: 16px
+box-shadow: 0 16px 48px rgba(10,22,40,0.14)
+z-index: 500
+
+/* Tabs */
+border-bottom: 2px solid transparent
+active: color var(--teal) + border var(--teal)
+badge: 9px font, coral bg, border-radius 100px
+
+/* Notification Item */
+padding: 14px 20px
+unread: bg rgba(0,137,123,0.03) + teal dot (6px)
+icon: 38px × 38px, color-coded backgrounds
+title: 13px, 700
+text: 12px, grey-mid
+time: 11px, grey-mid</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  notifications: [
+    {
+      id: 'n1',
+      type: 'order',  // 'order' | 'stock' | 'invoice' | 'system'
+      icon: 'truck',
+      iconColor: 'green',
+      title: 'Bestelling #PM-2026-1847 is verzonden',
+      text: 'Uw pakket is onderweg via PostNL...',
+      timestamp: '2026-02-24T10:00:00',
+      read: false,
+      link: '/account/orders/1847'
+    }
+  ],
+  unreadCount: 4,
+  onMarkAllRead: () => {},
+  onNotificationClick: (notificationId) => {},
+  onViewAll: () => {},
+  tabs: ['Alles', 'Bestellingen', 'Voorraad', 'Systeem'],
+  maxItems: 10
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Dropdown: position absolute, top calc(100% + 8px), right 0
+Structure (top to bottom):
+1. Header (16px padding, border-bottom)
+2. Tabs (flex row, equal width)
+3. List (overflow-y auto, max-height 380px)
+4. Footer (12px padding, border-top)
+
+Mobile: Dropdown width calc(100vw - 40px), right -60px</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;button aria-label="Notificaties" aria-expanded="false" aria-haspopup="true"&gt;
+  &lt;Bell /&gt;
+  &lt;span className="notif-badge" aria-label="4 ongelezen meldingen"&gt;4&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;div role="dialog" aria-labelledby="notif-title"&gt;
+  &lt;h3 id="notif-title"&gt;Meldingen&lt;/h3&gt;
+  &lt;div role="tablist"&gt;
+    &lt;button role="tab" aria-selected="true"&gt;Alles&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div role="tabpanel"&gt;
+    &lt;a href="/order/1847" aria-label="Bestelling 1847 is verzonden, 2 uur geleden"&gt;
+      {/* notification content */}
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+// Keyboard:
+- ESC to close
+- TAB to navigate
+- Click outside to close</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function NotificationCenter() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Alles');
+  const { data: notifications, mutate } = useSWR('/api/notifications');
+
+  const unreadCount = notifications?.filter(n => !n.read).length || 0;
+
+  const filteredNotifications = useMemo(() => {
+    if (activeTab === 'Alles') return notifications;
+    return notifications.filter(n => n.type === tabTypeMap[activeTab]);
+  }, [notifications, activeTab]);
+
+  const handleMarkAllRead = async () => {
+    await fetch('/api/notifications/mark-all-read', { method: 'POST' });
+    mutate();
+  };
+
+  const handleNotificationClick = async (notification) => {
+    if (!notification.read) {
+      await fetch(`/api/notifications/${notification.id}/read`, { method: 'POST' });
+      mutate();
+    }
+    router.push(notification.link);
+    setIsOpen(false);
+  };
+
+  return (
+    &lt;div className="notif-wrap" ref={wrapRef}&gt;
+      &lt;button className="notif-trigger" onClick={() => setIsOpen(!isOpen)}&gt;
+        &lt;Bell size={20} /&gt;
+        {unreadCount > 0 && &lt;span className="notif-badge"&gt;{unreadCount}&lt;/span&gt;}
+      &lt;/button&gt;
+
+      &lt;div className={`notif-dropdown ${isOpen ? 'open' : ''}`}&gt;
+        &lt;div className="nd-header"&gt;
+          &lt;h3&gt;Meldingen&lt;/h3&gt;
+          &lt;button className="nd-header-btn" onClick={handleMarkAllRead}&gt;
+            Alles gelezen
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div className="nd-tabs"&gt;
+          {tabs.map(tab => (
+            &lt;div
+              key={tab}
+              className={`nd-tab ${activeTab === tab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab)}
+            &gt;
+              {tab}
+              {getTabCount(tab) > 0 && (
+                &lt;span className="tab-badge"&gt;{getTabCount(tab)}&lt;/span&gt;
+              )}
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+
+        &lt;div className="nd-list"&gt;
+          {filteredNotifications.map(notification => (
+            &lt;a
+              key={notification.id}
+              className={`nd-item ${!notification.read ? 'unread' : ''}`}
+              onClick={() => handleNotificationClick(notification)}
+            &gt;
+              &lt;div className="nd-icon" style={{ background: getIconBg(notification.iconColor) }}&gt;
+                &lt;Icon name={notification.icon} size={17} /&gt;
+              &lt;/div&gt;
+              &lt;div className="nd-body"&gt;
+                &lt;div className="nd-title"&gt;{notification.title}&lt;/div&gt;
+                &lt;div className="nd-text"&gt;{notification.text}&lt;/div&gt;
+                &lt;div className="nd-time"&gt;
+                  &lt;Clock size={11} /&gt; {formatRelativeTime(notification.timestamp)}
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/a&gt;
+          ))}
+        &lt;/div&gt;
+
+        &lt;div className="nd-footer"&gt;
+          &lt;a href="/account/notifications"&gt;
+            Alle meldingen bekijken &lt;ArrowRight size={14} /&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Variant:</strong> Sidebar notification panel (full-height, larger)</li>
+      <li><strong>Variant:</strong> Toast notifications for real-time alerts</li>
+      <li><strong>Related:</strong> Full notifications page (/account/notifications)</li>
+      <li><strong>Related:</strong> Notification preferences page (enable/disable categories)</li>
+      <li><strong>Related:</strong> Email notification templates</li>
+      <li><strong>Integration:</strong> WebSocket for real-time updates</li>
+      <li><strong>Integration:</strong> Push notifications (web + mobile)</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function toggleNotif() {
+      document.getElementById('notifDropdown').classList.toggle('open');
+    }
+
+    // Click outside to close
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.notif-wrap')) {
+        document.getElementById('notifDropdown').classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

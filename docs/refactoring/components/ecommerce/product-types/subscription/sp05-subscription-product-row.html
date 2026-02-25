@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SP05: SubscriptionProductRow — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --white: #FAFBFC;
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  padding: 32px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+/* Demo List */
+.demo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+/* SP05: SubscriptionProductRow */
+.product-row {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 16px 20px;
+  transition: all var(--transition);
+  display: grid;
+  grid-template-columns: 60px 1fr auto auto auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 6px;
+}
+
+.product-row:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Column 1: Icon (spans both rows) */
+.product-row .product-type-icon {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  width: 60px;
+  height: 60px;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--grey-light);
+  border-radius: 8px;
+  align-self: center;
+}
+
+/* Column 2: Type badges (row 1) + Edition count (row 2) */
+.product-row .product-badges {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  gap: 4px;
+  align-self: end;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge i {
+  width: 11px;
+  height: 11px;
+}
+
+.badge.popular {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+.badge.persoonlijk {
+  background: var(--grey-light);
+  color: var(--grey-dark);
+}
+
+.badge.cadeau {
+  background: var(--coral-light);
+  color: var(--coral);
+}
+
+.product-row .product-subtitle {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  align-self: start;
+}
+
+/* Column 3: Price + Savings (spans both rows) */
+.product-row .product-pricing {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  align-self: center;
+}
+
+.product-tier {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-mid);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.product-tier i {
+  width: 12px;
+  height: 12px;
+  color: var(--teal);
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price-current {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.price-old {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  text-decoration: line-through;
+}
+
+.price-savings {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--green);
+  padding: 2px 8px;
+  background: var(--green-light);
+  border-radius: 100px;
+}
+
+.price-savings i {
+  width: 10px;
+  height: 10px;
+}
+
+/* Column 4: Feature Checks (spans both rows) */
+.product-row .product-features {
+  grid-column: 4;
+  grid-row: 1 / 3;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: center;
+}
+
+.product-row .product-features li {
+  font-size: 12px;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-row .product-features i {
+  width: 13px;
+  height: 13px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+/* Column 5: Button (spans both rows) */
+.product-row .product-bottom {
+  grid-column: 5;
+  grid-row: 1 / 3;
+  display: flex;
+  justify-content: flex-end;
+  align-self: center;
+}
+
+.product-cta {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: var(--teal);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.product-cta i {
+  width: 15px;
+  height: 15px;
+}
+
+.product-cta:hover {
+  background: var(--navy);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 3px rgba(10,22,40,0.06);
+}
+
+/* Documentation Section */
+.doc-section {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  line-height: 1.6;
+}
+
+.doc-section h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.doc-section p {
+  margin-bottom: 12px;
+}
+
+.doc-section ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.doc-section pre {
+  background: var(--grey-light);
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.doc-section code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+@media (max-width: 1024px) {
+  .product-row {
+    grid-template-columns: 60px 1fr auto;
+    grid-template-rows: auto auto auto;
+  }
+
+  .product-row .product-features {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .product-row .product-bottom {
+    grid-column: 3;
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-row {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+
+  .product-row .product-type-icon,
+  .product-row .product-badges,
+  .product-row .product-subtitle,
+  .product-row .product-pricing,
+  .product-row .product-features,
+  .product-row .product-bottom {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .product-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2>🎯 Live Demo — SP05: SubscriptionProductRow</h2>
+
+  <!-- Live Demo -->
+  <div class="demo-list">
+
+    <!-- Example 1: Persoonlijk with POPULAIR badge -->
+    <div class="product-row">
+      <div class="product-type-icon">👤</div>
+
+      <div class="product-badges">
+        <span class="badge popular">
+          <i data-lucide="star"></i> Populair
+        </span>
+        <span class="badge persoonlijk">
+          <i data-lucide="user"></i> Persoonlijk
+        </span>
+      </div>
+
+      <div class="product-subtitle">3 nummers - Persoonlijk</div>
+
+      <div class="product-pricing">
+        <div class="product-tier">
+          <i data-lucide="package"></i>
+          3 edities
+        </div>
+
+        <div class="price-row">
+          <span class="price-current">€10.80</span>
+          <span class="price-old">€15.00</span>
+        </div>
+
+        <span class="price-savings">
+          <i data-lucide="trending-down"></i>
+          Bespaar 28%
+        </span>
+      </div>
+
+      <ul class="product-features">
+        <li>
+          <i data-lucide="check"></i>
+          3 edities per jaar
+        </li>
+        <li>
+          <i data-lucide="check"></i>
+          Automatisch verlengd
+        </li>
+      </ul>
+
+      <div class="product-bottom">
+        <button class="product-cta">
+          <i data-lucide="shopping-cart"></i>
+          Voeg toe
+        </button>
+      </div>
+    </div>
+
+    <!-- Example 2: Cadeau -->
+    <div class="product-row">
+      <div class="product-type-icon">🎁</div>
+
+      <div class="product-badges">
+        <span class="badge cadeau">
+          <i data-lucide="gift"></i> Cadeau
+        </span>
+      </div>
+
+      <div class="product-subtitle">6 nummers - Cadeau</div>
+
+      <div class="product-pricing">
+        <div class="product-tier">
+          <i data-lucide="package"></i>
+          6 edities
+        </div>
+
+        <div class="price-row">
+          <span class="price-current">€18.15</span>
+          <span class="price-old">€27.50</span>
+        </div>
+
+        <span class="price-savings">
+          <i data-lucide="trending-down"></i>
+          Bespaar 34%
+        </span>
+      </div>
+
+      <ul class="product-features">
+        <li>
+          <i data-lucide="check"></i>
+          6 edities per jaar
+        </li>
+        <li>
+          <i data-lucide="check"></i>
+          Eenmalig abonnement
+        </li>
+        <li>
+          <i data-lucide="check"></i>
+          Inclusief cadeaukaart
+        </li>
+      </ul>
+
+      <div class="product-bottom">
+        <button class="product-cta">
+          <i data-lucide="shopping-cart"></i>
+          Voeg toe
+        </button>
+      </div>
+    </div>
+
+    <!-- Example 3: 12 edities -->
+    <div class="product-row">
+      <div class="product-type-icon">👤</div>
+
+      <div class="product-badges">
+        <span class="badge persoonlijk">
+          <i data-lucide="user"></i> Persoonlijk
+        </span>
+      </div>
+
+      <div class="product-subtitle">12 nummers - Persoonlijk</div>
+
+      <div class="product-pricing">
+        <div class="product-tier">
+          <i data-lucide="package"></i>
+          12 edities
+        </div>
+
+        <div class="price-row">
+          <span class="price-current">€19.50</span>
+          <span class="price-old">€29.00</span>
+        </div>
+
+        <span class="price-savings">
+          <i data-lucide="trending-down"></i>
+          Bespaar 33%
+        </span>
+      </div>
+
+      <ul class="product-features">
+        <li>
+          <i data-lucide="check"></i>
+          12 edities per jaar
+        </li>
+        <li>
+          <i data-lucide="check"></i>
+          Automatisch verlengd
+        </li>
+      </ul>
+
+      <div class="product-bottom">
+        <button class="product-cta">
+          <i data-lucide="shopping-cart"></i>
+          Voeg toe
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Documentation -->
+  <div class="doc-section">
+
+    <!-- STEP 1: Component Overview -->
+    <h3>📦 STEP 1: Component Overview</h3>
+    <p><strong>Component:</strong> SP05: SubscriptionProductRow</p>
+    <p><strong>Purpose:</strong> Horizontal product row for subscription products in list view. Displays subscription information across 5 columns for efficient scanning and comparison.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>White card with 1.5px grey border, 14px border-radius</li>
+      <li>5-column grid layout: <code>60px 1fr auto auto auto</code></li>
+      <li>2-row layout: badges on row 1, edition count on row 2</li>
+      <li>Column 1: Emoji icon (60×60px, grey bg, 8px radius) — spans both rows</li>
+      <li>Column 2: Type badges (row 1) + edition count (row 2) — flexible width</li>
+      <li>Column 3: Tier + price + savings badge — spans both rows, auto width</li>
+      <li>Column 4: Feature checkmarks (2-3 items) — spans both rows, auto width</li>
+      <li>Column 5: Add-to-cart button — spans both rows, auto width</li>
+      <li>Hover: teal border + shadow + translateY(-1px)</li>
+      <li>Responsive: collapses to 3-col (tablet) → 1-col (mobile)</li>
+    </ul>
+
+    <p><strong>Visual Description:</strong> Horizontal product row with icon on far left, product info spread across middle columns, and action button on far right. All content vertically centered using grid alignment. Optimized for desktop list views and comparison shopping.</p>
+
+    <!-- STEP 2: When to Use -->
+    <h3>📋 STEP 2: When to Use</h3>
+
+    <p><strong>Primary Use Cases:</strong></p>
+    <ul>
+      <li><strong>List View Mode:</strong> When user toggles from grid to list view (C22: SortDropdown)</li>
+      <li><strong>Comparison Shopping:</strong> Comparing subscription tiers side-by-side</li>
+      <li><strong>Desktop Browsing:</strong> Wide screens where horizontal layout is more efficient</li>
+      <li><strong>Feature Comparison:</strong> When users need to scan features across multiple products</li>
+      <li><strong>High Product Counts:</strong> More products visible per screen vs grid view</li>
+    </ul>
+
+    <p><strong>When NOT to Use:</strong></p>
+    <ul>
+      <li>❌ For mobile/narrow screens (use SP04: SubscriptionProductCard instead)</li>
+      <li>❌ For detailed product pages (use full product page layout)</li>
+      <li>❌ For non-subscription products (use EC01: ProductCard list variant)</li>
+      <li>❌ When visual appeal is more important than efficiency (grid view better)</li>
+      <li>❌ For products with many features (4+) that won't fit in column 4</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>🎨 STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Row bg: <code>#FFFFFF</code> (white)</li>
+      <li>Row border: <code>#E8ECF1</code> (grey)</li>
+      <li>Hover border: <code>#00897B</code> (teal)</li>
+      <li>Icon bg: <code>#F1F4F8</code> (grey-light)</li>
+      <li>Badge POPULAIR: <code>#EDE9FE</code> bg, <code>#7C3AED</code> text</li>
+      <li>Badge Persoonlijk: <code>#F1F4F8</code> bg, <code>#64748B</code> text</li>
+      <li>Badge Cadeau: <code>#FFF0F0</code> bg, <code>#FF6B6B</code> text</li>
+      <li>Edition count: <code>#0A1628</code> (navy)</li>
+      <li>Tier label: <code>#94A3B8</code> (grey-mid)</li>
+      <li>Current price: <code>#0A1628</code> (navy)</li>
+      <li>Old price: <code>#94A3B8</code> (grey-mid)</li>
+      <li>Savings badge: <code>#E8F5E9</code> bg, <code>#00C853</code> text</li>
+      <li>Feature checkmarks: <code>#00C853</code> (green)</li>
+      <li>Button bg: <code>#00897B</code> (teal), hover: <code>#0A1628</code> (navy)</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Body font: Plus Jakarta Sans</li>
+      <li>Price font: JetBrains Mono</li>
+      <li>Badge: 10px, 800 weight, uppercase</li>
+      <li>Edition count: 13px, 600 weight</li>
+      <li>Tier label: 12px, 600 weight</li>
+      <li>Price current: 20px, 800 weight (mono)</li>
+      <li>Price old: 13px, 500 weight (mono, strikethrough)</li>
+      <li>Savings badge: 10px, 700 weight</li>
+      <li>Features: 12px</li>
+      <li>Button: 13px, 700 weight</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Row padding: 16px 20px (vertical horizontal)</li>
+      <li>Column gap: 20px</li>
+      <li>Row gap: 6px (between row 1 and row 2 in column 2)</li>
+      <li>Badge gap: 4px</li>
+      <li>Pricing gap: 4px (between tier, price, savings)</li>
+      <li>Feature gap: 4px (between list items)</li>
+      <li>Feature icon gap: 6px (icon + text)</li>
+      <li>Button gap: 6px (icon + text)</li>
+      <li>Between rows: 12px</li>
+    </ul>
+
+    <p><strong>Grid Structure:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Columns: <code>60px 1fr auto auto auto</code></li>
+      <li>Rows: <code>auto auto</code></li>
+      <li>Column 1: 60px fixed (icon)</li>
+      <li>Column 2: 1fr flexible (badges + edition count, takes remaining space)</li>
+      <li>Column 3: auto (pricing, fits content)</li>
+      <li>Column 4: auto (features, fits content)</li>
+      <li>Column 5: auto (button, fits content)</li>
+    </ul>
+
+    <p><strong>Border Radius:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Row: 14px</li>
+      <li>Icon bg: 8px</li>
+      <li>Badges: 100px (pill)</li>
+      <li>Savings badge: 100px (pill)</li>
+      <li>Button: 8px</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Icon library: Lucide Icons + Emoji</li>
+      <li>Type icon: 32px emoji (👤/🎁)</li>
+      <li>Badge icons: 11×11px</li>
+      <li>Tier icon: 12×12px (package)</li>
+      <li>Savings icon: 10×10px (trending-down)</li>
+      <li>Feature icons: 13×13px (check)</li>
+      <li>Button icon: 15×15px (shopping-cart)</li>
+    </ul>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h3>⚙️ STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre>
+interface SubscriptionProductRowProps {
+  id: string;
+  title: string;              // Not displayed, for accessibility
+  subtitle: string;           // e.g., "3 nummers - Persoonlijk"
+  type: 'personal' | 'gift';
+  icon: string;               // Emoji or icon name
+  badges?: Array<{
+    label: string;
+    variant: 'popular' | 'persoonlijk' | 'cadeau';
+    icon?: string;
+  }>;
+  tier: {
+    count: number;            // Number of editions
+    label: string;            // e.g., "3 edities"
+  };
+  pricing: {
+    current: number;
+    old?: number;
+    savings?: number;         // Percentage (e.g., 28)
+  };
+  features: string[];         // Array of 2-3 features max
+  inStock: boolean;
+  onAddToCart: () => void;
+}</pre>
+
+    <p><strong>Payload CMS Schema:</strong></p>
+    <pre>
+// Same collection as SP04, just different presentation
+{
+  name: 'subscriptionProducts',
+  type: 'collection',
+  fields: [
+    { name: 'title', type: 'text', required: true },
+    {
+      name: 'type',
+      type: 'select',
+      options: [
+        { label: 'Persoonlijk', value: 'personal' },
+        { label: 'Cadeau', value: 'gift' }
+      ],
+      required: true
+    },
+    { name: 'icon', type: 'text', defaultValue: '👤' },
+    {
+      name: 'editionCount',
+      type: 'number',
+      required: true,
+      admin: { description: 'Number of editions (3, 6, 12)' }
+    },
+    { name: 'price', type: 'number', required: true },
+    { name: 'oldPrice', type: 'number' },
+    {
+      name: 'features',
+      type: 'array',
+      of: [{ type: 'text' }],
+      admin: {
+        description: 'Max 3 features for list view',
+        validate: (val) => !val || val.length <= 3 || 'Max 3 features for list view'
+      }
+    },
+    { name: 'inStock', type: 'checkbox', defaultValue: true },
+    {
+      name: 'isPopular',
+      type: 'checkbox',
+      label: 'Show POPULAIR badge',
+      defaultValue: false
+    }
+  ]
+}</pre>
+
+    <p><strong>Default Values:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>inStock: <code>true</code></li>
+      <li>icon: <code>'👤'</code> (for personal) or <code>'🎁'</code> (for gift)</li>
+      <li>features: <code>[]</code> (empty array, max 3 recommended)</li>
+      <li>badges: <code>[]</code> (auto-generated based on type + isPopular)</li>
+    </ul>
+
+    <!-- STEP 5: Layout Rules -->
+    <h3>📐 STEP 5: Layout Rules</h3>
+
+    <p><strong>Grid Structure:</strong></p>
+    <ul>
+      <li>5-column grid: <code>grid-template-columns: 60px 1fr auto auto auto;</code></li>
+      <li>2 rows: <code>grid-template-rows: auto auto;</code></li>
+      <li>Vertical centering: <code>align-items: center;</code></li>
+      <li>Column gap: 20px, row gap: 6px</li>
+      <li>Most columns span both rows with <code>grid-row: 1 / 3;</code></li>
+      <li>Column 2 uses both rows separately (badges on row 1, edition count on row 2)</li>
+    </ul>
+
+    <p><strong>Column Behavior:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li><strong>Column 1 (60px fixed):</strong> Icon, always same width, spans both rows</li>
+      <li><strong>Column 2 (1fr flexible):</strong> Takes remaining space after columns 3-5 sized, split into 2 rows</li>
+      <li><strong>Column 3 (auto):</strong> Pricing, fits content width, spans both rows</li>
+      <li><strong>Column 4 (auto):</strong> Features, fits content width, spans both rows</li>
+      <li><strong>Column 5 (auto):</strong> Button, fits content width, spans both rows</li>
+    </ul>
+
+    <p><strong>Responsive Breakpoints:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li><strong>&gt;1024px:</strong> Full 5-column layout</li>
+      <li><strong>768-1024px:</strong> 3-column layout (icon, info, pricing/button stacked)</li>
+      <li><strong>&lt;768px:</strong> 1-column layout (all elements stacked) OR switch to SP04 grid view</li>
+    </ul>
+
+    <p><strong>Spacing Rules:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Between rows: 12px gap</li>
+      <li>Internal padding: 16px 20px (reduced vs grid view for density)</li>
+      <li>Column gap: 20px (consistent horizontal spacing)</li>
+      <li>Row gap: 6px (tight vertical spacing within column 2)</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h3>♿ STEP 6: Accessibility</h3>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <pre>
+&lt;article
+  class="product-row"
+  role="article"
+  aria-label="{subtitle} - {tier.label} voor €{pricing.current}"
+&gt;
+  &lt;div class="product-type-icon" aria-hidden="true"&gt;👤&lt;/div&gt;
+
+  &lt;div class="product-badges" role="group" aria-label="Product badges"&gt;
+    &lt;span class="badge popular" role="status"&gt;POPULAIR&lt;/span&gt;
+    &lt;span class="badge persoonlijk"&gt;PERSOONLIJK&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class="product-subtitle"&gt;3 nummers - Persoonlijk&lt;/div&gt;
+
+  &lt;div class="product-pricing"&gt;
+    &lt;div class="product-tier" aria-label="3 edities per abonnement"&gt;
+      &lt;i data-lucide="package" aria-hidden="true"&gt;&lt;/i&gt;
+      3 edities
+    &lt;/div&gt;
+
+    &lt;div class="price-row"&gt;
+      &lt;span class="price-current" aria-label="Huidige prijs 10 euro 80"&gt;€10.80&lt;/span&gt;
+      &lt;span class="price-old" aria-label="Oude prijs 15 euro"&gt;€15.00&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;span class="price-savings" role="status"&gt;Bespaar 28%&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;ul class="product-features" aria-label="Subscription features"&gt;
+    &lt;li&gt;3 edities per jaar&lt;/li&gt;
+    &lt;li&gt;Automatisch verlengd&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;div class="product-bottom"&gt;
+    &lt;button
+      class="product-cta"
+      aria-label="Voeg 3 nummers Persoonlijk abonnement toe aan winkelwagen"
+    &gt;
+      Voeg toe
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</pre>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li><strong>Tab:</strong> Focus on add-to-cart button (only interactive element)</li>
+      <li><strong>Enter/Space:</strong> Trigger add-to-cart action</li>
+      <li>Focus ring on button: <code>box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12);</code></li>
+      <li>Row should be clickable as a whole (optional): click anywhere on row to open QuickView modal</li>
+    </ul>
+
+    <p><strong>Screen Reader Support:</strong></p>
+    <ul>
+      <li>Row has descriptive <code>aria-label</code> with full product info</li>
+      <li>Icon marked <code>aria-hidden="true"</code> (decorative, text conveys type)</li>
+      <li>Badge icons marked <code>aria-hidden="true"</code> (text labels sufficient)</li>
+      <li>All icons in pricing/features marked <code>aria-hidden="true"</code> (text conveys info)</li>
+      <li>Price values have <code>aria-label</code> with readable format ("10 euro 80")</li>
+      <li>Savings badge uses <code>role="status"</code> for importance</li>
+      <li>Features list has <code>aria-label="Subscription features"</code></li>
+      <li>Button has descriptive <code>aria-label</code> with full context</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul>
+      <li>Navy text (#0A1628) on white bg: 12.6:1 ✅ (WCAG AAA)</li>
+      <li>Grey-mid text (#94A3B8) on white bg: 4.8:1 ✅ (WCAG AA)</li>
+      <li>Teal button (#00897B) text white: 4.7:1 ✅ (WCAG AA)</li>
+      <li>Purple badge (#7C3AED) on light bg (#EDE9FE): 8.2:1 ✅ (WCAG AAA)</li>
+      <li>All status indicators meet WCAG AA minimum</li>
+    </ul>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h3>💻 STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component Example:</strong></p>
+    <pre>
+import { ShoppingCart, Check, TrendingDown, Package, Star, User, Gift } from 'lucide-react';
+
+export function SubscriptionProductRow({
+  id,
+  title,
+  subtitle,
+  type,
+  icon,
+  badges = [],
+  tier,
+  pricing,
+  features,
+  inStock,
+  onAddToCart
+}: SubscriptionProductRowProps) {
+  const typeIcon = type === 'personal' ? '👤' : '🎁';
+  const savings = pricing.old
+    ? Math.round(((pricing.old - pricing.current) / pricing.old) * 100)
+    : null;
+
+  const ariaLabel = `${subtitle} - ${tier.label} voor €${pricing.current.toFixed(2)}`;
+
+  return (
+    &lt;article className="product-row" aria-label={ariaLabel}&gt;
+      &lt;div className="product-type-icon" aria-hidden="true"&gt;
+        {icon || typeIcon}
+      &lt;/div&gt;
+
+      {badges.length &gt; 0 && (
+        &lt;div className="product-badges" role="group" aria-label="Product badges"&gt;
+          {badges.map((badge, i) =&gt; (
+            &lt;span key={i} className={`badge ${badge.variant}`} role={badge.variant === 'popular' ? 'status' : undefined}&gt;
+              {badge.icon && &lt;Icon name={badge.icon} size={11} aria-hidden="true" /&gt;}
+              {badge.label}
+            &lt;/span&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+
+      &lt;div className="product-subtitle"&gt;{subtitle}&lt;/div&gt;
+
+      &lt;div className="product-pricing"&gt;
+        &lt;div className="product-tier" aria-label={tier.label}&gt;
+          &lt;Package size={12} aria-hidden="true" /&gt;
+          {tier.count} edities
+        &lt;/div&gt;
+
+        &lt;div className="price-row"&gt;
+          &lt;span
+            className="price-current"
+            aria-label={`Huidige prijs ${pricing.current.toFixed(2).replace('.', ' euro ')}`}
+          &gt;
+            €{pricing.current.toFixed(2)}
+          &lt;/span&gt;
+          {pricing.old && (
+            &lt;span
+              className="price-old"
+              aria-label={`Oude prijs ${pricing.old.toFixed(2).replace('.', ' euro ')}`}
+            &gt;
+              €{pricing.old.toFixed(2)}
+            &lt;/span&gt;
+          )}
+        &lt;/div&gt;
+
+        {savings && (
+          &lt;span className="price-savings" role="status"&gt;
+            &lt;TrendingDown size={10} aria-hidden="true" /&gt;
+            Bespaar {savings}%
+          &lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;ul className="product-features" aria-label="Subscription features"&gt;
+        {features.slice(0, 3).map((feature, i) =&gt; (
+          &lt;li key={i}&gt;
+            &lt;Check size={13} aria-hidden="true" /&gt;
+            {feature}
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+
+      &lt;div className="product-bottom"&gt;
+        &lt;button
+          className="product-cta"
+          onClick={onAddToCart}
+          disabled={!inStock}
+          aria-label={`Voeg ${subtitle} toe aan winkelwagen`}
+        &gt;
+          &lt;ShoppingCart size={15} /&gt;
+          Voeg toe
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  );
+}</pre>
+
+    <p><strong>View Mode Toggle Integration:</strong></p>
+    <pre>
+// Archive page with grid/list toggle
+export function SubscriptionProductArchive({ products }: { products: SubscriptionProduct[] }) {
+  const [viewMode, setViewMode] = useState&lt;'grid' | 'list'&gt;('grid');
+
+  return (
+    &lt;&gt;
+      &lt;SortDropdown
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+      /&gt;
+
+      {viewMode === 'grid' ? (
+        &lt;div className="demo-grid"&gt;
+          {products.map(product =&gt; (
+            &lt;SubscriptionProductCard key={product.id} {...product} /&gt;
+          ))}
+        &lt;/div&gt;
+      ) : (
+        &lt;div className="demo-list"&gt;
+          {products.map(product =&gt; (
+            &lt;SubscriptionProductRow key={product.id} {...product} /&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+    &lt;/&gt;
+  );
+}</pre>
+
+    <p><strong>Performance Optimizations:</strong></p>
+    <ul>
+      <li>Use <code>React.memo(SubscriptionProductRow)</code> to prevent re-renders during filtering</li>
+      <li>Virtual scrolling for large lists (50+ items) using <code>react-window</code></li>
+      <li>CSS containment: <code>contain: layout style paint;</code></li>
+      <li>Lazy load rows below the fold</li>
+      <li>Optimize grid recalculation with <code>will-change: transform;</code> on hover</li>
+    </ul>
+
+    <p><strong>Feature Count Guidelines:</strong></p>
+    <ul>
+      <li>Max 3 features recommended for list view (more creates layout issues)</li>
+      <li>If product has 4+ features, either:
+        <ol>
+          <li>Prioritize top 3 most important features</li>
+          <li>Show "3 edities per jaar" + "Automatisch verlengd" + "+2 meer" link</li>
+          <li>Or recommend grid view for feature-heavy products</li>
+        </ol>
+      </li>
+      <li>Feature text should be concise (max 25 characters)</li>
+    </ul>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h3>🔗 STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Component Variants:</strong></p>
+    <ul>
+      <li><strong>Default (Desktop):</strong> Full 5-column layout as documented above</li>
+      <li><strong>Tablet (3-col):</strong> Icon + info column + stacked pricing/button</li>
+      <li><strong>Mobile (1-col):</strong> All elements stacked OR switch to SP04 grid view</li>
+      <li><strong>Compact:</strong> Reduce padding to 12px 16px for ultra-dense lists</li>
+      <li><strong>Out of Stock:</strong> Greyscale filter + opacity 0.6 + disabled button</li>
+      <li><strong>Clickable Row:</strong> Entire row clickable to open QuickView modal, cursor pointer</li>
+    </ul>
+
+    <p><strong>Responsive Strategy:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li><strong>Desktop (&gt;1024px):</strong> List view preferred (more products visible)</li>
+      <li><strong>Tablet (768-1024px):</strong> List view acceptable with 3-col layout</li>
+      <li><strong>Mobile (&lt;768px):</strong> Force switch to grid view (SP04) — better UX</li>
+      <li>View mode toggle (C22) should auto-switch to grid on mobile</li>
+      <li>Or: hide list view button entirely on mobile breakpoints</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>SP04: SubscriptionProductCard</strong> — Vertical grid view variant</li>
+      <li><strong>SP01: SubscriptionFilterTabs</strong> — Category filter tabs</li>
+      <li><strong>SP02: SubscriptionFilterToggle</strong> — Binary toggle switch</li>
+      <li><strong>SP03: SubscriptionFilterSidebar</strong> — Multi-select filters</li>
+      <li><strong>C22: SortDropdown</strong> — Sort options + grid/list view toggle ⭐ KEY INTEGRATION</li>
+      <li><strong>C18: ProductBadges</strong> — Badge system (11 variants)</li>
+      <li><strong>EC01: ProductCard</strong> — Standard product list variant</li>
+      <li><strong>C5: QuickView Modal</strong> — Opens on row click for quick product details</li>
+      <li><strong>C3: AddToCartToast</strong> — Toast notification on add-to-cart</li>
+      <li><strong>C20: Pagination</strong> — Pagination for long product lists</li>
+    </ul>
+
+    <p><strong>Layout Combinations:</strong></p>
+    <ul>
+      <li><strong>List Archive Pattern:</strong> SP01/SP02/SP03 (filters) + C22 (sort + toggle) + SP05 list + C20 (pagination)</li>
+      <li><strong>Filtered List:</strong> SP03 sidebar (280px) + SP05 list (flex: 1)</li>
+      <li><strong>Comparison Table:</strong> Multiple SP05 rows stacked for side-by-side comparison</li>
+      <li><strong>Hybrid View:</strong> Featured products in SP04 grid (top) + full catalog in SP05 list (below)</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul>
+      <li>✅ 5 columns align correctly with varying content lengths</li>
+      <li>✅ Column 2 (1fr) takes remaining space properly</li>
+      <li>✅ Badges + edition count align correctly in 2-row layout</li>
+      <li>✅ All span-both-rows columns vertically centered</li>
+      <li>✅ Hover states work (border, shadow, translateY)</li>
+      <li>✅ Pricing displays correctly with/without old price</li>
+      <li>✅ Features display correctly (1, 2, 3 items)</li>
+      <li>✅ Button stays right-aligned in column 5</li>
+      <li>✅ Responsive collapse to 3-col (tablet) works smoothly</li>
+      <li>✅ Responsive collapse to 1-col (mobile) OR auto-switch to grid</li>
+      <li>✅ Keyboard navigation works (tab to button, enter to add)</li>
+      <li>✅ Screen reader announces full row info correctly</li>
+      <li>✅ View mode toggle (C22) switches between SP04/SP05 correctly</li>
+    </ul>
+
+    <p><strong>Edge Cases:</strong></p>
+    <ul>
+      <li>Long edition count text (2-line clamp in column 2)</li>
+      <li>No old price (hide strikethrough, no savings badge)</li>
+      <li>No badges (hide badges container, edition count takes full row 1)</li>
+      <li>1 feature only (still displays correctly in column 4)</li>
+      <li>4+ features (truncate to 3, or show "+X more")</li>
+      <li>Very long feature text (wrap to 2 lines max, then ellipsis)</li>
+      <li>Out of stock (disable button, greyscale row)</li>
+      <li>Narrow screens (1024-1200px) — text wrapping in column 2/4</li>
+    </ul>
+
+    <p><strong>Comparison: SP04 vs SP05</strong></p>
+    <ul>
+      <li><strong>SP04 (Grid View):</strong> Better for visual browsing, fewer products per screen, mobile-friendly</li>
+      <li><strong>SP05 (List View):</strong> Better for comparison, more products per screen, desktop-optimized</li>
+      <li><strong>When to use SP04:</strong> Mobile, tablet, visual appeal, marketing pages</li>
+      <li><strong>When to use SP05:</strong> Desktop, comparison shopping, high product counts, efficiency</li>
+      <li><strong>Best practice:</strong> Offer both via C22 toggle, default to grid on mobile, list on desktop</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

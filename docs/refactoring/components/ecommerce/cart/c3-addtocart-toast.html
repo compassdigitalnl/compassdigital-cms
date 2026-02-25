@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C3 - AddToCart Toast | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --green: #00C853;
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; text-align: center; }
+    .demo-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--teal); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .demo-btn i { width: 18px; height: 18px; }
+
+    /* Toast Container */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 600; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+
+    /* Toast */
+    .toast { background: white; border: 1px solid var(--grey); border-radius: 14px; box-shadow: var(--shadow-lg); padding: 16px 20px; display: flex; gap: 14px; align-items: flex-start; width: 380px; max-width: calc(100vw - 40px); transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: auto; position: relative; overflow: hidden; }
+    .toast.show { transform: translateX(0); }
+    .toast-img { width: 52px; height: 52px; background: var(--grey-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+    .toast-body { flex: 1; min-width: 0; }
+    .toast-success { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+    .toast-success i { width: 14px; height: 14px; }
+    .toast-name { font-size: 14px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+    .toast-meta { font-size: 12px; color: var(--grey-mid); margin-top: 2px; }
+    .toast-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .toast-btn { padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; border: none; display: flex; align-items: center; gap: 5px; }
+    .toast-btn.primary { background: var(--teal); color: white; }
+    .toast-btn.primary:hover { background: var(--navy); }
+    .toast-btn.outline { background: white; color: var(--navy); border: 1.5px solid var(--grey); }
+    .toast-btn.outline:hover { border-color: var(--teal); color: var(--teal); }
+    .toast-btn i { width: 13px; height: 13px; }
+    .toast-close { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; border: none; background: none; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+    .toast-close:hover { background: var(--grey-light); }
+    .toast-close i { width: 14px; height: 14px; color: var(--grey-mid); }
+    .toast-progress { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--grey-light); border-radius: 0 0 14px 14px; overflow: hidden; }
+    .toast-progress-bar { height: 100%; background: var(--teal); border-radius: 0 0 14px 14px; animation: toastTimer 5s linear forwards; }
+    @keyframes toastTimer { from { width: 100%; } to { width: 0%; } }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <button class="demo-btn" onclick="showToast()">
+      <i data-lucide="plus"></i>
+      Simuleer "In winkelwagen"
+    </button>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C3 - AddToCart Toast</p>
+    <p><strong>Category:</strong> E-commerce / Feedback</p>
+    <p><strong>Complexiteit:</strong> Medium (toast management, auto-dismiss, stacking)</p>
+
+    <h3>Purpose:</h3>
+    <p>Toast notification shown when item added to cart. Provides instant feedback with product info, CTAs (view cart/continue shopping), and auto-dismiss timer.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Slide-in from right (bounce-style animation)</li>
+      <li>Product image, success message, name, metadata</li>
+      <li>Two action buttons: "Naar winkelwagen" (primary), "Verder winkelen" (outline)</li>
+      <li>Close button (X) top-right</li>
+      <li>Auto-dismiss after 5 seconds with progress bar</li>
+      <li>Stack management (max 3 visible toasts)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>All e-commerce "Add to cart" actions</li>
+      <li>Non-intrusive feedback (doesn't block UI)</li>
+      <li>Multi-product browsing (user adds multiple items)</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Show toast + open minicart simultaneously</li>
+      <li>Auto-dismiss after 5s (user can dismiss manually)</li>
+      <li>Stack max 3 toasts (oldest auto-dismiss first)</li>
+      <li>Include "Continue shopping" for smooth UX</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Toast */
+width: 380px, max-width: calc(100vw - 40px)
+background: white
+border: 1px solid var(--grey)
+border-radius: 14px
+box-shadow: 0 16px 48px rgba(10,22,40,0.12)
+padding: 16px 20px
+transform: translateX(120%) → translateX(0)
+transition: 0.4s cubic-bezier(0.175,0.885,0.32,1.275) /* Bounce */
+
+/* Success Label */
+font-size: 12px, font-weight: 700
+color: var(--green)
+
+/* Product Name */
+font-size: 14px, font-weight: 700
+color: var(--navy)
+
+/* Progress Bar */
+height: 3px, background: var(--teal)
+animation: toastTimer 5s linear forwards</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  product: {
+    id: '123',
+    name: 'Peha-soft Nitrile Fino',
+    variant: 'Maat M',
+    image: '/images/product.jpg',
+    quantity: 5,
+    price: 8.25
+  },
+  autoDismiss: 5000,  // ms
+  onViewCart: () => {},
+  onContinue: () => {}
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Position: fixed, top: 20px, right: 20px
+Z-index: 600 (above minicart 410)
+Stacking: flex-direction: column, gap: 8px</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;div role="status" aria-live="polite" aria-atomic="true"&gt;
+  Product toegevoegd aan winkelwagen
+&lt;/div&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function ToastManager() {
+  const [toasts, setToasts] = useState([]);
+
+  const addToast = (product) => {
+    const toast = { id: crypto.randomUUID(), product, createdAt: Date.now() };
+    setToasts(prev => [toast, ...prev].slice(0, 3)); // Max 3
+
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== toast.id));
+    }, 5000);
+  };
+
+  return (
+    &lt;div className="toast-container"&gt;
+      {toasts.map(toast => (
+        &lt;Toast key={toast.id} {...toast} onClose={() => removeToast(toast.id)} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>C2-MiniCart:</strong> Opens automatically when toast shows</li>
+      <li><strong>C17-ToastSystem:</strong> Generic toast system (success/error/warning/info)</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let toastId = 0;
+
+    function showToast() {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.id = `toast-${toastId++}`;
+      toast.innerHTML = `
+        <div class="toast-img">🧤</div>
+        <div class="toast-body">
+          <div class="toast-success"><i data-lucide="check-circle"></i> Toegevoegd aan winkelwagen</div>
+          <div class="toast-name">Peha-soft Nitrile Fino — Maat M</div>
+          <div class="toast-meta">5 × €8,25 = €41,25</div>
+          <div class="toast-actions">
+            <button class="toast-btn primary"><i data-lucide="shopping-cart"></i> Naar winkelwagen</button>
+            <button class="toast-btn outline"><i data-lucide="arrow-right"></i> Verder winkelen</button>
+          </div>
+        </div>
+        <button class="toast-close" onclick="closeToast('${toast.id}')"><i data-lucide="x"></i></button>
+        <div class="toast-progress"><div class="toast-progress-bar"></div></div>
+      `;
+
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => toast.classList.add('show'), 10);
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 5000);
+
+      // Max 3 toasts
+      if (container.children.length > 3) {
+        container.children[3].remove();
+      }
+    }
+
+    function closeToast(id) {
+      const toast = document.getElementById(id);
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400);
+    }
+  </script>
+</body>
+</html>

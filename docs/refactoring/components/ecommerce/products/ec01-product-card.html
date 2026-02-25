@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC01: ProductCard — E-commerce Component</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      padding: 40px 24px;
+      line-height: 1.6;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 32px;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .demo-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ════════════════════════════════════════════
+       PRODUCT CARD — GRID VARIANT (Vertical)
+       ════════════════════════════════════════════ */
+    .product-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--grey);
+      position: relative;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition);
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(10, 22, 40, 0.08);
+      border-color: transparent;
+    }
+
+    .product-card__badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      z-index: 2;
+      text-transform: capitalize;
+    }
+
+    .product-card__badge--sale {
+      background: var(--coral);
+      color: white;
+    }
+
+    .product-card__badge--new {
+      background: var(--teal);
+      color: white;
+    }
+
+    .product-card__badge--pro {
+      background: var(--amber);
+      color: white;
+    }
+
+    .product-card__badge--popular {
+      background: var(--green);
+      color: white;
+    }
+
+    .product-card__image {
+      width: 100%;
+      height: 200px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+    }
+
+    .product-card__body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-card__brand {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--teal);
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .product-card__title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .product-card__sku {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+
+    .product-card__rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .product-card__rating i {
+      width: 13px;
+      height: 13px;
+    }
+
+    .product-card__rating-count {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-left: 2px;
+    }
+
+    .product-card__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: auto;
+    }
+
+    .product-card__price-wrapper {
+      flex: 1;
+    }
+
+    .product-card__price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .product-card__price small {
+      font-size: 14px;
+    }
+
+    .product-card__price--old {
+      font-size: 13px;
+      color: var(--grey-mid);
+      text-decoration: line-through;
+      font-weight: 400;
+      margin-left: 6px;
+    }
+
+    .product-card__unit {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 1px;
+    }
+
+    .product-card__staffel-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--teal);
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .product-card__staffel-hint i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .product-card__add-to-cart {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0, 137, 123, 0.3);
+    }
+
+    .product-card__add-to-cart:hover {
+      background: var(--teal-dark);
+      transform: scale(1.05);
+    }
+
+    .product-card__add-to-cart i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .product-card__stock {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .product-card__stock-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .product-card__stock--in-stock {
+      color: var(--green);
+    }
+
+    .product-card__stock--in-stock .product-card__stock-dot {
+      background: var(--green);
+    }
+
+    .product-card__stock--low {
+      color: var(--amber);
+    }
+
+    .product-card__stock--low .product-card__stock-dot {
+      background: var(--amber);
+    }
+
+    .product-card__stock--out {
+      color: var(--coral);
+    }
+
+    .product-card__stock--out .product-card__stock-dot {
+      background: var(--coral);
+    }
+
+    /* ════════════════════════════════════════════
+       PRODUCT CARD — LIST VARIANT (Horizontal)
+       ════════════════════════════════════════════ */
+    .product-card--list {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .product-card--list .product-card__image {
+      width: 180px;
+      height: auto;
+      flex-shrink: 0;
+    }
+
+    .product-card--list .product-card__body {
+      flex-direction: row;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    .product-card--list .product-card__info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card--list .product-card__rating {
+      margin-bottom: auto;
+    }
+
+    .product-card--list .product-card__footer {
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      min-width: 180px;
+    }
+
+    .product-card--list .product-card__stock {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+      justify-content: flex-end;
+    }
+
+    /* Documentation Styles */
+    .doc-section {
+      margin-top: 48px;
+      padding: 32px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+    }
+
+    .doc-section h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-section h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-section p, .doc-section li {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .doc-section ul {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 24px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 16px 0;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    .spec-table th {
+      background: var(--bg);
+      padding: 12px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .spec-table td {
+      padding: 12px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .spec-table code {
+      background: var(--teal-glow);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--teal-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="demo-container">
+    <div class="demo-section">
+      <div class="demo-title">EC01: ProductCard — Grid Variant</div>
+      <div class="demo-subtitle">3-column product grid layout (default shop archive view)</div>
+
+      <div class="demo-grid">
+        <!-- Product Card 1: Sale Badge + Staffel Pricing + In Stock -->
+        <a href="#" class="product-card">
+          <div class="product-card__badge product-card__badge--sale">Sale</div>
+          <div class="product-card__image">🧤</div>
+          <div class="product-card__body">
+            <div class="product-card__brand">SEMPERMED</div>
+            <div class="product-card__title">Supreme Plus Nitrile Handschoenen</div>
+            <div class="product-card__sku">SKU: SMP-8942</div>
+            <div class="product-card__rating">
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#E8ECF1;"></i>
+              <span class="product-card__rating-count">(42)</span>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price-wrapper">
+                <div class="product-card__price">
+                  € 12<small>,95</small>
+                  <span class="product-card__price--old">€ 15,99</span>
+                </div>
+                <div class="product-card__unit">per 100 stuks</div>
+                <div class="product-card__staffel-hint">
+                  <i data-lucide="trending-down"></i>
+                  Vanaf 500 stuks: € 10,95 (−15%)
+                </div>
+              </div>
+              <button class="product-card__add-to-cart">
+                <i data-lucide="shopping-cart"></i>
+              </button>
+            </div>
+            <div class="product-card__stock product-card__stock--in-stock">
+              <div class="product-card__stock-dot"></div>
+              Op voorraad (2.400 stuks)
+            </div>
+          </div>
+        </a>
+
+        <!-- Product Card 2: New Badge + Low Stock -->
+        <a href="#" class="product-card">
+          <div class="product-card__badge product-card__badge--new">Nieuw</div>
+          <div class="product-card__image">🧤</div>
+          <div class="product-card__body">
+            <div class="product-card__brand">MEDLINE</div>
+            <div class="product-card__title">Aloetouch Green Latex Steriel</div>
+            <div class="product-card__sku">SKU: MDL-5621</div>
+            <div class="product-card__rating">
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <span class="product-card__rating-count">(89)</span>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price-wrapper">
+                <div class="product-card__price">
+                  € 18<small>,50</small>
+                </div>
+                <div class="product-card__unit">per 50 paar</div>
+              </div>
+              <button class="product-card__add-to-cart">
+                <i data-lucide="shopping-cart"></i>
+              </button>
+            </div>
+            <div class="product-card__stock product-card__stock--low">
+              <div class="product-card__stock-dot"></div>
+              Laag op voorraad (48 stuks)
+            </div>
+          </div>
+        </a>
+
+        <!-- Product Card 3: No Badge + Standard -->
+        <a href="#" class="product-card">
+          <div class="product-card__image">🧤</div>
+          <div class="product-card__body">
+            <div class="product-card__brand">ANSELL</div>
+            <div class="product-card__title">Micro-Touch Ultra Poedervrij</div>
+            <div class="product-card__sku">SKU: ANS-3142</div>
+            <div class="product-card__rating">
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+              <i data-lucide="star" style="color:#E8ECF1;"></i>
+              <span class="product-card__rating-count">(26)</span>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price-wrapper">
+                <div class="product-card__price">
+                  € 14<small>,25</small>
+                </div>
+                <div class="product-card__unit">per 100 stuks</div>
+              </div>
+              <button class="product-card__add-to-cart">
+                <i data-lucide="shopping-cart"></i>
+              </button>
+            </div>
+            <div class="product-card__stock product-card__stock--in-stock">
+              <div class="product-card__stock-dot"></div>
+              Op voorraad (1.800 stuks)
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-title">EC01: ProductCard — List Variant</div>
+      <div class="demo-subtitle">Horizontal layout for list view toggle</div>
+
+      <div class="demo-list">
+        <!-- Product Card List 1 -->
+        <a href="#" class="product-card product-card--list">
+          <div class="product-card__badge product-card__badge--sale">Sale</div>
+          <div class="product-card__image">🧤</div>
+          <div class="product-card__body">
+            <div class="product-card__info">
+              <div class="product-card__brand">SEMPERMED</div>
+              <div class="product-card__title">Supreme Plus Nitrile Handschoenen</div>
+              <div class="product-card__sku">SKU: SMP-8942</div>
+              <div class="product-card__rating">
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#E8ECF1;"></i>
+                <span class="product-card__rating-count">(42)</span>
+              </div>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price-wrapper">
+                <div class="product-card__price">
+                  € 12<small>,95</small>
+                  <span class="product-card__price--old">€ 15,99</span>
+                </div>
+                <div class="product-card__unit">per 100 stuks</div>
+                <div class="product-card__staffel-hint">
+                  <i data-lucide="trending-down"></i>
+                  Vanaf 500: € 10,95 (−15%)
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-end;">
+                <button class="product-card__add-to-cart">
+                  <i data-lucide="shopping-cart"></i>
+                </button>
+                <div class="product-card__stock product-card__stock--in-stock">
+                  <div class="product-card__stock-dot"></div>
+                  Op voorraad (2.400)
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product Card List 2 -->
+        <a href="#" class="product-card product-card--list">
+          <div class="product-card__badge product-card__badge--pro">Pro</div>
+          <div class="product-card__image">🧤</div>
+          <div class="product-card__body">
+            <div class="product-card__info">
+              <div class="product-card__brand">MEDLINE</div>
+              <div class="product-card__title">Aloetouch Green Latex Steriel</div>
+              <div class="product-card__sku">SKU: MDL-5621</div>
+              <div class="product-card__rating">
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <i data-lucide="star" style="color:#F59E0B;fill:#F59E0B;"></i>
+                <span class="product-card__rating-count">(89)</span>
+              </div>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price-wrapper">
+                <div class="product-card__price">
+                  € 18<small>,50</small>
+                </div>
+                <div class="product-card__unit">per 50 paar</div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-end;">
+                <button class="product-card__add-to-cart">
+                  <i data-lucide="shopping-cart"></i>
+                </button>
+                <div class="product-card__stock product-card__stock--low">
+                  <div class="product-card__stock-dot"></div>
+                  Laag voorraad (48)
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         8-STEP DOCUMENTATION
+         ═══════════════════════════════════════════════════════════ -->
+
+    <div class="doc-section">
+      <h2>📋 STEP 1: Component Overview</h2>
+      <p><strong>Component ID:</strong> EC01</p>
+      <p><strong>Component Name:</strong> ProductCard</p>
+      <p><strong>Category:</strong> E-commerce</p>
+      <p><strong>Source File:</strong> <code>/ecommerce-flows/ef1-shop-archive.html</code></p>
+      <p><strong>Target Folder:</strong> <code>/refactoring/components/ecommerce/</code></p>
+
+      <h3>Description</h3>
+      <p>Product card component with two layout variants (Grid and List). Displays product information including image, brand, title, SKU, pricing (regular + sale + volume discounts), star rating, stock status, and add-to-cart button. Supports product badges (Sale, Nieuw, Pro, Popular) and hover effects.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>✅ <strong>Two variants:</strong> Grid (vertical) and List (horizontal) layouts</li>
+        <li>✅ <strong>Product badges:</strong> 4 types (Sale/Nieuw/Pro/Popular) with color coding</li>
+        <li>✅ <strong>Pricing display:</strong> Current price + old price (sale) + unit text + volume discount hints</li>
+        <li>✅ <strong>Star rating:</strong> 5-star visual rating + review count</li>
+        <li>✅ <strong>Stock indicators:</strong> 3 states (in-stock/low/out) with colored dots</li>
+        <li>✅ <strong>Hover effect:</strong> Elevation animation (translateY + shadow + border color)</li>
+        <li>✅ <strong>Add-to-cart CTA:</strong> Circular button with teal background</li>
+        <li>✅ <strong>Accessibility:</strong> Semantic HTML (<code>&lt;a&gt;</code> wrapper) for full card clickability</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>🎯 STEP 2: When to Use</h2>
+      <h3>Use this component when:</h3>
+      <ul>
+        <li>✅ Displaying products in shop archive / category pages</li>
+        <li>✅ Search results pages</li>
+        <li>✅ Related products sections</li>
+        <li>✅ Product recommendations / upsells</li>
+        <li>✅ Wishlist / favorites pages</li>
+        <li>✅ Compare products view</li>
+      </ul>
+
+      <h3>Grid vs List Variant:</h3>
+      <ul>
+        <li><strong>Grid Variant:</strong> Default view for shop archives (3-column layout on desktop)</li>
+        <li><strong>List Variant:</strong> Alternative view when user toggles to list mode (horizontal layout showing more product details)</li>
+      </ul>
+
+      <h3>Don't use this component for:</h3>
+      <ul>
+        <li>❌ Full product detail pages (use dedicated product page template)</li>
+        <li>❌ Cart line items (use CartLineItem component - EC06)</li>
+        <li>❌ Quick order tables (use QuickOrderRow component - QO03)</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>🎨 STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Token</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Card background</td>
+            <td><code>--white</code></td>
+            <td>#FAFBFC</td>
+          </tr>
+          <tr>
+            <td>Card border</td>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+          </tr>
+          <tr>
+            <td>Brand text</td>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+          </tr>
+          <tr>
+            <td>Product title</td>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+          </tr>
+          <tr>
+            <td>SKU / Unit text</td>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+          </tr>
+          <tr>
+            <td>Sale badge</td>
+            <td><code>--coral</code></td>
+            <td>#FF6B6B</td>
+          </tr>
+          <tr>
+            <td>New badge</td>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+          </tr>
+          <tr>
+            <td>Pro badge</td>
+            <td><code>--amber</code></td>
+            <td>#F59E0B</td>
+          </tr>
+          <tr>
+            <td>Popular badge</td>
+            <td><code>--green</code></td>
+            <td>#00C853</td>
+          </tr>
+          <tr>
+            <td>Stock (in-stock)</td>
+            <td><code>--green</code></td>
+            <td>#00C853</td>
+          </tr>
+          <tr>
+            <td>Stock (low)</td>
+            <td><code>--amber</code></td>
+            <td>#F59E0B</td>
+          </tr>
+          <tr>
+            <td>Stock (out)</td>
+            <td><code>--coral</code></td>
+            <td>#FF6B6B</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font</th>
+            <th>Size</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Brand</td>
+            <td>DM Sans</td>
+            <td>11px</td>
+            <td>700 (uppercase, 0.05em spacing)</td>
+          </tr>
+          <tr>
+            <td>Product Title</td>
+            <td>DM Sans</td>
+            <td>14px</td>
+            <td>600</td>
+          </tr>
+          <tr>
+            <td>SKU</td>
+            <td>JetBrains Mono</td>
+            <td>11px</td>
+            <td>400</td>
+          </tr>
+          <tr>
+            <td>Price (current)</td>
+            <td>Plus Jakarta Sans</td>
+            <td>20px</td>
+            <td>800</td>
+          </tr>
+          <tr>
+            <td>Price (old)</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>400 (line-through)</td>
+          </tr>
+          <tr>
+            <td>Unit text</td>
+            <td>DM Sans</td>
+            <td>11px</td>
+            <td>400</td>
+          </tr>
+          <tr>
+            <td>Staffel hint</td>
+            <td>DM Sans</td>
+            <td>11px</td>
+            <td>600</td>
+          </tr>
+          <tr>
+            <td>Stock text</td>
+            <td>DM Sans</td>
+            <td>12px</td>
+            <td>500</td>
+          </tr>
+          <tr>
+            <td>Badge</td>
+            <td>DM Sans</td>
+            <td>11px</td>
+            <td>700</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spacing</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Card border-radius</td>
+            <td>16px</td>
+          </tr>
+          <tr>
+            <td>Badge border-radius</td>
+            <td>6px</td>
+          </tr>
+          <tr>
+            <td>Add-to-cart button radius</td>
+            <td>10px</td>
+          </tr>
+          <tr>
+            <td>Card padding (body)</td>
+            <td>18px</td>
+          </tr>
+          <tr>
+            <td>Image height (grid)</td>
+            <td>200px</td>
+          </tr>
+          <tr>
+            <td>Image width (list)</td>
+            <td>180px</td>
+          </tr>
+          <tr>
+            <td>Add-to-cart button size</td>
+            <td>42px × 42px</td>
+          </tr>
+          <tr>
+            <td>Badge position (top-left)</td>
+            <td>12px, 12px</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Icons</h3>
+      <ul>
+        <li><code>star</code> — Rating stars (13px, amber fill)</li>
+        <li><code>trending-down</code> — Volume discount indicator (12px, teal)</li>
+        <li><code>shopping-cart</code> — Add-to-cart button (18px, white)</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+      <h3>TypeScript Interface</h3>
+      <pre>
+interface ProductCardProps {
+  // Product Data
+  id: string
+  name: string
+  slug: string
+  sku: string
+  brand: {
+    name: string
+    slug: string
+  }
+  image: {
+    url: string
+    alt: string
+  }
+
+  // Pricing
+  price: number
+  compareAtPrice?: number
+  unit?: string  // "per 100 stuks", "per 50 paar"
+
+  // Volume Pricing (Staffel)
+  volumePricing?: {
+    minQty: number
+    price: number
+    discountPercent: number
+  }[]
+
+  // Rating & Reviews
+  rating?: number  // 0-5
+  reviewCount?: number
+
+  // Stock Status
+  stock: number
+  stockStatus: 'in-stock' | 'low' | 'out'
+  stockText?: string  // Custom stock message
+
+  // Badges
+  badges?: Array<{
+    type: 'sale' | 'new' | 'pro' | 'popular'
+    label?: string  // Custom badge text
+  }>
+
+  // Layout
+  variant?: 'grid' | 'list'  // Default: 'grid'
+
+  // Actions
+  onAddToCart?: (productId: string) => void
+  href?: string  // Product detail page URL
+}</pre>
+
+      <h3>Payload CMS Fields</h3>
+      <pre>
+// In Products Collection
+{
+  slug: 'products',
+  fields: [
+    { name: 'name', type: 'text', required: true },
+    { name: 'slug', type: 'text', required: true, unique: true },
+    { name: 'sku', type: 'text', required: true, unique: true },
+    { name: 'brand', type: 'relationship', relationTo: 'brands' },
+    { name: 'price', type: 'number', required: true },
+    { name: 'compareAtPrice', type: 'number' },
+    { name: 'unit', type: 'text' },
+    {
+      name: 'volumePricing',
+      type: 'array',
+      fields: [
+        { name: 'minQty', type: 'number', required: true },
+        { name: 'price', type: 'number', required: true },
+        { name: 'discountPercent', type: 'number' }
+      ]
+    },
+    { name: 'stock', type: 'number', required: true },
+    {
+      name: 'stockStatus',
+      type: 'select',
+      options: ['in-stock', 'low', 'out'],
+      admin: { readOnly: true }  // Auto-calculated
+    },
+    { name: 'rating', type: 'number', min: 0, max: 5 },
+    { name: 'reviewCount', type: 'number', defaultValue: 0 },
+    {
+      name: 'badges',
+      type: 'array',
+      fields: [
+        {
+          name: 'type',
+          type: 'select',
+          options: ['sale', 'new', 'pro', 'popular']
+        },
+        { name: 'label', type: 'text' }
+      ]
+    },
+    { name: 'images', type: 'upload', relationTo: 'media', hasMany: true }
+  ]
+}</pre>
+    </div>
+
+    <div class="doc-section">
+      <h2>📐 STEP 5: Layout Rules</h2>
+
+      <h3>Grid Variant (Vertical)</h3>
+      <ul>
+        <li><strong>Container:</strong> <code>flex-direction: column</code></li>
+        <li><strong>Image:</strong> 200px fixed height, 100% width, centered emoji/product image</li>
+        <li><strong>Body:</strong> 18px padding, flex-grow to fill available space</li>
+        <li><strong>Footer:</strong> <code>margin-top: auto</code> to push to bottom</li>
+        <li><strong>Badge:</strong> Absolute positioned top-left (12px offset)</li>
+        <li><strong>Stock indicator:</strong> Below footer with top border separator</li>
+      </ul>
+
+      <h3>List Variant (Horizontal)</h3>
+      <ul>
+        <li><strong>Container:</strong> <code>flex-direction: row</code></li>
+        <li><strong>Image:</strong> 180px fixed width, auto height</li>
+        <li><strong>Body:</strong> <code>flex-direction: row</code> with 24px gap</li>
+        <li><strong>Info section:</strong> <code>flex: 1</code> to take available space</li>
+        <li><strong>Footer:</strong> <code>flex-direction: column</code>, aligned right, min-width 180px</li>
+        <li><strong>Stock indicator:</strong> Next to add-to-cart button (no border separator)</li>
+      </ul>
+
+      <h3>Responsive Behavior</h3>
+      <ul>
+        <li><strong>Desktop (≥1024px):</strong> 3-column grid for grid variant</li>
+        <li><strong>Tablet (768-1023px):</strong> 2-column grid</li>
+        <li><strong>Mobile (<768px):</strong> 1-column grid, list variant switches to vertical</li>
+      </ul>
+
+      <h3>Grid Layout Example (Shop Archive)</h3>
+      <pre>
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1023px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}</pre>
+    </div>
+
+    <div class="doc-section">
+      <h2>♿ STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <ul>
+        <li>✅ Use <code>&lt;a&gt;</code> wrapper for entire card (keyboard navigable, clickable)</li>
+        <li>✅ Add-to-cart button is separate <code>&lt;button&gt;</code> element</li>
+        <li>✅ Star rating uses SVG icons with proper fill states</li>
+      </ul>
+
+      <h3>ARIA Attributes</h3>
+      <pre>
+&lt;a
+  href="/products/supreme-plus-nitrile"
+  class="product-card"
+  aria-label="Supreme Plus Nitrile Handschoenen door SEMPERMED, €12,95"
+&gt;
+  &lt;!-- Badge --&gt;
+  &lt;span class="product-card__badge" aria-label="Sale product"&gt;Sale&lt;/span&gt;
+
+  &lt;!-- Rating --&gt;
+  &lt;div class="product-card__rating" role="img" aria-label="4 van 5 sterren, 42 reviews"&gt;
+    &lt;!-- Stars here --&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Stock --&gt;
+  &lt;div
+    class="product-card__stock product-card__stock--in-stock"
+    role="status"
+    aria-live="polite"
+  &gt;
+    Op voorraad (2.400 stuks)
+  &lt;/div&gt;
+
+  &lt;!-- Add to cart --&gt;
+  &lt;button
+    class="product-card__add-to-cart"
+    aria-label="Voeg Supreme Plus Nitrile Handschoenen toe aan winkelwagen"
+    onclick="event.preventDefault(); addToCart('SMP-8942')"
+  &gt;
+    &lt;i data-lucide="shopping-cart"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+&lt;/a&gt;</pre>
+
+      <h3>Keyboard Navigation</h3>
+      <ul>
+        <li>✅ <kbd>Tab</kbd> — Focus entire card (navigates to product detail page)</li>
+        <li>✅ <kbd>Shift+Tab</kbd> — Focus add-to-cart button (separate action)</li>
+        <li>✅ <kbd>Enter</kbd> / <kbd>Space</kbd> — Activate focused element</li>
+      </ul>
+
+      <h3>Focus States</h3>
+      <pre>
+.product-card:focus {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+.product-card__add-to-cart:focus {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}</pre>
+
+      <h3>Screen Reader Considerations</h3>
+      <ul>
+        <li>✅ Badge announces product special status ("Sale product", "New product")</li>
+        <li>✅ Rating announces as "4 van 5 sterren, 42 reviews"</li>
+        <li>✅ Stock status uses <code>role="status"</code> and <code>aria-live="polite"</code></li>
+        <li>✅ Price formatting preserved ("12 euro 95 cent")</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>💻 STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component Example</h3>
+      <pre>
+'use client'
+
+import { ShoppingCart, Star, TrendingDown } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Product } from '@/types'
+
+interface ProductCardProps {
+  product: Product
+  variant?: 'grid' | 'list'
+  onAddToCart?: (productId: string) =&gt; void
+}
+
+export function ProductCard({
+  product,
+  variant = 'grid',
+  onAddToCart
+}: ProductCardProps) {
+  const {
+    id, name, slug, sku, brand, image, price, compareAtPrice,
+    unit, volumePricing, rating, reviewCount, stock, stockStatus, badges
+  } = product
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault()
+    onAddToCart?.(id)
+  }
+
+  const getStockClass = () => {
+    switch (stockStatus) {
+      case 'in-stock': return 'product-card__stock--in-stock'
+      case 'low': return 'product-card__stock--low'
+      case 'out': return 'product-card__stock--out'
+      default: return ''
+    }
+  }
+
+  const getStockText = () => {
+    switch (stockStatus) {
+      case 'in-stock': return `Op voorraad (${stock} stuks)`
+      case 'low': return `Laag op voorraad (${stock} stuks)`
+      case 'out': return 'Tijdelijk uitverkocht'
+      default: return ''
+    }
+  }
+
+  const bestVolumeTier = volumePricing?.[0]
+
+  return (
+    &lt;Link
+      href={`/products/${slug}`}
+      className={`product-card ${variant === 'list' ? 'product-card--list' : ''}`}
+      aria-label={`${name} door ${brand.name}, €${price.toFixed(2)}`}
+    &gt;
+      {/* Badge */}
+      {badges?.length > 0 && (
+        &lt;span
+          className={`product-card__badge product-card__badge--${badges[0].type}`}
+          aria-label={`${badges[0].type} product`}
+        &gt;
+          {badges[0].label || badges[0].type}
+        &lt;/span&gt;
+      )}
+
+      {/* Image */}
+      &lt;div className="product-card__image"&gt;
+        {image ? (
+          &lt;Image
+            src={image.url}
+            alt={image.alt || name}
+            fill
+            style={{ objectFit: 'contain' }}
+          /&gt;
+        ) : (
+          &lt;span&gt;🧤&lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      {/* Body */}
+      &lt;div className="product-card__body"&gt;
+        &lt;div className={variant === 'list' ? 'product-card__info' : ''}&gt;
+          &lt;div className="product-card__brand"&gt;{brand.name}&lt;/div&gt;
+          &lt;div className="product-card__title"&gt;{name}&lt;/div&gt;
+          &lt;div className="product-card__sku"&gt;SKU: {sku}&lt;/div&gt;
+
+          {/* Rating */}
+          {rating && (
+            &lt;div
+              className="product-card__rating"
+              role="img"
+              aria-label={`${rating} van 5 sterren, ${reviewCount} reviews`}
+            &gt;
+              {[...Array(5)].map((_, i) => (
+                &lt;Star
+                  key={i}
+                  size={13}
+                  fill={i < Math.floor(rating) ? '#F59E0B' : '#E8ECF1'}
+                  color={i < Math.floor(rating) ? '#F59E0B' : '#E8ECF1'}
+                /&gt;
+              ))}
+              &lt;span className="product-card__rating-count"&gt;({reviewCount})&lt;/span&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/div&gt;
+
+        {/* Footer */}
+        &lt;div className="product-card__footer"&gt;
+          &lt;div className="product-card__price-wrapper"&gt;
+            &lt;div className="product-card__price"&gt;
+              € {Math.floor(price)}&lt;small&gt;,{(price % 1).toFixed(2).slice(2)}&lt;/small&gt;
+              {compareAtPrice && (
+                &lt;span className="product-card__price--old"&gt;
+                  € {compareAtPrice.toFixed(2)}
+                &lt;/span&gt;
+              )}
+            &lt;/div&gt;
+            {unit && &lt;div className="product-card__unit"&gt;{unit}&lt;/div&gt;}
+            {bestVolumeTier && (
+              &lt;div className="product-card__staffel-hint"&gt;
+                &lt;TrendingDown size={12} /&gt;
+                Vanaf {bestVolumeTier.minQty} stuks: € {bestVolumeTier.price.toFixed(2)} (−{bestVolumeTier.discountPercent}%)
+              &lt;/div&gt;
+            )}
+          &lt;/div&gt;
+
+          {/* Add to cart */}
+          &lt;button
+            className="product-card__add-to-cart"
+            onClick={handleAddToCart}
+            aria-label={`Voeg ${name} toe aan winkelwagen`}
+          &gt;
+            &lt;ShoppingCart size={18} /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        {/* Stock */}
+        &lt;div
+          className={`product-card__stock ${getStockClass()}`}
+          role="status"
+          aria-live="polite"
+        &gt;
+          &lt;div className="product-card__stock-dot"&gt;&lt;/div&gt;
+          {getStockText()}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/Link&gt;
+  )
+}</pre>
+
+      <h3>Important Implementation Details</h3>
+      <ul>
+        <li>✅ <strong>Prevent default on add-to-cart:</strong> Use <code>e.preventDefault()</code> to prevent card navigation when clicking button</li>
+        <li>✅ <strong>Image optimization:</strong> Use Next.js <code>&lt;Image&gt;</code> with <code>fill</code> and <code>objectFit: 'contain'</code></li>
+        <li>✅ <strong>Stock status auto-calculation:</strong> Calculate <code>stockStatus</code> based on <code>stock</code> value in Payload hooks:
+          <ul>
+            <li><code>stock === 0</code> → 'out'</li>
+            <li><code>stock > 0 && stock < 100</code> → 'low'</li>
+            <li><code>stock >= 100</code> → 'in-stock'</li>
+          </ul>
+        </li>
+        <li>✅ <strong>Volume pricing:</strong> Show lowest tier as hint ("Vanaf X: €Y (−Z%)")</li>
+        <li>✅ <strong>Badge priority:</strong> If multiple badges, show first badge only (or implement badge stacking)</li>
+      </ul>
+
+      <h3>Payload CMS Hook: Auto Stock Status</h3>
+      <pre>
+// In /collections/Products.ts
+{
+  slug: 'products',
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        // Auto-calculate stock status
+        if (typeof data.stock === 'number') {
+          if (data.stock === 0) {
+            data.stockStatus = 'out'
+          } else if (data.stock > 0 && data.stock < 100) {
+            data.stockStatus = 'low'
+          } else {
+            data.stockStatus = 'in-stock'
+          }
+        }
+        return data
+      }
+    ]
+  },
+  fields: [
+    // ... fields
+  ]
+}</pre>
+    </div>
+
+    <div class="doc-section">
+      <h2>🔗 STEP 8: Variations & Related Components</h2>
+
+      <h3>Variations</h3>
+      <ul>
+        <li><strong>Grid Variant (Default):</strong> Vertical card for 3-column product grids</li>
+        <li><strong>List Variant:</strong> Horizontal card for list view toggle</li>
+        <li><strong>Compact Variant (Future):</strong> Smaller version for sidebars (4-column grid)</li>
+        <li><strong>Featured Variant (Future):</strong> Larger hero card with more product details</li>
+      </ul>
+
+      <h3>Related Components</h3>
+      <ul>
+        <li><strong>C18: ProductBadges</strong> — Used for badge display (Sale/Nieuw/Pro/Popular)</li>
+        <li><strong>C4: StaffelCalculator</strong> — Full volume pricing calculator (used on product detail page)</li>
+        <li><strong>EC04: StockIndicator</strong> — Standalone stock status component</li>
+        <li><strong>C5: QuickView</strong> — Modal to view product details without leaving archive page</li>
+        <li><strong>C3: AddToCartToast</strong> — Toast notification triggered by add-to-cart button</li>
+        <li><strong>C13: RecentlyViewed</strong> — Uses ProductCard in horizontal scroll carousel</li>
+      </ul>
+
+      <h3>Component Dependencies</h3>
+      <ul>
+        <li>Icons: Lucide React (<code>star</code>, <code>trending-down</code>, <code>shopping-cart</code>)</li>
+        <li>Fonts: Plus Jakarta Sans (price), DM Sans (body), JetBrains Mono (SKU)</li>
+        <li>Next.js: <code>Image</code>, <code>Link</code> components</li>
+        <li>Payload CMS: Products, Brands collections</li>
+      </ul>
+
+      <h3>State Management</h3>
+      <ul>
+        <li><strong>Add to cart action:</strong> Integrate with cart context/store (Zustand, Redux, or Payload local API)</li>
+        <li><strong>Wishlist toggle:</strong> Add heart icon button (future enhancement)</li>
+        <li><strong>Compare products:</strong> Add checkbox for comparison (future enhancement)</li>
+      </ul>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✅ Card hover animation works smoothly</li>
+        <li>✅ Add-to-cart button prevents card navigation</li>
+        <li>✅ Badge displays correctly when present</li>
+        <li>✅ Stock status colors match design (green/amber/coral)</li>
+        <li>✅ Volume pricing hint shows when available</li>
+        <li>✅ Sale price strikethrough displays when <code>compareAtPrice</code> exists</li>
+        <li>✅ Star rating renders correctly (filled vs empty stars)</li>
+        <li>✅ List variant layout works on desktop</li>
+        <li>✅ Grid variant responsive (3-col → 2-col → 1-col)</li>
+        <li>✅ Keyboard navigation (Tab to focus card, Shift+Tab to focus button)</li>
+        <li>✅ Screen reader announces product details correctly</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons()
+  </script>
+</body>
+</html>

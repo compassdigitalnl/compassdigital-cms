@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC12: PaymentMethodCard — Compass Design System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ================================
+       DESIGN TOKENS
+       ================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 14px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    }
+
+    /* ================================
+       BASE STYLES
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ================================
+       DEMO SECTION STYLES
+       ================================ */
+    .demo-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      border: 1px solid var(--grey);
+    }
+
+    .demo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    /* ================================
+       COMPONENT: EC12 PaymentMethodCard
+       ================================ */
+
+    /* Grid container for payment methods */
+    .payment-methods-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-16);
+    }
+
+    /* Single payment method card */
+    .payment-method-card {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: var(--radius-lg);
+      padding: var(--space-20);
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+      transition: all var(--transition);
+    }
+
+    /* Radio input */
+    .payment-method-card input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--teal);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Payment info section */
+    .payment-info {
+      flex: 1;
+    }
+
+    .payment-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .payment-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    /* Payment logo/icon badge */
+    .payment-logo {
+      width: 48px;
+      height: 32px;
+      background: var(--bg);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    /* PayPal specific logo (text instead of emoji) */
+    .payment-logo.paypal {
+      font-weight: 700;
+      color: #0070BA;
+      font-size: 14px;
+    }
+
+    /* B2B badge */
+    .b2b-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    /* ================================
+       STATES
+       ================================ */
+
+    /* Active state (when radio is checked) */
+    .payment-method-card:has(input:checked) {
+      border-color: var(--teal);
+      background: white;
+    }
+
+    /* Hover state */
+    .payment-method-card:hover {
+      border-color: var(--teal-light);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Focus-within state */
+    .payment-method-card:focus-within {
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+    }
+
+    /* Disabled state */
+    .payment-method-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ================================
+       RESPONSIVE
+       ================================ */
+    @media (max-width: 640px) {
+      /* Stack cards on mobile */
+      .payment-methods-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-section {
+        padding: 20px;
+      }
+    }
+
+    /* ================================
+       DOCUMENTATION STYLES
+       ================================ */
+    .doc-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-section p, .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .doc-section ul, .doc-section ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--grey);
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .token-table td {
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      background: white;
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ================================
+         LIVE DEMO
+         ================================ -->
+    <div class="demo-section">
+      <div class="demo-title">EC12: PaymentMethodCard — Live Demo</div>
+      <div class="demo-description">
+        Interactive payment method selector with 4 variants: iDEAL, Credit Card, PayPal, and Invoice (B2B).
+      </div>
+
+      <div class="payment-methods-grid">
+        <!-- iDEAL (Selected by default) -->
+        <label class="payment-method-card">
+          <input type="radio" name="payment" value="ideal" checked>
+          <div class="payment-info">
+            <div class="payment-name">iDEAL</div>
+            <div class="payment-description">Direct betalen via je bank</div>
+          </div>
+          <div class="payment-logo">🏦</div>
+        </label>
+
+        <!-- Credit Card -->
+        <label class="payment-method-card">
+          <input type="radio" name="payment" value="creditcard">
+          <div class="payment-info">
+            <div class="payment-name">Credit Card</div>
+            <div class="payment-description">Visa, Mastercard, Amex</div>
+          </div>
+          <div class="payment-logo">💳</div>
+        </label>
+
+        <!-- PayPal -->
+        <label class="payment-method-card">
+          <input type="radio" name="payment" value="paypal">
+          <div class="payment-info">
+            <div class="payment-name">PayPal</div>
+            <div class="payment-description">Betaal via PayPal</div>
+          </div>
+          <div class="payment-logo paypal">P</div>
+        </label>
+
+        <!-- Factuur (B2B Invoice) -->
+        <label class="payment-method-card">
+          <input type="radio" name="payment" value="invoice">
+          <div class="payment-info">
+            <div class="payment-name">
+              Factuur
+              <span class="b2b-badge">B2B</span>
+            </div>
+            <div class="payment-description">Betaal binnen 14 dagen</div>
+          </div>
+          <div class="payment-logo">📄</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- ================================
+         DOCUMENTATION
+         ================================ -->
+
+    <!-- STEP 1: Component Overview -->
+    <div class="doc-section">
+      <h2>STEP 1: Component Overview</h2>
+
+      <p><strong>Component ID:</strong> EC12</p>
+      <p><strong>Component Name:</strong> PaymentMethodCard</p>
+      <p><strong>Category:</strong> E-commerce / Checkout</p>
+      <p><strong>Source File:</strong> <code>ef3-checkout.html</code> (lines 88-133)</p>
+      <p><strong>Output File:</strong> <code>/refactoring/components/ecommerce/ec12-payment-method-card.html</code></p>
+
+      <h3>Purpose</h3>
+      <p>
+        Payment method selection cards for the checkout flow. Each card represents a different payment option (iDEAL, Credit Card, PayPal, Invoice) with radio button selection. Provides clear visual feedback for the selected payment method and displays relevant payment logos and descriptions.
+      </p>
+
+      <h3>Visual Pattern</h3>
+      <ul>
+        <li>2-column grid layout (stacks to 1-column on mobile)</li>
+        <li>White card with 2px border (teal when selected, grey when inactive)</li>
+        <li>Horizontal flex layout: radio (left) → info (center) → logo (right)</li>
+        <li>Active selection indicated by teal border</li>
+        <li>Payment logo badge (48×32px) with grey background</li>
+        <li>Optional B2B badge for invoice payment method</li>
+      </ul>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>✅ Single selection (radio buttons)</li>
+        <li>✅ Clear visual feedback (border color change)</li>
+        <li>✅ 4 payment methods: iDEAL, Credit Card, PayPal, Invoice</li>
+        <li>✅ Payment logos (emoji placeholders, swap with real logos in production)</li>
+        <li>✅ B2B badge for invoice option</li>
+        <li>✅ Hover state (border color + subtle shadow)</li>
+        <li>✅ Focus state (outline ring)</li>
+        <li>✅ Fully keyboard accessible</li>
+        <li>✅ Mobile responsive (stacks to single column)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 2: When to Use -->
+    <div class="doc-section">
+      <h2>STEP 2: When to Use</h2>
+
+      <h3>✅ USE this component when:</h3>
+      <ul>
+        <li>✅ Checkout flow — step 3: payment method selection</li>
+        <li>✅ Subscription signup — recurring payment method</li>
+        <li>✅ Account settings — update payment method</li>
+        <li>✅ B2B quote requests — payment preference selection</li>
+        <li>✅ Order edit — change payment method before confirmation</li>
+      </ul>
+
+      <h3>❌ DON'T use this component when:</h3>
+      <ul>
+        <li>❌ Quick order forms — use simpler dropdown instead</li>
+        <li>❌ Guest checkout with single payment option — no selection needed</li>
+        <li>❌ Mobile apps — use native payment UI</li>
+        <li>❌ Admin panel — use standard form inputs</li>
+      </ul>
+
+      <h3>Integration Points</h3>
+      <ul>
+        <li><strong>Previous step:</strong> Shipping method selection (EC11)</li>
+        <li><strong>Next step:</strong> Order review + T&C acceptance</li>
+        <li><strong>Related components:</strong>
+          <ul>
+            <li>C25: ProgressSteps (checkout progress indicator)</li>
+            <li>EC11: ShippingMethodCard (same visual pattern)</li>
+            <li>EC07: OrderSummary (displays selected payment method)</li>
+            <li>EC13: CheckoutProgressStepper (tracks checkout steps)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- STEP 3: Design Tokens -->
+    <div class="doc-section">
+      <h2>STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Payment method name text</td>
+          </tr>
+          <tr>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+            <td>Active border, radio button, B2B badge text</td>
+          </tr>
+          <tr>
+            <td><code>--teal-light</code></td>
+            <td>#26A69A</td>
+            <td>Hover border color</td>
+          </tr>
+          <tr>
+            <td><code>--teal-glow</code></td>
+            <td>rgba(0,137,123,0.12)</td>
+            <td>B2B badge background</td>
+          </tr>
+          <tr>
+            <td><code>--white</code></td>
+            <td>#FAFBFC</td>
+            <td>Card background</td>
+          </tr>
+          <tr>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+            <td>Inactive border</td>
+          </tr>
+          <tr>
+            <td><code>--grey-dark</code></td>
+            <td>#64748B</td>
+            <td>Payment description text</td>
+          </tr>
+          <tr>
+            <td><code>--bg</code></td>
+            <td>#F5F7FA</td>
+            <td>Payment logo badge background</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font</th>
+            <th>Size</th>
+            <th>Weight</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Payment name</td>
+            <td>Plus Jakarta Sans</td>
+            <td>15px</td>
+            <td>700</td>
+            <td>var(--navy)</td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>400</td>
+            <td>var(--grey-dark)</td>
+          </tr>
+          <tr>
+            <td>B2B badge</td>
+            <td>Plus Jakarta Sans</td>
+            <td>10px</td>
+            <td>700</td>
+            <td>var(--teal)</td>
+          </tr>
+          <tr>
+            <td>PayPal logo text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>14px</td>
+            <td>700</td>
+            <td>#0070BA</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spacing (4px grid)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--space-4</code></td>
+            <td>4px</td>
+            <td>Name → description gap, B2B badge padding (vertical)</td>
+          </tr>
+          <tr>
+            <td><code>--space-6</code></td>
+            <td>6px</td>
+            <td>Name → B2B badge gap, B2B badge padding (horizontal), logo border-radius</td>
+          </tr>
+          <tr>
+            <td><code>--space-16</code></td>
+            <td>16px</td>
+            <td>Grid gap, card internal gap (radio → info → logo)</td>
+          </tr>
+          <tr>
+            <td><code>--space-20</code></td>
+            <td>20px</td>
+            <td>Card padding</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Border & Radius</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Card border</td>
+            <td>2px solid</td>
+            <td>Thicker border for clear selection feedback</td>
+          </tr>
+          <tr>
+            <td>Card radius</td>
+            <td>14px (--radius-lg)</td>
+            <td>Large radius for prominent cards</td>
+          </tr>
+          <tr>
+            <td>Logo radius</td>
+            <td>6px</td>
+            <td>Subtle rounded corners for logo badge</td>
+          </tr>
+          <tr>
+            <td>B2B badge radius</td>
+            <td>4px</td>
+            <td>Small radius for pill badge</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Component Dimensions</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Width</th>
+            <th>Height</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Radio button</td>
+            <td>20px</td>
+            <td>20px</td>
+          </tr>
+          <tr>
+            <td>Payment logo badge</td>
+            <td>48px</td>
+            <td>32px</td>
+          </tr>
+          <tr>
+            <td>Card (desktop)</td>
+            <td>1fr (50% of grid)</td>
+            <td>auto (~72px)</td>
+          </tr>
+          <tr>
+            <td>Card (mobile)</td>
+            <td>100%</td>
+            <td>auto (~72px)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 4: Props & Configuration -->
+    <div class="doc-section">
+      <h2>STEP 4: Props & Configuration</h2>
+
+      <h3>React Component Interface</h3>
+      <pre>
+interface PaymentMethodCardProps {
+  // Payment method configuration
+  method: 'ideal' | 'creditcard' | 'paypal' | 'invoice';
+  name: string;                    // "iDEAL", "Credit Card", etc.
+  description: string;              // "Direct betalen via je bank"
+  logo: string | React.ReactNode;  // Emoji, icon, or image URL
+
+  // B2B configuration
+  isB2B?: boolean;                 // Show B2B badge (invoice only)
+
+  // Selection state
+  value: string;                    // Current selected payment method
+  onChange: (method: string) => void;
+
+  // Radio button props
+  name: string;                     // Radio group name
+  disabled?: boolean;               // Disable this option
+
+  // Additional info
+  fee?: string;                     // Optional transaction fee (e.g., "€0.29")
+  badge?: string;                   // Custom badge (e.g., "Populair", "Snel")
+
+  // Styling
+  className?: string;
+}
+
+interface PaymentMethodsGridProps {
+  methods: PaymentMethodCardProps[];
+  selectedMethod: string;
+  onMethodChange: (method: string) => void;
+  className?: string;
+}
+      </pre>
+
+      <h3>Payment Method Variants</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Logo</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ideal</code></td>
+            <td>iDEAL</td>
+            <td>Direct betalen via je bank</td>
+            <td>🏦 (or iDEAL logo)</td>
+            <td>Most popular in NL</td>
+          </tr>
+          <tr>
+            <td><code>creditcard</code></td>
+            <td>Credit Card</td>
+            <td>Visa, Mastercard, Amex</td>
+            <td>💳 (or card logos)</td>
+            <td>International customers</td>
+          </tr>
+          <tr>
+            <td><code>paypal</code></td>
+            <td>PayPal</td>
+            <td>Betaal via PayPal</td>
+            <td>"P" text (#0070BA)</td>
+            <td>Alternative payment</td>
+          </tr>
+          <tr>
+            <td><code>invoice</code></td>
+            <td>Factuur</td>
+            <td>Betaal binnen 14 dagen</td>
+            <td>📄 (or invoice icon)</td>
+            <td>B2B only, show badge</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Configuration Examples</h3>
+      <pre>
+// Default payment methods
+const paymentMethods = [
+  {
+    method: 'ideal',
+    name: 'iDEAL',
+    description: 'Direct betalen via je bank',
+    logo: '🏦',
+  },
+  {
+    method: 'creditcard',
+    name: 'Credit Card',
+    description: 'Visa, Mastercard, Amex',
+    logo: '💳',
+  },
+  {
+    method: 'paypal',
+    name: 'PayPal',
+    description: 'Betaal via PayPal',
+    logo: <span className="paypal-logo">P</span>,
+  },
+  {
+    method: 'invoice',
+    name: 'Factuur',
+    description: 'Betaal binnen 14 dagen',
+    logo: '📄',
+    isB2B: true,
+  },
+];
+
+// B2C only (hide invoice)
+const b2cMethods = paymentMethods.filter(m => m.method !== 'invoice');
+
+// With transaction fees
+const methodsWithFees = paymentMethods.map(method => ({
+  ...method,
+  fee: method.method === 'paypal' ? '€0.29' : undefined,
+}));
+      </pre>
+    </div>
+
+    <!-- STEP 5: Layout Rules -->
+    <div class="doc-section">
+      <h2>STEP 5: Layout Rules</h2>
+
+      <h3>Grid Layout</h3>
+      <ul>
+        <li><strong>Container:</strong> <code>display: grid</code></li>
+        <li><strong>Columns (desktop):</strong> <code>grid-template-columns: repeat(2, 1fr)</code></li>
+        <li><strong>Columns (mobile &lt;640px):</strong> <code>grid-template-columns: 1fr</code></li>
+        <li><strong>Gap:</strong> 16px (both row and column)</li>
+      </ul>
+
+      <h3>Card Internal Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>display: flex</code></li>
+        <li><strong>Alignment:</strong> <code>align-items: center</code></li>
+        <li><strong>Gap:</strong> 16px</li>
+        <li><strong>Structure:</strong>
+          <ol>
+            <li>Radio button (20×20px, flex-shrink: 0)</li>
+            <li>Payment info (flex: 1, grows to fill space)</li>
+            <li>Logo badge (48×32px, flex-shrink: 0)</li>
+          </ol>
+        </li>
+      </ul>
+
+      <h3>Payment Info Section</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>flex: 1</code> (grows to fill available space)</li>
+        <li><strong>Name:</strong> <code>display: flex; align-items: center; gap: 6px;</code> (allows B2B badge inline)</li>
+        <li><strong>Name → Description gap:</strong> 4px (margin-bottom)</li>
+      </ul>
+
+      <h3>Spacing Breakdown</h3>
+      <pre>
+.payment-method-card {
+  padding: 20px;              /* Card internal padding */
+  gap: 16px;                  /* Radio → Info → Logo */
+}
+
+.payment-name {
+  margin-bottom: 4px;         /* Name → Description */
+  gap: 6px;                   /* Name → B2B badge */
+}
+
+.b2b-badge {
+  padding: 2px 6px;           /* Badge internal padding */
+}
+      </pre>
+
+      <h3>Responsive Behavior</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Breakpoint</th>
+            <th>Grid Columns</th>
+            <th>Card Width</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&gt;640px</td>
+            <td>2 columns</td>
+            <td>~50%</td>
+            <td>Desktop default</td>
+          </tr>
+          <tr>
+            <td>&lt;640px</td>
+            <td>1 column</td>
+            <td>100%</td>
+            <td>Stacked layout</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 6: Accessibility -->
+    <div class="doc-section">
+      <h2>STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <ul>
+        <li>✅ <code>&lt;label&gt;</code> wrapper for entire card (clicking anywhere selects)</li>
+        <li>✅ Native <code>&lt;input type="radio"&gt;</code> for single selection</li>
+        <li>✅ Shared <code>name</code> attribute for radio group</li>
+        <li>✅ Unique <code>value</code> attribute per method</li>
+        <li>✅ <code>checked</code> attribute for selected method</li>
+      </ul>
+
+      <h3>Keyboard Navigation</h3>
+      <ul>
+        <li>✅ <strong>Tab:</strong> Focus first/next payment card</li>
+        <li>✅ <strong>Arrow keys (↑↓←→):</strong> Navigate between radio options</li>
+        <li>✅ <strong>Space/Enter:</strong> Select focused payment method</li>
+        <li>✅ <strong>Shift+Tab:</strong> Focus previous card</li>
+      </ul>
+
+      <h3>ARIA Attributes</h3>
+      <pre>
+&lt;!-- Optional: Group all payment methods --&gt;
+&lt;div role="radiogroup" aria-labelledby="payment-heading"&gt;
+  &lt;h3 id="payment-heading"&gt;Kies je betaalmethode&lt;/h3&gt;
+
+  &lt;label class="payment-method-card"&gt;
+    &lt;input
+      type="radio"
+      name="payment"
+      value="ideal"
+      aria-describedby="ideal-description"
+    &gt;
+    &lt;div class="payment-info"&gt;
+      &lt;div class="payment-name"&gt;iDEAL&lt;/div&gt;
+      &lt;div class="payment-description" id="ideal-description"&gt;
+        Direct betalen via je bank
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="payment-logo" aria-hidden="true"&gt;🏦&lt;/div&gt;
+  &lt;/label&gt;
+&lt;/div&gt;
+      </pre>
+
+      <h3>Focus Management</h3>
+      <ul>
+        <li>✅ Visible focus ring: <code>outline: 2px solid var(--teal); outline-offset: 2px;</code></li>
+        <li>✅ Focus-within state on entire card</li>
+        <li>✅ Radio button has native browser focus (don't hide!)</li>
+      </ul>
+
+      <h3>Screen Reader Announcements</h3>
+      <ul>
+        <li>✅ "iDEAL, radio button, 1 of 4, checked" (for selected method)</li>
+        <li>✅ "Credit Card, radio button, 2 of 4, not checked"</li>
+        <li>✅ Description read after selection: "Direct betalen via je bank"</li>
+        <li>✅ B2B badge: "Factuur, B2B, radio button, 4 of 4"</li>
+        <li>✅ Payment logos hidden from screen readers: <code>aria-hidden="true"</code></li>
+      </ul>
+
+      <h3>Disabled State</h3>
+      <pre>
+&lt;label class="payment-method-card disabled"&gt;
+  &lt;input
+    type="radio"
+    name="payment"
+    value="invoice"
+    disabled
+    aria-disabled="true"
+  &gt;
+  &lt;div class="payment-info"&gt;
+    &lt;div class="payment-name"&gt;Factuur&lt;/div&gt;
+    &lt;div class="payment-description"&gt;
+      Niet beschikbaar voor deze bestelling
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="payment-logo" aria-hidden="true"&gt;📄&lt;/div&gt;
+&lt;/label&gt;
+      </pre>
+    </div>
+
+    <!-- STEP 7: Implementation Notes -->
+    <div class="doc-section">
+      <h2>STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component</h3>
+      <pre>
+'use client';
+
+import { useState } from 'react';
+
+interface PaymentMethod {
+  method: string;
+  name: string;
+  description: string;
+  logo: string | React.ReactNode;
+  isB2B?: boolean;
+  disabled?: boolean;
+}
+
+export function PaymentMethodCard({
+  method,
+  name,
+  description,
+  logo,
+  isB2B = false,
+  disabled = false,
+  selectedMethod,
+  onMethodChange,
+}: PaymentMethod & {
+  selectedMethod: string;
+  onMethodChange: (method: string) => void;
+}) {
+  return (
+    &lt;label
+      className={`payment-method-card ${disabled ? 'disabled' : ''}`}
+    &gt;
+      &lt;input
+        type="radio"
+        name="payment"
+        value={method}
+        checked={selectedMethod === method}
+        onChange={(e) => onMethodChange(e.target.value)}
+        disabled={disabled}
+      /&gt;
+      &lt;div className="payment-info"&gt;
+        &lt;div className="payment-name"&gt;
+          {name}
+          {isB2B && &lt;span className="b2b-badge"&gt;B2B&lt;/span&gt;}
+        &lt;/div&gt;
+        &lt;div className="payment-description"&gt;{description}&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div className="payment-logo" aria-hidden="true"&gt;
+        {logo}
+      &lt;/div&gt;
+    &lt;/label&gt;
+  );
+}
+
+export function PaymentMethodsGrid() {
+  const [selectedMethod, setSelectedMethod] = useState('ideal');
+
+  const methods: PaymentMethod[] = [
+    {
+      method: 'ideal',
+      name: 'iDEAL',
+      description: 'Direct betalen via je bank',
+      logo: '🏦',
+    },
+    {
+      method: 'creditcard',
+      name: 'Credit Card',
+      description: 'Visa, Mastercard, Amex',
+      logo: '💳',
+    },
+    {
+      method: 'paypal',
+      name: 'PayPal',
+      description: 'Betaal via PayPal',
+      logo: &lt;span className="paypal-logo"&gt;P&lt;/span&gt;,
+    },
+    {
+      method: 'invoice',
+      name: 'Factuur',
+      description: 'Betaal binnen 14 dagen',
+      logo: '📄',
+      isB2B: true,
+    },
+  ];
+
+  return (
+    &lt;div className="payment-methods-grid"&gt;
+      {methods.map((method) => (
+        &lt;PaymentMethodCard
+          key={method.method}
+          {...method}
+          selectedMethod={selectedMethod}
+          onMethodChange={setSelectedMethod}
+        /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+      </pre>
+
+      <h3>Payload CMS Integration</h3>
+      <pre>
+// In collections/Orders.ts
+
+{
+  name: 'paymentMethod',
+  type: 'select',
+  required: true,
+  options: [
+    { label: 'iDEAL', value: 'ideal' },
+    { label: 'Credit Card', value: 'creditcard' },
+    { label: 'PayPal', value: 'paypal' },
+    { label: 'Factuur (B2B)', value: 'invoice' },
+  ],
+  defaultValue: 'ideal',
+  admin: {
+    description: 'Selected payment method during checkout',
+  },
+}
+
+// Optional: Payment method configuration global
+
+{
+  slug: 'payment-methods',
+  fields: [
+    {
+      name: 'methods',
+      type: 'array',
+      fields: [
+        { name: 'method', type: 'text', required: true },
+        { name: 'name', type: 'text', required: true },
+        { name: 'description', type: 'text', required: true },
+        { name: 'logo', type: 'upload', relationTo: 'media' },
+        { name: 'enabled', type: 'checkbox', defaultValue: true },
+        { name: 'isB2B', type: 'checkbox', defaultValue: false },
+        { name: 'transactionFee', type: 'number' },
+      ],
+    },
+  ],
+}
+      </pre>
+
+      <h3>Form Validation</h3>
+      <pre>
+// Ensure a payment method is selected before proceeding
+
+const validateCheckout = (formData: CheckoutFormData) => {
+  const errors: Record&lt;string, string&gt; = {};
+
+  if (!formData.paymentMethod) {
+    errors.paymentMethod = 'Selecteer een betaalmethode';
+  }
+
+  // B2B validation: invoice only for verified business accounts
+  if (formData.paymentMethod === 'invoice' && !user.isB2B) {
+    errors.paymentMethod = 'Factuur betaling is alleen beschikbaar voor zakelijke klanten';
+  }
+
+  return errors;
+};
+      </pre>
+
+      <h3>Payment Gateway Integration</h3>
+      <pre>
+// Stripe/Mollie integration based on selected method
+
+const createPaymentIntent = async (order: Order) => {
+  switch (order.paymentMethod) {
+    case 'ideal':
+      return await mollie.payments.create({
+        amount: { value: order.total, currency: 'EUR' },
+        method: 'ideal',
+        description: `Order #${order.orderNumber}`,
+        redirectUrl: `${siteUrl}/order-confirmation/${order.id}`,
+      });
+
+    case 'creditcard':
+      return await stripe.paymentIntents.create({
+        amount: order.total * 100, // cents
+        currency: 'eur',
+        payment_method_types: ['card'],
+        metadata: { orderId: order.id },
+      });
+
+    case 'paypal':
+      return await paypal.orders.create({
+        purchase_units: [{ amount: { value: order.total } }],
+        application_context: {
+          return_url: `${siteUrl}/order-confirmation/${order.id}`,
+        },
+      });
+
+    case 'invoice':
+      // Create invoice, send email, set payment status to 'pending'
+      return await createInvoice(order);
+  }
+};
+      </pre>
+
+      <h3>Real Payment Logos</h3>
+      <p>Replace emoji placeholders with actual payment provider logos:</p>
+      <pre>
+// Using next/image for optimized logos
+
+&lt;div className="payment-logo"&gt;
+  {method === 'ideal' && (
+    &lt;Image
+      src="/logos/ideal.svg"
+      alt="iDEAL"
+      width={48}
+      height={32}
+    /&gt;
+  )}
+  {method === 'creditcard' && (
+    &lt;div className="card-logos"&gt;
+      &lt;Image src="/logos/visa.svg" alt="Visa" width={24} height={16} /&gt;
+      &lt;Image src="/logos/mastercard.svg" alt="Mastercard" width={24} height={16} /&gt;
+    &lt;/div&gt;
+  )}
+  {method === 'paypal' && (
+    &lt;Image src="/logos/paypal.svg" alt="PayPal" width={48} height={32} /&gt;
+  )}
+&lt;/div&gt;
+      </pre>
+    </div>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <div class="doc-section">
+      <h2>STEP 8: Variations & Related Components</h2>
+
+      <h3>Variations</h3>
+
+      <h4>1. With Transaction Fees</h4>
+      <p>Show transaction fees for certain payment methods (e.g., PayPal +€0.29):</p>
+      <pre>
+&lt;div class="payment-name"&gt;
+  PayPal
+  &lt;span class="fee-badge"&gt;+€0.29&lt;/span&gt;
+&lt;/div&gt;
+
+.fee-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+      </pre>
+
+      <h4>2. With Popularity Badge</h4>
+      <p>Highlight most popular payment method:</p>
+      <pre>
+&lt;label class="payment-method-card popular"&gt;
+  &lt;span class="popular-badge"&gt;Meest gekozen&lt;/span&gt;
+  ...
+&lt;/label&gt;
+
+.popular-badge {
+  position: absolute;
+  top: -8px;
+  right: 16px;
+  background: var(--teal);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+      </pre>
+
+      <h4>3. Compact Variant (Single Column)</h4>
+      <p>For narrow sidebars or mobile-first layouts:</p>
+      <pre>
+.payment-methods-grid.compact {
+  grid-template-columns: 1fr; /* Always single column */
+}
+
+.payment-method-card.compact {
+  padding: 16px;              /* Reduced padding */
+}
+
+.payment-method-card.compact .payment-logo {
+  width: 40px;                /* Smaller logo */
+  height: 24px;
+}
+      </pre>
+
+      <h4>4. With Credit Card Form Expansion</h4>
+      <p>Show credit card input fields when selected:</p>
+      <pre>
+&lt;label class="payment-method-card"&gt;
+  &lt;input type="radio" name="payment" value="creditcard"&gt;
+  &lt;div class="payment-info"&gt;
+    &lt;div class="payment-name"&gt;Credit Card&lt;/div&gt;
+    &lt;div class="payment-description"&gt;Visa, Mastercard, Amex&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="payment-logo"&gt;💳&lt;/div&gt;
+&lt;/label&gt;
+
+{selectedMethod === 'creditcard' && (
+  &lt;div class="card-form"&gt;
+    &lt;input type="text" placeholder="Kaartnummer" /&gt;
+    &lt;div class="flex gap-16"&gt;
+      &lt;input type="text" placeholder="MM/YY" /&gt;
+      &lt;input type="text" placeholder="CVC" /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+)}
+      </pre>
+
+      <h3>Related Components</h3>
+
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>ID</th>
+            <th>Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ShippingMethodCard</td>
+            <td>EC11</td>
+            <td>Previous step, same visual pattern</td>
+          </tr>
+          <tr>
+            <td>CheckoutProgressStepper</td>
+            <td>EC13</td>
+            <td>Shows "Betaling" step as active</td>
+          </tr>
+          <tr>
+            <td>OrderSummary</td>
+            <td>EC07</td>
+            <td>Displays selected payment method</td>
+          </tr>
+          <tr>
+            <td>ProgressSteps</td>
+            <td>C25</td>
+            <td>Generic progress indicator</td>
+          </tr>
+          <tr>
+            <td>AddressForm</td>
+            <td>EC14</td>
+            <td>Previous checkout step (address entry)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Design System References</h3>
+      <ul>
+        <li><strong>Source:</strong> <code>ef3-checkout.html</code> (lines 88-133)</li>
+        <li><strong>Pattern:</strong> Same card pattern as EC11 ShippingMethodCard</li>
+        <li><strong>Related blocks:</strong> None (e-commerce flow only)</li>
+        <li><strong>Similar components:</strong>
+          <ul>
+            <li>Radio card selection pattern (reusable)</li>
+            <li>Method selector with logo + description</li>
+            <li>B2B badge pattern (reuse from EC06, C18)</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✅ Single selection enforced (only 1 radio checked)</li>
+        <li>✅ Border color changes on selection (teal)</li>
+        <li>✅ Hover state works (border + shadow)</li>
+        <li>✅ Focus ring visible on keyboard navigation</li>
+        <li>✅ Arrow keys navigate between options</li>
+        <li>✅ Space/Enter selects focused option</li>
+        <li>✅ Screen reader announces method + description</li>
+        <li>✅ B2B badge only shows for invoice method</li>
+        <li>✅ Disabled state prevents interaction</li>
+        <li>✅ Mobile: stacks to single column (&lt;640px)</li>
+        <li>✅ Payment logos render correctly</li>
+        <li>✅ PayPal logo uses blue "P" text (not emoji)</li>
+        <li>✅ Form submission includes selected method</li>
+        <li>✅ Validation prevents checkout without selection</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    // Optional: Log selected payment method on change
+    document.querySelectorAll('input[name="payment"]').forEach((radio) => {
+      radio.addEventListener('change', (e) => {
+        const selectedMethod = e.target.value;
+        console.log('Selected payment method:', selectedMethod);
+
+        // Example: Update order summary or show additional fields
+        if (selectedMethod === 'creditcard') {
+          console.log('Show credit card input fields');
+        } else if (selectedMethod === 'invoice') {
+          console.log('Verify B2B account status');
+        }
+      });
+    });
+
+    // Accessibility: Announce selection to screen readers
+    document.querySelectorAll('input[name="payment"]').forEach((radio) => {
+      radio.addEventListener('change', (e) => {
+        const card = e.target.closest('.payment-method-card');
+        const name = card.querySelector('.payment-name').textContent;
+        const description = card.querySelector('.payment-description').textContent;
+
+        // Create live region for screen reader announcement
+        const announcement = document.createElement('div');
+        announcement.setAttribute('role', 'status');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.className = 'sr-only';
+        announcement.textContent = `Geselecteerd: ${name}. ${description}`;
+        document.body.appendChild(announcement);
+
+        // Remove after announcement
+        setTimeout(() => announcement.remove(), 1000);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C8 - Back-in-Stock | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --coral: #FF6B6B;
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; }
+
+    /* Back-in-Stock Card */
+    .bis-card { background: white; border: 1px solid var(--grey); border-radius: 16px; padding: 24px; max-width: 440px; }
+    .bis-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .bis-header i { width: 18px; height: 18px; color: var(--coral); }
+    .bis-label { font-size: 12px; font-weight: 700; color: var(--coral); display: flex; align-items: center; gap: 4px; }
+    .bis-label .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
+    .bis-title { font-family: var(--font-display); font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+    .bis-desc { font-size: 13px; color: var(--grey-mid); margin-bottom: 14px; line-height: 1.4; }
+    .bis-form { display: flex; gap: 8px; }
+    .bis-input { flex: 1; height: 42px; padding: 0 14px; border: 2px solid var(--grey); border-radius: 8px; font-family: var(--font-primary); font-size: 14px; color: var(--navy); background: var(--grey-light); outline: none; transition: all 0.2s; }
+    .bis-input:focus { border-color: var(--teal); background: white; box-shadow: 0 0 0 4px var(--teal-glow); }
+    .bis-input::placeholder { color: var(--grey-mid); }
+    .bis-btn { height: 42px; padding: 0 18px; background: var(--teal); color: white; border: none; border-radius: 8px; font-family: var(--font-primary); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .bis-btn:hover { background: var(--navy); }
+    .bis-btn i { width: 15px; height: 15px; }
+    .bis-success { display: none; padding: 12px 16px; background: var(--green-light); border-radius: 8px; font-size: 13px; color: var(--green); font-weight: 600; align-items: center; gap: 6px; margin-top: 10px; }
+    .bis-success.show { display: flex; }
+    .bis-success i { width: 16px; height: 16px; }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <div class="bis-card">
+      <div class="bis-header">
+        <div class="bis-label"><span class="dot"></span> Tijdelijk uitverkocht</div>
+      </div>
+      <div class="bis-title">Ontvang een melding wanneer dit product weer op voorraad is</div>
+      <div class="bis-desc">Vul uw e-mailadres in en wij sturen u automatisch een bericht zodra dit product weer leverbaar is.</div>
+      <div class="bis-form">
+        <input class="bis-input" type="email" placeholder="Uw e-mailadres" id="bisEmail">
+        <button class="bis-btn" onclick="bisNotify()"><i data-lucide="bell"></i> Meld mij</button>
+      </div>
+      <div class="bis-success" id="bisSuccess"><i data-lucide="check-circle"></i> U ontvangt een melding op het opgegeven adres.</div>
+    </div>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C8 - Back-in-Stock Notification</p>
+    <p><strong>Category:</strong> E-commerce / Inventory Management</p>
+    <p><strong>Complexiteit:</strong> Low (email input, success state)</p>
+
+    <h3>Purpose:</h3>
+    <p>Email signup widget for out-of-stock products. Captures email addresses and sends notifications when product is back in stock. Reduces lost sales from temporary stockouts.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Coral "Tijdelijk uitverkocht" label with dot</li>
+      <li>Clear title and description</li>
+      <li>Email input with focus state</li>
+      <li>Submit button with bell icon</li>
+      <li>Green success confirmation</li>
+      <li>Form validation (email format)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Product pages with stock: 0</li>
+      <li>Popular products that frequently sell out</li>
+      <li>Pre-launch products (coming soon)</li>
+      <li>Seasonal products (out of season)</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Replace add-to-cart button with this component</li>
+      <li>Send email notification within 24h of restock</li>
+      <li>Include direct link to product in notification email</li>
+      <li>Optional: Reserve stock for 24h for notified customers</li>
+      <li>Show estimated restock date if known</li>
+      <li>GDPR: Include privacy notice and unsubscribe option</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Card */
+max-width: 440px
+padding: 24px
+border: 1px solid var(--grey)
+border-radius: 16px
+
+/* Label */
+font-size: 12px, font-weight: 700
+color: var(--coral)
+dot: 7px, background var(--coral)
+
+/* Input */
+height: 42px, padding 0 14px
+border: 2px solid var(--grey)
+focus: border var(--teal) + box-shadow 0 0 0 4px var(--teal-glow)
+
+/* Success */
+background: var(--green-light)
+color: var(--green)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  product: {
+    id: '123',
+    name: 'Peha-soft Nitrile Fino',
+    variant: 'Maat M',
+    estimatedRestock: '2026-03-15' // Optional
+  },
+  onSubmit: async (email, productId, variantId) => {
+    // API call to save notification request
+    await fetch('/api/back-in-stock', {
+      method: 'POST',
+      body: JSON.stringify({ email, productId, variantId })
+    });
+  },
+  privacyUrl: '/privacy',
+  showEstimatedDate: true
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Layout (vertical stack):
+1. Label (coral, with dot)
+2. Title (15px, 800)
+3. Description (13px, grey-mid)
+4. Form (horizontal flex, gap 8px)
+   - Input (flex 1)
+   - Button (auto width, nowrap)
+5. Success (hidden by default, margin-top 10px)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;form aria-label="Back-in-stock notification"&gt;
+  &lt;label for="bis-email"&gt;Uw e-mailadres&lt;/label&gt;
+  &lt;input id="bis-email" type="email" required aria-required="true" /&gt;
+  &lt;button type="submit"&gt;Meld mij&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;div role="status" aria-live="polite" className="bis-success"&gt;
+  U ontvangt een melding op het opgegeven adres.
+&lt;/div&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function BackInStockNotification({ product, onSubmit }) {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      setError('Vul een geldig e-mailadres in');
+      return;
+    }
+
+    try {
+      await onSubmit(email, product.id, product.variantId);
+      setSubmitted(true);
+      setError('');
+    } catch (err) {
+      setError('Er is iets misgegaan. Probeer het opnieuw.');
+    }
+  };
+
+  return (
+    &lt;div className="bis-card"&gt;
+      &lt;div className="bis-header"&gt;
+        &lt;div className="bis-label"&gt;&lt;span className="dot" /&gt; Tijdelijk uitverkocht&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div className="bis-title"&gt;Ontvang een melding wanneer dit product weer op voorraad is&lt;/div&gt;
+      &lt;div className="bis-desc"&gt;
+        Vul uw e-mailadres in en wij sturen u automatisch een bericht zodra dit product weer leverbaar is.
+        {product.estimatedRestock && ` Verwachte leverdatum: ${product.estimatedRestock}`}
+      &lt;/div&gt;
+      &lt;form className="bis-form" onSubmit={handleSubmit}&gt;
+        &lt;input
+          className="bis-input"
+          type="email"
+          placeholder="Uw e-mailadres"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        /&gt;
+        &lt;button className="bis-btn" type="submit"&gt;
+          &lt;Bell size={15} /&gt; Meld mij
+        &lt;/button&gt;
+      &lt;/form&gt;
+      {error && &lt;div className="bis-error"&gt;{error}&lt;/div&gt;}
+      {submitted && (
+        &lt;div className="bis-success show"&gt;
+          &lt;CheckCircle size={16} /&gt; U ontvangt een melding op het opgegeven adres.
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Variant:</strong> Include phone number for SMS notifications</li>
+      <li><strong>Variant:</strong> Show estimated restock date/month</li>
+      <li><strong>Variant:</strong> "Notify me" button only (opens modal with form)</li>
+      <li><strong>Related:</strong> Stock indicator (low stock warnings)</li>
+      <li><strong>Related:</strong> Email template for back-in-stock notifications</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function bisNotify() {
+      const email = document.getElementById('bisEmail').value;
+      if (email && email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        document.getElementById('bisSuccess').classList.add('show');
+        lucide.createIcons();
+      } else {
+        alert('Vul een geldig e-mailadres in');
+      }
+    }
+  </script>
+</body>
+</html>
