@@ -6,7 +6,9 @@
  */
 
 import type { CollectionConfig } from 'payload'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+
+const isPlatformMode = isFeatureEnabled('platform')
 
 export const EmailEvents: CollectionConfig = {
   slug: 'email-events',
@@ -187,26 +189,30 @@ export const EmailEvents: CollectionConfig = {
     // ═══════════════════════════════════════════════════════════
     // TENANT & TIMESTAMP
     // ═══════════════════════════════════════════════════════════
-    {
-      name: 'tenant',
-      type: 'relationship',
-      relationTo: 'clients',
-      required: true,
-      admin: {
-        position: 'sidebar',
-        condition: () => false,
-      },
-      hooks: {
-        beforeValidate: [
-          async ({ req, data }) => {
-            if (req.user && !data?.tenant) {
-              return req.user.tenant
-            }
-            return data?.tenant
-          },
-        ],
-      },
-    },
+    ...(isPlatformMode
+      ? [
+          {
+            name: 'tenant',
+            type: 'relationship',
+            relationTo: 'clients',
+            required: true,
+            admin: {
+              position: 'sidebar',
+              condition: () => false,
+            },
+            hooks: {
+              beforeValidate: [
+                async ({ req, data }) => {
+                  if (req.user && !data?.tenant) {
+                    return req.user.tenant
+                  }
+                  return data?.tenant
+                },
+              ],
+            },
+          } as const,
+        ]
+      : []),
   ],
   timestamps: true, // createdAt, updatedAt
   hooks: {

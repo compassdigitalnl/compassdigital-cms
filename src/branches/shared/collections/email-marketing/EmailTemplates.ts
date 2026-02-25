@@ -7,7 +7,9 @@
 
 import React from 'react'
 import type { CollectionConfig } from 'payload'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+
+const isPlatformMode = isFeatureEnabled('platform')
 
 export const EmailTemplates: CollectionConfig = {
   slug: 'email-templates',
@@ -242,29 +244,30 @@ export const EmailTemplates: CollectionConfig = {
     // ═══════════════════════════════════════════════════════════
     // RELATIONSHIPS
     // ═══════════════════════════════════════════════════════════
-    {
-      name: 'tenant',
-      type: 'relationship',
-      relationTo: 'clients',
-      required: true,
-      hasMany: false,
-      index: true,
-      admin: {
-        description: 'Tenant this template belongs to',
-        position: 'sidebar',
-      },
-      hooks: {
-        beforeChange: [
-          ({ req, value }) => {
-            // Auto-assign tenant from logged-in user
-            if (!value && req.user?.tenant) {
-              return req.user.tenant
-            }
-            return value
-          },
-        ],
-      },
-    },
+    ...(isPlatformMode
+      ? [
+          {
+            name: 'tenant',
+            type: 'relationship',
+            relationTo: 'clients',
+            required: true,
+            admin: {
+              position: 'sidebar',
+              condition: () => false,
+            },
+            hooks: {
+              beforeValidate: [
+                async ({ req, data }) => {
+                  if (req.user && !data?.tenant) {
+                    return req.user.tenant
+                  }
+                  return data?.tenant
+                },
+              ],
+            },
+          } as const,
+        ]
+      : []),
 
     // ═══════════════════════════════════════════════════════════
     // CATEGORIES & TAGS
