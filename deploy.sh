@@ -23,7 +23,7 @@ echo "[deploy] npm install..."
 npm install --legacy-peer-deps --silent
 
 echo "[deploy] Building Next.js..."
-NODE_OPTIONS="--max-old-space-size=2048" npm run build
+NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 echo "[deploy] Restarting PM2..."
 pm2 restart cms-compassdigital --update-env
