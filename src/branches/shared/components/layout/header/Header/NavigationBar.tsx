@@ -80,8 +80,8 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
   const specialItems = navigation.specialItems || []
 
   // Split special items by position
-  const startItems = specialItems.filter(item => item.position === 'start')
-  const endItems = specialItems.filter(item => item.position === 'end')
+  const startItems = specialItems.filter((item: any) => item.position === 'start')
+  const endItems = specialItems.filter((item: any) => item.position === 'end')
 
   // CTA Button
   const showCTA = navigation.ctaButton?.show && navigation.ctaButton?.text
@@ -225,13 +225,13 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                   backgroundColor: megaMenuOpen ? primaryColor : secondaryColor,
                   borderColor: megaMenuOpen ? primaryColor : secondaryColor,
                 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={(e: any) => {
                   if (!megaMenuOpen) {
                     e.currentTarget.style.backgroundColor = primaryColor
                     e.currentTarget.style.borderColor = primaryColor
                   }
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={(e: any) => {
                   if (!megaMenuOpen) {
                     e.currentTarget.style.backgroundColor = secondaryColor
                     e.currentTarget.style.borderColor = secondaryColor
@@ -245,7 +245,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
             )}
 
             {/* Start Special Items */}
-            {startItems.map((item, index) => {
+            {startItems.map((item: any, index: number) => {
               const Icon = item.icon ? iconMap[item.icon] : null
               return (
                 <Link
@@ -258,12 +258,12 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                       : 'hover:border-[var(--color-primary)]'
                   )}
                   style={{ color: item.highlight ? '#FF6B6B' : 'var(--color-secondary)' }}
-                  onMouseEnter={(e) => {
+                  onMouseEnter={(e: any) => {
                     if (!item.highlight) {
                       e.currentTarget.style.color = 'var(--color-primary)'
                     }
                   }}
-                  onMouseLeave={(e) => {
+                  onMouseLeave={(e: any) => {
                     if (!item.highlight) {
                       e.currentTarget.style.color = 'var(--color-secondary)'
                     }
@@ -276,7 +276,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
             })}
 
             {/* Manual/Hybrid Navigation Items */}
-            {navItems.map((item) => {
+            {navItems.map((item: any) => {
               const hasChildren = item.children && item.children.length > 0
               const Icon = item.icon ? iconMap[item.icon] : null
               const isActive = item.type === 'page' && item.page
@@ -314,17 +314,17 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                   {/* Simple Dropdown for children */}
                   {hasChildren && (
                     <div className="absolute top-full left-0 bg-white border rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[195]" style={{ borderColor: 'var(--color-border)' }}>
-                      {item.children!.map((child) => (
+                      {item.children!.map((child: any) => (
                         <CMSLink
                           key={child.id}
                           {...(typeof child.page === 'object' && 'slug' in child.page ? { reference: child.page } : {})}
                           className="block px-4 py-2 text-sm transition-colors first:rounded-t-xl last:rounded-b-xl"
                           style={{ color: 'var(--color-secondary)' }}
-                          onMouseEnter={(e) => {
+                          onMouseEnter={(e: any) => {
                             e.currentTarget.style.backgroundColor = 'var(--color-surface)'
                             e.currentTarget.style.color = 'var(--color-primary)'
                           }}
-                          onMouseLeave={(e) => {
+                          onMouseLeave={(e: any) => {
                             e.currentTarget.style.backgroundColor = 'transparent'
                             e.currentTarget.style.color = 'var(--color-secondary)'
                           }}
@@ -339,7 +339,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
             })}
 
             {/* End Special Items */}
-            {endItems.map((item, index) => {
+            {endItems.map((item: any, index: number) => {
               const Icon = item.icon ? iconMap[item.icon] : null
               return (
                 <Link
@@ -368,8 +368,8 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                     href={`mailto:${settings.email}`}
                     className="flex items-center gap-1.5 transition-colors"
                     style={{ color: 'var(--color-text-secondary)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)' }}
+                    onMouseEnter={(e: any) => { e.currentTarget.style.color = 'var(--color-primary)' }}
+                    onMouseLeave={(e: any) => { e.currentTarget.style.color = 'var(--color-text-secondary)' }}
                   >
                     <Mail className="w-4 h-4" style={{ color: primaryColor }} />
                     <span className="hidden xl:inline">{settings.email}</span>
@@ -382,8 +382,8 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                   href={`tel:${settings.phone}`}
                   className="flex items-center gap-1.5 transition-colors"
                   style={{ color: 'var(--color-text-secondary)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)' }}
+                  onMouseEnter={(e: any) => { e.currentTarget.style.color = 'var(--color-primary)' }}
+                  onMouseLeave={(e: any) => { e.currentTarget.style.color = 'var(--color-text-secondary)' }}
                 >
                   <Phone className="w-4 h-4" style={{ color: primaryColor }} />
                   <span className="hidden xl:inline">{settings.phone}</span>
@@ -463,7 +463,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                   </div>
                 )}
 
-                {!loading && !error && rootCategories.length > 0 && rootCategories.map((cat) => (
+                {!loading && !error && rootCategories.length > 0 && rootCategories.map((cat: any) => (
                   <button
                     key={cat.id}
                     onMouseEnter={() => handleL1Hover(cat.id)}
@@ -474,12 +474,12 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                         : 'text-white/70 hover:text-white'
                     )}
                     style={activeL1 === cat.id ? { backgroundColor: 'rgba(0,137,123,0.18)' } : {}}
-                    onMouseOver={(e) => {
+                    onMouseOver={(e: any) => {
                       if (activeL1 !== cat.id) {
                         e.currentTarget.style.backgroundColor = 'rgba(0,137,123,0.18)'
                       }
                     }}
-                    onMouseOut={(e) => {
+                    onMouseOut={(e: any) => {
                       if (activeL1 !== cat.id) {
                         e.currentTarget.style.backgroundColor = 'transparent'
                       }
@@ -505,12 +505,12 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                       </div>
                       <div>
                         <div className="font-bold text-sm" style={{ color: 'var(--color-text-primary)' }}>
-                          {rootCategories.find(c => c.id === activeL1)?.name}
+                          {rootCategories.find((c: any) => c.id === activeL1)?.name}
                         </div>
                         <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{l2Categories.length} subcategorieën</div>
                       </div>
                     </div>
-                    {l2Categories.map((cat) => (
+                    {l2Categories.map((cat: any) => (
                       <button
                         key={cat.id}
                         onMouseEnter={() => handleL2Hover(cat.id)}
@@ -519,13 +519,13 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                           activeL2 === cat.id ? '' : 'text-gray-700'
                         )}
                         style={activeL2 === cat.id ? { backgroundColor: `${primaryColor}12`, color: primaryColor } : {}}
-                        onMouseOver={(e) => {
+                        onMouseOver={(e: any) => {
                           if (activeL2 !== cat.id) {
                             e.currentTarget.style.backgroundColor = `${primaryColor}12`
                             e.currentTarget.style.color = primaryColor
                           }
                         }}
-                        onMouseOut={(e) => {
+                        onMouseOut={(e: any) => {
                           if (activeL2 !== cat.id) {
                             e.currentTarget.style.backgroundColor = 'transparent'
                             e.currentTarget.style.color = '#374151'
@@ -541,7 +541,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                       </button>
                     ))}
                     <Link
-                      href={`/shop/${rootCategories.find(c => c.id === activeL1)?.slug}`}
+                      href={`/shop/${rootCategories.find((c: any) => c.id === activeL1)?.slug}`}
                       className="flex items-center gap-1.5 px-5 py-2.5 text-sm font-bold mt-1 transition-all hover:px-6"
                       style={{ color: primaryColor }}
                     >
@@ -559,24 +559,24 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                 {l3Categories.length > 0 ? (
                   <>
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
-                      {rootCategories.find(c => c.id === activeL1)?.name}
+                      {rootCategories.find((c: any) => c.id === activeL1)?.name}
                       <ChevronRight className="w-3 h-3" />
                       <span className="font-semibold text-gray-900">
-                        {l2Categories.find(c => c.id === activeL2)?.name}
+                        {l2Categories.find((c: any) => c.id === activeL2)?.name}
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-0">
-                      {l3Categories.map((cat) => (
+                      {l3Categories.map((cat: any) => (
                         <Link
                           key={cat.id}
                           href={`/shop/${cat.slug}`}
                           className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 transition-all rounded-lg"
                           style={{ color: '#374151' }}
-                          onMouseEnter={(e) => {
+                          onMouseEnter={(e: any) => {
                             e.currentTarget.style.backgroundColor = `${primaryColor}12`
                             e.currentTarget.style.color = primaryColor
                           }}
-                          onMouseLeave={(e) => {
+                          onMouseLeave={(e: any) => {
                             e.currentTarget.style.backgroundColor = 'transparent'
                             e.currentTarget.style.color = '#374151'
                           }}
@@ -590,12 +590,12 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                       ))}
                     </div>
                     <Link
-                      href={`/shop/${l2Categories.find(c => c.id === activeL2)?.slug}`}
+                      href={`/shop/${l2Categories.find((c: any) => c.id === activeL2)?.slug}`}
                       className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-bold mt-auto transition-all hover:px-5"
                       style={{ color: primaryColor }}
                     >
                       <ArrowRight className="w-[14px] h-[14px]" />
-                      Alle {l2Categories.find(c => c.id === activeL2)?.name?.toLowerCase()}
+                      Alle {l2Categories.find((c: any) => c.id === activeL2)?.name?.toLowerCase()}
                     </Link>
                   </>
                 ) : (

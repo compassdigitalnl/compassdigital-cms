@@ -85,8 +85,8 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const childProducts =
     isGrouped && product.childProducts
       ? product.childProducts
-          .map((child) => (typeof child.product === 'object' ? child.product : null))
-          .filter((p) => p !== null)
+          .map((child: any) => (typeof child.product === 'object' ? child.product : null))
+          .filter((p: any) => p !== null)
       : []
 
   // Calculate variant price
@@ -120,7 +120,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
   // Update total when size quantities change
   useEffect(() => {
-    const total = Object.values(sizeQuantities).reduce((sum, qty) => sum + qty, 0)
+    const total = Object.values(sizeQuantities).reduce((sum: any, qty: any) => sum + qty, 0)
     setTotalQty(total)
 
     const price = getTierPrice(total)
@@ -160,9 +160,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
     if (isGrouped) {
       // Add all selected sizes to cart
       let addedCount = 0
-      Object.entries(sizeQuantities).forEach(([productId, qty]) => {
+      Object.entries(sizeQuantities).forEach(([productId, qty]: any) => {
         if (qty > 0) {
-          const childProd = childProducts.find((p) => p.id === productId)
+          const childProd = childProducts.find((p: any) => p.id === productId)
           if (childProd) {
             const unitPrice = getTierPrice(totalQty)
             addItem({
@@ -367,7 +367,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           {/* Image Dots */}
           {allImages.length > 1 && (
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-2 bg-black/50 rounded-full">
-              {allImages.slice(0, 5).map((_, idx) => (
+              {allImages.slice(0, 5).map((_: any, idx: number) => (
                 <button
                   key={idx}
                   onClick={() => setImageIndex(idx)}
@@ -451,7 +451,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {/* Thumbnails */}
             {product.images && product.images.length > 1 && (
               <div className="flex gap-2.5 mt-3">
-                {product.images.slice(0, 5).map((img, idx) => {
+                {product.images.slice(0, 5).map((img: any, idx: number) => {
                   const imgUrl = typeof img === 'object' && img !== null ? img.url : null
                   return (
                     <div
@@ -517,7 +517,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {reviewCount > 0 && (
               <div className="flex items-center gap-2 mb-5 pb-5 border-b border-b-[var(--color-border)]">
                 <div className="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
+                  {[1, 2, 3, 4, 5].map((i: any) => (
                     <Star
                       key={i}
                       className="w-4 h-4 text-[var(--color-warning)]"
@@ -566,7 +566,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 <div className="mt-4">
                   <StaffelCalculator
                     productName={product.title}
-                    tiers={volumeTiers.map((tier) => ({
+                    tiers={volumeTiers.map((tier: any) => ({
                       minQty: tier.minQuantity,
                       maxQty: tier.maxQuantity || undefined,
                       price: tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100),
@@ -574,7 +574,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     }))}
                     initialQuantity={quantity}
                     unit="stuks"
-                    onQuantityChange={(newQty, price, total) => {
+                    onQuantityChange={(newQty: any, price: any, total: any) => {
                       setQuantity(newQty)
                     }}
                   />
@@ -634,7 +634,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     className="grid gap-0 border-[1.5px] border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface,white)] min-w-min"
                     style={{ gridTemplateColumns: `repeat(${childProducts.length}, 1fr)` }}
                   >
-                  {childProducts.map((child, idx) => {
+                  {childProducts.map((child: any, idx: number) => {
                     const qty = sizeQuantities[child.id] || 0
                     return (
                       <div
@@ -663,7 +663,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                             <input
                               type="number"
                               value={qty}
-                              onChange={(e) => {
+                              onChange={(e: any) => {
                                 const val = Math.max(0, parseInt(e.target.value) || 0)
                                 setSizeQuantities((prev) => ({ ...prev, [child.id]: val }))
                               }}
@@ -724,7 +724,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   <input
                     type="number"
                     value={quantity}
-                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                    onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                     className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                   />
                   <button
@@ -828,7 +828,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               <div className="mt-3">
                 <StaffelCalculator
                   productName={product.title}
-                  tiers={volumeTiers.map((tier) => ({
+                  tiers={volumeTiers.map((tier: any) => ({
                     minQty: tier.minQuantity,
                     maxQty: tier.maxQuantity || undefined,
                     price: tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100),
@@ -836,7 +836,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   }))}
                   initialQuantity={quantity}
                   unit="stuks"
-                  onQuantityChange={(newQty, price, total) => {
+                  onQuantityChange={(newQty: any, price: any, total: any) => {
                     setQuantity(newQty)
                   }}
                 />
@@ -886,7 +886,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               </div>
 
               <div className="space-y-2">
-                {childProducts.map((child) => {
+                {childProducts.map((child: any) => {
                   const qty = sizeQuantities[child.id] || 0
                   return (
                     <div
@@ -970,7 +970,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                   className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                 />
                 <button
@@ -1064,7 +1064,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 {/* Features */}
                 {product.features && product.features.length > 0 && (
                   <ul className="list-none mt-4 pl-0">
-                    {product.features.map((feature, idx) => (
+                    {product.features.map((feature: any, idx: number) => (
                       <li key={idx} className="flex items-center gap-2 py-1.5 text-[13px]">
                         <Check className="w-4 h-4 text-[var(--color-success)] shrink-0" />
                         {feature}
@@ -1170,7 +1170,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               {accordionOpen === 'downloads' && (
                 <div className="p-4 border-t border-t-[var(--color-border)]">
                   <div className="flex flex-col gap-3">
-                    {product.downloads.map((download, idx) => {
+                    {product.downloads.map((download: any, idx: number) => {
                       const file = typeof download === 'object' && download !== null ? download : null
                       if (!file || !file.url) return null
 
@@ -1295,7 +1295,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                         Kenmerken
                       </h3>
                       <ul className="list-none mb-5">
-                        {product.features.map((feature, idx) => (
+                        {product.features.map((feature: any, idx: number) => (
                           <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
                             <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
                             {feature}
@@ -1375,7 +1375,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           {activeTab === 'downloads' && product.downloads && product.downloads.length > 0 && (
             <div>
               <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
-                {product.downloads.map((download, idx) => {
+                {product.downloads.map((download: any, idx: number) => {
                   const file = typeof download === 'object' && download !== null ? download : null
                   if (!file || !file.url) return null
 
@@ -1435,7 +1435,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {/* Mobile: Horizontal Scroll */}
             <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory lg:hidden -mx-4 px-4">
-              {product.relatedProducts.slice(0, 4).map((relProd, idx) => {
+              {product.relatedProducts.slice(0, 4).map((relProd: any, idx: number) => {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
 
@@ -1496,7 +1496,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {/* Desktop: Grid */}
             <div className="hidden lg:grid lg:grid-cols-4 lg:gap-5">
-              {product.relatedProducts.slice(0, 4).map((relProd, idx) => {
+              {product.relatedProducts.slice(0, 4).map((relProd: any, idx: number) => {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
 
