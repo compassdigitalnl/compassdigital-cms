@@ -101,7 +101,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const { openSearch } = useSearch()
-  const { openCart, totalItems } = useMiniCart()
+  const { openCart, itemCount } = useMiniCart()
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -146,7 +146,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
       {alertBar?.enabled && <AlertBar alertBar={alertBar} theme={theme} />}
 
       {/* Top Bar */}
-      {topBar?.enabled && <TopBar topBar={topBar} theme={theme} />}
+      {topBar?.enabled && <TopBar topBar={topBar} theme={theme} header={header} />}
 
       {/* Main Header */}
       <header className={headerClasses} style={headerStyle}>
@@ -223,6 +223,18 @@ export function HeaderClient({ header, theme, settings }: Props) {
 
             {/* Action Buttons */}
             <div className="flex items-center gap-1.5">
+              {/* Phone */}
+              {showPhone && settings?.phone && (
+                <a
+                  href={`tel:${settings.phone}`}
+                  className="hidden lg:flex items-center gap-1.5 h-[42px] px-3 rounded-[10px] text-sm font-semibold transition-all hover:bg-gray-100"
+                  style={{ color: 'var(--color-text-primary)' }}
+                >
+                  <Phone className="w-4 h-4" style={{ color: 'var(--color-primary, #00897B)' }} />
+                  {settings.phone}
+                </a>
+              )}
+
               {/* Custom Buttons */}
               {customButtons?.map((button, index) => {
                 const Icon = button.icon ? iconMap[button.icon] : null
@@ -294,9 +306,9 @@ export function HeaderClient({ header, theme, settings }: Props) {
                   }}
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  {totalItems > 0 && (
+                  {itemCount > 0 && (
                     <span className="bg-white text-[var(--color-secondary)] text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                      {totalItems}
+                      {itemCount}
                     </span>
                   )}
                 </button>

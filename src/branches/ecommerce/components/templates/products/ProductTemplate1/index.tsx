@@ -192,13 +192,13 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
       // Show toast for grouped products
       if (addedCount > 0) {
+        const tierPrice = getTierPrice(totalQty)
         showAddToCartToast({
           emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
           image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-          brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
-          title: product.title,
+          name: product.title,
+          meta: `${addedCount}× €${tierPrice.toFixed(2)} = €${totalPrice.toFixed(2)}`,
           quantity: addedCount,
-          price: totalPrice,
         })
       }
     } else if (isSubscription && selectedSubscription) {
@@ -227,10 +227,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       showAddToCartToast({
         emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
         image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
-        title: `${product.title} - ${selectedSubscription.label}`,
+        name: `${product.title} - ${selectedSubscription.label}`,
+        meta: `1× €${discountedPrice.toFixed(2)}`,
         quantity: 1,
-        price: discountedPrice,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants
@@ -255,10 +254,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       showAddToCartToast({
         emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
         image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
-        title: product.title,
+        name: product.title,
+        meta: `${quantity}× €${variantPrice.toFixed(2)} = €${(variantPrice * quantity).toFixed(2)}`,
         quantity: quantity,
-        price: variantPrice * quantity,
       })
     } else {
       // Add simple product
@@ -283,10 +281,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       showAddToCartToast({
         emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
         image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
-        title: product.title,
+        name: product.title,
+        meta: quantity > 1 ? `${quantity}× €${unitPrice.toFixed(2)} = €${(unitPrice * quantity).toFixed(2)}` : `€${unitPrice.toFixed(2)}`,
         quantity: quantity,
-        price: unitPrice * quantity,
       })
     }
   }
@@ -737,6 +734,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
+                {quantity > 1 && (
+                  <div className="mt-2 text-sm text-[var(--color-text-muted)]">
+                    {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                  </div>
+                )}
               </div>
             )}
 
@@ -978,6 +980,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
+              {quantity > 1 && (
+                <div className="mt-2 text-sm text-[var(--color-text-muted)]">
+                  {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                </div>
+              )}
             </div>
           )}
 

@@ -134,10 +134,9 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       showAddToCartToast({
         emoji: firstImageUrl ? undefined : '📦',
         image: firstImageUrl || undefined,
-        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
-        title: `${product.title} - ${selectedSubscription.label}`,
+        name: `${product.title} - ${selectedSubscription.label}`,
+        meta: `1× €${discountedPrice.toFixed(2)}`,
         quantity: 1,
-        price: discountedPrice,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants
@@ -159,10 +158,9 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       showAddToCartToast({
         emoji: firstImageUrl ? undefined : '📦',
         image: firstImageUrl || undefined,
-        brand: typeof product.brand === 'object' && product.brand ? product.brand.name : undefined,
-        title: product.title,
+        name: product.title,
+        meta: `${quantity}× €${variantPrice.toFixed(2)} = €${(variantPrice * quantity).toFixed(2)}`,
         quantity: quantity,
-        price: variantPrice * quantity,
       })
     } else {
       // Add simple/grouped product
@@ -184,10 +182,9 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       showAddToCartToast({
         emoji: firstImageUrl ? undefined : '📦',
         image: firstImageUrl || undefined,
-        brand: typeof selectedProduct.brand === 'object' && selectedProduct.brand ? selectedProduct.brand.name : undefined,
-        title: selectedProduct.title,
+        name: selectedProduct.title,
+        meta: quantity > 1 ? `${quantity}× €${unitPrice.toFixed(2)} = €${(unitPrice * quantity).toFixed(2)}` : `€${unitPrice.toFixed(2)}`,
         quantity: quantity,
-        price: unitPrice * quantity,
       })
     }
   }
@@ -610,6 +607,11 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
+              {quantity > 1 && (
+                <div style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '6px' }}>
+                  {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
+                </div>
+              )}
               <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
                 {selectedProduct.stock !== undefined && selectedProduct.stock > 0
                   ? `${selectedProduct.stock} available`
@@ -1482,6 +1484,11 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     +
                   </button>
                 </div>
+                {quantity > 1 && (
+                  <div style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
+                    {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
+                  </div>
+                )}
                 <div style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
                   {selectedProduct.stock !== undefined && selectedProduct.stock > 0
                     ? `${selectedProduct.stock} available`
