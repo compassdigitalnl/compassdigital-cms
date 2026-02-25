@@ -164,6 +164,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     collection: 'pages',
     limit: 1,
     where: { slug: { equals: slug } },
+    depth: 1,
   })
 
   const page = pages.docs[0] as Page | undefined
