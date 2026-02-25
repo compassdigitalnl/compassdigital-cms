@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { Header, Theme, Settings } from '@/payload-types'
-import { X, ChevronRight, Phone, Mail } from 'lucide-react'
+import { X, ChevronRight, Phone, Mail, Globe } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
 
@@ -18,6 +18,37 @@ type Props = {
 export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props) {
   const primaryColor = theme?.primaryColor || '#00897B'
   const secondaryColor = theme?.secondaryColor || '#0A1628'
+
+  // B2B/Language config from header
+  const enablePriceToggle = (header as any)?.enablePriceToggle === true
+  const priceToggleConfig = (header as any)?.priceToggle
+  const enableLanguageSwitcher = (header as any)?.enableLanguageSwitcher === true
+  const languages = (header as any)?.languages as Array<{ code: string; label: string; flag?: string; isDefault?: boolean }> | undefined
+
+  const [priceMode, setPriceMode] = useState<'b2c' | 'b2b'>(priceToggleConfig?.defaultMode || 'b2c')
+  const [currentLang, setCurrentLang] = useState(
+    () => languages?.find((l) => l.isDefault)?.code || languages?.[0]?.code || 'NL',
+  )
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem('price-mode') as 'b2c' | 'b2b' | null
+    if (savedMode) setPriceMode(savedMode)
+    const savedLang = localStorage.getItem('preferred-language')
+    if (savedLang) setCurrentLang(savedLang)
+  }, [])
+
+  const togglePriceMode = () => {
+    const newMode = priceMode === 'b2c' ? 'b2b' : 'b2c'
+    setPriceMode(newMode)
+    localStorage.setItem('price-mode', newMode)
+    window.dispatchEvent(new CustomEvent('priceToggle', { detail: { mode: newMode } }))
+  }
+
+  const handleLanguageChange = (code: string) => {
+    setCurrentLang(code)
+    localStorage.setItem('preferred-language', code)
+    window.dispatchEvent(new CustomEvent('languageChange', { detail: { language: code } }))
+  }
 
   // Prevent body scroll when drawer is open
   useEffect(() => {
@@ -153,6 +184,65 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
 
         {/* Footer */}
         <div className="border-t border-gray-200 p-5 flex-shrink-0 flex flex-col gap-3">
+          {/* B2B/B2C Toggle */}
+          {enablePriceToggle && (
+            <button
+              onClick={togglePriceMode}
+              className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg bg-gray-50 transition-colors"
+            >
+              <span className="text-sm font-semibold" style={{ color: secondaryColor }}>
+                Prijsmodus
+              </span>
+              <div className="flex items-center gap-1 text-xs font-bold rounded-md overflow-hidden border" style={{ borderColor: primaryColor }}>
+                <span
+                  className="px-2.5 py-1 transition-all"
+                  style={{
+                    backgroundColor: priceMode === 'b2c' ? primaryColor : 'transparent',
+                    color: priceMode === 'b2c' ? 'white' : secondaryColor,
+                  }}
+                >
+                  {priceToggleConfig?.b2cLabel || 'Particulier'}
+                </span>
+                <span
+                  className="px-2.5 py-1 transition-all"
+                  style={{
+                    backgroundColor: priceMode === 'b2b' ? primaryColor : 'transparent',
+                    color: priceMode === 'b2b' ? 'white' : secondaryColor,
+                  }}
+                >
+                  {priceToggleConfig?.b2bLabel || 'Zakelijk'}
+                </span>
+              </div>
+            </button>
+          )}
+
+          {/* Language Switcher */}
+          {enableLanguageSwitcher && languages && languages.length > 0 && (
+            <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-gray-50">
+              <span className="flex items-center gap-2 text-sm font-semibold" style={{ color: secondaryColor }}>
+                <Globe className="w-4 h-4" style={{ color: primaryColor }} />
+                Taal
+              </span>
+              <div className="flex items-center gap-1">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className="px-2 py-1 rounded text-xs font-bold transition-all"
+                    style={{
+                      backgroundColor: currentLang === lang.code ? primaryColor : 'transparent',
+                      color: currentLang === lang.code ? 'white' : secondaryColor,
+                      border: `1px solid ${currentLang === lang.code ? primaryColor : '#e5e7eb'}`,
+                    }}
+                  >
+                    {lang.flag || lang.code}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Contact Info */}
           {settings?.phone && (
             <a
               href={`tel:${settings.phone}`}
