@@ -204,3 +204,5 @@ export const ContactBlockComponent: React.FC<ContactBlockProps> = ({
     </section>
   )
 }
+
+export default ContactBlockComponent

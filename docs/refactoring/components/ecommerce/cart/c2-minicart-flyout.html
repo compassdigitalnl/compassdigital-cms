@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C2 - MiniCart Flyout | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Demo Trigger */
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-primary);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .demo-btn:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 137, 123, 0.2);
+    }
+
+    .demo-btn i {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* MiniCart Backdrop */
+    .mc-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 22, 40, 0.4);
+      z-index: 400;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      backdrop-filter: blur(2px);
+    }
+
+    .mc-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* MiniCart Panel */
+    .mc-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 420px;
+      max-width: 90vw;
+      background: white;
+      z-index: 410;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -16px 0 48px rgba(10, 22, 40, 0.1);
+    }
+
+    .mc-panel.open {
+      transform: translateX(0);
+    }
+
+    /* Header */
+    .mc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--grey);
+      flex-shrink: 0;
+    }
+
+    .mc-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mc-title i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .mc-count-badge {
+      background: var(--teal-glow);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 100px;
+    }
+
+    .mc-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: none;
+      background: var(--grey-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition);
+    }
+
+    .mc-close i {
+      width: 18px;
+      height: 18px;
+      color: var(--navy);
+    }
+
+    .mc-close:hover {
+      background: var(--grey);
+    }
+
+    /* Free Shipping Bar */
+    .mc-shipping {
+      padding: 12px 24px;
+      background: var(--green-light);
+      border-bottom: 1px solid rgba(0, 200, 83, 0.1);
+      flex-shrink: 0;
+    }
+
+    .mc-shipping-text {
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .mc-shipping-text i {
+      width: 14px;
+      height: 14px;
+      color: var(--green);
+    }
+
+    .mc-shipping-text strong {
+      color: var(--green);
+    }
+
+    .mc-shipping-bar {
+      height: 6px;
+      background: rgba(0, 200, 83, 0.15);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .mc-shipping-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 100px;
+      transition: width 0.5s;
+    }
+
+    /* Body (scrollable cart items) */
+    .mc-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+
+    /* Cart Item */
+    .mc-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--grey);
+      position: relative;
+    }
+
+    .mc-item:last-child {
+      border-bottom: none;
+    }
+
+    .mc-item-img {
+      width: 64px;
+      height: 64px;
+      background: var(--grey-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .mc-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mc-item-brand {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+    }
+
+    .mc-item-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+      margin: 2px 0;
+    }
+
+    .mc-item-variant {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .mc-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+
+    /* Quantity Stepper */
+    .mc-qty {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid var(--grey);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .mc-qty button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--navy);
+      transition: background 0.1s;
+    }
+
+    .mc-qty button:hover {
+      background: var(--grey-light);
+    }
+
+    .mc-qty span {
+      width: 32px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .mc-item-price {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    /* Remove Button */
+    .mc-item-remove {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.15s;
+    }
+
+    .mc-item:hover .mc-item-remove {
+      opacity: 1;
+    }
+
+    .mc-item-remove i {
+      width: 14px;
+      height: 14px;
+      color: var(--grey-mid);
+    }
+
+    .mc-item-remove:hover {
+      background: var(--coral-light);
+    }
+
+    .mc-item-remove:hover i {
+      color: var(--coral);
+    }
+
+    /* Cross-sell Section */
+    .mc-cross {
+      padding: 16px 24px;
+      border-top: 1px solid var(--grey);
+      background: var(--grey-light);
+      flex-shrink: 0;
+    }
+
+    .mc-cross-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--grey-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .mc-cross-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      background: white;
+      border: 1px solid var(--grey);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .mc-cross-item:hover {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .mc-cross-img {
+      width: 36px;
+      height: 36px;
+      background: var(--grey-light);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .mc-cross-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mc-cross-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .mc-cross-price {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--teal);
+    }
+
+    .mc-cross-add {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: none;
+      background: var(--teal-glow);
+      color: var(--teal);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mc-cross-add i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .mc-cross-add:hover {
+      background: var(--teal);
+      color: white;
+    }
+
+    /* Footer (Totals & Checkout) */
+    .mc-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--grey);
+      background: white;
+      flex-shrink: 0;
+    }
+
+    .mc-summary {
+      margin-bottom: 16px;
+    }
+
+    .mc-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .mc-summary-row.total {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .mc-discount {
+      color: var(--green);
+    }
+
+    .mc-btn-checkout {
+      width: 100%;
+      padding: 14px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-primary);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--transition);
+    }
+
+    .mc-btn-checkout:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 137, 123, 0.2);
+    }
+
+    .mc-btn-checkout i {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <button class="demo-btn" onclick="openCart()">
+      <i data-lucide="shopping-cart"></i>
+      Open MiniCart (3 items)
+    </button>
+  </div>
+
+  <!-- MINICART BACKDROP -->
+  <div class="mc-backdrop" id="mcBackdrop" onclick="closeCart()"></div>
+
+  <!-- MINICART PANEL -->
+  <div class="mc-panel" id="mcPanel">
+    <!-- Header -->
+    <div class="mc-header">
+      <div class="mc-title">
+        <i data-lucide="shopping-cart"></i>
+        Winkelwagen
+        <span class="mc-count-badge">3 items</span>
+      </div>
+      <button class="mc-close" onclick="closeCart()" aria-label="Sluit winkelwagen">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <!-- Free Shipping Progress -->
+    <div class="mc-shipping">
+      <div class="mc-shipping-text">
+        <i data-lucide="truck"></i>
+        Nog <strong>€88,35</strong> tot gratis verzending
+      </div>
+      <div class="mc-shipping-bar">
+        <div class="mc-shipping-fill" style="width: 41%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="mc-body">
+      <div class="mc-item">
+        <div class="mc-item-img">🧤</div>
+        <div class="mc-item-info">
+          <div class="mc-item-brand">Hartmann</div>
+          <div class="mc-item-name">Peha-soft Nitrile Fino — Maat M</div>
+          <div class="mc-item-variant">Doos 150 st.</div>
+          <div class="mc-item-bottom">
+            <div class="mc-qty">
+              <button onclick="updateQty(1, -1)">−</button>
+              <span id="qty1">5</span>
+              <button onclick="updateQty(1, 1)">+</button>
+            </div>
+            <div class="mc-item-price" id="price1">€41,25</div>
+          </div>
+        </div>
+        <button class="mc-item-remove" onclick="removeItem(1)">
+          <i data-lucide="trash-2"></i>
+        </button>
+      </div>
+
+      <div class="mc-item">
+        <div class="mc-item-img">🧴</div>
+        <div class="mc-item-info">
+          <div class="mc-item-brand">Hartmann</div>
+          <div class="mc-item-name">Baktolan Protect+ Pure 100ml</div>
+          <div class="mc-item-variant">Per stuk</div>
+          <div class="mc-item-bottom">
+            <div class="mc-qty">
+              <button onclick="updateQty(2, -1)">−</button>
+              <span id="qty2">2</span>
+              <button onclick="updateQty(2, 1)">+</button>
+            </div>
+            <div class="mc-item-price" id="price2">€11,90</div>
+          </div>
+        </div>
+        <button class="mc-item-remove" onclick="removeItem(2)">
+          <i data-lucide="trash-2"></i>
+        </button>
+      </div>
+
+      <div class="mc-item">
+        <div class="mc-item-img">💉</div>
+        <div class="mc-item-info">
+          <div class="mc-item-brand">BD</div>
+          <div class="mc-item-name">Microlance 3 Naald 21G</div>
+          <div class="mc-item-variant">Pak 100 st.</div>
+          <div class="mc-item-bottom">
+            <div class="mc-qty">
+              <button onclick="updateQty(3, -1)">−</button>
+              <span id="qty3">1</span>
+              <button onclick="updateQty(3, 1)">+</button>
+            </div>
+            <div class="mc-item-price" id="price3">€8,45</div>
+          </div>
+        </div>
+        <button class="mc-item-remove" onclick="removeItem(3)">
+          <i data-lucide="trash-2"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cross-sell -->
+    <div class="mc-cross">
+      <div class="mc-cross-title">Vaak samen gekocht</div>
+      <div class="mc-cross-item" onclick="addCrossSell()">
+        <div class="mc-cross-img">🩹</div>
+        <div class="mc-cross-info">
+          <div class="mc-cross-name">Steriele gaaskompressen 5×5cm</div>
+          <div class="mc-cross-price">€3,25</div>
+        </div>
+        <button class="mc-cross-add">
+          <i data-lucide="plus"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer (Totals & Checkout) -->
+    <div class="mc-footer">
+      <div class="mc-summary">
+        <div class="mc-summary-row">
+          <span>Subtotaal</span>
+          <span>€61,60</span>
+        </div>
+        <div class="mc-summary-row mc-discount">
+          <span>Staffelkorting (5 dozen)</span>
+          <span>−€3,50</span>
+        </div>
+        <div class="mc-summary-row">
+          <span>Verzending</span>
+          <span>€6,95</span>
+        </div>
+        <div class="mc-summary-row total">
+          <span>Totaal</span>
+          <span>€65,05</span>
+        </div>
+      </div>
+      <button class="mc-btn-checkout">
+        Afrekenen
+        <i data-lucide="arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C2 - MiniCart Flyout</p>
+    <p><strong>Category:</strong> E-commerce</p>
+    <p><strong>Complexiteit:</strong> High (slide-over panel, state management, calculations)</p>
+
+    <h3>Purpose:</h3>
+    <p>Right-side slide-over panel showing cart contents with quantity controls, free shipping progress, cross-sell suggestions, and checkout button. Allows quick cart management without leaving current page.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Slide-in from right (smooth 0.35s animation)</li>
+      <li>Free shipping progress bar (dynamic, goal-based)</li>
+      <li>Cart item cards with image, brand, name, variant, qty stepper, price</li>
+      <li>Hover-revealed remove button (soft delete interaction)</li>
+      <li>Cross-sell section ("Vaak samen gekocht")</li>
+      <li>Order summary with subtotal, discount, shipping, total</li>
+      <li>Prominent checkout button</li>
+      <li>Backdrop with blur effect (click to close)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>All e-commerce sites (essential component)</li>
+      <li>B2B platforms with multi-item orders</li>
+      <li>Sites with frequent add-to-cart actions</li>
+      <li>Mobile-responsive shops (slide-over works well on mobile)</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Single-product checkout flows (no cart needed)</li>
+      <li>Subscription-only sites (direct to checkout)</li>
+      <li>Sites with extremely simple carts (use dropdown instead)</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Auto-open on "Add to cart" (with toast notification)</li>
+      <li>Show free shipping progress (encourages higher order value)</li>
+      <li>Display staffel/volume discounts applied</li>
+      <li>Include cross-sell (1-2 relevant products max)</li>
+      <li>Make remove button subtle (hover-only) to prevent accidents</li>
+      <li>Show product variants (size, color, quantity) clearly</li>
+      <li>Update totals instantly on quantity change</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Panel */
+width: 420px
+max-width: 90vw                    /* Mobile responsive */
+background: white
+z-index: 410                       /* Above backdrop (400) */
+box-shadow: -16px 0 48px rgba(10,22,40,0.1)
+transform: translateX(100%) → translateX(0)
+transition: transform 0.35s cubic-bezier(0.4,0,0.2,1)
+
+/* Backdrop */
+background: rgba(10,22,40,0.4)
+backdrop-filter: blur(2px)
+z-index: 400
+
+/* Header */
+padding: 20px 24px
+border-bottom: 1px solid var(--grey)
+
+/* Title */
+font-family: 'Plus Jakarta Sans'
+font-size: 18px
+font-weight: 800
+color: var(--navy)
+
+/* Count Badge */
+background: var(--teal-glow)       /* rgba(0,137,123,0.12) */
+color: var(--teal)
+font-size: 13px
+font-weight: 700
+padding: 2px 10px
+border-radius: 100px
+
+/* Free Shipping Bar */
+background: var(--green-light)     /* #E8F5E9 */
+padding: 12px 24px
+bar-height: 6px
+fill-color: var(--green)           /* #00C853 */
+transition: width 0.5s             /* Smooth progress animation */
+
+/* Cart Item */
+padding: 14px 24px
+border-bottom: 1px solid var(--grey)
+gap: 14px
+
+/* Product Image */
+width: 64px, height: 64px
+background: var(--grey-light)
+border-radius: 10px
+font-size: 32px                    /* Emoji placeholder */
+
+/* Brand Label */
+font-size: 10px
+font-weight: 700
+text-transform: uppercase
+letter-spacing: 0.04em
+color: var(--teal)
+
+/* Product Name */
+font-size: 14px
+font-weight: 600
+color: var(--navy)
+line-height: 1.3
+
+/* Variant Text */
+font-size: 12px
+color: var(--grey-mid)
+
+/* Quantity Stepper */
+border: 1.5px solid var(--grey)
+border-radius: 8px
+button-size: 30px × 30px
+input-width: 32px
+font-family: 'JetBrains Mono'      /* Monospace numbers */
+font-size: 13px
+
+/* Item Price */
+font-family: 'Plus Jakarta Sans'
+font-size: 16px
+font-weight: 800
+color: var(--navy)
+
+/* Remove Button (hover only) */
+width: 28px, height: 28px
+opacity: 0 → 1 on hover
+background: none → var(--coral-light) on hover
+icon-color: var(--grey-mid) → var(--coral) on hover
+
+/* Cross-sell */
+background: var(--grey-light)
+padding: 16px 24px
+card-background: white
+border: 1px solid var(--grey) → var(--teal) on hover
+
+/* Order Summary */
+font-size: 14px (line items)
+font-size: 18px (total)
+font-weight: 800 (total)
+discount-color: var(--green)
+
+/* Checkout Button */
+width: 100%
+padding: 14px
+background: var(--teal) → var(--teal-light) on hover
+color: white
+border-radius: 12px
+font-size: 15px
+font-weight: 700
+transform: translateY(-2px) on hover
+box-shadow: 0 8px 16px rgba(0,137,123,0.2) on hover</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  isOpen: false,
+  items: CartItem[],
+  subtotal: 61.60,
+  discount: 3.50,
+  shipping: 6.95,
+  total: 65.05,
+  freeShippingThreshold: 150.00,
+  freeShippingProgress: 0.41,  // (subtotal / threshold)
+  crossSellProducts: Product[],
+  onClose: () => {},
+  onUpdateQty: (itemId, qty) => {},
+  onRemove: (itemId) => {},
+  onCheckout: () => {},
+  onAddCrossSell: (productId) => {}
+}</pre>
+
+    <h3>CartItem Interface:</h3>
+    <pre>interface CartItem {
+  id: string;
+  productId: string;
+  name: string;
+  brand: string;
+  variant: string;       // "Maat M", "Doos 150 st.", etc.
+  image: string;
+  price: number;         // Unit price
+  quantity: number;
+  lineTotal: number;     // price × quantity
+  sku?: string;
+  staffelDiscount?: number;
+}</pre>
+
+    <h3>State Management (Example: Zustand):</h3>
+    <pre>import { create } from 'zustand';
+
+interface CartStore {
+  items: CartItem[];
+  isOpen: boolean;
+  addItem: (product: Product, quantity: number) => void;
+  updateQty: (itemId: string, quantity: number) => void;
+  removeItem: (itemId: string) => void;
+  openCart: () => void;
+  closeCart: () => void;
+  getSubtotal: () => number;
+  getTotalQty: () => number;
+}
+
+const useCartStore = create&lt;CartStore&gt;((set, get) => ({
+  items: [],
+  isOpen: false,
+  addItem: (product, quantity) => {
+    set(state => ({
+      items: [...state.items, {
+        id: crypto.randomUUID(),
+        productId: product.id,
+        name: product.name,
+        brand: product.brand,
+        price: product.price,
+        quantity,
+        lineTotal: product.price * quantity
+      }]
+    }));
+  },
+  updateQty: (itemId, quantity) => {
+    set(state => ({
+      items: state.items.map(item =>
+        item.id === itemId
+          ? { ...item, quantity, lineTotal: item.price * quantity }
+          : item
+      )
+    }));
+  },
+  removeItem: (itemId) => {
+    set(state => ({
+      items: state.items.filter(item => item.id !== itemId)
+    }));
+  },
+  openCart: () => set({ isOpen: true }),
+  closeCart: () => set({ isOpen: false }),
+  getSubtotal: () => {
+    return get().items.reduce((sum, item) => sum + item.lineTotal, 0);
+  },
+  getTotalQty: () => {
+    return get().items.reduce((sum, item) => sum + item.quantity, 0);
+  }
+}));</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>Panel Structure:</h3>
+    <pre>Fixed right-side panel
+├── Header (fixed, flex-shrink: 0)
+│   ├── Title + Count Badge
+│   └── Close Button
+├── Free Shipping Bar (fixed, flex-shrink: 0)
+├── Cart Items (flex: 1, scrollable)
+│   └── Item Cards × N
+├── Cross-sell (fixed, flex-shrink: 0)
+└── Footer (fixed, flex-shrink: 0)
+    ├── Order Summary
+    └── Checkout Button</pre>
+
+    <h3>Z-index Hierarchy:</h3>
+    <pre>Backdrop: 400
+Panel: 410
+Modal (if needed): 500</pre>
+
+    <h3>Responsive Behavior:</h3>
+    <pre>Desktop (>768px):
+- Width: 420px (fixed)
+- Slide from right
+
+Mobile (≤768px):
+- Width: 90vw (or 100vw for full-width)
+- Optionally slide from bottom instead of right
+- Reduce padding (20px → 16px)
+- Simplify cross-sell (hide or show 1 item)
+
+@media (max-width: 768px) {
+  .mc-panel {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  .mc-cross {
+    display: none;      /* Optional: hide on mobile */
+  }
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>ESC:</strong> Close cart panel</li>
+      <li><strong>Tab:</strong> Focus interactive elements (qty buttons, remove, checkout)</li>
+      <li><strong>Enter/Space:</strong> Activate focused button</li>
+    </ul>
+
+    <h3>ARIA Attributes:</h3>
+    <pre>&lt;div
+  class="mc-panel"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Winkelwagen"
+&gt;
+  &lt;button
+    class="mc-close"
+    aria-label="Sluit winkelwagen"
+  &gt;
+    &lt;X /&gt;
+  &lt;/button&gt;
+
+  &lt;div class="mc-body" role="list"&gt;
+    &lt;div class="mc-item" role="listitem"&gt;
+      {/* Cart item */}
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;button
+    class="mc-item-remove"
+    aria-label="Verwijder Peha-soft Nitrile Fino"
+  &gt;
+    &lt;Trash2 /&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Focus Management:</h3>
+    <ul>
+      <li>Trap focus within panel when open</li>
+      <li>Auto-focus close button (or first focusable element)</li>
+      <li>Restore focus to cart trigger button on close</li>
+      <li>Prevent background scrolling when open (body overflow: hidden)</li>
+    </ul>
+
+    <h3>Screen Reader Support:</h3>
+    <ul>
+      <li>Announce cart opening: "Winkelwagen geopend, 3 items"</li>
+      <li>Announce quantity changes: "Aantal gewijzigd naar 6"</li>
+      <li>Announce item removal: "Peha-soft Nitrile Fino verwijderd"</li>
+      <li>Announce price updates: "Totaal: €68,55"</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>React Component (TypeScript):</h3>
+    <pre>import { ShoppingCart, X, Truck, Plus, Trash2, ArrowRight } from 'lucide-react';
+
+export function MiniCart() {
+  const {
+    items,
+    isOpen,
+    updateQty,
+    removeItem,
+    closeCart
+  } = useCartStore();
+
+  const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+  const freeShippingThreshold = 150;
+  const freeShippingProgress = Math.min(1, subtotal / freeShippingThreshold);
+  const remaining = freeShippingThreshold - subtotal;
+
+  // Prevent body scroll when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  // ESC key to close
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeCart();
+      }
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [isOpen, closeCart]);
+
+  return (
+    &lt;&gt;
+      &lt;div
+        className={`mc-backdrop ${isOpen ? 'open' : ''}`}
+        onClick={closeCart}
+      /&gt;
+      &lt;div className={`mc-panel ${isOpen ? 'open' : ''}`}&gt;
+        &lt;div className="mc-header"&gt;
+          &lt;div className="mc-title"&gt;
+            &lt;ShoppingCart size={20} /&gt;
+            Winkelwagen
+            &lt;span className="mc-count-badge"&gt;{items.length} items&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;button className="mc-close" onClick={closeCart}&gt;
+            &lt;X size={18} /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        {remaining &gt; 0 && (
+          &lt;div className="mc-shipping"&gt;
+            &lt;div className="mc-shipping-text"&gt;
+              &lt;Truck size={14} /&gt;
+              Nog &lt;strong&gt;€{remaining.toFixed(2)}&lt;/strong&gt; tot gratis verzending
+            &lt;/div&gt;
+            &lt;div className="mc-shipping-bar"&gt;
+              &lt;div
+                className="mc-shipping-fill"
+                style={{ width: `${freeShippingProgress * 100}%` }}
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        )}
+
+        &lt;div className="mc-body"&gt;
+          {items.map(item => (
+            &lt;CartItem
+              key={item.id}
+              item={item}
+              onUpdateQty={(qty) => updateQty(item.id, qty)}
+              onRemove={() => removeItem(item.id)}
+            /&gt;
+          ))}
+        &lt;/div&gt;
+
+        &lt;div className="mc-footer"&gt;
+          &lt;div className="mc-summary"&gt;
+            &lt;div className="mc-summary-row"&gt;
+              &lt;span&gt;Subtotaal&lt;/span&gt;
+              &lt;span&gt;€{subtotal.toFixed(2)}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div className="mc-summary-row total"&gt;
+              &lt;span&gt;Totaal&lt;/span&gt;
+              &lt;span&gt;€{(subtotal + 6.95).toFixed(2)}&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;button className="mc-btn-checkout"&gt;
+            Afrekenen &lt;ArrowRight size={18} /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/&gt;
+  );
+}</pre>
+
+    <h3>Free Shipping Calculation:</h3>
+    <pre>const freeShippingThreshold = 150.00;
+const subtotal = 61.60;
+const progress = Math.min(1, subtotal / freeShippingThreshold);
+const remaining = Math.max(0, freeShippingThreshold - subtotal);
+
+// Progress: 0.41 (41%)
+// Remaining: €88.40</pre>
+
+    <h3>Staffel Discount Application:</h3>
+    <pre>// If user orders 5 dozen, apply staffel discount
+if (quantity >= 5 && quantity < 10) {
+  const regularPrice = 8.95;
+  const staffelPrice = 8.25;
+  const discount = (regularPrice - staffelPrice) * quantity;
+  // Show in order summary: "Staffelkorting (5 dozen): −€3,50"
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Alternative Layouts:</h3>
+    <ul>
+      <li><strong>Slide from Bottom (Mobile):</strong> Full-width panel from bottom on mobile</li>
+      <li><strong>Dropdown (Simple):</strong> Compact dropdown from header cart icon (no cross-sell, no shipping bar)</li>
+      <li><strong>Full Page Cart:</strong> Dedicated /cart page for complex modifications</li>
+    </ul>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C3-AddToCartToast:</strong> Notification shown when item added (triggers minicart open)</li>
+      <li><strong>C14-HeaderActions:</strong> Cart button that opens this panel</li>
+      <li><strong>C23-QuantityStepper:</strong> Reusable qty control (used in cart items)</li>
+      <li><strong>Cart Page:</strong> Full-page cart view with advanced options (coupons, notes)</li>
+    </ul>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// Cart stored in localStorage + backend sync
+// On cart open, fetch latest prices/stock from API
+
+// Global settings:
+{
+  name: 'freeShippingThreshold',
+  type: 'number',
+  defaultValue: 150,
+  admin: {
+    description: 'Minimum order value for free shipping (EUR)'
+  }
+},
+{
+  name: 'crossSellMaxItems',
+  type: 'number',
+  defaultValue: 2,
+  admin: {
+    description: 'Max cross-sell products to show in minicart'
+  }
+}</pre>
+
+    <h3>Analytics Tracking:</h3>
+    <pre>// Track cart opens
+analytics.track('Cart Viewed', {
+  items: cartItems.length,
+  value: subtotal
+});
+
+// Track quantity changes
+analytics.track('Product Quantity Updated', {
+  productId: item.id,
+  newQuantity: qty,
+  from: 'minicart'
+});
+
+// Track removals
+analytics.track('Product Removed from Cart', {
+  productId: item.id,
+  from: 'minicart'
+});
+
+// Track cross-sell adds
+analytics.track('Cross-sell Product Added', {
+  productId: crossSellProduct.id,
+  location: 'minicart'
+});</pre>
+
+    <h3>Testing Checklist:</h3>
+    <ul>
+      <li>✓ Panel slides in/out smoothly</li>
+      <li>✓ Backdrop blur works (check browser support)</li>
+      <li>✓ Free shipping progress updates correctly</li>
+      <li>✓ Qty stepper works (min 1, updates price)</li>
+      <li>✓ Remove button appears on hover</li>
+      <li>✓ Order totals calculate correctly</li>
+      <li>✓ ESC key closes panel</li>
+      <li>✓ Body scroll disabled when open</li>
+      <li>✓ Mobile responsive (full-width or 90vw)</li>
+      <li>✓ Cross-sell adds to cart correctly</li>
+    </ul>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Cart controls
+    function openCart() {
+      document.getElementById('mcPanel').classList.add('open');
+      document.getElementById('mcBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+      document.getElementById('mcPanel').classList.remove('open');
+      document.getElementById('mcBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Update quantity
+    function updateQty(itemId, delta) {
+      const qtyEl = document.getElementById(`qty${itemId}`);
+      let qty = parseInt(qtyEl.textContent);
+      qty = Math.max(1, qty + delta);
+      qtyEl.textContent = qty;
+
+      // Update price (mock)
+      const prices = { 1: 8.25, 2: 5.95, 3: 8.45 };
+      const priceEl = document.getElementById(`price${itemId}`);
+      const total = (prices[itemId] * qty).toFixed(2);
+      priceEl.textContent = `€${total}`;
+    }
+
+    // Remove item
+    function removeItem(itemId) {
+      if (confirm('Product verwijderen uit winkelwagen?')) {
+        console.log(`Removing item ${itemId}`);
+        // In real app: remove from state/cart
+      }
+    }
+
+    // Add cross-sell
+    function addCrossSell() {
+      alert('Gaaskompressen toegevoegd aan winkelwagen!');
+    }
+
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeCart();
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C18-ProductBadges - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --radius: 12px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-section p {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    .demo-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      margin-top: 24px;
+    }
+
+    /* === C18: Product Badges (Pill Style) === */
+    .badge-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .pbadge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pbadge i {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* Badge Variants */
+    .pbadge.bestseller {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+
+    .pbadge.bestseller i {
+      color: var(--amber);
+    }
+
+    .pbadge.nieuw {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    .pbadge.uitverkocht {
+      background: var(--coral-light);
+      color: var(--coral);
+    }
+
+    .pbadge.staffel {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .pbadge.eco {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .pbadge.aanbieding {
+      background: #FFF0F0;
+      color: var(--coral);
+    }
+
+    .pbadge.exclusief {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white;
+    }
+
+    .pbadge.b2b {
+      background: var(--teal-glow);
+      color: var(--teal);
+    }
+
+    /* === Position Variants (on Product Cards) === */
+    .badge-corner {
+      position: relative;
+      display: inline-flex;
+      margin: 0 20px 20px 0;
+    }
+
+    .bc-img {
+      width: 120px;
+      height: 120px;
+      background: var(--grey-light);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .bc-badge {
+      position: absolute;
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+      padding: 4px 10px;
+      z-index: 2;
+    }
+
+    .bc-badge.top-left {
+      top: 8px;
+      left: 8px;
+      border-radius: 6px;
+    }
+
+    .bc-badge.top-right {
+      top: 0;
+      right: 0;
+      border-radius: 0 14px 0 10px;
+    }
+
+    .bc-badge.ribbon {
+      top: 12px;
+      left: -4px;
+      padding: 3px 10px 3px 8px;
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Size Variants */
+    .pbadge.sm {
+      padding: 3px 8px;
+      font-size: 10px;
+    }
+
+    .pbadge.sm i {
+      width: 11px;
+      height: 11px;
+    }
+
+    .pbadge.lg {
+      padding: 6px 14px;
+      font-size: 13px;
+    }
+
+    .pbadge.lg i {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* === Documentation Styles === */
+    .doc-container {
+      max-width: 900px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 48px;
+    }
+
+    .doc-container h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .doc-container .subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 32px;
+    }
+
+    .doc-container h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-container h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-container p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .doc-container ul {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-container li {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .doc-container code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-container pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .doc-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .doc-container th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-container td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .info-box {
+      background: rgba(0, 137, 123, 0.08);
+      border-left: 3px solid var(--teal);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin-bottom: 0;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === LIVE DEMO === -->
+  <div class="demo-section">
+    <h2>Pill Badges (Default Size)</h2>
+    <p>Standalone badges for product cards, filters, and tags</p>
+
+    <div class="badge-grid">
+      <span class="pbadge bestseller"><i data-lucide="flame"></i> Bestseller</span>
+      <span class="pbadge nieuw"><i data-lucide="sparkles"></i> Nieuw</span>
+      <span class="pbadge uitverkocht"><i data-lucide="clock"></i> Uitverkocht</span>
+      <span class="pbadge staffel"><i data-lucide="layers"></i> Staffelkorting</span>
+      <span class="pbadge eco"><i data-lucide="leaf"></i> Duurzaam</span>
+      <span class="pbadge aanbieding"><i data-lucide="percent"></i> -15%</span>
+      <span class="pbadge exclusief"><i data-lucide="crown"></i> Exclusief</span>
+      <span class="pbadge b2b"><i data-lucide="building-2"></i> Alleen B2B</span>
+    </div>
+
+    <div class="demo-label">Size Variants</div>
+    <div class="badge-grid">
+      <span class="pbadge bestseller sm"><i data-lucide="flame"></i> Small</span>
+      <span class="pbadge bestseller"><i data-lucide="flame"></i> Default</span>
+      <span class="pbadge bestseller lg"><i data-lucide="flame"></i> Large</span>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Position Variants on Product Cards</h2>
+    <p>Absolutely positioned badges for product images</p>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+      <!-- Top-left -->
+      <div class="badge-corner">
+        <div class="bc-img">🧤</div>
+        <div class="bc-badge top-left" style="background: var(--amber);">Bestseller</div>
+      </div>
+
+      <!-- Top-right -->
+      <div class="badge-corner">
+        <div class="bc-img">🩺</div>
+        <div class="bc-badge top-right" style="background: var(--blue);">Nieuw</div>
+      </div>
+
+      <!-- Ribbon -->
+      <div class="badge-corner">
+        <div class="bc-img">🧴</div>
+        <div class="bc-badge ribbon" style="background: var(--coral);">-15%</div>
+      </div>
+
+      <!-- Out of stock (dimmed) -->
+      <div class="badge-corner">
+        <div class="bc-img" style="opacity: 0.5;">🩹</div>
+        <div class="bc-badge top-left" style="background: var(--grey-mid);">Uitverkocht</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === DOCUMENTATION === -->
+  <div class="doc-container">
+    <h1>C18-ProductBadges</h1>
+    <p class="subtitle">Product badge collection with 8 semantic variants and 3 positioning styles</p>
+
+    <!-- STEP 1 -->
+    <h2>STEP 1: Component Overview</h2>
+    <p><strong>C18-ProductBadges</strong> is a comprehensive badge system for product cards, providing visual indicators for product status, features, and promotions.</p>
+
+    <p><strong>Key features:</strong></p>
+    <ul>
+      <li><strong>8 semantic variants:</strong> Bestseller, Nieuw, Uitverkocht, Staffelkorting, Duurzaam, Aanbieding, Exclusief, B2B</li>
+      <li><strong>3 position variants:</strong> Top-left, top-right, ribbon (left side)</li>
+      <li><strong>3 size variants:</strong> Small (10px), default (12px), large (13px)</li>
+      <li><strong>Icon support:</strong> Each badge can include Lucide icon</li>
+      <li><strong>Pill shape:</strong> 100px border-radius for rounded ends</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Versatile system:</strong> Use badges standalone (pill style) or positioned on product images (corner/ribbon style).</p>
+    </div>
+
+    <!-- STEP 2 -->
+    <h2>STEP 2: When to Use</h2>
+    <p>Use C18-ProductBadges when:</p>
+    <ul>
+      <li>Highlighting product status (new, bestseller, out of stock)</li>
+      <li>Indicating special features (eco-friendly, volume discount, B2B only)</li>
+      <li>Promoting discounts (-15%, sale, special offer)</li>
+      <li>Showing exclusivity (limited edition, exclusive)</li>
+      <li>Filtering products (use as filter chips)</li>
+    </ul>
+
+    <p><strong>Don't use when:</strong></p>
+    <ul>
+      <li>Indicating price (use price component instead)</li>
+      <li>Showing long descriptions (use text instead)</li>
+      <li>More than 2-3 badges per product (creates visual clutter)</li>
+    </ul>
+
+    <!-- STEP 3 -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Badge Variants (Colors)</h3>
+    <table>
+      <tr>
+        <th>Variant</th>
+        <th>Background</th>
+        <th>Text Color</th>
+        <th>Icon</th>
+      </tr>
+      <tr>
+        <td>Bestseller</td>
+        <td>#FFF8E1 (amber-light)</td>
+        <td>#F59E0B (amber)</td>
+        <td>flame</td>
+      </tr>
+      <tr>
+        <td>Nieuw</td>
+        <td>#E3F2FD (blue-light)</td>
+        <td>#2196F3 (blue)</td>
+        <td>sparkles</td>
+      </tr>
+      <tr>
+        <td>Uitverkocht</td>
+        <td>#FFF0F0 (coral-light)</td>
+        <td>#FF6B6B (coral)</td>
+        <td>clock</td>
+      </tr>
+      <tr>
+        <td>Staffelkorting</td>
+        <td>#E8F5E9 (green-light)</td>
+        <td>#00C853 (green)</td>
+        <td>layers</td>
+      </tr>
+      <tr>
+        <td>Duurzaam</td>
+        <td>#E8F5E9</td>
+        <td>#2E7D32</td>
+        <td>leaf</td>
+      </tr>
+      <tr>
+        <td>Aanbieding</td>
+        <td>#FFF0F0</td>
+        <td>#FF6B6B (coral)</td>
+        <td>percent</td>
+      </tr>
+      <tr>
+        <td>Exclusief</td>
+        <td>gradient(navy → navy-light)</td>
+        <td>#FFFFFF</td>
+        <td>crown</td>
+      </tr>
+      <tr>
+        <td>B2B</td>
+        <td>rgba(0,137,123,0.12) (teal-glow)</td>
+        <td>#00897B (teal)</td>
+        <td>building-2</td>
+      </tr>
+    </table>
+
+    <h3>Size Variants</h3>
+    <table>
+      <tr>
+        <th>Size</th>
+        <th>Padding</th>
+        <th>Font Size</th>
+        <th>Icon Size</th>
+      </tr>
+      <tr>
+        <td>Small (.sm)</td>
+        <td>3px 8px</td>
+        <td>10px</td>
+        <td>11px</td>
+      </tr>
+      <tr>
+        <td>Default</td>
+        <td>5px 12px</td>
+        <td>12px</td>
+        <td>13px</td>
+      </tr>
+      <tr>
+        <td>Large (.lg)</td>
+        <td>6px 14px</td>
+        <td>13px</td>
+        <td>15px</td>
+      </tr>
+    </table>
+
+    <h3>Position Variants</h3>
+    <table>
+      <tr>
+        <th>Position</th>
+        <th>Coordinates</th>
+        <th>Border Radius</th>
+      </tr>
+      <tr>
+        <td>Top-left</td>
+        <td>top: 8px, left: 8px</td>
+        <td>6px</td>
+      </tr>
+      <tr>
+        <td>Top-right</td>
+        <td>top: 0, right: 0</td>
+        <td>0 14px 0 10px (follows card corner)</td>
+      </tr>
+      <tr>
+        <td>Ribbon</td>
+        <td>top: 12px, left: -4px</td>
+        <td>0 4px 4px 0 + shadow</td>
+      </tr>
+    </table>
+
+    <!-- STEP 4 -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>Pill Badge HTML</h3>
+    <pre>&lt;span class="pbadge bestseller"&gt;
+  &lt;i data-lucide="flame"&gt;&lt;/i&gt;
+  Bestseller
+&lt;/span&gt;
+
+&lt;!-- Size variants --&gt;
+&lt;span class="pbadge nieuw sm"&gt;...&lt;/span&gt;
+&lt;span class="pbadge nieuw"&gt;...&lt;/span&gt;
+&lt;span class="pbadge nieuw lg"&gt;...&lt;/span&gt;</pre>
+
+    <h3>Position Badge HTML</h3>
+    <pre>&lt;div class="badge-corner"&gt;
+  &lt;div class="bc-img"&gt;
+    &lt;img src="product.jpg" alt="Product"&gt;
+  &lt;/div&gt;
+  &lt;div class="bc-badge top-left" style="background: var(--amber);"&gt;
+    Bestseller
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>CSS Classes</h3>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><code>.pbadge</code></td>
+        <td>Base pill badge class</td>
+      </tr>
+      <tr>
+        <td><code>.pbadge.bestseller</code></td>
+        <td>Bestseller variant (amber)</td>
+      </tr>
+      <tr>
+        <td><code>.pbadge.nieuw</code></td>
+        <td>New product variant (blue)</td>
+      </tr>
+      <tr>
+        <td><code>.pbadge.sm / .lg</code></td>
+        <td>Size modifiers</td>
+      </tr>
+      <tr>
+        <td><code>.badge-corner</code></td>
+        <td>Container for positioned badges</td>
+      </tr>
+      <tr>
+        <td><code>.bc-badge.top-left</code></td>
+        <td>Top-left position</td>
+      </tr>
+      <tr>
+        <td><code>.bc-badge.ribbon</code></td>
+        <td>Ribbon position (left side)</td>
+      </tr>
+    </table>
+
+    <!-- STEP 5 -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Pill Badges</h3>
+    <ul>
+      <li><strong>Display:</strong> <code>inline-flex</code> (allows icon + text alignment)</li>
+      <li><strong>Alignment:</strong> <code>align-items: center; gap: 5px;</code></li>
+      <li><strong>Border radius:</strong> <code>100px</code> (pill shape)</li>
+      <li><strong>White-space:</strong> <code>nowrap</code> (prevents text wrapping)</li>
+    </ul>
+
+    <h3>Positioned Badges</h3>
+    <ul>
+      <li><strong>Container:</strong> <code>position: relative</code> (on product card)</li>
+      <li><strong>Badge:</strong> <code>position: absolute</code> with specific coordinates</li>
+      <li><strong>Z-index:</strong> 2 (above product image)</li>
+      <li><strong>Ribbon shadow:</strong> <code>box-shadow: 0 2px 4px rgba(0,0,0,0.1)</code></li>
+    </ul>
+
+    <!-- STEP 6 -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <pre>&lt;!-- Standalone badge --&gt;
+&lt;span class="pbadge bestseller" role="status" aria-label="Bestseller product"&gt;
+  &lt;i data-lucide="flame" aria-hidden="true"&gt;&lt;/i&gt;
+  Bestseller
+&lt;/span&gt;
+
+&lt;!-- Positioned badge (decorative, already in product title) --&gt;
+&lt;div class="bc-badge top-left" aria-hidden="true"&gt;
+  Bestseller
+&lt;/div&gt;</pre>
+
+    <p><strong>Guidelines:</strong></p>
+    <ul>
+      <li>Icons should have <code>aria-hidden="true"</code> (text provides context)</li>
+      <li>Positioned badges can be <code>aria-hidden</code> if redundant with product title</li>
+      <li>Standalone badges should have <code>role="status"</code> and <code>aria-label</code></li>
+    </ul>
+
+    <!-- STEP 7 -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Dynamic Badge Rendering</h3>
+    <pre>// Example: Render badges based on product data
+function renderBadges(product) {
+  const badges = [];
+
+  if (product.isNew) {
+    badges.push(`&lt;span class="pbadge nieuw"&gt;&lt;i data-lucide="sparkles"&gt;&lt;/i&gt; Nieuw&lt;/span&gt;`);
+  }
+
+  if (product.isBestseller) {
+    badges.push(`&lt;span class="pbadge bestseller"&gt;&lt;i data-lucide="flame"&gt;&lt;/i&gt; Bestseller&lt;/span&gt;`);
+  }
+
+  if (product.stock === 0) {
+    badges.push(`&lt;span class="pbadge uitverkocht"&gt;&lt;i data-lucide="clock"&gt;&lt;/i&gt; Uitverkocht&lt;/span&gt;`);
+  }
+
+  if (product.discount > 0) {
+    badges.push(`&lt;span class="pbadge aanbieding"&gt;&lt;i data-lucide="percent"&gt;&lt;/i&gt; -${product.discount}%&lt;/span&gt;`);
+  }
+
+  return badges.join('');
+}</pre>
+
+    <h3>Max Badges Per Product</h3>
+    <p>Limit to 2-3 badges to avoid visual clutter:</p>
+    <pre>// Prioritize badges (e.g., out of stock > discount > bestseller)
+const badgePriority = ['uitverkocht', 'aanbieding', 'bestseller', 'nieuw'];
+const maxBadges = 2;
+
+function getTopBadges(product) {
+  const badges = [];
+
+  for (const badgeType of badgePriority) {
+    if (product[badgeType] && badges.length < maxBadges) {
+      badges.push(badgeType);
+    }
+  }
+
+  return badges;
+}</pre>
+
+    <!-- STEP 8 -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variations</h3>
+
+    <h4>1. Custom Badge Colors</h4>
+    <pre>&lt;span class="pbadge" style="background: #E0F2FE; color: #0369A1;"&gt;
+  &lt;i data-lucide="gift"&gt;&lt;/i&gt; Gratis verzending
+&lt;/span&gt;</pre>
+
+    <h4>2. Animated Badge (pulsing)</h4>
+    <pre>@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.pbadge.bestseller {
+  animation: pulse 2s infinite;
+}</pre>
+
+    <h4>3. Clickable Filter Badges</h4>
+    <pre>&lt;button class="pbadge bestseller" onclick="filterByBestseller()"&gt;
+  &lt;i data-lucide="flame"&gt;&lt;/i&gt; Bestseller
+&lt;/button&gt;
+
+.pbadge:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}</pre>
+
+    <h3>Related Components</h3>
+    <table>
+      <tr>
+        <th>Component</th>
+        <th>Relationship</th>
+      </tr>
+      <tr>
+        <td>ProductCard</td>
+        <td>Badges appear on product cards to highlight features</td>
+      </tr>
+      <tr>
+        <td>C21-FilterSidebar</td>
+        <td>Badges used as filter chips to filter products</td>
+      </tr>
+      <tr>
+        <td>C4-StaffelCalculator</td>
+        <td>Staffelkorting badge indicates volume pricing available</td>
+      </tr>
+      <tr>
+        <td>C6-StickyBar</td>
+        <td>Product sticky bar can show badges for quick recognition</td>
+      </tr>
+    </table>
+
+    <div class="info-box">
+      <p><strong>Implementation complete!</strong> Comprehensive badge system with 8 semantic variants, 3 sizes, and 3 positioning styles.</p>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

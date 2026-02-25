@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR04: ProjectInfoForm - Compass Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Design Tokens */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-12: 12px;
+      --space-14: 14px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      padding: 40px 20px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    /* Demo Container */
+    .demo-section {
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+
+    .demo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    /* ============================================
+       QR04: PROJECT INFO FORM
+       ============================================ */
+
+    .project-info-form {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      padding: var(--space-24);
+    }
+
+    /* Header */
+    .project-info-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      margin-bottom: var(--space-20);
+    }
+
+    .project-info-title {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .project-info-title-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    /* Form Fields */
+    .project-info-fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+
+    .project-info-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
+
+    /* Field */
+    .project-info-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-info-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin-bottom: var(--space-6);
+    }
+
+    .project-info-label.required::after {
+      content: '*';
+      color: #FF6B6B;
+      margin-left: 4px;
+    }
+
+    .project-info-input,
+    .project-info-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--navy);
+      background: var(--white);
+      outline: none;
+      transition: all var(--transition);
+    }
+
+    .project-info-input::placeholder,
+    .project-info-textarea::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .project-info-input:hover,
+    .project-info-textarea:hover {
+      border-color: var(--grey-mid);
+    }
+
+    .project-info-input:focus,
+    .project-info-textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Date input specific */
+    .project-info-input[type="date"] {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .project-info-input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      color: var(--grey-mid);
+      padding: 4px;
+    }
+
+    /* Textarea */
+    .project-info-textarea {
+      min-height: 100px;
+      resize: vertical;
+      padding: 12px 14px;
+    }
+
+    /* Character counter */
+    .project-info-counter {
+      font-size: 11px;
+      color: var(--grey-mid);
+      text-align: right;
+      margin-top: var(--space-6);
+    }
+
+    .project-info-counter.warning {
+      color: #F59E0B;
+    }
+
+    .project-info-counter.error {
+      color: #FF6B6B;
+    }
+
+    /* Helper text */
+    .project-info-helper {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: var(--space-6);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .project-info-helper-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Error state */
+    .project-info-field.error .project-info-input,
+    .project-info-field.error .project-info-textarea {
+      border-color: #FF6B6B;
+    }
+
+    .project-info-field.error .project-info-label {
+      color: #FF6B6B;
+    }
+
+    .project-info-error-message {
+      font-size: 11px;
+      color: #FF6B6B;
+      margin-top: var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .project-info-error-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .project-info-form {
+        padding: var(--space-20);
+      }
+
+      .project-info-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Documentation Styles */
+    .docs-section {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .docs-section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    .docs-section p,
+    .docs-section li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .docs-section ul {
+      padding-left: 24px;
+    }
+
+    .docs-section code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .token-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      background: var(--white);
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO SECTION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h1 class="demo-title">QR04: ProjectInfoForm - Default</h1>
+
+    <div class="project-info-form">
+      <div class="project-info-header">
+        <h3 class="project-info-title">
+          <i data-lucide="folder-open" class="project-info-title-icon"></i>
+          Projectinformatie
+        </h3>
+      </div>
+
+      <div class="project-info-fields">
+        <!-- Project Name -->
+        <div class="project-info-field">
+          <label class="project-info-label required">Projectnaam</label>
+          <input
+            type="text"
+            class="project-info-input"
+            placeholder="Bijv. Q2 2024 Stock Replenishment"
+          >
+          <p class="project-info-helper">
+            <i data-lucide="info" class="project-info-helper-icon"></i>
+            Deze naam wordt gebruikt op facturen en leveringsdocumenten.
+          </p>
+        </div>
+
+        <!-- Delivery Date -->
+        <div class="project-info-field">
+          <label class="project-info-label required">Gewenste leverdatum</label>
+          <input
+            type="date"
+            class="project-info-input"
+            min="2026-02-26"
+          >
+          <p class="project-info-helper">
+            <i data-lucide="calendar" class="project-info-helper-icon"></i>
+            Standaard levertijd is 3-5 werkdagen. Voor spoedlevering neem contact op.
+          </p>
+        </div>
+
+        <!-- Notes (optional) -->
+        <div class="project-info-field">
+          <label class="project-info-label">Opmerkingen / Speciale wensen</label>
+          <textarea
+            class="project-info-textarea"
+            placeholder="Bijv. speciale levertijden, verpakkingseisen, of vragen over producten..."
+            id="notes-textarea"
+            maxlength="500"
+          ></textarea>
+          <div class="project-info-counter" id="char-counter">0 / 500</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: WITH ERRORS
+       ============================================ -->
+
+  <div class="demo-section">
+    <h1 class="demo-title">QR04: ProjectInfoForm - With Validation Errors</h1>
+
+    <div class="project-info-form">
+      <div class="project-info-header">
+        <h3 class="project-info-title">
+          <i data-lucide="folder-open" class="project-info-title-icon"></i>
+          Projectinformatie
+        </h3>
+      </div>
+
+      <div class="project-info-fields">
+        <!-- Project Name (error) -->
+        <div class="project-info-field error">
+          <label class="project-info-label required">Projectnaam</label>
+          <input
+            type="text"
+            class="project-info-input"
+            value=""
+            placeholder="Bijv. Q2 2024 Stock Replenishment"
+          >
+          <p class="project-info-error-message">
+            <i data-lucide="alert-circle" class="project-info-error-icon"></i>
+            Projectnaam is verplicht
+          </p>
+        </div>
+
+        <!-- Delivery Date (error) -->
+        <div class="project-info-field error">
+          <label class="project-info-label required">Gewenste leverdatum</label>
+          <input
+            type="date"
+            class="project-info-input"
+            value="2026-02-20"
+            min="2026-02-26"
+          >
+          <p class="project-info-error-message">
+            <i data-lucide="alert-circle" class="project-info-error-icon"></i>
+            Leverdatum moet minimaal 3 werkdagen in de toekomst liggen
+          </p>
+        </div>
+
+        <!-- Notes (near limit) -->
+        <div class="project-info-field">
+          <label class="project-info-label">Opmerkingen / Speciale wensen</label>
+          <textarea
+            class="project-info-textarea"
+            maxlength="500"
+          >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</textarea>
+          <div class="project-info-counter warning">485 / 500</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="docs-section">
+    <h2>📋 QR04: ProjectInfoForm Documentation</h2>
+
+    <!-- STEP 1: Component Overview -->
+    <h3>STEP 1: Component Overview</h3>
+    <p><strong>Component Name:</strong> ProjectInfoForm (QR04)</p>
+    <p><strong>Category:</strong> Forms / B2B</p>
+    <p><strong>Usage Context:</strong> Quote request flow, bulk orders, project-based procurement</p>
+
+    <p><strong>Purpose:</strong></p>
+    <p>Captures project-specific information for B2B quote requests. Includes project name (for invoicing/delivery docs), delivery date (with validation), and optional notes for special requirements or questions.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>✅ Project name input with helper text</li>
+      <li>✅ Delivery date picker with min date validation</li>
+      <li>✅ Optional notes textarea with character counter (500 max)</li>
+      <li>✅ Required field indicators (*)</li>
+      <li>✅ Real-time validation with error messages</li>
+      <li>✅ Helper icons (info, calendar, alert-circle)</li>
+      <li>✅ Responsive single-column layout</li>
+    </ul>
+
+    <!-- STEP 2: When to Use -->
+    <h3>STEP 2: When to Use</h3>
+
+    <p><strong>Use this component when:</strong></p>
+    <ul>
+      <li>✅ B2B user is requesting a custom quote (offerte)</li>
+      <li>✅ Order is project-based (construction, medical, events)</li>
+      <li>✅ Delivery date needs to be specified upfront</li>
+      <li>✅ Customer may have special requirements/questions</li>
+      <li>✅ Project name needed for invoicing/tracking</li>
+    </ul>
+
+    <p><strong>Do NOT use when:</strong></p>
+    <ul>
+      <li>❌ Standard checkout flow (use shipping date selector instead)</li>
+      <li>❌ B2C orders (too complex for consumers)</li>
+      <li>❌ Quick reorders (no project context needed)</li>
+    </ul>
+
+    <p><strong>Component Guidelines:</strong></p>
+    <ul>
+      <li>Always validate delivery date (min 3 business days in future)</li>
+      <li>Show helper text explaining lead times</li>
+      <li>Make notes optional but encourage usage</li>
+      <li>Character counter turns warning (amber) at 90%, error (coral) at 100%</li>
+      <li>Preserve form data in localStorage (auto-save draft)</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Card background</td>
+          <td><code>--white</code></td>
+          <td>#FAFBFC</td>
+          <td>Main container</td>
+        </tr>
+        <tr>
+          <td>Card border</td>
+          <td><code>--grey</code></td>
+          <td>#E8ECF1</td>
+          <td>1px solid border</td>
+        </tr>
+        <tr>
+          <td>Title text</td>
+          <td><code>--navy</code></td>
+          <td>#0A1628</td>
+          <td>Section heading</td>
+        </tr>
+        <tr>
+          <td>Title icon</td>
+          <td><code>--teal</code></td>
+          <td>#00897B</td>
+          <td>Folder-open icon</td>
+        </tr>
+        <tr>
+          <td>Label text</td>
+          <td><code>--grey-dark</code></td>
+          <td>#64748B</td>
+          <td>Field labels</td>
+        </tr>
+        <tr>
+          <td>Required asterisk</td>
+          <td>-</td>
+          <td>#FF6B6B (coral)</td>
+          <td>* indicator</td>
+        </tr>
+        <tr>
+          <td>Input border</td>
+          <td><code>--grey</code></td>
+          <td>#E8ECF1</td>
+          <td>Default state</td>
+        </tr>
+        <tr>
+          <td>Input border (focus)</td>
+          <td><code>--teal</code></td>
+          <td>#00897B</td>
+          <td>Focus state</td>
+        </tr>
+        <tr>
+          <td>Input border (error)</td>
+          <td>-</td>
+          <td>#FF6B6B</td>
+          <td>Validation error</td>
+        </tr>
+        <tr>
+          <td>Error message</td>
+          <td>-</td>
+          <td>#FF6B6B</td>
+          <td>Error text + icon</td>
+        </tr>
+        <tr>
+          <td>Helper text</td>
+          <td><code>--grey-mid</code></td>
+          <td>#94A3B8</td>
+          <td>Info text</td>
+        </tr>
+        <tr>
+          <td>Counter (default)</td>
+          <td><code>--grey-mid</code></td>
+          <td>#94A3B8</td>
+          <td>Character count</td>
+        </tr>
+        <tr>
+          <td>Counter (warning)</td>
+          <td>-</td>
+          <td>#F59E0B (amber)</td>
+          <td>90-99% full</td>
+        </tr>
+        <tr>
+          <td>Counter (error)</td>
+          <td>-</td>
+          <td>#FF6B6B</td>
+          <td>100% full</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Typography:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Section title</td>
+          <td>Plus Jakarta Sans</td>
+          <td>16px</td>
+          <td>700</td>
+        </tr>
+        <tr>
+          <td>Field label</td>
+          <td>Plus Jakarta Sans</td>
+          <td>12px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Input/textarea</td>
+          <td>Plus Jakarta Sans</td>
+          <td>14px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Helper text</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Error message</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Character counter</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>400</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Spacing:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Token</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Card padding</td>
+          <td><code>--space-24</code></td>
+          <td>24px</td>
+        </tr>
+        <tr>
+          <td>Header margin-bottom</td>
+          <td><code>--space-20</code></td>
+          <td>20px</td>
+        </tr>
+        <tr>
+          <td>Field gap (vertical)</td>
+          <td><code>--space-16</code></td>
+          <td>16px</td>
+        </tr>
+        <tr>
+          <td>Label margin-bottom</td>
+          <td><code>--space-6</code></td>
+          <td>6px</td>
+        </tr>
+        <tr>
+          <td>Input padding</td>
+          <td>-</td>
+          <td>10px 14px</td>
+        </tr>
+        <tr>
+          <td>Textarea padding</td>
+          <td>-</td>
+          <td>12px 14px</td>
+        </tr>
+        <tr>
+          <td>Helper/error margin-top</td>
+          <td><code>--space-6</code></td>
+          <td>6px</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Icons:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Size</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>folder-open</td>
+          <td>20px</td>
+          <td>Section title icon (teal)</td>
+        </tr>
+        <tr>
+          <td>info</td>
+          <td>14px</td>
+          <td>Helper text icon (grey-mid)</td>
+        </tr>
+        <tr>
+          <td>calendar</td>
+          <td>14px</td>
+          <td>Date field helper icon</td>
+        </tr>
+        <tr>
+          <td>alert-circle</td>
+          <td>14px</td>
+          <td>Error message icon (coral)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h3>STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre><code>interface ProjectInfo {
+  projectName: string
+  deliveryDate: string    // ISO date format (YYYY-MM-DD)
+  notes?: string
+}
+
+interface ProjectInfoFormProps {
+  projectInfo?: Partial&lt;ProjectInfo&gt;     // Pre-fill values
+  onSubmit: (data: ProjectInfo) => void
+  minDeliveryDate?: string                // ISO date (default: +3 business days)
+  notesMaxLength?: number                 // Default: 500
+  showNotesCounter?: boolean              // Default: true
+  autoSave?: boolean                      // Save to localStorage
+  className?: string
+}
+
+interface ValidationErrors {
+  projectName?: string
+  deliveryDate?: string
+  notes?: string
+}</code></pre>
+
+    <p><strong>Payload CMS Block Configuration:</strong></p>
+    <pre><code>// blocks/ProjectInfoForm.ts
+import { Block } from 'payload/types'
+
+export const ProjectInfoForm: Block = {
+  slug: 'projectInfoForm',
+  labels: {
+    singular: 'Projectinformatie Formulier',
+    plural: 'Projectinformatie Formulieren',
+  },
+  fields: [
+    {
+      name: 'minLeadTimeDays',
+      type: 'number',
+      label: 'Minimale doorlooptijd (werkdagen)',
+      defaultValue: 3,
+      min: 1,
+      max: 30,
+    },
+    {
+      name: 'notesMaxLength',
+      type: 'number',
+      label: 'Max lengte opmerkingen',
+      defaultValue: 500,
+      min: 100,
+      max: 2000,
+    },
+    {
+      name: 'projectNameHelperText',
+      type: 'text',
+      label: 'Helper tekst projectnaam',
+      defaultValue: 'Deze naam wordt gebruikt op facturen en leveringsdocumenten.',
+    },
+    {
+      name: 'deliveryDateHelperText',
+      type: 'text',
+      label: 'Helper tekst leverdatum',
+      defaultValue: 'Standaard levertijd is 3-5 werkdagen. Voor spoedlevering neem contact op.',
+    },
+  ],
+}</code></pre>
+
+    <!-- STEP 5: Layout Rules -->
+    <h3>STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre><code>┌─────────────────────────────────────────┐
+│ [Folder Icon] Projectinformatie         │ ← Header
+├─────────────────────────────────────────┤
+│                                         │
+│ Projectnaam *                           │ ← Full width
+│ [Q2 2024 Stock Replenishment       ]   │
+│ ℹ Deze naam wordt gebruikt op...       │
+│                                         │
+│ Gewenste leverdatum *                   │ ← Full width
+│ [📅 2026-03-15                      ]   │
+│ 📅 Standaard levertijd is 3-5...       │
+│                                         │
+│ Opmerkingen / Speciale wensen           │ ← Full width
+│ ┌─────────────────────────────────────┐ │
+│ │ Speciale levertijden...            │ │ ← Textarea
+│ │                                    │ │
+│ └─────────────────────────────────────┘ │
+│                               125 / 500 │ ← Counter
+└─────────────────────────────────────────┘</code></pre>
+
+    <p><strong>Grid Layout:</strong></p>
+    <pre><code>/* Single-column layout */
+.project-info-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* All fields full-width */
+.project-info-field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Textarea minimum height */
+.project-info-textarea {
+  min-height: 100px;
+  resize: vertical;  /* Allow vertical resizing */
+}</code></pre>
+
+    <p><strong>Spacing Hierarchy:</strong></p>
+    <ul>
+      <li>Card padding: 24px (20px on mobile)</li>
+      <li>Header → Fields: 20px margin-bottom</li>
+      <li>Between fields: 16px gap</li>
+      <li>Label → Input: 6px margin-bottom</li>
+      <li>Input → Helper/Error: 6px margin-top</li>
+      <li>Textarea → Counter: 6px margin-top</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h3>STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre><code>&lt;div class="project-info-form" role="region" aria-labelledby="project-title"&gt;
+  &lt;div class="project-info-header"&gt;
+    &lt;h3 id="project-title" class="project-info-title"&gt;
+      Projectinformatie
+    &lt;/h3&gt;
+  &lt;/div&gt;
+
+  &lt;div class="project-info-fields"&gt;
+    &lt;!-- Project Name --&gt;
+    &lt;div class="project-info-field"&gt;
+      &lt;label for="project-name" class="project-info-label required"&gt;
+        Projectnaam
+      &lt;/label&gt;
+      &lt;input
+        type="text"
+        id="project-name"
+        class="project-info-input"
+        required
+        aria-required="true"
+        aria-describedby="project-name-helper"
+      &gt;
+      &lt;p id="project-name-helper" class="project-info-helper"&gt;
+        Deze naam wordt gebruikt op facturen.
+      &lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Delivery Date --&gt;
+    &lt;div class="project-info-field error"&gt;
+      &lt;label for="delivery-date" class="project-info-label required"&gt;
+        Gewenste leverdatum
+      &lt;/label&gt;
+      &lt;input
+        type="date"
+        id="delivery-date"
+        class="project-info-input"
+        required
+        aria-required="true"
+        aria-invalid="true"
+        aria-describedby="delivery-date-error"
+        min="2026-02-26"
+      &gt;
+      &lt;p id="delivery-date-error" class="project-info-error-message" role="alert"&gt;
+        Leverdatum moet minimaal 3 werkdagen in de toekomst liggen
+      &lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Notes --&gt;
+    &lt;div class="project-info-field"&gt;
+      &lt;label for="notes" class="project-info-label"&gt;
+        Opmerkingen / Speciale wensen
+      &lt;/label&gt;
+      &lt;textarea
+        id="notes"
+        class="project-info-textarea"
+        maxlength="500"
+        aria-describedby="notes-counter"
+      &gt;&lt;/textarea&gt;
+      &lt;div id="notes-counter" class="project-info-counter" aria-live="polite"&gt;
+        0 / 500
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>role="region"</code> - Form section landmark</li>
+      <li><code>aria-labelledby</code> - Connect region to title</li>
+      <li><code>aria-required="true"</code> - Required fields</li>
+      <li><code>aria-invalid="true"</code> - Invalid input state</li>
+      <li><code>aria-describedby</code> - Connect input to helper/error text</li>
+      <li><code>role="alert"</code> - Error messages (screen reader announcement)</li>
+      <li><code>aria-live="polite"</code> - Character counter (announce changes)</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li>Tab: Navigate between fields</li>
+      <li>Date input: Arrow keys to change date, Enter to open picker</li>
+      <li>Textarea: Tab to enter, Ctrl+Enter to submit (optional)</li>
+      <li>All inputs: Standard keyboard behavior</li>
+    </ul>
+
+    <p><strong>Required Field Indicators:</strong></p>
+    <pre><code>/* Visual indicator */
+.project-info-label.required::after {
+  content: '*';
+  color: #FF6B6B;
+  margin-left: 4px;
+}
+
+/* Screen reader announcement */
+&lt;label for="project-name" class="project-info-label required"&gt;
+  Projectnaam
+  &lt;span class="sr-only"&gt;(verplicht)&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h3>STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre><code>'use client'
+
+import { useState } from 'react'
+import { FolderOpen, Info, Calendar, AlertCircle } from 'lucide-react'
+import { ProjectInfoFormProps, ValidationErrors } from '@/types/components'
+
+export function ProjectInfoForm({
+  projectInfo,
+  onSubmit,
+  minDeliveryDate,
+  notesMaxLength = 500,
+  showNotesCounter = true,
+  autoSave = true,
+  className = '',
+}: ProjectInfoFormProps) {
+  const [formData, setFormData] = useState({
+    projectName: projectInfo?.projectName || '',
+    deliveryDate: projectInfo?.deliveryDate || '',
+    notes: projectInfo?.notes || '',
+  })
+
+  const [errors, setErrors] = useState&lt;ValidationErrors&gt;({})
+  const [charCount, setCharCount] = useState(formData.notes.length)
+
+  // Calculate min date (3 business days from today)
+  const getMinDate = () => {
+    if (minDeliveryDate) return minDeliveryDate
+    const date = new Date()
+    let daysAdded = 0
+    while (daysAdded < 3) {
+      date.setDate(date.getDate() + 1)
+      if (date.getDay() !== 0 && date.getDay() !== 6) daysAdded++
+    }
+    return date.toISOString().split('T')[0]
+  }
+
+  const handleNotesChange = (e: React.ChangeEvent&lt;HTMLTextAreaElement&gt;) => {
+    const value = e.target.value
+    setFormData(prev => ({ ...prev, notes: value }))
+    setCharCount(value.length)
+  }
+
+  const validate = () => {
+    const newErrors: ValidationErrors = {}
+
+    if (!formData.projectName.trim()) {
+      newErrors.projectName = 'Projectnaam is verplicht'
+    }
+
+    if (!formData.deliveryDate) {
+      newErrors.deliveryDate = 'Leverdatum is verplicht'
+    } else if (formData.deliveryDate < getMinDate()) {
+      newErrors.deliveryDate = 'Leverdatum moet minimaal 3 werkdagen in de toekomst liggen'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (validate()) {
+      onSubmit(formData)
+    }
+  }
+
+  // Character counter color
+  const getCounterClass = () => {
+    const percentage = (charCount / notesMaxLength) * 100
+    if (percentage >= 100) return 'error'
+    if (percentage >= 90) return 'warning'
+    return ''
+  }
+
+  return (
+    &lt;form className={`project-info-form ${className}`} onSubmit={handleSubmit}&gt;
+      &lt;div className="project-info-header"&gt;
+        &lt;h3 className="project-info-title"&gt;
+          &lt;FolderOpen className="project-info-title-icon" /&gt;
+          Projectinformatie
+        &lt;/h3&gt;
+      &lt;/div&gt;
+
+      &lt;div className="project-info-fields"&gt;
+        {/* Project Name */}
+        &lt;div className={`project-info-field ${errors.projectName ? 'error' : ''}`}&gt;
+          &lt;label htmlFor="project-name" className="project-info-label required"&gt;
+            Projectnaam
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="project-name"
+            className="project-info-input"
+            value={formData.projectName}
+            onChange={(e) => setFormData(prev => ({ ...prev, projectName: e.target.value }))}
+            placeholder="Bijv. Q2 2024 Stock Replenishment"
+            required
+          /&gt;
+          {errors.projectName ? (
+            &lt;p className="project-info-error-message"&gt;
+              &lt;AlertCircle className="project-info-error-icon" /&gt;
+              {errors.projectName}
+            &lt;/p&gt;
+          ) : (
+            &lt;p className="project-info-helper"&gt;
+              &lt;Info className="project-info-helper-icon" /&gt;
+              Deze naam wordt gebruikt op facturen en leveringsdocumenten.
+            &lt;/p&gt;
+          )}
+        &lt;/div&gt;
+
+        {/* Delivery Date */}
+        &lt;div className={`project-info-field ${errors.deliveryDate ? 'error' : ''}`}&gt;
+          &lt;label htmlFor="delivery-date" className="project-info-label required"&gt;
+            Gewenste leverdatum
+          &lt;/label&gt;
+          &lt;input
+            type="date"
+            id="delivery-date"
+            className="project-info-input"
+            value={formData.deliveryDate}
+            onChange={(e) => setFormData(prev => ({ ...prev, deliveryDate: e.target.value }))}
+            min={getMinDate()}
+            required
+          /&gt;
+          {errors.deliveryDate ? (
+            &lt;p className="project-info-error-message"&gt;
+              &lt;AlertCircle className="project-info-error-icon" /&gt;
+              {errors.deliveryDate}
+            &lt;/p&gt;
+          ) : (
+            &lt;p className="project-info-helper"&gt;
+              &lt;Calendar className="project-info-helper-icon" /&gt;
+              Standaard levertijd is 3-5 werkdagen. Voor spoedlevering neem contact op.
+            &lt;/p&gt;
+          )}
+        &lt;/div&gt;
+
+        {/* Notes */}
+        &lt;div className="project-info-field"&gt;
+          &lt;label htmlFor="notes" className="project-info-label"&gt;
+            Opmerkingen / Speciale wensen
+          &lt;/label&gt;
+          &lt;textarea
+            id="notes"
+            className="project-info-textarea"
+            value={formData.notes}
+            onChange={handleNotesChange}
+            placeholder="Bijv. speciale levertijden, verpakkingseisen, of vragen over producten..."
+            maxLength={notesMaxLength}
+          /&gt;
+          {showNotesCounter && (
+            &lt;div className={`project-info-counter ${getCounterClass()}`}&gt;
+              {charCount} / {notesMaxLength}
+            &lt;/div&gt;
+          )}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  )
+}</code></pre>
+
+    <p><strong>Date Validation (Business Days):</strong></p>
+    <pre><code>// utils/dateValidation.ts
+export function addBusinessDays(date: Date, days: number): Date {
+  const result = new Date(date)
+  let daysAdded = 0
+
+  while (daysAdded < days) {
+    result.setDate(result.getDate() + 1)
+    // Skip weekends (0 = Sunday, 6 = Saturday)
+    if (result.getDay() !== 0 && result.getDay() !== 6) {
+      daysAdded++
+    }
+  }
+
+  return result
+}
+
+export function getMinDeliveryDate(leadTimeDays: number = 3): string {
+  const minDate = addBusinessDays(new Date(), leadTimeDays)
+  return minDate.toISOString().split('T')[0]
+}</code></pre>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h3>STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Component Variants:</strong></p>
+    <ul>
+      <li><strong>Default</strong> - Project name + delivery date + notes</li>
+      <li><strong>Minimal</strong> - Project name only (hide date/notes)</li>
+      <li><strong>Extended</strong> - Add PO number field, department dropdown</li>
+      <li><strong>Compact</strong> - Smaller padding, inline labels</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>QR03: CompanyInfoForm</strong> - Company details (read-only)</li>
+      <li><strong>QR05: FileUploadDropzone</strong> - Attach specs/drawings</li>
+      <li><strong>EC14: AddressForm</strong> - Delivery address fields</li>
+      <li><strong>EC08: CouponInput</strong> - Discount code input</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul>
+      <li>✅ Validate project name is required (non-empty)</li>
+      <li>✅ Validate delivery date min (3 business days)</li>
+      <li>✅ Test business day calculation (skip weekends)</li>
+      <li>✅ Test character counter (0/500, 450/500, 500/500)</li>
+      <li>✅ Test counter color changes (90% warning, 100% error)</li>
+      <li>✅ Test textarea resize (vertical only)</li>
+      <li>✅ Test error states (red border + error message)</li>
+      <li>✅ Test aria-live announcement on char counter update</li>
+      <li>✅ Test keyboard navigation (Tab through fields)</li>
+      <li>✅ Test auto-save to localStorage (if enabled)</li>
+    </ul>
+
+    <p><strong>Common Pitfalls:</strong></p>
+    <ul>
+      <li>❌ Not validating business days (allowing weekend delivery)</li>
+      <li>❌ Allowing past dates (min date validation missing)</li>
+      <li>❌ Character counter not updating in real-time</li>
+      <li>❌ Not clearing errors after user corrects input</li>
+      <li>❌ Missing aria-live on character counter (accessibility)</li>
+      <li>❌ Textarea not allowing vertical resize (poor UX)</li>
+    </ul>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons()
+
+    // Character counter functionality
+    const textarea = document.getElementById('notes-textarea')
+    const counter = document.getElementById('char-counter')
+
+    if (textarea && counter) {
+      textarea.addEventListener('input', function() {
+        const length = this.value.length
+        const max = parseInt(this.getAttribute('maxlength'))
+        counter.textContent = `${length} / ${max}`
+
+        // Update counter color
+        counter.classList.remove('warning', 'error')
+        const percentage = (length / max) * 100
+        if (percentage >= 100) {
+          counter.classList.add('error')
+        } else if (percentage >= 90) {
+          counter.classList.add('warning')
+        }
+      })
+    }
+  </script>
+
+</body>
+</html>

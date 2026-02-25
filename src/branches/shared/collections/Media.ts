@@ -53,3 +53,5 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../../../public/media'),
   },
 }
+
+export default Media

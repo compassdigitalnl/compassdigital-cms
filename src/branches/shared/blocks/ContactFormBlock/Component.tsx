@@ -450,3 +450,5 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
     </section>
   )
 }
+
+export default ContactFormBlockComponent

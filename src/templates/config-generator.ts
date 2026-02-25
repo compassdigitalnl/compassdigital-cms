@@ -16,24 +16,24 @@ import type { Config } from 'payload'
 const collectionRegistry: Record<string, () => Promise<any>> = {
   // Core collections (exist in platform)
   pages: () => import('@/branches/shared/collections/Pages'),
-  media: () => import('@/collections/Media'),
+  media: () => import('@/branches/shared/collections/Media'),
   users: () => import('@/branches/shared/collections/Users'),
 
   // E-commerce (exist in platform)
-  products: () => import('@/collections/Products'),
+  products: () => import('@/branches/ecommerce/collections/Products'),
   'product-categories': () => import('@/branches/ecommerce/collections/ProductCategories'),
-  'product-brands': () => import('@/collections/Brands'),
-  orders: () => import('@/collections/Orders'),
+  'product-brands': () => import('@/branches/ecommerce/collections/Brands'),
+  orders: () => import('@/branches/ecommerce/collections/Orders'),
 
   // Blog (exist in platform)
-  'blog-posts': () => import('@/collections/BlogPosts'),
+  'blog-posts': () => import('@/branches/content/collections/BlogPosts'),
 
   // Portfolio (exist in platform)
-  cases: () => import('@/collections/Cases'),
-  services: () => import('@/collections/ServicesCollection'),
+  cases: () => import('@/branches/content/collections/Cases'),
+  services: () => import('@/branches/shared/collections/ServicesCollection'),
 
   // Forms (exist in platform)
-  'form-submissions': () => import('@/collections/FormSubmissions'),
+  'form-submissions': () => import('@/branches/shared/collections/FormSubmissions'),
 }
 
 /**
@@ -43,21 +43,21 @@ const collectionRegistry: Record<string, () => Promise<any>> = {
  */
 const blockRegistry: Record<string, () => Promise<any>> = {
   // Core blocks (exist in platform)
-  hero: () => import('@/blocks/Hero'),
-  content: () => import('@/blocks/Content/config'),
-  spacer: () => import('@/blocks/Spacer'),
-  cta: () => import('@/blocks/CTA'),
-  faq: () => import('@/blocks/FAQ'),
+  hero: () => import('@/branches/shared/blocks/Hero/config'),
+  content: () => import('@/branches/shared/blocks/Content/config'),
+  spacer: () => import('@/branches/shared/blocks/Spacer/config'),
+  cta: () => import('@/branches/shared/blocks/CTA/config'),
+  faq: () => import('@/branches/shared/blocks/FAQ/config'),
 
   // E-commerce blocks (exist in platform)
   'product-grid': () => import('@/branches/ecommerce/blocks/ProductGrid'),
   'category-grid': () => import('@/branches/ecommerce/blocks/CategoryGrid'),
-  'search-bar': () => import('@/branches/ecommerce/blocks/SearchBar'),
+  // 'search-bar': () => import('@/branches/ecommerce/blocks/SearchBar'), // TODO: Implement SearchBar block
   'quick-order': () => import('@/branches/ecommerce/blocks/QuickOrder'),
-  'top-bar': () => import('@/branches/ecommerce/blocks/TopBar'),
+  // 'top-bar': () => import('@/branches/ecommerce/blocks/TopBar'), // TODO: Implement TopBar block
 
   // Social proof (exist in platform)
-  testimonials: () => import('@/blocks/TestimonialsBlock'),
+  testimonials: () => import('@/branches/shared/blocks/Testimonials/config'),
 }
 
 /**

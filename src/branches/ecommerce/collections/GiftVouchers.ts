@@ -183,3 +183,5 @@ export const GiftVouchers: CollectionConfig = {
     },
   ],
 }
+
+export default GiftVouchers

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RegisterForm — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-dark: #00695C;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --amber-dark: #92400E;
+  --coral: #FF6B6B;
+  --green: #00C853;
+  --r-sm: 8px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.form-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-subtitle {
+  color: var(--grey-mid);
+  font-size: 14px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* OAuth Button */
+.oauth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--white);
+  border: 1.5px solid var(--grey);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 10px;
+}
+
+.oauth-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 1px 3px rgba(10,22,40,0.06);
+}
+
+.oauth-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  color: var(--grey-mid);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--grey);
+}
+
+/* B2B Notice */
+.b2b-notice {
+  display: flex;
+  gap: 12px;
+  background: rgba(0, 137, 123, 0.06);
+  border: 1px solid rgba(0, 137, 123, 0.15);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.5;
+}
+
+.b2b-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.b2b-notice strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* Form Layout */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-input-icon {
+  position: relative;
+}
+
+.icon-left {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--white);
+  transition: all 0.2s;
+  outline: none;
+}
+
+.form-input-icon .form-input {
+  padding-left: 42px;
+}
+
+.form-input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,137,123,0.1);
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.toggle-pw:hover {
+  color: var(--navy);
+}
+
+/* Password Strength Meter */
+.pw-strength {
+  margin-top: 8px;
+}
+
+.pw-bar {
+  height: 4px;
+  background: var(--grey);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.pw-fill {
+  height: 100%;
+  width: 0%;
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+
+.pw-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Strength states */
+.pw-fill.weak { width: 33%; background: var(--coral); }
+.pw-fill.medium { width: 66%; background: var(--amber); }
+.pw-fill.strong { width: 100%; background: var(--green); }
+
+.pw-label.weak { color: var(--coral); }
+.pw-label.medium { color: var(--amber-dark); }
+.pw-label.strong { color: var(--green); }
+
+/* Checkbox */
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--teal);
+  cursor: pointer;
+}
+
+.form-link {
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-link:hover {
+  text-decoration: underline;
+}
+
+/* Button */
+.btn-secondary {
+  width: 100%;
+  padding: 14px;
+  background: var(--navy);
+  color: white;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.btn-secondary:hover {
+  background: var(--navy-light);
+  box-shadow: 0 4px 16px rgba(10,38,71,0.25);
+  transform: translateY(-1px);
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--grey-mid);
+}
+
+.form-footer a {
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Demo Section */
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<h1>RegisterForm — Live Demo</h1>
+
+<div style="max-width: 440px; margin: 0 auto; background: var(--white); padding: 32px; border: 1px solid var(--grey); border-radius: 12px;">
+  <h2 class="form-title">Account aanmaken</h2>
+  <p class="form-subtitle">Maak een zakelijk account aan voor persoonlijke prijzen en snelle nabestellingen.</p>
+
+  <button class="oauth-btn" onclick="alert('Google OAuth registration')">
+    <svg viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+    </svg>
+    Registreren met Google
+  </button>
+
+  <div class="divider">of met e-mail</div>
+
+  <div class="b2b-notice">
+    <span class="b2b-icon">🏥</span>
+    <div>
+      <strong>B2B registratie</strong> — Uw aanvraag wordt binnen 1 werkdag beoordeeld.
+      Na goedkeuring ontvangt u uw persoonlijke prijsafspraken.
+    </div>
+  </div>
+
+  <form onsubmit="handleRegister(event)">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Voornaam</label>
+        <input type="text" class="form-input" placeholder="Jan" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Achternaam</label>
+        <input type="text" class="form-input" placeholder="de Vries" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Organisatie / Praktijk</label>
+      <input type="text" class="form-input" placeholder="Huisartsenpraktijk De Vries" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">KvK-nummer</label>
+      <input type="text" class="form-input" placeholder="12345678" maxlength="8">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Zakelijk e-mailadres</label>
+      <div class="form-input-icon">
+        <span class="icon-left">✉️</span>
+        <input type="email" class="form-input" placeholder="info@uwpraktijk.nl" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Telefoonnummer</label>
+      <div class="form-input-icon">
+        <span class="icon-left">📞</span>
+        <input type="tel" class="form-input" placeholder="06 12345678">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Wachtwoord</label>
+      <div class="form-input-icon">
+        <span class="icon-left">🔒</span>
+        <input type="password" class="form-input" id="reg-pw" placeholder="Min. 8 tekens" required oninput="checkPwStrength(this.value)">
+        <button type="button" class="toggle-pw" onclick="togglePassword()">👁️</button>
+      </div>
+      <div class="pw-strength">
+        <div class="pw-bar">
+          <div class="pw-fill" id="pw-fill"></div>
+        </div>
+        <span class="pw-label" id="pw-label"></span>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 24px;">
+      <label class="form-checkbox">
+        <input type="checkbox" required>
+        Ik ga akkoord met de <a href="#" class="form-link" style="margin-left:2px;">algemene voorwaarden</a>
+      </label>
+    </div>
+
+    <button type="submit" class="btn-secondary">Account aanvragen</button>
+  </form>
+
+  <p class="form-footer">
+    Al een account? <a href="#" onclick="alert('Navigate to login'); return false;">Log hier in</a>
+  </p>
+</div>
+
+<div style="margin-top:32px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:12px;">
+  <p style="font-size:13px;color:var(--grey-dark);line-height:1.7;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 674-760 |
+    <strong>Features:</strong> B2B registration form with OAuth, KvK number, password strength meter, terms acceptance |
+    <strong>Components:</strong> OAuth button, B2B notice, form inputs with icons, password strength meter, submit button |
+    <strong>Validation:</strong> Real-time password strength, required fields, email format
+  </p>
+</div>
+
+<script>
+function togglePassword() {
+  const input = document.getElementById('reg-pw');
+  const btn = event.target;
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+  btn.textContent = isPassword ? '🙈' : '👁️';
+}
+
+function checkPwStrength(pw) {
+  const fill = document.getElementById('pw-fill');
+  const label = document.getElementById('pw-label');
+
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (/[a-z]/.test(pw)) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  fill.className = 'pw-fill';
+  label.className = 'pw-label';
+
+  if (score <= 2) {
+    fill.classList.add('weak');
+    label.classList.add('weak');
+    label.textContent = 'Zwak';
+  } else if (score <= 4) {
+    fill.classList.add('medium');
+    label.classList.add('medium');
+    label.textContent = 'Gemiddeld';
+  } else {
+    fill.classList.add('strong');
+    label.classList.add('strong');
+    label.textContent = 'Sterk';
+  }
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  alert('Account aanvraag verstuurd! U ontvangt binnen 1 werkdag een bevestiging.');
+}
+</script>
+
+</body>
+</html>

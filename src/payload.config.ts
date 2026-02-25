@@ -33,10 +33,13 @@ import sharp from 'sharp'
 // - platform: Multi-tenant management (Clients, Deployments, etc.)
 //
 
-// Ecommerce Branch (22 collections)
+// Ecommerce Branch (23 collections)
 import { ABTests } from '@/branches/ecommerce/collections/ABTests'
 import { ABTestResults } from '@/branches/ecommerce/collections/ABTestResults'
 import { Brands } from '@/branches/ecommerce/collections/Brands'
+import { Carts } from '../packages/modules/cart/collections/Carts'
+import { Customers } from '../packages/modules/accounts/collections/Customers'
+import { Addresses } from '../packages/modules/accounts/collections/Addresses'
 import { EditionNotifications } from '@/branches/ecommerce/collections/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/collections/GiftVouchers'
 import { Invoices } from '@/branches/ecommerce/collections/Invoices'
@@ -48,12 +51,13 @@ import { LoyaltyRewards } from '@/branches/ecommerce/collections/LoyaltyRewards'
 import { LoyaltyTiers } from '@/branches/ecommerce/collections/LoyaltyTiers'
 import { LoyaltyTransactions } from '@/branches/ecommerce/collections/LoyaltyTransactions'
 import { OrderLists } from '@/branches/ecommerce/collections/OrderLists'
-import { Orders } from '@/branches/ecommerce/collections/Orders'
+import { Orders } from '../packages/modules/checkout/collections/Orders'
 import { PaymentMethods } from '@/branches/ecommerce/collections/PaymentMethods'
 import { Products } from '@/branches/ecommerce/collections/Products'
 import { RecentlyViewed } from '@/branches/ecommerce/collections/RecentlyViewed'
 import { RecurringOrders } from '@/branches/ecommerce/collections/RecurringOrders'
 import { Returns } from '@/branches/ecommerce/collections/Returns'
+import { StockReservations } from '@/branches/ecommerce/collections/StockReservations'
 import { SubscriptionPlans } from '@/branches/ecommerce/collections/SubscriptionPlans'
 import { UserSubscriptions } from '@/branches/ecommerce/collections/UserSubscriptions'
 
@@ -74,6 +78,7 @@ import { VendorReviews } from '@/branches/marketplace/collections/VendorReviews'
 import { Workshops } from '@/branches/marketplace/collections/Workshops'
 
 // Shared Branch (6 collections + 2 subdirectories)
+import { CookieConsents } from '@/branches/shared/collections/CookieConsents'
 import { Media } from '@/branches/shared/collections/Media'
 import { Notifications } from '@/branches/shared/collections/Notifications'
 import { Partners } from '@/branches/shared/collections/Partners'
@@ -268,6 +273,7 @@ export default buildConfig({
     Users,
     Pages,
     Media,
+    CookieConsents, // GDPR cookie consent tracking (always enabled)
     _col(Partners),
     _col(ServicesCollection),
     _col(Notifications),
@@ -286,7 +292,12 @@ export default buildConfig({
     _col(EditionNotifications), // Aboland Magazine Features
 
     // Customer Management
+    _col(Customers),
     _col(CustomerGroups),
+    _col(Addresses),
+
+    // Cart & Checkout
+    _col(Carts),
 
     // Order Management
     _col(Orders),
@@ -294,6 +305,7 @@ export default buildConfig({
     _col(RecurringOrders),
     _col(Invoices),
     _col(Returns),
+    _col(StockReservations),
 
     // Subscriptions (Sprint 6)
     _col(SubscriptionPlans),

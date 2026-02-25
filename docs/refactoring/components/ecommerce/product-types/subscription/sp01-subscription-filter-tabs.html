@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SP01: SubscriptionFilterTabs — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --white: #FAFBFC;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  padding: 32px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+/* SP01: SubscriptionFilterTabs */
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  padding: 10px 18px;
+  border-radius: 100px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  color: var(--grey-mid);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-tab:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.filter-tab.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+
+.filter-tab i {
+  width: 14px;
+  height: 14px;
+}
+
+.filter-count {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.filter-tab:not(.active) .filter-count {
+  background: var(--grey-light);
+}
+
+/* Documentation Section */
+.doc-section {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  line-height: 1.6;
+}
+
+.doc-section h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.doc-section p {
+  margin-bottom: 12px;
+}
+
+.doc-section ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.doc-section pre {
+  background: var(--grey-light);
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.doc-section code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2>🎯 Live Demo — SP01: SubscriptionFilterTabs</h2>
+
+  <!-- Live Demo -->
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setActive(this)">
+      <i data-lucide="grid"></i>
+      Alle
+      <span class="filter-count">6</span>
+    </button>
+    <button class="filter-tab" onclick="setActive(this)">
+      <i data-lucide="user"></i>
+      Persoonlijk
+      <span class="filter-count">3</span>
+    </button>
+    <button class="filter-tab" onclick="setActive(this)">
+      <i data-lucide="gift"></i>
+      Cadeau
+      <span class="filter-count">3</span>
+    </button>
+  </div>
+
+  <!-- Documentation -->
+  <div class="doc-section">
+
+    <!-- STEP 1: Component Overview -->
+    <h3>📦 STEP 1: Component Overview</h3>
+    <p><strong>Component:</strong> SP01: SubscriptionFilterTabs</p>
+    <p><strong>Purpose:</strong> Pill-style category filter tabs for subscription product archives. Allows users to filter between "Alle", "Persoonlijk", and "Cadeau" subscription types.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>Pill-shaped buttons (100px border-radius) with icons and labels</li>
+      <li>Product count badges per category</li>
+      <li>Active state: teal background + white text</li>
+      <li>Inactive state: white background + grey border + grey text</li>
+      <li>Hover state: teal border + teal text (inactive tabs)</li>
+      <li>Flex-wrap for responsive stacking</li>
+      <li>Icon support (Lucide icons at 14px)</li>
+    </ul>
+
+    <p><strong>Visual Description:</strong> Horizontal row of pill-shaped filter buttons with icons, labels, and count badges. Active tab has teal background, inactive tabs are white with grey borders.</p>
+
+    <!-- STEP 2: When to Use -->
+    <h3>📋 STEP 2: When to Use</h3>
+
+    <p><strong>Primary Use Cases:</strong></p>
+    <ul>
+      <li><strong>Subscription Product Archives:</strong> Filter between subscription types (Personal vs Gift subscriptions)</li>
+      <li><strong>Magazine/Wine Subscription Catalogs:</strong> Distinguish between self-purchase and gift subscriptions</li>
+      <li><strong>2-3 Category Filters:</strong> When you have a small number of mutually exclusive categories (max 5 tabs)</li>
+      <li><strong>Quick Visual Filtering:</strong> When users need to quickly switch between subscription types</li>
+    </ul>
+
+    <p><strong>When NOT to Use:</strong></p>
+    <ul>
+      <li>❌ For more than 5 categories (use dropdown or sidebar filter instead)</li>
+      <li>❌ For multi-select filters (use checkboxes in sidebar - see SP03)</li>
+      <li>❌ For binary toggle (use toggle switch - see SP02)</li>
+      <li>❌ For complex filtering with multiple dimensions (use FilterSidebar)</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>🎨 STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Active bg: <code>#00897B</code> (teal)</li>
+      <li>Active text: <code>#FFFFFF</code> (white)</li>
+      <li>Active badge bg: <code>rgba(255, 255, 255, 0.25)</code> (white 25%)</li>
+      <li>Inactive bg: <code>#FFFFFF</code> (white)</li>
+      <li>Inactive border: <code>#E8ECF1</code> (grey)</li>
+      <li>Inactive text: <code>#94A3B8</code> (grey-mid)</li>
+      <li>Inactive badge bg: <code>#F1F4F8</code> (grey-light)</li>
+      <li>Hover border: <code>#00897B</code> (teal)</li>
+      <li>Hover text: <code>#00897B</code> (teal)</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Font: Plus Jakarta Sans</li>
+      <li>Label: 13px, 700 weight</li>
+      <li>Count badge: 10px, 800 weight</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Padding: 10px 18px (vertical horizontal)</li>
+      <li>Gap between tabs: 8px</li>
+      <li>Icon-to-label gap: 6px</li>
+      <li>Label-to-count gap: 6px (implicit in flex)</li>
+      <li>Count badge padding: 2px 6px</li>
+    </ul>
+
+    <p><strong>Border Radius:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Tab border-radius: 100px (pill shape)</li>
+      <li>Count badge radius: 100px (pill shape)</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Icon library: Lucide Icons</li>
+      <li>Icon size: 14×14px</li>
+      <li>Icons used: <code>grid</code> (Alle), <code>user</code> (Persoonlijk), <code>gift</code> (Cadeau)</li>
+    </ul>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h3>⚙️ STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre>
+interface SubscriptionFilterTab {
+  id: string;
+  label: string;
+  icon: string;        // Lucide icon name
+  count: number;
+}
+
+interface SubscriptionFilterTabsProps {
+  tabs: SubscriptionFilterTab[];
+  activeId: string;
+  onChange: (tabId: string) => void;
+  showCounts?: boolean;  // Default: true
+}</pre>
+
+    <p><strong>Payload CMS Schema:</strong></p>
+    <pre>
+{
+  name: 'subscriptionFilterType',
+  type: 'select',
+  label: 'Filter Type',
+  defaultValue: 'tabs',
+  options: [
+    { label: 'Pill Tabs', value: 'tabs' },
+    { label: 'Toggle Switch', value: 'toggle' },
+    { label: 'Sidebar Checkboxes', value: 'sidebar' }
+  ],
+  admin: {
+    description: 'Choose filter variant for subscription products',
+  }
+}</pre>
+
+    <p><strong>Default Values:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>showCounts: <code>true</code></li>
+      <li>activeId: <code>'all'</code> (first tab)</li>
+    </ul>
+
+    <!-- STEP 5: Layout Rules -->
+    <h3>📐 STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre>
+┌─────────────────────────────────────────────────────┐
+│ .filter-tabs (flex, gap 8px, wrap)                 │
+│                                                     │
+│  ┌──────────────┐ ┌──────────────┐ ┌────────────┐ │
+│  │ 🔲 Alle  [6] │ │ 👤 Pers. [3] │ │ 🎁 Cad [3] │ │
+│  └──────────────┘ └──────────────┘ └────────────┘ │
+│   Active (teal)   Inactive (grey)  Inactive       │
+└─────────────────────────────────────────────────────┘</pre>
+
+    <p><strong>Grid/Flexbox Specifications:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Container: <code>display: flex</code></li>
+      <li>Direction: <code>row</code> (horizontal)</li>
+      <li>Gap: <code>8px</code></li>
+      <li>Wrap: <code>flex-wrap: wrap</code> (responsive stacking)</li>
+    </ul>
+
+    <p><strong>Tab Button Layout:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Display: <code>inline-flex</code></li>
+      <li>Align-items: <code>center</code></li>
+      <li>Gap: <code>6px</code> (icon → label → count)</li>
+      <li>Padding: <code>10px 18px</code></li>
+      <li>Border: <code>1.5px solid</code></li>
+    </ul>
+
+    <p><strong>Responsive Breakpoints:</strong></p>
+    <ul>
+      <li><strong>Desktop (1024px+):</strong> Horizontal row, all tabs visible</li>
+      <li><strong>Tablet (768px-1023px):</strong> Wraps to 2 rows if needed</li>
+      <li><strong>Mobile (640px-767px):</strong> Stacks vertically or wraps to multiple rows</li>
+      <li><strong>Mobile (< 640px):</strong> Full-width tabs optional (use <code>width: 100%</code> on tabs)</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h3>♿ STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre>
+&lt;div class="filter-tabs" role="tablist" aria-label="Subscription type filters"&gt;
+  &lt;button
+    class="filter-tab active"
+    role="tab"
+    aria-selected="true"
+    aria-controls="products-all"
+    id="tab-all"
+  &gt;
+    &lt;i data-lucide="grid" aria-hidden="true"&gt;&lt;/i&gt;
+    Alle
+    &lt;span class="filter-count" aria-label="6 producten"&gt;6&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;!-- More tabs... --&gt;
+&lt;/div&gt;</pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>role="tablist"</code> on container</li>
+      <li><code>role="tab"</code> on each button</li>
+      <li><code>aria-selected="true"</code> on active tab</li>
+      <li><code>aria-controls</code> linking tab to panel ID</li>
+      <li><code>aria-label</code> on count badges for screen readers</li>
+      <li><code>aria-hidden="true"</code> on decorative icons</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li><kbd>Tab</kbd> - Move focus to tab group</li>
+      <li><kbd>←</kbd><kbd>→</kbd> - Navigate between tabs (arrow keys)</li>
+      <li><kbd>Enter</kbd>/<kbd>Space</kbd> - Activate focused tab</li>
+      <li><kbd>Home</kbd> - Jump to first tab</li>
+      <li><kbd>End</kbd> - Jump to last tab</li>
+    </ul>
+
+    <p><strong>Focus Management:</strong></p>
+    <ul>
+      <li>Visible focus ring: <code>box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12)</code></li>
+      <li>Focus remains on activated tab after click</li>
+      <li>Tab activation announces change to screen readers</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul>
+      <li>✅ Active text on teal: White (#FFFFFF) on Teal (#00897B) = 4.5:1 (WCAG AA)</li>
+      <li>✅ Inactive text: Grey-mid (#94A3B8) on White (#FFFFFF) = 4.5:1 (WCAG AA)</li>
+      <li>✅ Hover state: Teal (#00897B) on White (#FFFFFF) = 4.5:1 (WCAG AA)</li>
+    </ul>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h3>💻 STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre>
+'use client';
+
+import { useState } from 'react';
+import { Grid, User, Gift } from 'lucide-react';
+
+interface Tab {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+  count: number;
+}
+
+export const SubscriptionFilterTabs = ({
+  tabs,
+  activeId,
+  onChange,
+  showCounts = true
+}) => {
+  return (
+    &lt;div className="filter-tabs" role="tablist" aria-label="Subscription filters"&gt;
+      {tabs.map((tab) => (
+        &lt;button
+          key={tab.id}
+          className={`filter-tab ${activeId === tab.id ? 'active' : ''}`}
+          role="tab"
+          aria-selected={activeId === tab.id}
+          aria-controls={`products-${tab.id}`}
+          onClick={() => onChange(tab.id)}
+        &gt;
+          {tab.icon}
+          {tab.label}
+          {showCounts && (
+            &lt;span className="filter-count" aria-label={`${tab.count} producten`}&gt;
+              {tab.count}
+            &lt;/span&gt;
+          )}
+        &lt;/button&gt;
+      ))}
+    &lt;/div&gt;
+  );
+};</pre>
+
+    <p><strong>Usage Example:</strong></p>
+    <pre>
+const [activeTab, setActiveTab] = useState('all');
+
+const tabs = [
+  { id: 'all', label: 'Alle', icon: &lt;Grid size={14} /&gt;, count: 6 },
+  { id: 'personal', label: 'Persoonlijk', icon: &lt;User size={14} /&gt;, count: 3 },
+  { id: 'gift', label: 'Cadeau', icon: &lt;Gift size={14} /&gt;, count: 3 },
+];
+
+&lt;SubscriptionFilterTabs
+  tabs={tabs}
+  activeId={activeTab}
+  onChange={setActiveTab}
+/&gt;</pre>
+
+    <p><strong>State Management:</strong></p>
+    <ul>
+      <li>Store active tab ID in component state or URL query params</li>
+      <li>Filter product list based on active tab</li>
+      <li>Update URL with <code>?type=persoonlijk</code> for shareable links</li>
+      <li>Persist user preference in LocalStorage (optional)</li>
+    </ul>
+
+    <p><strong>Performance Optimization:</strong></p>
+    <ul>
+      <li>Memoize tab list if derived from large dataset</li>
+      <li>Use <code>React.memo()</code> on tab component if re-renders are expensive</li>
+      <li>Lazy load product grid after tab switch (debounce 100ms)</li>
+    </ul>
+
+    <p><strong>Edge Cases:</strong></p>
+    <ul>
+      <li><strong>Zero products in category:</strong> Show count as "0" or hide tab entirely</li>
+      <li><strong>Dynamic counts:</strong> Update counts when products are added/removed</li>
+      <li><strong>Loading state:</strong> Disable tabs during product fetch with cursor not-allowed</li>
+      <li><strong>Error state:</strong> Show fallback if categories fail to load</li>
+    </ul>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h3>🔄 STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Variations:</strong></p>
+    <ul>
+      <li><strong>Without counts:</strong> Hide <code>.filter-count</code> badges</li>
+      <li><strong>Icons only:</strong> Hide labels on mobile (show tooltip on hover)</li>
+      <li><strong>Full-width mobile:</strong> Add <code>width: 100%</code> to tabs on < 640px</li>
+      <li><strong>Sticky tabs:</strong> Add <code>position: sticky; top: 80px; z-index: 200;</code> for fixed position on scroll</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>SP02: SubscriptionFilterToggle</strong> - Binary toggle switch (Persoonlijk ↔ Cadeau)</li>
+      <li><strong>SP03: SubscriptionFilterSidebar</strong> - Sidebar with checkboxes for multi-dimension filtering</li>
+      <li><strong>MM06: MixMatchCategoryFilter</strong> - Similar pill tabs for Mix & Match products</li>
+      <li><strong>EC03: SubcategoryChips</strong> - Horizontal scroll chips for e-commerce categories</li>
+      <li><strong>C21: FilterSidebar</strong> - Complex multi-filter sidebar</li>
+    </ul>
+
+    <p><strong>Component Composition:</strong></p>
+    <pre>
+&lt;SubscriptionFilterTabs /&gt;  ← Filter tabs
+&lt;div className="products-grid"&gt;
+  &lt;SP04: SubscriptionProductCard /&gt;  ← Filtered products
+  &lt;SP04: SubscriptionProductCard /&gt;
+  &lt;SP04: SubscriptionProductCard /&gt;
+&lt;/div&gt;</pre>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul>
+      <li>✅ Click each tab → filters products correctly</li>
+      <li>✅ Active state visual feedback (teal bg + white text)</li>
+      <li>✅ Hover state on inactive tabs (teal border + text)</li>
+      <li>✅ Count badges display correct numbers</li>
+      <li>✅ Icons render properly (Lucide)</li>
+      <li>✅ Wraps to multiple rows on narrow screens</li>
+      <li>✅ Keyboard navigation works (arrow keys)</li>
+      <li>✅ Screen reader announces tab changes</li>
+      <li>✅ Focus ring visible on keyboard navigation</li>
+    </ul>
+
+    <p><strong>Migration Notes:</strong></p>
+    <ul>
+      <li>Replaces generic category filters for subscription products</li>
+      <li>Can be used globally or overridden per product archive page</li>
+      <li>Configurable in Payload CMS via <code>subscriptionFilterType</code> select field</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  function setActive(btn) {
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.classList.remove('active');
+      tab.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+</script>
+
+</body>
+</html>

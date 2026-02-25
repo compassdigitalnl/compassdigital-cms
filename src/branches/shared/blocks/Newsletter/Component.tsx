@@ -249,3 +249,5 @@ export const NewsletterBlockComponent: React.FC<NewsletterBlockProps> = ({
     </section>
   )
 }
+
+export default NewsletterBlockComponent

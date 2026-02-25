@@ -118,3 +118,5 @@ export const LoyaltyRewards: CollectionConfig = {
     },
   ],
 }
+
+export default LoyaltyRewards

@@ -498,5 +498,82 @@ export const Returns: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [
+      async ({ doc, previousDoc, operation, req }) => {
+        // ========================================
+        // SEND EMAIL NOTIFICATIONS ON STATUS CHANGE
+        // ========================================
+
+        // Only send emails on update operations (not create)
+        if (operation !== 'update') return doc
+
+        const statusChanged = previousDoc.status !== doc.status
+        if (!statusChanged) return doc
+
+        // Get customer email
+        let customerEmail: string | undefined
+
+        // Try to get from customer relationship
+        if (doc.customer) {
+          try {
+            const customerId = typeof doc.customer === 'string' ? doc.customer : doc.customer.id
+            const customer = await req.payload.findByID({
+              collection: 'users',
+              id: customerId,
+            })
+            customerEmail = customer.email
+          } catch (error) {
+            console.error('Failed to fetch customer for return email:', error)
+          }
+        }
+
+        if (!customerEmail) {
+          console.warn(`⚠️ Cannot send return email for ${doc.rmaNumber}: no customer email found`)
+          return doc
+        }
+
+        // Import email service dynamically to avoid circular dependencies
+        const { emailService } = await import('@/lib/email/EmailService')
+
+        if (!emailService.isConfigured()) {
+          console.warn('⚠️ Email service not configured - skipping return notification email')
+          return doc
+        }
+
+        try {
+          // Send email based on new status
+          switch (doc.status) {
+            case 'approved':
+              console.log(`📧 Sending return approval email to ${customerEmail} for ${doc.rmaNumber}`)
+              await emailService.sendReturnApproval(doc, customerEmail)
+              console.log(`✅ Return approval email sent for ${doc.rmaNumber}`)
+              break
+
+            case 'rejected':
+              console.log(`📧 Sending return rejection email to ${customerEmail} for ${doc.rmaNumber}`)
+              await emailService.sendReturnRejection(doc, customerEmail, doc.rejectionReason)
+              console.log(`✅ Return rejection email sent for ${doc.rmaNumber}`)
+              break
+
+            case 'label_sent':
+              console.log(`📧 Sending return label email to ${customerEmail} for ${doc.rmaNumber}`)
+              const trackingUrl = doc.returnShipping?.trackingUrl
+              await emailService.sendReturnLabel(doc, customerEmail, trackingUrl)
+              console.log(`✅ Return label email sent for ${doc.rmaNumber}`)
+              break
+
+            default:
+              // No email for other status changes
+              break
+          }
+        } catch (error) {
+          console.error(`❌ Failed to send return notification email for ${doc.rmaNumber}:`, error)
+          // Don't fail the update if email fails
+        }
+
+        return doc
+      },
+    ],
   },
 }
+export default Returns

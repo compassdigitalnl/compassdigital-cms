@@ -4,7 +4,7 @@
  * Ensures data consistency between Payload CMS and Listmonk
  * Detects and fixes discrepancies automatically
  *
- * Run via cron job: */15 * * * * (every 15 minutes)
+ * Run via cron job: every 15 minutes (cron: "star/15 * * * *")
  */
 
 import type { Payload } from 'payload'

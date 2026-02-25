@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C13 - Recently Viewed | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --coral: #FF6B6B;
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo Container */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; }
+
+    /* Recently Viewed Section */
+    .rv-section { max-width: 900px; }
+    .rv-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .rv-title { font-family: var(--font-display); font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--navy); }
+    .rv-title i { width: 20px; height: 20px; color: var(--teal); }
+
+    /* Navigation Buttons */
+    .rv-nav { display: flex; gap: 6px; }
+    .rv-nav-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--grey); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+    .rv-nav-btn:hover { border-color: var(--teal); background: var(--teal-glow); }
+    .rv-nav-btn i { width: 16px; height: 16px; color: var(--navy); }
+
+    /* Scroll Container */
+    .rv-scroll { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 0 12px; scrollbar-width: none; -ms-overflow-style: none; }
+    .rv-scroll::-webkit-scrollbar { display: none; }
+
+    /* Product Cards */
+    .rv-card { min-width: 180px; max-width: 180px; background: white; border: 1px solid var(--grey); border-radius: 14px; overflow: hidden; scroll-snap-align: start; transition: all 0.25s; flex-shrink: 0; position: relative; text-decoration: none; color: inherit; }
+    .rv-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05); border-color: transparent; }
+    .rv-card-img { height: 120px; background: var(--grey-light); display: flex; align-items: center; justify-content: center; font-size: 36px; position: relative; }
+    .rv-card-time { position: absolute; bottom: 6px; right: 6px; background: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; color: var(--grey-mid); display: flex; align-items: center; gap: 3px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); }
+    .rv-card-time i { width: 10px; height: 10px; }
+    .rv-card-body { padding: 12px; }
+    .rv-card-brand { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--teal); }
+    .rv-card-name { font-size: 13px; font-weight: 600; color: var(--navy); line-height: 1.25; margin: 2px 0 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .rv-card-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .rv-card-price { font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--navy); }
+    .rv-card-cart { width: 30px; height: 30px; border-radius: 7px; border: none; background: var(--teal); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .rv-card-cart:hover { background: var(--navy); }
+    .rv-card-cart i { width: 13px; height: 13px; }
+
+    /* Favorite Button (Hover Reveal) */
+    .rv-card-fav { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 7px; border: none; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06); opacity: 0; transition: all 0.15s; }
+    .rv-card:hover .rv-card-fav { opacity: 1; }
+    .rv-card-fav i { width: 14px; height: 14px; color: var(--grey-mid); }
+    .rv-card-fav:hover i { color: var(--coral); }
+
+    /* Clear History Link */
+    .rv-clear { font-size: 13px; color: var(--grey-mid); text-align: center; margin-top: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: color 0.15s; }
+    .rv-clear:hover { color: var(--coral); }
+    .rv-clear i { width: 13px; height: 13px; }
+
+    /* Mobile */
+    @media(max-width: 640px) {
+      .rv-nav { display: none; }
+      body { padding: 20px; }
+    }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid #E8ECF1; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: #94A3B8; line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: #F1F4F8; padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <div class="rv-section">
+      <div class="rv-header">
+        <div class="rv-title"><i data-lucide="clock"></i> Recent bekeken</div>
+        <div class="rv-nav">
+          <button class="rv-nav-btn" onclick="rvScroll(-1)" aria-label="Vorige producten"><i data-lucide="chevron-left"></i></button>
+          <button class="rv-nav-btn" onclick="rvScroll(1)" aria-label="Volgende producten"><i data-lucide="chevron-right"></i></button>
+        </div>
+      </div>
+
+      <div class="rv-scroll" id="rvScroll" role="list" aria-label="Recent bekeken producten">
+        <a href="#" class="rv-card" role="listitem">
+          <button class="rv-card-fav" aria-label="Voeg toe aan favorieten"><i data-lucide="heart"></i></button>
+          <div class="rv-card-img">🧤<div class="rv-card-time"><i data-lucide="clock"></i> 10 min</div></div>
+          <div class="rv-card-body">
+            <div class="rv-card-brand">Hartmann</div>
+            <div class="rv-card-name">Peha-soft Nitrile Fino — M</div>
+            <div class="rv-card-bottom">
+              <span class="rv-card-price">€8,25</span>
+              <button class="rv-card-cart" aria-label="Voeg toe aan winkelwagen"><i data-lucide="shopping-cart"></i></button>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="rv-card" role="listitem">
+          <button class="rv-card-fav" aria-label="Voeg toe aan favorieten"><i data-lucide="heart"></i></button>
+          <div class="rv-card-img">🩺<div class="rv-card-time"><i data-lucide="clock"></i> 25 min</div></div>
+          <div class="rv-card-body">
+            <div class="rv-card-brand">Littmann</div>
+            <div class="rv-card-name">Classic III Stethoscoop</div>
+            <div class="rv-card-bottom">
+              <span class="rv-card-price">€89,95</span>
+              <button class="rv-card-cart" aria-label="Voeg toe aan winkelwagen"><i data-lucide="shopping-cart"></i></button>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="rv-card" role="listitem">
+          <button class="rv-card-fav" aria-label="Voeg toe aan favorieten"><i data-lucide="heart"></i></button>
+          <div class="rv-card-img">🌡️<div class="rv-card-time"><i data-lucide="clock"></i> 1 uur</div></div>
+          <div class="rv-card-body">
+            <div class="rv-card-brand">Braun</div>
+            <div class="rv-card-name">ThermoScan 7 Oorthermometer</div>
+            <div class="rv-card-bottom">
+              <span class="rv-card-price">€64,95</span>
+              <button class="rv-card-cart" aria-label="Voeg toe aan winkelwagen"><i data-lucide="shopping-cart"></i></button>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="rv-card" role="listitem">
+          <button class="rv-card-fav" aria-label="Voeg toe aan favorieten"><i data-lucide="heart"></i></button>
+          <div class="rv-card-img">💉<div class="rv-card-time"><i data-lucide="clock"></i> 2 uur</div></div>
+          <div class="rv-card-body">
+            <div class="rv-card-brand">BD</div>
+            <div class="rv-card-name">Discardit II Spuit 10ml</div>
+            <div class="rv-card-bottom">
+              <span class="rv-card-price">€4,25</span>
+              <button class="rv-card-cart" aria-label="Voeg toe aan winkelwagen"><i data-lucide="shopping-cart"></i></button>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="rv-card" role="listitem">
+          <button class="rv-card-fav" aria-label="Voeg toe aan favorieten"><i data-lucide="heart"></i></button>
+          <div class="rv-card-img">🧴<div class="rv-card-time"><i data-lucide="clock"></i> 3 uur</div></div>
+          <div class="rv-card-body">
+            <div class="rv-card-brand">Hartmann</div>
+            <div class="rv-card-name">Baktolan Protect+ Pure</div>
+            <div class="rv-card-bottom">
+              <span class="rv-card-price">€5,95</span>
+              <button class="rv-card-cart" aria-label="Voeg toe aan winkelwagen"><i data-lucide="shopping-cart"></i></button>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="rv-card" role="listitem">
+          <button class="rv-card-fav" aria-label="Voeg toe aan favorieten"><i data-lucide="heart"></i></button>
+          <div class="rv-card-img">🩹<div class="rv-card-time"><i data-lucide="clock"></i> Gisteren</div></div>
+          <div class="rv-card-body">
+            <div class="rv-card-brand">Leukoplast</div>
+            <div class="rv-card-name">Professional 5m × 2,5cm</div>
+            <div class="rv-card-bottom">
+              <span class="rv-card-price">€6,50</span>
+              <button class="rv-card-cart" aria-label="Voeg toe aan winkelwagen"><i data-lucide="shopping-cart"></i></button>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="rv-card" role="listitem">
+          <button class="rv-card-fav" aria-label="Voeg toe aan favorieten"><i data-lucide="heart"></i></button>
+          <div class="rv-card-img">🔬<div class="rv-card-time"><i data-lucide="clock"></i> Gisteren</div></div>
+          <div class="rv-card-body">
+            <div class="rv-card-brand">Heine</div>
+            <div class="rv-card-name">Mini 3000 Otoscoop Set</div>
+            <div class="rv-card-bottom">
+              <span class="rv-card-price">€142,00</span>
+              <button class="rv-card-cart" aria-label="Voeg toe aan winkelwagen"><i data-lucide="shopping-cart"></i></button>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="rv-clear" onclick="clearHistory()" role="button" tabindex="0"><i data-lucide="trash-2"></i> Geschiedenis wissen</div>
+    </div>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C13 - Recently Viewed Products</p>
+    <p><strong>Category:</strong> Account / Personalization</p>
+    <p><strong>Complexiteit:</strong> Medium (horizontal scroll, localStorage persistence, time formatting)</p>
+
+    <h3>Purpose:</h3>
+    <p>Horizontal scroll carousel displaying recently viewed products with time indicators. Helps users quickly return to products they've browsed. Increases conversion by reducing friction in the purchase journey.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Horizontal scroll carousel with scroll-snap behavior</li>
+      <li>Navigation arrows (left/right chevrons)</li>
+      <li>Product cards (180px width) with emoji placeholders</li>
+      <li>Time stamp overlay ("10 min", "1 uur", "Gisteren")</li>
+      <li>Brand label (teal, uppercase)</li>
+      <li>Product name (2-line clamp)</li>
+      <li>Price + direct add-to-cart button</li>
+      <li>Hover-reveal favorite button (heart icon)</li>
+      <li>"Clear history" link with trash icon</li>
+      <li>Smooth scroll behavior on navigation clicks</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Homepage (below hero/featured products)</li>
+      <li>Product pages (cross-sell section at bottom)</li>
+      <li>Account dashboard ("Verder winkelen" widget)</li>
+      <li>Cart page (continue browsing section)</li>
+      <li>404/empty search results (fallback content)</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Track up to 12-20 recently viewed products (don't store indefinitely)</li>
+      <li>Persist in localStorage (cookie-free, 30-day expiry)</li>
+      <li>Remove duplicates (keep most recent timestamp)</li>
+      <li>Show relative time: "10 min", "1 uur", "Gisteren", "X dagen"</li>
+      <li>Remove deleted/out-of-stock products from history</li>
+      <li>Add "View more" link if >7 products</li>
+      <li>Respect privacy: delete on logout (optional based on UX)</li>
+      <li>On mobile: hide nav arrows, use touch swipe</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Section */
+max-width: 900px
+
+/* Header */
+title: Plus Jakarta Sans, 18px, 800
+icon: 20px × 20px, teal
+
+/* Navigation Buttons */
+width/height: 34px × 34px
+border: 1.5px solid var(--grey)
+border-radius: 8px
+hover: border var(--teal) + background var(--teal-glow)
+
+/* Scroll Container */
+gap: 12px
+overflow-x: auto
+scroll-snap-type: x mandatory
+scrollbar: hidden (all browsers)
+
+/* Product Card */
+width: 180px (fixed, flex-shrink 0)
+border: 1px solid var(--grey)
+border-radius: 14px
+hover: translateY(-2px) + shadow 0 6px 20px rgba(0,0,0,0.05)
+
+/* Image Area */
+height: 120px
+background: var(--grey-light)
+emoji: 36px font-size
+
+/* Time Badge */
+position: absolute bottom 6px, right 6px
+background: white
+padding: 2px 6px
+border-radius: 4px
+font: 10px, 600
+shadow: 0 1px 4px rgba(0,0,0,0.06)
+
+/* Card Body */
+padding: 12px
+brand: 9px, 700, uppercase, letter-spacing 0.04em, teal
+name: 13px, 600, line-clamp 2
+price: Plus Jakarta Sans, 14px, 800
+
+/* Cart Button */
+30px × 30px
+border-radius: 7px
+background: var(--teal)
+hover: background var(--navy)
+
+/* Favorite Button */
+28px × 28px
+opacity: 0 → 1 on card hover
+hover: color var(--coral)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  products: [
+    {
+      id: '123',
+      name: 'Peha-soft Nitrile Fino — M',
+      brand: 'Hartmann',
+      price: 8.25,
+      image: '/img/products/123.jpg',
+      slug: 'peha-soft-nitrile-fino-m',
+      viewedAt: '2026-02-24T10:30:00Z' // ISO timestamp
+    },
+    // ... up to 12-20 products
+  ],
+  maxProducts: 12,
+  scrollStep: 200, // pixels to scroll per nav click
+  showNavigation: true, // hide on mobile
+  onClearHistory: () => {
+    // Clear localStorage + analytics event
+    localStorage.removeItem('recently_viewed');
+    analytics.track('Recently Viewed Cleared');
+  },
+  onProductClick: (product) => {
+    // Analytics tracking
+    analytics.track('Recently Viewed Product Clicked', {
+      productId: product.id,
+      productName: product.name,
+      position: products.indexOf(product)
+    });
+  },
+  persistKey: 'recently_viewed'
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Container: max-width 900px (flexible)
+
+Header (flex row, space-between):
+├── Title (18px, 800, icon 20px)
+└── Navigation (2 buttons, gap 6px)
+
+Scroll Container (horizontal flex):
+├── gap: 12px
+├── padding: 4px 0 12px (for shadow overflow)
+├── scroll-snap-type: x mandatory
+├── scrollbar: hidden
+└── Product cards (180px width each)
+
+Product Card Structure (vertical):
+1. Image area (120px height)
+   ├── Emoji/image (36px, centered)
+   └── Time badge (absolute bottom-right)
+2. Body (12px padding)
+   ├── Brand label (9px, teal)
+   ├── Name (13px, 2-line clamp)
+   └── Bottom row (flex space-between)
+       ├── Price (14px, 800)
+       └── Cart button (30px)
+3. Favorite button (absolute top-right, opacity 0 → 1 on hover)
+
+Footer:
+└── "Geschiedenis wissen" link (13px, grey-mid, hover coral)
+
+Mobile (<640px):
+- Hide navigation arrows
+- Use touch swipe for scroll
+- Keep horizontal scroll behavior</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;div className="rv-section"&gt;
+  &lt;div className="rv-header"&gt;
+    &lt;h2 className="rv-title"&gt;Recent bekeken&lt;/h2&gt;
+    &lt;div className="rv-nav"&gt;
+      &lt;button aria-label="Vorige producten"&gt;&lt;ChevronLeft /&gt;&lt;/button&gt;
+      &lt;button aria-label="Volgende producten"&gt;&lt;ChevronRight /&gt;&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div className="rv-scroll" role="list" aria-label="Recent bekeken producten"&gt;
+    &lt;a href={product.slug} className="rv-card" role="listitem"&gt;
+      &lt;button className="rv-card-fav" aria-label="Voeg toe aan favorieten"&gt;
+        &lt;Heart /&gt;
+      &lt;/button&gt;
+      &lt;!-- Product content --&gt;
+      &lt;button className="rv-card-cart" aria-label="Voeg toe aan winkelwagen"&gt;
+        &lt;ShoppingCart /&gt;
+      &lt;/button&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;button className="rv-clear" role="button" tabIndex={0}&gt;
+    &lt;Trash2 /&gt; Geschiedenis wissen
+  &lt;/button&gt;
+&lt;/div&gt;
+
+// Keyboard navigation for scroll container:
+const handleKeyDown = (e) => {
+  if (e.key === 'ArrowLeft') handleScroll(-1);
+  if (e.key === 'ArrowRight') handleScroll(1);
+};</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component with localStorage persistence
+import { useState, useEffect, useRef } from 'react';
+import { Clock, ChevronLeft, ChevronRight, Trash2, Heart, ShoppingCart } from 'lucide-react';
+
+export function RecentlyViewed({ maxProducts = 12 }) {
+  const [products, setProducts] = useState([]);
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    // Load from localStorage
+    const stored = localStorage.getItem('recently_viewed');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      // Sort by viewedAt desc, take maxProducts
+      const sorted = parsed
+        .sort((a, b) => new Date(b.viewedAt) - new Date(a.viewedAt))
+        .slice(0, maxProducts);
+      setProducts(sorted);
+    }
+  }, [maxProducts]);
+
+  const handleScroll = (direction) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: direction * 200,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleClearHistory = () => {
+    if (confirm('Weet u zeker dat u uw browsegeschiedenis wilt wissen?')) {
+      localStorage.removeItem('recently_viewed');
+      setProducts([]);
+      // Analytics
+      analytics.track('Recently Viewed Cleared');
+    }
+  };
+
+  const formatTimestamp = (timestamp) => {
+    const now = new Date();
+    const viewed = new Date(timestamp);
+    const diffMs = now - viewed;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 60) return `${diffMins} min`;
+    if (diffHours < 24) return `${diffHours} uur`;
+    if (diffDays === 1) return 'Gisteren';
+    return `${diffDays} dagen`;
+  };
+
+  if (products.length === 0) return null;
+
+  return (
+    &lt;div className="rv-section"&gt;
+      &lt;div className="rv-header"&gt;
+        &lt;h2 className="rv-title"&gt;
+          &lt;Clock size={20} /&gt; Recent bekeken
+        &lt;/h2&gt;
+        &lt;div className="rv-nav"&gt;
+          &lt;button
+            className="rv-nav-btn"
+            onClick={() => handleScroll(-1)}
+            aria-label="Vorige producten"
+          &gt;
+            &lt;ChevronLeft size={16} /&gt;
+          &lt;/button&gt;
+          &lt;button
+            className="rv-nav-btn"
+            onClick={() => handleScroll(1)}
+            aria-label="Volgende producten"
+          &gt;
+            &lt;ChevronRight size={16} /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="rv-scroll" ref={scrollRef} role="list"&gt;
+        {products.map((product, i) => (
+          &lt;a
+            key={product.id}
+            href={`/product/${product.slug}`}
+            className="rv-card"
+            role="listitem"
+            onClick={() => {
+              analytics.track('Recently Viewed Product Clicked', {
+                productId: product.id,
+                position: i
+              });
+            }}
+          &gt;
+            &lt;button
+              className="rv-card-fav"
+              onClick={(e) => {
+                e.preventDefault();
+                toggleFavorite(product.id);
+              }}
+              aria-label="Voeg toe aan favorieten"
+            &gt;
+              &lt;Heart size={14} /&gt;
+            &lt;/button&gt;
+
+            &lt;div className="rv-card-img"&gt;
+              &lt;img src={product.image} alt={product.name} /&gt;
+              &lt;div className="rv-card-time"&gt;
+                &lt;Clock size={10} /&gt; {formatTimestamp(product.viewedAt)}
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div className="rv-card-body"&gt;
+              &lt;div className="rv-card-brand"&gt;{product.brand}&lt;/div&gt;
+              &lt;div className="rv-card-name"&gt;{product.name}&lt;/div&gt;
+              &lt;div className="rv-card-bottom"&gt;
+                &lt;span className="rv-card-price"&gt;€{product.price.toFixed(2)}&lt;/span&gt;
+                &lt;button
+                  className="rv-card-cart"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addToCart(product.id);
+                  }}
+                  aria-label="Voeg toe aan winkelwagen"
+                &gt;
+                  &lt;ShoppingCart size={13} /&gt;
+                &lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/a&gt;
+        ))}
+      &lt;/div&gt;
+
+      &lt;button
+        className="rv-clear"
+        onClick={handleClearHistory}
+        role="button"
+        tabIndex={0}
+      &gt;
+        &lt;Trash2 size={13} /&gt; Geschiedenis wissen
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Track product views (call on product page mount)
+export function trackProductView(product) {
+  const stored = localStorage.getItem('recently_viewed');
+  const products = stored ? JSON.parse(stored) : [];
+
+  // Remove duplicate if exists
+  const filtered = products.filter(p => p.id !== product.id);
+
+  // Add to front with current timestamp
+  filtered.unshift({
+    id: product.id,
+    name: product.name,
+    brand: product.brand,
+    price: product.price,
+    image: product.image,
+    slug: product.slug,
+    viewedAt: new Date().toISOString()
+  });
+
+  // Keep max 20 products
+  const capped = filtered.slice(0, 20);
+
+  localStorage.setItem('recently_viewed', JSON.stringify(capped));
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Variant:</strong> Vertical grid layout for account page (2-3 columns instead of horizontal scroll)</li>
+      <li><strong>Variant:</strong> Compact mode (smaller cards, no time badges, for sidebar widgets)</li>
+      <li><strong>Variant:</strong> "View All History" page with filters (date range, category, brand)</li>
+      <li><strong>Related:</strong> C13 (this component) + "Frequently Bought Together" (cross-sell)</li>
+      <li><strong>Related:</strong> Recommendation engine (AI-powered "You might also like")</li>
+      <li><strong>Related:</strong> Wishlist/Favorites (similar UI pattern, different data source)</li>
+      <li><strong>Integration:</strong> Use same card component as C13 for consistency</li>
+      <li><strong>Analytics:</strong> Track click-through rate, conversion rate from recently viewed</li>
+    </ul>
+
+    <h3>Performance Notes:</h3>
+    <ul>
+      <li>localStorage limit: ~5MB (JSON-stringified products = ~500 bytes each = ~10,000 products max)</li>
+      <li>Practical limit: 12-20 products to avoid localStorage bloat</li>
+      <li>Use IntersectionObserver to lazy-load product images as they scroll into view</li>
+      <li>Debounce scroll events if tracking scroll position for analytics</li>
+      <li>Consider IndexedDB for very large history (100+ products) with image caching</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Scroll navigation
+    function rvScroll(direction) {
+      const container = document.getElementById('rvScroll');
+      container.scrollBy({
+        left: direction * 200,
+        behavior: 'smooth'
+      });
+    }
+
+    // Clear history with confirmation
+    function clearHistory() {
+      if (confirm('Weet u zeker dat u uw browsegeschiedenis wilt wissen?')) {
+        // In production: localStorage.removeItem('recently_viewed');
+        alert('Geschiedenis gewist!');
+        // Optionally hide/clear the component
+      }
+    }
+
+    // Prevent default on demo buttons
+    document.querySelectorAll('.rv-card-fav, .rv-card-cart').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const action = btn.classList.contains('rv-card-fav') ? 'favoriet' : 'winkelwagen';
+        alert(`Product toegevoegd aan ${action}!`);
+      });
+    });
+  </script>
+</body>
+</html>

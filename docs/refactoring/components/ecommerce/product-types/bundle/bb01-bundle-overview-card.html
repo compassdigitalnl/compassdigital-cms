@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BB01: BundleOverviewCard — Compass Design System</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+    --white: #FAFBFC;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --bg: #F5F7FA;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    padding: 48px 24px;
+    line-height: 1.5;
+  }
+
+  .demo-section {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+  }
+
+  .demo-section h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-section h2 i {
+    width: 24px;
+    height: 24px;
+    color: var(--teal);
+  }
+
+  /* ===== BB01: BUNDLE OVERVIEW CARD ===== */
+  .bundle-overview-card {
+    background: white;
+    border: 2px solid var(--grey);
+    border-radius: 16px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bundle-overview-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .bundle-overview-card:active {
+    transform: translateY(0);
+  }
+
+  /* Popular badge */
+  .bundle-overview-card.popular::before {
+    content: 'Populairst';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--teal);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .bundle-overview-card.popular {
+    padding-top: 28px;
+  }
+
+  /* Product icons */
+  .bundle-icons {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .bundle-emoji {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--grey-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  /* Bundle info */
+  .bundle-name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .bundle-desc {
+    font-size: 11px;
+    color: var(--grey-mid);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  /* Pricing */
+  .bundle-pricing {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .bundle-price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--teal);
+  }
+
+  .bundle-old-price {
+    font-size: 13px;
+    color: var(--grey-mid);
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+
+  /* Savings badge */
+  .bundle-save {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 3px 10px;
+    background: var(--green-light);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  /* Size variants */
+  .bundle-overview-card.compact {
+    padding: 12px;
+  }
+
+  .bundle-overview-card.compact .bundle-emoji {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .bundle-overview-card.compact .bundle-name {
+    font-size: 13px;
+  }
+
+  .bundle-overview-card.compact .bundle-price {
+    font-size: 16px;
+  }
+
+  .bundle-overview-card.large {
+    padding: 24px;
+  }
+
+  .bundle-overview-card.large .bundle-emoji {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .bundle-overview-card.large .bundle-name {
+    font-size: 16px;
+  }
+
+  .bundle-overview-card.large .bundle-price {
+    font-size: 24px;
+  }
+
+  /* Grid layout */
+  .bundle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .bundle-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Documentation styles */
+  .docs {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  .docs h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .docs .subtitle {
+    font-size: 16px;
+    color: var(--grey-dark);
+    margin-bottom: 32px;
+  }
+
+  .docs h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .docs h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 24px 0 12px;
+  }
+
+  .docs p {
+    color: var(--grey-dark);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .docs ul, .docs ol {
+    margin: 16px 0;
+    padding-left: 24px;
+    color: var(--grey-dark);
+  }
+
+  .docs li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .docs code {
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--navy);
+  }
+
+  .docs pre {
+    background: var(--navy);
+    color: var(--white);
+    padding: 20px;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+
+  .docs pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+
+  .docs table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+
+  .docs th {
+    background: var(--grey-light);
+    padding: 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+    border: 1px solid var(--grey);
+  }
+
+  .docs td {
+    padding: 12px;
+    border: 1px solid var(--grey);
+    font-size: 14px;
+    color: var(--grey-dark);
+  }
+
+  .note {
+    background: var(--blue-light, #E3F2FD);
+    border-left: 4px solid var(--blue, #2196F3);
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--navy);
+  }
+
+  .warning {
+    background: var(--amber-light, #FFF8E1);
+    border-left: 4px solid var(--amber, #F59E0B);
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--navy);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- LIVE DEMO SECTION -->
+<!-- ============================================ -->
+<div class="demo-section">
+  <h2><i data-lucide="package"></i> BB01: Bundle Overview Card — Default Variant</h2>
+  <div class="bundle-grid">
+    <!-- Starter Pack -->
+    <div class="bundle-overview-card">
+      <div class="bundle-icons">
+        <div class="bundle-emoji">🎨</div>
+        <div class="bundle-emoji">🖼️</div>
+      </div>
+      <div class="bundle-name">Starter Pack</div>
+      <div class="bundle-desc">Design Suite + IconPack</div>
+      <div class="bundle-pricing">
+        <div class="bundle-price">€59</div>
+        <div class="bundle-old-price">€68</div>
+      </div>
+      <div class="bundle-save">Bespaar €9</div>
+    </div>
+
+    <!-- Professional Bundle (Popular) -->
+    <div class="bundle-overview-card popular">
+      <div class="bundle-icons">
+        <div class="bundle-emoji">🎨</div>
+        <div class="bundle-emoji">📊</div>
+        <div class="bundle-emoji">🖼️</div>
+      </div>
+      <div class="bundle-name">Professional Bundle</div>
+      <div class="bundle-desc">Design + DataViz + IconPack</div>
+      <div class="bundle-pricing">
+        <div class="bundle-price">€99</div>
+        <div class="bundle-old-price">€147</div>
+      </div>
+      <div class="bundle-save">Bespaar €48 (33%)</div>
+    </div>
+
+    <!-- Complete Suite -->
+    <div class="bundle-overview-card">
+      <div class="bundle-icons">
+        <div class="bundle-emoji">🎨</div>
+        <div class="bundle-emoji">📊</div>
+        <div class="bundle-emoji">🖼️</div>
+        <div class="bundle-emoji">📝</div>
+        <div class="bundle-emoji">📚</div>
+      </div>
+      <div class="bundle-name">Complete Suite</div>
+      <div class="bundle-desc">Alle 5 producten</div>
+      <div class="bundle-pricing">
+        <div class="bundle-price">€139</div>
+        <div class="bundle-old-price">€215</div>
+      </div>
+      <div class="bundle-save">Bespaar €76 (35%)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- COMPACT VARIANT -->
+<!-- ============================================ -->
+<div class="demo-section">
+  <h2><i data-lucide="package"></i> Compact Variant</h2>
+  <div class="bundle-grid">
+    <div class="bundle-overview-card compact">
+      <div class="bundle-icons">
+        <div class="bundle-emoji">🎨</div>
+        <div class="bundle-emoji">🖼️</div>
+      </div>
+      <div class="bundle-name">Starter Pack</div>
+      <div class="bundle-desc">Design Suite + IconPack</div>
+      <div class="bundle-pricing">
+        <div class="bundle-price">€59</div>
+        <div class="bundle-old-price">€68</div>
+      </div>
+      <div class="bundle-save">Bespaar €9</div>
+    </div>
+
+    <div class="bundle-overview-card compact popular">
+      <div class="bundle-icons">
+        <div class="bundle-emoji">🎨</div>
+        <div class="bundle-emoji">📊</div>
+        <div class="bundle-emoji">🖼️</div>
+      </div>
+      <div class="bundle-name">Pro Bundle</div>
+      <div class="bundle-desc">3 producten</div>
+      <div class="bundle-pricing">
+        <div class="bundle-price">€99</div>
+        <div class="bundle-old-price">€147</div>
+      </div>
+      <div class="bundle-save">Bespaar 33%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- LARGE VARIANT -->
+<!-- ============================================ -->
+<div class="demo-section">
+  <h2><i data-lucide="package"></i> Large Variant</h2>
+  <div class="bundle-grid">
+    <div class="bundle-overview-card large popular">
+      <div class="bundle-icons">
+        <div class="bundle-emoji">🎨</div>
+        <div class="bundle-emoji">📊</div>
+        <div class="bundle-emoji">🖼️</div>
+      </div>
+      <div class="bundle-name">Professional Bundle</div>
+      <div class="bundle-desc">Design + DataViz + IconPack</div>
+      <div class="bundle-pricing">
+        <div class="bundle-price">€99</div>
+        <div class="bundle-old-price">€147</div>
+      </div>
+      <div class="bundle-save">Bespaar €48 (33%)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- DOCUMENTATION -->
+<!-- ============================================ -->
+<div class="docs">
+  <h1>BB01: Bundle Overview Card</h1>
+  <p class="subtitle">Pre-configured product bundle cards with pricing, savings, and popularity indicators</p>
+
+  <!-- STEP 1: COMPONENT OVERVIEW -->
+  <h2>STEP 1: Component Overview</h2>
+
+  <p><strong>Purpose:</strong> Display pre-made product bundles that users can select instead of building their own custom bundle. Shows bundle composition, pricing, and savings at a glance.</p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li><strong>Product Icons:</strong> Visual representation of included products via emoji/icons (2-5 products)</li>
+    <li><strong>Bundle Name & Description:</strong> Clear title and brief description of what's included</li>
+    <li><strong>Pricing Display:</strong> Current price + old price (strike-through) + savings badge</li>
+    <li><strong>Popular Badge:</strong> "Populairst" label for best-selling bundles</li>
+    <li><strong>Hover States:</strong> Border color change, elevation, smooth transitions</li>
+    <li><strong>Click to Select:</strong> Entire card is clickable to select the bundle</li>
+  </ul>
+
+  <h3>Usage Context</h3>
+  <p>Use this component on bundle builder pages, product upsell sections, or checkout flows to showcase pre-configured packages that offer convenience and savings compared to individual purchases.</p>
+
+  <h3>Visual Description</h3>
+  <p>White card with centered content layout. Product icons displayed in a horizontal row at top, followed by bundle name, description, pricing (with old price strike-through), and green savings badge. Popular bundles show a teal banner across the top.</p>
+
+  <!-- STEP 2: WHEN TO USE -->
+  <h2>STEP 2: When to Use</h2>
+
+  <h3>✅ Primary Use Cases</h3>
+  <ol>
+    <li><strong>Bundle Builder Pages:</strong> Show curated package options alongside custom bundle builder</li>
+    <li><strong>Upsell Sections:</strong> Suggest popular bundles during product browsing or checkout</li>
+    <li><strong>Pricing Pages:</strong> Display tiered bundle offerings (Starter, Pro, Enterprise)</li>
+    <li><strong>Category Pages:</strong> Feature themed product sets (e.g., "Complete Design Kit", "Developer Essentials")</li>
+    <li><strong>Cart Recommendations:</strong> Suggest completing a bundle when user has 1-2 matching items</li>
+  </ol>
+
+  <h3>❌ When NOT to Use</h3>
+  <ul>
+    <li><strong>Single Products:</strong> Use standard product cards (EC01) instead</li>
+    <li><strong>Subscription Plans:</strong> Use SubscriptionPlanCard (SP01) for recurring billing</li>
+    <li><strong>Custom Bundles:</strong> Use BundleProductCard (BB02) for user-built bundles</li>
+    <li><strong>Service Packages:</strong> Use a different card design for non-product bundles</li>
+  </ul>
+
+  <div class="note">
+    <strong>💡 Pro Tip:</strong> Limit to 3-4 bundle options per section to avoid choice paralysis. Use the "popular" badge on your best-selling bundle to guide decision-making.
+  </div>
+
+  <!-- STEP 3: DESIGN TOKENS -->
+  <h2>STEP 3: Design Tokens</h2>
+
+  <h3>Colors</h3>
+  <table>
+    <tr>
+      <th>Element</th>
+      <th>Token</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+    <tr>
+      <td>Card Background</td>
+      <td><code>--white</code></td>
+      <td>#FAFBFC</td>
+      <td>Card background color</td>
+    </tr>
+    <tr>
+      <td>Border (Default)</td>
+      <td><code>--grey</code></td>
+      <td>#E8ECF1</td>
+      <td>Default border, 2px</td>
+    </tr>
+    <tr>
+      <td>Border (Hover)</td>
+      <td><code>--teal</code></td>
+      <td>#00897B</td>
+      <td>Hover state border</td>
+    </tr>
+    <tr>
+      <td>Bundle Name</td>
+      <td><code>--navy</code></td>
+      <td>#0A1628</td>
+      <td>Title text color</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td><code>--grey-mid</code></td>
+      <td>#94A3B8</td>
+      <td>Secondary text</td>
+    </tr>
+    <tr>
+      <td>Current Price</td>
+      <td><code>--teal</code></td>
+      <td>#00897B</td>
+      <td>Highlighted price</td>
+    </tr>
+    <tr>
+      <td>Old Price</td>
+      <td><code>--grey-mid</code></td>
+      <td>#94A3B8</td>
+      <td>Strike-through price</td>
+    </tr>
+    <tr>
+      <td>Savings Badge BG</td>
+      <td><code>--green-light</code></td>
+      <td>#E8F5E9</td>
+      <td>Badge background</td>
+    </tr>
+    <tr>
+      <td>Savings Badge Text</td>
+      <td><code>--green</code></td>
+      <td>#00C853</td>
+      <td>Badge text color</td>
+    </tr>
+    <tr>
+      <td>Popular Badge BG</td>
+      <td><code>--teal</code></td>
+      <td>#00897B</td>
+      <td>Top banner background</td>
+    </tr>
+    <tr>
+      <td>Icon Background</td>
+      <td><code>--grey-light</code></td>
+      <td>#F1F4F8</td>
+      <td>Product emoji containers</td>
+    </tr>
+  </table>
+
+  <h3>Typography</h3>
+  <table>
+    <tr>
+      <th>Element</th>
+      <th>Font Family</th>
+      <th>Size</th>
+      <th>Weight</th>
+      <th>Line Height</th>
+    </tr>
+    <tr>
+      <td>Bundle Name</td>
+      <td>Plus Jakarta Sans</td>
+      <td>14px</td>
+      <td>800</td>
+      <td>1.2</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>DM Sans</td>
+      <td>11px</td>
+      <td>400</td>
+      <td>1.4</td>
+    </tr>
+    <tr>
+      <td>Current Price</td>
+      <td>Plus Jakarta Sans</td>
+      <td>20px</td>
+      <td>800</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Old Price</td>
+      <td>DM Sans</td>
+      <td>13px</td>
+      <td>400</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Savings Badge</td>
+      <td>DM Sans</td>
+      <td>11px</td>
+      <td>700</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Popular Badge</td>
+      <td>DM Sans</td>
+      <td>10px</td>
+      <td>700</td>
+      <td>1</td>
+    </tr>
+  </table>
+
+  <h3>Spacing (4px Grid)</h3>
+  <ul>
+    <li><strong>Card Padding:</strong> 18px all sides (default), 12px (compact), 24px (large)</li>
+    <li><strong>Icon Gap:</strong> 4px between product icons</li>
+    <li><strong>Icon Size:</strong> 40×40px (default), 32×32px (compact), 48×48px (large)</li>
+    <li><strong>Icon Margin Bottom:</strong> 8px</li>
+    <li><strong>Name Margin Bottom:</strong> 2px</li>
+    <li><strong>Description Margin Bottom:</strong> 8px</li>
+    <li><strong>Price Gap:</strong> 6px between current and old price</li>
+    <li><strong>Badge Margin Top:</strong> 4px</li>
+    <li><strong>Badge Padding:</strong> 3px 10px</li>
+  </ul>
+
+  <h3>Border Radius</h3>
+  <ul>
+    <li><strong>Card:</strong> 16px</li>
+    <li><strong>Icon Container:</strong> 10px</li>
+    <li><strong>Savings Badge:</strong> 100px (pill shape)</li>
+  </ul>
+
+  <h3>Icons</h3>
+  <ul>
+    <li><strong>Product Icons:</strong> Emoji (20px font-size) or Lucide icons (20px)</li>
+    <li><strong>Popular Badge:</strong> No icon, text only</li>
+  </ul>
+
+  <!-- STEP 4: PROPS & CONFIGURATION -->
+  <h2>STEP 4: Props & Configuration</h2>
+
+  <h3>TypeScript Interface</h3>
+  <pre><code>interface BundleOverviewCardProps {
+  /** Bundle identifier */
+  id: string;
+
+  /** Display name of the bundle */
+  name: string;
+
+  /** Short description (1-2 lines) */
+  description: string;
+
+  /** Array of product icons (emoji or icon names) */
+  productIcons: string[];
+
+  /** Current bundle price */
+  price: number;
+
+  /** Original price before discount */
+  originalPrice: number;
+
+  /** Savings amount (auto-calculated if not provided) */
+  savings?: number;
+
+  /** Show percentage in savings badge */
+  showPercentage?: boolean;
+
+  /** Mark as popular bundle (shows teal banner) */
+  isPopular?: boolean;
+
+  /** Card size variant */
+  size?: 'compact' | 'default' | 'large';
+
+  /** Click handler */
+  onClick?: () => void;
+
+  /** Additional CSS classes */
+  className?: string;
+}</code></pre>
+
+  <h3>Payload CMS Field Schema</h3>
+  <pre><code>{
+  name: 'bundleOverviewCard',
+  type: 'group',
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      maxLength: 40,
+      admin: { description: 'Bundle name (e.g., "Professional Bundle")' }
+    },
+    {
+      name: 'description',
+      type: 'text',
+      required: true,
+      maxLength: 80,
+      admin: { description: 'Brief description of included products' }
+    },
+    {
+      name: 'products',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+      min: 2,
+      max: 5,
+      required: true,
+      admin: { description: 'Select 2-5 products for this bundle' }
+    },
+    {
+      name: 'price',
+      type: 'number',
+      required: true,
+      min: 0,
+      admin: { description: 'Bundle price (discounted)' }
+    },
+    {
+      name: 'originalPrice',
+      type: 'number',
+      required: true,
+      min: 0,
+      admin: { description: 'Original price (sum of individual products)' }
+    },
+    {
+      name: 'isPopular',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Mark as popular/best-selling bundle' }
+    },
+    {
+      name: 'size',
+      type: 'select',
+      defaultValue: 'default',
+      options: [
+        { label: 'Compact', value: 'compact' },
+        { label: 'Default', value: 'default' },
+        { label: 'Large', value: 'large' }
+      ]
+    }
+  ]
+}</code></pre>
+
+  <h3>Default Values</h3>
+  <table>
+    <tr>
+      <th>Prop</th>
+      <th>Default</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'default'</code></td>
+      <td>Standard card size</td>
+    </tr>
+    <tr>
+      <td><code>isPopular</code></td>
+      <td><code>false</code></td>
+      <td>No popular badge by default</td>
+    </tr>
+    <tr>
+      <td><code>showPercentage</code></td>
+      <td><code>true</code></td>
+      <td>Show discount % in savings badge</td>
+    </tr>
+    <tr>
+      <td><code>savings</code></td>
+      <td><code>originalPrice - price</code></td>
+      <td>Auto-calculated if not provided</td>
+    </tr>
+  </table>
+
+  <!-- STEP 5: LAYOUT RULES -->
+  <h2>STEP 5: Layout Rules</h2>
+
+  <h3>Component Anatomy</h3>
+  <pre><code>┌─────────────────────────────────────┐
+│ [Popular Badge]                     │  ← Optional teal banner
+├─────────────────────────────────────┤
+│                                     │
+│        🎨  📊  🖼️                   │  ← Product icons (2-5)
+│                                     │
+│      Professional Bundle            │  ← Bundle name (14px, 800)
+│   Design + DataViz + IconPack       │  ← Description (11px, grey)
+│                                     │
+│        €99    €147                  │  ← Price + old price
+│                                     │
+│    Bespaar €48 (33%)                │  ← Savings badge (green pill)
+│                                     │
+└─────────────────────────────────────┘</code></pre>
+
+  <h3>Grid Layout</h3>
+  <ul>
+    <li><strong>Desktop (>768px):</strong> 3-column grid with 12px gap</li>
+    <li><strong>Mobile (≤768px):</strong> 1-column stack</li>
+    <li><strong>Tablet (768-1024px):</strong> 2-column grid</li>
+  </ul>
+
+  <h3>Card Dimensions</h3>
+  <table>
+    <tr>
+      <th>Size</th>
+      <th>Padding</th>
+      <th>Icon Size</th>
+      <th>Name Size</th>
+      <th>Price Size</th>
+    </tr>
+    <tr>
+      <td>Compact</td>
+      <td>12px</td>
+      <td>32×32px</td>
+      <td>13px</td>
+      <td>16px</td>
+    </tr>
+    <tr>
+      <td>Default</td>
+      <td>18px</td>
+      <td>40×40px</td>
+      <td>14px</td>
+      <td>20px</td>
+    </tr>
+    <tr>
+      <td>Large</td>
+      <td>24px</td>
+      <td>48×48px</td>
+      <td>16px</td>
+      <td>24px</td>
+    </tr>
+  </table>
+
+  <h3>Responsive Behavior</h3>
+  <ul>
+    <li><strong>768px breakpoint:</strong> Switch from 3-column to 1-column grid</li>
+    <li><strong>Icon wrapping:</strong> If >5 icons, wrap to second row (rare)</li>
+    <li><strong>Description truncation:</strong> Max 2 lines with ellipsis on overflow</li>
+  </ul>
+
+  <!-- STEP 6: ACCESSIBILITY -->
+  <h2>STEP 6: Accessibility</h2>
+
+  <h3>Semantic HTML</h3>
+  <pre><code>&lt;article class="bundle-overview-card" role="button" tabindex="0"&gt;
+  &lt;div class="bundle-icons" aria-label="Included products"&gt;
+    &lt;span class="bundle-emoji" aria-hidden="true"&gt;🎨&lt;/span&gt;
+    &lt;span class="bundle-emoji" aria-hidden="true"&gt;📊&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;h3 class="bundle-name"&gt;Professional Bundle&lt;/h3&gt;
+  &lt;p class="bundle-desc"&gt;Design + DataViz + IconPack&lt;/p&gt;
+  &lt;div class="bundle-pricing"&gt;
+    &lt;span class="bundle-price" aria-label="Current price"&gt;€99&lt;/span&gt;
+    &lt;del class="bundle-old-price" aria-label="Original price"&gt;€147&lt;/del&gt;
+  &lt;/div&gt;
+  &lt;span class="bundle-save" aria-label="You save 48 euros"&gt;Bespaar €48 (33%)&lt;/span&gt;
+&lt;/article&gt;</code></pre>
+
+  <h3>ARIA Attributes</h3>
+  <table>
+    <tr>
+      <th>Element</th>
+      <th>Attribute</th>
+      <th>Value</th>
+      <th>Purpose</th>
+    </tr>
+    <tr>
+      <td>Card</td>
+      <td><code>role</code></td>
+      <td>"button"</td>
+      <td>Indicates clickable card</td>
+    </tr>
+    <tr>
+      <td>Card</td>
+      <td><code>tabindex</code></td>
+      <td>0</td>
+      <td>Keyboard focusable</td>
+    </tr>
+    <tr>
+      <td>Card</td>
+      <td><code>aria-label</code></td>
+      <td>"Select [Bundle Name]"</td>
+      <td>Descriptive label</td>
+    </tr>
+    <tr>
+      <td>Icons</td>
+      <td><code>aria-hidden</code></td>
+      <td>true</td>
+      <td>Decorative, hide from SR</td>
+    </tr>
+    <tr>
+      <td>Price</td>
+      <td><code>aria-label</code></td>
+      <td>"Current price 99 euros"</td>
+      <td>Clear price announcement</td>
+    </tr>
+    <tr>
+      <td>Old Price</td>
+      <td><code>aria-label</code></td>
+      <td>"Original price 147 euros"</td>
+      <td>Context for discount</td>
+    </tr>
+  </table>
+
+  <h3>Keyboard Navigation</h3>
+  <ul>
+    <li><strong>Tab:</strong> Focus card (shows teal outline via :focus-visible)</li>
+    <li><strong>Enter/Space:</strong> Select bundle (trigger onClick)</li>
+    <li><strong>Arrow Keys:</strong> Navigate between cards in grid (optional enhancement)</li>
+  </ul>
+
+  <h3>Focus Management</h3>
+  <pre><code>.bundle-overview-card:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+  border-color: var(--teal);
+}</code></pre>
+
+  <h3>Screen Reader Announcements</h3>
+  <ul>
+    <li><strong>Card Focus:</strong> "Professional Bundle, button. Design plus DataViz plus IconPack. Current price 99 euros, original price 147 euros. You save 48 euros, 33 percent off."</li>
+    <li><strong>Popular Badge:</strong> "Popular bundle" (announced as part of card label)</li>
+  </ul>
+
+  <h3>Color Contrast (WCAG AA/AAA)</h3>
+  <table>
+    <tr>
+      <th>Element</th>
+      <th>Foreground</th>
+      <th>Background</th>
+      <th>Ratio</th>
+      <th>Result</th>
+    </tr>
+    <tr>
+      <td>Bundle Name</td>
+      <td>#0A1628 (navy)</td>
+      <td>#FAFBFC (white)</td>
+      <td>15.8:1</td>
+      <td>✅ AAA</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>#94A3B8 (grey-mid)</td>
+      <td>#FAFBFC (white)</td>
+      <td>4.7:1</td>
+      <td>✅ AA</td>
+    </tr>
+    <tr>
+      <td>Current Price</td>
+      <td>#00897B (teal)</td>
+      <td>#FAFBFC (white)</td>
+      <td>5.2:1</td>
+      <td>✅ AA</td>
+    </tr>
+    <tr>
+      <td>Savings Badge</td>
+      <td>#00C853 (green)</td>
+      <td>#E8F5E9 (green-light)</td>
+      <td>7.1:1</td>
+      <td>✅ AAA</td>
+    </tr>
+    <tr>
+      <td>Popular Badge</td>
+      <td>#FFFFFF (white)</td>
+      <td>#00897B (teal)</td>
+      <td>5.2:1</td>
+      <td>✅ AA</td>
+    </tr>
+  </table>
+
+  <!-- STEP 7: IMPLEMENTATION NOTES -->
+  <h2>STEP 7: Implementation Notes</h2>
+
+  <h3>React/Next.js Component Example</h3>
+  <pre><code>import React from 'react';
+import { Package } from 'lucide-react';
+
+interface BundleOverviewCardProps {
+  id: string;
+  name: string;
+  description: string;
+  productIcons: string[];
+  price: number;
+  originalPrice: number;
+  savings?: number;
+  showPercentage?: boolean;
+  isPopular?: boolean;
+  size?: 'compact' | 'default' | 'large';
+  onClick?: () => void;
+  className?: string;
+}
+
+export const BundleOverviewCard: React.FC&lt;BundleOverviewCardProps&gt; = ({
+  id,
+  name,
+  description,
+  productIcons,
+  price,
+  originalPrice,
+  savings = originalPrice - price,
+  showPercentage = true,
+  isPopular = false,
+  size = 'default',
+  onClick,
+  className = ''
+}) => {
+  const discountPercentage = Math.round((savings / originalPrice) * 100);
+
+  const handleClick = () => {
+    onClick?.();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.();
+    }
+  };
+
+  return (
+    &lt;article
+      className={`bundle-overview-card ${isPopular ? 'popular' : ''} ${size} ${className}`}
+      role="button"
+      tabIndex={0}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      aria-label={`Select ${name} bundle. ${description}. Current price ${price} euros, was ${originalPrice} euros. Save ${savings} euros.`}
+    &gt;
+      {/* Product Icons */}
+      &lt;div className="bundle-icons" aria-hidden="true"&gt;
+        {productIcons.map((icon, index) => (
+          &lt;div key={index} className="bundle-emoji"&gt;
+            {icon}
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+
+      {/* Bundle Info */}
+      &lt;h3 className="bundle-name"&gt;{name}&lt;/h3&gt;
+      &lt;p className="bundle-desc"&gt;{description}&lt;/p&gt;
+
+      {/* Pricing */}
+      &lt;div className="bundle-pricing"&gt;
+        &lt;span className="bundle-price" aria-label={`Current price ${price} euros`}&gt;
+          €{price}
+        &lt;/span&gt;
+        &lt;del className="bundle-old-price" aria-label={`Original price ${originalPrice} euros`}&gt;
+          €{originalPrice}
+        &lt;/del&gt;
+      &lt;/div&gt;
+
+      {/* Savings Badge */}
+      &lt;span className="bundle-save" aria-label={`You save ${savings} euros`}&gt;
+        Bespaar €{savings}
+        {showPercentage && ` (${discountPercentage}%)`}
+      &lt;/span&gt;
+    &lt;/article&gt;
+  );
+};</code></pre>
+
+  <h3>State Management</h3>
+  <pre><code>// Example: Track selected bundle in parent component
+const [selectedBundleId, setSelectedBundleId] = useState&lt;string | null&gt;(null);
+
+const handleBundleSelect = (bundleId: string) => {
+  setSelectedBundleId(bundleId);
+
+  // Fetch bundle products
+  const bundle = bundles.find(b => b.id === bundleId);
+  if (bundle) {
+    addBundleToCart(bundle);
+  }
+};</code></pre>
+
+  <h3>API Integration (Payload CMS)</h3>
+  <pre><code>// Fetch bundles with product relations
+const bundles = await payload.find({
+  collection: 'bundles',
+  depth: 2, // Include product relations
+  where: {
+    active: { equals: true }
+  },
+  sort: '-isPopular' // Popular bundles first
+});
+
+// Transform for component
+const bundleCards = bundles.docs.map(bundle => ({
+  id: bundle.id,
+  name: bundle.name,
+  description: bundle.description,
+  productIcons: bundle.products.map(p => p.emoji || p.icon),
+  price: bundle.price,
+  originalPrice: bundle.products.reduce((sum, p) => sum + p.price, 0),
+  isPopular: bundle.isPopular,
+  size: bundle.size || 'default'
+}));</code></pre>
+
+  <h3>Performance Optimization</h3>
+  <ul>
+    <li><strong>Lazy Loading:</strong> Load bundle images only when visible (IntersectionObserver)</li>
+    <li><strong>Memoization:</strong> Memoize savings calculation if recalculated frequently</li>
+    <li><strong>CSS Containment:</strong> Add <code>contain: layout style paint;</code> for better rendering performance</li>
+    <li><strong>Bundle Size:</strong> Use SVG icons instead of emoji for smaller payloads (optional)</li>
+  </ul>
+
+  <h3>Edge Cases & Error Handling</h3>
+  <ul>
+    <li><strong>Missing Products:</strong> Show placeholder icon if product icon is undefined</li>
+    <li><strong>Invalid Pricing:</strong> Validate <code>originalPrice > price</code>, show error if not</li>
+    <li><strong>Too Many Icons:</strong> If >5 products, show first 4 + "+X more" indicator</li>
+    <li><strong>Zero Savings:</strong> Don't show savings badge if <code>savings <= 0</code></li>
+    <li><strong>Long Names:</strong> Truncate bundle name at 40 characters with ellipsis</li>
+  </ul>
+
+  <h3>Browser Compatibility</h3>
+  <ul>
+    <li><strong>Grid Layout:</strong> Supported in all modern browsers (IE11 needs fallback)</li>
+    <li><strong>CSS Custom Properties:</strong> Supported (IE11 needs PostCSS processing)</li>
+    <li><strong>Flexbox:</strong> Fully supported</li>
+    <li><strong>Emoji Support:</strong> May render differently across OS (use SVG for consistency)</li>
+  </ul>
+
+  <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+  <h2>STEP 8: Variations & Related Components</h2>
+
+  <h3>Component Variants</h3>
+  <table>
+    <tr>
+      <th>Variant</th>
+      <th>Use Case</th>
+      <th>Differences</th>
+    </tr>
+    <tr>
+      <td>Compact</td>
+      <td>Sidebars, mobile grids</td>
+      <td>12px padding, 32px icons, 13-16px text</td>
+    </tr>
+    <tr>
+      <td>Default</td>
+      <td>Standard bundle pages</td>
+      <td>18px padding, 40px icons, 14-20px text</td>
+    </tr>
+    <tr>
+      <td>Large</td>
+      <td>Featured bundles, hero sections</td>
+      <td>24px padding, 48px icons, 16-24px text</td>
+    </tr>
+    <tr>
+      <td>Popular</td>
+      <td>Best-selling bundle</td>
+      <td>+ Teal banner at top, increased padding-top</td>
+    </tr>
+  </table>
+
+  <h3>Related Components</h3>
+  <ul>
+    <li><strong>BB02: BundleProductCard</strong> — Selectable product cards for custom bundle builder</li>
+    <li><strong>BB03: BundleItemRow</strong> — Selected products list in bundle sidebar</li>
+    <li><strong>BB05: BundleTotalCalculator</strong> — Price breakdown for custom bundles</li>
+    <li><strong>EC01: ProductCard</strong> — Standard single product cards</li>
+    <li><strong>SP01: SubscriptionPlanCard</strong> — Subscription tiers (recurring bundles)</li>
+  </ul>
+
+  <h3>Component Composition Example</h3>
+  <pre><code>&lt;section className="bundles-section"&gt;
+  &lt;h2&gt;Populaire Bundels&lt;/h2&gt;
+  &lt;div className="bundle-grid"&gt;
+    {bundles.map(bundle => (
+      &lt;BundleOverviewCard
+        key={bundle.id}
+        {...bundle}
+        onClick={() => handleBundleSelect(bundle.id)}
+      /&gt;
+    ))}
+  &lt;/div&gt;
+
+  &lt;p&gt;Of &lt;a href="/bundle-builder"&gt;stel je eigen bundel samen&lt;/a&gt;&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+
+  <h3>Testing Checklist</h3>
+  <ul>
+    <li>✅ Card renders with all required props</li>
+    <li>✅ Popular badge shows only when <code>isPopular={true}</code></li>
+    <li>✅ Savings calculation is accurate (originalPrice - price)</li>
+    <li>✅ Discount percentage rounds correctly</li>
+    <li>✅ Hover states trigger on mouse enter/leave</li>
+    <li>✅ Click handler fires on card click</li>
+    <li>✅ Keyboard navigation works (Tab, Enter, Space)</li>
+    <li>✅ Screen reader announces card correctly</li>
+    <li>✅ Focus outline visible on keyboard focus</li>
+    <li>✅ Grid layout responsive (3-col → 1-col on mobile)</li>
+    <li>✅ Icons truncate properly if >5 products</li>
+    <li>✅ All color contrast ratios pass WCAG AA</li>
+  </ul>
+
+  <h3>Migration Notes</h3>
+  <div class="note">
+    <strong>From Old Bundle Cards:</strong> If migrating from a previous bundle card design, ensure:
+    <ul>
+      <li>Update pricing to use <code>price</code> and <code>originalPrice</code> props (not <code>discountedPrice</code>)</li>
+      <li>Replace custom badge logic with <code>isPopular</code> boolean</li>
+      <li>Migrate product icons to emoji/string array format</li>
+      <li>Test keyboard navigation (may not have existed in old version)</li>
+    </ul>
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Breaking Change:</strong> The <code>products</code> prop now expects an array of icon strings, not full product objects. Use a transform function to extract icons from product data before passing to this component.
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

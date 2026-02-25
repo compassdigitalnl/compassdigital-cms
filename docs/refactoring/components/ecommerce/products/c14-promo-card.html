@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C14 - Promo Card | Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --navy-mid: #1A2943;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: #F5F7FA;
+      padding: 40px;
+    }
+
+    /* Promo Card Component */
+    .promo-card {
+      padding: 18px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .promo-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(10, 22, 40, 0.2);
+    }
+
+    /* Decorative glow */
+    .promo-card::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, var(--teal-glow), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Product Image */
+    .promo-card-img {
+      width: 64px;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promo-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Info Section */
+    .promo-card-info {
+      flex: 1;
+      position: relative;
+    }
+
+    /* Badge */
+    .promo-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 137, 123, 0.2);
+      border: 1px solid rgba(0, 137, 123, 0.3);
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--teal-light);
+      margin-bottom: 4px;
+    }
+
+    .promo-card-badge i {
+      width: 11px;
+      height: 11px;
+    }
+
+    /* Product Name */
+    .promo-card-name {
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+      line-height: 1.3;
+    }
+
+    /* Price */
+    .promo-card-price {
+      font-family: var(--font-primary);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--teal-light);
+      margin-top: 2px;
+    }
+
+    .promo-card-price .old {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      text-decoration: line-through;
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    /* Variant: Compact (for sidebars) */
+    .promo-card.compact {
+      padding: 14px;
+      gap: 12px;
+    }
+
+    .promo-card.compact .promo-card-img {
+      width: 48px;
+      height: 48px;
+      font-size: 24px;
+    }
+
+    .promo-card.compact .promo-card-name {
+      font-size: 12px;
+    }
+
+    .promo-card.compact .promo-card-price {
+      font-size: 14px;
+    }
+
+    /* Variant: Large (for hero sections) */
+    .promo-card.large {
+      padding: 24px;
+      gap: 20px;
+      border-radius: 16px;
+    }
+
+    .promo-card.large .promo-card-img {
+      width: 80px;
+      height: 80px;
+      font-size: 40px;
+    }
+
+    .promo-card.large .promo-card-name {
+      font-size: 16px;
+    }
+
+    .promo-card.large .promo-card-price {
+      font-size: 18px;
+    }
+
+    /* Demo Styles */
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      margin-bottom: 32px;
+    }
+
+    .demo-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* Documentation Styles */
+    .doc-box {
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .doc-box h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .doc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px;
+    }
+
+    .doc-box p,
+    .doc-box li {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .doc-box ul {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .doc-box ul li:before {
+      content: "•";
+      color: var(--teal);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .doc-box code {
+      background: var(--grey-light);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-box pre {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LIVE DEMO -->
+  <div class="demo-container">
+    <div class="demo-section">
+      <div class="demo-label">Default Size (Mega Menu)</div>
+      <div class="demo-grid">
+        <a href="#" class="promo-card">
+          <div class="promo-card-img">🩺</div>
+          <div class="promo-card-info">
+            <div class="promo-card-badge"><i data-lucide="trending-up"></i> Bestseller</div>
+            <div class="promo-card-name">Welch Allyn DuraShock DS45</div>
+            <div class="promo-card-price">€89,95 <span class="old">€109,00</span></div>
+          </div>
+        </a>
+
+        <a href="#" class="promo-card">
+          <div class="promo-card-img">🌡️</div>
+          <div class="promo-card-info">
+            <div class="promo-card-badge"><i data-lucide="sparkles"></i> Populair</div>
+            <div class="promo-card-name">Braun ThermoScan 7</div>
+            <div class="promo-card-price">€64,95</div>
+          </div>
+        </a>
+
+        <a href="#" class="promo-card">
+          <div class="promo-card-img">🧤</div>
+          <div class="promo-card-info">
+            <div class="promo-card-badge"><i data-lucide="zap"></i> Nieuw</div>
+            <div class="promo-card-name">Peha-soft Nitrile Fino</div>
+            <div class="promo-card-price">€8,95 <span class="old">€10,50</span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">Compact Variant (Sidebars)</div>
+      <div style="max-width: 280px;">
+        <a href="#" class="promo-card compact">
+          <div class="promo-card-img">💉</div>
+          <div class="promo-card-info">
+            <div class="promo-card-badge"><i data-lucide="tag"></i> Actie</div>
+            <div class="promo-card-name">BD Microlance 3</div>
+            <div class="promo-card-price">€12,50</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="demo-label">Large Variant (Hero Sections)</div>
+      <div style="max-width: 420px;">
+        <a href="#" class="promo-card large">
+          <div class="promo-card-img">🔬</div>
+          <div class="promo-card-info">
+            <div class="promo-card-badge"><i data-lucide="sparkles"></i> Featured</div>
+            <div class="promo-card-name">Littmann CORE Digital Stethoscoop</div>
+            <div class="promo-card-price">€379,00 <span class="old">€429,00</span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C14 - Promo Card</p>
+    <p><strong>Parent:</strong> C14-MegaNavigation (L3 Flyout Column) / Standalone</p>
+    <p><strong>Category:</strong> Navigation / Promotional</p>
+    <p><strong>Complexiteit:</strong> Low (simple card layout)</p>
+
+    <h3>Purpose:</h3>
+    <p>Highlight featured/bestselling products in mega menu flyouts, sidebars, or promotional sections. Dark gradient background with product image, badge, name, and price.</p>
+
+    <h3>Variants:</h3>
+    <ul>
+      <li><strong>Default:</strong> 64px image, 14px name, 16px price (mega menu L3 column)</li>
+      <li><strong>Compact:</strong> 48px image, 12px name, 14px price (sidebars, narrow spaces)</li>
+      <li><strong>Large:</strong> 80px image, 16px name, 18px price (hero sections, landing pages)</li>
+    </ul>
+
+    <h3>Visual Features:</h3>
+    <ul>
+      <li>Dark gradient background (navy → navy-mid 135deg)</li>
+      <li>Decorative teal glow (radial gradient, top-right corner)</li>
+      <li>Product image with semi-transparent background</li>
+      <li>Status badge (Bestseller, Nieuw, Populair, Actie)</li>
+      <li>Optional old price (strikethrough)</li>
+      <li>Hover effect (translateY -2px + shadow)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li><strong>Mega Menu Flyouts:</strong> L3 column bottom promo spot (most common)</li>
+      <li><strong>Sidebar Widgets:</strong> Featured product in category sidebars</li>
+      <li><strong>Dashboard Cards:</strong> Admin/account dashboard recommendations</li>
+      <li><strong>Cross-Sell:</strong> "Related products" or "Customers also bought"</li>
+      <li><strong>Campaign Pages:</strong> Hero section product highlight</li>
+    </ul>
+
+    <h3>Niet geschikt voor:</h3>
+    <ul>
+      <li>Product archives/grids (use standard ProductCard instead)</li>
+      <li>Cart line items (different purpose/layout)</li>
+      <li>Content-heavy pages where dark cards would clash</li>
+    </ul>
+
+    <h3>Common Placements:</h3>
+    <ul>
+      <li><strong>Mega Nav L3:</strong> Bottom of third column (auto margin-top)</li>
+      <li><strong>Category Sidebars:</strong> "Featured in this category"</li>
+      <li><strong>Search Results:</strong> Sponsored/featured product slot</li>
+      <li><strong>Empty States:</strong> Suggested product when filters return no results</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+
+    <pre>/* Background */
+background: linear-gradient(135deg, var(--navy), var(--navy-mid))
+/* Navy: #0A1628, Navy-mid: #1A2943 */
+
+/* Decorative Glow */
+position: absolute; top: -20px; right: -20px;
+width: 120px; height: 120px;
+background: radial-gradient(circle, rgba(0,137,123,0.12), transparent 70%)
+
+/* Container */
+padding: 18px          /* default */
+padding: 14px          /* compact */
+padding: 24px          /* large */
+border-radius: 14px    /* default/compact */
+border-radius: 16px    /* large */
+gap: 16px              /* default */
+gap: 12px              /* compact */
+gap: 20px              /* large */
+
+/* Product Image */
+width/height: 64px     /* default */
+width/height: 48px     /* compact */
+width/height: 80px     /* large */
+background: rgba(255,255,255,0.06)
+border-radius: 12px
+font-size: 32px        /* emoji/icon size, default */
+
+/* Badge */
+background: rgba(0,137,123,0.2)
+border: 1px solid rgba(0,137,123,0.3)
+padding: 2px 8px
+border-radius: 100px   /* pill shape */
+font-size: 10px
+font-weight: 700
+color: var(--teal-light)  /* #26A69A */
+
+/* Product Name */
+font-size: 14px        /* default */
+font-size: 12px        /* compact */
+font-size: 16px        /* large */
+font-weight: 800
+color: white
+line-height: 1.3
+
+/* Price */
+font-size: 16px        /* default */
+font-size: 14px        /* compact */
+font-size: 18px        /* large */
+font-weight: 800
+color: var(--teal-light)
+
+/* Old Price */
+font-size: 12px
+color: rgba(255,255,255,0.3)
+text-decoration: line-through
+font-weight: 400
+
+/* Hover State */
+transform: translateY(-2px)
+box-shadow: 0 12px 32px rgba(10,22,40,0.2)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+
+    <pre>{
+  variant: 'default',      // 'default' | 'compact' | 'large'
+  product: {
+    id: '12345',
+    name: 'Welch Allyn DuraShock DS45',
+    image: '/images/products/ds45.jpg',  // or emoji '🩺'
+    price: 89.95,
+    oldPrice: 109.00,      // optional
+    badge: {
+      icon: 'trending-up',   // Lucide icon name
+      label: 'Bestseller'
+    },
+    url: '/products/welch-allyn-ds45'
+  },
+  onClick: (product) => {
+    // Track promo click
+    // Navigate to product
+  }
+}</pre>
+
+    <h3>Badge Types:</h3>
+    <pre>// Common badge configurations
+{ icon: 'trending-up', label: 'Bestseller' }
+{ icon: 'sparkles', label: 'Populair' }
+{ icon: 'zap', label: 'Nieuw' }
+{ icon: 'tag', label: 'Actie' }
+{ icon: 'percent', label: 'Sale' }
+{ icon: 'award', label: 'Aanbevolen' }
+{ icon: 'flame', label: 'Hot' }</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+
+    <h3>In Mega Menu L3 Column:</h3>
+    <pre>/* Positioned at bottom of L3 panel */
+.fly-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.l3-grid {
+  flex: 0 0 auto;  /* Links grid at top */
+}
+
+.promo-card {
+  margin: auto 20px 12px;  /* auto top pushes to bottom */
+}</pre>
+
+    <h3>Standalone Layout:</h3>
+    <pre>/* Card is flexible, adapts to container width */
+.promo-card {
+  display: flex;
+  width: 100%;  /* or max-width for constraint */
+}</pre>
+
+    <h3>Responsive Behavior:</h3>
+    <pre>@media (max-width: 768px) {
+  /* Mega menu hidden, show promo cards in mobile drawer or separate section */
+  .promo-card {
+    margin: 0;  /* Remove mega-menu-specific margins */
+  }
+
+  /* Compact variant on mobile */
+  .promo-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .promo-card-img {
+    width: 48px;
+    height: 48px;
+  }
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+
+    <h3>Keyboard Navigation:</h3>
+    <ul>
+      <li><strong>Tab:</strong> Focus promo card link</li>
+      <li><strong>Enter:</strong> Navigate to product page</li>
+      <li>Visible focus ring on card</li>
+    </ul>
+
+    <h3>Semantic HTML:</h3>
+    <pre>&lt;a href="/products/welch-allyn-ds45" class="promo-card"&gt;
+  &lt;div class="promo-card-img" role="img" aria-label="Welch Allyn DuraShock DS45"&gt;
+    &lt;img src="/images/products/ds45.jpg" alt="Welch Allyn DuraShock DS45"&gt;
+  &lt;/div&gt;
+  &lt;div class="promo-card-info"&gt;
+    &lt;div class="promo-card-badge" aria-label="Bestseller product"&gt;
+      &lt;i data-lucide="trending-up" aria-hidden="true"&gt;&lt;/i&gt;
+      Bestseller
+    &lt;/div&gt;
+    &lt;div class="promo-card-name"&gt;Welch Allyn DuraShock DS45&lt;/div&gt;
+    &lt;div class="promo-card-price"&gt;
+      &lt;span class="sr-only"&gt;Verkoopprijs:&lt;/span&gt;€89,95
+      &lt;span class="old"&gt;
+        &lt;span class="sr-only"&gt;Was:&lt;/span&gt;€109,00
+      &lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;</pre>
+
+    <h3>Color Contrast:</h3>
+    <ul>
+      <li>White text on navy gradient: 15:1 ratio (excellent)</li>
+      <li>Teal-light price on navy: 4.8:1 ratio (WCAG AA pass)</li>
+      <li>Badge text (teal-light): 4.5:1 on badge background</li>
+    </ul>
+
+    <h3>Screen Reader Support:</h3>
+    <ul>
+      <li>Badge has <code>aria-label</code> for context</li>
+      <li>Icons marked <code>aria-hidden="true"</code></li>
+      <li>Price changes announced with <code>sr-only</code> labels</li>
+      <li>Image has proper <code>alt</code> text or <code>aria-label</code></li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+
+    <h3>Dynamic Badge Selection:</h3>
+    <pre>// Auto-select badge based on product metadata
+function getBadge(product) {
+  if (product.isNew && (Date.now() - product.createdAt) < 30 * 24 * 60 * 60 * 1000) {
+    return { icon: 'zap', label: 'Nieuw' };
+  }
+  if (product.sales > 100) {
+    return { icon: 'trending-up', label: 'Bestseller' };
+  }
+  if (product.discount > 15) {
+    return { icon: 'tag', label: 'Actie' };
+  }
+  if (product.rating >= 4.5) {
+    return { icon: 'sparkles', label: 'Populair' };
+  }
+  return null;  // No badge
+}</pre>
+
+    <h3>Price Formatting:</h3>
+    <pre>// Format price with discount calculation
+function formatPrice(price, oldPrice) {
+  const formattedPrice = `€${price.toFixed(2).replace('.', ',')}`;
+
+  if (oldPrice && oldPrice > price) {
+    const discount = Math.round(((oldPrice - price) / oldPrice) * 100);
+    const formattedOld = `€${oldPrice.toFixed(2).replace('.', ',')}`;
+
+    return `
+      ${formattedPrice}
+      &lt;span class="old" title="${discount}% korting"&gt;${formattedOld}&lt;/span&gt;
+    `;
+  }
+
+  return formattedPrice;
+}</pre>
+
+    <h3>Analytics Tracking:</h3>
+    <pre>// Track promo card impressions and clicks
+document.querySelectorAll('.promo-card').forEach(card => {
+  // Impression tracking (when visible)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        trackEvent('promo_impression', {
+          product_id: card.dataset.productId,
+          location: card.dataset.location,  // 'mega-menu', 'sidebar', etc.
+        });
+      }
+    });
+  });
+  observer.observe(card);
+
+  // Click tracking
+  card.addEventListener('click', (e) => {
+    trackEvent('promo_click', {
+      product_id: card.dataset.productId,
+      location: card.dataset.location,
+    });
+  });
+});</pre>
+
+    <h3>Image Optimization:</h3>
+    <pre>// Use emoji as fallback, load image lazy
+&lt;div class="promo-card-img"&gt;
+  &lt;img
+    src="/images/products/ds45.jpg"
+    alt="Welch Allyn DuraShock DS45"
+    loading="lazy"
+    onerror="this.style.display='none'; this.parentElement.textContent='🩺';"
+  &gt;
+&lt;/div&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+
+    <h3>Size Variations:</h3>
+    <ul>
+      <li><strong>Default (64px):</strong> Mega menu L3, standard sidebars</li>
+      <li><strong>Compact (48px):</strong> Narrow sidebars, mobile</li>
+      <li><strong>Large (80px):</strong> Hero sections, landing pages, featured spots</li>
+    </ul>
+
+    <h3>Badge Variations:</h3>
+    <pre>// Custom badge colors
+.promo-card-badge.sale {
+  background: rgba(255,107,107,0.2);  /* Coral */
+  border-color: rgba(255,107,107,0.3);
+  color: #FF6B6B;
+}
+
+.promo-card-badge.new {
+  background: rgba(33,150,243,0.2);   /* Blue */
+  border-color: rgba(33,150,243,0.3);
+  color: #2196F3;
+}</pre>
+
+    <h3>Alternative Layouts:</h3>
+    <ul>
+      <li><strong>Vertical:</strong> Image top, info below (for grid layouts)</li>
+      <li><strong>Minimal:</strong> No badge, smaller image (subtle promo)</li>
+      <li><strong>With CTA:</strong> Add "Bekijk product" button at bottom</li>
+    </ul>
+
+    <h3>Related Components:</h3>
+    <ul>
+      <li><strong>C14-MegaNavigation:</strong> Parent component (L3 column)</li>
+      <li><strong>ProductCard:</strong> Standard product card (white bg, full details)</li>
+      <li><strong>C18-ProductBadges:</strong> Badge system (can reuse styles)</li>
+      <li><strong>C13-RecentlyViewed:</strong> Carousel that can use compact variant</li>
+    </ul>
+
+    <h3>Payload CMS Integration:</h3>
+    <pre>// Featured products collection
+{
+  name: 'featuredProducts',
+  type: 'relationship',
+  relationTo: 'products',
+  hasMany: true,
+  max: 3,
+  admin: {
+    description: 'Products shown in mega menu promo cards'
+  }
+}
+
+// Product fields
+{
+  name: 'promoData',
+  type: 'group',
+  fields: [
+    {
+      name: 'badge',
+      type: 'select',
+      options: [
+        { label: 'Bestseller', value: 'bestseller' },
+        { label: 'Nieuw', value: 'new' },
+        { label: 'Populair', value: 'popular' },
+        { label: 'Actie', value: 'sale' }
+      ]
+    },
+    {
+      name: 'showInMegaMenu',
+      type: 'checkbox',
+      defaultValue: false
+    },
+    {
+      name: 'megaMenuCategory',
+      type: 'relationship',
+      relationTo: 'categories',
+      admin: {
+        condition: (data) => data.promoData?.showInMegaMenu
+      }
+    }
+  ]
+}</pre>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+
+</html>

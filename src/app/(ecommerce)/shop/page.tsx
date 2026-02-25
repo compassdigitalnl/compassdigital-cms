@@ -1,7 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Product } from '@/payload-types'
-import ShopArchiveTemplate1 from './ShopArchiveTemplate1'
+import ShopArchiveTemplate1 from '@/branches/ecommerce/templates/shop/ShopArchiveTemplate1'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 

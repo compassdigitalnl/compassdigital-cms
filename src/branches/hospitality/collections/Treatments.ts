@@ -309,3 +309,5 @@ export const Treatments: CollectionConfig = {
     maxPerDoc: 50,
   },
 }
+
+export default Treatments

@@ -134,16 +134,16 @@ export function MegaNav() {
           {/* Categories */}
           <div className="flex flex-col gap-0.5">
             <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-teal-50 text-teal-600">
-              <span>>�</span> Handschoenen
+              <ChevronRight className="w-4 h-4" /> Handschoenen
             </button>
             <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-navy-900 hover:bg-teal-50 hover:text-teal-600">
-              <span>>z</span> Diagnostiek
+              <ChevronRight className="w-4 h-4" /> Diagnostiek
             </button>
             <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-navy-900 hover:bg-teal-50 hover:text-teal-600">
-              <span>>y</span> Verbandmiddelen
+              <ChevronRight className="w-4 h-4" /> Verbandmiddelen
             </button>
             <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-navy-900 hover:bg-teal-50 hover:text-teal-600">
-              <span>=�</span> Injectiemateriaal
+              <ChevronRight className="w-4 h-4" /> Injectiemateriaal
             </button>
           </div>
 
@@ -156,7 +156,7 @@ export function MegaNav() {
                 className="flex items-center gap-2.5 p-2.5 border border-gray-200 rounded-lg hover:border-teal-600 hover:bg-teal-50 transition-all"
               >
                 <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xl flex-shrink-0">
-                  >�
+                  🧤
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-navy-900">Peha-soft Nitrile</div>

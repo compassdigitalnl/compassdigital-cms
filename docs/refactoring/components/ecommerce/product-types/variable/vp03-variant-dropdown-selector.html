@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP03: VariantDropdownSelector — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --navy: #0A1628;
+    --teal: #00897B;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+    --white: #FAFBFC;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --blue-light: #E3F2FD;
+    --amber-light: #FFF8E1;
+    --bg: #F5F7FA;
+    --space-8: 8px;
+    --space-10: 10px;
+    --space-12: 12px;
+    --space-14: 14px;
+    --space-16: 16px;
+    --space-24: 24px;
+    --radius: 10px;
+    --radius-lg: 12px;
+    --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    padding: 40px 24px;
+    line-height: 1.6;
+  }
+
+  .demo-container {
+    max-width: 800px;
+    margin: 0 auto 64px;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
+  }
+
+  .demo-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .demo-subtitle {
+    font-size: 14px;
+    color: var(--grey-mid);
+    margin-bottom: 32px;
+  }
+
+  /* === COMPONENT: VariantDropdownSelector === */
+
+  .variant-section {
+    margin-bottom: var(--space-24);
+  }
+
+  .var-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-12);
+  }
+
+  .var-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .var-label i {
+    width: 16px;
+    height: 16px;
+    color: var(--teal);
+  }
+
+  .var-type-badge {
+    font-size: 10px;
+    color: var(--grey-mid);
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--grey-light);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  /* Dropdown Container */
+  .var-dropdown {
+    position: relative;
+  }
+
+  /* Trigger Button */
+  .dropdown-trigger {
+    width: 100%;
+    height: 48px;
+    padding: 0 42px 0 var(--space-14);
+    border: 2px solid var(--grey);
+    border-radius: var(--radius-lg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+  }
+
+  .dropdown-trigger:hover {
+    border-color: var(--teal);
+  }
+
+  .dropdown-trigger:focus,
+  .dropdown-trigger.open {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-glow);
+  }
+
+  /* Icon in trigger */
+  .dd-trigger-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Arrow icon */
+  .dd-arrow {
+    position: absolute;
+    right: var(--space-14);
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: transform 0.2s;
+  }
+
+  .dropdown-trigger.open .dd-arrow {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .dd-arrow i {
+    width: 16px;
+    height: 16px;
+    color: var(--grey-mid);
+  }
+
+  /* Dropdown Menu */
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1.5px solid var(--grey);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    display: none;
+    overflow: hidden;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  .dropdown-menu.show {
+    display: block;
+  }
+
+  /* Dropdown Item */
+  .dd-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-10);
+    padding: var(--space-10) var(--space-14);
+    cursor: pointer;
+    transition: background 0.08s;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--grey);
+  }
+
+  .dd-item:last-child {
+    border-bottom: none;
+  }
+
+  .dd-item:hover {
+    background: var(--teal-glow);
+  }
+
+  .dd-item.selected {
+    background: var(--teal-glow);
+    color: var(--teal);
+  }
+
+  /* Item icon */
+  .dd-item-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Item info */
+  .dd-item-info {
+    flex: 1;
+  }
+
+  .dd-item-name {
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .dd-item-desc {
+    font-size: 10px;
+    color: var(--grey-mid);
+  }
+
+  /* Item price */
+  .dd-item-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Checkmark icon */
+  .dd-item-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .dd-item-check i {
+    width: 10px;
+    height: 10px;
+    color: white;
+  }
+
+  .dd-item.selected .dd-item-check {
+    display: flex;
+  }
+
+  /* === END COMPONENT === */
+
+  /* Documentation styles */
+  .docs-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 48px;
+    margin-bottom: 24px;
+  }
+
+  .docs-section h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .docs-section h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  .docs-section p {
+    margin-bottom: 12px;
+    color: var(--grey-dark);
+  }
+
+  .docs-section ul, .docs-section ol {
+    margin-left: 24px;
+    margin-bottom: 16px;
+    color: var(--grey-dark);
+  }
+
+  .docs-section li {
+    margin-bottom: 8px;
+  }
+
+  .docs-section code {
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--navy);
+  }
+
+  .docs-section pre {
+    background: var(--navy);
+    color: white;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+
+  .token-table th,
+  .token-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--grey);
+  }
+
+  .token-table th {
+    font-weight: 700;
+    color: var(--navy);
+    background: var(--grey-light);
+  }
+
+  .token-table td {
+    font-size: 14px;
+    color: var(--grey-dark);
+  }
+
+  .token-table code {
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO SECTION
+     ============================================ -->
+
+<div class="demo-container">
+  <h1 class="demo-title">VP03: VariantDropdownSelector</h1>
+  <p class="demo-subtitle">Product Type Component — Dropdown Selection with Icons & Descriptions</p>
+
+  <!-- DEMO 1: Zooltype (Sole Type) -->
+  <div class="variant-section">
+    <div class="var-header">
+      <div class="var-label">
+        <i data-lucide="layers"></i>
+        Zooltype
+      </div>
+      <div>
+        <span class="var-type-badge">Dropdown</span>
+      </div>
+    </div>
+    <div class="var-dropdown">
+      <button class="dropdown-trigger" id="ddTrigger1" onclick="toggleDropdown('ddTrigger1', 'ddMenu1')">
+        <div class="dd-trigger-icon" style="background: var(--teal-glow);">🏃</div>
+        <span>ComfortFlex — Dagelijks gebruik</span>
+      </button>
+      <div class="dd-arrow"><i data-lucide="chevron-down"></i></div>
+      <div class="dropdown-menu" id="ddMenu1">
+        <div class="dd-item selected" onclick="selectItem('ddTrigger1', 'ddMenu1', this, 'ComfortFlex', '🏃', 'Dagelijks gebruik', 'Incl.', 'var(--teal-glow)')">
+          <div class="dd-item-icon" style="background: var(--teal-glow);">🏃</div>
+          <div class="dd-item-info">
+            <div class="dd-item-name">ComfortFlex</div>
+            <div class="dd-item-desc">Dagelijks gebruik · EVA schuim</div>
+          </div>
+          <div class="dd-item-price" style="color: var(--green);">Incl.</div>
+          <div class="dd-item-check"><i data-lucide="check"></i></div>
+        </div>
+        <div class="dd-item" onclick="selectItem('ddTrigger1', 'ddMenu1', this, 'SportGrip Pro', '⚡', 'Hardlopen & sport', '+ €15', 'var(--blue-light)')">
+          <div class="dd-item-icon" style="background: var(--blue-light);">⚡</div>
+          <div class="dd-item-info">
+            <div class="dd-item-name">SportGrip Pro</div>
+            <div class="dd-item-desc">Hardlopen & sport · Carbon-fiber plaat</div>
+          </div>
+          <div class="dd-item-price">+ €15</div>
+          <div class="dd-item-check"><i data-lucide="check"></i></div>
+        </div>
+        <div class="dd-item" onclick="selectItem('ddTrigger1', 'ddMenu1', this, 'TrailMaster', '🏔️', 'Off-road & hiking', '+ €20', 'var(--amber-light)')">
+          <div class="dd-item-icon" style="background: var(--amber-light);">🏔️</div>
+          <div class="dd-item-info">
+            <div class="dd-item-name">TrailMaster</div>
+            <div class="dd-item-desc">Off-road & hiking · Vibram rubber</div>
+          </div>
+          <div class="dd-item-price">+ €20</div>
+          <div class="dd-item-check"><i data-lucide="check"></i></div>
+        </div>
+        <div class="dd-item" onclick="selectItem('ddTrigger1', 'ddMenu1', this, 'EcoStep', '🌱', '100% gerecycled', '+ €10', 'var(--green-light)')">
+          <div class="dd-item-icon" style="background: var(--green-light);">🌱</div>
+          <div class="dd-item-info">
+            <div class="dd-item-name">EcoStep</div>
+            <div class="dd-item-desc">100% gerecycled materiaal · B-Corp</div>
+          </div>
+          <div class="dd-item-price">+ €10</div>
+          <div class="dd-item-check"><i data-lucide="check"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr style="border: none; border-top: 1px solid var(--grey); margin: 32px 0;">
+
+  <!-- DEMO 2: Materiaal (Material) -->
+  <div class="variant-section">
+    <div class="var-header">
+      <div class="var-label">
+        <i data-lucide="package"></i>
+        Materiaal
+      </div>
+      <div>
+        <span class="var-type-badge">Dropdown</span>
+      </div>
+    </div>
+    <div class="var-dropdown">
+      <button class="dropdown-trigger" id="ddTrigger2" onclick="toggleDropdown('ddTrigger2', 'ddMenu2')">
+        <div class="dd-trigger-icon" style="background: var(--grey-light);">🧵</div>
+        <span>Katoen — Zacht en ademend</span>
+      </button>
+      <div class="dd-arrow"><i data-lucide="chevron-down"></i></div>
+      <div class="dropdown-menu" id="ddMenu2">
+        <div class="dd-item selected" onclick="selectItem('ddTrigger2', 'ddMenu2', this, 'Katoen', '🧵', 'Zacht en ademend', 'Incl.', 'var(--grey-light)')">
+          <div class="dd-item-icon" style="background: var(--grey-light);">🧵</div>
+          <div class="dd-item-info">
+            <div class="dd-item-name">Katoen</div>
+            <div class="dd-item-desc">Zacht en ademend · 100% biologisch</div>
+          </div>
+          <div class="dd-item-price" style="color: var(--green);">Incl.</div>
+          <div class="dd-item-check"><i data-lucide="check"></i></div>
+        </div>
+        <div class="dd-item" onclick="selectItem('ddTrigger2', 'ddMenu2', this, 'Merino Wol', '🐑', 'Temperatuurregeling', '+ €12', 'var(--blue-light)')">
+          <div class="dd-item-icon" style="background: var(--blue-light);">🐑</div>
+          <div class="dd-item-info">
+            <div class="dd-item-name">Merino Wol</div>
+            <div class="dd-item-desc">Temperatuurregeling · Geur-afstotend</div>
+          </div>
+          <div class="dd-item-price">+ €12</div>
+          <div class="dd-item-check"><i data-lucide="check"></i></div>
+        </div>
+        <div class="dd-item" onclick="selectItem('ddTrigger2', 'ddMenu2', this, 'Performance Polyester', '⚡', 'Sportkleding', '+ €8', 'var(--teal-glow)')">
+          <div class="dd-item-icon" style="background: var(--teal-glow);">⚡</div>
+          <div class="dd-item-info">
+            <div class="dd-item-name">Performance Polyester</div>
+            <div class="dd-item-desc">Sportkleding · Vocht-regulerend</div>
+          </div>
+          <div class="dd-item-price">+ €8</div>
+          <div class="dd-item-check"><i data-lucide="check"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+
+<div class="docs-section">
+  <h2>📋 STEP 1: Component Overview</h2>
+
+  <p><strong>Component Name:</strong> VariantDropdownSelector (VP03)</p>
+  <p><strong>Category:</strong> Product Types → Variable Product</p>
+  <p><strong>Purpose:</strong> Dropdown selection for product variants with complex options (icons, descriptions, prices). Used when visual swatches (VP01) or simple buttons (VP02) are insufficient.</p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li>✅ <strong>Trigger Button</strong> — 48px height, full-width, displays selected option with icon</li>
+    <li>✅ <strong>Dropdown Menu</strong> — Overlaid panel (max-height 280px) with scrollable items</li>
+    <li>✅ <strong>Icon + Name + Description</strong> — Each item shows emoji/icon (28×28px), option name, and detailed description</li>
+    <li>✅ <strong>Price Indicator</strong> — "Incl." (green) or "+ €X" (black) shown per option</li>
+    <li>✅ <strong>Selected State</strong> — Teal background + checkmark icon in menu</li>
+    <li>✅ <strong>Keyboard Accessible</strong> — Arrow keys for navigation, Enter to select</li>
+    <li>✅ <strong>Click-Outside-to-Close</strong> — Menu closes when clicking outside dropdown</li>
+    <li>✅ <strong>Smooth Transitions</strong> — Border color, arrow rotation, menu appearance</li>
+  </ul>
+
+  <h3>Visual Description</h3>
+  <p>The component consists of a trigger button showing the selected option (icon + name + description) and a chevron-down arrow. When clicked, a dropdown menu appears below with a list of options. Each option displays an icon (emoji or Lucide icon), a bold name, a grey description line, and a price indicator. The selected option has a light teal background and a teal checkmark circle on the right.</p>
+
+  <h3>Usage Context</h3>
+  <p>Use this component for variants that need more context than a simple button or swatch can provide. Ideal for material selection, finish types, sole types, or any option where customers benefit from seeing detailed descriptions and multiple attributes per choice.</p>
+</div>
+
+<div class="docs-section">
+  <h2>🎯 STEP 2: When to Use</h2>
+
+  <h3>Primary Use Cases</h3>
+  <ol>
+    <li><strong>Material Selection</strong> — Cotton, Merino Wool, Polyester (with care/benefit descriptions)</li>
+    <li><strong>Finish/Coating</strong> — Matte, Glossy, Satin (with visual characteristics explained)</li>
+    <li><strong>Technical Specs</strong> — Sole types, lens types, battery capacities (with detailed specs)</li>
+    <li><strong>Service Levels</strong> — Standard, Express, Premium (with delivery time + features)</li>
+    <li><strong>Subscription Tiers</strong> — Basic, Pro, Enterprise (with feature lists)</li>
+  </ol>
+
+  <h3>When NOT to Use</h3>
+  <ul>
+    <li>❌ <strong>Visual variants</strong> — Use VP01 (color swatches) for colors/patterns</li>
+    <li>❌ <strong>Simple options</strong> — Use VP02 (size buttons) for sizes (S/M/L) without extra context</li>
+    <li>❌ <strong>Binary choices</strong> — Use toggle switch or radio buttons for yes/no options</li>
+    <li>❌ <strong>More than 12 options</strong> — Consider categorization or search functionality</li>
+  </ul>
+
+  <h3>Guidelines</h3>
+  <ul>
+    <li>Always include a clear icon per option (helps visual scanning)</li>
+    <li>Use emojis for casual/fun products, Lucide icons for professional/B2B products</li>
+    <li>Keep descriptions to 1 line (~40 chars) — if longer, truncate with ellipsis</li>
+    <li>Show "Incl." in green for options included in base price (not "+€0")</li>
+    <li>Order options logically: most popular first, or price ascending</li>
+    <li>For identical prices, order alphabetically by name</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>🎨 STEP 3: Design Tokens</h2>
+
+  <h3>Colors</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Trigger border on focus/open, selected item text, checkmark background</td>
+      </tr>
+      <tr>
+        <td><code>--teal-glow</code></td>
+        <td>rgba(0, 137, 123, 0.12)</td>
+        <td>Trigger focus shadow, selected item background, item hover</td>
+      </tr>
+      <tr>
+        <td><code>--grey</code></td>
+        <td>#E8ECF1</td>
+        <td>Trigger border (default), menu border, item bottom border</td>
+      </tr>
+      <tr>
+        <td><code>--grey-mid</code></td>
+        <td>#94A3B8</td>
+        <td>Item description text, arrow icon</td>
+      </tr>
+      <tr>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>Trigger text, item name text</td>
+      </tr>
+      <tr>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>Price "Incl." text color</td>
+      </tr>
+      <tr>
+        <td><code>--white</code></td>
+        <td>#FAFBFC</td>
+        <td>Trigger background, menu background, checkmark icon</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Typography</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Font Family</th>
+        <th>Size</th>
+        <th>Weight</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Trigger text</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>600</td>
+      </tr>
+      <tr>
+        <td>Item name</td>
+        <td>DM Sans</td>
+        <td>13px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Item description</td>
+        <td>DM Sans</td>
+        <td>10px</td>
+        <td>400</td>
+      </tr>
+      <tr>
+        <td>Item price</td>
+        <td>JetBrains Mono</td>
+        <td>12px</td>
+        <td>700</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Spacing</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Trigger height</td>
+        <td>48px</td>
+        <td>Fixed height for trigger button</td>
+      </tr>
+      <tr>
+        <td>Trigger padding</td>
+        <td>0 42px 0 14px</td>
+        <td>Left padding 14px, right 42px (for arrow)</td>
+      </tr>
+      <tr>
+        <td>Trigger border</td>
+        <td>2px</td>
+        <td>Border width (grey default, teal on focus)</td>
+      </tr>
+      <tr>
+        <td>Trigger icon size</td>
+        <td>24×24px</td>
+        <td>Icon container with 6px border-radius</td>
+      </tr>
+      <tr>
+        <td>Trigger gap</td>
+        <td>8px (<code>--space-8</code>)</td>
+        <td>Gap between icon and text</td>
+      </tr>
+      <tr>
+        <td>Menu max-height</td>
+        <td>280px</td>
+        <td>Maximum dropdown height before scrolling</td>
+      </tr>
+      <tr>
+        <td>Menu border</td>
+        <td>1.5px</td>
+        <td>Border width around menu</td>
+      </tr>
+      <tr>
+        <td>Item padding</td>
+        <td>10px 14px</td>
+        <td>Vertical 10px, horizontal 14px</td>
+      </tr>
+      <tr>
+        <td>Item gap</td>
+        <td>10px (<code>--space-10</code>)</td>
+        <td>Gap between item icon, text, price, checkmark</td>
+      </tr>
+      <tr>
+        <td>Item icon size</td>
+        <td>28×28px</td>
+        <td>Slightly larger than trigger icon for better visibility</td>
+      </tr>
+      <tr>
+        <td>Checkmark circle</td>
+        <td>18×18px</td>
+        <td>Teal circle with white check icon (10×10px)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Border Radius</h3>
+  <ul>
+    <li><strong>Trigger button:</strong> <code>--radius-lg</code> (12px)</li>
+    <li><strong>Dropdown menu:</strong> <code>--radius-lg</code> (12px)</li>
+    <li><strong>Icon containers:</strong> 6px (trigger), 6px (items)</li>
+    <li><strong>Checkmark circle:</strong> 50% (perfect circle)</li>
+  </ul>
+
+  <h3>Icons</h3>
+  <ul>
+    <li><strong>Chevron-down:</strong> <code>chevron-down</code> (Lucide) at 16×16px, grey-mid color</li>
+    <li><strong>Check:</strong> <code>check</code> (Lucide) at 10×10px, white color (in teal circle)</li>
+    <li><strong>Label icons:</strong> <code>layers</code>, <code>package</code>, etc. at 16×16px, teal color</li>
+  </ul>
+
+  <h3>Shadows & Effects</h3>
+  <ul>
+    <li><strong>Trigger focus:</strong> <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+    <li><strong>Dropdown menu:</strong> <code>box-shadow: var(--shadow-lg)</code> (0 16px 48px rgba(10, 22, 40, 0.12))</li>
+  </ul>
+
+  <h3>Transitions</h3>
+  <ul>
+    <li><strong>Trigger:</strong> <code>all 0.12s cubic-bezier(0.4, 0, 0.2, 1)</code> — border color, shadow</li>
+    <li><strong>Arrow rotation:</strong> <code>transform 0.2s</code> — rotates 180° when menu open</li>
+    <li><strong>Item hover:</strong> <code>background 0.08s</code> — instant feel</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+  <h3>TypeScript Interface</h3>
+  <pre>
+interface DropdownOption {
+  id: string
+  name: string              // Display name (e.g., "ComfortFlex", "Merino Wool")
+  description: string       // Short description (e.g., "Dagelijks gebruik · EVA schuim")
+  icon: string              // Emoji or Lucide icon name
+  iconBg?: string           // Background color for icon container (e.g., "var(--teal-glow)")
+  price?: number            // Price adjustment (0 = included, >0 = additional cost)
+  value: string             // Value for form submission
+  available?: boolean       // Stock availability (default: true)
+  featured?: boolean        // Show "Populair" badge (optional)
+}
+
+interface VariantDropdownSelectorProps {
+  label?: string                          // Default: "Opties"
+  icon?: string                           // Lucide icon name for label, default: "layers"
+  options: DropdownOption[]               // Array of dropdown options
+  selected: string                        // ID of selected option
+  onSelect: (option: DropdownOption) => void  // Selection handler
+  placeholder?: string                    // Placeholder when none selected
+  showTypeBadge?: boolean                 // Show "Dropdown" badge, default: true
+  disabled?: boolean                      // Disable dropdown, default: false
+  required?: boolean                      // Mark as required field, default: false
+  maxHeight?: number                      // Max dropdown height in px, default: 280
+}</pre>
+
+  <h3>Payload CMS Field Schema</h3>
+  <pre>
+{
+  name: 'dropdownVariants',
+  type: 'array',
+  label: 'Dropdown Opties',
+  required: true,
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      label: 'Optienaam',
+      required: true,
+      admin: {
+        description: 'Bijv. "ComfortFlex", "Merino Wool"',
+      },
+    },
+    {
+      name: 'description',
+      type: 'text',
+      label: 'Beschrijving',
+      required: true,
+      admin: {
+        description: 'Korte beschrijving (max 60 karakters)',
+      },
+    },
+    {
+      name: 'icon',
+      type: 'text',
+      label: 'Icoon',
+      admin: {
+        description: 'Emoji (🏃) of Lucide icon naam (package)',
+      },
+    },
+    {
+      name: 'iconBackground',
+      type: 'select',
+      label: 'Icoon achtergrondkleur',
+      options: [
+        { label: 'Teal Light', value: 'var(--teal-glow)' },
+        { label: 'Blue Light', value: 'var(--blue-light)' },
+        { label: 'Amber Light', value: 'var(--amber-light)' },
+        { label: 'Green Light', value: 'var(--green-light)' },
+        { label: 'Grey Light', value: 'var(--grey-light)' },
+      ],
+      defaultValue: 'var(--grey-light)',
+    },
+    {
+      name: 'priceAdjustment',
+      type: 'number',
+      label: 'Prijsopslag (€)',
+      defaultValue: 0,
+      admin: {
+        description: '0 = Incl. in basisprijs, >0 = + €X',
+      },
+    },
+    {
+      name: 'value',
+      type: 'text',
+      label: 'Waarde (voor formulier)',
+      required: true,
+    },
+    {
+      name: 'available',
+      type: 'checkbox',
+      label: 'Beschikbaar',
+      defaultValue: true,
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      label: 'Populair (toon badge)',
+      defaultValue: false,
+    },
+  ],
+}</pre>
+
+  <h3>Default Values</h3>
+  <ul>
+    <li><code>label</code>: "Opties"</li>
+    <li><code>icon</code>: "layers"</li>
+    <li><code>showTypeBadge</code>: true</li>
+    <li><code>disabled</code>: false</li>
+    <li><code>required</code>: false</li>
+    <li><code>maxHeight</code>: 280 (px)</li>
+  </ul>
+
+  <h3>Validation Rules</h3>
+  <ul>
+    <li>Minimum 2 options required</li>
+    <li>Maximum 20 options recommended (UX degradation beyond that)</li>
+    <li>Option names must be unique</li>
+    <li>Description max length: 80 characters (for visual consistency)</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>📐 STEP 5: Layout Rules</h2>
+
+  <h3>Component Anatomy</h3>
+  <pre>
+Trigger Button:
+┌────────────────────────────────────────┐
+│ [🏃] ComfortFlex — Dagelijks gebruik   ▼│
+│  ↑   ↑                                 ↑│
+│ Icon Text                          Arrow│
+└────────────────────────────────────────┘
+    ↓ (Click)
+Dropdown Menu:
+┌────────────────────────────────────────┐
+│ [🏃] ComfortFlex           Incl.     [✓]│ ← Selected
+│      Dagelijks gebruik · EVA schuim    │
+├────────────────────────────────────────┤
+│ [⚡] SportGrip Pro        + €15        │
+│      Hardlopen & sport · Carbon-fiber  │
+├────────────────────────────────────────┤
+│ [🏔️] TrailMaster          + €20        │
+│      Off-road & hiking · Vibram rubber │
+└────────────────────────────────────────┘</pre>
+
+  <h3>Grid Specifications</h3>
+  <ul>
+    <li><strong>Trigger:</strong> Full-width, height 48px, flexbox with gap 8px</li>
+    <li><strong>Menu:</strong> Full-width (matches trigger), max-height 280px, overflow-y auto</li>
+    <li><strong>Item:</strong> Flexbox with gap 10px — icon (28px) | info (flex: 1) | price | checkmark (18px)</li>
+  </ul>
+
+  <h3>Spacing Hierarchy</h3>
+  <ol>
+    <li><strong>Trigger padding:</strong> 0 42px 0 14px (right padding for arrow)</li>
+    <li><strong>Trigger icon → text:</strong> 8px gap</li>
+    <li><strong>Menu top margin:</strong> 4px below trigger</li>
+    <li><strong>Item padding:</strong> 10px 14px (vertical, horizontal)</li>
+    <li><strong>Item elements gap:</strong> 10px between icon, text, price, checkmark</li>
+  </ol>
+
+  <h3>Responsive Breakpoints</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Behavior</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&gt;768px (Desktop)</td>
+        <td>Full dropdown with descriptions visible</td>
+      </tr>
+      <tr>
+        <td>640-768px (Tablet)</td>
+        <td>Same layout, but may reduce max-height to 240px</td>
+      </tr>
+      <tr>
+        <td>&lt;640px (Mobile)</td>
+        <td>Consider native select or bottom-sheet modal for better UX</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Z-index Layering</h3>
+  <ul>
+    <li><strong>Trigger:</strong> z-index: 1</li>
+    <li><strong>Dropdown menu:</strong> z-index: 100 (above other content, below modals)</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>♿ STEP 6: Accessibility</h2>
+
+  <h3>ARIA Attributes</h3>
+  <ul>
+    <li><strong>Trigger:</strong> <code>role="button"</code>, <code>aria-haspopup="listbox"</code>, <code>aria-expanded="true/false"</code></li>
+    <li><strong>Menu:</strong> <code>role="listbox"</code>, <code>aria-labelledby="label-id"</code></li>
+    <li><strong>Item:</strong> <code>role="option"</code>, <code>aria-selected="true/false"</code></li>
+  </ul>
+
+  <h3>Keyboard Navigation</h3>
+  <ul>
+    <li><code>Tab</code>: Focus trigger button</li>
+    <li><code>Enter/Space</code>: Open dropdown (when trigger focused)</li>
+    <li><code>Arrow Down/Up</code>: Navigate options (when menu open)</li>
+    <li><code>Enter</code>: Select focused option and close menu</li>
+    <li><code>Escape</code>: Close menu without selecting</li>
+  </ul>
+
+  <h3>Screen Reader Support</h3>
+  <ul>
+    <li>Trigger announces: "Zooltype, ComfortFlex, Dagelijks gebruik, button, collapsed"</li>
+    <li>Menu announces: "Listbox, 4 options"</li>
+    <li>Item announces: "ComfortFlex, Dagelijks gebruik, Incl., option, selected"</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>💻 STEP 7: Implementation Notes</h2>
+
+  <p>See <strong>VP01</strong> and <strong>VP02</strong> for detailed React examples. This component follows the same patterns with dropdown-specific logic (open/close state, click-outside handling, keyboard navigation).</p>
+
+  <h3>Click-Outside-to-Close Pattern</h3>
+  <pre>
+useEffect(() => {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (!dropdownRef.current?.contains(e.target as Node)) {
+      setIsOpen(false)
+    }
+  }
+
+  document.addEventListener('click', handleClickOutside)
+  return () => document.removeEventListener('click', handleClickOutside)
+}, [])</pre>
+</div>
+
+<div class="docs-section">
+  <h2>🔀 STEP 8: Variations & Related Components</h2>
+
+  <h3>Related Components</h3>
+  <ul>
+    <li><strong>VP01: VariantColorSwatches</strong> — For visual color selection</li>
+    <li><strong>VP02: VariantSizeSelector</strong> — For simple size buttons</li>
+    <li><strong>VP04: VariantImageRadio</strong> — For image-based selection</li>
+  </ul>
+
+  <h3>Testing Checklist</h3>
+  <ul>
+    <li>☐ Trigger click opens menu</li>
+    <li>☐ Item click selects option and updates trigger text</li>
+    <li>☐ Arrow rotates 180° when menu open</li>
+    <li>☐ Menu scrolls if more than ~7 items (280px max height)</li>
+    <li>☐ Selected item shows teal bg + checkmark</li>
+    <li>☐ Click outside closes menu</li>
+    <li>☐ Escape key closes menu</li>
+    <li>☐ Arrow keys navigate options</li>
+    <li>☐ Keyboard focus visible (teal glow)</li>
+  </ul>
+</div>
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+
+<script>
+lucide.createIcons()
+
+function toggleDropdown(triggerId, menuId) {
+  const trigger = document.getElementById(triggerId)
+  const menu = document.getElementById(menuId)
+
+  const isOpen = menu.classList.contains('show')
+
+  // Close all other dropdowns first
+  document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'))
+  document.querySelectorAll('.dropdown-trigger').forEach(t => t.classList.remove('open'))
+
+  if (!isOpen) {
+    menu.classList.add('show')
+    trigger.classList.add('open')
+  }
+}
+
+function selectItem(triggerId, menuId, element, name, icon, desc, price, iconBg) {
+  // Update trigger text
+  const trigger = document.getElementById(triggerId)
+  trigger.innerHTML = `<div class="dd-trigger-icon" style="background: ${iconBg};">${icon}</div><span>${name} — ${desc}</span>`
+
+  // Update selected state in menu
+  const menu = document.getElementById(menuId)
+  menu.querySelectorAll('.dd-item').forEach(item => item.classList.remove('selected'))
+  element.classList.add('selected')
+
+  // Close menu
+  menu.classList.remove('show')
+  trigger.classList.remove('open')
+
+  // Re-init Lucide icons
+  lucide.createIcons()
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.var-dropdown')) {
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'))
+    document.querySelectorAll('.dropdown-trigger').forEach(t => t.classList.remove('open'))
+  }
+})
+</script>
+
+</body>
+</html>

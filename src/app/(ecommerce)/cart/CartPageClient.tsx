@@ -1,8 +1,8 @@
 'use client'
 
 import { useABTest } from '@/branches/shared/components/features/ABTest'
-import CartTemplate1 from './CartTemplate1'
-import CartTemplate2 from './CartTemplate2'
+import CartTemplate1 from '@/branches/ecommerce/templates/cart/CartTemplate1'
+import CartTemplate2 from '@/branches/ecommerce/templates/cart/CartTemplate2'
 import { ShoppingCart } from 'lucide-react'
 
 interface CartPageClientProps {

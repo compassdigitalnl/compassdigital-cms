@@ -131,3 +131,5 @@ export const ServicesCollection: CollectionConfig = {
     },
   ],
 }
+
+export default ServicesCollection

@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP11: VariantToolbar — Compass Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ============================================
+   VP11: VARIANT TOOLBAR
+   Toolbar with grid/list view toggle + bulk actions
+   ============================================ */
+
+/* CSS CUSTOM PROPERTIES (Design Tokens) */
+:root {
+  /* Colors */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+
+  /* System */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* DEMO STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  padding: 48px 24px;
+  color: var(--navy);
+}
+
+.demo-section {
+  max-width: 1200px;
+  margin: 0 auto 64px;
+}
+
+.demo-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.demo-desc {
+  font-size: 14px;
+  color: var(--grey-dark);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+.demo-container {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1.5px solid var(--grey);
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.demo-card {
+  aspect-ratio: 1;
+  background: var(--grey-light);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+/* ============================================
+   VP11 COMPONENT STYLES
+   ============================================ */
+
+.variant-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+/* Left: Count/Title */
+.toolbar-count {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar-count .count-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--teal);
+}
+
+/* Right: Actions */
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.view-btn {
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.view-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+.view-btn:hover:not(.active) {
+  background: var(--grey-light);
+  color: var(--navy);
+}
+
+.view-btn.active {
+  background: var(--teal);
+  color: white;
+}
+
+/* Bulk Action Buttons */
+.bulk-btn {
+  padding: 6px 12px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.bulk-btn i {
+  width: 13px;
+  height: 13px;
+}
+
+.bulk-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: var(--teal-glow);
+}
+
+.bulk-btn:active {
+  transform: scale(0.98);
+}
+
+.bulk-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .variant-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .toolbar-count {
+    justify-content: center;
+  }
+
+  .toolbar-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .view-toggle {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .view-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .bulk-btn {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+  }
+}
+
+/* Accessibility */
+.variant-toolbar:focus-within {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Helper */
+.hidden {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO: Default Toolbar
+     ============================================ -->
+<div class="demo-section">
+  <h1 class="demo-title">VP11: VariantToolbar — Default</h1>
+  <p class="demo-desc">
+    Toolbar with variant count, grid/list view toggle, and bulk select/deselect buttons.
+  </p>
+
+  <div class="demo-container">
+    <div class="variant-toolbar">
+      <div class="toolbar-count">
+        <span class="count-number">24</span> varianten beschikbaar
+      </div>
+      <div class="toolbar-actions">
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="grid">
+            <i data-lucide="grid-2x2"></i>
+            Grid
+          </button>
+          <button class="view-btn" data-view="list">
+            <i data-lucide="list"></i>
+            Lijst
+          </button>
+        </div>
+        <button class="bulk-btn" id="selectAll">
+          <i data-lucide="check-square"></i>
+          Selecteer alle
+        </button>
+        <button class="bulk-btn" id="deselectAll" disabled>
+          <i data-lucide="square"></i>
+          Deselecteer alle
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-grid">
+      <div class="demo-card">XS</div>
+      <div class="demo-card">S</div>
+      <div class="demo-card">M</div>
+      <div class="demo-card">L</div>
+      <div class="demo-card">XL</div>
+      <div class="demo-card">XXL</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     LIVE DEMO: Compact Variant
+     ============================================ -->
+<div class="demo-section">
+  <h1 class="demo-title">VP11: VariantToolbar — Compact (Icon Only)</h1>
+  <p class="demo-desc">
+    Compact toolbar variant showing only icons (no text labels) to save horizontal space.
+  </p>
+
+  <div class="demo-container">
+    <div class="variant-toolbar">
+      <div class="toolbar-count">
+        <span class="count-number">12</span> varianten
+      </div>
+      <div class="toolbar-actions">
+        <div class="view-toggle">
+          <button class="view-btn" data-view="grid" aria-label="Grid weergave">
+            <i data-lucide="grid-2x2"></i>
+          </button>
+          <button class="view-btn active" data-view="list" aria-label="Lijst weergave">
+            <i data-lucide="list"></i>
+          </button>
+        </div>
+        <button class="bulk-btn" aria-label="Selecteer alle varianten">
+          <i data-lucide="check-square"></i>
+        </button>
+        <button class="bulk-btn" aria-label="Deselecteer alle varianten">
+          <i data-lucide="square"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-grid">
+      <div class="demo-card">🧤</div>
+      <div class="demo-card">🧤</div>
+      <div class="demo-card">🧤</div>
+      <div class="demo-card">🧤</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     LIVE DEMO: With Selected Count
+     ============================================ -->
+<div class="demo-section">
+  <h1 class="demo-title">VP11: VariantToolbar — With Selection Count</h1>
+  <p class="demo-desc">
+    Toolbar showing count of selected variants in the title area.
+  </p>
+
+  <div class="demo-container">
+    <div class="variant-toolbar">
+      <div class="toolbar-count">
+        <span class="count-number">24</span> varianten beschikbaar
+        <span style="color: var(--teal); margin-left: 8px;">• 3 geselecteerd</span>
+      </div>
+      <div class="toolbar-actions">
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="grid">
+            <i data-lucide="grid-2x2"></i>
+            Grid
+          </button>
+          <button class="view-btn" data-view="list">
+            <i data-lucide="list"></i>
+            Lijst
+          </button>
+        </div>
+        <button class="bulk-btn">
+          <i data-lucide="check-square"></i>
+          Selecteer alle
+        </button>
+        <button class="bulk-btn">
+          <i data-lucide="square"></i>
+          Deselecteer alle
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-grid">
+      <div class="demo-card" style="border: 2px solid var(--teal); background: rgba(0,137,123,0.05);">S</div>
+      <div class="demo-card">M</div>
+      <div class="demo-card" style="border: 2px solid var(--teal); background: rgba(0,137,123,0.05);">L</div>
+      <div class="demo-card" style="border: 2px solid var(--teal); background: rgba(0,137,123,0.05);">XL</div>
+      <div class="demo-card">XXL</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     COMPONENT DOCUMENTATION
+     ============================================ -->
+<div class="demo-section">
+  <h2 style="font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 32px; color: var(--navy);">
+    Component Documentation
+  </h2>
+
+  <div style="background: white; padding: 32px; border-radius: 16px; border: 1.5px solid var(--grey);">
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 1: Component Overview
+      </h3>
+      <p style="font-size: 14px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 16px;">
+        <strong>VP11: VariantToolbar</strong> is a toolbar component that provides view controls and
+        bulk actions for multi-variant selection interfaces. It sits above the variant grid/list and
+        allows users to switch between layouts and perform bulk operations.
+      </p>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: var(--navy); margin-bottom: 8px;"><strong>Key Features:</strong></p>
+        <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+          <li>Variant count display (left side)</li>
+          <li>Grid/List view toggle (pill-style 2-button group)</li>
+          <li>Bulk select all button</li>
+          <li>Bulk deselect all button</li>
+          <li>Responsive: stacks vertically on mobile</li>
+          <li>Active state highlighting (teal bg for active view)</li>
+          <li>Disabled states for bulk buttons when not applicable</li>
+        </ul>
+      </div>
+      <div style="background: var(--teal-glow); padding: 16px; border-radius: 8px; border-left: 3px solid var(--teal);">
+        <p style="font-size: 13px; color: var(--navy);"><strong>File Size:</strong> ~630 lines</p>
+        <p style="font-size: 13px; color: var(--navy);"><strong>Component ID:</strong> VP11</p>
+        <p style="font-size: 13px; color: var(--navy);"><strong>Related:</strong> VP08 (grid card), VP09 (list row), VP10 (sidebar), VP12 (grid container), VP13 (list container)</p>
+      </div>
+    </section>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 2: When to Use
+      </h3>
+      <div style="background: var(--green-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; border-left: 3px solid var(--green);">
+        <p style="font-size: 13px; color: #166534; margin-bottom: 8px;"><strong>✅ Use VP11 (Toolbar) When:</strong></p>
+        <ul style="font-size: 13px; color: #166534; line-height: 1.8; margin-left: 20px;">
+          <li>Displaying 10+ variants that benefit from view switching</li>
+          <li>Multi-variant selection (VP08/VP09) needs bulk actions</li>
+          <li>User should be able to toggle between grid and list layouts</li>
+          <li>Need "Select all" / "Deselect all" shortcuts</li>
+          <li>Archive/shop pages with many variant options</li>
+          <li>B2B context where bulk selection is common</li>
+        </ul>
+      </div>
+      <div style="background: var(--coral-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--coral);">
+        <p style="font-size: 13px; color: #DC2626; margin-bottom: 8px;"><strong>❌ Don't Use VP11 When:</strong></p>
+        <ul style="font-size: 13px; color: #DC2626; line-height: 1.8; margin-left: 20px;">
+          <li>Fewer than 6 variants (toolbar overhead not worth it)</li>
+          <li>Single-variant selection (VP01-VP05) — no bulk actions needed</li>
+          <li>Fixed view mode (no grid/list toggle needed)</li>
+          <li>Mobile-only experience (toolbar takes too much vertical space)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 3: Design Tokens
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Dimensions</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px; margin-bottom: 24px;">
+        <li><strong>Toolbar height:</strong> Auto (flex row, align center)</li>
+        <li><strong>Margin-bottom:</strong> 16px (space between toolbar and grid)</li>
+        <li><strong>View toggle container:</strong> 3px padding + 1.5px border</li>
+        <li><strong>View button padding:</strong> 5px 10px</li>
+        <li><strong>Bulk button padding:</strong> 6px 12px</li>
+      </ul>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Colors</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Token</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Count text</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--navy</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#0A1628 (15px, 700 weight)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Count number</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00897B (16px mono, 800 weight)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Toggle container bg</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--white</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#FAFBFC</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Toggle border</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--grey</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#E8ECF1 (1.5px)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Inactive button text</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--grey-dark</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#64748B</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Active button bg</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00897B</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Active button text</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>white</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#FFFFFF</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Bulk btn hover border</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00897B + teal-glow bg</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Typography</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Font</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Size</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Count text</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">15px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">700</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Count number</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">JetBrains Mono</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">16px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">800</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">View buttons</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">12px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">600</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Bulk buttons</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">12px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">600</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Icons</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li><strong>Grid icon:</strong> "grid-2x2" (14×14px, Lucide)</li>
+        <li><strong>List icon:</strong> "list" (14×14px, Lucide)</li>
+        <li><strong>Select all icon:</strong> "check-square" (13×13px, Lucide)</li>
+        <li><strong>Deselect all icon:</strong> "square" (13×13px, Lucide)</li>
+      </ul>
+    </section>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 4: Props & Configuration
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">CSS Classes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Class</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-toolbar</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Main container (flex row, space-between)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.toolbar-count</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Left side: count display (15px, 700 weight)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.count-number</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Teal number (16px mono, 800 weight)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.toolbar-actions</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Right side: actions container (flex row, 8px gap)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.view-toggle</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">View toggle container (pill-style, 3px padding)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.view-btn</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Individual view button (grid/list)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.view-btn.active</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Active view (teal bg, white text)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.bulk-btn</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Bulk action button (select/deselect all)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Data Attributes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Attribute</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Values</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>data-view</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"grid" / "list"</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Identifies which view button toggles</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Configuration Options</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li><strong>Variant count:</strong> Dynamic number display (24, 12, etc.)</li>
+        <li><strong>View toggle visibility:</strong> Show/hide based on layout availability</li>
+        <li><strong>Bulk buttons state:</strong> Enable "Select all" when <100% selected, "Deselect all" when >0% selected</li>
+        <li><strong>Icon-only mode:</strong> Remove text labels from buttons for compact layout</li>
+        <li><strong>Selection count:</strong> Optional "X geselecteerd" indicator in count area</li>
+      </ul>
+    </section>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 5: Layout Rules
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Toolbar Structure</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">&lt;div class="variant-toolbar"&gt;
+  &lt;!-- Left: Count --&gt;
+  &lt;div class="toolbar-count"&gt;
+    &lt;span class="count-number"&gt;24&lt;/span&gt; varianten beschikbaar
+  &lt;/div&gt;
+
+  &lt;!-- Right: Actions --&gt;
+  &lt;div class="toolbar-actions"&gt;
+    &lt;!-- View toggle --&gt;
+    &lt;div class="view-toggle"&gt;
+      &lt;button class="view-btn active" data-view="grid"&gt;
+        &lt;i data-lucide="grid-2x2"&gt;&lt;/i&gt;
+        Grid
+      &lt;/button&gt;
+      &lt;button class="view-btn" data-view="list"&gt;
+        &lt;i data-lucide="list"&gt;&lt;/i&gt;
+        Lijst
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Bulk actions --&gt;
+    &lt;button class="bulk-btn"&gt;
+      &lt;i data-lucide="check-square"&gt;&lt;/i&gt;
+      Selecteer alle
+    &lt;/button&gt;
+    &lt;button class="bulk-btn"&gt;
+      &lt;i data-lucide="square"&gt;&lt;/i&gt;
+      Deselecteer alle
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Responsive Behavior</h4>
+      <div style="background: var(--amber-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--amber); margin-bottom: 16px;">
+        <p style="font-size: 13px; color: #92400E; margin-bottom: 8px;"><strong>Desktop (≥768px):</strong></p>
+        <ul style="font-size: 13px; color: #92400E; line-height: 1.8; margin-left: 20px;">
+          <li>Horizontal flex row: count left, actions right</li>
+          <li>Single row, all buttons visible</li>
+        </ul>
+      </div>
+      <div style="background: var(--amber-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--amber);">
+        <p style="font-size: 13px; color: #92400E; margin-bottom: 8px;"><strong>Mobile (<768px):</strong></p>
+        <ul style="font-size: 13px; color: #92400E; line-height: 1.8; margin-left: 20px;">
+          <li>Vertical flex column: count above, actions below</li>
+          <li>Actions wrap if needed (flex-wrap)</li>
+          <li>View toggle expands to min-width: 200px</li>
+          <li>Bulk buttons expand to min-width: 120px each</li>
+          <li>All buttons centered</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 6: Accessibility
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">ARIA Attributes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Attribute</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Icon-only buttons</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>aria-label</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"Grid weergave", "Lijst weergave", "Selecteer alle varianten"</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Disabled buttons</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>disabled</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">true (when action not applicable)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Active view button</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>aria-pressed</code> (optional)</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"true" / "false"</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Keyboard Navigation</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px; margin-bottom: 16px;">
+        <li><kbd>Tab</kbd> moves focus through all buttons (view toggle, bulk actions)</li>
+        <li><kbd>Enter</kbd> / <kbd>Space</kbd> activates focused button</li>
+        <li><kbd>←</kbd> / <kbd>→</kbd> can switch between view buttons (optional enhancement)</li>
+      </ul>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Screen Reader Announcements</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li>Count: "24 variants available" read aloud</li>
+        <li>View buttons: "Grid view, button, selected" / "List view, button"</li>
+        <li>Bulk actions: "Select all variants, button" / "Deselect all variants, button, disabled"</li>
+      </ul>
+    </section>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 7: Implementation Notes
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">JavaScript Behavior</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">// View toggle
+document.querySelectorAll('.view-btn').forEach(btn =&gt; {
+  btn.addEventListener('click', () =&gt; {
+    const view = btn.dataset.view;
+
+    // Update active state
+    btn.parentElement.querySelectorAll('.view-btn').forEach(b =&gt;
+      b.classList.remove('active')
+    );
+    btn.classList.add('active');
+
+    // Toggle grid/list visibility
+    if (view === 'grid') {
+      document.getElementById('gridView').classList.remove('hidden');
+      document.getElementById('listView').classList.add('hidden');
+    } else {
+      document.getElementById('gridView').classList.add('hidden');
+      document.getElementById('listView').classList.remove('hidden');
+    }
+
+    // Save preference to localStorage
+    localStorage.setItem('variantView', view);
+  });
+});
+
+// Select all
+document.getElementById('selectAllBtn').addEventListener('click', () =&gt; {
+  document.querySelectorAll('.variant-card, .variant-row').forEach(card =&gt; {
+    const checkbox = card.querySelector('.variant-checkbox-compact');
+    const qtyInput = card.querySelector('.qty-input-inline, .qty-input-compact');
+
+    checkbox.classList.add('checked');
+    checkbox.setAttribute('aria-checked', 'true');
+    card.classList.add('selected');
+
+    if (parseInt(qtyInput.value) === 0) {
+      qtyInput.value = 1;
+    }
+  });
+
+  updateBulkButtons();
+  lucide.createIcons();
+});
+
+// Deselect all
+document.getElementById('deselectAllBtn').addEventListener('click', () =&gt; {
+  document.querySelectorAll('.variant-card, .variant-row').forEach(card =&gt; {
+    const checkbox = card.querySelector('.variant-checkbox-compact');
+    const qtyInput = card.querySelector('.qty-input-inline, .qty-input-compact');
+
+    checkbox.classList.remove('checked');
+    checkbox.setAttribute('aria-checked', 'false');
+    card.classList.remove('selected');
+    qtyInput.value = 0;
+  });
+
+  updateBulkButtons();
+  lucide.createIcons();
+});
+
+// Update bulk button states
+function updateBulkButtons() {
+  const allCards = document.querySelectorAll('.variant-card, .variant-row');
+  const selectedCards = document.querySelectorAll('.variant-card.selected, .variant-row.selected');
+
+  const selectAllBtn = document.getElementById('selectAllBtn');
+  const deselectAllBtn = document.getElementById('deselectAllBtn');
+
+  // Disable "Select all" if all selected
+  selectAllBtn.disabled = selectedCards.length === allCards.length;
+
+  // Disable "Deselect all" if none selected
+  deselectAllBtn.disabled = selectedCards.length === 0;
+}</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">React/Next.js Example</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">import { Grid2X2, List, CheckSquare, Square } from 'lucide-react';
+
+interface VariantToolbarProps {
+  variantCount: number;
+  selectedCount: number;
+  currentView: 'grid' | 'list';
+  onViewChange: (view: 'grid' | 'list') =&gt; void;
+  onSelectAll: () =&gt; void;
+  onDeselectAll: () =&gt; void;
+  showSelectionCount?: boolean;
+}
+
+export function VariantToolbar({
+  variantCount,
+  selectedCount,
+  currentView,
+  onViewChange,
+  onSelectAll,
+  onDeselectAll,
+  showSelectionCount = false
+}: VariantToolbarProps) {
+  return (
+    &lt;div className="variant-toolbar"&gt;
+      &lt;div className="toolbar-count"&gt;
+        &lt;span className="count-number"&gt;{variantCount}&lt;/span&gt; varianten beschikbaar
+        {showSelectionCount && selectedCount &gt; 0 && (
+          &lt;span style={{ color: 'var(--teal)', marginLeft: '8px' }}&gt;
+            • {selectedCount} geselecteerd
+          &lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="toolbar-actions"&gt;
+        &lt;div className="view-toggle"&gt;
+          &lt;button
+            className={`view-btn ${currentView === 'grid' ? 'active' : ''}`}
+            onClick={() =&gt; onViewChange('grid')}
+            data-view="grid"
+          &gt;
+            &lt;Grid2X2 className="w-3.5 h-3.5" /&gt;
+            Grid
+          &lt;/button&gt;
+          &lt;button
+            className={`view-btn ${currentView === 'list' ? 'active' : ''}`}
+            onClick={() =&gt; onViewChange('list')}
+            data-view="list"
+          &gt;
+            &lt;List className="w-3.5 h-3.5" /&gt;
+            Lijst
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;button
+          className="bulk-btn"
+          onClick={onSelectAll}
+          disabled={selectedCount === variantCount}
+        &gt;
+          &lt;CheckSquare className="w-3 h-3" /&gt;
+          Selecteer alle
+        &lt;/button&gt;
+
+        &lt;button
+          className="bulk-btn"
+          onClick={onDeselectAll}
+          disabled={selectedCount === 0}
+        &gt;
+          &lt;Square className="w-3 h-3" /&gt;
+          Deselecteer alle
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Payload CMS Block Schema</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">{
+  slug: 'variantToolbar',
+  labels: {
+    singular: 'Variant Toolbar',
+    plural: 'Variant Toolbars'
+  },
+  fields: [
+    {
+      name: 'showViewToggle',
+      type: 'checkbox',
+      label: 'Show grid/list view toggle',
+      defaultValue: true
+    },
+    {
+      name: 'showBulkActions',
+      type: 'checkbox',
+      label: 'Show bulk select/deselect buttons',
+      defaultValue: true
+    },
+    {
+      name: 'showSelectionCount',
+      type: 'checkbox',
+      label: 'Show selection count in toolbar',
+      defaultValue: false
+    },
+    {
+      name: 'compactMode',
+      type: 'checkbox',
+      label: 'Use icon-only mode (no text labels)',
+      defaultValue: false
+    }
+  ]
+}</pre>
+      </div>
+    </section>
+
+    <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+    <section style="margin-bottom: 0;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 8: Variations & Related Components
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Variations</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Variation</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Default</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Full toolbar with icon + text labels</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Compact (icon-only)</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Icons only, no text (save space), requires aria-label</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>With selection count</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Shows "X geselecteerd" indicator in count area</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Without view toggle</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Only bulk actions (fixed view mode)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Without bulk actions</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Only view toggle (no multi-select)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Related Components</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Component</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP08:</strong> VariantCardCompact</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Grid view variant cards controlled by toolbar</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP09:</strong> VariantRowCompact</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">List view variant rows controlled by toolbar</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP10:</strong> VariantSelectionSidebar</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Sidebar updated by selections made via toolbar</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP12:</strong> VariantGridContainer</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Grid container shown when "Grid" view active</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP13:</strong> VariantListContainer</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">List container shown when "List" view active</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>C22:</strong> SortDropdown</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Similar pattern (view/sort controls above product grid)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Usage Example: Complete Archive Page</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">&lt;!-- VP11 Toolbar --&gt;
+&lt;div class="variant-toolbar"&gt;
+  &lt;div class="toolbar-count"&gt;
+    &lt;span class="count-number"&gt;24&lt;/span&gt; varianten beschikbaar
+  &lt;/div&gt;
+  &lt;div class="toolbar-actions"&gt;
+    &lt;div class="view-toggle"&gt;...&lt;/div&gt;
+    &lt;button class="bulk-btn"&gt;Selecteer alle&lt;/button&gt;
+    &lt;button class="bulk-btn"&gt;Deselecteer alle&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="archive-layout"&gt;
+  &lt;!-- VP12 Grid Container (or VP13 List) --&gt;
+  &lt;div class="variant-grid-compact" id="gridView"&gt;
+    &lt;!-- VP08 Cards --&gt;
+    &lt;vp08-card /&gt;
+    &lt;vp08-card /&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="variant-list-compact hidden" id="listView"&gt;
+    &lt;!-- VP09 Rows --&gt;
+    &lt;vp09-row /&gt;
+    &lt;vp09-row /&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;!-- VP10 Sidebar --&gt;
+  &lt;aside class="selection-sidebar"&gt;
+    ...
+  &lt;/aside&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+// Demo: View toggle
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.parentElement.querySelectorAll('.view-btn').forEach(b =>
+      b.classList.remove('active')
+    );
+    btn.classList.add('active');
+  });
+});
+
+// Demo: Bulk buttons
+const selectAllBtn = document.getElementById('selectAll');
+const deselectAllBtn = document.getElementById('deselectAll');
+
+if (selectAllBtn) {
+  selectAllBtn.addEventListener('click', () => {
+    selectAllBtn.disabled = true;
+    deselectAllBtn.disabled = false;
+    alert('Alle varianten geselecteerd!');
+  });
+}
+
+if (deselectAllBtn) {
+  deselectAllBtn.addEventListener('click', () => {
+    selectAllBtn.disabled = false;
+    deselectAllBtn.disabled = true;
+    alert('Alle varianten gedeselecteerd!');
+  });
+}
+</script>
+
+</body>
+</html>

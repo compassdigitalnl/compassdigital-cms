@@ -26,9 +26,6 @@ export type { StockIndicatorProps, StockSize } from './StockIndicator'
 export { StaffelCalculator } from './StaffelCalculator'
 export type { StaffelCalculatorProps, VolumePriceTier } from './StaffelCalculator'
 
-export { CategoryHero } from './CategoryHero'
-export type { CategoryHeroProps } from './CategoryHero'
-
 export { ReviewWidget } from './ReviewWidget'
 export type {
   ReviewWidgetProps,
@@ -46,3 +43,32 @@ export type {
   ProductStock,
   StockStatus,
 } from './QuickViewModal'
+
+export { ProductGallery } from './ProductGallery'
+export type {
+  ProductGalleryProps,
+  GalleryImage,
+  GalleryBadge,
+  BadgeType,
+  BadgePosition,
+  GalleryLayout,
+} from './ProductGallery'
+
+export { ProductMeta } from './ProductMeta'
+export type {
+  ProductMetaProps,
+  ProductMetaProduct,
+  ProductRating,
+  StockInfo,
+  StockStatus,
+  TrustBadge,
+} from './ProductMeta'
+
+export { ProductTabs } from './ProductTabs'
+export type { ProductTabsProps, TabContent, TabVariant } from './ProductTabs'
+
+export { ProductSpecsTable } from './ProductSpecsTable'
+export type { ProductSpecsTableProps, SpecGroup, SpecRow, SpecsVariant } from './ProductSpecsTable'
+
+export { ProductActions } from './ProductActions'
+export type { ProductActionsProps } from './ProductActions'

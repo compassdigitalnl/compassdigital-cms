@@ -1,0 +1,145 @@
+/* Login Form Container */
+.loginForm {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Form Title */
+.formTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  font-family: var(--font-family-base);
+  text-align: center;
+}
+
+/* Form Subtitle */
+.formSubtitle {
+  font-size: 14px;
+  color: var(--grey-dark);
+  margin-bottom: 24px;
+  font-family: var(--font-family-base);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Remember Me + Forgot Password Row */
+.formRememberForgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: -8px 0 20px 0;
+  gap: 12px;
+}
+
+/* Checkbox Label */
+.formCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-family: var(--font-family-base);
+  cursor: pointer;
+  user-select: none;
+}
+
+.formCheckbox input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--grey);
+  border-radius: 3px;
+  cursor: pointer;
+  accent-color: var(--teal);
+}
+
+/* Link Button (Forgot Password, Register) */
+.formLinkBtn {
+  background: none;
+  border: none;
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-family-base);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.formLinkBtn:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
+
+/* Primary Button */
+.btnPrimary {
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--teal);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-family-base);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.btnPrimary:hover {
+  background: var(--teal-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 137, 123, 0.2);
+}
+
+.btnPrimary:active {
+  transform: translateY(0);
+}
+
+.btnPrimary:disabled {
+  background: var(--grey);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Form Footer */
+.formFooter {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-family: var(--font-family-base);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .formTitle {
+    font-size: 22px;
+  }
+
+  .formSubtitle {
+    font-size: 13px;
+  }
+
+  .formRememberForgot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginForm {
+    padding: 0 16px;
+  }
+
+  .btnPrimary {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}

@@ -124,3 +124,5 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
     </div>
   )
 }
+
+export default ProductEmbedComponent

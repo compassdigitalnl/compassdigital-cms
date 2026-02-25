@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR05: FileUploadDropzone - Compass Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Design Tokens */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --teal-bg: rgba(0, 137, 123, 0.03);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-12: 12px;
+      --space-14: 14px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+      --space-40: 40px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      padding: 40px 20px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    /* Demo Container */
+    .demo-section {
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+
+    .demo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    /* ============================================
+       QR05: FILE UPLOAD DROPZONE
+       ============================================ */
+
+    .file-upload-dropzone {
+      position: relative;
+    }
+
+    /* Hidden file input */
+    .file-upload-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Dropzone area */
+    .file-upload-area {
+      border: 2px dashed var(--grey);
+      border-radius: var(--radius-lg);
+      padding: var(--space-32);
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      background: var(--white);
+    }
+
+    .file-upload-area:hover {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+    }
+
+    .file-upload-area.drag-over {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+      box-shadow: 0 0 0 4px var(--teal-glow);
+    }
+
+    /* Icon */
+    .file-upload-icon {
+      width: 40px;
+      height: 40px;
+      color: var(--grey-mid);
+      margin: 0 auto var(--space-12);
+      transition: all var(--transition);
+    }
+
+    .file-upload-area:hover .file-upload-icon,
+    .file-upload-area.drag-over .file-upload-icon {
+      color: var(--teal);
+      transform: translateY(-4px);
+    }
+
+    /* Text */
+    .file-upload-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: var(--space-4);
+    }
+
+    .file-upload-hint {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    /* File list */
+    .file-upload-list {
+      margin-top: var(--space-16);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .file-upload-list:empty {
+      display: none;
+    }
+
+    /* File item */
+    .file-upload-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+      padding: var(--space-12);
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      transition: all var(--transition);
+    }
+
+    .file-upload-item:hover {
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* File icon */
+    .file-upload-item-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--grey-light);
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .file-upload-item-icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--grey-dark);
+    }
+
+    /* PDF icon */
+    .file-upload-item-icon.pdf {
+      background: rgba(220, 38, 38, 0.08);
+    }
+
+    .file-upload-item-icon.pdf svg {
+      color: #DC2626;
+    }
+
+    /* Excel icon */
+    .file-upload-item-icon.excel {
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .file-upload-item-icon.excel svg {
+      color: #22C55E;
+    }
+
+    /* Word icon */
+    .file-upload-item-icon.word {
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    .file-upload-item-icon.word svg {
+      color: #2563EB;
+    }
+
+    /* Image icon */
+    .file-upload-item-icon.image {
+      background: rgba(168, 85, 247, 0.08);
+    }
+
+    .file-upload-item-icon.image svg {
+      color: #A855F7;
+    }
+
+    /* File info */
+    .file-upload-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-upload-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-upload-item-meta {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 2px;
+    }
+
+    /* Progress bar */
+    .file-upload-item-progress {
+      height: 3px;
+      background: var(--grey-light);
+      border-radius: 100px;
+      margin-top: var(--space-6);
+      overflow: hidden;
+    }
+
+    .file-upload-item-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--teal-light));
+      border-radius: 100px;
+      transition: width 0.3s ease;
+    }
+
+    /* Status badge */
+    .file-upload-item-status {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: 4px 8px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .file-upload-item-status.uploading {
+      background: rgba(0, 137, 123, 0.08);
+      color: var(--teal);
+    }
+
+    .file-upload-item-status.success {
+      background: var(--green-light);
+      color: #166534;
+    }
+
+    .file-upload-item-status.error {
+      background: var(--coral-light);
+      color: #DC2626;
+    }
+
+    /* Delete button */
+    .file-upload-item-delete {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--grey-mid);
+      cursor: pointer;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .file-upload-item-delete:hover {
+      background: var(--coral-light);
+      color: var(--coral);
+    }
+
+    .file-upload-item-delete svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Error message */
+    .file-upload-error {
+      margin-top: var(--space-12);
+      padding: var(--space-12);
+      background: var(--coral-light);
+      border: 1px solid var(--coral);
+      border-radius: var(--radius);
+      font-size: 12px;
+      color: #DC2626;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-8);
+    }
+
+    .file-upload-error-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .file-upload-area {
+        padding: var(--space-24);
+      }
+
+      .file-upload-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      .file-upload-item {
+        padding: var(--space-10);
+      }
+    }
+
+    /* Documentation Styles */
+    .docs-section {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .docs-section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    .docs-section p,
+    .docs-section li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .docs-section ul {
+      padding-left: 24px;
+    }
+
+    .docs-section code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .token-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      background: var(--white);
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO SECTION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h1 class="demo-title">QR05: FileUploadDropzone - Default</h1>
+
+    <div class="file-upload-dropzone" id="dropzone-demo">
+      <input
+        type="file"
+        id="file-input"
+        class="file-upload-input"
+        multiple
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.dwg,.png,.jpg,.jpeg"
+      >
+
+      <label for="file-input" class="file-upload-area" id="drop-area">
+        <i data-lucide="upload-cloud" class="file-upload-icon"></i>
+        <div class="file-upload-text">Sleep bestanden hierheen of klik om te uploaden</div>
+        <div class="file-upload-hint">PDF, Word, Excel, AutoCAD (max 10MB per bestand)</div>
+      </label>
+
+      <div class="file-upload-list" id="file-list">
+        <!-- File items will be added here dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: WITH UPLOADED FILES
+       ============================================ -->
+
+  <div class="demo-section">
+    <h1 class="demo-title">QR05: FileUploadDropzone - With Files</h1>
+
+    <div class="file-upload-dropzone">
+      <input
+        type="file"
+        class="file-upload-input"
+        multiple
+      >
+
+      <label class="file-upload-area">
+        <i data-lucide="upload-cloud" class="file-upload-icon"></i>
+        <div class="file-upload-text">Sleep bestanden hierheen of klik om te uploaden</div>
+        <div class="file-upload-hint">PDF, Word, Excel, AutoCAD (max 10MB per bestand)</div>
+      </label>
+
+      <div class="file-upload-list">
+        <!-- PDF file (success) -->
+        <div class="file-upload-item">
+          <div class="file-upload-item-icon pdf">
+            <i data-lucide="file-text"></i>
+          </div>
+          <div class="file-upload-item-info">
+            <div class="file-upload-item-name">Technische-specificaties.pdf</div>
+            <div class="file-upload-item-meta">2.4 MB</div>
+          </div>
+          <span class="file-upload-item-status success">
+            <i data-lucide="check" style="width: 10px; height: 10px;"></i>
+            Geüpload
+          </span>
+          <button class="file-upload-item-delete" aria-label="Verwijder bestand">
+            <i data-lucide="trash-2"></i>
+          </button>
+        </div>
+
+        <!-- Excel file (uploading) -->
+        <div class="file-upload-item">
+          <div class="file-upload-item-icon excel">
+            <i data-lucide="file-spreadsheet"></i>
+          </div>
+          <div class="file-upload-item-info">
+            <div class="file-upload-item-name">Productlijst-Q2-2024.xlsx</div>
+            <div class="file-upload-item-meta">1.8 MB</div>
+            <div class="file-upload-item-progress">
+              <div class="file-upload-item-progress-bar" style="width: 67%;"></div>
+            </div>
+          </div>
+          <span class="file-upload-item-status uploading">
+            Uploading...
+          </span>
+          <button class="file-upload-item-delete" aria-label="Annuleer upload">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <!-- Word file (error) -->
+        <div class="file-upload-item">
+          <div class="file-upload-item-icon word">
+            <i data-lucide="file"></i>
+          </div>
+          <div class="file-upload-item-info">
+            <div class="file-upload-item-name">Project-omschrijving-zeer-lang-bestandsnaam.docx</div>
+            <div class="file-upload-item-meta">15.2 MB</div>
+          </div>
+          <span class="file-upload-item-status error">
+            <i data-lucide="alert-circle" style="width: 10px; height: 10px;"></i>
+            Te groot
+          </span>
+          <button class="file-upload-item-delete" aria-label="Verwijder bestand">
+            <i data-lucide="trash-2"></i>
+          </button>
+        </div>
+
+        <!-- Image file (success) -->
+        <div class="file-upload-item">
+          <div class="file-upload-item-icon image">
+            <i data-lucide="image"></i>
+          </div>
+          <div class="file-upload-item-info">
+            <div class="file-upload-item-name">Logo-MCA.png</div>
+            <div class="file-upload-item-meta">342 KB</div>
+          </div>
+          <span class="file-upload-item-status success">
+            <i data-lucide="check" style="width: 10px; height: 10px;"></i>
+            Geüpload
+          </span>
+          <button class="file-upload-item-delete" aria-label="Verwijder bestand">
+            <i data-lucide="trash-2"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: WITH ERROR
+       ============================================ -->
+
+  <div class="demo-section">
+    <h1 class="demo-title">QR05: FileUploadDropzone - With Error</h1>
+
+    <div class="file-upload-dropzone">
+      <label class="file-upload-area">
+        <i data-lucide="upload-cloud" class="file-upload-icon"></i>
+        <div class="file-upload-text">Sleep bestanden hierheen of klik om te uploaden</div>
+        <div class="file-upload-hint">PDF, Word, Excel, AutoCAD (max 10MB per bestand)</div>
+      </label>
+
+      <div class="file-upload-error">
+        <i data-lucide="alert-circle" class="file-upload-error-icon"></i>
+        <div>
+          <strong>Upload mislukt:</strong> Bestand "document.exe" is niet toegestaan. Alleen PDF, Word, Excel en AutoCAD bestanden zijn toegestaan.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="docs-section">
+    <h2>📋 QR05: FileUploadDropzone Documentation</h2>
+
+    <!-- STEP 1: Component Overview -->
+    <h3>STEP 1: Component Overview</h3>
+    <p><strong>Component Name:</strong> FileUploadDropzone (QR05)</p>
+    <p><strong>Category:</strong> Forms / File Upload</p>
+    <p><strong>Usage Context:</strong> Quote requests, project uploads, document submission, support tickets</p>
+
+    <p><strong>Purpose:</strong></p>
+    <p>A drag-and-drop file upload component for B2B quote requests. Supports multiple file types (PDF, Word, Excel, CAD drawings) with visual feedback for upload progress, success, and errors. Allows users to attach technical specifications, drawings, or reference documents to their quote request.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>✅ Drag-and-drop file upload</li>
+      <li>✅ Click to browse file picker</li>
+      <li>✅ Multiple file selection</li>
+      <li>✅ File type validation (PDF, Word, Excel, CAD, images)</li>
+      <li>✅ File size validation (10MB max per file)</li>
+      <li>✅ Upload progress bar (0-100%)</li>
+      <li>✅ File type icons (color-coded)</li>
+      <li>✅ Success/error status badges</li>
+      <li>✅ Delete/cancel buttons per file</li>
+      <li>✅ Hover states with teal highlight</li>
+      <li>✅ Accessible keyboard navigation</li>
+    </ul>
+
+    <!-- STEP 2: When to Use -->
+    <h3>STEP 2: When to Use</h3>
+
+    <p><strong>Use this component when:</strong></p>
+    <ul>
+      <li>✅ B2B users need to attach specifications/drawings to quotes</li>
+      <li>✅ Supporting documents are required (certifications, licenses)</li>
+      <li>✅ Multiple file uploads are expected (project files)</li>
+      <li>✅ File types need to be restricted (security)</li>
+      <li>✅ Upload progress needs to be visible (large files)</li>
+    </ul>
+
+    <p><strong>Do NOT use when:</strong></p>
+    <ul>
+      <li>❌ Single image upload (use image uploader instead)</li>
+      <li>❌ Avatar/profile photo upload (use cropper component)</li>
+      <li>❌ CSV data import (use dedicated CSV uploader)</li>
+      <li>❌ Files > 100MB (use chunked upload instead)</li>
+    </ul>
+
+    <p><strong>Component Guidelines:</strong></p>
+    <ul>
+      <li>Always validate file type and size before upload</li>
+      <li>Show progress bar for files > 1MB</li>
+      <li>Color-code file icons by type (PDF red, Excel green, Word blue)</li>
+      <li>Allow canceling uploads in progress</li>
+      <li>Show clear error messages for rejected files</li>
+      <li>Limit total files (e.g., max 10 files per request)</li>
+      <li>Truncate long file names with ellipsis</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dropzone background</td>
+          <td><code>--white</code></td>
+          <td>#FAFBFC</td>
+          <td>Default state</td>
+        </tr>
+        <tr>
+          <td>Dropzone border</td>
+          <td><code>--grey</code></td>
+          <td>#E8ECF1</td>
+          <td>2px dashed border</td>
+        </tr>
+        <tr>
+          <td>Dropzone hover bg</td>
+          <td><code>--teal-bg</code></td>
+          <td>rgba(0, 137, 123, 0.03)</td>
+          <td>Hover/drag-over state</td>
+        </tr>
+        <tr>
+          <td>Dropzone hover border</td>
+          <td><code>--teal</code></td>
+          <td>#00897B</td>
+          <td>Active state</td>
+        </tr>
+        <tr>
+          <td>Icon (default)</td>
+          <td><code>--grey-mid</code></td>
+          <td>#94A3B8</td>
+          <td>Upload cloud icon</td>
+        </tr>
+        <tr>
+          <td>Icon (hover)</td>
+          <td><code>--teal</code></td>
+          <td>#00897B</td>
+          <td>Hover state</td>
+        </tr>
+        <tr>
+          <td>PDF icon</td>
+          <td>-</td>
+          <td>#DC2626 (red)</td>
+          <td>PDF file type</td>
+        </tr>
+        <tr>
+          <td>Excel icon</td>
+          <td>-</td>
+          <td>#22C55E (green)</td>
+          <td>Excel file type</td>
+        </tr>
+        <tr>
+          <td>Word icon</td>
+          <td>-</td>
+          <td>#2563EB (blue)</td>
+          <td>Word file type</td>
+        </tr>
+        <tr>
+          <td>Image icon</td>
+          <td>-</td>
+          <td>#A855F7 (purple)</td>
+          <td>Image file type</td>
+        </tr>
+        <tr>
+          <td>Progress bar</td>
+          <td><code>--teal</code></td>
+          <td>linear-gradient teal→teal-light</td>
+          <td>Upload progress</td>
+        </tr>
+        <tr>
+          <td>Success badge</td>
+          <td><code>--green-light</code></td>
+          <td>#E8F5E9</td>
+          <td>Upload complete</td>
+        </tr>
+        <tr>
+          <td>Error badge</td>
+          <td><code>--coral-light</code></td>
+          <td>#FFF0F0</td>
+          <td>Upload failed</td>
+        </tr>
+        <tr>
+          <td>Delete hover</td>
+          <td><code>--coral-light</code></td>
+          <td>#FFF0F0</td>
+          <td>Delete button hover bg</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Typography:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dropzone text</td>
+          <td>Plus Jakarta Sans</td>
+          <td>14px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Dropzone hint</td>
+          <td>Plus Jakarta Sans</td>
+          <td>12px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>File name</td>
+          <td>Plus Jakarta Sans</td>
+          <td>13px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>File meta</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Status badge</td>
+          <td>Plus Jakarta Sans</td>
+          <td>10px</td>
+          <td>700 uppercase</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Spacing:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Token</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dropzone padding</td>
+          <td><code>--space-32</code></td>
+          <td>32px</td>
+        </tr>
+        <tr>
+          <td>Icon margin-bottom</td>
+          <td><code>--space-12</code></td>
+          <td>12px</td>
+        </tr>
+        <tr>
+          <td>List gap</td>
+          <td><code>--space-8</code></td>
+          <td>8px</td>
+        </tr>
+        <tr>
+          <td>File item padding</td>
+          <td><code>--space-12</code></td>
+          <td>12px</td>
+        </tr>
+        <tr>
+          <td>File item gap</td>
+          <td><code>--space-12</code></td>
+          <td>12px</td>
+        </tr>
+        <tr>
+          <td>Progress bar margin-top</td>
+          <td><code>--space-6</code></td>
+          <td>6px</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Icons:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Size</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>upload-cloud</td>
+          <td>40px</td>
+          <td>Dropzone main icon (grey-mid→teal on hover)</td>
+        </tr>
+        <tr>
+          <td>file-text</td>
+          <td>18px</td>
+          <td>PDF file type icon (red)</td>
+        </tr>
+        <tr>
+          <td>file-spreadsheet</td>
+          <td>18px</td>
+          <td>Excel file type icon (green)</td>
+        </tr>
+        <tr>
+          <td>file</td>
+          <td>18px</td>
+          <td>Word file type icon (blue)</td>
+        </tr>
+        <tr>
+          <td>image</td>
+          <td>18px</td>
+          <td>Image file type icon (purple)</td>
+        </tr>
+        <tr>
+          <td>check</td>
+          <td>10px</td>
+          <td>Success badge icon (green)</td>
+        </tr>
+        <tr>
+          <td>alert-circle</td>
+          <td>10px/16px</td>
+          <td>Error badge/message icon (coral)</td>
+        </tr>
+        <tr>
+          <td>trash-2</td>
+          <td>16px</td>
+          <td>Delete button icon</td>
+        </tr>
+        <tr>
+          <td>x</td>
+          <td>16px</td>
+          <td>Cancel upload icon</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h3>STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre><code>interface UploadedFile {
+  id: string
+  name: string
+  size: number              // Bytes
+  type: string              // MIME type
+  status: 'uploading' | 'success' | 'error'
+  progress?: number         // 0-100
+  errorMessage?: string
+  url?: string              // Download URL after upload
+}
+
+interface FileUploadDropzoneProps {
+  files?: UploadedFile[]
+  onFilesChange: (files: UploadedFile[]) => void
+  onUpload: (files: File[]) => Promise&lt;void&gt;
+  acceptedTypes?: string[]  // Default: ['.pdf', '.doc', '.docx', ...]
+  maxFileSize?: number      // Bytes (default: 10MB)
+  maxFiles?: number         // Default: 10
+  allowMultiple?: boolean   // Default: true
+  disabled?: boolean
+  className?: string
+}
+
+interface FileValidationError {
+  file: File
+  reason: 'type' | 'size' | 'count'
+  message: string
+}</code></pre>
+
+    <p><strong>Default Accepted File Types:</strong></p>
+    <pre><code>const DEFAULT_ACCEPTED_TYPES = [
+  // Documents
+  '.pdf',
+  '.doc', '.docx',
+  '.xls', '.xlsx',
+  // CAD
+  '.dwg', '.dxf',
+  // Images
+  '.png', '.jpg', '.jpeg', '.webp',
+]
+
+const FILE_TYPE_LABELS = {
+  'application/pdf': 'PDF',
+  'application/msword': 'Word',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'Word',
+  'application/vnd.ms-excel': 'Excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'Excel',
+  'image/png': 'PNG',
+  'image/jpeg': 'JPEG',
+  'image/webp': 'WebP',
+}</code></pre>
+
+    <p><strong>File Size Formatting:</strong></p>
+    <pre><code>function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
+// Examples:
+formatFileSize(1500)        // "1.5 KB"
+formatFileSize(2400000)     // "2.3 MB"</code></pre>
+
+    <!-- STEP 5: Layout Rules -->
+    <h3>STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre><code>┌─────────────────────────────────────────────┐
+│            [Upload Cloud Icon]              │ ← Dropzone (dashed border)
+│   Sleep bestanden hierheen of klik...      │
+│   PDF, Word, Excel, AutoCAD (max 10MB)     │
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐ ← File list (8px gap)
+│ [📄] Technische-spec.pdf    2.4 MB  [✓] [🗑] │
+├─────────────────────────────────────────────┤
+│ [📊] Productlijst.xlsx      1.8 MB         │
+│     ████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ 67%   [↻] [✖] │
+├─────────────────────────────────────────────┤
+│ [📄] Project-omschrijving...15.2 MB [!] [🗑] │
+└─────────────────────────────────────────────┘</code></pre>
+
+    <p><strong>File Item Layout:</strong></p>
+    <pre><code>/* Flex layout */
+.file-upload-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Layout structure: [36px icon] [flex:1 info] [status] [32px delete] */
+/* Icon: 36×36px fixed */
+/* Info: flex-grow, min-width 0 (allow ellipsis) */
+/* Status: auto width (badge/progress) */
+/* Delete: 32×32px fixed */</code></pre>
+
+    <p><strong>File Name Truncation:</strong></p>
+    <pre><code>.file-upload-item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Example: "Project-omschrijving-zeer-lang-bestandsnaam.docx"
+   becomes  "Project-omschrijving-zeer-lan...docx" */</code></pre>
+
+    <!-- STEP 6: Accessibility -->
+    <h3>STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre><code>&lt;div class="file-upload-dropzone"&gt;
+  &lt;input
+    type="file"
+    id="file-input"
+    class="file-upload-input"
+    multiple
+    accept=".pdf,.doc,.docx,.xls,.xlsx"
+    aria-label="Bestand uploaden"
+  &gt;
+
+  &lt;label
+    for="file-input"
+    class="file-upload-area"
+    role="button"
+    tabindex="0"
+    aria-describedby="file-hint"
+  &gt;
+    &lt;i data-lucide="upload-cloud" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;div class="file-upload-text"&gt;
+      Sleep bestanden hierheen of klik om te uploaden
+    &lt;/div&gt;
+    &lt;div id="file-hint" class="file-upload-hint"&gt;
+      PDF, Word, Excel, AutoCAD (max 10MB per bestand)
+    &lt;/div&gt;
+  &lt;/label&gt;
+
+  &lt;ul class="file-upload-list" role="list" aria-live="polite"&gt;
+    &lt;li class="file-upload-item"&gt;
+      &lt;div class="file-upload-item-icon pdf" aria-hidden="true"&gt;...&lt;/div&gt;
+      &lt;div class="file-upload-item-info"&gt;
+        &lt;div class="file-upload-item-name"&gt;Technische-spec.pdf&lt;/div&gt;
+        &lt;div class="file-upload-item-meta" aria-label="Bestandsgrootte"&gt;2.4 MB&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;span class="file-upload-item-status success" role="status"&gt;
+        Geüpload
+      &lt;/span&gt;
+      &lt;button
+        class="file-upload-item-delete"
+        aria-label="Verwijder Technische-spec.pdf"
+      &gt;
+        &lt;i data-lucide="trash-2" aria-hidden="true"&gt;&lt;/i&gt;
+      &lt;/button&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>role="button"</code> - Dropzone label acts as button</li>
+      <li><code>tabindex="0"</code> - Make dropzone keyboard accessible</li>
+      <li><code>aria-describedby</code> - Connect label to hint text</li>
+      <li><code>role="list"</code> - File list semantic structure</li>
+      <li><code>aria-live="polite"</code> - Announce file additions/removals</li>
+      <li><code>role="status"</code> - Upload status badge</li>
+      <li><code>aria-label</code> - Descriptive delete button labels</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li>Tab: Focus dropzone area</li>
+      <li>Enter/Space on dropzone: Open file picker</li>
+      <li>Tab through file list: Focus delete buttons</li>
+      <li>Enter/Space on delete: Remove file</li>
+    </ul>
+
+    <p><strong>Screen Reader Announcements:</strong></p>
+    <pre><code>// When file is added:
+"Bestand toegevoegd: Technische-spec.pdf, 2.4 megabyte"
+
+// When upload starts:
+"Uploaden gestart: Productlijst.xlsx"
+
+// When upload completes:
+"Upload voltooid: Technische-spec.pdf"
+
+// When upload fails:
+"Upload mislukt: Project.docx. Bestand te groot. Maximaal 10 megabyte toegestaan."
+
+// When file is removed:
+"Bestand verwijderd: Technische-spec.pdf"</code></pre>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h3>STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component with Drag & Drop:</strong></p>
+    <pre><code>'use client'
+
+import { useState, useRef } from 'react'
+import { UploadCloud, FileText, FileSpreadsheet, File, Image, Check, AlertCircle, Trash2, X } from 'lucide-react'
+import { FileUploadDropzoneProps, UploadedFile } from '@/types/components'
+
+export function FileUploadDropzone({
+  files = [],
+  onFilesChange,
+  onUpload,
+  acceptedTypes = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.dwg', '.png', '.jpg', '.jpeg'],
+  maxFileSize = 10 * 1024 * 1024, // 10MB
+  maxFiles = 10,
+  allowMultiple = true,
+  disabled = false,
+  className = '',
+}: FileUploadDropzoneProps) {
+  const [dragOver, setDragOver] = useState(false)
+  const [error, setError] = useState&lt;string | null&gt;(null)
+  const inputRef = useRef&lt;HTMLInputElement&gt;(null)
+
+  const validateFile = (file: File): string | null => {
+    // Check file type
+    const extension = '.' + file.name.split('.').pop()?.toLowerCase()
+    if (!acceptedTypes.includes(extension)) {
+      return `Bestandstype niet toegestaan. Alleen ${acceptedTypes.join(', ')} bestanden.`
+    }
+
+    // Check file size
+    if (file.size > maxFileSize) {
+      const maxMB = Math.round(maxFileSize / (1024 * 1024))
+      return `Bestand te groot. Maximaal ${maxMB}MB toegestaan.`
+    }
+
+    // Check file count
+    if (files.length >= maxFiles) {
+      return `Maximaal ${maxFiles} bestanden toegestaan.`
+    }
+
+    return null
+  }
+
+  const handleFiles = async (fileList: FileList) => {
+    setError(null)
+    const newFiles: UploadedFile[] = []
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i]
+      const validationError = validateFile(file)
+
+      if (validationError) {
+        setError(validationError)
+        continue
+      }
+
+      const uploadedFile: UploadedFile = {
+        id: `${Date.now()}-${i}`,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        status: 'uploading',
+        progress: 0,
+      }
+
+      newFiles.push(uploadedFile)
+    }
+
+    if (newFiles.length > 0) {
+      const updatedFiles = [...files, ...newFiles]
+      onFilesChange(updatedFiles)
+
+      // Trigger upload
+      const filesToUpload = Array.from(fileList).slice(0, newFiles.length)
+      await onUpload(filesToUpload)
+    }
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setDragOver(false)
+    if (!disabled && e.dataTransfer.files.length > 0) {
+      handleFiles(e.dataTransfer.files)
+    }
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    if (!disabled) setDragOver(true)
+  }
+
+  const handleDragLeave = () => {
+    setDragOver(false)
+  }
+
+  const handleInputChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFiles(e.target.files)
+    }
+  }
+
+  const handleDelete = (id: string) => {
+    onFilesChange(files.filter(f => f.id !== id))
+  }
+
+  const getFileIcon = (type: string) => {
+    if (type.includes('pdf')) return &lt;FileText /&gt;
+    if (type.includes('sheet') || type.includes('excel')) return &lt;FileSpreadsheet /&gt;
+    if (type.includes('word') || type.includes('document')) return &lt;File /&gt;
+    if (type.includes('image')) return &lt;Image /&gt;
+    return &lt;File /&gt;
+  }
+
+  const getFileIconClass = (type: string): string => {
+    if (type.includes('pdf')) return 'pdf'
+    if (type.includes('sheet') || type.includes('excel')) return 'excel'
+    if (type.includes('word') || type.includes('document')) return 'word'
+    if (type.includes('image')) return 'image'
+    return ''
+  }
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  }
+
+  return (
+    &lt;div className={`file-upload-dropzone ${className}`}&gt;
+      &lt;input
+        ref={inputRef}
+        type="file"
+        className="file-upload-input"
+        multiple={allowMultiple}
+        accept={acceptedTypes.join(',')}
+        onChange={handleInputChange}
+        disabled={disabled}
+      /&gt;
+
+      &lt;label
+        className={`file-upload-area ${dragOver ? 'drag-over' : ''}`}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onClick={() => inputRef.current?.click()}
+      &gt;
+        &lt;UploadCloud className="file-upload-icon" /&gt;
+        &lt;div className="file-upload-text"&gt;
+          Sleep bestanden hierheen of klik om te uploaden
+        &lt;/div&gt;
+        &lt;div className="file-upload-hint"&gt;
+          PDF, Word, Excel, AutoCAD (max {Math.round(maxFileSize / (1024 * 1024))}MB per bestand)
+        &lt;/div&gt;
+      &lt;/label&gt;
+
+      {files.length > 0 && (
+        &lt;div className="file-upload-list"&gt;
+          {files.map((file) => (
+            &lt;div key={file.id} className="file-upload-item"&gt;
+              &lt;div className={`file-upload-item-icon ${getFileIconClass(file.type)}`}&gt;
+                {getFileIcon(file.type)}
+              &lt;/div&gt;
+              &lt;div className="file-upload-item-info"&gt;
+                &lt;div className="file-upload-item-name"&gt;{file.name}&lt;/div&gt;
+                &lt;div className="file-upload-item-meta"&gt;{formatFileSize(file.size)}&lt;/div&gt;
+                {file.status === 'uploading' && file.progress !== undefined && (
+                  &lt;div className="file-upload-item-progress"&gt;
+                    &lt;div
+                      className="file-upload-item-progress-bar"
+                      style={{ width: `${file.progress}%` }}
+                    /&gt;
+                  &lt;/div&gt;
+                )}
+              &lt;/div&gt;
+              {file.status === 'uploading' && (
+                &lt;span className="file-upload-item-status uploading"&gt;Uploading...&lt;/span&gt;
+              )}
+              {file.status === 'success' && (
+                &lt;span className="file-upload-item-status success"&gt;
+                  &lt;Check size={10} /&gt; Geüpload
+                &lt;/span&gt;
+              )}
+              {file.status === 'error' && (
+                &lt;span className="file-upload-item-status error"&gt;
+                  &lt;AlertCircle size={10} /&gt; {file.errorMessage || 'Fout'}
+                &lt;/span&gt;
+              )}
+              &lt;button
+                className="file-upload-item-delete"
+                onClick={() => handleDelete(file.id)}
+                aria-label={`Verwijder ${file.name}`}
+              &gt;
+                {file.status === 'uploading' ? &lt;X /&gt; : &lt;Trash2 /&gt;}
+              &lt;/button&gt;
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+
+      {error && (
+        &lt;div className="file-upload-error"&gt;
+          &lt;AlertCircle className="file-upload-error-icon" /&gt;
+          &lt;div&gt;&lt;strong&gt;Upload mislukt:&lt;/strong&gt; {error}&lt;/div&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  )
+}</code></pre>
+
+    <p><strong>Upload Progress Tracking:</strong></p>
+    <pre><code>// Upload function with progress tracking
+async function uploadFile(
+  file: File,
+  onProgress: (progress: number) => void
+): Promise&lt;string&gt; {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+
+    xhr.upload.addEventListener('progress', (e) => {
+      if (e.lengthComputable) {
+        const progress = Math.round((e.loaded / e.total) * 100)
+        onProgress(progress)
+      }
+    })
+
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText)
+        resolve(response.url)
+      } else {
+        reject(new Error('Upload failed'))
+      }
+    })
+
+    xhr.addEventListener('error', () => reject(new Error('Network error')))
+    xhr.open('POST', '/api/upload')
+    xhr.send(formData)
+  })
+}</code></pre>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h3>STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Component Variants:</strong></p>
+    <ul>
+      <li><strong>Default</strong> - Multi-file upload with progress</li>
+      <li><strong>Single File</strong> - Only one file, replaces on new upload</li>
+      <li><strong>Image Only</strong> - Accept only images, show thumbnails</li>
+      <li><strong>Compact</strong> - Smaller dropzone (24px padding), inline list</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>QR04: ProjectInfoForm</strong> - Project details + delivery date</li>
+      <li><strong>QO04: CSVUploadButton</strong> - Dedicated CSV uploader</li>
+      <li><strong>C17: ToastSystem</strong> - Show upload success/error toasts</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul>
+      <li>✅ Test drag-and-drop (single file, multiple files)</li>
+      <li>✅ Test click to browse file picker</li>
+      <li>✅ Test file type validation (reject .exe, .zip, etc.)</li>
+      <li>✅ Test file size validation (reject files > 10MB)</li>
+      <li>✅ Test max file count (reject if > 10 files)</li>
+      <li>✅ Test upload progress (0% → 100%)</li>
+      <li>✅ Test success state (green badge, check icon)</li>
+      <li>✅ Test error state (coral badge, error message)</li>
+      <li>✅ Test delete button (remove from list)</li>
+      <li>✅ Test cancel upload (X icon during upload)</li>
+      <li>✅ Test keyboard navigation (Tab, Enter, Space)</li>
+      <li>✅ Test screen reader announcements (aria-live)</li>
+      <li>✅ Test mobile drag-and-drop (touch events)</li>
+    </ul>
+
+    <p><strong>Common Pitfalls:</strong></p>
+    <ul>
+      <li>❌ Not preventing default on drag events (causes browser to open file)</li>
+      <li>❌ Validating file type on frontend only (security risk — always validate on backend)</li>
+      <li>❌ Not showing progress for large files (poor UX)</li>
+      <li>❌ Not allowing cancel during upload (frustrating for users)</li>
+      <li>❌ Not truncating long file names (breaks layout)</li>
+      <li>❌ Missing aria-labels on delete buttons (accessibility)</li>
+      <li>❌ Not clearing error messages when new files are added</li>
+    </ul>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons()
+
+    // Demo: File upload simulation
+    const dropzone = document.getElementById('dropzone-demo')
+    const fileInput = document.getElementById('file-input')
+    const dropArea = document.getElementById('drop-area')
+    const fileList = document.getElementById('file-list')
+
+    if (dropzone && fileInput && dropArea && fileList) {
+      // Drag & drop events
+      dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault()
+        dropArea.classList.add('drag-over')
+      })
+
+      dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('drag-over')
+      })
+
+      dropArea.addEventListener('drop', (e) => {
+        e.preventDefault()
+        dropArea.classList.remove('drag-over')
+
+        if (e.dataTransfer.files.length > 0) {
+          handleFiles(e.dataTransfer.files)
+        }
+      })
+
+      // File input change
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFiles(e.target.files)
+        }
+      })
+
+      // Handle file selection
+      function handleFiles(files) {
+        Array.from(files).forEach((file, index) => {
+          addFileToList(file, index)
+        })
+      }
+
+      // Add file to list
+      function addFileToList(file, index) {
+        const fileItem = document.createElement('div')
+        fileItem.className = 'file-upload-item'
+
+        const fileType = getFileType(file.type)
+        const iconClass = getIconClass(file.type)
+        const iconName = getIconName(file.type)
+
+        fileItem.innerHTML = `
+          <div class="file-upload-item-icon ${iconClass}">
+            <i data-lucide="${iconName}"></i>
+          </div>
+          <div class="file-upload-item-info">
+            <div class="file-upload-item-name">${file.name}</div>
+            <div class="file-upload-item-meta">${formatFileSize(file.size)}</div>
+            <div class="file-upload-item-progress">
+              <div class="file-upload-item-progress-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+          <span class="file-upload-item-status uploading">Uploading...</span>
+          <button class="file-upload-item-delete" aria-label="Annuleer upload">
+            <i data-lucide="x"></i>
+          </button>
+        `
+
+        fileList.appendChild(fileItem)
+        lucide.createIcons()
+
+        // Simulate upload progress
+        simulateUpload(fileItem, file.size)
+
+        // Delete button
+        const deleteBtn = fileItem.querySelector('.file-upload-item-delete')
+        deleteBtn.addEventListener('click', () => {
+          fileItem.remove()
+        })
+      }
+
+      // Simulate upload progress
+      function simulateUpload(fileItem, fileSize) {
+        const progressBar = fileItem.querySelector('.file-upload-item-progress-bar')
+        const statusBadge = fileItem.querySelector('.file-upload-item-status')
+        const deleteBtn = fileItem.querySelector('.file-upload-item-delete')
+        const progress = fileItem.querySelector('.file-upload-item-progress')
+
+        let currentProgress = 0
+        const interval = setInterval(() => {
+          currentProgress += Math.random() * 15
+          if (currentProgress >= 100) {
+            currentProgress = 100
+            clearInterval(interval)
+
+            // Upload complete
+            statusBadge.className = 'file-upload-item-status success'
+            statusBadge.innerHTML = '<i data-lucide="check" style="width: 10px; height: 10px;"></i> Geüpload'
+            deleteBtn.innerHTML = '<i data-lucide="trash-2"></i>'
+            deleteBtn.setAttribute('aria-label', 'Verwijder bestand')
+            progress.style.display = 'none'
+            lucide.createIcons()
+          }
+
+          progressBar.style.width = `${currentProgress}%`
+        }, 200)
+      }
+
+      // Helper functions
+      function getFileType(mimeType) {
+        if (mimeType.includes('pdf')) return 'PDF'
+        if (mimeType.includes('sheet') || mimeType.includes('excel')) return 'Excel'
+        if (mimeType.includes('word') || mimeType.includes('document')) return 'Word'
+        if (mimeType.includes('image')) return 'Image'
+        return 'File'
+      }
+
+      function getIconClass(mimeType) {
+        if (mimeType.includes('pdf')) return 'pdf'
+        if (mimeType.includes('sheet') || mimeType.includes('excel')) return 'excel'
+        if (mimeType.includes('word') || mimeType.includes('document')) return 'word'
+        if (mimeType.includes('image')) return 'image'
+        return ''
+      }
+
+      function getIconName(mimeType) {
+        if (mimeType.includes('pdf')) return 'file-text'
+        if (mimeType.includes('sheet') || mimeType.includes('excel')) return 'file-spreadsheet'
+        if (mimeType.includes('word') || mimeType.includes('document')) return 'file'
+        if (mimeType.includes('image')) return 'image'
+        return 'file'
+      }
+
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return `${bytes} B`
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+      }
+    }
+  </script>
+
+</body>
+</html>

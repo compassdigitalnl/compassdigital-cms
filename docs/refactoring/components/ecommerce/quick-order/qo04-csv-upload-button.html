@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QO04: CSVUploadButton - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --teal-bg: rgba(0, 137, 123, 0.05);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-bg: #F5F7FA;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing */
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius: 10px;
+      --radius-lg: 12px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #F5F7FA;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPONENT: CSV UPLOAD BUTTON
+       ═══════════════════════════════════════════════════════════ */
+
+    .csv-upload-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Hidden File Input */
+    .csv-upload-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Visible Button */
+    .csv-upload-button {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-20);
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .csv-upload-button i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .csv-upload-button:hover {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .csv-upload-button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .csv-upload-button:active {
+      transform: translateY(0);
+    }
+
+    /* Loading State */
+    .csv-upload-button.loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .csv-upload-button.loading i {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Success State */
+    .csv-upload-button.success {
+      border-color: var(--green);
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    /* Error State */
+    .csv-upload-button.error {
+      border-color: var(--coral);
+      background: var(--coral-light);
+      color: var(--coral);
+    }
+
+    /* Disabled State */
+    .csv-upload-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FEEDBACK MESSAGE
+       ═══════════════════════════════════════════════════════════ */
+
+    .csv-upload-feedback {
+      margin-top: var(--space-12);
+      padding: var(--space-12) var(--space-16);
+      border-radius: var(--radius);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .csv-upload-feedback i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .csv-upload-feedback.success {
+      background: var(--green-light);
+      color: #166534;
+      border: 1px solid #81C784;
+    }
+
+    .csv-upload-feedback.error {
+      background: var(--coral-light);
+      color: #DC2626;
+      border: 1px solid #EF5350;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CSV TEMPLATE LINK
+       ═══════════════════════════════════════════════════════════ */
+
+    .csv-template-link {
+      margin-top: var(--space-12);
+      font-size: 13px;
+      color: var(--teal);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-8);
+      font-weight: 600;
+    }
+
+    .csv-template-link:hover {
+      text-decoration: underline;
+    }
+
+    .csv-template-link i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DEMO HELPER
+       ═══════════════════════════════════════════════════════════ */
+
+    .demo-actions {
+      display: flex;
+      gap: var(--space-12);
+      flex-wrap: wrap;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES
+       ═══════════════════════════════════════════════════════════ */
+
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .docs p {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .docs code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .docs ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .docs li {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .info-box {
+      background: rgba(33, 150, 243, 0.08);
+      border-left: 4px solid #2196F3;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #1565C0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="demo-container">
+
+    <!-- Default State -->
+    <div class="demo-section">
+      <div class="demo-label">Default State</div>
+      <div class="csv-upload-wrapper">
+        <input
+          type="file"
+          id="csv-upload-1"
+          class="csv-upload-input"
+          accept=".csv"
+        >
+        <label for="csv-upload-1" class="csv-upload-button" role="button" tabindex="0">
+          <i data-lucide="upload"></i>
+          CSV uploaden
+        </label>
+      </div>
+      <a href="#" class="csv-template-link">
+        <i data-lucide="download"></i>
+        Download CSV sjabloon
+      </a>
+    </div>
+
+    <!-- Loading State -->
+    <div class="demo-section">
+      <div class="demo-label">Loading State (Processing CSV)</div>
+      <div class="csv-upload-wrapper">
+        <input
+          type="file"
+          id="csv-upload-2"
+          class="csv-upload-input"
+          accept=".csv"
+          disabled
+        >
+        <label for="csv-upload-2" class="csv-upload-button loading" role="button">
+          <i data-lucide="loader-2"></i>
+          Verwerken...
+        </label>
+      </div>
+    </div>
+
+    <!-- Success State -->
+    <div class="demo-section">
+      <div class="demo-label">Success State (File Uploaded)</div>
+      <div class="csv-upload-wrapper">
+        <input
+          type="file"
+          id="csv-upload-3"
+          class="csv-upload-input"
+          accept=".csv"
+        >
+        <label for="csv-upload-3" class="csv-upload-button success" role="button" tabindex="0">
+          <i data-lucide="check-circle"></i>
+          CSV geüpload
+        </label>
+      </div>
+      <div class="csv-upload-feedback success">
+        <i data-lucide="check-circle"></i>
+        42 producten succesvol geïmporteerd!
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="demo-section">
+      <div class="demo-label">Error State (Invalid CSV)</div>
+      <div class="csv-upload-wrapper">
+        <input
+          type="file"
+          id="csv-upload-4"
+          class="csv-upload-input"
+          accept=".csv"
+        >
+        <label for="csv-upload-4" class="csv-upload-button error" role="button" tabindex="0">
+          <i data-lucide="x-circle"></i>
+          Ongeldige CSV
+        </label>
+      </div>
+      <div class="csv-upload-feedback error">
+        <i data-lucide="x-circle"></i>
+        CSV formaat ongeldig. Controleer het sjabloon.
+      </div>
+    </div>
+
+    <!-- Multiple Buttons (with Template Link) -->
+    <div class="demo-section">
+      <div class="demo-label">Multiple Upload Options</div>
+      <div class="demo-actions">
+        <div class="csv-upload-wrapper">
+          <input
+            type="file"
+            id="csv-upload-5"
+            class="csv-upload-input"
+            accept=".csv"
+          >
+          <label for="csv-upload-5" class="csv-upload-button" role="button" tabindex="0">
+            <i data-lucide="upload"></i>
+            CSV uploaden
+          </label>
+        </div>
+        <div class="csv-upload-wrapper">
+          <input
+            type="file"
+            id="excel-upload"
+            class="csv-upload-input"
+            accept=".xlsx,.xls"
+          >
+          <label for="excel-upload" class="csv-upload-button" role="button" tabindex="0">
+            <i data-lucide="file-spreadsheet"></i>
+            Excel uploaden
+          </label>
+        </div>
+      </div>
+      <a href="#" class="csv-template-link">
+        <i data-lucide="download"></i>
+        Download CSV sjabloon
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="docs">
+    <h1>QO04: CSVUploadButton</h1>
+    <p><strong>Component Identity:</strong> File upload button for CSV bulk import with loading, success, and error states</p>
+    <p><strong>Category:</strong> Forms / File Upload</p>
+    <p><strong>Source File:</strong> <code>ef5-quick-order.html</code> (lines 26-29, integrated with QO01)</p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>The CSVUploadButton allows B2B users to bulk import products via CSV file upload. It provides a accessible file input with visual feedback for upload progress, success, and errors.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Accessible file input:</strong> Hidden native input + styled label button</li>
+      <li><strong>CSV validation:</strong> Accepts only <code>.csv</code> files (configurable)</li>
+      <li><strong>4 states:</strong> Default, Loading, Success, Error</li>
+      <li><strong>Feedback messages:</strong> Optional success/error text below button</li>
+      <li><strong>Template download:</strong> Optional link to CSV template file</li>
+      <li><strong>Keyboard accessible:</strong> Full keyboard navigation support</li>
+    </ul>
+
+    <h3>States</h3>
+    <ul>
+      <li><strong>Default:</strong> Upload icon, "CSV uploaden" label, grey border</li>
+      <li><strong>Loading:</strong> Spinner icon, "Verwerken..." label, disabled state</li>
+      <li><strong>Success:</strong> Check icon, "CSV geüpload" label, green border/bg</li>
+      <li><strong>Error:</strong> X icon, "Ongeldige CSV" label, coral border/bg</li>
+    </ul>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use</h2>
+
+    <h3>Use This Component When:</h3>
+    <ul>
+      <li>Building quick order pages (B2B bulk entry)</li>
+      <li>Users need to import product lists from Excel/CSV</li>
+      <li>You want to enable bulk product uploads</li>
+      <li>Integrating with QuickOrderTable (QO02)</li>
+    </ul>
+
+    <h3>Don't Use This Component When:</h3>
+    <ul>
+      <li>Uploading images (use ImageUploadDropzone instead)</li>
+      <li>Single product entry (use QuickOrderRow QO03 instead)</li>
+      <li>Uploading non-tabular data</li>
+    </ul>
+
+    <h3>Content Guidelines</h3>
+    <ul>
+      <li><strong>Default label:</strong> "CSV uploaden" (clear, short)</li>
+      <li><strong>Loading label:</strong> "Verwerken..." (indicates progress)</li>
+      <li><strong>Success label:</strong> "CSV geüpload" (past tense confirmation)</li>
+      <li><strong>Error label:</strong> "Ongeldige CSV" or specific error</li>
+      <li><strong>Feedback message:</strong> Include count (e.g., "42 producten geïmporteerd")</li>
+    </ul>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Default:</strong> white bg, <code>--grey</code> border (#E8ECF1)</li>
+      <li><strong>Hover:</strong> <code>--teal-bg</code> (#00897B05), <code>--teal</code> border</li>
+      <li><strong>Success:</strong> <code>--green-light</code> bg (#E8F5E9), <code>--green</code> border/text</li>
+      <li><strong>Error:</strong> <code>--coral-light</code> bg (#FFF0F0), <code>--coral</code> border/text</li>
+      <li><strong>Loading:</strong> opacity 0.7, disabled</li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Button label:</strong> DM Sans, 14px, 600 weight</li>
+      <li><strong>Feedback message:</strong> DM Sans, 13px, 400 weight</li>
+      <li><strong>Template link:</strong> DM Sans, 13px, 600 weight, <code>--teal</code></li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Button padding:</strong> 12px × 20px</li>
+      <li><strong>Icon-to-text gap:</strong> 8px</li>
+      <li><strong>Feedback margin-top:</strong> 12px</li>
+      <li><strong>Template link margin-top:</strong> 12px</li>
+    </ul>
+
+    <h3>Icons</h3>
+    <ul>
+      <li><strong>Default:</strong> <code>upload</code> (18×18px)</li>
+      <li><strong>Loading:</strong> <code>loader-2</code> (18×18px, spinning)</li>
+      <li><strong>Success:</strong> <code>check-circle</code> (18×18px, green)</li>
+      <li><strong>Error:</strong> <code>x-circle</code> (18×18px, coral)</li>
+      <li><strong>Template:</strong> <code>download</code> (14×14px, teal)</li>
+    </ul>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface CSVUploadButtonProps {
+  id: string
+  accept?: string
+  label?: string
+  state?: 'default' | 'loading' | 'success' | 'error'
+  feedbackMessage?: string
+  showTemplate?: boolean
+  templateUrl?: string
+  onFileSelect: (file: File) => Promise&lt;void&gt;
+  onError?: (error: Error) => void
+  disabled?: boolean
+}</pre>
+
+    <h3>Default Values</h3>
+    <ul>
+      <li><strong>accept:</strong> <code>".csv"</code></li>
+      <li><strong>label:</strong> "CSV uploaden"</li>
+      <li><strong>state:</strong> "default"</li>
+      <li><strong>showTemplate:</strong> true</li>
+      <li><strong>templateUrl:</strong> "/templates/quick-order-template.csv"</li>
+    </ul>
+
+    <h3>CSV Template Structure</h3>
+    <pre>
+SKU,Quantity
+SMP-8942,5
+VEI-2134,10
+BAS-1234,25</pre>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Button Anatomy</h3>
+    <ul>
+      <li><strong>Display:</strong> <code>inline-flex</code> (icon + text horizontal)</li>
+      <li><strong>Alignment:</strong> <code>align-items: center</code></li>
+      <li><strong>Gap:</strong> 8px between icon and text</li>
+      <li><strong>Padding:</strong> 12px (top/bottom) × 20px (left/right)</li>
+      <li><strong>Border:</strong> 1.5px solid, 10px border-radius</li>
+    </ul>
+
+    <h3>Wrapper Structure</h3>
+    <ul>
+      <li><strong>File input:</strong> Visually hidden (position: absolute, 1×1px, clipped)</li>
+      <li><strong>Label:</strong> Visible button styled as <code>&lt;label for="id"&gt;</code></li>
+      <li><strong>Feedback:</strong> Optional div below button (12px margin-top)</li>
+      <li><strong>Template link:</strong> Optional link below feedback (12px margin-top)</li>
+    </ul>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <ul>
+      <li>Use native <code>&lt;input type="file"&gt;</code> with unique ID</li>
+      <li>Use <code>&lt;label for="id"&gt;</code> to connect button to input</li>
+      <li>Add <code>role="button"</code> and <code>tabindex="0"</code> to label</li>
+      <li>Add <code>accept</code> attribute to limit file types</li>
+    </ul>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><code>aria-label="Upload CSV bestand"</code> on label (if icon-only)</li>
+      <li><code>aria-busy="true"</code> during loading state</li>
+      <li><code>aria-describedby</code> linking to feedback message</li>
+      <li><code>aria-disabled="true"</code> when disabled</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Tab:</strong> Focus on label button</li>
+      <li><strong>Enter/Space:</strong> Trigger file picker</li>
+      <li><strong>Escape:</strong> Close file picker (native behavior)</li>
+    </ul>
+
+    <h3>Screen Reader Support</h3>
+    <ul>
+      <li>Label text announced: "CSV uploaden, knop"</li>
+      <li>State changes announced via <code>aria-live</code> regions</li>
+      <li>Feedback messages read automatically</li>
+    </ul>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+'use client'
+
+import { useState, useRef } from 'react'
+import { Upload, Loader2, CheckCircle, XCircle, Download } from 'lucide-react'
+
+interface CSVUploadButtonProps {
+  id: string
+  onFileSelect: (file: File) => Promise&lt;void&gt;
+  showTemplate?: boolean
+  templateUrl?: string
+}
+
+export function CSVUploadButton({
+  id,
+  onFileSelect,
+  showTemplate = true,
+  templateUrl = '/templates/quick-order.csv',
+}: CSVUploadButtonProps) {
+  const [state, setState] = useState<'default' | 'loading' | 'success' | 'error'>('default')
+  const [feedback, setFeedback] = useState('')
+  const fileInputRef = useRef&lt;HTMLInputElement&gt;(null)
+
+  const handleFileChange = async (e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.name.endsWith('.csv')) {
+      setState('error')
+      setFeedback('Alleen CSV bestanden zijn toegestaan.')
+      return
+    }
+
+    try {
+      setState('loading')
+      setFeedback('Bestand wordt verwerkt...')
+
+      await onFileSelect(file)
+
+      setState('success')
+      setFeedback('CSV succesvol geüpload!')
+
+      // Reset after 3 seconds
+      setTimeout(() => {
+        setState('default')
+        setFeedback('')
+      }, 3000)
+    } catch (error) {
+      setState('error')
+      setFeedback(error instanceof Error ? error.message : 'Upload mislukt.')
+    }
+  }
+
+  const iconMap = {
+    default: Upload,
+    loading: Loader2,
+    success: CheckCircle,
+    error: XCircle,
+  }
+
+  const labelMap = {
+    default: 'CSV uploaden',
+    loading: 'Verwerken...',
+    success: 'CSV geüpload',
+    error: 'Ongeldige CSV',
+  }
+
+  const Icon = iconMap[state]
+
+  return (
+    &lt;div&gt;
+      &lt;div className="csv-upload-wrapper"&gt;
+        &lt;input
+          ref={fileInputRef}
+          type="file"
+          id={id}
+          className="csv-upload-input"
+          accept=".csv"
+          onChange={handleFileChange}
+          disabled={state === 'loading'}
+        /&gt;
+        &lt;label
+          htmlFor={id}
+          className={`csv-upload-button ${state}`}
+          role="button"
+          tabIndex={0}
+          aria-busy={state === 'loading'}
+        &gt;
+          &lt;Icon className={state === 'loading' ? 'animate-spin' : ''} /&gt;
+          {labelMap[state]}
+        &lt;/label&gt;
+      &lt;/div&gt;
+
+      {/* Feedback Message */}
+      {feedback && (
+        &lt;div className={`csv-upload-feedback ${state}`}&gt;
+          &lt;Icon /&gt;
+          {feedback}
+        &lt;/div&gt;
+      )}
+
+      {/* Template Download Link */}
+      {showTemplate && (
+        &lt;a href={templateUrl} download className="csv-template-link"&gt;
+          &lt;Download /&gt;
+          Download CSV sjabloon
+        &lt;/a&gt;
+      )}
+    &lt;/div&gt;
+  )
+}</pre>
+
+    <h3>CSV Parsing Example</h3>
+    <pre>
+import Papa from 'papaparse'
+
+async function parseCSV(file: File): Promise&lt;QuickOrderRow[]&gt; {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        const rows = results.data.map((row: any) => ({
+          id: Math.random().toString(),
+          sku: row.SKU,
+          quantity: parseInt(row.Quantity) || 0,
+        }))
+        resolve(rows)
+      },
+      error: (error) => reject(error),
+    })
+  })
+}
+
+// Usage
+const handleCSVUpload = async (file: File) => {
+  const rows = await parseCSV(file)
+
+  // Fetch product details for each SKU
+  const productsWithPrices = await Promise.all(
+    rows.map(async (row) => {
+      const product = await fetch(`/api/products?sku=${row.sku}`)
+      const data = await product.json()
+
+      return {
+        ...row,
+        productId: data.id,
+        productName: data.name,
+        unitPrice: data.price,
+        total: data.price * row.quantity,
+      }
+    })
+  )
+
+  // Add to Quick Order Table
+  addRowsToTable(productsWithPrices)
+}</pre>
+
+    <div class="info-box">
+      <p><strong>Library Recommendation:</strong> Use <code>papaparse</code> for robust CSV parsing with error handling and header detection.</p>
+    </div>
+
+    <!-- STEP 8: VARIATIONS & RELATED -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variants</h3>
+    <ul>
+      <li><strong>Default:</strong> Standard CSV upload button</li>
+      <li><strong>Excel variant:</strong> Accept <code>.xlsx</code> files (use <code>file-spreadsheet</code> icon)</li>
+      <li><strong>With template:</strong> Shows template download link below button</li>
+      <li><strong>Standalone:</strong> No template link (minimal)</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>QO01: QuickOrderHeader</strong> - Often contains this button in actions section</li>
+      <li><strong>QO02: QuickOrderTable</strong> - Receives imported CSV data</li>
+      <li><strong>QO05: ProTipBanner</strong> - Can mention CSV upload feature</li>
+      <li><strong>QR05: FileUploadDropzone</strong> - Alternative drag-and-drop upload pattern</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Clicking button opens native file picker</li>
+      <li>✓ Only CSV files can be selected (file picker filtered)</li>
+      <li>✓ Selecting CSV triggers <code>onFileSelect</code> callback</li>
+      <li>✓ Loading state shows spinner and disables button</li>
+      <li>✓ Success state shows checkmark and green styling</li>
+      <li>✓ Error state shows X icon and coral styling</li>
+      <li>✓ Feedback message displays below button</li>
+      <li>✓ Template link downloads CSV template file</li>
+      <li>✓ Keyboard navigation works (Tab, Enter, Space)</li>
+      <li>✓ Screen reader announces state changes</li>
+    </ul>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

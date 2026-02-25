@@ -367,3 +367,15 @@
     background: #f3f4f6 !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════
+   TOAST SYSTEM ANIMATIONS
+   ═══════════════════════════════════════════════════════ */
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}

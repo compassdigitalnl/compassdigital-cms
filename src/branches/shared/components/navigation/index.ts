@@ -9,8 +9,9 @@
  * - Navigation (main nav with mega menus and branches dropdown)
  * - MobileDrawer (full mobile navigation)
  * - AccountSidebar (user profile + account navigation)
- * - SubcategoryChips (horizontal scrollable subcategory navigation)
  * - Optional: BranchesDropdown, PriceToggle, LanguageSwitcher, PromoCard
+ *
+ * Note: SubcategoryChips (EC03) moved to @branches/ecommerce/components/navigation
  */
 
 // Core Components
@@ -21,7 +22,6 @@ export * from './HeaderActions'
 export * from './Navigation'
 export * from './MobileDrawer'
 export * from './AccountSidebar'
-export * from './SubcategoryChips'
 
 // Optional Sub-Components (to be implemented later if needed)
 // export * from './BranchesDropdown'

@@ -1159,3 +1159,5 @@ export const Clients: CollectionConfig = {
     ],
   },
 }
+
+export default Clients

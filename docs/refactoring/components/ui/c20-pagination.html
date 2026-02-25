@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C20 - Pagination | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo Container */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; }
+    .demo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--grey-mid); margin-bottom: 16px; }
+
+    /* Pagination */
+    .pagination { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 40px 0 0; }
+    .page-btn { width: 42px; height: 42px; border-radius: 10px; border: 1.5px solid var(--grey); background: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--navy); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .page-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-glow); }
+    .page-btn.active { background: var(--teal); border-color: var(--teal); color: white; }
+    .page-btn.disabled { opacity: 0.3; pointer-events: none; cursor: not-allowed; }
+    .page-btn i { width: 16px; height: 16px; }
+    .page-dots { font-size: 14px; color: var(--grey-mid); padding: 0 4px; user-select: none; }
+
+    /* Pagination Variant 2: With count text */
+    .pagination-with-count { display: flex; align-items: center; justify-content: space-between; padding: 40px 0 0; }
+    .page-count { font-size: 14px; color: var(--grey-mid); }
+    .page-count strong { color: var(--navy); font-weight: 700; }
+    .page-buttons { display: flex; align-items: center; gap: 6px; }
+
+    /* Pagination Variant 3: Compact (mobile) */
+    .pagination-compact { display: flex; align-items: center; justify-content: space-between; padding: 40px 0 0; }
+    .pagination-compact .page-btn { flex: 1; max-width: 120px; }
+    .pagination-compact .page-info { font-size: 13px; font-weight: 600; color: var(--navy); }
+
+    /* Mobile */
+    @media(max-width: 640px) {
+      .pagination { gap: 4px; }
+      .page-btn { width: 38px; height: 38px; font-size: 13px; }
+      .page-dots { padding: 0 2px; }
+    }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid #E8ECF1; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: #94A3B8; line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: #F1F4F8; padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <div class="demo-label">Variant 1: Default Pagination</div>
+    <div class="pagination">
+      <a href="#" class="page-btn disabled" aria-label="Vorige pagina"><i data-lucide="chevron-left"></i></a>
+      <a href="#" class="page-btn active" aria-current="page">1</a>
+      <a href="#" class="page-btn">2</a>
+      <a href="#" class="page-btn">3</a>
+      <span class="page-dots" aria-hidden="true">…</span>
+      <a href="#" class="page-btn">8</a>
+      <a href="#" class="page-btn" aria-label="Volgende pagina"><i data-lucide="chevron-right"></i></a>
+    </div>
+  </div>
+
+  <div class="demo-container">
+    <div class="demo-label">Variant 2: With Result Count</div>
+    <div class="pagination-with-count">
+      <div class="page-count">Resultaten <strong>1-24</strong> van <strong>186</strong></div>
+      <div class="page-buttons">
+        <a href="#" class="page-btn disabled"><i data-lucide="chevron-left"></i></a>
+        <a href="#" class="page-btn active">1</a>
+        <a href="#" class="page-btn">2</a>
+        <a href="#" class="page-btn">3</a>
+        <a href="#" class="page-btn">4</a>
+        <a href="#" class="page-btn">5</a>
+        <span class="page-dots">…</span>
+        <a href="#" class="page-btn">8</a>
+        <a href="#" class="page-btn"><i data-lucide="chevron-right"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-container">
+    <div class="demo-label">Variant 3: Compact (Mobile)</div>
+    <div class="pagination-compact">
+      <a href="#" class="page-btn disabled"><i data-lucide="chevron-left"></i> Vorige</a>
+      <div class="page-info">Pagina 1 van 8</div>
+      <a href="#" class="page-btn">Volgende <i data-lucide="chevron-right"></i></a>
+    </div>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C20 - Pagination</p>
+    <p><strong>Category:</strong> Utility / Navigation</p>
+    <p><strong>Complexiteit:</strong> Low (numbered buttons, active state, disabled state)</p>
+
+    <h3>Purpose:</h3>
+    <p>Page navigation component for long lists of content (product archives, search results, blog posts). Allows users to navigate between pages with numbered buttons, previous/next arrows, and ellipsis for skipped pages.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Numbered page buttons (42px × 42px)</li>
+      <li>Active page indicator (teal background)</li>
+      <li>Previous/next arrow buttons (chevron icons)</li>
+      <li>Disabled state for first/last page (opacity 0.3, no pointer events)</li>
+      <li>Ellipsis (…) for skipped pages</li>
+      <li>Hover state (teal border + background)</li>
+      <li>3 variants: Default, With count text, Compact (mobile)</li>
+      <li>Responsive: Smaller on mobile (38px buttons)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Product category pages (>24 products)</li>
+      <li>Search results pages</li>
+      <li>Blog/article archives</li>
+      <li>Order history (account pages)</li>
+      <li>Admin tables with many rows</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Show 24-48 items per page (avoid infinite scroll for B2B)</li>
+      <li>Always show: first page, last page, current page, 2 pages before/after current</li>
+      <li>Use ellipsis (…) for gaps >1 page</li>
+      <li>On mobile: Use compact variant (Prev/Next only)</li>
+      <li>Preserve filters/sorting in pagination URLs (?page=2&sort=price)</li>
+      <li>Update URL on page change (SEO + back button support)</li>
+      <li>Scroll to top on page change (smooth scroll)</li>
+      <li>Show result count: "Resultaten 1-24 van 186"</li>
+      <li>Disable prev on page 1, disable next on last page</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Pagination Container */
+display: flex
+align-items: center
+justify-content: center
+gap: 6px
+padding: 40px 0 0
+
+/* Page Button */
+width/height: 42px × 42px
+border: 1.5px solid var(--grey)
+border-radius: 10px
+background: white
+font-size: 14px
+font-weight: 600
+color: var(--navy)
+
+/* Hover State */
+border-color: var(--teal)
+color: var(--teal)
+background: var(--teal-glow)
+
+/* Active State */
+background: var(--teal)
+border-color: var(--teal)
+color: white
+
+/* Disabled State */
+opacity: 0.3
+pointer-events: none
+
+/* Ellipsis */
+font-size: 14px
+color: var(--grey-mid)
+padding: 0 4px
+
+/* Mobile (<640px) */
+button: 38px × 38px
+gap: 4px</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  currentPage: 1,
+  totalPages: 8,
+  totalItems: 186,
+  itemsPerPage: 24,
+  maxVisiblePages: 7, // including current, prev/next
+  showArrows: true,
+  showEllipsis: true,
+  showCount: true, // "Resultaten 1-24 van 186"
+  variant: 'default', // 'default' | 'with-count' | 'compact'
+  onPageChange: (page) => {
+    // Update URL + fetch new data
+    router.push(`?page=${page}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+  // URL generation (for server-side pagination)
+  getPageUrl: (page) => `/shop?page=${page}&sort=${currentSort}`,
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Variant 1: Default (centered)
+├── Container: flex center, gap 6px
+├── Prev button (chevron-left)
+├── Page 1, 2, 3 (visible pages)
+├── Ellipsis (…)
+├── Last page (8)
+└── Next button (chevron-right)
+
+Variant 2: With Count (space-between)
+├── Left: "Resultaten 1-24 van 186"
+└── Right: Pagination buttons (same as variant 1)
+
+Variant 3: Compact (space-between)
+├── Left: "← Vorige" button
+├── Center: "Pagina 1 van 8" text
+└── Right: "Volgende →" button
+
+Page Button Logic (smart ellipsis):
+- Always show: first, last, current, current±2
+- If gap > 1: show ellipsis
+- Max 7 visible pages (excluding arrows)
+
+Examples:
+Current = 1:  [<] 1 2 3 … 8 [>]
+Current = 4:  [<] 1 … 3 4 5 … 8 [>]
+Current = 8:  [<] 1 … 6 7 8 [>]</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;nav aria-label="Paginanummering" role="navigation"&gt;
+  &lt;div className="pagination"&gt;
+    &lt;a
+      href="?page=0"
+      className="page-btn disabled"
+      aria-label="Vorige pagina"
+      aria-disabled="true"
+    &gt;
+      &lt;ChevronLeft /&gt;
+    &lt;/a&gt;
+
+    &lt;a
+      href="?page=1"
+      className="page-btn active"
+      aria-current="page"
+      aria-label="Pagina 1, huidige pagina"
+    &gt;
+      1
+    &lt;/a&gt;
+
+    &lt;a
+      href="?page=2"
+      className="page-btn"
+      aria-label="Ga naar pagina 2"
+    &gt;
+      2
+    &lt;/a&gt;
+
+    &lt;span className="page-dots" aria-hidden="true"&gt;…&lt;/span&gt;
+
+    &lt;a
+      href="?page=2"
+      className="page-btn"
+      aria-label="Volgende pagina"
+    &gt;
+      &lt;ChevronRight /&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;
+
+// Screen reader announcement on page change:
+"Pagina 2 van 8 geladen. Toont resultaten 25 tot 48."</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+export function Pagination({
+  currentPage,
+  totalPages,
+  totalItems,
+  itemsPerPage = 24,
+  onPageChange,
+  variant = 'default'
+}) {
+  // Generate visible page numbers with smart ellipsis
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 7;
+
+    if (totalPages <= maxVisible) {
+      // Show all pages
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Smart ellipsis logic
+      if (currentPage <= 3) {
+        // Near start: 1 2 3 … 8
+        pages.push(1, 2, 3, '...', totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        // Near end: 1 … 6 7 8
+        pages.push(1, '...', totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        // Middle: 1 … 4 5 6 … 8
+        pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+      }
+    }
+
+    return pages;
+  };
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages || page === currentPage) return;
+    onPageChange(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Screen reader announcement
+    const start = (page - 1) * itemsPerPage + 1;
+    const end = Math.min(page * itemsPerPage, totalItems);
+    announce(`Pagina ${page} van ${totalPages} geladen. Toont resultaten ${start} tot ${end}.`);
+  };
+
+  const pages = getPageNumbers();
+
+  if (variant === 'compact') {
+    return (
+      &lt;div className="pagination-compact"&gt;
+        &lt;button
+          className="page-btn"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        &gt;
+          &lt;ChevronLeft size={16} /&gt; Vorige
+        &lt;/button&gt;
+        &lt;div className="page-info"&gt;
+          Pagina {currentPage} van {totalPages}
+        &lt;/div&gt;
+        &lt;button
+          className="page-btn"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        &gt;
+          Volgende &lt;ChevronRight size={16} /&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;nav aria-label="Paginanummering" role="navigation"&gt;
+      {variant === 'with-count' && (
+        &lt;div className="page-count"&gt;
+          Resultaten &lt;strong&gt;{(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, totalItems)}&lt;/strong&gt; van &lt;strong&gt;{totalItems}&lt;/strong&gt;
+        &lt;/div&gt;
+      )}
+
+      &lt;div className={variant === 'with-count' ? 'page-buttons' : 'pagination'}&gt;
+        &lt;button
+          className={`page-btn ${currentPage === 1 ? 'disabled' : ''}`}
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          aria-label="Vorige pagina"
+        &gt;
+          &lt;ChevronLeft size={16} /&gt;
+        &lt;/button&gt;
+
+        {pages.map((page, i) =&gt;
+          page === '...' ? (
+            &lt;span key={`ellipsis-${i}`} className="page-dots" aria-hidden="true"&gt;…&lt;/span&gt;
+          ) : (
+            &lt;button
+              key={page}
+              className={`page-btn ${page === currentPage ? 'active' : ''}`}
+              onClick={() => handlePageChange(page)}
+              aria-current={page === currentPage ? 'page' : undefined}
+              aria-label={page === currentPage ? `Pagina ${page}, huidige pagina` : `Ga naar pagina ${page}`}
+            &gt;
+              {page}
+            &lt;/button&gt;
+          )
+        )}
+
+        &lt;button
+          className={`page-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          aria-label="Volgende pagina"
+        &gt;
+          &lt;ChevronRight size={16} /&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  );
+}
+
+// Next.js usage with URL sync
+import { useRouter, useSearchParams } from 'next/navigation';
+
+export function ProductArchive() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page') || '1');
+
+  const handlePageChange = (page) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', page.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+  return (
+    &lt;Pagination
+      currentPage={currentPage}
+      totalPages={8}
+      totalItems={186}
+      onPageChange={handlePageChange}
+      variant="with-count"
+    /&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Variant 1:</strong> Default - Centered numbered buttons with arrows</li>
+      <li><strong>Variant 2:</strong> With Count - Adds "Resultaten 1-24 van 186" text on left</li>
+      <li><strong>Variant 3:</strong> Compact - Mobile-friendly Prev/Next only with page count</li>
+      <li><strong>Variant:</strong> Load More button (alternative to pagination for infinite scroll)</li>
+      <li><strong>Related:</strong> C21 FilterSidebar (often used together on archive pages)</li>
+      <li><strong>Related:</strong> C22 SortDropdown (sorting + pagination)</li>
+      <li><strong>Integration:</strong> Works with server-side pagination (Next.js, Payload CMS)</li>
+      <li><strong>SEO:</strong> Use &lt;a&gt; tags with href for crawlable pagination links</li>
+    </ul>
+
+    <h3>Performance Notes:</h3>
+    <ul>
+      <li>Use URL params for pagination state (?page=2) for back button support</li>
+      <li>Preload next/prev pages for faster navigation</li>
+      <li>Server-side pagination for large datasets (>1000 items)</li>
+      <li>Consider infinite scroll for B2C, pagination for B2B (easier to find specific items)</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Prevent default on demo links
+    document.querySelectorAll('.page-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (btn.href && btn.href.includes('#')) {
+          e.preventDefault();
+          const pageText = btn.textContent.trim();
+          if (pageText && !isNaN(pageText)) {
+            alert(`Navigeren naar pagina ${pageText}`);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

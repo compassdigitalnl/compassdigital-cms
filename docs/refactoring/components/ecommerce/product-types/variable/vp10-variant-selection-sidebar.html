@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP10: VariantSelectionSidebar — Compass Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ============================================
+   VP10: VARIANT SELECTION SIDEBAR
+   Sticky sidebar showing selected variants + price summary
+   ============================================ */
+
+/* CSS CUSTOM PROPERTIES (Design Tokens) */
+:root {
+  /* Colors */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+
+  /* System */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* DEMO STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  padding: 48px 24px;
+  color: var(--navy);
+}
+
+.demo-section {
+  max-width: 1200px;
+  margin: 0 auto 64px;
+}
+
+.demo-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.demo-desc {
+  font-size: 14px;
+  color: var(--grey-dark);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+.demo-container {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1.5px solid var(--grey);
+}
+
+.demo-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  align-items: start;
+}
+
+.demo-content {
+  background: var(--grey-light);
+  padding: 24px;
+  border-radius: 12px;
+  min-height: 500px;
+}
+
+/* ============================================
+   VP10 COMPONENT STYLES
+   ============================================ */
+
+.selection-sidebar {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: sticky;
+  top: 24px;
+}
+
+/* Header */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.sidebar-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--teal);
+}
+
+.sidebar-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal);
+  background: var(--teal-glow);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.clear-all-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--coral);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  transition: color var(--transition);
+}
+
+.clear-all-btn:hover {
+  color: var(--navy);
+}
+
+/* Selected Items List */
+.selected-items-list {
+  margin-bottom: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.selected-items-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.selected-items-list::-webkit-scrollbar-track {
+  background: var(--grey-light);
+  border-radius: 3px;
+}
+
+.selected-items-list::-webkit-scrollbar-thumb {
+  background: var(--grey);
+  border-radius: 3px;
+}
+
+.selected-items-list::-webkit-scrollbar-thumb:hover {
+  background: var(--grey-dark);
+}
+
+.selected-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--grey-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  transition: all var(--transition);
+}
+
+.selected-item:last-child {
+  margin-bottom: 0;
+}
+
+.selected-item:hover {
+  background: #E5E9EE;
+}
+
+.selected-item-size {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  min-width: 32px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.selected-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.selected-item-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.selected-item-qty {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--grey-mid);
+}
+
+.selected-item-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+
+.selected-item-remove {
+  padding: 4px;
+  border: none;
+  background: none;
+  color: var(--coral);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.selected-item-remove i {
+  width: 14px;
+  height: 14px;
+}
+
+.selected-item-remove:hover {
+  background: var(--coral-light);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--grey-mid);
+}
+
+.empty-state i {
+  width: 48px;
+  height: 48px;
+  color: var(--grey);
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Price Breakdown */
+.price-breakdown {
+  padding: 12px 0;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  margin-bottom: 16px;
+}
+
+.price-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.price-line:last-child {
+  margin-bottom: 0;
+}
+
+.price-line-label {
+  color: var(--grey-mid);
+  font-weight: 500;
+}
+
+.price-line-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.discount {
+  color: var(--green);
+}
+
+.price-line.discount .price-line-label,
+.price-line.discount .price-line-value {
+  color: var(--green);
+}
+
+.price-line.total {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--grey);
+}
+
+.price-line.total .price-line-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.total .price-line-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+/* CTA Button */
+.sidebar-cta {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.sidebar-cta i {
+  width: 16px;
+  height: 16px;
+}
+
+.sidebar-cta:hover:not(:disabled) {
+  background: var(--navy);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-cta:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sidebar-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Trust Signals (optional) */
+.trust-signals {
+  border-top: 1px solid var(--grey);
+  padding-top: 12px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--grey-mid);
+  margin-bottom: 8px;
+}
+
+.trust-item:last-child {
+  margin-bottom: 0;
+}
+
+.trust-item i {
+  width: 12px;
+  height: 12px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.sidebar-note {
+  font-size: 10px;
+  color: var(--grey-mid);
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .demo-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .selection-sidebar {
+    position: static;
+  }
+}
+
+/* Accessibility */
+.selection-sidebar:focus-within {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+/* Helper */
+.hidden {
+  display: none !important;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO: Empty State
+     ============================================ -->
+<div class="demo-section">
+  <h1 class="demo-title">VP10: VariantSelectionSidebar — Empty State</h1>
+  <p class="demo-desc">
+    Sticky sidebar showing selected variants with price summary. Includes empty state when no items selected.
+  </p>
+
+  <div class="demo-container">
+    <div class="demo-layout">
+      <div class="demo-content">
+        <p style="font-size: 13px; color: var(--grey-dark);">
+          Product list / variant grid would be here.<br>
+          Sidebar shows empty state when no variants selected.
+        </p>
+      </div>
+
+      <aside class="selection-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <i data-lucide="shopping-cart"></i>
+            Geselecteerd
+          </div>
+          <span class="sidebar-count">0</span>
+        </div>
+
+        <div class="selected-items-list">
+          <div class="empty-state">
+            <i data-lucide="package-open"></i>
+            <p>Geen varianten geselecteerd</p>
+          </div>
+        </div>
+
+        <div class="price-breakdown">
+          <div class="price-line">
+            <span class="price-line-label">Totaal aantal</span>
+            <span class="price-line-value">0 stuks</span>
+          </div>
+          <div class="price-line total">
+            <span class="price-line-label">Totaal</span>
+            <span class="price-line-value">€0,00</span>
+          </div>
+        </div>
+
+        <button class="sidebar-cta" disabled>
+          <i data-lucide="shopping-cart"></i>
+          In Winkelwand
+        </button>
+        <p class="sidebar-note">Gratis verzending vanaf €60</p>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     LIVE DEMO: With Selected Items
+     ============================================ -->
+<div class="demo-section">
+  <h1 class="demo-title">VP10: VariantSelectionSidebar — With Items</h1>
+  <p class="demo-desc">
+    Sidebar with 3 selected variants showing live price summary with subtotal, discount, and total.
+  </p>
+
+  <div class="demo-container">
+    <div class="demo-layout">
+      <div class="demo-content">
+        <p style="font-size: 13px; color: var(--grey-dark);">
+          Product list / variant grid would be here.<br>
+          Sidebar shows selected items + price breakdown.
+        </p>
+      </div>
+
+      <aside class="selection-sidebar" id="demoSidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <i data-lucide="shopping-cart"></i>
+            Geselecteerd
+          </div>
+          <span class="sidebar-count">3 items</span>
+          <button class="clear-all-btn" id="clearAllBtn">Wis alles</button>
+        </div>
+
+        <div class="selected-items-list">
+          <div class="selected-item" data-item-id="s">
+            <div class="selected-item-size">S</div>
+            <div class="selected-item-info">
+              <div class="selected-item-name">Maat S</div>
+              <div class="selected-item-qty">5× stuks</div>
+            </div>
+            <div class="selected-item-price">€22,50</div>
+            <button class="selected-item-remove" data-item-id="s">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+
+          <div class="selected-item" data-item-id="m">
+            <div class="selected-item-size">M</div>
+            <div class="selected-item-info">
+              <div class="selected-item-name">Maat M</div>
+              <div class="selected-item-qty">10× stuks</div>
+            </div>
+            <div class="selected-item-price">€45,00</div>
+            <button class="selected-item-remove" data-item-id="m">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+
+          <div class="selected-item" data-item-id="l">
+            <div class="selected-item-size">L</div>
+            <div class="selected-item-info">
+              <div class="selected-item-name">Maat L</div>
+              <div class="selected-item-qty">20× stuks</div>
+            </div>
+            <div class="selected-item-price">€90,00</div>
+            <button class="selected-item-remove" data-item-id="l">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="price-breakdown">
+          <div class="price-line">
+            <span class="price-line-label">Subtotaal</span>
+            <span class="price-line-value">€157,50</span>
+          </div>
+          <div class="price-line discount">
+            <span class="price-line-label">Staffelkorting (−10%)</span>
+            <span class="price-line-value">−€15,75</span>
+          </div>
+          <div class="price-line">
+            <span class="price-line-label">Totaal aantal</span>
+            <span class="price-line-value">35 stuks</span>
+          </div>
+          <div class="price-line total">
+            <span class="price-line-label">Totaal</span>
+            <span class="price-line-value">€141,75</span>
+          </div>
+        </div>
+
+        <button class="sidebar-cta" id="addToCartBtn">
+          <i data-lucide="shopping-cart"></i>
+          3 items toevoegen
+        </button>
+        <p class="sidebar-note">Gratis verzending vanaf €60 · Staffelkorting actief</p>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     LIVE DEMO: With Trust Signals
+     ============================================ -->
+<div class="demo-section">
+  <h1 class="demo-title">VP10: VariantSelectionSidebar — With Trust Signals</h1>
+  <p class="demo-desc">
+    Sidebar with optional trust signals below CTA button.
+  </p>
+
+  <div class="demo-container">
+    <div class="demo-layout">
+      <div class="demo-content">
+        <p style="font-size: 13px; color: var(--grey-dark);">
+          Product list / variant grid would be here.
+        </p>
+      </div>
+
+      <aside class="selection-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <i data-lucide="shopping-cart"></i>
+            Geselecteerd
+          </div>
+          <span class="sidebar-count">2 items</span>
+        </div>
+
+        <div class="selected-items-list">
+          <div class="selected-item">
+            <div class="selected-item-size">XL</div>
+            <div class="selected-item-info">
+              <div class="selected-item-name">Maat XL</div>
+              <div class="selected-item-qty">15× stuks</div>
+            </div>
+            <div class="selected-item-price">€67,50</div>
+            <button class="selected-item-remove">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+
+          <div class="selected-item">
+            <div class="selected-item-size">XXL</div>
+            <div class="selected-item-info">
+              <div class="selected-item-name">Maat XXL</div>
+              <div class="selected-item-qty">5× stuks</div>
+            </div>
+            <div class="selected-item-price">€23,75</div>
+            <button class="selected-item-remove">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="price-breakdown">
+          <div class="price-line">
+            <span class="price-line-label">Totaal aantal</span>
+            <span class="price-line-value">20 stuks</span>
+          </div>
+          <div class="price-line total">
+            <span class="price-line-label">Totaal</span>
+            <span class="price-line-value">€91,25</span>
+          </div>
+        </div>
+
+        <button class="sidebar-cta">
+          <i data-lucide="shopping-cart"></i>
+          2 items toevoegen
+        </button>
+
+        <div class="trust-signals">
+          <div class="trust-item">
+            <i data-lucide="truck"></i>
+            <span>Gratis verzending vanaf €60</span>
+          </div>
+          <div class="trust-item">
+            <i data-lucide="shield-check"></i>
+            <span>100% veilig bestellen</span>
+          </div>
+          <div class="trust-item">
+            <i data-lucide="rotate-ccw"></i>
+            <span>14 dagen bedenktijd</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     COMPONENT DOCUMENTATION
+     ============================================ -->
+<div class="demo-section">
+  <h2 style="font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 32px; color: var(--navy);">
+    Component Documentation
+  </h2>
+
+  <div style="background: white; padding: 32px; border-radius: 16px; border: 1.5px solid var(--grey);">
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 1: Component Overview
+      </h3>
+      <p style="font-size: 14px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 16px;">
+        <strong>VP10: VariantSelectionSidebar</strong> is a sticky sidebar that displays selected
+        variants with a live price summary. It provides users with a persistent overview of their
+        multi-variant selections as they browse.
+      </p>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: var(--navy); margin-bottom: 8px;"><strong>Key Features:</strong></p>
+        <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+          <li>Sticky positioning (340px width, top: 24px)</li>
+          <li>Header with cart icon + item count badge + "Wis alles" (clear all) button</li>
+          <li>Scrollable items list (max-height: 400px)</li>
+          <li>Empty state when no items selected</li>
+          <li>Remove buttons per item (X icon)</li>
+          <li>Price breakdown (subtotal, discount, total)</li>
+          <li>Disabled/enabled CTA button based on selection</li>
+          <li>Optional trust signals footer</li>
+          <li>Real-time updates on variant selection/deselection</li>
+        </ul>
+      </div>
+      <div style="background: var(--teal-glow); padding: 16px; border-radius: 8px; border-left: 3px solid var(--teal);">
+        <p style="font-size: 13px; color: var(--navy);"><strong>File Size:</strong> ~820 lines</p>
+        <p style="font-size: 13px; color: var(--navy);"><strong>Component ID:</strong> VP10</p>
+        <p style="font-size: 13px; color: var(--navy);"><strong>Related:</strong> VP08 (grid card), VP09 (list row), VP11 (toolbar)</p>
+      </div>
+    </section>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 2: When to Use
+      </h3>
+      <div style="background: var(--green-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; border-left: 3px solid var(--green);">
+        <p style="font-size: 13px; color: #166534; margin-bottom: 8px;"><strong>✅ Use VP10 (Sidebar) When:</strong></p>
+        <ul style="font-size: 13px; color: #166534; line-height: 1.8; margin-left: 20px;">
+          <li>Desktop experience with 1024px+ viewport width</li>
+          <li>Multi-variant selection (VP08/VP09) on archive/product pages</li>
+          <li>Need persistent visibility of selected items while scrolling</li>
+          <li>Complex pricing (staffel discounts, bulk pricing)</li>
+          <li>B2B context where users select 5-20+ variants at once</li>
+          <li>Need to show running total before adding to cart</li>
+        </ul>
+      </div>
+      <div style="background: var(--coral-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--coral);">
+        <p style="font-size: 13px; color: #DC2626; margin-bottom: 8px;"><strong>❌ Don't Use VP10 When:</strong></p>
+        <ul style="font-size: 13px; color: #DC2626; line-height: 1.8; margin-left: 20px;">
+          <li>Mobile/tablet-only experience (use inline summary instead)</li>
+          <li>Single-variant selection (VP01-VP05) — no sidebar needed</li>
+          <li>Simple pricing (no discounts) — summary below grid is enough</li>
+          <li>Tight horizontal space (sidebars require 340px + 32px gap)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 3: Design Tokens
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Dimensions</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px; margin-bottom: 24px;">
+        <li><strong>Width:</strong> 340px (fixed on desktop)</li>
+        <li><strong>Padding:</strong> 20px (all sides)</li>
+        <li><strong>Position:</strong> <code>position: sticky; top: 24px;</code></li>
+        <li><strong>Max-height:</strong> <code>calc(100vh - 48px)</code> (fits in viewport)</li>
+        <li><strong>Items list max-height:</strong> 400px (scrollable)</li>
+      </ul>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Colors</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Token</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Background</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--white</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#FAFBFC</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Border</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--grey</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#E8ECF1 (1.5px)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Icon (cart)</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00897B</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Count badge bg</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal-glow</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">rgba(0,137,123,0.12)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Count badge text</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00897B</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Item bg</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--grey-light</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#F1F4F8</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Remove button</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--coral</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#FF6B6B</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Discount text</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--green</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00C853</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">CTA button</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00897B (hover: navy)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Typography</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Font</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Size</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Title</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">15px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">800</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Count badge</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">12px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">700</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Item size</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">16px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">800</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Item name</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">12px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">600</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Item qty</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">JetBrains Mono</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">10px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">400</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Item price</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">JetBrains Mono</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">13px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">700</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Price label</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">12px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">500</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Total price</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">JetBrains Mono</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">20px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">800</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">CTA button</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">14px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">700 (uppercase)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Spacing</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li><strong>Sidebar padding:</strong> 20px (all sides)</li>
+        <li><strong>Header padding-bottom:</strong> 12px</li>
+        <li><strong>Items gap:</strong> 8px between items</li>
+        <li><strong>Item padding:</strong> 10px</li>
+        <li><strong>Price breakdown padding:</strong> 12px vertical</li>
+        <li><strong>CTA margin-bottom:</strong> 10px</li>
+      </ul>
+    </section>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 4: Props & Configuration
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">CSS Classes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Class</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.selection-sidebar</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Main container (sticky, 340px)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.sidebar-header</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Header section (title + count + clear btn)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.sidebar-title</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Title with icon (15px, 800 weight)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.sidebar-count</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Item count badge (teal pill)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.clear-all-btn</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Clear all button (coral underline)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.selected-items-list</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Scrollable items container (max-height: 400px)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.selected-item</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Individual selected item row</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.selected-item-remove</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Remove button (X icon, coral)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.empty-state</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Empty state (shown when no items)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.price-breakdown</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Price summary section</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.price-line</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Price row (label + value)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.price-line.discount</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Discount row (green color)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.price-line.total</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Total row (larger, bold)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.sidebar-cta</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Add to cart button (teal bg)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.trust-signals</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Optional trust signals (below CTA)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Configuration Options</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li><strong>With/without "Wis alles" button:</strong> Show when items > 0, hide when empty</li>
+        <li><strong>With/without discount row:</strong> Show only when staffel discount applies</li>
+        <li><strong>With/without trust signals:</strong> Optional footer section</li>
+        <li><strong>CTA button text:</strong> Dynamic "X items toevoegen" based on count</li>
+        <li><strong>Note text:</strong> Configurable (e.g., "Gratis verzending vanaf €60")</li>
+      </ul>
+    </section>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 5: Layout Rules
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Sidebar Structure</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">&lt;aside class="selection-sidebar"&gt;
+  &lt;!-- Header: title + count + clear --&gt;
+  &lt;div class="sidebar-header"&gt;...&lt;/div&gt;
+
+  &lt;!-- Items list: scrollable --&gt;
+  &lt;div class="selected-items-list"&gt;
+    &lt;div class="selected-item"&gt;...&lt;/div&gt;
+    &lt;!-- OR --&gt;
+    &lt;div class="empty-state"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Price breakdown --&gt;
+  &lt;div class="price-breakdown"&gt;
+    &lt;div class="price-line"&gt;Subtotaal&lt;/div&gt;
+    &lt;div class="price-line discount"&gt;Korting&lt;/div&gt;
+    &lt;div class="price-line total"&gt;Totaal&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- CTA button --&gt;
+  &lt;button class="sidebar-cta"&gt;...&lt;/button&gt;
+
+  &lt;!-- Optional: Trust signals --&gt;
+  &lt;div class="trust-signals"&gt;...&lt;/div&gt;
+&lt;/aside&gt;</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Responsive Behavior</h4>
+      <div style="background: var(--amber-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--amber); margin-bottom: 16px;">
+        <p style="font-size: 13px; color: #92400E; margin-bottom: 8px;"><strong>Desktop (≥1024px):</strong></p>
+        <ul style="font-size: 13px; color: #92400E; line-height: 1.8; margin-left: 20px;">
+          <li>Sticky positioning: <code>position: sticky; top: 24px;</code></li>
+          <li>340px fixed width</li>
+          <li>Stays visible while scrolling page</li>
+        </ul>
+      </div>
+      <div style="background: var(--amber-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--amber);">
+        <p style="font-size: 13px; color: #92400E; margin-bottom: 8px;"><strong>Mobile/Tablet (<1024px):</strong></p>
+        <ul style="font-size: 13px; color: #92400E; line-height: 1.8; margin-left: 20px;">
+          <li>Non-sticky: <code>position: static;</code></li>
+          <li>Full-width (no fixed 340px)</li>
+          <li>Appears below variant grid (not beside)</li>
+          <li>Alternative: Use inline summary (like VP08 demo 1)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 6: Accessibility
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Semantic HTML</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px; margin-bottom: 16px;">
+        <li>Use <code>&lt;aside&gt;</code> for sidebar (complementary landmark)</li>
+        <li>Use <code>&lt;button&gt;</code> for all clickable actions (not divs)</li>
+        <li>Heading hierarchy: Consider <code>&lt;h3&gt;</code> for sidebar title if in page context</li>
+      </ul>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">ARIA Attributes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Attribute</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Remove buttons</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>aria-label</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"Verwijder Maat S"</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">CTA button (disabled)</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>disabled</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">true (when no items)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Live region (optional)</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>aria-live</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"polite" (announce updates)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Keyboard Navigation</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px; margin-bottom: 16px;">
+        <li><kbd>Tab</kbd> moves focus through remove buttons and CTA</li>
+        <li><kbd>Enter</kbd> / <kbd>Space</kbd> activates focused button</li>
+        <li>Sidebar shows outline when any child has focus (<code>:focus-within</code>)</li>
+      </ul>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Screen Reader Announcements</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li>Item count badge: "3 items" announced with title</li>
+        <li>Remove buttons: "Remove Size S" (descriptive label)</li>
+        <li>Empty state: "No variants selected" read aloud</li>
+        <li>Price total: "Total 141 euros 75 cents" announced</li>
+        <li>Optional: Add <code>aria-live="polite"</code> to count badge for dynamic updates</li>
+      </ul>
+    </section>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 7: Implementation Notes
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">JavaScript Behavior</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">// State management
+const selectedVariants = {};
+
+// Update sidebar when variant selected/deselected
+function updateSidebar() {
+  const selected = Object.values(selectedVariants).filter(v =&gt; v.quantity &gt; 0);
+  const itemCount = selected.length;
+  const totalQty = selected.reduce((sum, v) =&gt; sum + v.quantity, 0);
+  const subtotal = selected.reduce((sum, v) =&gt; sum + (v.price * v.quantity), 0);
+
+  // Update count badge
+  document.querySelector('.sidebar-count').textContent =
+    itemCount === 0 ? '0' : `${itemCount} item${itemCount &gt; 1 ? 's' : ''}`;
+
+  // Show/hide clear all button
+  document.querySelector('.clear-all-btn').style.display =
+    itemCount &gt; 0 ? 'block' : 'none';
+
+  // Render items or empty state
+  const itemsList = document.querySelector('.selected-items-list');
+  if (itemCount === 0) {
+    itemsList.innerHTML = `
+      &lt;div class="empty-state"&gt;
+        &lt;i data-lucide="package-open"&gt;&lt;/i&gt;
+        &lt;p&gt;Geen varianten geselecteerd&lt;/p&gt;
+      &lt;/div&gt;
+    `;
+  } else {
+    itemsList.innerHTML = selected.map(v =&gt; `
+      &lt;div class="selected-item" data-item-id="${v.id}"&gt;
+        &lt;div class="selected-item-size"&gt;${v.name}&lt;/div&gt;
+        &lt;div class="selected-item-info"&gt;
+          &lt;div class="selected-item-name"&gt;Maat ${v.name}&lt;/div&gt;
+          &lt;div class="selected-item-qty"&gt;${v.quantity}× stuks&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="selected-item-price"&gt;€${(v.price * v.quantity).toFixed(2).replace('.', ',')}&lt;/div&gt;
+        &lt;button class="selected-item-remove" data-variant-id="${v.id}" aria-label="Verwijder ${v.name}"&gt;
+          &lt;i data-lucide="x"&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    `).join('');
+
+    // Attach remove handlers
+    itemsList.querySelectorAll('.selected-item-remove').forEach(btn =&gt; {
+      btn.addEventListener('click', () =&gt; {
+        const variantId = btn.dataset.variantId;
+        // Remove from state and update UI
+        delete selectedVariants[variantId];
+        updateSidebar();
+      });
+    });
+  }
+
+  // Update price breakdown
+  document.querySelector('[data-price="subtotal"]').textContent =
+    `€${subtotal.toFixed(2).replace('.', ',')}`;
+  document.querySelector('[data-price="total-qty"]').textContent =
+    `${totalQty} stuks`;
+
+  // Calculate discount (example: 10% for 25+ items)
+  const discount = totalQty &gt;= 25 ? subtotal * 0.1 : 0;
+  const discountRow = document.querySelector('.price-line.discount');
+  if (discount &gt; 0) {
+    discountRow.classList.remove('hidden');
+    discountRow.querySelector('.price-line-value').textContent =
+      `−€${discount.toFixed(2).replace('.', ',')}`;
+  } else {
+    discountRow.classList.add('hidden');
+  }
+
+  const total = subtotal - discount;
+  document.querySelector('[data-price="total"]').textContent =
+    `€${total.toFixed(2).replace('.', ',')}`;
+
+  // Update CTA button
+  const ctaBtn = document.querySelector('.sidebar-cta');
+  ctaBtn.disabled = itemCount === 0;
+  ctaBtn.innerHTML = `
+    &lt;i data-lucide="shopping-cart"&gt;&lt;/i&gt;
+    ${itemCount === 0 ? 'In Winkelwand' : `${itemCount} item${itemCount &gt; 1 ? 's' : ''} toevoegen`}
+  `;
+
+  lucide.createIcons();
+}
+
+// Clear all button
+document.querySelector('.clear-all-btn').addEventListener('click', () =&gt; {
+  selectedVariants = {};
+  updateSidebar();
+});</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">React/Next.js Example</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">import { ShoppingCart, PackageOpen, X, Truck, ShieldCheck, RotateCcw } from 'lucide-react';
+
+interface VariantSelectionSidebarProps {
+  selectedVariants: Array&lt;{
+    id: string;
+    name: string;
+    quantity: number;
+    price: number;
+  }&gt;;
+  onRemoveItem: (id: string) =&gt; void;
+  onClearAll: () =&gt; void;
+  onAddToCart: () =&gt; void;
+  showTrustSignals?: boolean;
+}
+
+export function VariantSelectionSidebar({
+  selectedVariants,
+  onRemoveItem,
+  onClearAll,
+  onAddToCart,
+  showTrustSignals = false
+}: VariantSelectionSidebarProps) {
+  const itemCount = selectedVariants.length;
+  const totalQty = selectedVariants.reduce((sum, v) =&gt; sum + v.quantity, 0);
+  const subtotal = selectedVariants.reduce((sum, v) =&gt; sum + (v.price * v.quantity), 0);
+  const discount = totalQty &gt;= 25 ? subtotal * 0.1 : 0;
+  const total = subtotal - discount;
+
+  return (
+    &lt;aside className="selection-sidebar"&gt;
+      &lt;div className="sidebar-header"&gt;
+        &lt;div className="sidebar-title"&gt;
+          &lt;ShoppingCart className="w-4 h-4" /&gt;
+          Geselecteerd
+        &lt;/div&gt;
+        &lt;span className="sidebar-count"&gt;
+          {itemCount === 0 ? '0' : `${itemCount} item${itemCount &gt; 1 ? 's' : ''}`}
+        &lt;/span&gt;
+        {itemCount &gt; 0 && (
+          &lt;button className="clear-all-btn" onClick={onClearAll}&gt;
+            Wis alles
+          &lt;/button&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="selected-items-list"&gt;
+        {itemCount === 0 ? (
+          &lt;div className="empty-state"&gt;
+            &lt;PackageOpen className="w-12 h-12" /&gt;
+            &lt;p&gt;Geen varianten geselecteerd&lt;/p&gt;
+          &lt;/div&gt;
+        ) : (
+          selectedVariants.map(v =&gt; (
+            &lt;div key={v.id} className="selected-item"&gt;
+              &lt;div className="selected-item-size"&gt;{v.name}&lt;/div&gt;
+              &lt;div className="selected-item-info"&gt;
+                &lt;div className="selected-item-name"&gt;Maat {v.name}&lt;/div&gt;
+                &lt;div className="selected-item-qty"&gt;{v.quantity}× stuks&lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div className="selected-item-price"&gt;
+                €{(v.price * v.quantity).toFixed(2).replace('.', ',')}
+              &lt;/div&gt;
+              &lt;button
+                className="selected-item-remove"
+                onClick={() =&gt; onRemoveItem(v.id)}
+                aria-label={`Verwijder ${v.name}`}
+              &gt;
+                &lt;X className="w-3.5 h-3.5" /&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          ))
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="price-breakdown"&gt;
+        &lt;div className="price-line"&gt;
+          &lt;span className="price-line-label"&gt;Subtotaal&lt;/span&gt;
+          &lt;span className="price-line-value"&gt;€{subtotal.toFixed(2).replace('.', ',')}&lt;/span&gt;
+        &lt;/div&gt;
+        {discount &gt; 0 && (
+          &lt;div className="price-line discount"&gt;
+            &lt;span className="price-line-label"&gt;Staffelkorting (−10%)&lt;/span&gt;
+            &lt;span className="price-line-value"&gt;−€{discount.toFixed(2).replace('.', ',')}&lt;/span&gt;
+          &lt;/div&gt;
+        )}
+        &lt;div className="price-line"&gt;
+          &lt;span className="price-line-label"&gt;Totaal aantal&lt;/span&gt;
+          &lt;span className="price-line-value"&gt;{totalQty} stuks&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div className="price-line total"&gt;
+          &lt;span className="price-line-label"&gt;Totaal&lt;/span&gt;
+          &lt;span className="price-line-value"&gt;€{total.toFixed(2).replace('.', ',')}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button className="sidebar-cta" onClick={onAddToCart} disabled={itemCount === 0}&gt;
+        &lt;ShoppingCart className="w-4 h-4" /&gt;
+        {itemCount === 0 ? 'In Winkelwand' : `${itemCount} item${itemCount &gt; 1 ? 's' : ''} toevoegen`}
+      &lt;/button&gt;
+
+      {showTrustSignals && (
+        &lt;div className="trust-signals"&gt;
+          &lt;div className="trust-item"&gt;
+            &lt;Truck className="w-3 h-3" /&gt;
+            &lt;span&gt;Gratis verzending vanaf €60&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div className="trust-item"&gt;
+            &lt;ShieldCheck className="w-3 h-3" /&gt;
+            &lt;span&gt;100% veilig bestellen&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div className="trust-item"&gt;
+            &lt;RotateCcw className="w-3 h-3" /&gt;
+            &lt;span&gt;14 dagen bedenktijd&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/aside&gt;
+  );
+}</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Payload CMS Block Schema</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">{
+  slug: 'variantSelectionSidebar',
+  labels: {
+    singular: 'Variant Selection Sidebar',
+    plural: 'Selection Sidebars'
+  },
+  fields: [
+    {
+      name: 'showTrustSignals',
+      type: 'checkbox',
+      label: 'Show trust signals below CTA',
+      defaultValue: false
+    },
+    {
+      name: 'trustSignals',
+      type: 'array',
+      label: 'Trust Signals',
+      admin: {
+        condition: (data) =&gt; data.showTrustSignals
+      },
+      fields: [
+        { name: 'icon', type: 'select', options: ['truck', 'shield-check', 'rotate-ccw'] },
+        { name: 'text', type: 'text', required: true }
+      ]
+    },
+    {
+      name: 'noteText',
+      type: 'text',
+      label: 'Note below CTA button',
+      defaultValue: 'Gratis verzending vanaf €60'
+    }
+  ]
+}</pre>
+      </div>
+    </section>
+
+    <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+    <section style="margin-bottom: 0;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 8: Variations & Related Components
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Variations</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Variation</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>With trust signals</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Show trust badges below CTA (shipping, return, secure)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Without trust signals</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Minimal: just note text below CTA</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>With discount</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Show green discount row in price breakdown</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Without discount</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Hide discount row (only subtotal + total)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Compact mode</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Reduce to 300px width, smaller padding/fonts</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Inline summary</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Non-sticky variant for mobile (below grid)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Related Components</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Component</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP08:</strong> VariantCardCompact</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Grid cards that populate sidebar when selected</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP09:</strong> VariantRowCompact</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">List rows that populate sidebar when selected</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP11:</strong> VariantToolbar</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Toolbar above variant grid/list with bulk actions</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>C2:</strong> MiniCart Flyout</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Similar pattern (right-side panel with items + total)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>EC07:</strong> OrderSummary</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Similar price breakdown pattern (sticky sidebar)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Usage Example: Archive Page Layout</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">&lt;div class="archive-layout"&gt;
+  &lt;!-- Left: Variant grid/list --&gt;
+  &lt;div class="variant-content"&gt;
+    &lt;!-- VP11 Toolbar --&gt;
+    &lt;div class="variant-toolbar"&gt;
+      &lt;div class="toolbar-count"&gt;24 varianten&lt;/div&gt;
+      &lt;div class="view-toggle"&gt;Grid / List&lt;/div&gt;
+      &lt;button&gt;Selecteer alle&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- VP08 Grid OR VP09 List --&gt;
+    &lt;div class="variant-grid-compact"&gt;
+      &lt;vp08-card /&gt;
+      &lt;vp08-card /&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Right: VP10 Sidebar --&gt;
+  &lt;aside class="selection-sidebar"&gt;
+    ...sidebar content...
+  &lt;/aside&gt;
+&lt;/div&gt;
+
+&lt;!-- CSS for 2-column layout --&gt;
+&lt;style&gt;
+.archive-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .archive-layout {
+    grid-template-columns: 1fr;
+  }
+  .selection-sidebar {
+    position: static;
+  }
+}
+&lt;/style&gt;</pre>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+// Demo: Remove item functionality
+document.querySelectorAll('.selected-item-remove').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const itemId = btn.dataset.itemId;
+    const item = btn.closest('.selected-item');
+    if (item) {
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(20px)';
+      setTimeout(() => item.remove(), 200);
+      lucide.createIcons();
+    }
+  });
+});
+
+// Demo: Clear all functionality
+const clearAllBtn = document.getElementById('clearAllBtn');
+if (clearAllBtn) {
+  clearAllBtn.addEventListener('click', () => {
+    const sidebar = document.getElementById('demoSidebar');
+    const itemsList = sidebar.querySelector('.selected-items-list');
+
+    itemsList.innerHTML = `
+      <div class="empty-state">
+        <i data-lucide="package-open"></i>
+        <p>Geen varianten geselecteerd</p>
+      </div>
+    `;
+
+    sidebar.querySelector('.sidebar-count').textContent = '0';
+    sidebar.querySelector('.sidebar-cta').disabled = true;
+    sidebar.querySelector('.sidebar-cta').innerHTML = `
+      <i data-lucide="shopping-cart"></i>
+      In Winkelwand
+    `;
+    clearAllBtn.style.display = 'none';
+
+    lucide.createIcons();
+  });
+}
+
+// Demo: Add to cart
+const addToCartBtn = document.getElementById('addToCartBtn');
+if (addToCartBtn) {
+  addToCartBtn.addEventListener('click', () => {
+    alert('3 items toegevoegd aan winkelwand!');
+  });
+}
+</script>
+
+</body>
+</html>

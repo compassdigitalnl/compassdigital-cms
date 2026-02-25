@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SP03: SubscriptionFilterSidebar — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --white: #FAFBFC;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  padding: 32px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+/* SP03: SubscriptionFilterSidebar */
+.filter-sidebar {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 280px;
+}
+
+.filter-sidebar h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-sidebar h3 i {
+  width: 18px;
+  height: 18px;
+  color: var(--teal);
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--grey-mid);
+  margin-bottom: 10px;
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--grey);
+  border-radius: 4px;
+  cursor: pointer;
+  accent-color: var(--teal);
+}
+
+.filter-checkbox label {
+  font-size: 13px;
+  color: var(--navy);
+  cursor: pointer;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-checkbox-count {
+  font-size: 11px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+/* Documentation Section */
+.doc-section {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  line-height: 1.6;
+}
+
+.doc-section h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.doc-section p {
+  margin-bottom: 12px;
+}
+
+.doc-section ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.doc-section pre {
+  background: var(--grey-light);
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.doc-section code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2>🎯 Live Demo — SP03: SubscriptionFilterSidebar</h2>
+
+  <!-- Live Demo -->
+  <aside class="filter-sidebar">
+    <h3>
+      <i data-lucide="sliders"></i>
+      Filters
+    </h3>
+
+    <div class="filter-section">
+      <div class="filter-section-title">Type</div>
+
+      <div class="filter-checkbox">
+        <input type="checkbox" id="filter-persoonlijk" checked>
+        <label for="filter-persoonlijk">
+          Persoonlijk
+          <span class="filter-checkbox-count">3</span>
+        </label>
+      </div>
+
+      <div class="filter-checkbox">
+        <input type="checkbox" id="filter-cadeau" checked>
+        <label for="filter-cadeau">
+          Cadeau
+          <span class="filter-checkbox-count">3</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-title">Aantal edities</div>
+
+      <div class="filter-checkbox">
+        <input type="checkbox" id="filter-3-edities" checked>
+        <label for="filter-3-edities">
+          3 edities
+          <span class="filter-checkbox-count">2</span>
+        </label>
+      </div>
+
+      <div class="filter-checkbox">
+        <input type="checkbox" id="filter-6-edities" checked>
+        <label for="filter-6-edities">
+          6 edities
+          <span class="filter-checkbox-count">2</span>
+        </label>
+      </div>
+
+      <div class="filter-checkbox">
+        <input type="checkbox" id="filter-12-edities" checked>
+        <label for="filter-12-edities">
+          12 edities
+          <span class="filter-checkbox-count">2</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-title">Beschikbaarheid</div>
+
+      <div class="filter-checkbox">
+        <input type="checkbox" id="filter-beschikbaar" checked>
+        <label for="filter-beschikbaar">
+          Op voorraad
+          <span class="filter-checkbox-count">6</span>
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Documentation -->
+  <div class="doc-section">
+
+    <!-- STEP 1: Component Overview -->
+    <h3>📦 STEP 1: Component Overview</h3>
+    <p><strong>Component:</strong> SP03: SubscriptionFilterSidebar</p>
+    <p><strong>Purpose:</strong> Sidebar filter panel with multiple checkbox dimensions for subscription products. Allows multi-select filtering by Type, Edition Count, and Availability.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>White card sidebar (280px width, sticky positioning)</li>
+      <li>Teal sliders icon + "Filters" title</li>
+      <li>Multiple filter sections with uppercase labels</li>
+      <li>Checkboxes with product counts per option</li>
+      <li>Multi-select support (checkboxes vs radio buttons)</li>
+      <li>Clean checkbox styling with teal accent color</li>
+      <li>Filter counts update dynamically</li>
+    </ul>
+
+    <p><strong>Visual Description:</strong> Vertical sidebar with grouped checkbox filters. Each section has an uppercase label, and each checkbox row shows the filter name + product count.</p>
+
+    <!-- STEP 2: When to Use -->
+    <h3>📋 STEP 2: When to Use</h3>
+
+    <p><strong>Primary Use Cases:</strong></p>
+    <ul>
+      <li><strong>Multi-Dimension Filtering:</strong> When you need to filter by 2+ dimensions simultaneously (Type + Editions + Availability)</li>
+      <li><strong>Complex Product Catalogs:</strong> Large subscription archives with many filtering options</li>
+      <li><strong>Multi-Select Filters:</strong> When users can select multiple options per dimension (e.g., show 3 AND 6 edition subscriptions)</li>
+      <li><strong>Desktop Layouts:</strong> Side-by-side layout with filters on left, products on right</li>
+    </ul>
+
+    <p><strong>When NOT to Use:</strong></p>
+    <ul>
+      <li>❌ For single-dimension filtering (use SP01 tabs or SP02 toggle)</li>
+      <li>❌ On mobile without collapse/drawer (takes up too much space)</li>
+      <li>❌ For binary choices (use SP02 toggle switch)</li>
+      <li>❌ When you have < 5 total filter options (use inline filters instead)</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>🎨 STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Sidebar bg: <code>#FFFFFF</code> (white)</li>
+      <li>Sidebar border: <code>#E8ECF1</code> (grey)</li>
+      <li>Title text: <code>#0A1628</code> (navy)</li>
+      <li>Title icon: <code>#00897B</code> (teal)</li>
+      <li>Section title: <code>#94A3B8</code> (grey-mid)</li>
+      <li>Checkbox accent: <code>#00897B</code> (teal)</li>
+      <li>Label text: <code>#0A1628</code> (navy)</li>
+      <li>Count text: <code>#94A3B8</code> (grey-mid)</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Font: Plus Jakarta Sans</li>
+      <li>Title: 16px, 800 weight</li>
+      <li>Section title: 12px, 700 weight, uppercase</li>
+      <li>Label: 13px, 400 weight</li>
+      <li>Count: 11px, 600 weight</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Sidebar padding: 20px</li>
+      <li>Title margin-bottom: 16px</li>
+      <li>Title gap (icon-to-text): 8px</li>
+      <li>Section margin-bottom: 20px</li>
+      <li>Section title margin-bottom: 10px</li>
+      <li>Checkbox row padding: 6px 0</li>
+      <li>Checkbox-to-label gap: 8px</li>
+    </ul>
+
+    <p><strong>Border Radius:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Sidebar: 12px</li>
+      <li>Checkbox: 4px</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Icon library: Lucide Icons</li>
+      <li>Title icon: <code>sliders</code> (18×18px)</li>
+    </ul>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h3>⚙️ STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre>
+interface FilterOption {
+  id: string;
+  label: string;
+  count: number;
+  checked: boolean;
+}
+
+interface FilterSection {
+  id: string;
+  title: string;
+  options: FilterOption[];
+}
+
+interface SubscriptionFilterSidebarProps {
+  sections: FilterSection[];
+  onChange: (sectionId: string, optionId: string, checked: boolean) => void;
+  onReset?: () => void;
+}</pre>
+
+    <p><strong>Payload CMS Schema:</strong></p>
+    <pre>
+{
+  name: 'subscriptionFilters',
+  type: 'group',
+  label: 'Subscription Filters',
+  fields: [
+    {
+      name: 'showTypeFilter',
+      type: 'checkbox',
+      label: 'Show Type Filter (Persoonlijk/Cadeau)',
+      defaultValue: true
+    },
+    {
+      name: 'showEditionFilter',
+      type: 'checkbox',
+      label: 'Show Edition Count Filter',
+      defaultValue: true
+    },
+    {
+      name: 'showStockFilter',
+      type: 'checkbox',
+      label: 'Show Availability Filter',
+      defaultValue: true
+    }
+  ]
+}</pre>
+
+    <p><strong>Default Values:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>All checkboxes: <code>checked: true</code> (show all products initially)</li>
+    </ul>
+
+    <!-- STEP 5: Layout Rules -->
+    <h3>📐 STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre>
+┌──────────────────────────────┐
+│ 🎛️ Filters                   │
+│                              │
+│ TYPE                         │
+│ ☑ Persoonlijk           3    │
+│ ☑ Cadeau                3    │
+│                              │
+│ AANTAL EDITIES               │
+│ ☑ 3 edities             2    │
+│ ☑ 6 edities             2    │
+│ ☑ 12 edities            2    │
+│                              │
+│ BESCHIKBAARHEID              │
+│ ☑ Op voorraad           6    │
+└──────────────────────────────┘</pre>
+
+    <p><strong>Layout Specifications:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Sidebar width: <code>280px</code> (fixed)</li>
+      <li>Sticky positioning: <code>position: sticky; top: 24px;</code></li>
+      <li>Height: <code>fit-content</code> (auto height based on content)</li>
+    </ul>
+
+    <p><strong>Checkbox Row Layout:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Display: <code>flex</code></li>
+      <li>Align-items: <code>center</code></li>
+      <li>Gap: <code>8px</code></li>
+      <li>Label: <code>flex: 1; display: flex; justify-content: space-between;</code></li>
+    </ul>
+
+    <p><strong>Responsive Breakpoints:</strong></p>
+    <ul>
+      <li><strong>Desktop (1024px+):</strong> Sidebar visible, sticky positioned</li>
+      <li><strong>Tablet (768px-1023px):</strong> Sidebar becomes non-sticky, scrolls with page</li>
+      <li><strong>Mobile (< 768px):</strong> Sidebar hidden, show as collapsible drawer or bottom sheet</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h3>♿ STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre>
+&lt;aside class="filter-sidebar" role="complementary" aria-label="Subscription filters"&gt;
+  &lt;h3&gt;
+    &lt;i data-lucide="sliders" aria-hidden="true"&gt;&lt;/i&gt;
+    Filters
+  &lt;/h3&gt;
+
+  &lt;div class="filter-section"&gt;
+    &lt;div class="filter-section-title" id="section-type"&gt;Type&lt;/div&gt;
+    &lt;fieldset aria-labelledby="section-type"&gt;
+      &lt;div class="filter-checkbox"&gt;
+        &lt;input type="checkbox" id="filter-persoonlijk" checked&gt;
+        &lt;label for="filter-persoonlijk"&gt;
+          Persoonlijk
+          &lt;span class="filter-checkbox-count" aria-label="3 producten"&gt;3&lt;/span&gt;
+        &lt;/label&gt;
+      &lt;/div&gt;
+    &lt;/fieldset&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;</pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>role="complementary"</code> on sidebar</li>
+      <li><code>aria-label</code> on sidebar ("Subscription filters")</li>
+      <li><code>aria-labelledby</code> linking fieldset to section title</li>
+      <li><code>aria-label</code> on count badges for screen readers</li>
+      <li><code>aria-hidden="true"</code> on decorative icons</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li><kbd>Tab</kbd> - Move focus through checkboxes</li>
+      <li><kbd>Space</kbd> - Toggle focused checkbox</li>
+      <li><kbd>Shift</kbd> + <kbd>Tab</kbd> - Move focus backwards</li>
+    </ul>
+
+    <p><strong>Focus Management:</strong></p>
+    <ul>
+      <li>Visible focus ring on checkboxes (browser default + teal accent)</li>
+      <li>Focus order follows visual order (top to bottom)</li>
+      <li>Screen reader announces: "Persoonlijk, checked, checkbox, 3 producten"</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul>
+      <li>✅ Navy text on white: 12.6:1 (WCAG AAA)</li>
+      <li>✅ Grey-mid labels on white: 4.5:1 (WCAG AA)</li>
+      <li>✅ Teal checkbox on white: 4.5:1 (WCAG AA)</li>
+    </ul>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h3>💻 STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre>
+'use client';
+
+import { Sliders } from 'lucide-react';
+
+export const SubscriptionFilterSidebar = ({ sections, onChange }) => {
+  return (
+    &lt;aside className="filter-sidebar" role="complementary" aria-label="Filters"&gt;
+      &lt;h3&gt;
+        &lt;Sliders size={18} aria-hidden="true" /&gt;
+        Filters
+      &lt;/h3&gt;
+
+      {sections.map((section) => (
+        &lt;div key={section.id} className="filter-section"&gt;
+          &lt;div className="filter-section-title"&gt;{section.title}&lt;/div&gt;
+
+          {section.options.map((option) => (
+            &lt;div key={option.id} className="filter-checkbox"&gt;
+              &lt;input
+                type="checkbox"
+                id={`filter-${option.id}`}
+                checked={option.checked}
+                onChange={(e) => onChange(section.id, option.id, e.target.checked)}
+              /&gt;
+              &lt;label htmlFor={`filter-${option.id}`}&gt;
+                {option.label}
+                &lt;span className="filter-checkbox-count" aria-label={`${option.count} producten`}&gt;
+                  {option.count}
+                &lt;/span&gt;
+              &lt;/label&gt;
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      ))}
+    &lt;/aside&gt;
+  );
+};</pre>
+
+    <p><strong>Usage Example:</strong></p>
+    <pre>
+const [filters, setFilters] = useState({
+  type: { personal: true, gift: true },
+  editions: { '3': true, '6': true, '12': true },
+  stock: { available: true }
+});
+
+const handleFilterChange = (sectionId, optionId, checked) => {
+  setFilters(prev => ({
+    ...prev,
+    [sectionId]: {
+      ...prev[sectionId],
+      [optionId]: checked
+    }
+  }));
+};
+
+const sections = [
+  {
+    id: 'type',
+    title: 'Type',
+    options: [
+      { id: 'personal', label: 'Persoonlijk', count: 3, checked: filters.type.personal },
+      { id: 'gift', label: 'Cadeau', count: 3, checked: filters.type.gift }
+    ]
+  },
+  // More sections...
+];
+
+&lt;SubscriptionFilterSidebar sections={sections} onChange={handleFilterChange} /&gt;</pre>
+
+    <p><strong>State Management:</strong></p>
+    <ul>
+      <li>Store filter state in component state or URL query params</li>
+      <li>Filter product list based on active checkboxes</li>
+      <li>Update URL with <code>?type=personal,gift&editions=3,6</code> for shareable links</li>
+      <li>Persist user preferences in LocalStorage</li>
+    </ul>
+
+    <p><strong>Performance Optimization:</strong></p>
+    <ul>
+      <li>Debounce filter changes (200ms) to avoid excessive re-renders</li>
+      <li>Memoize filtered product list with <code>useMemo</code></li>
+      <li>Use <code>React.memo()</code> on filter sections if expensive</li>
+    </ul>
+
+    <p><strong>Edge Cases:</strong></p>
+    <ul>
+      <li><strong>All unchecked:</strong> Show empty state or re-check at least one filter</li>
+      <li><strong>Zero products:</strong> Grey out checkbox or show "0" count</li>
+      <li><strong>Dynamic counts:</strong> Update counts when products change</li>
+      <li><strong>Loading state:</strong> Disable checkboxes during product fetch</li>
+    </ul>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h3>🔄 STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Variations:</strong></p>
+    <ul>
+      <li><strong>Mobile drawer:</strong> Collapsible drawer triggered by "Filters" button</li>
+      <li><strong>Collapsible sections:</strong> Add chevron icons to section titles, collapse/expand on click</li>
+      <li><strong>Reset button:</strong> Add "Reset filters" button at bottom to clear all</li>
+      <li><strong>Active filters chips:</strong> Show selected filters as removable chips above product grid</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>SP01: SubscriptionFilterTabs</strong> - Pill-style tabs (simpler alternative)</li>
+      <li><strong>SP02: SubscriptionFilterToggle</strong> - Toggle switch (binary alternative)</li>
+      <li><strong>C21: FilterSidebar</strong> - Generic filter sidebar (same pattern)</li>
+      <li><strong>SP04: SubscriptionProductCard</strong> - Products filtered by this sidebar</li>
+    </ul>
+
+    <p><strong>Component Composition:</strong></p>
+    <pre>
+&lt;div className="layout-with-sidebar"&gt;
+  &lt;SubscriptionFilterSidebar /&gt;  ← Left sidebar
+  &lt;div className="products-grid"&gt;
+    &lt;SP04: SubscriptionProductCard /&gt;  ← Filtered products
+    &lt;SP04: SubscriptionProductCard /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul>
+      <li>✅ Check/uncheck filters → products update</li>
+      <li>✅ Multiple selections per section work</li>
+      <li>✅ Counts display correctly</li>
+      <li>✅ All filters checked shows all products</li>
+      <li>✅ Keyboard navigation through checkboxes</li>
+      <li>✅ Screen reader announces filter changes</li>
+      <li>✅ Sticky positioning works on scroll (desktop)</li>
+      <li>✅ Responsive: collapses on mobile</li>
+    </ul>
+
+    <p><strong>Migration Notes:</strong></p>
+    <ul>
+      <li>Alternative to SP01/SP02 for complex multi-dimension filtering</li>
+      <li>Configurable in Payload CMS via <code>subscriptionFilterType: 'sidebar'</code></li>
+      <li>Reuses C21 FilterSidebar pattern for consistency</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

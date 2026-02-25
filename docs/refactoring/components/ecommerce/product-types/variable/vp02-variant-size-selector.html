@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP02: VariantSizeSelector — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    /* Colors */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+    --white: #FAFBFC;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+    --green: #00C853;
+    --amber: #F59E0B;
+    --coral: #FF6B6B;
+    --bg: #F5F7FA;
+
+    /* Spacing */
+    --space-4: 4px;
+    --space-5: 5px;
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-10: 10px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-24: 24px;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius: 10px;
+    --radius-lg: 12px;
+
+    /* Transitions */
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    padding: 40px 24px;
+    line-height: 1.6;
+  }
+
+  .demo-container {
+    max-width: 800px;
+    margin: 0 auto 64px;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
+  }
+
+  .demo-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .demo-subtitle {
+    font-size: 14px;
+    color: var(--grey-mid);
+    margin-bottom: 32px;
+  }
+
+  /* === COMPONENT: VariantSizeSelector === */
+
+  .variant-section {
+    margin-bottom: var(--space-24);
+  }
+
+  .var-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-12);
+  }
+
+  .var-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .var-label i {
+    width: 16px;
+    height: 16px;
+    color: var(--teal);
+  }
+
+  .var-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .var-type-badge {
+    font-size: 10px;
+    color: var(--grey-mid);
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--grey-light);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .var-selected {
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 700;
+    background: var(--teal-glow);
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .size-chart-link {
+    font-size: 11px;
+    color: var(--teal);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: var(--space-6);
+  }
+
+  .size-chart-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Size Radio Buttons */
+  .size-radios {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .size-radio {
+    width: 52px;
+    height: 44px;
+    border: 2px solid var(--grey);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    background: white;
+  }
+
+  .size-radio:hover:not(.oos):not(.selected) {
+    border-color: var(--teal);
+    transform: translateY(-1px);
+  }
+
+  .size-radio.selected {
+    border-color: var(--teal);
+    background: var(--teal);
+    color: white;
+    box-shadow: 0 0 0 3px var(--teal-glow);
+  }
+
+  .size-radio.oos {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  /* Stock Indicator Dots */
+  .stock-dot {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid white;
+  }
+
+  .stock-green {
+    background: var(--green);
+  }
+
+  .stock-amber {
+    background: var(--amber);
+  }
+
+  .stock-red {
+    background: var(--coral);
+  }
+
+  /* === END COMPONENT === */
+
+  /* Documentation styles */
+  .docs-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 48px;
+    margin-bottom: 24px;
+  }
+
+  .docs-section h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .docs-section h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  .docs-section h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+
+  .docs-section p {
+    margin-bottom: 12px;
+    color: var(--grey-dark);
+  }
+
+  .docs-section ul, .docs-section ol {
+    margin-left: 24px;
+    margin-bottom: 16px;
+    color: var(--grey-dark);
+  }
+
+  .docs-section li {
+    margin-bottom: 8px;
+  }
+
+  .docs-section code {
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--navy);
+  }
+
+  .docs-section pre {
+    background: var(--navy);
+    color: white;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+
+  .token-table th,
+  .token-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--grey);
+  }
+
+  .token-table th {
+    font-weight: 700;
+    color: var(--navy);
+    background: var(--grey-light);
+  }
+
+  .token-table td {
+    font-size: 14px;
+    color: var(--grey-dark);
+  }
+
+  .token-table code {
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO SECTION
+     ============================================ -->
+
+<div class="demo-container">
+  <h1 class="demo-title">VP02: VariantSizeSelector</h1>
+  <p class="demo-subtitle">Product Type Component — Size Selection with Stock Indicators</p>
+
+  <!-- DEMO 1: Standard Size Selector (EU Shoe Sizes) -->
+  <div class="variant-section">
+    <div class="var-header">
+      <div class="var-label">
+        <i data-lucide="ruler"></i>
+        Maat (EU)
+      </div>
+      <div class="var-meta">
+        <span class="var-type-badge">Radio</span>
+        <span class="var-selected" id="sizeSelected1">43</span>
+        <a href="#" class="size-chart-link">Maattabel</a>
+      </div>
+    </div>
+    <div class="size-radios">
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '38')">
+        38
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '39')">
+        39
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '40')">
+        40
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '41')">
+        41
+        <span class="stock-dot stock-amber"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '42')">
+        42
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio selected" onclick="selectSize(this, 'sizeSelected1', '43')">
+        43
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '44')">
+        44
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '45')">
+        45
+        <span class="stock-dot stock-amber"></span>
+      </button>
+      <button class="size-radio oos">
+        46
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected1', '47')">
+        47
+        <span class="stock-dot stock-red"></span>
+      </button>
+    </div>
+  </div>
+
+  <hr style="border: none; border-top: 1px solid var(--grey); margin: 32px 0;">
+
+  <!-- DEMO 2: Clothing Sizes (S, M, L, XL) -->
+  <div class="variant-section">
+    <div class="var-header">
+      <div class="var-label">
+        <i data-lucide="shirt"></i>
+        Maat
+      </div>
+      <div class="var-meta">
+        <span class="var-type-badge">Radio</span>
+        <span class="var-selected" id="sizeSelected2">M</span>
+        <a href="#" class="size-chart-link">Maattabel</a>
+      </div>
+    </div>
+    <div class="size-radios">
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected2', 'XS')">
+        XS
+        <span class="stock-dot stock-amber"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected2', 'S')">
+        S
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio selected" onclick="selectSize(this, 'sizeSelected2', 'M')">
+        M
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected2', 'L')">
+        L
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected2', 'XL')">
+        XL
+        <span class="stock-dot stock-green"></span>
+      </button>
+      <button class="size-radio" onclick="selectSize(this, 'sizeSelected2', 'XXL')">
+        XXL
+        <span class="stock-dot stock-red"></span>
+      </button>
+    </div>
+  </div>
+
+  <hr style="border: none; border-top: 1px solid var(--grey); margin: 32px 0;">
+
+  <!-- DEMO 3: No Stock Indicators (Simple) -->
+  <div class="variant-section">
+    <div class="var-header">
+      <div class="var-label">
+        <i data-lucide="maximize-2"></i>
+        Dimensies
+      </div>
+      <div class="var-meta">
+        <span class="var-type-badge">Radio</span>
+        <span class="var-selected" id="sizeSelected3">Medium</span>
+      </div>
+    </div>
+    <div class="size-radios">
+      <button class="size-radio" style="width: 70px;" onclick="selectSize(this, 'sizeSelected3', 'Small')">
+        Small
+      </button>
+      <button class="size-radio selected" style="width: 80px;" onclick="selectSize(this, 'sizeSelected3', 'Medium')">
+        Medium
+      </button>
+      <button class="size-radio" style="width: 70px;" onclick="selectSize(this, 'sizeSelected3', 'Large')">
+        Large
+      </button>
+      <button class="size-radio" style="width: 90px;" onclick="selectSize(this, 'sizeSelected3', 'X-Large')">
+        X-Large
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+
+<div class="docs-section">
+  <h2>📋 STEP 1: Component Overview</h2>
+
+  <p><strong>Component Name:</strong> VariantSizeSelector (VP02)</p>
+  <p><strong>Category:</strong> Product Types → Variable Product</p>
+  <p><strong>Purpose:</strong> Size selection interface for variable products (clothing, shoes, accessories), with real-time stock status indicators per size.</p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li>✅ <strong>Size Radio Buttons</strong> — 52×44px buttons with size labels (38, 39, S, M, L, etc.)</li>
+    <li>✅ <strong>Stock Indicators</strong> — Color-coded dots (green/amber/red) in top-right corner</li>
+    <li>✅ <strong>Out of Stock State</strong> — Greyed out + strikethrough + not clickable</li>
+    <li>✅ <strong>Selected State</strong> — Teal background + white text + teal glow shadow</li>
+    <li>✅ <strong>Size Chart Link</strong> — Optional "Maattabel" link to open size guide modal</li>
+    <li>✅ <strong>Flexible Width</strong> — Auto-width for numeric sizes (52px), wider for text (70-90px)</li>
+    <li>✅ <strong>Keyboard Accessible</strong> — Arrow keys for navigation, Enter/Space to select</li>
+    <li>✅ <strong>Responsive</strong> — Flex-wrap layout adapts to container width</li>
+  </ul>
+
+  <h3>Visual Description</h3>
+  <p>The component displays a horizontal row of size buttons, each showing a size label (number or text). Available sizes have a small colored dot in the top-right corner indicating stock level: green (in stock), amber (low stock), or red (very low stock). Out-of-stock sizes are shown with reduced opacity and strikethrough text. The selected size button has a teal background with white text and a subtle glow shadow.</p>
+
+  <h3>Stock Status Colors</h3>
+  <ul>
+    <li><strong>Green dot:</strong> ≥10 units in stock (good availability)</li>
+    <li><strong>Amber dot:</strong> 3-9 units in stock (low stock, buy soon)</li>
+    <li><strong>Red dot:</strong> 1-2 units in stock (very low, last chance)</li>
+    <li><strong>No button (or OOS state):</strong> 0 units (out of stock)</li>
+  </ul>
+
+  <h3>Usage Context</h3>
+  <p>Use this component on product pages for clothing, footwear, or any product with standardized size variants. Ideal for 6-12 size options. For products with many sizes (15+), consider grouping or using a dropdown.</p>
+</div>
+
+<div class="docs-section">
+  <h2>🎯 STEP 2: When to Use</h2>
+
+  <h3>Primary Use Cases</h3>
+  <ol>
+    <li><strong>Apparel</strong> — T-shirts, jeans, dresses (XS, S, M, L, XL, XXL)</li>
+    <li><strong>Footwear</strong> — Shoes, boots, sandals (EU: 36-47, US: 6-13, UK: 3-12)</li>
+    <li><strong>Accessories</strong> — Gloves, hats, belts (One Size, S/M/L, numeric)</li>
+    <li><strong>Home Goods</strong> — Bedding, curtains (Single, Double, King, Queen)</li>
+    <li><strong>Custom Products</strong> — Any product with discrete size options</li>
+  </ol>
+
+  <h3>When NOT to Use</h3>
+  <ul>
+    <li>❌ <strong>Continuous dimensions</strong> — Use slider or number input for custom measurements (e.g., "Enter waist in cm")</li>
+    <li>❌ <strong>Complex size charts</strong> — Products with length × width × height need multi-input form</li>
+    <li>❌ <strong>More than 15 sizes</strong> — Use dropdown selector (VP03) for better UX</li>
+    <li>❌ <strong>Non-size variants</strong> — This component is specifically for size; use VP01 (color swatches) or VP03 (dropdown) for other attributes</li>
+  </ul>
+
+  <h3>Guidelines</h3>
+  <ul>
+    <li>Always provide a "Maattabel" (size chart) link for clothing/shoes — reduces returns</li>
+    <li>Order sizes logically: XS → S → M → L → XL → XXL (not alphabetically!)</li>
+    <li>Show out-of-stock sizes but disable them (don't hide) — helps users see full range</li>
+    <li>Use stock dots for B2C; hide for B2B (business customers get stock numbers via API)</li>
+    <li>For shoes: specify system (EU, US, UK) in label to avoid confusion</li>
+    <li>For unisex products: link to both men's and women's size charts</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>🎨 STEP 3: Design Tokens</h2>
+
+  <h3>Colors</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Selected size bg, selected badge bg, label icon, border on hover</td>
+      </tr>
+      <tr>
+        <td><code>--teal-glow</code></td>
+        <td>rgba(0, 137, 123, 0.12)</td>
+        <td>Selected size glow shadow (box-shadow: 0 0 0 3px)</td>
+      </tr>
+      <tr>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>Size button text color (default state)</td>
+      </tr>
+      <tr>
+        <td><code>--white</code></td>
+        <td>#FAFBFC</td>
+        <td>Selected size text color, size button bg, stock dot border</td>
+      </tr>
+      <tr>
+        <td><code>--grey</code></td>
+        <td>#E8ECF1</td>
+        <td>Size button border (default state)</td>
+      </tr>
+      <tr>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>Stock dot: in stock (≥10 units)</td>
+      </tr>
+      <tr>
+        <td><code>--amber</code></td>
+        <td>#F59E0B</td>
+        <td>Stock dot: low stock (3-9 units)</td>
+      </tr>
+      <tr>
+        <td><code>--coral</code></td>
+        <td>#FF6B6B</td>
+        <td>Stock dot: very low stock (1-2 units)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Typography</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Font Family</th>
+        <th>Size</th>
+        <th>Weight</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Size button label</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Var label ("Maat")</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Selected badge</td>
+        <td>DM Sans</td>
+        <td>12px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Type badge</td>
+        <td>DM Sans</td>
+        <td>10px</td>
+        <td>700 (uppercase)</td>
+      </tr>
+      <tr>
+        <td>Size chart link</td>
+        <td>DM Sans</td>
+        <td>11px</td>
+        <td>600</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Spacing</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Size button (numeric)</td>
+        <td>52×44px</td>
+        <td>Default width for 2-digit sizes (38, 42, etc.)</td>
+      </tr>
+      <tr>
+        <td>Size button (text short)</td>
+        <td>52-70px × 44px</td>
+        <td>Auto-width for XS, S, M, L, XL (use min-width: 52px)</td>
+      </tr>
+      <tr>
+        <td>Size button (text long)</td>
+        <td>70-90px × 44px</td>
+        <td>Auto-width for Small, Medium, Large, X-Large</td>
+      </tr>
+      <tr>
+        <td>Button border</td>
+        <td>2px</td>
+        <td>Border width (grey default, teal selected)</td>
+      </tr>
+      <tr>
+        <td>Button gap</td>
+        <td>5px (<code>--space-5</code>)</td>
+        <td>Horizontal spacing between size buttons</td>
+      </tr>
+      <tr>
+        <td>Stock dot size</td>
+        <td>8×8px</td>
+        <td>Circular indicator in top-right corner</td>
+      </tr>
+      <tr>
+        <td>Stock dot border</td>
+        <td>1.5px white</td>
+        <td>Border around dot for contrast on teal bg</td>
+      </tr>
+      <tr>
+        <td>Stock dot position</td>
+        <td>top: -3px, right: -3px</td>
+        <td>Absolute positioning (partially outside button)</td>
+      </tr>
+      <tr>
+        <td>Header margin-bottom</td>
+        <td>12px (<code>--space-12</code>)</td>
+        <td>Space between header and size buttons</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Border Radius</h3>
+  <ul>
+    <li><strong>Size button:</strong> <code>--radius</code> (10px) — consistent with other buttons</li>
+    <li><strong>Stock dot:</strong> 50% (perfect circle)</li>
+    <li><strong>Selected badge:</strong> 6px — subtle rounding</li>
+  </ul>
+
+  <h3>Icons</h3>
+  <ul>
+    <li><strong>Ruler icon:</strong> <code>ruler</code> (Lucide) at 16×16px, teal color — for shoes/dimensions</li>
+    <li><strong>Shirt icon:</strong> <code>shirt</code> (Lucide) at 16×16px, teal color — for clothing</li>
+    <li><strong>Maximize icon:</strong> <code>maximize-2</code> (Lucide) at 16×16px, teal color — for general sizes</li>
+  </ul>
+
+  <h3>Transitions</h3>
+  <ul>
+    <li><strong>Button hover:</strong> <code>all 0.12s cubic-bezier(0.4, 0, 0.2, 1)</code> — border color + translateY</li>
+    <li><strong>Disabled state:</strong> <code>opacity: 0.35</code> — instant (no transition)</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+  <h3>TypeScript Interface</h3>
+  <pre>
+interface Size {
+  id: string
+  label: string              // Display label (e.g., "43", "M", "Large")
+  value: string              // Value for form submission
+  stock: number              // Stock quantity (0 = OOS, 1-2 = red, 3-9 = amber, ≥10 = green)
+  sku?: string               // Variant SKU for inventory tracking
+  priceAdjustment?: number   // Price change for this size (rare, but possible)
+}
+
+interface VariantSizeSelectorProps {
+  label?: string                    // Default: "Maat"
+  icon?: string                     // Lucide icon name, default: "ruler"
+  sizes: Size[]                     // Array of size options
+  selected: string                  // ID of selected size
+  onSelect: (size: Size) => void    // Selection handler
+  sizeChartUrl?: string             // Link to size chart/guide
+  showStockDots?: boolean           // Show stock indicators, default: true
+  showTypeBadge?: boolean           // Show "Radio" badge, default: true
+  buttonWidth?: 'auto' | number     // Auto-width or fixed (e.g., 60)
+  required?: boolean                // Show required indicator (*), default: false
+  disabled?: boolean                // Disable all sizes, default: false
+}</pre>
+
+  <h3>Payload CMS Field Schema</h3>
+  <pre>
+{
+  name: 'sizeVariants',
+  type: 'array',
+  label: 'Maat Varianten',
+  required: true,
+  fields: [
+    {
+      name: 'label',
+      type: 'text',
+      label: 'Maataanduiding',
+      required: true,
+      admin: {
+        description: 'Bijv. "43", "M", "Large", "One Size"',
+      },
+    },
+    {
+      name: 'value',
+      type: 'text',
+      label: 'Waarde (voor formulier)',
+      required: true,
+      admin: {
+        description: 'Bijv. "eu-43", "size-m", "large"',
+      },
+    },
+    {
+      name: 'stock',
+      type: 'number',
+      label: 'Voorraad (aantal stuks)',
+      required: true,
+      defaultValue: 0,
+      admin: {
+        description: '0 = Uitverkocht, 1-2 = Zeer laag (rood), 3-9 = Laag (amber), ≥10 = Goed (groen)',
+      },
+    },
+    {
+      name: 'sku',
+      type: 'text',
+      label: 'SKU / Artikelnummer',
+      admin: {
+        description: 'Voor voorraadkoppeling',
+      },
+    },
+    {
+      name: 'priceAdjustment',
+      type: 'number',
+      label: 'Prijsopslag (€)',
+      admin: {
+        description: 'Meestal €0, maar sommige maten kunnen duurder zijn (bijv. XXL +€2)',
+      },
+    },
+  ],
+},
+{
+  name: 'sizeChart',
+  type: 'upload',
+  label: 'Maattabel',
+  relationTo: 'media',
+  admin: {
+    description: 'PDF of afbeelding met maattabel (optioneel)',
+  },
+}</pre>
+
+  <h3>Default Values</h3>
+  <ul>
+    <li><code>label</code>: "Maat"</li>
+    <li><code>icon</code>: "ruler"</li>
+    <li><code>showStockDots</code>: true</li>
+    <li><code>showTypeBadge</code>: true</li>
+    <li><code>buttonWidth</code>: "auto"</li>
+    <li><code>required</code>: false</li>
+    <li><code>disabled</code>: false</li>
+  </ul>
+
+  <h3>Validation Rules</h3>
+  <ul>
+    <li>Minimum 2 sizes required (no single-size products without reason)</li>
+    <li>Maximum 20 sizes recommended (UX degradation beyond that)</li>
+    <li>At least one size must have <code>stock > 0</code></li>
+    <li>Size labels must be unique within a product</li>
+    <li>Stock values must be non-negative integers</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>📐 STEP 5: Layout Rules</h2>
+
+  <h3>Component Anatomy</h3>
+  <pre>
+┌───────────────────────────────────────────────────────────────┐
+│ [Icon] Label          [Type Badge] [Selected Badge] [Size Chart Link] │  ← Header
+├───────────────────────────────────────────────────────────────┤
+│ [38●] [39●] [40●] [41●] [42●] [✓43] [44●] [45●] [46] [47●]   │  ← Size buttons
+│   ↑     ↑     ↑     ↑     ↑     ↑     ↑     ↑    ↑    ↑      │
+│  Green Green Green Amber Green Selected Green Amber OOS  Red  │
+└───────────────────────────────────────────────────────────────┘
+
+Size button:
+┌────────┐
+│  ● 43  │  ← Stock dot (8×8px, positioned at top: -3px, right: -3px)
+│        │  ← 52×44px (numeric) or 70-90px (text)
+│        │  ← Border: 2px grey (default) or teal (selected)
+└────────┘</pre>
+
+  <h3>Grid Specifications</h3>
+  <ul>
+    <li><strong>Container:</strong> <code>.variant-section</code> — full width, margin-bottom 24px</li>
+    <li><strong>Header:</strong> <code>display: flex; justify-content: space-between</code></li>
+    <li><strong>Size buttons row:</strong> <code>display: flex; gap: 5px; flex-wrap: wrap</code></li>
+    <li><strong>Each button:</strong> 52×44px (numeric) or auto-width with padding (text)</li>
+  </ul>
+
+  <h3>Spacing Hierarchy</h3>
+  <ol>
+    <li><strong>Outer margin:</strong> 24px below section</li>
+    <li><strong>Header → Buttons:</strong> 12px gap</li>
+    <li><strong>Button → Button:</strong> 5px gap (horizontal)</li>
+    <li><strong>Row → Row:</strong> 5px gap (vertical when wrapping)</li>
+  </ol>
+
+  <h3>Responsive Breakpoints</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Behavior</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&gt;768px (Desktop)</td>
+        <td>All sizes in single row (or wrap to 2 rows if >12 sizes)</td>
+      </tr>
+      <tr>
+        <td>640-768px (Tablet)</td>
+        <td>Size buttons wrap to multiple rows as needed</td>
+      </tr>
+      <tr>
+        <td>&lt;640px (Mobile)</td>
+        <td>Same flex-wrap behavior. Ensure buttons remain 44px tall (touch target minimum)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Z-index Layering</h3>
+  <ul>
+    <li><strong>Size button:</strong> z-index: 1 (base layer)</li>
+    <li><strong>Stock dot:</strong> z-index: 2 (above button to prevent overlap)</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>♿ STEP 6: Accessibility</h2>
+
+  <h3>Semantic HTML</h3>
+  <pre>
+&lt;div class="variant-section" role="radiogroup" aria-labelledby="size-label" aria-required="true"&gt;
+  &lt;div class="var-header"&gt;
+    &lt;div class="var-label" id="size-label"&gt;
+      &lt;i data-lucide="ruler" aria-hidden="true"&gt;&lt;/i&gt;
+      Maat (EU)
+    &lt;/div&gt;
+    &lt;div class="var-meta"&gt;
+      &lt;span class="var-selected" aria-live="polite"&gt;43&lt;/span&gt;
+      &lt;a href="#size-chart-modal" class="size-chart-link"&gt;Maattabel&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="size-radios"&gt;
+    &lt;button
+      type="button"
+      role="radio"
+      aria-checked="true"
+      aria-label="Maat 43, op voorraad"
+      class="size-radio selected"
+    &gt;
+      43
+      &lt;span class="stock-dot stock-green" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+
+    &lt;button
+      type="button"
+      role="radio"
+      aria-checked="false"
+      aria-label="Maat 41, beperkte voorraad"
+      class="size-radio"
+    &gt;
+      41
+      &lt;span class="stock-dot stock-amber" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+
+    &lt;button
+      type="button"
+      role="radio"
+      aria-checked="false"
+      aria-disabled="true"
+      aria-label="Maat 46, uitverkocht"
+      class="size-radio oos"
+      disabled
+    &gt;
+      46
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+  <h3>ARIA Attributes</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Attribute</th>
+        <th>Value</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>.variant-section</td>
+        <td>role</td>
+        <td>"radiogroup"</td>
+        <td>Identifies as a group of radio buttons</td>
+      </tr>
+      <tr>
+        <td>.variant-section</td>
+        <td>aria-labelledby</td>
+        <td>"size-label"</td>
+        <td>Links to label for context</td>
+      </tr>
+      <tr>
+        <td>.variant-section</td>
+        <td>aria-required</td>
+        <td>"true" (if required)</td>
+        <td>Indicates size selection is required</td>
+      </tr>
+      <tr>
+        <td>.size-radio (button)</td>
+        <td>role</td>
+        <td>"radio"</td>
+        <td>Identifies as a radio button</td>
+      </tr>
+      <tr>
+        <td>.size-radio</td>
+        <td>aria-checked</td>
+        <td>"true" / "false"</td>
+        <td>Indicates selected state</td>
+      </tr>
+      <tr>
+        <td>.size-radio</td>
+        <td>aria-label</td>
+        <td>Size + stock status</td>
+        <td>Announces "Maat 43, op voorraad" or "Maat 41, beperkte voorraad"</td>
+      </tr>
+      <tr>
+        <td>.size-radio (OOS)</td>
+        <td>aria-disabled</td>
+        <td>"true"</td>
+        <td>Marks out-of-stock sizes</td>
+      </tr>
+      <tr>
+        <td>.var-selected</td>
+        <td>aria-live</td>
+        <td>"polite"</td>
+        <td>Announces selection changes</td>
+      </tr>
+      <tr>
+        <td>.stock-dot</td>
+        <td>aria-hidden</td>
+        <td>"true"</td>
+        <td>Hides decorative stock dots (status conveyed in aria-label)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Stock Status Text Mapping</h3>
+  <ul>
+    <li><strong>Green dot (stock ≥10):</strong> "op voorraad" (in stock)</li>
+    <li><strong>Amber dot (stock 3-9):</strong> "beperkte voorraad" (limited stock)</li>
+    <li><strong>Red dot (stock 1-2):</strong> "laatste stuks" (last pieces)</li>
+    <li><strong>No dot (stock 0):</strong> "uitverkocht" (out of stock)</li>
+  </ul>
+
+  <h3>Keyboard Navigation</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Tab</code></td>
+        <td>Focus enters/exits the size button group (only selected button is tabbable)</td>
+      </tr>
+      <tr>
+        <td><code>Arrow Right/Down</code></td>
+        <td>Move to next available size (skip OOS), wrap to first</td>
+      </tr>
+      <tr>
+        <td><code>Arrow Left/Up</code></td>
+        <td>Move to previous available size (skip OOS), wrap to last</td>
+      </tr>
+      <tr>
+        <td><code>Space</code> / <code>Enter</code></td>
+        <td>Select focused size</td>
+      </tr>
+      <tr>
+        <td><code>Home</code></td>
+        <td>Jump to first available size</td>
+      </tr>
+      <tr>
+        <td><code>End</code></td>
+        <td>Jump to last available size</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Focus Management</h3>
+  <ul>
+    <li><strong>Focus ring:</strong> <code>box-shadow: 0 0 0 3px var(--teal-glow)</code> — same as selected state</li>
+    <li><strong>Roving tabindex:</strong> Only the selected (or first available) size has <code>tabindex="0"</code></li>
+    <li><strong>Focus visible:</strong> Use <code>:focus-visible</code> for keyboard-only focus rings</li>
+  </ul>
+
+  <h3>Screen Reader Announcements</h3>
+  <ul>
+    <li>On focus: "Maat 43, op voorraad, radio button, checked, 6 of 10"</li>
+    <li>On select: "Maat 43 geselecteerd" (via <code>aria-live="polite"</code>)</li>
+    <li>Disabled: "Maat 46, uitverkocht, radio button, disabled, unavailable"</li>
+  </ul>
+
+  <h3>Touch Targets (Mobile)</h3>
+  <ul>
+    <li>Minimum touch target: 52×44px — meets WCAG 2.5.5 (Level AAA minimum 44×44px) ✓</li>
+    <li>Spacing between targets: 5px gap — sufficient for fat-finger avoidance</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>💻 STEP 7: Implementation Notes</h2>
+
+  <h3>React/Next.js Component Example</h3>
+  <pre>
+'use client'
+
+import { useState } from 'react'
+import { Ruler } from 'lucide-react'
+
+interface Size {
+  id: string
+  label: string
+  value: string
+  stock: number
+  sku?: string
+}
+
+export function VariantSizeSelector({
+  sizes,
+  selected,
+  onSelect,
+  label = 'Maat',
+  icon = 'ruler',
+  sizeChartUrl,
+  showStockDots = true,
+  showTypeBadge = true,
+}: VariantSizeSelectorProps) {
+  const selectedSize = sizes.find(s => s.id === selected)
+
+  const getStockColor = (stock: number): string => {
+    if (stock === 0) return ''
+    if (stock <= 2) return 'stock-red'
+    if (stock <= 9) return 'stock-amber'
+    return 'stock-green'
+  }
+
+  const getStockLabel = (stock: number): string => {
+    if (stock === 0) return 'uitverkocht'
+    if (stock <= 2) return 'laatste stuks'
+    if (stock <= 9) return 'beperkte voorraad'
+    return 'op voorraad'
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let newIndex = index
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        e.preventDefault()
+        newIndex = (index + 1) % sizes.length
+        while (sizes[newIndex].stock === 0 && newIndex !== index) {
+          newIndex = (newIndex + 1) % sizes.length
+        }
+        break
+
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault()
+        newIndex = (index - 1 + sizes.length) % sizes.length
+        while (sizes[newIndex].stock === 0 && newIndex !== index) {
+          newIndex = (newIndex - 1 + sizes.length) % sizes.length
+        }
+        break
+
+      case 'Home':
+        e.preventDefault()
+        newIndex = 0
+        while (sizes[newIndex].stock === 0) newIndex++
+        break
+
+      case 'End':
+        e.preventDefault()
+        newIndex = sizes.length - 1
+        while (sizes[newIndex].stock === 0) newIndex--
+        break
+
+      case ' ':
+      case 'Enter':
+        e.preventDefault()
+        if (sizes[index].stock > 0) {
+          onSelect(sizes[index])
+        }
+        return
+
+      default:
+        return
+    }
+
+    document.getElementById(`size-${sizes[newIndex].id}`)?.focus()
+  }
+
+  return (
+    <div className="variant-section" role="radiogroup" aria-labelledby="size-label">
+      <div className="var-header">
+        <div className="var-label" id="size-label">
+          <Ruler size={16} />
+          {label}
+        </div>
+        <div className="var-meta">
+          {showTypeBadge && <span className="var-type-badge">Radio</span>}
+          <span className="var-selected" aria-live="polite">
+            {selectedSize?.label}
+          </span>
+          {sizeChartUrl && (
+            <a href={sizeChartUrl} className="size-chart-link">
+              Maattabel
+            </a>
+          )}
+        </div>
+      </div>
+
+      <div className="size-radios">
+        {sizes.map((size, index) => {
+          const isSelected = size.id === selected
+          const isOOS = size.stock === 0
+          const stockColor = getStockColor(size.stock)
+          const stockLabel = getStockLabel(size.stock)
+
+          return (
+            <button
+              key={size.id}
+              id={`size-${size.id}`}
+              type="button"
+              role="radio"
+              aria-checked={isSelected}
+              aria-label={`Maat ${size.label}, ${stockLabel}`}
+              aria-disabled={isOOS}
+              className={`size-radio ${isSelected ? 'selected' : ''} ${isOOS ? 'oos' : ''}`}
+              onClick={() => !isOOS && onSelect(size)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              tabIndex={isSelected ? 0 : -1}
+              disabled={isOOS}
+            >
+              {size.label}
+              {showStockDots && !isOOS && (
+                <span className={`stock-dot ${stockColor}`} aria-hidden="true"></span>
+              )}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}</pre>
+
+  <h3>State Management</h3>
+  <ul>
+    <li><strong>Parent component</strong> manages selected size ID (controlled component)</li>
+    <li><strong>onSelect callback</strong> receives full size object for price/stock updates</li>
+    <li><strong>Stock updates:</strong> Use WebSocket or polling to refresh stock in real-time</li>
+    <li><strong>Auto-select:</strong> If selected size goes OOS, auto-select first available size</li>
+  </ul>
+
+  <h3>API Integration (Payload CMS)</h3>
+  <pre>
+// Fetch product with size variants + real-time stock
+const product = await payload.findByID({
+  collection: 'products',
+  id: productId,
+})
+
+// Transform to component props
+const sizes = product.sizeVariants.map(variant => ({
+  id: variant.id,
+  label: variant.label,
+  value: variant.value,
+  stock: variant.stock,
+  sku: variant.sku,
+}))
+
+// Default selection: first available size
+const defaultSelected = sizes.find(s => s.stock > 0)?.id || sizes[0].id</pre>
+
+  <h3>Performance Optimization</h3>
+  <ul>
+    <li><strong>Memoize size buttons:</strong> Wrap in <code>React.memo</code> to prevent re-renders</li>
+    <li><strong>Debounce stock updates:</strong> If using real-time stock, debounce updates (500ms)</li>
+    <li><strong>Lazy load size chart:</strong> Only fetch size chart PDF when user clicks link</li>
+  </ul>
+
+  <h3>Edge Cases & Error Handling</h3>
+  <ol>
+    <li><strong>All sizes out of stock:</strong> Show "Tijdelijk niet beschikbaar" message, disable add-to-cart</li>
+    <li><strong>Selected size becomes unavailable:</strong> Auto-select first available, show toast notification</li>
+    <li><strong>Missing stock data:</strong> Assume stock = 0 (hide stock dots, disable button)</li>
+    <li><strong>Invalid size label:</strong> Fallback to "Maat {index}"</li>
+  </ol>
+</div>
+
+<div class="docs-section">
+  <h2>🔀 STEP 8: Variations & Related Components</h2>
+
+  <h3>Component Variants</h3>
+
+  <h4>1. No Stock Dots (Simple Mode)</h4>
+  <p><strong>Use case:</strong> B2B customers, digital products, or pre-order items</p>
+  <ul>
+    <li>Set <code>showStockDots: false</code></li>
+    <li>All sizes shown without stock indicators</li>
+    <li>Stock managed via backend validation on add-to-cart</li>
+  </ul>
+
+  <h4>2. Fixed-Width Buttons</h4>
+  <p><strong>Use case:</strong> Consistent visual alignment for mixed numeric/text sizes</p>
+  <ul>
+    <li>Set <code>buttonWidth: 60</code> (or any fixed px value)</li>
+    <li>All buttons same width, centered text</li>
+  </ul>
+
+  <h4>3. Two-Row Layout (Many Sizes)</h4>
+  <p><strong>Use case:</strong> Products with 12+ sizes (e.g., shoes with both men's and women's)</p>
+  <ul>
+    <li>Use CSS Grid: <code>grid-template-columns: repeat(auto-fill, 52px)</code></li>
+    <li>Group logically: "Men's Sizes" header + row, "Women's Sizes" header + row</li>
+  </ul>
+
+  <h3>Related Components</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>When to Use Instead</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>VP01: VariantColorSwatches</strong></td>
+        <td>For color variants (visual swatches, not text labels)</td>
+      </tr>
+      <tr>
+        <td><strong>VP03: VariantDropdownSelector</strong></td>
+        <td>For 15+ sizes or complex size systems (US/EU/UK combined)</td>
+      </tr>
+      <tr>
+        <td><strong>C23: QuantityStepper</strong></td>
+        <td>For quantity input (not size selection)</td>
+      </tr>
+      <tr>
+        <td><strong>EC04: StockIndicator</strong></td>
+        <td>For overall product stock (not per-variant stock)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Component Composition Examples</h3>
+
+  <h4>Example 1: Color + Size (Apparel)</h4>
+  <pre>
+&lt;VariantColorSwatches
+  swatches={colorOptions}
+  selected={selectedColor}
+  onSelect={handleColorChange}
+/&gt;
+
+&lt;VariantSizeSelector
+  sizes={sizeOptions}
+  selected={selectedSize}
+  onSelect={handleSizeChange}
+  sizeChartUrl="/size-charts/clothing-eu.pdf"
+/&gt;</pre>
+
+  <h4>Example 2: Size Only (One Size Fits Most)</h4>
+  <pre>
+&lt;VariantSizeSelector
+  sizes={[{ id: '1', label: 'One Size', value: 'one-size', stock: 100 }]}
+  selected="1"
+  onSelect={() => {}}
+  showStockDots={false}
+  showTypeBadge={false}
+/&gt;</pre>
+
+  <h3>Testing Checklist</h3>
+  <ul>
+    <li>☐ All sizes render with correct labels</li>
+    <li>☐ Stock dots: green (≥10), amber (3-9), red (1-2), none (0)</li>
+    <li>☐ Selected state: teal bg + white text + teal glow</li>
+    <li>☐ Hover: border color changes to teal (non-selected sizes)</li>
+    <li>☐ Click: selects size, updates selected badge at top</li>
+    <li>☐ Out-of-stock: greyed out + strikethrough + not clickable</li>
+    <li>☐ Keyboard navigation: arrow keys move focus, Enter/Space selects</li>
+    <li>☐ Screen reader: announces size + stock status</li>
+    <li>☐ Size chart link: opens modal/PDF with size guide</li>
+    <li>☐ Responsive: sizes wrap to multiple rows on mobile</li>
+    <li>☐ Touch targets: minimum 44px tall (meets WCAG AAA)</li>
+  </ul>
+</div>
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+
+<script>
+lucide.createIcons()
+
+function selectSize(element, selectedId, sizeLabel) {
+  // Skip if out of stock
+  if (element.classList.contains('oos')) {
+    return
+  }
+
+  // Remove selected class from all sizes in this group
+  const sizeGroup = element.closest('.size-radios')
+  sizeGroup.querySelectorAll('.size-radio').forEach(s => s.classList.remove('selected'))
+
+  // Add selected class to clicked size
+  element.classList.add('selected')
+
+  // Update selected badge text
+  const badge = document.getElementById(selectedId)
+  if (badge) {
+    badge.textContent = sizeLabel
+  }
+}
+</script>
+
+</body>
+</html>

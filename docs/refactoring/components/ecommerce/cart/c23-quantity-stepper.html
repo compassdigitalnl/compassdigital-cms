@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C23 - Quantity Stepper | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --bg: #F5F7FA;
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 8px;
+      --radius: 12px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: var(--bg); padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 48px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; }
+    .demo-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 32px; }
+    .demo-grid { display: flex; flex-direction: column; gap: 32px; }
+    .demo-row { display: flex; flex-direction: column; gap: 12px; }
+    .demo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--grey-mid); }
+    .demo-content { display: flex; align-items: center; gap: 16px; }
+
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+       C23: QUANTITY STEPPER  3 SIZE VARIANTS
+    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+    /* Base stepper structure */
+    .qty-stepper {
+      display: inline-flex;
+      align-items: center;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: white;
+    }
+
+    .qty-stepper button {
+      border: none;
+      background: var(--bg);
+      cursor: pointer;
+      color: var(--navy);
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .qty-stepper button:hover:not(:disabled) {
+      background: var(--teal-glow);
+      color: var(--teal);
+    }
+
+    .qty-stepper button:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    .qty-stepper button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .qty-stepper input {
+      border: none;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--navy);
+      outline: none;
+      background: white;
+      -moz-appearance: textfield;
+    }
+
+    .qty-stepper input::-webkit-inner-spin-button,
+    .qty-stepper input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .qty-stepper input:focus {
+      background: var(--teal-glow);
+      color: var(--teal);
+    }
+
+    /* SIZE VARIANT: Small (cart, quick actions) */
+    .qty-stepper.qty-sm button {
+      width: 30px;
+      height: 36px;
+      font-size: 14px;
+    }
+
+    .qty-stepper.qty-sm input {
+      width: 32px;
+      height: 36px;
+      font-size: 13px;
+    }
+
+    /* SIZE VARIANT: Medium (default, product cards) */
+    .qty-stepper.qty-md button {
+      width: 36px;
+      height: 40px;
+      font-size: 16px;
+    }
+
+    .qty-stepper.qty-md input {
+      width: 44px;
+      height: 40px;
+      font-size: 15px;
+    }
+
+    /* SIZE VARIANT: Large (hero sections, primary CTAs) */
+    .qty-stepper.qty-lg button {
+      width: 42px;
+      height: 48px;
+      font-size: 18px;
+    }
+
+    .qty-stepper.qty-lg input {
+      width: 52px;
+      height: 48px;
+      font-size: 17px;
+    }
+
+    /* BORDER RADIUS VARIANT: Rounded (pill-style) */
+    .qty-stepper.qty-rounded {
+      border-radius: 100px;
+    }
+
+    .qty-stepper.qty-rounded button:first-child {
+      border-radius: 100px 0 0 100px;
+    }
+
+    .qty-stepper.qty-rounded button:last-child {
+      border-radius: 0 100px 100px 0;
+    }
+
+    /* FOCUS STATE */
+    .qty-stepper:focus-within {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* PPP DOCUMENTATION STYLES PPP */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; border-bottom: 2px solid var(--grey); padding-bottom: 12px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin: 16px 0 8px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: """; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: var(--font-mono); font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: var(--radius); overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.7; margin: 16px 0; }
+
+    .token-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .token-table th, .token-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--grey); font-size: 13px; }
+    .token-table th { background: var(--grey-light); font-weight: 700; color: var(--navy); }
+    .token-table td:first-child { font-family: var(--font-mono); color: var(--teal); font-size: 12px; }
+  </style>
+</head>
+
+<body>
+  <!-- PPP LIVE DEMO PPP -->
+  <div class="demo-container">
+    <div class="demo-title">C23: Quantity Stepper  3 Size Variants</div>
+
+    <div class="demo-grid">
+      <!-- Small variant -->
+      <div class="demo-row">
+        <div class="demo-label">Small (30px × 36px)  Product cards, quick-add</div>
+        <div class="demo-content">
+          <div class="qty-stepper qty-sm">
+            <button onclick="stepQty(this, -1)"></button>
+            <input type="number" value="1" min="1" max="999" aria-label="Quantity">
+            <button onclick="stepQty(this, 1)">+</button>
+          </div>
+          <span style="font-size: 12px; color: var(--grey-mid);">Compact for tight layouts</span>
+        </div>
+      </div>
+
+      <!-- Medium variant -->
+      <div class="demo-row">
+        <div class="demo-label">Medium (36px × 40px)  Default, cart items</div>
+        <div class="demo-content">
+          <div class="qty-stepper qty-md">
+            <button onclick="stepQty(this, -1)"></button>
+            <input type="number" value="5" min="1" max="999" aria-label="Quantity">
+            <button onclick="stepQty(this, 1)">+</button>
+          </div>
+          <span style="font-size: 12px; color: var(--grey-mid);">Standard size for most use cases</span>
+        </div>
+      </div>
+
+      <!-- Large variant -->
+      <div class="demo-row">
+        <div class="demo-label">Large (42px × 48px)  Hero sections, primary actions</div>
+        <div class="demo-content">
+          <div class="qty-stepper qty-lg">
+            <button onclick="stepQty(this, -1)"></button>
+            <input type="number" value="10" min="1" max="999" aria-label="Quantity">
+            <button onclick="stepQty(this, 1)">+</button>
+          </div>
+          <span style="font-size: 12px; color: var(--grey-mid);">Prominent for important CTAs</span>
+        </div>
+      </div>
+
+      <!-- Rounded variant -->
+      <div class="demo-row">
+        <div class="demo-label">Rounded variant  Pill-style</div>
+        <div class="demo-content">
+          <div class="qty-stepper qty-md qty-rounded">
+            <button onclick="stepQty(this, -1)"></button>
+            <input type="number" value="3" min="1" max="999" aria-label="Quantity">
+            <button onclick="stepQty(this, 1)">+</button>
+          </div>
+          <span style="font-size: 12px; color: var(--grey-mid);">Softer aesthetic for modern UIs</span>
+        </div>
+      </div>
+
+      <!-- Disabled state -->
+      <div class="demo-row">
+        <div class="demo-label">Disabled state</div>
+        <div class="demo-content">
+          <div class="qty-stepper qty-md">
+            <button onclick="stepQty(this, -1)" disabled></button>
+            <input type="number" value="1" min="1" max="999" disabled aria-label="Quantity">
+            <button onclick="stepQty(this, 1)" disabled>+</button>
+          </div>
+          <span style="font-size: 12px; color: var(--grey-mid);">Out of stock or unavailable</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+       DOCUMENTATION: 8-STEP PROTOCOL
+  PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+
+  <!-- STEP 1: Component Overview -->
+  <div class="doc-box">
+    <h2>STEP 1: Component Overview</h2>
+    <p><strong>Component ID:</strong> C23</p>
+    <p><strong>Component Name:</strong> Quantity Stepper</p>
+    <p><strong>Category:</strong> E-commerce / Form Controls</p>
+    <p><strong>Priority:</strong> HIGH (core shopping functionality)</p>
+
+    <h3>Description</h3>
+    <p>A numeric input control with increment/decrement buttons, used for selecting product quantities throughout the e-commerce flow. Features three size variants to accommodate different contexts (compact product cards, standard cart items, prominent hero sections) and optional rounded styling.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>3 size variants:</strong> Small (30×36px), Medium (36×40px), Large (42×48px)</li>
+      <li><strong>Monospace input:</strong> JetBrains Mono for clear number display</li>
+      <li><strong>Min/max validation:</strong> Prevents invalid quantities (min 1, max 999)</li>
+      <li><strong>Keyboard accessible:</strong> Arrow keys, Tab navigation, direct input</li>
+      <li><strong>Visual feedback:</strong> Hover states, focus rings, disabled state</li>
+      <li><strong>Touch-friendly:</strong> Button targets meet 48px accessibility standard (large variant)</li>
+      <li><strong>Optional rounded variant:</strong> Pill-style borders for modern aesthetic</li>
+    </ul>
+
+    <h3>Source Files</h3>
+    <ul>
+      <li><code>plastimed-cart.html</code> (lines 98-103, 264-269)  Medium variant in cart line items</li>
+      <li><code>plastimed-shop-archive.html</code> (lines 395-410)  Small variant in product quick-add</li>
+    </ul>
+  </div>
+
+  <!-- STEP 2: When to Use -->
+  <div class="doc-box">
+    <h2>STEP 2: When to Use</h2>
+
+    <h3>Primary Use Cases</h3>
+    <ul>
+      <li><strong>Product cards:</strong> Quick-add functionality on shop archive pages (use small variant)</li>
+      <li><strong>Cart line items:</strong> Adjust quantities in shopping cart (use medium variant)</li>
+      <li><strong>Product detail pages:</strong> Main quantity selector above add-to-cart button (use large variant)</li>
+      <li><strong>Quick order forms:</strong> Bulk ordering interfaces (use medium variant)</li>
+      <li><strong>Staffel calculator:</strong> Volume pricing quantity input (use medium/large variant)</li>
+      <li><strong>Bundle builder:</strong> Configure multi-product bundles (use small/medium variant)</li>
+    </ul>
+
+    <h3>When NOT to Use</h3>
+    <ul>
+      <li><strong>Single quantity only:</strong> If product is always qty=1, omit stepper and use direct ATC</li>
+      <li><strong>Large ranges (100+):</strong> Use dropdown or direct input field instead</li>
+      <li><strong>Decimal quantities:</strong> Component designed for integers only (use custom input for weights/volumes)</li>
+      <li><strong>Non-transactional counts:</strong> Use standard number input or select for filters, settings, etc.</li>
+    </ul>
+
+    <h3>Size Variant Selection Guide</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Dimensions</th>
+          <th>Use When</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>qty-sm</td>
+          <td>30px btn × 32px input × 36px height</td>
+          <td>Product cards, quick-add, compact layouts, mobile</td>
+        </tr>
+        <tr>
+          <td>qty-md</td>
+          <td>36px btn × 44px input × 40px height</td>
+          <td>Cart items, checkout, quick order, default context</td>
+        </tr>
+        <tr>
+          <td>qty-lg</td>
+          <td>42px btn × 52px input × 48px height</td>
+          <td>Product hero, primary CTA, staffel calculator</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 3: Design Tokens -->
+  <div class="doc-box">
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>--navy</td>
+          <td>#0A1628</td>
+          <td>Button text, input text (default state)</td>
+        </tr>
+        <tr>
+          <td>--teal</td>
+          <td>#00897B</td>
+          <td>Button text (hover), input text (focus), focus ring</td>
+        </tr>
+        <tr>
+          <td>--teal-glow</td>
+          <td>rgba(0, 137, 123, 0.12)</td>
+          <td>Button background (hover), input background (focus), focus ring glow</td>
+        </tr>
+        <tr>
+          <td>--grey</td>
+          <td>#E8ECF1</td>
+          <td>Border (default state)</td>
+        </tr>
+        <tr>
+          <td>--bg</td>
+          <td>#F5F7FA</td>
+          <td>Button background (default state)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Typography</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font Family</th>
+          <th>Size (sm/md/lg)</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Input value</td>
+          <td>JetBrains Mono (monospace)</td>
+          <td>13px / 15px / 17px</td>
+          <td>600 (semibold)</td>
+        </tr>
+        <tr>
+          <td>Button symbols</td>
+          <td>System (inherit)</td>
+          <td>14px / 16px / 18px</td>
+          <td>600 (semibold)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Spacing (4px grid)</h3>
+    <ul>
+      <li><strong>Border width:</strong> 1.5px (stepper container)</li>
+      <li><strong>Border radius:</strong> 8px (--radius-sm) for default, 100px for rounded variant</li>
+      <li><strong>Internal spacing:</strong> 0px (buttons/input flush against each other)</li>
+    </ul>
+
+    <h3>Transitions</h3>
+    <ul>
+      <li><strong>Hover/focus:</strong> <code>all 0.15s cubic-bezier(0.4, 0, 0.2, 1)</code></li>
+      <li><strong>Active press:</strong> <code>transform: scale(0.95)</code> (instant feedback)</li>
+    </ul>
+
+    <h3>States</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Visual Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Default</td>
+          <td>Grey border, light grey button bg, white input bg</td>
+        </tr>
+        <tr>
+          <td>Hover (button)</td>
+          <td>Teal-glow bg, teal text color</td>
+        </tr>
+        <tr>
+          <td>Focus (input)</td>
+          <td>Teal border, teal-glow bg, box-shadow 0 0 0 3px teal-glow</td>
+        </tr>
+        <tr>
+          <td>Active (button)</td>
+          <td>scale(0.95) transform</td>
+        </tr>
+        <tr>
+          <td>Disabled</td>
+          <td>opacity: 0.4, cursor: not-allowed</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 4: Props & Configuration -->
+  <div class="doc-box">
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>HTML Attributes</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Element</th>
+          <th>Type</th>
+          <th>Required</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>min</td>
+          <td>input</td>
+          <td>number</td>
+          <td></td>
+          <td>1</td>
+          <td>Minimum allowed quantity (prevents decrement below this)</td>
+        </tr>
+        <tr>
+          <td>max</td>
+          <td>input</td>
+          <td>number</td>
+          <td></td>
+          <td>999</td>
+          <td>Maximum allowed quantity (optional stock limit)</td>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>input</td>
+          <td>number</td>
+          <td></td>
+          <td>1</td>
+          <td>Current quantity value</td>
+        </tr>
+        <tr>
+          <td>aria-label</td>
+          <td>input</td>
+          <td>string</td>
+          <td></td>
+          <td>"Quantity"</td>
+          <td>Screen reader label</td>
+        </tr>
+        <tr>
+          <td>disabled</td>
+          <td>all</td>
+          <td>boolean</td>
+          <td></td>
+          <td>false</td>
+          <td>Disable stepper (out of stock, processing)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>CSS Classes</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>.qty-stepper</td>
+          <td></td>
+          <td>Base stepper container (always include)</td>
+        </tr>
+        <tr>
+          <td>.qty-sm</td>
+          <td></td>
+          <td>Small variant (30×36px)</td>
+        </tr>
+        <tr>
+          <td>.qty-md</td>
+          <td></td>
+          <td>Medium variant (36×40px)  default if no size specified</td>
+        </tr>
+        <tr>
+          <td>.qty-lg</td>
+          <td></td>
+          <td>Large variant (42×48px)</td>
+        </tr>
+        <tr>
+          <td>.qty-rounded</td>
+          <td></td>
+          <td>Pill-style border radius (100px)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>React/TypeScript Props Example</h3>
+    <pre>interface QuantityStepperProps {
+  value: number;
+  onChange: (newValue: number) => void;
+  min?: number;          // default: 1
+  max?: number;          // default: 999
+  size?: 'sm' | 'md' | 'lg';  // default: 'md'
+  rounded?: boolean;     // default: false
+  disabled?: boolean;    // default: false
+  ariaLabel?: string;    // default: 'Quantity'
+}</pre>
+  </div>
+
+  <!-- STEP 5: Layout Rules -->
+  <div class="doc-box">
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Container Structure</h3>
+    <pre>&lt;div class="qty-stepper qty-md"&gt;
+  &lt;button onclick="stepQty(this, -1)"&gt;&lt;/button&gt;
+  &lt;input type="number" value="1" min="1" max="999" aria-label="Quantity"&gt;
+  &lt;button onclick="stepQty(this, 1)"&gt;+&lt;/button&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Display Behavior</h3>
+    <ul>
+      <li><strong>Display:</strong> <code>inline-flex</code> (allows inline placement with buttons, prices, etc.)</li>
+      <li><strong>Alignment:</strong> <code>align-items: center</code> (vertically centers buttons and input)</li>
+      <li><strong>Width:</strong> Auto-sized based on variant (total: 92px sm, 116px md, 146px lg)</li>
+      <li><strong>Overflow:</strong> <code>hidden</code> (crops button/input corners for clean border)</li>
+    </ul>
+
+    <h3>Button Layout</h3>
+    <ul>
+      <li><strong>Flexbox:</strong> <code>display: flex; align-items: center; justify-content: center</code></li>
+      <li><strong>Equal width:</strong> Decrement/increment buttons same size</li>
+      <li><strong>No internal padding:</strong> Size defined by width/height only</li>
+      <li><strong>User-select:</strong> <code>none</code> (prevent text selection on rapid clicks)</li>
+    </ul>
+
+    <h3>Input Layout</h3>
+    <ul>
+      <li><strong>Text alignment:</strong> <code>center</code> (numbers centered in field)</li>
+      <li><strong>No spinners:</strong> <code>-webkit-appearance: none; -moz-appearance: textfield</code></li>
+      <li><strong>Background:</strong> White (contrasts with grey button backgrounds)</li>
+      <li><strong>Outline:</strong> <code>none</code> (focus indicated by container box-shadow)</li>
+    </ul>
+
+    <h3>Context-Specific Placement</h3>
+    <h4>Product Card (Quick-Add)</h4>
+    <pre>&lt;div class="quick-add"&gt;
+  &lt;div class="qty-stepper qty-sm"&gt;...&lt;/div&gt;
+  &lt;button class="add-to-cart"&gt;=Ò&lt;/button&gt;
+&lt;/div&gt;</pre>
+
+    <h4>Cart Line Item</h4>
+    <pre>&lt;div class="cart-item"&gt;
+  &lt;div class="cart-info"&gt;...&lt;/div&gt;
+  &lt;div class="cart-qty"&gt;
+    &lt;div class="qty-stepper qty-md"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="cart-price"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h4>Product Detail Hero</h4>
+    <pre>&lt;div class="product-actions"&gt;
+  &lt;div class="qty-stepper qty-lg qty-rounded"&gt;...&lt;/div&gt;
+  &lt;button class="btn-primary btn-lg"&gt;In winkelmand&lt;/button&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Responsive Behavior</h3>
+    <ul>
+      <li><strong>Mobile (d640px):</strong> Use <code>qty-sm</code> for all contexts (conserves space)</li>
+      <li><strong>Tablet (641-1024px):</strong> Use <code>qty-md</code> for cart, <code>qty-sm</code> for product grids</li>
+      <li><strong>Desktop (e1025px):</strong> Use size variants as designed</li>
+      <li><strong>Touch targets:</strong> Ensure 48px minimum tap area on mobile (large variant meets this automatically)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 6: Accessibility -->
+  <div class="doc-box">
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>ARIA Attributes</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Element</th>
+          <th>Value</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>aria-label</td>
+          <td>input</td>
+          <td>"Quantity" (or product-specific)</td>
+          <td>Identifies purpose for screen readers</td>
+        </tr>
+        <tr>
+          <td>aria-valuemin</td>
+          <td>input</td>
+          <td>1 (mirrors min attribute)</td>
+          <td>Announces minimum value</td>
+        </tr>
+        <tr>
+          <td>aria-valuemax</td>
+          <td>input</td>
+          <td>999 (mirrors max attribute)</td>
+          <td>Announces maximum value</td>
+        </tr>
+        <tr>
+          <td>aria-valuenow</td>
+          <td>input</td>
+          <td>current value</td>
+          <td>Announces current quantity (update on change)</td>
+        </tr>
+        <tr>
+          <td>aria-live</td>
+          <td>container (optional)</td>
+          <td>"polite"</td>
+          <td>Announces quantity changes to screen readers</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Tab:</strong> Focus input field (buttons not in tab order by default)</li>
+      <li><strong>Arrow Up/Down:</strong> Increment/decrement quantity (native number input behavior)</li>
+      <li><strong>Direct input:</strong> Type number directly (validates on blur)</li>
+      <li><strong>Enter:</strong> Submits parent form (if in form context)</li>
+      <li><strong>Esc:</strong> Blur input, restore previous value (optional enhancement)</li>
+    </ul>
+
+    <h3>Focus Management</h3>
+    <ul>
+      <li><strong>Focus ring:</strong> <code>box-shadow: 0 0 0 3px var(--teal-glow)</code> on <code>:focus-within</code></li>
+      <li><strong>Border highlight:</strong> <code>border-color: var(--teal)</code> when focused</li>
+      <li><strong>Input focus:</strong> <code>background: var(--teal-glow); color: var(--teal)</code></li>
+      <li><strong>Visible focus:</strong> Always visible (no <code>outline: none</code> without replacement)</li>
+    </ul>
+
+    <h3>Screen Reader Announcements</h3>
+    <pre>// Enhanced version with live region
+&lt;div class="qty-stepper qty-md" role="group" aria-label="Quantity selector"&gt;
+  &lt;button aria-label="Decrease quantity"&gt;&lt;/button&gt;
+  &lt;input
+    type="number"
+    value="5"
+    min="1"
+    max="999"
+    aria-label="Quantity"
+    aria-valuemin="1"
+    aria-valuemax="999"
+    aria-valuenow="5"
+  &gt;
+  &lt;button aria-label="Increase quantity"&gt;+&lt;/button&gt;
+&lt;/div&gt;
+&lt;div aria-live="polite" aria-atomic="true" class="sr-only"&gt;
+  Quantity: 5
+&lt;/div&gt;</pre>
+
+    <h3>Disabled State</h3>
+    <ul>
+      <li><strong>Disabled attribute:</strong> Add <code>disabled</code> to all buttons and input</li>
+      <li><strong>Visual indicator:</strong> <code>opacity: 0.4</code> (clearly distinguishable)</li>
+      <li><strong>Cursor:</strong> <code>cursor: not-allowed</code></li>
+      <li><strong>ARIA:</strong> <code>aria-disabled="true"</code> (in addition to native disabled)</li>
+    </ul>
+
+    <h3>Touch Accessibility</h3>
+    <ul>
+      <li><strong>Minimum tap target:</strong> 48×48px (use <code>qty-lg</code> on mobile, or add padding)</li>
+      <li><strong>Button spacing:</strong> Buttons flush against input (easier to hit on small screens)</li>
+      <li><strong>Feedback:</strong> <code>:active</code> scale transform confirms tap</li>
+    </ul>
+
+    <h3>Color Contrast</h3>
+    <ul>
+      <li><strong>Default text (navy #0A1628 on white #FFFFFF):</strong> 14.8:1 (WCAG AAA )</li>
+      <li><strong>Hover text (teal #00897B on teal-glow):</strong> 4.9:1 (WCAG AA )</li>
+      <li><strong>Border (grey #E8ECF1 on white):</strong> 1.1:1 (non-text, acceptable)</li>
+      <li><strong>Disabled (40% opacity):</strong> Still meets 4.5:1 minimum</li>
+    </ul>
+  </div>
+
+  <!-- STEP 7: Implementation Notes -->
+  <div class="doc-box">
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>JavaScript Logic</h3>
+    <h4>Vanilla JavaScript (Standalone)</h4>
+    <pre>function stepQty(btn, delta) {
+  const input = btn.parentElement.querySelector('input');
+  let val = parseInt(input.value) || 1;
+  const min = parseInt(input.min) || 1;
+  const max = parseInt(input.max) || 999;
+
+  val = Math.max(min, Math.min(max, val + delta));
+  input.value = val;
+
+  // Update ARIA
+  input.setAttribute('aria-valuenow', val);
+
+  // Trigger change event for frameworks
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+
+  // Optional: Announce to screen readers
+  announceQty(val);
+}
+
+function announceQty(val) {
+  const liveRegion = document.getElementById('qty-announce');
+  if (liveRegion) {
+    liveRegion.textContent = `Quantity: ${val}`;
+  }
+}</pre>
+
+    <h4>React Component Example</h4>
+    <pre>import React, { useState } from 'react';
+
+interface QuantityStepperProps {
+  value: number;
+  onChange: (newValue: number) => void;
+  min?: number;
+  max?: number;
+  size?: 'sm' | 'md' | 'lg';
+  rounded?: boolean;
+  disabled?: boolean;
+  ariaLabel?: string;
+}
+
+export const QuantityStepper: React.FC&lt;QuantityStepperProps&gt; = ({
+  value,
+  onChange,
+  min = 1,
+  max = 999,
+  size = 'md',
+  rounded = false,
+  disabled = false,
+  ariaLabel = 'Quantity',
+}) =&gt; {
+  const handleStep = (delta: number) =&gt; {
+    const newValue = Math.max(min, Math.min(max, value + delta));
+    onChange(newValue);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    const newValue = parseInt(e.target.value) || min;
+    onChange(Math.max(min, Math.min(max, newValue)));
+  };
+
+  return (
+    &lt;div className={`qty-stepper qty-${size} ${rounded ? 'qty-rounded' : ''}`}&gt;
+      &lt;button
+        onClick={() =&gt; handleStep(-1)}
+        disabled={disabled || value &lt;= min}
+        aria-label="Decrease quantity"
+      &gt;
+        
+      &lt;/button&gt;
+      &lt;input
+        type="number"
+        value={value}
+        onChange={handleInputChange}
+        min={min}
+        max={max}
+        disabled={disabled}
+        aria-label={ariaLabel}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+      /&gt;
+      &lt;button
+        onClick={() =&gt; handleStep(1)}
+        disabled={disabled || value &gt;= max}
+        aria-label="Increase quantity"
+      &gt;
+        +
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+};</pre>
+
+    <h3>Payload CMS Integration</h3>
+    <pre>// Not a CMS block  used within other blocks/components
+// Example: Product card block includes quantity stepper
+
+{
+  slug: 'product-card',
+  fields: [
+    {
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
+      required: true,
+    },
+    {
+      name: 'showQuantityStepper',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        description: 'Show quantity stepper for quick-add functionality',
+      },
+    },
+    {
+      name: 'stepperSize',
+      type: 'select',
+      options: ['sm', 'md', 'lg'],
+      defaultValue: 'sm',
+      admin: {
+        condition: (data) => data.showQuantityStepper,
+      },
+    },
+  ],
+}</pre>
+
+    <h3>Next.js App Router Example</h3>
+    <pre>'use client';
+
+import { useState } from 'react';
+import { QuantityStepper } from '@/components/ui/QuantityStepper';
+import { addToCart } from '@/app/actions/cart';
+
+export function ProductQuickAdd({ product }) {
+  const [qty, setQty] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleAddToCart = async () =&gt; {
+    setIsAdding(true);
+    await addToCart(product.id, qty);
+    setIsAdding(false);
+    setQty(1); // Reset
+  };
+
+  return (
+    &lt;div className="quick-add"&gt;
+      &lt;QuantityStepper
+        value={qty}
+        onChange={setQty}
+        size="sm"
+        disabled={isAdding || product.stock &lt; 1}
+        max={product.stock}
+      /&gt;
+      &lt;button
+        onClick={handleAddToCart}
+        disabled={isAdding || product.stock &lt; 1}
+        className="add-to-cart"
+      &gt;
+        {isAdding ? '...' : '=Ò'}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+
+    <h3>Validation & Edge Cases</h3>
+    <ul>
+      <li><strong>Empty input:</strong> Reset to <code>min</code> value on blur</li>
+      <li><strong>Non-numeric input:</strong> Sanitize with <code>parseInt()</code> + fallback to <code>min</code></li>
+      <li><strong>Exceeds max:</strong> Clamp to <code>max</code> value (show warning if stock-limited)</li>
+      <li><strong>Below min:</strong> Clamp to <code>min</code> value (usually 1)</li>
+      <li><strong>Decimal input:</strong> Round to nearest integer (no decimal quantities)</li>
+      <li><strong>Stock limits:</strong> Set <code>max</code> attribute to available stock, disable increment when reached</li>
+    </ul>
+
+    <h3>Performance Considerations</h3>
+    <ul>
+      <li><strong>Debounce onChange:</strong> If triggering API calls (cart updates), debounce by 300-500ms</li>
+      <li><strong>Optimistic UI:</strong> Update input value immediately, sync with backend asynchronously</li>
+      <li><strong>Event delegation:</strong> Use single event listener on parent for multiple steppers</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li> Increment button increases value by 1</li>
+      <li> Decrement button decreases value by 1</li>
+      <li> Cannot decrement below <code>min</code> (button disabled)</li>
+      <li> Cannot increment above <code>max</code> (button disabled)</li>
+      <li> Direct input accepts valid numbers</li>
+      <li> Invalid input (text, negative, decimal) is sanitized</li>
+      <li> Keyboard arrows work (up/down)</li>
+      <li> Tab navigation focuses input</li>
+      <li> Focus ring visible and accessible</li>
+      <li> Disabled state prevents interaction</li>
+      <li> Screen reader announces changes</li>
+      <li> Touch targets e48px on mobile</li>
+    </ul>
+  </div>
+
+  <!-- STEP 8: Variations & Related Components -->
+  <div class="doc-box">
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Size Variants Summary</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Button W×H</th>
+          <th>Input W×H</th>
+          <th>Total Width</th>
+          <th>Font Size</th>
+          <th>Primary Use Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>qty-sm</td>
+          <td>30×36px</td>
+          <td>32×36px</td>
+          <td>92px</td>
+          <td>13px (input), 14px (button)</td>
+          <td>Product cards, mobile, compact grids</td>
+        </tr>
+        <tr>
+          <td>qty-md</td>
+          <td>36×40px</td>
+          <td>44×40px</td>
+          <td>116px</td>
+          <td>15px (input), 16px (button)</td>
+          <td>Cart items, checkout, default</td>
+        </tr>
+        <tr>
+          <td>qty-lg</td>
+          <td>42×48px</td>
+          <td>52×48px</td>
+          <td>146px</td>
+          <td>17px (input), 18px (button)</td>
+          <td>Product hero, primary CTAs, staffel</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Style Variants</h3>
+    <h4>1. Default (Sharp Corners)</h4>
+    <ul>
+      <li><strong>Border radius:</strong> 8px (--radius-sm)</li>
+      <li><strong>Use for:</strong> Professional B2B contexts, grid layouts, medical/industrial verticals</li>
+    </ul>
+
+    <h4>2. Rounded (Pill-Style)</h4>
+    <ul>
+      <li><strong>Border radius:</strong> 100px</li>
+      <li><strong>Use for:</strong> Modern consumer UIs, beauty/lifestyle verticals, hero sections</li>
+      <li><strong>Class:</strong> Add <code>.qty-rounded</code> to <code>.qty-stepper</code></li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>ID</th>
+          <th>Relationship</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>StaffelCalculator</td>
+          <td>C4</td>
+          <td>Contains quantity stepper for volume pricing selection</td>
+        </tr>
+        <tr>
+          <td>ProductCard</td>
+          <td></td>
+          <td>Quick-add section uses qty-sm stepper + ATC button</td>
+        </tr>
+        <tr>
+          <td>CartLineItem</td>
+          <td></td>
+          <td>Uses qty-md stepper for cart quantity adjustment</td>
+        </tr>
+        <tr>
+          <td>QuickOrder</td>
+          <td></td>
+          <td>Bulk order rows use qty-md stepper + SKU input</td>
+        </tr>
+        <tr>
+          <td>BundleBuilder</td>
+          <td></td>
+          <td>Multi-product bundles use qty-sm stepper per item</td>
+        </tr>
+        <tr>
+          <td>QuickView Modal</td>
+          <td>C5</td>
+          <td>Uses qty-lg stepper in modal product preview</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Integration Patterns</h3>
+    <h4>With Add-to-Cart Button</h4>
+    <pre>&lt;div class="product-actions"&gt;
+  &lt;div class="qty-stepper qty-sm"&gt;...&lt;/div&gt;
+  &lt;button class="btn-primary"&gt;In winkelmand&lt;/button&gt;
+&lt;/div&gt;</pre>
+
+    <h4>With Price Display</h4>
+    <pre>&lt;div class="price-calculator"&gt;
+  &lt;div class="qty-stepper qty-md"&gt;...&lt;/div&gt;
+  &lt;div class="price-display"&gt;
+    &lt;span class="total"&gt;¬41,25&lt;/span&gt;
+    &lt;span class="unit"&gt;¬8,25/doos&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h4>With Stock Indicator</h4>
+    <pre>&lt;div class="product-availability"&gt;
+  &lt;div class="qty-stepper qty-md" {stock &lt; 1 ? 'disabled' : ''}&gt;...&lt;/div&gt;
+  &lt;div class="stock-badge {stock &lt; 1 ? 'out' : 'ok'}"&gt;
+    {stock &lt; 1 ? 'Uitverkocht' : 'Op voorraad'}
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Future Enhancements</h3>
+    <ul>
+      <li><strong>Preset quantities:</strong> Quick-select buttons (1, 5, 10, 25) above stepper</li>
+      <li><strong>Bulk increment:</strong> Long-press buttons to increment by 5 or 10</li>
+      <li><strong>Unit switcher:</strong> Toggle between stuks/dozen/pallets (multi-unit products)</li>
+      <li><strong>Visual feedback:</strong> Subtle "bounce" animation on increment/decrement</li>
+      <li><strong>Contextual hints:</strong> "Bestel er X bij voor staffelkorting" tooltip</li>
+    </ul>
+
+    <h3>Vertical Theme Variations</h3>
+    <ul>
+      <li><strong>Medisch (default):</strong> Teal accent, sharp corners, clinical aesthetic</li>
+      <li><strong>Beauty:</strong> Pink accent (#E91E63), rounded variant, softer shadows</li>
+      <li><strong>Bouw:</strong> Blue accent (#2196F3), sharp corners, bold typography</li>
+      <li><strong>Horeca:</strong> Gold accent (#C9A84C), rounded variant, warm tones</li>
+      <li><strong>Events:</strong> Purple accent (#7C3AED), rounded variant, gradient hover</li>
+    </ul>
+    <p><em>All verticals use the same component structure; only accent colors change via CSS custom properties.</em></p>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Quantity stepper logic
+    function stepQty(btn, delta) {
+      const input = btn.parentElement.querySelector('input');
+      let val = parseInt(input.value) || 1;
+      const min = parseInt(input.min) || 1;
+      const max = parseInt(input.max) || 999;
+
+      val = Math.max(min, Math.min(max, val + delta));
+      input.value = val;
+
+      // Update ARIA
+      input.setAttribute('aria-valuenow', val);
+
+      // Trigger change event (for framework integration)
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    // Direct input validation
+    document.querySelectorAll('.qty-stepper input').forEach(input => {
+      input.addEventListener('blur', function() {
+        let val = parseInt(this.value) || 1;
+        const min = parseInt(this.min) || 1;
+        const max = parseInt(this.max) || 999;
+
+        val = Math.max(min, Math.min(max, val));
+        this.value = val;
+        this.setAttribute('aria-valuenow', val);
+      });
+    });
+  </script>
+</body>
+</html>

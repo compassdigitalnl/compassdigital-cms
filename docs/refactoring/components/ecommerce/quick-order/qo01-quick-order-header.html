@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QO01: QuickOrderHeader - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+      --space-40: 40px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 4px 12px rgba(10, 22, 40, 0.08);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #F5F7FA;
+      padding: 48px 24px;
+      line-height: 1.6;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      padding: var(--space-32);
+      margin-bottom: var(--space-32);
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: var(--space-12);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPONENT: QUICK ORDER HEADER
+       ═══════════════════════════════════════════════════════════ */
+
+    .quick-order-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-32) var(--space-40);
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+    }
+
+    /* Left section: Title + Description */
+    .quick-order-header-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .quick-order-header-title {
+      font-family: var(--font-body);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .quick-order-header-icon {
+      width: 28px;
+      height: 28px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .quick-order-header-description {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin: 0;
+    }
+
+    /* Right section: Action buttons */
+    .quick-order-header-actions {
+      display: flex;
+      gap: var(--space-12);
+    }
+
+    .quick-order-action-button {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-20);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+      border: none;
+      outline: none;
+    }
+
+    .quick-order-action-button i {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Button variant: Secondary (outline) */
+    .quick-order-action-button.secondary {
+      background: white;
+      border: 1.5px solid var(--grey);
+      color: var(--navy);
+    }
+
+    .quick-order-action-button.secondary:hover {
+      border-color: var(--teal);
+      background: rgba(0, 137, 123, 0.04);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quick-order-action-button.secondary:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .quick-order-action-button.secondary:active {
+      transform: translateY(0);
+    }
+
+    /* Button variant: Teal (primary-ish) */
+    .quick-order-action-button.teal {
+      background: var(--teal-glow);
+      border: 1.5px solid transparent;
+      color: var(--teal);
+    }
+
+    .quick-order-action-button.teal:hover {
+      background: rgba(0, 137, 123, 0.18);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quick-order-action-button.teal:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .quick-order-action-button.teal:active {
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+
+    @media (max-width: 768px) {
+      .quick-order-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-24);
+        padding: var(--space-24);
+      }
+
+      .quick-order-header-title {
+        font-size: 24px;
+      }
+
+      .quick-order-header-actions {
+        flex-direction: column;
+        gap: var(--space-12);
+      }
+
+      .quick-order-action-button {
+        justify-content: center;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES
+       ═══════════════════════════════════════════════════════════ */
+
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: var(--space-12);
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: var(--space-40);
+      margin-bottom: var(--space-16);
+      padding-bottom: var(--space-12);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: var(--space-24);
+      margin-bottom: var(--space-12);
+    }
+
+    .docs p {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: var(--space-16);
+    }
+
+    .docs code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: var(--space-20);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      margin-bottom: var(--space-16);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .docs ul {
+      margin-bottom: var(--space-16);
+      padding-left: var(--space-24);
+    }
+
+    .docs li {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: var(--space-8);
+    }
+
+    .info-box {
+      background: rgba(33, 150, 243, 0.08);
+      border-left: 4px solid #2196F3;
+      padding: var(--space-16) var(--space-20);
+      border-radius: var(--radius);
+      margin-bottom: var(--space-16);
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #1565C0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="demo-container">
+
+    <!-- Default Variant -->
+    <div class="demo-section">
+      <div class="demo-label">Default Variant</div>
+      <header class="quick-order-header" role="banner">
+        <div class="quick-order-header-content">
+          <h1 class="quick-order-header-title">
+            <i data-lucide="zap" class="quick-order-header-icon" aria-hidden="true"></i>
+            Snelbestellen
+          </h1>
+          <p class="quick-order-header-description">
+            Voer meerdere artikelen tegelijk in voor een snelle bestelling
+          </p>
+        </div>
+        <div class="quick-order-header-actions">
+          <button class="quick-order-action-button secondary" type="button">
+            <i data-lucide="upload" aria-hidden="true"></i>
+            CSV uploaden
+          </button>
+          <button class="quick-order-action-button teal" type="button">
+            <i data-lucide="list" aria-hidden="true"></i>
+            Gebruik bestellijst
+          </button>
+        </div>
+      </header>
+    </div>
+
+    <!-- Compact Variant (Single Action) -->
+    <div class="demo-section">
+      <div class="demo-label">Compact Variant (Single Action)</div>
+      <header class="quick-order-header" role="banner">
+        <div class="quick-order-header-content">
+          <h1 class="quick-order-header-title">
+            <i data-lucide="zap" class="quick-order-header-icon" aria-hidden="true"></i>
+            Snelbestellen
+          </h1>
+          <p class="quick-order-header-description">
+            Voer meerdere artikelen tegelijk in voor een snelle bestelling
+          </p>
+        </div>
+        <div class="quick-order-header-actions">
+          <button class="quick-order-action-button teal" type="button">
+            <i data-lucide="list" aria-hidden="true"></i>
+            Gebruik bestellijst
+          </button>
+        </div>
+      </header>
+    </div>
+
+    <!-- Three Actions Variant -->
+    <div class="demo-section">
+      <div class="demo-label">Three Actions Variant</div>
+      <header class="quick-order-header" role="banner">
+        <div class="quick-order-header-content">
+          <h1 class="quick-order-header-title">
+            <i data-lucide="zap" class="quick-order-header-icon" aria-hidden="true"></i>
+            Snelbestellen
+          </h1>
+          <p class="quick-order-header-description">
+            Voer meerdere artikelen tegelijk in voor een snelle bestelling
+          </p>
+        </div>
+        <div class="quick-order-header-actions">
+          <button class="quick-order-action-button secondary" type="button">
+            <i data-lucide="upload" aria-hidden="true"></i>
+            CSV uploaden
+          </button>
+          <button class="quick-order-action-button secondary" type="button">
+            <i data-lucide="download" aria-hidden="true"></i>
+            Export Excel
+          </button>
+          <button class="quick-order-action-button teal" type="button">
+            <i data-lucide="list" aria-hidden="true"></i>
+            Gebruik bestellijst
+          </button>
+        </div>
+      </header>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="docs">
+    <h1>QO01: QuickOrderHeader</h1>
+    <p><strong>Component Identity:</strong> Quick Order page header with title, description, and action buttons (CSV upload, bestellijst access)</p>
+    <p><strong>Category:</strong> E-commerce / B2B</p>
+    <p><strong>Source File:</strong> <code>ef5-quick-order.html</code> (lines 14-36)</p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>The QuickOrderHeader serves as the page header for the B2B Quick Order (Snelbestellen) flow. It provides context about the functionality and quick access to utility features like CSV upload and saved order lists (bestellijsten).</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Zap icon:</strong> 28×28px teal icon indicating speed/efficiency</li>
+      <li><strong>Title + Description:</strong> Clear hierarchy (28px title + 14px description)</li>
+      <li><strong>Action buttons:</strong> 2 buttons by default (CSV upload + Use bestellijst)</li>
+      <li><strong>Flexible actions:</strong> Supports 1-3 action buttons</li>
+      <li><strong>Responsive layout:</strong> Stacks vertically on mobile (&lt;768px)</li>
+    </ul>
+
+    <h3>Usage Context</h3>
+    <p>Use at the top of Quick Order pages to orient B2B users and provide quick access to bulk ordering utilities. The header should be the first element after the main navigation.</p>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use</h2>
+
+    <h3>Use This Component When:</h3>
+    <ul>
+      <li>Building a B2B quick order page (snelbestelformulier)</li>
+      <li>You need to provide CSV upload functionality</li>
+      <li>Users have saved order lists (bestellijsten) available</li>
+      <li>You want to explain the quick order functionality upfront</li>
+    </ul>
+
+    <h3>Don't Use This Component When:</h3>
+    <ul>
+      <li>Building B2C flows (use standard page headers instead)</li>
+      <li>The page doesn't have bulk ordering functionality</li>
+      <li>You need a hero section (this is a utility header, not marketing)</li>
+    </ul>
+
+    <h3>Content Guidelines</h3>
+    <ul>
+      <li><strong>Title:</strong> Keep it short (1-2 words). Examples: "Snelbestellen", "Quick Order", "Bulk Entry"</li>
+      <li><strong>Description:</strong> Explain the functionality in 1 sentence (max 100 characters)</li>
+      <li><strong>Button labels:</strong> Use action verbs: "CSV uploaden", "Gebruik bestellijst", "Export Excel"</li>
+    </ul>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Background:</strong> <code>white</code> (#FAFBFC)</li>
+      <li><strong>Border:</strong> <code>--grey</code> (#E8ECF1, 1px)</li>
+      <li><strong>Icon color:</strong> <code>--teal</code> (#00897B)</li>
+      <li><strong>Title:</strong> <code>--navy</code> (#0A1628)</li>
+      <li><strong>Description:</strong> <code>--grey-dark</code> (#64748B)</li>
+      <li><strong>Button (secondary):</strong> white bg, <code>--grey</code> border, <code>--navy</code> text</li>
+      <li><strong>Button (teal):</strong> <code>--teal-glow</code> bg (#00897B12), <code>--teal</code> text</li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Title:</strong> Plus Jakarta Sans, 28px, 800 weight, <code>--navy</code></li>
+      <li><strong>Description:</strong> DM Sans, 14px, 400 weight, <code>--grey-dark</code></li>
+      <li><strong>Buttons:</strong> DM Sans, 14px, 600 weight</li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Container padding:</strong> 32px (top/bottom) × 40px (left/right)</li>
+      <li><strong>Icon-to-title gap:</strong> 12px</li>
+      <li><strong>Title-to-description gap:</strong> 8px</li>
+      <li><strong>Button gap:</strong> 12px</li>
+      <li><strong>Section gap (mobile):</strong> 24px</li>
+    </ul>
+
+    <h3>Icons</h3>
+    <ul>
+      <li><strong>Header icon:</strong> <code>zap</code> (28×28px, teal)</li>
+      <li><strong>Upload button:</strong> <code>upload</code> (18×18px)</li>
+      <li><strong>List button:</strong> <code>list</code> (18×18px)</li>
+      <li><strong>Alternative icons:</strong> <code>download</code>, <code>file-text</code>, <code>save</code></li>
+    </ul>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface QuickOrderHeaderAction {
+  id: string
+  label: string
+  icon: string
+  variant: 'secondary' | 'teal'
+  onClick?: () => void
+  href?: string
+}
+
+interface QuickOrderHeaderProps {
+  title?: string
+  description?: string
+  icon?: string
+  actions: QuickOrderHeaderAction[]
+}</pre>
+
+    <h3>Payload CMS Fields</h3>
+    <pre>
+{
+  name: 'quickOrderHeader',
+  type: 'group',
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Snelbestellen',
+      required: true,
+    },
+    {
+      name: 'description',
+      type: 'text',
+      defaultValue: 'Voer meerdere artikelen tegelijk in voor een snelle bestelling',
+      required: true,
+    },
+    {
+      name: 'actions',
+      type: 'array',
+      maxRows: 3,
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'icon',
+          type: 'select',
+          options: ['upload', 'download', 'list', 'file-text', 'save'],
+          required: true,
+        },
+        {
+          name: 'variant',
+          type: 'select',
+          options: ['secondary', 'teal'],
+          defaultValue: 'secondary',
+        },
+        {
+          name: 'action',
+          type: 'select',
+          options: ['csv-upload', 'use-bestellijst', 'export-excel', 'custom'],
+        },
+      ],
+    },
+  ],
+}</pre>
+
+    <h3>Default Values</h3>
+    <ul>
+      <li><strong>Title:</strong> "Snelbestellen"</li>
+      <li><strong>Description:</strong> "Voer meerdere artikelen tegelijk in voor een snelle bestelling"</li>
+      <li><strong>Icon:</strong> <code>zap</code></li>
+      <li><strong>Actions:</strong> 2 buttons (CSV upload + Use bestellijst)</li>
+    </ul>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Container Structure</h3>
+    <ul>
+      <li><strong>Display:</strong> <code>flex</code> (horizontal on desktop, vertical on mobile)</li>
+      <li><strong>Alignment:</strong> <code>justify-content: space-between</code> + <code>align-items: center</code></li>
+      <li><strong>Padding:</strong> 32px (top/bottom) × 40px (left/right) on desktop, 24px all sides on mobile</li>
+      <li><strong>Background:</strong> White card with 1px grey border, 14px border-radius</li>
+    </ul>
+
+    <h3>Content Section (Left)</h3>
+    <ul>
+      <li><strong>Display:</strong> <code>flex-direction: column</code></li>
+      <li><strong>Gap:</strong> 8px between title and description</li>
+      <li><strong>Icon + Title:</strong> <code>display: flex</code>, 12px gap, vertically centered</li>
+    </ul>
+
+    <h3>Actions Section (Right)</h3>
+    <ul>
+      <li><strong>Display:</strong> <code>flex</code> (horizontal row)</li>
+      <li><strong>Gap:</strong> 12px between buttons</li>
+      <li><strong>Mobile:</strong> Full-width stacked buttons (flex-direction: column)</li>
+    </ul>
+
+    <h3>Responsive Breakpoints</h3>
+    <ul>
+      <li><strong>&lt;768px:</strong> Stack vertically (content top, actions bottom), reduce title to 24px, full-width buttons</li>
+    </ul>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <ul>
+      <li>Use <code>&lt;header role="banner"&gt;</code> for the container</li>
+      <li>Use <code>&lt;h1&gt;</code> for the title (or appropriate heading level based on page structure)</li>
+      <li>Use <code>&lt;p&gt;</code> for the description</li>
+      <li>Use <code>&lt;button type="button"&gt;</code> for action buttons</li>
+    </ul>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><code>aria-hidden="true"</code> on all decorative icons</li>
+      <li>Button labels should be descriptive (already are: "CSV uploaden", "Gebruik bestellijst")</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li>All buttons must be keyboard focusable (native <code>&lt;button&gt;</code> elements)</li>
+      <li>Focus ring: <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+      <li>Tab order: Title → Button 1 → Button 2 → etc.</li>
+    </ul>
+
+    <h3>Color Contrast</h3>
+    <ul>
+      <li><strong>Title (#0A1628 on white):</strong> 16.1:1 ✓ (WCAG AAA)</li>
+      <li><strong>Description (#64748B on white):</strong> 6.8:1 ✓ (WCAG AAA)</li>
+      <li><strong>Button text (navy/teal on backgrounds):</strong> 4.5:1+ ✓ (WCAG AA)</li>
+    </ul>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+'use client'
+
+import { Zap, Upload, List } from 'lucide-react'
+
+interface QuickOrderHeaderAction {
+  id: string
+  label: string
+  icon: string
+  variant: 'secondary' | 'teal'
+  onClick?: () => void
+}
+
+interface QuickOrderHeaderProps {
+  title?: string
+  description?: string
+  actions: QuickOrderHeaderAction[]
+}
+
+export function QuickOrderHeader({
+  title = 'Snelbestellen',
+  description = 'Voer meerdere artikelen tegelijk in voor een snelle bestelling',
+  actions,
+}: QuickOrderHeaderProps) {
+  const iconMap = {
+    upload: Upload,
+    list: List,
+    zap: Zap,
+  }
+
+  return (
+    &lt;header className="quick-order-header" role="banner"&gt;
+      &lt;div className="quick-order-header-content"&gt;
+        &lt;h1 className="quick-order-header-title"&gt;
+          &lt;Zap className="quick-order-header-icon" aria-hidden="true" /&gt;
+          {title}
+        &lt;/h1&gt;
+        &lt;p className="quick-order-header-description"&gt;{description}&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div className="quick-order-header-actions"&gt;
+        {actions.map((action) =&gt; {
+          const Icon = iconMap[action.icon as keyof typeof iconMap]
+          return (
+            &lt;button
+              key={action.id}
+              type="button"
+              className={`quick-order-action-button ${action.variant}`}
+              onClick={action.onClick}
+            &gt;
+              {Icon && &lt;Icon aria-hidden="true" /&gt;}
+              {action.label}
+            &lt;/button&gt;
+          )
+        })}
+      &lt;/div&gt;
+    &lt;/header&gt;
+  )
+}</pre>
+
+    <h3>Integration with Quick Order Page</h3>
+    <pre>
+import { QuickOrderHeader } from '@/components/ecommerce/QuickOrderHeader'
+
+export default function QuickOrderPage() {
+  const actions = [
+    {
+      id: 'csv-upload',
+      label: 'CSV uploaden',
+      icon: 'upload',
+      variant: 'secondary',
+      onClick: () =&gt; handleCSVUpload(),
+    },
+    {
+      id: 'use-bestellijst',
+      label: 'Gebruik bestellijst',
+      icon: 'list',
+      variant: 'teal',
+      onClick: () =&gt; handleUseBestellijst(),
+    },
+  ]
+
+  return (
+    &lt;&gt;
+      &lt;QuickOrderHeader actions={actions} /&gt;
+      {/* Quick Order Table (QO02) */}
+    &lt;/&gt;
+  )
+}</pre>
+
+    <h3>Performance Optimization</h3>
+    <ul>
+      <li>Use client-side component only if actions have onClick handlers</li>
+      <li>If static, render as server component</li>
+      <li>Icons loaded from Lucide React (tree-shakeable)</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Note:</strong> This component is typically used once per page. It does NOT appear on every page like MegaNavigation.</p>
+    </div>
+
+    <!-- STEP 8: VARIATIONS & RELATED -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variants</h3>
+    <ul>
+      <li><strong>Default (2 actions):</strong> CSV upload (secondary) + Use bestellijst (teal)</li>
+      <li><strong>Single action:</strong> Only "Use bestellijst" button</li>
+      <li><strong>Three actions:</strong> CSV upload + Export Excel + Use bestellijst</li>
+      <li><strong>No actions:</strong> Just title + description (informational only)</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>QO02: QuickOrderTable</strong> - The main table that appears below this header</li>
+      <li><strong>QO04: CSVUploadButton</strong> - Standalone upload button with file input</li>
+      <li><strong>QO05: ProTipBanner</strong> - Teal info banner that appears below the table</li>
+      <li><strong>C12: AddressBook</strong> - Similar "bestellijst" card pattern (saved resources)</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Header renders with correct title and description</li>
+      <li>✓ Action buttons render with correct labels and icons</li>
+      <li>✓ Clicking buttons triggers onClick handlers</li>
+      <li>✓ Responsive layout stacks correctly on mobile (&lt;768px)</li>
+      <li>✓ Focus states visible when tabbing through buttons</li>
+      <li>✓ Icon colors match design tokens (teal for zap, inherited for button icons)</li>
+      <li>✓ Button hover states work (translateY, shadow, background change)</li>
+      <li>✓ Works with 1-3 actions (layout doesn't break)</li>
+    </ul>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

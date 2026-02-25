@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PD01: ProductGallery — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    /* Core colors */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+
+    /* Status colors */
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --coral: #FF6B6B;
+    --coral-light: #FFF0F0;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E1;
+
+    /* Neutrals */
+    --white: #FAFBFC;
+    --bg: #F5F7FA;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+
+    /* System */
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+    --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+    --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    padding: 48px 24px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .demo-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+    border: 1px solid var(--grey);
+  }
+
+  .demo-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-title i {
+    width: 24px;
+    height: 24px;
+    color: var(--teal);
+  }
+
+  .demo-desc {
+    font-size: 14px;
+    color: var(--grey-dark);
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--grey);
+  }
+
+  /* ================================
+     PD01: ProductGallery Component
+     ================================ */
+
+  .product-gallery {
+    position: sticky;
+    top: 100px;
+  }
+
+  /* Main image container */
+  .main-img {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 140px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 1px solid var(--grey);
+    cursor: zoom-in;
+    transition: transform var(--transition);
+  }
+
+  .main-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Zoom on hover (desktop only) */
+  @media (min-width: 768px) {
+    .main-img:hover {
+      transform: scale(1.02);
+    }
+
+    .main-img.zoom-enabled {
+      cursor: zoom-in;
+    }
+
+    .main-img.zoom-enabled:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Badge overlays */
+  .img-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+  }
+
+  .img-badge i {
+    width: 13px;
+    height: 13px;
+  }
+
+  .badge-new {
+    background: var(--teal);
+    color: white;
+  }
+
+  .badge-sale {
+    background: var(--coral);
+    color: white;
+  }
+
+  .badge-pro {
+    background: linear-gradient(135deg, var(--amber), #D97706);
+    color: white;
+  }
+
+  .badge-config {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(10, 22, 40, 0.7);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    pointer-events: none;
+  }
+
+  .badge-config i {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* Thumbnail row (horizontal layout) */
+  .thumb-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+
+  .thumb {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: var(--grey-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.12s;
+    overflow: hidden;
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumb:hover {
+    border-color: var(--teal);
+  }
+
+  .thumb.active {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-glow);
+  }
+
+  /* Vertical thumbnail layout variant */
+  .product-gallery.vertical {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 12px;
+  }
+
+  .product-gallery.vertical .thumb-column {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    order: -1;
+  }
+
+  .product-gallery.vertical .main-img {
+    margin-bottom: 0;
+  }
+
+  /* Lightbox modal */
+  .lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 22, 40, 0.95);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .lightbox.active {
+    display: flex;
+  }
+
+  .lightbox-content {
+    position: relative;
+    max-width: 1200px;
+    max-height: 90vh;
+    width: 100%;
+  }
+
+  .lightbox-img {
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    color: var(--navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+  }
+
+  .lightbox-close:hover {
+    background: var(--teal);
+    color: white;
+  }
+
+  .lightbox-close i {
+    width: 20px;
+    height: 20px;
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    color: var(--navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    z-index: 10;
+  }
+
+  .lightbox-prev {
+    left: 24px;
+  }
+
+  .lightbox-next {
+    right: 24px;
+  }
+
+  .lightbox-prev:hover,
+  .lightbox-next:hover {
+    background: var(--teal);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .lightbox-prev i,
+  .lightbox-next i {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Image counter */
+  .lightbox-counter {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 22, 40, 0.8);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    z-index: 10;
+  }
+
+  /* Mobile carousel (swipe) */
+  @media (max-width: 640px) {
+    .product-gallery {
+      position: static;
+    }
+
+    .main-img {
+      border-radius: 16px;
+    }
+
+    .thumb-row {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+
+    .thumb {
+      border-radius: 8px;
+      font-size: 20px;
+    }
+
+    /* Hide vertical variant on mobile */
+    .product-gallery.vertical {
+      grid-template-columns: 1fr;
+    }
+
+    .product-gallery.vertical .thumb-column {
+      order: 1;
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .product-gallery.vertical .thumb {
+      scroll-snap-align: start;
+      min-width: 60px;
+    }
+
+    /* Lightbox adjustments */
+    .lightbox {
+      padding: 16px;
+    }
+
+    .lightbox-close {
+      top: 16px;
+      right: 16px;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+      width: 36px;
+      height: 36px;
+    }
+
+    .lightbox-prev {
+      left: 8px;
+    }
+
+    .lightbox-next {
+      right: 8px;
+    }
+  }
+
+  /* Touch swipe indicator (mobile) */
+  .swipe-indicator {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 22, 40, 0.6);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+    animation: fadeOut 3s forwards;
+  }
+
+  .swipe-indicator i {
+    width: 12px;
+    height: 12px;
+  }
+
+  @media (max-width: 640px) and (hover: none) {
+    .swipe-indicator {
+      display: flex;
+    }
+  }
+
+  @keyframes fadeOut {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-container">
+
+  <!-- ============================================
+       LIVE DEMO SECTION
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="image"></i>
+      PD01: ProductGallery — Horizontal Thumbnails
+    </div>
+    <div class="demo-desc">
+      Main product image gallery with horizontal thumbnail row below. Click main image for lightbox, click thumbnails to switch images.
+    </div>
+
+    <div class="product-gallery" id="gallery1">
+      <div class="main-img" onclick="openLightbox('gallery1', 0)">
+        <div class="img-badge badge-new">
+          <i data-lucide="sparkles"></i> Nieuw
+        </div>
+        <div class="badge-config">
+          <i data-lucide="sliders"></i> 6 opties configureerbaar
+        </div>
+        👟
+      </div>
+
+      <div class="thumb-row">
+        <div class="thumb active" onclick="switchImage('gallery1', 0)">👟</div>
+        <div class="thumb" onclick="switchImage('gallery1', 1)">🎨</div>
+        <div class="thumb" onclick="switchImage('gallery1', 2)">📐</div>
+        <div class="thumb" onclick="switchImage('gallery1', 3)">📦</div>
+        <div class="thumb" onclick="switchImage('gallery1', 4)">🏷️</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: Vertical Thumbnails
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="columns"></i>
+      Variant: Vertical Thumbnails (Left Side)
+    </div>
+    <div class="demo-desc">
+      Alternative layout with thumbnails in a vertical column on the left side of the main image. Common in fashion/apparel sites.
+    </div>
+
+    <div class="product-gallery vertical" id="gallery2">
+      <div class="thumb-column">
+        <div class="thumb active" onclick="switchImage('gallery2', 0)">🩺</div>
+        <div class="thumb" onclick="switchImage('gallery2', 1)">🧤</div>
+        <div class="thumb" onclick="switchImage('gallery2', 2)">💉</div>
+        <div class="thumb" onclick="switchImage('gallery2', 3)">🔬</div>
+        <div class="thumb" onclick="switchImage('gallery2', 4)">💊</div>
+      </div>
+
+      <div class="main-img" onclick="openLightbox('gallery2', 0)">
+        <div class="img-badge badge-pro">
+          <i data-lucide="award"></i> Pro
+        </div>
+        🩺
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: Sale Badge
+       ============================================ -->
+
+  <div class="demo-section">
+    <div class="demo-title">
+      <i data-lucide="tag"></i>
+      Variant: Sale Badge
+    </div>
+    <div class="demo-desc">
+      Product gallery with coral "Sale" badge overlay. Badge positioning is automatic (top-left).
+    </div>
+
+    <div class="product-gallery" id="gallery3">
+      <div class="main-img zoom-enabled" onclick="openLightbox('gallery3', 0)">
+        <div class="img-badge badge-sale">
+          <i data-lucide="tag"></i> -25% Sale
+        </div>
+        💻
+      </div>
+
+      <div class="thumb-row">
+        <div class="thumb active" onclick="switchImage('gallery3', 0)">💻</div>
+        <div class="thumb" onclick="switchImage('gallery3', 1)">⌨️</div>
+        <div class="thumb" onclick="switchImage('gallery3', 2)">🖱️</div>
+        <div class="thumb" onclick="switchImage('gallery3', 3)">🎧</div>
+        <div class="thumb" onclick="switchImage('gallery3', 4)">📱</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================
+     LIGHTBOX MODAL (Global)
+     ============================================ -->
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightbox()">
+      <i data-lucide="x"></i>
+    </button>
+
+    <button class="lightbox-prev" onclick="prevImage(event)">
+      <i data-lucide="chevron-left"></i>
+    </button>
+
+    <div class="lightbox-img" id="lightbox-img">
+      <!-- Current image content -->
+    </div>
+
+    <button class="lightbox-next" onclick="nextImage(event)">
+      <i data-lucide="chevron-right"></i>
+    </button>
+
+    <div class="lightbox-counter" id="lightbox-counter">
+      1 / 5
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION SECTION (8-STEP PROTOCOL)
+     ============================================ -->
+
+<div class="demo-container" style="margin-top: 64px;">
+  <div class="demo-section" style="background: var(--navy); color: white;">
+    <h1 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 16px;">
+      🖼️ PD01: ProductGallery — Complete Documentation
+    </h1>
+    <p style="font-size: 16px; opacity: 0.8; margin-bottom: 0;">
+      Product image gallery with main image, thumbnail navigation, badge overlays, zoom, and lightbox functionality.
+      <br><strong>Version:</strong> 1.0 | <strong>Last updated:</strong> 25 Februari 2026 | <strong>Status:</strong> ✅ Production Ready
+    </p>
+  </div>
+</div>
+
+<div class="demo-container">
+
+  <!-- STEP 1: Component Overview -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 1: Component Overview
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Purpose</h3>
+    <p style="margin-bottom: 16px;">
+      <strong>PD01: ProductGallery</strong> is the primary visual component on product detail pages.
+      It displays the main product image in a large, prominent format with thumbnail navigation for multiple views.
+      The gallery supports badge overlays (Sale, New, Pro), zoom-on-hover for detail inspection,
+      and lightbox modal for full-screen viewing. On mobile, it transforms into a swipeable carousel.
+    </p>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Key Features</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Main Image:</strong> 1:1 aspect ratio (600×600px typical), 20px border-radius, gradient background</li>
+      <li><strong>Thumbnail Navigation:</strong> 5 thumbnails in horizontal row (or vertical column), active state with teal border + glow</li>
+      <li><strong>Badge Overlays:</strong> Positioned top-left (Sale/New/Pro) or top-right (Config options)</li>
+      <li><strong>Sticky Positioning:</strong> Gallery sticks to viewport (top: 100px) on desktop while user scrolls product info</li>
+      <li><strong>Zoom on Hover:</strong> Desktop-only, subtle scale transform (1.05x) for detail inspection</li>
+      <li><strong>Lightbox Modal:</strong> Full-screen image viewer with prev/next navigation, ESC to close</li>
+      <li><strong>Mobile Carousel:</strong> Swipeable on touch devices, scroll-snap for smooth navigation</li>
+      <li><strong>Responsive:</strong> Horizontal thumbnails → 4 columns on mobile, vertical variant → horizontal scroll on mobile</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Component Hierarchy</h3>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+.product-gallery (sticky container)
+├── .main-img (1:1 aspect ratio)
+│   ├── .img-badge (badge-new | badge-sale | badge-pro)
+│   ├── .badge-config (top-right overlay)
+│   └── img (product image)
+└── .thumb-row (horizontal) OR .thumb-column (vertical)
+    └── .thumb × 5 (active state on first)</pre>
+  </div>
+
+  <!-- STEP 2: When to Use -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 2: When to Use This Component
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">✅ Use ProductGallery When:</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Product Detail Pages:</strong> Primary placement on left side of 2-column layout</li>
+      <li><strong>Quick View Modals (C5):</strong> Compact variant with fewer thumbnails (3-4)</li>
+      <li><strong>Variable Products:</strong> Gallery images update when user selects different variant (color/style)</li>
+      <li><strong>Product Comparison:</strong> Show 2-4 galleries side-by-side</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">❌ Don't Use ProductGallery For:</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Product Cards:</strong> Use single thumbnail image instead (EC01 pattern)</li>
+      <li><strong>Cart Items:</strong> Use small square thumbnail (EC06: CartLineItem)</li>
+      <li><strong>Blog/Content Images:</strong> Use standard <code>&lt;figure&gt;</code> with optional lightbox</li>
+      <li><strong>General Image Galleries:</strong> This is product-specific with e-commerce features (badges, variants)</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Related Components:</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>PD02: ProductMeta</strong> — Product info shown to the right of gallery</li>
+      <li><strong>C18: ProductBadges</strong> — Badge variants used as overlays (integrated here)</li>
+      <li><strong>C5: QuickView</strong> — Lightbox modal that includes compact gallery</li>
+      <li><strong>VP01-VP07: Variant Selectors</strong> — Selecting variant triggers gallery image update</li>
+    </ul>
+  </div>
+
+  <!-- STEP 3: Design Tokens -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 3: Design Tokens
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Colors</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px;">
+      <div style="padding: 12px; background: var(--teal); color: white; border-radius: 8px; font-size: 12px;">
+        <strong>--teal</strong><br>#00897B<br>Active thumbnail border
+      </div>
+      <div style="padding: 12px; background: var(--coral); color: white; border-radius: 8px; font-size: 12px;">
+        <strong>--coral</strong><br>#FF6B6B<br>Sale badge
+      </div>
+      <div style="padding: 12px; background: var(--amber); color: white; border-radius: 8px; font-size: 12px;">
+        <strong>--amber</strong><br>#F59E0B<br>Pro badge gradient
+      </div>
+      <div style="padding: 12px; background: var(--grey-light); color: var(--navy); border-radius: 8px; font-size: 12px;">
+        <strong>--grey-light</strong><br>#F1F4F8<br>Thumbnail bg
+      </div>
+      <div style="padding: 12px; background: var(--grey); color: var(--navy); border-radius: 8px; font-size: 12px;">
+        <strong>--grey</strong><br>#E8ECF1<br>Main img border
+      </div>
+    </div>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Typography</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <thead>
+        <tr style="background: var(--grey-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Element</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Font</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Size</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><code>.img-badge</code></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">DM Sans</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">12px</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">800</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><code>.badge-config</code></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">DM Sans</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">11px</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">700</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><code>.lightbox-counter</code></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">DM Sans</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">14px</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">700</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Spacing (4px grid)</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><code>.main-img</code> → <code>margin-bottom: 10px</code>, <code>border-radius: 20px</code></li>
+      <li><code>.thumb-row</code> → <code>gap: 6px</code></li>
+      <li><code>.thumb</code> → <code>border-radius: 10px</code>, <code>border: 2px</code></li>
+      <li><code>.img-badge</code> → <code>top: 14px</code>, <code>left: 14px</code>, <code>padding: 5px 12px</code></li>
+      <li><code>.badge-config</code> → <code>top: 14px</code>, <code>right: 14px</code>, <code>padding: 4px 10px</code></li>
+      <li><strong>Vertical variant:</strong> <code>gap: 12px</code> between thumbs and main img</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Icons (Lucide)</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Badge icons:</strong> <code>sparkles</code> (New), <code>tag</code> (Sale), <code>award</code> (Pro), <code>sliders</code> (Config) — 11-13px</li>
+      <li><strong>Lightbox:</strong> <code>x</code> (close), <code>chevron-left</code> (prev), <code>chevron-right</code> (next) — 20-24px</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Shadows & Transitions</h3>
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><code>.thumb.active</code> → <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+      <li><code>.main-img:hover</code> → <code>transform: scale(1.02)</code> (subtle lift)</li>
+      <li><code>.main-img.zoom-enabled:hover</code> → <code>transform: scale(1.05)</code> (stronger zoom)</li>
+      <li><code>transition: all 0.12s</code> on thumbs, <code>0.2s cubic-bezier(0.4, 0, 0.2, 1)</code> on main img</li>
+    </ul>
+  </div>
+
+  <!-- STEP 4: Props & Configuration -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 4: Props & Configuration
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">React/Next.js Component Props</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+interface ProductGalleryProps {
+  // Images
+  images: Array<{
+    id: string;
+    url: string;                      // Image URL
+    alt: string;                      // Alt text for accessibility
+    thumbnail?: string;               // Optional thumbnail URL (smaller)
+  }>;
+
+  // Optional badges
+  badges?: Array<{
+    type: 'new' | 'sale' | 'pro' | 'config';
+    label?: string;                   // Custom label (e.g., "-25% Sale")
+    position?: 'top-left' | 'top-right';
+  }>;
+
+  // Configuration
+  layout?: 'horizontal' | 'vertical'; // Thumbnail layout (default: 'horizontal')
+  enableZoom?: boolean;               // Zoom on hover (default: true)
+  enableLightbox?: boolean;           // Lightbox on click (default: true)
+  initialImageIndex?: number;         // Starting image (default: 0)
+  showImageCounter?: boolean;         // Show "1/5" in lightbox (default: true)
+
+  // Styling
+  aspectRatio?: number;               // Main image ratio (default: 1 = square)
+  borderRadius?: number;              // Main image radius in px (default: 20)
+  thumbnailCount?: number;            // Max thumbnails shown (default: 5)
+
+  // Callbacks
+  onImageChange?: (index: number) => void;
+  onLightboxOpen?: (index: number) => void;
+  onLightboxClose?: () => void;
+
+  // Optional customization
+  className?: string;
+  stickyOffset?: number;              // Top offset for sticky (default: 100px)
+}</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Payload CMS Schema</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+// In collections/Products.ts
+{
+  name: 'products',
+  fields: [
+    // Product gallery
+    {
+      name: 'gallery',
+      type: 'group',
+      fields: [
+        {
+          name: 'images',
+          type: 'array',
+          minRows: 1,
+          maxRows: 10,
+          fields: [
+            {
+              name: 'image',
+              type: 'upload',
+              relationTo: 'media',
+              required: true
+            },
+            {
+              name: 'alt',
+              type: 'text',
+              required: true
+            }
+          ]
+        },
+        {
+          name: 'badges',
+          type: 'array',
+          fields: [
+            {
+              name: 'type',
+              type: 'select',
+              options: [
+                { label: 'Nieuw', value: 'new' },
+                { label: 'Sale', value: 'sale' },
+                { label: 'Pro', value: 'pro' },
+                { label: 'Config', value: 'config' }
+              ],
+              required: true
+            },
+            {
+              name: 'label',
+              type: 'text',
+              admin: { condition: (data) => data.type === 'sale' || data.type === 'config' }
+            },
+            {
+              name: 'position',
+              type: 'select',
+              options: [
+                { label: 'Links boven', value: 'top-left' },
+                { label: 'Rechts boven', value: 'top-right' }
+              ],
+              defaultValue: 'top-left'
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</pre>
+  </div>
+
+  <!-- STEP 5: Layout Rules -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 5: Layout Rules
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Product Page Layout</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;div class="product-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px;"&gt;
+  &lt;!-- LEFT: Gallery (sticky) --&gt;
+  &lt;PD01:ProductGallery /&gt;
+
+  &lt;!-- RIGHT: Product info --&gt;
+  &lt;div class="product-info"&gt;
+    &lt;PD02:ProductMeta /&gt;
+    &lt;VP01-VP07:VariantSelectors /&gt;
+    &lt;PD06:ProductActions /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Sticky Positioning</h3>
+
+    <p style="margin-bottom: 16px;">
+      On desktop, the gallery uses <code>position: sticky; top: 100px;</code> to stay visible
+      while the user scrolls through product info. This creates a "sticky sidebar" effect.
+    </p>
+
+    <p style="margin-bottom: 16px;">
+      <strong>Why 100px offset?</strong> Accounts for fixed header (72px) + spacing (28px).
+      Adjust <code>stickyOffset</code> prop to match your header height.
+    </p>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Responsive Behavior</h3>
+
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background: var(--grey-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Breakpoint</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Layout Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Desktop (≥1024px)</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • 2-column grid (gallery left, info right)<br>
+            • Sticky positioning enabled<br>
+            • 5 thumbnails visible<br>
+            • Zoom on hover
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Tablet (768-1023px)</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • Still 2-column but narrower<br>
+            • Sticky still active<br>
+            • Zoom disabled
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Mobile (≤640px)</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • Single column (gallery → info)<br>
+            • Sticky disabled (position: static)<br>
+            • 4 thumbnails visible<br>
+            • Swipe-enabled carousel<br>
+            • Vertical variant → horizontal scroll thumbs
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 6: Accessibility -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 6: Accessibility (A11y)
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Semantic HTML</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;div class="product-gallery" role="region" aria-label="Product afbeeldingen"&gt;
+  &lt;!-- Main image --&gt;
+  &lt;figure class="main-img" role="button" tabindex="0" aria-label="Klik om te vergroten"&gt;
+    &lt;img src="product.jpg" alt="Custom Sneaker Pro X - Zwart - Zijaanzicht" /&gt;
+
+    &lt;!-- Badges (decorative) --&gt;
+    &lt;div class="img-badge badge-new" aria-hidden="true"&gt;
+      &lt;i data-lucide="sparkles"&gt;&lt;/i&gt; Nieuw
+    &lt;/div&gt;
+  &lt;/figure&gt;
+
+  &lt;!-- Thumbnails --&gt;
+  &lt;div class="thumb-row" role="group" aria-label="Afbeelding miniaturen"&gt;
+    &lt;button
+      class="thumb active"
+      aria-label="Afbeelding 1 van 5: Vooraanzicht (actief)"
+      aria-pressed="true"
+      onclick="switchImage(0)"
+    &gt;
+      &lt;img src="thumb1.jpg" alt="" /&gt;
+    &lt;/button&gt;
+
+    &lt;button
+      class="thumb"
+      aria-label="Afbeelding 2 van 5: Zijaanzicht"
+      aria-pressed="false"
+      onclick="switchImage(1)"
+    &gt;
+      &lt;img src="thumb2.jpg" alt="" /&gt;
+    &lt;/button&gt;
+    {/* ... */}
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">ARIA Attributes</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><code>role="region"</code> + <code>aria-label</code> on gallery container</li>
+      <li><code>role="button"</code> on main image (clickable for lightbox)</li>
+      <li><code>aria-label</code> on main image ("Klik om te vergroten")</li>
+      <li><code>aria-pressed</code> on thumbnail buttons (true for active)</li>
+      <li><code>aria-hidden="true"</code> on decorative badges</li>
+      <li><code>aria-label</code> on thumbnails ("Afbeelding X van Y: [description]")</li>
+      <li><strong>Lightbox:</strong> <code>role="dialog"</code>, <code>aria-modal="true"</code>, <code>aria-labelledby</code></li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Keyboard Navigation</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Main image:</strong> Focusable (tabindex="0"), activates with Enter/Space</li>
+      <li><strong>Thumbnails:</strong> Focusable buttons, left/right arrow keys to navigate</li>
+      <li><strong>Lightbox:</strong> ESC to close, left/right arrows for prev/next, Tab traps focus inside modal</li>
+      <li><strong>Focus ring:</strong> Visible teal outline (3px glow) on all interactive elements</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Screen Reader Announcements</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+// Example: Announce image change
+function switchImage(index) {
+  // Update visual state
+  setActiveImage(index);
+
+  // Update aria-pressed on thumbnails
+  thumbnails.forEach((thumb, i) => {
+    thumb.setAttribute('aria-pressed', i === index);
+  });
+
+  // Announce to screen reader
+  const announcement = `Afbeelding ${index + 1} van ${images.length} geselecteerd`;
+  announceToSR(announcement);
+}
+
+// Focus trap in lightbox
+useEffect(() => {
+  if (lightboxOpen) {
+    const focusableElements = lightbox.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    firstElement.focus();
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    });
+  }
+}, [lightboxOpen]);</pre>
+  </div>
+
+  <!-- STEP 7: Implementation Notes -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 7: Implementation Notes
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">React/Next.js Component Implementation</h3>
+
+    <p style="margin-bottom: 16px;">
+      Complete component implementation with state management, keyboard navigation, and lightbox modal.
+    </p>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import * as LucideIcons from 'lucide-react';
+
+export default function ProductGallery({
+  images,
+  badges = [],
+  layout = 'horizontal',
+  enableZoom = true,
+  enableLightbox = true,
+  initialImageIndex = 0,
+  onImageChange
+}: ProductGalleryProps) {
+  const [activeIndex, setActiveIndex] = useState(initialImageIndex);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // Switch image
+  const handleImageSwitch = (index: number) => {
+    setActiveIndex(index);
+    onImageChange?.(index);
+  };
+
+  // Open lightbox
+  const handleLightboxOpen = () => {
+    if (enableLightbox) {
+      setLightboxOpen(true);
+      document.body.style.overflow = 'hidden'; // Prevent scroll
+    }
+  };
+
+  // Close lightbox
+  const handleLightboxClose = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxOpen) return;
+
+      if (e.key === 'Escape') {
+        handleLightboxClose();
+      } else if (e.key === 'ArrowLeft') {
+        handleImageSwitch(activeIndex > 0 ? activeIndex - 1 : images.length - 1);
+      } else if (e.key === 'ArrowRight') {
+        handleImageSwitch(activeIndex < images.length - 1 ? activeIndex + 1 : 0);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxOpen, activeIndex, images.length]);
+
+  const ThumbnailGrid = () => (
+    <div className={layout === 'vertical' ? 'thumb-column' : 'thumb-row'}>
+      {images.map((img, index) => (
+        <button
+          key={img.id}
+          className={`thumb ${index === activeIndex ? 'active' : ''}`}
+          onClick={() => handleImageSwitch(index)}
+          aria-label={`Afbeelding ${index + 1} van ${images.length}: ${img.alt}`}
+          aria-pressed={index === activeIndex}
+        >
+          <Image
+            src={img.thumbnail || img.url}
+            alt=""
+            width={100}
+            height={100}
+          />
+        </button>
+      ))}
+    </div>
+  );
+
+  return (
+    <>
+      <div className={`product-gallery ${layout}`}>
+        {layout === 'vertical' && <ThumbnailGrid />}
+
+        <figure
+          className={`main-img ${enableZoom ? 'zoom-enabled' : ''}`}
+          onClick={handleLightboxOpen}
+          role="button"
+          tabIndex={0}
+          aria-label="Klik om te vergroten"
+        >
+          <Image
+            src={images[activeIndex].url}
+            alt={images[activeIndex].alt}
+            width={600}
+            height={600}
+            priority
+          />
+
+          {/* Badges */}
+          {badges.map((badge, i) => {
+            const Icon = badge.type === 'new' ? LucideIcons.Sparkles :
+                        badge.type === 'sale' ? LucideIcons.Tag :
+                        badge.type === 'pro' ? LucideIcons.Award :
+                        LucideIcons.Sliders;
+
+            return (
+              <div
+                key={i}
+                className={`${badge.position === 'top-right' ? 'badge-config' : 'img-badge'} badge-${badge.type}`}
+                aria-hidden="true"
+              >
+                <Icon size={badge.position === 'top-right' ? 11 : 13} />
+                {badge.label || badge.type.charAt(0).toUpperCase() + badge.type.slice(1)}
+              </div>
+            );
+          })}
+        </figure>
+
+        {layout === 'horizontal' && <ThumbnailGrid />}
+      </div>
+
+      {/* Lightbox Modal */}
+      {lightboxOpen && (
+        <div
+          className="lightbox active"
+          onClick={(e) => e.target === e.currentTarget && handleLightboxClose()}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="lightbox-title"
+        >
+          <div className="lightbox-content">
+            <button
+              className="lightbox-close"
+              onClick={handleLightboxClose}
+              aria-label="Sluit vergroting"
+            >
+              <LucideIcons.X size={20} />
+            </button>
+
+            <button
+              className="lightbox-prev"
+              onClick={() => handleImageSwitch(activeIndex > 0 ? activeIndex - 1 : images.length - 1)}
+              aria-label="Vorige afbeelding"
+            >
+              <LucideIcons.ChevronLeft size={24} />
+            </button>
+
+            <Image
+              className="lightbox-img"
+              src={images[activeIndex].url}
+              alt={images[activeIndex].alt}
+              width={1200}
+              height={1200}
+            />
+
+            <button
+              className="lightbox-next"
+              onClick={() => handleImageSwitch(activeIndex < images.length - 1 ? activeIndex + 1 : 0)}
+              aria-label="Volgende afbeelding"
+            >
+              <LucideIcons.ChevronRight size={24} />
+            </button>
+
+            <div className="lightbox-counter" id="lightbox-title">
+              {activeIndex + 1} / {images.length}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Mobile Swipe Support</h3>
+
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+// Add touch swipe detection on mobile
+useEffect(() => {
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStartX = e.changedTouches[0].screenX;
+  };
+
+  const handleTouchEnd = (e: TouchEvent) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    const swipeThreshold = 50; // Min distance for swipe
+
+    if (touchEndX < touchStartX - swipeThreshold) {
+      // Swipe left → next image
+      handleImageSwitch(activeIndex < images.length - 1 ? activeIndex + 1 : 0);
+    }
+
+    if (touchEndX > touchStartX + swipeThreshold) {
+      // Swipe right → prev image
+      handleImageSwitch(activeIndex > 0 ? activeIndex - 1 : images.length - 1);
+    }
+  };
+
+  const mainImg = document.querySelector('.main-img');
+  if (mainImg && window.innerWidth < 640) {
+    mainImg.addEventListener('touchstart', handleTouchStart as any);
+    mainImg.addEventListener('touchend', handleTouchEnd as any);
+
+    return () => {
+      mainImg.removeEventListener('touchstart', handleTouchStart as any);
+      mainImg.removeEventListener('touchend', handleTouchEnd as any);
+    };
+  }
+}, [activeIndex, images.length]);</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Performance Optimization</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>Image loading:</strong> Use Next.js Image component with <code>priority</code> on main image, <code>loading="lazy"</code> on thumbnails</li>
+      <li><strong>Thumbnail sizes:</strong> Generate 100×100px thumbnails server-side, don't load full images</li>
+      <li><strong>Lightbox preload:</strong> Preload next/prev images in lightbox for instant navigation</li>
+      <li><strong>Sticky performance:</strong> Use CSS <code>position: sticky</code> (no JavaScript)</li>
+      <li><strong>Zoom transform:</strong> Use CSS transform (GPU-accelerated), not width/height</li>
+    </ul>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Common Pitfalls</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li>❌ <strong>Large images:</strong> Loading 5× full-resolution images kills performance — use thumbnails!</li>
+      <li>❌ <strong>Missing alt text:</strong> Every image needs descriptive alt text for accessibility</li>
+      <li>❌ <strong>No keyboard nav:</strong> Lightbox must support arrow keys + ESC to close</li>
+      <li>❌ <strong>Focus trap broken:</strong> Tab key must cycle only within lightbox when open</li>
+      <li>❌ <strong>Body scroll leak:</strong> Prevent <code>&lt;body&gt;</code> scroll when lightbox is open</li>
+      <li>❌ <strong>Sticky too high:</strong> Gallery disappears under header — adjust <code>top</code> offset</li>
+      <li>❌ <strong>Mobile zoom:</strong> Disable zoom on mobile (not useful on small screens)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 8: Variations & Related Components -->
+  <div class="demo-section">
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">
+      STEP 8: Variations & Related Components
+    </h2>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Layout Variants</h3>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <thead>
+        <tr style="background: var(--grey-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Variant</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Use Case</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Horizontal</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Default layout</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Thumbnails below main image (5-column grid)</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Vertical</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Fashion/apparel sites</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Thumbnails left of main image (column layout)</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Compact</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Quick View modals</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • 3-4 thumbnails max<br>
+            • Smaller main image (400×400px)<br>
+            • No sticky positioning
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Grid</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Minimalist design</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">
+            • 2×2 or 3×3 grid of equal-sized images<br>
+            • No main image distinction<br>
+            • Click any to enlarge
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Badge Variants</h3>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <thead>
+        <tr style="background: var(--grey-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Badge Type</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Icon</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Color</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>New</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">sparkles</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Teal (#00897B)</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Top-left</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Sale</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">tag</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Coral (#FF6B6B)</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Top-left</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Pro</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">award</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Amber gradient</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Top-left</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--grey);"><strong>Config</strong></td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">sliders</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Dark overlay (rgba(10,22,40,0.7))</td>
+          <td style="padding: 12px; border: 1px solid var(--grey);">Top-right</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Integration Examples</h3>
+
+    <h4 style="font-weight: 600; margin: 16px 0 8px; color: var(--navy);">1. Simple Product (5 Images)</h4>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;ProductGallery
+  images={[
+    { id: '1', url: '/img1.jpg', alt: 'Product vooraanzicht' },
+    { id: '2', url: '/img2.jpg', alt: 'Product zijaanzicht' },
+    { id: '3', url: '/img3.jpg', alt: 'Product bovenaanzicht' },
+    { id: '4', url: '/img4.jpg', alt: 'Product detail closeup' },
+    { id: '5', url: '/img5.jpg', alt: 'Product in gebruik' }
+  ]}
+  badges={[
+    { type: 'new', position: 'top-left' }
+  ]}
+/&gt;</pre>
+
+    <h4 style="font-weight: 600; margin: 16px 0 8px; color: var(--navy);">2. Variable Product (Images Change on Variant Selection)</h4>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+const [selectedColor, setSelectedColor] = useState('black');
+
+const galleryImages = useMemo(() => {
+  return product.variants.find(v => v.color === selectedColor)?.images || product.images;
+}, [selectedColor]);
+
+&lt;ProductGallery
+  images={galleryImages}
+  badges={[
+    { type: 'config', label: '6 opties configureerbaar', position: 'top-right' }
+  ]}
+  onImageChange={(index) => console.log(`Image ${index} selected`)}
+/&gt;</pre>
+
+    <h4 style="font-weight: 600; margin: 16px 0 8px; color: var(--navy);">3. Vertical Layout with Sale Badge</h4>
+    <pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+&lt;ProductGallery
+  images={productImages}
+  layout="vertical"
+  badges={[
+    { type: 'sale', label: '-25% Sale', position: 'top-left' }
+  ]}
+  enableZoom={true}
+  enableLightbox={true}
+/&gt;</pre>
+
+    <h3 style="font-weight: 700; margin: 24px 0 12px; color: var(--navy);">Future Enhancements</h3>
+
+    <ul style="margin-left: 24px; color: var(--grey-dark); line-height: 1.8;">
+      <li><strong>360° view:</strong> Spin product view (drag to rotate)</li>
+      <li><strong>Video support:</strong> Play button overlay on video thumbnails</li>
+      <li><strong>AR preview:</strong> "View in your space" button (AR Quick Look on iOS)</li>
+      <li><strong>Image comparison:</strong> Before/after slider overlay</li>
+      <li><strong>Annotations:</strong> Clickable hotspots on image (product features)</li>
+      <li><strong>Gallery fullscreen mode:</strong> Native browser fullscreen API</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  let currentGallery = null;
+  let currentImages = {};
+
+  // Initialize galleries
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.product-gallery').forEach(gallery => {
+      const id = gallery.id;
+      const thumbs = gallery.querySelectorAll('.thumb');
+      currentImages[id] = Array.from(thumbs).map(thumb => thumb.textContent);
+    });
+  });
+
+  // Switch image
+  function switchImage(galleryId, index) {
+    const gallery = document.getElementById(galleryId);
+    const mainImg = gallery.querySelector('.main-img');
+    const thumbs = gallery.querySelectorAll('.thumb');
+
+    // Update main image
+    const newContent = currentImages[galleryId][index];
+    const img = mainImg.querySelector('img');
+    if (img) {
+      img.src = newContent; // In real implementation, use actual image URL
+    } else {
+      // Emoji placeholder
+      mainImg.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          node.textContent = newContent;
+        }
+      });
+    }
+
+    // Update active thumbnail
+    thumbs.forEach((thumb, i) => {
+      thumb.classList.toggle('active', i === index);
+    });
+  }
+
+  // Open lightbox
+  function openLightbox(galleryId, index) {
+    currentGallery = galleryId;
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const counter = document.getElementById('lightbox-counter');
+
+    // Set image
+    lightboxImg.textContent = currentImages[galleryId][index];
+
+    // Set counter
+    counter.textContent = `${index + 1} / ${currentImages[galleryId].length}`;
+
+    // Show lightbox
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    lucide.createIcons();
+  }
+
+  // Close lightbox
+  function closeLightbox(event) {
+    if (event && event.target !== event.currentTarget) return;
+
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    currentGallery = null;
+  }
+
+  // Previous image in lightbox
+  function prevImage(event) {
+    event.stopPropagation();
+    if (!currentGallery) return;
+
+    const lightboxImg = document.getElementById('lightbox-img');
+    const counter = document.getElementById('lightbox-counter');
+    const images = currentImages[currentGallery];
+
+    let currentIndex = images.indexOf(lightboxImg.textContent);
+    currentIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+
+    lightboxImg.textContent = images[currentIndex];
+    counter.textContent = `${currentIndex + 1} / ${images.length}`;
+  }
+
+  // Next image in lightbox
+  function nextImage(event) {
+    event.stopPropagation();
+    if (!currentGallery) return;
+
+    const lightboxImg = document.getElementById('lightbox-img');
+    const counter = document.getElementById('lightbox-counter');
+    const images = currentImages[currentGallery];
+
+    let currentIndex = images.indexOf(lightboxImg.textContent);
+    currentIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+
+    lightboxImg.textContent = images[currentIndex];
+    counter.textContent = `${currentIndex + 1} / ${images.length}`;
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox.classList.contains('active')) return;
+
+    if (e.key === 'Escape') {
+      closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+      prevImage({ stopPropagation: () => {} });
+    } else if (e.key === 'ArrowRight') {
+      nextImage({ stopPropagation: () => {} });
+    }
+  });
+</script>
+
+</body>
+</html>

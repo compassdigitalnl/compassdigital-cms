@@ -181,3 +181,5 @@ export const UserSubscriptions: CollectionConfig = {
     },
   ],
 }
+
+export default UserSubscriptions

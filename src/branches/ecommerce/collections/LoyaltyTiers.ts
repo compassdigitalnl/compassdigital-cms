@@ -119,3 +119,5 @@ export const LoyaltyTiers: CollectionConfig = {
     },
   ],
 }
+
+export default LoyaltyTiers

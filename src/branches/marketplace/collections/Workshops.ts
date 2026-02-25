@@ -421,3 +421,5 @@ export const Workshops: CollectionConfig = {
     ],
   },
 }
+
+export default Workshops

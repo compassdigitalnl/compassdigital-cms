@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AuthLayout — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #061A33;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --r-sm: 8px;
+  --radius: 12px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); margin: 0; }
+
+/* ─── AUTH LAYOUT ─── */
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 140px);
+}
+
+/* ─── LEFT PANEL (BRANDING) ─── */
+.auth-branding {
+  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 50%, #041526 100%);
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-branding::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0,137,123,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.auth-branding::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(233,69,96,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,137,123,0.15);
+  border: 1px solid rgba(0,137,123,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: var(--teal-light);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.brand-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal-light);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.brand-title .accent {
+  color: var(--teal-light);
+}
+
+.brand-desc {
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 48px;
+}
+
+.brand-features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.brand-feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+}
+
+.brand-feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(0,137,123,0.12);
+  border: 1px solid rgba(0,137,123,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.brand-feature strong {
+  color: rgba(255,255,255,0.95);
+}
+
+/* ─── RIGHT PANEL (FORM) ─── */
+.auth-form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: var(--bg);
+}
+
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 440px;
+}
+
+/* ─── PLACEHOLDER CONTENT ─── */
+.form-placeholder {
+  background: var(--white);
+  border: 2px dashed var(--grey);
+  border-radius: var(--radius);
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.form-placeholder h3 {
+  font-size: 18px;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.form-placeholder p {
+  font-size: 14px;
+  color: var(--grey-mid);
+  line-height: 1.6;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.component-list {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--grey);
+  text-align: left;
+}
+
+.component-list h4 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+
+.component-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.component-list li {
+  font-size: 13px;
+  color: var(--grey-dark);
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.component-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-branding {
+    display: none;
+  }
+
+  .auth-form-panel {
+    padding: 24px;
+  }
+}
+
+/* Demo Info Box */
+.demo-info {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: var(--radius);
+  padding: 16px;
+  max-width: 300px;
+  box-shadow: 0 4px 16px rgba(10,22,40,0.08);
+  z-index: 1000;
+}
+
+.demo-info h4 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+
+.demo-info p {
+  font-size: 12px;
+  color: var(--grey-dark);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="demo-info">
+  <h4>Auth Layout Demo</h4>
+  <p>This is the container component. In production, insert auth-tab-switcher.html + login-form.html / register-form.html / guest-checkout-form.html in the right panel.</p>
+</div>
+
+<div class="auth-layout">
+
+  <!-- LEFT: BRANDING PANEL -->
+  <div class="auth-branding">
+    <div class="brand-content">
+      <div class="brand-badge">
+        <span class="dot"></span>
+        Uw medische partner sinds 1994
+      </div>
+      <h1 class="brand-title">
+        Toegang tot<br>
+        <span class="accent">4.000+ producten</span><br>
+        voor de zorg
+      </h1>
+      <p class="brand-desc">
+        Log in op uw account voor persoonlijke prijzen, snelle nabestellingen en exclusieve B2B-voordelen. Nog geen account? Registreer en profiteer direct.
+      </p>
+      <div class="brand-features">
+        <div class="brand-feature">
+          <div class="brand-feature-icon">💰</div>
+          <div><strong>Persoonlijke staffelprijzen</strong><br>Afgestemd op uw bestelvolume</div>
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-icon">🔄</div>
+          <div><strong>Quick-order & nabestellen</strong><br>Herbestel in 2 klikken vanuit uw historie</div>
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-icon">📊</div>
+          <div><strong>Besteloverzicht & facturen</strong><br>Altijd inzicht in uw bestellingen</div>
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-icon">📋</div>
+          <div><strong>Bestellijsten beheren</strong><br>Stel vaste lijsten samen per afdeling</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM PANEL -->
+  <div class="auth-form-panel">
+    <div class="auth-form-wrapper">
+      <div class="form-placeholder">
+        <h3>Auth Form Area</h3>
+        <p>This is where the tab switcher and form panels (login/register/guest) are rendered. This layout provides the 2-column grid container.</p>
+
+        <div class="component-list">
+          <h4>Components to insert here:</h4>
+          <ul>
+            <li>auth-tab-switcher.html</li>
+            <li>login-form.html</li>
+            <li>register-form.html</li>
+            <li>guest-checkout-form.html</li>
+          </ul>
+        </div>
+
+        <div class="component-list" style="margin-top: 20px;">
+          <h4>Supporting components:</h4>
+          <ul>
+            <li>oauth-buttons.html</li>
+            <li>form-input.html</li>
+            <li>password-strength-meter.html</li>
+            <li>b2b-notice.html</li>
+            <li>guest-info-box.html</li>
+            <li>trust-badges.html</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="position:fixed;bottom:20px;left:20px;right:20px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:12px;box-shadow:0 4px 16px rgba(10,22,40,0.08);">
+  <p style="font-size:13px;color:var(--grey-dark);line-height:1.7;margin:0;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 85-90, 568-608 |
+    <strong>Structure:</strong> 2-column grid (1fr 1fr → 1fr at 900px), left = auth-branding (hidden on mobile), right = auth-form-panel with 440px max-width wrapper |
+    <strong>Height:</strong> min-height calc(100vh - 140px) to account for header/footer |
+    <strong>Responsive:</strong> Branding panel hidden below 900px, form panel reduced padding (40px → 24px)
+  </p>
+</div>
+
+</body>
+</html>

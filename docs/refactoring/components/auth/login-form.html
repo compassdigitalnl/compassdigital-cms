@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LoginForm — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-dark: #00695C;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --r-sm: 8px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.form-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-subtitle {
+  color: var(--grey-mid);
+  font-size: 14px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.oauth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--white);
+  border: 1.5px solid var(--grey);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 10px;
+}
+
+.oauth-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 1px 3px rgba(10,22,40,0.06);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  color: var(--grey-mid);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--grey);
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-input-icon {
+  position: relative;
+}
+
+.icon-left {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--white);
+  transition: all 0.2s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,137,123,0.1);
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.form-helper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--grey-mid);
+}
+
+.form-link {
+  font-size: 13px;
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-link:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.btn-primary:hover {
+  background: var(--teal-dark);
+  box-shadow: 0 4px 16px rgba(0,137,123,0.3);
+  transform: translateY(-1px);
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--grey-mid);
+}
+
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+</style>
+</head>
+<body>
+
+<h1>LoginForm — Live Demo</h1>
+
+<div style="max-width: 440px; margin: 0 auto; background: var(--white); padding: 32px; border: 1px solid var(--grey); border-radius: 12px;">
+  <h2 class="form-title">Welkom terug</h2>
+  <p class="form-subtitle">Log in met uw account om verder te gaan met uw bestelling.</p>
+
+  <button class="oauth-btn">
+    🔵 Inloggen met Google
+  </button>
+
+  <div class="divider">of met e-mail</div>
+
+  <form>
+    <div class="form-group">
+      <label class="form-label">E-mailadres</label>
+      <div class="form-input-icon">
+        <span class="icon-left">✉️</span>
+        <input type="email" class="form-input" placeholder="naam@organisatie.nl" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Wachtwoord</label>
+      <div class="form-input-icon">
+        <span class="icon-left">🔒</span>
+        <input type="password" class="form-input" id="pw" placeholder="Uw wachtwoord" required>
+        <button type="button" class="toggle-pw" onclick="togglePw()">👁️</button>
+      </div>
+    </div>
+
+    <div class="form-helper">
+      <label class="form-checkbox">
+        <input type="checkbox"> Onthoud mij
+      </label>
+      <a href="#" class="form-link">Wachtwoord vergeten?</a>
+    </div>
+
+    <button type="submit" class="btn-primary">Inloggen</button>
+  </form>
+
+  <p class="form-footer">
+    Nog geen account? <a href="#" class="form-link">Registreer hier</a>
+  </p>
+</div>
+
+<script>
+function togglePw() {
+  const input = document.getElementById('pw');
+  const btn = event.target;
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+}
+</script>
+
+</body>
+</html>

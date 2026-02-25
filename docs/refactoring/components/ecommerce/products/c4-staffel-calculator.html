@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C4 - Staffel Calculator | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family+Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; display: flex; justify-content: center; }
+
+    /* Staffel Card */
+    .staffel-card { background: white; border: 1px solid var(--grey); border-radius: 16px; padding: 24px; max-width: 480px; width: 100%; }
+    .staffel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .staffel-header i { width: 20px; height: 20px; color: var(--teal); }
+    .staffel-title { font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--navy); }
+
+    /* Tiers */
+    .staffel-tiers { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; }
+    .staffel-tier { display: flex; align-items: center; padding: 10px 14px; border-radius: 10px; font-size: 14px; transition: all 0.15s; cursor: pointer; border: 1.5px solid transparent; }
+    .staffel-tier:hover { background: var(--grey-light); }
+    .staffel-tier.active { background: var(--teal-glow); border-color: rgba(0, 137, 123, 0.15); }
+    .staffel-tier .tier-check { width: 20px; height: 20px; border: 2px solid var(--grey); border-radius: 50%; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .staffel-tier.active .tier-check { background: var(--teal); border-color: var(--teal); }
+    .staffel-tier.active .tier-check i { width: 12px; height: 12px; color: white; }
+    .staffel-tier .tier-range { flex: 1; font-weight: 600; color: var(--navy); }
+    .staffel-tier .tier-price { font-family: var(--font-display); font-weight: 800; color: var(--navy); }
+    .staffel-tier .tier-save { font-size: 12px; font-weight: 700; color: var(--green); background: var(--green-light); padding: 2px 8px; border-radius: 100px; margin-left: 10px; }
+
+    /* Calculator */
+    .staffel-calc { background: var(--grey-light); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 16px; }
+    .staffel-qty-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .staffel-qty-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--grey-mid); }
+    .staffel-qty { display: flex; align-items: center; border: 2px solid var(--grey); border-radius: 10px; overflow: hidden; background: white; }
+    .staffel-qty button { width: 36px; height: 38px; border: none; background: white; cursor: pointer; font-size: 16px; color: var(--navy); transition: background 0.1s; display: flex; align-items: center; justify-content: center; }
+    .staffel-qty button:hover { background: var(--grey-light); }
+    .staffel-qty input { width: 52px; text-align: center; border: none; font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--navy); outline: none; }
+    .staffel-result { flex: 1; }
+    .staffel-result-price { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--navy); }
+    .staffel-result-unit { font-size: 12px; color: var(--grey-mid); }
+    .staffel-result-save { font-size: 13px; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+    .staffel-result-save i { width: 14px; height: 14px; }
+
+    /* Hint */
+    .staffel-hint { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 10px 14px; background: var(--teal-glow); border-radius: 8px; font-size: 13px; color: var(--teal); font-weight: 600; }
+    .staffel-hint i { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: var(--font-mono); font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.7; margin: 16px: 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <div class="staffel-card">
+      <div class="staffel-header">
+        <i data-lucide="tag"></i>
+        <div class="staffel-title">Staffelprijzen — Peha-soft Nitrile Fino</div>
+      </div>
+
+      <div class="staffel-tiers">
+        <div class="staffel-tier" data-min="1" data-max="4" data-price="8.95" onclick="selectTier(this)">
+          <div class="tier-check"></div>
+          <span class="tier-range">1 – 4 dozen</span>
+          <span class="tier-price">€8,95</span>
+        </div>
+        <div class="staffel-tier active" data-min="5" data-max="9" data-price="8.25" onclick="selectTier(this)">
+          <div class="tier-check"><i data-lucide="check"></i></div>
+          <span class="tier-range">5 – 9 dozen</span>
+          <span class="tier-price">€8,25</span>
+          <span class="tier-save">−8%</span>
+        </div>
+        <div class="staffel-tier" data-min="10" data-max="24" data-price="7.50" onclick="selectTier(this)">
+          <div class="tier-check"></div>
+          <span class="tier-range">10 – 24 dozen</span>
+          <span class="tier-price">€7,50</span>
+          <span class="tier-save">−16%</span>
+        </div>
+        <div class="staffel-tier" data-min="25" data-max="9999" data-price="6.95" onclick="selectTier(this)">
+          <div class="tier-check"></div>
+          <span class="tier-range">25+ dozen</span>
+          <span class="tier-price">€6,95</span>
+          <span class="tier-save">−22%</span>
+        </div>
+      </div>
+
+      <div class="staffel-calc">
+        <div class="staffel-qty-wrap">
+          <div class="staffel-qty-label">Aantal dozen</div>
+          <div class="staffel-qty">
+            <button onclick="changeQty(-1)">−</button>
+            <input type="text" id="qty" value="5" readonly>
+            <button onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <div class="staffel-result">
+          <div class="staffel-result-price" id="total">€41,25</div>
+          <div class="staffel-result-unit" id="unit">5 × €8,25 per doos</div>
+          <div class="staffel-result-save" id="save">
+            <i data-lucide="trending-down"></i> U bespaart €3,50
+          </div>
+        </div>
+      </div>
+
+      <div class="staffel-hint" id="hint">
+        <i data-lucide="zap"></i> Bestel er 5 meer en betaal €7,50 per doos (−16%)
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C4 - Staffel Calculator</p>
+    <p><strong>Category:</strong> E-commerce / Product</p>
+    <p><strong>Complexiteit:</strong> High (live calculations, tier detection, smart hints)</p>
+
+    <h3>Purpose:</h3>
+    <p>Volume pricing calculator showing tiered pricing (staffelprijzen) with live updates. Encourages bulk purchases by showing savings and next-tier hints.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>4 tiered price levels (1-4, 5-9, 10-24, 25+)</li>
+      <li>Visual tier selection (radio-style with check icon)</li>
+      <li>Quantity stepper (− / + buttons)</li>
+      <li>Live total calculation with unit breakdown</li>
+      <li>Savings display (vs. base price)</li>
+      <li>Smart hint: "Bestel er X meer en betaal €Y" (next tier upsell)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>B2B e-commerce with volume discounts</li>
+      <li>Wholesale platforms</li>
+      <li>Bulk product sales</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Show savings as percentage AND absolute (€)</li>
+      <li>Always show next-tier hint (upsell opportunity)</li>
+      <li>Auto-select tier based on quantity</li>
+      <li>Make tiers clickable (quick jump to quantity)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Tier Card (Active) */
+background: var(--teal-glow)
+border: 1.5px solid rgba(0,137,123,0.15)
+check-background: var(--teal)
+check-icon-color: white
+
+/* Savings Badge */
+background: var(--green-light)
+color: var(--green)
+border-radius: 100px
+
+/* Calculator Section */
+background: var(--grey-light)
+border-radius: 12px
+
+/* Total Price */
+font-family: 'Plus Jakarta Sans'
+font-size: 22px
+font-weight: 800
+
+/* Hint (Upsell) */
+background: var(--teal-glow)
+color: var(--teal)
+font-weight: 600</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  product: {
+    name: 'Peha-soft Nitrile Fino',
+    basePrice: 8.95
+  },
+  tiers: [
+    { min: 1, max: 4, price: 8.95, discount: 0 },
+    { min: 5, max: 9, price: 8.25, discount: 8 },
+    { min: 10, max: 24, price: 7.50, discount: 16 },
+    { min: 25, max: Infinity, price: 6.95, discount: 22 }
+  ],
+  initialQty: 5,
+  onQtyChange: (qty, total) => {}
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Card max-width: 480px
+Tiers: flex-direction: column, gap: 4px
+Calculator: flex (qty left, result right)
+Responsive: Stack on mobile (&lt;640px)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;div role="radiogroup" aria-label="Staffelprijzen"&gt;
+  &lt;div role="radio" aria-checked="true"&gt;5-9 dozen: €8,25&lt;/div&gt;
+&lt;/div&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// Tier Detection
+function getTierForQty(qty, tiers) {
+  return tiers.find(t => qty >= t.min && qty <= t.max);
+}
+
+// Savings Calculation
+const tier = getTierForQty(qty, tiers);
+const savings = (basePrice - tier.price) * qty;
+
+// Next Tier Hint
+const nextTier = tiers.find(t => t.min > qty);
+const qtyNeeded = nextTier.min - qty;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Simple Variant:</strong> No tier cards, just dropdown selector</li>
+      <li><strong>C23-QuantityStepper:</strong> Reusable qty control</li>
+      <li><strong>Related:</strong> Product pages, cart (apply staffel discount)</li>
+    </ul>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const tiers = [
+      { min: 1, max: 4, price: 8.95, discount: 0 },
+      { min: 5, max: 9, price: 8.25, discount: 8 },
+      { min: 10, max: 24, price: 7.50, discount: 16 },
+      { min: 25, max: 9999, price: 6.95, discount: 22 }
+    ];
+
+    function selectTier(el) {
+      const min = parseInt(el.dataset.min);
+      document.getElementById('qty').value = min;
+      updateCalculation();
+    }
+
+    function changeQty(delta) {
+      const input = document.getElementById('qty');
+      let qty = parseInt(input.value);
+      qty = Math.max(1, qty + delta);
+      input.value = qty;
+      updateCalculation();
+    }
+
+    function updateCalculation() {
+      const qty = parseInt(document.getElementById('qty').value);
+      const tier = tiers.find(t => qty >= t.min && qty <= t.max);
+      const total = qty * tier.price;
+      const savings = qty * (8.95 - tier.price);
+
+      document.getElementById('total').textContent = `€${total.toFixed(2)}`;
+      document.getElementById('unit').textContent = `${qty} × €${tier.price.toFixed(2)} per doos`;
+      document.getElementById('save').innerHTML = `<i data-lucide="trending-down"></i> U bespaart €${savings.toFixed(2)}`;
+
+      // Update tier selection
+      document.querySelectorAll('.staffel-tier').forEach(el => {
+        const min = parseInt(el.dataset.min);
+        const max = parseInt(el.dataset.max);
+        if (qty >= min && qty <= max) {
+          el.classList.add('active');
+          el.querySelector('.tier-check').innerHTML = '<i data-lucide="check"></i>';
+        } else {
+          el.classList.remove('active');
+          el.querySelector('.tier-check').innerHTML = '';
+        }
+      });
+
+      // Update hint (next tier upsell)
+      const nextTier = tiers.find(t => t.min > qty);
+      if (nextTier) {
+        const qtyNeeded = nextTier.min - qty;
+        document.getElementById('hint').innerHTML = `
+          <i data-lucide="zap"></i>
+          Bestel er ${qtyNeeded} meer en betaal €${nextTier.price.toFixed(2)} per doos (−${nextTier.discount}%)
+        `;
+      } else {
+        document.getElementById('hint').innerHTML = `
+          <i data-lucide="check-circle"></i>
+          U profiteert van de hoogste staffelkorting!
+        `;
+      }
+
+      lucide.createIcons();
+    }
+
+    // Initialize
+    updateCalculation();
+  </script>
+</body>
+</html>

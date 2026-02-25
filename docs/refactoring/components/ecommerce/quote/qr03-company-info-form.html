@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR03: CompanyInfoForm - Compass Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Design Tokens */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-12: 12px;
+      --space-14: 14px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      padding: 40px 20px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    /* Demo Container */
+    .demo-section {
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+
+    .demo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    /* ============================================
+       QR03: COMPANY INFO FORM
+       ============================================ */
+
+    .company-info-form {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      padding: var(--space-24);
+    }
+
+    /* Header */
+    .company-info-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-20);
+      gap: var(--space-12);
+    }
+
+    .company-info-title {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .company-info-title-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .company-info-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: 4px 10px;
+      background: rgba(0, 137, 123, 0.08);
+      border: 1px solid var(--teal);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+    }
+
+    .company-info-badge-icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Form Grid */
+    .company-info-fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+
+    .company-info-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
+
+    /* Field */
+    .company-info-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .company-info-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin-bottom: var(--space-6);
+    }
+
+    .company-info-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--navy);
+      background: var(--bg);
+      outline: none;
+      transition: all var(--transition);
+      cursor: not-allowed;
+    }
+
+    .company-info-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Editable variant (for contact person) */
+    .company-info-input.editable {
+      background: var(--white);
+      cursor: text;
+    }
+
+    .company-info-input.editable:hover {
+      border-color: var(--grey-mid);
+    }
+
+    /* Helper text */
+    .company-info-helper {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .company-info-helper-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Edit button (optional) */
+    .company-info-edit-button {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-6);
+      padding: 6px 12px;
+      background: none;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .company-info-edit-button:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      background: rgba(0, 137, 123, 0.04);
+    }
+
+    .company-info-edit-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .company-info-form {
+        padding: var(--space-20);
+      }
+
+      .company-info-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .company-info-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Documentation Styles */
+    .docs-section {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .docs-section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    .docs-section p,
+    .docs-section li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .docs-section ul {
+      padding-left: 24px;
+    }
+
+    .docs-section code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .token-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      background: var(--white);
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO SECTION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h1 class="demo-title">QR03: CompanyInfoForm - Default (Read-only)</h1>
+
+    <div class="company-info-form">
+      <div class="company-info-header">
+        <h3 class="company-info-title">
+          <i data-lucide="building-2" class="company-info-title-icon"></i>
+          Bedrijfsgegevens
+        </h3>
+        <span class="company-info-badge">
+          <i data-lucide="shield-check" class="company-info-badge-icon"></i>
+          Geverifieerd
+        </span>
+      </div>
+
+      <div class="company-info-fields">
+        <!-- Company Name (full width) -->
+        <div class="company-info-field">
+          <label class="company-info-label">Bedrijfsnaam</label>
+          <input
+            type="text"
+            class="company-info-input"
+            value="Medisch Centrum Amsterdam"
+            readonly
+          >
+        </div>
+
+        <!-- KVK + BTW row -->
+        <div class="company-info-row">
+          <div class="company-info-field">
+            <label class="company-info-label">KVK-nummer</label>
+            <input
+              type="text"
+              class="company-info-input"
+              value="12345678"
+              readonly
+            >
+          </div>
+
+          <div class="company-info-field">
+            <label class="company-info-label">BTW-nummer</label>
+            <input
+              type="text"
+              class="company-info-input"
+              value="NL123456789B01"
+              readonly
+            >
+          </div>
+        </div>
+
+        <!-- Address (full width) -->
+        <div class="company-info-field">
+          <label class="company-info-label">Adres</label>
+          <input
+            type="text"
+            class="company-info-input"
+            value="Weesperplein 4, 1018 XA Amsterdam"
+            readonly
+          >
+        </div>
+
+        <!-- Helper text -->
+        <p class="company-info-helper">
+          <i data-lucide="info" class="company-info-helper-icon"></i>
+          Deze gegevens zijn gekoppeld aan uw bedrijfsaccount en kunnen niet worden aangepast.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT: WITH EDITABLE CONTACT PERSON
+       ============================================ -->
+
+  <div class="demo-section">
+    <h1 class="demo-title">QR03: CompanyInfoForm - With Editable Contact</h1>
+
+    <div class="company-info-form">
+      <div class="company-info-header">
+        <h3 class="company-info-title">
+          <i data-lucide="building-2" class="company-info-title-icon"></i>
+          Bedrijfsgegevens
+        </h3>
+        <button class="company-info-edit-button">
+          <i data-lucide="pencil" class="company-info-edit-icon"></i>
+          Wijzig contactpersoon
+        </button>
+      </div>
+
+      <div class="company-info-fields">
+        <!-- Company Name (read-only) -->
+        <div class="company-info-field">
+          <label class="company-info-label">Bedrijfsnaam</label>
+          <input
+            type="text"
+            class="company-info-input"
+            value="Medisch Centrum Amsterdam"
+            readonly
+          >
+        </div>
+
+        <!-- KVK + BTW (read-only) -->
+        <div class="company-info-row">
+          <div class="company-info-field">
+            <label class="company-info-label">KVK-nummer</label>
+            <input
+              type="text"
+              class="company-info-input"
+              value="12345678"
+              readonly
+            >
+          </div>
+
+          <div class="company-info-field">
+            <label class="company-info-label">BTW-nummer</label>
+            <input
+              type="text"
+              class="company-info-input"
+              value="NL123456789B01"
+              readonly
+            >
+          </div>
+        </div>
+
+        <!-- Contact Person (editable) -->
+        <div class="company-info-row">
+          <div class="company-info-field">
+            <label class="company-info-label">Contactpersoon</label>
+            <input
+              type="text"
+              class="company-info-input editable"
+              value="Dr. J. van der Berg"
+              placeholder="Naam contactpersoon"
+            >
+          </div>
+
+          <div class="company-info-field">
+            <label class="company-info-label">Telefoonnummer</label>
+            <input
+              type="tel"
+              class="company-info-input editable"
+              value="020 123 4567"
+              placeholder="020 XXX XXXX"
+            >
+          </div>
+        </div>
+
+        <!-- Email (editable) -->
+        <div class="company-info-field">
+          <label class="company-info-label">E-mailadres contactpersoon</label>
+          <input
+            type="email"
+            class="company-info-input editable"
+            value="j.vandenberg@mca.nl"
+            placeholder="naam@bedrijf.nl"
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="docs-section">
+    <h2>📋 QR03: CompanyInfoForm Documentation</h2>
+
+    <!-- STEP 1: Component Overview -->
+    <h3>STEP 1: Component Overview</h3>
+    <p><strong>Component Name:</strong> CompanyInfoForm (QR03)</p>
+    <p><strong>Category:</strong> Forms / B2B</p>
+    <p><strong>Usage Context:</strong> Quote request flow, B2B order forms, company profile pages</p>
+
+    <p><strong>Purpose:</strong></p>
+    <p>Displays company information for authenticated B2B users in a read-only form. Company details are auto-filled from the user's account and cannot be edited (verified business data). Optionally includes editable contact person fields for the specific quote/order.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>✅ Auto-filled company data (name, KVK, BTW, address)</li>
+      <li>✅ Read-only verified fields with grey background</li>
+      <li>✅ "Geverifieerd" (Verified) badge for trust</li>
+      <li>✅ Optional editable contact person fields</li>
+      <li>✅ Helper text explaining data source</li>
+      <li>✅ 2-column responsive grid (1-col on mobile)</li>
+      <li>✅ Building icon + shield-check badge for visual hierarchy</li>
+    </ul>
+
+    <!-- STEP 2: When to Use -->
+    <h3>STEP 2: When to Use</h3>
+
+    <p><strong>Use this component when:</strong></p>
+    <ul>
+      <li>✅ B2B user is requesting a quote (offerte)</li>
+      <li>✅ Placing an order that requires invoice details</li>
+      <li>✅ Displaying company profile information</li>
+      <li>✅ Company data is verified and should not be changed</li>
+      <li>✅ You need to show trust signals (verified badge)</li>
+    </ul>
+
+    <p><strong>Do NOT use when:</strong></p>
+    <ul>
+      <li>❌ User is editing their company profile (use editable form)</li>
+      <li>❌ During registration/onboarding (use editable fields)</li>
+      <li>❌ For B2C users (they don't have company data)</li>
+      <li>❌ Company data is unverified (remove badge, allow edits)</li>
+    </ul>
+
+    <p><strong>Component Guidelines:</strong></p>
+    <ul>
+      <li>Always show "Geverifieerd" badge if company is KVK-verified</li>
+      <li>Use grey background (#F5F7FA) for read-only fields to indicate non-editable state</li>
+      <li>Include helper text explaining why fields are locked</li>
+      <li>Link to account settings if user wants to update company data</li>
+      <li>Validate editable fields (contact person) in real-time</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Card background</td>
+          <td><code>--white</code></td>
+          <td>#FAFBFC</td>
+          <td>Main container</td>
+        </tr>
+        <tr>
+          <td>Card border</td>
+          <td><code>--grey</code></td>
+          <td>#E8ECF1</td>
+          <td>1px solid border</td>
+        </tr>
+        <tr>
+          <td>Title text</td>
+          <td><code>--navy</code></td>
+          <td>#0A1628</td>
+          <td>Section heading</td>
+        </tr>
+        <tr>
+          <td>Title icon</td>
+          <td><code>--teal</code></td>
+          <td>#00897B</td>
+          <td>Building-2 icon color</td>
+        </tr>
+        <tr>
+          <td>Badge background</td>
+          <td><code>--teal-glow</code></td>
+          <td>rgba(0, 137, 123, 0.08)</td>
+          <td>Verified badge bg</td>
+        </tr>
+        <tr>
+          <td>Badge border</td>
+          <td><code>--teal</code></td>
+          <td>#00897B</td>
+          <td>Badge outline</td>
+        </tr>
+        <tr>
+          <td>Label text</td>
+          <td><code>--grey-dark</code></td>
+          <td>#64748B</td>
+          <td>Field labels</td>
+        </tr>
+        <tr>
+          <td>Input text</td>
+          <td><code>--navy</code></td>
+          <td>#0A1628</td>
+          <td>Input value</td>
+        </tr>
+        <tr>
+          <td>Read-only input bg</td>
+          <td><code>--bg</code></td>
+          <td>#F5F7FA</td>
+          <td>Locked fields</td>
+        </tr>
+        <tr>
+          <td>Editable input bg</td>
+          <td><code>--white</code></td>
+          <td>#FAFBFC</td>
+          <td>Contact person fields</td>
+        </tr>
+        <tr>
+          <td>Helper text</td>
+          <td><code>--grey-mid</code></td>
+          <td>#94A3B8</td>
+          <td>Info text</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Typography:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Section title</td>
+          <td>Plus Jakarta Sans</td>
+          <td>16px</td>
+          <td>700</td>
+        </tr>
+        <tr>
+          <td>Badge text</td>
+          <td>Plus Jakarta Sans</td>
+          <td>10px</td>
+          <td>700 uppercase</td>
+        </tr>
+        <tr>
+          <td>Field label</td>
+          <td>Plus Jakarta Sans</td>
+          <td>12px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Input value</td>
+          <td>Plus Jakarta Sans</td>
+          <td>14px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Helper text</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>400</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Spacing:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Token</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Card padding</td>
+          <td><code>--space-24</code></td>
+          <td>24px</td>
+        </tr>
+        <tr>
+          <td>Header margin-bottom</td>
+          <td><code>--space-20</code></td>
+          <td>20px</td>
+        </tr>
+        <tr>
+          <td>Field gap (vertical)</td>
+          <td><code>--space-16</code></td>
+          <td>16px</td>
+        </tr>
+        <tr>
+          <td>Row gap (horizontal)</td>
+          <td><code>--space-12</code></td>
+          <td>12px</td>
+        </tr>
+        <tr>
+          <td>Label margin-bottom</td>
+          <td><code>--space-6</code></td>
+          <td>6px</td>
+        </tr>
+        <tr>
+          <td>Input padding</td>
+          <td>-</td>
+          <td>10px 14px</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Icons:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Size</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>building-2</td>
+          <td>20px</td>
+          <td>Section title icon (teal)</td>
+        </tr>
+        <tr>
+          <td>shield-check</td>
+          <td>12px</td>
+          <td>Verified badge icon (teal)</td>
+        </tr>
+        <tr>
+          <td>info</td>
+          <td>14px</td>
+          <td>Helper text icon (grey-mid)</td>
+        </tr>
+        <tr>
+          <td>pencil</td>
+          <td>14px</td>
+          <td>Edit button icon (optional)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h3>STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre><code>interface CompanyInfo {
+  name: string
+  kvk: string              // Chamber of Commerce number
+  btw: string              // VAT number (NL123456789B01)
+  address: string
+  verified: boolean        // Show verified badge
+  contactPerson?: {
+    name: string
+    phone: string
+    email: string
+  }
+}
+
+interface CompanyInfoFormProps {
+  companyInfo: CompanyInfo
+  showContactFields?: boolean      // Show editable contact person
+  onContactChange?: (field: keyof CompanyInfo['contactPerson'], value: string) => void
+  helperText?: string              // Custom helper text
+  showEditButton?: boolean         // Show "Wijzig contactpersoon" button
+  className?: string
+}</code></pre>
+
+    <p><strong>Payload CMS Block Configuration:</strong></p>
+    <pre><code>// blocks/CompanyInfoForm.ts
+import { Block } from 'payload/types'
+
+export const CompanyInfoForm: Block = {
+  slug: 'companyInfoForm',
+  labels: {
+    singular: 'Bedrijfsgegevens Formulier',
+    plural: 'Bedrijfsgegevens Formulieren',
+  },
+  fields: [
+    {
+      name: 'showContactFields',
+      type: 'checkbox',
+      label: 'Toon contactpersoon velden',
+      defaultValue: false,
+    },
+    {
+      name: 'helperText',
+      type: 'text',
+      label: 'Helper tekst',
+      defaultValue: 'Deze gegevens zijn gekoppeld aan uw bedrijfsaccount en kunnen niet worden aangepast.',
+    },
+    {
+      name: 'showEditButton',
+      type: 'checkbox',
+      label: 'Toon bewerk knop',
+      defaultValue: false,
+      admin: {
+        condition: (data) => data.showContactFields,
+      },
+    },
+  ],
+}</code></pre>
+
+    <p><strong>Data Source (Payload CMS Collection):</strong></p>
+    <pre><code>// collections/Companies.ts
+export const Companies: CollectionConfig = {
+  slug: 'companies',
+  auth: false,
+  admin: {
+    useAsTitle: 'name',
+  },
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      label: 'Bedrijfsnaam',
+    },
+    {
+      name: 'kvk',
+      type: 'text',
+      required: true,
+      label: 'KVK-nummer',
+      validate: (value) => {
+        if (!/^\d{8}$/.test(value)) {
+          return 'KVK-nummer moet 8 cijfers zijn'
+        }
+        return true
+      },
+    },
+    {
+      name: 'btw',
+      type: 'text',
+      required: true,
+      label: 'BTW-nummer',
+      validate: (value) => {
+        if (!/^NL\d{9}B\d{2}$/.test(value)) {
+          return 'Ongeldig BTW-nummer formaat'
+        }
+        return true
+      },
+    },
+    {
+      name: 'address',
+      type: 'text',
+      required: true,
+      label: 'Adres',
+    },
+    {
+      name: 'verified',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Geverifieerd',
+      admin: {
+        description: 'KVK-verificatie status',
+      },
+    },
+  ],
+}</code></pre>
+
+    <!-- STEP 5: Layout Rules -->
+    <h3>STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre><code>┌─────────────────────────────────────────┐
+│ [Building Icon] Bedrijfsgegevens  [✓]  │ ← Header (flex space-between)
+├─────────────────────────────────────────┤
+│                                         │
+│ Bedrijfsnaam                            │ ← Full width field
+│ [Medisch Centrum Amsterdam         ]   │
+│                                         │
+│ KVK-nummer           BTW-nummer         │ ← 2-column grid
+│ [12345678  ]         [NL123456789B01]  │
+│                                         │
+│ Adres                                   │ ← Full width field
+│ [Weesperplein 4, 1018 XA Amsterdam ]   │
+│                                         │
+│ ℹ Deze gegevens zijn gekoppeld...      │ ← Helper text
+└─────────────────────────────────────────┘</code></pre>
+
+    <p><strong>Grid Layout:</strong></p>
+    <pre><code>/* Header */
+.company-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Fields container */
+.company-info-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 2-column row */
+.company-info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Mobile: 1 column */
+@media (max-width: 640px) {
+  .company-info-row {
+    grid-template-columns: 1fr;
+  }
+}</code></pre>
+
+    <p><strong>Spacing Hierarchy:</strong></p>
+    <ul>
+      <li>Card padding: 24px (20px on mobile)</li>
+      <li>Header → Fields: 20px margin-bottom</li>
+      <li>Between fields: 16px gap</li>
+      <li>Between row columns: 12px gap</li>
+      <li>Label → Input: 6px margin-bottom</li>
+      <li>Input → Helper text: 6px margin-top</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h3>STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre><code>&lt;div class="company-info-form" role="region" aria-labelledby="company-info-title"&gt;
+  &lt;div class="company-info-header"&gt;
+    &lt;h3 id="company-info-title" class="company-info-title"&gt;
+      Bedrijfsgegevens
+    &lt;/h3&gt;
+    &lt;span class="company-info-badge" role="status" aria-label="Geverifieerd bedrijf"&gt;
+      Geverifieerd
+    &lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class="company-info-fields"&gt;
+    &lt;div class="company-info-field"&gt;
+      &lt;label for="company-name" class="company-info-label"&gt;Bedrijfsnaam&lt;/label&gt;
+      &lt;input
+        type="text"
+        id="company-name"
+        class="company-info-input"
+        value="Medisch Centrum Amsterdam"
+        readonly
+        aria-readonly="true"
+        aria-describedby="company-helper"
+      &gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;p id="company-helper" class="company-info-helper"&gt;
+    Deze gegevens zijn gekoppeld aan uw bedrijfsaccount.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>role="region"</code> - Form section landmark</li>
+      <li><code>aria-labelledby</code> - Connect region to title</li>
+      <li><code>aria-readonly="true"</code> - Mark read-only inputs</li>
+      <li><code>aria-describedby</code> - Connect input to helper text</li>
+      <li><code>role="status"</code> - Verified badge as status indicator</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li>Tab: Focus editable fields (skip read-only with <code>tabindex="-1"</code>)</li>
+      <li>Edit button: Trigger with Enter or Space</li>
+      <li>All inputs: Standard input keyboard behavior</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Foreground</th>
+          <th>Background</th>
+          <th>Ratio</th>
+          <th>WCAG</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Title text</td>
+          <td>#0A1628</td>
+          <td>#FAFBFC</td>
+          <td>14.2:1</td>
+          <td>AAA ✓</td>
+        </tr>
+        <tr>
+          <td>Badge text</td>
+          <td>#00897B</td>
+          <td>rgba(0,137,123,0.08)</td>
+          <td>4.8:1</td>
+          <td>AA ✓</td>
+        </tr>
+        <tr>
+          <td>Label text</td>
+          <td>#64748B</td>
+          <td>#FAFBFC</td>
+          <td>5.1:1</td>
+          <td>AA ✓</td>
+        </tr>
+        <tr>
+          <td>Input text</td>
+          <td>#0A1628</td>
+          <td>#F5F7FA</td>
+          <td>13.8:1</td>
+          <td>AAA ✓</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h3>STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre><code>'use client'
+
+import { Building2, ShieldCheck, Info } from 'lucide-react'
+import { CompanyInfoFormProps } from '@/types/components'
+
+export function CompanyInfoForm({
+  companyInfo,
+  showContactFields = false,
+  onContactChange,
+  helperText = 'Deze gegevens zijn gekoppeld aan uw bedrijfsaccount en kunnen niet worden aangepast.',
+  className = '',
+}: CompanyInfoFormProps) {
+  return (
+    &lt;div className={`company-info-form ${className}`}&gt;
+      &lt;div className="company-info-header"&gt;
+        &lt;h3 className="company-info-title"&gt;
+          &lt;Building2 className="company-info-title-icon" /&gt;
+          Bedrijfsgegevens
+        &lt;/h3&gt;
+        {companyInfo.verified && (
+          &lt;span className="company-info-badge"&gt;
+            &lt;ShieldCheck className="company-info-badge-icon" /&gt;
+            Geverifieerd
+          &lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="company-info-fields"&gt;
+        {/* Company Name */}
+        &lt;div className="company-info-field"&gt;
+          &lt;label className="company-info-label"&gt;Bedrijfsnaam&lt;/label&gt;
+          &lt;input
+            type="text"
+            className="company-info-input"
+            value={companyInfo.name}
+            readOnly
+          /&gt;
+        &lt;/div&gt;
+
+        {/* KVK + BTW */}
+        &lt;div className="company-info-row"&gt;
+          &lt;div className="company-info-field"&gt;
+            &lt;label className="company-info-label"&gt;KVK-nummer&lt;/label&gt;
+            &lt;input
+              type="text"
+              className="company-info-input"
+              value={companyInfo.kvk}
+              readOnly
+            /&gt;
+          &lt;/div&gt;
+          &lt;div className="company-info-field"&gt;
+            &lt;label className="company-info-label"&gt;BTW-nummer&lt;/label&gt;
+            &lt;input
+              type="text"
+              className="company-info-input"
+              value={companyInfo.btw}
+              readOnly
+            /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        {/* Address */}
+        &lt;div className="company-info-field"&gt;
+          &lt;label className="company-info-label"&gt;Adres&lt;/label&gt;
+          &lt;input
+            type="text"
+            className="company-info-input"
+            value={companyInfo.address}
+            readOnly
+          /&gt;
+        &lt;/div&gt;
+
+        {/* Contact fields (if enabled) */}
+        {showContactFields && companyInfo.contactPerson && (
+          &lt;&gt;
+            &lt;div className="company-info-row"&gt;
+              &lt;div className="company-info-field"&gt;
+                &lt;label className="company-info-label"&gt;Contactpersoon&lt;/label&gt;
+                &lt;input
+                  type="text"
+                  className="company-info-input editable"
+                  value={companyInfo.contactPerson.name}
+                  onChange={(e) =&gt; onContactChange?.('name', e.target.value)}
+                /&gt;
+              &lt;/div&gt;
+              &lt;div className="company-info-field"&gt;
+                &lt;label className="company-info-label"&gt;Telefoonnummer&lt;/label&gt;
+                &lt;input
+                  type="tel"
+                  className="company-info-input editable"
+                  value={companyInfo.contactPerson.phone}
+                  onChange={(e) =&gt; onContactChange?.('phone', e.target.value)}
+                /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div className="company-info-field"&gt;
+              &lt;label className="company-info-label"&gt;E-mailadres&lt;/label&gt;
+              &lt;input
+                type="email"
+                className="company-info-input editable"
+                value={companyInfo.contactPerson.email}
+                onChange={(e) =&gt; onContactChange?.('email', e.target.value)}
+              /&gt;
+            &lt;/div&gt;
+          &lt;/&gt;
+        )}
+
+        {/* Helper text */}
+        &lt;p className="company-info-helper"&gt;
+          &lt;Info className="company-info-helper-icon" /&gt;
+          {helperText}
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+
+    <p><strong>Integration with Payload CMS:</strong></p>
+    <pre><code>// app/(frontend)/offerte/page.tsx
+import { CompanyInfoForm } from '@/components/forms/CompanyInfoForm'
+import { getPayloadHMR } from '@payloadcms/next/utilities'
+
+export default async function OffertePage() {
+  const payload = await getPayloadHMR({ config })
+
+  // Get company from authenticated user
+  const user = await payload.auth()
+  const company = await payload.findByID({
+    collection: 'companies',
+    id: user.company,
+  })
+
+  return (
+    &lt;main&gt;
+      &lt;CompanyInfoForm
+        companyInfo={{
+          name: company.name,
+          kvk: company.kvk,
+          btw: company.btw,
+          address: company.address,
+          verified: company.verified,
+        }}
+        showContactFields={true}
+      /&gt;
+    &lt;/main&gt;
+  )
+}</code></pre>
+
+    <p><strong>Performance Optimization:</strong></p>
+    <ul>
+      <li>✅ Read-only inputs: Add <code>readOnly</code> and <code>tabindex="-1"</code> to prevent focus</li>
+      <li>✅ Contact fields: Debounce onChange handlers (300ms)</li>
+      <li>✅ Icons: Use Lucide React with tree-shaking</li>
+      <li>✅ Verified badge: Only render if <code>verified === true</code></li>
+    </ul>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h3>STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Component Variants:</strong></p>
+    <ul>
+      <li><strong>Default</strong> - Read-only company info only (no contact fields)</li>
+      <li><strong>With Contact</strong> - Includes editable contact person fields</li>
+      <li><strong>Unverified</strong> - No verified badge, grey shield-x icon instead</li>
+      <li><strong>Compact</strong> - Smaller padding (16px), 1-column grid always</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>QR04: ProjectInfoForm</strong> - Project details + delivery date</li>
+      <li><strong>EC14: AddressForm</strong> - Editable address fields with autocomplete</li>
+      <li><strong>QO05: ProTipBanner</strong> - Helper banners with info icon</li>
+      <li><strong>C24: AccountSidebar</strong> - User/company info in sidebar</li>
+    </ul>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul>
+      <li>✅ Verify read-only fields cannot be edited</li>
+      <li>✅ Test verified badge appears only when <code>verified === true</code></li>
+      <li>✅ Validate KVK format (8 digits)</li>
+      <li>✅ Validate BTW format (NL123456789B01)</li>
+      <li>✅ Test contact field onChange callbacks</li>
+      <li>✅ Test responsive grid (2-col → 1-col at 640px)</li>
+      <li>✅ Test keyboard navigation (skip read-only fields)</li>
+      <li>✅ Test with missing contact person data</li>
+      <li>✅ Test helper text customization</li>
+    </ul>
+
+    <p><strong>Common Pitfalls:</strong></p>
+    <ul>
+      <li>❌ Allowing edits to verified company data (security risk)</li>
+      <li>❌ Forgetting grey background on read-only fields (confusing UX)</li>
+      <li>❌ Not validating KVK/BTW format on backend</li>
+      <li>❌ Showing verified badge for unverified companies (trust issue)</li>
+      <li>❌ Missing aria-readonly on read-only inputs (accessibility)</li>
+    </ul>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons()
+  </script>
+
+</body>
+</html>

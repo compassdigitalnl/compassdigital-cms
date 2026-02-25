@@ -306,3 +306,5 @@ export const OrderLists: CollectionConfig = {
     ],
   },
 }
+
+export default OrderLists

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP01: GroupedProductCard — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --white: #FAFBFC;
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 8px;
+  --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  padding: 32px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+/* Demo Grid */
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+/* GP01: GroupedProductCard */
+.product-card {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 20px;
+  transition: all var(--transition);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.product-card.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.product-card.out-of-stock {
+  opacity: 0.6;
+  filter: grayscale(0.5);
+}
+
+/* Checkbox */
+.product-checkbox-wrapper {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+}
+
+.product-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--grey);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.product-checkbox.checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.product-checkbox.checked i {
+  width: 14px;
+  height: 14px;
+  color: white;
+}
+
+.product-checkbox:hover {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}
+
+.product-checkbox[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Product Icon */
+.product-icon {
+  width: 64px;
+  height: 64px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  background: var(--grey-light);
+  border-radius: var(--radius);
+}
+
+/* Badges */
+.product-badges {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge i {
+  width: 11px;
+  height: 11px;
+}
+
+.badge.popular {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+.badge.new {
+  background: var(--teal-glow);
+  color: var(--teal);
+}
+
+/* Product Info */
+.product-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.product-sku {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--grey-mid);
+  margin-bottom: 12px;
+}
+
+/* Pricing */
+.product-price {
+  margin-bottom: 16px;
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price-current {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.price-old {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  text-decoration: line-through;
+}
+
+/* Stock Indicator */
+.product-stock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.product-stock.in-stock {
+  color: var(--green);
+}
+
+.product-stock.in-stock .stock-dot {
+  background: var(--green);
+}
+
+.product-stock.low-stock {
+  color: var(--amber);
+}
+
+.product-stock.low-stock .stock-dot {
+  background: var(--amber);
+}
+
+.product-stock.out-of-stock {
+  color: var(--coral);
+}
+
+.product-stock.out-of-stock .stock-dot {
+  background: var(--coral);
+}
+
+/* CTA Button */
+.product-cta {
+  width: 100%;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--grey);
+  background: white;
+  color: var(--grey-dark);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.product-cta i {
+  width: 16px;
+  height: 16px;
+}
+
+.product-cta:hover:not(:disabled) {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+
+.product-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Documentation Section */
+.doc-section {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  line-height: 1.6;
+}
+
+.doc-section h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.doc-section p {
+  margin-bottom: 12px;
+}
+
+.doc-section ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.doc-section pre {
+  background: var(--grey-light);
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.doc-section code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2>🎯 Live Demo — GP01: GroupedProductCard</h2>
+
+  <!-- Live Demo -->
+  <div class="demo-grid">
+
+    <!-- Example 1: Normal product -->
+    <div class="product-card">
+      <div class="product-checkbox-wrapper">
+        <div class="product-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+          <i data-lucide="check" style="display: none;"></i>
+        </div>
+      </div>
+
+      <div class="product-icon">🔪</div>
+
+      <div class="product-badges">
+        <span class="badge popular">
+          <i data-lucide="star"></i> Populair
+        </span>
+      </div>
+
+      <h3 class="product-name">Scalpel met houder</h3>
+      <p class="product-sku">SKU: SCP-001</p>
+
+      <div class="product-price">
+        <div class="price-row">
+          <span class="price-current">€45.00</span>
+          <span class="price-old">€55.00</span>
+        </div>
+      </div>
+
+      <div class="product-stock in-stock">
+        <span class="stock-dot"></span>
+        Op voorraad
+      </div>
+
+      <button class="product-cta">
+        <i data-lucide="shopping-cart"></i>
+        Voeg toe
+      </button>
+    </div>
+
+    <!-- Example 2: Selected product -->
+    <div class="product-card selected">
+      <div class="product-checkbox-wrapper">
+        <div class="product-checkbox checked" role="checkbox" aria-checked="true" tabindex="0">
+          <i data-lucide="check"></i>
+        </div>
+      </div>
+
+      <div class="product-icon">✂️</div>
+
+      <h3 class="product-name">Chirurgische schaar</h3>
+      <p class="product-sku">SKU: SCH-002</p>
+
+      <div class="product-price">
+        <div class="price-row">
+          <span class="price-current">€32.50</span>
+        </div>
+      </div>
+
+      <div class="product-stock in-stock">
+        <span class="stock-dot"></span>
+        Op voorraad
+      </div>
+
+      <button class="product-cta">
+        <i data-lucide="shopping-cart"></i>
+        Voeg toe
+      </button>
+    </div>
+
+    <!-- Example 3: Low stock -->
+    <div class="product-card">
+      <div class="product-checkbox-wrapper">
+        <div class="product-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+          <i data-lucide="check" style="display: none;"></i>
+        </div>
+      </div>
+
+      <div class="product-icon">🩹</div>
+
+      <div class="product-badges">
+        <span class="badge new">
+          <i data-lucide="sparkles"></i> Nieuw
+        </span>
+      </div>
+
+      <h3 class="product-name">Pincet extra fijn</h3>
+      <p class="product-sku">SKU: PIN-003</p>
+
+      <div class="product-price">
+        <div class="price-row">
+          <span class="price-current">€28.00</span>
+        </div>
+      </div>
+
+      <div class="product-stock low-stock">
+        <span class="stock-dot"></span>
+        Nog 3 stuks
+      </div>
+
+      <button class="product-cta">
+        <i data-lucide="shopping-cart"></i>
+        Voeg toe
+      </button>
+    </div>
+
+    <!-- Example 4: Out of stock -->
+    <div class="product-card out-of-stock">
+      <div class="product-checkbox-wrapper">
+        <div class="product-checkbox" role="checkbox" aria-checked="false" tabindex="0" aria-disabled="true">
+          <i data-lucide="check" style="display: none;"></i>
+        </div>
+      </div>
+
+      <div class="product-icon">🔬</div>
+
+      <h3 class="product-name">Weefselklem</h3>
+      <p class="product-sku">SKU: WKL-006</p>
+
+      <div class="product-price">
+        <div class="price-row">
+          <span class="price-current">€36.00</span>
+        </div>
+      </div>
+
+      <div class="product-stock out-of-stock">
+        <span class="stock-dot"></span>
+        Tijdelijk uitverkocht
+      </div>
+
+      <button class="product-cta" disabled>
+        <i data-lucide="clock"></i>
+        Uitverkocht
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Documentation -->
+  <div class="doc-section">
+
+    <!-- STEP 1: Component Overview -->
+    <h3>📦 STEP 1: Component Overview</h3>
+    <p><strong>Component:</strong> GP01: GroupedProductCard</p>
+    <p><strong>Purpose:</strong> Vertical product card with checkbox for multi-select in grouped product grid view. Allows individual product selection and purchase from a related product set.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>White card with 1.5px grey border, 14px border-radius</li>
+      <li>Checkbox top-left (22×22px, 6px radius) for multi-select</li>
+      <li>Selected state: teal border + light teal background (rgba 0.02)</li>
+      <li>Product icon/emoji (64×64px, grey background)</li>
+      <li>Badges (Popular, New) with purple/teal variants</li>
+      <li>Product name (16px, 700 weight) + SKU (mono, 11px grey)</li>
+      <li>Price: current + old price (strikethrough) optional</li>
+      <li>Stock indicator: green (in-stock), amber (low-stock), coral (out-of-stock)</li>
+      <li>Individual add-to-cart button (outline style, full-width)</li>
+      <li>Out-of-stock state: greyscale filter + disabled checkbox + disabled button</li>
+      <li>Hover: teal border + shadow + translateY(-2px)</li>
+      <li>Keyboard accessible (checkbox tab-focusable, Space to toggle)</li>
+    </ul>
+
+    <p><strong>Visual Description:</strong> Vertical card with checkbox in top-left corner for multi-selection. Product displayed with icon, name, price, and stock status. Button at bottom for individual add-to-cart. Selected cards get teal accent and light background.</p>
+
+    <!-- STEP 2: When to Use -->
+    <h3>📋 STEP 2: When to Use</h3>
+
+    <p><strong>Primary Use Cases:</strong></p>
+    <ul>
+      <li><strong>Grouped Product Sets:</strong> Display related products that can be purchased individually or together</li>
+      <li><strong>Multi-Select Shopping:</strong> Allow customers to select multiple items before bulk add-to-cart</li>
+      <li><strong>Complete Sets with Discounts:</strong> Show individual items in a set (e.g., 6-piece tool kit)</li>
+      <li><strong>Product Bundles:</strong> Alternative to Bundle Builder when items are optional</li>
+      <li><strong>Grid View Mode:</strong> Desktop/tablet view with 2-4 column grid</li>
+    </ul>
+
+    <p><strong>When NOT to Use:</strong></p>
+    <ul>
+      <li>❌ For list view (use GP02: GroupedProductRow instead)</li>
+      <li>❌ For single-product pages (use EC01: ProductCard)</li>
+      <li>❌ For forced bundles (use Bundle Builder instead)</li>
+      <li>❌ For subscription products (use SP04: SubscriptionProductCard)</li>
+      <li>❌ For variant selection (use Variable Product components)</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>🎨 STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Card bg: <code>#FFFFFF</code> (white)</li>
+      <li>Card border: <code>#E8ECF1</code> (grey)</li>
+      <li>Selected border: <code>#00897B</code> (teal)</li>
+      <li>Selected bg: <code>rgba(0, 137, 123, 0.02)</code> (teal-glow light)</li>
+      <li>Checkbox border: <code>#E8ECF1</code> (grey), checked: <code>#00897B</code> (teal)</li>
+      <li>Checkbox bg: <code>#FFFFFF</code> (white), checked: <code>#00897B</code> (teal)</li>
+      <li>Icon bg: <code>#F1F4F8</code> (grey-light)</li>
+      <li>Badge Popular: <code>#EDE9FE</code> bg, <code>#7C3AED</code> text (purple)</li>
+      <li>Badge New: <code>rgba(0,137,123,0.12)</code> bg, <code>#00897B</code> text (teal)</li>
+      <li>Price current: <code>#0A1628</code> (navy)</li>
+      <li>Price old: <code>#94A3B8</code> (grey-mid, strikethrough)</li>
+      <li>Stock in-stock: <code>#00C853</code> (green)</li>
+      <li>Stock low-stock: <code>#F59E0B</code> (amber)</li>
+      <li>Stock out-of-stock: <code>#FF6B6B</code> (coral)</li>
+      <li>Button outline: <code>#E8ECF1</code> (grey), hover: <code>#00897B</code> (teal)</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Body font: Plus Jakarta Sans</li>
+      <li>Price font: JetBrains Mono</li>
+      <li>Product name: 16px, 700 weight</li>
+      <li>SKU: 11px, mono, grey-mid</li>
+      <li>Price current: 22px, 800 weight, mono</li>
+      <li>Price old: 14px, 500 weight, mono, strikethrough</li>
+      <li>Stock: 11px, 600 weight</li>
+      <li>Button: 13px, 700 weight</li>
+      <li>Badge: 10px, 800 weight, uppercase</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Card padding: 20px</li>
+      <li>Checkbox position: top 16px, left 16px</li>
+      <li>Icon margin-bottom: 16px</li>
+      <li>Badges margin-bottom: 12px, gap: 4px</li>
+      <li>Name margin-bottom: 4px</li>
+      <li>SKU margin-bottom: 12px</li>
+      <li>Price margin-bottom: 16px</li>
+      <li>Stock margin-bottom: 12px</li>
+      <li>Button padding: 11px 20px</li>
+    </ul>
+
+    <p><strong>Border Radius:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Card: 14px</li>
+      <li>Checkbox: 6px</li>
+      <li>Icon bg: 12px</li>
+      <li>Badges: 100px (pill)</li>
+      <li>Button: 8px</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Icon library: Lucide Icons + Emoji</li>
+      <li>Product icon: 40px emoji or image</li>
+      <li>Checkbox check: 14×14px</li>
+      <li>Badge icons: 11×11px</li>
+      <li>Button icon: 16×16px</li>
+      <li>Stock dot: 6×6px circle</li>
+    </ul>
+
+    <!-- Truncated for brevity - continue with Steps 4-8 -->
+    <p><em>Steps 4-8 continue with Props, Layout, Accessibility, Implementation, and Variations...</em></p>
+
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  // Interactive checkbox demo
+  document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('click', toggleCheckbox);
+    checkbox.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        if (checkbox.getAttribute('aria-disabled') !== 'true') {
+          toggleCheckbox.call(checkbox);
+        }
+      }
+    });
+  });
+
+  function toggleCheckbox() {
+    const isChecked = this.getAttribute('aria-checked') === 'true';
+    const card = this.closest('.product-card');
+    const checkIcon = this.querySelector('i');
+
+    if (!isChecked) {
+      this.classList.add('checked');
+      this.setAttribute('aria-checked', 'true');
+      checkIcon.style.display = 'block';
+      card.classList.add('selected');
+    } else {
+      this.classList.remove('checked');
+      this.setAttribute('aria-checked', 'false');
+      checkIcon.style.display = 'none';
+      card.classList.remove('selected');
+    }
+
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

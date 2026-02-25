@@ -219,3 +219,5 @@ export const Practitioners: CollectionConfig = {
     maxPerDoc: 50,
   },
 }
+
+export default Practitioners

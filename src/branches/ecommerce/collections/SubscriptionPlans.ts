@@ -181,3 +181,5 @@ export const SubscriptionPlans: CollectionConfig = {
     },
   ],
 }
+
+export default SubscriptionPlans

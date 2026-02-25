@@ -236,3 +236,4 @@ export const RecentlyViewed: CollectionConfig = {
     ],
   },
 }
+export default RecentlyViewed

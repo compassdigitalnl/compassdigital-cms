@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OC04: NextStepsCTA — Compass Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Core Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+      --space-48: 48px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 14px;
+      --radius-xl: 16px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --shadow-teal: 0 4px 16px rgba(0, 137, 123, 0.3);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       OC04: NEXT STEPS CTA COMPONENT
+       ═══════════════════════════════════════════════════════════ */
+
+    .next-steps-cta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-16);
+      margin-bottom: var(--space-32);
+    }
+
+    /* CTA Button */
+    .next-step-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-12);
+      padding: var(--space-24);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: all var(--transition);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .next-step-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .next-step-button:active {
+      transform: translateY(0);
+    }
+
+    .next-step-button:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px var(--teal-glow);
+    }
+
+    .next-step-button i {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .next-step-button-text {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-align: center;
+    }
+
+    /* Primary variant (Track order) */
+    .next-step-button.primary {
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: white;
+      box-shadow: var(--shadow-teal);
+    }
+
+    .next-step-button.primary:hover {
+      box-shadow: 0 8px 24px rgba(0, 137, 123, 0.4);
+    }
+
+    .next-step-button.primary i {
+      color: white;
+    }
+
+    /* Secondary variant (Download invoice, Continue shopping) */
+    .next-step-button.secondary {
+      background: var(--white);
+      color: var(--navy);
+      border: 1.5px solid var(--grey);
+    }
+
+    .next-step-button.secondary:hover {
+      border-color: var(--teal);
+      box-shadow: var(--shadow-md);
+    }
+
+    .next-step-button.secondary i {
+      color: var(--teal);
+    }
+
+    /* Alternative styles */
+    .next-step-button.navy {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white;
+      box-shadow: 0 4px 16px rgba(10, 22, 40, 0.3);
+    }
+
+    .next-step-button.navy:hover {
+      box-shadow: 0 8px 24px rgba(10, 22, 40, 0.4);
+    }
+
+    .next-step-button.navy i {
+      color: white;
+    }
+
+    .next-step-button.coral {
+      background: linear-gradient(135deg, #FF6B6B, #FF8787);
+      color: white;
+      box-shadow: 0 4px 16px rgba(255, 107, 107, 0.3);
+    }
+
+    .next-step-button.coral:hover {
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.4);
+    }
+
+    .next-step-button.coral i {
+      color: white;
+    }
+
+    /* Icon-only variant */
+    .next-step-button.icon-only {
+      flex-direction: row;
+      gap: var(--space-8);
+      padding: var(--space-16) var(--space-20);
+    }
+
+    .next-step-button.icon-only i {
+      width: 20px;
+      height: 20px;
+    }
+
+    .next-step-button.icon-only .next-step-button-text {
+      font-size: 13px;
+    }
+
+    /* Compact variant */
+    .next-steps-cta.compact .next-step-button {
+      padding: var(--space-20);
+      gap: var(--space-8);
+    }
+
+    .next-steps-cta.compact .next-step-button i {
+      width: 24px;
+      height: 24px;
+    }
+
+    .next-steps-cta.compact .next-step-button-text {
+      font-size: 13px;
+    }
+
+    /* Badge on button (e.g., "Nieuw" badge) */
+    .next-step-button-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--coral);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 8px;
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+
+    @media (max-width: 768px) {
+      .next-steps-cta {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+      }
+
+      .next-step-button {
+        padding: var(--space-20);
+      }
+
+      .next-step-button i {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES
+       ═══════════════════════════════════════════════════════════ */
+
+    .doc-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: var(--space-32);
+      margin-bottom: var(--space-24);
+    }
+
+    .doc-section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: var(--space-16);
+      padding-bottom: var(--space-12);
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: var(--space-24);
+      margin-bottom: var(--space-12);
+    }
+
+    .doc-section h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-top: var(--space-16);
+      margin-bottom: var(--space-8);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .doc-section p {
+      margin-bottom: var(--space-12);
+      color: var(--grey-dark);
+      line-height: 1.7;
+    }
+
+    .doc-section ul, .doc-section ol {
+      margin-left: var(--space-24);
+      margin-bottom: var(--space-16);
+      color: var(--grey-dark);
+    }
+
+    .doc-section li {
+      margin-bottom: var(--space-8);
+      line-height: 1.7;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: var(--space-20);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: var(--space-16);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .doc-section pre code {
+      background: none;
+      color: inherit;
+      padding: 0;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: var(--space-16);
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      padding: var(--space-12);
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    .token-table td {
+      padding: var(--space-12);
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      font-size: 12px;
+    }
+
+    .demo-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: var(--space-12);
+      margin-top: var(--space-32);
+    }
+
+    .demo-label:first-child {
+      margin-top: 0;
+    }
+
+    .info-box {
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      padding: var(--space-16);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-16);
+    }
+
+    .info-box p {
+      color: #1565C0;
+      margin-bottom: 0;
+      font-size: 14px;
+    }
+
+    .info-box strong {
+      color: #0D47A1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ═══════════════════════════════════════════════════════════
+         LIVE DEMO SECTION
+         ═══════════════════════════════════════════════════════════ -->
+
+    <div style="background:white;border:1px solid var(--grey);border-radius:var(--radius);padding:var(--space-32);margin-bottom:var(--space-24);">
+      <h1 style="font-size:32px;font-weight:800;color:var(--navy);margin-bottom:var(--space-8);">OC04: NextStepsCTA</h1>
+      <p style="font-size:16px;color:var(--grey-dark);margin-bottom:var(--space-32);">Action buttons for next steps after order confirmation (track, download, shop).</p>
+
+      <!-- DEFAULT VARIANT (3 BUTTONS) -->
+      <div class="demo-label">Default Variant (3 Buttons)</div>
+      <div class="next-steps-cta">
+        <button class="next-step-button primary">
+          <i data-lucide="map-pin"></i>
+          <span class="next-step-button-text">Track bestelling</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="download"></i>
+          <span class="next-step-button-text">Download factuur</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="shopping-bag"></i>
+          <span class="next-step-button-text">Verder winkelen</span>
+        </button>
+      </div>
+
+      <!-- WITH BADGE -->
+      <div class="demo-label">With "Nieuw" Badge</div>
+      <div class="next-steps-cta">
+        <button class="next-step-button primary">
+          <i data-lucide="map-pin"></i>
+          <span class="next-step-button-text">Track bestelling</span>
+        </button>
+        <button class="next-step-button secondary">
+          <span class="next-step-button-badge">Nieuw</span>
+          <i data-lucide="star"></i>
+          <span class="next-step-button-text">Beoordeel bestelling</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="shopping-bag"></i>
+          <span class="next-step-button-text">Verder winkelen</span>
+        </button>
+      </div>
+
+      <!-- ALTERNATIVE COLOR COMBINATIONS -->
+      <div class="demo-label">Alternative Color Combinations</div>
+      <div class="next-steps-cta">
+        <button class="next-step-button navy">
+          <i data-lucide="file-text"></i>
+          <span class="next-step-button-text">Bekijk factuur</span>
+        </button>
+        <button class="next-step-button primary">
+          <i data-lucide="download"></i>
+          <span class="next-step-button-text">Download PDF</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="share-2"></i>
+          <span class="next-step-button-text">Deel bestelling</span>
+        </button>
+      </div>
+
+      <!-- 4 BUTTONS (B2B USE CASE) -->
+      <div class="demo-label">4 Buttons (B2B Use Case)</div>
+      <div class="next-steps-cta" style="grid-template-columns:repeat(4, 1fr);">
+        <button class="next-step-button primary">
+          <i data-lucide="map-pin"></i>
+          <span class="next-step-button-text">Track bestelling</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="download"></i>
+          <span class="next-step-button-text">Download factuur</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="copy"></i>
+          <span class="next-step-button-text">Bestel opnieuw</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="shopping-bag"></i>
+          <span class="next-step-button-text">Verder winkelen</span>
+        </button>
+      </div>
+
+      <!-- COMPACT VARIANT -->
+      <div class="demo-label">Compact Variant</div>
+      <div class="next-steps-cta compact">
+        <button class="next-step-button primary">
+          <i data-lucide="map-pin"></i>
+          <span class="next-step-button-text">Track bestelling</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="download"></i>
+          <span class="next-step-button-text">Download factuur</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="shopping-bag"></i>
+          <span class="next-step-button-text">Verder winkelen</span>
+        </button>
+      </div>
+
+      <!-- ICON-ONLY VARIANT -->
+      <div class="demo-label">Icon-Only (Horizontal) Variant</div>
+      <div class="next-steps-cta">
+        <button class="next-step-button icon-only primary">
+          <i data-lucide="map-pin"></i>
+          <span class="next-step-button-text">Track bestelling</span>
+        </button>
+        <button class="next-step-button icon-only secondary">
+          <i data-lucide="download"></i>
+          <span class="next-step-button-text">Factuur</span>
+        </button>
+        <button class="next-step-button icon-only secondary">
+          <i data-lucide="shopping-bag"></i>
+          <span class="next-step-button-text">Winkelen</span>
+        </button>
+      </div>
+
+      <!-- ALTERNATIVE ICONS -->
+      <div class="demo-label">Alternative Icons & Actions</div>
+      <div class="next-steps-cta">
+        <button class="next-step-button primary">
+          <i data-lucide="package"></i>
+          <span class="next-step-button-text">Bekijk details</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="printer"></i>
+          <span class="next-step-button-text">Print factuur</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="headphones"></i>
+          <span class="next-step-button-text">Klantenservice</span>
+        </button>
+      </div>
+
+      <!-- ERROR/CANCEL ACTION -->
+      <div class="demo-label">With Error/Cancel Action</div>
+      <div class="next-steps-cta">
+        <button class="next-step-button primary">
+          <i data-lucide="map-pin"></i>
+          <span class="next-step-button-text">Track bestelling</span>
+        </button>
+        <button class="next-step-button secondary">
+          <i data-lucide="download"></i>
+          <span class="next-step-button-text">Download factuur</span>
+        </button>
+        <button class="next-step-button coral">
+          <i data-lucide="x-circle"></i>
+          <span class="next-step-button-text">Annuleer bestelling</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         8-STEP DOCUMENTATION
+         ═══════════════════════════════════════════════════════════ -->
+
+    <!-- STEP 1: OVERVIEW -->
+    <div class="doc-section">
+      <h2>STEP 1: Component Overview</h2>
+
+      <h3>Purpose</h3>
+      <p>The <strong>NextStepsCTA</strong> component displays a grid of actionable buttons on the order confirmation page, guiding customers to logical next steps after completing a purchase. The primary button (track order) uses a teal gradient with shadow, while secondary buttons use white backgrounds with grey borders. Each button features a centered icon above text.</p>
+
+      <h3>Component Identity</h3>
+      <ul>
+        <li><strong>Name:</strong> NextStepsCTA</li>
+        <li><strong>ID:</strong> OC04</li>
+        <li><strong>Category:</strong> UI Elements / CTA Buttons</li>
+        <li><strong>Type:</strong> Interactive button group</li>
+        <li><strong>Priority:</strong> High (Phase 2)</li>
+      </ul>
+
+      <h3>Usage Context</h3>
+      <p>Appears on the order confirmation page below the order items summary (OC03). Provides quick access to common post-purchase actions. Also usable in email confirmation templates (compact variant) and account order history pages.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>3-column grid layout (default), adapts to 1-column on mobile</li>
+        <li>Primary button with teal gradient + shadow (track order)</li>
+        <li>Secondary buttons with white bg + grey border (download, shop)</li>
+        <li>Centered icon (28×28px) above text (14px, weight 700)</li>
+        <li>Hover animation: lift (-2px) + enhanced shadow</li>
+        <li>Optional badge overlay (e.g., "Nieuw" for new features)</li>
+        <li>Compact variant for email templates</li>
+        <li>Icon-only variant (horizontal layout)</li>
+        <li>Supports 2-4 buttons (3 is optimal)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <div class="doc-section">
+      <h2>STEP 2: When to Use This Component</h2>
+
+      <h3>Primary Use Cases</h3>
+      <ol>
+        <li><strong>Order Confirmation Page:</strong> Guide customers to next actions after checkout</li>
+        <li><strong>Order Detail (Account Area):</strong> Show order-specific actions (track, reorder, cancel)</li>
+        <li><strong>Email Confirmation:</strong> Compact variant with 2-3 key actions</li>
+        <li><strong>Success Pages:</strong> Any post-action success page (subscription, contact form, etc.)</li>
+      </ol>
+
+      <h3>When NOT to Use</h3>
+      <ul>
+        <li><strong>Product pages:</strong> Use standard add-to-cart button pattern</li>
+        <li><strong>Checkout flow:</strong> Use checkout-specific buttons (place order, continue)</li>
+        <li><strong>Forms:</strong> Use form submit buttons, not CTA blocks</li>
+        <li><strong>Navigation:</strong> Use C14 MegaNav or regular nav links</li>
+      </ul>
+
+      <h3>Content Guidelines</h3>
+      <div class="info-box">
+        <p><strong>Button Text:</strong> Use action verbs (Track, Download, Bekijk). Keep to 2-3 words max. Avoid generic "Click here" text.</p>
+        <p><strong>Icon Selection:</strong> Choose icons that match action semantics (map-pin for track, download for PDF, shopping-bag for continue shopping). Use Lucide icon set for consistency.</p>
+        <p><strong>Primary Button:</strong> Reserve for the most important action (usually track order or view details). Only one primary per group.</p>
+        <p><strong>Button Count:</strong> 3 buttons is optimal for desktop (equal-width grid). 2-4 is acceptable. 5+ buttons should use different layout pattern.</p>
+      </div>
+
+      <h3>Action Priority Guidelines</h3>
+      <ol>
+        <li><strong>Primary (Teal gradient):</strong> Track order, View details, Download invoice (single most important)</li>
+        <li><strong>Secondary (White):</strong> Download invoice, Reorder, Continue shopping, Customer service</li>
+        <li><strong>Tertiary (Navy):</strong> Alternative primary if teal doesn't fit brand (B2B contexts)</li>
+        <li><strong>Destructive (Coral):</strong> Cancel order, Report problem (use sparingly)</li>
+      </ol>
+    </div>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <div class="doc-section">
+      <h2>STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Primary button bg</td>
+            <td>Gradient</td>
+            <td>linear-gradient(135deg, #00897B, #26A69A)</td>
+            <td>Teal gradient</td>
+          </tr>
+          <tr>
+            <td>Primary button text</td>
+            <td><code>white</code></td>
+            <td>#FFFFFF</td>
+            <td>White text + icon</td>
+          </tr>
+          <tr>
+            <td>Primary button shadow</td>
+            <td>Custom</td>
+            <td>0 4px 16px rgba(0,137,123,0.3)</td>
+            <td>Teal glow shadow</td>
+          </tr>
+          <tr>
+            <td>Secondary button bg</td>
+            <td><code>--white</code></td>
+            <td>#FAFBFC</td>
+            <td>White background</td>
+          </tr>
+          <tr>
+            <td>Secondary button border</td>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+            <td>1.5px solid border</td>
+          </tr>
+          <tr>
+            <td>Secondary button text</td>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Navy text</td>
+          </tr>
+          <tr>
+            <td>Secondary button icon</td>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+            <td>Teal accent icon</td>
+          </tr>
+          <tr>
+            <td>Navy variant bg</td>
+            <td>Gradient</td>
+            <td>linear-gradient(135deg, #0A1628, #121F33)</td>
+            <td>Navy gradient</td>
+          </tr>
+          <tr>
+            <td>Coral variant bg</td>
+            <td>Gradient</td>
+            <td>linear-gradient(135deg, #FF6B6B, #FF8787)</td>
+            <td>Coral gradient (destructive)</td>
+          </tr>
+          <tr>
+            <td>Badge bg</td>
+            <td><code>--coral</code></td>
+            <td>#FF6B6B</td>
+            <td>"Nieuw" badge</td>
+          </tr>
+          <tr>
+            <td>Badge text</td>
+            <td><code>white</code></td>
+            <td>#FFFFFF</td>
+            <td>Badge text</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font Family</th>
+            <th>Size</th>
+            <th>Weight</th>
+            <th>Line Height</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Button text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>14px</td>
+            <td>700</td>
+            <td>1.3</td>
+          </tr>
+          <tr>
+            <td>Badge text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>10px</td>
+            <td>700</td>
+            <td>1.4</td>
+          </tr>
+          <tr>
+            <td>Compact variant text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>700</td>
+            <td>1.3</td>
+          </tr>
+          <tr>
+            <td>Icon-only variant text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>700</td>
+            <td>1.3</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spacing (4px Grid)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Token</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Grid gap</td>
+            <td><code>--space-16</code></td>
+            <td>16px</td>
+          </tr>
+          <tr>
+            <td>Button padding</td>
+            <td><code>--space-24</code></td>
+            <td>24px (all sides)</td>
+          </tr>
+          <tr>
+            <td>Icon → Text gap</td>
+            <td><code>--space-12</code></td>
+            <td>12px</td>
+          </tr>
+          <tr>
+            <td>Compact button padding</td>
+            <td><code>--space-20</code></td>
+            <td>20px (all sides)</td>
+          </tr>
+          <tr>
+            <td>Icon-only button padding</td>
+            <td><code>--space-16</code> + <code>--space-20</code></td>
+            <td>16px (vertical) × 20px (horizontal)</td>
+          </tr>
+          <tr>
+            <td>Badge position</td>
+            <td><code>8px</code></td>
+            <td>8px from top-right</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Icons (Lucide)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Icon</th>
+            <th>Size</th>
+            <th>Common Alternatives</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Track order</td>
+            <td><code>map-pin</code></td>
+            <td>28×28px</td>
+            <td><code>package</code>, <code>truck</code></td>
+          </tr>
+          <tr>
+            <td>Download invoice</td>
+            <td><code>download</code></td>
+            <td>28×28px</td>
+            <td><code>file-text</code>, <code>file-down</code></td>
+          </tr>
+          <tr>
+            <td>Continue shopping</td>
+            <td><code>shopping-bag</code></td>
+            <td>28×28px</td>
+            <td><code>store</code>, <code>arrow-right</code></td>
+          </tr>
+          <tr>
+            <td>Reorder</td>
+            <td><code>copy</code></td>
+            <td>28×28px</td>
+            <td><code>repeat</code>, <code>refresh-cw</code></td>
+          </tr>
+          <tr>
+            <td>Customer service</td>
+            <td><code>headphones</code></td>
+            <td>28×28px</td>
+            <td><code>message-circle</code>, <code>help-circle</code></td>
+          </tr>
+          <tr>
+            <td>Print invoice</td>
+            <td><code>printer</code></td>
+            <td>28×28px</td>
+            <td><code>file-text</code></td>
+          </tr>
+          <tr>
+            <td>Cancel order</td>
+            <td><code>x-circle</code></td>
+            <td>28×28px</td>
+            <td><code>trash-2</code></td>
+          </tr>
+          <tr>
+            <td>Rate/Review</td>
+            <td><code>star</code></td>
+            <td>28×28px</td>
+            <td><code>message-square</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Border Radius</h3>
+      <ul>
+        <li><strong>Button:</strong> <code>--radius-lg</code> (14px)</li>
+        <li><strong>Badge:</strong> <code>12px</code> (pill shape)</li>
+      </ul>
+
+      <h3>Shadows & Effects</h3>
+      <ul>
+        <li><strong>Primary button:</strong> <code>0 4px 16px rgba(0,137,123,0.3)</code></li>
+        <li><strong>Primary hover:</strong> <code>0 8px 24px rgba(0,137,123,0.4)</code></li>
+        <li><strong>Secondary hover:</strong> <code>--shadow-md</code> (0 8px 24px rgba(10,22,40,0.08))</li>
+        <li><strong>Navy button:</strong> <code>0 4px 16px rgba(10,22,40,0.3)</code></li>
+        <li><strong>Coral button:</strong> <code>0 4px 16px rgba(255,107,107,0.3)</code></li>
+      </ul>
+
+      <h3>Hover Animation</h3>
+      <pre><code>transform: translateY(-2px);
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);</code></pre>
+    </div>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <div class="doc-section">
+      <h2>STEP 4: Props & Configuration</h2>
+
+      <h3>TypeScript Interface</h3>
+      <pre><code>interface NextStepAction {
+  id: string
+  label: string
+  icon: string           // Lucide icon name
+  variant: 'primary' | 'secondary' | 'navy' | 'coral'
+  href?: string          // Link URL
+  onClick?: () => void   // Click handler
+  badge?: {
+    text: string
+    color?: string
+  }
+}
+
+interface NextStepsCTAProps {
+  actions: NextStepAction[]
+  variant?: 'default' | 'compact' | 'icon-only'
+  columns?: number       // Default: 3 (or auto based on actions.length)
+}</code></pre>
+
+      <h3>Payload CMS Fields</h3>
+      <pre><code>// Global config or per-page override:
+{
+  name: 'nextStepsActions',
+  type: 'array',
+  admin: {
+    description: 'Configure next step actions for order confirmation',
+  },
+  maxRows: 4,
+  fields: [
+    {
+      name: 'label',
+      type: 'text',
+      required: true,
+      admin: {
+        placeholder: 'e.g., Track bestelling',
+      },
+    },
+    {
+      name: 'icon',
+      type: 'select',
+      options: [
+        { label: 'Map Pin', value: 'map-pin' },
+        { label: 'Download', value: 'download' },
+        { label: 'Shopping Bag', value: 'shopping-bag' },
+        { label: 'Copy', value: 'copy' },
+        { label: 'Headphones', value: 'headphones' },
+        { label: 'Star', value: 'star' },
+        { label: 'X Circle', value: 'x-circle' },
+      ],
+      required: true,
+    },
+    {
+      name: 'variant',
+      type: 'select',
+      options: [
+        { label: 'Primary (Teal)', value: 'primary' },
+        { label: 'Secondary (White)', value: 'secondary' },
+        { label: 'Navy', value: 'navy' },
+        { label: 'Coral (Destructive)', value: 'coral' },
+      ],
+      defaultValue: 'secondary',
+    },
+    {
+      name: 'link',
+      type: 'relationship',
+      relationTo: ['pages'],
+      admin: {
+        description: 'Internal page link',
+      },
+    },
+    {
+      name: 'externalUrl',
+      type: 'text',
+      admin: {
+        description: 'Or external URL (overrides internal link)',
+      },
+    },
+  ],
+}</code></pre>
+
+      <h3>Default Configuration</h3>
+      <pre><code>const defaultActions = [
+  {
+    id: 'track',
+    label: 'Track bestelling',
+    icon: 'map-pin',
+    variant: 'primary',
+    href: '/account/orders/[orderId]/track',
+  },
+  {
+    id: 'invoice',
+    label: 'Download factuur',
+    icon: 'download',
+    variant: 'secondary',
+    href: '/account/orders/[orderId]/invoice.pdf',
+  },
+  {
+    id: 'shop',
+    label: 'Verder winkelen',
+    icon: 'shopping-bag',
+    variant: 'secondary',
+    href: '/shop',
+  },
+]</code></pre>
+
+      <h3>Responsive Behavior</h3>
+      <ul>
+        <li><strong>Desktop (>768px):</strong> 3-column grid (or custom columns), 24px padding, 28px icons</li>
+        <li><strong>Mobile (≤768px):</strong> 1-column stack, 20px padding, 24px icons, 12px gap</li>
+      </ul>
+    </div>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <div class="doc-section">
+      <h2>STEP 5: Layout Rules</h2>
+
+      <h3>Grid Structure</h3>
+      <pre><code>.next-steps-cta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .next-steps-cta {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}</code></pre>
+
+      <h3>Button Anatomy (Top to Bottom)</h3>
+      <ol>
+        <li><strong>Icon:</strong> 28×28px, centered</li>
+        <li><strong>Gap:</strong> 12px</li>
+        <li><strong>Text:</strong> 14px, weight 700, centered, max 2 lines</li>
+        <li><strong>Badge (optional):</strong> Absolute positioned top-right (8px, 8px)</li>
+      </ol>
+
+      <h3>Spacing Hierarchy</h3>
+      <pre><code>Grid gap:         16px (desktop), 12px (mobile)
+Button padding:   24px (all sides)
+Icon size:        28×28px
+Icon → Text:      12px gap
+Badge position:   8px from top-right</code></pre>
+
+      <h3>Visual Hierarchy</h3>
+      <ol>
+        <li><strong>Primary button:</strong> Teal gradient + shadow — stands out most</li>
+        <li><strong>Secondary buttons:</strong> White + grey border — equal visual weight to each other</li>
+        <li><strong>Icons:</strong> 28px size, prominent visual anchor</li>
+        <li><strong>Text:</strong> 14px weight 700, supports icon meaning</li>
+      </ol>
+
+      <h3>Badge Positioning</h3>
+      <pre><code>.next-step-button-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}</code></pre>
+    </div>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <div class="doc-section">
+      <h2>STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <pre><code>&lt;section aria-label="Next steps" class="next-steps-cta"&gt;
+  &lt;a
+    href="/account/orders/123/track"
+    class="next-step-button primary"
+    aria-label="Track your order"
+  &gt;
+    &lt;i data-lucide="map-pin" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;span class="next-step-button-text"&gt;Track bestelling&lt;/span&gt;
+  &lt;/a&gt;
+  &lt;a
+    href="/account/orders/123/invoice.pdf"
+    class="next-step-button secondary"
+    download
+    aria-label="Download invoice PDF"
+  &gt;
+    &lt;i data-lucide="download" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;span class="next-step-button-text"&gt;Download factuur&lt;/span&gt;
+  &lt;/a&gt;
+  &lt;a
+    href="/shop"
+    class="next-step-button secondary"
+  &gt;
+    &lt;i data-lucide="shopping-bag" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;span class="next-step-button-text"&gt;Verder winkelen&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/section&gt;</code></pre>
+
+      <h3>ARIA Attributes</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>ARIA Attribute</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container</td>
+            <td><code>aria-label="Next steps"</code></td>
+            <td>Identifies the section</td>
+          </tr>
+          <tr>
+            <td>Icons</td>
+            <td><code>aria-hidden="true"</code></td>
+            <td>Hides decorative icons</td>
+          </tr>
+          <tr>
+            <td>Buttons</td>
+            <td><code>aria-label="..."</code></td>
+            <td>Descriptive label for screen readers</td>
+          </tr>
+          <tr>
+            <td>Download links</td>
+            <td><code>download</code></td>
+            <td>Triggers download behavior</td>
+          </tr>
+          <tr>
+            <td>External links</td>
+            <td><code>rel="noopener noreferrer"</code></td>
+            <td>Security for target="_blank"</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Keyboard Navigation</h3>
+      <ul>
+        <li><strong>Tab:</strong> Focus moves between buttons sequentially</li>
+        <li><strong>Enter/Space:</strong> Activates focused button</li>
+        <li><strong>Focus ring:</strong> 2px teal outline + 4px teal glow (visible on :focus-visible)</li>
+      </ul>
+
+      <h3>Focus States</h3>
+      <pre><code>.next-step-button:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--teal-glow);
+}</code></pre>
+
+      <h3>Screen Reader Announcements</h3>
+      <pre><code>// Example screen reader output:
+"Next steps section.
+Link, Track your order, button.
+Link, Download invoice PDF, button.
+Link, Continue shopping, button."</code></pre>
+
+      <h3>Color Contrast</h3>
+      <ul>
+        <li><strong>Primary button text (white on teal gradient):</strong> 4.5:1 ✓ AA</li>
+        <li><strong>Secondary button text (navy #0A1628 on white):</strong> 13.8:1 ✓ AAA</li>
+        <li><strong>Secondary button icon (teal #00897B on white):</strong> 4.7:1 ✓ AA</li>
+        <li><strong>Badge text (white on coral):</strong> 4.5:1 ✓ AA</li>
+      </ul>
+
+      <h3>Reduced Motion</h3>
+      <pre><code>@media (prefers-reduced-motion: reduce) {
+  .next-step-button {
+    transition: none;
+  }
+  .next-step-button:hover {
+    transform: none;
+  }
+}</code></pre>
+    </div>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <div class="doc-section">
+      <h2>STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component</h3>
+      <pre><code>import Link from 'next/link'
+import * as Icons from 'lucide-react'
+
+export default function NextStepsCTA({ actions, variant = 'default', columns }: NextStepsCTAProps) {
+  const gridColumns = columns || actions.length
+  const containerClass = `next-steps-cta ${variant}`
+
+  return (
+    &lt;section
+      aria-label="Next steps"
+      className={containerClass}
+      style={{ gridTemplateColumns: `repeat(${gridColumns}, 1fr)` }}
+    &gt;
+      {actions.map((action) => {
+        const Icon = Icons[action.icon as keyof typeof Icons]
+        const Component = action.href ? Link : 'button'
+
+        return (
+          &lt;Component
+            key={action.id}
+            href={action.href || '#'}
+            className={`next-step-button ${action.variant}`}
+            onClick={action.onClick}
+            aria-label={action.label}
+            {...(action.href?.startsWith('http') && {
+              target: '_blank',
+              rel: 'noopener noreferrer',
+            })}
+            {...(action.href?.endsWith('.pdf') && { download: true })}
+          &gt;
+            {action.badge && (
+              &lt;span className="next-step-button-badge"&gt;
+                {action.badge.text}
+              &lt;/span&gt;
+            )}
+            {Icon && &lt;Icon size={28} aria-hidden="true" /&gt;}
+            &lt;span className="next-step-button-text"&gt;{action.label}&lt;/span&gt;
+          &lt;/Component>
+        )
+      })}
+    &lt;/section&gt;
+  )
+}</code></pre>
+
+      <h3>Order Confirmation Page Integration</h3>
+      <pre><code>// In order confirmation page:
+const orderActions = [
+  {
+    id: 'track',
+    label: 'Track bestelling',
+    icon: 'map-pin',
+    variant: 'primary' as const,
+    href: `/account/orders/${order.id}/track`,
+  },
+  {
+    id: 'invoice',
+    label: 'Download factuur',
+    icon: 'download',
+    variant: 'secondary' as const,
+    href: `/api/orders/${order.id}/invoice`,
+  },
+  {
+    id: 'shop',
+    label: 'Verder winkelen',
+    icon: 'shopping-bag',
+    variant: 'secondary' as const,
+    href: '/shop',
+  },
+]
+
+&lt;NextStepsCTA actions={orderActions} /&gt;</code></pre>
+
+      <h3>Dynamic Action Generation (B2B)</h3>
+      <pre><code>function generateOrderActions(order: PayloadOrder, user: User) {
+  const actions = []
+
+  // Track order (always available)
+  actions.push({
+    id: 'track',
+    label: 'Track bestelling',
+    icon: 'map-pin',
+    variant: 'primary',
+    href: `/account/orders/${order.id}/track`,
+  })
+
+  // Download invoice (available after payment)
+  if (order.paymentStatus === 'paid') {
+    actions.push({
+      id: 'invoice',
+      label: 'Download factuur',
+      icon: 'download',
+      variant: 'secondary',
+      href: `/api/orders/${order.id}/invoice`,
+    })
+  }
+
+  // Reorder (B2B only)
+  if (user.role === 'b2b') {
+    actions.push({
+      id: 'reorder',
+      label: 'Bestel opnieuw',
+      icon: 'copy',
+      variant: 'secondary',
+      onClick: () => reorderItems(order.items),
+    })
+  }
+
+  // Continue shopping
+  actions.push({
+    id: 'shop',
+    label: 'Verder winkelen',
+    icon: 'shopping-bag',
+    variant: 'secondary',
+    href: '/shop',
+  })
+
+  return actions
+}</code></pre>
+
+      <h3>Email Template Variant</h3>
+      <pre><code>&lt;!-- Inline styles for email compatibility --&gt;
+&lt;table role="presentation" style="width:100%;border-collapse:collapse;"&gt;
+  &lt;tr&gt;
+    &lt;td style="padding:20px 0;"&gt;
+      &lt;table role="presentation" style="width:100%;"&gt;
+        &lt;tr&gt;
+          &lt;td style="padding:0 8px;"&gt;
+            &lt;a href="..." style="display:block;background:linear-gradient(135deg,#00897B,#26A69A);color:white;text-align:center;padding:20px;border-radius:12px;text-decoration:none;"&gt;
+              &lt;span style="font-size:13px;font-weight:700;"&gt;📍 Track bestelling&lt;/span&gt;
+            &lt;/a&gt;
+          &lt;/td&gt;
+          &lt;td style="padding:0 8px;"&gt;
+            &lt;a href="..." style="display:block;background:white;border:1px solid #E8ECF1;color:#0A1628;text-align:center;padding:20px;border-radius:12px;text-decoration:none;"&gt;
+              &lt;span style="font-size:13px;font-weight:700;"&gt;⬇️ Download factuur&lt;/span&gt;
+            &lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+      <h3>Analytics Tracking</h3>
+      <pre><code>function handleActionClick(action: NextStepAction, order: PayloadOrder) {
+  // Track with Google Analytics
+  if (window.gtag) {
+    window.gtag('event', 'next_step_action', {
+      action_id: action.id,
+      action_label: action.label,
+      order_id: order.id,
+      order_value: order.total / 100,
+    })
+  }
+
+  // Track with custom analytics
+  analytics.track('Order Confirmation Action', {
+    actionId: action.id,
+    actionLabel: action.label,
+    orderId: order.id,
+    timestamp: new Date().toISOString(),
+  })
+
+  // Execute action
+  if (action.onClick) {
+    action.onClick()
+  } else if (action.href) {
+    window.location.href = action.href
+  }
+}</code></pre>
+
+      <h3>Performance Optimization</h3>
+      <ul>
+        <li><strong>Icon loading:</strong> Import only needed icons instead of entire Lucide set</li>
+        <li><strong>Link prefetching:</strong> Use Next.js <code>&lt;Link prefetch&gt;</code> for primary action</li>
+        <li><strong>Lazy loading:</strong> Not needed (above fold, always visible)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+    <div class="doc-section">
+      <h2>STEP 8: Variations & Related Components</h2>
+
+      <h3>Component Variations</h3>
+
+      <h4>1. Default Variant (3 Buttons)</h4>
+      <p>Standard 3-column grid. Primary teal button + 2 secondary white buttons. Best for order confirmation pages.</p>
+
+      <h4>2. Compact Variant</h4>
+      <p>Smaller padding (20px), smaller icons (24px), smaller text (13px). Use for email templates or space-constrained layouts.</p>
+      <pre><code>&lt;NextStepsCTA variant="compact" actions={actions} /&gt;</code></pre>
+
+      <h4>3. Icon-Only Variant (Horizontal)</h4>
+      <p>Horizontal layout with icon + text side-by-side. More compact vertically. Good for narrow sidebars.</p>
+      <pre><code>&lt;NextStepsCTA variant="icon-only" actions={actions} /&gt;</code></pre>
+
+      <h4>4. 4-Button Layout (B2B)</h4>
+      <p>4 equal-width columns. Add reorder or custom action. Automatically stacks on mobile.</p>
+      <pre><code>&lt;NextStepsCTA actions={b2bActions} columns={4} /&gt;</code></pre>
+
+      <h4>5. With Badge</h4>
+      <p>Add "Nieuw" badge to highlight new features (e.g., review/rating feature).</p>
+
+      <h3>Related Components</h3>
+
+      <h4>OC03: OrderItemsSummary</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Appears directly above OC04</li>
+        <li><strong>Usage:</strong> Shows ordered items, then OC04 shows next actions</li>
+        <li><strong>Spacing:</strong> 32px gap between OC03 and OC04</li>
+      </ul>
+
+      <h4>OC05: EmailConfirmationBanner</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Appears directly below OC04</li>
+        <li><strong>Usage:</strong> Info banner about confirmation email</li>
+      </ul>
+
+      <h4>C17: ToastSystem</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Complementary feedback system</li>
+        <li><strong>Usage:</strong> Show toast after action click (e.g., "Factuur gedownload")</li>
+      </ul>
+
+      <h4>EC12: PaymentMethodCard</h4>
+      <ul>
+        <li><strong>Relationship:</strong> Similar card-style button pattern</li>
+        <li><strong>Difference:</strong> EC12 uses radio selection, OC04 uses direct actions</li>
+      </ul>
+
+      <h3>Page Layout Example</h3>
+      <pre><code>&lt;main className="order-confirmation-page"&gt;
+  {/* OC01: Success Hero */}
+  &lt;SuccessHero orderNumber="PL-2024-00142" /&gt;
+
+  {/* 32px gap */}
+
+  {/* OC02: Order Details Cards */}
+  &lt;OrderDetailsCard {...orderDetails} /&gt;
+
+  {/* 32px gap */}
+
+  {/* OC03: Order Items Summary */}
+  &lt;OrderItemsSummary items={transformOrderItems(order)} /&gt;
+
+  {/* 32px gap */}
+
+  {/* OC04: Next Steps CTA */}
+  &lt;NextStepsCTA actions={generateOrderActions(order, user)} /&gt;
+
+  {/* 24px gap */}
+
+  {/* OC05: Email Confirmation Banner */}
+  &lt;EmailConfirmationBanner email={order.customerEmail} /&gt;
+&lt;/main&gt;</code></pre>
+
+      <h3>Design System Integration</h3>
+      <ul>
+        <li><strong>Button styles:</strong> Reuses gradient patterns from C14 MegaNav CTA buttons</li>
+        <li><strong>Icons:</strong> Lucide icon system (consistent across all components)</li>
+        <li><strong>Colors:</strong> Teal/Navy/Coral palette matching EC12 PaymentMethodCard</li>
+        <li><strong>Typography:</strong> 14px weight 700 button text (same as EC01 ProductCard buttons)</li>
+      </ul>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✓ All buttons display correctly with icons + text</li>
+        <li>✓ Primary button has teal gradient + shadow</li>
+        <li>✓ Secondary buttons have white bg + grey border</li>
+        <li>✓ Hover animation works (lift -2px + enhanced shadow)</li>
+        <li>✓ Icons render correctly (Lucide initialized)</li>
+        <li>✓ Grid layout: 3 columns on desktop, 1 column on mobile</li>
+        <li>✓ Links navigate to correct URLs</li>
+        <li>✓ Download links trigger file download</li>
+        <li>✓ Badge displays correctly (if used)</li>
+        <li>✓ Keyboard navigation works (Tab, Enter)</li>
+        <li>✓ Focus ring visible on :focus-visible</li>
+        <li>✓ Screen reader announces all buttons</li>
+        <li>✓ Color contrast passes WCAG AA standards</li>
+        <li>✓ Analytics tracking fires on click (if implemented)</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons()
+  </script>
+</body>
+</html>

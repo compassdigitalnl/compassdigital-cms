@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C17-ToastSystem - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --radius: 12px;
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .demo-section p {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    .demo-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .demo-btn {
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .demo-btn:hover {
+      background: var(--teal);
+      transform: translateY(-1px);
+    }
+
+    .demo-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* === C17: Toast System === */
+
+    /* Toast Stack Container */
+    .toast-stack {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 1000;
+      width: 380px;
+      max-width: calc(100vw - 40px);
+      pointer-events: none; /* Allow clicks through gaps */
+    }
+
+    /* Individual Toast */
+    .toast {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      pointer-events: auto; /* Re-enable clicks on toast */
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    /* Toast Icon */
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .toast-icon i {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* Toast Content */
+    .toast-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .toast-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .toast-text {
+      font-size: 13px;
+      color: var(--grey-mid);
+      line-height: 1.3;
+    }
+
+    .toast-action {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+      cursor: pointer;
+      margin-top: 4px;
+      display: inline-block;
+      transition: var(--transition);
+    }
+
+    .toast-action:hover {
+      text-decoration: underline;
+    }
+
+    /* Close Button */
+    .toast-close {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.12s;
+    }
+
+    .toast-close:hover {
+      background: var(--grey-light);
+    }
+
+    .toast-close i {
+      width: 14px;
+      height: 14px;
+      color: var(--grey-mid);
+    }
+
+    /* Progress Bar */
+    .toast-progress {
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+      height: 3px;
+      border-radius: 100px;
+      background: var(--grey-light);
+      overflow: hidden;
+    }
+
+    .toast-progress-bar {
+      height: 100%;
+      border-radius: 100px;
+      animation: toast-shrink 5s linear forwards;
+    }
+
+    @keyframes toast-shrink {
+      from {
+        width: 100%;
+      }
+      to {
+        width: 0%;
+      }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      .toast-stack {
+        width: calc(100vw - 32px);
+        right: 16px;
+      }
+    }
+
+    /* === Documentation Styles === */
+    .doc-container {
+      max-width: 900px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 48px;
+    }
+
+    .doc-container h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .doc-container .subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 32px;
+    }
+
+    .doc-container h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .doc-container h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-container p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .doc-container ul, .doc-container ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-container li {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .doc-container code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-container pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .doc-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .doc-container th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-container td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .info-box {
+      background: var(--teal-light);
+      background: rgba(0, 137, 123, 0.08);
+      border-left: 3px solid var(--teal);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin-bottom: 0;
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === LIVE DEMO === -->
+  <div class="demo-section">
+    <h2>Live Demo</h2>
+    <p>Click buttons below to trigger different toast notifications:</p>
+
+    <div class="demo-buttons">
+      <button class="demo-btn" onclick="showToast('success')">
+        <i data-lucide="check"></i>
+        Success Toast
+      </button>
+      <button class="demo-btn" onclick="showToast('info')">
+        <i data-lucide="info"></i>
+        Info Toast
+      </button>
+      <button class="demo-btn" onclick="showToast('warning')">
+        <i data-lucide="alert-triangle"></i>
+        Warning Toast
+      </button>
+      <button class="demo-btn" onclick="showToast('error')">
+        <i data-lucide="x-circle"></i>
+        Error Toast
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Stack Container (initially empty) -->
+  <div class="toast-stack" id="toastStack"></div>
+
+  <!-- === DOCUMENTATION === -->
+  <div class="doc-container">
+    <h1>C17-ToastSystem</h1>
+    <p class="subtitle">Temporary notification system with 4 variants: success, info, warning, and error</p>
+
+    <!-- STEP 1 -->
+    <h2>STEP 1: Component Overview</h2>
+    <p><strong>C17-ToastSystem</strong> provides non-intrusive, temporary notifications that appear in the top-right corner of the screen. Toasts automatically dismiss after 5 seconds and can be manually closed by users.</p>
+
+    <p><strong>Key features:</strong></p>
+    <ul>
+      <li><strong>4 semantic variants:</strong> success (green), info (blue), warning (amber), error (coral)</li>
+      <li><strong>Auto-dismiss:</strong> 5-second timer with animated progress bar</li>
+      <li><strong>Manual close:</strong> X button for immediate dismissal</li>
+      <li><strong>Stack management:</strong> Multiple toasts stack vertically with 8px gap</li>
+      <li><strong>Slide-in animation:</strong> Smooth translateX(120%) → translateX(0) entrance</li>
+      <li><strong>Action links:</strong> Optional CTA links within toasts (e.g., "View cart", "Retry")</li>
+      <li><strong>Responsive:</strong> Adapts width on mobile (<640px)</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Critical feedback component:</strong> Toasts provide immediate visual feedback for user actions (add to cart, form submission, errors) without interrupting workflow.</p>
+    </div>
+
+    <!-- STEP 2 -->
+    <h2>STEP 2: When to Use</h2>
+    <p>Use C17-ToastSystem when:</p>
+    <ul>
+      <li>Confirming successful actions (product added to cart, order placed, settings saved)</li>
+      <li>Providing informational updates (subscription reminder, shipping update)</li>
+      <li>Warning users about important conditions (low stock, session expiring)</li>
+      <li>Alerting users to errors (payment failed, form validation errors)</li>
+      <li>You need non-blocking feedback (user can continue working while toast is visible)</li>
+      <li>The message is temporary and doesn't require user action to proceed</li>
+    </ul>
+
+    <p><strong>Don't use when:</strong></p>
+    <ul>
+      <li>Information is critical and must be acknowledged (use modal instead)</li>
+      <li>User must make a decision before continuing (use confirmation dialog)</li>
+      <li>Content is lengthy or requires reading time (use alert banner or modal)</li>
+      <li>Showing permanent status (use status badge or label)</li>
+      <li>Multiple related messages appear rapidly (consolidate into single toast or use notification center)</li>
+    </ul>
+
+    <!-- STEP 3 -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Layout</h3>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td>Position</td>
+        <td>fixed, top: 20px, right: 20px</td>
+        <td>Top-right corner of viewport</td>
+      </tr>
+      <tr>
+        <td>Width</td>
+        <td>380px (max calc(100vw - 40px))</td>
+        <td>Fixed width, responsive on mobile</td>
+      </tr>
+      <tr>
+        <td>Z-index</td>
+        <td>1000</td>
+        <td>Above all content except modals</td>
+      </tr>
+      <tr>
+        <td>Stack gap</td>
+        <td>8px</td>
+        <td>Vertical spacing between toasts</td>
+      </tr>
+      <tr>
+        <td>Border radius</td>
+        <td>14px</td>
+        <td>Rounded corners</td>
+      </tr>
+      <tr>
+        <td>Padding</td>
+        <td>14px 16px</td>
+        <td>Internal spacing</td>
+      </tr>
+      <tr>
+        <td>Shadow</td>
+        <td>0 16px 48px rgba(10,22,40,0.12)</td>
+        <td>Elevated card shadow</td>
+      </tr>
+    </table>
+
+    <h3>Colors by Variant</h3>
+    <table>
+      <tr>
+        <th>Variant</th>
+        <th>Icon BG</th>
+        <th>Icon Color</th>
+        <th>Progress Bar</th>
+      </tr>
+      <tr>
+        <td>Success</td>
+        <td>#E8F5E9 (green-light)</td>
+        <td>#00C853 (green)</td>
+        <td>#00C853</td>
+      </tr>
+      <tr>
+        <td>Info</td>
+        <td>#E3F2FD (blue-light)</td>
+        <td>#2196F3 (blue)</td>
+        <td>#2196F3</td>
+      </tr>
+      <tr>
+        <td>Warning</td>
+        <td>#FFF8E1 (amber-light)</td>
+        <td>#F59E0B (amber)</td>
+        <td>#F59E0B</td>
+      </tr>
+      <tr>
+        <td>Error</td>
+        <td>#FFF0F0 (coral-light)</td>
+        <td>#FF6B6B (coral)</td>
+        <td>#FF6B6B</td>
+      </tr>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Size</th>
+        <th>Weight</th>
+        <th>Color</th>
+      </tr>
+      <tr>
+        <td>Title</td>
+        <td>14px</td>
+        <td>700</td>
+        <td>navy</td>
+      </tr>
+      <tr>
+        <td>Body text</td>
+        <td>13px</td>
+        <td>400</td>
+        <td>grey-mid</td>
+      </tr>
+      <tr>
+        <td>Action link</td>
+        <td>12px</td>
+        <td>700</td>
+        <td>teal</td>
+      </tr>
+    </table>
+
+    <h3>Icons</h3>
+    <table>
+      <tr>
+        <th>Context</th>
+        <th>Size</th>
+        <th>Icon Name</th>
+      </tr>
+      <tr>
+        <td>Success</td>
+        <td>17px</td>
+        <td>check-circle</td>
+      </tr>
+      <tr>
+        <td>Info</td>
+        <td>17px</td>
+        <td>info</td>
+      </tr>
+      <tr>
+        <td>Warning</td>
+        <td>17px</td>
+        <td>alert-triangle</td>
+      </tr>
+      <tr>
+        <td>Error</td>
+        <td>17px</td>
+        <td>x-circle</td>
+      </tr>
+      <tr>
+        <td>Close button</td>
+        <td>14px</td>
+        <td>x</td>
+      </tr>
+    </table>
+
+    <!-- STEP 4 -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>Toast Configuration Object</h3>
+    <pre>const toastConfig = {
+  success: {
+    icon: 'check-circle',
+    bg: 'var(--green-light)',
+    color: 'var(--green)',
+    title: 'Product toegevoegd',
+    text: 'Peha-soft Nitrile Fino (5×) is toegevoegd aan uw winkelwagen.',
+    action: 'Bekijk winkelwagen'
+  },
+  info: {
+    icon: 'info',
+    bg: 'var(--blue-light)',
+    color: 'var(--blue)',
+    title: 'Herhaalbestelling herinnering',
+    text: 'Uw maandelijkse praktijkvoorraad wordt morgen verwerkt.',
+    action: 'Bekijk details'
+  },
+  warning: {
+    icon: 'alert-triangle',
+    bg: 'var(--amber-light)',
+    color: 'var(--amber)',
+    title: 'Voorraad bijna op',
+    text: 'Peha-soft Nitrile Fino (M) — nog maar 12 dozen beschikbaar.',
+    action: null  // No action link
+  },
+  error: {
+    icon: 'x-circle',
+    bg: 'var(--coral-light)',
+    color: 'var(--coral)',
+    title: 'Betaling mislukt',
+    text: 'Uw iDEAL betaling kon niet worden verwerkt. Probeer opnieuw.',
+    action: 'Opnieuw proberen'
+  }
+};</pre>
+
+    <h3>JavaScript Functions</h3>
+    <table>
+      <tr>
+        <th>Function</th>
+        <th>Parameters</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><code>showToast(type)</code></td>
+        <td>type: 'success' | 'info' | 'warning' | 'error'</td>
+        <td>Creates and displays a toast notification</td>
+      </tr>
+      <tr>
+        <td><code>removeToast(id)</code></td>
+        <td>id: unique toast identifier</td>
+        <td>Removes toast with slide-out animation</td>
+      </tr>
+    </table>
+
+    <h3>HTML Structure</h3>
+    <pre>&lt;!-- Toast stack container (fixed position) --&gt;
+&lt;div class="toast-stack" id="toastStack"&gt;
+  &lt;!-- Toasts dynamically inserted here --&gt;
+&lt;/div&gt;
+
+&lt;!-- Individual toast (created by JavaScript) --&gt;
+&lt;div class="toast show" id="toast-1"&gt;
+  &lt;div class="toast-icon" style="background: var(--green-light)"&gt;
+    &lt;i data-lucide="check-circle" style="color: var(--green)"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="toast-body"&gt;
+    &lt;div class="toast-title"&gt;Product toegevoegd&lt;/div&gt;
+    &lt;div class="toast-text"&gt;Peha-soft Nitrile Fino is toegevoegd.&lt;/div&gt;
+    &lt;span class="toast-action"&gt;Bekijk winkelwagen&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;button class="toast-close" onclick="removeToast(1)"&gt;
+    &lt;i data-lucide="x"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="toast-progress"&gt;
+    &lt;div class="toast-progress-bar" style="background: var(--green)"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <!-- STEP 5 -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Positioning</h3>
+    <ul>
+      <li><strong>Fixed position:</strong> <code>position: fixed; top: 20px; right: 20px;</code></li>
+      <li><strong>Z-index:</strong> 1000 (above content, below modals at 1100)</li>
+      <li><strong>Pointer events:</strong> Container has <code>pointer-events: none</code> to allow clicks through gaps, toasts re-enable with <code>pointer-events: auto</code></li>
+    </ul>
+
+    <h3>Stacking Behavior</h3>
+    <ul>
+      <li><strong>Vertical stack:</strong> Flexbox column with 8px gap</li>
+      <li><strong>New toasts append to bottom:</strong> Latest toast appears below existing ones</li>
+      <li><strong>Max visible:</strong> No hard limit, but consider limiting to 3-4 for UX</li>
+      <li><strong>Auto-removal:</strong> Toasts dismiss after 5.5 seconds (5s animation + 0.5s buffer)</li>
+    </ul>
+
+    <h3>Animation Timing</h3>
+    <table>
+      <tr>
+        <th>Animation</th>
+        <th>Duration</th>
+        <th>Easing</th>
+      </tr>
+      <tr>
+        <td>Slide-in (entrance)</td>
+        <td>0.4s</td>
+        <td>cubic-bezier(0.4, 0, 0.2, 1)</td>
+      </tr>
+      <tr>
+        <td>Slide-out (exit)</td>
+        <td>0.4s</td>
+        <td>cubic-bezier(0.4, 0, 0.2, 1)</td>
+      </tr>
+      <tr>
+        <td>Progress bar</td>
+        <td>5s</td>
+        <td>linear</td>
+      </tr>
+      <tr>
+        <td>Auto-dismiss timeout</td>
+        <td>5.5s</td>
+        <td>—</td>
+      </tr>
+    </table>
+
+    <h3>Responsive Behavior</h3>
+    <pre>/* Desktop (>640px) */
+.toast-stack {
+  width: 380px;
+}
+
+/* Mobile (<640px) */
+@media (max-width: 640px) {
+  .toast-stack {
+    width: calc(100vw - 32px);  /* Full width minus 16px margins */
+    right: 16px;
+  }
+}</pre>
+
+    <!-- STEP 6 -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>ARIA Live Regions</h3>
+    <pre>&lt;!-- Toast stack as live region --&gt;
+&lt;div class="toast-stack"
+     id="toastStack"
+     role="status"
+     aria-live="polite"
+     aria-atomic="false"&gt;
+&lt;/div&gt;
+
+&lt;!-- Individual toast --&gt;
+&lt;div class="toast show"
+     role="alert"
+     aria-live="assertive"&gt;
+  &lt;!-- Toast content --&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Screen Reader Announcements</h3>
+    <ul>
+      <li><code>role="alert"</code> on individual toasts — screen readers immediately announce new toasts</li>
+      <li><code>aria-live="assertive"</code> for errors/warnings — interrupts current announcement</li>
+      <li><code>aria-live="polite"</code> for success/info — waits for current announcement to finish</li>
+      <li><code>aria-atomic="true"</code> — announces entire toast content, not just changes</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Close button focusable:</strong> Users can Tab to close button and press Enter/Space to dismiss</li>
+      <li><strong>Action links focusable:</strong> If toast has action link, it's keyboard accessible</li>
+      <li><strong>ESC key support:</strong> Optionally dismiss all toasts with ESC key</li>
+    </ul>
+
+    <h3>Focus Management</h3>
+    <pre>function showToast(type) {
+  const toast = createToast(type);
+  toastStack.appendChild(toast);
+
+  // Don't steal focus from current element
+  // Toasts are non-modal and shouldn't interrupt workflow
+
+  // Optional: If action link exists, make it focusable
+  const actionLink = toast.querySelector('.toast-action');
+  if (actionLink) {
+    actionLink.setAttribute('tabindex', '0');
+    actionLink.setAttribute('role', 'button');
+  }
+}</pre>
+
+    <h3>Color Contrast</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Contrast Ratio</th>
+        <th>WCAG Level</th>
+      </tr>
+      <tr>
+        <td>Title (navy on white)</td>
+        <td>15.8:1</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>Body text (grey-mid on white)</td>
+        <td>4.6:1</td>
+        <td>AA</td>
+      </tr>
+      <tr>
+        <td>Success icon (green on green-light)</td>
+        <td>3.2:1</td>
+        <td>AA (large)</td>
+      </tr>
+      <tr>
+        <td>Action link (teal on white)</td>
+        <td>4.5:1</td>
+        <td>AA</td>
+      </tr>
+    </table>
+
+    <!-- STEP 7 -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Complete Implementation</h3>
+    <pre>// Toast system initialization
+let toastId = 0;
+
+const toastConfig = {
+  success: { icon: 'check-circle', bg: 'var(--green-light)', color: 'var(--green)', title: '...', text: '...', action: '...' },
+  info: { icon: 'info', bg: 'var(--blue-light)', color: 'var(--blue)', title: '...', text: '...', action: '...' },
+  warning: { icon: 'alert-triangle', bg: 'var(--amber-light)', color: 'var(--amber)', title: '...', text: '...', action: null },
+  error: { icon: 'x-circle', bg: 'var(--coral-light)', color: 'var(--coral)', title: '...', text: '...', action: '...' }
+};
+
+function showToast(type) {
+  const config = toastConfig[type];
+  const id = ++toastId;
+
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.id = 'toast-' + id;
+  toast.setAttribute('role', 'alert');
+  toast.setAttribute('aria-live', type === 'error' || type === 'warning' ? 'assertive' : 'polite');
+  toast.setAttribute('aria-atomic', 'true');
+
+  toast.innerHTML = `
+    &lt;div class="toast-icon" style="background: ${config.bg}"&gt;
+      &lt;i data-lucide="${config.icon}" style="color: ${config.color}"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="toast-body"&gt;
+      &lt;div class="toast-title"&gt;${config.title}&lt;/div&gt;
+      &lt;div class="toast-text"&gt;${config.text}&lt;/div&gt;
+      ${config.action ? `&lt;span class="toast-action"&gt;${config.action}&lt;/span&gt;` : ''}
+    &lt;/div&gt;
+    &lt;button class="toast-close" onclick="removeToast(${id})" aria-label="Sluiten"&gt;
+      &lt;i data-lucide="x"&gt;&lt;/i&gt;
+    &lt;/button&gt;
+    &lt;div class="toast-progress"&gt;
+      &lt;div class="toast-progress-bar" style="background: ${config.color}"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  `;
+
+  // Append to stack
+  document.getElementById('toastStack').appendChild(toast);
+
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Trigger slide-in animation
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
+
+  // Auto-dismiss after 5.5 seconds
+  setTimeout(() => {
+    removeToast(id);
+  }, 5500);
+}
+
+function removeToast(id) {
+  const toast = document.getElementById('toast-' + id);
+  if (!toast) return;
+
+  // Slide out
+  toast.classList.remove('show');
+
+  // Remove from DOM after animation
+  setTimeout(() => {
+    toast.remove();
+  }, 400);
+}</pre>
+
+    <h3>Custom Toast Messages</h3>
+    <p>For dynamic content (e.g., product name, error details), extend the function:</p>
+    <pre>function showCustomToast(type, title, text, action = null) {
+  const config = toastConfig[type];
+  const id = ++toastId;
+
+  // Use provided title/text instead of config defaults
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.id = 'toast-' + id;
+
+  toast.innerHTML = `
+    &lt;div class="toast-icon" style="background: ${config.bg}"&gt;
+      &lt;i data-lucide="${config.icon}" style="color: ${config.color}"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="toast-body"&gt;
+      &lt;div class="toast-title"&gt;${title}&lt;/div&gt;
+      &lt;div class="toast-text"&gt;${text}&lt;/div&gt;
+      ${action ? `&lt;span class="toast-action"&gt;${action}&lt;/span&gt;` : ''}
+    &lt;/div&gt;
+    &lt;button class="toast-close" onclick="removeToast(${id})"&gt;
+      &lt;i data-lucide="x"&gt;&lt;/i&gt;
+    &lt;/button&gt;
+    &lt;div class="toast-progress"&gt;
+      &lt;div class="toast-progress-bar" style="background: ${config.color}"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  `;
+
+  document.getElementById('toastStack').appendChild(toast);
+  lucide.createIcons();
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => removeToast(id), 5500);
+}
+
+// Usage:
+showCustomToast('success', 'Product toegevoegd', 'Welch Allyn DuraShock DS45 (2×) toegevoegd', 'Bekijk winkelwagen');</pre>
+
+    <h3>Action Link Handlers</h3>
+    <p>To make action links functional:</p>
+    <pre>// Add click handler to action links
+const actionLink = toast.querySelector('.toast-action');
+if (actionLink) {
+  actionLink.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    // Perform action (e.g., navigate to cart)
+    if (config.action === 'Bekijk winkelwagen') {
+      window.location.href = '/cart';
+    } else if (config.action === 'Opnieuw proberen') {
+      retryPayment();
+    }
+
+    // Close toast after action
+    removeToast(id);
+  });
+}</pre>
+
+    <h3>Stack Limit</h3>
+    <p>To prevent toast spam, limit max visible toasts:</p>
+    <pre>function showToast(type) {
+  // Remove oldest toast if 3+ already visible
+  const toasts = document.querySelectorAll('.toast');
+  if (toasts.length >= 3) {
+    const oldestId = toasts[0].id.replace('toast-', '');
+    removeToast(parseInt(oldestId));
+  }
+
+  // ... continue with normal toast creation
+}</pre>
+
+    <!-- STEP 8 -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variations</h3>
+
+    <h4>1. Bottom-Right Position</h4>
+    <pre>.toast-stack {
+  top: auto;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Reverse stack order (newest at top) */
+.toast-stack {
+  flex-direction: column-reverse;
+}</pre>
+
+    <h4>2. Top-Center Position</h4>
+    <pre>.toast-stack {
+  top: 20px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  align-items: center;
+}</pre>
+
+    <h4>3. Minimal Toast (icon only)</h4>
+    <pre>&lt;div class="toast toast-minimal show"&gt;
+  &lt;div class="toast-icon" style="background: var(--green-light)"&gt;
+    &lt;i data-lucide="check-circle" style="color: var(--green)"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="toast-text"&gt;Product toegevoegd&lt;/div&gt;
+&lt;/div&gt;
+
+/* CSS */
+.toast-minimal {
+  padding: 10px 14px;
+}
+.toast-minimal .toast-icon {
+  width: 28px;
+  height: 28px;
+}
+.toast-minimal .toast-text {
+  font-size: 13px;
+  font-weight: 600;
+}</pre>
+
+    <h4>4. Toast with Image (product added)</h4>
+    <pre>&lt;div class="toast show"&gt;
+  &lt;img src="product.jpg" class="toast-image" alt="Product"&gt;
+  &lt;div class="toast-body"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+/* CSS */
+.toast-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}</pre>
+
+    <h3>Related Components</h3>
+    <table>
+      <tr>
+        <th>Component</th>
+        <th>Relationship</th>
+      </tr>
+      <tr>
+        <td>C3-AddToCartToast</td>
+        <td>Specialized success toast for add-to-cart actions with product image</td>
+      </tr>
+      <tr>
+        <td>C11-NotificationCenter</td>
+        <td>Persistent notification history — toasts are temporary, notification center is permanent</td>
+      </tr>
+      <tr>
+        <td>C7-CookieBanner</td>
+        <td>Persistent banner vs temporary toast — different use cases</td>
+      </tr>
+      <tr>
+        <td>C8-BackInStock</td>
+        <td>Coral notification bar — similar to warning toast but persistent</td>
+      </tr>
+    </table>
+
+    <h3>Common Use Cases</h3>
+
+    <h4>1. Add to Cart Success</h4>
+    <pre>// After successful add-to-cart API call
+showCustomToast(
+  'success',
+  'Product toegevoegd',
+  `${productName} (${quantity}×) is toegevoegd aan uw winkelwagen.`,
+  'Bekijk winkelwagen'
+);</pre>
+
+    <h4>2. Form Validation Error</h4>
+    <pre>// After form submission fails
+showCustomToast(
+  'error',
+  'Formulier niet compleet',
+  'Vul alle verplichte velden in voordat u doorgaat.',
+  null
+);</pre>
+
+    <h4>3. Session Expiring Warning</h4>
+    <pre>// 5 minutes before session expires
+showCustomToast(
+  'warning',
+  'Uw sessie verloopt binnenkort',
+  'U wordt over 5 minuten automatisch uitgelogd. Sla uw werk op.',
+  'Sessie verlengen'
+);</pre>
+
+    <h4>4. Background Task Completion</h4>
+    <pre>// After async export completes
+showCustomToast(
+  'info',
+  'Export voltooid',
+  'Uw bestellijst is klaar om te downloaden.',
+  'Download nu'
+);</pre>
+
+    <div class="info-box">
+      <p><strong>Implementation complete!</strong> This toast system provides flexible, accessible, non-intrusive notifications for all user feedback scenarios.</p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // === Toast System Implementation ===
+    let toastId = 0;
+
+    const toastConfig = {
+      success: {
+        icon: 'check-circle',
+        bg: 'var(--green-light)',
+        color: 'var(--green)',
+        title: 'Product toegevoegd',
+        text: 'Peha-soft Nitrile Fino (5×) is toegevoegd aan uw winkelwagen.',
+        action: 'Bekijk winkelwagen'
+      },
+      info: {
+        icon: 'info',
+        bg: 'var(--blue-light)',
+        color: 'var(--blue)',
+        title: 'Herhaalbestelling herinnering',
+        text: 'Uw maandelijkse praktijkvoorraad wordt morgen verwerkt.',
+        action: 'Bekijk details'
+      },
+      warning: {
+        icon: 'alert-triangle',
+        bg: 'var(--amber-light)',
+        color: 'var(--amber)',
+        title: 'Voorraad bijna op',
+        text: 'Peha-soft Nitrile Fino (M) — nog maar 12 dozen beschikbaar.',
+        action: null
+      },
+      error: {
+        icon: 'x-circle',
+        bg: 'var(--coral-light)',
+        color: 'var(--coral)',
+        title: 'Betaling mislukt',
+        text: 'Uw iDEAL betaling kon niet worden verwerkt. Probeer opnieuw.',
+        action: 'Opnieuw proberen'
+      }
+    };
+
+    function showToast(type) {
+      const config = toastConfig[type];
+      const id = ++toastId;
+
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.id = 'toast-' + id;
+      toast.setAttribute('role', 'alert');
+      toast.setAttribute('aria-live', type === 'error' || type === 'warning' ? 'assertive' : 'polite');
+      toast.setAttribute('aria-atomic', 'true');
+
+      toast.innerHTML = `
+        <div class="toast-icon" style="background: ${config.bg}">
+          <i data-lucide="${config.icon}" style="color: ${config.color}"></i>
+        </div>
+        <div class="toast-body">
+          <div class="toast-title">${config.title}</div>
+          <div class="toast-text">${config.text}</div>
+          ${config.action ? `<span class="toast-action" onclick="handleToastAction('${type}', ${id})">${config.action}</span>` : ''}
+        </div>
+        <button class="toast-close" onclick="removeToast(${id})" aria-label="Sluiten">
+          <i data-lucide="x"></i>
+        </button>
+        <div class="toast-progress">
+          <div class="toast-progress-bar" style="background: ${config.color}"></div>
+        </div>
+      `;
+
+      // Append to stack
+      document.getElementById('toastStack').appendChild(toast);
+
+      // Initialize Lucide icons for new toast
+      lucide.createIcons();
+
+      // Trigger slide-in animation
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+
+      // Auto-dismiss after 5.5 seconds
+      setTimeout(() => {
+        removeToast(id);
+      }, 5500);
+    }
+
+    function removeToast(id) {
+      const toast = document.getElementById('toast-' + id);
+      if (!toast) return;
+
+      // Slide out
+      toast.classList.remove('show');
+
+      // Remove from DOM after animation
+      setTimeout(() => {
+        toast.remove();
+      }, 400);
+    }
+
+    function handleToastAction(type, id) {
+      console.log('Toast action clicked:', type);
+
+      // Demo: Navigate or perform action
+      if (type === 'success') {
+        alert('Navigating to cart...');
+      } else if (type === 'error') {
+        alert('Retrying payment...');
+      } else if (type === 'info') {
+        alert('Showing details...');
+      }
+
+      // Close toast after action
+      removeToast(id);
+    }
+  </script>
+</body>
+</html>

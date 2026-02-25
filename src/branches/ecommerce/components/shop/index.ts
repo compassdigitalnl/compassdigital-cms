@@ -1,34 +1,12 @@
 /**
- * Shop Components
+ * E-commerce Shop Components
  *
- * Reusable e-commerce components for product pages and shop features.
+ * Components for shop/category pages:
+ * - CategoryHero - Hero section for category pages with breadcrumbs, title, and description
+ * - SubcategoryChips (EC03) - Horizontal scrollable subcategory navigation for product filtering
+ * - FilterSidebar - Product filtering sidebar
+ * - SortDropdown - Product sorting dropdown
  */
 
-export { SubscriptionPriceTable } from './SubscriptionPriceTable'
-export type { SubscriptionPriceTableProps, SubscriptionVariant } from './SubscriptionPriceTable'
-
-export { NotifyMeButton } from './NotifyMeButton'
-export type { NotifyMeButtonProps } from './NotifyMeButton'
-
-export { FilterSidebar, ActiveFilterChips, FilterCard, PriceRangeSlider } from './FilterSidebar'
-export type {
-  FilterSidebarProps,
-  FilterGroup,
-  FilterOption,
-  FilterType,
-  ActiveFilter,
-  PriceRange,
-  FilterCardProps,
-  ActiveFilterChipsProps,
-  PriceRangeSliderProps,
-} from './FilterSidebar'
-
-export { SortDropdown, ViewToggle, ShopToolbar } from './SortDropdown'
-export type {
-  SortDropdownProps,
-  ViewToggleProps,
-  ShopToolbarProps,
-  SortOption,
-  ViewMode,
-  SortDropdownSize,
-} from './SortDropdown'
+export * from './CategoryHero'
+export * from './SubcategoryChips'

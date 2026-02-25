@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC08: CouponInput — Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --green: #00C853;
+      --coral: #FF6B6B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-dark: #64748B;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: #F5F7FA;
+      padding: 48px 24px;
+      margin: 0;
+    }
+
+    .demo-container {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .demo-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-subtitle {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 32px;
+    }
+
+    .demo-section {
+      margin-bottom: 24px;
+    }
+
+    .demo-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       EC08: COUPON INPUT COMPONENT
+       ═══════════════════════════════════════════════════════════ */
+
+    .coupon-input {
+      display: flex;
+      gap: 8px;
+    }
+
+    .coupon-input__field {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: 10px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--navy);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .coupon-input__field::placeholder {
+      color: #94A3B8;
+    }
+
+    .coupon-input__field:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12);
+    }
+
+    .coupon-input__field--error {
+      border-color: var(--coral);
+    }
+
+    .coupon-input__field--success {
+      border-color: var(--green);
+      background: rgba(0, 200, 83, 0.04);
+    }
+
+    .coupon-input__btn {
+      padding: 12px 18px;
+      background: var(--bg);
+      border: 1.5px solid var(--grey);
+      border-radius: 10px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition);
+    }
+
+    .coupon-input__btn:hover:not(:disabled) {
+      border-color: var(--teal);
+      color: var(--teal);
+      background: var(--white);
+    }
+
+    .coupon-input__btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .coupon-input__btn--loading {
+      position: relative;
+      color: transparent;
+    }
+
+    .coupon-input__btn--loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      margin: -8px 0 0 -8px;
+      border: 2px solid var(--grey);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Feedback Messages */
+    .coupon-feedback {
+      margin-top: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .coupon-feedback svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .coupon-feedback--success {
+      color: var(--green);
+    }
+
+    .coupon-feedback--error {
+      color: var(--coral);
+    }
+
+    /* Applied Coupon Display */
+    .coupon-applied {
+      background: rgba(0, 200, 83, 0.06);
+      border: 1px solid #E8F5E9;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .coupon-applied__left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .coupon-applied__left svg {
+      width: 16px;
+      height: 16px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .coupon-applied__text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .coupon-applied__code {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .coupon-applied__discount {
+      font-size: 12px;
+      color: var(--green);
+    }
+
+    .coupon-applied__remove {
+      background: none;
+      border: none;
+      color: var(--grey-dark);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color var(--transition);
+    }
+
+    .coupon-applied__remove svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .coupon-applied__remove:hover {
+      color: var(--coral);
+    }
+
+    /* Documentation styles (same as previous components) */
+    .docs {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 48px;
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .docs h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 32px 0 16px 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .docs h2:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .docs h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 12px 0;
+    }
+
+    .docs p, .docs li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--grey-dark);
+    }
+
+    .docs code {
+      background: #F5F7FA;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 16px 0;
+    }
+
+    .docs table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .docs th {
+      background: #F5F7FA;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .docs td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .docs .tag {
+      display: inline-block;
+      background: #E8F5E9;
+      color: #166534;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .docs .tag--critical {
+      background: #FFF0F0;
+      color: #DC2626;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="demo-container">
+    <div class="demo-title">EC08: CouponInput</div>
+    <div class="demo-subtitle">Discount code input field with validation and feedback</div>
+
+    <!-- Default State -->
+    <div class="demo-section">
+      <h3>Default State</h3>
+      <div class="coupon-input">
+        <input type="text" class="coupon-input__field" placeholder="Kortingscode" aria-label="Kortingscode">
+        <button class="coupon-input__btn">Toepassen</button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="demo-section">
+      <h3>Loading State (Validating)</h3>
+      <div class="coupon-input">
+        <input type="text" class="coupon-input__field" placeholder="Kortingscode" value="SUMMER10" disabled>
+        <button class="coupon-input__btn coupon-input__btn--loading" disabled>Toepassen</button>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="demo-section">
+      <h3>Error State (Invalid Code)</h3>
+      <div>
+        <div class="coupon-input">
+          <input type="text" class="coupon-input__field coupon-input__field--error" value="INVALID99" aria-invalid="true" aria-describedby="coupon-error">
+          <button class="coupon-input__btn">Toepassen</button>
+        </div>
+        <div class="coupon-feedback coupon-feedback--error" id="coupon-error" role="alert">
+          <i data-lucide="x-circle"></i>
+          Deze kortingscode is ongeldig of verlopen
+        </div>
+      </div>
+    </div>
+
+    <!-- Success State (Applied) -->
+    <div class="demo-section">
+      <h3>Success State (Coupon Applied)</h3>
+      <div class="coupon-applied">
+        <div class="coupon-applied__left">
+          <i data-lucide="check-circle"></i>
+          <div class="coupon-applied__text">
+            <span class="coupon-applied__code">SUMMER10</span>
+            <span class="coupon-applied__discount">−€ 6,14 korting toegepast</span>
+          </div>
+        </div>
+        <button class="coupon-applied__remove" aria-label="Verwijder kortingscode">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Interactive Demo -->
+    <div class="demo-section">
+      <h3>Interactive Demo</h3>
+      <div id="interactive-demo">
+        <div class="coupon-input">
+          <input type="text" id="coupon-field" class="coupon-input__field" placeholder="Probeer: SUMMER10, WINTER15, of TEST" aria-label="Kortingscode" aria-describedby="coupon-msg">
+          <button id="coupon-btn" class="coupon-input__btn">Toepassen</button>
+        </div>
+        <div id="coupon-msg" style="min-height: 20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div class="docs">
+    <h2>📋 STEP 1: Component Overview</h2>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td><strong>Component ID</strong></td>
+        <td>EC08</td>
+      </tr>
+      <tr>
+        <td><strong>Component Name</strong></td>
+        <td>CouponInput</td>
+      </tr>
+      <tr>
+        <td><strong>Category</strong></td>
+        <td>E-commerce / Conversion</td>
+      </tr>
+      <tr>
+        <td><strong>Source File</strong></td>
+        <td><code>ef2-cart.html</code> (lines 162-165)</td>
+      </tr>
+      <tr>
+        <td><strong>Target Folder</strong></td>
+        <td><code>/refactoring/components/ecommerce/</code></td>
+      </tr>
+      <tr>
+        <td><strong>Priority</strong></td>
+        <td><span class="tag tag--critical">CRITICAL</span></td>
+      </tr>
+    </table>
+
+    <p><strong>Description:</strong> Input field with submit button for applying discount/coupon codes. Includes validation, loading states, error/success feedback, and applied coupon display.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>Text input with placeholder</li>
+      <li>Submit button ("Toepassen")</li>
+      <li>Loading state during validation</li>
+      <li>Error feedback (invalid/expired code)</li>
+      <li>Success feedback with applied discount amount</li>
+      <li>Applied coupon display with remove button</li>
+      <li>Uppercase auto-formatting (optional)</li>
+    </ul>
+
+    <h2>🎯 STEP 2: When to Use</h2>
+
+    <p><strong>Use this component when:</strong></p>
+    <ul>
+      <li>Embedding in EC07: OrderSummary sidebar</li>
+      <li>On cart page for discount application</li>
+      <li>In checkout flow for last-minute discounts</li>
+      <li>In mini cart flyout (condensed version)</li>
+    </ul>
+
+    <p><strong>Common Design Patterns:</strong></p>
+    <ul>
+      <li><strong>Cart Sidebar:</strong> Above checkout CTA buttons</li>
+      <li><strong>Checkout:</strong> In payment step sidebar</li>
+      <li><strong>Mini Cart:</strong> Collapsible "Apply discount" section</li>
+    </ul>
+
+    <p><strong>Do NOT use when:</strong></p>
+    <ul>
+      <li>Cart is empty (hide component)</li>
+      <li>On product pages (use direct "Apply at checkout" messaging)</li>
+      <li>For gift cards (use separate gift card input)</li>
+    </ul>
+
+    <h2>🎨 STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table>
+      <tr>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+      <tr>
+        <td><code>--white</code></td>
+        <td>#FAFBFC</td>
+        <td>Input background</td>
+      </tr>
+      <tr>
+        <td><code>--bg</code></td>
+        <td>#F5F7FA</td>
+        <td>Button background</td>
+      </tr>
+      <tr>
+        <td><code>--grey</code></td>
+        <td>#E8ECF1</td>
+        <td>Border default</td>
+      </tr>
+      <tr>
+        <td><code>--grey-dark</code></td>
+        <td>#64748B</td>
+        <td>Placeholder, remove button</td>
+      </tr>
+      <tr>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>Input text, button text</td>
+      </tr>
+      <tr>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Focus border, button hover</td>
+      </tr>
+      <tr>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>Success border, feedback</td>
+      </tr>
+      <tr>
+        <td><code>--coral</code></td>
+        <td>#FF6B6B</td>
+        <td>Error border, feedback</td>
+      </tr>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Font</th>
+        <th>Size</th>
+        <th>Weight</th>
+      </tr>
+      <tr>
+        <td>Input</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>400</td>
+      </tr>
+      <tr>
+        <td>Button</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>600</td>
+      </tr>
+      <tr>
+        <td>Feedback</td>
+        <td>DM Sans</td>
+        <td>13px</td>
+        <td>400</td>
+      </tr>
+      <tr>
+        <td>Applied code</td>
+        <td>JetBrains Mono</td>
+        <td>13px</td>
+        <td>600</td>
+      </tr>
+      <tr>
+        <td>Discount amount</td>
+        <td>DM Sans</td>
+        <td>12px</td>
+        <td>400</td>
+      </tr>
+    </table>
+
+    <h3>Spacing & Layout</h3>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Flex gap</td>
+        <td>8px</td>
+      </tr>
+      <tr>
+        <td>Input padding</td>
+        <td>12px 14px</td>
+      </tr>
+      <tr>
+        <td>Button padding</td>
+        <td>12px 18px</td>
+      </tr>
+      <tr>
+        <td>Feedback margin-top</td>
+        <td>8px</td>
+      </tr>
+      <tr>
+        <td>Applied coupon padding</td>
+        <td>12px 14px</td>
+      </tr>
+      <tr>
+        <td>Border radius</td>
+        <td>10px</td>
+      </tr>
+    </table>
+
+    <h3>Icons</h3>
+    <table>
+      <tr>
+        <th>Usage</th>
+        <th>Icon</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>Success feedback</td>
+        <td><code>check-circle</code></td>
+        <td>14-16px</td>
+      </tr>
+      <tr>
+        <td>Error feedback</td>
+        <td><code>x-circle</code></td>
+        <td>14px</td>
+      </tr>
+      <tr>
+        <td>Remove applied</td>
+        <td><code>x</code></td>
+        <td>16px</td>
+      </tr>
+    </table>
+
+    <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface CouponInputProps {
+  // State
+  value?: string
+  appliedCoupon?: {
+    code: string
+    discountAmount: number
+    discountType: 'percentage' | 'fixed'
+  }
+
+  // Handlers
+  onApply?: (code: string) => Promise&lt;{
+    success: boolean
+    message?: string
+    discount?: number
+  }&gt;
+  onRemove?: () => void
+
+  // Display Options
+  placeholder?: string        // Default: "Kortingscode"
+  buttonText?: string         // Default: "Toepassen"
+  autoUppercase?: boolean     // Auto-convert to uppercase (default: true)
+
+  // Styling
+  className?: string
+}
+</pre>
+
+    <h3>Usage Examples</h3>
+    <pre>
+// Basic usage
+import { CouponInput } from '@/components/ecommerce/CouponInput'
+
+&lt;CouponInput
+  onApply={async (code) => {
+    const result = await validateCoupon(code)
+    if (result.valid) {
+      await applyDiscount(code)
+      return {
+        success: true,
+        discount: result.amount
+      }
+    }
+    return {
+      success: false,
+      message: 'Deze kortingscode is ongeldig'
+    }
+  }}
+  onRemove={() => removeDiscount()}
+/&gt;
+
+// With applied coupon
+&lt;CouponInput
+  appliedCoupon={{
+    code: 'SUMMER10',
+    discountAmount: 6.14,
+    discountType: 'percentage'
+  }}
+  onRemove={() => removeDiscount()}
+/&gt;
+</pre>
+
+    <h3>Payload CMS Coupon Collection</h3>
+    <pre>
+{
+  slug: 'coupons',
+  fields: [
+    {
+      name: 'code',
+      type: 'text',
+      required: true,
+      unique: true,
+      admin: {
+        description: 'Uppercase coupon code (e.g., SUMMER10)'
+      },
+      hooks: {
+        beforeChange: [
+          ({ value }) => value?.toUpperCase()
+        ]
+      }
+    },
+    {
+      name: 'discountType',
+      type: 'select',
+      options: [
+        { label: 'Percentage', value: 'percentage' },
+        { label: 'Fixed Amount', value: 'fixed' }
+      ],
+      required: true
+    },
+    {
+      name: 'discountValue',
+      type: 'number',
+      required: true,
+      admin: {
+        description: 'Percentage (e.g., 10) or fixed amount (e.g., 5.00)'
+      }
+    },
+    {
+      name: 'minOrderValue',
+      type: 'number',
+      admin: {
+        description: 'Minimum order value required (optional)'
+      }
+    },
+    {
+      name: 'maxUses',
+      type: 'number',
+      admin: {
+        description: 'Maximum total uses allowed (optional)'
+      }
+    },
+    {
+      name: 'usedCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+        description: 'How many times this coupon has been used'
+      }
+    },
+    {
+      name: 'validFrom',
+      type: 'date',
+      admin: {
+        description: 'When coupon becomes valid'
+      }
+    },
+    {
+      name: 'validUntil',
+      type: 'date',
+      admin: {
+        description: 'When coupon expires'
+      }
+    },
+    {
+      name: 'isActive',
+      type: 'checkbox',
+      defaultValue: true
+    }
+  ],
+  hooks: {
+    beforeRead: [
+      ({ doc }) => {
+        // Auto-disable expired coupons
+        if (doc.validUntil && new Date(doc.validUntil) < new Date()) {
+          doc.isActive = false
+        }
+        return doc
+      }
+    ]
+  }
+}
+</pre>
+
+    <h2>📐 STEP 5: Layout Rules</h2>
+
+    <p><strong>Container Behavior:</strong></p>
+    <ul>
+      <li>Full-width within parent (typically EC07: OrderSummary)</li>
+      <li>Flexbox layout: input (flex: 1) + button (fixed width)</li>
+      <li>8px gap between input and button</li>
+    </ul>
+
+    <p><strong>Responsive Behavior:</strong></p>
+    <ul>
+      <li>Always horizontal layout (no stacking)</li>
+      <li>Input expands, button shrinks naturally</li>
+      <li>Min button width: ~85px ("Toepassen")</li>
+    </ul>
+
+    <p><strong>Z-index:</strong> None (static component)</p>
+
+    <h2>♿ STEP 6: Accessibility</h2>
+
+    <p><strong>Semantic HTML & ARIA:</strong></p>
+    <pre>
+&lt;div class="coupon-input"&gt;
+  &lt;input
+    type="text"
+    class="coupon-input__field"
+    placeholder="Kortingscode"
+    aria-label="Kortingscode"
+    aria-invalid="false"
+    aria-describedby="coupon-feedback"
+  /&gt;
+  &lt;button class="coupon-input__btn"&gt;Toepassen&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Error feedback --&gt;
+&lt;div
+  id="coupon-feedback"
+  class="coupon-feedback coupon-feedback--error"
+  role="alert"
+&gt;
+  Deze kortingscode is ongeldig
+&lt;/div&gt;
+</pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>aria-label</code> on input (or associated <code>&lt;label&gt;</code>)</li>
+      <li><code>aria-invalid="true"</code> when error state</li>
+      <li><code>aria-describedby</code> linking to feedback message</li>
+      <li><code>role="alert"</code> on error/success feedback</li>
+      <li><code>disabled</code> on input/button during loading</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li><strong>Tab:</strong> Focus input → button</li>
+      <li><strong>Enter:</strong> Submit from input or button</li>
+      <li><strong>Escape:</strong> Clear input (optional)</li>
+    </ul>
+
+    <p><strong>Screen Reader Announcements:</strong></p>
+    <ul>
+      <li>On success: "Kortingscode SUMMER10 toegepast. 6 euro en 14 cent korting"</li>
+      <li>On error: "Deze kortingscode is ongeldig of verlopen"</li>
+      <li>On loading: "Kortingscode wordt gevalideerd"</li>
+    </ul>
+
+    <h2>💻 STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+'use client'
+
+import { useState } from 'react'
+import { CheckCircle, XCircle, X } from 'lucide-react'
+
+export function CouponInput({
+  onApply,
+  onRemove,
+  appliedCoupon,
+  placeholder = 'Kortingscode',
+  buttonText = 'Toepassen',
+  autoUppercase = true
+}: CouponInputProps) {
+
+  const [code, setCode] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState&lt;string | null&gt;(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!code.trim() || loading) return
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      const result = await onApply?.(code.trim())
+
+      if (result?.success) {
+        setCode('')
+        setError(null)
+      } else {
+        setError(result?.message || 'Deze kortingscode is ongeldig')
+      }
+    } catch (err) {
+      setError('Er is iets misgegaan. Probeer het opnieuw.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    let value = e.target.value
+    if (autoUppercase) {
+      value = value.toUpperCase()
+    }
+    setCode(value)
+    setError(null) // Clear error on input
+  }
+
+  // If coupon is applied, show applied state
+  if (appliedCoupon) {
+    return (
+      &lt;div className="coupon-applied"&gt;
+        &lt;div className="coupon-applied__left"&gt;
+          &lt;CheckCircle /&gt;
+          &lt;div className="coupon-applied__text"&gt;
+            &lt;span className="coupon-applied__code"&gt;
+              {appliedCoupon.code}
+            &lt;/span&gt;
+            &lt;span className="coupon-applied__discount"&gt;
+              −€ {appliedCoupon.discountAmount.toFixed(2)} korting toegepast
+            &lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;button
+          className="coupon-applied__remove"
+          onClick={onRemove}
+          aria-label="Verwijder kortingscode"
+        &gt;
+          &lt;X /&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    )
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;form onSubmit={handleSubmit} className="coupon-input"&gt;
+        &lt;input
+          type="text"
+          className={`coupon-input__field ${
+            error ? 'coupon-input__field--error' : ''
+          }`}
+          placeholder={placeholder}
+          value={code}
+          onChange={handleChange}
+          disabled={loading}
+          aria-label={placeholder}
+          aria-invalid={!!error}
+          aria-describedby={error ? 'coupon-error' : undefined}
+        /&gt;
+        &lt;button
+          type="submit"
+          className={`coupon-input__btn ${
+            loading ? 'coupon-input__btn--loading' : ''
+          }`}
+          disabled={loading || !code.trim()}
+        &gt;
+          {buttonText}
+        &lt;/button&gt;
+      &lt;/form&gt;
+
+      {error && (
+        &lt;div
+          id="coupon-error"
+          className="coupon-feedback coupon-feedback--error"
+          role="alert"
+        &gt;
+          &lt;XCircle size={14} /&gt;
+          {error}
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  )
+}
+</pre>
+
+    <h3>API Endpoint Example</h3>
+    <pre>
+// app/api/cart/apply-coupon/route.ts
+export async function POST(req: Request) {
+  const { code, cartTotal } = await req.json()
+
+  const coupon = await payload.find({
+    collection: 'coupons',
+    where: {
+      code: { equals: code.toUpperCase() },
+      isActive: { equals: true }
+    }
+  })
+
+  if (!coupon.docs.length) {
+    return Response.json({
+      success: false,
+      message: 'Deze kortingscode is ongeldig'
+    }, { status: 400 })
+  }
+
+  const c = coupon.docs[0]
+
+  // Check expiry
+  if (c.validUntil && new Date(c.validUntil) < new Date()) {
+    return Response.json({
+      success: false,
+      message: 'Deze kortingscode is verlopen'
+    }, { status: 400 })
+  }
+
+  // Check min order value
+  if (c.minOrderValue && cartTotal < c.minOrderValue) {
+    return Response.json({
+      success: false,
+      message: `Minimum bestelbedrag voor deze code is € ${c.minOrderValue.toFixed(2)}`
+    }, { status: 400 })
+  }
+
+  // Calculate discount
+  const discount = c.discountType === 'percentage'
+    ? cartTotal * (c.discountValue / 100)
+    : c.discountValue
+
+  // Increment usage count
+  await payload.update({
+    collection: 'coupons',
+    id: c.id,
+    data: { usedCount: (c.usedCount || 0) + 1 }
+  })
+
+  return Response.json({
+    success: true,
+    discount,
+    code: c.code
+  })
+}
+</pre>
+
+    <h3>Important Implementation Details</h3>
+    <ul>
+      <li><strong>Auto-Uppercase:</strong> Convert input to uppercase on change</li>
+      <li><strong>Debouncing:</strong> Not needed (submit-based, not live search)</li>
+      <li><strong>Loading State:</strong> Disable input/button, show spinner</li>
+      <li><strong>Error Clearing:</strong> Clear error on new input</li>
+      <li><strong>Form Submission:</strong> Use <code>&lt;form&gt;</code> for Enter key support</li>
+      <li><strong>Validation:</strong> Server-side validation is critical (check expiry, usage limits, min order)</li>
+    </ul>
+
+    <h2>🎭 STEP 8: Variations & Related Components</h2>
+
+    <h3>Variations</h3>
+    <table>
+      <tr>
+        <th>Variation</th>
+        <th>Description</th>
+        <th>Use Case</th>
+      </tr>
+      <tr>
+        <td><strong>Inline</strong></td>
+        <td>No border/background, minimal styling</td>
+        <td>Embedded in compact spaces</td>
+      </tr>
+      <tr>
+        <td><strong>Collapsible</strong></td>
+        <td>"Apply discount" link that expands to input</td>
+        <td>Mini cart flyout</td>
+      </tr>
+      <tr>
+        <td><strong>With Suggestions</strong></td>
+        <td>Dropdown with available coupons</td>
+        <td>Logged-in users with account coupons</td>
+      </tr>
+    </table>
+
+    <h3>Future Enhancements</h3>
+    <ul>
+      <li><strong>Auto-Apply Best:</strong> "We applied your best discount" message</li>
+      <li><strong>Coupon Suggestions:</strong> "You have 2 coupons available"</li>
+      <li><strong>Multiple Coupons:</strong> Stack multiple codes (if allowed)</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>EC07: OrderSummary</strong> — Contains this component</li>
+      <li><strong>C2: MiniCart Flyout</strong> — Uses collapsible variation</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Auto-uppercase works</li>
+      <li>✓ Enter key submits form</li>
+      <li>✓ Loading state disables input/button</li>
+      <li>✓ Error displays on invalid code</li>
+      <li>✓ Error clears on new input</li>
+      <li>✓ Success shows applied coupon display</li>
+      <li>✓ Remove button clears coupon</li>
+      <li>✓ Server validates expiry, min order, usage limits</li>
+      <li>✓ Screen reader announces errors</li>
+      <li>✓ Keyboard navigation works</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       JAVASCRIPT
+       ═══════════════════════════════════════════════════════════ -->
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Interactive demo
+    const validCodes = {
+      'SUMMER10': { discount: 6.14, type: 'percentage' },
+      'WINTER15': { discount: 9.21, type: 'percentage' },
+      'TEST': { discount: 5.00, type: 'fixed' }
+    };
+
+    const field = document.getElementById('coupon-field');
+    const btn = document.getElementById('coupon-btn');
+    const msg = document.getElementById('coupon-msg');
+    const demo = document.getElementById('interactive-demo');
+
+    // Auto-uppercase
+    field?.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase();
+    });
+
+    // Apply coupon
+    btn?.addEventListener('click', async () => {
+      const code = field.value.trim();
+      if (!code) return;
+
+      // Loading state
+      btn.disabled = true;
+      btn.classList.add('coupon-input__btn--loading');
+      field.disabled = true;
+      msg.innerHTML = '';
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      btn.disabled = false;
+      btn.classList.remove('coupon-input__btn--loading');
+      field.disabled = false;
+
+      // Check validity
+      if (validCodes[code]) {
+        const data = validCodes[code];
+        // Show applied state
+        demo.innerHTML = `
+          <div class="coupon-applied">
+            <div class="coupon-applied__left">
+              <i data-lucide="check-circle"></i>
+              <div class="coupon-applied__text">
+                <span class="coupon-applied__code">${code}</span>
+                <span class="coupon-applied__discount">−€ ${data.discount.toFixed(2)} korting toegepast</span>
+              </div>
+            </div>
+            <button class="coupon-applied__remove" aria-label="Verwijder kortingscode" onclick="location.reload()">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+        `;
+        lucide.createIcons();
+      } else {
+        // Show error
+        field.classList.add('coupon-input__field--error');
+        field.setAttribute('aria-invalid', 'true');
+        msg.innerHTML = `
+          <div class="coupon-feedback coupon-feedback--error" role="alert">
+            <i data-lucide="x-circle"></i>
+            Deze kortingscode is ongeldig of verlopen
+          </div>
+        `;
+        lucide.createIcons();
+
+        // Clear error on input
+        field.addEventListener('input', () => {
+          field.classList.remove('coupon-input__field--error');
+          field.setAttribute('aria-invalid', 'false');
+          msg.innerHTML = '';
+        }, { once: true });
+      }
+    });
+
+    // Enter key
+    field?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        btn.click();
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -120,3 +120,4 @@ export const Cases: CollectionConfig = {
     ],
   },
 }
+export default Cases

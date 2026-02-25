@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC15: PONumberInput — Compass Design System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ================================
+       DESIGN TOKENS
+       ================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    }
+
+    /* ================================
+       BASE STYLES
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ================================
+       DEMO SECTION STYLES
+       ================================ */
+    .demo-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      border: 1px solid var(--grey);
+    }
+
+    .demo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    /* ================================
+       COMPONENT: EC15 PONumberInput
+       ================================ */
+
+    /* Form group container */
+    .po-number-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    /* Label */
+    .po-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .po-label i {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+    }
+
+    /* Optional indicator */
+    .optional {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--grey-mid);
+      margin-left: 4px;
+    }
+
+    /* Input field */
+    .po-input {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--navy);
+      background: var(--white);
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      transition: all var(--transition);
+      outline: none;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .po-input::placeholder {
+      color: var(--grey-mid);
+      text-transform: none;
+      letter-spacing: 0;
+      font-family: var(--font-body);
+      font-size: 13px;
+    }
+
+    /* Focus state */
+    .po-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Helper text */
+    .po-helper {
+      font-size: 12px;
+      color: var(--grey-mid);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-6);
+      margin-top: -2px;
+    }
+
+    .po-helper i {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* B2B badge indicator */
+    .b2b-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    /* Disabled state */
+    .po-input:disabled {
+      background: var(--grey-light);
+      color: var(--grey-mid);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* ================================
+       VARIATIONS
+       ================================ */
+
+    /* Compact variant (for inline forms) */
+    .po-number-group.compact .po-label {
+      font-size: 12px;
+    }
+
+    .po-number-group.compact .po-input {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    /* With icon (file-text icon inside input) */
+    .po-input-wrapper {
+      position: relative;
+    }
+
+    .po-input-wrapper .po-input {
+      padding-left: 40px;
+    }
+
+    .po-input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+      pointer-events: none;
+    }
+
+    /* ================================
+       RESPONSIVE
+       ================================ */
+    @media (max-width: 640px) {
+      .demo-section {
+        padding: 20px;
+      }
+
+      .po-input {
+        font-size: 13px;
+      }
+    }
+
+    /* ================================
+       DOCUMENTATION STYLES
+       ================================ */
+    .doc-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-section p, .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .doc-section ul, .doc-section ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--grey);
+      font-size: 13px;
+    }
+
+    .token-table th {
+      background: var(--bg);
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .token-table td {
+      color: var(--grey-dark);
+    }
+
+    .token-table code {
+      background: white;
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ================================
+         LIVE DEMO
+         ================================ -->
+    <div class="demo-section">
+      <div class="demo-title">EC15: PONumberInput — Live Demo</div>
+      <div class="demo-description">
+        B2B purchase order number input field for checkout and quote requests.
+      </div>
+
+      <!-- Default variant -->
+      <div class="po-number-group" style="max-width: 600px; margin-bottom: 32px;">
+        <label class="po-label" for="po-number-1">
+          <i data-lucide="file-text"></i>
+          Referentienummer / PO-nummer
+          <span class="optional">(optioneel)</span>
+        </label>
+        <input
+          class="po-input"
+          type="text"
+          id="po-number-1"
+          name="poNumber"
+          placeholder="Uw interne referentie voor op de factuur"
+          maxlength="50"
+        >
+        <div class="po-helper">
+          <i data-lucide="info"></i>
+          <span>Dit nummer verschijnt op uw factuur en pakbon voor interne administratie.</span>
+        </div>
+      </div>
+
+      <!-- With B2B badge -->
+      <div class="po-number-group" style="max-width: 600px; margin-bottom: 32px;">
+        <label class="po-label" for="po-number-2">
+          <i data-lucide="file-text"></i>
+          Purchase Order Nummer
+          <span class="b2b-badge">B2B</span>
+        </label>
+        <input
+          class="po-input"
+          type="text"
+          id="po-number-2"
+          name="poNumber"
+          placeholder="PO-2024-12345"
+          value="PO-2024-001234"
+        >
+      </div>
+
+      <!-- Compact variant -->
+      <div class="po-number-group compact" style="max-width: 400px; margin-bottom: 32px;">
+        <label class="po-label" for="po-number-3">
+          PO-nummer
+        </label>
+        <input
+          class="po-input"
+          type="text"
+          id="po-number-3"
+          name="poNumber"
+          placeholder="Referentie"
+        >
+      </div>
+
+      <!-- With icon inside input -->
+      <div class="po-number-group" style="max-width: 600px;">
+        <label class="po-label" for="po-number-4">
+          Referentienummer
+        </label>
+        <div class="po-input-wrapper">
+          <i data-lucide="file-text" class="po-input-icon"></i>
+          <input
+            class="po-input"
+            type="text"
+            id="po-number-4"
+            name="poNumber"
+            placeholder="Voer uw PO-nummer in"
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================
+         DOCUMENTATION
+         ================================ -->
+
+    <!-- STEP 1: Component Overview -->
+    <div class="doc-section">
+      <h2>STEP 1: Component Overview</h2>
+
+      <p><strong>Component ID:</strong> EC15</p>
+      <p><strong>Component Name:</strong> PONumberInput</p>
+      <p><strong>Category:</strong> Forms / B2B Checkout</p>
+      <p><strong>Source File:</strong> <code>plastimed-checkout.html</code> (line 223)</p>
+      <p><strong>Output File:</strong> <code>/refactoring/components/forms/ec15-po-number-input.html</code></p>
+
+      <h3>Purpose</h3>
+      <p>
+        B2B purchase order number input field for checkout and quote requests. Allows business customers to add their internal reference number (PO number) which will appear on invoices and packing slips for internal administration and accounting.
+      </p>
+
+      <h3>Visual Pattern</h3>
+      <ul>
+        <li>Label with file-text icon + optional "B2B" badge</li>
+        <li>Monospace input field (JetBrains Mono font)</li>
+        <li>Uppercase text transformation (automatic)</li>
+        <li>Optional helper text below input</li>
+        <li>Teal focus state with glow ring</li>
+        <li>Non-required field (no red asterisk)</li>
+      </ul>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>✅ Monospace font (JetBrains Mono) for code-like numbers</li>
+        <li>✅ Automatic uppercase transformation</li>
+        <li>✅ Letter-spacing for readability</li>
+        <li>✅ Optional field (B2B convenience, not required)</li>
+        <li>✅ Helper text explaining usage</li>
+        <li>✅ B2B badge indicator (optional)</li>
+        <li>✅ Icon variants (label icon or input icon)</li>
+        <li>✅ Compact variant for inline forms</li>
+        <li>✅ Max length validation (50 characters)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 2: When to Use -->
+    <div class="doc-section">
+      <h2>STEP 2: When to Use</h2>
+
+      <h3>✅ USE this component when:</h3>
+      <ul>
+        <li>✅ B2B checkout — collect PO number for invoice reference</li>
+        <li>✅ Quote requests — link quote to customer's internal order</li>
+        <li>✅ Account order forms — recurring orders with PO tracking</li>
+        <li>✅ Invoice payment — match payment to specific PO</li>
+        <li>✅ Return/RMA forms — reference original PO number</li>
+      </ul>
+
+      <h3>❌ DON'T use this component when:</h3>
+      <ul>
+        <li>❌ B2C checkout — consumers don't use PO numbers</li>
+        <li>❌ Guest checkout — requires B2B account</li>
+        <li>❌ Digital products — no physical invoice/pakbon</li>
+        <li>❌ Admin panel — use standard input</li>
+      </ul>
+
+      <h3>Integration Points</h3>
+      <ul>
+        <li><strong>Checkout location:</strong> After address form (EC14), before payment selection</li>
+        <li><strong>Invoice display:</strong> Shows on PDF invoices and packing slips</li>
+        <li><strong>Order details:</strong> Visible in order history and admin panel</li>
+        <li><strong>Related components:</strong>
+          <ul>
+            <li>EC14: AddressForm (B2B company info section)</li>
+            <li>EC07: OrderSummary (may show PO number in summary)</li>
+            <li>Invoice templates (displays PO number)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- STEP 3: Design Tokens -->
+    <div class="doc-section">
+      <h2>STEP 3: Design Tokens</h2>
+
+      <h3>Colors</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--navy</code></td>
+            <td>#0A1628</td>
+            <td>Label text, input text</td>
+          </tr>
+          <tr>
+            <td><code>--teal</code></td>
+            <td>#00897B</td>
+            <td>Focus border, icon color, B2B badge text</td>
+          </tr>
+          <tr>
+            <td><code>--teal-glow</code></td>
+            <td>rgba(0,137,123,0.12)</td>
+            <td>Focus ring shadow, B2B badge background</td>
+          </tr>
+          <tr>
+            <td><code>--white</code></td>
+            <td>#FAFBFC</td>
+            <td>Input background</td>
+          </tr>
+          <tr>
+            <td><code>--grey</code></td>
+            <td>#E8ECF1</td>
+            <td>Default input border</td>
+          </tr>
+          <tr>
+            <td><code>--grey-mid</code></td>
+            <td>#94A3B8</td>
+            <td>Placeholder text, helper text, optional indicator, disabled text</td>
+          </tr>
+          <tr>
+            <td><code>--grey-light</code></td>
+            <td>#F1F4F8</td>
+            <td>Disabled background</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Font</th>
+            <th>Size</th>
+            <th>Weight</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Label</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>600</td>
+            <td>var(--navy)</td>
+          </tr>
+          <tr>
+            <td>Input text</td>
+            <td>JetBrains Mono</td>
+            <td>14px</td>
+            <td>400</td>
+            <td>var(--navy)</td>
+          </tr>
+          <tr>
+            <td>Placeholder</td>
+            <td>Plus Jakarta Sans</td>
+            <td>13px</td>
+            <td>400</td>
+            <td>var(--grey-mid)</td>
+          </tr>
+          <tr>
+            <td>Helper text</td>
+            <td>Plus Jakarta Sans</td>
+            <td>12px</td>
+            <td>400</td>
+            <td>var(--grey-mid)</td>
+          </tr>
+          <tr>
+            <td>Optional indicator</td>
+            <td>Plus Jakarta Sans</td>
+            <td>11px</td>
+            <td>400</td>
+            <td>var(--grey-mid)</td>
+          </tr>
+          <tr>
+            <td>B2B badge</td>
+            <td>Plus Jakarta Sans</td>
+            <td>10px</td>
+            <td>700</td>
+            <td>var(--teal)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spacing (4px grid)</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--space-6</code></td>
+            <td>6px</td>
+            <td>Label → input gap, label icon gap, helper icon gap, B2B badge padding</td>
+          </tr>
+          <tr>
+            <td><code>--space-8</code></td>
+            <td>8px</td>
+            <td>Compact input padding (vertical)</td>
+          </tr>
+          <tr>
+            <td><code>--space-12</code></td>
+            <td>12px</td>
+            <td>Compact input padding (horizontal)</td>
+          </tr>
+          <tr>
+            <td><code>--space-14</code></td>
+            <td>14px</td>
+            <td>Default input padding, icon positioning</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typography Special Effects</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Text-transform</td>
+            <td>uppercase</td>
+            <td>Input text (auto-capitalize PO numbers)</td>
+          </tr>
+          <tr>
+            <td>Letter-spacing</td>
+            <td>0.02em</td>
+            <td>Input text (better readability for monospace)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 4: Props & Configuration -->
+    <div class="doc-section">
+      <h2>STEP 4: Props & Configuration</h2>
+
+      <h3>React Component Interface</h3>
+      <pre>
+interface PONumberInputProps {
+  // Field configuration
+  name?: string;                    // Default: "poNumber"
+  label?: string;                   // Default: "Referentienummer / PO-nummer"
+  placeholder?: string;             // Default: "Uw interne referentie voor op de factuur"
+  helperText?: string;              // Optional helper text below input
+  maxLength?: number;               // Default: 50
+
+  // Visual variants
+  variant?: 'default' | 'compact';  // Default: 'default'
+  showIcon?: boolean;               // Show file-text icon in label (default: true)
+  iconPosition?: 'label' | 'input'; // Icon in label or inside input (default: 'label')
+  showB2BBadge?: boolean;           // Show "B2B" badge next to label (default: false)
+
+  // State
+  value?: string;
+  onChange?: (value: string) => void;
+  disabled?: boolean;               // Disable input
+  required?: boolean;               // Make field required (default: false)
+
+  // Styling
+  className?: string;
+}
+      </pre>
+
+      <h3>Configuration Examples</h3>
+      <pre>
+// Default usage (checkout)
+&lt;PONumberInput
+  onChange={(value) => setFormData({ ...formData, poNumber: value })}
+/&gt;
+
+// With B2B badge
+&lt;PONumberInput
+  label="Purchase Order Nummer"
+  showB2BBadge={true}
+/&gt;
+
+// Compact variant (inline form)
+&lt;PONumberInput
+  variant="compact"
+  label="PO-nummer"
+  placeholder="Referentie"
+/&gt;
+
+// With icon inside input
+&lt;PONumberInput
+  iconPosition="input"
+  label="Referentienummer"
+/&gt;
+
+// Required field (unusual, but possible)
+&lt;PONumberInput
+  required={true}
+  label="PO-nummer"
+  helperText="Verplicht voor groothandel bestellingen"
+/&gt;
+
+// Disabled state (showing existing value)
+&lt;PONumberInput
+  value="PO-2024-001234"
+  disabled={true}
+/&gt;
+      </pre>
+
+      <h3>Validation Rules</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Rule</th>
+            <th>Value</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Required</td>
+            <td>No (default)</td>
+            <td>Optional field for B2B convenience</td>
+          </tr>
+          <tr>
+            <td>Max length</td>
+            <td>50 characters</td>
+            <td>Prevents overflow on invoices</td>
+          </tr>
+          <tr>
+            <td>Format</td>
+            <td>Alphanumeric + dashes</td>
+            <td>Allow "PO-2024-12345" format</td>
+          </tr>
+          <tr>
+            <td>Transformation</td>
+            <td>Uppercase</td>
+            <td>Automatic (CSS text-transform)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 5: Layout Rules -->
+    <div class="doc-section">
+      <h2>STEP 5: Layout Rules</h2>
+
+      <h3>Container Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>flex; flex-direction: column;</code></li>
+        <li><strong>Gap:</strong> 6px (label → input → helper)</li>
+        <li><strong>Width:</strong> 100% (fill parent container)</li>
+        <li><strong>Recommended max-width:</strong> 600px (prevents overly wide inputs)</li>
+      </ul>
+
+      <h3>Label Layout</h3>
+      <ul>
+        <li><strong>Display:</strong> <code>flex; align-items: center;</code></li>
+        <li><strong>Gap:</strong> 6px (icon → text → badge)</li>
+        <li><strong>Icon size:</strong> 16×16px (smaller than section titles)</li>
+      </ul>
+
+      <h3>Input Layout</h3>
+      <ul>
+        <li><strong>Padding:</strong> 10px 14px (default), 8px 12px (compact)</li>
+        <li><strong>Border:</strong> 1.5px solid (slightly thicker for emphasis)</li>
+        <li><strong>Border-radius:</strong> 8px (--radius-sm)</li>
+        <li><strong>Font:</strong> JetBrains Mono (monospace for code-like feel)</li>
+        <li><strong>Font-size:</strong> 14px (default), 13px (compact)</li>
+      </ul>
+
+      <h3>Spacing Breakdown</h3>
+      <pre>
+Container (flex-column, gap: 6px):
+├── Label (flex-row, gap: 6px)
+│   ├── Icon (16×16px)
+│   ├── Text ("Referentienummer / PO-nummer")
+│   ├── Optional badge ("optioneel")
+│   └── B2B badge (optional)
+├── Input (padding: 10px 14px)
+└── Helper text (margin-top: -2px, flex-row, gap: 6px)
+    ├── Icon (14×14px)
+    └── Text
+      </pre>
+
+      <h3>Responsive Behavior</h3>
+      <p>No specific responsive changes needed — inherits parent width and stacks naturally on mobile.</p>
+    </div>
+
+    <!-- STEP 6: Accessibility -->
+    <div class="doc-section">
+      <h2>STEP 6: Accessibility</h2>
+
+      <h3>Semantic HTML</h3>
+      <pre>
+&lt;div class="po-number-group"&gt;
+  &lt;label class="po-label" for="po-number"&gt;
+    &lt;i data-lucide="file-text" aria-hidden="true"&gt;&lt;/i&gt;
+    Referentienummer / PO-nummer
+    &lt;span class="optional"&gt;(optioneel)&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;input
+    class="po-input"
+    type="text"
+    id="po-number"
+    name="poNumber"
+    placeholder="Uw interne referentie voor op de factuur"
+    aria-describedby="po-helper"
+    maxlength="50"
+  &gt;
+  &lt;div class="po-helper" id="po-helper"&gt;
+    &lt;i data-lucide="info" aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;span&gt;Dit nummer verschijnt op uw factuur en pakbon.&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+      </pre>
+
+      <h3>ARIA Attributes</h3>
+      <ul>
+        <li>✅ <code>for</code> attribute on label (links to input ID)</li>
+        <li>✅ <code>id</code> attribute on input (unique)</li>
+        <li>✅ <code>aria-describedby</code> (links to helper text ID)</li>
+        <li>✅ <code>aria-hidden="true"</code> on decorative icons</li>
+        <li>✅ <code>aria-required="true"</code> if required (rare)</li>
+      </ul>
+
+      <h3>Keyboard Navigation</h3>
+      <ul>
+        <li>✅ <strong>Tab:</strong> Focus input</li>
+        <li>✅ <strong>Shift+Tab:</strong> Leave input (go back)</li>
+        <li>✅ <strong>Type:</strong> Enter text (auto-uppercase)</li>
+        <li>✅ <strong>Ctrl+A:</strong> Select all text</li>
+      </ul>
+
+      <h3>Screen Reader Announcements</h3>
+      <ul>
+        <li>✅ "Referentienummer / PO-nummer, optioneel, edit text"</li>
+        <li>✅ "Dit nummer verschijnt op uw factuur en pakbon" (helper text read after focus)</li>
+        <li>✅ Icons hidden from screen readers (decorative only)</li>
+      </ul>
+
+      <h3>Focus Management</h3>
+      <ul>
+        <li>✅ Visible focus ring: <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+        <li>✅ Border color changes to teal on focus</li>
+        <li>✅ Focus state distinct from default (clear visual feedback)</li>
+      </ul>
+    </div>
+
+    <!-- STEP 7: Implementation Notes -->
+    <div class="doc-section">
+      <h2>STEP 7: Implementation Notes</h2>
+
+      <h3>React/Next.js Component</h3>
+      <pre>
+'use client';
+
+import { FileText, Info } from 'lucide-react';
+
+export function PONumberInput({
+  name = 'poNumber',
+  label = 'Referentienummer / PO-nummer',
+  placeholder = 'Uw interne referentie voor op de factuur',
+  helperText = 'Dit nummer verschijnt op uw factuur en pakbon voor interne administratie.',
+  maxLength = 50,
+  variant = 'default',
+  showIcon = true,
+  iconPosition = 'label',
+  showB2BBadge = false,
+  value,
+  onChange,
+  disabled = false,
+  required = false,
+  className = '',
+}: PONumberInputProps) {
+  const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    // Auto-uppercase transformation
+    const uppercased = e.target.value.toUpperCase();
+    onChange?.(uppercased);
+  };
+
+  return (
+    &lt;div className={`po-number-group ${variant} ${className}`}&gt;
+      &lt;label className="po-label" htmlFor={name}&gt;
+        {showIcon && iconPosition === 'label' && (
+          &lt;FileText size={16} aria-hidden="true" /&gt;
+        )}
+        {label}
+        {!required && &lt;span className="optional"&gt;(optioneel)&lt;/span&gt;}
+        {showB2BBadge && &lt;span className="b2b-badge"&gt;B2B&lt;/span&gt;}
+      &lt;/label&gt;
+
+      {iconPosition === 'input' ? (
+        &lt;div className="po-input-wrapper"&gt;
+          &lt;FileText size={16} className="po-input-icon" aria-hidden="true" /&gt;
+          &lt;input
+            className="po-input"
+            type="text"
+            id={name}
+            name={name}
+            placeholder={placeholder}
+            value={value}
+            onChange={handleChange}
+            disabled={disabled}
+            required={required}
+            maxLength={maxLength}
+            aria-describedby={helperText ? `${name}-helper` : undefined}
+          /&gt;
+        &lt;/div&gt;
+      ) : (
+        &lt;input
+          className="po-input"
+          type="text"
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+          disabled={disabled}
+          required={required}
+          maxLength={maxLength}
+          aria-describedby={helperText ? `${name}-helper` : undefined}
+        /&gt;
+      )}
+
+      {helperText && (
+        &lt;div className="po-helper" id={`${name}-helper`}&gt;
+          &lt;Info size={14} aria-hidden="true" /&gt;
+          &lt;span&gt;{helperText}&lt;/span&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+      </pre>
+
+      <h3>Payload CMS Integration</h3>
+      <pre>
+// In collections/Orders.ts
+
+{
+  name: 'poNumber',
+  type: 'text',
+  maxLength: 50,
+  admin: {
+    description: 'Purchase Order number for B2B customers (appears on invoice)',
+    placeholder: 'PO-2024-12345',
+  },
+}
+
+// Display on invoices (Payload hooks)
+
+{
+  name: 'invoice',
+  type: 'group',
+  fields: [
+    { name: 'invoiceNumber', type: 'text', required: true },
+    { name: 'poNumber', type: 'text' }, // From order.poNumber
+    // ...
+  ],
+}
+      </pre>
+
+      <h3>Invoice Template Usage</h3>
+      <pre>
+// In PDF invoice template
+
+&lt;div className="invoice-header"&gt;
+  &lt;h1&gt;Factuur #{order.invoiceNumber}&lt;/h1&gt;
+  {order.poNumber && (
+    &lt;div className="po-reference"&gt;
+      &lt;strong&gt;PO-nummer:&lt;/strong&gt; {order.poNumber}
+    &lt;/div&gt;
+  )}
+&lt;/div&gt;
+
+// This helps B2B customers match invoices to their internal purchase orders
+      </pre>
+
+      <h3>Auto-Uppercase Implementation (CSS)</h3>
+      <pre>
+/* CSS-only uppercase transformation */
+
+.po-input {
+  text-transform: uppercase;
+}
+
+/* Alternative: JavaScript transformation (better for form submission) */
+
+const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+  const uppercased = e.target.value.toUpperCase();
+  setPoNumber(uppercased);
+};
+      </pre>
+
+      <h3>Validation (Optional)</h3>
+      <pre>
+// Format validation (if enforcing specific PO format)
+
+const PO_NUMBER_PATTERN = /^[A-Z0-9-]+$/; // Alphanumeric + dashes only
+
+const validatePONumber = (value: string): boolean => {
+  if (!value) return true; // Optional field
+  return PO_NUMBER_PATTERN.test(value) && value.length &lt;= 50;
+};
+
+// Usage in form
+
+if (formData.poNumber && !validatePONumber(formData.poNumber)) {
+  setErrors({
+    ...errors,
+    poNumber: 'PO-nummer mag alleen letters, cijfers en streepjes bevatten',
+  });
+}
+      </pre>
+    </div>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <div class="doc-section">
+      <h2>STEP 8: Variations & Related Components</h2>
+
+      <h3>Variations</h3>
+
+      <h4>1. Compact Variant</h4>
+      <p>Smaller padding and font size for inline forms:</p>
+      <pre>
+&lt;PONumberInput
+  variant="compact"
+  label="PO-nummer"
+  placeholder="Referentie"
+/&gt;
+      </pre>
+
+      <h4>2. Icon Inside Input</h4>
+      <p>Show file-text icon inside the input field (left side):</p>
+      <pre>
+&lt;PONumberInput
+  iconPosition="input"
+  label="Referentienummer"
+/&gt;
+      </pre>
+
+      <h4>3. Required Field (Rare)</h4>
+      <p>Make PO number mandatory (e.g., for wholesale orders):</p>
+      <pre>
+&lt;PONumberInput
+  required={true}
+  label="PO-nummer"
+  helperText="Verplicht voor groothandel bestellingen"
+/&gt;
+
+// CSS: Replace optional indicator with red asterisk
+
+.po-label .req {
+  color: var(--coral);
+  font-weight: 700;
+}
+      </pre>
+
+      <h4>4. With Auto-Suggest (Advanced)</h4>
+      <p>Show recent PO numbers as suggestions:</p>
+      <pre>
+&lt;PONumberInput
+  value={poNumber}
+  onChange={setPoNumber}
+  suggestions={recentPONumbers} // ["PO-2024-001", "PO-2024-002"]
+/&gt;
+
+// Implement with datalist or custom dropdown
+      </pre>
+
+      <h3>Related Components</h3>
+
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>ID</th>
+            <th>Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AddressForm</td>
+            <td>EC14</td>
+            <td>Contains PO number input in B2B section</td>
+          </tr>
+          <tr>
+            <td>OrderSummary</td>
+            <td>EC07</td>
+            <td>May display PO number in summary</td>
+          </tr>
+          <tr>
+            <td>InvoiceTemplate</td>
+            <td>-</td>
+            <td>Shows PO number on PDF invoices</td>
+          </tr>
+          <tr>
+            <td>OrderDetailsCard</td>
+            <td>OC02</td>
+            <td>Displays PO number in order confirmation</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Design System References</h3>
+      <ul>
+        <li><strong>Source:</strong> <code>plastimed-checkout.html</code> (line 223)</li>
+        <li><strong>Pattern:</strong> Standard form input with monospace font</li>
+        <li><strong>Related patterns:</strong>
+          <ul>
+            <li>SKU input (also uses JetBrains Mono)</li>
+            <li>Invoice number input</li>
+            <li>Reference code input</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Testing Checklist</h3>
+      <ul>
+        <li>✅ Input uses monospace font (JetBrains Mono)</li>
+        <li>✅ Text auto-transforms to uppercase</li>
+        <li>✅ Letter-spacing makes monospace readable</li>
+        <li>✅ Placeholder uses regular font (not monospace)</li>
+        <li>✅ Focus state shows teal border + glow ring</li>
+        <li>✅ Helper text explains purpose (appears on invoice)</li>
+        <li>✅ Optional indicator visible (not required by default)</li>
+        <li>✅ B2B badge shows when enabled</li>
+        <li>✅ Icon can appear in label or inside input</li>
+        <li>✅ Disabled state prevents input</li>
+        <li>✅ Max length enforced (50 characters)</li>
+        <li>✅ Screen reader announces helper text</li>
+        <li>✅ Value saves correctly to form/database</li>
+        <li>✅ Appears on generated invoices</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

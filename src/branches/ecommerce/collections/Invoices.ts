@@ -367,3 +367,4 @@ export const Invoices: CollectionConfig = {
     ],
   },
 }
+export default Invoices

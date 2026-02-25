@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GuestCheckoutForm — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-dark: #00695C;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --r-sm: 8px;
+  --radius: 12px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.form-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-subtitle {
+  color: var(--grey-mid);
+  font-size: 14px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* Guest Info Box */
+.guest-info-box {
+  background: linear-gradient(135deg, rgba(0,137,123,0.04), rgba(10,38,71,0.02));
+  border: 1px solid rgba(0,137,123,0.12);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+
+.guest-info-box h4 {
+  font-size: 14px;
+  color: var(--navy);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.guest-info-box p {
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.guest-benefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.guest-benefit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--grey-dark);
+}
+
+.guest-benefit .check {
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Form Layout */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-input-icon {
+  position: relative;
+}
+
+.icon-left {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--white);
+  transition: all 0.2s;
+  outline: none;
+}
+
+.form-input-icon .form-input {
+  padding-left: 42px;
+}
+
+.form-input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,137,123,0.1);
+}
+
+/* Checkbox */
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--teal);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.form-link {
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-link:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.btn-primary:hover {
+  background: var(--teal-dark);
+  box-shadow: 0 4px 16px rgba(0,137,123,0.3);
+  transform: translateY(-1px);
+}
+
+.btn-guest {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  color: var(--teal);
+  border: 1.5px solid var(--teal);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 12px;
+}
+
+.btn-guest:hover {
+  background: rgba(0,137,123,0.06);
+}
+
+/* Demo Section */
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .guest-benefits {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<h1>GuestCheckoutForm — Live Demo</h1>
+
+<div style="max-width: 440px; margin: 0 auto; background: var(--white); padding: 32px; border: 1px solid var(--grey); border-radius: 12px;">
+  <h2 class="form-title">Bestellen als gast</h2>
+  <p class="form-subtitle">Geen account nodig — vul uw gegevens in en bestel direct. U kunt na uw bestelling alsnog een account aanmaken.</p>
+
+  <div class="guest-info-box">
+    <h4>ℹ️ Goed om te weten</h4>
+    <p>Als gast kunt u eenmalig bestellen zonder account. Met een account profiteert u van:</p>
+    <div class="guest-benefits">
+      <div class="guest-benefit"><span class="check">✓</span> Persoonlijke staffelprijzen</div>
+      <div class="guest-benefit"><span class="check">✓</span> Bestelhistorie inzien</div>
+      <div class="guest-benefit"><span class="check">✓</span> Snelle nabestellingen</div>
+      <div class="guest-benefit"><span class="check">✓</span> Bestellijsten opslaan</div>
+    </div>
+  </div>
+
+  <form onsubmit="handleGuest(event)">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Voornaam</label>
+        <input type="text" class="form-input" placeholder="Jan" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Achternaam</label>
+        <input type="text" class="form-input" placeholder="de Vries" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">E-mailadres</label>
+      <div class="form-input-icon">
+        <span class="icon-left">✉️</span>
+        <input type="email" class="form-input" placeholder="naam@organisatie.nl" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Organisatie (optioneel)</label>
+      <input type="text" class="form-input" placeholder="Naam organisatie of praktijk">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Telefoonnummer</label>
+      <div class="form-input-icon">
+        <span class="icon-left">📞</span>
+        <input type="tel" class="form-input" placeholder="06 12345678" required>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 24px;">
+      <label class="form-checkbox">
+        <input type="checkbox" required>
+        Ik ga akkoord met de <a href="#" class="form-link">algemene voorwaarden</a> en het <a href="#" class="form-link">privacybeleid</a>
+      </label>
+    </div>
+
+    <button type="submit" class="btn-primary">Doorgaan naar bezorging</button>
+
+    <button type="button" class="btn-guest" onclick="alert('Switch to register form')">
+      🏥 Toch liever een zakelijk account?
+    </button>
+  </form>
+</div>
+
+<div style="margin-top:32px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:12px;">
+  <p style="font-size:13px;color:var(--grey-dark);line-height:1.7;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 762-824 |
+    <strong>Features:</strong> Guest checkout form with info box showing account benefits, optional organisation field |
+    <strong>Components:</strong> Guest info box with 2-column benefits grid, form inputs, primary CTA, secondary B2B conversion button |
+    <strong>Validation:</strong> Required fields (name, email, phone, terms), optional organisation
+  </p>
+</div>
+
+<script>
+function handleGuest(e) {
+  e.preventDefault();
+  alert('Gast gegevens opgeslagen! Doorgaan naar bezorging...');
+}
+</script>
+
+</body>
+</html>

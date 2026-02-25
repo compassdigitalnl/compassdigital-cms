@@ -264,3 +264,5 @@ export const Pages: CollectionConfig = {
     afterDelete: [revalidateDelete],
   },
 }
+
+export default Pages

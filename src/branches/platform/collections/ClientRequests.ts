@@ -226,3 +226,5 @@ export const ClientRequests: CollectionConfig = {
     ],
   },
 }
+
+export default ClientRequests

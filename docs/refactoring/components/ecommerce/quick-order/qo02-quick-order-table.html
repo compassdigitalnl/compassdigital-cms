@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QO02: QuickOrderTable - Compass Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --teal-bg: rgba(0, 137, 123, 0.05);
+      --green: #00C853;
+      --amber: #F59E0B;
+      --white: #FAFBFC;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-bg: #F5F7FA;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-28: 28px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 14px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 4px 12px rgba(10, 22, 40, 0.08);
+      --shadow-teal: 0 4px 16px rgba(0, 137, 123, 0.3);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL STYLES
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #F5F7FA;
+      padding: 48px 24px;
+      line-height: 1.6;
+    }
+
+    .demo-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      padding: var(--space-32);
+      margin-bottom: var(--space-32);
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: var(--space-12);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPONENT: QUICK ORDER TABLE
+       ═══════════════════════════════════════════════════════════ */
+
+    .quick-order-table {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    /* TABLE HEADER */
+    .quick-order-table-header {
+      display: grid;
+      grid-template-columns: 1fr 140px 140px 180px 48px;
+      gap: var(--space-16);
+      padding: var(--space-16) var(--space-24);
+      background: var(--grey-bg);
+      border-bottom: 1px solid var(--grey);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--grey-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .quick-order-table-header-cell {
+      display: flex;
+      align-items: center;
+    }
+
+    .quick-order-table-header-cell.align-right {
+      justify-content: flex-end;
+    }
+
+    /* TABLE BODY */
+    .quick-order-table-body {
+      padding: 0 var(--space-24);
+    }
+
+    /* TABLE FOOTER */
+    .quick-order-table-footer {
+      padding: var(--space-20) var(--space-24);
+      background: var(--grey-bg);
+      border-top: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Add Row Button */
+    .add-row-button {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: 10px 16px;
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .add-row-button:hover {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .add-row-button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .add-row-button i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Footer Summary */
+    .table-footer-summary {
+      display: flex;
+      align-items: center;
+      gap: var(--space-24);
+    }
+
+    .table-footer-total {
+      text-align: right;
+    }
+
+    .table-footer-total-label {
+      font-size: 12px;
+      color: var(--grey-dark);
+      margin-bottom: var(--space-4);
+    }
+
+    .table-footer-total-value {
+      font-family: var(--font-body);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    /* Bulk Add Button */
+    .bulk-add-button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-teal);
+    }
+
+    .bulk-add-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 137, 123, 0.4);
+    }
+
+    .bulk-add-button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow), var(--shadow-teal);
+    }
+
+    .bulk-add-button:active {
+      transform: translateY(0);
+    }
+
+    .bulk-add-button i {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       QUICK ORDER ROW (Embedded for demo)
+       ═══════════════════════════════════════════════════════════ */
+
+    .quick-order-row {
+      display: grid;
+      grid-template-columns: 1fr 140px 140px 180px 48px;
+      gap: var(--space-16);
+      padding: var(--space-20) 0;
+      border-bottom: 1px solid var(--grey);
+      align-items: center;
+    }
+
+    .quick-order-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Product Input Column */
+    .quick-order-product-input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .quick-order-product-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      outline: none;
+      transition: all var(--transition);
+    }
+
+    .quick-order-product-input:focus {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+    }
+
+    .quick-order-product-input.filled {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+    }
+
+    .quick-order-product-input::placeholder {
+      color: var(--grey-mid);
+      font-weight: 400;
+    }
+
+    /* SKU Display */
+    .quick-order-sku {
+      font-size: 12px;
+      color: var(--teal);
+      font-family: var(--font-mono);
+    }
+
+    /* Staffel Hint */
+    .quick-order-staffel-hint {
+      font-size: 11px;
+      color: var(--amber);
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .quick-order-staffel-hint i {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Quantity Input */
+    .quick-order-qty-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      outline: none;
+      text-align: center;
+      font-family: var(--font-mono);
+      transition: all var(--transition);
+    }
+
+    .quick-order-qty-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    /* Price Display */
+    .quick-order-price {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      padding: 10px 0;
+    }
+
+    .quick-order-price.empty {
+      color: var(--grey-mid);
+    }
+
+    /* Total Display */
+    .quick-order-total {
+      text-align: right;
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .quick-order-total.empty {
+      color: var(--grey-mid);
+    }
+
+    /* Delete Button */
+    .quick-order-delete-button {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: none;
+      border: 1.5px solid var(--grey);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-mid);
+      transition: all var(--transition);
+    }
+
+    .quick-order-delete-button:hover {
+      border-color: #FF6B6B;
+      background: rgba(255, 107, 107, 0.05);
+      color: #FF6B6B;
+    }
+
+    .quick-order-delete-button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.15);
+    }
+
+    .quick-order-delete-button i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Empty row (no delete button) */
+    .quick-order-row.empty .quick-order-delete-button {
+      visibility: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+
+    @media (max-width: 1024px) {
+      .quick-order-table-header,
+      .quick-order-row {
+        grid-template-columns: 1fr 100px 100px 140px 40px;
+      }
+
+      .table-footer-total-value {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Stack table on mobile */
+      .quick-order-table-header {
+        display: none;
+      }
+
+      .quick-order-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+        padding: var(--space-16);
+        position: relative;
+      }
+
+      .quick-order-product-input-wrapper {
+        grid-column: 1 / -1;
+      }
+
+      .quick-order-qty-input,
+      .quick-order-price,
+      .quick-order-total {
+        font-size: 16px;
+      }
+
+      .quick-order-delete-button {
+        position: absolute;
+        top: var(--space-16);
+        right: var(--space-16);
+      }
+
+      /* Footer */
+      .quick-order-table-footer {
+        flex-direction: column;
+        gap: var(--space-16);
+        align-items: stretch;
+      }
+
+      .table-footer-summary {
+        flex-direction: column;
+        gap: var(--space-12);
+      }
+
+      .bulk-add-button {
+        justify-content: center;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DOCUMENTATION STYLES
+       ═══════════════════════════════════════════════════════════ */
+
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: var(--space-12);
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: var(--space-16);
+      padding-bottom: var(--space-12);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: var(--space-24);
+      margin-bottom: var(--space-12);
+    }
+
+    .docs p {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: var(--space-16);
+    }
+
+    .docs code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: #E8ECF1;
+      padding: var(--space-20);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      margin-bottom: var(--space-16);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .docs ul {
+      margin-bottom: var(--space-16);
+      padding-left: var(--space-24);
+    }
+
+    .docs li {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: var(--space-8);
+    }
+
+    .info-box {
+      background: rgba(33, 150, 243, 0.08);
+      border-left: 4px solid #2196F3;
+      padding: var(--space-16) var(--space-20);
+      border-radius: var(--radius);
+      margin-bottom: var(--space-16);
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #1565C0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="demo-container">
+
+    <!-- Default Variant (With Rows) -->
+    <div class="demo-section">
+      <div class="demo-label">Default Variant (2 Products + 1 Empty Row)</div>
+
+      <div class="quick-order-table">
+        <!-- Table Header -->
+        <div class="quick-order-table-header">
+          <div class="quick-order-table-header-cell">Artikelnummer of naam</div>
+          <div class="quick-order-table-header-cell">Aantal</div>
+          <div class="quick-order-table-header-cell">Prijs/stuk</div>
+          <div class="quick-order-table-header-cell align-right">Totaal</div>
+          <div class="quick-order-table-header-cell"></div>
+        </div>
+
+        <!-- Table Body -->
+        <div class="quick-order-table-body">
+          <!-- Filled Row 1 -->
+          <div class="quick-order-row">
+            <div class="quick-order-product-input-wrapper">
+              <input
+                type="text"
+                value="Supreme Plus Nitrile"
+                class="quick-order-product-input filled"
+              >
+              <div class="quick-order-sku">SKU: SMP-8942</div>
+            </div>
+            <input
+              type="number"
+              value="5"
+              class="quick-order-qty-input"
+            >
+            <div class="quick-order-price">€ 12,95</div>
+            <div class="quick-order-total">€ 64,75</div>
+            <button class="quick-order-delete-button" aria-label="Verwijder product">
+              <i data-lucide="trash-2"></i>
+            </button>
+          </div>
+
+          <!-- Filled Row 2 (with staffel hint) -->
+          <div class="quick-order-row">
+            <div class="quick-order-product-input-wrapper">
+              <input
+                type="text"
+                value="Veiligheidsnaald 21G"
+                class="quick-order-product-input filled"
+              >
+              <div class="quick-order-staffel-hint">
+                <i data-lucide="trending-down"></i>
+                Nog 3 voor € 19,95 (−20%)
+              </div>
+            </div>
+            <input
+              type="number"
+              value="7"
+              class="quick-order-qty-input"
+            >
+            <div class="quick-order-price">€ 22,50</div>
+            <div class="quick-order-total">€ 157,50</div>
+            <button class="quick-order-delete-button" aria-label="Verwijder product">
+              <i data-lucide="trash-2"></i>
+            </button>
+          </div>
+
+          <!-- Empty Row (Template) -->
+          <div class="quick-order-row empty">
+            <div class="quick-order-product-input-wrapper">
+              <input
+                type="text"
+                placeholder="Zoek op artikelnummer of naam..."
+                class="quick-order-product-input"
+              >
+            </div>
+            <input
+              type="number"
+              placeholder="0"
+              class="quick-order-qty-input"
+            >
+            <div class="quick-order-price empty">—</div>
+            <div class="quick-order-total empty">€ 0,00</div>
+            <button class="quick-order-delete-button" aria-label="Verwijder product">
+              <i data-lucide="trash-2"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="quick-order-table-footer">
+          <button class="add-row-button" type="button">
+            <i data-lucide="plus"></i>
+            Rij toevoegen
+          </button>
+          <div class="table-footer-summary">
+            <div class="table-footer-total">
+              <div class="table-footer-total-label">Totaal (2 producten)</div>
+              <div class="table-footer-total-value">€ 222,25</div>
+            </div>
+            <button class="bulk-add-button" type="button">
+              <i data-lucide="shopping-cart"></i>
+              Toevoegen aan winkelwagen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="demo-section">
+      <div class="demo-label">Empty State (No Products Yet)</div>
+
+      <div class="quick-order-table">
+        <!-- Table Header -->
+        <div class="quick-order-table-header">
+          <div class="quick-order-table-header-cell">Artikelnummer of naam</div>
+          <div class="quick-order-table-header-cell">Aantal</div>
+          <div class="quick-order-table-header-cell">Prijs/stuk</div>
+          <div class="quick-order-table-header-cell align-right">Totaal</div>
+          <div class="quick-order-table-header-cell"></div>
+        </div>
+
+        <!-- Table Body (1 Empty Row) -->
+        <div class="quick-order-table-body">
+          <div class="quick-order-row empty">
+            <div class="quick-order-product-input-wrapper">
+              <input
+                type="text"
+                placeholder="Zoek op artikelnummer of naam..."
+                class="quick-order-product-input"
+              >
+            </div>
+            <input
+              type="number"
+              placeholder="0"
+              class="quick-order-qty-input"
+            >
+            <div class="quick-order-price empty">—</div>
+            <div class="quick-order-total empty">€ 0,00</div>
+            <button class="quick-order-delete-button" aria-label="Verwijder product">
+              <i data-lucide="trash-2"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="quick-order-table-footer">
+          <button class="add-row-button" type="button">
+            <i data-lucide="plus"></i>
+            Rij toevoegen
+          </button>
+          <div class="table-footer-summary">
+            <div class="table-footer-total">
+              <div class="table-footer-total-label">Totaal (0 producten)</div>
+              <div class="table-footer-total-value">€ 0,00</div>
+            </div>
+            <button class="bulk-add-button" type="button" disabled style="opacity: 0.5; cursor: not-allowed;">
+              <i data-lucide="shopping-cart"></i>
+              Toevoegen aan winkelwagen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DOCUMENTATION
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="docs">
+    <h1>QO02: QuickOrderTable</h1>
+    <p><strong>Component Identity:</strong> Multi-row data table for B2B quick order entry with product search, quantity input, and bulk add to cart</p>
+    <p><strong>Category:</strong> E-commerce / B2B / Forms</p>
+    <p><strong>Source File:</strong> <code>ef5-quick-order.html</code> (lines 38-110)</p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>The QuickOrderTable is a data table that allows B2B users to quickly add multiple products to their cart by entering SKUs or product names. It displays product autocomplete results, quantity inputs, prices, and totals in a structured grid layout.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>5-column grid:</strong> Product | Quantity | Price | Total | Delete</li>
+      <li><strong>Product autocomplete:</strong> Search by SKU or name, fills in price automatically</li>
+      <li><strong>Staffel hints:</strong> Shows volume discount opportunities (amber text)</li>
+      <li><strong>Dynamic total:</strong> Real-time calculation as quantities change</li>
+      <li><strong>Add row button:</strong> Dynamically add more input rows</li>
+      <li><strong>Bulk add:</strong> Add all valid rows to cart at once</li>
+      <li><strong>Empty state:</strong> Shows placeholder row when no products added yet</li>
+    </ul>
+
+    <h3>Structure</h3>
+    <p>The table consists of 3 sections:</p>
+    <ul>
+      <li><strong>Header:</strong> Column labels (grey bg, uppercase, 12px)</li>
+      <li><strong>Body:</strong> Product rows (white bg, 20px vertical padding)</li>
+      <li><strong>Footer:</strong> "Add row" button + Total summary + Bulk add button (grey bg)</li>
+    </ul>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use</h2>
+
+    <h3>Use This Component When:</h3>
+    <ul>
+      <li>Building a B2B quick order page</li>
+      <li>Users need to add 2+ products at once (bulk entry)</li>
+      <li>Users know SKUs/article numbers (repeat orders)</li>
+      <li>You want to enable CSV import (pairs with QO04)</li>
+    </ul>
+
+    <h3>Don't Use This Component When:</h3>
+    <ul>
+      <li>B2C single product ordering (use ProductCard + Add to Cart instead)</li>
+      <li>Users browse visually (use ProductGrid instead)</li>
+      <li>Mobile-first flows (this is desktop-optimized)</li>
+    </ul>
+
+    <h3>Content Guidelines</h3>
+    <ul>
+      <li><strong>Column headers:</strong> Keep labels short (max 3 words)</li>
+      <li><strong>Placeholder text:</strong> "Zoek op artikelnummer of naam..." (descriptive)</li>
+      <li><strong>Empty price:</strong> Show "—" when no product selected</li>
+      <li><strong>Staffel hints:</strong> "Nog X voor €Y (−Z%)" format</li>
+    </ul>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Container bg:</strong> <code>white</code></li>
+      <li><strong>Header/Footer bg:</strong> <code>--grey-bg</code> (#F5F7FA)</li>
+      <li><strong>Borders:</strong> <code>--grey</code> (#E8ECF1, 1px)</li>
+      <li><strong>SKU text:</strong> <code>--teal</code> (#00897B, monospace)</li>
+      <li><strong>Staffel hint:</strong> <code>--amber</code> (#F59E0B)</li>
+      <li><strong>Filled input:</strong> <code>--teal-bg</code> (#00897B05) with teal border</li>
+      <li><strong>Total price:</strong> <code>--navy</code> (#0A1628, 28px, 800 weight)</li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Header labels:</strong> DM Sans, 12px, 700 weight, uppercase, <code>--grey-dark</code></li>
+      <li><strong>Product input:</strong> Plus Jakarta Sans, 14px, 600 weight</li>
+      <li><strong>SKU:</strong> JetBrains Mono, 12px, <code>--teal</code></li>
+      <li><strong>Quantity input:</strong> JetBrains Mono, 14px, 600 weight, centered</li>
+      <li><strong>Price:</strong> JetBrains Mono, 14px, 600 weight</li>
+      <li><strong>Row total:</strong> Plus Jakarta Sans, 18px, 800 weight</li>
+      <li><strong>Footer total:</strong> Plus Jakarta Sans, 28px, 800 weight</li>
+    </ul>
+
+    <h3>Grid Layout</h3>
+    <ul>
+      <li><strong>Desktop:</strong> <code>grid-template-columns: 1fr 140px 140px 180px 48px</code></li>
+      <li><strong>Tablet (1024px):</strong> <code>1fr 100px 100px 140px 40px</code></li>
+      <li><strong>Mobile (768px):</strong> Stacked layout (1 column)</li>
+      <li><strong>Column gap:</strong> 16px</li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Header padding:</strong> 16px (top/bottom) × 24px (left/right)</li>
+      <li><strong>Body padding:</strong> 0 × 24px (rows handle their own padding)</li>
+      <li><strong>Row padding:</strong> 20px (top/bottom) × 0</li>
+      <li><strong>Footer padding:</strong> 20px × 24px</li>
+    </ul>
+
+    <h3>Icons</h3>
+    <ul>
+      <li><strong>Delete button:</strong> <code>trash-2</code> (16×16px, grey → coral on hover)</li>
+      <li><strong>Add row button:</strong> <code>plus</code> (16×16px)</li>
+      <li><strong>Bulk add button:</strong> <code>shopping-cart</code> (20×20px, white)</li>
+      <li><strong>Staffel hint:</strong> <code>trending-down</code> (12×12px, amber)</li>
+    </ul>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface QuickOrderRow {
+  id: string
+  productQuery: string
+  productId?: string
+  productName?: string
+  sku?: string
+  quantity: number
+  unitPrice: number
+  total: number
+  staffelHint?: {
+    quantityNeeded: number
+    nextTierPrice: number
+    discount: number
+  }
+}
+
+interface QuickOrderTableProps {
+  rows: QuickOrderRow[]
+  onRowChange: (rowId: string, field: string, value: any) => void
+  onRowDelete: (rowId: string) => void
+  onRowAdd: () => void
+  onBulkAddToCart: () => void
+  loading?: boolean
+}</pre>
+
+    <h3>State Management</h3>
+    <pre>
+const [rows, setRows] = useState&lt;QuickOrderRow[]&gt;([
+  { id: '1', productQuery: '', quantity: 0, unitPrice: 0, total: 0 },
+])
+
+const totalProducts = rows.filter(r => r.productId).length
+const totalAmount = rows.reduce((sum, r) => sum + r.total, 0)
+</pre>
+
+    <h3>Product Search Integration</h3>
+    <pre>
+// Debounced autocomplete search
+const handleProductSearch = useDebouncedCallback(
+  async (rowId: string, query: string) => {
+    const results = await fetch(`/api/products/search?q=${query}`)
+    const products = await results.json()
+
+    // Show autocomplete dropdown with results
+    showAutocomplete(rowId, products)
+  },
+  300
+)
+
+// On product selection
+const handleProductSelect = (rowId: string, product: Product) => {
+  updateRow(rowId, {
+    productId: product.id,
+    productName: product.name,
+    sku: product.sku,
+    unitPrice: product.price,
+    total: product.price * row.quantity,
+  })
+}</pre>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Grid Structure</h3>
+    <ul>
+      <li><strong>Column 1 (Product):</strong> <code>1fr</code> (flexible, takes remaining space)</li>
+      <li><strong>Column 2 (Quantity):</strong> <code>140px</code> fixed width</li>
+      <li><strong>Column 3 (Price):</strong> <code>140px</code> fixed width</li>
+      <li><strong>Column 4 (Total):</strong> <code>180px</code> fixed width (right-aligned)</li>
+      <li><strong>Column 5 (Delete):</strong> <code>48px</code> fixed width (icon button)</li>
+    </ul>
+
+    <h3>Row Anatomy</h3>
+    <ul>
+      <li><strong>Product cell:</strong> Input field + SKU display (or staffel hint)</li>
+      <li><strong>Quantity cell:</strong> Number input (centered text, monospace)</li>
+      <li><strong>Price cell:</strong> Read-only text display (monospace)</li>
+      <li><strong>Total cell:</strong> Calculated value (right-aligned, bold)</li>
+      <li><strong>Delete cell:</strong> Icon button (40×40px, 8px radius)</li>
+    </ul>
+
+    <h3>Footer Layout</h3>
+    <ul>
+      <li><strong>Left:</strong> "Add row" button</li>
+      <li><strong>Right:</strong> Total summary + Bulk add button (horizontal flex, 24px gap)</li>
+    </ul>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <ul>
+      <li>Use semantic table structure: <code>&lt;table&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code>&lt;tfoot&gt;</code></li>
+      <li>Or use <code>role="table"</code>, <code>role="row"</code>, <code>role="cell"</code> if using divs</li>
+      <li>Column headers should use <code>&lt;th&gt;</code> or <code>role="columnheader"</code></li>
+    </ul>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><code>aria-label="Quick order table"</code> on container</li>
+      <li><code>aria-label="Verwijder product"</code> on delete buttons</li>
+      <li><code>aria-live="polite"</code> on total amount (announces changes to screen readers)</li>
+      <li><code>aria-describedby</code> linking quantity input to staffel hint</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li>Tab through: Product input → Quantity input → Delete button → Next row</li>
+      <li>Enter key in product input triggers autocomplete selection</li>
+      <li>Escape key closes autocomplete dropdown</li>
+      <li>Arrow keys navigate autocomplete results</li>
+    </ul>
+
+    <h3>Form Validation</h3>
+    <ul>
+      <li>Product input: Required if quantity > 0</li>
+      <li>Quantity input: Min value = 1, show error if 0 or negative</li>
+      <li>Bulk add button: Disabled if no valid products (opacity 0.5)</li>
+    </ul>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre>
+'use client'
+
+import { useState } from 'react'
+import { Plus, ShoppingCart, Trash2, TrendingDown } from 'lucide-react'
+
+export function QuickOrderTable() {
+  const [rows, setRows] = useState([
+    { id: '1', query: '', quantity: 0, price: 0, total: 0 },
+  ])
+
+  const addRow = () => {
+    setRows([...rows, {
+      id: Date.now().toString(),
+      query: '',
+      quantity: 0,
+      price: 0,
+      total: 0
+    }])
+  }
+
+  const deleteRow = (id: string) => {
+    setRows(rows.filter(r => r.id !== id))
+  }
+
+  const updateRow = (id: string, updates: Partial&lt;QuickOrderRow&gt;) => {
+    setRows(rows.map(r => r.id === id ? { ...r, ...updates } : r))
+  }
+
+  const totalAmount = rows.reduce((sum, r) => sum + r.total, 0)
+  const productCount = rows.filter(r => r.productId).length
+
+  return (
+    &lt;div className="quick-order-table"&gt;
+      {/* Header */}
+      &lt;div className="quick-order-table-header"&gt;
+        &lt;div&gt;Artikelnummer of naam&lt;/div&gt;
+        &lt;div&gt;Aantal&lt;/div&gt;
+        &lt;div&gt;Prijs/stuk&lt;/div&gt;
+        &lt;div className="align-right"&gt;Totaal&lt;/div&gt;
+        &lt;div&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      {/* Body */}
+      &lt;div className="quick-order-table-body"&gt;
+        {rows.map(row =&gt; (
+          &lt;QuickOrderRow
+            key={row.id}
+            row={row}
+            onUpdate={updateRow}
+            onDelete={deleteRow}
+          /&gt;
+        ))}
+      &lt;/div&gt;
+
+      {/* Footer */}
+      &lt;div className="quick-order-table-footer"&gt;
+        &lt;button onClick={addRow} className="add-row-button"&gt;
+          &lt;Plus /&gt; Rij toevoegen
+        &lt;/button&gt;
+        &lt;div className="table-footer-summary"&gt;
+          &lt;div className="table-footer-total"&gt;
+            &lt;div className="table-footer-total-label"&gt;
+              Totaal ({productCount} producten)
+            &lt;/div&gt;
+            &lt;div className="table-footer-total-value"&gt;
+              € {totalAmount.toFixed(2)}
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;button
+            className="bulk-add-button"
+            disabled={productCount === 0}
+          &gt;
+            &lt;ShoppingCart /&gt; Toevoegen aan winkelwagen
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}</pre>
+
+    <h3>Performance Optimization</h3>
+    <ul>
+      <li>Use <code>React.memo</code> for QuickOrderRow to prevent unnecessary re-renders</li>
+      <li>Debounce product search (300ms) to reduce API calls</li>
+      <li>Virtualize rows if >50 products (use <code>react-window</code>)</li>
+      <li>Lazy load autocomplete dropdown component</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Important:</strong> This component is typically used with QO03 (QuickOrderRow) as child component. See QO03 for detailed row implementation.</p>
+    </div>
+
+    <!-- STEP 8: VARIATIONS & RELATED -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variants</h3>
+    <ul>
+      <li><strong>Default:</strong> 2 filled rows + 1 empty row</li>
+      <li><strong>Empty state:</strong> 1 empty row only</li>
+      <li><strong>Loading state:</strong> Skeleton rows while fetching data</li>
+      <li><strong>Read-only mode:</strong> For reviewing saved bestellijsten (no editing)</li>
+    </ul>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>QO01: QuickOrderHeader</strong> - Page header above this table</li>
+      <li><strong>QO03: QuickOrderRow</strong> - Individual row component (detailed implementation)</li>
+      <li><strong>QO04: CSVUploadButton</strong> - Bulk import alternative to manual entry</li>
+      <li><strong>QO05: ProTipBanner</strong> - Info banner below table</li>
+      <li><strong>C4: StaffelCalculator</strong> - Visual staffel pricing (alternative to inline hints)</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Table renders with correct column headers</li>
+      <li>✓ Product search triggers autocomplete after 300ms debounce</li>
+      <li>✓ Selecting product fills SKU, price, and updates total</li>
+      <li>✓ Changing quantity recalculates row total and footer total</li>
+      <li>✓ Staffel hints appear when within X units of next tier</li>
+      <li>✓ Delete button removes row (min 1 row always remains)</li>
+      <li>✓ "Add row" button adds new empty row at bottom</li>
+      <li>✓ Bulk add button disabled when no valid products</li>
+      <li>✓ Responsive layout stacks correctly on mobile (&lt;768px)</li>
+      <li>✓ Keyboard navigation works (Tab, Enter, Escape)</li>
+    </ul>
+
+  </div>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

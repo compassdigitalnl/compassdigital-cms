@@ -87,3 +87,4 @@ export const Testimonials: CollectionConfig = {
     ],
   },
 }
+export default Testimonials

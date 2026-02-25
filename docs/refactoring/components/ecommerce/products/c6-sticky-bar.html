@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C6 - Sticky Add-to-Cart Bar | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; min-height: 150vh; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; text-align: center; }
+    .demo-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--teal); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .demo-btn i { width: 18px; height: 18px; }
+
+    /* Sticky Bar */
+    .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--grey); box-shadow: 0 -4px 20px rgba(10, 22, 40, 0.08); z-index: 300; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); padding: 12px 0; }
+    .sticky-bar.show { transform: translateY(0); }
+    .sticky-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 16px; }
+    .sb-product { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+    .sb-img { width: 44px; height: 44px; background: var(--grey-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .sb-info { min-width: 0; }
+    .sb-name { font-size: 14px; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sb-meta { font-size: 12px; color: var(--grey-mid); }
+    .sb-price { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--navy); flex-shrink: 0; }
+    .sb-sizes { display: flex; gap: 4px; flex-shrink: 0; }
+    .sb-size { width: 36px; height: 32px; border: 1.5px solid var(--grey); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.12s; }
+    .sb-size:hover { border-color: var(--teal); }
+    .sb-size.active { border-color: var(--teal); background: var(--teal-glow); color: var(--teal); }
+    .sb-add { height: 44px; padding: 0 24px; background: var(--teal); color: white; border: none; border-radius: 10px; font-family: var(--font-primary); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 4px 16px rgba(0, 137, 123, 0.3); }
+    .sb-add:hover { background: var(--navy); }
+    .sb-add i { width: 17px; height: 17px; }
+
+    /* Mobile */
+    @media(max-width: 640px) {
+      .sb-sizes, .sb-meta { display: none; }
+    }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <button class="demo-btn" onclick="toggleBar()">
+      <i data-lucide="pin"></i>
+      Toggle Sticky Bar
+    </button>
+    <p style="margin-top: 16px; color: var(--grey-mid); font-size: 14px;">Scroll naar beneden om te simuleren dat de CTA-knop uit beeld verdwijnt.</p>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C6 - Sticky Add-to-Cart Bar</p>
+    <p><strong>Category:</strong> E-commerce / Conversion Optimization</p>
+    <p><strong>Complexiteit:</strong> Medium (scroll detection, sticky positioning, responsive layout)</p>
+
+    <h3>Purpose:</h3>
+    <p>Bottom-fixed bar that appears when the main add-to-cart button scrolls out of view on product pages. Keeps CTA accessible at all times, improving conversion by reducing scroll-back friction.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Fixed bottom positioning (z-index 300)</li>
+      <li>Slides up when main CTA out of view, slides down when in view</li>
+      <li>Product thumbnail + name + meta info</li>
+      <li>Current price (large, bold)</li>
+      <li>Size/variant selector (compact)</li>
+      <li>Add-to-cart button with icon</li>
+      <li>Responsive: hides meta and sizes on mobile</li>
+      <li>Smooth slide animation (0.35s cubic-bezier)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>Product detail pages with long content (reviews, specs, related products)</li>
+      <li>Mobile product pages (small screens)</li>
+      <li>B2B catalogs with quick reordering workflow</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Trigger when main CTA scrolls past viewport top + 100px buffer</li>
+      <li>Sync selected variant with main product form</li>
+      <li>Hide on checkout/cart pages to avoid confusion</li>
+      <li>Use IntersectionObserver for performant scroll detection</li>
+      <li>Ensure enough contrast with page background (white bar + shadow)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Bar */
+height: auto (padding 12px)
+background: white
+border-top: 1px solid var(--grey)
+box-shadow: 0 -4px 20px rgba(10,22,40,0.08)
+z-index: 300
+transform: translateY(100%) → translateY(0)
+transition: 0.35s cubic-bezier(0.4,0,0.2,1)
+
+/* Product Info */
+Thumbnail: 44px × 44px, border-radius 10px
+Name: 14px, 700
+Meta: 12px, var(--grey-mid)
+Price: 20px, 800, Plus Jakarta Sans
+
+/* Variant Selector */
+size: 36px × 32px
+border: 1.5px solid var(--grey)
+active: border var(--teal) + bg var(--teal-glow)
+
+/* Add Button */
+height: 44px, padding 0 24px
+background: var(--teal)
+box-shadow: 0 4px 16px rgba(0,137,123,0.3)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  product: {
+    id: '123',
+    name: 'Peha-soft Nitrile Fino',
+    brand: 'Hartmann',
+    meta: 'Doos 150 st.',
+    image: '/images/product-thumb.jpg',
+    price: 8.25,
+    variants: [
+      { id: 'xs', name: 'XS' },
+      { id: 's', name: 'S' },
+      { id: 'm', name: 'M', default: true },
+      { id: 'l', name: 'L' },
+      { id: 'xl', name: 'XL' }
+    ]
+  },
+  triggerOffset: 100,  // Show when CTA is 100px past viewport
+  onAddToCart: (productId, variantId) => {}
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Container: max-width 1200px, margin 0 auto, padding 0 24px
+Layout: flex row, align-items center, gap 16px
+
+Order (left to right):
+1. Product (flex 1, min-width 0): thumbnail + info
+2. Price (flex-shrink 0)
+3. Sizes (flex-shrink 0, hidden on mobile)
+4. Add button (flex-shrink 0)
+
+Mobile (@max-width 640px):
+- Hide .sb-meta
+- Hide .sb-sizes</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>// Scroll detection with IntersectionObserver (performant):
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    stickyBar.classList.toggle('show', !entry.isIntersecting);
+  });
+}, { threshold: 0, rootMargin: '-100px 0px 0px 0px' });
+
+observer.observe(mainCTAButton);
+
+// ARIA:
+&lt;div className="sticky-bar" role="region" aria-label="Sticky add-to-cart"&gt;
+  &lt;button aria-label="Voeg toe aan winkelwagen"&gt;Bestellen&lt;/button&gt;
+&lt;/div&gt;</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function StickyBar({ product, mainCTARef }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(product.variants.find(v => v.default));
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(!entry.isIntersecting),
+      { threshold: 0, rootMargin: '-100px 0px 0px 0px' }
+    );
+
+    if (mainCTARef.current) {
+      observer.observe(mainCTARef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [mainCTARef]);
+
+  return (
+    &lt;div className={`sticky-bar ${isVisible ? 'show' : ''}`}&gt;
+      &lt;div className="sticky-inner"&gt;
+        &lt;div className="sb-product"&gt;
+          &lt;img src={product.image} className="sb-img" /&gt;
+          &lt;div className="sb-info"&gt;
+            &lt;div className="sb-name"&gt;{product.name}&lt;/div&gt;
+            &lt;div className="sb-meta"&gt;{product.brand} · {product.meta}&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div className="sb-price"&gt;€{product.price.toFixed(2)}&lt;/div&gt;
+        &lt;div className="sb-sizes"&gt;
+          {product.variants.map(v => (
+            &lt;div
+              key={v.id}
+              className={`sb-size ${selectedVariant.id === v.id ? 'active' : ''}`}
+              onClick={() => setSelectedVariant(v)}
+            &gt;
+              {v.name}
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+        &lt;button className="sb-add" onClick={() => onAddToCart(product.id, selectedVariant.id)}&gt;
+          &lt;ShoppingCart size={17} /&gt; Bestellen
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>C3-AddToCartToast:</strong> Show after clicking sticky bar button</li>
+      <li><strong>C2-MiniCart:</strong> Optionally open after add to cart</li>
+      <li><strong>C9-CompareBar:</strong> Uses similar bottom-fixed pattern</li>
+      <li><strong>Variant:</strong> Show quantity stepper in sticky bar (for B2B)</li>
+      <li><strong>Variant:</strong> Show stock countdown ("Nog 3 op voorraad!")</li>
+      <li><strong>Variant:</strong> Show free shipping progress bar</li>
+    </ul>
+  </div>
+
+  <!-- Sticky Bar -->
+  <div class="sticky-bar" id="stickyBar">
+    <div class="sticky-inner">
+      <div class="sb-product">
+        <div class="sb-img">🧤</div>
+        <div class="sb-info">
+          <div class="sb-name">Peha-soft Nitrile Fino</div>
+          <div class="sb-meta">Hartmann · Doos 150 st.</div>
+        </div>
+      </div>
+      <div class="sb-price">€8,25</div>
+      <div class="sb-sizes">
+        <div class="sb-size">XS</div>
+        <div class="sb-size">S</div>
+        <div class="sb-size active">M</div>
+        <div class="sb-size">L</div>
+        <div class="sb-size">XL</div>
+      </div>
+      <button class="sb-add"><i data-lucide="shopping-cart"></i> Bestellen</button>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let barVisible = false;
+    function toggleBar() {
+      barVisible = !barVisible;
+      document.getElementById('stickyBar').classList.toggle('show', barVisible);
+    }
+  </script>
+</body>
+</html>

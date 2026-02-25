@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C7 - Cookie Banner | Compass Design System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --teal: #00897B;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --font-primary: 'DM Sans', sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: #F5F7FA; padding: 40px; }
+
+    /* Demo */
+    .demo-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08); margin-bottom: 40px; text-align: center; }
+    .demo-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--teal); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .demo-btn i { width: 18px; height: 18px; }
+
+    /* Cookie Banner */
+    .cookie-banner { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(120%); z-index: 350; background: white; border: 1px solid var(--grey); border-radius: 20px; box-shadow: var(--shadow-lg); width: 520px; max-width: calc(100vw - 40px); transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+    .cookie-banner.show { transform: translateX(-50%) translateY(0); }
+    .cb-body { padding: 24px; }
+    .cb-title { font-family: var(--font-display); font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .cb-title span { font-size: 22px; }
+    .cb-text { font-size: 14px; color: var(--grey-dark); line-height: 1.5; margin-bottom: 16px; }
+    .cb-text a { color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
+    .cb-toggles { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .cb-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--grey-light); border-radius: 10px; }
+    .cb-toggle-info { display: flex; align-items: center; gap: 8px; }
+    .cb-toggle-info i { width: 16px; height: 16px; color: var(--teal); }
+    .cb-toggle-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .cb-toggle-req { font-size: 11px; color: var(--grey-mid); margin-left: 4px; }
+    .cb-switch { width: 44px; height: 24px; border-radius: 100px; background: var(--grey); cursor: pointer; position: relative; transition: background 0.2s; }
+    .cb-switch.on { background: var(--teal); }
+    .cb-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+    .cb-switch.on::after { left: 23px; }
+    .cb-switch.locked { background: var(--teal); opacity: 0.6; cursor: default; }
+    .cb-actions { display: flex; gap: 8px; }
+    .cb-btn { flex: 1; height: 44px; border-radius: 10px; font-family: var(--font-primary); font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; border: none; }
+    .cb-btn.accept { background: var(--teal); color: white; }
+    .cb-btn.accept:hover { background: var(--navy); }
+    .cb-btn.essential { background: var(--grey-light); color: var(--navy); border: 1.5px solid var(--grey); }
+    .cb-btn.essential:hover { border-color: var(--teal); color: var(--teal); }
+    .cb-btn.save { background: white; color: var(--navy); border: 1.5px solid var(--grey); }
+    .cb-btn.save:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* Docs */
+    .doc-box { background: white; border: 2px solid var(--grey); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .doc-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+    .doc-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 12px; }
+    .doc-box p, .doc-box li { font-size: 14px; color: var(--grey-mid); line-height: 1.8; margin-bottom: 12px; }
+    .doc-box ul { list-style: none; padding-left: 24px; }
+    .doc-box ul li:before { content: "•"; color: var(--teal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+    .doc-box code { background: var(--grey-light); padding: 3px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); }
+    .doc-box pre { background: var(--navy); color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; margin: 16px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="demo-container">
+    <button class="demo-btn" onclick="showBanner()">
+      <i data-lucide="cookie"></i>
+      Toon Cookie Banner
+    </button>
+  </div>
+
+  <div class="doc-box">
+    <h2>📋 STEP 1: COMPONENT OVERVIEW</h2>
+    <p><strong>Component:</strong> C7 - Cookie Consent Banner</p>
+    <p><strong>Category:</strong> Legal / GDPR Compliance</p>
+    <p><strong>Complexiteit:</strong> Medium (toggle states, localStorage persistence, 3 action buttons)</p>
+
+    <h3>Purpose:</h3>
+    <p>GDPR-compliant cookie consent banner with granular controls. Allows users to accept all, essential only, or customize per category (essential, analytics, marketing).</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+      <li>Fixed bottom-center positioning</li>
+      <li>3 cookie categories: Essential (locked on), Analytics, Marketing</li>
+      <li>Toggle switches for each category</li>
+      <li>3 action buttons: "Alles accepteren", "Voorkeuren opslaan", "Alleen noodzakelijk"</li>
+      <li>Slide-up animation (0.5s bounce)</li>
+      <li>LocalStorage persistence (cookie_consent)</li>
+      <li>Link to privacy policy</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎯 STEP 2: WHEN TO USE</h2>
+    <h3>Ideaal voor:</h3>
+    <ul>
+      <li>All websites serving EU visitors (GDPR requirement)</li>
+      <li>Sites using analytics (Google Analytics, Matomo)</li>
+      <li>Sites with marketing cookies (Facebook Pixel, Google Ads)</li>
+    </ul>
+
+    <h3>Best Practices:</h3>
+    <ul>
+      <li>Show on first visit (check localStorage)</li>
+      <li>Don't block essential functionality</li>
+      <li>Load analytics/marketing scripts AFTER consent</li>
+      <li>Provide easy access to re-open preferences (footer link)</li>
+      <li>Make "Reject" as easy as "Accept" (same visual weight)</li>
+      <li>Store consent in localStorage + cookie (365 days)</li>
+    </ul>
+  </div>
+
+  <div class="doc-box">
+    <h2>🎨 STEP 3: DESIGN TOKENS</h2>
+    <pre>/* Banner */
+width: 520px, max-width: calc(100vw - 40px)
+background: white
+border: 1px solid var(--grey)
+border-radius: 20px
+box-shadow: 0 16px 48px rgba(10,22,40,0.12)
+z-index: 350
+transform: translateX(-50%) translateY(120%) → translateY(0)
+transition: 0.5s cubic-bezier(0.4,0,0.2,1)
+
+/* Toggle Switch */
+width: 44px, height: 24px
+border-radius: 100px
+background: var(--grey) → var(--teal)
+knob: 18px × 18px, left 3px → 23px
+
+/* Buttons */
+height: 44px, border-radius: 10px
+accept: bg var(--teal), color white
+essential: bg var(--grey-light), border var(--grey)
+save: bg white, border var(--grey)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔧 STEP 4: PROPS/CONFIGURATION</h2>
+    <pre>{
+  privacyPolicyUrl: '/privacy',
+  onAcceptAll: () => {
+    // Enable all cookies
+    enableAnalytics();
+    enableMarketing();
+  },
+  onSavePreferences: (prefs) => {
+    // Enable selected cookies
+    if (prefs.analytics) enableAnalytics();
+    if (prefs.marketing) enableMarketing();
+  },
+  onEssentialOnly: () => {
+    // Disable all optional cookies
+    disableAnalytics();
+    disableMarketing();
+  },
+  storageKey: 'cookie_consent',
+  expiryDays: 365
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>📐 STEP 5: LAYOUT RULES</h2>
+    <pre>Position: fixed, bottom 20px, left 50%
+Transform: translateX(-50%)
+Padding: 24px
+
+Layout (vertical):
+1. Title (with emoji icon)
+2. Description text with privacy link
+3. Toggle list (3 items, vertical stack, gap 8px)
+4. Action buttons (horizontal flex, gap 8px)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>♿ STEP 6: ACCESSIBILITY</h2>
+    <pre>&lt;div role="dialog" aria-labelledby="cb-title" aria-modal="true"&gt;
+  &lt;h2 id="cb-title"&gt;Cookie voorkeuren&lt;/h2&gt;
+  &lt;div role="group" aria-label="Cookie categorieën"&gt;
+    &lt;button role="switch" aria-checked="true" aria-label="Essentiële cookies" disabled&gt;
+    &lt;button role="switch" aria-checked="false" aria-label="Analytische cookies"&gt;
+    &lt;button role="switch" aria-checked="false" aria-label="Marketing cookies"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+// Focus trap: Keep focus inside banner until action taken
+// ESC key: Close banner (save current state)</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>💡 STEP 7: IMPLEMENTATION NOTES</h2>
+    <pre>// React Component
+export function CookieBanner() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [analytics, setAnalytics] = useState(false);
+  const [marketing, setMarketing] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookie_consent');
+    if (!consent) {
+      setIsVisible(true);
+    } else {
+      const prefs = JSON.parse(consent);
+      setAnalytics(prefs.analytics);
+      setMarketing(prefs.marketing);
+      applyPreferences(prefs);
+    }
+  }, []);
+
+  const saveConsent = (prefs) => {
+    localStorage.setItem('cookie_consent', JSON.stringify({
+      ...prefs,
+      timestamp: Date.now(),
+      expiresAt: Date.now() + (365 * 24 * 60 * 60 * 1000)
+    }));
+    setIsVisible(false);
+  };
+
+  const handleAcceptAll = () => {
+    saveConsent({ essential: true, analytics: true, marketing: true });
+    enableAnalytics();
+    enableMarketing();
+  };
+
+  const handleSavePreferences = () => {
+    saveConsent({ essential: true, analytics, marketing });
+    if (analytics) enableAnalytics();
+    if (marketing) enableMarketing();
+  };
+
+  const handleEssentialOnly = () => {
+    saveConsent({ essential: true, analytics: false, marketing: false });
+  };
+
+  return (
+    &lt;div className={`cookie-banner ${isVisible ? 'show' : ''}`}&gt;
+      &lt;div className="cb-body"&gt;
+        &lt;div className="cb-title"&gt;&lt;span&gt;🍪&lt;/span&gt; Cookie voorkeuren&lt;/div&gt;
+        &lt;div className="cb-text"&gt;
+          Wij gebruiken cookies om uw ervaring te verbeteren. U kunt hieronder uw voorkeuren instellen.{' '}
+          &lt;a href="/privacy"&gt;Lees meer&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div className="cb-toggles"&gt;
+          &lt;div className="cb-toggle"&gt;
+            &lt;div className="cb-toggle-info"&gt;
+              &lt;Shield size={16} /&gt;
+              &lt;span className="cb-toggle-name"&gt;Essentieel&lt;/span&gt;
+              &lt;span className="cb-toggle-req"&gt;(verplicht)&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div className="cb-switch locked on" /&gt;
+          &lt;/div&gt;
+          &lt;div className="cb-toggle"&gt;
+            &lt;div className="cb-toggle-info"&gt;
+              &lt;BarChart2 size={16} /&gt;
+              &lt;span className="cb-toggle-name"&gt;Analytisch&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div className={`cb-switch ${analytics ? 'on' : ''}`} onClick={() => setAnalytics(!analytics)} /&gt;
+          &lt;/div&gt;
+          &lt;div className="cb-toggle"&gt;
+            &lt;div className="cb-toggle-info"&gt;
+              &lt;Megaphone size={16} /&gt;
+              &lt;span className="cb-toggle-name"&gt;Marketing&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div className={`cb-switch ${marketing ? 'on' : ''}`} onClick={() => setMarketing(!marketing)} /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div className="cb-actions"&gt;
+          &lt;button className="cb-btn essential" onClick={handleEssentialOnly}&gt;Alleen noodzakelijk&lt;/button&gt;
+          &lt;button className="cb-btn save" onClick={handleSavePreferences}&gt;Voorkeuren opslaan&lt;/button&gt;
+          &lt;button className="cb-btn accept" onClick={handleAcceptAll}&gt;Alles accepteren&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+  </div>
+
+  <div class="doc-box">
+    <h2>🔄 STEP 8: VARIATIONS & RELATED COMPONENTS</h2>
+    <ul>
+      <li><strong>Variant:</strong> Simple 2-button banner (Accept/Reject only)</li>
+      <li><strong>Variant:</strong> Top banner (full-width, less intrusive)</li>
+      <li><strong>Variant:</strong> Modal version (full-screen overlay)</li>
+      <li><strong>Related:</strong> Privacy Policy page template</li>
+      <li><strong>Related:</strong> Cookie preferences link in footer</li>
+    </ul>
+  </div>
+
+  <!-- Cookie Banner -->
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cb-body">
+      <div class="cb-title"><span>🍪</span> Cookie voorkeuren</div>
+      <div class="cb-text">Wij gebruiken cookies om uw ervaring te verbeteren. U kunt hieronder uw voorkeuren instellen. <a href="#">Lees meer</a></div>
+      <div class="cb-toggles">
+        <div class="cb-toggle">
+          <div class="cb-toggle-info">
+            <i data-lucide="shield"></i>
+            <span class="cb-toggle-name">Essentieel</span>
+            <span class="cb-toggle-req">(verplicht)</span>
+          </div>
+          <div class="cb-switch locked on"></div>
+        </div>
+        <div class="cb-toggle">
+          <div class="cb-toggle-info">
+            <i data-lucide="bar-chart-2"></i>
+            <span class="cb-toggle-name">Analytisch</span>
+          </div>
+          <div class="cb-switch on" id="analyticsToggle" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="cb-toggle">
+          <div class="cb-toggle-info">
+            <i data-lucide="megaphone"></i>
+            <span class="cb-toggle-name">Marketing</span>
+          </div>
+          <div class="cb-switch" id="marketingToggle" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+      <div class="cb-actions">
+        <button class="cb-btn essential" onclick="hideBanner()">Alleen noodzakelijk</button>
+        <button class="cb-btn save" onclick="saveBanner()">Voorkeuren opslaan</button>
+        <button class="cb-btn accept" onclick="acceptAll()">Alles accepteren</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function showBanner() {
+      document.getElementById('cookieBanner').classList.add('show');
+    }
+
+    function hideBanner() {
+      document.getElementById('cookieBanner').classList.remove('show');
+    }
+
+    function saveBanner() {
+      const analytics = document.getElementById('analyticsToggle').classList.contains('on');
+      const marketing = document.getElementById('marketingToggle').classList.contains('on');
+      localStorage.setItem('cookie_consent', JSON.stringify({ essential: true, analytics, marketing }));
+      hideBanner();
+    }
+
+    function acceptAll() {
+      localStorage.setItem('cookie_consent', JSON.stringify({ essential: true, analytics: true, marketing: true }));
+      hideBanner();
+    }
+  </script>
+</body>
+</html>

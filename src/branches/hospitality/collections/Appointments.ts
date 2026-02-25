@@ -200,3 +200,5 @@ export const Appointments: CollectionConfig = {
     },
   ],
 }
+
+export default Appointments
