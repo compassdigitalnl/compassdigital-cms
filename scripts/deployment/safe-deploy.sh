@@ -87,7 +87,7 @@ if [ "${RUN_MIGRATIONS}" = true ]; then
     cd "${SITE_DIR}"
     # Gebruik 'yes' om eventuele prompts automatisch te beantwoorden
     # maar NOOIT migrate:fresh (dat dropt alles!)
-    yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=2048 --no-deprecation" npx payload migrate 2>&1 || {
+    yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=4096 --no-deprecation" npx payload migrate 2>&1 || {
         echo "[deploy] WAARSCHUWING: Migratie had problemen. Check logs."
         echo "[deploy] Post-migratie backup voor veiligheid..."
         node "${SCRIPTS_DIR}/backup-db.mjs" "${DB_NAME}" "post-migrate-error" || true
@@ -102,7 +102,7 @@ fi
 echo ""
 echo "[deploy] Stap 6/7: Next.js build..."
 cd "${SITE_DIR}"
-NODE_OPTIONS="--max-old-space-size=2048" npm run build
+NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # -----------------------------------------------------------
 # STAP 7: Restart PM2

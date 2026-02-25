@@ -185,7 +185,7 @@ node /home/ploi/scripts/check-migrations.mjs "${DB_NAME}" || MIGRATE_EXIT=$?
 if [ "$MIGRATE_EXIT" = "1" ]; then
   echo "  GEVAAR: Migraties overgeslagen (data aanwezig zonder migration history)"
 else
-  yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=2048 --no-deprecation" npx payload migrate 2>&1 | grep -E "Migrat|ERROR|running" || true
+  yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=4096 --no-deprecation" npx payload migrate 2>&1 | grep -E "Migrat|ERROR|running" || true
 fi
 
 # --- Stap 7b: Theme seeding (Sprint 1: Compass Design System) ---
@@ -196,7 +196,7 @@ npm run seed:themes 2>&1 | grep -E "Created|Skipped|ERROR" || echo "  ✓ Themes
 # --- Stap 8: Build ---
 echo "[8/10] Next.js build (dit duurt ~5 minuten)..."
 cd "$SITE_DIR"
-NODE_OPTIONS="--max-old-space-size=2048" npm run build 2>&1 | tail -3
+NODE_OPTIONS="--max-old-space-size=4096" npm run build 2>&1 | tail -3
 
 # --- Stap 9: PM2 process starten ---
 echo "[9/10] PM2 process starten..."

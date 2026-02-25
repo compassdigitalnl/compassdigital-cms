@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "prebuild_disabled": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/pre-build-check.ts",
-    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=2048\" next build",
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=4096\" next build",
     "migrate": "node --env-file=.env --no-deprecation --import=tsx/esm src/scripts/migrate.ts",
     "migrate:force": "cross-env NODE_OPTIONS=--no-deprecation payload migrate --forceAcceptWarning",
     "pre-build-check": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/pre-build-check.ts",

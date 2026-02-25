@@ -107,3 +107,8 @@ redis.on('error', (err) => {
 redis.on('ready', () => {
   console.log('✅ Redis ready')
 })
+
+// Export function to get Redis client instance
+export function getRedisClient() {
+  return redis
+}

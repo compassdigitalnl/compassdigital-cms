@@ -201,23 +201,24 @@ export class ProvisioningService {
       })
 
       // ── Step 7b: Initialize Meilisearch indexes ────────────────────────────
-      await reportProgress('deploying', 'Initializing search indexes (Meilisearch)...', 81)
+      // TODO: Re-enable when initializeIndexes module is implemented
+      // await reportProgress('deploying', 'Initializing search indexes (Meilisearch)...', 81)
 
-      try {
-        const { initializeMeilisearchIndexes } = await import('@/lib/meilisearch/initializeIndexes')
+      // try {
+      //   const { initializeMeilisearchIndexes } = await import('@/lib/meilisearch/initializeIndexes')
 
-        await initializeMeilisearchIndexes({
-          clientId: input.clientId,
-          indexPrefix: input.clientId,
-        })
+      //   await initializeMeilisearchIndexes({
+      //     clientId: input.clientId,
+      //     indexPrefix: input.clientId,
+      //   })
 
-        logs.push(`Meilisearch indexes initialized: ${input.clientId}_*`)
-        await reportProgress('deploying', 'Search indexes initialized', 82)
-      } catch (meilisearchError: any) {
-        logs.push(`⚠️ Meilisearch initialization failed: ${meilisearchError.message}`)
-        console.warn('[ProvisioningService] Meilisearch warning:', meilisearchError.message)
-        // Non-fatal: search can be initialized later
-      }
+      //   logs.push(`Meilisearch indexes initialized: ${input.clientId}_*`)
+      //   await reportProgress('deploying', 'Search indexes initialized', 82)
+      // } catch (meilisearchError: any) {
+      //   logs.push(`⚠️ Meilisearch initialization failed: ${meilisearchError.message}`)
+      //   console.warn('[ProvisioningService] Meilisearch warning:', meilisearchError.message)
+      //   // Non-fatal: search can be initialized later
+      // }
 
       // ── Step 7c: Create first admin user in client CMS ────────────────────
       // After deployment the Payload app boots — we create the first user via REST API

@@ -107,7 +107,7 @@ for SITE_ARGS in "${SITES[@]}"; do
         0|2)  # Veilig of lege database
             echo "  → Migraties uitvoeren..."
             cd "${SITE_DIR}"
-            if yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=2048 --no-deprecation" npx payload migrate 2>&1; then
+            if yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=4096 --no-deprecation" npx payload migrate 2>&1; then
                 echo "  ✓ Migraties succesvol"
                 SITE_MIGRATIONS["${SITE_NAME}"]="success"
             else
@@ -145,7 +145,7 @@ for SITE_ARGS in "${SITES[@]}"; do
     echo "→ ${SITE_NAME}: build starten..."
     (
         cd "${SITE_DIR}"
-        if NODE_OPTIONS="--max-old-space-size=2048" npm run build 2>&1 | sed "s/^/  [${SITE_NAME}] /"; then
+        if NODE_OPTIONS="--max-old-space-size=4096" npm run build 2>&1 | sed "s/^/  [${SITE_NAME}] /"; then
             echo "  ✓ ${SITE_NAME}: build succesvol"
             echo "success" > "/tmp/deploy-${SITE_NAME}.status"
         else
