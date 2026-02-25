@@ -1,0 +1,76 @@
+/* Auth Tabs Container */
+.authTabs {
+  display: flex;
+  gap: 4px;
+  background: var(--grey-lightest);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+/* Individual Tab Button */
+.authTab {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: calc(var(--radius-md) - 2px);
+  background: transparent;
+  color: var(--grey-dark);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-family-base);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.authTab:hover {
+  background: rgba(0, 137, 123, 0.06);
+  color: var(--teal);
+}
+
+.authTab.active {
+  background: var(--white);
+  color: var(--navy);
+  box-shadow: 0 1px 3px rgba(10, 38, 71, 0.1);
+}
+
+/* Form Panel */
+.formPanel {
+  display: none;
+}
+
+.formPanel.active {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .authTab {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .authTabs {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .authTab {
+    padding: 10px;
+  }
+}

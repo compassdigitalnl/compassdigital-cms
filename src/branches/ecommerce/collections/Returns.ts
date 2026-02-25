@@ -576,3 +576,4 @@ export const Returns: CollectionConfig = {
     ],
   },
 }
+export default Returns

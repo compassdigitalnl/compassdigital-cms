@@ -3,4 +3,4 @@
  */
 
 export { ProvisioningButton } from './ProvisioningButton'
-export { ClientSwitcher } from './ClientSwitcher'
+export { ClientSwitcher } from '@/branches/platform/components/ClientSwitcher'

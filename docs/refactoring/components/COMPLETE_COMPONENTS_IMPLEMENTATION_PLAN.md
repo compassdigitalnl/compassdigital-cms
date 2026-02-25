@@ -1,20 +1,22 @@
 # COMPLETE COMPONENTS IMPLEMENTATION PLAN
 # All UI, Marketing, Layout, Account & Ecommerce Components
 
-**Document Created:** 25 February 2026  
-**Status:** 🚧 IN PROGRESS  
-**Implementation Strategy:** Following Sprint 7 Protocol (Documentation → Implementation → Testing)  
-**Total Components:** 60 components across 5 categories
+**Document Created:** 25 February 2026
+**Last Updated:** 25 February 2026 - 18:30
+**Status:** 🚧 IN PROGRESS
+**Implementation Strategy:** Following Sprint 7 Protocol (Documentation → Implementation → Testing)
+**Total Components:** 72 components across 6 categories
 
 ---
 
 ## 📋 EXECUTIVE SUMMARY
 
-This document outlines the complete implementation of **60 components** across 5 major categories:
+This document outlines the complete implementation of **72 components** across 6 major categories:
 - **UI Components** (7): Toast, Pagination, Progress Steps, Cookie Banner, Trust Signals, etc.
-- **Marketing Components** (1): Newsletter  
-- **Layout Components** (1): Footer  
-- **Account Components** (4): Sidebar, Notification Center, Address Book, Recently Viewed  
+- **Marketing Components** (1): Newsletter
+- **Layout Components** (1): Footer
+- **Account Components** (4): Sidebar, Notification Center, Address Book, Recently Viewed
+- **Auth Components** (12): Login, Register, Guest Checkout, OAuth, Password Strength, etc. ✨ NEW!
 - **Ecommerce Components** (47): Cart, Checkout, Orders, Products, Quick Order, Quote, Shop
 
 **Goal:** Create a complete, production-ready component library that is:
@@ -132,12 +134,53 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 |-----------|------|------------|----------|--------|
 | **Footer** | c15-footer.html | Medium | High | ✅ DONE (already implemented) |
 
-**Target Location:** `src/branches/shared/components/layout/`  
+**Target Location:** `src/branches/shared/components/layout/`
 **Note:** Footer already implemented in navigation sprint
 
 ---
 
-### 4. Account Components (4 total)
+### 4. Auth Components (12 total) ✨ NEW!
+
+| Component | Code | Complexity | Priority | Status |
+|-----------|------|------------|----------|--------|
+| **AuthLayout** | auth01 | Medium | High | ⏳ TODO |
+| **AuthBrandingPanel** | auth02 | Medium | Medium | ⏳ TODO |
+| **AuthTabSwitcher** | auth03 | Low | High | ⏳ TODO |
+| **LoginForm** | auth04 | High | High | ⏳ TODO |
+| **RegisterForm** | auth05 | High | High | ⏳ TODO |
+| **GuestCheckoutForm** | auth06 | Medium | Medium | ⏳ TODO |
+| **FormInput** | auth07 | Medium | High | ⏳ TODO |
+| **OAuthButtons** | auth08 | Medium | Medium | ⏳ TODO |
+| **PasswordStrengthMeter** | auth09 | Medium | High | ⏳ TODO |
+| **TrustBadges** | auth10 | Low | Low | ⏳ TODO |
+| **B2BNotice** | auth11 | Low | Medium | ⏳ TODO |
+| **GuestInfoBox** | auth12 | Low | Low | ⏳ TODO |
+
+**Target Location:** `src/branches/shared/components/auth/`
+**Full Documentation:** `docs/refactoring/components/auth/AUTH_COMPONENTS_IMPLEMENTATION_PLAN.md`
+
+**Purpose:** Complete authentication system with:
+- Login/Register/Guest Checkout flows
+- OAuth integration (Google, Facebook, etc.)
+- B2B account registration with approval workflow
+- Password strength validation
+- Form validation and error handling
+- Trust signals and informational components
+
+**Key Features:**
+- 2-column auth layout (branding panel + form)
+- Tab switching between login/register/guest modes
+- Real-time password strength meter
+- Social login buttons (Google OAuth)
+- B2B-specific features (KVK validation, approval notices)
+- Guest checkout with optional account creation
+- Responsive design (900px breakpoint, mobile-first)
+
+**Estimated Implementation Time:** 6-8 hours
+
+---
+
+### 5. Account Components (4 total)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|
@@ -150,9 +193,9 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 
 ---
 
-### 5. Ecommerce Components (47 total)
+### 6. Ecommerce Components (47 total)
 
-#### 5.1 Cart Components (7)
+#### 6.1 Cart Components (7)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|
@@ -168,7 +211,7 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 
 ---
 
-#### 5.2 Checkout Components (5)
+#### 6.2 Checkout Components (5)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|
@@ -182,7 +225,7 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 
 ---
 
-#### 5.3 Orders Components (5)
+#### 6.3 Orders Components (5)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|
@@ -196,7 +239,7 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 
 ---
 
-#### 5.4 Product Components (10)
+#### 6.4 Product Components (10)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|
@@ -217,7 +260,7 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 
 ---
 
-#### 5.5 Quick Order Components (5)
+#### 6.5 Quick Order Components (5)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|
@@ -231,7 +274,7 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 
 ---
 
-#### 5.6 Quote/Offerte Components (5)
+#### 6.6 Quote/Offerte Components (5)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|
@@ -245,7 +288,7 @@ await db.run(sql`CREATE TABLE \`notifications\` ...`) // WRONG!
 
 ---
 
-#### 5.7 Shop/Search Components (8)
+#### 6.7 Shop/Search Components (8)
 
 | Component | File | Complexity | Priority | Status |
 |-----------|------|------------|----------|--------|

@@ -1,4 +1,4 @@
-import type { Category, Media, Product, VariantOption, VariantType } from '@/payload-types'
+import type { ProductCategory, Media, Product, VariantOption, VariantType } from '@/payload-types'
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 type ProductArgs = {
@@ -6,7 +6,7 @@ type ProductArgs = {
   metaImage: Media
   contentImage: Media
   variantTypes: VariantType[]
-  categories: Category[]
+  categories: ProductCategory[]
   relatedProducts: Product[]
 }
 

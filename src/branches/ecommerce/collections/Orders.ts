@@ -574,3 +574,4 @@ export const Orders: CollectionConfig = {
     ],
   },
 }
+export default Orders

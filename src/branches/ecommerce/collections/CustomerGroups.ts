@@ -103,3 +103,4 @@ export const CustomerGroups: CollectionConfig = {
     },
   ],
 }
+export default CustomerGroups

@@ -164,3 +164,4 @@ export const ProductCategories: CollectionConfig = {
     },
   ],
 }
+export default ProductCategories

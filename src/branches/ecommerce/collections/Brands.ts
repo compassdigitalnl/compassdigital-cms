@@ -134,3 +134,4 @@ export const Brands: CollectionConfig = {
     },
   ],
 }
+export default Brands

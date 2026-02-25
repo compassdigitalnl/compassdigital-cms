@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import type { Page } from '../payload-types'
+import type { Page } from '@/payload-types'
 import { isFeatureEnabled } from '@/lib/features'
 
 // ─── ALL BLOCKS (eager loaded for SSR compatibility) ──────────────

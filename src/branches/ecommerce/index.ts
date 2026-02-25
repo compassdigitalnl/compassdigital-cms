@@ -10,7 +10,7 @@
 export { default as Products } from './collections/Products'
 export { default as ProductCategories } from './collections/ProductCategories'
 export { default as Orders } from './collections/Orders'
-export { default as Carts } from './collections/Carts'
+export { Carts } from '../../../packages/modules/cart/collections/Carts'
 export { default as CustomerGroups } from './collections/CustomerGroups'
 export { default as Brands } from './collections/Brands'
 export { default as Invoices } from './collections/Invoices'

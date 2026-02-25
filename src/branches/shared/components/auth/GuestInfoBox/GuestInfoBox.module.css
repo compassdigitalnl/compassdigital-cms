@@ -1,0 +1,64 @@
+/* Guest Info Box */
+.guestInfoBox {
+  background: linear-gradient(135deg, rgba(0, 137, 123, 0.04), rgba(10, 38, 71, 0.02));
+  border: 1px solid rgba(0, 137, 123, 0.12);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+/* Title */
+.title {
+  font-size: 14px;
+  color: var(--navy);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-family: var(--font-family-base);
+}
+
+.icon {
+  font-size: 16px;
+}
+
+/* Description */
+.description {
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+  margin: 0 0 14px 0;
+  font-family: var(--font-family-base);
+}
+
+/* Benefits Grid */
+.guestBenefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Benefit Item */
+.guestBenefit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--grey-dark);
+  font-family: var(--font-family-base);
+}
+
+/* Check Icon */
+.check {
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .guestBenefits {
+    grid-template-columns: 1fr;
+  }
+}

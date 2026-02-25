@@ -380,3 +380,5 @@ export const Notifications: CollectionConfig = {
     ],
   },
 }
+
+export default Notifications

@@ -481,3 +481,4 @@ export const RecurringOrders: CollectionConfig = {
     ],
   },
 }
+export default RecurringOrders

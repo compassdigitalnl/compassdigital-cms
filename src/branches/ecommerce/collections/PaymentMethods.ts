@@ -155,3 +155,5 @@ export const PaymentMethods: CollectionConfig = {
     },
   ],
 }
+
+export default PaymentMethods

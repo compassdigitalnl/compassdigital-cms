@@ -190,3 +190,5 @@ export const Licenses: CollectionConfig = {
     },
   ],
 }
+
+export default Licenses

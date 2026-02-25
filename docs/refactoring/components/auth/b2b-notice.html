@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B2BNotice — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-dark: #64748B;
+  --r-sm: 8px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.b2b-notice {
+  background: rgba(10, 38, 71, 0.03);
+  border: 1px solid rgba(10, 38, 71, 0.08);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.b2b-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.b2b-notice strong {
+  color: var(--navy);
+}
+
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+</style>
+</head>
+<body>
+
+<h1>B2BNotice — Live Demo</h1>
+
+<div class="b2b-notice">
+  <span class="b2b-icon">🏥</span>
+  <div>
+    <strong>B2B registratie</strong> — Uw aanvraag wordt binnen 1 werkdag beoordeeld.
+    Na goedkeuring ontvangt u uw persoonlijke prijsafspraken.
+  </div>
+</div>
+
+<div class="b2b-notice">
+  <span class="b2b-icon">✓</span>
+  <div>
+    <strong>Zakelijk account goedgekeurd!</strong> — U heeft nu toegang tot persoonlijke staffelprijzen en B2B-voordelen.
+  </div>
+</div>
+
+<div style="margin-top:32px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:8px;">
+  <p style="font-size:13px;color:var(--grey-dark);line-height:1.7;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 688-694 |
+    <strong>Purpose:</strong> Informs users about B2B registration approval process |
+    <strong>Usage:</strong> At top of register form to set expectations |
+    <strong>Variants:</strong> Pending approval, approved, info
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import MyAccountTemplate1 from './MyAccountTemplate1'
+import MyAccountTemplate1 from '@/branches/ecommerce/templates/account/MyAccountTemplate1'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 

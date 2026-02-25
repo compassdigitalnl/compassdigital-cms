@@ -403,3 +403,5 @@ export const Deployments: CollectionConfig = {
     ],
   },
 }
+
+export default Deployments

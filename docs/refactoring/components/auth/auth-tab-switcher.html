@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AuthTabSwitcher — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-light: #F8FAFC;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.auth-tabs {
+  display: flex;
+  background: var(--white);
+  border-radius: var(--r-md);
+  padding: 4px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(10,22,40,0.06);
+  border: 1px solid var(--grey);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--grey-mid);
+  background: transparent;
+  border: none;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.auth-tab.active {
+  background: var(--navy);
+  color: white;
+  box-shadow: 0 2px 8px rgba(10,38,71,0.2);
+}
+
+.auth-tab:not(.active):hover {
+  color: var(--navy);
+  background: var(--grey-light);
+}
+
+.form-panel {
+  display: none;
+  animation: fadeSlide 0.35s ease;
+}
+
+.form-panel.active {
+  display: block;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel-content {
+  padding: 24px;
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  min-height: 200px;
+}
+
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+</style>
+</head>
+<body>
+
+<h1>AuthTabSwitcher — Live Demo</h1>
+
+<div class="auth-tabs">
+  <button class="auth-tab active" onclick="switchTab(0)">Inloggen</button>
+  <button class="auth-tab" onclick="switchTab(1)">Registreren</button>
+  <button class="auth-tab" onclick="switchTab(2)">Gast bestellen</button>
+</div>
+
+<div class="form-panel active" id="panel-0">
+  <div class="panel-content">
+    <h3 style="font-size: 18px; color: var(--navy); margin-bottom: 8px;">Welkom terug</h3>
+    <p style="font-size: 14px; color: var(--grey-mid);">Log in met uw account om verder te gaan.</p>
+  </div>
+</div>
+
+<div class="form-panel" id="panel-1">
+  <div class="panel-content">
+    <h3 style="font-size: 18px; color: var(--navy); margin-bottom: 8px;">Account aanmaken</h3>
+    <p style="font-size: 14px; color: var(--grey-mid);">Maak een zakelijk account aan voor persoonlijke prijzen.</p>
+  </div>
+</div>
+
+<div class="form-panel" id="panel-2">
+  <div class="panel-content">
+    <h3 style="font-size: 18px; color: var(--navy); margin-bottom: 8px;">Bestellen als gast</h3>
+    <p style="font-size: 14px; color: var(--grey-mid);">Geen account nodig — vul uw gegevens in en bestel direct.</p>
+  </div>
+</div>
+
+<div style="margin-top:32px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:var(--r-md);">
+  <p style="font-size:13px;color:var(--grey-mid);line-height:1.7;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 179-207, 610-615, 832-838 |
+    <strong>Features:</strong> 3 tabs (Login/Register/Guest), active state (navy bg + white text), fade-slide animation |
+    <strong>States:</strong> Active (navy), Inactive (grey), Hover (light grey bg) |
+    <strong>JavaScript:</strong> switchTab() function handles tab + panel visibility
+  </p>
+</div>
+
+<script>
+function switchTab(index) {
+  // Update tabs
+  const tabs = document.querySelectorAll('.auth-tab');
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', i === index);
+  });
+
+  // Update panels
+  const panels = document.querySelectorAll('.form-panel');
+  panels.forEach((panel, i) => {
+    panel.classList.toggle('active', i === index);
+  });
+}
+</script>
+
+</body>
+</html>

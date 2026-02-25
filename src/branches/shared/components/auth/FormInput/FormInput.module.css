@@ -1,0 +1,157 @@
+/* Form Group */
+.formGroup {
+  margin-bottom: 18px;
+}
+
+/* Label */
+.formLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+  font-family: var(--font-family-base);
+}
+
+.required {
+  color: var(--coral);
+  margin-left: 2px;
+}
+
+/* Input Wrapper */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Input Field */
+.formInput {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--white);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.formInput:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.1);
+}
+
+.formInput::placeholder {
+  color: var(--grey-mid);
+}
+
+/* Input with left icon */
+.formInput.hasLeftIcon {
+  padding-left: 42px;
+}
+
+/* Input with right icon (password toggle) */
+.formInput.hasRightIcon {
+  padding-right: 42px;
+}
+
+/* Icon Left */
+.iconLeft {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Password Toggle Button */
+.passwordToggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--grey-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  border-radius: var(--radius-sm);
+}
+
+.passwordToggle:hover {
+  color: var(--navy);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.passwordToggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 137, 123, 0.2);
+}
+
+/* States */
+.inputWrapper.isFocused .iconLeft {
+  color: var(--teal);
+}
+
+.inputWrapper.hasError .formInput {
+  border-color: var(--coral);
+}
+
+.inputWrapper.hasError .formInput:focus {
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.inputWrapper.isDisabled .formInput {
+  background: var(--grey-light);
+  color: var(--grey-mid);
+  cursor: not-allowed;
+}
+
+.inputWrapper.isDisabled .iconLeft {
+  color: var(--grey-mid);
+  opacity: 0.5;
+}
+
+/* Error Message */
+.errorMessage {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--coral);
+  line-height: 1.4;
+}
+
+/* Helper Text */
+.helperText {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--grey-mid);
+  line-height: 1.4;
+}
+
+/* Disabled state */
+.formInput:disabled {
+  background: var(--grey-light);
+  color: var(--grey-mid);
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .formInput {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}

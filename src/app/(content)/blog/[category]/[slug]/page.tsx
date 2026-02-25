@@ -3,9 +3,9 @@ import config from '@payload-config'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
-import BlogTemplate1 from './BlogTemplate1'
-import BlogTemplate2 from './BlogTemplate2'
-import BlogTemplate3 from './BlogTemplate3'
+import BlogTemplate1 from '@/branches/shared/templates/blog/BlogTemplate1'
+import BlogTemplate2 from '@/branches/shared/templates/blog/BlogTemplate2'
+import BlogTemplate3 from '@/branches/shared/templates/blog/BlogTemplate3'
 import type { BlogPost, BlogCategory } from '@/payload-types'
 
 export async function generateMetadata({

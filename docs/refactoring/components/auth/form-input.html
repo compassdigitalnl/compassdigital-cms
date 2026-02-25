@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FormInput — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --r-sm: 8px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--white);
+  transition: all 0.2s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,137,123,0.1);
+}
+
+.form-input::placeholder {
+  color: var(--grey-mid);
+}
+
+.form-input-icon {
+  position: relative;
+}
+
+.icon-left {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.form-input-icon .form-input {
+  padding-left: 42px;
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-mid);
+  font-size: 14px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.toggle-pw:hover {
+  color: var(--navy);
+}
+
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.demo-section {
+  margin-bottom: 32px;
+}
+</style>
+</head>
+<body>
+
+<h1>FormInput — Live Demo</h1>
+
+<div class="demo-section">
+  <h3 style="font-size: 14px; color: var(--navy); margin-bottom: 12px;">Basic input (no icon)</h3>
+  <div class="form-group">
+    <label class="form-label">Naam</label>
+    <input type="text" class="form-input" placeholder="Uw naam">
+  </div>
+</div>
+
+<div class="demo-section">
+  <h3 style="font-size: 14px; color: var(--navy); margin-bottom: 12px;">Email input (with icon)</h3>
+  <div class="form-group">
+    <label class="form-label">E-mailadres</label>
+    <div class="form-input-icon">
+      <span class="icon-left">✉️</span>
+      <input type="email" class="form-input" placeholder="naam@organisatie.nl">
+    </div>
+  </div>
+</div>
+
+<div class="demo-section">
+  <h3 style="font-size: 14px; color: var(--navy); margin-bottom: 12px;">Phone input (with icon)</h3>
+  <div class="form-group">
+    <label class="form-label">Telefoonnummer</label>
+    <div class="form-input-icon">
+      <span class="icon-left">📞</span>
+      <input type="tel" class="form-input" placeholder="06 12345678">
+    </div>
+  </div>
+</div>
+
+<div class="demo-section">
+  <h3 style="font-size: 14px; color: var(--navy); margin-bottom: 12px;">Password input (with icon + toggle)</h3>
+  <div class="form-group">
+    <label class="form-label">Wachtwoord</label>
+    <div class="form-input-icon">
+      <span class="icon-left">🔒</span>
+      <input type="password" class="form-input" id="pw-demo" placeholder="Uw wachtwoord">
+      <button type="button" class="toggle-pw" onclick="togglePassword()">👁️</button>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:32px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:12px;">
+  <p style="font-size:13px;color:var(--grey-dark);line-height:1.7;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 268-314, 631-647 |
+    <strong>Variants:</strong> Basic (no icon), Icon left, Icon left + toggle right (password) |
+    <strong>Focus state:</strong> Teal border + 3px teal glow |
+    <strong>Icons:</strong> ✉️ (email), 📞 (phone), 🔒 (password)
+  </p>
+</div>
+
+<script>
+function togglePassword() {
+  const input = document.getElementById('pw-demo');
+  const btn = event.target;
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+  btn.textContent = isPassword ? '🙈' : '👁️';
+}
+</script>
+
+</body>
+</html>

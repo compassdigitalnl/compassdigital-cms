@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "prebuild_disabled": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/pre-build-check.ts",
-    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=2048\" next build",
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=4096\" next build",
     "migrate": "node --env-file=.env --no-deprecation --import=tsx/esm src/scripts/migrate.ts",
     "migrate:force": "cross-env NODE_OPTIONS=--no-deprecation payload migrate --forceAcceptWarning",
     "pre-build-check": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/pre-build-check.ts",
@@ -30,6 +30,9 @@
     "validate-env": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/validate-env.ts",
     "validate-schema": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/validate-schema-simple.ts",
     "validate-email-types": "cross-env NODE_OPTIONS=\"--no-deprecation\" tsc --noEmit --project tsconfig.json src/types/email-marketing.ts src/types/listmonk.ts",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch",
+    "typecheck:errors": "./scripts/check-typescript-errors.sh",
     "analyze:email": "cross-env ANALYZE=true ENABLE_EMAIL_MARKETING=true next build",
     "setup": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/setup-wizard.ts",
     "verify-setup": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/verify-setup.ts",

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrustBadges — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --r-md: 12px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.trust-bar {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--grey);
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--grey-mid);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.trust-icon {
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+
+@media (max-width: 640px) {
+  .trust-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<h1>TrustBadges — Live Demo</h1>
+
+<div class="trust-bar">
+  <span class="trust-item">
+    <span class="trust-icon">🔒</span>
+    SSL beveiligd
+  </span>
+  <span class="trust-item">
+    <span class="trust-icon">🛡️</span>
+    AVG compliant
+  </span>
+  <span class="trust-item">
+    <span class="trust-icon">✓</span>
+    ISO gecertificeerd
+  </span>
+</div>
+
+<div style="margin-top:32px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:var(--r-md);">
+  <p style="font-size:13px;color:var(--grey-dark);line-height:1.7;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 667-671 |
+    <strong>Purpose:</strong> Trust signals for login/register forms (SSL, privacy, certifications) |
+    <strong>Usage:</strong> Bottom of auth forms to build trust |
+    <strong>Mobile:</strong> Stacks vertically on small screens
+  </p>
+</div>
+
+</body>
+</html>

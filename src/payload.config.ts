@@ -37,8 +37,9 @@ import sharp from 'sharp'
 import { ABTests } from '@/branches/ecommerce/collections/ABTests'
 import { ABTestResults } from '@/branches/ecommerce/collections/ABTestResults'
 import { Brands } from '@/branches/ecommerce/collections/Brands'
-// import { Carts } from '../packages/modules/cart/collections/Carts' // TODO: Implement Carts collection
+import { Carts } from '../packages/modules/cart/collections/Carts'
 import { Customers } from '../packages/modules/accounts/collections/Customers'
+import { Addresses } from '../packages/modules/accounts/collections/Addresses'
 import { EditionNotifications } from '@/branches/ecommerce/collections/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/collections/GiftVouchers'
 import { Invoices } from '@/branches/ecommerce/collections/Invoices'
@@ -293,9 +294,10 @@ export default buildConfig({
     // Customer Management
     _col(Customers),
     _col(CustomerGroups),
+    _col(Addresses),
 
     // Cart & Checkout
-    // _col(Carts), // TODO: Implement Carts collection
+    _col(Carts),
 
     // Order Management
     _col(Orders),

@@ -245,7 +245,7 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
 
       // Check that dangerous characters are escaped
       expect(jsonOutput).not.toContain('</script><script>')
-      expect(jsonOutput).toMatch(/\\u003c\\/script\\u003e|&lt;\/script&gt;/)
+      expect(jsonOutput).toMatch(/\\u003c\\\/script\\u003e|&lt;\\\/script&gt;/)
     })
   })
 

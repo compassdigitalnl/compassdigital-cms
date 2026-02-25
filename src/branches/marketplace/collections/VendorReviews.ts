@@ -274,3 +274,5 @@ export const VendorReviews: CollectionConfig = {
     ],
   },
 }
+
+export default VendorReviews

@@ -105,3 +105,5 @@ export const LicenseActivations: CollectionConfig = {
     },
   ],
 }
+
+export default LicenseActivations

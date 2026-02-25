@@ -10,7 +10,6 @@ export type {
   TotalDetails,
   PaymentStatus,
   DeliveryIcon,
-  StatusBadge,
   StatusBadgeVariant,
 } from './OrderDetailsCard'
 

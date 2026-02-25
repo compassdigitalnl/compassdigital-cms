@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GuestInfoBox — Auth Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-dark: #64748B;
+  --r-md: 12px;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); padding: 32px; }
+
+.guest-info-box {
+  background: linear-gradient(135deg, rgba(0,137,123,0.04), rgba(10,38,71,0.02));
+  border: 1px solid rgba(0,137,123,0.12);
+  border-radius: var(--r-md);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.guest-info-box h4 {
+  font-size: 14px;
+  color: var(--navy);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guest-info-box p {
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+}
+
+.guest-benefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.guest-benefit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--grey-dark);
+}
+
+.check {
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--grey);
+}
+
+@media (max-width: 480px) {
+  .guest-benefits {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<h1>GuestInfoBox — Live Demo</h1>
+
+<div class="guest-info-box">
+  <h4>ℹ️ Goed om te weten</h4>
+  <p>Als gast kunt u eenmalig bestellen zonder account. Met een account profiteert u van:</p>
+  <div class="guest-benefits">
+    <div class="guest-benefit"><span class="check">✓</span> Persoonlijke staffelprijzen</div>
+    <div class="guest-benefit"><span class="check">✓</span> Bestelhistorie inzien</div>
+    <div class="guest-benefit"><span class="check">✓</span> Snelle nabestellingen</div>
+    <div class="guest-benefit"><span class="check">✓</span> Bestellijsten opslaan</div>
+  </div>
+</div>
+
+<div style="margin-top:32px;padding:16px;background:var(--white);border:1px solid var(--grey);border-radius:var(--r-md);">
+  <p style="font-size:13px;color:var(--grey-dark);line-height:1.7;">
+    <strong>Source:</strong> plastimed-login-registratie.html lines 767-776 |
+    <strong>Purpose:</strong> Shows account benefits to guest checkout users |
+    <strong>Usage:</strong> At top of guest checkout form to encourage account creation |
+    <strong>Mobile:</strong> Grid collapses to 1 column on small screens
+  </p>
+</div>
+
+</body>
+</html>
