@@ -2,7 +2,7 @@
 
 Complete reference for all API endpoints in the SiteForge Business Website platform.
 
-**Last updated:** 10 Februari 2026
+**Last updated:** 25 Februari 2026
 
 ---
 
@@ -13,12 +13,13 @@ Complete reference for all API endpoints in the SiteForge Business Website platf
 3. [Rate Limiting](#rate-limiting)
 4. [Error Handling](#error-handling)
 5. [Core API](#core-api)
-6. [AI Content Generation API](#ai-content-generation-api)
-7. [AI SEO API](#ai-seo-api)
-8. [AI Content Analysis API](#ai-content-analysis-api)
-9. [AI Translation API](#ai-translation-api)
-10. [Site Wizard API](#site-wizard-api)
-11. [Payload CMS API](#payload-cms-api)
+6. [E-commerce & Checkout API](#e-commerce--checkout-api)
+7. [AI Content Generation API](#ai-content-generation-api)
+8. [AI SEO API](#ai-seo-api)
+9. [AI Content Analysis API](#ai-content-analysis-api)
+10. [AI Translation API](#ai-translation-api)
+11. [Site Wizard API](#site-wizard-api)
+12. [Payload CMS API](#payload-cms-api)
 
 ---
 
@@ -301,6 +302,364 @@ reCAPTCHA failed (403):
 ```
 
 **Rate Limit:** 5 submissions/hour per IP
+
+---
+
+## E-commerce & Checkout API
+
+Complete checkout flow with stock management, reservation system, and order creation.
+
+### POST /api/checkout/create-order
+
+Create an order from a cart and complete the checkout process.
+
+**Authentication:** Optional (supports both authenticated and guest checkout)
+
+**Request Body:**
+
+```json
+{
+  "cartId": "string (required)",
+  "shippingAddress": {
+    "street": "string (required)",
+    "houseNumber": "string (required)",
+    "houseNumberAddition": "string (optional)",
+    "postalCode": "string (required)",
+    "city": "string (required)",
+    "country": "string (optional, default: NL)"
+  },
+  "billingAddress": {
+    // Same structure as shippingAddress (optional - uses shipping if not provided)
+  },
+  "paymentMethod": "string (required)",
+  "shippingMethod": "string (optional)",
+  "notes": "string (optional)",
+
+  // For guest checkout (required if not authenticated):
+  "guestEmail": "string",
+  "guestName": "string",
+  "guestPhone": "string (optional)"
+}
+```
+
+**Checkout Flow:**
+
+The endpoint performs these steps automatically:
+
+1. **Cart Validation**
+   - Validates cart exists and has items
+   - Checks cart is not already converted to an order
+
+2. **Stock Availability Check (with Reservations)**
+   - Checks stock levels for all products
+   - Considers active reservations by other users
+   - Fails if insufficient stock available
+
+3. **Order Number Generation**
+   - Format: `ORD-YYYYMMDD-00001`
+   - Sequential numbering per day
+
+4. **Order Creation**
+   - Snapshots product details (title, SKU, brand, prices)
+   - Preserves historical data for order records
+
+5. **Stock Deduction**
+   - Decrements product stock synchronously
+   - Updates stock status (in-stock, low-stock, out-of-stock)
+   - Cannot fail once order is created
+
+6. **Cart Status Update**
+   - Marks cart as 'completed'
+   - Links cart to order via `convertedToOrder`
+
+7. **Stock Reservation Conversion**
+   - Converts active reservations to 'converted' status
+   - Links reservations to order
+
+8. **Email Confirmation**
+   - Automatically sent via Orders collection hooks
+   - Includes order details, items, totals
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "message": "Order created successfully",
+  "order": {
+    "id": "6789...",
+    "orderNumber": "ORD-20260224-00042",
+    "total": 249.99,
+    "status": "pending"
+  },
+  "paymentRequired": true
+}
+```
+
+**Error Responses:**
+
+**400 Bad Request - Cart Empty:**
+```json
+{
+  "error": "Cart is empty"
+}
+```
+
+**400 Bad Request - Already Converted:**
+```json
+{
+  "error": "Cart has already been converted to an order"
+}
+```
+
+**400 Bad Request - Stock Unavailable:**
+```json
+{
+  "error": "Stock unavailable",
+  "message": "Some items are out of stock or have insufficient quantity",
+  "stockIssues": [
+    "Product Name: Only 2 available (3 reserved by others)",
+    "Another Product: Out of stock"
+  ]
+}
+```
+
+**400 Bad Request - Missing Address:**
+```json
+{
+  "error": "Shipping address is required"
+}
+```
+
+**400 Bad Request - Missing Guest Email:**
+```json
+{
+  "error": "Guest email is required for guest checkout"
+}
+```
+
+**404 Not Found - Cart Not Found:**
+```json
+{
+  "error": "Cart not found"
+}
+```
+
+**500 Internal Server Error:**
+```json
+{
+  "error": "Checkout failed",
+  "message": "An error occurred during checkout"
+}
+```
+
+**Example Request (JavaScript):**
+
+```javascript
+const response = await fetch('/api/checkout/create-order', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    cartId: '6789...',
+    shippingAddress: {
+      street: 'Kerkstraat',
+      houseNumber: '42',
+      houseNumberAddition: 'A',
+      postalCode: '1234 AB',
+      city: 'Amsterdam',
+      country: 'NL'
+    },
+    paymentMethod: 'ideal',
+    shippingMethod: 'standard',
+
+    // Guest checkout:
+    guestEmail: 'customer@example.com',
+    guestName: 'Jan de Vries',
+    guestPhone: '+31 6 12345678'
+  })
+})
+
+const data = await response.json()
+
+if (data.success) {
+  console.log('Order created:', data.order.orderNumber)
+  // Redirect to payment gateway...
+} else {
+  console.error('Checkout failed:', data.error)
+  if (data.stockIssues) {
+    console.error('Stock issues:', data.stockIssues)
+  }
+}
+```
+
+**Example Request (cURL):**
+
+```bash
+curl -X POST https://yourdomain.com/api/checkout/create-order \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cartId": "6789...",
+    "shippingAddress": {
+      "street": "Kerkstraat",
+      "houseNumber": "42",
+      "postalCode": "1234 AB",
+      "city": "Amsterdam"
+    },
+    "paymentMethod": "ideal",
+    "guestEmail": "customer@example.com",
+    "guestName": "Jan de Vries"
+  }'
+```
+
+**Example Request (Python):**
+
+```python
+import requests
+
+response = requests.post(
+    'https://yourdomain.com/api/checkout/create-order',
+    json={
+        'cartId': '6789...',
+        'shippingAddress': {
+            'street': 'Kerkstraat',
+            'houseNumber': '42',
+            'postalCode': '1234 AB',
+            'city': 'Amsterdam'
+        },
+        'paymentMethod': 'ideal',
+        'guestEmail': 'customer@example.com',
+        'guestName': 'Jan de Vries'
+    }
+)
+
+data = response.json()
+
+if data['success']:
+    print(f"Order created: {data['order']['orderNumber']}")
+else:
+    print(f"Checkout failed: {data['error']}")
+```
+
+---
+
+### Stock Reservation System
+
+To prevent overselling when multiple users checkout simultaneously, the platform uses a **stock reservation system**.
+
+**How it works:**
+
+1. **Automatic Reservation**
+   - When items are added to cart, stock is automatically reserved
+   - Reservations expire after 15 minutes
+   - Prevents other users from buying reserved stock
+
+2. **Reservation Lifecycle**
+   - `active` - Stock is reserved for a cart
+   - `converted` - Reservation converted to order on successful checkout
+   - `released` - Reservation cancelled (cart deleted/abandoned)
+   - `expired` - Reservation expired (> 15 minutes old)
+
+3. **Stock Availability Calculation**
+   ```
+   Available Stock = Total Stock - Active Reservations
+   ```
+
+4. **Automatic Cleanup**
+   - Expired reservations are cleaned up every 5 minutes via cron
+   - Released when cart is deleted
+   - Converted when order is created
+
+**Benefits:**
+- Prevents overselling during checkout
+- No need for pessimistic locking
+- Automatic cleanup of expired reservations
+- Fair allocation (first-come, first-served)
+
+---
+
+### GET /api/cron/cleanup-stock-reservations
+
+Cron endpoint to cleanup expired stock reservations (15+ minutes old).
+
+**Authentication:** Requires `CRON_SECRET` environment variable
+
+**Authorization Methods:**
+
+1. **Vercel Cron** (Automatic):
+   ```json
+   // vercel.json
+   {
+     "crons": [{
+       "path": "/api/cron/cleanup-stock-reservations",
+       "schedule": "*/5 * * * *"
+     }]
+   }
+   ```
+
+2. **External Cron** (e.g., cron-job.org):
+   ```bash
+   # URL with secret parameter
+   GET https://yourdomain.com/api/cron/cleanup-stock-reservations?secret=YOUR_CRON_SECRET
+
+   # Or via Bearer token
+   curl -X GET https://yourdomain.com/api/cron/cleanup-stock-reservations \
+     -H "Authorization: Bearer YOUR_CRON_SECRET"
+   ```
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "cleaned": 5,
+  "message": "Successfully cleaned up 5 expired stock reservations",
+  "timestamp": "2026-02-24T12:00:00.000Z"
+}
+```
+
+**Error Response (401 Unauthorized):**
+
+```json
+{
+  "error": "Unauthorized - Invalid cron secret"
+}
+```
+
+**Error Response (500 Internal Server Error):**
+
+```json
+{
+  "success": false,
+  "error": "Cron job failed",
+  "message": "Error message...",
+  "timestamp": "2026-02-24T12:00:00.000Z"
+}
+```
+
+**Setup Instructions:**
+
+1. Set `CRON_SECRET` in environment variables:
+   ```bash
+   CRON_SECRET=your-random-secret-here
+   ```
+
+2. Configure cron to run every 5 minutes:
+   - **Vercel**: Add to `vercel.json` (automatic auth)
+   - **External**: Use secret parameter in URL
+   - **GitHub Actions**: Use Bearer token in Authorization header
+
+3. Monitor logs for cleanup activity:
+   ```
+   ✅ Cleaned up 5 expired stock reservations
+   ```
+
+**Best Practices:**
+- Run every 5 minutes for optimal cleanup
+- Monitor for failures (indicates infrastructure issues)
+- Set up alerting if cleanup consistently fails
+- Reservations expire at 15 minutes, cleanup should run more frequently
 
 ---
 
@@ -1321,4 +1680,4 @@ Contact support for higher rate limits.
 
 All endpoints documented with request/response examples, authentication details, and code samples.
 
-**Last updated:** 10 Februari 2026
+**Last updated:** 25 Februari 2026
