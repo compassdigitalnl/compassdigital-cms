@@ -206,8 +206,19 @@ for SITE_ARGS in "${SITES[@]}"; do
     fi
 
     echo "→ ${SITE_NAME}: PM2 herstarten..."
-    if pm2 restart "${PM2_NAME}" --update-env 2>/dev/null; then
-        echo "  ✓ Herstart succesvol"
+
+    # Lees PORT uit .env file (fallback naar 3020)
+    if [ -f "${SITE_DIR}/.env" ]; then
+        PORT=$(grep -E "^PORT=" "${SITE_DIR}/.env" | cut -d '=' -f2 || echo "3020")
+    else
+        PORT="3020"
+    fi
+
+    # Stop en herstart PM2 met correcte port (pm2 restart pikt PORT niet op!)
+    if pm2 stop "${PM2_NAME}" 2>/dev/null && \
+       pm2 delete "${PM2_NAME}" 2>/dev/null && \
+       pm2 start npm --name "${PM2_NAME}" -- start -- --port "${PORT}" 2>/dev/null; then
+        echo "  ✓ Herstart succesvol (port ${PORT})"
     else
         echo "  ✗ Herstart gefaald!"
         SITE_STATUS["${SITE_NAME}"]="failed"
@@ -216,6 +227,9 @@ done
 
 # Wacht op alle processen
 sleep 5
+
+# Save PM2 process list
+pm2 save 2>/dev/null
 
 # ============================================================================
 # RAPPORT

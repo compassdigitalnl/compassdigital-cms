@@ -105,18 +105,33 @@ cd "${SITE_DIR}"
 NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # -----------------------------------------------------------
-# STAP 7: Restart PM2
+# STAP 7: Restart PM2 (met correcte PORT uit .env)
 # -----------------------------------------------------------
 echo ""
 echo "[deploy] Stap 7/7: PM2 herstarten..."
-pm2 restart "${PM2_NAME}" --update-env
+
+# Lees PORT uit .env file (fallback naar 3020)
+if [ -f "${SITE_DIR}/.env" ]; then
+    PORT=$(grep -E "^PORT=" "${SITE_DIR}/.env" | cut -d '=' -f2 || echo "3020")
+    echo "[deploy] PORT uit .env: ${PORT}"
+else
+    PORT="3020"
+    echo "[deploy] WAARSCHUWING: Geen .env gevonden, gebruik default port ${PORT}"
+fi
+
+# Stop en herstart PM2 met correcte port
+# BELANGRIJK: pm2 restart pikt de PORT niet op uit .env, dus we moeten stoppen+starten
+pm2 stop "${PM2_NAME}" 2>/dev/null || true
+pm2 delete "${PM2_NAME}" 2>/dev/null || true
+pm2 start npm --name "${PM2_NAME}" -- start -- --port "${PORT}"
+pm2 save
 
 # Wacht op startup
 sleep 5
 
 # Verificatie
 if pm2 show "${PM2_NAME}" 2>/dev/null | grep -q "online"; then
-    echo "[deploy] PM2 process ${PM2_NAME} is ONLINE"
+    echo "[deploy] PM2 process ${PM2_NAME} is ONLINE op port ${PORT}"
 else
     echo "[deploy] WAARSCHUWING: PM2 process draait mogelijk niet correct!"
 fi
