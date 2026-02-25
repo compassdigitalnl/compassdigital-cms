@@ -8,6 +8,57 @@ export interface ContactEmailData {
   message: string
 }
 
+interface OrderItem {
+  product?: any
+  productSnapshot?: {
+    name?: string
+    sku?: string
+  }
+  quantity?: number
+  unitPrice?: number
+  totalPrice?: number
+}
+
+interface Address {
+  firstName?: string
+  lastName?: string
+  street?: string
+  houseNumber?: string
+  addition?: string
+  postalCode?: string
+  city?: string
+  country?: string
+}
+
+interface Order {
+  orderNumber?: string
+  items?: OrderItem[]
+  subtotal?: number
+  discountTotal?: number
+  shippingTotal?: number
+  taxTotal?: number
+  total?: number
+  currency?: string
+  billingAddress?: Address
+  shippingAddress?: Address
+  shipping?: {
+    trackingNumber?: string
+    carrier?: string
+  }
+  createdAt?: string
+}
+
+interface ReturnDoc {
+  returnNumber?: string
+  orderNumber?: string
+  reason?: string
+  items?: Array<{
+    product?: any
+    quantity?: number
+  }>
+  createdAt?: string
+}
+
 export class EmailService {
   private resend: Resend | null = null
 
@@ -224,6 +275,67 @@ export class EmailService {
   }
 
   /**
+   * Send order confirmation email
+   */
+  async sendOrderConfirmation(order: Order, customerEmail: string): Promise<{ success: boolean; error?: string }> {
+    const subject = `Bevestiging bestelling ${order.orderNumber || 'N/A'}`
+    const html = this.generateOrderConfirmationHTML(order)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
+   * Send shipping confirmation email with tracking
+   */
+  async sendShippingConfirmation(
+    order: Order,
+    customerEmail: string,
+    trackingNumber: string,
+    carrier?: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    const subject = `Je bestelling ${order.orderNumber || 'N/A'} is verzonden!`
+    const html = this.generateShippingConfirmationHTML(order, trackingNumber, carrier)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
+   * Send delivery confirmation email
+   */
+  async sendDeliveryConfirmation(order: Order, customerEmail: string): Promise<{ success: boolean; error?: string }> {
+    const subject = `Je bestelling ${order.orderNumber || 'N/A'} is afgeleverd!`
+    const html = this.generateDeliveryConfirmationHTML(order)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
+   * Send return request confirmation email
+   */
+  async sendReturnConfirmation(returnDoc: ReturnDoc, customerEmail: string): Promise<{ success: boolean; error?: string }> {
+    const subject = `Retour aanvraag ${returnDoc.returnNumber || 'N/A'} ontvangen`
+    const html = this.generateReturnConfirmationHTML(returnDoc)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
    * Escape HTML to prevent XSS
    */
   private escapeHtml(text: string): string {
@@ -235,6 +347,340 @@ export class EmailService {
       "'": '&#039;',
     }
     return text.replace(/[&<>"']/g, (m) => map[m])
+  }
+
+  // ========================================
+  // ORDER EMAIL TEMPLATE GENERATORS
+  // ========================================
+
+  private generateOrderConfirmationHTML(order: Order): string {
+    const items = (order.items || [])
+      .map(
+        (item) => `
+      <tr>
+        <td style="padding: 12px; border-bottom: 1px solid #eee;">
+          ${this.getProductName(item)}
+        </td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: center;">
+          ${item.quantity || 0}
+        </td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right;">
+          ${this.formatCurrency(item.unitPrice || 0, order.currency)}
+        </td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">
+          ${this.formatCurrency(item.totalPrice || 0, order.currency)}
+        </td>
+      </tr>
+    `,
+      )
+      .join('')
+
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orderbevestiging</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">Bedankt voor je bestelling!</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      We hebben je bestelling goed ontvangen en gaan deze zo snel mogelijk voor je verwerken.
+    </p>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+      <h2 style="margin: 0 0 10px 0; font-size: 18px; color: #667eea;">Bestelling ${order.orderNumber || 'N/A'}</h2>
+      <p style="margin: 0; color: #666;">Datum: ${this.formatDate(order.createdAt)}</p>
+    </div>
+
+    <h3 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+      Bestelde producten
+    </h3>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+      <thead>
+        <tr style="background: #f8f9fa;">
+          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Product</th>
+          <th style="padding: 12px; text-align: center; border-bottom: 2px solid #dee2e6;">Aantal</th>
+          <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Prijs</th>
+          <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Totaal</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${items}
+      </tbody>
+    </table>
+
+    <div style="border-top: 2px solid #dee2e6; padding-top: 20px; margin-bottom: 30px;">
+      <table style="width: 100%; max-width: 300px; margin-left: auto;">
+        <tr>
+          <td style="padding: 8px 0; color: #666;">Subtotaal:</td>
+          <td style="padding: 8px 0; text-align: right;">${this.formatCurrency(order.subtotal || 0, order.currency)}</td>
+        </tr>
+        ${
+          (order.discountTotal || 0) > 0
+            ? `
+        <tr>
+          <td style="padding: 8px 0; color: #28a745;">Korting:</td>
+          <td style="padding: 8px 0; text-align: right; color: #28a745;">-${this.formatCurrency(order.discountTotal || 0, order.currency)}</td>
+        </tr>
+        `
+            : ''
+        }
+        <tr>
+          <td style="padding: 8px 0; color: #666;">Verzendkosten:</td>
+          <td style="padding: 8px 0; text-align: right;">${this.formatCurrency(order.shippingTotal || 0, order.currency)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; color: #666;">BTW (21%):</td>
+          <td style="padding: 8px 0; text-align: right;">${this.formatCurrency(order.taxTotal || 0, order.currency)}</td>
+        </tr>
+        <tr style="border-top: 2px solid #667eea;">
+          <td style="padding: 12px 0; font-size: 18px; font-weight: bold;">Totaal:</td>
+          <td style="padding: 12px 0; text-align: right; font-size: 18px; font-weight: bold; color: #667eea;">
+            ${this.formatCurrency(order.total || 0, order.currency)}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3 style="font-size: 16px; margin: 0 0 15px 0;">Verzendadres</h3>
+      ${this.formatAddress(order.shippingAddress)}
+    </div>
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      Je ontvangt een nieuwe e-mail zodra je bestelling is verzonden, inclusief Track & Trace informatie.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateShippingConfirmationHTML(order: Order, trackingNumber: string, carrier?: string): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verzending bevestiging</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">📦 Je bestelling is onderweg!</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Goed nieuws! Je bestelling <strong>${order.orderNumber || 'N/A'}</strong> is verzonden en onderweg naar je toe.
+    </p>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+      <h2 style="margin: 0 0 15px 0; font-size: 18px; color: #667eea;">Track & Trace</h2>
+      <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+        <code style="font-size: 20px; color: #333; font-weight: bold; letter-spacing: 2px;">${trackingNumber}</code>
+      </div>
+      ${carrier ? `<p style="margin: 0; color: #666;">Vervoerder: <strong>${carrier}</strong></p>` : ''}
+    </div>
+
+    <div style="background: #e7f3ff; border-left: 4px solid #0066cc; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0; color: #0066cc; font-size: 14px;">
+        💡 <strong>Tip:</strong> Gebruik het Track & Trace nummer om de levering van je bestelling te volgen bij ${carrier || 'de vervoerder'}.
+      </p>
+    </div>
+
+    <h3 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+      Verzendadres
+    </h3>
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      ${this.formatAddress(order.shippingAddress)}
+    </div>
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      Vragen over je bestelling? Neem gerust contact met ons op!
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateDeliveryConfirmationHTML(order: Order): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Levering bevestiging</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">✅ Je bestelling is afgeleverd!</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Je bestelling <strong>${order.orderNumber || 'N/A'}</strong> is succesvol afgeleverd. We hopen dat je tevreden bent met je aankoop!
+    </p>
+
+    <div style="background: #d4edda; border-left: 4px solid #28a745; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0; color: #155724; font-size: 14px;">
+        🎉 <strong>Bedankt voor je bestelling!</strong> Veel plezier met je nieuwe producten.
+      </p>
+    </div>
+
+    <p style="color: #666; font-size: 14px;">
+      Tevreden met je bestelling? We horen graag je mening! Niet tevreden? Neem contact met ons op, dan helpen we je graag verder.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateReturnConfirmationHTML(returnDoc: ReturnDoc): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retour bevestiging</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">📋 Retour aanvraag ontvangen</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      We hebben je retour aanvraag goed ontvangen en gaan deze zo snel mogelijk voor je verwerken.
+    </p>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+      <h2 style="margin: 0 0 10px 0; font-size: 18px; color: #fd7e14;">RMA Nummer</h2>
+      <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; text-align: center;">
+        <code style="font-size: 20px; color: #333; font-weight: bold; letter-spacing: 2px;">${returnDoc.returnNumber || 'N/A'}</code>
+      </div>
+      <p style="margin: 0; color: #666; font-size: 14px;">
+        Gebruik dit nummer bij correspondentie over je retour
+      </p>
+    </div>
+
+    <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #856404; font-size: 14px; font-weight: bold;">
+        ℹ️ Volgende stappen:
+      </p>
+      <ol style="margin: 0; padding-left: 20px; color: #856404; font-size: 14px;">
+        <li>We beoordelen je aanvraag (meestal binnen 1-2 werkdagen)</li>
+        <li>Bij goedkeuring ontvang je een retourlabel per e-mail</li>
+        <li>Stuur het pakket terug met het retourlabel</li>
+        <li>Na ontvangst verwerken we de terugbetaling</li>
+      </ol>
+    </div>
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      Vragen over je retour? Neem gerust contact met ons op met vermelding van je RMA nummer.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  // ========================================
+  // HELPER METHODS
+  // ========================================
+
+  private getProductName(item: OrderItem): string {
+    if (item.productSnapshot?.name) {
+      return item.productSnapshot.name
+    }
+    if (typeof item.product === 'object' && item.product?.title) {
+      return item.product.title
+    }
+    return 'Unknown Product'
+  }
+
+  private formatCurrency(amount: number, currency?: string): string {
+    const curr = currency || 'EUR'
+    return new Intl.NumberFormat('nl-NL', {
+      style: 'currency',
+      currency: curr,
+    }).format(amount)
+  }
+
+  private formatDate(date?: string): string {
+    if (!date) return 'N/A'
+    return new Intl.DateTimeFormat('nl-NL', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(new Date(date))
+  }
+
+  private formatAddress(address?: Address): string {
+    if (!address) return '<p style="margin: 0; color: #999;">Geen adres beschikbaar</p>'
+
+    const parts = []
+    if (address.firstName || address.lastName) {
+      parts.push(`<p style="margin: 0 0 5px 0;"><strong>${address.firstName || ''} ${address.lastName || ''}</strong></p>`)
+    }
+    if (address.street && address.houseNumber) {
+      parts.push(
+        `<p style="margin: 0 0 5px 0; color: #666;">${address.street} ${address.houseNumber}${address.addition || ''}</p>`,
+      )
+    }
+    if (address.postalCode && address.city) {
+      parts.push(`<p style="margin: 0 0 5px 0; color: #666;">${address.postalCode} ${address.city}</p>`)
+    }
+    if (address.country) {
+      parts.push(`<p style="margin: 0; color: #666;">${address.country}</p>`)
+    }
+
+    return parts.join('')
   }
 }
 

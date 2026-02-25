@@ -474,6 +474,122 @@ export const Orders: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        // ========================================
+        // AUTOMATIC STOCK DEDUCTION
+        // ========================================
+        // Only deduct stock when order is created (not updated)
+        // This is a fallback if checkout API is not used
+        if (operation === 'create' && doc.items && Array.isArray(doc.items)) {
+          console.log(`📦 Deducting stock for order ${doc.orderNumber}...`)
+
+          for (const item of doc.items) {
+            if (!item.product) continue
+
+            try {
+              // Get current product
+              const product = await req.payload.findByID({
+                collection: 'products',
+                id: typeof item.product === 'string' ? item.product : item.product.id,
+              })
+
+              // Only deduct if stock tracking is enabled
+              if (product.trackStock) {
+                const currentStock = product.stock || 0
+                const orderedQuantity = item.quantity || 0
+                const newStock = Math.max(0, currentStock - orderedQuantity)
+
+                // Determine new stock status
+                let newStockStatus = product.stockStatus
+                if (newStock <= 0) {
+                  newStockStatus = 'out-of-stock'
+                } else if (newStock <= (product.lowStockThreshold || 5)) {
+                  newStockStatus = 'in-stock' // Or 'low-stock' if that exists
+                } else {
+                  newStockStatus = 'in-stock'
+                }
+
+                // Update product stock
+                await req.payload.update({
+                  collection: 'products',
+                  id: typeof item.product === 'string' ? item.product : item.product.id,
+                  data: {
+                    stock: newStock,
+                    stockStatus: newStockStatus,
+                  },
+                })
+
+                console.log(`  ✅ ${product.title}: ${currentStock} → ${newStock} (ordered: ${orderedQuantity})`)
+              }
+            } catch (error) {
+              console.error(`  ❌ Failed to deduct stock for item:`, error)
+              // Don't throw - we don't want to fail the order if stock update fails
+            }
+          }
+        }
+
+        // ========================================
+        // SEND EMAIL NOTIFICATIONS
+        // ========================================
+        const { emailService } = await import('@/lib/email/EmailService')
+
+        // Get customer email
+        let customerEmail = doc.customerEmail // Guest checkout
+        if (!customerEmail && doc.customer) {
+          try {
+            const customer = await req.payload.findByID({
+              collection: 'customers',
+              id: typeof doc.customer === 'string' ? doc.customer : doc.customer.id,
+            })
+            customerEmail = customer.email
+          } catch (error) {
+            console.error('Failed to fetch customer email:', error)
+          }
+        }
+
+        if (customerEmail) {
+          // Order confirmation (on creation)
+          if (operation === 'create') {
+            try {
+              await emailService.sendOrderConfirmation(doc, customerEmail)
+              console.log(`✅ Order confirmation email sent to ${customerEmail}`)
+            } catch (error) {
+              console.error(`❌ Failed to send order confirmation email:`, error)
+            }
+          }
+
+          // Shipping notification (when status changes to 'shipped')
+          if (operation === 'update' && doc.status === 'shipped' && doc.shipping?.trackingNumber) {
+            try {
+              await emailService.sendShippingConfirmation(
+                doc,
+                customerEmail,
+                doc.shipping.trackingNumber,
+                doc.shipping.carrier,
+              )
+              console.log(`✅ Shipping confirmation email sent to ${customerEmail}`)
+            } catch (error) {
+              console.error(`❌ Failed to send shipping confirmation email:`, error)
+            }
+          }
+
+          // Delivery confirmation (when status changes to 'delivered')
+          if (operation === 'update' && doc.status === 'delivered') {
+            try {
+              await emailService.sendDeliveryConfirmation(doc, customerEmail)
+              console.log(`✅ Delivery confirmation email sent to ${customerEmail}`)
+            } catch (error) {
+              console.error(`❌ Failed to send delivery confirmation email:`, error)
+            }
+          }
+        } else {
+          console.warn(`⚠️ No customer email found for order ${doc.orderNumber}`)
+        }
+
+        return doc
+      },
+    ],
   },
   timestamps: true,
 }
