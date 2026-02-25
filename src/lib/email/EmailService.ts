@@ -336,6 +336,48 @@ export class EmailService {
   }
 
   /**
+   * Send return approval email
+   */
+  async sendReturnApproval(returnDoc: any, customerEmail: string): Promise<{ success: boolean; error?: string }> {
+    const subject = `✅ Retour ${returnDoc.rmaNumber || 'N/A'} goedgekeurd`
+    const html = this.generateReturnApprovalHTML(returnDoc)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
+   * Send return rejection email
+   */
+  async sendReturnRejection(returnDoc: any, customerEmail: string, rejectionReason?: string): Promise<{ success: boolean; error?: string }> {
+    const subject = `❌ Retour ${returnDoc.rmaNumber || 'N/A'} afgekeurd`
+    const html = this.generateReturnRejectionHTML(returnDoc, rejectionReason)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
+   * Send return label email (with tracking)
+   */
+  async sendReturnLabel(returnDoc: any, customerEmail: string, trackingUrl?: string): Promise<{ success: boolean; error?: string }> {
+    const subject = `📦 Retourlabel voor ${returnDoc.rmaNumber || 'N/A'}`
+    const html = this.generateReturnLabelHTML(returnDoc, trackingUrl)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
    * Escape HTML to prevent XSS
    */
   private escapeHtml(text: string): string {
@@ -615,6 +657,261 @@ export class EmailService {
 
     <p style="color: #666; font-size: 14px; margin-top: 30px;">
       Vragen over je retour? Neem gerust contact met ons op met vermelding van je RMA nummer.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateReturnApprovalHTML(returnDoc: any): string {
+    const items = (returnDoc.items || [])
+      .map((item: any) => `
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #eee;">
+            ${this.escapeHtml(item.title || 'Unknown Product')}
+            ${item.sku ? `<br><small style="color: #999;">SKU: ${this.escapeHtml(item.sku)}</small>` : ''}
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: center;">
+            ${item.quantityReturning || 0}
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">
+            ${this.formatCurrency(item.returnValue || 0, 'EUR')}
+          </td>
+        </tr>
+      `)
+      .join('')
+
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retour goedgekeurd</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">✅ Je retour is goedgekeurd!</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Goed nieuws! Je retour aanvraag <strong>${returnDoc.rmaNumber || 'N/A'}</strong> is goedgekeurd.
+    </p>
+
+    <div style="background: #d4edda; border-left: 4px solid #28a745; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #155724; font-size: 14px; font-weight: bold;">
+        📋 Volgende stappen:
+      </p>
+      <ol style="margin: 0; padding-left: 20px; color: #155724; font-size: 14px;">
+        <li>Je ontvangt binnen 24 uur een retourlabel per e-mail</li>
+        <li>Print het retourlabel en plak het op het pakket</li>
+        <li>Stuur het pakket terug via ${returnDoc.returnShipping?.carrier || 'de vervoerder'}</li>
+        <li>Na ontvangst inspecteren we de producten</li>
+        <li>Als alles in orde is, verwerken we de terugbetaling binnen 5 werkdagen</li>
+      </ol>
+    </div>
+
+    <h3 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #28a745; padding-bottom: 10px;">
+      Geretourneerde producten
+    </h3>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+      <thead>
+        <tr style="background: #f8f9fa;">
+          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Product</th>
+          <th style="padding: 12px; text-align: center; border-bottom: 2px solid #dee2e6;">Aantal</th>
+          <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Waarde</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${items}
+      </tbody>
+    </table>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <table style="width: 100%; max-width: 300px; margin-left: auto;">
+        <tr>
+          <td style="padding: 8px 0; font-weight: bold; font-size: 16px;">Totale retourwaarde:</td>
+          <td style="padding: 8px 0; text-align: right; font-weight: bold; font-size: 16px; color: #28a745;">
+            ${this.formatCurrency(returnDoc.returnValue || 0, 'EUR')}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0; color: #856404; font-size: 14px;">
+        ⚠️ <strong>Let op:</strong> De terugbetaling wordt pas verwerkt na inspectie van de geretourneerde producten.
+        Als producten beschadigd of onvolledig zijn, kan het terugbetaalde bedrag afwijken.
+      </p>
+    </div>
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      Vragen over je retour? Neem gerust contact met ons op met vermelding van RMA nummer <strong>${returnDoc.rmaNumber || 'N/A'}</strong>.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateReturnRejectionHTML(returnDoc: any, rejectionReason?: string): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retour afgekeurd</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">❌ Retour aanvraag afgekeurd</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Helaas kunnen we je retour aanvraag <strong>${returnDoc.rmaNumber || 'N/A'}</strong> niet goedkeuren.
+    </p>
+
+    <div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #721c24; font-size: 14px; font-weight: bold;">
+        📋 Reden van afkeuring:
+      </p>
+      <p style="margin: 0; color: #721c24; font-size: 14px;">
+        ${this.escapeHtml(rejectionReason || returnDoc.rejectionReason || 'Geen reden opgegeven.')}
+      </p>
+    </div>
+
+    <div style="background: #d1ecf1; border-left: 4px solid #0c5460; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #0c5460; font-size: 14px; font-weight: bold;">
+        💬 Niet tevreden met deze beslissing?
+      </p>
+      <p style="margin: 0; color: #0c5460; font-size: 14px;">
+        Neem contact met ons op voor meer informatie of als je het niet eens bent met deze beslissing.
+        Vermeld altijd je RMA nummer <strong>${returnDoc.rmaNumber || 'N/A'}</strong> in je bericht.
+      </p>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3 style="margin: 0 0 10px 0; font-size: 16px;">Contact</h3>
+      <p style="margin: 0; color: #666; font-size: 14px;">
+        📧 E-mail: ${process.env.CONTACT_EMAIL || 'info@example.com'}<br>
+        📞 Telefoon: ${process.env.CONTACT_PHONE || '+31 (0)20 123 4567'}
+      </p>
+    </div>
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      We helpen je graag verder met je vraag of klacht.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateReturnLabelHTML(returnDoc: any, trackingUrl?: string): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retourlabel</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">📦 Je retourlabel is klaar!</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Je retourlabel voor <strong>${returnDoc.rmaNumber || 'N/A'}</strong> is klaar om gebruikt te worden.
+    </p>
+
+    ${
+      trackingUrl
+        ? `
+    <div style="text-align: center; margin-bottom: 30px;">
+      <a href="${trackingUrl}" style="display: inline-block; background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+        📥 Download Retourlabel
+      </a>
+    </div>
+    `
+        : ''
+    }
+
+    ${
+      returnDoc.returnShipping?.trackingCode
+        ? `
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+      <h2 style="margin: 0 0 15px 0; font-size: 18px; color: #667eea;">Tracking Code</h2>
+      <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+        <code style="font-size: 20px; color: #333; font-weight: bold; letter-spacing: 2px;">${returnDoc.returnShipping.trackingCode}</code>
+      </div>
+    </div>
+    `
+        : ''
+    }
+
+    <div style="background: #e7f3ff; border-left: 4px solid #0066cc; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #0066cc; font-size: 14px; font-weight: bold;">
+        📋 Instructies:
+      </p>
+      <ol style="margin: 0; padding-left: 20px; color: #0066cc; font-size: 14px;">
+        <li>Download en print het retourlabel</li>
+        <li>Verpak de producten veilig in de originele verpakking (indien mogelijk)</li>
+        <li>Plak het retourlabel op het pakket</li>
+        <li>Breng het pakket naar een ${returnDoc.returnShipping?.carrier || 'verzend'}punt</li>
+        <li>Bewaar het ontvangstbewijs tot je de terugbetaling hebt ontvangen</li>
+      </ol>
+    </div>
+
+    <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0; color: #856404; font-size: 14px;">
+        ⚠️ <strong>Let op:</strong> Zorg dat het pakket goed verpakt is en de producten in originele staat zijn.
+        Producten die beschadigd of onvolledig teruggestuurd worden, kunnen leiden tot een lagere terugbetaling.
+      </p>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3 style="margin: 0 0 10px 0; font-size: 16px;">Verwachte terugbetaling</h3>
+      <p style="margin: 0; font-size: 24px; font-weight: bold; color: #667eea;">
+        ${this.formatCurrency(returnDoc.returnValue || 0, 'EUR')}
+      </p>
+      <p style="margin: 10px 0 0 0; color: #666; font-size: 14px;">
+        Na inspectie (5-7 werkdagen na ontvangst)
+      </p>
+    </div>
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      Vragen over je retour? Neem contact met ons op met vermelding van RMA nummer <strong>${returnDoc.rmaNumber || 'N/A'}</strong>.
     </p>
 
   </div>
