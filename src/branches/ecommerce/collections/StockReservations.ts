@@ -61,14 +61,12 @@ export const StockReservations: CollectionConfig = {
       label: 'Reserved Quantity',
     },
     {
-      name: 'cart',
-      type: 'relationship',
-      relationTo: 'carts',
-      label: 'Cart',
-      hasMany: false,
+      name: 'cartId',
+      type: 'text',
+      label: 'Cart ID',
       index: true,
       admin: {
-        description: 'Cart that owns this reservation',
+        description: 'Cart identifier that owns this reservation (TODO: use relationship when Carts collection is implemented)',
       },
     },
     {

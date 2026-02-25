@@ -104,3 +104,5 @@ export const ComparisonTableComponent: React.FC<ComparisonTableBlock> = ({
     </div>
   )
 }
+
+export default ComparisonTableComponent

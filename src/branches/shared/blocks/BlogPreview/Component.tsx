@@ -208,3 +208,5 @@ export const BlogPreviewBlockComponent: React.FC<BlogPreviewBlockProps> = ({
     </section>
   )
 }
+
+export default BlogPreviewBlockComponent

@@ -283,3 +283,5 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
     </section>
   )
 }
+
+export default QuickOrderComponent

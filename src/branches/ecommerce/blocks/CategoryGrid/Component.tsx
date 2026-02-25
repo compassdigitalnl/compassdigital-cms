@@ -141,3 +141,5 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
     </section>
   )
 }
+
+export default CategoryGrid

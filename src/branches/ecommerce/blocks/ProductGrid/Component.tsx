@@ -278,3 +278,5 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
     </section>
   )
 }
+
+export default ProductGrid

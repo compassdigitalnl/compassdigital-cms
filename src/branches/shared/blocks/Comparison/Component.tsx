@@ -184,3 +184,5 @@ export const ComparisonBlockComponent: React.FC<ComparisonBlockProps> = ({
     </section>
   )
 }
+
+export default ComparisonBlockComponent

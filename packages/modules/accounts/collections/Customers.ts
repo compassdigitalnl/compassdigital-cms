@@ -196,22 +196,9 @@ export const Customers: CollectionConfig = {
           fields: [
             {
               name: 'addresses',
-              type: 'relationship',
-              relationTo: 'addresses',
-              hasMany: true,
+              type: 'json',
               label: 'Adressen',
-            },
-            {
-              name: 'defaultBillingAddress',
-              type: 'relationship',
-              relationTo: 'addresses',
-              label: 'Standaard Factuuradres',
-            },
-            {
-              name: 'defaultShippingAddress',
-              type: 'relationship',
-              relationTo: 'addresses',
-              label: 'Standaard Verzendadres',
+              admin: { description: 'JSON array of customer addresses (TODO: create Addresses collection)' },
             },
           ],
         },

@@ -201,3 +201,5 @@ export const InfoBoxBlockComponent: React.FC<InfoBoxBlockProps> = ({
     </section>
   )
 }
+
+export default InfoBoxBlockComponent
