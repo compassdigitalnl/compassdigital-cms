@@ -1,6 +1,6 @@
 import React from 'react'
 import type { FeaturesBlock } from '@/payload-types'
-import { FeaturesBlockComponent } from './Component.client'
+import { FeaturesBlockComponent as FeaturesClient } from './Component.client'
 
 /**
  * B02 - Features Block Component (Server)
@@ -39,7 +39,7 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlock> = ({
           </div>
         )}
 
-        <FeaturesBlockComponent
+        <FeaturesClient
           features={features || []}
           variant={variant}
           iconStyle={iconStyle}
