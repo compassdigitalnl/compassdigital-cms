@@ -3,7 +3,8 @@
  * Core module - Users, Media, Pages, Navigation
  */
 
-import type { ModuleDefinition } from '@payload-shop/types'
+// COMMENTED OUT: ModuleDefinition pattern not used in main application
+// import type { ModuleDefinition } from '@payload-shop/types'
 import { Users, Media, Pages, Navigation } from './collections'
 
 // Export collections
@@ -12,7 +13,11 @@ export * from './collections'
 /**
  * Core Module Definition
  * Essential CMS functionality (Users, Media, Pages, Navigation)
+ *
+ * NOTE: This module definition is commented out as it's not used in the current implementation.
+ * Collections are imported directly in src/payload.config.ts
  */
+/*
 export const CoreModule: ModuleDefinition = {
   id: 'core',
   name: 'Core',
@@ -92,3 +97,4 @@ export const CoreModule: ModuleDefinition = {
     },
   },
 }
+*/

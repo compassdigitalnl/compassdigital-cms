@@ -3,7 +3,8 @@
  * Complete product catalog module with 63+ fields
  */
 
-import type { ModuleDefinition } from '@payload-shop/types'
+// COMMENTED OUT: ModuleDefinition pattern not used in main application
+// import type { ModuleDefinition } from '@payload-shop/types'
 import { Products, ProductCategories, ProductCollections, ProductReviews } from './collections'
 
 // Export collections
@@ -15,7 +16,11 @@ export * from './components'
 /**
  * Catalog Module Definition
  * Backend (Payload collections) + Frontend (React components)
+ *
+ * NOTE: This module definition is commented out as it's not used in the current implementation.
+ * Collections are imported directly in src/payload.config.ts
  */
+/*
 export const CatalogModule: ModuleDefinition = {
   id: 'catalog',
   name: 'Product Catalog',
@@ -154,3 +159,4 @@ export const CatalogModule: ModuleDefinition = {
     },
   },
 }
+*/

@@ -1,16 +1,18 @@
 import React from 'react'
-import type { Product } from '@payload-shop/types'
+// COMMENTED OUT: This component is not actively used, @payload-shop/types doesn't exist
+// import type { Product } from '@payload-shop/types'
+// For active components, use: import type { Product } from '@/payload-types'
 import Link from 'next/link'
 import Image from 'next/image'
 
 export interface ProductCardProps {
-  product: Partial<Product>
+  product: Partial<any> // Product type commented out
   layout?: 'grid' | 'list'
   showQuickView?: boolean
   showCompare?: boolean
   showWishlist?: boolean
-  onAddToCart?: (product: Partial<Product>) => void
-  onQuickView?: (product: Partial<Product>) => void
+  onAddToCart?: (product: Partial<any>) => void // Product type commented out
+  onQuickView?: (product: Partial<any>) => void // Product type commented out
 }
 
 /**

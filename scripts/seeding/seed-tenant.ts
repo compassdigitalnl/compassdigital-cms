@@ -32,8 +32,8 @@
  */
 
 import { getPayload } from 'payload'
-import config from '../src/payload.config'
-import { seedTenant, type SeedOptions } from '../src/endpoints/seed/seedOrchestrator'
+import config from '../../src/payload.config'
+import { seedTenant, type SeedOptions } from '../../src/endpoints/seed/seedOrchestrator'
 
 // Parse command line arguments
 function parseArgs(args: string[]): Record<string, string> {

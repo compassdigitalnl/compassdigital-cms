@@ -1,9 +1,11 @@
 import React from 'react'
-import type { Product } from '@payload-shop/types'
+// COMMENTED OUT: This component is not actively used, @payload-shop/types doesn't exist
+// import type { Product } from '@payload-shop/types'
+// For active components, use: import type { Product } from '@/payload-types'
 import { ProductCard } from './ProductCard'
 
 export interface ProductGridProps {
-  products: Partial<Product>[]
+  products: Partial<any>[] // Product type commented out
   columns?: 2 | 3 | 4 | 5 | 6
   gap?: 'sm' | 'md' | 'lg'
   layout?: 'grid' | 'list'
@@ -12,8 +14,8 @@ export interface ProductGridProps {
   showQuickView?: boolean
   showCompare?: boolean
   showWishlist?: boolean
-  onAddToCart?: (product: Partial<Product>) => void
-  onQuickView?: (product: Partial<Product>) => void
+  onAddToCart?: (product: Partial<any>) => void // Product type commented out
+  onQuickView?: (product: Partial<any>) => void // Product type commented out
 }
 
 /**

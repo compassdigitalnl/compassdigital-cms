@@ -130,40 +130,40 @@ export function mergeSettings(cmsSettings: MeilisearchSettingsType | null) {
     // Searchable Fields
     searchableFields: {
       products:
-        cmsSettings.searchableFields?.products?.map((f) => f.field) ||
+        cmsSettings.searchableFields?.products?.map((f: any) => f.field) ||
         DEFAULT_SETTINGS.searchableFields.products,
       blogPosts:
-        cmsSettings.searchableFields?.blogPosts?.map((f) => f.field) ||
+        cmsSettings.searchableFields?.blogPosts?.map((f: any) => f.field) ||
         DEFAULT_SETTINGS.searchableFields.blogPosts,
       pages:
-        cmsSettings.searchableFields?.pages?.map((f) => f.field) ||
+        cmsSettings.searchableFields?.pages?.map((f: any) => f.field) ||
         DEFAULT_SETTINGS.searchableFields.pages,
     },
 
     // Filterable Fields
     filterableFields: {
       products:
-        cmsSettings.filterableFields?.products?.map((f) => f.field) ||
+        cmsSettings.filterableFields?.products?.map((f: any) => f.field) ||
         DEFAULT_SETTINGS.filterableFields.products,
       blogPosts:
-        cmsSettings.filterableFields?.blogPosts?.map((f) => f.field) ||
+        cmsSettings.filterableFields?.blogPosts?.map((f: any) => f.field) ||
         DEFAULT_SETTINGS.filterableFields.blogPosts,
     },
 
     // Sortable Fields
     sortableFields: {
       products:
-        cmsSettings.sortableFields?.products?.map((f) => f.field) ||
+        cmsSettings.sortableFields?.products?.map((f: any) => f.field) ||
         DEFAULT_SETTINGS.sortableFields.products,
       blogPosts:
-        cmsSettings.sortableFields?.blogPosts?.map((f) => f.field) ||
+        cmsSettings.sortableFields?.blogPosts?.map((f: any) => f.field) ||
         DEFAULT_SETTINGS.sortableFields.blogPosts,
     },
 
     // Ranking Rules
     rankingRules:
       cmsSettings.rankingRules && cmsSettings.rankingRules.length > 0
-        ? cmsSettings.rankingRules.map((r) => r.rule)
+        ? cmsSettings.rankingRules.map((r: any) => r.rule)
         : DEFAULT_SETTINGS.rankingRules,
 
     // Custom Ranking Attributes
@@ -178,14 +178,14 @@ export function mergeSettings(cmsSettings: MeilisearchSettingsType | null) {
       minWordSizeForTwoTypos:
         cmsSettings.typoTolerance?.minWordSizeForTwoTypos ??
         DEFAULT_SETTINGS.typoTolerance.minWordSizeForTwoTypos,
-      disableOnWords: cmsSettings.typoTolerance?.disableOnWords?.map((w) => w.word) || [],
+      disableOnWords: cmsSettings.typoTolerance?.disableOnWords?.map((w: any) => w.word) || [],
     },
 
     // Synonyms
-    synonyms: cmsSettings.synonyms?.map((s) => s.group.split(',').map((w) => w.trim())) || [],
+    synonyms: cmsSettings.synonyms?.map((s: any) => s.group.split(',').map((w: any) => w.trim())) || [],
 
     // Stop Words
-    stopWords: cmsSettings.stopWords?.map((w) => w.word) || [],
+    stopWords: cmsSettings.stopWords?.map((w: any) => w.word) || [],
 
     // Pagination
     pagination: {
@@ -220,7 +220,7 @@ export function mergeSettings(cmsSettings: MeilisearchSettingsType | null) {
     // Exclusions
     excludePatterns: cmsSettings.excludePatterns || DEFAULT_SETTINGS.excludePatterns,
     excludeStatuses:
-      cmsSettings.excludeStatuses?.map((s) => s.status) || DEFAULT_SETTINGS.excludeStatuses,
+      cmsSettings.excludeStatuses?.map((s: any) => s.status) || DEFAULT_SETTINGS.excludeStatuses,
   }
 }
 
@@ -235,7 +235,7 @@ export function isCollectionIndexed(
   collection: string,
   settings: ReturnType<typeof mergeSettings>,
 ): boolean {
-  const config = settings.indexedCollections.find((c) => c.collection === collection)
+  const config = settings.indexedCollections.find((c: any) => c.collection === collection)
   return config?.enabled ?? false
 }
 
@@ -246,7 +246,7 @@ export function getIndexName(
   collection: string,
   settings: ReturnType<typeof mergeSettings>,
 ): string {
-  const config = settings.indexedCollections.find((c) => c.collection === collection)
+  const config = settings.indexedCollections.find((c: any) => c.collection === collection)
   return config?.indexName || collection
 }
 

@@ -3,13 +3,15 @@
  *
  * Refactored from extensive inline styles with fallbacks and complex hover handlers
  * to theme variables. All colors now use CSS variables from ThemeProvider.
+ *
+ * NOTE: PricingBlock type doesn't exist in payload-types (block not registered in config)
  */
 'use client'
 
 import React from 'react'
-import type { PricingBlock } from '@/payload-types'
+// import type { PricingBlock } from '@/payload-types'
 
-export const PricingBlockComponent: React.FC<PricingBlock> = ({ heading, intro, plans }) => {
+export const PricingBlockComponent: React.FC<any> = ({ heading, intro, plans }) => {
   return (
     <section className="pricing py-16 px-4 bg-grey-light">
       <div className="container mx-auto">

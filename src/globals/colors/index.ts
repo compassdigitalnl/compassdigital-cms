@@ -19,7 +19,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Deep navy used for dark surfaces, cards, headers. Provides strong contrast.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true // Optional
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color (e.g. #0A1628)'
@@ -35,7 +35,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Slightly lighter navy for hover states on dark surfaces.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -51,7 +51,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Primary teal accent. Used for buttons, links, active states.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -67,7 +67,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Lighter teal for hover states and secondary accents.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -83,7 +83,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Darker teal for pressed states and depth.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -109,7 +109,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Bright green for success messages, checkmarks, positive confirmations.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -125,7 +125,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Soft coral/red for errors, warnings, destructive actions.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -141,7 +141,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Amber/orange for caution, pending states, important notices.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -157,7 +157,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Bright blue for informational messages, tips, neutral highlights.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -173,7 +173,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Purple for special features, premium content, unique elements.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -199,7 +199,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Off-white for cards, modals, clean backgrounds.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -215,7 +215,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Light grey page background. Provides subtle contrast to white cards.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -231,7 +231,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Light grey for borders, dividers, subtle lines.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -247,7 +247,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Medium grey for muted text, secondary labels, disabled states.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -263,7 +263,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Dark grey for body text. Softer than pure black, easier on eyes.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'
@@ -279,7 +279,7 @@ export const Colors: Tab = {
           admin: {
             description: 'Near-black for headings and high-emphasis text.',
           },
-          validate: (val) => {
+          validate: (val: any) => {
             if (!val) return true
             if (!/^#[0-9A-F]{6}$/i.test(val)) {
               return 'Must be valid hex color'

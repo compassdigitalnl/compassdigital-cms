@@ -3,10 +3,16 @@
  * Pricing module - Role-based and volume pricing calculations
  */
 
-import type { ModuleDefinition } from '@payload-shop/types'
+// COMMENTED OUT: ModuleDefinition pattern not used in main application
+// import type { ModuleDefinition } from '@payload-shop/types'
 
 export * from './lib/calculatePrice'
 
+/**
+ * NOTE: This module definition is commented out as it's not used in the current implementation.
+ * Pricing logic is used directly where needed.
+ */
+/*
 export const PricingModule: ModuleDefinition = {
   id: 'pricing',
   name: 'Pricing',
@@ -102,3 +108,4 @@ export const PricingModule: ModuleDefinition = {
     },
   },
 }
+*/

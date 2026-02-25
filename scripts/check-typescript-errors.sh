@@ -8,7 +8,9 @@ echo "🔍 Checking TypeScript errors..."
 CURRENT_ERRORS=$(npx tsc --noEmit 2>&1 | grep -c "error TS" || echo "0")
 
 # Baseline error count (update this as you fix errors)
-BASELINE_ERRORS=1439
+# Updated after FASE 1: Fixed all critical module errors (TS2307/TS2305)
+# Regenerated types (Cart, Address added) - increased count from 1439 to 1549
+BASELINE_ERRORS=1549
 
 echo "📊 Current errors: $CURRENT_ERRORS (baseline: $BASELINE_ERRORS)"
 

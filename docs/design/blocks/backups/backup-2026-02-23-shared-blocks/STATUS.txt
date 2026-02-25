@@ -1,4 +1,0 @@
-?? docs/design/MASTER-REDESIGN-PLAN.md
-?? docs/design/blocks/
-?? docs/design/branches/
-?? docs/design/plastimed-master-design-system.html

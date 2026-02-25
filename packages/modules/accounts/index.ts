@@ -3,7 +3,8 @@
  * Accounts module - Customers, Groups, Addresses
  */
 
-import type { ModuleDefinition } from '@payload-shop/types'
+// COMMENTED OUT: ModuleDefinition pattern not used in main application
+// import type { ModuleDefinition } from '@payload-shop/types'
 import { Customers, CustomerGroups, Addresses } from './collections'
 
 // Export collections
@@ -12,7 +13,11 @@ export * from './collections'
 /**
  * Accounts Module Definition
  * Customer management with B2B/B2C support
+ *
+ * NOTE: This module definition is commented out as it's not used in the current implementation.
+ * Collections are imported directly in src/payload.config.ts
  */
+/*
 export const AccountsModule: ModuleDefinition = {
   id: 'accounts',
   name: 'Accounts',
@@ -129,3 +134,4 @@ export const AccountsModule: ModuleDefinition = {
     },
   },
 }
+*/

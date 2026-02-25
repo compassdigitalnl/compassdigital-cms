@@ -3,11 +3,17 @@
  * Checkout module - Orders and payments
  */
 
-import type { ModuleDefinition } from '@payload-shop/types'
+// COMMENTED OUT: ModuleDefinition pattern not used in main application
+// import type { ModuleDefinition } from '@payload-shop/types'
 import { Orders } from './collections'
 
 export * from './collections'
 
+/**
+ * NOTE: This module definition is commented out as it's not used in the current implementation.
+ * Collections are imported directly in src/payload.config.ts
+ */
+/*
 export const CheckoutModule: ModuleDefinition = {
   id: 'checkout',
   name: 'Checkout',
@@ -161,3 +167,4 @@ export const CheckoutModule: ModuleDefinition = {
     },
   },
 }
+*/

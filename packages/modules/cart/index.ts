@@ -3,11 +3,17 @@
  * Cart module - Shopping cart with B2B/B2C support
  */
 
-import type { ModuleDefinition } from '@payload-shop/types'
+// COMMENTED OUT: ModuleDefinition pattern not used in main application
+// import type { ModuleDefinition } from '@payload-shop/types'
 import { Carts } from './collections'
 
 export * from './collections'
 
+/**
+ * NOTE: This module definition is commented out as it's not used in the current implementation.
+ * Collections are imported directly in src/payload.config.ts
+ */
+/*
 export const CartModule: ModuleDefinition = {
   id: 'cart',
   name: 'Cart',
@@ -129,3 +135,4 @@ export const CartModule: ModuleDefinition = {
     },
   },
 }
+*/

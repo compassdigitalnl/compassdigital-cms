@@ -1,1 +1,0 @@
-dd4bdff style: enforce explicit text-white on dark backgrounds

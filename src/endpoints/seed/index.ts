@@ -9,7 +9,9 @@ import { imageHatData } from './image-hat'
 import { imageTshirtBlackData } from './image-tshirt-black'
 import { imageTshirtWhiteData } from './image-tshirt-white'
 import { imageHero1Data } from './image-hero-1'
-import { Address, Transaction, VariantOption } from '@/payload-types'
+import { Address } from '@/payload-types'
+// NOTE: Transaction and VariantOption types don't exist (variable products feature not implemented yet)
+// import { Transaction, VariantOption } from '@/payload-types'
 
 const collections: CollectionSlug[] = [
   'categories',

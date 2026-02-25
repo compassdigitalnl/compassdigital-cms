@@ -1,11 +1,13 @@
-import type { ProductCategory, Product, VariantOption, VariantType } from '@/payload-types'
+import type { ProductCategory, Product } from '@/payload-types'
+// NOTE: VariantOption and VariantType don't exist (variable products feature not implemented yet)
+// import type { VariantOption, VariantType } from '@/payload-types'
 import type { Media } from '@/payload-types'
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 type ProductArgs = {
   galleryImage: Media
   metaImage: Media
-  variantTypes: VariantType[]
+  variantTypes: any[] // VariantType type doesn't exist yet
   categories: ProductCategory[]
   relatedProducts: Product[]
 }

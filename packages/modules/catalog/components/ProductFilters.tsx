@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import type { ProductCategory } from '@payload-shop/types'
+// COMMENTED OUT: This component is not actively used, @payload-shop/types doesn't exist
+// import type { ProductCategory } from '@payload-shop/types'
+// For active components, use: import type { ProductCategory } from '@/payload-types'
 
 export interface FilterOption {
   label: string
@@ -8,7 +10,7 @@ export interface FilterOption {
 }
 
 export interface ProductFiltersProps {
-  categories?: ProductCategory[]
+  categories?: any[] // ProductCategory type commented out
   brands?: FilterOption[]
   priceRange?: { min: number; max: number }
   attributes?: Array<{
