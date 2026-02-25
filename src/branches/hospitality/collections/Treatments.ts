@@ -24,7 +24,7 @@ export const Treatments: CollectionConfig = {
   },
   admin: {
     hidden: shouldHideCollection('hospitality'),
-    group: 'Hospitality',
+    group: 'Zorg',
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'duration', 'price', 'updatedAt'],
     livePreview: {

@@ -11,7 +11,7 @@ export const ProductCategories: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'E-commerce',
+    group: 'Producten',
     hidden: shouldHideCollection('shop'),
   },
   access: {

@@ -32,7 +32,7 @@ export const EmailApiKeys: CollectionConfig = {
   slug: 'email-api-keys',
   admin: {
     hidden: !emailMarketingFeatures.isEnabled(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'keyPrefix', 'environment', 'status', 'tenant', 'lastUsedAt'],
     description: 'Manage API keys for email marketing API access',

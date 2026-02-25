@@ -4,7 +4,7 @@ import { checkRole } from '@/access/utilities'
 export const FormSubmissions: CollectionConfig = {
   slug: 'form-submissions',
   admin: {
-    group: 'Formulieren',
+    group: 'Systeem',
     useAsTitle: 'form',
     defaultColumns: ['form', 'submittedAt', 'createdAt'],
     description: 'Form submissions from contact forms and other site forms',

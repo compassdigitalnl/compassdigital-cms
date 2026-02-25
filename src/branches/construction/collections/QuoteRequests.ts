@@ -18,7 +18,7 @@ export const QuoteRequests: CollectionConfig = {
     hidden: shouldHideCollection('construction'),
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'projectType', 'status', 'submittedAt'],
-    group: 'Construction',
+    group: 'Bouw',
     description: 'Offerte aanvragen van de website',
   },
   fields: [

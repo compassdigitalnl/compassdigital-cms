@@ -10,7 +10,7 @@ export const Notifications: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    group: 'E-commerce',
+    group: 'Systeem',
     defaultColumns: ['title', 'user', 'type', 'isRead', 'createdAt'],
     description: 'Gebruikersnotificaties en meldingen',
     hidden: true,

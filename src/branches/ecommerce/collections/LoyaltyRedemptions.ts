@@ -10,7 +10,7 @@ export const LoyaltyRedemptions: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'id',
-    group: 'Loyalty Program',
+    group: 'Loyaliteit',
     defaultColumns: ['user', 'reward', 'status', 'redeemedAt', 'expiresAt'],
     description: 'Redeemed rewards and their status',
     hidden: shouldHideCollection('loyalty'),

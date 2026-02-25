@@ -14,7 +14,7 @@ export const EmailLists: CollectionConfig = {
   slug: 'email-lists',
   admin: {
     hidden: !emailMarketingFeatures.isEnabled(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'subscriberCount', 'tenant', 'updatedAt'],
     description: 'Manage email lists for segmenting subscribers',

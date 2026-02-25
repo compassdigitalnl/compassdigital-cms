@@ -14,7 +14,7 @@ export const FlowInstances: CollectionConfig = {
   slug: 'flow-instances',
   admin: {
     hidden: !emailMarketingFeatures.campaigns(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'id',
     defaultColumns: ['flow', 'subscriber', 'currentStep', 'status', 'startedAt'],
     description: 'Individual user progress through automation flows',

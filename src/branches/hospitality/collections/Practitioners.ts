@@ -23,7 +23,7 @@ export const Practitioners: CollectionConfig = {
   },
   admin: {
     hidden: shouldHideCollection('hospitality'),
-    group: 'Hospitality',
+    group: 'Zorg',
     useAsTitle: 'name',
     defaultColumns: ['name', 'title', 'specializations', 'updatedAt'],
   },

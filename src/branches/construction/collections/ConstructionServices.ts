@@ -20,7 +20,7 @@ export const ConstructionServices: CollectionConfig = {
     hidden: shouldHideCollection('construction'),
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
-    group: 'Construction',
+    group: 'Bouw',
   },
   fields: [
     {

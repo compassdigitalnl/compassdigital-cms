@@ -26,7 +26,7 @@ export const ABTests: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'E-commerce',
+    group: 'Marketing',
     defaultColumns: ['name', 'targetPage', 'status', 'startDate', 'winner'],
     description: 'A/B testing experiments voor multi-variant testing',
     hidden: shouldHideCollection('ab-tests'),

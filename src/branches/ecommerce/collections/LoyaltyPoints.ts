@@ -10,7 +10,7 @@ export const LoyaltyPoints: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'id',
-    group: 'Loyalty Program',
+    group: 'Loyaliteit',
     defaultColumns: ['user', 'availablePoints', 'totalEarned', 'tier', 'updatedAt'],
     description: 'User loyalty points balances',
     hidden: shouldHideCollection('loyalty'),

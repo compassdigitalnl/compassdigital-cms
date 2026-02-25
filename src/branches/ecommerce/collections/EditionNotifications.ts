@@ -20,7 +20,7 @@ export const EditionNotifications: CollectionConfig = {
     hidden: shouldHideCollection('shop'),
     useAsTitle: 'email',
     defaultColumns: ['email', 'magazineTitle', 'active', 'createdAt'],
-    group: 'E-commerce',
+    group: 'Producten',
     description: 'Email notificaties voor nieuwe tijdschrift-edities',
   },
   access: {

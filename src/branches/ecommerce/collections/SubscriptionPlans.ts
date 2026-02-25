@@ -11,7 +11,7 @@ export const SubscriptionPlans: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Subscriptions',
+    group: 'Abonnementen',
     defaultColumns: ['name', 'price', 'billingInterval', 'active', 'updatedAt'],
     description: 'Available subscription plans and pricing tiers',
     hidden: shouldHideCollection('subscriptions'),

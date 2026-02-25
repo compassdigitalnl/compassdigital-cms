@@ -16,7 +16,7 @@ export const EmailCampaigns: CollectionConfig = {
   slug: 'email-campaigns',
   admin: {
     hidden: !emailMarketingFeatures.campaigns(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'status', 'lists', 'scheduledFor', 'tenant', 'updatedAt'],
     description: 'Create and manage email marketing campaigns',

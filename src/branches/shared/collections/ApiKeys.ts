@@ -19,7 +19,7 @@ export const ApiKeys: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'tenant', 'scopes', 'status', 'expiresAt'],
-    group: 'Security',
+    group: 'Systeem',
     description: 'Manage API keys for external access to email marketing APIs',
   },
   access: {

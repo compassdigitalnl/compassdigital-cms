@@ -14,7 +14,7 @@ export const AutomationRules: CollectionConfig = {
   slug: 'automation-rules',
   admin: {
     hidden: !emailMarketingFeatures.campaigns(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'name',
     defaultColumns: isPlatformMode
       ? ['name', 'trigger', 'status', 'stats', 'tenant', 'updatedAt']

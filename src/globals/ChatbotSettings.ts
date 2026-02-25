@@ -21,7 +21,7 @@ export const ChatbotSettings: GlobalConfig = {
   },
   admin: {
     description: 'Configure AI chatbot behavior, appearance, and model selection.',
-    group: 'Configuration',
+    group: 'Instellingen',
   },
   fields: [
     {
