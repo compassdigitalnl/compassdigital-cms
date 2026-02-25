@@ -15,7 +15,7 @@ import { checkRole } from '@/access/utilities'
 export const Themes: CollectionConfig = {
   slug: 'themes',
   admin: {
-    group: 'Ontwerp',
+    group: 'Systeem',
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'status', 'isDefault', 'updatedAt'],
     description: 'Multi-tenant theme configurations for all 10 industry verticals',

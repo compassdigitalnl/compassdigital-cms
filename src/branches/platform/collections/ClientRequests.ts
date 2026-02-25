@@ -16,7 +16,7 @@ export const ClientRequests: CollectionConfig = {
     plural: 'Klantverzoeken',
   },
   admin: {
-    group: 'Platform Management',
+    group: 'Platform',
     useAsTitle: 'companyName',
     defaultColumns: ['companyName', 'contactEmail', 'siteType', 'status', 'createdAt'],
     description: 'Inkomende onboarding-verzoeken van nieuwe klanten',

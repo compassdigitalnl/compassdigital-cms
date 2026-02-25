@@ -10,7 +10,7 @@ export const Licenses: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'productName',
-    group: 'Licenses',
+    group: 'Abonnementen',
     defaultColumns: ['productName', 'user', 'licenseKey', 'type', 'status', 'updatedAt'],
     description: 'Software licenses and digital products',
     hidden: shouldHideCollection('licenses'),

@@ -26,7 +26,7 @@ export const MeilisearchSettings: GlobalConfig = {
   admin: {
     description:
       'Configure Meilisearch search engine behavior, indexing, and ranking rules.',
-    group: 'Configuration',
+    group: 'Instellingen',
   },
   fields: [
     {

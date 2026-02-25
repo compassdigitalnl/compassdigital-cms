@@ -10,7 +10,7 @@ export const PaymentMethods: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'id',
-    group: 'Subscriptions',
+    group: 'Abonnementen',
     defaultColumns: ['user', 'type', 'last4', 'isDefault', 'createdAt'],
     description: 'Saved payment methods for users',
     hidden: shouldHideCollection('subscriptions'),

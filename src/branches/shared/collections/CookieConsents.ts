@@ -13,7 +13,7 @@ export const CookieConsents: CollectionConfig = {
   admin: {
     useAsTitle: 'sessionId',
     defaultColumns: ['sessionId', 'necessary', 'analytics', 'marketing', 'consentedAt'],
-    group: 'Legal',
+    group: 'Systeem',
     description: 'GDPR cookie consent log (read-only voor compliance)',
     readOnly: {
       create: false,

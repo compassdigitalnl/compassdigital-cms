@@ -10,7 +10,7 @@ export const LoyaltyTransactions: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'id',
-    group: 'Loyalty Program',
+    group: 'Loyaliteit',
     defaultColumns: ['user', 'type', 'points', 'description', 'createdAt'],
     description: 'Points earning and spending history',
     hidden: shouldHideCollection('loyalty'),

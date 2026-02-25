@@ -9,7 +9,7 @@ export const RecentlyViewed: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'product',
-    group: 'E-commerce',
+    group: 'Systeem',
     defaultColumns: ['user', 'product', 'viewedAt'],
     description: 'Recent bekeken producten tracking voor gepersonaliseerde aanbevelingen',
     hidden: true,

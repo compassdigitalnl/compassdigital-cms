@@ -14,7 +14,7 @@ export const EmailEvents: CollectionConfig = {
   slug: 'email-events',
   admin: {
     hidden: !emailMarketingFeatures.campaigns(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'id',
     defaultColumns: ['type', 'campaign', 'subscriber', 'createdAt'],
     description: 'Email activity tracking for billing and analytics',

@@ -19,7 +19,7 @@ export const Appointments: CollectionConfig = {
     hidden: shouldHideCollection('hospitality'),
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'phone', 'treatment', 'status', 'createdAt'],
-    group: 'Hospitality',
+    group: 'Zorg',
   },
   fields: [
     {

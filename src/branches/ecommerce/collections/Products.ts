@@ -20,7 +20,7 @@ export const Products: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    group: 'E-commerce',
+    group: 'Producten',
     defaultColumns: ['title', 'sku', 'ean', 'price', 'stock', 'status', 'productType', 'updatedAt'],
     hidden: shouldHideCollection('shop'),
   },

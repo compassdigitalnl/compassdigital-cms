@@ -10,7 +10,7 @@ export const LicenseActivations: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'deviceName',
-    group: 'Licenses',
+    group: 'Abonnementen',
     defaultColumns: ['license', 'deviceName', 'os', 'status', 'activatedAt'],
     description: 'Device activations for licenses',
     hidden: shouldHideCollection('licenses'),

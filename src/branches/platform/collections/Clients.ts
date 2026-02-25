@@ -24,7 +24,7 @@ export const Clients: CollectionConfig = {
   slug: 'clients',
   admin: {
     useAsTitle: 'name',
-    group: 'Platform Beheer',
+    group: 'Platform',
     defaultColumns: ['name', 'domain', 'status', 'plan', 'createdAt'],
     description: 'Klanten beheren en sites deployen',
     hidden: isClientDeployment(),

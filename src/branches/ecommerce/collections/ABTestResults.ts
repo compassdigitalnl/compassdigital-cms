@@ -28,7 +28,7 @@ export const ABTestResults: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'id',
-    group: 'E-commerce',
+    group: 'Marketing',
     defaultColumns: ['test', 'variant', 'converted', 'conversionValue', 'createdAt'],
     description: 'A/B test variant assignments en conversie tracking',
     hidden: shouldHideCollection('ab-test-results'),

@@ -13,7 +13,7 @@ export const Deployments: CollectionConfig = {
   slug: 'deployments',
   admin: {
     useAsTitle: 'id',
-    group: 'Platform Beheer',
+    group: 'Platform',
     defaultColumns: ['client', 'status', 'environment', 'type', 'createdAt'],
     description:
       'Automatisch bijgehouden deployment history. Alleen-lezen — wordt aangemaakt door het systeem.',

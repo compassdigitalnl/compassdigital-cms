@@ -10,7 +10,7 @@ export const UserSubscriptions: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'id',
-    group: 'Subscriptions',
+    group: 'Abonnementen',
     defaultColumns: ['user', 'plan', 'status', 'currentPeriodEnd', 'updatedAt'],
     description: 'Active user subscriptions',
     hidden: shouldHideCollection('subscriptions'),

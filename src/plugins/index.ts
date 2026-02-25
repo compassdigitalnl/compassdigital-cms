@@ -170,12 +170,12 @@ export const plugins: Plugin[] = [
     },
     formSubmissionOverrides: {
       admin: {
-        group: 'Formulieren',
+        group: 'Systeem',
       },
     },
     formOverrides: {
       admin: {
-        group: 'Formulieren',
+        group: 'Systeem',
       },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {

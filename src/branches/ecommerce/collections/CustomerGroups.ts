@@ -11,7 +11,7 @@ export const CustomerGroups: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'E-commerce',
+    group: 'Producten',
     hidden: shouldHideCollection('customerGroups'),
   },
   access: {

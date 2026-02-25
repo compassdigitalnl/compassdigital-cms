@@ -11,7 +11,7 @@ export const LoyaltyTiers: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Loyalty Program',
+    group: 'Loyaliteit',
     defaultColumns: ['name', 'minPoints', 'multiplier', 'order'],
     description: 'Loyalty program tiers (Bronze, Silver, Gold, Platinum)',
     hidden: shouldHideCollection('loyalty'),

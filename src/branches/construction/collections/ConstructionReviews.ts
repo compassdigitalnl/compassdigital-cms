@@ -19,7 +19,7 @@ export const ConstructionReviews: CollectionConfig = {
     hidden: shouldHideCollection('construction'),
     useAsTitle: 'clientName',
     defaultColumns: ['clientName', 'rating', 'featured', 'status', 'updatedAt'],
-    group: 'Construction',
+    group: 'Bouw',
   },
   fields: [
     {

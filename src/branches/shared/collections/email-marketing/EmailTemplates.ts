@@ -15,7 +15,7 @@ export const EmailTemplates: CollectionConfig = {
   slug: 'email-templates',
   admin: {
     hidden: !emailMarketingFeatures.isEnabled(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'isDefault', 'tenant', 'updatedAt'],
     description: 'Create and manage email templates with visual editor',

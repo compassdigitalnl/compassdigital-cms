@@ -14,7 +14,7 @@ export const EmailSubscribers: CollectionConfig = {
   slug: 'email-subscribers',
   admin: {
     hidden: !emailMarketingFeatures.isEnabled(),
-    group: 'Email Marketing',
+    group: 'E-mail Marketing',
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'status', 'lists', 'tenant', 'updatedAt'],
     description: 'Manage email marketing subscribers synced with Listmonk',
