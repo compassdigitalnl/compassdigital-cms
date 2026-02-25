@@ -71,15 +71,15 @@ export const EmailTemplates: CollectionConfig = {
       name: 'type',
       type: 'select',
       required: true,
-      defaultValue: 0,
+      defaultValue: 'campaign',
       options: [
         {
           label: 'Campaign Template',
-          value: 0,
+          value: 'campaign',
         },
         {
           label: 'Transactional Template',
-          value: 1,
+          value: 'transactional',
         },
       ],
       admin: {
