@@ -38,3 +38,6 @@ export { TrustSignals, TrustSignalItem } from './TrustSignals'
 export type { TrustSignalsProps, TrustSignalItemProps, TrustSignal, TrustSignalVariant } from './TrustSignals'
 export { QuantityStepper } from './QuantityStepper'
 export type { QuantityStepperProps, QuantitySize } from './QuantityStepper'
+
+export { ProgressSteps, generateSteps } from './ProgressSteps'
+export type { ProgressStepsProps, Step, StepStatus } from './ProgressSteps'
