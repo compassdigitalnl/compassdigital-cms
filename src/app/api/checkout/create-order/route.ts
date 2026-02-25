@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Cart, Product, Order } from '@/payload-types'
+import { checkStockAvailability, convertReservationToOrder } from '@/lib/stock/reservations'
 
 /**
  * POST /api/checkout/create-order
@@ -75,10 +76,11 @@ export async function POST(request: NextRequest) {
     }
 
     // ========================================
-    // 2. CHECK STOCK AVAILABILITY
+    // 2. CHECK STOCK AVAILABILITY (WITH RESERVATIONS)
     // ========================================
 
     const stockIssues: string[] = []
+    const reservationIds: string[] = []
 
     for (const item of cart.items) {
       const productId = typeof item.product === 'string' ? item.product : item.product?.id
@@ -91,18 +93,40 @@ export async function POST(request: NextRequest) {
 
       // Check if stock tracking is enabled
       if (product.trackStock) {
-        const availableStock = product.stock || 0
         const requestedQuantity = item.quantity || 0
 
-        // Check if enough stock
-        if (availableStock < requestedQuantity) {
+        // Check stock availability (considers active reservations by others)
+        const availability = await checkStockAvailability(
+          payload,
+          productId,
+          item.variantId
+        )
+
+        // Check if enough stock (after reservations)
+        if (!availability.available || availability.availableStock < requestedQuantity) {
           const productTitle = typeof item.product === 'object' && item.product?.title
             ? item.product.title
             : product.title
 
           stockIssues.push(
-            `${productTitle}: Only ${availableStock} in stock, but ${requestedQuantity} requested`
+            `${productTitle}: Only ${availability.availableStock} available (${availability.reserved} reserved by others)`
           )
+        }
+
+        // Find this cart's reservation for this product (if exists)
+        const cartReservations = await payload.find({
+          collection: 'stock-reservations',
+          where: {
+            and: [
+              { product: { equals: productId } },
+              { cart: { equals: cartId } },
+              { status: { equals: 'active' } },
+            ],
+          },
+        })
+
+        if (cartReservations.docs.length > 0) {
+          reservationIds.push((cartReservations.docs[0] as any).id)
         }
 
         // Check stock status
@@ -297,14 +321,29 @@ export async function POST(request: NextRequest) {
     console.log(`  🛒 Cart marked as completed and linked to order`)
 
     // ========================================
-    // 8. SEND CONFIRMATION EMAIL
+    // 8. CONVERT STOCK RESERVATIONS TO ORDER
+    // ========================================
+    // Mark all reservations for this cart as 'converted' (linked to order)
+
+    for (const reservationId of reservationIds) {
+      try {
+        await convertReservationToOrder(payload, reservationId, newOrder.id)
+        console.log(`  ✅ Reservation ${reservationId} converted to order`)
+      } catch (error) {
+        console.error(`  ⚠️ Failed to convert reservation ${reservationId}:`, error)
+        // Don't fail the order if reservation conversion fails
+      }
+    }
+
+    // ========================================
+    // 9. SEND CONFIRMATION EMAIL
     // ========================================
     // Note: Email is automatically sent by the Orders collection afterChange hook
     // This happens when the order is created above
     console.log(`  📧 Order confirmation email will be sent to ${customerId ? 'customer' : guestEmail} via hooks`)
 
     // ========================================
-    // 9. RETURN SUCCESS
+    // 10. RETURN SUCCESS
     // ========================================
 
     return NextResponse.json({

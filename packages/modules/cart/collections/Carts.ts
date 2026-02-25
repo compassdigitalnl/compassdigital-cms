@@ -341,6 +341,74 @@ export const Carts: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        // ========================================
+        // AUTO-RESERVE STOCK FOR CART ITEMS
+        // ========================================
+        // When cart items are added/updated, automatically reserve stock
+        // This prevents overselling when multiple users checkout simultaneously
+
+        if (operation === 'create' || operation === 'update') {
+          // Only reserve for active carts (not completed, abandoned, or quote)
+          if (doc.status !== 'active') {
+            return doc
+          }
+
+          const { reserveStock } = await import('@/lib/stock/reservations')
+
+          if (doc.items && Array.isArray(doc.items)) {
+            for (const item of doc.items) {
+              const productId = typeof item.product === 'string' ? item.product : item.product?.id
+              if (!productId) continue
+
+              try {
+                // Reserve or update stock reservation for this cart item
+                const result = await reserveStock(req.payload, {
+                  productId,
+                  variantId: item.variantId,
+                  quantity: item.quantity || 0,
+                  cartId: doc.id,
+                  sessionId: doc.sessionId,
+                })
+
+                if (!result.success) {
+                  console.warn(`⚠️ Failed to reserve stock for ${productId}:`, result.error)
+                  // Don't fail cart update if reservation fails - user can still try checkout
+                }
+              } catch (error) {
+                console.error(`❌ Error reserving stock for ${productId}:`, error)
+                // Don't fail cart update if reservation fails
+              }
+            }
+          }
+        }
+
+        // ========================================
+        // RELEASE RESERVATIONS ON CART DELETION
+        // ========================================
+        // Note: This hook is for afterChange, not afterDelete
+        // We handle cart abandonment in a separate cleanup job
+
+        return doc
+      },
+    ],
+    afterDelete: [
+      async ({ doc, req }) => {
+        // Release all stock reservations when cart is deleted
+        const { releaseCartReservations } = await import('@/lib/stock/reservations')
+
+        try {
+          const result = await releaseCartReservations(req.payload, doc.id)
+          if (result.success && result.released > 0) {
+            console.log(`✅ Released ${result.released} stock reservations for deleted cart ${doc.id}`)
+          }
+        } catch (error) {
+          console.error(`Failed to release stock reservations for cart ${doc.id}:`, error)
+          // Don't fail cart deletion if reservation release fails
+        }
+      },
+    ],
   },
   timestamps: true,
 }
