@@ -4,6 +4,7 @@ import * as React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { PaginationButton } from './PaginationButton'
+import { PerPageSelector } from './PerPageSelector'
 import type { PaginationProps, PageNumber } from './types'
 
 export function Pagination({
@@ -16,7 +17,10 @@ export function Pagination({
   showArrows = true,
   showEllipsis = true,
   showCount = false,
+  showPerPageSelector = false,
+  perPageOptions = [12, 24, 48, 96],
   onPageChange,
+  onItemsPerPageChange,
   getPageUrl,
   className,
 }: PaginationProps) {
@@ -142,14 +146,15 @@ export function Pagination({
       className={cn(
         'pt-10',
         {
-          'flex items-center justify-center': variant === 'default',
-          'flex items-center justify-between': variant === 'with-count',
+          'flex items-center justify-center': variant === 'default' && !showPerPageSelector,
+          'flex items-center justify-between':
+            variant === 'with-count' || showPerPageSelector,
         },
         className,
       )}
     >
-      {/* Result count (only for with-count variant) */}
-      {variant === 'with-count' && showCount && totalItems && (
+      {/* Left side: Result count OR spacer */}
+      {variant === 'with-count' && showCount && totalItems ? (
         <div className="text-[14px] text-[var(--grey-mid)]">
           Resultaten{' '}
           <strong className="text-[var(--text)] font-bold">
@@ -157,9 +162,11 @@ export function Pagination({
           </strong>{' '}
           van <strong className="text-[var(--text)] font-bold">{totalItems}</strong>
         </div>
-      )}
+      ) : showPerPageSelector ? (
+        <div /> /* Spacer for flex layout */
+      ) : null}
 
-      {/* Page buttons */}
+      {/* Center: Page buttons */}
       <div className="flex items-center gap-[6px]">
         {/* Previous button */}
         {showArrows && (
@@ -216,6 +223,16 @@ export function Pagination({
           </PaginationButton>
         )}
       </div>
+
+      {/* Right side: Per page selector */}
+      {showPerPageSelector && onItemsPerPageChange && (
+        <PerPageSelector
+          itemsPerPage={itemsPerPage}
+          options={perPageOptions}
+          totalItems={totalItems}
+          onChange={onItemsPerPageChange}
+        />
+      )}
     </nav>
   )
 }

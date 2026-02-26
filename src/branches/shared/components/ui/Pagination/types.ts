@@ -10,7 +10,10 @@ export interface PaginationProps {
   showArrows?: boolean
   showEllipsis?: boolean
   showCount?: boolean
+  showPerPageSelector?: boolean
+  perPageOptions?: number[]
   onPageChange: (page: number) => void
+  onItemsPerPageChange?: (itemsPerPage: number) => void
   getPageUrl?: (page: number) => string
   className?: string
 }
