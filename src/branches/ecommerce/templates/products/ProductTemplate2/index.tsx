@@ -85,12 +85,12 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
   // Set default variant
   useEffect(() => {
     if (isGrouped && !selectedVariant && childProducts.length > 0) {
-      setSelectedVariant(childProducts[0].id)
+      setSelectedVariant(String(childProducts[0].id))
     }
   }, [isGrouped, selectedVariant, childProducts])
 
   const selectedProduct = isGrouped
-    ? childProducts.find((p) => p.id === selectedVariant) || childProducts[0]
+    ? childProducts.find((p) => String(p.id) === selectedVariant) || childProducts[0]
     : product
 
   const currentPrice = selectedProduct.salePrice || selectedProduct.price
@@ -387,8 +387,8 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
             </div>
             {product.taxClass && (
               <p style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>
-                {product.taxClass === 'high' && 'Incl. 21% BTW'}
-                {product.taxClass === 'low' && 'Incl. 9% BTW'}
+                {product.taxClass === 'standard' && 'Incl. 21% BTW'}
+                {product.taxClass === 'reduced' && 'Incl. 9% BTW'}
                 {product.taxClass === 'zero' && 'Excl. BTW'}
               </p>
             )}
@@ -783,7 +783,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                       <RichText data={product.description} enableProse={true} />
                     </div>
                   )}
-                  {product.features && product.features.length > 0 && (
+                  {(product as any).features && (product as any).features.length > 0 && (
                     <div>
                       <h3
                         style={{
@@ -796,7 +796,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                         Key Features
                       </h3>
                       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                        {product.features.map((feature: any, idx: number) => (
+                        {(product as any).features.map((feature: any, idx: number) => (
                           <li
                             key={idx}
                             style={{
@@ -1054,9 +1054,9 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
           {features.shop && (
             <div style={{ paddingTop: '32px', borderTop: '1px solid var(--color-border)', marginTop: '32px' }}>
               <RelatedProductsSection
-                upSells={product.upSells}
-                crossSells={product.crossSells}
-                accessories={product.accessories}
+                upSells={product.upSells as any}
+                crossSells={product.crossSells as any}
+                accessories={product.accessories as any}
               />
             </div>
           )}
@@ -1257,8 +1257,8 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
               </div>
               {product.taxClass && (
                 <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-                  {product.taxClass === 'high' && 'Incl. 21% BTW'}
-                  {product.taxClass === 'low' && 'Incl. 9% BTW'}
+                  {product.taxClass === 'standard' && 'Incl. 21% BTW'}
+                  {product.taxClass === 'reduced' && 'Incl. 9% BTW'}
                   {product.taxClass === 'zero' && 'Excl. BTW'}
                 </p>
               )}
@@ -1692,7 +1692,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 </div>
               )}
 
-              {product.features && product.features.length > 0 && (
+              {(product as any).features && (product as any).features.length > 0 && (
                 <div>
                   <h3
                     style={{
@@ -1706,7 +1706,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     Key Features
                   </h3>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    {product.features.map((feature: any, idx: number) => (
+                    {(product as any).features.map((feature: any, idx: number) => (
                       <li
                         key={idx}
                         style={{
@@ -1905,9 +1905,9 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         {features.shop && (
           <div style={{ paddingTop: '64px', borderTop: '1px solid var(--color-border)', marginTop: '64px' }}>
             <RelatedProductsSection
-              upSells={product.upSells}
-              crossSells={product.crossSells}
-              accessories={product.accessories}
+              upSells={product.upSells as any}
+              crossSells={product.crossSells as any}
+              accessories={product.accessories as any}
             />
           </div>
         )}

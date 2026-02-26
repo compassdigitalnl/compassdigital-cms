@@ -85,12 +85,12 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
   // Set default variant
   useEffect(() => {
     if (isGrouped && !selectedVariant && childProducts.length > 0) {
-      setSelectedVariant(childProducts[0].id)
+      setSelectedVariant(String(childProducts[0].id))
     }
   }, [isGrouped, selectedVariant, childProducts])
 
   const selectedProduct = isGrouped
-    ? childProducts.find((p) => p.id === selectedVariant) || childProducts[0]
+    ? childProducts.find((p) => String(p.id) === selectedVariant) || childProducts[0]
     : product
 
   const currentPrice = selectedProduct.salePrice || selectedProduct.price
@@ -451,11 +451,11 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                 {childProducts.map((child) => {
-                  const isSelected = selectedVariant === child.id
+                  const isSelected = selectedVariant === String(child.id)
                   return (
                     <div
                       key={child.id}
-                      onClick={() => setSelectedVariant(child.id)}
+                      onClick={() => setSelectedVariant(String(child.id))}
                       style={{
                         padding: '14px',
                         border: `2px solid ${isSelected ? 'var(--color-primary)' : 'var(--color-border)'}`,
@@ -1063,9 +1063,9 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
           {features.shop && (
             <div style={{ paddingTop: '32px', borderTop: '1px solid var(--color-border)', marginTop: '32px' }}>
               <RelatedProductsSection
-                upSells={product.upSells}
-                crossSells={product.crossSells}
-                accessories={product.accessories}
+                upSells={product.upSells as any}
+                crossSells={product.crossSells as any}
+                accessories={product.accessories as any}
               />
             </div>
           )}
@@ -1335,11 +1335,11 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                   {childProducts.map((child) => {
-                    const isSelected = selectedVariant === child.id
+                    const isSelected = selectedVariant === String(child.id)
                     return (
                       <div
                         key={child.id}
-                        onClick={() => setSelectedVariant(child.id)}
+                        onClick={() => setSelectedVariant(String(child.id))}
                         style={{
                           padding: '20px',
                           border: `2px solid ${isSelected ? 'var(--color-primary)' : 'var(--color-border)'}`,
@@ -1914,9 +1914,9 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         {features.shop && (
           <div style={{ paddingTop: '80px', borderTop: '1px solid var(--color-border)', marginTop: '80px' }}>
             <RelatedProductsSection
-              upSells={product.upSells}
-              crossSells={product.crossSells}
-              accessories={product.accessories}
+              upSells={product.upSells as any}
+              crossSells={product.crossSells as any}
+              accessories={product.accessories as any}
             />
           </div>
         )}

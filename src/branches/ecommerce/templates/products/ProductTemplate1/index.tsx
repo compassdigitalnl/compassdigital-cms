@@ -563,7 +563,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               {/* Price Meta */}
               {(product as any).packaging && (
                 <div className="text-xs text-[var(--color-text-muted)] mb-4">
-                  {(product as any).packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
+                  {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
                 </div>
               )}
 
@@ -825,7 +825,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {(product as any).packaging && (
               <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
-                {(product as any).packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
+                {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
               </div>
             )}
 
@@ -1068,9 +1068,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   <p>Geen beschrijving beschikbaar.</p>
                 )}
                 {/* Features */}
-                {product.features && product.features.length > 0 && (
+                {(product as any).features && (product as any).features.length > 0 && (
                   <ul className="list-none mt-4 pl-0">
-                    {product.features.map((feature: any, idx: number) => (
+                    {(product as any).features.map((feature: any, idx: number) => (
                       <li key={idx} className="flex items-center gap-2 py-1.5 text-[13px]">
                         <Check className="w-4 h-4 text-[var(--color-success)] shrink-0" />
                         {feature}
@@ -1294,14 +1294,14 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   )}
 
                   {/* Features List */}
-                  {product.features && product.features.length > 0 && (
+                  {(product as any).features && (product as any).features.length > 0 && (
                     <>
                       <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
                         <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
                         Kenmerken
                       </h3>
                       <ul className="list-none mb-5">
-                        {product.features.map((feature: any, idx: number) => (
+                        {(product as any).features.map((feature: any, idx: number) => (
                           <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
                             <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
                             {feature}
@@ -1415,9 +1415,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         {features.shop && (
           <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4 lg:px-6">
             <RelatedProductsSection
-              upSells={product.upSells}
-              crossSells={product.crossSells}
-              accessories={product.accessories}
+              upSells={product.upSells as any}
+              crossSells={product.crossSells as any}
+              accessories={product.accessories as any}
             />
           </div>
         )}
