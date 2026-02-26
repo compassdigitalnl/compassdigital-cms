@@ -120,6 +120,23 @@
   --color-stock-low: #f59e0b; /* Low stock (amber) */
   --color-stock-out: #dc2626; /* Out of stock (red) */
   --color-rating: #fbbf24; /* Star ratings (yellow) */
+
+  /* Shop Component Colors (FilterSidebar, CategoryHero, ProductCard) */
+  --color-navy: #0a1628; /* Navy - dark blue for headers, filter text */
+  --color-navy-light: #121f33; /* Light navy - hover states */
+  --color-navy-dark: #0d2137; /* Dark navy - active states */
+  --color-teal: #00897b; /* Teal - primary brand color, icons, CTAs */
+  --color-teal-light: #26a69a; /* Light teal - hover states, badges */
+  --color-teal-dark: #00695c; /* Dark teal - active states */
+  --color-teal-glow: rgba(0, 137, 123, 0.12); /* Teal glow - backgrounds, highlights */
+  --color-coral: #ff6b6b; /* Coral - error states, remove buttons */
+  --color-coral-light: #fff0f0; /* Light coral - error backgrounds */
+  --color-amber: #f59e0b; /* Amber - warnings, star ratings */
+  --color-amber-light: #fff8e1; /* Light amber - warning backgrounds */
+  --color-bg: #f5f7fa; /* Light background - page background, card backgrounds */
+  --color-grey-light: #f1f4f8; /* Very light grey - subtle backgrounds */
+  --color-grey-mid: #94a3b8; /* Medium grey - secondary text, borders */
+  --color-grey-dark: #64748b; /* Dark grey - tertiary text */
 }
 
 [data-theme='dark'] {

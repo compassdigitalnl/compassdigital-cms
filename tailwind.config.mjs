@@ -72,7 +72,7 @@ export default {
           background: 'var(--color-background)',
           surface: 'var(--color-surface)',
           border: 'var(--color-border)',
-          bg: '#F5F7FA', // Alias for --bg
+          bg: 'var(--color-bg, #F5F7FA)', // Theme-aware background color
           // Grey scale
           grey: {
             light: 'var(--color-grey-light)',
@@ -91,24 +91,25 @@ export default {
           error: 'var(--color-error)',
           info: 'var(--color-info)',
           // E-commerce component color aliassen (theme- prefix)
+          // CSS variabelen met fallbacks voor theme-aware styling
           navy: {
-            DEFAULT: '#0A1628',
-            light: '#121F33',
-            dark: '#0D2137',
+            DEFAULT: 'var(--color-navy, #0A1628)',
+            light: 'var(--color-navy-light, #121F33)',
+            dark: 'var(--color-navy-dark, #0D2137)',
           },
           teal: {
-            DEFAULT: '#00897B',
-            light: '#26A69A',
-            dark: '#00695C',
-            glow: 'rgba(0, 137, 123, 0.12)',
+            DEFAULT: 'var(--color-teal, #00897B)',
+            light: 'var(--color-teal-light, #26A69A)',
+            dark: 'var(--color-teal-dark, #00695C)',
+            glow: 'var(--color-teal-glow, rgba(0, 137, 123, 0.12))',
           },
           coral: {
-            DEFAULT: '#FF6B6B',
-            light: '#FFF0F0',
+            DEFAULT: 'var(--color-coral, #FF6B6B)',
+            light: 'var(--color-coral-light, #FFF0F0)',
           },
           amber: {
-            DEFAULT: '#F59E0B',
-            light: '#FFF8E1',
+            DEFAULT: 'var(--color-amber, #F59E0B)',
+            light: 'var(--color-amber-light, #FFF8E1)',
           },
         },
 
