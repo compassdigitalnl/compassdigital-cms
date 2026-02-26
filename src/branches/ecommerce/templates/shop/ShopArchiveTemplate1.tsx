@@ -381,36 +381,34 @@ export default function ShopArchiveTemplate1({
   return (
     <div
       className="font-body overflow-x-hidden"
-      style={{ maxWidth: '1240px', margin: '0 auto' }}
+      style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}
     >
       {/* ========================================
           BREADCRUMBS
           ======================================== */}
       {breadcrumbs.length > 0 && (
         <div className="px-6 pt-6">
-          <Breadcrumbs items={breadcrumbs} currentPage={category?.name} />
+          <Breadcrumbs items={breadcrumbs} currentPage={category?.name || 'Shop'} />
         </div>
       )}
 
       {/* ========================================
           CATEGORY HERO
           ======================================== */}
-      {category && (
-        <section className="pt-6 pb-8">
-          <CategoryHero
-            category={{
-              name: category.name,
-              slug: category.slug,
-              description: category.description,
-              icon: category.icon,
-              badgeText: category.badgeText,
-            }}
-            productCount={stats.totalProducts}
-            brandCount={stats.brands}
-            inStockPercent={totalProducts > 0 ? Math.round((inStockCount / totalProducts) * 100) : 0}
-          />
-        </section>
-      )}
+      <section className="pt-6 pb-8">
+        <CategoryHero
+          category={{
+            name: category?.name || 'Shop',
+            slug: category?.slug || 'shop',
+            description: category?.description || 'Bekijk ons volledige assortiment professionele producten.',
+            icon: category?.icon || 'shopping-bag',
+            badgeText: category?.badgeText || (category ? 'PRODUCTCATEGORIE' : 'ASSORTIMENT'),
+          }}
+          productCount={stats.totalProducts}
+          brandCount={stats.brands}
+          inStockPercent={totalProducts > 0 ? Math.round((inStockCount / totalProducts) * 100) : 0}
+        />
+      </section>
 
       {/* ========================================
           SUBCATEGORY CHIPS
