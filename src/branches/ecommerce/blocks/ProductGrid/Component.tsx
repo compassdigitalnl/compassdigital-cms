@@ -197,7 +197,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
                   </div>
                 )}
 
-                <Link href={`/shop/${slug}`} className="block">
+                <Link href={`/${slug}`} className="block">
                   <div className="aspect-square bg-gray-100 relative overflow-hidden">
                     {firstImage && firstImage.url ? (
                       <img
@@ -220,7 +220,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
                     </div>
                   )}
 
-                  <Link href={`/shop/${slug}`}>
+                  <Link href={`/${slug}`}>
                     <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">
                       {title}
                     </h3>

@@ -199,6 +199,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
 
     const breadcrumbs = [
       { label: 'Shop', href: '/shop' },
+      { label: category.name, href: `/${category.slug}` },
     ]
 
     return (

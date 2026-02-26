@@ -89,7 +89,7 @@ export const notifyEditionSubscribers: CollectionAfterChangeHook = async ({
  * Generate HTML email for new edition notification
  */
 function generateEditionEmail(product: any, siteUrl: string): string {
-  const productUrl = `${siteUrl}/shop/${product.slug}`
+  const productUrl = `${siteUrl}/${product.slug}`
   const price = product.salePrice || product.price
   const formattedPrice = price ? `€${price.toFixed(2).replace('.', ',')}` : 'Prijs op aanvraag'
 

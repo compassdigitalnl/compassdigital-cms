@@ -103,7 +103,7 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
 
           {showButton && (
             <Link
-              href={`/products/${prod.slug}`}
+              href={`/${prod.slug}`}
               className="
                 inline-flex items-center gap-1.5 mt-2
                 px-4 py-2

@@ -541,7 +541,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                       </button>
                     ))}
                     <Link
-                      href={`/shop/${rootCategories.find((c: any) => c.id === activeL1)?.slug}`}
+                      href={`/${rootCategories.find((c: any) => c.id === activeL1)?.slug}`}
                       className="flex items-center gap-1.5 px-5 py-2.5 text-sm font-bold mt-1 transition-all hover:px-6"
                       style={{ color: primaryColor }}
                     >
@@ -569,7 +569,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                       {l3Categories.map((cat: any) => (
                         <Link
                           key={cat.id}
-                          href={`/shop/${cat.slug}`}
+                          href={`/${cat.slug}`}
                           className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 transition-all rounded-lg"
                           style={{ color: '#374151' }}
                           onMouseEnter={(e: any) => {
@@ -590,7 +590,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                       ))}
                     </div>
                     <Link
-                      href={`/shop/${l2Categories.find((c: any) => c.id === activeL2)?.slug}`}
+                      href={`/${l2Categories.find((c: any) => c.id === activeL2)?.slug}`}
                       className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-bold mt-auto transition-all hover:px-5"
                       style={{ color: primaryColor }}
                     >

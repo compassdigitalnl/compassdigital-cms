@@ -315,7 +315,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
           {showViewFullLink && (
             <div className="mt-2.5 text-center">
               <a
-                href={product.slug ? `/products/${product.slug}` : '#'}
+                href={product.slug ? `/${product.slug}` : '#'}
                 onClick={(e) => {
                   if (onViewFull) {
                     e.preventDefault()

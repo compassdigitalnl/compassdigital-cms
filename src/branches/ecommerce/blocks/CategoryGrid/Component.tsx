@@ -92,7 +92,7 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
             return (
               <Link
                 key={typeof category === 'object' ? category.id : category}
-                href={`/categorie/${slug}`}
+                href={`/${slug}`}
                 className="group bg-white border-2 border-grey hover:border-primary rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
               >
                 {/* Top border accent on hover */}

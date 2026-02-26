@@ -101,7 +101,7 @@ export default async function ShopPage({
   // Build breadcrumbs
   const breadcrumbs = [{ label: 'Shop', href: '/shop' }]
   if (category) {
-    breadcrumbs.push({ label: (category as any).name, href: `/shop?category=${(category as any).id}` })
+    breadcrumbs.push({ label: (category as any).name, href: `/${(category as any).slug}` })
   }
 
   return (

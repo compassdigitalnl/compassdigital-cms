@@ -199,7 +199,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                   return (
                     <Link
                       key={prod.id}
-                      href={`/products/${prod.slug}`}
+                      href={`/${prod.slug}`}
                       className={`flex gap-3 py-3 items-center hover:opacity-80 transition-opacity ${
                         index < relatedProducts.length - 1 ? 'border-b border-gray-200' : ''
                       }`}

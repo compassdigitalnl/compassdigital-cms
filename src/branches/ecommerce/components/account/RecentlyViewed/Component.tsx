@@ -107,7 +107,7 @@ export function RecentlyViewed({
         {displayProducts.map((product) => (
           <a
             key={product.id}
-            href={`/products/${product.slug}`}
+            href={`/${product.slug}`}
             className="rv-card"
             role="listitem"
             onClick={(e) => {

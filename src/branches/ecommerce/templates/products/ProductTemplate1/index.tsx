@@ -1450,7 +1450,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 return (
                   <Link
                     key={idx}
-                    href={`/shop/${rp.slug}`}
+                    href={`/${rp.slug}`}
                     className="min-w-[200px] bg-[var(--color-surface,white)] rounded-2xl overflow-hidden border border-[var(--color-border)] no-underline text-inherit snap-start shrink-0"
                   >
                     <div className="w-full h-40 bg-[var(--color-background)] flex items-center justify-center">
@@ -1511,7 +1511,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 return (
                   <Link
                     key={idx}
-                    href={`/shop/${rp.slug}`}
+                    href={`/${rp.slug}`}
                     className="bg-[var(--color-surface,white)] rounded-[var(--border-radius,16px)] overflow-hidden border border-[var(--color-border)] transition-all duration-[350ms] no-underline text-inherit block"
                   >
                     <div className="w-full h-40 bg-[var(--color-background)] flex items-center justify-center">

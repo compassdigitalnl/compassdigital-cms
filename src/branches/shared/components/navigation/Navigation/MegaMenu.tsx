@@ -65,7 +65,7 @@ export function MegaMenu({ columns }: MegaMenuProps) {
                 <div className="promo-description">
                   Check out our latest product offering
                 </div>
-                <Link href={`/products/${column.promoProduct}`} className="promo-button">
+                <Link href={`/${column.promoProduct}`} className="promo-button">
                   View Product →
                 </Link>
               </div>
