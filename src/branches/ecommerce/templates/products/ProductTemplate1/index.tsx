@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
-import { useToast } from '@/branches/shared/components/ui/ToastSystem'
+import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
 import { StaffelCalculator } from '@/branches/ecommerce/components/ui/StaffelCalculator'
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
@@ -50,7 +50,7 @@ interface ProductTemplate1Props {
 
 export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const { addItem } = useCart()
-  const { showToast } = useToast()
+  const { showToast } = useAddToCartToast()
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews' | 'downloads'>(
     'description',
   )
@@ -157,6 +157,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   }
 
   const handleAddToCart = () => {
+    const firstImageUrl =
+      typeof product.images?.[0] === 'object' && product.images[0] !== null
+        ? product.images[0].url
+        : undefined
+
     if (isGrouped) {
       // Add all selected sizes to cart
       let addedCount = 0
@@ -192,11 +197,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
       // Show toast for grouped products
       if (addedCount > 0) {
-        const tierPrice = getTierPrice(totalQty)
         showToast({
-          type: 'success',
-          title: 'Added to cart',
-          message: `${addedCount}× ${product.title} - €${totalPrice.toFixed(2)}`,
+          id: product.id,
+          name: product.title,
+          image: firstImageUrl,
+          quantity: addedCount,
+          price: getTierPrice(totalQty),
         })
       }
     } else if (isSubscription && selectedSubscription) {
@@ -223,9 +229,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       })
 
       showToast({
-        type: 'success',
-        title: 'Added to cart',
-        message: `${product.title} - ${selectedSubscription.label}`,
+        id: product.id,
+        name: product.title,
+        variant: selectedSubscription.label,
+        image: firstImageUrl,
+        quantity: 1,
+        price: discountedPrice,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants
@@ -248,9 +257,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       })
 
       showToast({
-        type: 'success',
-        title: 'Added to cart',
-        message: `${quantity}× ${product.title} - €${(variantPrice * quantity).toFixed(2)}`,
+        id: product.id,
+        name: product.title,
+        variant: variantLabels,
+        image: firstImageUrl,
+        quantity: quantity,
+        price: variantPrice,
       })
     } else {
       // Add simple product
@@ -273,9 +285,11 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
       // Show toast for simple product
       showToast({
-        type: 'success',
-        title: 'Added to cart',
-        message: quantity > 1 ? `${quantity}× ${product.title} - €${(unitPrice * quantity).toFixed(2)}` : `${product.title} - €${unitPrice.toFixed(2)}`,
+        id: product.id,
+        name: product.title,
+        image: firstImageUrl,
+        quantity: quantity,
+        price: unitPrice,
       })
     }
   }

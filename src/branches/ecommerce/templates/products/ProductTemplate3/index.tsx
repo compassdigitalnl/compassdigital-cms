@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
-import { useToast } from '@/branches/shared/components/ui/ToastSystem'
+import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
@@ -32,7 +32,7 @@ interface ProductTemplate3Props {
 
 export default function ProductTemplate3({ product }: ProductTemplate3Props) {
   const { addItem } = useCart()
-  const { showToast } = useToast()
+  const { showToast } = useAddToCartToast()
   const [activeTab, setActiveTab] = useState<'story' | 'details' | 'specs' | 'downloads'>('story')
   const [quantity, setQuantity] = useState(1)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
@@ -132,9 +132,12 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       })
 
       showToast({
-        type: 'success',
-        title: 'Added to cart',
-        message: `${product.title} - ${selectedSubscription.label}`,
+        id: product.id,
+        name: product.title,
+        variant: selectedSubscription.label,
+        image: firstImageUrl || undefined,
+        quantity: 1,
+        price: discountedPrice,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants
@@ -154,9 +157,12 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       })
 
       showToast({
-        type: 'success',
-        title: 'Added to cart',
-        message: `${quantity}× ${product.title} - €${(variantPrice * quantity).toFixed(2)}`,
+        id: product.id,
+        name: product.title,
+        variant: variantLabels,
+        image: firstImageUrl || undefined,
+        quantity: quantity,
+        price: variantPrice,
       })
     } else {
       // Add simple/grouped product
@@ -176,9 +182,11 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       })
 
       showToast({
-        type: 'success',
-        title: 'Added to cart',
-        message: quantity > 1 ? `${quantity}× ${selectedProduct.title} - €${(unitPrice * quantity).toFixed(2)}` : `${selectedProduct.title} - €${unitPrice.toFixed(2)}`,
+        id: selectedProduct.id,
+        name: selectedProduct.title,
+        image: firstImageUrl || undefined,
+        quantity: quantity,
+        price: unitPrice,
       })
     }
   }
