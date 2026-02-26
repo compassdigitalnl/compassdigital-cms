@@ -238,31 +238,30 @@ export default function ShopArchiveTemplate1({
     // TODO: Apply sorting to products
   }
 
-  // Helper to convert Product to CartItem format
+  // Helper to convert Product to CartItem format (with correct CartContext API)
   const productToCartItem = (product: Product, quantity: number = 1) => {
-    const firstImage = product.images?.[0]
-    let imageUrl: string | undefined
-
-    if (firstImage && typeof firstImage === 'object' && 'url' in firstImage) {
-      imageUrl = firstImage.url || undefined
-    }
+    const imageUrl =
+      typeof product.images?.[0] === 'object' && product.images[0] !== null
+        ? product.images[0].url || undefined
+        : undefined
 
     return {
       id: product.id,
-      slug: product.slug || '',
       title: product.title,
+      slug: product.slug || '',
       price: product.price,
-      stock: product.stock ?? 0,
+      unitPrice: product.salePrice || product.price, // Fix: Added unitPrice from fix branch
+      quantity,
+      stock: (product.stock ?? 0) || 0,
       sku: product.sku || undefined,
       image: imageUrl,
-      quantity,
     }
   }
 
-  const handleAddToCart = (productId: string) => {
+  const handleAddToCart = (productId: string, quantity: number = 1) => {
     const product = products.find((p) => String(p.id) === productId)
     if (product) {
-      addItem(productToCartItem(product, 1))
+      addItem(productToCartItem(product, quantity))
     }
   }
 
