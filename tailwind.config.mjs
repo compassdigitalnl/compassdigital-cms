@@ -66,6 +66,14 @@ export default {
             DEFAULT: 'var(--color-secondary)',
             light: 'var(--color-secondary-light)',
           },
+          // Navy shorthands (CSS var driven)
+          navy: { DEFAULT: 'var(--navy)', light: 'var(--navy-light)' },
+          // Teal shorthands (CSS var driven)
+          teal: { DEFAULT: 'var(--teal)', light: 'var(--teal-light)', dark: 'var(--teal-dark)', glow: 'var(--teal-glow)' },
+          // Coral shorthands (CSS var driven)
+          coral: { DEFAULT: 'var(--coral)', light: 'var(--coral-light)' },
+          // Background
+          bg: 'var(--bg)',
           // Accent color
           accent: 'var(--color-accent)',
           // Surface colors

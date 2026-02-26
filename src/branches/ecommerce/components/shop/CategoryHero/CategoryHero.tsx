@@ -8,6 +8,7 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
   category,
   productCount,
   brandCount,
+  inStockPercent,
   className = '',
 }) => {
   // Dynamically load Lucide icon (convert kebab-case to PascalCase)
@@ -25,7 +26,7 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
 
   return (
     <section
-      className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-theme-navy to-theme-navy-light p-10 md:p-[40px] ${className}`}
+      className={`relative overflow-hidden bg-gradient-to-br from-theme-navy to-theme-navy-light p-10 md:p-[40px] ${className}`}
       role="banner"
       aria-labelledby="category-title"
     >
@@ -93,6 +94,21 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
               </div>
               <div className="mt-0.5 text-[12px] text-white/40" aria-hidden="true">
                 Merken
+              </div>
+            </div>
+          )}
+
+          {/* In Stock Percent (optional) */}
+          {inStockPercent !== undefined && (
+            <div className="text-center">
+              <div
+                className="font-heading text-[24px] font-extrabold text-white md:text-[28px]"
+                aria-label={`${inStockPercent}% op voorraad`}
+              >
+                <span className="text-theme-teal-light">{inStockPercent}%</span>
+              </div>
+              <div className="mt-0.5 text-[12px] text-white/40" aria-hidden="true">
+                Op voorraad
               </div>
             </div>
           )}

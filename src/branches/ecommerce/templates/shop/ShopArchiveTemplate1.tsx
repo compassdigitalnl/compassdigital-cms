@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import type { Product } from '@/payload-types'
@@ -12,6 +12,7 @@ import { SubcategoryChips, type SubcategoryChip } from '@/branches/ecommerce/com
 import { FilterSidebar } from '@/branches/ecommerce/components/shop/FilterSidebar/FilterSidebar'
 import { ShopToolbar } from '@/branches/ecommerce/components/shop/SortDropdown/ShopToolbar'
 import { ProductCard } from '@/branches/ecommerce/components/products/ProductCard/Component'
+import { RecentlyViewed } from '@/branches/ecommerce/components/shop/RecentlyViewed/RecentlyViewed'
 
 // Types
 import type { FilterGroup, ActiveFilter } from '@/branches/ecommerce/components/shop/FilterSidebar/types'
@@ -65,8 +66,15 @@ export default function ShopArchiveTemplate1({
   // FILTER CONFIGURATION
   // ========================================
 
+  // Helper to extract brand name as string
+  const getBrandName = (brand: any): string | null => {
+    if (typeof brand === 'string') return brand
+    if (typeof brand === 'object' && brand !== null && 'name' in brand) return brand.name
+    return null
+  }
+
   // Extract unique values from products
-  const brands = Array.from(new Set(products.map((p) => p.brand).filter((b): b is string => !!b)))
+  const brands = Array.from(new Set(products.map((p) => getBrandName(p.brand)).filter((b): b is string => b !== null)))
 
   const materials = Array.from(
     new Set(
@@ -81,7 +89,22 @@ export default function ShopArchiveTemplate1({
     ),
   )
 
-  const inStockCount = products.filter((p) => p.stock > 0).length
+  const sizes = Array.from(
+    new Set(
+      products.flatMap((p) =>
+        Array.isArray(p.specifications)
+          ? p.specifications
+              .flatMap((group: any) => group.attributes || [])
+              .filter((attr: any) => attr.name?.toLowerCase() === 'maat' || attr.name?.toLowerCase() === 'size')
+              .map((attr: any) => attr.value)
+          : [],
+      ),
+    ),
+  )
+
+  const inStockCount = products.filter((p) => (p.stock ?? 0) > 0).length
+  const withinThreeDaysCount = products.filter((p) => (p.stock ?? 0) > 0 || (p as any).leadTime <= 3).length
+  const onOrderCount = products.filter((p) => (p.stock ?? 0) === 0).length
 
   // Build filter groups
   const filterGroups: FilterGroup[] = [
@@ -94,10 +117,10 @@ export default function ShopArchiveTemplate1({
             icon: 'award',
             type: 'checkbox' as const,
             defaultOpen: true,
-            options: brands.map((brand) => ({
-              value: brand,
-              label: brand,
-              count: products.filter((p) => p.brand === brand).length,
+            options: brands.map((b) => ({
+              value: b,
+              label: b,
+              count: products.filter((p) => getBrandName(p.brand) === b).length,
             })),
           },
         ]
@@ -130,6 +153,33 @@ export default function ShopArchiveTemplate1({
         ]
       : []),
 
+    // Size Filter
+    ...(sizes.length > 0
+      ? [
+          {
+            id: 'sizes',
+            label: 'Maat',
+            icon: 'ruler',
+            type: 'checkbox' as const,
+            defaultOpen: false,
+            options: sizes.map((size) => ({
+              value: size,
+              label: size,
+              count: products.filter((p) =>
+                Array.isArray(p.specifications)
+                  ? p.specifications.some((group: any) =>
+                      (group.attributes || []).some(
+                        (attr: any) =>
+                          (attr.name?.toLowerCase() === 'maat' || attr.name?.toLowerCase() === 'size') && attr.value === size,
+                      ),
+                    )
+                  : false,
+              ).length,
+            })),
+          },
+        ]
+      : []),
+
     // Stock Filter
     {
       id: 'stock',
@@ -142,6 +192,16 @@ export default function ShopArchiveTemplate1({
           value: 'in-stock',
           label: 'Op voorraad',
           count: inStockCount,
+        },
+        {
+          value: 'within-3-days',
+          label: 'Binnen 3 dagen',
+          count: withinThreeDaysCount,
+        },
+        {
+          value: 'on-order',
+          label: 'Op bestelling',
+          count: onOrderCount,
         },
       ],
     },
@@ -179,14 +239,14 @@ export default function ShopArchiveTemplate1({
         // "All" chip
         {
           label: `Alle ${category?.name || 'producten'}`,
-          href: `/shop/${category?.slug || ''}`,
-          active: true, // Set active based on current route in real implementation
+          href: category?.slug ? `/${category.slug}` : '/shop',
+          active: true,
           count: totalProducts,
         },
         // Subcategory chips
         ...subcategories.map((sub) => ({
           label: sub.name,
-          href: `/shop/${category?.slug || ''}/${sub.slug}`,
+          href: `/${sub.slug}`,
           count: sub.count,
         })),
       ]
@@ -203,12 +263,82 @@ export default function ShopArchiveTemplate1({
   }
 
   // ========================================
+  // CLIENT-SIDE FILTERING & SORTING
+  // ========================================
+
+  const filteredProducts = useMemo(() => {
+    let result = [...products]
+
+    // Apply active filters
+    for (const filter of activeFilters) {
+      if (filter.groupId === 'brands') {
+        result = result.filter((p) => filter.values.includes(getBrandName(p.brand) || ''))
+      } else if (filter.groupId === 'materials') {
+        result = result.filter((p) =>
+          Array.isArray(p.specifications)
+            ? p.specifications.some((group: any) =>
+                (group.attributes || []).some(
+                  (attr: any) =>
+                    attr.name?.toLowerCase() === 'materiaal' && filter.values.includes(attr.value),
+                ),
+              )
+            : false,
+        )
+      } else if (filter.groupId === 'sizes') {
+        result = result.filter((p) =>
+          Array.isArray(p.specifications)
+            ? p.specifications.some((group: any) =>
+                (group.attributes || []).some(
+                  (attr: any) =>
+                    (attr.name?.toLowerCase() === 'maat' || attr.name?.toLowerCase() === 'size') &&
+                    filter.values.includes(attr.value),
+                ),
+              )
+            : false,
+        )
+      } else if (filter.groupId === 'stock') {
+        result = result.filter((p) => {
+          const stock = p.stock ?? 0
+          if (filter.values.includes('in-stock') && stock > 0) return true
+          if (filter.values.includes('within-3-days') && (stock > 0 || (p as any).leadTime <= 3)) return true
+          if (filter.values.includes('on-order') && stock === 0) return true
+          return false
+        })
+      } else if (filter.groupId === 'price' && filter.values.length === 2) {
+        const min = parseFloat(filter.values[0])
+        const max = parseFloat(filter.values[1])
+        result = result.filter((p) => p.price >= min && p.price <= max)
+      }
+    }
+
+    // Apply sorting
+    switch (sortBy) {
+      case 'price-asc':
+        result.sort((a, b) => a.price - b.price)
+        break
+      case 'price-desc':
+        result.sort((a, b) => b.price - a.price)
+        break
+      case 'newest':
+        result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        break
+      case 'rating':
+        // Keep original order when no rating data
+        break
+      default:
+        // 'relevance' — keep original order
+        break
+    }
+
+    return result
+  }, [products, activeFilters, sortBy])
+
+  // ========================================
   // HANDLERS
   // ========================================
 
   const handleFilterChange = (filters: ActiveFilter[]) => {
     setActiveFilters(filters)
-    // TODO: Apply filters to products (server-side or client-side filtering)
   }
 
   const handleResetFilters = () => {
@@ -217,16 +347,18 @@ export default function ShopArchiveTemplate1({
 
   const handleSortChange = (value: string) => {
     setSortBy(value)
-    // TODO: Apply sorting to products
   }
 
-  const handleAddToCart = (productId: string) => {
-    const product = products.find((p) => p.id === productId)
+  const handleAddToCart = (productId: string, quantity: number = 1) => {
+    const product = products.find((p) => String(p.id) === productId)
     if (product) {
-      const imageUrl =
-        typeof product.images?.[0] === 'object' && product.images[0] !== null
-          ? product.images[0].url || undefined
-          : undefined
+      const firstCartImg = product.images?.[0]
+      const cartImgObj = typeof firstCartImg === 'object' && firstCartImg !== null
+        ? (typeof (firstCartImg as any).image === 'object' && (firstCartImg as any).image !== null
+            ? (firstCartImg as any).image
+            : null)
+        : null
+      const imageUrl = cartImgObj?.url || undefined
 
       addItem({
         id: product.id,
@@ -234,7 +366,7 @@ export default function ShopArchiveTemplate1({
         slug: product.slug || '',
         price: product.price,
         unitPrice: product.salePrice || product.price,
-        quantity: 1,
+        quantity,
         stock: (product.stock ?? 0) || 0,
         sku: product.sku || undefined,
         image: imageUrl,
@@ -249,13 +381,13 @@ export default function ShopArchiveTemplate1({
   return (
     <div
       className="font-body overflow-x-hidden"
-      style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}
+      style={{ maxWidth: '1240px', margin: '0 auto' }}
     >
       {/* ========================================
           BREADCRUMBS
           ======================================== */}
       {breadcrumbs.length > 0 && (
-        <div className="px-4 md:px-6 lg:px-24 pt-6">
+        <div className="px-6 pt-6">
           <Breadcrumbs items={breadcrumbs} currentPage={category?.name} />
         </div>
       )}
@@ -264,7 +396,7 @@ export default function ShopArchiveTemplate1({
           CATEGORY HERO
           ======================================== */}
       {category && (
-        <section className="px-4 md:px-6 lg:px-24 pt-6 pb-8">
+        <section className="pt-6 pb-8">
           <CategoryHero
             category={{
               name: category.name,
@@ -275,6 +407,7 @@ export default function ShopArchiveTemplate1({
             }}
             productCount={stats.totalProducts}
             brandCount={stats.brands}
+            inStockPercent={totalProducts > 0 ? Math.round((inStockCount / totalProducts) * 100) : 0}
           />
         </section>
       )}
@@ -283,7 +416,7 @@ export default function ShopArchiveTemplate1({
           SUBCATEGORY CHIPS
           ======================================== */}
       {subcategoryChips.length > 0 && (
-        <div className="px-4 md:px-6 lg:px-24 pb-6">
+        <div className="pb-6">
           <SubcategoryChips chips={subcategoryChips} />
         </div>
       )}
@@ -291,7 +424,7 @@ export default function ShopArchiveTemplate1({
       {/* ========================================
           SHOP LAYOUT (FILTERS + PRODUCTS)
           ======================================== */}
-      <div className="mx-auto px-4 md:px-6 lg:px-24 pb-24">
+      <div className="mx-auto px-6 pb-24">
         <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-7">
           {/* ========================================
               DESKTOP SIDEBAR FILTERS
@@ -319,10 +452,15 @@ export default function ShopArchiveTemplate1({
               onSortChange={handleSortChange}
               viewMode={viewMode}
               onViewChange={setViewMode}
-              resultCount={products.length}
+              resultCount={filteredProducts.length}
               totalCount={totalProducts}
               showViewToggle={true}
               className="mb-6"
+              activeFilters={activeFilters.map((f) => ({ groupId: f.groupId, label: f.label }))}
+              onRemoveFilter={(groupId) => {
+                setActiveFilters((prev) => prev.filter((f) => f.groupId !== groupId))
+              }}
+              onResetFilters={handleResetFilters}
             />
 
             {/* ========================================
@@ -335,35 +473,38 @@ export default function ShopArchiveTemplate1({
                   : 'grid-cols-1'
               }`}
             >
-              {products.map((product) => {
-                // Extract product image
-                const productImage =
-                  typeof product.images?.[0]?.image === 'object' && product.images[0].image !== null
-                    ? {
-                        url: product.images[0].image.url || '',
-                        alt: product.images[0].image.alt || product.title,
-                      }
-                    : undefined
+              {filteredProducts.map((product) => {
+                // Extract product image (safe type narrowing)
+                const firstImg = product.images?.[0]
+                const imgObj = typeof firstImg === 'object' && firstImg !== null
+                  ? (typeof (firstImg as any).image === 'object' && (firstImg as any).image !== null
+                      ? (firstImg as any).image
+                      : null)
+                  : null
+                const productImage = imgObj
+                  ? { url: imgObj.url || '', alt: imgObj.alt || product.title }
+                  : undefined
 
                 // Determine stock status
+                const stockNum = product.stock ?? 0
                 let stockStatus: StockStatus = 'in-stock'
-                if (product.stock === 0) {
+                if (stockNum === 0) {
                   stockStatus = 'out'
-                } else if (product.stock < 10) {
+                } else if (stockNum < 10) {
                   stockStatus = 'low'
                 }
 
                 return (
                   <ProductCard
                     key={product.id}
-                    id={product.id}
+                    id={String(product.id)}
                     name={product.title}
                     slug={product.slug || ''}
                     sku={product.sku || ''}
-                    brand={{ name: product.brand || '', slug: '' }}
+                    brand={{ name: getBrandName(product.brand) || '', slug: '' }}
                     image={productImage}
                     price={product.price}
-                    compareAtPrice={undefined} // TODO: Add sale price logic if available
+                    compareAtPrice={undefined}
                     volumePricing={
                       product.volumePricing
                         ? product.volumePricing.map((tier: any) => ({
@@ -373,9 +514,9 @@ export default function ShopArchiveTemplate1({
                           }))
                         : undefined
                     }
-                    rating={undefined} // TODO: Add rating if available
+                    rating={undefined}
                     reviewCount={0}
-                    stock={product.stock}
+                    stock={stockNum}
                     stockStatus={stockStatus}
                     variant={viewMode}
                     onAddToCart={handleAddToCart}
@@ -450,6 +591,11 @@ export default function ShopArchiveTemplate1({
             )}
           </main>
         </div>
+
+        {/* ========================================
+            RECENTLY VIEWED
+            ======================================== */}
+        <RecentlyViewed className="mt-4" />
       </div>
     </div>
   )

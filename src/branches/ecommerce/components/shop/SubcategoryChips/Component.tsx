@@ -65,8 +65,7 @@ export function SubcategoryChips({ chips, className = '' }: SubcategoryChipsProp
       className={`subcategory-chips ${className}`}
       style={{
         background: 'var(--color-white, #FAFBFC)',
-        border: '1px solid var(--color-grey, #E8ECF1)',
-        borderRadius: 'var(--radius, 12px)',
+        borderBottom: '1px solid var(--color-grey, #E8ECF1)',
         padding: '14px 20px',
       }}
     >

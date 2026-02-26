@@ -183,7 +183,7 @@ export interface ProductCardProps {
   /**
    * Callback when add-to-cart button is clicked
    */
-  onAddToCart?: (productId: string) => void
+  onAddToCart?: (productId: string, quantity: number) => void
 
   /**
    * Product detail page URL (overrides default /products/[slug])

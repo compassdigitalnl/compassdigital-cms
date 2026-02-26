@@ -22,10 +22,10 @@
 
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ShoppingCart, Star, TrendingDown } from 'lucide-react'
+import { ShoppingCart, Star, Layers, Heart, Eye, Minus, Plus } from 'lucide-react'
 import type { ProductCardProps } from './types'
 
 export function ProductCard({
@@ -52,6 +52,8 @@ export function ProductCard({
   locale = 'nl-NL',
   className = '',
 }: ProductCardProps) {
+  const [quantity, setQuantity] = useState(1)
+
   // Format price with euros and cents split
   const formatPrice = (priceValue: number) => {
     const euros = Math.floor(priceValue)
@@ -87,9 +89,9 @@ export function ProductCard({
 
     switch (stockStatus) {
       case 'in-stock':
-        return `Op voorraad (${stock.toLocaleString(locale)} stuks)`
+        return 'Op voorraad — morgen geleverd'
       case 'low':
-        return `Laag op voorraad (${stock} stuks)`
+        return `Nog ${stock} op voorraad — bestel snel`
       case 'out':
         return 'Tijdelijk uitverkocht'
       default:
@@ -101,11 +103,30 @@ export function ProductCard({
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
-    onAddToCart?.(id)
+    onAddToCart?.(id, quantity)
+  }
+
+  // Quantity handlers
+  const handleDecrement = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setQuantity((q) => Math.max(1, q - 1))
+  }
+
+  const handleIncrement = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setQuantity((q) => q + 1)
+  }
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation()
+    const val = parseInt(e.target.value)
+    if (!isNaN(val) && val >= 1) setQuantity(val)
   }
 
   // Product URL
-  const productHref = href || `/products/${slug}`
+  const productHref = href || `/${slug}`
 
   // Price formatting
   const currentPriceFormatted = formatPrice(price)
@@ -152,7 +173,7 @@ export function ProductCard({
     )
   }
 
-  // Image component
+  // Image component with hover actions
   const renderImage = () => (
     <div className="product-card__image">
       {image ? (
@@ -160,6 +181,23 @@ export function ProductCard({
       ) : (
         <span style={{ fontSize: '52px' }}>🧤</span>
       )}
+      {/* Hover actions */}
+      <div className="product-card__hover-actions">
+        <button
+          className="product-card__hover-btn"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
+          aria-label="Toevoegen aan verlanglijst"
+        >
+          <Heart size={16} />
+        </button>
+        <button
+          className="product-card__hover-btn"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
+          aria-label="Snel bekijken"
+        >
+          <Eye size={16} />
+        </button>
+      </div>
     </div>
   )
 
@@ -175,13 +213,11 @@ export function ProductCard({
           </span>
         )}
       </div>
-      {unit && <div className="product-card__unit">{unit}</div>}
+      {unit && <div className="product-card__unit">excl. BTW · {unit}</div>}
       {bestVolumeTier && (
         <div className="product-card__staffel-hint">
-          <TrendingDown size={12} />
-          Vanaf {bestVolumeTier.minQty} stuks: {currencySymbol}{' '}
-          {bestVolumeTier.price.toFixed(2).replace('.', ',')} (−
-          {bestVolumeTier.discountPercent}%)
+          <Layers size={12} />
+          Staffelprijzen vanaf {bestVolumeTier.minQty} stuks
         </div>
       )}
     </div>
@@ -235,7 +271,7 @@ export function ProductCard({
             <div className="product-card__info">
               <div className="product-card__brand">{brand.name}</div>
               <div className="product-card__title">{name}</div>
-              <div className="product-card__sku">SKU: {sku}</div>
+              <div className="product-card__sku">Art. {sku}</div>
               {renderRating()}
             </div>
 
@@ -252,12 +288,33 @@ export function ProductCard({
             {/* Grid Variant Layout */}
             <div className="product-card__brand">{brand.name}</div>
             <div className="product-card__title">{name}</div>
-            <div className="product-card__sku">SKU: {sku}</div>
+            <div className="product-card__sku">Art. {sku}</div>
             {renderRating()}
 
             <div className="product-card__footer">
               {renderPrice()}
-              {renderAddToCart()}
+              <div className="product-card__actions">
+                {onAddToCart && (
+                  <div className="product-card__qty">
+                    <button className="product-card__qty-btn" onClick={handleDecrement} aria-label="Verminder aantal">
+                      <Minus size={14} />
+                    </button>
+                    <input
+                      className="product-card__qty-input"
+                      type="number"
+                      value={quantity}
+                      onChange={handleQuantityChange}
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
+                      min={1}
+                      aria-label="Aantal"
+                    />
+                    <button className="product-card__qty-btn" onClick={handleIncrement} aria-label="Verhoog aantal">
+                      <Plus size={14} />
+                    </button>
+                  </div>
+                )}
+                {renderAddToCart()}
+              </div>
             </div>
 
             {renderStockIndicator()}
@@ -336,6 +393,97 @@ export function ProductCard({
           position: relative;
         }
 
+        /* Hover Actions */
+        .product-card__hover-actions {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          opacity: 0;
+          transition: opacity 0.25s ease;
+          z-index: 3;
+        }
+
+        .product-card:hover .product-card__hover-actions {
+          opacity: 1;
+        }
+
+        .product-card__hover-btn {
+          width: 34px;
+          height: 34px;
+          border-radius: 8px;
+          background: white;
+          border: 1px solid var(--grey);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--grey-dark);
+          transition: all 0.2s;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .product-card__hover-btn:hover {
+          color: var(--teal);
+          border-color: var(--teal);
+        }
+
+        /* Quantity Selector */
+        .product-card__actions {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .product-card__qty {
+          display: flex;
+          align-items: center;
+          border: 1.5px solid var(--grey);
+          border-radius: 8px;
+          overflow: hidden;
+          height: 36px;
+        }
+
+        .product-card__qty-btn {
+          width: 30px;
+          height: 100%;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--grey-dark);
+          transition: all 0.2s;
+        }
+
+        .product-card__qty-btn:hover {
+          background: var(--bg);
+          color: var(--navy);
+        }
+
+        .product-card__qty-input {
+          width: 34px;
+          height: 100%;
+          border: none;
+          border-left: 1px solid var(--grey);
+          border-right: 1px solid var(--grey);
+          text-align: center;
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--navy);
+          background: transparent;
+          -moz-appearance: textfield;
+        }
+
+        .product-card__qty-input::-webkit-outer-spin-button,
+        .product-card__qty-input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
         /* Body */
         .product-card__body {
           padding: 18px;
@@ -359,6 +507,10 @@ export function ProductCard({
           color: var(--navy);
           margin-bottom: 4px;
           line-height: 1.4;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
         .product-card__sku {
@@ -439,8 +591,8 @@ export function ProductCard({
 
         /* Add to Cart Button */
         .product-card__add-to-cart {
-          width: 42px;
-          height: 42px;
+          width: 36px;
+          height: 36px;
           border-radius: 10px;
           background: var(--teal);
           color: white;
