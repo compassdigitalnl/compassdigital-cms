@@ -175,8 +175,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       subcategories = subcategories.filter((s) => s.count > 0)
     } catch (error) {}
 
+    // Build breadcrumbs (Home is auto-added by Breadcrumb component)
     const breadcrumbs = [
-      { label: 'Home', href: '/' },
       { label: 'Shop', href: '/shop' },
       { label: (category as any).name, href: `/${slug}` },
     ]

@@ -8,11 +8,12 @@ import type { Product } from '@/payload-types'
 
 // Modern Components
 import { CategoryHero } from '@/branches/ecommerce/components/shop/CategoryHero/CategoryHero'
-import { Breadcrumbs, type BreadcrumbItem } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import { Breadcrumb, type BreadcrumbItem } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumb/Breadcrumb'
 import { SubcategoryChips, type SubcategoryChip } from '@/branches/ecommerce/components/shop/SubcategoryChips/Component'
 import { FilterSidebar } from '@/branches/ecommerce/components/shop/FilterSidebar/FilterSidebar'
 import { ShopToolbar } from '@/branches/ecommerce/components/shop/SortDropdown/ShopToolbar'
 import { ProductCard } from '@/branches/ecommerce/components/products/ProductCard/Component'
+import { QuickAddToCart } from '@/branches/ecommerce/components/products/QuickAddToCart/Component'
 import { Pagination } from '@/branches/shared/components/ui/Pagination/Component'
 import { BulkActionBar } from '@/branches/ecommerce/components/shop/BulkActionBar/Component'
 import { SearchQueryHeader } from '@/branches/ecommerce/components/shop/SearchQueryHeader/Component'
@@ -221,12 +222,84 @@ export default function ShopArchiveTemplate1({
   }
 
   // ========================================
+  // FILTERING & SORTING
+  // ========================================
+
+  // Apply filters to products
+  const filteredProducts = products.filter((product) => {
+    // Check each active filter
+    for (const filter of activeFilters) {
+      // Brand filter
+      if (filter.groupId === 'brands') {
+        const productBrand = typeof product.brand === 'string' ? product.brand : ''
+        if (!filter.values.includes(productBrand)) {
+          return false
+        }
+      }
+
+      // Material filter
+      if (filter.groupId === 'materials') {
+        const productMaterials = Array.isArray(product.specifications)
+          ? product.specifications
+              .flatMap((group: any) => group.attributes || [])
+              .filter((attr: any) => attr.name?.toLowerCase() === 'materiaal')
+              .map((attr: any) => attr.value)
+          : []
+
+        const hasMatchingMaterial = filter.values.some((value) =>
+          productMaterials.includes(value),
+        )
+        if (!hasMatchingMaterial) {
+          return false
+        }
+      }
+
+      // Stock filter
+      if (filter.groupId === 'stock') {
+        if (filter.values.includes('in-stock')) {
+          if ((product.stock ?? 0) <= 0) {
+            return false
+          }
+        }
+      }
+
+      // Price range filter
+      if (filter.groupId === 'price' && filter.range) {
+        const price = product.price
+        if (price < filter.range.min || price > filter.range.max) {
+          return false
+        }
+      }
+    }
+
+    return true
+  })
+
+  // Apply sorting to filtered products
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortBy) {
+      case 'price-asc':
+        return a.price - b.price
+      case 'price-desc':
+        return b.price - a.price
+      case 'newest':
+        // Assuming products have a createdAt field
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      case 'rating':
+        // TODO: Implement rating sorting when rating field is available
+        return 0
+      case 'relevance':
+      default:
+        return 0
+    }
+  })
+
+  // ========================================
   // HANDLERS
   // ========================================
 
   const handleFilterChange = (filters: ActiveFilter[]) => {
     setActiveFilters(filters)
-    // TODO: Apply filters to products (server-side or client-side filtering)
   }
 
   const handleResetFilters = () => {
@@ -235,7 +308,6 @@ export default function ShopArchiveTemplate1({
 
   const handleSortChange = (value: string) => {
     setSortBy(value)
-    // TODO: Apply sorting to products
   }
 
   // Helper to convert Product to CartItem format (with correct CartContext API)
@@ -313,7 +385,14 @@ export default function ShopArchiveTemplate1({
           ======================================== */}
       {breadcrumbs.length > 0 && (
         <div className="px-[var(--sp-4)] md:px-[var(--sp-6)] lg:px-[var(--sp-12)] pt-[var(--sp-6)]">
-          <Breadcrumbs items={breadcrumbs} currentPage={category?.name} />
+          <Breadcrumb
+            items={[
+              { label: 'Home', href: '/' },
+              ...breadcrumbs,
+              ...(category ? [{ label: category.name }] : []),
+            ]}
+            variant="pills"
+          />
         </div>
       )}
 
@@ -381,6 +460,48 @@ export default function ShopArchiveTemplate1({
           />
 
           {/* ========================================
+              MOBILE FILTER DRAWER
+              ======================================== */}
+          {isMobileFilterOpen && (
+            <div className="mobile-filter-overlay" onClick={() => setIsMobileFilterOpen(false)}>
+              <div className="mobile-filter-drawer" onClick={(e) => e.stopPropagation()}>
+                {/* Header */}
+                <div className="mobile-filter-header">
+                  <h2 className="mobile-filter-title">Filters</h2>
+                  <button
+                    className="mobile-filter-close"
+                    onClick={() => setIsMobileFilterOpen(false)}
+                    aria-label="Sluit filters"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Filter Content */}
+                <div className="mobile-filter-content">
+                  <FilterSidebar
+                    filters={filterGroups}
+                    activeFilters={activeFilters}
+                    onFilterChange={handleFilterChange}
+                    onResetAll={handleResetFilters}
+                    sticky={false}
+                  />
+                </div>
+
+                {/* Footer with Apply Button */}
+                <div className="mobile-filter-footer">
+                  <button
+                    className="mobile-filter-apply"
+                    onClick={() => setIsMobileFilterOpen(false)}
+                  >
+                    Toon {sortedProducts.length} producten
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================
               MAIN PRODUCT CONTENT
               ======================================== */}
           <main>
@@ -404,7 +525,7 @@ export default function ShopArchiveTemplate1({
                 onSortChange={handleSortChange}
                 viewMode={viewMode}
                 onViewChange={setViewMode}
-                resultCount={products.length}
+                resultCount={sortedProducts.length}
                 totalCount={totalProducts}
                 showViewToggle={!quickOrderMode}
                 className="flex-1"
@@ -450,13 +571,11 @@ export default function ShopArchiveTemplate1({
                 ======================================== */}
             {!quickOrderMode && (
               <div
-                className={`grid gap-[var(--sp-5)] ${
-                  viewMode === 'grid'
-                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-                    : 'grid-cols-1'
+                className={`product-grid ${
+                  viewMode === 'grid' ? 'product-grid--grid' : 'product-grid--list'
                 }`}
               >
-                {products.map((product) => {
+                {sortedProducts.map((product) => {
                   // Extract product image
                   const firstImage = product.images?.[0]
                   let productImage: { url: string; alt: string } | undefined
@@ -480,21 +599,16 @@ export default function ShopArchiveTemplate1({
                   const isSelected = selectedProducts.some((p) => String(p.id) === String(product.id))
 
                   return (
-                    <div
-                      key={product.id}
-                      className="relative"
-                      onClick={() =>
-                        enableBulkActions && handleToggleProductSelection(product)
-                      }
-                    >
+                    <div key={product.id} className="product-grid-item">
                       {/* Selection Checkbox */}
                       {enableBulkActions && (
-                        <div className="absolute top-3 left-3 z-10">
+                        <div className="product-selection-checkbox">
                           <input
                             type="checkbox"
                             checked={isSelected}
                             onChange={() => handleToggleProductSelection(product)}
-                            className="w-5 h-5 rounded border-2 border-[var(--grey)] checked:bg-[var(--teal)] checked:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/30"
+                            onClick={(e) => e.stopPropagation()}
+                            className="selection-checkbox"
                             aria-label={`Selecteer ${product.title}`}
                           />
                         </div>
@@ -526,8 +640,24 @@ export default function ShopArchiveTemplate1({
                         stock={stock}
                         stockStatus={stockStatus}
                         variant={viewMode}
-                        onAddToCart={handleAddToCart}
+                        onAddToCart={
+                          enableQuickOrder ? undefined : (id) => handleAddToCart(id, 1)
+                        }
                       />
+
+                      {/* Quick Add Button (overlayed on card) */}
+                      {enableQuickOrder && (
+                        <div className="product-quick-add">
+                          <QuickAddToCart
+                            productId={String(product.id)}
+                            productName={product.title}
+                            stock={stock}
+                            stockStatus={stockStatus}
+                            onAddToCart={handleAddToCart}
+                            compact={viewMode === 'grid'}
+                          />
+                        </div>
+                      )}
                     </div>
                   )
                 })}
@@ -567,6 +697,238 @@ export default function ShopArchiveTemplate1({
           onClearSelection={() => setSelectedProducts([])}
         />
       )}
+
+      {/* ========================================
+          CUSTOM STYLES
+          ======================================== */}
+      <style jsx>{`
+        /* Product Grid Layouts */
+        .product-grid {
+          display: grid;
+          gap: var(--sp-5);
+          position: relative;
+        }
+
+        .product-grid--grid {
+          grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+          .product-grid--grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .product-grid--grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .product-grid--list {
+          grid-template-columns: 1fr;
+        }
+
+        /* Product Grid Item (wrapper for card + quick add) */
+        .product-grid-item {
+          position: relative;
+        }
+
+        /* Selection Checkbox */
+        .product-selection-checkbox {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          z-index: 10;
+        }
+
+        .selection-checkbox {
+          width: 20px;
+          height: 20px;
+          border-radius: 6px;
+          border: 2px solid var(--grey);
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .selection-checkbox:checked {
+          background: var(--teal);
+          border-color: var(--teal);
+        }
+
+        .selection-checkbox:focus {
+          outline: 3px solid var(--teal-glow);
+          outline-offset: 2px;
+        }
+
+        /* Quick Add Overlay */
+        .product-quick-add {
+          position: absolute;
+          bottom: 18px;
+          right: 18px;
+          z-index: 5;
+          opacity: 0;
+          transform: translateY(8px);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-grid-item:hover .product-quick-add {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* List view - always show */
+        .product-grid--list .product-quick-add {
+          opacity: 1;
+          transform: translateY(0);
+          position: static;
+          margin-top: 12px;
+        }
+
+        /* Mobile - always show on small screens */
+        @media (max-width: 768px) {
+          .product-quick-add {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* ═══════════════════════════════════
+           MOBILE FILTER DRAWER
+           ═══════════════════════════════════ */
+
+        .mobile-filter-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(10, 22, 40, 0.6);
+          backdrop-filter: blur(4px);
+          z-index: 9999;
+          animation: fade-in 0.3s ease;
+        }
+
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        .mobile-filter-drawer {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 85%;
+          max-width: 380px;
+          background: var(--white);
+          box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+          display: flex;
+          flex-direction: column;
+          animation: slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slide-in {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+
+        .mobile-filter-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px 24px;
+          border-bottom: 1px solid var(--grey);
+          background: var(--bg);
+        }
+
+        .mobile-filter-title {
+          font-family: var(--font-heading);
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--navy);
+          margin: 0;
+        }
+
+        .mobile-filter-close {
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--white);
+          border: 1px solid var(--grey);
+          border-radius: 8px;
+          font-size: 20px;
+          color: var(--navy);
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .mobile-filter-close:hover {
+          background: var(--teal-glow);
+          border-color: var(--teal);
+          color: var(--teal);
+        }
+
+        .mobile-filter-content {
+          flex: 1;
+          overflow-y: auto;
+          padding: 24px;
+        }
+
+        .mobile-filter-footer {
+          padding: 16px 24px;
+          border-top: 1px solid var(--grey);
+          background: var(--white);
+        }
+
+        .mobile-filter-apply {
+          width: 100%;
+          padding: 14px 24px;
+          background: var(--teal);
+          color: white;
+          border: none;
+          border-radius: 10px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .mobile-filter-apply:hover {
+          background: var(--teal-dark);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 137, 123, 0.3);
+        }
+
+        .mobile-filter-apply:active {
+          transform: translateY(0);
+        }
+
+        /* Hide scrollbar but keep functionality */
+        .mobile-filter-content::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .mobile-filter-content::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .mobile-filter-content::-webkit-scrollbar-thumb {
+          background: var(--grey);
+          border-radius: 3px;
+        }
+
+        .mobile-filter-content::-webkit-scrollbar-thumb:hover {
+          background: var(--grey-mid);
+        }
+      `}</style>
     </div>
   )
 }
