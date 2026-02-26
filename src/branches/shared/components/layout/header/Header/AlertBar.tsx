@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme } from '@/payload-types'
+import type { Header, Theme1 } from '@/payload-types'
 import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
 import {
   BadgeCheck,
@@ -34,7 +34,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 
 type Props = {
   alertBar: NonNullable<Header['alertBar']>
-  theme?: Theme | null
+  theme?: Theme1 | null
 }
 
 export function AlertBar({ alertBar, theme }: Props) {

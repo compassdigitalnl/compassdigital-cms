@@ -116,7 +116,7 @@ export function DynamicHeader({ header, settings }: Props) {
 
             {/* Custom buttons from Header global */}
             {header?.customButtons &&
-              header.customButtons.map((button, idx) => {
+              header.customButtons.map((button: any, idx: number) => {
                 const buttonClasses =
                   button.style === 'primary'
                     ? 'px-4 h-11 bg-primary text-white rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors flex items-center gap-2'
@@ -241,7 +241,7 @@ export function DynamicHeader({ header, settings }: Props) {
 
               {/* Custom buttons */}
               {header?.customButtons &&
-                header.customButtons.map((button, idx) => (
+                header.customButtons.map((button: any, idx: number) => (
                   <Link
                     key={idx}
                     href={button.url || '#'}

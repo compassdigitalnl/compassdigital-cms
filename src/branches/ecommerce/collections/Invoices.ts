@@ -19,7 +19,7 @@ export const Invoices: CollectionConfig = {
     read: ({ req: { user } }) => {
       // Admins can read all, users can only read their own invoices
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         customer: {
           equals: user.id,
@@ -28,15 +28,15 @@ export const Invoices: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       // Only admins can create invoices
-      return user?.roles?.includes('admin') || false
+      return (user && 'roles' in user && user.roles?.includes('admin')) || false
     },
     update: ({ req: { user } }) => {
       // Only admins can update invoices
-      return user?.roles?.includes('admin') || false
+      return (user && 'roles' in user && user.roles?.includes('admin')) || false
     },
     delete: ({ req: { user } }) => {
       // Only admins can delete invoices
-      return user?.roles?.includes('admin') || false
+      return (user && 'roles' in user && user.roles?.includes('admin')) || false
     },
   },
   fields: [

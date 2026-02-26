@@ -23,15 +23,16 @@ import {
 } from 'lucide-react'
 
 type Props = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
   const payload = await getPayload({ config })
 
   const vendor = await payload.find({
     collection: 'vendors',
-    where: { slug: { equals: params.slug } },
+    where: { slug: { equals: slug } },
     limit: 1,
   })
 
@@ -64,6 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function VendorDetailPage({ params }: Props) {
+  const { slug } = await params
   if (!isFeatureEnabled('shop')) notFound()
   requireFeature('vendors')
 
@@ -71,7 +73,7 @@ export default async function VendorDetailPage({ params }: Props) {
 
   const vendorData = await payload.find({
     collection: 'vendors',
-    where: { slug: { equals: params.slug } },
+    where: { slug: { equals: slug } },
     depth: 2,
     limit: 1,
   })

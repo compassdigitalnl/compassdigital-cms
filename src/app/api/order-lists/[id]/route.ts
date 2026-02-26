@@ -6,8 +6,9 @@ import configPromise from '@payload-config'
  * GET /api/order-lists/[id]
  * Fetch a single order list by ID
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const payload = await getPayloadHMR({ config: configPromise })
 
     // Get user from cookies
@@ -16,8 +17,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-
-    const { id } = params
 
     // Fetch order list with full depth for products
     const doc = await payload.findByID({
@@ -61,8 +60,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
  * PATCH /api/order-lists/[id]
  * Update an order list
  */
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const payload = await getPayloadHMR({ config: configPromise })
 
     // Get user from cookies
@@ -72,7 +72,6 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { id } = params
     const body = await request.json()
 
     // Fetch existing doc to check permissions
@@ -127,8 +126,9 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
  * DELETE /api/order-lists/[id]
  * Delete an order list
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const payload = await getPayloadHMR({ config: configPromise })
 
     // Get user from cookies
@@ -137,8 +137,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-
-    const { id } = params
 
     // Fetch existing doc to check permissions
     const existingDoc = await payload.findByID({

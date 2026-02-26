@@ -22,9 +22,10 @@ import { PloiAdapter } from '@/lib/provisioning/adapters/PloiAdapter'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   try {
+    const { id: clientId } = await params
     const payload = await getPayload({ config })
 
     // Check auth
@@ -32,8 +33,6 @@ export async function POST(
     if (!checkRole(['admin'], user)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-
-    const clientId = params.id
 
     // Fetch client
     const client = await payload.findByID({

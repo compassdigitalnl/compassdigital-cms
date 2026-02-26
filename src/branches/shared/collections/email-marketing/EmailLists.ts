@@ -23,7 +23,7 @@ export const EmailLists: CollectionConfig = {
     // Tenant isolation
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'super-admin') return true
+      if ('role' in user && user.role === 'super-admin') return true
       return {
         tenant: {
           equals: user.tenant,
@@ -32,15 +32,15 @@ export const EmailLists: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
   },
   fields: [

@@ -7,8 +7,9 @@ import { Client } from 'pg'
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
@@ -19,7 +20,7 @@ export async function GET(
 
     const result = await client.query(
       'SELECT * FROM tenants WHERE id = $1',
-      [params.id]
+      [id]
     )
 
     if (result.rows.length === 0) {
@@ -57,8 +58,9 @@ export async function GET(
  */
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
@@ -73,7 +75,7 @@ export async function PATCH(
     // Check tenant exists
     const existingResult = await client.query(
       'SELECT * FROM tenants WHERE id = $1',
-      [params.id]
+      [id]
     )
 
     if (existingResult.rows.length === 0) {
@@ -127,7 +129,7 @@ export async function PATCH(
     }
 
     updates.push(`updated_at = NOW()`)
-    values.push(params.id)
+    values.push(id)
 
     const query = `
       UPDATE tenants
@@ -180,8 +182,9 @@ export async function PATCH(
  */
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
@@ -196,7 +199,7 @@ export async function DELETE(
        SET status = 'deleted', updated_at = NOW()
        WHERE id = $1
        RETURNING *`,
-      [params.id]
+      [id]
     )
 
     if (result.rows.length === 0) {
@@ -211,10 +214,10 @@ export async function DELETE(
       `INSERT INTO audit_log (tenant_id, action, resource_type, resource_id, details)
        VALUES ($1, $2, $3, $4, $5)`,
       [
-        params.id,
+        id,
         'deleted',
         'tenant',
-        params.id,
+        id,
         JSON.stringify({ soft_delete: true }),
       ]
     )

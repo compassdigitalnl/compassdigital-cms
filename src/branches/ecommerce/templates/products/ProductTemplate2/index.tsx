@@ -32,7 +32,7 @@ interface ProductTemplate2Props {
 
 export default function ProductTemplate2({ product }: ProductTemplate2Props) {
   const { addItem } = useCart()
-  const { showAddToCartToast } = useToast()
+  const { showToast } = useToast()
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'downloads'>('description')
   const [quantity, setQuantity] = useState(1)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
@@ -131,12 +131,10 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         stock: selectedSubscription.stockLevel || 999,
       })
 
-      showAddToCartToast({
-        emoji: firstImageUrl ? undefined : '📦',
-        image: firstImageUrl || undefined,
-        name: `${product.title} - ${selectedSubscription.label}`,
-        meta: `1× €${discountedPrice.toFixed(2)}`,
-        quantity: 1,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: `${product.title} - ${selectedSubscription.label}`,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants
@@ -152,15 +150,13 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         image: firstImageUrl || undefined,
         sku: product.sku || undefined,
         ean: product.ean || undefined,
-        stock: product.stock || 0,
+        stock: (product.stock ?? 0) || 0,
       })
 
-      showAddToCartToast({
-        emoji: firstImageUrl ? undefined : '📦',
-        image: firstImageUrl || undefined,
-        name: product.title,
-        meta: `${quantity}× €${variantPrice.toFixed(2)} = €${(variantPrice * quantity).toFixed(2)}`,
-        quantity: quantity,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: `${quantity}× ${product.title} - €${(variantPrice * quantity).toFixed(2)}`,
       })
     } else {
       // Add simple/grouped product
@@ -174,24 +170,22 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         image: firstImageUrl || undefined,
         sku: selectedProduct.sku || undefined,
         ean: selectedProduct.ean || undefined,
-        stock: selectedProduct.stock || 0,
+        stock: (selectedProduct.stock ?? 0) || 0,
         parentProductId: isGrouped ? product.id : undefined,
         parentProductTitle: isGrouped ? product.title : undefined,
       })
 
-      showAddToCartToast({
-        emoji: firstImageUrl ? undefined : '📦',
-        image: firstImageUrl || undefined,
-        name: selectedProduct.title,
-        meta: quantity > 1 ? `${quantity}× €${unitPrice.toFixed(2)} = €${(unitPrice * quantity).toFixed(2)}` : `€${unitPrice.toFixed(2)}`,
-        quantity: quantity,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: quantity > 1 ? `${quantity}× ${selectedProduct.title} - €${(unitPrice * quantity).toFixed(2)}` : `${selectedProduct.title} - €${unitPrice.toFixed(2)}`,
       })
     }
   }
 
   const minQty = selectedProduct.minOrderQuantity || 1
   const multiple = selectedProduct.orderMultiple || 1
-  const maxQty = selectedProduct.maxOrderQuantity || selectedProduct.stock || 999
+  const maxQty = selectedProduct.maxOrderQuantity || ((selectedProduct.stock ?? 0) ?? 999)
 
   const toggleAccordion = (section: string) => {
     setAccordionOpen(accordionOpen === section ? null : section)
@@ -300,7 +294,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 marginBottom: '8px',
               }}
             >
-              {product.brand}
+              {typeof product.brand === 'object' ? (product.brand as any).name : product.brand}
             </div>
           )}
 
@@ -610,7 +604,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
           </div>
 
           {/* Stock */}
-          {selectedProduct.trackStock && selectedProduct.stock !== undefined && (
+          {selectedProduct.trackStock && (selectedProduct.stock ?? 0) !== undefined && (
             <div
               style={{
                 display: 'flex',
@@ -618,7 +612,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 gap: '6px',
                 marginBottom: '16px',
                 padding: '10px',
-                background: selectedProduct.stock > 0 ? '#F0FDF4' : '#FEF2F2',
+                background: (selectedProduct.stock ?? 0) > 0 ? '#F0FDF4' : '#FEF2F2',
                 borderRadius: '6px',
               }}
             >
@@ -627,18 +621,18 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  background: selectedProduct.stock > 0 ? '#22C55E' : 'var(--color-error)',
+                  background: (selectedProduct.stock ?? 0) > 0 ? '#22C55E' : 'var(--color-error)',
                 }}
               />
               <span
                 style={{
                   fontSize: '13px',
                   fontWeight: 600,
-                  color: selectedProduct.stock > 0 ? '#166534' : '#991B1B',
+                  color: (selectedProduct.stock ?? 0) > 0 ? '#166534' : '#991B1B',
                 }}
               >
-                {selectedProduct.stock > 0
-                  ? `${selectedProduct.stock} in stock`
+                {(selectedProduct.stock ?? 0) > 0
+                  ? `${(selectedProduct.stock ?? 0)} in stock`
                   : 'Out of stock'}
               </span>
             </div>
@@ -647,19 +641,19 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
           {/* Add to Cart Button */}
           <button
             onClick={handleAddToCart}
-            disabled={selectedProduct.stock === 0}
+            disabled={(selectedProduct.stock ?? 0) === 0}
             style={{
               width: '100%',
               minHeight: '48px',
               padding: '14px',
-              background: selectedProduct.stock === 0 ? '#D1D5DB' : 'var(--color-primary)',
+              background: (selectedProduct.stock ?? 0) === 0 ? '#D1D5DB' : 'var(--color-primary)',
               color: 'white',
               border: 'none',
               borderRadius: '8px',
               fontSize: '15px',
               fontWeight: 700,
               fontFamily: 'var(--font-body)',
-              cursor: selectedProduct.stock === 0 ? 'not-allowed' : 'pointer',
+              cursor: (selectedProduct.stock ?? 0) === 0 ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -794,7 +788,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                         Key Features
                       </h3>
                       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                        {product.features.map((feature, idx) => (
+                        {product.features.map((feature: any, idx: number) => (
                           <li
                             key={idx}
                             style={{
@@ -1170,7 +1164,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   marginBottom: '12px',
                 }}
               >
-                {product.brand}
+                {typeof product.brand === 'object' ? (product.brand as any).name : product.brand}
               </div>
             )}
 
@@ -1478,7 +1472,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
             </div>
 
             {/* Stock */}
-            {selectedProduct.trackStock && selectedProduct.stock !== undefined && (
+            {selectedProduct.trackStock && (selectedProduct.stock ?? 0) !== undefined && (
               <div
                 style={{
                   display: 'flex',
@@ -1486,7 +1480,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   gap: '8px',
                   marginBottom: '24px',
                   padding: '12px',
-                  background: selectedProduct.stock > 0 ? '#F0FDF4' : '#FEF2F2',
+                  background: (selectedProduct.stock ?? 0) > 0 ? '#F0FDF4' : '#FEF2F2',
                   borderRadius: '8px',
                 }}
               >
@@ -1495,18 +1489,18 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     width: '8px',
                     height: '8px',
                     borderRadius: '50%',
-                    background: selectedProduct.stock > 0 ? '#22C55E' : 'var(--color-error)',
+                    background: (selectedProduct.stock ?? 0) > 0 ? '#22C55E' : 'var(--color-error)',
                   }}
                 />
                 <span
                   style={{
                     fontSize: '14px',
                     fontWeight: 600,
-                    color: selectedProduct.stock > 0 ? '#166534' : '#991B1B',
+                    color: (selectedProduct.stock ?? 0) > 0 ? '#166534' : '#991B1B',
                   }}
                 >
-                  {selectedProduct.stock > 0
-                    ? `${selectedProduct.stock} in stock`
+                  {(selectedProduct.stock ?? 0) > 0
+                    ? `${(selectedProduct.stock ?? 0)} in stock`
                     : 'Out of stock'}
                 </span>
               </div>
@@ -1515,18 +1509,18 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              disabled={selectedProduct.stock === 0}
+              disabled={(selectedProduct.stock ?? 0) === 0}
               style={{
                 width: '100%',
                 padding: '18px',
-                background: selectedProduct.stock === 0 ? '#D1D5DB' : 'var(--color-primary)',
+                background: (selectedProduct.stock ?? 0) === 0 ? '#D1D5DB' : 'var(--color-primary)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',
                 fontSize: '16px',
                 fontWeight: 700,
                 fontFamily: 'var(--font-body)',
-                cursor: selectedProduct.stock === 0 ? 'not-allowed' : 'pointer',
+                cursor: (selectedProduct.stock ?? 0) === 0 ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1704,7 +1698,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     Key Features
                   </h3>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    {product.features.map((feature, idx) => (
+                    {product.features.map((feature: any, idx: number) => (
                       <li
                         key={idx}
                         style={{
@@ -2018,18 +2012,18 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              disabled={selectedProduct.stock === 0}
+              disabled={(selectedProduct.stock ?? 0) === 0}
               style={{
                 minWidth: '120px',
                 minHeight: '44px',
                 padding: '0 20px',
-                background: selectedProduct.stock === 0 ? '#D1D5DB' : 'var(--color-primary)',
+                background: (selectedProduct.stock ?? 0) === 0 ? '#D1D5DB' : 'var(--color-primary)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '6px',
                 fontSize: '14px',
                 fontWeight: 700,
-                cursor: selectedProduct.stock === 0 ? 'not-allowed' : 'pointer',
+                cursor: (selectedProduct.stock ?? 0) === 0 ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

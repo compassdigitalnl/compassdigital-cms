@@ -5,6 +5,7 @@
 
 import { GET_ClientDeployments } from '@/branches/platform/api/clients'
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  return GET_ClientDeployments(params.id, request as any)
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  return GET_ClientDeployments(id, request as any)
 }

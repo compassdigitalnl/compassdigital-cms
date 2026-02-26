@@ -18,7 +18,7 @@ export const PricingBlockComponent: React.FC<any> = ({ heading, intro, plans }) 
         {heading && <h2 className="text-3xl font-bold mb-4 text-center">{heading}</h2>}
         {intro && <p className="text-center mb-12 max-w-2xl mx-auto text-grey-mid">{intro}</p>}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans?.map((plan, index) => (
+          {plans?.map((plan: any, index: number) => (
             <div
               key={index}
               className={`pricing-card relative p-8 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ${
@@ -46,7 +46,7 @@ export const PricingBlockComponent: React.FC<any> = ({ heading, intro, plans }) 
               )}
 
               <ul className="space-y-3 mb-8">
-                {plan.features?.map((f, i) => (
+                {plan.features?.map((f: any, i: number) => (
                   <li key={i} className="flex items-start gap-3">
                     <span
                       className="flex-shrink-0 w-5 h-5 rounded-full bg-warning flex items-center justify-center text-white text-xs font-bold"

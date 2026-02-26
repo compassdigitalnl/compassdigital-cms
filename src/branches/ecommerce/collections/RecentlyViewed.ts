@@ -18,7 +18,7 @@ export const RecentlyViewed: CollectionConfig = {
     read: ({ req: { user } }) => {
       // Admins can read all, users can only read their own views
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         user: {
           equals: user.id,
@@ -30,7 +30,7 @@ export const RecentlyViewed: CollectionConfig = {
     delete: ({ req: { user } }) => {
       // Users can delete their own history, admins can delete all
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         user: {
           equals: user.id,

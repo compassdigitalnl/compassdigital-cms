@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
-import type { Theme } from '@/payload-types'
+import type { Theme1 } from '@/payload-types'
 
 type ThemeProviderProps = {
-  theme: Theme | null
+  theme: Theme1 | null
   children: React.ReactNode
 }
 

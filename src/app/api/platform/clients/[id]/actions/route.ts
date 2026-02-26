@@ -10,17 +10,18 @@ import {
 } from '@/branches/platform/api/clients'
 import { NextResponse } from 'next/server'
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const body = await request.json()
   const action = body.action
 
   switch (action) {
     case 'suspend':
-      return POST_SuspendClient(params.id)
+      return POST_SuspendClient(id)
     case 'activate':
-      return POST_ActivateClient(params.id)
+      return POST_ActivateClient(id)
     case 'redeploy':
-      return POST_RedeployClient(params.id)
+      return POST_RedeployClient(id)
     default:
       return NextResponse.json(
         { success: false, error: `Unknown action: ${action}` },

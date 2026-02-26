@@ -7,14 +7,17 @@
 
 import { GET_ClientById, PATCH_Client, DELETE_Client } from '@/branches/platform/api/clients'
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  return GET_ClientById(params.id)
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  return GET_ClientById(id)
 }
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  return PATCH_Client(params.id, request as any)
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  return PATCH_Client(id, request as any)
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  return DELETE_Client(params.id)
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  return DELETE_Client(id)
 }

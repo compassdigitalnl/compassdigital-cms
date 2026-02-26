@@ -11,8 +11,9 @@ import type { ConstructionProject } from '@/payload-types'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { ReviewCard, ServiceCard } from '@/branches/construction/components'
+import { ServiceCard } from '@/branches/construction/components'
 import { isFeatureEnabled } from '@/lib/features'
+import { serializeLexical } from '@/utilities/serializeLexical'
 
 interface ProjectDetailPageProps {
   params: Promise<{
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: ProjectDetailPageProps): Prom
 
   return {
     title: `${project.title} - Onze Projecten`,
-    description: project.shortDescription || project.description?.substring(0, 160),
+    description: project.shortDescription,
   }
 }
 
@@ -72,12 +73,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
   // Get image URLs
   const beforeImageUrl =
-    typeof project.beforeImage === 'object' && project.beforeImage !== null
-      ? project.beforeImage.url
+    project.beforeAfter?.before && typeof project.beforeAfter.before === 'object' && project.beforeAfter.before !== null
+      ? project.beforeAfter.before.url
       : null
   const afterImageUrl =
-    typeof project.afterImage === 'object' && project.afterImage !== null
-      ? project.afterImage.url
+    project.beforeAfter?.after && typeof project.beforeAfter.after === 'object' && project.beforeAfter.after !== null
+      ? project.beforeAfter.after.url
       : null
   const featuredImageUrl =
     typeof project.featuredImage === 'object' && project.featuredImage !== null
@@ -85,12 +86,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       : null
 
   // Get related data
-  const serviceTitle = typeof project.service === 'object' && project.service !== null ? project.service.title : null
-  const testimonial = typeof project.testimonial === 'object' && project.testimonial !== null ? project.testimonial : null
+  const categoryData = typeof project.category === 'object' && project.category !== null ? project.category : null
+  const testimonial = project.testimonial
 
-  // Format completion date
-  const formattedDate = project.completionDate
-    ? new Date(project.completionDate).toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })
+  // Format year
+  const formattedDate = project.year
+    ? `${project.year}`
     : null
 
   return (
@@ -100,14 +101,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Category Badge */}
-            {project.category && (
+            {categoryData && (
               <div className="inline-block px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm mb-4">
-                {project.category === 'new-construction' && 'Nieuwbouw'}
-                {project.category === 'renovation' && 'Renovatie'}
-                {project.category === 'extension' && 'Aanbouw'}
-                {project.category === 'restoration' && 'Restauratie'}
-                {project.category === 'commercial' && 'Zakelijk'}
-                {project.category === 'other' && 'Overig'}
+                {categoryData.title}
               </div>
             )}
 
@@ -133,12 +129,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   {formattedDate}
                 </div>
               )}
-              {serviceTitle && (
+              {categoryData && (
                 <div className="flex items-center gap-2">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
-                  {serviceTitle}
+                  {categoryData.title}
                 </div>
               )}
             </div>
@@ -209,79 +205,122 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2">
-              {/* Description */}
-              {project.description && (
+              {/* Long Description */}
+              {project.longDescription && (
                 <div className="mb-12">
                   <h2 className="text-2xl font-bold mb-4">Over dit project</h2>
-                  <p className="text-lg text-gray-700 whitespace-pre-line">{project.description}</p>
+                  <div className="prose prose-lg max-w-none">
+                    {serializeLexical({ nodes: project.longDescription })}
+                  </div>
                 </div>
               )}
 
-              {/* Project Details */}
-              {project.details && project.details.length > 0 && (
+              {/* Project Details - Built from available fields */}
+              {(project.location || project.year || project.size || project.duration || project.budget || testimonial?.clientName) && (
                 <div className="mb-12">
                   <h2 className="text-2xl font-bold mb-6">Projectdetails</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {project.details.map((detail, index) => (
-                      <div key={index} className="bg-gray-50 p-6 rounded-xl">
-                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">
-                          {detail.label}
-                        </h3>
-                        <p className="text-lg font-medium text-gray-900">{detail.value}</p>
+                    {project.location && (
+                      <div className="bg-gray-50 p-6 rounded-xl">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">Locatie</h3>
+                        <p className="text-lg font-medium text-gray-900">{project.location}</p>
                       </div>
-                    ))}
+                    )}
+                    {project.year && (
+                      <div className="bg-gray-50 p-6 rounded-xl">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">Jaar</h3>
+                        <p className="text-lg font-medium text-gray-900">{project.year}</p>
+                      </div>
+                    )}
+                    {project.size && (
+                      <div className="bg-gray-50 p-6 rounded-xl">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">Oppervlakte</h3>
+                        <p className="text-lg font-medium text-gray-900">{project.size}</p>
+                      </div>
+                    )}
+                    {project.duration && (
+                      <div className="bg-gray-50 p-6 rounded-xl">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">Doorlooptijd</h3>
+                        <p className="text-lg font-medium text-gray-900">{project.duration}</p>
+                      </div>
+                    )}
+                    {project.budget && (
+                      <div className="bg-gray-50 p-6 rounded-xl">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">Budget</h3>
+                        <p className="text-lg font-medium text-gray-900">{project.budget}</p>
+                      </div>
+                    )}
+                    {testimonial?.clientName && (
+                      <div className="bg-gray-50 p-6 rounded-xl">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">Klant</h3>
+                        <p className="text-lg font-medium text-gray-900">{testimonial.clientName}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
 
-              {/* Project Highlights */}
-              {project.highlights && project.highlights.length > 0 && (
+              {/* Result/Highlights */}
+              {project.result && (
                 <div className="mb-12">
-                  <h2 className="text-2xl font-bold mb-6">Highlights</h2>
-                  <div className="space-y-3">
-                    {project.highlights.map((highlight, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <svg
-                          className="flex-shrink-0 w-6 h-6 text-green-600 mt-0.5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span className="text-lg text-gray-800">{highlight.highlight}</span>
-                      </div>
-                    ))}
+                  <h2 className="text-2xl font-bold mb-6">Resultaat</h2>
+                  <div className="bg-green-50 border-l-4 border-green-600 p-6 rounded-r-xl">
+                    <div className="prose prose-lg max-w-none">
+                      {serializeLexical({ nodes: project.result })}
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* Challenges & Solutions */}
-              {project.challenges && project.challenges.length > 0 && (
+              {/* Challenge & Solution */}
+              {(project.challenge || project.solution) && (
                 <div className="mb-12">
-                  <h2 className="text-2xl font-bold mb-6">Uitdagingen & Oplossingen</h2>
-                  <div className="space-y-6">
-                    {project.challenges.map((item, index) => (
-                      <div key={index} className="border-l-4 border-gray-900 pl-6">
+                  <h2 className="text-2xl font-bold mb-6">Uitdaging & Oplossing</h2>
+                  <div className="border-l-4 border-gray-900 pl-6 space-y-4">
+                    {project.challenge && (
+                      <>
                         <h3 className="text-lg font-semibold mb-2">Uitdaging:</h3>
-                        <p className="text-gray-700 mb-3">{item.challenge}</p>
+                        <div className="prose prose-lg max-w-none mb-4">
+                          {serializeLexical({ nodes: project.challenge })}
+                        </div>
+                      </>
+                    )}
+                    {project.solution && (
+                      <>
                         <h3 className="text-lg font-semibold mb-2">Oplossing:</h3>
-                        <p className="text-gray-700">{item.solution}</p>
-                      </div>
-                    ))}
+                        <div className="prose prose-lg max-w-none">
+                          {serializeLexical({ nodes: project.solution })}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
 
               {/* Testimonial */}
-              {testimonial && (
+              {testimonial?.quote && (
                 <div className="mb-12">
                   <h2 className="text-2xl font-bold mb-6">Wat de klant zegt</h2>
-                  <ReviewCard
-                    review={testimonial}
-                    variant="featured"
-                    showProject={false}
-                  />
+                  <div className="bg-gray-50 rounded-2xl p-8 border-l-4 border-gray-900">
+                    <svg
+                      className="w-10 h-10 text-gray-400 mb-4"
+                      fill="currentColor"
+                      viewBox="0 0 32 32"
+                    >
+                      <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14H8c0-1.1.9-2 2-2V8zm14 0c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8z" />
+                    </svg>
+                    <p className="text-xl text-gray-800 italic mb-6">"{testimonial.quote}"</p>
+                    {(testimonial.clientName || testimonial.clientRole) && (
+                      <div className="border-t border-gray-200 pt-4">
+                        {testimonial.clientName && (
+                          <p className="font-semibold text-gray-900">{testimonial.clientName}</p>
+                        )}
+                        {testimonial.clientRole && (
+                          <p className="text-sm text-gray-600">{testimonial.clientRole}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -304,7 +343,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </div>
 
                 {/* Project Stats */}
-                {(project.budget || project.duration || project.squareMeters) && (
+                {(project.budget || project.duration || project.size) && (
                   <div className="bg-gray-50 p-6 rounded-2xl space-y-4">
                     <h3 className="text-lg font-bold mb-4">Project informatie</h3>
 
@@ -315,10 +354,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                       </div>
                     )}
 
-                    {project.squareMeters && (
+                    {project.size && (
                       <div>
                         <p className="text-sm text-gray-500 mb-1">Oppervlakte</p>
-                        <p className="text-lg font-semibold">{project.squareMeters} m²</p>
+                        <p className="text-lg font-semibold">{project.size}</p>
                       </div>
                     )}
 

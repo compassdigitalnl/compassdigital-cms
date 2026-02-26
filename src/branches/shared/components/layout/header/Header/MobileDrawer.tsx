@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme, Settings } from '@/payload-types'
+import type { Header, Theme1, Settings } from '@/payload-types'
 import { X, ChevronRight, Phone, Mail, Globe } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
@@ -11,7 +11,7 @@ type Props = {
   isOpen: boolean
   onClose: () => void
   header: Header
-  theme: Theme | null
+  theme: Theme1 | null
   settings?: Settings | null
 }
 
@@ -124,7 +124,7 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
               <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
                 Speciale Items
               </div>
-              {specialItems.map((item, index) => (
+              {specialItems.map((item: any, index: number) => (
                 <Link
                   key={index}
                   href={item.url || '#'}
@@ -151,7 +151,7 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
               <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
                 Navigatie
               </div>
-              {navItems.map((item) => (
+              {navItems.map((item: any) => (
                 <div key={item.id}>
                   <CMSLink
                     {...(item.type === 'page' ? { reference: item.page } : { url: item.url })}
@@ -164,7 +164,7 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
                   </CMSLink>
                   {item.children && item.children.length > 0 && (
                     <div className="bg-gray-50">
-                      {item.children.map((child) => (
+                      {item.children.map((child: any) => (
                         <CMSLink
                           key={child.id}
                           {...(typeof child.page === 'object' && 'slug' in child.page ? { reference: child.page } : {})}

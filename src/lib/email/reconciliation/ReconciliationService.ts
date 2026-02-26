@@ -395,13 +395,13 @@ export class ReconciliationService {
 
     // Get all lists from Listmonk (filtered by tenant tag)
     const listmonkResponse = await this.listmonk.listLists({ page: 1, per_page: 1000 })
-    const listmonkLists = listmonkResponse.data.results.filter((list) =>
+    const listmonkLists = listmonkResponse.data.results.filter((list: any) =>
       list.tags?.includes(`tenant:${tenantId}`),
     )
 
     // Build maps
-    const payloadMap = new Map(payloadLists.docs.map((list) => [list.name, list]))
-    const listmonkMap = new Map(listmonkLists.map((list) => [list.name, list]))
+    const payloadMap = new Map(payloadLists.docs.map((list: any) => [list.name, list]))
+    const listmonkMap = new Map(listmonkLists.map((list: any) => [list.name, list]))
 
     const onlyInPayload: string[] = []
     const onlyInListmonk: number[] = []

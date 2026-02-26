@@ -15,9 +15,26 @@
 import payload from 'payload'
 
 // Placeholder types for when jest is not installed
+const mockExpect = {
+  toBe: (...args: any[]) => mockExpect,
+  toEqual: (...args: any[]) => mockExpect,
+  toMatch: (...args: any[]) => mockExpect,
+  toContain: (...args: any[]) => mockExpect,
+  toBeDefined: (...args: any[]) => mockExpect,
+  toBeGreaterThan: (...args: any[]) => mockExpect,
+  toBeLessThan: (...args: any[]) => mockExpect,
+  toBeGreaterThanOrEqual: (...args: any[]) => mockExpect,
+  not: {
+    toBe: (...args: any[]) => mockExpect,
+    toEqual: (...args: any[]) => mockExpect,
+    toMatch: (...args: any[]) => mockExpect,
+    toContain: (...args: any[]) => mockExpect,
+    toBeDefined: (...args: any[]) => mockExpect,
+  },
+}
 const describe = (...args: any[]) => {}
 const it = (...args: any[]) => {}
-const expect = (...args: any[]) => {}
+const expect = (...args: any[]) => mockExpect
 const beforeAll = (...args: any[]) => {}
 
 describe('CSRF (Cross-Site Request Forgery) Tests', () => {
@@ -25,33 +42,33 @@ describe('CSRF (Cross-Site Request Forgery) Tests', () => {
   let testTenantId: string
 
   beforeAll(async () => {
-    if (!payload.isInitialized) {
-      await payload.init({
+    if (!(payload as any).isInitialized) {
+      await (payload as any).init({
         secret: process.env.PAYLOAD_SECRET || 'test-secret',
         local: true,
       })
     }
 
     // Create test tenant
-    const tenant = await payload.create({
-      collection: 'tenants',
+    const tenant = await (payload as any).create({
+      collection: 'tenants' as any,
       data: {
         name: 'CSRF Test Tenant',
         email: 'csrf-test@example.com',
       },
     })
-    testTenantId = tenant.id
+    testTenantId = tenant.id as string
 
     // Get a valid API key for testing
-    const apiKeyDoc = await payload.create({
-      collection: 'email-api-keys',
+    const apiKeyDoc = await (payload as any).create({
+      collection: 'email-api-keys' as any,
       data: {
         name: 'CSRF Test Key',
-        tenant: testTenantId,
-        scopes: ['subscribers:read', 'subscribers:write'],
+        tenant: testTenantId as any,
+        scopes: ['subscribers:read' as any, 'subscribers:create' as any],
       },
     })
-    validApiKey = apiKeyDoc.key || 'test-key'
+    validApiKey = (apiKeyDoc as any).key || 'test-key'
   })
 
   describe('API Key Authentication', () => {

@@ -13,6 +13,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { ServiceCard, ProjectCard } from '@/branches/construction/components'
 import { isFeatureEnabled } from '@/lib/features'
+import { serializeLexical } from '@/utilities/serializeLexical'
 
 interface ServiceDetailPageProps {
   params: Promise<{
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
 
   return {
     title: `${service.title} - Onze Diensten`,
-    description: service.shortDescription || service.description?.substring(0, 160),
+    description: service.shortDescription,
   }
 }
 
@@ -83,12 +84,10 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
   })
 
   // Get image URLs
-  const featuredImageUrl =
-    typeof service.featuredImage === 'object' && service.featuredImage !== null
-      ? service.featuredImage.url
+  const heroImageUrl =
+    typeof service.heroImage === 'object' && service.heroImage !== null
+      ? service.heroImage.url
       : null
-  const iconUrl =
-    typeof service.icon === 'object' && service.icon !== null ? service.icon.url : null
 
   return (
     <div className="min-h-screen">
@@ -97,15 +96,9 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Icon */}
-            {iconUrl && (
-              <div className="mb-6">
-                <Image
-                  src={iconUrl}
-                  alt={service.title}
-                  width={80}
-                  height={80}
-                  className="bg-white p-4 rounded-lg"
-                />
+            {service.icon && (
+              <div className="mb-6 text-6xl">
+                {service.icon}
               </div>
             )}
 
@@ -117,22 +110,25 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               <p className="text-xl text-gray-300 mb-6">{service.shortDescription}</p>
             )}
 
-            {/* Service Type Badge */}
-            {service.serviceType && (
-              <div className="inline-block px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
-                {service.serviceType === 'residential' && 'Particulier'}
-                {service.serviceType === 'commercial' && 'Zakelijk'}
-                {service.serviceType === 'both' && 'Particulier & Zakelijk'}
+            {/* Service Types Badge */}
+            {service.serviceTypes && service.serviceTypes.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {service.serviceTypes.map((type, index) => (
+                  <div key={index} className="inline-block px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                    {type.icon && <span className="mr-2">{type.icon}</span>}
+                    {type.name}
+                  </div>
+                ))}
               </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Featured Image */}
-      {featuredImageUrl && (
+      {/* Hero Image */}
+      {heroImageUrl && (
         <div className="relative w-full h-[400px] md:h-[500px]">
-          <Image src={featuredImageUrl} alt={service.title} fill className="object-cover" />
+          <Image src={heroImageUrl} alt={service.title} fill className="object-cover" />
         </div>
       )}
 
@@ -142,11 +138,13 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2">
-              {/* Description */}
-              {service.description && (
-                <div className="prose prose-lg max-w-none mb-12">
+              {/* Long Description */}
+              {service.longDescription && (
+                <div className="mb-12">
                   <h2 className="text-2xl font-bold mb-4">Over deze dienst</h2>
-                  <p className="text-gray-700 whitespace-pre-line">{service.description}</p>
+                  <div className="prose prose-lg max-w-none">
+                    {serializeLexical({ nodes: service.longDescription })}
+                  </div>
                 </div>
               )}
 
@@ -201,7 +199,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               {service.usps && service.usps.length > 0 && (
                 <div className="mb-12 p-6 bg-blue-50 rounded-2xl">
                   <h2 className="text-2xl font-bold mb-6">Waarom voor ons kiezen?</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {service.usps.map((usp, index) => (
                       <div key={index} className="flex items-start gap-3">
                         <svg
@@ -217,7 +215,10 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                           />
                         </svg>
-                        <span className="text-gray-800 font-medium">{usp.usp}</span>
+                        <div>
+                          <p className="text-gray-900 font-semibold mb-1">{usp.title}</p>
+                          <p className="text-gray-600 text-sm">{usp.description}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -225,17 +226,17 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               )}
 
               {/* FAQ */}
-              {service.faqs && service.faqs.length > 0 && (
+              {service.faq && service.faq.length > 0 && (
                 <div className="mb-12">
                   <h2 className="text-2xl font-bold mb-6">Veelgestelde vragen</h2>
                   <div className="space-y-4">
-                    {service.faqs.map((faq, index) => (
+                    {service.faq.map((faqItem, index) => (
                       <details
                         key={index}
                         className="group bg-white border border-gray-200 rounded-lg overflow-hidden"
                       >
                         <summary className="flex justify-between items-center p-4 cursor-pointer font-semibold text-gray-900 hover:bg-gray-50">
-                          {faq.question}
+                          {faqItem.question}
                           <svg
                             className="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
                             fill="none"
@@ -250,7 +251,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                             />
                           </svg>
                         </summary>
-                        <div className="p-4 pt-0 text-gray-600">{faq.answer}</div>
+                        <div className="p-4 pt-0 text-gray-600">{faqItem.answer}</div>
                       </details>
                     ))}
                   </div>
@@ -274,27 +275,6 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                     Offerte aanvragen
                   </a>
                 </div>
-
-                {/* Price Range */}
-                {service.priceRange && (
-                  <div className="bg-gray-50 p-6 rounded-2xl">
-                    <h3 className="text-lg font-bold mb-2">Indicatieve prijzen</h3>
-                    <p className="text-2xl font-bold text-gray-900">{service.priceRange}</p>
-                    <p className="text-sm text-gray-500 mt-2">
-                      *Prijzen zijn indicatief en afhankelijk van uw specifieke situatie
-                    </p>
-                  </div>
-                )}
-
-                {/* Typical Duration */}
-                {service.typicalDuration && (
-                  <div className="bg-gray-50 p-6 rounded-2xl">
-                    <h3 className="text-lg font-bold mb-2">Gemiddelde doorlooptijd</h3>
-                    <p className="text-xl font-semibold text-gray-900">
-                      {service.typicalDuration}
-                    </p>
-                  </div>
-                )}
 
                 {/* Contact Info */}
                 <div className="border-2 border-gray-200 p-6 rounded-2xl">

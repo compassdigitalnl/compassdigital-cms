@@ -23,7 +23,7 @@ export const EmailSubscribers: CollectionConfig = {
     // Tenant isolation: users can only access their tenant's subscribers
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'super-admin') return true
+      if ('role' in user && user.role === 'super-admin') return true
       return {
         tenant: {
           equals: user.tenant,
@@ -32,15 +32,15 @@ export const EmailSubscribers: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
   },
   fields: [
@@ -341,7 +341,7 @@ export const EmailSubscribers: CollectionConfig = {
         if (data?.name) {
           data.name = data.name
             .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(' ')
         }
 

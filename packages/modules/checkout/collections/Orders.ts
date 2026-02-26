@@ -19,7 +19,7 @@ export const Orders: CollectionConfig = {
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       // Customers can only read their own orders
       return {
         customer: {
@@ -28,8 +28,8 @@ export const Orders: CollectionConfig = {
       }
     },
     create: ({ req: { user } }) => !!user || true, // Allow guest orders
-    update: ({ req: { user } }) => user?.role === 'admin',
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    update: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
+    delete: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
   },
   fields: [
     {

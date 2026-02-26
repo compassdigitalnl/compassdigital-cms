@@ -17,7 +17,7 @@ export const Users: CollectionConfig = {
     create: () => true,
     update: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       // Users can only update themselves
       return {
         id: {
@@ -25,7 +25,7 @@ export const Users: CollectionConfig = {
         },
       }
     },
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
   },
   fields: [
     {
@@ -59,7 +59,7 @@ export const Users: CollectionConfig = {
         },
       ],
       access: {
-        update: ({ req: { user } }) => user?.role === 'admin',
+        update: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
       },
     },
     {

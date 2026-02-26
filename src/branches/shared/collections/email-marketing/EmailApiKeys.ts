@@ -41,7 +41,7 @@ export const EmailApiKeys: CollectionConfig = {
     // Tenant isolation: users can only access their tenant's API keys
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'super-admin') return true
+      if ('role' in user && user.role === 'super-admin') return true
       return {
         tenant: {
           equals: user.tenant,
@@ -50,15 +50,15 @@ export const EmailApiKeys: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
   },
   fields: [

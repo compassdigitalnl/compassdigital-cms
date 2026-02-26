@@ -16,7 +16,7 @@ export const Customers: CollectionConfig = {
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       // Customers can only read themselves
       return {
         id: {
@@ -27,14 +27,14 @@ export const Customers: CollectionConfig = {
     create: () => true, // Open registration (can be controlled via module config)
     update: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       return {
         id: {
           equals: user.id,
         },
       }
     },
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
   },
   fields: [
     {

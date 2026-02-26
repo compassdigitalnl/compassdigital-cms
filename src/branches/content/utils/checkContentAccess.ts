@@ -42,7 +42,7 @@ export function checkContentAccess(post: BlogPost, user: User | null): ContentAc
   }
 
   // Check for active subscription with premium access
-  const hasValidSubscription = user.subscriptions.some((sub) => {
+  const hasValidSubscription = user.subscriptions.some((sub: any) => {
     // Subscription can be string ID or populated object
     if (typeof sub === 'string') {
       // Cannot check plan details with just ID, skip
@@ -71,7 +71,7 @@ export function checkContentAccess(post: BlogPost, user: User | null): ContentAc
   }
 
   // User has subscription but it doesn't allow premium content
-  const hasActiveSubscription = user.subscriptions.some((sub) => {
+  const hasActiveSubscription = user.subscriptions.some((sub: any) => {
     if (typeof sub === 'string') return false
     const subscription = sub as UserSubscription
     return subscription.status === 'active' || subscription.status === 'trialing'
@@ -111,7 +111,7 @@ export function userHasPremiumAccess(user: User | null): boolean {
     return false
   }
 
-  return user.subscriptions.some((sub) => {
+  return user.subscriptions.some((sub: any) => {
     if (typeof sub === 'string') return false
 
     const subscription = sub as UserSubscription

@@ -19,7 +19,7 @@ export const Returns: CollectionConfig = {
     read: ({ req: { user } }) => {
       // Admins can read all, users can only read their own returns
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         customer: {
           equals: user.id,
@@ -30,7 +30,7 @@ export const Returns: CollectionConfig = {
     update: ({ req: { user } }) => {
       // Users can update their own pending returns, admins can update all
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         customer: {
           equals: user.id,
@@ -42,7 +42,7 @@ export const Returns: CollectionConfig = {
     },
     delete: ({ req: { user } }) => {
       // Only admins can delete returns
-      return user?.roles?.includes('admin') || false
+      return (user && 'roles' in user && user.roles?.includes('admin')) || false
     },
   },
   fields: [

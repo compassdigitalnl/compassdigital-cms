@@ -130,17 +130,17 @@ export class EmailReconciler {
       // Step 1: Reconcile subscribers
       console.log('[Reconciliation] Step 1/3: Reconciling subscribers...')
       subscriberResult = await this.reconcileSubscribers(tenantId)
-      errors.push(...subscriberResult.errors.map(e => ({ type: 'subscriber' as const, operation: 'sync', id: 'unknown', error: e })))
+      errors.push(...subscriberResult.errors.map((e: any) => ({ type: 'subscriber' as const, operation: 'sync', id: 'unknown', error: e })))
 
       // Step 2: Reconcile lists
       console.log('[Reconciliation] Step 2/3: Reconciling lists...')
       listResult = await this.reconcileLists(tenantId)
-      errors.push(...listResult.errors.map(e => ({ type: 'list' as const, operation: 'sync', id: 'unknown', error: e })))
+      errors.push(...listResult.errors.map((e: any) => ({ type: 'list' as const, operation: 'sync', id: 'unknown', error: e })))
 
       // Step 3: Reconcile campaigns
       console.log('[Reconciliation] Step 3/3: Reconciling campaigns...')
       campaignResult = await this.reconcileCampaigns(tenantId)
-      errors.push(...campaignResult.errors.map(e => ({ type: 'campaign' as const, operation: 'sync', id: 'unknown', error: e })))
+      errors.push(...campaignResult.errors.map((e: any) => ({ type: 'campaign' as const, operation: 'sync', id: 'unknown', error: e })))
 
       const endTime = new Date()
       const duration = endTime.getTime() - startTime.getTime()

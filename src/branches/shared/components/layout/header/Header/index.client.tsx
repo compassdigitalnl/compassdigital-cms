@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/utilities/cn'
-import type { Header as HeaderType, Theme } from '@/payload-types'
+import type { Header as HeaderType, Theme1 } from '@/payload-types'
 
 import {
   Search,
@@ -56,7 +56,7 @@ import type { Settings } from '@/payload-types'
 
 type Props = {
   header: HeaderType
-  theme?: Theme | null
+  theme?: Theme1 | null
   settings?: Settings | null
 }
 
@@ -236,7 +236,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
               )}
 
               {/* Custom Buttons */}
-              {customButtons?.map((button, index) => {
+              {customButtons?.map((button: any, index: number) => {
                 const Icon = button.icon ? iconMap[button.icon] : null
                 const buttonStyle =
                   button.style === 'primary'

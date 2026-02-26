@@ -306,7 +306,7 @@ export const Users: CollectionConfig = {
             },
             admin: {
               description: 'De client-omgeving die bij deze gebruiker hoort',
-              condition: (data) => Array.isArray(data.roles) && data.roles.includes('editor'),
+              condition: (data: any) => Array.isArray(data.roles) && data.roles.includes('editor'),
             },
           },
         ]

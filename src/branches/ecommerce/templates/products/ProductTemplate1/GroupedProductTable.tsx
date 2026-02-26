@@ -194,7 +194,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
               const isInStock =
                 !selection.product.trackStock ||
                 selection.product.stockStatus === 'in-stock' ||
-                (selection.product.stock !== undefined && selection.product.stock > 0)
+                (selection.product.stock !== undefined && (selection.product.stock ?? 0) > 0)
 
               return (
                 <tr
@@ -262,7 +262,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                         <>
                           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                           <span className="text-sm text-green-700">
-                            {selection.product.stock ? `${selection.product.stock} stuks` : 'Op voorraad'}
+                            {(selection.product.stock ?? 0) ? `${(selection.product.stock ?? 0)} stuks` : 'Op voorraad'}
                           </span>
                         </>
                       ) : (
@@ -292,7 +292,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                         disabled={!selection.selected || !isInStock}
                         className="w-16 text-center border rounded px-2 py-1 disabled:bg-gray-100"
                         min={selection.product.minOrderQuantity || 1}
-                        max={selection.product.maxOrderQuantity || selection.product.stock}
+                        max={selection.product.maxOrderQuantity || (selection.product.stock ?? 0)}
                         step={selection.product.orderMultiple || 1}
                       />
                       <button

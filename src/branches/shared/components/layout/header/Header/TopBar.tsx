@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme } from '@/payload-types'
+import type { Header, Theme1 } from '@/payload-types'
 import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
 import {
   BadgeCheck,
@@ -45,7 +45,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 
 type Props = {
   topBar: NonNullable<Header['topBar']>
-  theme: Theme | null
+  theme: Theme1 | null
   header?: Header
 }
 
@@ -68,7 +68,7 @@ export function TopBar({ topBar, theme, header }: Props) {
       <div className={`${containerClass} mx-auto px-8 h-9 flex items-center justify-between text-xs font-medium`}>
         {/* Left Messages */}
         <div className="flex items-center gap-6">
-          {topBar.leftMessages?.map((message, index) => {
+          {topBar.leftMessages?.map((message: any, index: number) => {
             const Icon = message.icon ? iconMap[message.icon] : null
             const content = (
               <span className="flex items-center gap-1.5 whitespace-nowrap" style={{ color: textColor + '99' }}>
@@ -95,7 +95,7 @@ export function TopBar({ topBar, theme, header }: Props) {
 
         {/* Right: Links + B2B Toggle + Language Switcher */}
         <div className="flex items-center gap-1">
-          {topBar.rightLinks?.map((link, index) => (
+          {topBar.rightLinks?.map((link: any, index: number) => (
             <div key={`link-${index}`} className="flex items-center">
               {index > 0 && (
                 <div

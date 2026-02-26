@@ -19,7 +19,7 @@ export const OrderLists: CollectionConfig = {
     read: ({ req: { user } }) => {
       // Users can read their own lists, shared lists, or admins can read all
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         or: [
           {
@@ -42,7 +42,7 @@ export const OrderLists: CollectionConfig = {
     update: ({ req: { user } }) => {
       // Users can update their own lists or shared lists (with canEdit), admins can update all
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         or: [
           {
@@ -70,7 +70,7 @@ export const OrderLists: CollectionConfig = {
     delete: ({ req: { user } }) => {
       // Users can only delete their own lists, admins can delete all
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         owner: {
           equals: user.id,
@@ -144,7 +144,7 @@ export const OrderLists: CollectionConfig = {
         beforeValidate: [
           ({ req, value }) => {
             // Auto-assign current user if not set (for non-admins)
-            if (!value && req.user && !req.user.roles?.includes('admin')) {
+            if (!value && req.user && !('roles' in req.user && req.user.roles?.includes('admin'))) {
               return req.user.id
             }
             return value

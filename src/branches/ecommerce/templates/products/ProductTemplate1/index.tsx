@@ -50,7 +50,7 @@ interface ProductTemplate1Props {
 
 export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const { addItem } = useCart()
-  const { showAddToCartToast } = useToast()
+  const { showToast } = useToast()
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews' | 'downloads'>(
     'description',
   )
@@ -109,9 +109,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
     for (let i = volumeTiers.length - 1; i >= 0; i--) {
       if (qty >= volumeTiers[i].minQuantity) {
-        if (volumeTiers[i].discountPrice) return volumeTiers[i].discountPrice
+        // discountPrice doesn't exist, calculate from discountPercentage
         if (volumeTiers[i].discountPercentage) {
-          return product.price * (1 - volumeTiers[i].discountPercentage / 100)
+          return product.price * (1 - (volumeTiers[i].discountPercentage ?? 0) / 100)
         }
       }
     }
@@ -193,12 +193,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       // Show toast for grouped products
       if (addedCount > 0) {
         const tierPrice = getTierPrice(totalQty)
-        showAddToCartToast({
-          emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
-          image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-          name: product.title,
-          meta: `${addedCount}× €${tierPrice.toFixed(2)} = €${totalPrice.toFixed(2)}`,
-          quantity: addedCount,
+        showToast({
+          type: 'success',
+          title: 'Added to cart',
+          message: `${addedCount}× ${product.title} - €${totalPrice.toFixed(2)}`,
         })
       }
     } else if (isSubscription && selectedSubscription) {
@@ -224,12 +222,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         stock: selectedSubscription.stockLevel || 999,
       })
 
-      showAddToCartToast({
-        emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
-        image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-        name: `${product.title} - ${selectedSubscription.label}`,
-        meta: `1× €${discountedPrice.toFixed(2)}`,
-        quantity: 1,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: `${product.title} - ${selectedSubscription.label}`,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants
@@ -248,15 +244,13 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             : undefined,
         sku: product.sku || undefined,
         ean: product.ean || undefined,
-        stock: product.stock || 0,
+        stock: (product.stock ?? 0) || 0,
       })
 
-      showAddToCartToast({
-        emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
-        image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-        name: product.title,
-        meta: `${quantity}× €${variantPrice.toFixed(2)} = €${(variantPrice * quantity).toFixed(2)}`,
-        quantity: quantity,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: `${quantity}× ${product.title} - €${(variantPrice * quantity).toFixed(2)}`,
       })
     } else {
       // Add simple product
@@ -274,16 +268,14 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             : undefined,
         sku: product.sku || undefined,
         ean: product.ean || undefined,
-        stock: product.stock || 0,
+        stock: (product.stock ?? 0) || 0,
       })
 
       // Show toast for simple product
-      showAddToCartToast({
-        emoji: typeof product.images?.[0] === 'object' && product.images[0] !== null ? undefined : '📦',
-        image: typeof product.images?.[0] === 'object' && product.images[0] !== null ? product.images[0].url : undefined,
-        name: product.title,
-        meta: quantity > 1 ? `${quantity}× €${unitPrice.toFixed(2)} = €${(unitPrice * quantity).toFixed(2)}` : `€${unitPrice.toFixed(2)}`,
-        quantity: quantity,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: quantity > 1 ? `${quantity}× ${product.title} - €${(unitPrice * quantity).toFixed(2)}` : `${product.title} - €${unitPrice.toFixed(2)}`,
       })
     }
   }
@@ -482,7 +474,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {product.brand && (
               <div className="text-xs font-bold uppercase text-[var(--color-primary)] tracking-wider mb-2 flex items-center gap-1.5">
                 <Award className="w-[14px] h-[14px]" />
-                {product.brand}
+                {typeof product.brand === 'object' ? (product.brand as any).name : product.brand}
               </div>
             )}
 
@@ -505,10 +497,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   EAN {product.ean}
                 </span>
               )}
-              {product.packaging && (
+              {(product as any).packaging && (
                 <span className="flex items-center gap-1">
                   <Package className="w-[13px] h-[13px]" />
-                  {product.packaging}
+                  {(product as any).packaging}
                 </span>
               )}
             </div>
@@ -555,9 +547,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               </div>
 
               {/* Price Meta */}
-              {product.packaging && (
+              {(product as any).packaging && (
                 <div className="text-xs text-[var(--color-text-muted)] mb-4">
-                  {product.packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
+                  {(product as any).packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
                 </div>
               )}
 
@@ -583,12 +575,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             </div>
 
             {/* STOCK */}
-            {product.trackStock && product.stock !== undefined && product.stock > 0 && !isVariable && (
+            {product.trackStock && (product.stock ?? 0) !== undefined && (product.stock ?? 0) > 0 && !isVariable && (
               <div className="flex items-center gap-2 px-4 py-3 bg-[var(--color-success-bg)] rounded-[10px] mb-5">
                 <span className="w-2 h-2 bg-[var(--color-success)] rounded-full shrink-0" />
                 <div>
                   <div className="text-[13px] font-semibold text-[#2E7D32]">
-                    Op voorraad — {product.stock} stuks beschikbaar
+                    Op voorraad — {(product.stock ?? 0)} stuks beschikbaar
                   </div>
                   {product.leadTime && (
                     <div className="text-xs text-[#558B2F] font-normal">
@@ -817,9 +809,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               )}
             </div>
 
-            {product.packaging && (
+            {(product as any).packaging && (
               <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
-                {product.packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
+                {(product as any).packaging} · {product.taxClass === 'high' ? 'incl.' : 'excl.'} BTW
               </div>
             )}
 
@@ -845,12 +837,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           </div>
 
           {/* STOCK - Mobile */}
-          {product.trackStock && product.stock !== undefined && product.stock > 0 && !isVariable && (
+          {product.trackStock && (product.stock ?? 0) !== undefined && (product.stock ?? 0) > 0 && !isVariable && (
             <div className="flex items-center gap-2 p-3 bg-[var(--color-success-bg)] rounded-[10px] mb-4 text-[13px]">
               <span className="w-1.5 h-1.5 bg-[var(--color-success)] rounded-full shrink-0" />
               <div className="flex-1">
                 <div className="font-semibold text-[#2E7D32]">
-                  Op voorraad — {product.stock} stuks
+                  Op voorraad — {(product.stock ?? 0)} stuks
                 </div>
               </div>
               <Truck className="w-4 h-4 text-[#2E7D32]" />

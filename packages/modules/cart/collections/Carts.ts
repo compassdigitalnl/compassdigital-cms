@@ -25,7 +25,7 @@ export const Carts: CollectionConfig = {
           },
         }
       }
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       // Customers can only read their own carts
       return {
         customer: {
@@ -36,7 +36,7 @@ export const Carts: CollectionConfig = {
     create: () => true, // Anyone can create a cart
     update: ({ req: { user } }) => {
       if (!user) return true // Guest carts
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       return {
         customer: {
           equals: user.id,
@@ -44,7 +44,7 @@ export const Carts: CollectionConfig = {
       }
     },
     delete: ({ req: { user } }) => {
-      if (user?.role === 'admin') return true
+      if (user && 'role' in user && user.role === 'admin') return true
       if (!user) return false
       return {
         customer: {

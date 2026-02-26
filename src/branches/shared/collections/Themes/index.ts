@@ -108,7 +108,7 @@ export const Themes: CollectionConfig = {
                     description: 'Hex kleur (bijv. #E91E63 voor Beauty, #C9A84C voor Horeca)',
                     placeholder: '#00897B',
                   },
-                  validate: (value) => {
+                  validate: (value: any) => {
                     if (!value) return true // Optional field
                     return /^#[0-9A-F]{6}$/i.test(value) || 'Moet geldige hex kleur zijn (bijv. #E91E63)'
                   },
@@ -120,7 +120,7 @@ export const Themes: CollectionConfig = {
                   admin: {
                     placeholder: '#26A69A',
                   },
-                  validate: (value) => {
+                  validate: (value: any) => {
                     if (!value) return true
                     return /^#[0-9A-F]{6}$/i.test(value) || 'Moet geldige hex kleur zijn'
                   },
@@ -132,7 +132,7 @@ export const Themes: CollectionConfig = {
                   admin: {
                     placeholder: '#00695C',
                   },
-                  validate: (value) => {
+                  validate: (value: any) => {
                     if (!value) return true
                     return /^#[0-9A-F]{6}$/i.test(value) || 'Moet geldige hex kleur zijn'
                   },
@@ -152,7 +152,7 @@ export const Themes: CollectionConfig = {
                     description: 'Hex kleur (bijv. #1a1a2e voor Beauty, #2C1810 voor Horeca)',
                     placeholder: '#0A1628',
                   },
-                  validate: (value) => {
+                  validate: (value: any) => {
                     if (!value) return true
                     return /^#[0-9A-F]{6}$/i.test(value) || 'Moet geldige hex kleur zijn'
                   },
@@ -164,7 +164,7 @@ export const Themes: CollectionConfig = {
                   admin: {
                     placeholder: '#121F33',
                   },
-                  validate: (value) => {
+                  validate: (value: any) => {
                     if (!value) return true
                     return /^#[0-9A-F]{6}$/i.test(value) || 'Moet geldige hex kleur zijn'
                   },

@@ -32,7 +32,7 @@ interface ProductTemplate3Props {
 
 export default function ProductTemplate3({ product }: ProductTemplate3Props) {
   const { addItem } = useCart()
-  const { showAddToCartToast } = useToast()
+  const { showToast } = useToast()
   const [activeTab, setActiveTab] = useState<'story' | 'details' | 'specs' | 'downloads'>('story')
   const [quantity, setQuantity] = useState(1)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
@@ -131,12 +131,10 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         stock: selectedSubscription.stockLevel || 999,
       })
 
-      showAddToCartToast({
-        emoji: firstImageUrl ? undefined : '📦',
-        image: firstImageUrl || undefined,
-        name: `${product.title} - ${selectedSubscription.label}`,
-        meta: `1× €${discountedPrice.toFixed(2)}`,
-        quantity: 1,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: `${product.title} - ${selectedSubscription.label}`,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants
@@ -152,15 +150,13 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         image: firstImageUrl || undefined,
         sku: product.sku || undefined,
         ean: product.ean || undefined,
-        stock: product.stock || 0,
+        stock: (product.stock ?? 0) || 0,
       })
 
-      showAddToCartToast({
-        emoji: firstImageUrl ? undefined : '📦',
-        image: firstImageUrl || undefined,
-        name: product.title,
-        meta: `${quantity}× €${variantPrice.toFixed(2)} = €${(variantPrice * quantity).toFixed(2)}`,
-        quantity: quantity,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: `${quantity}× ${product.title} - €${(variantPrice * quantity).toFixed(2)}`,
       })
     } else {
       // Add simple/grouped product
@@ -174,24 +170,22 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         image: firstImageUrl || undefined,
         sku: selectedProduct.sku || undefined,
         ean: selectedProduct.ean || undefined,
-        stock: selectedProduct.stock || 0,
+        stock: (selectedProduct.stock ?? 0) || 0,
         parentProductId: isGrouped ? product.id : undefined,
         parentProductTitle: isGrouped ? product.title : undefined,
       })
 
-      showAddToCartToast({
-        emoji: firstImageUrl ? undefined : '📦',
-        image: firstImageUrl || undefined,
-        name: selectedProduct.title,
-        meta: quantity > 1 ? `${quantity}× €${unitPrice.toFixed(2)} = €${(unitPrice * quantity).toFixed(2)}` : `€${unitPrice.toFixed(2)}`,
-        quantity: quantity,
+      showToast({
+        type: 'success',
+        title: 'Added to cart',
+        message: quantity > 1 ? `${quantity}× ${selectedProduct.title} - €${(unitPrice * quantity).toFixed(2)}` : `${selectedProduct.title} - €${unitPrice.toFixed(2)}`,
       })
     }
   }
 
   const minQty = selectedProduct.minOrderQuantity || 1
   const multiple = selectedProduct.orderMultiple || 1
-  const maxQty = selectedProduct.maxOrderQuantity || selectedProduct.stock || 999
+  const maxQty = selectedProduct.maxOrderQuantity || ((selectedProduct.stock ?? 0) ?? 999)
 
   const toggleAccordion = (section: string) => {
     setAccordionOpen(accordionOpen === section ? null : section)
@@ -613,8 +607,8 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                 </div>
               )}
               <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
-                {selectedProduct.stock !== undefined && selectedProduct.stock > 0
-                  ? `${selectedProduct.stock} available`
+                {(selectedProduct.stock ?? 0) !== undefined && (selectedProduct.stock ?? 0) > 0
+                  ? `${(selectedProduct.stock ?? 0)} available`
                   : 'In stock'}
               </div>
             </div>
@@ -623,7 +617,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
           {/* Premium Add to Cart Button */}
           <button
             onClick={handleAddToCart}
-            disabled={!selectedProduct.stock || selectedProduct.stock === 0}
+            disabled={((selectedProduct.stock ?? 0) ?? 0) === 0}
             style={{
               width: '100%',
               minHeight: '52px',
@@ -1490,8 +1484,8 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   </div>
                 )}
                 <div style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-                  {selectedProduct.stock !== undefined && selectedProduct.stock > 0
-                    ? `${selectedProduct.stock} available`
+                  {(selectedProduct.stock ?? 0) !== undefined && (selectedProduct.stock ?? 0) > 0
+                    ? `${(selectedProduct.stock ?? 0)} available`
                     : 'In stock'}
                 </div>
               </div>
@@ -1500,7 +1494,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
             {/* Premium Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              disabled={!selectedProduct.stock || selectedProduct.stock === 0}
+              disabled={((selectedProduct.stock ?? 0) ?? 0) === 0}
               style={{
                 width: '100%',
                 padding: '20px 40px',
@@ -2027,18 +2021,18 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              disabled={!selectedProduct.stock || selectedProduct.stock === 0}
+              disabled={((selectedProduct.stock ?? 0) ?? 0) === 0}
               style={{
                 minWidth: '120px',
                 minHeight: '44px',
                 padding: '0 20px',
-                background: !selectedProduct.stock || selectedProduct.stock === 0 ? '#D1D5DB' : 'linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 85%, black) 100%)',
+                background: ((selectedProduct.stock ?? 0) ?? 0) === 0 ? '#D1D5DB' : 'linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 85%, black) 100%)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '6px',
                 fontSize: '14px',
                 fontWeight: 700,
-                cursor: !selectedProduct.stock || selectedProduct.stock === 0 ? 'not-allowed' : 'pointer',
+                cursor: ((selectedProduct.stock ?? 0) ?? 0) === 0 ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

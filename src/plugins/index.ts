@@ -120,7 +120,7 @@ export const plugins: Plugin[] = [
               return true
             },
           },
-          validate: (value) => {
+          validate: (value: any) => {
             if (!value) return true // Optional field
 
             // Basic URL validation

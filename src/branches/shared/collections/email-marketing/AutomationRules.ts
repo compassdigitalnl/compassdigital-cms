@@ -25,7 +25,7 @@ export const AutomationRules: CollectionConfig = {
     // Tenant isolation (only in multi-tenant/platform mode)
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'super-admin') return true
+      if ('role' in user && user.role === 'super-admin') return true
 
       // Multi-tenant mode: filter by tenant
       if (isFeatureEnabled('platform') && user.tenant) {
@@ -41,15 +41,15 @@ export const AutomationRules: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
   },
   fields: [

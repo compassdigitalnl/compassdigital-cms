@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { Header, Theme, Settings } from '@/payload-types'
+import type { Header, Theme1, Settings } from '@/payload-types'
 import {
   Menu,
   ChevronDown,
@@ -44,7 +44,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 
 type Props = {
   navigation: NonNullable<Header['navigation']>
-  theme: Theme | null
+  theme: Theme1 | null
   settings?: Settings | null
 }
 

@@ -18,7 +18,7 @@ export const Addresses: CollectionConfig = {
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       // Customers can only read their own addresses
       return {
         customer: {
@@ -29,7 +29,7 @@ export const Addresses: CollectionConfig = {
     create: ({ req: { user } }) => !!user,
     update: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       return {
         customer: {
           equals: user.id,
@@ -38,7 +38,7 @@ export const Addresses: CollectionConfig = {
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'admin') return true
+      if ('role' in user && user.role === 'admin') return true
       return {
         customer: {
           equals: user.id,

@@ -16,8 +16,9 @@ import { emailMarketingFeatures } from '@/lib/features'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     // Check feature flag
     if (!emailMarketingFeatures.campaigns()) {
@@ -27,7 +28,7 @@ export async function POST(
       )
     }
 
-    const campaignId = params.id
+    const campaignId = id
     const payload = await getPayload({ config })
 
     // Get user from session

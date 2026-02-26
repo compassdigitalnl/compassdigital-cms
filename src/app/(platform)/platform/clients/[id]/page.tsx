@@ -54,20 +54,25 @@ interface Client {
   enabledFeatures?: Array<{ feature: string }>
 }
 
-export default function ClientDetailPage({ params }: { params: { id: string } }) {
+export default function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [client, setClient] = useState<Client | null>(null)
   const [loading, setLoading] = useState(true)
   const [deploying, setDeploying] = useState(false)
+  const [clientId, setClientId] = useState<string | null>(null)
 
   useEffect(() => {
-    fetchClient()
-  }, [params.id])
+    // Unwrap params promise
+    params.then(({ id }) => {
+      setClientId(id)
+      fetchClient(id)
+    })
+  }, [])
 
-  async function fetchClient() {
+  async function fetchClient(id: string) {
     try {
       setLoading(true)
-      const response = await fetch(`/api/clients/${params.id}`)
+      const response = await fetch(`/api/clients/${id}`)
       const data = await response.json()
 
       if (data) {
@@ -81,11 +86,11 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
   }
 
   async function handleRedeploy() {
-    if (!confirm('Trigger a new deployment for this client?')) return
+    if (!clientId || !confirm('Trigger a new deployment for this client?')) return
 
     setDeploying(true)
     try {
-      const response = await fetch(`/api/platform/clients/${params.id}/actions`, {
+      const response = await fetch(`/api/platform/clients/${clientId}/actions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'redeploy' }),
@@ -101,7 +106,7 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
               : ''),
         )
         // Refresh client data to show updated status
-        fetchClient()
+        if (clientId) fetchClient(clientId)
       } else {
         alert(`Deployment failed: ${result.error || 'Unknown error'}`)
       }

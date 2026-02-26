@@ -13,7 +13,7 @@ export function FooterMenu({ menu }: Props) {
   return (
     <nav>
       <ul>
-        {menu.map((item) => {
+        {menu.map((item: any) => {
           return (
             <li key={item.id}>
               <CMSLink appearance="link" {...item.link} />

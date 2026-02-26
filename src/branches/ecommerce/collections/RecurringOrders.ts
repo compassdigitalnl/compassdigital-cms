@@ -19,7 +19,7 @@ export const RecurringOrders: CollectionConfig = {
     read: ({ req: { user } }) => {
       // Admins can read all, users can only read their own recurring orders
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         customer: {
           equals: user.id,
@@ -30,7 +30,7 @@ export const RecurringOrders: CollectionConfig = {
     update: ({ req: { user } }) => {
       // Users can update their own, admins can update all
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         customer: {
           equals: user.id,
@@ -40,7 +40,7 @@ export const RecurringOrders: CollectionConfig = {
     delete: ({ req: { user } }) => {
       // Users can delete their own, admins can delete all
       if (!user) return false
-      if (user.roles?.includes('admin')) return true
+      if ('roles' in user && user.roles?.includes('admin')) return true
       return {
         customer: {
           equals: user.id,

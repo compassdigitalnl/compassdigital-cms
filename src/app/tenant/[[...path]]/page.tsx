@@ -16,8 +16,9 @@ import { redirect } from 'next/navigation'
 export default async function TenantPage({
   params,
 }: {
-  params: { path?: string[] }
+  params: Promise<{ path?: string[] }>
 }) {
+  const { path: pathArray } = await params
   const headersList = headers()
 
   // Get tenant context from middleware
@@ -41,7 +42,7 @@ export default async function TenantPage({
     )
   }
 
-  const path = params.path ? params.path.join('/') : ''
+  const path = pathArray ? pathArray.join('/') : ''
 
   // Handle /admin route - redirect to Payload admin
   if (path === 'admin' || path.startsWith('admin/')) {

@@ -135,7 +135,7 @@ export async function configureProductsIndex(payload: Payload) {
     },
 
     // Synonyms (from CMS)
-    synonyms: settings.synonyms.reduce((acc, group) => {
+    synonyms: settings.synonyms.reduce((acc: any, group: any) => {
       const key = group[0]
       acc[key] = group
       return acc
@@ -209,7 +209,7 @@ export async function configureBlogIndex(payload: Payload) {
     },
 
     // Synonyms (from CMS)
-    synonyms: settings.synonyms.reduce((acc, group) => {
+    synonyms: settings.synonyms.reduce((acc: any, group: any) => {
       const key = group[0]
       acc[key] = group
       return acc

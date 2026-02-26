@@ -153,19 +153,19 @@ Object.values(queues).forEach(queue => {
     console.error(`[QUEUE ERROR] ${queue.name}:`, err)
   })
 
-  queue.on('waiting', (job) => {
+  queue.on('waiting', (job: any) => {
     console.log(`[QUEUE] ${queue.name}: Job ${job.id} waiting`)
   })
 
-  queue.on('active', (job) => {
+  queue.on('active', (job: any) => {
     console.log(`[QUEUE] ${queue.name}: Job ${job.id} started`)
   })
 
-  queue.on('completed', (job) => {
+  queue.on('completed', (job: any) => {
     console.log(`[QUEUE] ${queue.name}: Job ${job.id} completed`)
   })
 
-  queue.on('failed', (job, err) => {
+  queue.on('failed', (job: any, err: any) => {
     console.error(`[QUEUE] ${queue.name}: Job ${job?.id} failed:`, err)
   })
 })

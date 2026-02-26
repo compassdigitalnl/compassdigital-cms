@@ -61,7 +61,7 @@ export function MobileMenu({ menu }: Props) {
         <div className="py-4">
           {menu?.length ? (
             <ul className="flex w-full flex-col">
-              {menu.map((item) => (
+              {menu.map((item: any) => (
                 <li className="py-2" key={item.id}>
                   <CMSLink {...item.link} appearance="link" />
                 </li>

@@ -23,7 +23,7 @@ export const FlowInstances: CollectionConfig = {
     // Tenant isolation (only in multi-tenant/platform mode)
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'super-admin') return true
+      if ('role' in user && user.role === 'super-admin') return true
 
       // Multi-tenant mode: filter by tenant
       if (isPlatformMode && user.tenant) {
@@ -39,15 +39,15 @@ export const FlowInstances: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
   },
   fields: [

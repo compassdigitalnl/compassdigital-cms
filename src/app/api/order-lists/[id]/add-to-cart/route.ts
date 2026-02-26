@@ -7,8 +7,9 @@ import { cookies } from 'next/headers'
  * POST /api/order-lists/[id]/add-to-cart
  * Add all items from an order list to the shopping cart
  */
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const payload = await getPayloadHMR({ config: configPromise })
 
     // Get user from cookies
@@ -17,8 +18,6 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-
-    const { id } = params
 
     // Fetch order list with full product details
     const doc = await payload.findByID({

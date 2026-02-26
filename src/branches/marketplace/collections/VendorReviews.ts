@@ -124,7 +124,7 @@ export const VendorReviews: CollectionConfig = {
               const words = data.authorName.split(' ')
               return words
                 .slice(0, 2)
-                .map((w) => w[0])
+                .map((w: any) => w[0])
                 .join('')
                 .toUpperCase()
             }

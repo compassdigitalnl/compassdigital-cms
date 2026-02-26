@@ -24,7 +24,7 @@ export const EmailTemplates: CollectionConfig = {
     // Tenant isolation
     read: ({ req: { user } }) => {
       if (!user) return false
-      if (user.role === 'super-admin') return true
+      if ('role' in user && user.role === 'super-admin') return true
       return {
         tenant: {
           equals: user.tenant,
@@ -33,15 +33,15 @@ export const EmailTemplates: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'super-admin' || user.role === 'admin'
+      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
     },
   },
   fields: [

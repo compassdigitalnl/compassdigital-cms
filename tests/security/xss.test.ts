@@ -15,9 +15,26 @@
 import payload from 'payload'
 
 // Placeholder types for when jest is not installed
+const mockExpect = {
+  toBe: (...args: any[]) => mockExpect,
+  toEqual: (...args: any[]) => mockExpect,
+  toMatch: (...args: any[]) => mockExpect,
+  toContain: (...args: any[]) => mockExpect,
+  toBeDefined: (...args: any[]) => mockExpect,
+  toBeGreaterThan: (...args: any[]) => mockExpect,
+  toBeLessThan: (...args: any[]) => mockExpect,
+  toBeGreaterThanOrEqual: (...args: any[]) => mockExpect,
+  not: {
+    toBe: (...args: any[]) => mockExpect,
+    toEqual: (...args: any[]) => mockExpect,
+    toMatch: (...args: any[]) => mockExpect,
+    toContain: (...args: any[]) => mockExpect,
+    toBeDefined: (...args: any[]) => mockExpect,
+  },
+}
 const describe = (...args: any[]) => {}
 const it = (...args: any[]) => {}
-const expect = (...args: any[]) => {}
+const expect = (...args: any[]) => mockExpect
 const beforeAll = (...args: any[]) => {}
 const afterAll = (...args: any[]) => {}
 
@@ -98,29 +115,29 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
   let createdIds: string[] = []
 
   beforeAll(async () => {
-    if (!payload.isInitialized) {
-      await payload.init({
+    if (!(payload as any).isInitialized) {
+      await (payload as any).init({
         secret: process.env.PAYLOAD_SECRET || 'test-secret',
         local: true,
       })
     }
 
-    const tenant = await payload.create({
-      collection: 'tenants',
+    const tenant = await (payload as any).create({
+      collection: 'tenants' as any,
       data: {
         name: 'XSS Test Tenant',
         email: 'xss-test@example.com',
       },
     })
-    testTenantId = tenant.id
+    testTenantId = tenant.id as string
   })
 
   afterAll(async () => {
     // Cleanup all created test data
     for (const id of createdIds) {
       try {
-        await payload.delete({
-          collection: 'email-subscribers',
+        await (payload as any).delete({
+          collection: 'email-subscribers' as any,
           id,
         })
       } catch (error) {
@@ -129,8 +146,8 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
     }
 
     if (testTenantId) {
-      await payload.delete({
-        collection: 'tenants',
+      await (payload as any).delete({
+        collection: 'tenants' as any,
         id: testTenantId,
       })
     }
@@ -140,21 +157,21 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
     it('should store XSS payloads without execution', async () => {
       for (const xssPayload of XSS_PAYLOADS.slice(0, 10)) {
         try {
-          const subscriber = await payload.create({
-            collection: 'email-subscribers',
+          const subscriber = await (payload as any).create({
+            collection: 'email-subscribers' as any,
             data: {
               email: `xss-test-${Date.now()}@example.com`,
               name: xssPayload,
-              tenant: testTenantId,
+              tenant: testTenantId as any,
             },
           })
 
-          createdIds.push(subscriber.id)
+          createdIds.push(subscriber.id as string)
 
           // Verify it's stored as-is (not executed or modified)
-          const retrieved = await payload.findByID({
-            collection: 'email-subscribers',
-            id: subscriber.id,
+          const retrieved = await (payload as any).findByID({
+            collection: 'email-subscribers' as any,
+            id: subscriber.id as string,
           })
 
           // Name should be stored (possibly sanitized, but not executed)
@@ -163,7 +180,7 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
           // Should not contain unescaped script tags in HTML context
           const htmlOutput = `<div>${retrieved.name}</div>`
           expect(htmlOutput).not.toMatch(/<script>alert/i)
-        } catch (error) {
+        } catch (error: any) {
           // If it fails, it should be validation error, not XSS execution
           expect(error.message).not.toMatch(/alert|XSS|javascript:/i)
         }
@@ -171,31 +188,31 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
     })
 
     it('should sanitize HTML in rich text fields', async () => {
-      const campaign = await payload.create({
-        collection: 'email-campaigns',
+      const campaign = await (payload as any).create({
+        collection: 'email-campaigns' as any,
         data: {
           name: 'XSS Test Campaign',
           subject: 'Test',
-          tenant: testTenantId,
+          tenant: testTenantId as any,
           htmlContent: '<script>alert("XSS")</script><p>Safe content</p>',
         },
       })
 
-      const retrieved = await payload.findByID({
-        collection: 'email-campaigns',
-        id: campaign.id,
+      const retrieved = await (payload as any).findByID({
+        collection: 'email-campaigns' as any,
+        id: campaign.id as string,
       })
 
       // HTML content should be sanitized (scripts removed)
-      if (retrieved.htmlContent) {
-        expect(retrieved.htmlContent).not.toMatch(/<script>/i)
+      if ((retrieved as any).htmlContent) {
+        expect((retrieved as any).htmlContent).not.toMatch(/<script>/i)
         // Safe content should remain
-        expect(retrieved.htmlContent).toMatch(/<p>Safe content<\/p>/i)
+        expect((retrieved as any).htmlContent).toMatch(/<p>Safe content<\/p>/i)
       }
 
-      await payload.delete({
-        collection: 'email-campaigns',
-        id: campaign.id,
+      await (payload as any).delete({
+        collection: 'email-campaigns' as any,
+        id: campaign.id as string,
       })
     })
   })
@@ -204,16 +221,16 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
     it('should properly encode output in API responses', async () => {
       const xssName = '<script>alert("XSS")</script>'
 
-      const subscriber = await payload.create({
-        collection: 'email-subscribers',
+      const subscriber = await (payload as any).create({
+        collection: 'email-subscribers' as any,
         data: {
           email: `output-test-${Date.now()}@example.com`,
           name: xssName,
-          tenant: testTenantId,
+          tenant: testTenantId as any,
         },
       })
 
-      createdIds.push(subscriber.id)
+      createdIds.push(subscriber.id as string)
 
       // Fetch via API
       const response = await fetch(
@@ -240,16 +257,16 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
     it('should encode special characters in JSON responses', async () => {
       const specialChars = '</script><script>alert("XSS")</script>'
 
-      const subscriber = await payload.create({
-        collection: 'email-subscribers',
+      const subscriber = await (payload as any).create({
+        collection: 'email-subscribers' as any,
         data: {
           email: `special-chars-${Date.now()}@example.com`,
           name: specialChars,
-          tenant: testTenantId,
+          tenant: testTenantId as any,
         },
       })
 
-      createdIds.push(subscriber.id)
+      createdIds.push(subscriber.id as string)
 
       // JSON.stringify should escape these automatically
       const jsonOutput = JSON.stringify(subscriber)
@@ -290,16 +307,16 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
     it('should sanitize template variables', async () => {
       const maliciousName = '<img src=x onerror=alert("XSS")>'
 
-      const subscriber = await payload.create({
-        collection: 'email-subscribers',
+      const subscriber = await (payload as any).create({
+        collection: 'email-subscribers' as any,
         data: {
           email: `template-test-${Date.now()}@example.com`,
           name: maliciousName,
-          tenant: testTenantId,
+          tenant: testTenantId as any,
         },
       })
 
-      createdIds.push(subscriber.id)
+      createdIds.push(subscriber.id as string)
 
       // Simulate template rendering
       const template = `Hello {{name}}, welcome!`
@@ -330,16 +347,16 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
       ]
 
       for (const injection of templateInjections) {
-        const subscriber = await payload.create({
-          collection: 'email-subscribers',
+        const subscriber = await (payload as any).create({
+          collection: 'email-subscribers' as any,
           data: {
             email: `injection-${Date.now()}@example.com`,
             name: injection,
-            tenant: testTenantId,
+            tenant: testTenantId as any,
           },
         })
 
-        createdIds.push(subscriber.id)
+        createdIds.push(subscriber.id as string)
 
         // Template should not evaluate the expression
         const template = `Hello {{name}}`
@@ -356,16 +373,16 @@ describe('XSS (Cross-Site Scripting) Tests', () => {
     it('should sanitize data attributes', async () => {
       const xssPayload = '" onclick="alert(\'XSS\')"'
 
-      const subscriber = await payload.create({
-        collection: 'email-subscribers',
+      const subscriber = await (payload as any).create({
+        collection: 'email-subscribers' as any,
         data: {
           email: `dom-test-${Date.now()}@example.com`,
           name: xssPayload,
-          tenant: testTenantId,
+          tenant: testTenantId as any,
         },
       })
 
-      createdIds.push(subscriber.id)
+      createdIds.push(subscriber.id as string)
 
       // Simulate DOM attribute usage
       const domAttribute = `<div data-name="${subscriber.name}">Content</div>`
