@@ -72,6 +72,7 @@ export default {
           background: 'var(--color-background)',
           surface: 'var(--color-surface)',
           border: 'var(--color-border)',
+          bg: '#F5F7FA', // Alias for --bg
           // Grey scale
           grey: {
             light: 'var(--color-grey-light)',
@@ -89,6 +90,26 @@ export default {
           warning: 'var(--color-warning)',
           error: 'var(--color-error)',
           info: 'var(--color-info)',
+          // E-commerce component color aliassen (theme- prefix)
+          navy: {
+            DEFAULT: '#0A1628',
+            light: '#121F33',
+            dark: '#0D2137',
+          },
+          teal: {
+            DEFAULT: '#00897B',
+            light: '#26A69A',
+            dark: '#00695C',
+            glow: 'rgba(0, 137, 123, 0.12)',
+          },
+          coral: {
+            DEFAULT: '#FF6B6B',
+            light: '#FFF0F0',
+          },
+          amber: {
+            DEFAULT: '#F59E0B',
+            light: '#FFF8E1',
+          },
         },
 
         // ═══════════════════════════════════════════════════════════════════
