@@ -11,6 +11,7 @@ export interface CategoryHeroProps {
   // Stats
   productCount: number
   brandCount?: number // Optional second stat
+  inStockPercent?: number // Percentage of products in stock
 
   // Optional Styling
   className?: string

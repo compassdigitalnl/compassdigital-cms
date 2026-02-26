@@ -98,7 +98,7 @@ export default async function ShopPage({
     console.warn('Error fetching subcategories:', error)
   }
 
-  // Build breadcrumbs (Home is auto-added by Breadcrumb component)
+  // Build breadcrumbs
   const breadcrumbs = [{ label: 'Shop', href: '/shop' }]
   if (category) {
     breadcrumbs.push({ label: (category as any).name, href: `/shop?category=${(category as any).id}` })

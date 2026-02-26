@@ -24,6 +24,11 @@ export interface ViewToggleProps {
   className?: string
 }
 
+export interface ActiveFilterDisplay {
+  groupId: string
+  label: string
+}
+
 export interface ShopToolbarProps {
   sortValue: string
   sortOptions: SortOption[]
@@ -35,4 +40,7 @@ export interface ShopToolbarProps {
   showViewToggle?: boolean
   size?: SortDropdownSize
   className?: string
+  activeFilters?: ActiveFilterDisplay[]
+  onRemoveFilter?: (groupId: string) => void
+  onResetFilters?: () => void
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import type { Page } from '@/payload-types'
 
 export interface BreadcrumbItem {
@@ -104,10 +105,12 @@ export function Breadcrumbs({
               style={{
                 color: '#d1d5db',
                 userSelect: 'none',
+                display: 'flex',
+                alignItems: 'center',
               }}
               aria-hidden="true"
             >
-              /
+              <ChevronRight size={14} />
             </span>
           </li>
         ))}

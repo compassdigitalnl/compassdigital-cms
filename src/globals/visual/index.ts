@@ -4,6 +4,30 @@ export const Visual: Tab = {
   label: 'Visual',
   description: 'Border radius, shadows, and z-index layering',
   fields: [
+    // Container Width
+    {
+      type: 'collapsible',
+      label: 'Layout',
+      fields: [
+        {
+          name: 'containerWidth',
+          type: 'select',
+          label: 'Max Container Width',
+          defaultValue: '7xl',
+          required: true,
+          options: [
+            { label: '1024px (lg)', value: 'lg' },
+            { label: '1280px (xl)', value: 'xl' },
+            { label: '1536px (2xl)', value: '2xl' },
+            { label: '1792px (7xl)', value: '7xl' },
+          ],
+          admin: {
+            description: 'Maximum width of the page content container. Applied to .container and .max-w-* classes.',
+          },
+        },
+      ],
+    },
+
     // Border Radius Group
     {
       type: 'collapsible',

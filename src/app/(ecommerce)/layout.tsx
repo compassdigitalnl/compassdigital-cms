@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { DM_Sans } from 'next/font/google'
 import { AdminBar } from '@/branches/shared/components/admin/AdminBar'
 import { Footer } from '@/branches/shared/components/layout/footer/Footer'
 import { LivePreviewListener } from '@/branches/shared/components/utilities/LivePreviewListener'
@@ -14,6 +15,13 @@ import configPromise from '@payload-config'
 import { isFeatureEnabled } from '@/lib/features'
 import React from 'react'
 import '../globals.css'
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+})
 
 // Force dynamic rendering to avoid database queries during build
 export const dynamic = 'force-dynamic'
@@ -70,7 +78,7 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
                 <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
 
                 {/* Main Content */}
-                <main className="bg-gray-50">{children}</main>
+                <main className={`bg-gray-50 ${dmSans.variable}`} style={{ fontFamily: 'var(--font-dm-sans), sans-serif' }}>{children}</main>
 
                 {/* Footer (CMS-driven) */}
                 <Footer />
