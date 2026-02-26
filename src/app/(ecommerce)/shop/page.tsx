@@ -36,10 +36,9 @@ export default async function ShopPage({
   // Pagination
   const page = parseInt(params.page || '1')
   const limit = 24
-  const offset = (page - 1) * limit
 
   // Fetch products
-  const { docs: products, totalDocs } = await payload.find({
+  const { docs: products, totalDocs, totalPages } = await payload.find({
     collection: 'products',
     where,
     depth: 2,
@@ -55,34 +54,67 @@ export default async function ShopPage({
       category = await payload.findByID({
         collection: 'product-categories',
         id: params.category,
-        depth: 0,
+        depth: 1,
       })
     } catch (error) {
       console.log('Category not found:', params.category)
     }
   }
 
-  // Get global template setting from Settings
-  let settings
-  let template = 'shoparchivetemplate1' // Default fallback
-
+  // Fetch subcategories (children of current category, or top-level if no category)
+  let subcategories: Array<{ name: string; slug: string; count: number }> = []
   try {
-    settings = await payload.findGlobal({
-      slug: 'settings',
+    const subcatWhere: any = params.category
+      ? { parent: { equals: params.category } }
+      : { parent: { exists: false } }
+
+    const { docs: subcats } = await payload.find({
+      collection: 'product-categories',
+      where: subcatWhere,
       depth: 0,
+      limit: 50,
+      sort: 'name',
     })
-    // Safely get template setting with fallback
-    template = (settings as any)?.defaultShopArchiveTemplate || 'shoparchivetemplate1'
+
+    // Get product count per subcategory
+    subcategories = await Promise.all(
+      subcats.map(async (sub: any) => {
+        const { totalDocs: count } = await payload.find({
+          collection: 'products',
+          where: {
+            status: { equals: 'published' },
+            categories: { contains: sub.id },
+          },
+          depth: 0,
+          limit: 0,
+        })
+        return { name: sub.name, slug: sub.slug, count }
+      }),
+    )
+
+    // Filter out empty subcategories
+    subcategories = subcategories.filter((s) => s.count > 0)
   } catch (error) {
-    console.error('⚠️ Error fetching settings, using default template:', error)
-    template = 'shoparchivetemplate1'
+    console.warn('Error fetching subcategories:', error)
+  }
+
+  // Build breadcrumbs
+  const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Shop', href: '/shop' }]
+  if (category) {
+    breadcrumbs.push({ label: (category as any).name, href: `/shop?category=${(category as any).id}` })
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Shop Archive Template Switcher */}
-      {/* Template 2 and 3 will be added here later */}
-      <ShopArchiveTemplate1 products={products as Product[]} category={category} totalProducts={totalDocs} />
+      <ShopArchiveTemplate1
+        products={products as Product[]}
+        category={category}
+        subcategories={subcategories}
+        totalProducts={totalDocs}
+        currentPage={page}
+        totalPages={totalPages}
+        breadcrumbs={breadcrumbs}
+      />
     </div>
   )
 }

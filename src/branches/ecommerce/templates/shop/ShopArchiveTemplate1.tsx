@@ -223,9 +223,21 @@ export default function ShopArchiveTemplate1({
   const handleAddToCart = (productId: string) => {
     const product = products.find((p) => p.id === productId)
     if (product) {
+      const imageUrl =
+        typeof product.images?.[0] === 'object' && product.images[0] !== null
+          ? product.images[0].url || undefined
+          : undefined
+
       addItem({
-        product,
+        id: product.id,
+        title: product.title,
+        slug: product.slug || '',
+        price: product.price,
+        unitPrice: product.salePrice || product.price,
         quantity: 1,
+        stock: (product.stock ?? 0) || 0,
+        sku: product.sku || undefined,
+        image: imageUrl,
       })
     }
   }

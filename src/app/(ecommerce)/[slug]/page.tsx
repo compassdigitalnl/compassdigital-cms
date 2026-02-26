@@ -137,7 +137,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   if (category) {
     // Fetch products in this category
-    const { docs: categoryProducts, totalDocs } = await payload.find({
+    const { docs: categoryProducts, totalDocs, totalPages } = await payload.find({
       collection: 'products',
       where: {
         status: { equals: 'published' },
@@ -148,12 +148,49 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       sort: '-createdAt',
     })
 
+    // Fetch subcategories (children of this category)
+    let subcategories: Array<{ name: string; slug: string; count: number }> = []
+    try {
+      const { docs: subcats } = await payload.find({
+        collection: 'product-categories',
+        where: { parent: { equals: category.id } },
+        depth: 0,
+        limit: 50,
+        sort: 'name',
+      })
+      subcategories = await Promise.all(
+        subcats.map(async (sub: any) => {
+          const { totalDocs: count } = await payload.find({
+            collection: 'products',
+            where: {
+              status: { equals: 'published' },
+              categories: { contains: sub.id },
+            },
+            depth: 0,
+            limit: 0,
+          })
+          return { name: sub.name, slug: sub.slug, count }
+        }),
+      )
+      subcategories = subcategories.filter((s) => s.count > 0)
+    } catch (error) {}
+
+    const breadcrumbs = [
+      { label: 'Home', href: '/' },
+      { label: 'Shop', href: '/shop' },
+      { label: (category as any).name, href: `/${slug}` },
+    ]
+
     return (
       <div className="min-h-screen">
         <ShopArchiveTemplate1
           products={categoryProducts as Product[]}
           category={category}
+          subcategories={subcategories}
           totalProducts={totalDocs}
+          currentPage={1}
+          totalPages={totalPages}
+          breadcrumbs={breadcrumbs}
         />
       </div>
     )
