@@ -98,9 +98,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
       {/* Sidebar */}
       <aside
-        className={`max-h-[calc(100vh-110px)] overflow-y-auto overflow-x-hidden ${
+        className={`${
           sticky ? 'sticky' : ''
-        } scrollbar-thin scrollbar-thumb-theme-border scrollbar-track-transparent hover:scrollbar-thumb-theme-grey-mid md:block`}
+        } md:block`}
         style={sticky ? { top: `${stickyTop}px` } : undefined}
         role="complementary"
         aria-label="Product filters"
@@ -123,7 +123,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
           <button
             type="button"
             onClick={onResetAll}
-            className="flex items-center gap-2 justify-center w-full py-3.5 text-[13px] font-semibold text-theme-grey-mid hover:text-theme-coral transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-theme-coral/30 focus:ring-offset-2 rounded-lg"
+            className="flex items-center gap-2 justify-center w-full py-3.5 text-[13px] font-semibold text-[var(--color-text-muted)] hover:text-red-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:ring-offset-2 rounded-lg"
             aria-label="Wis alle filters"
           >
             <XCircle className="w-3.5 h-3.5" />

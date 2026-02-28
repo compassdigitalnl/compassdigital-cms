@@ -125,17 +125,17 @@ export const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-theme-border flex-shrink-0">
+        <div className="flex items-center justify-between p-5 border-b border-[var(--color-border)] flex-shrink-0">
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="w-5 h-5 text-theme-teal" />
-            <h2 className="text-lg font-bold text-theme-navy">Filters</h2>
+            <SlidersHorizontal className="w-5 h-5 text-[var(--color-primary)]" />
+            <h2 className="text-lg font-bold text-[var(--color-text-primary)]">Filters</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 -mr-2 rounded-lg hover:bg-theme-bg transition-colors"
+            className="p-2 -mr-2 rounded-lg hover:bg-gray-50 transition-colors"
             aria-label="Sluit filters"
           >
-            <X className="w-5 h-5 text-theme-grey-mid" />
+            <X className="w-5 h-5 text-[var(--color-text-muted)]" />
           </button>
         </div>
 
@@ -166,10 +166,10 @@ export const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
         </div>
 
         {/* Footer with Apply Button */}
-        <div className="flex-shrink-0 p-5 border-t border-theme-border bg-white">
+        <div className="flex-shrink-0 p-5 border-t border-[var(--color-border)] bg-white">
           <button
             onClick={handleApplyFilters}
-            className="w-full py-3.5 px-4 bg-theme-teal text-white rounded-xl text-[15px] font-semibold hover:bg-opacity-90 transition-all shadow-sm"
+            className="w-full py-3.5 px-4 bg-[var(--color-primary)] text-white rounded-xl text-[15px] font-semibold hover:bg-opacity-90 transition-all shadow-sm"
           >
             Toon {resultCount} {resultCount === 1 ? 'product' : 'producten'}
           </button>

@@ -24,6 +24,8 @@ export const FilterCard: React.FC<FilterCardProps> = ({
     return (LucideIcons as any)[iconName] || null
   }, [filter.icon])
 
+  const [localPriceRange, setLocalPriceRange] = React.useState<[number, number] | null>(null)
+
   const handleCheckboxChange = (value: string) => {
     const newValues = selectedValues.includes(value)
       ? selectedValues.filter((v) => v !== value)
@@ -33,11 +35,14 @@ export const FilterCard: React.FC<FilterCardProps> = ({
 
   const handlePriceChange = (value: [number, number]) => {
     // Update local state only (don't trigger filter until "Apply" is clicked)
+    setLocalPriceRange(value)
   }
 
   const handlePriceApply = () => {
-    // Price values are managed in parent component
-    onFilterChange(filter.id, selectedValues)
+    // Apply the price range filter
+    if (localPriceRange) {
+      onFilterChange(filter.id, [String(localPriceRange[0]), String(localPriceRange[1])])
+    }
   }
 
   const renderStars = (count: number) => {
@@ -47,7 +52,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
           <Star
             key={i}
             className={`w-3.5 h-3.5 ${
-              i < count ? 'fill-theme-amber text-theme-amber' : 'text-theme-border'
+              i < count ? 'fill-amber-400 text-amber-400' : 'text-[var(--color-border)]'
             }`}
           />
         ))}
@@ -57,24 +62,24 @@ export const FilterCard: React.FC<FilterCardProps> = ({
 
   return (
     <div
-      className={`bg-white border border-theme-border rounded-xl mb-3 overflow-hidden transition-all duration-200 ${
-        isActive ? 'ring-2 ring-theme-teal/20' : ''
+      className={`bg-white border border-[var(--color-border)] rounded-xl mb-3 overflow-hidden transition-all duration-200 ${
+        isActive ? 'ring-2 ring-[var(--color-primary)]/20' : ''
       }`}
     >
       {/* Header */}
       <button
         type="button"
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-theme-bg transition-colors duration-200 focus:outline-none focus:bg-theme-bg"
+        className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:bg-gray-50"
         aria-expanded={isOpen}
         aria-controls={`filter-${filter.id}`}
       >
-        <h3 className="flex items-center gap-2 text-[14px] font-bold text-theme-navy">
-          {IconComponent && <IconComponent className="w-4 h-4 text-theme-teal" />}
+        <h3 className="flex items-center gap-2 text-[14px] font-bold text-[var(--color-text-primary)]">
+          {IconComponent && <IconComponent className="w-4 h-4 text-[var(--color-primary)]" />}
           {filter.label}
         </h3>
         <ChevronDown
-          className={`w-4 h-4 text-theme-grey-mid transition-transform duration-300 ${
+          className={`w-4 h-4 text-[var(--color-text-muted)] transition-transform duration-300 ${
             isOpen ? 'rotate-180' : ''
           }`}
         />
@@ -83,8 +88,8 @@ export const FilterCard: React.FC<FilterCardProps> = ({
       {/* Body */}
       <div
         id={`filter-${filter.id}`}
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-[600px]' : 'max-h-0'
+        className={`transition-all duration-300 ease-in-out ${
+          isOpen ? 'max-h-[2000px] overflow-visible' : 'max-h-0 overflow-hidden'
         }`}
       >
         <div className="px-4 pb-4">
@@ -96,7 +101,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                 return (
                   <label
                     key={option.value}
-                    className="flex items-center gap-2.5 py-2.5 cursor-pointer group hover:text-theme-teal transition-colors duration-200"
+                    className="flex items-center gap-2.5 py-2.5 cursor-pointer group hover:text-[var(--color-primary)] transition-colors duration-200"
                   >
                     <input
                       type="checkbox"
@@ -107,8 +112,8 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                     <div
                       className={`w-[18px] h-[18px] border-[1.5px] rounded flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                         isChecked
-                          ? 'bg-theme-teal border-theme-teal'
-                          : 'border-theme-border group-hover:border-theme-teal'
+                          ? 'bg-[var(--color-primary)] border-[var(--color-primary)]'
+                          : 'border-[var(--color-border)] group-hover:border-[var(--color-primary)]'
                       }`}
                     >
                       {isChecked && (
@@ -123,8 +128,8 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                         </svg>
                       )}
                     </div>
-                    <span className="text-[13px] text-theme-navy flex-1">{option.label}</span>
-                    <span className="text-[12px] text-theme-grey-mid ml-auto">
+                    <span className="text-[13px] text-[var(--color-text-primary)] flex-1">{option.label}</span>
+                    <span className="text-[12px] text-[var(--color-text-muted)] ml-auto">
                       {option.count}
                     </span>
                   </label>
@@ -172,8 +177,8 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                     <div
                       className={`w-[18px] h-[18px] border-[1.5px] rounded flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                         isChecked
-                          ? 'bg-theme-teal border-theme-teal'
-                          : 'border-theme-border group-hover:border-theme-teal'
+                          ? 'bg-[var(--color-primary)] border-[var(--color-primary)]'
+                          : 'border-[var(--color-border)] group-hover:border-[var(--color-primary)]'
                       }`}
                     >
                       {isChecked && (
@@ -191,10 +196,10 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                     <div className="flex items-center gap-2">
                       {renderStars(starCount)}
                       {isMinimum && (
-                        <span className="text-[12px] text-theme-grey-mid">& hoger</span>
+                        <span className="text-[12px] text-[var(--color-text-muted)]">& hoger</span>
                       )}
                     </div>
-                    <span className="text-[12px] text-theme-grey-mid ml-auto">
+                    <span className="text-[12px] text-[var(--color-text-muted)] ml-auto">
                       {option.count}
                     </span>
                   </label>
