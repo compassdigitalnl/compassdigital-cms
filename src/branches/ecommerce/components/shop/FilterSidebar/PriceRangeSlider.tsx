@@ -80,15 +80,15 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
           type="text"
           value={formatPrice(localValue[0])}
           readOnly
-          className="flex-1 px-2.5 py-2 border-[1.5px] border-theme-border rounded-lg text-[13px] text-center text-theme-navy font-semibold font-mono focus:outline-none focus:ring-2 focus:ring-theme-teal/20 focus:border-theme-teal"
+          className="flex-1 px-2.5 py-2 border-[1.5px] border-[var(--color-border)] rounded-lg text-[13px] text-center text-[var(--color-text-primary)] font-semibold font-mono bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
           aria-label="Minimum prijs"
         />
-        <span className="text-[13px] text-theme-grey-mid">—</span>
+        <span className="text-[13px] text-[var(--color-text-muted)]">—</span>
         <input
           type="text"
           value={formatPrice(localValue[1])}
           readOnly
-          className="flex-1 px-2.5 py-2 border-[1.5px] border-theme-border rounded-lg text-[13px] text-center text-theme-navy font-semibold font-mono focus:outline-none focus:ring-2 focus:ring-theme-teal/20 focus:border-theme-teal"
+          className="flex-1 px-2.5 py-2 border-[1.5px] border-[var(--color-border)] rounded-lg text-[13px] text-center text-[var(--color-text-primary)] font-semibold font-mono bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
           aria-label="Maximum prijs"
         />
       </div>
@@ -96,12 +96,12 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
       {/* Slider Track */}
       <div
         ref={trackRef}
-        className="relative h-1.5 bg-theme-grey-light rounded-full mb-4 cursor-pointer"
+        className="relative h-1.5 bg-gray-200 rounded-full mb-4 cursor-pointer"
         role="presentation"
       >
         {/* Active Fill */}
         <div
-          className="absolute h-full bg-theme-teal rounded-full"
+          className="absolute h-full bg-[var(--color-primary)] rounded-full"
           style={{
             left: `${minPercent}%`,
             right: `${100 - maxPercent}%`,
@@ -111,7 +111,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
         {/* Min Thumb */}
         <button
           type="button"
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[18px] h-[18px] bg-white border-[2.5px] border-theme-teal rounded-full cursor-grab active:cursor-grabbing shadow-md hover:scale-110 hover:shadow-lg hover:shadow-theme-teal/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-theme-teal/30 focus:ring-offset-2"
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[18px] h-[18px] bg-white border-[2.5px] border-[var(--color-primary)] rounded-full cursor-grab active:cursor-grabbing shadow-md hover:scale-110 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:ring-offset-2"
           style={{ left: `${minPercent}%` }}
           onMouseDown={handleMouseDown('min')}
           aria-label="Minimum prijs slider"
@@ -125,7 +125,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
         {/* Max Thumb */}
         <button
           type="button"
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[18px] h-[18px] bg-white border-[2.5px] border-theme-teal rounded-full cursor-grab active:cursor-grabbing shadow-md hover:scale-110 hover:shadow-lg hover:shadow-theme-teal/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-theme-teal/30 focus:ring-offset-2"
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[18px] h-[18px] bg-white border-[2.5px] border-[var(--color-primary)] rounded-full cursor-grab active:cursor-grabbing shadow-md hover:scale-110 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:ring-offset-2"
           style={{ left: `${maxPercent}%` }}
           onMouseDown={handleMouseDown('max')}
           aria-label="Maximum prijs slider"
@@ -141,7 +141,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
       <button
         type="button"
         onClick={onApply}
-        className="w-full px-4 py-2.5 border-[1.5px] border-theme-border bg-white rounded-lg text-[13px] font-semibold text-theme-navy hover:bg-theme-teal hover:border-theme-teal hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-theme-teal/30 focus:ring-offset-2"
+        className="w-full px-4 py-2.5 border-[1.5px] border-[var(--color-border)] bg-white rounded-lg text-[13px] font-semibold text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:ring-offset-2"
       >
         Toepassen
       </button>

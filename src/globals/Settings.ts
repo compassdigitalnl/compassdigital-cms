@@ -361,6 +361,54 @@ export const Settings: GlobalConfig = {
           description: 'Verzending, retour en levering',
           fields: [
             {
+              name: 'shopFilterOrder',
+              type: 'array',
+              label: 'Webshop Filter Volgorde',
+              admin: {
+                description: 'Configureer de volgorde en zichtbaarheid van filters op de shop pagina. Sleep items om de volgorde te wijzigen.',
+                initCollapsed: false,
+              },
+              fields: [
+                {
+                  name: 'filterId',
+                  type: 'select',
+                  label: 'Filter Type',
+                  required: true,
+                  options: [
+                    { label: 'Merken', value: 'brands' },
+                    { label: 'Materialen', value: 'materials' },
+                    { label: 'Maten', value: 'sizes' },
+                    { label: 'Kleuren', value: 'colors' },
+                    { label: 'Voorraad', value: 'stock' },
+                    { label: 'Prijs', value: 'price' },
+                  ],
+                },
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Zichtbaar op shop pagina',
+                  defaultValue: true,
+                },
+                {
+                  name: 'displayName',
+                  type: 'text',
+                  label: 'Weergavenaam (optioneel)',
+                  admin: {
+                    description: 'Laat leeg om de standaard naam te gebruiken',
+                    placeholder: 'Bijv: "Productmerken" of "Op voorraad"',
+                  },
+                },
+              ],
+              defaultValue: [
+                { filterId: 'brands', enabled: true },
+                { filterId: 'materials', enabled: true },
+                { filterId: 'sizes', enabled: true },
+                { filterId: 'colors', enabled: true },
+                { filterId: 'stock', enabled: true },
+                { filterId: 'price', enabled: true },
+              ],
+            },
+            {
               name: 'freeShippingThreshold',
               type: 'number',
               required: true,

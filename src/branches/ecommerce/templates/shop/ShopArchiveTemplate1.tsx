@@ -43,6 +43,12 @@ import { ChevronLeft, ChevronRight, PackageX, RotateCcw, Loader2 } from 'lucide-
 // INTERFACES
 // ============================================
 
+interface FilterOrderConfig {
+  filterId: string
+  enabled: boolean
+  displayName?: string
+}
+
 interface ShopArchiveTemplate1Props {
   products: Product[]
   category?: {
@@ -64,6 +70,7 @@ interface ShopArchiveTemplate1Props {
   breadcrumbs?: BreadcrumbItem[]
   attributeNames?: AttributeFieldNames
   loading?: boolean
+  shopFilterOrder?: FilterOrderConfig[]
 }
 
 // ============================================
@@ -80,6 +87,7 @@ export default function ShopArchiveTemplate1({
   breadcrumbs = [],
   attributeNames = DEFAULT_ATTRIBUTE_NAMES,
   loading = false,
+  shopFilterOrder = [],
 }: ShopArchiveTemplate1Props) {
   const router = useRouter()
   const pathname = usePathname()
@@ -321,6 +329,43 @@ export default function ShopArchiveTemplate1({
     return groups
   }, [products, extractedAttributes, filterCounts, attributeNames])
 
+  // Apply admin-configured filter ordering and visibility
+  const orderedFilterGroups = useMemo<FilterGroup[]>(() => {
+    // If no configuration, return all filters in default order
+    if (!shopFilterOrder || shopFilterOrder.length === 0) {
+      return filterGroups
+    }
+
+    // Create a map for quick lookup
+    const filterMap = new Map(filterGroups.map(group => [group.id, group]))
+    const orderedGroups: FilterGroup[] = []
+
+    // Apply ordering based on configuration
+    for (const config of shopFilterOrder) {
+      const filter = filterMap.get(config.filterId)
+
+      // Only include if filter exists and is enabled
+      if (filter && config.enabled !== false) {
+        // Apply custom display name if provided
+        const customizedFilter = config.displayName
+          ? { ...filter, label: config.displayName }
+          : filter
+
+        orderedGroups.push(customizedFilter)
+      }
+    }
+
+    // Add any filters not in configuration (fallback for new filters)
+    for (const filter of filterGroups) {
+      const isConfigured = shopFilterOrder.some(config => config.filterId === filter.id)
+      if (!isConfigured) {
+        orderedGroups.push(filter)
+      }
+    }
+
+    return orderedGroups
+  }, [filterGroups, shopFilterOrder])
+
   // Sort Options
   const sortOptions: SortOption[] = [
     { value: 'relevance', label: 'Relevantie' },
@@ -334,6 +379,9 @@ export default function ShopArchiveTemplate1({
       ? [{ value: 'rating', label: 'Best beoordeeld' }]
       : []),
   ]
+
+  // Default open state - all filters expanded
+  const allFilterIds = useMemo(() => orderedFilterGroups.map(f => f.id), [orderedFilterGroups])
 
   // ========================================
   // SUBCATEGORY CHIPS
@@ -500,12 +548,13 @@ export default function ShopArchiveTemplate1({
               DESKTOP SIDEBAR FILTERS
               ======================================== */}
           <FilterSidebar
-            filters={filterGroups}
+            filters={orderedFilterGroups}
             activeFilters={activeFilters}
             onFilterChange={handleFilterChange}
             onResetAll={handleResetFilters}
             sticky={true}
             stickyTop={90}
+            defaultOpen={allFilterIds}
             className="hidden lg:block"
           />
 
@@ -717,11 +766,11 @@ export default function ShopArchiveTemplate1({
       <MobileFilterDrawer
         isOpen={mobileFiltersOpen}
         onClose={() => setMobileFiltersOpen(false)}
-        filters={filterGroups}
+        filters={orderedFilterGroups}
         activeFilters={activeFilters}
         onFilterChange={handleFilterChange}
         onResetAll={handleResetFilters}
-        defaultOpen={['brands']}
+        defaultOpen={allFilterIds}
         resultCount={filteredProducts.length}
       />
     </div>

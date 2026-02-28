@@ -103,6 +103,15 @@ export default async function ShopPage({
   // If category: breadcrumbs=[Shop] and currentPage=category.name
   const breadcrumbs = category ? [{ label: 'Shop', href: '/shop' }] : []
 
+  // Fetch settings for filter ordering
+  let shopFilterOrder: any[] = []
+  try {
+    const settings = await payload.findGlobal({ slug: 'settings', depth: 0 })
+    shopFilterOrder = (settings as any)?.shopFilterOrder || []
+  } catch (error) {
+    console.warn('Could not fetch shop filter order settings:', error)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <ShopArchiveTemplate1
@@ -113,6 +122,7 @@ export default async function ShopPage({
         currentPage={page}
         totalPages={totalPages}
         breadcrumbs={breadcrumbs}
+        shopFilterOrder={shopFilterOrder}
       />
     </div>
   )

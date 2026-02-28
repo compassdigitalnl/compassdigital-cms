@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvi
 import { SearchProvider } from '@/branches/shared/components/features/search/search/SearchProvider'
 import { MiniCartProvider } from '@/branches/ecommerce/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/ToastSystem'
-import { AddToCartToastProvider } from '@/branches/ecommerce/components/ui/AddToCartToast'
+import { AddToCartToastProviderClient } from '@/branches/ecommerce/components/ui/AddToCartToast'
 import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -70,7 +70,7 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
         <SearchProvider enableSearch={isFeatureEnabled('search')}>
           <ToastProvider>
             <MiniCartProvider enableMiniCart={isFeatureEnabled('mini_cart') || isFeatureEnabled('cart')}>
-              <AddToCartToastProvider>
+              <AddToCartToastProviderClient>
                 <AdminBar />
                 <LivePreviewListener />
 
@@ -82,7 +82,7 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
 
                 {/* Footer (CMS-driven) */}
                 <Footer />
-              </AddToCartToastProvider>
+              </AddToCartToastProviderClient>
             </MiniCartProvider>
           </ToastProvider>
         </SearchProvider>
