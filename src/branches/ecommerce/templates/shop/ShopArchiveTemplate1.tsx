@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
 import type { Product } from '@/payload-types'
 
 // Modern Components
@@ -53,6 +54,7 @@ export default function ShopArchiveTemplate1({
   breadcrumbs = [],
 }: ShopArchiveTemplate1Props) {
   const { addItem } = useCart()
+  const { showToast } = useAddToCartToast()
 
   // ========================================
   // STATE MANAGEMENT
@@ -359,17 +361,27 @@ export default function ShopArchiveTemplate1({
             : null)
         : null
       const imageUrl = cartImgObj?.url || undefined
+      const unitPrice = product.salePrice || product.price
 
       addItem({
         id: product.id,
         title: product.title,
         slug: product.slug || '',
         price: product.price,
-        unitPrice: product.salePrice || product.price,
+        unitPrice: unitPrice,
         quantity,
         stock: (product.stock ?? 0) || 0,
         sku: product.sku || undefined,
         image: imageUrl,
+      })
+
+      // Show toast notification
+      showToast({
+        id: String(product.id),
+        name: product.title,
+        image: imageUrl,
+        quantity,
+        price: unitPrice,
       })
     }
   }
