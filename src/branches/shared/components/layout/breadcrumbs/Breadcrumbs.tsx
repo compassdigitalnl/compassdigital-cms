@@ -89,6 +89,7 @@ export function Breadcrumbs({
                 color: '#6b7280',
                 textDecoration: 'none',
                 transition: 'color 0.2s',
+                cursor: 'pointer',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = '#111827'

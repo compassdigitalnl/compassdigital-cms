@@ -99,10 +99,9 @@ export default async function ShopPage({
   }
 
   // Build breadcrumbs
-  const breadcrumbs = [{ label: 'Shop', href: '/shop' }]
-  if (category) {
-    breadcrumbs.push({ label: (category as any).name, href: `/shop?category=${(category as any).id}` })
-  }
+  // If no category: breadcrumbs=[] and currentPage='Shop' (rendered by template)
+  // If category: breadcrumbs=[Shop] and currentPage=category.name
+  const breadcrumbs = category ? [{ label: 'Shop', href: '/shop' }] : []
 
   return (
     <div className="min-h-screen bg-gray-50">

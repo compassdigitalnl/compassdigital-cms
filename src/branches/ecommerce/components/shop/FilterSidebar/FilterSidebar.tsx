@@ -17,14 +17,19 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   className = '',
 }) => {
   const [openSections, setOpenSections] = useState<string[]>([])
+  const [initialized, setInitialized] = useState(false)
 
   // Initialize open sections from defaultOpen or filter.defaultOpen
+  // Only run once on mount to prevent resetting state on every render
   useEffect(() => {
-    const initialOpen = filters
-      .filter((f) => defaultOpen.includes(f.id) || f.defaultOpen)
-      .map((f) => f.id)
-    setOpenSections(initialOpen)
-  }, [filters, defaultOpen])
+    if (!initialized) {
+      const initialOpen = filters
+        .filter((f) => defaultOpen.includes(f.id) || f.defaultOpen)
+        .map((f) => f.id)
+      setOpenSections(initialOpen)
+      setInitialized(true)
+    }
+  }, [filters, defaultOpen, initialized])
 
   const toggleSection = (filterId: string) => {
     setOpenSections((prev) =>

@@ -386,11 +386,9 @@ export default function ShopArchiveTemplate1({
       {/* ========================================
           BREADCRUMBS
           ======================================== */}
-      {breadcrumbs.length > 0 && (
-        <div className="px-6 pt-6">
-          <Breadcrumbs items={breadcrumbs} currentPage={category?.name || 'Shop'} />
-        </div>
-      )}
+      <div className="px-6 pt-6">
+        <Breadcrumbs items={breadcrumbs} currentPage={category?.name || 'Shop'} />
+      </div>
 
       {/* ========================================
           CATEGORY HERO
