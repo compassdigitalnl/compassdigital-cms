@@ -8,8 +8,8 @@ import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartT
 import type { Product } from '@/payload-types'
 
 // Types & Utils
-import type { ExtendedProduct, AttributeFieldNames } from './types'
-import { SHOP_CONSTANTS, DEFAULT_ATTRIBUTE_NAMES } from './types'
+import type { ExtendedProduct, AttributeFieldNames } from '@/branches/ecommerce/lib/shop/types'
+import { SHOP_CONSTANTS, DEFAULT_ATTRIBUTE_NAMES } from '@/branches/ecommerce/lib/shop/types'
 import {
   getBrandName,
   extractProductImage,
@@ -19,8 +19,8 @@ import {
   buildUrlWithParams,
   parseFilterFromUrl,
   getStockStatus,
-} from './utils'
-import { useProductFilters } from './useProductFilters'
+} from '@/branches/ecommerce/lib/shop/utils'
+import { useProductFilters } from '@/branches/ecommerce/hooks/useProductFilters'
 
 // Modern Components
 import { CategoryHero } from '@/branches/ecommerce/components/shop/CategoryHero/CategoryHero'

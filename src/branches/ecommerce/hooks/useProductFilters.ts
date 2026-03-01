@@ -5,14 +5,14 @@
 
 import { useMemo } from 'react'
 import type { Product } from '@/payload-types'
-import type { ExtendedProduct, AttributeFieldNames, ExtractedAttributes } from './types'
+import type { ExtendedProduct, AttributeFieldNames, ExtractedAttributes } from '@/branches/ecommerce/lib/shop/types'
 import type { ActiveFilter } from '@/branches/ecommerce/components/shop/FilterSidebar/types'
 import {
   getBrandName,
   extractAttributeValues,
   hasAttributeValue,
   getStockStatus,
-} from './utils'
+} from '@/branches/ecommerce/lib/shop/utils'
 
 interface UseProductFiltersProps {
   products: (Product | ExtendedProduct)[]
