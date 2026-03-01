@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Tab } from 'payload'
 import { autoGenerateSlug } from '@/utilities/slugify'
 import { autoFillSEO, autoSetPublishedDate, autoUpdateStockStatus } from '@/utilities/seoAutoFill'
 
@@ -1353,6 +1353,409 @@ export const Products: CollectionConfig = {
             },
           ],
         },
+
+        // ========================================
+        // PRODUCT TYPES - CONDITIONAL TABS
+        // ========================================
+        // Only included if feature flags are enabled
+
+        // VARIABLE PRODUCTS (VP01-VP13)
+        ...(process.env.ENABLE_VARIABLE_PRODUCTS === 'true'
+          ? ([
+              {
+                label: 'Varianten',
+                description: 'Product varianten zoals maat, kleur (VP01-VP13)',
+                fields: [
+                  {
+                    name: 'variantOptions',
+                    type: 'array',
+                    label: 'Variant Opties',
+                    admin: {
+                      description:
+                        'Definieer variant opties (kleur, maat, etc.) met verschillende display types',
+                    },
+                    fields: [
+                      {
+                        name: 'optionName',
+                        type: 'text',
+                        required: true,
+                        label: 'Optie Naam',
+                        admin: {
+                          description: 'Bijv. "Kleur", "Maat", "Materiaal"',
+                        },
+                      },
+                      {
+                        name: 'displayType',
+                        type: 'select',
+                        required: true,
+                        label: 'Display Type',
+                        options: [
+                          { label: 'Kleur Swatches (VP01)', value: 'colorSwatch' },
+                          { label: 'Maat Radio Buttons (VP02)', value: 'sizeRadio' },
+                          { label: 'Dropdown Selector (VP03)', value: 'dropdown' },
+                          { label: 'Afbeelding Radio (VP04)', value: 'imageRadio' },
+                          { label: 'Checkbox Add-ons (VP05)', value: 'checkbox' },
+                        ],
+                        admin: {
+                          description: 'Hoe wordt deze optie getoond aan de klant?',
+                        },
+                      },
+                      {
+                        name: 'required',
+                        type: 'checkbox',
+                        label: 'Verplicht',
+                        defaultValue: false,
+                        admin: {
+                          description: 'Moet klant deze optie kiezen?',
+                        },
+                      },
+                      {
+                        name: 'values',
+                        type: 'array',
+                        label: 'Waarden',
+                        required: true,
+                        admin: {
+                          description: 'Beschikbare waarden voor deze optie',
+                        },
+                        fields: [
+                          {
+                            name: 'label',
+                            type: 'text',
+                            required: true,
+                            label: 'Label',
+                            admin: {
+                              description: 'Zichtbare naam (bijv. "Rood", "Large")',
+                            },
+                          },
+                          {
+                            name: 'value',
+                            type: 'text',
+                            required: true,
+                            label: 'Waarde (slug)',
+                            admin: {
+                              description: 'Interne waarde (bijv. "red", "lg")',
+                            },
+                          },
+                          {
+                            name: 'priceModifier',
+                            type: 'number',
+                            label: 'Prijs Aanpassing (€)',
+                            admin: {
+                              description:
+                                'Extra kosten voor deze variant (bijv. +5 voor XL maat)',
+                            },
+                          },
+                          {
+                            name: 'stock',
+                            type: 'number',
+                            label: 'Voorraad',
+                            min: 0,
+                            admin: {
+                              description: 'Voorraad voor deze specifieke variant',
+                            },
+                          },
+                          {
+                            name: 'colorHex',
+                            type: 'text',
+                            label: 'Kleur Hex Code',
+                            admin: {
+                              description:
+                                'Voor colorSwatch type (bijv. #FF0000)',
+                            },
+                          },
+                          {
+                            name: 'image',
+                            type: 'upload',
+                            relationTo: 'media',
+                            label: 'Afbeelding',
+                            admin: {
+                              description: 'Voor imageRadio type',
+                            },
+                          },
+                          {
+                            name: 'disabled',
+                            type: 'checkbox',
+                            label: 'Uitgeschakeld',
+                            defaultValue: false,
+                            admin: {
+                              description: 'Tijdelijk niet beschikbaar',
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ] as Tab[])
+          : []),
+
+        // PERSONALIZATION (PP01-PP08)
+        ...(process.env.ENABLE_PERSONALIZATION === 'true'
+          ? ([
+              {
+                label: 'Personalisatie',
+                description:
+                  'Personalisatie opties - graveren, monogrammen (PP01-PP08)',
+                fields: [
+                  {
+                    name: 'personalizationOptions',
+                    type: 'array',
+                    label: 'Personalisatie Opties',
+                    admin: {
+                      description:
+                        'Klanten kunnen product personaliseren (tekst, afbeelding, kleur)',
+                    },
+                    fields: [
+                      {
+                        name: 'fieldName',
+                        type: 'text',
+                        required: true,
+                        label: 'Veld Naam',
+                        admin: {
+                          description: 'Bijv. "Graveer Tekst", "Upload Logo"',
+                        },
+                      },
+                      {
+                        name: 'fieldType',
+                        type: 'select',
+                        required: true,
+                        label: 'Veld Type',
+                        options: [
+                          { label: 'Tekst Invoer (PP01)', value: 'text' },
+                          { label: 'Lettertype Kiezer (PP02)', value: 'font' },
+                          { label: 'Kleur Kiezer (PP03)', value: 'color' },
+                          { label: 'Afbeelding Upload (PP04)', value: 'image' },
+                        ],
+                        admin: {
+                          description: 'Type invoerveld voor klant',
+                        },
+                      },
+                      {
+                        name: 'required',
+                        type: 'checkbox',
+                        label: 'Verplicht',
+                        defaultValue: false,
+                      },
+                      {
+                        name: 'maxLength',
+                        type: 'number',
+                        label: 'Max Lengte (karakters)',
+                        admin: {
+                          description: 'Voor tekst invoer velden (bijv. 50)',
+                        },
+                      },
+                      {
+                        name: 'priceModifier',
+                        type: 'number',
+                        label: 'Prijs Aanpassing (€)',
+                        admin: {
+                          description: 'Extra kosten voor personalisatie',
+                        },
+                      },
+                      {
+                        name: 'productionTimeAdded',
+                        type: 'number',
+                        label: 'Extra Productie Tijd (dagen)',
+                        min: 0,
+                        admin: {
+                          description: 'Hoe veel langer duurt productie?',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ] as Tab[])
+          : []),
+
+        // CONFIGURATOR (PC01-PC08)
+        ...(process.env.ENABLE_CONFIGURATOR === 'true'
+          ? ([
+              {
+                label: 'Configurator',
+                description: 'Multi-step product configuratie (PC01-PC08)',
+                fields: [
+                  {
+                    name: 'configuratorSteps',
+                    type: 'array',
+                    label: 'Configuratie Stappen',
+                    admin: {
+                      description:
+                        'Multi-step wizard voor complexe producten (bijv. auto configureren)',
+                    },
+                    fields: [
+                      {
+                        name: 'stepNumber',
+                        type: 'number',
+                        required: true,
+                        label: 'Stap Nummer',
+                        min: 1,
+                        admin: {
+                          description: 'Volgorde van deze stap (1, 2, 3, ...)',
+                        },
+                      },
+                      {
+                        name: 'title',
+                        type: 'text',
+                        required: true,
+                        label: 'Stap Titel',
+                        admin: {
+                          description: 'Bijv. "Kies Motor", "Selecteer Kleur"',
+                        },
+                      },
+                      {
+                        name: 'description',
+                        type: 'textarea',
+                        label: 'Stap Beschrijving',
+                        admin: {
+                          description: 'Uitleg voor deze stap',
+                        },
+                      },
+                      {
+                        name: 'required',
+                        type: 'checkbox',
+                        label: 'Verplicht',
+                        defaultValue: true,
+                        admin: {
+                          description: 'Moet klant deze stap voltooien?',
+                        },
+                      },
+                      {
+                        name: 'options',
+                        type: 'array',
+                        label: 'Opties',
+                        required: true,
+                        admin: {
+                          description: 'Beschikbare keuzes voor deze stap',
+                        },
+                        fields: [
+                          {
+                            name: 'name',
+                            type: 'text',
+                            required: true,
+                            label: 'Optie Naam',
+                          },
+                          {
+                            name: 'description',
+                            type: 'textarea',
+                            label: 'Beschrijving',
+                          },
+                          {
+                            name: 'price',
+                            type: 'number',
+                            required: true,
+                            label: 'Prijs (€)',
+                            min: 0,
+                          },
+                          {
+                            name: 'image',
+                            type: 'upload',
+                            relationTo: 'media',
+                            label: 'Afbeelding',
+                          },
+                          {
+                            name: 'recommended',
+                            type: 'checkbox',
+                            label: 'Aanbevolen',
+                            defaultValue: false,
+                            admin: {
+                              description: 'Toon als aanbevolen optie',
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ] as Tab[])
+          : []),
+
+        // SUBSCRIPTIONS
+        ...(process.env.ENABLE_SUBSCRIPTIONS === 'true'
+          ? ([
+              {
+                label: 'Abonnement',
+                description: 'Abonnement opties en prijzen',
+                fields: [
+                  {
+                    name: 'subscriptionOptions',
+                    type: 'group',
+                    label: 'Abonnement Instellingen',
+                    admin: {
+                      description: 'Configureer terugkerende betalingen',
+                    },
+                    fields: [
+                      {
+                        name: 'frequencies',
+                        type: 'array',
+                        label: 'Frequenties',
+                        admin: {
+                          description: 'Beschikbare abonnement frequenties',
+                        },
+                        fields: [
+                          {
+                            name: 'interval',
+                            type: 'select',
+                            required: true,
+                            label: 'Interval',
+                            options: [
+                              { label: 'Dag', value: 'day' },
+                              { label: 'Week', value: 'week' },
+                              { label: 'Maand', value: 'month' },
+                              { label: 'Jaar', value: 'year' },
+                            ],
+                          },
+                          {
+                            name: 'intervalCount',
+                            type: 'number',
+                            required: true,
+                            label: 'Interval Aantal',
+                            min: 1,
+                            admin: {
+                              description:
+                                'Bijv. elke 2 weken = intervalCount: 2, interval: week',
+                            },
+                          },
+                          {
+                            name: 'discount',
+                            type: 'number',
+                            label: 'Korting (%)',
+                            min: 0,
+                            max: 100,
+                            admin: {
+                              description: 'Percentage korting voor deze frequentie',
+                            },
+                          },
+                        ],
+                      },
+                      {
+                        name: 'minSubscriptionLength',
+                        type: 'number',
+                        label: 'Minimale Looptijd (maanden)',
+                        min: 0,
+                      },
+                      {
+                        name: 'maxSubscriptionLength',
+                        type: 'number',
+                        label: 'Maximale Looptijd (maanden)',
+                        min: 0,
+                      },
+                      {
+                        name: 'cancellationPolicy',
+                        type: 'textarea',
+                        label: 'Annuleringsbeleid',
+                        admin: {
+                          description: 'Voorwaarden voor annulering',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ] as Tab[])
+          : []),
       ],
     },
   ],
