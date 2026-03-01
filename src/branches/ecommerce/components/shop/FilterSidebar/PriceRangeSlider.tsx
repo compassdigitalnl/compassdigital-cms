@@ -80,7 +80,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
           type="text"
           value={formatPrice(localValue[0])}
           readOnly
-          className="flex-1 px-2.5 py-2 border-[1.5px] border-[var(--color-border)] rounded-lg text-[13px] text-center text-[var(--color-text-primary)] font-semibold font-mono bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
+          className="w-[90px] px-2.5 py-2 border-[1.5px] border-[var(--color-border)] rounded-lg text-[13px] text-center text-[var(--color-text-primary)] font-semibold font-mono bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
           aria-label="Minimum prijs"
         />
         <span className="text-[13px] text-[var(--color-text-muted)]">—</span>
@@ -88,7 +88,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
           type="text"
           value={formatPrice(localValue[1])}
           readOnly
-          className="flex-1 px-2.5 py-2 border-[1.5px] border-[var(--color-border)] rounded-lg text-[13px] text-center text-[var(--color-text-primary)] font-semibold font-mono bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
+          className="w-[90px] px-2.5 py-2 border-[1.5px] border-[var(--color-border)] rounded-lg text-[13px] text-center text-[var(--color-text-primary)] font-semibold font-mono bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
           aria-label="Maximum prijs"
         />
       </div>
