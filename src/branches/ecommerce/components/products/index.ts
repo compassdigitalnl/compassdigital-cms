@@ -82,3 +82,22 @@ export type { ProductSpecsTableProps, SpecGroup, SpecRow, SpecsVariant } from '.
 
 export { ProductActions } from './ProductActions'
 export type { ProductActionsProps } from './ProductActions'
+
+export { StickyAddToCartBar } from './StickyAddToCartBar'
+export type { StickyAddToCartBarProps, StickyAddToCartBarProduct } from './StickyAddToCartBar'
+
+export { BackInStockNotifier } from './BackInStockNotifier'
+export type { BackInStockNotifierProps, BackInStockNotifierProduct } from './BackInStockNotifier'
+
+export { ProductCompareBar } from './ProductCompareBar'
+export type { ProductCompareBarProps, CompareProduct } from './ProductCompareBar'
+
+export { PromoCard } from './PromoCard'
+export type { PromoCardProps, PromoCardProduct, PromoCardVariant } from './PromoCard'
+
+export { StaffelHintBanner } from './StaffelHintBanner'
+export type {
+  StaffelHintBannerProps,
+  StaffelHintTier,
+  StaffelHintVariant,
+} from './StaffelHintBanner'

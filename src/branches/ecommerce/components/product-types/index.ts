@@ -23,5 +23,8 @@ export * from './mix-match'
 // Subscription
 export * from './subscription'
 
+// Bookable Products
+export * from './bookable'
+
 // Types and utilities
 export * from '@/branches/ecommerce/lib/product-types'

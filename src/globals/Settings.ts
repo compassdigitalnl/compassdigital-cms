@@ -281,6 +281,7 @@ export const Settings: GlobalConfig = {
                 { label: 'Template 1 - Enterprise (Volledig, B2B features)', value: 'template1' },
                 { label: 'Template 2 - Minimal (Clean, modern)', value: 'template2' },
                 { label: 'Template 3 - Luxury (Premium, elegant)', value: 'template3' },
+                { label: 'Template 4 - Ultimate (18 componenten, 54 product-types ready)', value: 'template4' },
               ],
               admin: {
                 description: 'Template voor product detail pagina\'s',

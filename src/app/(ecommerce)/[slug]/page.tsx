@@ -9,6 +9,7 @@ import type { Page, Product } from '@/payload-types'
 import ProductTemplate1 from '@/branches/ecommerce/templates/products/ProductTemplate1'
 import ProductTemplate2 from '@/branches/ecommerce/templates/products/ProductTemplate2'
 import ProductTemplate3 from '@/branches/ecommerce/templates/products/ProductTemplate3'
+import ProductTemplate4 from '@/branches/ecommerce/templates/products/ProductTemplate4'
 import ShopArchiveTemplate1 from '@/branches/ecommerce/templates/shop/ShopArchiveTemplate1'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
@@ -100,11 +101,13 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       template = (settings as any)?.defaultProductTemplate || 'template1'
     } catch (error) {}
 
-    const ProductComponent = template === 'template3'
-      ? ProductTemplate3
-      : template === 'template2'
-        ? ProductTemplate2
-        : ProductTemplate1
+    const ProductComponent = template === 'template4'
+      ? ProductTemplate4
+      : template === 'template3'
+        ? ProductTemplate3
+        : template === 'template2'
+          ? ProductTemplate2
+          : ProductTemplate1
 
     const firstImage = product.images?.[0]
     const productImageObj = typeof firstImage === 'object' && firstImage !== null

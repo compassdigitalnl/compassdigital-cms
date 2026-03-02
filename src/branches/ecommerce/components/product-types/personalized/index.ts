@@ -2,7 +2,7 @@
  * Personalized Products Components (PP01-PP08)
  *
  * Components for personalized/customizable products:
- * - PP01: PersonalizationTextInput (already exists elsewhere)
+ * - PP01: PersonalizationTextInput - Text input for custom text/names
  * - PP02: PersonalizationFontSelector - Font/style selector with previews
  * - PP03: PersonalizationColorPicker - Color swatches or picker
  * - PP04: PersonalizationImageUpload - Drag-drop file upload
@@ -12,7 +12,8 @@
  * - PP08: PersonalizationProductionTime - Time indicator with delivery date calculator
  */
 
-// PP02-PP08 exports
+// PP01-PP08 exports
+export { PersonalizationTextInput } from './PersonalizationTextInput'
 export { PersonalizationFontSelector } from './PersonalizationFontSelector'
 export { PersonalizationColorPicker } from './PersonalizationColorPicker'
 export { PersonalizationImageUpload } from './PersonalizationImageUpload'
@@ -23,6 +24,7 @@ export { PersonalizationProductionTime } from './PersonalizationProductionTime'
 
 // Type exports
 export type {
+  PersonalizationTextInputProps,
   PersonalizationFontSelectorProps,
   PersonalizationColorPickerProps,
   PersonalizationImageUploadProps,
