@@ -31,6 +31,7 @@ export interface VariantOption {
   displayType: VariantDisplayType
   values: VariantValue[]
   required?: boolean
+  description?: string
 }
 
 export interface VariantSelection {
@@ -78,6 +79,70 @@ export interface VariantCheckboxAddonsProps {
   option: VariantOption
   selectedValues: VariantValue[]
   onToggle: (value: VariantValue) => void
+  className?: string
+}
+
+// Multi-Variant Component Props (VP08-VP13)
+export interface VariantMatrixSelectorProps {
+  product: Product
+  primaryOption: VariantOption
+  secondaryOption: VariantOption
+  selectedCombination?: {
+    primary: string
+    secondary: string
+  } | null
+  onSelect: (combination: { primary: string; secondary: string }) => void
+  showStock?: boolean
+  className?: string
+}
+
+export interface VariantStepByStepProps {
+  product: Product
+  options: VariantOption[]
+  selectedValues: Record<string, VariantValue>
+  onSelectionsChange: (selections: Record<string, VariantValue>) => void
+  showProgressBar?: boolean
+  className?: string
+}
+
+export interface VariantBulkSelectorProps {
+  product: Product
+  options: VariantOption[]
+  variantQuantities: Record<string, number>
+  onQuantityChange: (variantKey: string, quantity: number) => void
+  showTotalSummary?: boolean
+  minQuantity?: number
+  maxQuantity?: number
+  className?: string
+}
+
+export interface VariantComparisonTableProps {
+  product: Product
+  options: VariantOption[]
+  selectedVariants: string[]
+  onVariantsChange: (variants: string[]) => void
+  maxCompare?: number
+  className?: string
+}
+
+export interface VariantQuickAddProps {
+  product: Product
+  options: VariantOption[]
+  onAddToCart: (variantValue: string, quantity: number) => Promise<void>
+  showImages?: boolean
+  compactMode?: boolean
+  className?: string
+}
+
+export interface VariantAvailabilityCalendarProps {
+  product: Product
+  option: VariantOption
+  selectedDate?: Date | null
+  onDateSelect: (date: Date) => void
+  availabilityData?: Record<string, boolean | number>
+  minDate?: Date
+  maxDate?: Date
+  showLegend?: boolean
   className?: string
 }
 
@@ -383,7 +448,7 @@ export interface PriceCalculation {
 export type ProductType = 'simple' | 'grouped' | 'variable' | 'mixAndMatch' | 'subscription'
 
 export function isVariableProduct(product: Product): boolean {
-  return product.productType === 'variable' || product.hasVariants === true
+  return product.productType === 'variable' || !!(product as any).variantOptions
 }
 
 export function hasPersonalization(product: Product): boolean {
@@ -401,7 +466,7 @@ export function hasConfigurator(product: Product): boolean {
 }
 
 export function isSubscriptionProduct(product: Product): boolean {
-  return product.productType === 'subscription' || !!(product as any).subscriptionOptions
+  return !!(product as any).subscriptionOptions
 }
 
 export function isBundleProduct(product: Product): boolean {

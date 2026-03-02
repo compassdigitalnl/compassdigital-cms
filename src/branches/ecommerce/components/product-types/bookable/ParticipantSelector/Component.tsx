@@ -1,0 +1,139 @@
+'use client'
+
+import React from 'react'
+import { Users, Plus, Minus } from 'lucide-react'
+
+export interface ParticipantCategory {
+  id: string
+  label: string
+  description?: string
+  price: number
+  minCount?: number
+  maxCount?: number
+  count: number
+}
+
+export interface ParticipantSelectorProps {
+  categories: ParticipantCategory[]
+  onChange: (categoryId: string, count: number) => void
+  totalCapacity?: number
+  showPrices?: boolean
+  className?: string
+}
+
+export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
+  categories,
+  onChange,
+  totalCapacity,
+  showPrices = true,
+  className = '',
+}) => {
+  const totalParticipants = categories.reduce((sum, cat) => sum + cat.count, 0)
+  const isAtCapacity = totalCapacity !== undefined && totalParticipants >= totalCapacity
+
+  const handleIncrement = (category: ParticipantCategory) => {
+    const newCount = category.count + 1
+    const maxAllowed = category.maxCount || Infinity
+    const canIncrement = newCount <= maxAllowed && !isAtCapacity
+
+    if (canIncrement) {
+      onChange(category.id, newCount)
+    }
+  }
+
+  const handleDecrement = (category: ParticipantCategory) => {
+    const newCount = category.count - 1
+    const minAllowed = category.minCount || 0
+
+    if (newCount >= minAllowed) {
+      onChange(category.id, newCount)
+    }
+  }
+
+  return (
+    <div className={`participant-selector bg-white border border-gray-200 rounded-xl p-5 ${className}`}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Users className="w-5 h-5 text-teal-600" />
+          <h3 className="text-base font-extrabold text-gray-900">
+            Aantal deelnemers
+          </h3>
+        </div>
+        {totalCapacity && (
+          <div className="text-xs font-semibold text-gray-500">
+            {totalParticipants} / {totalCapacity}
+          </div>
+        )}
+      </div>
+
+      {/* Categories */}
+      <div className="space-y-3">
+        {categories.map((category) => {
+          const canDecrement = category.count > (category.minCount || 0)
+          const canIncrement =
+            category.count < (category.maxCount || Infinity) &&
+            (!totalCapacity || totalParticipants < totalCapacity)
+
+          return (
+            <div
+              key={category.id}
+              className="participant-category flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
+            >
+              {/* Left: Label & Description */}
+              <div className="flex-1">
+                <div className="text-sm font-bold text-gray-900">
+                  {category.label}
+                </div>
+                {category.description && (
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    {category.description}
+                  </div>
+                )}
+                {showPrices && (
+                  <div className="text-xs font-semibold text-teal-600 mt-1">
+                    €{category.price.toFixed(2)} per persoon
+                  </div>
+                )}
+              </div>
+
+              {/* Right: Counter */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleDecrement(category)}
+                  disabled={!canDecrement}
+                  className="w-8 h-8 rounded-lg border-[1.5px] border-gray-200 bg-white flex items-center justify-center transition-all hover:border-teal-600 hover:bg-teal-50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:bg-white"
+                  aria-label={`Decrease ${category.label}`}
+                >
+                  <Minus className="w-4 h-4 text-gray-700" />
+                </button>
+
+                <div className="w-10 text-center font-mono text-base font-bold text-gray-900">
+                  {category.count}
+                </div>
+
+                <button
+                  onClick={() => handleIncrement(category)}
+                  disabled={!canIncrement}
+                  className="w-8 h-8 rounded-lg border-[1.5px] border-gray-200 bg-white flex items-center justify-center transition-all hover:border-teal-600 hover:bg-teal-50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:bg-white"
+                  aria-label={`Increase ${category.label}`}
+                >
+                  <Plus className="w-4 h-4 text-gray-700" />
+                </button>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Capacity warning */}
+      {isAtCapacity && (
+        <div className="mt-3 p-2 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-700 text-center font-semibold">
+          Maximale capaciteit bereikt
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default ParticipantSelector

@@ -1,0 +1,7 @@
+/**
+ * VP09: VariantRowCompact
+ * Horizontal list row for multi-variant selection
+ */
+
+export { VariantRowCompact } from './Component'
+export type { VariantRowCompactProps } from '@/branches/ecommerce/lib/product-types'
