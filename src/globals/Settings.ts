@@ -332,14 +332,14 @@ export const Settings: GlobalConfig = {
               name: 'defaultCheckoutTemplate',
               type: 'select',
               label: 'Standaard Checkout Template',
-              defaultValue: 'checkouttemplate1',
+              defaultValue: 'template4',
               options: [
-                { label: 'Checkout Template 1 - Enterprise (Multi-step, volledig)', value: 'checkouttemplate1' },
-                { label: 'Checkout Template 4 - Ultimate (5 componenten, 4-step wizard, B2B support)', value: 'template4' },
-                // Template 2 will be one-page checkout
+                { label: 'Template 2 - One-Step Checkout (Alle velden op 1 pagina, snel)', value: 'checkouttemplate2' },
+                { label: 'Template 4 - Multi-Step Checkout (4 stappen wizard, B2B support)', value: 'template4' },
+                { label: 'Template 1 - Legacy Multi-Step (Niet aanbevolen)', value: 'checkouttemplate1' },
               ],
               admin: {
-                description: 'Template voor checkout/afrekenen pagina',
+                description: 'Kies tussen one-step (snel, simpel) of multi-step (overzichtelijk, B2B)',
               },
             }),
             {

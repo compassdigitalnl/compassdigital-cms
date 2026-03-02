@@ -54,12 +54,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
 
   return (
     <div
-      className={`
-        compare-bar fixed bottom-0 left-0 right-0 bg-navy-600 z-[280]
-        transition-transform duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)] py-3.5
-        ${isVisible ? 'translate-y-0' : 'translate-y-full'}
-        ${className}
-      `}
+      className={`compare-bar fixed bottom-0 left-0 right-0 bg-navy-600 z-[280] transition-transform duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)] py-3.5 ${isVisible ? 'translate-y-0' : 'translate-y-full'} ${className}`}
       role="complementary"
       aria-label="Product vergelijking"
       aria-hidden={!isVisible}
@@ -125,11 +120,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
         <button
           onClick={handleCompare}
           disabled={compareButtonDisabled}
-          className={`
-            compare-btn h-[42px] px-5.5 bg-teal-600 text-white rounded-[10px] font-bold text-sm
-            cursor-pointer transition-all duration-200 flex items-center gap-1.5 flex-shrink-0 border-none
-            ${compareButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-teal-500'}
-          `}
+          className={`compare-btn h-[42px] px-5.5 bg-teal-600 text-white rounded-[10px] font-bold text-sm cursor-pointer transition-all duration-200 flex items-center gap-1.5 flex-shrink-0 border-none ${compareButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-teal-500'}`}
           aria-label="Vergelijk geselecteerde producten"
           title={
             compareButtonDisabled ? 'Selecteer minimaal 2 producten om te vergelijken' : undefined

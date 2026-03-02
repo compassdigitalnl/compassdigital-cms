@@ -3254,7 +3254,7 @@ export interface CTABannerBlock {
   blockType: 'cta-banner';
 }
 /**
- * GDPR cookie consent log (read-only voor compliance)
+ * GDPR cookie consent log (read-only voor compliance - gebruik access control)
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cookie-consents".
@@ -11864,7 +11864,7 @@ export interface Setting {
   /**
    * Template voor product detail pagina's
    */
-  defaultProductTemplate?: ('template1' | 'template2' | 'template3') | null;
+  defaultProductTemplate?: ('template1' | 'template2' | 'template3' | 'template4') | null;
   /**
    * Template voor blog post pagina's
    */
@@ -11876,11 +11876,11 @@ export interface Setting {
   /**
    * Template voor winkelwagen pagina (A/B testing beschikbaar)
    */
-  defaultCartTemplate?: ('template1' | 'template2') | null;
+  defaultCartTemplate?: ('template1' | 'template2' | 'template4') | null;
   /**
-   * Template voor checkout/afrekenen pagina
+   * Kies tussen one-step (snel, simpel) of multi-step (overzichtelijk, B2B)
    */
-  defaultCheckoutTemplate?: 'checkouttemplate1' | null;
+  defaultCheckoutTemplate?: ('checkouttemplate2' | 'template4' | 'checkouttemplate1') | null;
   /**
    * Template voor mijn account pagina's
    */
