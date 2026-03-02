@@ -11,6 +11,7 @@ import * as migration_20260224_211305_email_marketing_collections from './202602
 import * as migration_20260224_211435_email_marketing_indexes from './20260224_211435_email_marketing_indexes';
 import * as migration_20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory from './20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory';
 import * as migration_20260224_233259_email_api_keys_collection from './20260224_233259_email_api_keys_collection';
+import * as migration_20260302_142624 from './20260302_142624';
 
 export const migrations = [
   {
@@ -76,6 +77,11 @@ export const migrations = [
   {
     up: migration_20260224_233259_email_api_keys_collection.up,
     down: migration_20260224_233259_email_api_keys_collection.down,
-    name: '20260224_233259_email_api_keys_collection'
+    name: '20260224_233259_email_api_keys_collection',
+  },
+  {
+    up: migration_20260302_142624.up,
+    down: migration_20260302_142624.down,
+    name: '20260302_142624'
   },
 ];
