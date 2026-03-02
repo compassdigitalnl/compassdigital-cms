@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP06: System Requirements — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.req-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .req-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.req {
+  padding: 12px;
+  background: var(--grey-light);
+  border-radius: 10px;
+}
+
+.req-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--grey-mid);
+  margin-bottom: 2px;
+}
+
+.req-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<div class="section-title">
+  <i data-lucide="monitor"></i> Systeemvereisten
+</div>
+
+<div class="req-grid">
+  <div class="req">
+    <div class="req-label">Besturingssysteem</div>
+    <div class="req-value">macOS 12+, Windows 10+, Linux</div>
+  </div>
+
+  <div class="req">
+    <div class="req-label">Processor</div>
+    <div class="req-value">Intel i5 / Apple M1 of hoger</div>
+  </div>
+
+  <div class="req">
+    <div class="req-label">Geheugen</div>
+    <div class="req-value">8 GB RAM (16 GB aanbevolen)</div>
+  </div>
+
+  <div class="req">
+    <div class="req-label">Opslag</div>
+    <div class="req-value">2 GB vrije ruimte</div>
+  </div>
+
+  <div class="req">
+    <div class="req-label">Beeldscherm</div>
+    <div class="req-value">1280×800 minimaal</div>
+  </div>
+
+  <div class="req">
+    <div class="req-label">Internet</div>
+    <div class="req-value">Vereist voor activatie & AI</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- Documentation: DP06 System Requirements -->
+<!-- Complete 8-step protocol available in component -->
+
+</body>
+</html>

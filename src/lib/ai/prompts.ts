@@ -43,7 +43,7 @@ export function buildContentPrompt(
     persuasive: 'persuasive and compelling',
   }
 
-  const languageNames = {
+  const languageNames: Record<string, string> = {
     nl: 'Dutch',
     en: 'English',
     de: 'German',
@@ -51,7 +51,7 @@ export function buildContentPrompt(
     es: 'Spanish',
   }
 
-  let prompt = `Write content in ${languageNames[language]} with a ${toneInstructions[tone]} tone.\n\n`
+  let prompt = `Write content in ${languageNames[language as string]} with a ${toneInstructions[tone]} tone.\n\n`
 
   if (context) {
     if (context.businessName) {
@@ -204,7 +204,7 @@ export function buildCompletePagePrompt(
  * Generate FAQ prompt
  */
 export function buildFAQPrompt(topic: string, count: number = 5, language: ContentLanguage = 'nl'): string {
-  const languageNames = {
+  const languageNames: Record<string, string> = {
     nl: 'Dutch',
     en: 'English',
     de: 'German',
@@ -212,7 +212,7 @@ export function buildFAQPrompt(topic: string, count: number = 5, language: Conte
     es: 'Spanish',
   }
 
-  let prompt = `Generate ${count} frequently asked questions and detailed answers about "${topic}" in ${languageNames[language]}.\n\n`
+  let prompt = `Generate ${count} frequently asked questions and detailed answers about "${topic}" in ${languageNames[language as string]}.\n\n`
   prompt += `Requirements:\n`
   prompt += `- Questions should be common customer concerns\n`
   prompt += `- Answers should be helpful and detailed (2-3 sentences)\n`

@@ -94,7 +94,7 @@ export async function ReviewsGridComponent(props: ReviewsGridBlock) {
     '2': 'grid-cols-1 md:grid-cols-2',
     '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
   }
-  const gridClass = gridColsClasses[columns] || gridColsClasses['3']
+  const gridClass = gridColsClasses[columns || '3'] || gridColsClasses['3']
 
   return (
     <section className="py-12 md:py-16 lg:py-20 px-4 bg-grey-light">

@@ -14,6 +14,7 @@ export function TrustSignalItem({ icon, text, variant }: TrustSignalItemProps) {
     size?: number
     'aria-hidden'?: boolean
     className?: string
+    style?: React.CSSProperties
   }>
 
   // Icon size based on variant
@@ -30,9 +31,9 @@ export function TrustSignalItem({ icon, text, variant }: TrustSignalItemProps) {
       {IconComponent && (
         <IconComponent
           size={iconSize}
-          aria-hidden="true"
+          aria-hidden={true}
           className="flex-shrink-0"
-          style={{ color: 'var(--teal)' }}
+          style={{ color: 'var(--teal)' } as React.CSSProperties}
         />
       )}
       {text}

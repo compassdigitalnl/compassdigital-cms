@@ -150,7 +150,7 @@ export default async function CategoryArchivePage({
 
         {/* Hero Section */}
         <div
-          className={`bg-gradient-to-br ${getColorGradient(category.color)} rounded-3xl p-12 mb-8 relative overflow-hidden`}
+          className={`bg-gradient-to-br ${getColorGradient(category.color || undefined)} rounded-3xl p-12 mb-8 relative overflow-hidden`}
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
           <div className="relative z-10">

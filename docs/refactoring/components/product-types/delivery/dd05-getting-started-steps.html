@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DD05: Getting Started Steps — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0,137,123,0.12);
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.gs-section {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--grey-light);
+  border-radius: 14px;
+}
+
+.gs-title {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--navy);
+}
+
+.gs-title i {
+  width: 18px;
+  height: 18px;
+  color: var(--teal);
+}
+
+.gs-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gs-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.gs-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.gs-content h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--navy);
+}
+
+.gs-content p {
+  font-size: 12px;
+  color: var(--grey-mid);
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .gs-section {
+    padding: 16px;
+  }
+
+  .gs-num {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 720px; margin: 0 auto;">
+
+<div class="gs-section">
+  <div class="gs-title">
+    <i data-lucide="play-circle"></i> Aan de slag
+  </div>
+
+  <div class="gs-steps">
+    <div class="gs-step">
+      <div class="gs-num">1</div>
+      <div class="gs-content">
+        <h4>Installeer de software</h4>
+        <p>Download het installatiebestand en volg de installatie-instructies voor jouw platform.</p>
+      </div>
+    </div>
+
+    <div class="gs-step">
+      <div class="gs-num">2</div>
+      <div class="gs-content">
+        <h4>Activeer je licentie</h4>
+        <p>Start de applicatie en voer je licentiekey in bij de eerste keer opstarten.</p>
+      </div>
+    </div>
+
+    <div class="gs-step">
+      <div class="gs-num">3</div>
+      <div class="gs-content">
+        <h4>Bekijk de quick start guide</h4>
+        <p>Lees de <a href="#" style="color: var(--teal); text-decoration: underline;">documentatie</a> om snel aan de slag te gaan met alle functies.</p>
+      </div>
+    </div>
+
+    <div class="gs-step">
+      <div class="gs-num">4</div>
+      <div class="gs-content">
+        <h4>Neem contact op bij vragen</h4>
+        <p>Heb je hulp nodig? Ons <a href="#" style="color: var(--teal); text-decoration: underline;">support team</a> staat voor je klaar.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- DOCUMENTATION: DD05 Getting Started Steps -->
+<!--
+COMPONENT: DD05 — Getting Started Steps
+PURPOSE: Onboarding guide with numbered steps for digital product setup
+PATTERN: Vertical step list with numbered circles + title + description
+USE CASE: Digital product delivery pages, post-purchase onboarding
+
+DESIGN TOKENS:
+- Section: grey-light bg (#F1F4F8), 14px radius, 20px padding
+- Title: 14px, 800 weight, play-circle icon (18px teal)
+- Steps gap: 12px vertical
+- Number circle: 28×28px (24px mobile), teal bg, white text, 13px (11px mobile)
+- Step title: 13px, 700 weight
+- Step description: 12px, grey-mid, 1.4 line-height
+- Links: teal color, underline
+
+REACT INTERFACE:
+interface GettingStartedStepsProps {
+  steps: Array<{
+    title: string
+    description: string | React.ReactNode
+    link?: {
+      text: string
+      url: string
+    }
+  }>
+  title?: string // Default: "Aan de slag"
+  icon?: string // Default: "play-circle"
+  variant?: 'default' | 'compact' | 'numbered'
+}
+
+LAYOUT RULES:
+1. Section: grey-light bg, 20px padding (16px mobile)
+2. Steps: flex-column, 12px gap
+3. Step: flex-row, 12px gap, align-start
+4. Number circle: fixed 28px, flex-shrink 0
+5. Content: flex 1
+
+ACCESSIBILITY:
+- Semantic: <ol> with <li> for steps
+- ARIA: role="list", aria-label="Getting started steps"
+- Number circles: aria-hidden="true" (decorative)
+- Links: underline + teal color (4.5:1 contrast)
+- Screen reader: reads step order automatically
+
+VARIATIONS:
+1. Default (4 steps): Install, Activate, Guide, Support
+2. Compact (3 steps): Smaller padding, no section bg
+3. Checklist: Replace numbers with checkboxes
+4. Timeline: Add connector lines between steps
+
+RELATED COMPONENTS:
+- DD02 (ProductDownloadCard): Parent container
+- DD04 (DownloadButtonGrid): Sibling above
+- DD06 (OrderSummaryCard): Sibling below
+
+NEXT.JS IMPLEMENTATION:
+'use client'
+
+import { PlayCircle } from 'lucide-react'
+
+export default function GettingStartedSteps({ steps, title = 'Aan de slag' }) {
+  return (
+    <div className="gs-section">
+      <div className="gs-title">
+        <PlayCircle className="w-[18px] h-[18px]" />
+        {title}
+      </div>
+
+      <ol className="gs-steps" role="list" aria-label="Getting started steps">
+        {steps.map((step, index) => (
+          <li key={index} className="gs-step">
+            <div className="gs-num" aria-hidden="true">
+              {index + 1}
+            </div>
+            <div className="gs-content">
+              <h4>{step.title}</h4>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+-->
+
+</body>
+</html>

@@ -36,68 +36,46 @@ export async function seedBase(
       data: {
         title: `Welkom bij ${companyName}`,
         slug: 'home',
-        _status: status,
-        hero: {
-          type: 'minimal',
-          richText: [
-            {
-              children: [
-                {
-                  text: `Welkom bij ${companyName}`,
-                },
-              ],
-              type: 'h1',
-            },
-            {
-              children: [
-                {
-                  text: 'Deze site is aangemaakt met Compass Digital CMS. Pas de content aan in het admin panel.',
-                },
-              ],
-            },
-          ],
-        },
+        _status: status as 'draft' | 'published',
         layout: [
           {
             blockType: 'content',
-            richText: [
-              {
+            content: {
+              root: {
+                type: 'root',
                 children: [
                   {
-                    text: 'Over ons',
+                    type: 'heading',
+                    tag: 'h2',
+                    children: [
+                      {
+                        type: 'text',
+                        text: 'Over ons',
+                      },
+                    ],
                   },
-                ],
-                type: 'h2',
-              },
-              {
-                children: [
                   {
-                    text: `Dit is de homepage van ${companyName}. Voeg hier uw eigen content toe via het admin panel. U kunt tekst, afbeeldingen, formulieren en meer toevoegen.`,
+                    type: 'paragraph',
+                    children: [
+                      {
+                        type: 'text',
+                        text: `Dit is de homepage van ${companyName}. Voeg hier uw eigen content toe via het admin panel. U kunt tekst, afbeeldingen, formulieren en meer toevoegen.`,
+                      },
+                    ],
                   },
                 ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                version: 1,
               },
-            ],
-          },
+            },
+          } as any,
           {
             blockType: 'cta',
-            richText: [
-              {
-                children: [
-                  {
-                    text: 'Klaar om te beginnen?',
-                  },
-                ],
-                type: 'h3',
-              },
-              {
-                children: [
-                  {
-                    text: 'Neem contact met ons op voor meer informatie.',
-                  },
-                ],
-              },
-            ],
-            links: [
+            title: 'Klaar om te beginnen?',
+            description: 'Neem contact met ons op voor meer informatie.',
+            buttons: [
               {
                 link: {
                   type: 'reference',
@@ -109,7 +87,7 @@ export async function seedBase(
                 },
               },
             ],
-          },
+          } as any,
         ],
         meta: {
           title: `${companyName} - Welkom`,
@@ -132,62 +110,59 @@ export async function seedBase(
       data: {
         title: 'Contact',
         slug: 'contact',
-        _status: status,
-        hero: {
-          type: 'minimal',
-          richText: [
-            {
-              children: [
-                {
-                  text: 'Contact',
-                },
-              ],
-              type: 'h1',
-            },
-            {
-              children: [
-                {
-                  text: 'Neem contact met ons op. We helpen u graag verder.',
-                },
-              ],
-            },
-          ],
-        },
+        _status: status as 'draft' | 'published',
         layout: [
           {
             blockType: 'content',
-            richText: [
-              {
+            content: {
+              root: {
+                type: 'root',
                 children: [
                   {
-                    text: 'Contactgegevens',
+                    type: 'heading',
+                    tag: 'h2',
+                    children: [
+                      {
+                        type: 'text',
+                        text: 'Contactgegevens',
+                      },
+                    ],
                   },
-                ],
-                type: 'h2',
-              },
-              {
-                children: [
                   {
-                    text: `${companyName}`,
+                    type: 'paragraph',
+                    children: [
+                      {
+                        type: 'text',
+                        text: `${companyName}`,
+                      },
+                    ],
                   },
-                ],
-              },
-              {
-                children: [
                   {
-                    text: `Website: ${domain}`,
+                    type: 'paragraph',
+                    children: [
+                      {
+                        type: 'text',
+                        text: `Website: ${domain}`,
+                      },
+                    ],
                   },
-                ],
-              },
-              {
-                children: [
                   {
-                    text: 'E-mail: info@' + domain,
+                    type: 'paragraph',
+                    children: [
+                      {
+                        type: 'text',
+                        text: 'E-mail: info@' + domain,
+                      },
+                    ],
                   },
                 ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                version: 1,
               },
-            ],
-          },
+            },
+          } as any,
         ],
         meta: {
           title: `Contact - ${companyName}`,
@@ -223,7 +198,7 @@ export async function seedBase(
           },
         },
       ],
-    },
+    } as any,
   })
 
   result.globals.push('header')
@@ -259,7 +234,7 @@ export async function seedBase(
           },
         },
       ],
-    },
+    } as any,
   })
 
   result.globals.push('footer')

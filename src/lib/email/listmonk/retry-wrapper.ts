@@ -93,7 +93,7 @@ export class ResilientListmonkClient {
     context?: Record<string, any>,
   ): Promise<ListmonkSubscribersResponse> {
     return executeWithRetry(
-      () => this.client.listSubscribers(params),
+      () => this.client.getSubscribers(params),
       { operation: 'listSubscribers', params, ...context },
     )
   }
@@ -106,8 +106,9 @@ export class ResilientListmonkClient {
     listIds?: number[],
     context?: Record<string, any>,
   ): Promise<ListmonkSubscribersResponse> {
+    // Use getSubscribers with query parameter since searchSubscribers doesn't exist
     return executeWithRetry(
-      () => this.client.searchSubscribers(query, listIds),
+      () => this.client.getSubscribers({ query } as any),
       { operation: 'searchSubscribers', query, listIds, ...context },
     )
   }
@@ -115,9 +116,12 @@ export class ResilientListmonkClient {
   /**
    * Block subscriber with retry logic
    */
-  async blockSubscriber(id: number, context?: Record<string, any>): Promise<void> {
+  async blockSubscriber(
+    id: number,
+    context?: Record<string, any>,
+  ): Promise<ListmonkSubscriberResponse> {
     return executeWithRetry(
-      () => this.client.blockSubscriber(id),
+      () => this.client.blocklistSubscriber(id),
       { operation: 'blockSubscriber', subscriberId: id, ...context },
     )
   }
@@ -175,7 +179,7 @@ export class ResilientListmonkClient {
    */
   async listLists(params?: ListmonkPaginationParams, context?: Record<string, any>): Promise<ListmonkListsResponse> {
     return executeWithRetry(
-      () => this.client.listLists(params),
+      () => this.client.getLists(params),
       { operation: 'listLists', params, ...context },
     )
   }
@@ -234,13 +238,10 @@ export class ResilientListmonkClient {
   /**
    * List templates with retry logic
    */
-  async listTemplates(
-    params?: ListmonkPaginationParams,
-    context?: Record<string, any>,
-  ): Promise<ListmonkTemplatesResponse> {
+  async listTemplates(context?: Record<string, any>): Promise<ListmonkTemplatesResponse> {
     return executeWithRetry(
-      () => this.client.listTemplates(params),
-      { operation: 'listTemplates', params, ...context },
+      () => this.client.getTemplates(),
+      { operation: 'listTemplates', ...context },
     )
   }
 
@@ -303,7 +304,7 @@ export class ResilientListmonkClient {
     context?: Record<string, any>,
   ): Promise<ListmonkCampaignsResponse> {
     return executeWithRetry(
-      () => this.client.listCampaigns(params),
+      () => this.client.getCampaigns(params),
       { operation: 'listCampaigns', params, ...context },
     )
   }
@@ -311,7 +312,7 @@ export class ResilientListmonkClient {
   /**
    * Start campaign with retry logic
    */
-  async startCampaign(id: number, context?: Record<string, any>): Promise<void> {
+  async startCampaign(id: number, context?: Record<string, any>): Promise<ListmonkCampaignResponse> {
     return executeWithRetry(
       () => this.client.startCampaign(id),
       { operation: 'startCampaign', campaignId: id, ...context },
@@ -326,7 +327,7 @@ export class ResilientListmonkClient {
   /**
    * Pause campaign with retry logic
    */
-  async pauseCampaign(id: number, context?: Record<string, any>): Promise<void> {
+  async pauseCampaign(id: number, context?: Record<string, any>): Promise<ListmonkCampaignResponse> {
     return executeWithRetry(
       () => this.client.pauseCampaign(id),
       { operation: 'pauseCampaign', campaignId: id, ...context },
@@ -336,7 +337,7 @@ export class ResilientListmonkClient {
   /**
    * Cancel campaign with retry logic
    */
-  async cancelCampaign(id: number, context?: Record<string, any>): Promise<void> {
+  async cancelCampaign(id: number, context?: Record<string, any>): Promise<ListmonkCampaignResponse> {
     return executeWithRetry(
       () => this.client.cancelCampaign(id),
       { operation: 'cancelCampaign', campaignId: id, ...context },

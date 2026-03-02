@@ -36,8 +36,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: post.metaTitle || `${post.title} | Kennisbank`,
-    description: post.metaDescription || post.excerpt || `Lees ${post.title}`,
+    title: post.meta?.title || `${post.title} | Kennisbank`,
+    description: post.meta?.description || post.excerpt || `Lees ${post.title}`,
   }
 }
 

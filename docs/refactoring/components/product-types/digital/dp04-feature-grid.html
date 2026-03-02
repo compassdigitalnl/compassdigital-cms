@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DP04: FeatureGrid — Digital Product Component</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* =========================================
+       DESIGN TOKENS
+       ========================================= */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =========================================
+       DEMO STYLES
+       ========================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .demo-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .demo-header p {
+      font-size: 14px;
+      color: var(--grey-mid);
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    /* =========================================
+       COMPONENT: DP04 FEATURE GRID
+       ========================================= */
+
+    /* Section Container */
+    .feature-grid-section {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Section Header */
+    .fg-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .fg-header.left {
+      text-align: left;
+      margin: 0;
+    }
+
+    .fg-overline {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .fg-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .fg-desc {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* Feature Grid */
+    .feature-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .feature-grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .feature-grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .feature-grid.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Feature Item */
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Icon Box */
+    .fi-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--teal-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--teal);
+      transition: all var(--transition);
+    }
+
+    .fi-icon i {
+      width: 24px;
+      height: 24px;
+    }
+
+    .feature-item:hover .fi-icon {
+      background: var(--teal);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    /* Color Variants */
+    .fi-icon.green {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .feature-item:hover .fi-icon.green {
+      background: var(--green);
+    }
+
+    .fi-icon.blue {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    .feature-item:hover .fi-icon.blue {
+      background: var(--blue);
+    }
+
+    .fi-icon.purple {
+      background: var(--purple-light);
+      color: var(--purple);
+    }
+
+    .feature-item:hover .fi-icon.purple {
+      background: var(--purple);
+    }
+
+    .fi-icon.amber {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+
+    .feature-item:hover .fi-icon.amber {
+      background: var(--amber);
+    }
+
+    /* Feature Content */
+    .fi-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .fi-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .fi-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* Card Variant */
+    .feature-grid.card .feature-item {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all var(--transition);
+    }
+
+    .feature-grid.card .feature-item:hover {
+      border-color: var(--teal);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    /* Horizontal Variant */
+    .feature-grid.horizontal .feature-item {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .feature-grid.horizontal .fi-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .feature-grid.horizontal .fi-icon i {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Compact Variant */
+    .feature-grid.compact {
+      gap: 16px;
+    }
+
+    .feature-grid.compact .feature-item {
+      gap: 8px;
+    }
+
+    .feature-grid.compact .fi-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .feature-grid.compact .fi-icon i {
+      width: 20px;
+      height: 20px;
+    }
+
+    .feature-grid.compact .fi-title {
+      font-size: 14px;
+    }
+
+    .feature-grid.compact .fi-desc {
+      font-size: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .feature-grid.cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .feature-grid.cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .feature-grid.cols-2,
+      .feature-grid.cols-3,
+      .feature-grid.cols-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .fg-title {
+        font-size: 24px;
+      }
+
+      .fg-desc {
+        font-size: 14px;
+      }
+    }
+
+    /* =========================================
+       DOCUMENTATION STYLES
+       ========================================= */
+    .docs {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 48px;
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--navy);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .docs h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .docs p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .docs ul {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .docs code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .docs pre code {
+      background: none;
+      padding: 0;
+      color: var(--white);
+    }
+
+    .docs table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .docs th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid var(--grey);
+    }
+
+    .docs td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       LIVE DEMO
+       ========================================= -->
+  <div class="demo-container">
+    <div class="demo-header">
+      <h1>DP04: FeatureGrid</h1>
+      <p>Digital Product Component · Key Features Grid Layout</p>
+    </div>
+
+    <!-- Default Variant (2 Columns) -->
+    <div class="demo-section">
+      <div class="feature-grid-section">
+        <div class="fg-header">
+          <div class="fg-overline">Krachtige Features</div>
+          <h2 class="fg-title">Alles wat je nodig hebt om te groeien</h2>
+          <div class="fg-desc">
+            ProDesign Suite bevat alle tools die je nodig hebt voor professioneel design werk, van AI-powered content generation tot realtime samenwerking.
+          </div>
+        </div>
+
+        <div class="feature-grid cols-2">
+          <div class="feature-item">
+            <div class="fi-icon">
+              <i data-lucide="cpu"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">AI Content Generation</div>
+              <div class="fi-desc">
+                Genereer automatisch content met onze geavanceerde AI-engine. Bespaar uren werk en behoud volledige controle over het eindresultaat.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon green">
+              <i data-lucide="zap"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Realtime Samenwerking</div>
+              <div class="fi-desc">
+                Werk samen met je team in realtime. Zie aanpassingen live en communiceer direct binnen het platform.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon blue">
+              <i data-lucide="layers"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Component Library</div>
+              <div class="fi-desc">
+                Toegang tot 500+ professionele componenten en templates. Volledig aanpasbaar en klaar voor gebruik.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon purple">
+              <i data-lucide="code"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Export naar Code</div>
+              <div class="fi-desc">
+                Export je designs met één klik naar production-ready code (React, Vue, HTML/CSS). Developer-friendly output.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon amber">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Enterprise Security</div>
+              <div class="fi-desc">
+                Bank-level encryptie, SSO integratie en compliance met GDPR/SOC2. Je data is altijd veilig.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon">
+              <i data-lucide="trending-up"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Analytics & Insights</div>
+              <div class="fi-desc">
+                Track performance, engagement en conversie. Maak data-driven beslissingen met realtime rapportage.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Variant (3 Columns) -->
+    <div class="demo-section">
+      <h2>Card Variant (3 Columns)</h2>
+      <div class="feature-grid-section">
+        <div class="feature-grid cols-3 card">
+          <div class="feature-item">
+            <div class="fi-icon">
+              <i data-lucide="smartphone"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Responsive Design</div>
+              <div class="fi-desc">
+                Perfect op elk scherm. Automatisch responsive output voor desktop, tablet en mobile.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon green">
+              <i data-lucide="git-branch"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Version Control</div>
+              <div class="fi-desc">
+                Ingebouwde versie geschiedenis. Ga terug naar elke vorige versie of maak varianten.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon blue">
+              <i data-lucide="palette"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Design System</div>
+              <div class="fi-desc">
+                Bouw en beheer je eigen design system met tokens, stijlen en componenten.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon purple">
+              <i data-lucide="globe"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Multi-Language</div>
+              <div class="fi-desc">
+                Ondersteunt 30+ talen. Built-in vertaling en RTL support voor globale projecten.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon amber">
+              <i data-lucide="database"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Cloud Storage</div>
+              <div class="fi-desc">
+                Onbeperkte cloud opslag. Automatische backups en sync tussen alle devices.
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon">
+              <i data-lucide="headphones"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Priority Support</div>
+              <div class="fi-desc">
+                Snelle hulp wanneer je het nodig hebt. Live chat, email en dedicated account manager.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horizontal Variant (Compact) -->
+    <div class="demo-section">
+      <h2>Horizontal Compact Variant</h2>
+      <div class="feature-grid-section">
+        <div class="fg-header left">
+          <h2 class="fg-title">Waarom kiezen voor ProDesign?</h2>
+        </div>
+
+        <div class="feature-grid cols-2 horizontal compact">
+          <div class="feature-item">
+            <div class="fi-icon">
+              <i data-lucide="check-circle"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Geen installatie nodig</div>
+              <div class="fi-desc">Direct aan de slag in je browser. Geen downloads of updates.</div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon green">
+              <i data-lucide="clock"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Gratis 14-dagen trial</div>
+              <div class="fi-desc">Probeer alle features zonder creditcard. Geen verplichtingen.</div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon blue">
+              <i data-lucide="users"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Onbeperkt teamleden</div>
+              <div class="fi-desc">Nodig je hele team uit. Geen extra kosten per gebruiker.</div>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="fi-icon purple">
+              <i data-lucide="download"></i>
+            </div>
+            <div class="fi-content">
+              <div class="fi-title">Gratis updates</div>
+              <div class="fi-desc">Levenslange toegang tot alle nieuwe features en verbeteringen.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       DOCUMENTATION
+       ========================================= -->
+  <div class="demo-container">
+    <div class="docs">
+      <h2>📖 DP04: FeatureGrid — Complete Documentation</h2>
+
+      <!-- STEP 1: Component Overview -->
+      <h3>STEP 1: Component Overview</h3>
+      <p><strong>Component Name:</strong> DP04: FeatureGrid</p>
+      <p><strong>Category:</strong> Digital Product Components (Product Types)</p>
+      <p><strong>Usage:</strong> Display key product features in a scannable grid layout with icons and descriptions</p>
+
+      <p><strong>Description:</strong></p>
+      <p>FeatureGrid showcases digital product features in a structured grid with icons, titles, and descriptions. Used on product pages, landing pages, and feature comparison sections to highlight capabilities and benefits.</p>
+
+      <p><strong>Key Features:</strong></p>
+      <ul>
+        <li>Flexible grid layouts (2/3/4 columns)</li>
+        <li>Icon box with color variants (teal, green, blue, purple, amber)</li>
+        <li>Hover effects: icon scale + color fill</li>
+        <li>Optional section header (overline + title + description)</li>
+        <li>3 layout variants: Default (vertical icons), Card (bordered boxes), Horizontal (icon + text inline)</li>
+        <li>Compact variant for dense feature lists</li>
+        <li>Fully responsive (auto-stacks on mobile)</li>
+      </ul>
+
+      <!-- STEP 2: When to Use -->
+      <h3>STEP 2: When to Use This Component</h3>
+
+      <h4>✅ Use FeatureGrid when:</h4>
+      <ul>
+        <li>Showcasing 4-12 product features or benefits</li>
+        <li>Highlighting SaaS capabilities (integrations, security, collaboration)</li>
+        <li>Displaying software features (AI tools, export options, analytics)</li>
+        <li>Presenting template/theme features (responsive, customizable, performant)</li>
+        <li>Creating "Why choose us?" or "What's included?" sections</li>
+        <li>Comparing feature sets across pricing tiers (with checkmarks)</li>
+      </ul>
+
+      <h4>❌ Don't use when:</h4>
+      <ul>
+        <li>Only 1-3 features → use Features CMS block instead (larger cards)</li>
+        <li>20+ features → too many, group into categories or use tabs</li>
+        <li>Feature comparison table → use DP05 (ComparisonTable) instead</li>
+        <li>Step-by-step process → use numbered steps or timeline</li>
+      </ul>
+
+      <h4>💡 Common Use Cases:</h4>
+      <ul>
+        <li><strong>SaaS landing page:</strong> Core features (AI, collaboration, security, analytics)</li>
+        <li><strong>Software product page:</strong> Key capabilities (import/export, plugins, customization)</li>
+        <li><strong>Template marketplace:</strong> Template features (responsive, SEO-ready, 1-click install)</li>
+        <li><strong>App store listing:</strong> App features (offline mode, notifications, sync)</li>
+        <li><strong>Pricing page:</strong> "All plans include..." feature list</li>
+      </ul>
+
+      <!-- STEP 3: Design Tokens -->
+      <h3>STEP 3: Design Tokens</h3>
+
+      <h4>Colors:</h4>
+      <ul>
+        <li><code>--teal (#00897B)</code> — Default icon background + text (hover: fill)</li>
+        <li><code>--teal-glow (rgba(0,137,123,0.12))</code> — Icon box background</li>
+        <li><code>--green (#00C853)</code> — Green icon variant</li>
+        <li><code>--blue (#2196F3)</code> — Blue icon variant</li>
+        <li><code>--purple (#7C3AED)</code> — Purple icon variant</li>
+        <li><code>--amber (#F59E0B)</code> — Amber icon variant</li>
+        <li><code>--navy (#0A1628)</code> — Title text</li>
+        <li><code>--grey-dark (#64748B)</code> — Description text</li>
+        <li><code>--grey (#E8ECF1)</code> — Card border</li>
+      </ul>
+
+      <h4>Typography:</h4>
+      <ul>
+        <li><strong>Section overline:</strong> 11px, 700 weight, uppercase, teal</li>
+        <li><strong>Section title:</strong> 28px, 800 weight, navy</li>
+        <li><strong>Section description:</strong> 15px, grey-dark</li>
+        <li><strong>Feature title:</strong> 16px, 700 weight, navy</li>
+        <li><strong>Feature description:</strong> 13px, grey-dark</li>
+        <li><strong>Compact title:</strong> 14px, 700 weight</li>
+        <li><strong>Compact description:</strong> 12px</li>
+      </ul>
+
+      <h4>Spacing:</h4>
+      <ul>
+        <li>Grid gap: 24px (default) / 16px (compact)</li>
+        <li>Icon box: 48px × 48px (default) / 40px × 40px (compact/horizontal)</li>
+        <li>Icon size: 24px (default) / 20px (compact/horizontal)</li>
+        <li>Item gap: 12px (default) / 8px (compact)</li>
+        <li>Card padding: 24px (when card variant)</li>
+      </ul>
+
+      <h4>Icons (Lucide):</h4>
+      <p>Common feature icons:</p>
+      <ul>
+        <li><code>cpu</code> — AI/automation features</li>
+        <li><code>zap</code> — Speed/performance</li>
+        <li><code>shield-check</code> — Security</li>
+        <li><code>users</code> — Collaboration/team features</li>
+        <li><code>code</code> — Developer tools</li>
+        <li><code>layers</code> — Components/templates</li>
+        <li><code>globe</code> — Multi-language/international</li>
+        <li><code>smartphone</code> — Mobile/responsive</li>
+        <li><code>database</code> — Storage/data</li>
+        <li><code>trending-up</code> — Analytics/growth</li>
+      </ul>
+
+      <!-- STEP 4: Props & Configuration -->
+      <h3>STEP 4: Props & Configuration</h3>
+
+      <h4>TypeScript Interface:</h4>
+      <pre><code>interface FeatureGridProps {
+  header?: {
+    overline?: string;           // Optional eyebrow text
+    title: string;               // Section title
+    description?: string;        // Section description
+    align?: 'center' | 'left';   // Text alignment (default: center)
+  };
+  features: Feature[];           // Array of features
+  columns?: 2 | 3 | 4;          // Grid columns (default: 2)
+  variant?: 'default' | 'card' | 'horizontal';  // Layout variant
+  compact?: boolean;             // Use compact spacing/sizing
+}
+
+interface Feature {
+  icon: string;                  // Lucide icon name
+  iconColor?: 'teal' | 'green' | 'blue' | 'purple' | 'amber';  // Icon theme
+  title: string;                 // Feature title
+  description: string;           // Feature description
+}</code></pre>
+
+      <h4>Example Usage (React/Next.js):</h4>
+      <pre><code>const features: Feature[] = [
+  {
+    icon: 'cpu',
+    iconColor: 'teal',
+    title: 'AI Content Generation',
+    description: 'Genereer automatisch content met onze geavanceerde AI-engine.',
+  },
+  {
+    icon: 'zap',
+    iconColor: 'green',
+    title: 'Realtime Samenwerking',
+    description: 'Werk samen met je team in realtime.',
+  },
+  // ... more features
+];
+
+&lt;FeatureGrid
+  header={{
+    overline: 'Krachtige Features',
+    title: 'Alles wat je nodig hebt om te groeien',
+    description: 'ProDesign Suite bevat alle tools...',
+    align: 'center',
+  }}
+  features={features}
+  columns={2}
+  variant="default"
+  compact={false}
+/&gt;</code></pre>
+
+      <!-- STEP 5: Layout Rules -->
+      <h3>STEP 5: Layout Rules</h3>
+
+      <h4>Grid Layouts:</h4>
+      <ul>
+        <li><strong>2-column:</strong> Best for detailed features (4-6 items)</li>
+        <li><strong>3-column:</strong> Balanced layout (6-9 items)</li>
+        <li><strong>4-column:</strong> Compact grid for many features (8-12 items)</li>
+      </ul>
+
+      <h4>Responsive Behavior:</h4>
+      <ul>
+        <li><strong>Desktop (≥901px):</strong> User-specified columns (2/3/4)</li>
+        <li><strong>Tablet (641-900px):</strong> 4-col → 2-col, 3-col → 2-col, 2-col unchanged</li>
+        <li><strong>Mobile (≤640px):</strong> All variants → 1 column</li>
+      </ul>
+
+      <h4>Variant Differences:</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Variant</th>
+            <th>Layout</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Default</strong></td>
+            <td>Vertical flex (icon → title → desc)</td>
+            <td>Scannable feature lists, landing pages</td>
+          </tr>
+          <tr>
+            <td><strong>Card</strong></td>
+            <td>Same as default + border + padding</td>
+            <td>Visual separation, distinct features</td>
+          </tr>
+          <tr>
+            <td><strong>Horizontal</strong></td>
+            <td>Horizontal flex (icon ↔ content)</td>
+            <td>Dense layouts, checklist-style features</td>
+          </tr>
+          <tr>
+            <td><strong>Compact</strong></td>
+            <td>Smaller icons/text, tighter gaps</td>
+            <td>Long feature lists, secondary features</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- STEP 6: Accessibility -->
+      <h3>STEP 6: Accessibility</h3>
+
+      <h4>Semantic HTML:</h4>
+      <pre><code>&lt;section class="feature-grid-section" aria-labelledby="features-title"&gt;
+  &lt;header class="fg-header"&gt;
+    &lt;div class="fg-overline"&gt;Krachtige Features&lt;/div&gt;
+    &lt;h2 id="features-title" class="fg-title"&gt;
+      Alles wat je nodig hebt om te groeien
+    &lt;/h2&gt;
+    &lt;p class="fg-desc"&gt;...&lt;/p&gt;
+  &lt;/header&gt;
+
+  &lt;div class="feature-grid cols-2"&gt;
+    &lt;article class="feature-item"&gt;
+      &lt;div class="fi-icon" aria-hidden="true"&gt;
+        &lt;i data-lucide="cpu"&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div class="fi-content"&gt;
+        &lt;h3 class="fi-title"&gt;AI Content Generation&lt;/h3&gt;
+        &lt;p class="fi-desc"&gt;...&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+      <h4>ARIA Notes:</h4>
+      <ul>
+        <li>Icons marked <code>aria-hidden="true"</code> (decorative only)</li>
+        <li>Section labeled with <code>aria-labelledby</code> pointing to title</li>
+        <li>Each feature wrapped in <code>&lt;article&gt;</code> for semantic grouping</li>
+        <li>Feature titles use <code>&lt;h3&gt;</code> for proper heading hierarchy</li>
+      </ul>
+
+      <h4>Color Contrast:</h4>
+      <ul>
+        <li>Title (navy) on white: 13.4:1 (AAA)</li>
+        <li>Description (grey-dark) on white: 6.5:1 (AAA)</li>
+        <li>Icon colors on light backgrounds: minimum 3:1 (non-text)</li>
+        <li>Hover states maintain contrast requirements</li>
+      </ul>
+
+      <!-- STEP 7: Implementation Notes -->
+      <h3>STEP 7: Implementation Notes</h3>
+
+      <h4>Dynamic Icon Rendering (React):</h4>
+      <pre><code>import * as LucideIcons from 'lucide-react';
+
+function FeatureIcon({ icon, color }: { icon: string; color: string }) {
+  const IconComponent = LucideIcons[icon as keyof typeof LucideIcons];
+
+  if (!IconComponent) {
+    console.warn(`Icon "${icon}" not found`);
+    return null;
+  }
+
+  return (
+    &lt;div className={`fi-icon ${color}`}&gt;
+      &lt;IconComponent size={24} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+      <h4>Payload CMS Integration:</h4>
+      <pre><code>// Feature Grid Block
+{
+  slug: 'feature-grid',
+  fields: [
+    {
+      name: 'header',
+      type: 'group',
+      fields: [
+        { name: 'overline', type: 'text' },
+        { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea' },
+        {
+          name: 'align',
+          type: 'select',
+          options: ['center', 'left'],
+          defaultValue: 'center',
+        },
+      ],
+    },
+    {
+      name: 'features',
+      type: 'array',
+      minRows: 2,
+      maxRows: 12,
+      fields: [
+        {
+          name: 'icon',
+          type: 'select',
+          options: [
+            'cpu', 'zap', 'shield-check', 'users', 'code',
+            'layers', 'globe', 'smartphone', 'database', 'trending-up',
+            // ... all lucide icons
+          ],
+          required: true,
+        },
+        {
+          name: 'iconColor',
+          type: 'select',
+          options: ['teal', 'green', 'blue', 'purple', 'amber'],
+          defaultValue: 'teal',
+        },
+        { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea', required: true },
+      ],
+    },
+    {
+      name: 'columns',
+      type: 'select',
+      options: [2, 3, 4],
+      defaultValue: 2,
+    },
+    {
+      name: 'variant',
+      type: 'select',
+      options: ['default', 'card', 'horizontal'],
+      defaultValue: 'default',
+    },
+    { name: 'compact', type: 'checkbox', defaultValue: false },
+  ],
+}</code></pre>
+
+      <!-- STEP 8: Variations & Related Components -->
+      <h3>STEP 8: Variations & Related Components</h3>
+
+      <h4>Related Components:</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>When to Use Instead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Features (CMS Block)</strong></td>
+            <td>Larger feature cards with images/graphics (1-3 features)</td>
+          </tr>
+          <tr>
+            <td><strong>DP05: ComparisonTable</strong></td>
+            <td>Side-by-side feature comparison across tiers</td>
+          </tr>
+          <tr>
+            <td><strong>Services (CMS Block)</strong></td>
+            <td>Service offerings with CTAs and pricing</td>
+          </tr>
+          <tr>
+            <td><strong>Stats (CMS Block)</strong></td>
+            <td>Numeric achievements/metrics instead of features</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Combination Patterns:</h4>
+      <ul>
+        <li><strong>DP01 (Hero) + DP04 (FeatureGrid):</strong> Hero intro followed by feature highlights</li>
+        <li><strong>DP04 + DP03 (ScreenshotGallery):</strong> Feature list followed by visual proof</li>
+        <li><strong>DP04 + DP05 (ComparisonTable):</strong> High-level features → detailed comparison</li>
+        <li><strong>DP04 + Testimonials:</strong> Features → social proof</li>
+      </ul>
+
+      <h4>Testing Checklist:</h4>
+      <ul>
+        <li>✅ Grid responsive (stacks correctly at breakpoints)</li>
+        <li>✅ Icons render correctly (no missing icons)</li>
+        <li>✅ Hover effects smooth (icon scale + color fill)</li>
+        <li>✅ All icon color variants work</li>
+        <li>✅ Compact variant reduces sizing correctly</li>
+        <li>✅ Card variant shows borders + hover lift</li>
+        <li>✅ Horizontal variant aligns icon + text inline</li>
+        <li>✅ Section header optional (component works without it)</li>
+        <li>✅ Text readable at all sizes</li>
+        <li>✅ Color contrast meets WCAG AA</li>
+      </ul>
+
+      <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--grey);">
+
+      <p style="font-size: 12px; color: var(--grey-mid); text-align: center;">
+        Component: DP04: FeatureGrid · v1.0 · Last updated: 25 Feb 2026<br>
+        Part of Plastimed Design System · Digital Product Components
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

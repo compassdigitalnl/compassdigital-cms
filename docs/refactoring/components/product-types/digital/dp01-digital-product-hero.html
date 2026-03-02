@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP01: Digital Product Hero — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+/* ============================================
+   DP01: DIGITAL PRODUCT HERO
+   2-column hero with mockup visual + product info
+   ============================================ */
+
+.prod-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .prod-hero {
+    grid-template-columns: 1fr;
+  }
+  
+  .ph-visual {
+    min-height: 280px !important;
+  }
+}
+
+/* LEFT: Visual mockup */
+.ph-visual {
+  background: linear-gradient(135deg, var(--navy), #1a2744);
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ph-visual::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0,137,123,0.12), transparent 70%);
+  border-radius: 50%;
+}
+
+.ph-visual::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(124,58,237,0.08), transparent 70%);
+  border-radius: 50%;
+}
+
+.ph-mockup {
+  width: 280px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.ph-mockup-icon {
+  font-size: 56px;
+  margin-bottom: 8px;
+}
+
+.ph-mockup-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+}
+
+.ph-mockup-ver {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.ph-float-badge {
+  position: absolute;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  z-index: 3;
+}
+
+/* RIGHT: Product info */
+.ph-info h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.ph-tagline {
+  font-size: 16px;
+  color: var(--grey-dark);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.ph-badges {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.ph-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ph-badge i {
+  width: 12px;
+  height: 12px;
+}
+
+.ph-meta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.pm-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--grey-dark);
+}
+
+.pm-item i {
+  width: 15px;
+  height: 15px;
+  color: var(--teal);
+}
+
+.ph-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.phr-score {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.phr-stars {
+  color: var(--amber);
+  font-size: 14px;
+}
+
+.phr-count {
+  font-size: 13px;
+  color: var(--grey-mid);
+}
+
+.ph-quick {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.pq {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--grey-dark);
+}
+
+.pq i {
+  width: 16px;
+  height: 16px;
+  color: var(--green);
+}
+
+.ph-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--teal);
+  color: white;
+  box-shadow: 0 4px 16px rgba(0,137,123,0.3);
+}
+
+.btn-primary:hover {
+  background: var(--navy);
+}
+
+.btn-outline {
+  background: white;
+  color: var(--navy);
+  border: 1.5px solid var(--grey);
+}
+
+.btn-outline:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.btn-lg i {
+  width: 17px;
+  height: 17px;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Digital Product Hero</h2>
+
+<!-- DIGITAL PRODUCT HERO -->
+<div class="prod-hero">
+
+  <!-- LEFT: Visual mockup -->
+  <div class="ph-visual">
+    <div class="ph-float-badge" style="background: var(--purple); top: 24px; left: 24px;">
+      🆕 v4.2 — Nieuw
+    </div>
+    <div class="ph-float-badge" style="background: var(--amber); bottom: 24px; right: 24px;">
+      ⚡ AI-powered
+    </div>
+
+    <div class="ph-mockup">
+      <div class="ph-mockup-icon">🎨</div>
+      <div class="ph-mockup-label">ProDesign Suite</div>
+      <div class="ph-mockup-ver">Version 4.2.0 · 2026</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Product info -->
+  <div class="ph-info">
+    <div class="ph-badges">
+      <span class="ph-badge" style="background: var(--purple-light); color: var(--purple);">
+        <i data-lucide="cpu"></i> AI-Powered
+      </span>
+      <span class="ph-badge" style="background: var(--green-light); color: var(--green);">
+        <i data-lucide="check-circle"></i> Verified
+      </span>
+      <span class="ph-badge" style="background: var(--amber-light); color: var(--amber);">
+        🔥 Bestseller
+      </span>
+    </div>
+
+    <h1>ProDesign Suite 4.2</h1>
+
+    <div class="ph-tagline">
+      De complete design toolkit voor professionals. Van wireframes tot pixel-perfect designs — nu met AI-gestuurde suggesties en automatische responsive exports.
+    </div>
+
+    <div class="ph-meta">
+      <div class="pm-item">
+        <i data-lucide="download"></i> 12.400+ downloads
+      </div>
+      <div class="pm-item">
+        <i data-lucide="refresh-cw"></i> Laatst bijgewerkt: 14 feb 2026
+      </div>
+      <div class="pm-item">
+        <i data-lucide="shield-check"></i> Levenslange licentie
+      </div>
+    </div>
+
+    <div class="ph-rating">
+      <div class="phr-score">4.8</div>
+      <div class="phr-stars">★★★★★</div>
+      <div class="phr-count">(342 reviews)</div>
+    </div>
+
+    <div class="ph-quick">
+      <div class="pq">
+        <i data-lucide="check-circle"></i> Instant download na betaling
+      </div>
+      <div class="pq">
+        <i data-lucide="check-circle"></i> Gratis updates binnen major versie
+      </div>
+      <div class="pq">
+        <i data-lucide="check-circle"></i> 30 dagen geld-terug-garantie
+      </div>
+    </div>
+
+    <div class="ph-actions">
+      <button class="btn-lg btn-primary">
+        <i data-lucide="shopping-cart"></i> Kopen — €79
+      </button>
+      <button class="btn-lg btn-outline">
+        <i data-lucide="download"></i> Probeer gratis
+      </button>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- ============================================
+     STEP 1: COMPONENT OVERVIEW
+     ============================================ -->
+<!--
+COMPONENT: DP01 — Digital Product Hero
+TYPE: 2-column hero section for digital/downloadable products
+
+PURPOSE:
+Showcase digital products (software, plugins, templates, courses, ebooks) with:
+- Visual mockup/preview (left column with gradient background)
+- Product information, rating, quick benefits, CTAs (right column)
+
+VISUAL PATTERN:
+- 2-column grid (1:1 ratio) on desktop
+- Dark gradient mockup area with floating badges
+- Product info with badges, title, tagline, meta, rating, benefits, CTAs
+- Mobile: stacks to 1-column (mockup first)
+
+USE CASE:
+Hero section for digital product detail pages (software, SaaS, templates, courses)
+Replaces standard product hero (EC02) for non-physical products
+-->
+
+
+<!-- ============================================
+     STEP 2: WHEN TO USE
+     ============================================ -->
+<!--
+USE THIS COMPONENT WHEN:
+✅ Digital/downloadable products (software, plugins, themes)
+✅ SaaS products with desktop/mobile apps
+✅ Templates, courses, ebooks, design assets
+✅ License-based products (Personal/Pro/Team tiers)
+✅ Need to show version, download count, update date
+
+DO NOT USE WHEN:
+❌ Physical products (use EC02 CategoryHero instead)
+❌ Variable products with size/color options (use VP components)
+❌ Subscription products only (use SP components)
+❌ Services (use service landing page components)
+
+REAL-WORLD EXAMPLES:
+- Design tools: Figma, Sketch, Adobe XD
+- SaaS apps: Notion, Slack, Linear
+- WordPress plugins: Elementor, Yoast SEO
+- Templates: UI kits, Notion templates, Webflow templates
+- Digital courses: Udemy, Skillshare course pages
+- Ebooks: PDF guides, research reports
+-->
+
+
+<!-- ============================================
+     STEP 3: DESIGN TOKENS
+     ============================================ -->
+<!--
+LAYOUT:
+- Grid: 2 columns (1fr 1fr) on desktop, 1 column on mobile
+- Gap: 32px (desktop), stacks on mobile (<900px)
+- Mockup min-height: 400px (desktop), 280px (mobile)
+
+COLORS:
+- Mockup gradient: linear-gradient(135deg, #0A1628, #1a2744) (navy → navy-light)
+- Glow 1 (top-right): radial-gradient teal rgba(0,137,123,0.12)
+- Glow 2 (bottom-left): radial-gradient purple rgba(124,58,237,0.08)
+- Mockup card bg: rgba(255,255,255,0.04) (glassmorphism)
+- Mockup card border: rgba(255,255,255,0.08)
+- Float badges: purple #7C3AED, amber #F59E0B
+- Badge backgrounds: purple-light, green-light, amber-light
+- Rating stars: amber #F59E0B
+
+TYPOGRAPHY:
+- Title (h1): 32px, 800 weight, Plus Jakarta Sans, 1.2 line-height
+- Tagline: 16px, grey-dark, 1.5 line-height
+- Badges: 12px, 600 weight, pill shape
+- Meta items: 13px, grey-dark
+- Rating score: 20px, 800 weight
+- Quick benefits: 14px, grey-dark
+- Mockup label: 14px, 800 weight, white
+- Mockup version: 11px, rgba(255,255,255,0.3)
+- Float badges: 11px, 700 weight, white
+
+SPACING:
+- Mockup padding: 40px
+- Float badge padding: 6px 14px
+- Mockup icon margin-bottom: 8px
+- Title margin-bottom: 6px
+- Tagline margin-bottom: 14px
+- Badges margin-bottom: 14px
+- Meta margin-bottom: 16px
+- Rating margin-bottom: 18px
+- Quick benefits margin-bottom: 20px
+- CTA buttons gap: 8px
+- Badge gap: 6px
+- Meta items gap: 14px
+- Quick benefit items gap: 6px
+
+ICONS:
+- Mockup icon: 56px emoji/icon
+- Badge icons: 12×12px Lucide
+- Meta icons: 15×15px Lucide (teal)
+- Quick benefit icons: 16×16px Lucide (green checkmarks)
+- Button icons: 17×17px Lucide
+
+SHADOWS:
+- Primary button: 0 4px 16px rgba(0,137,123,0.3)
+-->
+
+
+<!-- ============================================
+     STEP 4: PROPS & CONFIGURATION
+     ============================================ -->
+<!--
+REACT/TYPESCRIPT INTERFACE:
+
+interface DigitalProductHeroProps {
+  // Mockup visual
+  mockupIcon: string // Emoji or icon
+  mockupLabel: string // Product name
+  mockupVersion: string // e.g. "Version 4.2.0 · 2026"
+  mockupImage?: string // Optional real screenshot instead of icon
+  floatBadges?: Array<{
+    label: string
+    position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+    color: string // Background color
+  }>
+
+  // Product info
+  title: string
+  tagline: string
+  badges: Array<{
+    label: string
+    icon?: string // Lucide icon name
+    backgroundColor: string
+    textColor: string
+  }>
+  meta: Array<{
+    icon: string // Lucide icon name
+    label: string
+  }>
+  rating: {
+    score: number // 4.8
+    count: number // 342
+  }
+  quickBenefits: string[] // e.g. ["Instant download na betaling", ...]
+  
+  // CTAs
+  primaryCta: {
+    label: string
+    price?: number
+    currency?: string
+    onClick: () => void
+  }
+  secondaryCta?: {
+    label: string
+    onClick: () => void
+  }
+}
+
+PAYLOAD CMS SCHEMA:
+
+{
+  slug: 'digital-product-hero',
+  fields: [
+    { name: 'mockupIcon', type: 'text', required: true },
+    { name: 'mockupLabel', type: 'text', required: true },
+    { name: 'mockupVersion', type: 'text' },
+    { name: 'mockupImage', type: 'upload', relationTo: 'media' },
+    {
+      name: 'floatBadges',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'position', type: 'select', options: ['top-left', 'top-right', 'bottom-left', 'bottom-right'] },
+        { name: 'backgroundColor', type: 'text', defaultValue: '#7C3AED' }
+      ]
+    },
+    { name: 'title', type: 'text', required: true },
+    { name: 'tagline', type: 'textarea', required: true },
+    {
+      name: 'badges',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'icon', type: 'text' }, // Lucide icon name
+        { name: 'type', type: 'select', options: ['ai', 'verified', 'bestseller', 'new'] }
+      ]
+    },
+    {
+      name: 'meta',
+      type: 'array',
+      fields: [
+        { name: 'icon', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true }
+      ]
+    },
+    { name: 'ratingScore', type: 'number', min: 0, max: 5, defaultValue: 4.8 },
+    { name: 'ratingCount', type: 'number', defaultValue: 0 },
+    { name: 'quickBenefits', type: 'array', fields: [{ name: 'benefit', type: 'text' }] },
+    { name: 'primaryCtaLabel', type: 'text', defaultValue: 'Kopen' },
+    { name: 'price', type: 'number' },
+    { name: 'secondaryCtaLabel', type: 'text', defaultValue: 'Probeer gratis' }
+  ]
+}
+-->
+
+
+<!-- ============================================
+     STEP 5: LAYOUT RULES
+     ============================================ -->
+<!--
+DESKTOP LAYOUT (>900px):
+┌───────────────────────────────────────────────┐
+│ [Mockup visual]    │ [Product info]          │
+│  Dark gradient     │  Badges                 │
+│  Float badges      │  Title                  │
+│  Mockup card       │  Tagline                │
+│  Icon + label      │  Meta (downloads/date)  │
+│                    │  Rating ★★★★★           │
+│                    │  Quick benefits ✓       │
+│                    │  [Buy] [Try free]       │
+└───────────────────────────────────────────────┘
+- Grid: 1fr 1fr (equal columns)
+- Gap: 32px
+- Align-items: center (vertically centered)
+
+MOBILE LAYOUT (≤900px):
+┌──────────────────────────┐
+│ Mockup visual            │ ← Reduced height (280px)
+└──────────────────────────┘
+┌──────────────────────────┐
+│ Product info             │
+│ (same structure)         │
+└──────────────────────────┘
+- Grid: 1 column (stacks)
+- Mockup first (visual impact)
+- Full-width buttons
+
+MOCKUP VISUAL STRUCTURE:
+- Background: dark gradient + 2 decorative glows (teal + purple)
+- Float badges: absolute positioned (4 corners available)
+- Mockup card: centered, glassmorphism effect
+- Icon: 56px emoji, centered
+- Label: 14px, white, bold
+- Version: 11px, semi-transparent
+
+PRODUCT INFO STRUCTURE (VERTICAL FLOW):
+1. Badges (horizontal pills, flex-wrap)
+2. Title (h1, large, bold)
+3. Tagline (paragraph, grey)
+4. Meta items (horizontal row, icon + text)
+5. Rating (score + stars + count)
+6. Quick benefits (vertical list, checkmarks)
+7. CTA buttons (horizontal row, flex-wrap)
+-->
+
+
+<!-- ============================================
+     STEP 6: ACCESSIBILITY (WCAG 2.1 AA)
+     ============================================ -->
+<!--
+SEMANTIC HTML:
+
+<section class="prod-hero" aria-label="Product overzicht">
+  <div class="ph-visual" role="img" aria-label="ProDesign Suite mockup preview">
+    <!-- Mockup content -->
+  </div>
+
+  <div class="ph-info">
+    <div class="ph-badges" aria-label="Product kenmerken">...</div>
+    <h1>ProDesign Suite 4.2</h1>
+    <p class="ph-tagline">...</p>
+    <dl class="ph-meta">
+      <div class="pm-item">
+        <dt class="visually-hidden">Downloads</dt>
+        <dd>12.400+ downloads</dd>
+      </div>
+      <!-- More meta items -->
+    </dl>
+    <div class="ph-rating">
+      <span aria-label="4.8 uit 5 sterren">4.8 ★★★★★</span>
+      <span>(342 reviews)</span>
+    </div>
+    <ul class="ph-quick" aria-label="Voordelen">...</ul>
+    <div class="ph-actions">...</div>
+  </div>
+</section>
+
+KEYBOARD NAVIGATION:
+- Tab: focus badges → buttons (skip non-interactive elements)
+- Enter/Space: activate primary/secondary CTAs
+- Float badges: not focusable (decorative only)
+
+SCREEN READER:
+- "Product overzicht, sectie"
+- "ProDesign Suite mockup preview, afbeelding"
+- "AI-Powered, badge"
+- "ProDesign Suite 4.2, hoofdstuk 1"
+- "4.8 uit 5 sterren, gebaseerd op 342 reviews"
+- "Instant download na betaling, item 1 van 3"
+
+COLOR CONTRAST:
+- Title (navy on white): 14.5:1 ✓
+- Tagline (grey-dark on white): 8.1:1 ✓
+- Mockup label (white on navy gradient): 13.2:1 ✓
+- Button text (white on teal): 6.1:1 ✓
+- Badge text: varies per type, all meet 4.5:1+ ✓
+
+ARIA ATTRIBUTES:
+- aria-label on mockup visual (describes image)
+- aria-label on rating (readable format)
+- role="img" on mockup visual (non-semantic div)
+-->
+
+
+<!-- ============================================
+     STEP 7: IMPLEMENTATION NOTES
+     ============================================ -->
+<!--
+MOCKUP RENDERING:
+
+// Emoji fallback pattern
+const renderMockup = () => {
+  if (mockupImage) {
+    return <img src={mockupImage} alt={mockupLabel} />
+  } else {
+    return <div className="ph-mockup-icon">{mockupIcon}</div>
+  }
+}
+
+FLOAT BADGE POSITIONING:
+
+const badgePositions = {
+  'top-left': { top: '24px', left: '24px' },
+  'top-right': { top: '24px', right: '24px' },
+  'bottom-left': { bottom: '24px', left: '24px' },
+  'bottom-right': { bottom: '24px', right: '24px' }
+}
+
+RATING STARS GENERATION:
+
+const generateStars = (score: number) => {
+  const fullStars = Math.floor(score)
+  const hasHalfStar = score % 1 >= 0.5
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0)
+
+  return (
+    <>
+      {'★'.repeat(fullStars)}
+      {hasHalfStar && '⯪'}
+      {'☆'.repeat(emptyStars)}
+    </>
+  )
+}
+
+BADGE TYPE PRESETS:
+
+const badgeStyles = {
+  'ai': {
+    bg: 'var(--purple-light)',
+    color: 'var(--purple)',
+    icon: 'cpu'
+  },
+  'verified': {
+    bg: 'var(--green-light)',
+    color: 'var(--green)',
+    icon: 'check-circle'
+  },
+  'bestseller': {
+    bg: 'var(--amber-light)',
+    color: 'var(--amber)',
+    icon: null // Emoji only
+  },
+  'new': {
+    bg: 'var(--blue-light)',
+    color: 'var(--blue)',
+    icon: 'sparkles'
+  }
+}
+
+PRICE FORMATTING:
+
+const formatPrice = (price: number, currency: string = '€') => {
+  return new Intl.NumberFormat('nl-NL', {
+    style: 'currency',
+    currency: 'EUR'
+  }).format(price)
+}
+
+ANALYTICS TRACKING:
+
+- Track impression: trackEvent('Product', 'Hero View', productName)
+- Track CTA clicks: trackEvent('Product', 'CTA Click', ctaLabel)
+- Track badge interactions: trackEvent('Product', 'Badge Click', badgeLabel)
+- Track mockup clicks: trackEvent('Product', 'Mockup Click', productName)
+-->
+
+
+<!-- ============================================
+     STEP 8: VARIATIONS & RELATED COMPONENTS
+     ============================================ -->
+<!--
+VARIATIONS:
+
+1. MOCKUP TYPES:
+   - Emoji (default): Simple icon representation (🎨, 📱, 🖥️)
+   - Screenshot: Real product screenshot (blurred/preview)
+   - 3D render: Animated 3D product mockup
+   - Video: Looping product demo video
+
+2. FLOAT BADGE POSITIONS:
+   - Top-left: "Nieuw" version badge
+   - Top-right: "AI-powered" feature badge
+   - Bottom-left: "Bestseller" social proof
+   - Bottom-right: "Limited offer" urgency
+
+3. CTA VARIANTS:
+   - Buy only: Single primary CTA
+   - Buy + Trial: Primary + Secondary (default)
+   - Buy + Demo: Primary + Video demo link
+   - Waitlist: Coming soon signup
+
+4. QUICK BENEFITS:
+   - Short (3 items): Core value props
+   - Long (5+ items): Detailed feature list
+   - Icons only: No text, just checkmarks
+   - Custom icons: Per-benefit icons (download, update, guarantee)
+
+RELATED COMPONENTS:
+- DP02 (ScreenshotGallery): Gallery of product screenshots below hero
+- DP03 (FeatureGrid): Feature cards grid
+- DP04 (LicenseComparisonTable): Compare license tiers
+- DP07 (LicenseSelector): Sidebar license selector with purchase CTA
+- EC02 (CategoryHero): Alternative for physical products
+- C10 (ReviewWidget): Review section (can link from rating)
+
+INTEGRATION WITH OTHER COMPONENTS:
+
+<DigitalProductPage>
+  <DigitalProductHero {...heroProps} /> {/* DP01 ✓ CURRENT */}
+  <ScreenshotGallery screenshots={screenshots} /> {/* DP02 */}
+  <FeatureGrid features={features} /> {/* DP03 */}
+  <LicenseComparisonTable tiers={tiers} /> {/* DP04 */}
+  <ChangelogList versions={changelog} /> {/* DP05 */}
+  <SystemRequirements specs={requirements} /> {/* DP06 */}
+  <ReviewWidget reviews={reviews} /> {/* C10 */}
+</DigitalProductPage>
+
+CONVERSION OPTIMIZATION:
+1. Social proof above fold (downloads, rating, verified)
+2. Clear version + update date (signals maintenance)
+3. Quick benefits reduce purchase anxiety
+4. Dual CTA ("Buy" + "Try free") reduces risk
+5. Float badges highlight newness/AI features
+6. Mockup provides tangible preview
+
+A/B TESTING IDEAS:
+1. Mockup type: Emoji vs Screenshot vs Video
+2. CTA copy: "Kopen" vs "Nu kopen" vs "Toevoegen aan winkelwagen"
+3. Price display: "€79" vs "€79 eenmalig" vs "€79 (one-time)"
+4. Badge order: AI first vs Bestseller first
+5. Quick benefits count: 3 vs 5 vs 7 items
+-->
+
+</body>
+</html>

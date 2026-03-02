@@ -131,18 +131,18 @@ export async function configureProductsIndex(payload: Payload) {
         oneTypo: settings.typoTolerance.minWordSizeForOneTypo,
         twoTypos: settings.typoTolerance.minWordSizeForTwoTypos,
       },
-      disableOnWords: settings.typoTolerance.disableOnWords,
+      disableOnWords: (settings.typoTolerance as any).disableOnWords,
     },
 
     // Synonyms (from CMS)
-    synonyms: settings.synonyms.reduce((acc: any, group: any) => {
+    synonyms: (settings as any).synonyms?.reduce((acc: any, group: any) => {
       const key = group[0]
       acc[key] = group
       return acc
-    }, {} as Record<string, string[]>),
+    }, {} as Record<string, string[]>) || {},
 
     // Stop words (from CMS)
-    stopWords: settings.stopWords,
+    stopWords: (settings as any).stopWords || [],
 
     // Pagination (from CMS)
     pagination: {
@@ -205,18 +205,18 @@ export async function configureBlogIndex(payload: Payload) {
         oneTypo: settings.typoTolerance.minWordSizeForOneTypo,
         twoTypos: settings.typoTolerance.minWordSizeForTwoTypos,
       },
-      disableOnWords: settings.typoTolerance.disableOnWords,
+      disableOnWords: (settings.typoTolerance as any).disableOnWords,
     },
 
     // Synonyms (from CMS)
-    synonyms: settings.synonyms.reduce((acc: any, group: any) => {
+    synonyms: (settings as any).synonyms?.reduce((acc: any, group: any) => {
       const key = group[0]
       acc[key] = group
       return acc
-    }, {} as Record<string, string[]>),
+    }, {} as Record<string, string[]>) || {},
 
     // Stop words (from CMS)
-    stopWords: settings.stopWords,
+    stopWords: (settings as any).stopWords || [],
 
     // Pagination (from CMS)
     pagination: {

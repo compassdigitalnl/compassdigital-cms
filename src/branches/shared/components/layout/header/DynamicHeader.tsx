@@ -1,13 +1,13 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import type { Settings, Header as HeaderType, Media } from '@/payload-types'
+import type { Setting, Header as HeaderType, Media } from '@/payload-types'
 import { useSearch } from '@/branches/shared/components/features/search/search/SearchProvider'
 import { useMiniCart } from '@/branches/ecommerce/components/ui/MiniCart'
 
 type Props = {
   header?: HeaderType | null
-  settings?: Settings | null // Consolidated: combines SiteSettings + ShopSettings
+  settings?: Setting | null // Consolidated: combines SiteSettings + ShopSettings
 }
 
 /**
@@ -22,31 +22,31 @@ type Props = {
 export function DynamicHeader({ header, settings }: Props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { openSearch } = useSearch()
-  const { openCart, totalItems } = useMiniCart()
+  const { openCart, itemCount: totalItems } = useMiniCart()
 
   // Get logo (Header override > Settings)
-  const logoOverride = header?.logoOverride as Media | null
+  const logoOverride = (header as any)?.logoOverride as Media | null
   const settingsLogoObj = settings?.logo as Media | null
   const logoUrl = logoOverride?.url || settingsLogoObj?.url || null
 
   // Get site name (Header override > Settings.companyName > fallback)
   // Use consistent fallback to prevent hydration mismatch
-  const siteName = header?.siteNameOverride || settings?.companyName || 'Your Site Name'
-  const siteNameAccent = header?.siteNameAccent || null
+  const siteName = (header as any)?.siteNameOverride || settings?.companyName || 'Your Site Name'
+  const siteNameAccent = (header as any)?.siteNameAccent || null
 
   // Search settings
-  const enableSearch = header?.enableSearch !== false
-  const searchPlaceholder = header?.searchPlaceholder || 'Zoek producten...'
+  const enableSearch = (header as any)?.enableSearch !== false
+  const searchPlaceholder = (header as any)?.searchPlaceholder || 'Zoek producten...'
 
   // Action button visibility
-  const showPhone = header?.showPhone !== false
-  const showWishlist = header?.showWishlist === true
-  const showAccount = header?.showAccount !== false
-  const showCart = header?.showCart !== false
+  const showPhone = (header as any)?.showPhone !== false
+  const showWishlist = (header as any)?.showWishlist === true
+  const showAccount = (header as any)?.showAccount !== false
+  const showCart = (header as any)?.showCart !== false
 
   // Behavior settings
-  const stickyHeader = header?.stickyHeader !== false
-  const showShadow = header?.showShadow !== false
+  const stickyHeader = (header as any)?.stickyHeader !== false
+  const showShadow = (header as any)?.showShadow !== false
 
   const headerClasses = `bg-white border-b z-50 ${stickyHeader ? 'sticky top-0' : ''} ${showShadow ? 'shadow-sm' : ''}`
 
@@ -115,8 +115,8 @@ export function DynamicHeader({ header, settings }: Props) {
             )}
 
             {/* Custom buttons from Header global */}
-            {header?.customButtons &&
-              header.customButtons.map((button: any, idx: number) => {
+            {(header as any)?.customButtons &&
+              (header as any).customButtons.map((button: any, idx: number) => {
                 const buttonClasses =
                   button.style === 'primary'
                     ? 'px-4 h-11 bg-primary text-white rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors flex items-center gap-2'
@@ -240,8 +240,8 @@ export function DynamicHeader({ header, settings }: Props) {
               )}
 
               {/* Custom buttons */}
-              {header?.customButtons &&
-                header.customButtons.map((button: any, idx: number) => (
+              {(header as any)?.customButtons &&
+                (header as any).customButtons.map((button: any, idx: number) => (
                   <Link
                     key={idx}
                     href={button.url || '#'}

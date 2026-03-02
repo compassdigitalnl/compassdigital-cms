@@ -185,7 +185,7 @@ export async function POST(req: NextRequest) {
         lists: body.lists || [],
         customFields: body.customFields || {},
         source: 'api',
-        tenant: validation.apiKey!.tenant,
+        tenant: validation.apiKey!.tenant as any,
         preferences: {
           marketingEmails: body.preferences?.marketingEmails ?? true,
           productUpdates: body.preferences?.productUpdates ?? true,

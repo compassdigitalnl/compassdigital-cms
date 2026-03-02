@@ -80,14 +80,6 @@ export const plugins: Plugin[] = [
     collections: ['pages', 'blog-posts', 'cases'],
     uploadsCollection: 'media',
     tabbedUI: true, // Separate SEO tab in editor for better UX
-    // Add custom SEO fields
-    fieldOverrides: {
-      description: {
-        admin: {
-          description: '150-160 characters is optimal for search results',
-        },
-      },
-    },
     fields: ({ defaultFields }) => {
       // Add custom SEO fields
       const fields = [...defaultFields]

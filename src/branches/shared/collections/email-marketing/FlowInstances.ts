@@ -7,6 +7,7 @@
 
 import type { CollectionConfig } from 'payload'
 import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+import { isAdmin, checkRole, isUser, isSuperAdmin, getUserClient } from '@/access/utilities'
 
 const isPlatformMode = isFeatureEnabled('platform')
 
@@ -23,14 +24,17 @@ export const FlowInstances: CollectionConfig = {
     // Tenant isolation (only in multi-tenant/platform mode)
     read: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'super-admin') return true
+      if (isSuperAdmin(user)) return true
 
       // Multi-tenant mode: filter by tenant
-      if (isPlatformMode && user.tenant) {
-        return {
-          tenant: {
-            equals: user.tenant,
-          },
+      if (isPlatformMode) {
+        const clientId = getUserClient(user)
+        if (clientId) {
+          return {
+            tenant: {
+              equals: clientId,
+            },
+          }
         }
       }
 
@@ -39,15 +43,15 @@ export const FlowInstances: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
   },
   fields: [
@@ -239,24 +243,27 @@ export const FlowInstances: CollectionConfig = {
       ? [
           {
             name: 'tenant',
-            type: 'relationship',
-            relationTo: 'clients',
+            type: 'relationship' as const,
+            relationTo: 'clients' as const,
             required: true,
             admin: {
-              position: 'sidebar',
+              position: 'sidebar' as const,
               condition: () => false,
             },
             hooks: {
               beforeValidate: [
-                async ({ req, data }) => {
+                async ({ req, data }: any) => {
                   if (req.user && !data?.tenant) {
-                    return req.user.tenant
+                    const clientId = getUserClient(req.user)
+                    if (clientId) {
+                      return clientId
+                  }
                   }
                   return data?.tenant
                 },
               ],
             },
-          } as const,
+          },
         ]
       : []),
   ],

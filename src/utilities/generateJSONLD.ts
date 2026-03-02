@@ -363,8 +363,9 @@ export function generateArticleJSONLD(args: {
 
   // Extract author name
   let authorName = 'Anonymous'
-  if (post.populatedAuthors && Array.isArray(post.populatedAuthors) && post.populatedAuthors.length > 0) {
-    const firstAuthor = post.populatedAuthors[0]
+  const populatedAuthors = (post as any).populatedAuthors
+  if (populatedAuthors && Array.isArray(populatedAuthors) && populatedAuthors.length > 0) {
+    const firstAuthor = populatedAuthors[0]
     if (typeof firstAuthor === 'object' && 'name' in firstAuthor) {
       authorName = firstAuthor.name as string
     }
@@ -384,7 +385,7 @@ export function generateArticleJSONLD(args: {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
-    description: post.meta?.description,
+    description: post.meta?.description || undefined,
     ...(imageUrl ? { image: imageUrl } : {}),
     datePublished: post.publishedAt || post.createdAt,
     ...(post.updatedAt && post.updatedAt !== post.createdAt ? { dateModified: post.updatedAt } : {}),

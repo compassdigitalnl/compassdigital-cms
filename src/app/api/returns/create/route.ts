@@ -50,8 +50,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify order belongs to user
-    const orderUserId = typeof order.user === 'string' ? order.user : order.user?.id
-    if (orderUserId !== user.id) {
+    const orderCustomerId = typeof order.customer === 'number' ? order.customer : order.customer?.id
+    if (orderCustomerId !== user.id) {
       return NextResponse.json({ error: 'Geen toegang tot deze bestelling' }, { status: 403 })
     }
 
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const completedDate = order.completedDate ? new Date(order.completedDate) : null
+    const completedDate = order.shipping?.deliveredAt ? new Date(order.shipping.deliveredAt) : null
     if (!completedDate) {
       return NextResponse.json(
         { error: 'Deze bestelling is nog niet afgeleverd' },
@@ -133,26 +133,43 @@ export async function POST(request: NextRequest) {
 
     // Prepare return items from order items
     const returnItems =
-      order.items?.map((orderItem) => ({
-        product: typeof orderItem.product === 'string' ? orderItem.product : orderItem.product?.id,
-        quantity: orderItem.quantity,
-        reason: reason as any, // Same reason for all items initially
-        refundAmount: orderItem.price,
-      })) || []
+      order.items?.map((orderItem) => {
+        const productId = typeof orderItem.product === 'number' ? orderItem.product : orderItem.product?.id || null
+        const productData = typeof orderItem.product !== 'number' ? orderItem.product : null
+
+        const brandName = productData?.brand
+          ? typeof productData.brand === 'string'
+            ? productData.brand
+            : typeof productData.brand === 'object' && productData.brand !== null
+              ? (productData.brand as any).name
+              : undefined
+          : undefined
+
+        return {
+          product: productId,
+          title: orderItem.productSnapshot?.name || productData?.title || 'Onbekend product',
+          sku: orderItem.productSnapshot?.sku || productData?.sku || undefined,
+          brand: brandName,
+          unitPrice: orderItem.unitPrice,
+          quantityOrdered: orderItem.quantity,
+          quantityReturning: orderItem.quantity,
+          returnValue: orderItem.totalPrice || orderItem.unitPrice * orderItem.quantity,
+        }
+      }) || []
 
     // Calculate refund amount (order total minus shipping, or use order subtotal)
-    const refundAmount = order.subtotal || order.total - (order.shippingCost || 0)
+    const refundAmount = order.subtotal || order.total - (order.shippingTotal || 0)
 
     // Create the return
-    const newReturn = await payload.create({
+    const newReturn = await (payload.create as any)({
       collection: 'returns',
       data: {
-        user: user.id,
-        order: orderId,
+        customer: user.id,
+        order: parseInt(orderId),
         rmaNumber,
         status: 'pending',
-        reason: reason as any,
-        notes: notes || undefined,
+        returnReason: reason,
+        reasonDescription: notes || undefined,
         items: returnItems,
         refundAmount,
         refundMethod: 'original', // Default to original payment method

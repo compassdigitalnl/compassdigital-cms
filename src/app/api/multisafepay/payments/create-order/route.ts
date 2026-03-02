@@ -95,9 +95,9 @@ export async function POST(request: NextRequest) {
     // Get custom rates if applicable
     const customRates = pricingTier === 'custom' && client.multiSafepayCustomRates
       ? {
-          idealFee: client.multiSafepayCustomRates.idealFee,
-          cardPercentage: client.multiSafepayCustomRates.cardPercentage,
-          cardFixed: client.multiSafepayCustomRates.cardFixed,
+          idealFee: client.multiSafepayCustomRates.idealFee ?? undefined,
+          cardPercentage: client.multiSafepayCustomRates.cardPercentage ?? undefined,
+          cardFixed: client.multiSafepayCustomRates.cardFixed ?? undefined,
         }
       : undefined
 

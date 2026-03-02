@@ -61,6 +61,11 @@ export interface CouponInputProps {
   autoUppercase?: boolean
 
   /**
+   * Visual variant (default: "default")
+   */
+  variant?: 'default' | 'compact'
+
+  /**
    * Additional CSS class names
    */
   className?: string

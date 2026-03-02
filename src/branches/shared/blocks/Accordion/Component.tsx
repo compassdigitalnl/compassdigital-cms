@@ -6,11 +6,11 @@
 import React from 'react'
 import type { AccordionBlock } from '@/payload-types'
 
-export const AccordionBlockComponent: React.FC<AccordionBlock> = ({ heading, items }) => {
+export const AccordionBlockComponent: React.FC<AccordionBlock> = ({ title, items }) => {
   return (
     <section className="accordion py-16 px-4">
       <div className="container mx-auto max-w-3xl">
-        {heading && <h2 className="text-3xl font-bold mb-8 text-center">{heading}</h2>}
+        {title && <h2 className="text-3xl font-bold mb-8 text-center">{title}</h2>}
         <div className="space-y-4">
           {items?.map((item, index) => (
             <details key={index} className="border rounded-lg p-6">

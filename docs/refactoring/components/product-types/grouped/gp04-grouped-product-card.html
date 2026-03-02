@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP04: Grouped Product Card — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --green: #00C853;
+  --amber: #F59E0B;
+  --coral: #FF6B6B;
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  padding: 24px;
+}
+
+.product-card {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 20px;
+  transition: all var(--transition);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+}
+
+.product-card:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.product-card.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.product-card.out-of-stock {
+  opacity: 0.6;
+  filter: grayscale(0.5);
+}
+
+.product-checkbox-wrapper {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+}
+
+.product-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--grey);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.product-checkbox.checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.product-checkbox.checked i {
+  width: 14px;
+  height: 14px;
+  color: white;
+}
+
+.product-checkbox:hover {
+  border-color: var(--teal);
+}
+
+.product-icon {
+  width: 64px;
+  height: 64px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  background: var(--grey-light);
+  border-radius: 12px;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.product-sku {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--grey-mid);
+  margin-bottom: 12px;
+}
+
+.price-current {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.price-old {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  text-decoration: line-through;
+  margin-left: 8px;
+}
+
+.product-stock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 12px 0;
+}
+
+.stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.product-stock.in-stock {
+  color: var(--green);
+}
+
+.product-stock.in-stock .stock-dot {
+  background: var(--green);
+}
+
+.product-stock.low-stock {
+  color: var(--amber);
+}
+
+.product-stock.low-stock .stock-dot {
+  background: var(--amber);
+}
+
+.product-cta {
+  width: 100%;
+  padding: 11px 20px;
+  border-radius: 8px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  color: var(--grey-mid);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.product-cta i {
+  width: 16px;
+  height: 16px;
+}
+
+.product-cta:hover:not(:disabled) {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+
+.product-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 320px; margin: 0 auto;">
+  <div class="product-card">
+    <div class="product-checkbox-wrapper">
+      <div class="product-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+        <i data-lucide="check" style="display: none;"></i>
+      </div>
+    </div>
+
+    <div class="product-icon">🔪</div>
+
+    <h3 class="product-name">Scalpel met houder</h3>
+    <p class="product-sku">SKU: SCP-001</p>
+
+    <div style="margin-bottom: 16px;">
+      <span class="price-current">€45.00</span>
+      <span class="price-old">€55.00</span>
+    </div>
+
+    <div class="product-stock in-stock">
+      <span class="stock-dot"></span>
+      Op voorraad
+    </div>
+
+    <button class="product-cta">
+      <i data-lucide="shopping-cart"></i>
+      Voeg toe
+    </button>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+const checkbox = document.querySelector('.product-checkbox');
+const card = document.querySelector('.product-card');
+const checkIcon = checkbox.querySelector('i');
+
+checkbox.addEventListener('click', () => {
+  const isChecked = checkbox.classList.toggle('checked');
+  checkbox.setAttribute('aria-checked', isChecked);
+  checkIcon.style.display = isChecked ? 'block' : 'none';
+  card.classList.toggle('selected', isChecked);
+  lucide.createIcons();
+});
+</script>
+
+<!-- DOCUMENTATION: GP04 Grouped Product Card -->
+</body>
+</html>

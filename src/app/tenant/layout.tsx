@@ -9,7 +9,7 @@ import { headers } from 'next/headers'
  */
 
 export async function generateMetadata(): Promise<Metadata> {
-  const headersList = headers()
+  const headersList = await headers()
   const tenantId = headersList.get('x-tenant-id') || 'Unknown Tenant'
   const tenantSubdomain = headersList.get('x-tenant-subdomain') || ''
 

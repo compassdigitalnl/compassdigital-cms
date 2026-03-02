@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP03: Set Discount Banner — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --navy: #0A1628;
+  --white: #FAFBFC;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--white);
+  color: var(--navy);
+  line-height: 1.6;
+  padding: 24px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   GP03: SET DISCOUNT BANNER
+   Purple promotional banner highlighting complete set discount
+   ============================================ */
+
+.set-discount-banner {
+  background: var(--purple-light);
+  border: 2px solid var(--purple);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.set-discount-banner i {
+  width: 24px;
+  height: 24px;
+  color: var(--purple);
+  flex-shrink: 0;
+}
+
+.set-discount-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--navy);
+  line-height: 1.5;
+}
+
+.set-discount-text strong {
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.set-discount-text .discount-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--purple);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .set-discount-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .set-discount-banner i {
+    align-self: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+
+<div class="container">
+
+<!-- Default: 6 items, 15% discount -->
+<div class="set-discount-banner">
+  <i data-lucide="gift"></i>
+  <div class="set-discount-text">
+    <strong>Complete set voordeel:</strong> Selecteer alle 6 items en ontvang automatisch <span class="discount-amount">€45 korting</span> (15%)
+  </div>
+</div>
+
+<div style="height: 24px;"></div>
+
+<!-- Alternative: 12 items, 20% discount -->
+<div class="set-discount-banner">
+  <i data-lucide="gift"></i>
+  <div class="set-discount-text">
+    <strong>Bundel voordeel:</strong> Koop de complete set van 12 items en bespaar <span class="discount-amount">€180</span> (20% korting)
+  </div>
+</div>
+
+<div style="height: 24px;"></div>
+
+<!-- Alternative: Minimal variant -->
+<div class="set-discount-banner">
+  <i data-lucide="sparkles"></i>
+  <div class="set-discount-text">
+    Selecteer alle items voor <span class="discount-amount">€60 korting</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============================================
+     COMPONENT DOCUMENTATION
+     ============================================ -->
+
+<div class="container" style="margin-top: 64px;">
+
+<hr style="border: none; border-top: 2px solid #E8ECF1; margin: 48px 0;">
+
+<h1 style="font-family: 'DM Serif Display', serif; font-size: 42px; margin-bottom: 16px; color: #0A1628;">
+  GP03: Set Discount Banner
+</h1>
+
+<p style="font-size: 16px; color: #64748B; margin-bottom: 32px; max-width: 800px;">
+  Promotional banner component highlighting the complete set discount offer. Features purple styling with gift icon to draw attention to the savings opportunity.
+</p>
+
+<!-- ===========================================
+     STEP 1: COMPONENT OVERVIEW
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">1</span>
+  Component Overview
+</h2>
+
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <h3 style="font-size: 16px; font-weight: 700; color: #0A1628; margin-bottom: 12px;">Purpose</h3>
+  <p style="font-size: 14px; color: #64748B; line-height: 1.6; margin-bottom: 16px;">
+    The <strong>Set Discount Banner</strong> is a high-visibility promotional banner that appears below the hero section on grouped product pages. It clearly communicates the discount customers receive when purchasing the complete set of items.
+  </p>
+
+  <h3 style="font-size: 16px; font-weight: 700; color: #0A1628; margin-bottom: 12px;">Key Features</h3>
+  <ul style="font-size: 14px; color: #64748B; line-height: 1.8; margin-left: 20px;">
+    <li><strong>Purple Styling:</strong> Light purple background (#EDE9FE) with dark purple border (#7C3AED) for high contrast</li>
+    <li><strong>Gift Icon:</strong> 24px Lucide icon (purple color) to symbolize savings/discount</li>
+    <li><strong>Bold Headline:</strong> "Complete set voordeel" in bold purple text</li>
+    <li><strong>Discount Amount:</strong> Monospace font (JetBrains Mono), 800 weight, 16px for emphasis</li>
+    <li><strong>Flexible Text:</strong> Supports custom messaging (item count, percentage, amount)</li>
+    <li><strong>Responsive Design:</strong> Stacks vertically on mobile (<640px)</li>
+  </ul>
+</div>
+
+<!-- ===========================================
+     STEP 2: WHEN TO USE
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">2</span>
+  When to Use
+</h2>
+
+<div style="background: #E8F5E9; border-left: 4px solid #00C853; padding: 20px 24px; border-radius: 8px; margin-bottom: 16px;">
+  <h4 style="font-size: 14px; font-weight: 700; color: #166534; margin-bottom: 8px;">✅ Use this component when:</h4>
+  <ul style="font-size: 14px; color: #166534; line-height: 1.8; margin-left: 20px;">
+    <li>Product page offers a <strong>grouped product</strong> with complete set discount</li>
+    <li>You want to <strong>highlight savings opportunity</strong> prominently</li>
+    <li>Discount is <strong>automatic</strong> when all items are selected</li>
+    <li>You need to <strong>increase conversion</strong> by emphasizing value</li>
+  </ul>
+</div>
+
+<div style="background: #FFF0F0; border-left: 4px solid #FF6B6B; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;">
+  <h4 style="font-size: 14px; font-weight: 700; color: #DC2626; margin-bottom: 8px;">❌ Don't use when:</h4>
+  <ul style="font-size: 14px; color: #DC2626; line-height: 1.8; margin-left: 20px;">
+    <li>There is <strong>no discount</strong> for buying the complete set</li>
+    <li>Discount requires a <strong>coupon code</strong> (use coupon banner instead)</li>
+    <li>Product is a <strong>fixed bundle</strong> (discount already applied in base price)</li>
+    <li>Banner would <strong>clutter</strong> the page (e.g., too many promotional messages)</li>
+  </ul>
+</div>
+
+<!-- ===========================================
+     STEP 3: DESIGN TOKENS
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">3</span>
+  Design Tokens
+</h2>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Colors</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div style="padding: 16px; background: #EDE9FE; border: 2px solid #7C3AED; border-radius: 12px;">
+    <div style="font-size: 12px; color: #64748B; margin-bottom: 4px;">Background</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #0A1628;">#EDE9FE (purple-light)</div>
+  </div>
+  <div style="padding: 16px; background: #7C3AED; border-radius: 12px; color: white;">
+    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">Border & Icon</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;">#7C3AED (purple)</div>
+  </div>
+  <div style="padding: 16px; background: white; border: 1px solid #E8ECF1; border-radius: 12px;">
+    <div style="font-size: 12px; color: #64748B; margin-bottom: 4px;">Text (normal)</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #0A1628;">#0A1628 (navy)</div>
+  </div>
+  <div style="padding: 16px; background: #7C3AED; border-radius: 12px; color: white;">
+    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">Text (strong & amount)</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;">#7C3AED (purple)</div>
+  </div>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Typography</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Element</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Font</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Size</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Banner Text</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Plus Jakarta Sans</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">14px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">400</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Bold Text (strong)</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Plus Jakarta Sans</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">14px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">700</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Discount Amount</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">JetBrains Mono</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">16px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">800</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Spacing</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <tr style="background: #F5F7FA;">
+    <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Property</th>
+    <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Value</th>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Padding</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">16px (top/bottom) × 20px (left/right)</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Gap (icon + text)</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">12px (8px on mobile)</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Border width</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">2px solid</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Border radius</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">14px</td>
+  </tr>
+</table>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Icons</h3>
+<ul style="font-size: 14px; color: #64748B; line-height: 1.8; margin-left: 20px; margin-bottom: 32px;">
+  <li><strong>Default Icon:</strong> <code>gift</code> (Lucide) — 24×24px, purple color</li>
+  <li><strong>Alternative Icons:</strong> <code>sparkles</code>, <code>zap</code>, <code>percent</code></li>
+</ul>
+
+<!-- ===========================================
+     STEP 4: PROPS & CONFIGURATION
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">4</span>
+  Props & Configuration
+</h2>
+
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 14px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Prop</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Type</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Required</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Default</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>headline</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">string</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #64748B;">No</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;"><code>"Complete set voordeel:"</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Bold intro text</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>message</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">string</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #DC2626; font-weight: 700;">Yes</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">—</td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Main message text (e.g., "Selecteer alle 6 items en ontvang automatisch")</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>discountAmount</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">number</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #DC2626; font-weight: 700;">Yes</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">—</td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Discount amount in euros (e.g., 45)</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>discountPercent</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">number</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #64748B;">No</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">—</td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Discount percentage (e.g., 15) — shown in parentheses</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>icon</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">string</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #64748B;">No</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;"><code>"gift"</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Lucide icon name</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- React/TypeScript Example -->
+<div style="background: #0A1628; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <div style="color: rgba(255,255,255,0.5); font-size: 12px; margin-bottom: 12px;">React/TypeScript Component</div>
+  <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>interface SetDiscountBannerProps {
+  headline?: string
+  message: string
+  discountAmount: number
+  discountPercent?: number
+  icon?: string
+}
+
+export const SetDiscountBanner = ({
+  headline = 'Complete set voordeel:',
+  message,
+  discountAmount,
+  discountPercent,
+  icon = 'gift'
+}: SetDiscountBannerProps) => {
+  return (
+    &lt;div className="set-discount-banner"&gt;
+      &lt;LucideIcon name={icon} /&gt;
+      &lt;div className="set-discount-text"&gt;
+        {headline && &lt;strong&gt;{headline}&lt;/strong&gt;}{' '}
+        {message}{' '}
+        &lt;span className="discount-amount"&gt;
+          €{discountAmount} korting
+        &lt;/span&gt;
+        {discountPercent && ` (${discountPercent}%)`}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+</div>
+
+<!-- Usage Example -->
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 32px;">
+  <div style="color: #64748B; font-size: 12px; margin-bottom: 12px;">Usage Example</div>
+  <pre style="margin: 0; color: #0A1628; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>&lt;SetDiscountBanner
+  headline="Complete set voordeel:"
+  message="Selecteer alle 6 items en ontvang automatisch"
+  discountAmount={45}
+  discountPercent={15}
+/&gt;</code></pre>
+</div>
+
+<!-- ===========================================
+     STEP 5: LAYOUT RULES
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">5</span>
+  Layout Rules
+</h2>
+
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <h3 style="font-size: 16px; font-weight: 700; color: #0A1628; margin-bottom: 16px;">Structure</h3>
+  <pre style="background: white; padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; color: #0A1628; overflow-x: auto;"><code>.set-discount-banner (flex container)
+├── i (gift icon, 24×24px, purple)
+└── .set-discount-text (flex: 1)
+    ├── strong (headline, bold purple)
+    ├── text (message, navy)
+    └── .discount-amount (€ amount, monospace purple)</code></pre>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Positioning</h3>
+<ul style="font-size: 14px; color: #64748B; line-height: 1.8; margin-left: 20px; margin-bottom: 24px;">
+  <li><strong>Page placement:</strong> Below hero (GP02), above toolbar (GP04) — typically 24px margin-bottom</li>
+  <li><strong>Icon alignment:</strong> Flex-shrink: 0 to prevent icon from shrinking on narrow screens</li>
+  <li><strong>Text flex:</strong> Flex: 1 allows text to take remaining space</li>
+</ul>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Responsive Behavior</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Breakpoint</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Changes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>&lt; 640px (Mobile)</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">
+        • Flex-direction: row → column<br>
+        • Gap: 12px → 8px<br>
+        • Icon self-aligns to flex-start
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>≥ 640px (Desktop)</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Default horizontal layout</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===========================================
+     STEP 6: ACCESSIBILITY
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">6</span>
+  Accessibility
+</h2>
+
+<div style="background: #E3F2FD; border-left: 4px solid #2196F3; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;">
+  <h4 style="font-size: 14px; font-weight: 700; color: #1565C0; margin-bottom: 12px;">♿ Accessibility Checklist</h4>
+  <ul style="font-size: 14px; color: #1565C0; line-height: 1.8; margin-left: 20px;">
+    <li><strong>Color Contrast:</strong> Purple text on light purple bg = 4.5:1 ratio (AA compliant)</li>
+    <li><strong>Semantic HTML:</strong> Use standard div with descriptive class names</li>
+    <li><strong>Icon Purpose:</strong> Decorative only (gift symbolizes discount visually)</li>
+    <li><strong>Reading Order:</strong> Icon → Headline → Message → Amount (logical flow)</li>
+    <li><strong>Font Legibility:</strong> 14px body text, 16px discount amount (easily readable)</li>
+  </ul>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">ARIA Attributes</h3>
+<p style="font-size: 14px; color: #64748B; margin-bottom: 16px;">
+  <strong>Optional:</strong> Add <code>role="complementary"</code> and <code>aria-label="Set discount information"</code> if banner contains critical promotional info.
+</p>
+
+<div style="background: #0A1628; padding: 24px; border-radius: 12px; margin-bottom: 32px;">
+  <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>&lt;div
+  className="set-discount-banner"
+  role="complementary"
+  aria-label="Set discount information"
+&gt;
+  ...
+&lt;/div&gt;</code></pre>
+</div>
+
+<!-- ===========================================
+     STEP 7: IMPLEMENTATION NOTES
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">7</span>
+  Implementation Notes
+</h2>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Dynamic Content Example</h3>
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <pre style="margin: 0; color: #0A1628; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>// Calculate discount dynamically
+const itemCount = groupedProduct.items.length
+const discountPercent = groupedProduct.setDiscount
+const individualTotal = items.reduce((sum, item) => sum + item.price, 0)
+const discountAmount = individualTotal * (discountPercent / 100)
+
+const message = `Selecteer alle ${itemCount} items en ontvang automatisch`
+
+&lt;SetDiscountBanner
+  message={message}
+  discountAmount={discountAmount}
+  discountPercent={discountPercent}
+/&gt;</code></pre>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Common Pitfalls</h3>
+<div style="background: #FFF8E1; border-left: 4px solid #F59E0B; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;">
+  <ul style="font-size: 14px; color: #92400E; line-height: 1.8; margin-left: 20px;">
+    <li><strong>Message too long:</strong> Keep message concise (max 2 lines) to avoid banner becoming too tall</li>
+    <li><strong>Missing currency symbol:</strong> Always include € (or locale currency) before discount amount</li>
+    <li><strong>Percentage without amount:</strong> Show BOTH amount (€45) AND percentage (15%) for clarity</li>
+    <li><strong>Wrong icon:</strong> Use <code>gift</code> for discounts, not <code>percent</code> (reserved for general promotions)</li>
+  </ul>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Internationalization (i18n)</h3>
+<div style="background: #0A1628; padding: 24px; border-radius: 12px; margin-bottom: 32px;">
+  <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>// translations/nl.json
+{
+  "setDiscount.headline": "Complete set voordeel:",
+  "setDiscount.message": "Selecteer alle {count} items en ontvang automatisch",
+  "setDiscount.discount": "€{amount} korting"
+}
+
+// translations/en.json
+{
+  "setDiscount.headline": "Complete set discount:",
+  "setDiscount.message": "Select all {count} items and automatically receive",
+  "setDiscount.discount": "€{amount} off"
+}</code></pre>
+</div>
+
+<!-- ===========================================
+     STEP 8: VARIATIONS & RELATED
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">8</span>
+  Variations & Related Components
+</h2>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">No Visual Variations</h3>
+<p style="font-size: 14px; color: #64748B; margin-bottom: 24px;">
+  This component has a single, consistent purple banner design. Content and icon can be customized via props.
+</p>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Related Components</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Component</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Purpose</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Color</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>EC10: StaffelHintBanner</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Volume pricing hint ("Buy X more for lower price")</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Amber</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>EC05: FreeShippingProgress</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Free shipping progress bar</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">White card</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>GP02: GroupedProductHero</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Hero section (appears above this banner)</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Dark gradient</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>GP05: GroupedSelectionSummary</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Selection summary sidebar (shows actual discount when all items selected)</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">White card</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr style="border: none; border-top: 2px solid #E8ECF1; margin: 48px 0;">
+
+<div style="background: #E8F5E9; padding: 24px; border-radius: 12px; text-align: center;">
+  <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+  <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin-bottom: 8px;">GP03: Set Discount Banner — Complete!</h3>
+  <p style="font-size: 14px; color: #166534; margin-bottom: 16px;">
+    Ready for integration into Payload CMS + Next.js
+  </p>
+  <div style="display: inline-block; padding: 8px 16px; background: rgba(22, 101, 52, 0.1); border-radius: 100px; font-size: 13px; font-weight: 600; color: #166534;">
+    Component ID: GP03 | Product Types | Grouped Products
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>

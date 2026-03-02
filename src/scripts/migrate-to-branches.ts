@@ -158,7 +158,7 @@ class BranchMigrator {
   private async migrateAll() {
     for (const branch of Object.keys(BRANCH_MAPPINGS) as Branch[]) {
       const config = BRANCH_MAPPINGS[branch]
-      if (config.skipMigration) {
+      if ((config as any).skipMigration) {
         log.warning(`Skipping ${branch} (stays in current location)`)
         continue
       }
@@ -170,7 +170,7 @@ class BranchMigrator {
     log.step(`📦 Migrating ${branch} branch`)
 
     const config = BRANCH_MAPPINGS[branch]
-    if (config.skipMigration) {
+    if ((config as any).skipMigration) {
       log.warning(`Skipping ${branch} (configured to stay in place)`)
       return
     }
@@ -234,7 +234,7 @@ class BranchMigrator {
     }
 
     const config = BRANCH_MAPPINGS[branch]
-    if (config.skipMigration) {
+    if ((config as any).skipMigration) {
       log.warning(`Skipping ${collectionName} (${branch} stays in place)`)
       return
     }
@@ -298,7 +298,7 @@ class BranchMigrator {
   }
 
   private findBranchForCollection(collectionName: string): Branch | null {
-    for (const [branch, config] of Object.entries(BRANCH_MAPPINGS)) {
+    for (const [branch, config] of Object.entries(BRANCH_MAPPINGS) as unknown as [string, { collections: string[] }][]) {
       if (config.collections.includes(collectionName)) {
         return branch as Branch
       }
@@ -308,7 +308,7 @@ class BranchMigrator {
 
   private generateBranchIndex(branch: Branch): string {
     const config = BRANCH_MAPPINGS[branch]
-    const collections = config.collections || []
+    const collections = (config as any).collections || []
 
     return `/**
  * ${branch.charAt(0).toUpperCase() + branch.slice(1)} Branch
@@ -319,7 +319,7 @@ class BranchMigrator {
  */
 
 // Export all collections
-${collections.map((c) => `export { default as ${c} } from './collections/${c}'`).join('\n')}
+${collections.map((c: string) => `export { default as ${c} } from './collections/${c}'`).join('\n')}
 
 // Export branch metadata
 export const branchMetadata = {

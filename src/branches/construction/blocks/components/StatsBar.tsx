@@ -31,14 +31,14 @@ export const StatsBarComponent: React.FC<StatsBarBlock> = ({
     dark: 'bg-gray-900 text-white',
     transparent: 'bg-transparent',
   }
-  const styleClass = styleClasses[style] || styleClasses.default
+  const styleClass = styleClasses[style || 'default'] || styleClasses.default
 
   // Layout classes
   const layoutClasses = {
     horizontal: 'flex flex-wrap justify-around items-center',
     grid: 'grid grid-cols-2 md:grid-cols-4 gap-6',
   }
-  const layoutClass = layoutClasses[layout] || layoutClasses.horizontal
+  const layoutClass = layoutClasses[layout || 'horizontal'] || layoutClasses.horizontal
 
   // Icon map
   const iconMap: Record<string, any> = {

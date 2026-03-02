@@ -147,6 +147,95 @@ export interface VariantAvailabilityCalendarProps {
 }
 
 // ============================================
+// MULTI-VARIANT SELECTION (VP08-VP13)
+// ============================================
+
+/**
+ * ProductVariant - Represents a single variant (combination of options)
+ * Used for multi-variant selection (bulk ordering)
+ */
+export interface ProductVariant {
+  id: string
+  sku: string
+  name: string
+  price: number
+  compareAtPrice?: number
+  stock: number
+  image?: Media | string | number | null
+  attributes: { [key: string]: string }
+}
+
+/**
+ * VP08: VariantCardCompact - Compact card for grid view
+ */
+export interface VariantCardCompactProps {
+  variant: ProductVariant
+  selected: boolean
+  quantity: number
+  onToggle: (variantId: string) => void
+  onQuantityChange: (variantId: string, quantity: number) => void
+  className?: string
+}
+
+/**
+ * VP09: VariantRowCompact - Horizontal row for list view
+ */
+export interface VariantRowCompactProps {
+  variant: ProductVariant
+  selected: boolean
+  quantity: number
+  onToggle: (variantId: string) => void
+  onQuantityChange: (variantId: string, quantity: number) => void
+  showImage?: boolean
+  className?: string
+}
+
+/**
+ * VP10: VariantSelectionSidebar - Sticky sidebar with selected items
+ */
+export interface VariantSelectionSidebarProps {
+  selectedVariants: Array<{
+    variant: ProductVariant
+    quantity: number
+  }>
+  subtotal: number
+  discount?: number
+  total: number
+  onRemoveVariant: (variantId: string) => void
+  onClearAll: () => void
+  onAddToCart: () => void
+  className?: string
+}
+
+/**
+ * VP11: VariantToolbar - View toggle + bulk actions
+ */
+export interface VariantToolbarProps {
+  viewMode: VariantViewMode
+  onViewModeChange: (mode: VariantViewMode) => void
+  totalVariants: number
+  selectedCount: number
+  onSelectAll: () => void
+  onDeselectAll: () => void
+  className?: string
+}
+
+/**
+ * View mode for variant display
+ */
+export type VariantViewMode = 'grid' | 'list'
+
+/**
+ * Selection state for all variants
+ */
+export interface VariantSelectionState {
+  [variantId: string]: {
+    selected: boolean
+    quantity: number
+  }
+}
+
+// ============================================
 // PERSONALIZED PRODUCTS (PP01-PP08)
 // ============================================
 
@@ -214,6 +303,21 @@ export interface PersonalizationSummaryCardProps {
   personalization: PersonalizationSelection
   options: PersonalizationOption[]
   onEdit?: () => void
+  className?: string
+}
+
+export interface PersonalizationCharacterLimitProps {
+  currentLength: number
+  maxLength: number
+  warningThreshold?: number
+  className?: string
+}
+
+export interface PersonalizationProductionTimeProps {
+  baseProductionDays: number
+  personalizationDays?: number
+  rushAvailable?: boolean
+  onRushToggle?: (enabled: boolean) => void
   className?: string
 }
 
@@ -378,6 +482,70 @@ export interface BundleSavingsCalculatorProps {
   originalPrice: number
   bundlePrice: number
   showPercentage?: boolean
+  className?: string
+}
+
+// Bundle Components (BB01-BB06)
+export interface BundleItem {
+  id: string
+  product: Product | string | number
+  quantity: number
+  required: boolean
+  discount?: number | null
+}
+
+export interface BundleDiscountTier {
+  minQuantity: number
+  discountPercentage: number
+  label?: string
+}
+
+export interface BundleOverviewCardProps {
+  title: string
+  description?: string
+  items: BundleItem[]
+  totalPrice: number
+  originalPrice: number
+  discount: number
+  onAddToCart: () => void
+  className?: string
+}
+
+export interface BundleProductCardProps {
+  item: BundleItem
+  selected: boolean
+  onToggle?: (itemId: string) => void
+  className?: string
+}
+
+export interface BundleItemRowProps {
+  item: BundleItem
+  quantity: number
+  onQuantityChange: (itemId: string, quantity: number) => void
+  onRemove?: (itemId: string) => void
+  className?: string
+}
+
+export interface BundleDiscountTiersProps {
+  tiers: BundleDiscountTier[]
+  currentQuantity: number
+  className?: string
+}
+
+export interface BundleTotalCalculatorProps {
+  items: Array<{ price: number; quantity: number }>
+  discountPercentage?: number
+  shipping?: number
+  tax?: number
+  className?: string
+}
+
+export interface BundleProgressBarProps {
+  current: number
+  min: number
+  max: number
+  label?: string
+  showValue?: boolean
   className?: string
 }
 

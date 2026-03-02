@@ -212,7 +212,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
               </ul>
 
               {/* Stock Status */}
-              {variant.stockLevel !== undefined && (
+              {variant.stockLevel !== undefined && variant.stockLevel !== null && (
                 <div className="text-xs">
                   {variant.stockLevel > 0 ? (
                     <span className="text-green-600">

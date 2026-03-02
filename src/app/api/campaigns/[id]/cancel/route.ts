@@ -10,6 +10,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ListmonkClient } from '@/lib/email/listmonk/client'
 import { emailMarketingFeatures } from '@/lib/features'
+import { checkRole, isUser } from '@/access/utilities'
 
 export async function POST(
   request: NextRequest,
@@ -45,9 +46,16 @@ export async function POST(
       return NextResponse.json({ error: 'Campaign not found' }, { status: 404 })
     }
 
-    // Check tenant access
-    if (user.role !== 'super-admin' && campaign.tenant !== user.tenant) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    // Check tenant access (only for non-super-admins)
+    if (!checkRole(['super-admin'], user)) {
+      const userTenant = isUser(user) ? (user as any).tenant : null
+      const userTenantId = typeof userTenant === 'string' || typeof userTenant === 'number'
+        ? userTenant
+        : userTenant?.id
+
+      if (isUser(user) && campaign.tenant !== userTenantId) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
     }
 
     // Validate campaign status
@@ -60,11 +68,11 @@ export async function POST(
 
     // Cancel in Listmonk if synced
     if (campaign.listmonkCampaignId) {
-      const listmonk = new ListmonkClient(
-        process.env.LISTMONK_API_URL!,
-        process.env.LISTMONK_USERNAME!,
-        process.env.LISTMONK_PASSWORD!
-      )
+      const listmonk = new ListmonkClient({
+        baseUrl: process.env.LISTMONK_API_URL!,
+        username: process.env.LISTMONK_USERNAME!,
+        password: process.env.LISTMONK_PASSWORD!,
+      })
 
       await listmonk.cancelCampaign(campaign.listmonkCampaignId)
     }

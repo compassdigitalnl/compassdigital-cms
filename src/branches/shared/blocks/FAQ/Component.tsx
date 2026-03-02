@@ -35,7 +35,7 @@ export const FAQBlockComponent: React.FC<FAQBlock> = ({
           </div>
         )}
 
-        <FAQAccordion faqs={faqs || []} variant={variant} />
+        <FAQAccordion faqs={faqs || []} variant={variant || 'single-column'} />
       </div>
     </section>
   )

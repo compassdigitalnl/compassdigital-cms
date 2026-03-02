@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { autoGenerateSlug } from '@/utilities/slugify'
 import { autoFillSEO, autoSetPublishedDate } from '@/utilities/seoAutoFill'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Pages Collection - CMS Pages with blocks
@@ -32,7 +33,7 @@ export const Pages: CollectionConfig = {
     },
     create: ({ req: { user } }) => !!user,
     update: ({ req: { user } }) => !!user,
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => isAdmin(user),
   },
   versions: {
     drafts: {

@@ -116,7 +116,13 @@ export default async function ShopPage({
     <div className="min-h-screen bg-gray-50">
       <ShopArchiveTemplate1
         products={products as Product[]}
-        category={category}
+        category={category ? {
+          id: String(category.id),
+          name: category.name,
+          slug: category.slug,
+          description: category.description || undefined,
+          icon: category.icon || undefined,
+        } : undefined}
         subcategories={subcategories}
         totalProducts={totalDocs}
         currentPage={page}

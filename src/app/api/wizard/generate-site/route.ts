@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { sendProgress } from '@/app/api/ai/stream/[connectionId]/route'
+import { sendProgress } from '@/app/api/ai/stream/stream-utils'
 import { WizardState } from '@/lib/siteGenerator/types'
 
 export const dynamic = 'force-dynamic'

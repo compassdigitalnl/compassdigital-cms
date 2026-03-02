@@ -22,7 +22,7 @@ export const MenuItems: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
-    hidden: shouldHideCollection('horeca'),
+    hidden: shouldHideCollection('hospitality'),
     group: 'Horeca',
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'price', 'featured', 'updatedAt'],

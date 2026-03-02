@@ -199,7 +199,7 @@ export async function seedTenant(
       name: 'unknown',
       error: error instanceof Error ? error.message : String(error),
     })
-    payload.logger.error('❌ Seeding failed:', error)
+    payload.logger.error('❌ Seeding failed: ' + (error instanceof Error ? error.message : String(error)))
   }
 
   return result

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Carts Collection - Shopping cart with B2B/B2C support
@@ -23,9 +24,9 @@ export const Carts: CollectionConfig = {
           status: {
             equals: 'active',
           },
-        }
+        } as any
       }
-      if ('role' in user && user.role === 'admin') return true
+      if (isAdmin(user)) return true
       // Customers can only read their own carts
       return {
         customer: {
@@ -36,7 +37,7 @@ export const Carts: CollectionConfig = {
     create: () => true, // Anyone can create a cart
     update: ({ req: { user } }) => {
       if (!user) return true // Guest carts
-      if ('role' in user && user.role === 'admin') return true
+      if (isAdmin(user)) return true
       return {
         customer: {
           equals: user.id,
@@ -44,7 +45,7 @@ export const Carts: CollectionConfig = {
       }
     },
     delete: ({ req: { user } }) => {
-      if (user && 'role' in user && user.role === 'admin') return true
+      if ((user ? isAdmin(user) : false)) return true
       if (!user) return false
       return {
         customer: {

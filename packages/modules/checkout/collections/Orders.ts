@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Orders Collection - Customer orders with complete workflow
@@ -19,7 +20,7 @@ export const Orders: CollectionConfig = {
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'admin') return true
+      if (isAdmin(user)) return true
       // Customers can only read their own orders
       return {
         customer: {
@@ -27,9 +28,9 @@ export const Orders: CollectionConfig = {
         },
       }
     },
-    create: ({ req: { user } }) => !!user || true, // Allow guest orders
-    update: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
-    delete: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
+    create: () => true, // Allow guest orders
+    update: ({ req: { user } }) => (user ? isAdmin(user) : false),
+    delete: ({ req: { user } }) => (user ? isAdmin(user) : false),
   },
   fields: [
     {

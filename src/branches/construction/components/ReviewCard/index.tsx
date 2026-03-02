@@ -26,11 +26,10 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   const {
     clientName,
     rating,
-    review: reviewText,
-    date,
+    quote: reviewText,
+    createdAt: date,
     project,
     service,
-    avatar,
     featured,
   } = review
 
@@ -38,8 +37,8 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   const projectTitle = typeof project === 'object' && project !== null ? project.title : null
   const serviceTitle = typeof service === 'object' && service !== null ? service.title : null
 
-  // Get avatar URL
-  const avatarUrl = typeof avatar === 'object' && avatar !== null ? avatar.url : null
+  // ConstructionReview doesn't have avatar field
+  const avatarUrl = null
 
   // Format date
   const formattedDate = date

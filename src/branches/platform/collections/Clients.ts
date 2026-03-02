@@ -711,6 +711,7 @@ export const Clients: CollectionConfig = {
               type: 'select',
               label: 'Hosting provider',
               options: [
+                { label: 'Vercel', value: 'vercel' },
                 { label: 'Ploi (VPS)', value: 'ploi' },
                 { label: 'Anders', value: 'custom' },
               ],

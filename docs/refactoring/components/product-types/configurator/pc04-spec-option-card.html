@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC04: Spec Option Card — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-light: #F1F4F8;
+  --amber: #F59E0B;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.opt-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.opt-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  padding: 16px;
+  background: white;
+  border: 2px solid var(--grey);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-items: center;
+}
+
+.opt-card:hover {
+  border-color: var(--teal);
+}
+
+.opt-card.selected {
+  border-color: var(--teal);
+  background: var(--teal-glow);
+}
+
+.opt-radio {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--grey);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.opt-card.selected .opt-radio {
+  border-color: var(--teal);
+}
+
+.opt-card.selected .opt-radio::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+.opt-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 1px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.opt-badge {
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: white;
+}
+
+.opt-desc {
+  font-size: 12px;
+  color: var(--grey-mid);
+  line-height: 1.3;
+}
+
+.opt-spec {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.os-tag {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  background: var(--grey-light);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--grey-dark);
+}
+
+.os-tag i {
+  width: 10px;
+  height: 10px;
+  color: var(--teal);
+}
+
+.opt-price {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.op-amount {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.op-delta {
+  font-size: 11px;
+  color: var(--grey-mid);
+}
+
+.op-delta.up {
+  color: var(--amber);
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 700px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Processor Options</h2>
+
+<div class="opt-grid">
+  <div class="opt-card">
+    <div class="opt-radio"></div>
+    <div class="opt-info">
+      <h4>M4</h4>
+      <div class="opt-desc">10-core CPU, 10-core GPU — Ideaal voor dagelijks gebruik</div>
+      <div class="opt-spec">
+        <span class="os-tag"><i data-lucide="cpu"></i> 10-core</span>
+        <span class="os-tag"><i data-lucide="monitor"></i> 10-core GPU</span>
+      </div>
+    </div>
+    <div class="opt-price">
+      <div class="op-amount">€1.599</div>
+      <div class="op-delta">Basis</div>
+    </div>
+  </div>
+
+  <div class="opt-card selected">
+    <div class="opt-radio"></div>
+    <div class="opt-info">
+      <h4>M4 Pro <span class="opt-badge" style="background: var(--teal);">Populairst</span></h4>
+      <div class="opt-desc">14-core CPU, 20-core GPU — Voor creatieve professionals</div>
+      <div class="opt-spec">
+        <span class="os-tag"><i data-lucide="cpu"></i> 14-core</span>
+        <span class="os-tag"><i data-lucide="monitor"></i> 20-core GPU</span>
+        <span class="os-tag"><i data-lucide="zap"></i> 2x sneller</span>
+      </div>
+    </div>
+    <div class="opt-price">
+      <div class="op-amount">€2.199</div>
+      <div class="op-delta up">+ €600</div>
+    </div>
+  </div>
+
+  <div class="opt-card">
+    <div class="opt-radio"></div>
+    <div class="opt-info">
+      <h4>M4 Max <span class="opt-badge" style="background: var(--navy);">Pro</span></h4>
+      <div class="opt-desc">16-core CPU, 40-core GPU — Maximale performance voor video & 3D</div>
+      <div class="opt-spec">
+        <span class="os-tag"><i data-lucide="cpu"></i> 16-core</span>
+        <span class="os-tag"><i data-lucide="monitor"></i> 40-core GPU</span>
+        <span class="os-tag"><i data-lucide="zap"></i> 4x sneller</span>
+      </div>
+    </div>
+    <div class="opt-price">
+      <div class="op-amount">€3.199</div>
+      <div class="op-delta up">+ €1.600</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+document.querySelectorAll('.opt-card').forEach(card => {
+  card.addEventListener('click', function() {
+    const grid = this.closest('.opt-grid');
+    grid.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+</script>
+
+</body>
+</html>

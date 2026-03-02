@@ -33,7 +33,7 @@ export class ImageGeneratorService {
         style: options.style || 'natural',
       })
 
-      const imageData = response.data[0]
+      const imageData = response.data?.[0]
 
       if (!imageData?.url) {
         return {

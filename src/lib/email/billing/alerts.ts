@@ -151,33 +151,39 @@ export async function sendUsageAlert(
   try {
     const payload = await getPayload({ config })
 
-    // Create notification in database
-    await payload.create({
-      collection: 'notifications',
-      data: {
-        type: alert.level === 'critical' ? 'error' : 'warning',
-        title: alert.message,
-        message: alert.recommendations.join('\n'),
-        metadata: {
-          usage: {
-            period: usage.period,
-            emailsSent: usage.emailsSent,
-            includedEmails: usage.includedEmails,
-            usagePercentage: usage.usagePercentage,
-            extraEmails: usage.extraEmails,
-            extraCost: usage.extraCost,
-            currentTier: usage.currentTier,
-          },
-          alert: {
-            level: alert.level,
-            threshold: alert.threshold,
-          },
-        },
-        tenant: tenantId,
-        category: 'billing',
-        priority: alert.level === 'critical' ? 'high' : 'medium',
-      },
-    })
+    // TODO: Create notification in database
+    // Currently disabled - Notifications collection needs schema updates to support:
+    // - tenant field (to filter notifications by tenant)
+    // - metadata field (to store usage/alert details)
+    // - OR create a separate BillingAlerts collection
+
+    // await payload.create({
+    //   collection: 'notifications',
+    //   data: {
+    //     type: 'system',
+    //     title: alert.message,
+    //     message: alert.recommendations.join('\n'),
+    //     category: 'system',
+    //     priority: alert.level === 'critical' ? 'urgent' : 'normal',
+    //     // Need to add these fields to Notifications schema:
+    //     // tenant: tenantId,
+    //     // metadata: {
+    //     //   usage: {
+    //     //     period: usage.period,
+    //     //     emailsSent: usage.emailsSent,
+    //     //     includedEmails: usage.includedEmails,
+    //     //     usagePercentage: usage.usagePercentage,
+    //     //     extraEmails: usage.extraEmails,
+    //     //     extraCost: usage.extraCost,
+    //     //     currentTier: usage.currentTier,
+    //     //   },
+    //     //   alert: {
+    //     //     level: alert.level,
+    //     //     threshold: alert.threshold,
+    //     //   },
+    //     // },
+    //   },
+    // })
 
     console.log(
       `[Usage Alerts] Notification created for tenant ${tenantId}: ${alert.message}`

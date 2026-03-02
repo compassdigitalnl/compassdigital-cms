@@ -1,33 +1,8 @@
 import { NextRequest } from 'next/server'
-
-// Simple in-memory store for SSE connections
-const connections = new Map<string, ReadableStreamDefaultController>()
-const encoders = new Map<string, TextEncoder>()
+import { connections, initializeEncoder, closeConnection } from '../stream-utils'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-
-// Send progress update to a specific connection
-export async function sendProgress(
-  connectionId: string,
-  data: { type: string; progress?: number; message?: string; data?: any; error?: string },
-) {
-  const controller = connections.get(connectionId)
-  const encoder = encoders.get(connectionId)
-
-  if (controller && encoder) {
-    try {
-      console.log(`📡 [SSE] Sending to ${connectionId}:`, data.type, data.progress)
-      controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`))
-    } catch (error) {
-      console.error('❌ [SSE] Error sending message:', error)
-      connections.delete(connectionId)
-      encoders.delete(connectionId)
-    }
-  } else {
-    console.warn(`⚠️  [SSE] No connection found for ${connectionId}`)
-  }
-}
 
 export async function GET(
   request: NextRequest,
@@ -42,7 +17,7 @@ export async function GET(
     start(controller) {
       // Store the controller and encoder
       connections.set(connectionId, controller)
-      encoders.set(connectionId, encoder)
+      initializeEncoder(connectionId)
 
       console.log(`✅ [SSE] Connection stored for ${connectionId}`)
 
@@ -65,16 +40,14 @@ export async function GET(
         } catch (error) {
           console.error('Error sending heartbeat:', error)
           clearInterval(heartbeat)
-          connections.delete(connectionId)
-          encoders.delete(connectionId)
+          closeConnection(connectionId)
         }
       }, 15000)
 
       // Cleanup on close
       request.signal.addEventListener('abort', () => {
         clearInterval(heartbeat)
-        connections.delete(connectionId)
-        encoders.delete(connectionId)
+        closeConnection(connectionId)
       })
     },
   })
@@ -87,6 +60,3 @@ export async function GET(
     },
   })
 }
-
-// Export the sendProgress function for use in other modules
-export { connections }

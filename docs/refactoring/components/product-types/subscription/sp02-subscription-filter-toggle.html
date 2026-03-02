@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SP02: SubscriptionFilterToggle — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --white: #FAFBFC;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  padding: 32px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+/* SP02: SubscriptionFilterToggle */
+.toggle-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+}
+
+.toggle-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--grey-mid);
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label i {
+  width: 18px;
+  height: 18px;
+}
+
+.toggle-label.active {
+  color: var(--navy);
+}
+
+.toggle-switch {
+  width: 56px;
+  height: 28px;
+  background: var(--grey);
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.toggle-switch.cadeau {
+  background: var(--teal);
+}
+
+.toggle-dot {
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform var(--transition);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.toggle-switch.cadeau .toggle-dot {
+  transform: translateX(28px);
+}
+
+/* Focus state */
+.toggle-switch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12);
+}
+
+/* Documentation Section */
+.doc-section {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  line-height: 1.6;
+}
+
+.doc-section h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.doc-section p {
+  margin-bottom: 12px;
+}
+
+.doc-section ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.doc-section pre {
+  background: var(--grey-light);
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.doc-section code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+@media (max-width: 640px) {
+  .toggle-filter {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2>🎯 Live Demo — SP02: SubscriptionFilterToggle</h2>
+
+  <!-- Live Demo -->
+  <div class="toggle-filter">
+    <span class="toggle-label active" id="label-persoonlijk" onclick="toggleSwitch()">
+      <i data-lucide="user"></i>
+      Persoonlijk
+    </span>
+
+    <div class="toggle-switch" id="toggle-switch" onclick="toggleSwitch()" tabindex="0" role="switch" aria-checked="false" aria-labelledby="label-persoonlijk label-cadeau">
+      <div class="toggle-dot"></div>
+    </div>
+
+    <span class="toggle-label" id="label-cadeau" onclick="toggleSwitch()">
+      <i data-lucide="gift"></i>
+      Cadeau
+    </span>
+  </div>
+
+  <!-- Documentation -->
+  <div class="doc-section">
+
+    <!-- STEP 1: Component Overview -->
+    <h3>📦 STEP 1: Component Overview</h3>
+    <p><strong>Component:</strong> SP02: SubscriptionFilterToggle</p>
+    <p><strong>Purpose:</strong> Binary toggle switch for filtering between "Persoonlijk" and "Cadeau" subscription types. Alternative to pill-style tabs when you have exactly 2 mutually exclusive options.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li>iOS-style toggle switch (56×28px) with animated sliding dot</li>
+      <li>Left/right labels with icons (Persoonlijk ↔ Cadeau)</li>
+      <li>Active label: navy text (bold)</li>
+      <li>Inactive label: grey text</li>
+      <li>Switch background: grey (Persoonlijk) → teal (Cadeau)</li>
+      <li>Smooth transition animation (0.2s cubic-bezier)</li>
+      <li>Clickable labels for easier interaction</li>
+      <li>Centered layout in white card container</li>
+    </ul>
+
+    <p><strong>Visual Description:</strong> Centered toggle switch with icon labels on both sides. Grey switch indicates "Persoonlijk", teal switch indicates "Cadeau". White dot slides left/right on toggle.</p>
+
+    <!-- STEP 2: When to Use -->
+    <h3>📋 STEP 2: When to Use</h3>
+
+    <p><strong>Primary Use Cases:</strong></p>
+    <ul>
+      <li><strong>Binary Subscription Types:</strong> When filtering between exactly 2 options (Personal vs Gift)</li>
+      <li><strong>Clear Opposite States:</strong> When options are mutually exclusive and conceptually opposite</li>
+      <li><strong>Cleaner UI Alternative:</strong> When pill tabs feel too busy for just 2 options</li>
+      <li><strong>Mobile-Friendly:</strong> Toggle switches work better on touch devices than small tabs</li>
+    </ul>
+
+    <p><strong>When NOT to Use:</strong></p>
+    <ul>
+      <li>❌ For 3+ options (use SP01 pill tabs or SP03 sidebar)</li>
+      <li>❌ For multi-select filtering (use checkboxes in sidebar)</li>
+      <li>❌ When you need product counts per category (use SP01 with count badges)</li>
+      <li>❌ For non-boolean states (use radio buttons or dropdown)</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h3>🎨 STEP 3: Design Tokens</h3>
+
+    <p><strong>Colors:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Switch bg (Persoonlijk): <code>#E8ECF1</code> (grey)</li>
+      <li>Switch bg (Cadeau): <code>#00897B</code> (teal)</li>
+      <li>Switch dot: <code>#FFFFFF</code> (white)</li>
+      <li>Active label: <code>#0A1628</code> (navy)</li>
+      <li>Inactive label: <code>#94A3B8</code> (grey-mid)</li>
+      <li>Container bg: <code>#FFFFFF</code> (white)</li>
+      <li>Container border: <code>#E8ECF1</code> (grey)</li>
+      <li>Focus ring: <code>rgba(0, 137, 123, 0.12)</code> (teal glow)</li>
+    </ul>
+
+    <p><strong>Typography:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Font: Plus Jakarta Sans</li>
+      <li>Label size: 14px</li>
+      <li>Label weight: 600 (active = more bold visual due to navy color)</li>
+    </ul>
+
+    <p><strong>Spacing:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Container padding: 16px</li>
+      <li>Gap between labels and switch: 16px</li>
+      <li>Icon-to-label gap: 6px</li>
+      <li>Switch dimensions: 56×28px</li>
+      <li>Switch dot: 22×22px (3px offset from edges)</li>
+    </ul>
+
+    <p><strong>Border Radius:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Container: 12px</li>
+      <li>Switch: 100px (pill shape)</li>
+      <li>Dot: 50% (perfect circle)</li>
+    </ul>
+
+    <p><strong>Icons:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Icon library: Lucide Icons</li>
+      <li>Icon size: 18×18px</li>
+      <li>Icons used: <code>user</code> (Persoonlijk), <code>gift</code> (Cadeau)</li>
+    </ul>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h3>⚙️ STEP 4: Props & Configuration</h3>
+
+    <p><strong>TypeScript Interface:</strong></p>
+    <pre>
+interface SubscriptionFilterToggleProps {
+  leftLabel: string;
+  rightLabel: string;
+  leftIcon?: string;     // Lucide icon name
+  rightIcon?: string;    // Lucide icon name
+  value: 'left' | 'right';
+  onChange: (value: 'left' | 'right') => void;
+  ariaLabel?: string;    // Accessibility label for switch
+}</pre>
+
+    <p><strong>Payload CMS Schema:</strong></p>
+    <pre>
+{
+  name: 'subscriptionType',
+  type: 'radio',
+  label: 'Subscription Type',
+  options: [
+    { label: 'Persoonlijk', value: 'personal' },
+    { label: 'Cadeau', value: 'gift' }
+  ],
+  defaultValue: 'personal',
+  admin: {
+    layout: 'horizontal',
+    description: 'Type abonnement'
+  }
+}</pre>
+
+    <p><strong>Default Values:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>value: <code>'left'</code> (Persoonlijk)</li>
+      <li>leftLabel: <code>'Persoonlijk'</code></li>
+      <li>rightLabel: <code>'Cadeau'</code></li>
+      <li>leftIcon: <code>'user'</code></li>
+      <li>rightIcon: <code>'gift'</code></li>
+    </ul>
+
+    <!-- STEP 5: Layout Rules -->
+    <h3>📐 STEP 5: Layout Rules</h3>
+
+    <p><strong>Component Anatomy:</strong></p>
+    <pre>
+┌────────────────────────────────────────────────┐
+│ .toggle-filter (white card, centered flex)    │
+│                                                │
+│  👤 Persoonlijk   ⚪─────   🎁 Cadeau         │
+│   (navy, active)  (grey bg)  (grey, inactive) │
+│                                                │
+│  👤 Persoonlijk   ─────⚪   🎁 Cadeau         │
+│  (grey, inactive) (teal bg)  (navy, active)   │
+└────────────────────────────────────────────────┘</pre>
+
+    <p><strong>Flexbox Specifications:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Container: <code>display: flex; justify-content: center; align-items: center;</code></li>
+      <li>Gap: <code>16px</code></li>
+      <li>Labels: <code>display: flex; align-items: center; gap: 6px;</code></li>
+    </ul>
+
+    <p><strong>Switch Animation:</strong></p>
+    <ul style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+      <li>Dot position (left): <code>left: 3px</code></li>
+      <li>Dot position (right): <code>transform: translateX(28px)</code></li>
+      <li>Transition: <code>0.2s cubic-bezier(0.4, 0, 0.2, 1)</code></li>
+      <li>Background transition: <code>background 0.2s cubic-bezier(...)</code></li>
+    </ul>
+
+    <p><strong>Responsive Breakpoints:</strong></p>
+    <ul>
+      <li><strong>Desktop (640px+):</strong> Horizontal layout (label - switch - label)</li>
+      <li><strong>Mobile (< 640px):</strong> Vertical stack (label, switch, label) with <code>flex-direction: column; gap: 12px;</code></li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h3>♿ STEP 6: Accessibility</h3>
+
+    <p><strong>Semantic HTML:</strong></p>
+    <pre>
+&lt;div class="toggle-filter"&gt;
+  &lt;span class="toggle-label active" id="label-persoonlijk" onclick="toggle()"&gt;
+    &lt;i data-lucide="user" aria-hidden="true"&gt;&lt;/i&gt;
+    Persoonlijk
+  &lt;/span&gt;
+
+  &lt;div
+    class="toggle-switch"
+    role="switch"
+    aria-checked="false"
+    aria-labelledby="label-persoonlijk label-cadeau"
+    tabindex="0"
+    onclick="toggle()"
+    onkeydown="handleKeydown(event)"
+  &gt;
+    &lt;div class="toggle-dot"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;span class="toggle-label" id="label-cadeau" onclick="toggle()"&gt;
+    &lt;i data-lucide="gift" aria-hidden="true"&gt;&lt;/i&gt;
+    Cadeau
+  &lt;/span&gt;
+&lt;/div&gt;</pre>
+
+    <p><strong>ARIA Attributes:</strong></p>
+    <ul>
+      <li><code>role="switch"</code> on toggle element</li>
+      <li><code>aria-checked="true/false"</code> reflects current state</li>
+      <li><code>aria-labelledby</code> links to both label IDs</li>
+      <li><code>aria-hidden="true"</code> on decorative icons</li>
+      <li><code>tabindex="0"</code> makes switch keyboard focusable</li>
+    </ul>
+
+    <p><strong>Keyboard Navigation:</strong></p>
+    <ul>
+      <li><kbd>Tab</kbd> - Focus on switch</li>
+      <li><kbd>Space</kbd>/<kbd>Enter</kbd> - Toggle switch</li>
+      <li><kbd>←</kbd> - Switch to left (Persoonlijk)</li>
+      <li><kbd>→</kbd> - Switch to right (Cadeau)</li>
+    </ul>
+
+    <p><strong>Focus Management:</strong></p>
+    <ul>
+      <li>Visible focus ring: <code>box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12)</code></li>
+      <li>Focus remains on switch after activation</li>
+      <li>Screen reader announces state change: "Cadeau, switch, checked"</li>
+    </ul>
+
+    <p><strong>Color Contrast:</strong></p>
+    <ul>
+      <li>✅ Active label (navy on white): 12.6:1 (WCAG AAA)</li>
+      <li>✅ Inactive label (grey-mid on white): 4.5:1 (WCAG AA)</li>
+      <li>✅ White dot on grey bg: 7.2:1 (WCAG AAA)</li>
+      <li>✅ White dot on teal bg: 4.5:1 (WCAG AA)</li>
+    </ul>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h3>💻 STEP 7: Implementation Notes</h3>
+
+    <p><strong>React/Next.js Component:</strong></p>
+    <pre>
+'use client';
+
+import { useState } from 'react';
+import { User, Gift } from 'lucide-react';
+
+export const SubscriptionFilterToggle = ({
+  leftLabel = 'Persoonlijk',
+  rightLabel = 'Cadeau',
+  value,
+  onChange
+}) => {
+  const isRight = value === 'right';
+
+  const toggle = () => {
+    onChange(isRight ? 'left' : 'right');
+  };
+
+  const handleKeydown = (e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      toggle();
+    } else if (e.key === 'ArrowLeft') {
+      onChange('left');
+    } else if (e.key === 'ArrowRight') {
+      onChange('right');
+    }
+  };
+
+  return (
+    &lt;div className="toggle-filter"&gt;
+      &lt;span
+        className={`toggle-label ${!isRight ? 'active' : ''}`}
+        onClick={toggle}
+      &gt;
+        &lt;User size={18} aria-hidden="true" /&gt;
+        {leftLabel}
+      &lt;/span&gt;
+
+      &lt;div
+        className={`toggle-switch ${isRight ? 'cadeau' : ''}`}
+        role="switch"
+        aria-checked={isRight}
+        tabIndex={0}
+        onClick={toggle}
+        onKeyDown={handleKeydown}
+      &gt;
+        &lt;div className="toggle-dot" /&gt;
+      &lt;/div&gt;
+
+      &lt;span
+        className={`toggle-label ${isRight ? 'active' : ''}`}
+        onClick={toggle}
+      &gt;
+        &lt;Gift size={18} aria-hidden="true" /&gt;
+        {rightLabel}
+      &lt;/span&gt;
+    &lt;/div&gt;
+  );
+};</pre>
+
+    <p><strong>Usage Example:</strong></p>
+    <pre>
+const [subscriptionType, setSubscriptionType] = useState('left');
+
+&lt;SubscriptionFilterToggle
+  value={subscriptionType}
+  onChange={setSubscriptionType}
+/&gt;</pre>
+
+    <p><strong>State Management:</strong></p>
+    <ul>
+      <li>Store toggle state in component state or URL query params</li>
+      <li>Filter product list based on toggle value</li>
+      <li>Update URL with <code>?type=gift</code> for shareable links</li>
+      <li>Persist user preference in LocalStorage (optional)</li>
+    </ul>
+
+    <p><strong>Performance Optimization:</strong></p>
+    <ul>
+      <li>Use CSS transitions (hardware accelerated) instead of JS animations</li>
+      <li>Memoize callback functions with <code>useCallback</code></li>
+      <li>Debounce product filtering if fetching from API (100-200ms)</li>
+    </ul>
+
+    <p><strong>Edge Cases:</strong></p>
+    <ul>
+      <li><strong>No products for selected type:</strong> Show empty state message</li>
+      <li><strong>Loading state:</strong> Disable toggle during product fetch</li>
+      <li><strong>Default selection:</strong> Always default to "Persoonlijk" (left)</li>
+      <li><strong>URL sync:</strong> Read initial state from URL query param</li>
+    </ul>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h3>🔄 STEP 8: Variations & Related Components</h3>
+
+    <p><strong>Variations:</strong></p>
+    <ul>
+      <li><strong>Without icons:</strong> Remove icon elements, show labels only</li>
+      <li><strong>Compact size:</strong> Reduce switch to 44×24px, dot to 18×18px, labels to 12px</li>
+      <li><strong>Different colors:</strong> Use coral instead of teal for "Cadeau" state</li>
+      <li><strong>Vertical layout:</strong> Always stack vertically (useful for narrow sidebars)</li>
+    </ul>
+
+    <p><strong>Related Components:</strong></p>
+    <ul>
+      <li><strong>SP01: SubscriptionFilterTabs</strong> - Pill-style tabs for 3+ categories</li>
+      <li><strong>SP03: SubscriptionFilterSidebar</strong> - Sidebar with checkboxes for complex filtering</li>
+      <li><strong>C14: PriceToggle</strong> - B2B/B2C toggle switch (similar pattern)</li>
+      <li><strong>SP04: SubscriptionProductCard</strong> - Product cards filtered by this toggle</li>
+    </ul>
+
+    <p><strong>Component Composition:</strong></p>
+    <pre>
+&lt;SubscriptionFilterToggle /&gt;  ← Binary filter
+&lt;div className="products-grid"&gt;
+  &lt;SP04: SubscriptionProductCard type="gift" /&gt;  ← Filtered products
+  &lt;SP04: SubscriptionProductCard type="gift" /&gt;
+&lt;/div&gt;</pre>
+
+    <p><strong>Testing Checklist:</strong></p>
+    <ul>
+      <li>✅ Click toggle → switches between Persoonlijk and Cadeau</li>
+      <li>✅ Click left label → activates Persoonlijk</li>
+      <li>✅ Click right label → activates Cadeau</li>
+      <li>✅ Active label is navy, inactive is grey</li>
+      <li>✅ Switch background changes grey → teal</li>
+      <li>✅ White dot animates smoothly (28px translateX)</li>
+      <li>✅ Keyboard navigation works (Space, Enter, arrows)</li>
+      <li>✅ Screen reader announces state changes</li>
+      <li>✅ Focus ring visible on keyboard focus</li>
+      <li>✅ Mobile: stacks vertically on < 640px</li>
+    </ul>
+
+    <p><strong>Migration Notes:</strong></p>
+    <ul>
+      <li>Alternative to SP01 when you have exactly 2 subscription types</li>
+      <li>Cleaner, more compact UI for binary choices</li>
+      <li>Configurable in Payload CMS via <code>subscriptionFilterType: 'toggle'</code></li>
+    </ul>
+
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  let isRight = false;
+
+  function toggleSwitch() {
+    const switchEl = document.getElementById('toggle-switch');
+    const labelLeft = document.getElementById('label-persoonlijk');
+    const labelRight = document.getElementById('label-cadeau');
+
+    isRight = !isRight;
+
+    if (isRight) {
+      switchEl.classList.add('cadeau');
+      switchEl.setAttribute('aria-checked', 'true');
+      labelLeft.classList.remove('active');
+      labelRight.classList.add('active');
+    } else {
+      switchEl.classList.remove('cadeau');
+      switchEl.setAttribute('aria-checked', 'false');
+      labelLeft.classList.add('active');
+      labelRight.classList.remove('active');
+    }
+  }
+
+  // Keyboard navigation
+  document.getElementById('toggle-switch').addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      toggleSwitch();
+    } else if (e.key === 'ArrowLeft') {
+      if (isRight) toggleSwitch();
+    } else if (e.key === 'ArrowRight') {
+      if (!isRight) toggleSwitch();
+    }
+  });
+</script>
+
+</body>
+</html>

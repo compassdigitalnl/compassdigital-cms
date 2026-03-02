@@ -1,0 +1,51 @@
+import type { User, Customer } from '@/payload-types'
+
+export const checkRole = (allRoles: User['roles'] = [], user?: User | null): boolean => {
+  if (user && allRoles) {
+    return allRoles.some((role) => {
+      return user?.roles?.some((individualRole) => {
+        return individualRole === role
+      })
+    })
+  }
+
+  return false
+}
+
+/**
+ * Type guard to check if a user is of type User (not Customer)
+ */
+export const isUser = (user: User | Customer | null | undefined): user is User => {
+  return user?.collection === 'users'
+}
+
+/**
+ * Type guard to check if a user is of type Customer (not User)
+ */
+export const isCustomer = (user: User | Customer | null | undefined): user is Customer => {
+  return user?.collection === 'customers'
+}
+
+/**
+ * Check if user has admin role
+ */
+export const isAdmin = (user: User | Customer | null | undefined): boolean => {
+  if (!isUser(user)) return false
+  return checkRole(['admin'], user)
+}
+
+/**
+ * Check if user has editor role
+ */
+export const isEditor = (user: User | Customer | null | undefined): boolean => {
+  if (!isUser(user)) return false
+  return checkRole(['editor'], user)
+}
+
+/**
+ * Check if user has admin or editor role
+ */
+export const isAdminOrEditor = (user: User | Customer | null | undefined): boolean => {
+  if (!isUser(user)) return false
+  return checkRole(['admin', 'editor'], user)
+}

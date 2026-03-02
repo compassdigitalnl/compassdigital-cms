@@ -84,7 +84,7 @@ export async function POST(
     const ploiService = new PloiService({ apiToken: ploiToken })
 
     const envResponse = await ploiService.getEnvironment(ploiServerId, siteId)
-    const currentEnv = envResponse.data?.environment || ''
+    const currentEnv = envResponse.data || '' // data is the env content string
 
     // Parse current ENV
     const envObject: Record<string, string> = {}

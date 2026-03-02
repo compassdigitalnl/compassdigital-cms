@@ -49,12 +49,12 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
         categories = data.docs || []
       } else {
         console.error(`Failed to fetch categories: ${response.status} ${response.statusText}`)
-        categories = (manualCategories as Category[]) || []
+        categories = (manualCategories as ProductCategory[]) || []
       }
     } catch (error) {
       console.error('Error fetching categories:', error)
       // Fallback to manual categories on error
-      categories = (manualCategories as Category[]) || []
+      categories = (manualCategories as ProductCategory[]) || []
     }
   }
 
@@ -66,7 +66,7 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
     'grid-4': 'grid grid-cols-2 md:grid-cols-4 gap-4',
     'grid-5': 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4',
     'grid-6': 'grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3',
-  }[layout]
+  }[layout || 'grid-3']
 
   return (
     <section className="py-12 md:py-16 bg-gray-50">
@@ -82,12 +82,12 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
         )}
 
         <div className={gridClass}>
-          {categories.slice(0, limit).map((category) => {
+          {categories.slice(0, limit || 10).map((category) => {
             const slug = typeof category === 'object' ? category.slug : null
-            const title = typeof category === 'object' ? category.title : ''
+            const title = typeof category === 'object' ? (category as any).title : ''
             const icon = typeof category === 'object' ? category.icon : null
             const image = typeof category === 'object' ? category.image : null
-            const productCount = typeof category === 'object' ? category.productCount : 0
+            const productCount = typeof category === 'object' ? (category as any).productCount : 0
 
             return (
               <Link
@@ -121,7 +121,7 @@ export const CategoryGrid: React.FC<CategoryGridType> = async ({
           {/* Quick Order Card */}
           {showQuickOrderCard && (
             <Link
-              href={quickOrderLink}
+              href={quickOrderLink || '/quick-order'}
               className="group bg-gradient-primary border-2 border-primary rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
             >
               {/* Decorative glow */}

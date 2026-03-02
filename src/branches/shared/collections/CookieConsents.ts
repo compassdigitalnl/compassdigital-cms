@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Cookie Consents Collection - GDPR Compliance
@@ -14,19 +15,14 @@ export const CookieConsents: CollectionConfig = {
     useAsTitle: 'sessionId',
     defaultColumns: ['sessionId', 'necessary', 'analytics', 'marketing', 'consentedAt'],
     group: 'Systeem',
-    description: 'GDPR cookie consent log (read-only voor compliance)',
-    readOnly: {
-      create: false,
-      update: false,
-      delete: false,
-    },
+    description: 'GDPR cookie consent log (read-only voor compliance - gebruik access control)',
   },
   access: {
     // Public can create (API endpoint), but only admins can read
     create: () => true,
-    read: ({ req: { user } }) => user?.role === 'admin',
+    read: ({ req: { user } }) => isAdmin(user),
     update: () => false, // Read-only after creation
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => isAdmin(user),
   },
   fields: [
     {

@@ -92,7 +92,7 @@ function getListmonkClient(): ListmonkClient {
       throw new Error('Listmonk credentials not configured')
     }
 
-    listmonkClient = new ListmonkClient(baseUrl, username, password)
+    listmonkClient = new ListmonkClient({ baseUrl, username, password })
   }
   return listmonkClient
 }
@@ -142,8 +142,8 @@ async function processSyncCampaign(job: Job<SyncCampaignJob>): Promise<void> {
       const template = typeof campaign.template === 'object' ? campaign.template : null
       if (template?.html) {
         listmonkCampaign.body = template.html
-      } else if (template?.visual_html) {
-        listmonkCampaign.body = template.visual_html
+      } else if ((template as any)?.visual_html) {
+        listmonkCampaign.body = (template as any).visual_html
       } else {
         throw new Error('Template has no HTML content')
       }
@@ -290,7 +290,7 @@ async function processStartCampaign(job: Job<StartCampaignJob>): Promise<void> {
 
     // Queue stats sync job (check stats in 5 minutes)
     const { Queue } = await import('bullmq')
-    const queue = new Queue('email-marketing', { connection: redis })
+    const queue = new Queue('email-marketing', { connection: redis.options })
     await queue.add(
       'sync-stats',
       {
@@ -370,7 +370,7 @@ async function processSyncStats(job: Job<SyncStatsJob>): Promise<void> {
     // If campaign is still running, queue another sync in 5 minutes
     if (campaign.status === 'running') {
       const { Queue } = await import('bullmq')
-      const queue = new Queue('email-marketing', { connection: redis })
+      const queue = new Queue('email-marketing', { connection: redis.options })
       await queue.add(
         'sync-stats',
         { campaignId, listmonkId, tenantId },
@@ -488,7 +488,7 @@ export const emailMarketingWorker = new Worker(
   },
   {
     ...baseWorkerConfig,
-    connection: redis,
+    connection: redis.options,
     concurrency: 2, // Process 2 jobs at a time
   }
 )

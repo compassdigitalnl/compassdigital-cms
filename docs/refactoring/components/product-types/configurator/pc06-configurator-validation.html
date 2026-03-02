@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC06: ConfiguratorValidation — Plastimed Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  /* Colors */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+
+  /* Fonts */
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* System */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--navy);
+  line-height: 1.6;
+  padding: 40px 24px;
+}
+
+.demo-section {
+  max-width: 800px;
+  margin: 0 auto 48px;
+}
+
+.demo-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.demo-desc {
+  font-size: 15px;
+  color: var(--grey-dark);
+  margin-bottom: 24px;
+}
+
+.demo-grid {
+  display: grid;
+  gap: 24px;
+}
+
+/* =====================================================
+   PC06: CONFIGURATOR VALIDATION
+   ===================================================== */
+
+/* 1. Validation Summary Banner */
+.validation-summary {
+  background: white;
+  border: 2px solid var(--coral);
+  border-radius: 14px;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.validation-summary.warning {
+  border-color: var(--amber);
+  background: var(--amber-light);
+}
+
+.validation-summary.info {
+  border-color: var(--blue);
+  background: var(--blue-light);
+}
+
+.vs-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--coral-light);
+}
+
+.validation-summary.warning .vs-icon {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.validation-summary.info .vs-icon {
+  background: rgba(33, 150, 243, 0.15);
+}
+
+.vs-icon i {
+  width: 22px;
+  height: 22px;
+  color: var(--coral);
+}
+
+.validation-summary.warning .vs-icon i {
+  color: var(--amber);
+}
+
+.validation-summary.info .vs-icon i {
+  color: var(--blue);
+}
+
+.vs-content {
+  flex: 1;
+}
+
+.vs-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.vs-errors {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vs-error {
+  font-size: 13px;
+  color: var(--grey-dark);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.vs-error::before {
+  content: '•';
+  color: var(--coral);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.validation-summary.warning .vs-error::before {
+  color: var(--amber);
+}
+
+.validation-summary.info .vs-error::before {
+  color: var(--blue);
+}
+
+.vs-close {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+
+.vs-close:hover {
+  background: rgba(10, 22, 40, 0.06);
+}
+
+.vs-close i {
+  width: 18px;
+  height: 18px;
+  color: var(--grey-dark);
+}
+
+/* 2. Form Field with Validation */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-required {
+  color: var(--coral);
+  font-size: 14px;
+}
+
+.field-optional {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--grey-mid);
+}
+
+.field-input {
+  height: 48px;
+  padding: 0 16px;
+  border: 2px solid var(--grey);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--grey-light);
+  transition: all var(--transition);
+  outline: none;
+}
+
+.field-input:focus {
+  border-color: var(--teal);
+  background: white;
+  box-shadow: 0 0 0 4px var(--teal-glow);
+}
+
+.field-input::placeholder {
+  color: var(--grey-mid);
+}
+
+/* Error state */
+.field-input.error {
+  border-color: var(--coral);
+  background: var(--coral-light);
+}
+
+.field-input.error:focus {
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.12);
+}
+
+/* Success state */
+.field-input.success {
+  border-color: var(--green);
+  background: var(--green-light);
+}
+
+.field-input.success:focus {
+  box-shadow: 0 0 0 4px rgba(0, 200, 83, 0.12);
+}
+
+/* Warning state */
+.field-input.warning {
+  border-color: var(--amber);
+  background: var(--amber-light);
+}
+
+.field-input.warning:focus {
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
+}
+
+/* Helper text */
+.field-hint {
+  font-size: 12px;
+  color: var(--grey-mid);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-hint i {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Error message */
+.field-error {
+  font-size: 12px;
+  color: var(--coral);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.field-error i {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Success message */
+.field-success {
+  font-size: 12px;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.field-success i {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Warning message */
+.field-warning {
+  font-size: 12px;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.field-warning i {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* 3. Inline Step Error */
+.step-error-inline {
+  background: var(--coral-light);
+  border: 1.5px solid rgba(255, 107, 107, 0.3);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sei-icon {
+  width: 36px;
+  height: 36px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sei-icon i {
+  width: 18px;
+  height: 18px;
+  color: var(--coral);
+}
+
+.sei-content {
+  flex: 1;
+}
+
+.sei-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+
+.sei-message {
+  font-size: 12px;
+  color: var(--grey-dark);
+}
+
+/* 4. Tooltip Validation */
+.field-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-trigger {
+  background: none;
+  border: none;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background var(--transition);
+}
+
+.tooltip-trigger:hover {
+  background: rgba(10, 22, 40, 0.06);
+}
+
+.tooltip-trigger i {
+  width: 14px;
+  height: 14px;
+  color: var(--grey-mid);
+}
+
+.tooltip-content {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(10, 22, 40, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+  z-index: 100;
+}
+
+.tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--navy);
+}
+
+.field-tooltip:hover .tooltip-content {
+  opacity: 1;
+}
+
+/* 5. Character Counter */
+.field-counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter-text {
+  font-size: 12px;
+  color: var(--grey-mid);
+}
+
+.counter-text.warning {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.counter-text.error {
+  color: var(--coral);
+  font-weight: 600;
+}
+
+/* 6. Real-time Validation Indicator */
+.validation-indicator {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.validation-indicator i {
+  width: 18px;
+  height: 18px;
+}
+
+.validation-indicator.success i {
+  color: var(--green);
+}
+
+.validation-indicator.error i {
+  color: var(--coral);
+}
+
+.validation-indicator.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* 7. Field with icon (for validation indicator) */
+.field-with-icon {
+  position: relative;
+}
+
+.field-with-icon .field-input {
+  padding-right: 48px;
+}
+
+/* 8. Progress indicator for multi-field validation */
+.validation-progress {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.vp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.vp-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.vp-count {
+  font-size: 12px;
+  color: var(--grey-mid);
+}
+
+.vp-count .count-done {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.vp-bar {
+  height: 8px;
+  background: var(--grey-light);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.vp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--teal-light));
+  border-radius: 9999px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vp-items {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vp-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--grey-dark);
+}
+
+.vp-check {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--grey);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vp-item.done .vp-check {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.vp-item.done {
+  color: var(--grey-mid);
+  text-decoration: line-through;
+}
+
+.vp-check i {
+  width: 12px;
+  height: 12px;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .validation-summary {
+    padding: 14px 16px;
+  }
+
+  .vs-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .vs-icon i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .vs-close {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     LIVE DEMO SECTION
+     ===================================================== -->
+
+<div class="demo-section">
+  <h1 class="demo-title">PC06: ConfiguratorValidation</h1>
+  <p class="demo-desc">
+    Real-time validation feedback voor configurator forms met error messages,
+    success states, warnings, en validation summaries.
+  </p>
+
+  <div class="demo-grid">
+
+    <!-- Demo 1: Validation Summary Banner -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        1. Validation Summary (Error)
+      </h3>
+      <div class="validation-summary">
+        <div class="vs-icon">
+          <i data-lucide="alert-circle"></i>
+        </div>
+        <div class="vs-content">
+          <div class="vs-title">Er zijn 3 fouten die je moet oplossen</div>
+          <div class="vs-errors">
+            <div class="vs-error">Selecteer een processor om verder te gaan</div>
+            <div class="vs-error">Kies minimaal 8GB werkgeheugen voor deze configuratie</div>
+            <div class="vs-error">Vul een geldig e-mailadres in</div>
+          </div>
+        </div>
+        <button class="vs-close" onclick="this.closest('.validation-summary').style.display='none'">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Demo 2: Warning Summary -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        2. Validation Summary (Warning)
+      </h3>
+      <div class="validation-summary warning">
+        <div class="vs-icon">
+          <i data-lucide="alert-triangle"></i>
+        </div>
+        <div class="vs-content">
+          <div class="vs-title">Let op: aanbevolen upgrades</div>
+          <div class="vs-errors">
+            <div class="vs-error">Deze processor werkt beter met minimaal 16GB RAM</div>
+            <div class="vs-error">Voor gaming wordt een grotere SSD aanbevolen (512GB+)</div>
+          </div>
+        </div>
+        <button class="vs-close" onclick="this.closest('.validation-summary').style.display='none'">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Demo 3: Info Summary -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        3. Validation Summary (Info)
+      </h3>
+      <div class="validation-summary info">
+        <div class="vs-icon">
+          <i data-lucide="info"></i>
+        </div>
+        <div class="vs-content">
+          <div class="vs-title">Bijna klaar! Nog 2 stappen te voltooien</div>
+          <div class="vs-errors">
+            <div class="vs-error">Kies een opslagcapaciteit voor je laptop</div>
+            <div class="vs-error">Selecteer eventuele extra accessoires</div>
+          </div>
+        </div>
+        <button class="vs-close" onclick="this.closest('.validation-summary').style.display='none'">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Demo 4: Form Field - Error State -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        4. Form Field (Error State)
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          E-mailadres
+          <span class="field-required">*</span>
+        </label>
+        <input
+          type="email"
+          class="field-input error"
+          value="jan@example"
+          placeholder="naam@organisatie.nl"
+        >
+        <span class="field-error">
+          <i data-lucide="alert-circle"></i>
+          Vul een geldig e-mailadres in (bijv. naam@organisatie.nl)
+        </span>
+      </div>
+    </div>
+
+    <!-- Demo 5: Form Field - Success State -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        5. Form Field (Success State)
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          Bedrijfsnaam
+          <span class="field-required">*</span>
+        </label>
+        <input
+          type="text"
+          class="field-input success"
+          value="Huisartsenpraktijk De Vries"
+        >
+        <span class="field-success">
+          <i data-lucide="check-circle"></i>
+          Automatisch ingevuld via KVK-nummer
+        </span>
+      </div>
+    </div>
+
+    <!-- Demo 6: Form Field - Warning State -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        6. Form Field (Warning State)
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          Werkgeheugen (RAM)
+          <span class="field-required">*</span>
+        </label>
+        <input
+          type="text"
+          class="field-input warning"
+          value="8GB"
+          readonly
+        >
+        <span class="field-warning">
+          <i data-lucide="alert-triangle"></i>
+          Deze processor werkt optimaal met minimaal 16GB RAM
+        </span>
+      </div>
+    </div>
+
+    <!-- Demo 7: Form Field with Helper Text -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        7. Form Field (Default with Hint)
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          Configuratienaam
+          <span class="field-optional">(optioneel)</span>
+        </label>
+        <input
+          type="text"
+          class="field-input"
+          placeholder="bijv. Werkstation Jan"
+        >
+        <span class="field-hint">
+          <i data-lucide="info"></i>
+          Geef deze configuratie een naam om later terug te vinden
+        </span>
+      </div>
+    </div>
+
+    <!-- Demo 8: Real-time Validation Indicator -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        8. Real-time Validation Indicator
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          KVK-nummer
+          <span class="field-required">*</span>
+        </label>
+        <div class="field-with-icon">
+          <input
+            type="text"
+            class="field-input success"
+            value="12345678"
+            placeholder="8 cijfers"
+          >
+          <div class="validation-indicator success">
+            <i data-lucide="check-circle"></i>
+          </div>
+        </div>
+        <span class="field-success">
+          <i data-lucide="check-circle"></i>
+          Bedrijf gevonden: Huisartsenpraktijk De Vries
+        </span>
+      </div>
+    </div>
+
+    <!-- Demo 9: Loading Validation -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        9. Validating (Loading State)
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          Kortingscode
+          <span class="field-optional">(optioneel)</span>
+        </label>
+        <div class="field-with-icon">
+          <input
+            type="text"
+            class="field-input"
+            value="WELCOME2024"
+            placeholder="Voer code in"
+          >
+          <div class="validation-indicator loading">
+            <i data-lucide="loader-2"></i>
+          </div>
+        </div>
+        <span class="field-hint">
+          <i data-lucide="info"></i>
+          Kortingscode wordt gecontroleerd...
+        </span>
+      </div>
+    </div>
+
+    <!-- Demo 10: Character Counter -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        10. Character Counter
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          Opmerkingen bij bestelling
+          <span class="field-optional">(optioneel)</span>
+        </label>
+        <textarea
+          class="field-input"
+          style="min-height: 80px; padding: 12px 16px;"
+          placeholder="Bijv. leveringsinstructies, speciale wensen..."
+          maxlength="500"
+          oninput="updateCounter(this)"
+        >Graag leveren tussen 9:00-12:00 op werkdagen. Bij voorkeur aan de achterzijde van het gebouw.</textarea>
+        <div class="field-counter">
+          <span class="field-hint">
+            <i data-lucide="info"></i>
+            Maximaal 500 tekens
+          </span>
+          <span class="counter-text" id="charCount">107 / 500</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 11: Inline Step Error -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        11. Inline Step Error
+      </h3>
+      <div class="step-error-inline">
+        <div class="sei-icon">
+          <i data-lucide="alert-circle"></i>
+        </div>
+        <div class="sei-content">
+          <div class="sei-title">Stap 2 is niet volledig</div>
+          <div class="sei-message">
+            Selecteer een processor voordat je verder gaat naar stap 3
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 12: Validation Progress -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        12. Validation Progress
+      </h3>
+      <div class="validation-progress">
+        <div class="vp-header">
+          <div class="vp-title">Configuratie voortgang</div>
+          <div class="vp-count">
+            <span class="count-done">4</span> van 6 voltooid
+          </div>
+        </div>
+        <div class="vp-bar">
+          <div class="vp-fill" style="width: 67%;"></div>
+        </div>
+        <div class="vp-items">
+          <div class="vp-item done">
+            <div class="vp-check">
+              <i data-lucide="check"></i>
+            </div>
+            <div>Model geselecteerd (ProBook Ultra 16")</div>
+          </div>
+          <div class="vp-item done">
+            <div class="vp-check">
+              <i data-lucide="check"></i>
+            </div>
+            <div>Kleur gekozen (Space Grey)</div>
+          </div>
+          <div class="vp-item done">
+            <div class="vp-check">
+              <i data-lucide="check"></i>
+            </div>
+            <div>Processor geselecteerd (M4 Pro)</div>
+          </div>
+          <div class="vp-item done">
+            <div class="vp-check">
+              <i data-lucide="check"></i>
+            </div>
+            <div>Werkgeheugen gekozen (36GB)</div>
+          </div>
+          <div class="vp-item">
+            <div class="vp-check"></div>
+            <div>Opslag selecteren (verplicht)</div>
+          </div>
+          <div class="vp-item">
+            <div class="vp-check"></div>
+            <div>Extra's toevoegen (optioneel)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 13: Tooltip Validation -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        13. Tooltip Validation Info
+      </h3>
+      <div class="form-field">
+        <label class="field-label">
+          BTW-nummer
+          <span class="field-required">*</span>
+          <div class="field-tooltip">
+            <button type="button" class="tooltip-trigger">
+              <i data-lucide="help-circle"></i>
+            </button>
+            <div class="tooltip-content">
+              Formaat: NL123456789B01
+            </div>
+          </div>
+        </label>
+        <input
+          type="text"
+          class="field-input"
+          placeholder="NL123456789B01"
+        >
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     DOCUMENTATION
+     ===================================================== -->
+
+<div class="demo-section" style="background: white; padding: 32px; border-radius: 16px; border: 1px solid var(--grey);">
+
+<h2 style="font-size: 24px; font-weight: 800; margin-bottom: 24px; color: var(--navy);">
+  📋 Component Documentation
+</h2>
+
+<!-- STEP 1: Overview -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 1: Component Overview
+  </h3>
+  <p style="font-size: 14px; line-height: 1.6; color: var(--grey-dark); margin-bottom: 12px;">
+    <strong>PC06: ConfiguratorValidation</strong> provides real-time validation feedback
+    for product configurator forms with error messages, success states, warnings,
+    validation summaries, and progress indicators.
+  </p>
+  <p style="font-size: 14px; line-height: 1.6; color: var(--grey-dark);">
+    <strong>Purpose:</strong> Guide users through complex multi-step configurator flows
+    by providing clear, immediate feedback on required fields, input validation,
+    and configuration completeness. Prevents user frustration and reduces form abandonment.
+  </p>
+</div>
+
+<!-- STEP 2: When to Use -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 2: When to Use This Component
+  </h3>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Multi-step configurators:</strong> Laptop/computer builders, vehicle configurators, custom product builders</li>
+    <li><strong>Form validation:</strong> Contact forms, checkout, registration, quote requests</li>
+    <li><strong>Required field indicators:</strong> Mark mandatory vs optional fields</li>
+    <li><strong>Real-time feedback:</strong> Email validation, KVK lookup, promo code verification</li>
+    <li><strong>Progress tracking:</strong> Show configuration completeness percentage</li>
+    <li><strong>Error prevention:</strong> Warn before incompatible option selections</li>
+    <li><strong>Success confirmation:</strong> Auto-filled fields from external APIs</li>
+  </ul>
+</div>
+
+<!-- STEP 3: Design Tokens -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 3: Design Tokens
+  </h3>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Colors</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Error:</strong> --coral (#FF6B6B), --coral-light (#FFF0F0)</li>
+    <li><strong>Success:</strong> --green (#00C853), --green-light (#E8F5E9)</li>
+    <li><strong>Warning:</strong> --amber (#F59E0B), --amber-light (#FFF8E1)</li>
+    <li><strong>Info:</strong> --blue (#2196F3), --blue-light (#E3F2FD)</li>
+    <li><strong>Required:</strong> --coral (#FF6B6B)</li>
+    <li><strong>Hint text:</strong> --grey-mid (#94A3B8)</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Typography</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Label:</strong> 13px, 700 weight</li>
+    <li><strong>Input:</strong> 14px, 400 weight, Plus Jakarta Sans</li>
+    <li><strong>Error/Success/Warning message:</strong> 12px, 600 weight</li>
+    <li><strong>Hint text:</strong> 12px, 400 weight</li>
+    <li><strong>Required asterisk:</strong> 14px, coral</li>
+    <li><strong>Validation summary title:</strong> 15px, 700 weight</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Spacing</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Field gap:</strong> 6px (label to input, input to message)</li>
+    <li><strong>Validation summary padding:</strong> 18px 24px</li>
+    <li><strong>Icon gap:</strong> 6px (in messages)</li>
+    <li><strong>Step error padding:</strong> 14px 18px</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Icons (Lucide)</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Error:</strong> alert-circle</li>
+    <li><strong>Success:</strong> check-circle</li>
+    <li><strong>Warning:</strong> alert-triangle</li>
+    <li><strong>Info:</strong> info, help-circle</li>
+    <li><strong>Loading:</strong> loader-2 (spinning animation)</li>
+    <li><strong>Close:</strong> x</li>
+    <li><strong>Check:</strong> check</li>
+  </ul>
+</div>
+
+<!-- STEP 4: Props & Configuration -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 4: Props & Configuration
+  </h3>
+
+  <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+    <pre style="font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--navy); overflow-x: auto;"><code>interface ValidationSummaryProps {
+  type: 'error' | 'warning' | 'info';
+  title: string;
+  errors: string[];
+  dismissible?: boolean;  // Show close button
+  onDismiss?: () => void;
+}
+
+interface FormFieldProps {
+  label: string;
+  required?: boolean;
+  optional?: boolean;
+  value: string;
+  placeholder?: string;
+  state?: 'default' | 'error' | 'success' | 'warning';
+  message?: string;
+  hint?: string;
+  type?: 'text' | 'email' | 'tel' | 'number' | 'textarea';
+  maxLength?: number;
+  showCounter?: boolean;
+  validator?: (value: string) => Promise&lt;ValidationResult&gt;;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+}
+
+interface ValidationResult {
+  valid: boolean;
+  state: 'error' | 'success' | 'warning';
+  message?: string;
+}
+
+interface ValidationProgressProps {
+  title: string;
+  steps: Array&lt;{
+    id: string;
+    label: string;
+    completed: boolean;
+  }&gt;;
+  totalSteps: number;
+  completedSteps: number;
+}
+
+interface InlineStepErrorProps {
+  stepNumber: number;
+  title: string;
+  message: string;
+}</code></pre>
+  </div>
+</div>
+
+<!-- STEP 5: Layout Rules -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 5: Layout Rules
+  </h3>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Validation summary:</strong> Place at top of form section, before first field</li>
+    <li><strong>Field order:</strong> Label → Input → Message (error/success/warning/hint)</li>
+    <li><strong>Required indicator:</strong> Immediately after label text (red asterisk)</li>
+    <li><strong>Optional indicator:</strong> After label in grey "(optioneel)"</li>
+    <li><strong>Error message priority:</strong> Show error messages ABOVE success/hint</li>
+    <li><strong>Icon size:</strong> 14px for messages, 18-22px for summary banners</li>
+    <li><strong>Validation indicator:</strong> Absolute positioned right inside input (right: 16px)</li>
+    <li><strong>Character counter:</strong> Below textarea, right-aligned</li>
+    <li><strong>Step error inline:</strong> Between step nav and form content</li>
+    <li><strong>Validation progress:</strong> Fixed below header or at form start</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Responsive Behavior</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Mobile (&lt;640px):</strong> Hide close button on validation summary, reduce icon sizes</li>
+    <li><strong>Tablet (640-900px):</strong> All features visible</li>
+    <li><strong>Desktop (>900px):</strong> Full layout with tooltips</li>
+  </ul>
+</div>
+
+<!-- STEP 6: Accessibility -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 6: Accessibility (WCAG AA/AAA)
+  </h3>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>ARIA labels:</strong> All inputs have associated labels via <code>&lt;label&gt;</code> or <code>aria-label</code></li>
+    <li><strong>Error announcements:</strong> Use <code>role="alert"</code> for error messages to trigger screen reader</li>
+    <li><strong>Required fields:</strong> Mark with <code>aria-required="true"</code> + visual asterisk</li>
+    <li><strong>Invalid state:</strong> Use <code>aria-invalid="true"</code> on error inputs</li>
+    <li><strong>Describedby:</strong> Link error messages to inputs via <code>aria-describedby</code></li>
+    <li><strong>Color contrast:</strong>
+      <ul style="margin-left: 20px; margin-top: 8px;">
+        <li>Error text (#FF6B6B on white): 4.5:1 ✓</li>
+        <li>Success text (#00C853 on white): 4.5:1 ✓</li>
+        <li>Warning text (#F59E0B on white): 3.5:1 (large text only)</li>
+      </ul>
+    </li>
+    <li><strong>Focus management:</strong> Move focus to first error field on validation fail</li>
+    <li><strong>Keyboard navigation:</strong> All interactive elements keyboard accessible</li>
+    <li><strong>Live regions:</strong> Real-time validation uses <code>aria-live="polite"</code></li>
+  </ul>
+</div>
+
+<!-- STEP 7: Implementation Notes -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 7: Implementation Notes
+  </h3>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">React/Next.js Component</h4>
+  <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+    <pre style="font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--navy); overflow-x: auto;"><code>'use client';
+
+import { useState, useEffect } from 'react';
+import { AlertCircle, CheckCircle, AlertTriangle, Info, Loader2 } from 'lucide-react';
+
+export function ValidatedField({
+  label,
+  required,
+  value,
+  onChange,
+  validator
+}: FormFieldProps) {
+  const [state, setState] = useState&lt;'default' | 'error' | 'success' | 'loading'&gt;('default');
+  const [message, setMessage] = useState&lt;string&gt;('');
+
+  // Real-time validation with debounce
+  useEffect(() => {
+    if (!validator || !value) return;
+
+    const timer = setTimeout(async () => {
+      setState('loading');
+      const result = await validator(value);
+      setState(result.valid ? 'success' : 'error');
+      setMessage(result.message || '');
+    }, 500);  // 500ms debounce
+
+    return () => clearTimeout(timer);
+  }, [value, validator]);
+
+  return (
+    &lt;div className="form-field"&gt;
+      &lt;label className="field-label"&gt;
+        {label}
+        {required && &lt;span className="field-required"&gt;*&lt;/span&gt;}
+      &lt;/label&gt;
+
+      &lt;div className="field-with-icon"&gt;
+        &lt;input
+          type="text"
+          className={`field-input ${state}`}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          aria-required={required}
+          aria-invalid={state === 'error'}
+          aria-describedby={message ? 'field-message' : undefined}
+        /&gt;
+
+        {state === 'loading' && (
+          &lt;div className="validation-indicator loading"&gt;
+            &lt;Loader2 /&gt;
+          &lt;/div&gt;
+        )}
+        {state === 'success' && (
+          &lt;div className="validation-indicator success"&gt;
+            &lt;CheckCircle /&gt;
+          &lt;/div&gt;
+        )}
+        {state === 'error' && (
+          &lt;div className="validation-indicator error"&gt;
+            &lt;AlertCircle /&gt;
+          &lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      {message && (
+        &lt;span
+          id="field-message"
+          className={`field-${state}`}
+          role="alert"
+        &gt;
+          {state === 'error' && &lt;AlertCircle /&gt;}
+          {state === 'success' && &lt;CheckCircle /&gt;}
+          {message}
+        &lt;/span&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</code></pre>
+  </div>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Validation Patterns</h4>
+  <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+    <pre style="font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--navy); overflow-x: auto;"><code>// Email validation
+const validateEmail = async (email: string): Promise&lt;ValidationResult&gt; => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(email)) {
+    return {
+      valid: false,
+      state: 'error',
+      message: 'Vul een geldig e-mailadres in (bijv. naam@organisatie.nl)'
+    };
+  }
+  return { valid: true, state: 'success' };
+};
+
+// KVK number validation (with API lookup)
+const validateKVK = async (kvk: string): Promise&lt;ValidationResult&gt; => {
+  if (kvk.length !== 8 || !/^\d+$/.test(kvk)) {
+    return {
+      valid: false,
+      state: 'error',
+      message: 'KVK-nummer moet 8 cijfers zijn'
+    };
+  }
+
+  // API call to verify KVK
+  const response = await fetch(`/api/kvk/${kvk}`);
+  const data = await response.json();
+
+  if (data.found) {
+    return {
+      valid: true,
+      state: 'success',
+      message: `Bedrijf gevonden: ${data.companyName}`
+    };
+  }
+
+  return {
+    valid: false,
+    state: 'error',
+    message: 'KVK-nummer niet gevonden'
+  };
+};
+
+// Character limit validation
+const validateLength = (text: string, maxLength: number): ValidationResult => {
+  if (text.length > maxLength) {
+    return {
+      valid: false,
+      state: 'error',
+      message: `Maximaal ${maxLength} tekens toegestaan`
+    };
+  }
+
+  if (text.length > maxLength * 0.9) {
+    return {
+      valid: true,
+      state: 'warning',
+      message: `Nog ${maxLength - text.length} tekens over`
+    };
+  }
+
+  return { valid: true, state: 'success' };
+};</code></pre>
+  </div>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Payload CMS Integration</h4>
+  <div style="background: var(--grey-light); padding: 16px; border-radius: 8px;">
+    <pre style="font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--navy); overflow-x: auto;"><code>// Payload field with custom validation
+{
+  name: 'email',
+  type: 'email',
+  required: true,
+  validate: (value: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(value)) {
+      return 'Vul een geldig e-mailadres in';
+    }
+    return true;
+  },
+  admin: {
+    description: 'Zakelijk e-mailadres voor account verificatie',
+  },
+},
+
+// Custom validation with async API call
+{
+  name: 'kvk',
+  type: 'text',
+  required: true,
+  validate: async (value: string, { req }) => {
+    if (!/^\d{8}$/.test(value)) {
+      return 'KVK-nummer moet 8 cijfers zijn';
+    }
+
+    // External API validation
+    const response = await fetch(`https://api.kvk.nl/api/v1/zoeken?kvkNummer=${value}`, {
+      headers: { 'apikey': process.env.KVK_API_KEY },
+    });
+
+    if (!response.ok) {
+      return 'KVK-nummer niet gevonden in register';
+    }
+
+    return true;
+  },
+}</code></pre>
+  </div>
+</div>
+
+<!-- STEP 8: Variations & Related -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 8: Variations & Related Components
+  </h3>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Validation Summary Variants</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Error (default):</strong> Coral border, alert-circle icon, blocks form submission</li>
+    <li><strong>Warning:</strong> Amber border, alert-triangle icon, allows submission with confirmation</li>
+    <li><strong>Info:</strong> Blue border, info icon, helpful guidance (not blocking)</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Field State Variants</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Default:</strong> Grey border, grey-light background, no message</li>
+    <li><strong>Focus:</strong> Teal border, white background, teal glow (4px shadow)</li>
+    <li><strong>Error:</strong> Coral border, coral-light background, error message with alert-circle icon</li>
+    <li><strong>Success:</strong> Green border, green-light background, success message with check-circle icon</li>
+    <li><strong>Warning:</strong> Amber border, amber-light background, warning message with alert-triangle icon</li>
+    <li><strong>Loading:</strong> Default styling + spinning loader-2 icon (right-positioned)</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Related Components</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>PC02: ConfiguratorStepNav</strong> — Shows overall step completion, can display error states per step</li>
+    <li><strong>PC05: ConfiguratorPriceBreakdown</strong> — Can show validation warnings for incompatible options</li>
+    <li><strong>EC08: CouponInput</strong> — Uses success/error states for promo code validation</li>
+    <li><strong>EC14: AddressForm</strong> — Uses postcode autocomplete with real-time validation</li>
+    <li><strong>EC15: PONumberInput</strong> — B2B field with format validation and helper text</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Best Practices</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Validate on blur:</strong> Check fields when user leaves input (not on every keystroke)</li>
+    <li><strong>Debounce real-time:</strong> Wait 500ms after typing stops before validating (API calls)</li>
+    <li><strong>Clear on fix:</strong> Remove error message immediately when user corrects input</li>
+    <li><strong>Focus first error:</strong> Scroll to and focus first invalid field on submit attempt</li>
+    <li><strong>Summary at top:</strong> Show validation summary above form, not at bottom</li>
+    <li><strong>Specific messages:</strong> "Vul een geldig e-mailadres in" > "Ongeldige invoer"</li>
+    <li><strong>Positive feedback:</strong> Show success states for auto-filled/verified fields</li>
+    <li><strong>Progressive disclosure:</strong> Only show validation after first interaction, not on page load</li>
+    <li><strong>Save progress:</strong> Allow saving incomplete forms (don't block with validation)</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Character counter update
+  function updateCounter(textarea) {
+    const current = textarea.value.length;
+    const max = textarea.maxLength;
+    const counterEl = document.getElementById('charCount');
+
+    counterEl.textContent = `${current} / ${max}`;
+
+    // Change color based on remaining characters
+    if (current > max * 0.9) {
+      counterEl.classList.add('error');
+      counterEl.classList.remove('warning');
+    } else if (current > max * 0.75) {
+      counterEl.classList.add('warning');
+      counterEl.classList.remove('error');
+    } else {
+      counterEl.classList.remove('error', 'warning');
+    }
+  }
+</script>
+
+</body>
+</html>

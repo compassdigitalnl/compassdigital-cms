@@ -126,14 +126,14 @@ export default function KennisbankPage() {
       const count = posts.filter((post) => {
         if (!post.categories) return false
         return post.categories.some((cat) => {
-          if (typeof cat === 'string') return cat === category.id
+          if (typeof cat === 'string' || typeof cat === 'number') return cat === category.id
           return cat.id === category.id
         })
       }).length
 
       return {
         slug: category.slug || '',
-        title: category.name || category.title || '',
+        title: category.name || '',
         count,
       }
     })

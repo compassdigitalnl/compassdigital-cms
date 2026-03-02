@@ -70,7 +70,7 @@ export class SubscriberSync {
       status: (subscriber.status as 'enabled' | 'disabled' | 'blocklisted') || 'enabled',
       lists: (subscriber.lists as any[])?.map(l => typeof l === 'object' ? l.listmonkId : l).filter(Boolean) || [],
       attribs: {
-        tenant_id: subscriber.tenant as string,
+        tenant_id: String(subscriber.tenant),
         payload_id: subscriberId,
         ...(subscriber.customFields as Record<string, any> || {}),
       },
@@ -194,7 +194,7 @@ export class SubscriberSync {
 
       for (const subscriber of payloadSubscribers.docs) {
         try {
-          await this.syncToListmonk(subscriber.id, options)
+          await this.syncToListmonk(String(subscriber.id), options)
           if (subscriber.listmonkId) {
             result.updated++
           } else {
@@ -250,7 +250,7 @@ export class ListSync {
       optin: (list.optin as 'single' | 'double') || 'single',
       tags: [
         `tenant:${list.tenant}`,
-        ...(list.tags as string[] || []),
+        ...((list.tags as any[])?.map((t: any) => typeof t === 'object' ? t.tag : t).filter(Boolean) || []),
       ],
       description: list.description as string || undefined,
     }
@@ -341,7 +341,7 @@ export class TemplateSync {
 
     const listmonkData: Omit<ListmonkTemplate, 'id' | 'created_at' | 'updated_at'> = {
       name: template.name as string,
-      type: (template.type as number) || 0, // 0 = campaign, 1 = transactional
+      type: (template.type as any) === 'transactional' ? 1 : 0, // 0 = campaign, 1 = transactional
       subject: template.defaultSubject as string || undefined,
       body: template.html as string,
       is_default: template.isDefault as boolean || false,
@@ -425,8 +425,8 @@ export class CampaignSync {
       send_at: campaign.scheduledFor ? new Date(campaign.scheduledFor as string).toISOString() : undefined,
       status: (campaign.status as any) || 'draft',
       lists: listIds,
-      tags: [`tenant:${campaign.tenant}`, ...(campaign.tags as string[] || [])],
-      template_id: typeof campaign.template === 'object' ? (campaign.template.listmonkId as number) : undefined,
+      tags: [`tenant:${campaign.tenant}`, ...((campaign.tags as any[])?.map((t: any) => typeof t === 'object' ? t.tag : t).filter(Boolean) || [])],
+      template_id: typeof campaign.template === 'object' && campaign.template ? (campaign.template.listmonkId as number) : undefined,
       type: 'regular',
     }
 

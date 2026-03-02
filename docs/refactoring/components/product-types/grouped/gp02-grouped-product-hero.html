@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP02: Grouped Product Hero — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 8px;
+  --radius: 12px;
+  --container: 1200px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--white);
+  color: var(--navy);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ============================================
+   GP02: GROUPED PRODUCT HERO
+   Dark hero section with badge, title, description, and stats
+   ============================================ */
+
+.grouped-hero {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 48px 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.grouped-hero::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(0, 137, 123, 0.15);
+  border: 1px solid rgba(0, 137, 123, 0.3);
+  border-radius: 100px;
+  color: var(--teal-light);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}
+
+.hero-badge i {
+  width: 14px;
+  height: 14px;
+}
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.hero-description {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin-bottom: 24px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--teal-light);
+}
+
+.hero-stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+
+<!-- Default Hero -->
+<div class="grouped-hero">
+  <div class="container">
+    <div class="hero-badge">
+      <i data-lucide="package"></i>
+      Grouped Product
+    </div>
+    <h1 class="hero-title">Chirurgische Instrumentenset</h1>
+    <p class="hero-description">
+      Koop de complete set of kies individuele instrumenten. Alle items zijn ook apart verkrijgbaar. Bij aankoop van de complete set ontvang je automatisch 15% korting.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value">6</span>
+        <span class="hero-stat-label">Items in set</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">€45</span>
+        <span class="hero-stat-label">Besparing bij complete set</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 32px;"></div>
+
+<!-- Alternative: Laboratory Set -->
+<div class="grouped-hero">
+  <div class="container">
+    <div class="hero-badge">
+      <i data-lucide="package"></i>
+      Grouped Product
+    </div>
+    <h1 class="hero-title">Laboratorium Starterskit</h1>
+    <p class="hero-description">
+      Complete uitrusting voor een nieuw laboratorium. Selecteer zelf welke items je nodig hebt of kies de complete set voor maximaal voordeel. Elke component is ook los verkrijgbaar.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value">12</span>
+        <span class="hero-stat-label">Items in set</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">€180</span>
+        <span class="hero-stat-label">Besparing bij complete set</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     COMPONENT DOCUMENTATION
+     ============================================ -->
+
+<div class="container" style="margin-top: 64px; margin-bottom: 64px;">
+
+<hr style="border: none; border-top: 2px solid #E8ECF1; margin: 48px 0;">
+
+<h1 style="font-family: 'DM Serif Display', serif; font-size: 42px; margin-bottom: 16px; color: #0A1628;">
+  GP02: Grouped Product Hero
+</h1>
+
+<p style="font-size: 16px; color: #64748B; margin-bottom: 32px; max-width: 800px;">
+  Hero section for grouped product pages with badge, product title, description, and key statistics (item count + savings). Features dark gradient background with decorative teal glow.
+</p>
+
+<!-- ===========================================
+     STEP 1: COMPONENT OVERVIEW
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">1</span>
+  Component Overview
+</h2>
+
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <h3 style="font-size: 16px; font-weight: 700; color: #0A1628; margin-bottom: 12px;">Purpose</h3>
+  <p style="font-size: 14px; color: #64748B; line-height: 1.6; margin-bottom: 16px;">
+    The <strong>Grouped Product Hero</strong> introduces grouped/bundled product pages with a prominent dark hero section. It communicates the value proposition (buy individually OR get complete set discount) and displays key metrics (item count, total savings).
+  </p>
+
+  <h3 style="font-size: 16px; font-weight: 700; color: #0A1628; margin-bottom: 12px;">Key Features</h3>
+  <ul style="font-size: 14px; color: #64748B; line-height: 1.8; margin-left: 20px;">
+    <li><strong>Product Type Badge:</strong> "Grouped Product" pill with package icon (teal styling)</li>
+    <li><strong>Large Product Title:</strong> 36px serif font (DM Serif Display) with white color</li>
+    <li><strong>Description Text:</strong> Max-width 600px, semi-transparent white (70% opacity)</li>
+    <li><strong>Statistics Grid:</strong> 2-column flex layout showing item count + savings amount</li>
+    <li><strong>Dark Gradient Background:</strong> Navy → navy-light gradient (135deg)</li>
+    <li><strong>Decorative Glow:</strong> Teal radial gradient (pseudo-element, top-right)</li>
+    <li><strong>Responsive Behavior:</strong> Stats stack vertically on mobile (<768px)</li>
+  </ul>
+</div>
+
+<!-- ===========================================
+     STEP 2: WHEN TO USE
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">2</span>
+  When to Use
+</h2>
+
+<div style="background: #E8F5E9; border-left: 4px solid #00C853; padding: 20px 24px; border-radius: 8px; margin-bottom: 16px;">
+  <h4 style="font-size: 14px; font-weight: 700; color: #166534; margin-bottom: 8px;">✅ Use this component when:</h4>
+  <ul style="font-size: 14px; color: #166534; line-height: 1.8; margin-left: 20px;">
+    <li>Product page displays a <strong>grouped product</strong> (multiple related items sold individually OR as a set)</li>
+    <li>You want to highlight <strong>bundle savings</strong> (e.g., "Save €45 when buying complete set")</li>
+    <li>You need to communicate <strong>flexibility</strong> ("Buy all OR pick individual items")</li>
+    <li>Product has <strong>multiple components</strong> (3+ items) that can be purchased separately</li>
+  </ul>
+</div>
+
+<div style="background: #FFF0F0; border-left: 4px solid #FF6B6B; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;">
+  <h4 style="font-size: 14px; font-weight: 700; color: #DC2626; margin-bottom: 8px;">❌ Don't use when:</h4>
+  <ul style="font-size: 14px; color: #DC2626; line-height: 1.8; margin-left: 20px;">
+    <li>Product is a <strong>fixed bundle</strong> (cannot buy individual items) → Use Bundle Hero instead</li>
+    <li>Product has <strong>variants</strong> (sizes/colors) → Use Variable Product Hero (PD02)</li>
+    <li>It's a <strong>regular simple product</strong> → Use standard product meta (PD02)</li>
+    <li>Page is not a product page (e.g., category page) → Use CategoryHero (EC02)</li>
+  </ul>
+</div>
+
+<!-- Use Cases Table -->
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Use Case</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Example</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Stats Display</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;"><strong>Medical Instrument Set</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Surgical tool kit with 6 instruments</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">6 items, €45 savings</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;"><strong>Laboratory Starter Kit</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Lab equipment bundle with 12 components</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">12 items, €180 savings</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;"><strong>Dining Chair Set</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">4 chairs (can buy 1-4 individually)</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">4 items, €60 savings</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===========================================
+     STEP 3: DESIGN TOKENS
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">3</span>
+  Design Tokens
+</h2>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Colors</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
+  <div style="padding: 16px; background: linear-gradient(135deg, #0A1628, #121F33); border-radius: 12px; color: white;">
+    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">Background Gradient</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;">135deg, #0A1628, #121F33</div>
+  </div>
+  <div style="padding: 16px; background: #26A69A; border-radius: 12px; color: white;">
+    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">Stat Value / Badge</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;">#26A69A (teal-light)</div>
+  </div>
+  <div style="padding: 16px; background: rgba(0, 137, 123, 0.12); border: 1px solid rgba(0, 137, 123, 0.3); border-radius: 12px;">
+    <div style="font-size: 12px; color: #64748B; margin-bottom: 4px;">Decorative Glow</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #0A1628;">rgba(0,137,123,0.12)</div>
+  </div>
+  <div style="padding: 16px; background: white; border-radius: 12px; color: #0A1628;">
+    <div style="font-size: 12px; color: #64748B; margin-bottom: 4px;">Title Text</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;">#FFFFFF (white)</div>
+  </div>
+  <div style="padding: 16px; background: #1a1a1a; border-radius: 12px; color: rgba(255,255,255,0.7);">
+    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">Description Text</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;">rgba(255,255,255,0.7)</div>
+  </div>
+  <div style="padding: 16px; background: #1a1a1a; border-radius: 12px; color: rgba(255,255,255,0.5);">
+    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">Stat Label</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;">rgba(255,255,255,0.5)</div>
+  </div>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Typography</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Element</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Font</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Size</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Weight</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Hero Title</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">DM Serif Display</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">36px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">400</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">28px on mobile</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Description</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Plus Jakarta Sans</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">15px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">400</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Max-width 600px</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Stat Value</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Plus Jakarta Sans</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">28px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">800</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Teal light color</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Stat Label</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Plus Jakarta Sans</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">12px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">400</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Uppercase, 0.04em spacing</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Badge Text</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Plus Jakarta Sans</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">11px</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">700</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Uppercase, 0.04em spacing</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Spacing & Layout</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <tr style="background: #F5F7FA;">
+    <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Property</th>
+    <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Value</th>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Padding (vertical)</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">48px top/bottom</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Margin bottom</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">32px (from hero to content)</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Badge margin-bottom</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">16px</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Title margin-bottom</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">12px</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Description margin-bottom</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">24px</td>
+  </tr>
+  <tr>
+    <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>Stats gap</strong></td>
+    <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">32px (16px on mobile)</td>
+  </tr>
+</table>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Icons</h3>
+<ul style="font-size: 14px; color: #64748B; line-height: 1.8; margin-left: 20px; margin-bottom: 32px;">
+  <li><strong>Badge Icon:</strong> <code>package</code> (Lucide) — 14×14px, teal-light color</li>
+  <li><strong>Icon Library:</strong> Lucide Icons (CDN or npm package)</li>
+</ul>
+
+<!-- ===========================================
+     STEP 4: PROPS & CONFIGURATION
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">4</span>
+  Props & Configuration
+</h2>
+
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 14px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Prop</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Type</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Required</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Default</th>
+      <th style="padding: 12px; text-align: left; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>title</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">string</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #DC2626; font-weight: 700;">Yes</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">—</td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Product set name (e.g., "Chirurgische Instrumentenset")</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>description</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">string</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #DC2626; font-weight: 700;">Yes</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">—</td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Value proposition text (1-2 sentences)</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>itemCount</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">number</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #DC2626; font-weight: 700;">Yes</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">—</td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Total number of items in set (e.g., 6)</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>savings</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">number</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #DC2626; font-weight: 700;">Yes</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">—</td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Savings amount in euros (e.g., 45)</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>badgeIcon</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">string</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #64748B;">No</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;"><code>"package"</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Lucide icon name for badge</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><code>badgeText</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">string</td>
+      <td style="padding: 12px; border-bottom: 1px solid #E8ECF1;"><span style="color: #64748B;">No</span></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;"><code>"Grouped Product"</code></td>
+      <td style="padding: 12px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Badge label text</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- React/TypeScript Example -->
+<div style="background: #0A1628; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <div style="color: rgba(255,255,255,0.5); font-size: 12px; margin-bottom: 12px;">React/TypeScript Component</div>
+  <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>interface GroupedProductHeroProps {
+  title: string
+  description: string
+  itemCount: number
+  savings: number
+  badgeIcon?: string
+  badgeText?: string
+}
+
+export const GroupedProductHero = ({
+  title,
+  description,
+  itemCount,
+  savings,
+  badgeIcon = 'package',
+  badgeText = 'Grouped Product'
+}: GroupedProductHeroProps) => {
+  return (
+    &lt;div className="grouped-hero"&gt;
+      &lt;div className="container"&gt;
+        &lt;div className="hero-badge"&gt;
+          &lt;LucideIcon name={badgeIcon} /&gt;
+          {badgeText}
+        &lt;/div&gt;
+        &lt;h1 className="hero-title"&gt;{title}&lt;/h1&gt;
+        &lt;p className="hero-description"&gt;{description}&lt;/p&gt;
+        &lt;div className="hero-stats"&gt;
+          &lt;div className="hero-stat"&gt;
+            &lt;span className="hero-stat-value"&gt;{itemCount}&lt;/span&gt;
+            &lt;span className="hero-stat-label"&gt;Items in set&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div className="hero-stat"&gt;
+            &lt;span className="hero-stat-value"&gt;€{savings}&lt;/span&gt;
+            &lt;span className="hero-stat-label"&gt;Besparing bij complete set&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+</div>
+
+<!-- Usage Example -->
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 32px;">
+  <div style="color: #64748B; font-size: 12px; margin-bottom: 12px;">Usage Example</div>
+  <pre style="margin: 0; color: #0A1628; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>&lt;GroupedProductHero
+  title="Chirurgische Instrumentenset"
+  description="Koop de complete set of kies individuele instrumenten. Bij aankoop van de complete set ontvang je automatisch 15% korting."
+  itemCount={6}
+  savings={45}
+/&gt;</code></pre>
+</div>
+
+<!-- ===========================================
+     STEP 5: LAYOUT RULES
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">5</span>
+  Layout Rules
+</h2>
+
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <h3 style="font-size: 16px; font-weight: 700; color: #0A1628; margin-bottom: 16px;">Structure</h3>
+  <pre style="background: white; padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; color: #0A1628; overflow-x: auto;"><code>.grouped-hero (section container)
+├── ::before (decorative teal glow, pseudo-element)
+└── .container (max-width 1200px)
+    ├── .hero-badge (package icon + "Grouped Product")
+    ├── h1.hero-title (product set name)
+    ├── p.hero-description (value proposition)
+    └── .hero-stats (flex row → column on mobile)
+        ├── .hero-stat (item count)
+        │   ├── .hero-stat-value (number)
+        │   └── .hero-stat-label ("Items in set")
+        └── .hero-stat (savings)
+            ├── .hero-stat-value (€ amount)
+            └── .hero-stat-label ("Besparing bij complete set")</code></pre>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Positioning & Dimensions</h3>
+<ul style="font-size: 14px; color: #64748B; line-height: 1.8; margin-left: 20px; margin-bottom: 24px;">
+  <li><strong>Hero height:</strong> Auto (48px padding top + 48px bottom + content)</li>
+  <li><strong>Background:</strong> Full-width gradient with <code>position: relative</code> for glow overlay</li>
+  <li><strong>Description max-width:</strong> 600px (prevents long lines)</li>
+  <li><strong>Glow position:</strong> Absolute, top-right (-50px offset), 280×280px circle</li>
+  <li><strong>Container:</strong> Max-width 1200px, centered with 24px padding</li>
+</ul>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Responsive Behavior</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Breakpoint</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Changes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>&lt; 768px (Mobile)</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">
+        • Title: 36px → 28px<br>
+        • Stats: horizontal flex → vertical stack<br>
+        • Stats gap: 32px → 16px
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>≥ 768px (Desktop)</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Default layout (horizontal stats)</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===========================================
+     STEP 6: ACCESSIBILITY
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">6</span>
+  Accessibility
+</h2>
+
+<div style="background: #E3F2FD; border-left: 4px solid #2196F3; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;">
+  <h4 style="font-size: 14px; font-weight: 700; color: #1565C0; margin-bottom: 12px;">♿ Accessibility Checklist</h4>
+  <ul style="font-size: 14px; color: #1565C0; line-height: 1.8; margin-left: 20px;">
+    <li><strong>Semantic HTML:</strong> Use <code>&lt;h1&gt;</code> for title (main heading of page)</li>
+    <li><strong>Color Contrast:</strong> White text on dark gradient = 15:1 ratio (AAA compliant)</li>
+    <li><strong>Icon Accessibility:</strong> Badge icon is decorative, no alt text needed</li>
+    <li><strong>Reading Order:</strong> Badge → Title → Description → Stats (logical flow)</li>
+    <li><strong>Focus Management:</strong> No interactive elements (pure presentational)</li>
+    <li><strong>Screen Reader:</strong> Stats announced as "6 Items in set" and "€45 Besparing bij complete set"</li>
+  </ul>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">ARIA Attributes</h3>
+<p style="font-size: 14px; color: #64748B; margin-bottom: 24px;">
+  <strong>None required.</strong> This is a purely presentational component with semantic HTML. The badge is decorative and does not convey essential information beyond the visible text.
+</p>
+
+<!-- ===========================================
+     STEP 7: IMPLEMENTATION NOTES
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">7</span>
+  Implementation Notes
+</h2>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Payload CMS Integration</h3>
+<div style="background: #0A1628; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <div style="color: rgba(255,255,255,0.5); font-size: 12px; margin-bottom: 12px;">Payload Collection Schema</div>
+  <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>// collections/GroupedProducts.ts
+{
+  slug: 'grouped-products',
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      label: 'Product Set Name'
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      required: true,
+      label: 'Hero Description',
+      maxLength: 200
+    },
+    {
+      name: 'items',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+      label: 'Included Products'
+    },
+    {
+      name: 'setDiscount',
+      type: 'number',
+      required: true,
+      label: 'Set Discount (%)',
+      min: 0,
+      max: 50
+    }
+  ],
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        // Auto-calculate savings
+        const subtotal = data.items.reduce((sum, item) => sum + item.price, 0)
+        data.savings = subtotal * (data.setDiscount / 100)
+        data.itemCount = data.items.length
+        return data
+      }
+    ]
+  }
+}</code></pre>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Dynamic Savings Calculation</h3>
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <pre style="margin: 0; color: #0A1628; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;"><code>// Calculate savings based on individual prices vs set price
+const individualTotal = items.reduce((sum, item) => sum + item.price, 0)
+const setPrice = individualTotal * (1 - discountPercent / 100)
+const savings = individualTotal - setPrice
+
+// Example:
+// 6 items × €50 = €300 individual total
+// 15% discount = €255 set price
+// Savings = €45</code></pre>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Common Pitfalls</h3>
+<div style="background: #FFF8E1; border-left: 4px solid #F59E0B; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;">
+  <ul style="font-size: 14px; color: #92400E; line-height: 1.8; margin-left: 20px;">
+    <li><strong>Overflow on mobile:</strong> Ensure <code>overflow: hidden</code> on <code>.grouped-hero</code> to clip decorative glow</li>
+    <li><strong>Description too long:</strong> Limit description to 1-2 sentences (max 200 chars) for visual balance</li>
+    <li><strong>Incorrect savings:</strong> Always show TOTAL savings (not percentage) for clarity</li>
+    <li><strong>Missing currency symbol:</strong> Always prefix savings with € (or locale currency)</li>
+    <li><strong>Hardcoded label text:</strong> Make "Items in set" and "Besparing" translatable (i18n)</li>
+  </ul>
+</div>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Performance Considerations</h3>
+<ul style="font-size: 14px; color: #64748B; line-height: 1.8; margin-left: 20px; margin-bottom: 32px;">
+  <li><strong>Decorative glow:</strong> Use CSS pseudo-element (not extra DOM node) for performance</li>
+  <li><strong>Font loading:</strong> Preload DM Serif Display for hero title (critical text)</li>
+  <li><strong>Background gradient:</strong> Use CSS gradient (not image) for better performance</li>
+  <li><strong>Item count calculation:</strong> Pre-calculate in CMS hook (not on every render)</li>
+</ul>
+
+<!-- ===========================================
+     STEP 8: VARIATIONS & RELATED
+     =========================================== -->
+
+<h2 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 48px 0 24px; display: flex; align-items: center; gap: 12px;">
+  <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #00897B; color: white; border-radius: 50%; font-size: 16px; font-weight: 800;">8</span>
+  Variations & Related Components
+</h2>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">No Variations</h3>
+<p style="font-size: 14px; color: #64748B; margin-bottom: 24px;">
+  This component has a single, consistent design. The badge icon and text can be customized via props, but the overall structure remains fixed.
+</p>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Related Components</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+  <thead>
+    <tr style="background: #F5F7FA;">
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Component</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">Purpose</th>
+      <th style="padding: 12px; text-align: left; font-size: 13px; font-weight: 700; color: #0A1628; border-bottom: 2px solid #E8ECF1;">When to Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>GP03: SetDiscountBanner</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Purple banner showing complete set discount</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Place below hero, above product grid</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>GP04: GroupedProductToolbar</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">View toggle + bulk action buttons</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Above product grid</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>GP05: GroupedSelectionSummary</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Sticky sidebar showing selected items + totals</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Right sidebar, sticky positioning</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>GP01: GroupedProductCard</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Individual product card with checkbox</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Within product grid (multiple cards)</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>EC02: CategoryHero</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Category page hero (similar dark style)</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Category/archive pages (not product pages)</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; font-size: 14px; color: #0A1628; border-bottom: 1px solid #E8ECF1;"><strong>BB01: BundleOverviewCard</strong></td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Fixed bundle hero (pre-configured sets)</td>
+      <td style="padding: 12px; font-size: 14px; color: #64748B; border-bottom: 1px solid #E8ECF1;">Fixed bundles (cannot buy individual items)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 style="font-size: 18px; font-weight: 700; color: #0A1628; margin: 32px 0 16px;">Complete Page Layout</h3>
+<div style="background: #F5F7FA; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+  <pre style="margin: 0; color: #0A1628; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;"><code>Grouped Product Page Structure:
+├── GP02: GroupedProductHero ← THIS COMPONENT
+├── GP03: SetDiscountBanner (purple, complete set discount)
+├── GP04: GroupedProductToolbar (view toggle + bulk actions)
+└── .grouped-layout (grid: products left + summary right)
+    ├── Products section
+    │   ├── GP06: GroupedProductGrid (grid view, default)
+    │   │   └── GP01: GroupedProductCard × 6 (cards with checkboxes)
+    │   └── GP07: GroupedProductRow (list view, hidden)
+    │       └── Product rows × 6
+    └── GP05: GroupedSelectionSummary (sticky sidebar, right)
+        ├── Progress bar (X/6 items)
+        ├── Selected items list
+        ├── Price breakdown
+        └── "Add to cart" button</code></pre>
+</div>
+
+<hr style="border: none; border-top: 2px solid #E8ECF1; margin: 48px 0;">
+
+<div style="background: #E8F5E9; padding: 24px; border-radius: 12px; text-align: center;">
+  <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+  <h3 style="font-size: 20px; font-weight: 700; color: #166534; margin-bottom: 8px;">GP02: Grouped Product Hero — Complete!</h3>
+  <p style="font-size: 14px; color: #166534; margin-bottom: 16px;">
+    Ready for integration into Payload CMS + Next.js
+  </p>
+  <div style="display: inline-block; padding: 8px 16px; background: rgba(22, 101, 52, 0.1); border-radius: 100px; font-size: 13px; font-weight: 600; color: #166534;">
+    Component ID: GP02 | Product Types | Grouped Products
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>

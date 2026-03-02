@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { X } from 'lucide-react'
+import { X, SlidersHorizontal } from 'lucide-react'
 import { SortDropdown } from './SortDropdown'
 import { ViewToggle } from './ViewToggle'
 import type { ShopToolbarProps } from './types'
@@ -20,6 +20,7 @@ export const ShopToolbar: React.FC<ShopToolbarProps> = ({
   activeFilters = [],
   onRemoveFilter,
   onResetFilters,
+  onOpenMobileFilters,
 }) => {
   return (
     <div
@@ -38,8 +39,25 @@ export const ShopToolbar: React.FC<ShopToolbarProps> = ({
           )}
         </div>
 
-        {/* Right: Sort + View Toggle */}
+        {/* Right: Mobile Filter Button + Sort + View Toggle */}
         <div className="flex items-center gap-3">
+          {/* Mobile Filter Button (visible only on mobile) */}
+          {onOpenMobileFilters && (
+            <button
+              onClick={onOpenMobileFilters}
+              className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 border-[1.5px] border-theme-border bg-white rounded-xl text-[13px] font-semibold text-theme-navy hover:border-theme-teal hover:text-theme-teal transition-all"
+              aria-label="Open filters"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              Filters
+              {activeFilters.length > 0 && (
+                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-theme-teal text-white text-[10px] font-bold">
+                  {activeFilters.length}
+                </span>
+              )}
+            </button>
+          )}
+
           <SortDropdown
             value={sortValue}
             options={sortOptions}

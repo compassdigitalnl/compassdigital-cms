@@ -4,7 +4,7 @@
  * BullMQ worker that executes automation rule actions
  */
 
-import { Worker, Job } from 'bullmq'
+import { Worker, Job, WorkerOptions } from 'bullmq'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { redis } from '../redis'
@@ -21,7 +21,9 @@ import type {
   WaitAction,
   WebhookAction,
 } from '@/lib/email/automation/types'
-import { listmonkClient } from '@/lib/email/listmonk/client'
+import { ListmonkClient } from '@/lib/email/listmonk/client'
+
+const listmonkClient = new ListmonkClient()
 
 // ═══════════════════════════════════════════════════════════
 // WORKER DEFINITION
@@ -69,9 +71,8 @@ export const automationWorker = new Worker(
   },
   {
     ...baseWorkerConfig,
-    connection: redis,
     concurrency: 5, // Process 5 automations concurrently
-  }
+  } as WorkerOptions
 )
 
 // ═══════════════════════════════════════════════════════════
@@ -161,9 +162,13 @@ async function executeSendEmail(
     }
 
     // Send via Listmonk (transactional email)
-    await listmonkClient.sendTransactionalEmail({
-      subscriberId: subscriber.listmonkId,
-      templateId: template.listmonkId,
+    if (!subscriber.listmonkId || !template.listmonkId) {
+      throw new Error('Subscriber or template not synced to Listmonk')
+    }
+
+    await listmonkClient.sendTransactional({
+      subscriber_id: subscriber.listmonkId,
+      template_id: template.listmonkId,
       data: context.eventPayload.metadata || {},
     })
 
@@ -209,7 +214,7 @@ async function executeAddToList(
     }
 
     // Add subscriber to list via Listmonk
-    await listmonkClient.addSubscriberToList(subscriber.listmonkId, list.listmonkId)
+    await listmonkClient.addSubscriberToLists(subscriber.listmonkId, [list.listmonkId])
 
     console.log(`[Automation Worker] Added ${recipientEmail} to list: ${list.name}`)
   } catch (error) {
@@ -252,7 +257,7 @@ async function executeRemoveFromList(
     }
 
     // Remove subscriber from list via Listmonk
-    await listmonkClient.removeSubscriberFromList(subscriber.listmonkId, list.listmonkId)
+    await listmonkClient.removeSubscriberFromLists(subscriber.listmonkId, [list.listmonkId])
 
     console.log(`[Automation Worker] Removed ${recipientEmail} from list: ${list.name}`)
   } catch (error) {
@@ -451,9 +456,9 @@ async function createSubscriber(email: string, tenantId: string): Promise<any> {
     data: {
       email,
       status: 'enabled',
-      tenant: tenantId,
+      tenant: tenantId as any,
       syncStatus: 'pending',
-    },
+    } as any,
   })
 
   return subscriber

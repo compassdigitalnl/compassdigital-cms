@@ -131,7 +131,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
       })
 
     if (selectedItems.length > 0) {
-      addGroupedItems(selectedItems)
+      addGroupedItems(selectedItems as any)
       alert(`${selectedItems.length} product(en) toegevoegd aan winkelwagen!`)
     }
   }

@@ -117,7 +117,8 @@ export const ConstructionHeroComponent: React.FC<ConstructionHeroBlock> = ({
                         purple: 'bg-purple-500 text-white',
                         amber: 'bg-warning text-white',
                       }
-                      const colorClass = colorClasses[avatar.color] || colorClasses.teal
+                      const currentColor = avatar.color || 'teal'
+                      const colorClass = colorClasses[currentColor] || colorClasses.teal
 
                       return (
                         <div
@@ -166,13 +167,15 @@ export const ConstructionHeroComponent: React.FC<ConstructionHeroBlock> = ({
                     blue: 'bg-blue-500 text-white',
                     teal: 'bg-primary text-white',
                   }
-                  const colorClass = colorClasses[badge.color] || colorClasses.teal
+                  const currentColor = badge.color || 'teal'
+                  const colorClass = colorClasses[currentColor] || colorClasses.teal
 
                   const positionClasses = {
                     'bottom-left': 'bottom-4 left-4',
                     'top-right': 'top-4 right-4',
                   }
-                  const positionClass = positionClasses[badge.position] || positionClasses['bottom-left']
+                  const currentPosition = badge.position || 'bottom-left'
+                  const positionClass = positionClasses[currentPosition] || positionClasses['bottom-left']
 
                   return (
                     <div

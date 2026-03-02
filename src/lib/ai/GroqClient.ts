@@ -81,18 +81,21 @@ export class GroqClient {
         messages,
         temperature,
         max_tokens: maxTokens,
-        stream,
+        stream: false, // Force non-streaming for type safety
       })
 
+      // Type assertion since we know stream is false
+      const chatResponse = response as any
+
       return {
-        content: response.choices[0].message.content || '',
-        model: response.model,
+        content: chatResponse.choices[0].message.content || '',
+        model: chatResponse.model,
         usage: {
-          promptTokens: response.usage?.prompt_tokens || 0,
-          completionTokens: response.usage?.completion_tokens || 0,
-          totalTokens: response.usage?.total_tokens || 0,
+          promptTokens: chatResponse.usage?.prompt_tokens || 0,
+          completionTokens: chatResponse.usage?.completion_tokens || 0,
+          totalTokens: chatResponse.usage?.total_tokens || 0,
         },
-        finishReason: response.choices[0].finish_reason,
+        finishReason: chatResponse.choices[0].finish_reason,
       }
     } catch (error: any) {
       console.error('[Groq] Chat error:', error)

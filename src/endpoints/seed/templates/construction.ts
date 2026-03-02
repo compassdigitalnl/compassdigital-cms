@@ -31,13 +31,24 @@ export async function seedConstruction(
         collection: 'construction-services',
         data: {
           ...service,
-          _status: status,
+          status: status as any,
           shortDescription: service.description,
-          longDescription: [
-            {
-              children: [{ text: service.description }],
+          longDescription: {
+            root: {
+              type: 'root',
+              children: [
+                {
+                  type: 'paragraph',
+                  children: [{ text: service.description }],
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              version: 1,
             },
-          ],
+          },
         },
       })
       result.collections['construction-services'] = (result.collections['construction-services'] || 0) + 1

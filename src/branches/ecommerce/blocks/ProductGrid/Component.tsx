@@ -64,15 +64,12 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
           break
 
         case 'latest':
-        case 'recent':
           // Fetch recently added products (sorted by creation date)
           apiUrl = `${baseUrl}/api/products?sort=-createdAt&limit=${limit}`
           break
 
-        case 'sale':
-          // Fetch products on sale (with compare price)
-          apiUrl = `${baseUrl}/api/products?where[compareAtPrice][greater_than]=0&limit=${limit}`
-          break
+        // Note: 'sale' is not a valid source type in ProductGridBlock
+        // To show sale products, use manual selection or filter by category
 
         default:
           // Fallback to manual products
@@ -114,9 +111,10 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
     'grid-3': 'grid grid-cols-2 md:grid-cols-3 gap-6',
     'grid-4': 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6',
     'grid-5': 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4',
-  }[layout]
+  }[layout || 'grid-4']
 
-  const getBadgeStyle = (badge: string) => {
+  const getBadgeStyle = (badge: string | null) => {
+    if (!badge) return ''
     switch (badge) {
       case 'new':
         return 'bg-primary text-white'
@@ -131,7 +129,8 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
     }
   }
 
-  const getBadgeLabel = (badge: string) => {
+  const getBadgeLabel = (badge: string | null) => {
+    if (!badge) return ''
     switch (badge) {
       case 'new':
         return 'Nieuw'
@@ -163,7 +162,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
               </p>
             )}
           </div>
-          {showViewAllButton && (
+          {showViewAllButton && viewAllButtonLink && (
             <Link
               href={viewAllButtonLink}
               className="flex items-center gap-2 text-primary font-semibold hover:text-primary-light transition-colors"
@@ -174,7 +173,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
         </div>
 
         <div className={gridClass}>
-          {products.slice(0, limit).map((product) => {
+          {products.slice(0, limit ?? undefined).map((product) => {
             if (typeof product !== 'object') return null
 
             const title = product.title
@@ -184,7 +183,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
             const images = product.images
             const badge = product.badge && product.badge !== 'none' ? product.badge : null
             const stock = product.stock || 0
-            const brandObj = showBrand && product.brand && typeof product.brand === 'object' ? product.brand : null
+            const brandObj = showBrand && product.brand && typeof product.brand === 'object' ? (product.brand as any) : null
             const inStock = stock > 0
 
             const firstImage = Array.isArray(images) && images[0] && typeof images[0] === 'object' ? images[0] : null

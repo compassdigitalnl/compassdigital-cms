@@ -94,7 +94,7 @@ export async function GET() {
 
     await payload.create({
       collection: 'pages',
-      data: homepageData,
+      data: homepageData as any, // Type assertion needed for complex layout blocks
     })
 
     console.log('✅ Homepage created successfully\n')

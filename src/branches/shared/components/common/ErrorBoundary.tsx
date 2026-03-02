@@ -47,7 +47,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           <p className="mb-6 max-w-md text-center text-sm text-gray-600">
             {this.state.error?.message || 'Een onverwachte fout is opgetreden'}
           </p>
-          <Button onClick={this.handleReset} icon={RefreshCw}>
+          <Button onClick={this.handleReset}>
+            <RefreshCw className="mr-2 h-4 w-4" />
             Probeer opnieuw
           </Button>
         </div>

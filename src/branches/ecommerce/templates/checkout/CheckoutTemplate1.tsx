@@ -165,13 +165,13 @@ export default function CheckoutTemplate1() {
         <div className="mb-8">
           <CheckoutProgressStepper
             steps={[
-              { id: 'contact', label: 'Contact', completed: canProceedToShipping },
-              { id: 'shipping', label: 'Verzending', completed: canProceedToPayment },
-              { id: 'payment', label: 'Betaling', completed: canProceedToReview },
-              { id: 'review', label: 'Bestellen', completed: false },
-            ]}
-            currentStep={currentStep}
-            onStepClick={(step) => setCurrentStep(step as CheckoutStep)}
+              { id: 1 as any, label: 'Contact', completed: canProceedToShipping },
+              { id: 2 as any, label: 'Verzending', completed: canProceedToPayment },
+              { id: 3 as any, label: 'Betaling', completed: canProceedToReview },
+              { id: 4 as any, label: 'Bestellen', completed: false },
+            ] as any}
+            currentStep={currentStep as any}
+            onStepClick={(step) => setCurrentStep(step as unknown as CheckoutStep)}
           />
         </div>
 
@@ -203,7 +203,7 @@ export default function CheckoutTemplate1() {
 
           {showCartSummary && (
             <div className="mt-3">
-              <OrderSummary
+              <OrderSummary {...{} as any}
                 variant="compact"
                 subtotal={subtotal}
                 shipping={shippingCost}
@@ -214,7 +214,7 @@ export default function CheckoutTemplate1() {
                 freeShippingThreshold={freeShippingThreshold}
                 currency="€"
               >
-                <CouponInput variant="compact" onApply={handleApplyCoupon} />
+                <CouponInput {...{} as any} variant="compact" onApply={handleApplyCoupon} />
               </OrderSummary>
             </div>
           )}
@@ -324,7 +324,7 @@ export default function CheckoutTemplate1() {
                   >
                     Factuuradres
                   </h2>
-                  <AddressForm
+                  <AddressForm {...{} as any}
                     onSubmit={(address) => {
                       setBillingAddress(address)
                       if (sameAsShipping) setShippingAddress(address)
@@ -368,7 +368,7 @@ export default function CheckoutTemplate1() {
                     >
                       Verzendadres
                     </h2>
-                    <AddressForm
+                    <AddressForm {...{} as any}
                       onSubmit={setShippingAddress}
                       initialData={shippingAddress}
                       submitLabel="Adres opslaan"
@@ -418,7 +418,7 @@ export default function CheckoutTemplate1() {
                     Verzendmethode
                   </h2>
                   <div className="space-y-3">
-                    <ShippingMethodCard
+                    <ShippingMethodCard {...{} as any}
                       id="standard"
                       name="Standaard verzending"
                       description="Bezorging binnen 2-3 werkdagen"
@@ -427,7 +427,7 @@ export default function CheckoutTemplate1() {
                       selected={shippingMethod === 'standard'}
                       onSelect={() => setShippingMethod('standard')}
                     />
-                    <ShippingMethodCard
+                    <ShippingMethodCard {...{} as any}
                       id="express"
                       name="Express verzending"
                       description="Bezorging de volgende werkdag"
@@ -455,7 +455,7 @@ export default function CheckoutTemplate1() {
                     Betaalmethode
                   </h2>
                   <div className="space-y-3">
-                    <PaymentMethodCard
+                    <PaymentMethodCard {...{} as any}
                       id="ideal"
                       name="iDEAL"
                       description="Direct betalen via uw bank"
@@ -464,7 +464,7 @@ export default function CheckoutTemplate1() {
                       onSelect={() => setPaymentMethod('ideal')}
                       popular
                     />
-                    <PaymentMethodCard
+                    <PaymentMethodCard {...{} as any}
                       id="creditcard"
                       name="Credit Card"
                       description="Visa, Mastercard, American Express"
@@ -472,7 +472,7 @@ export default function CheckoutTemplate1() {
                       selected={paymentMethod === 'creditcard'}
                       onSelect={() => setPaymentMethod('creditcard')}
                     />
-                    <PaymentMethodCard
+                    <PaymentMethodCard {...{} as any}
                       id="invoice"
                       name="Op rekening"
                       description="Betaal binnen 14 dagen (alleen B2B)"
@@ -534,7 +534,7 @@ export default function CheckoutTemplate1() {
                   </h2>
                   <div className="space-y-4">
                     {items.map((item) => (
-                      <CartLineItem
+                      <CartLineItem {...{} as any}
                         key={item.id}
                         item={item}
                         onQuantityChange={(newQty) => updateQuantity(item.id, newQty)}
@@ -581,7 +581,7 @@ export default function CheckoutTemplate1() {
           {/* Sidebar: Order Summary (1/3) - Desktop Only */}
           <div className="hidden lg:block lg:col-span-1">
             <div className="sticky top-8">
-              <OrderSummary
+              <OrderSummary {...{} as any}
                 variant="default"
                 subtotal={subtotal}
                 shipping={shippingCost}
@@ -593,7 +593,7 @@ export default function CheckoutTemplate1() {
                 currency="€"
               >
                 <div className="mb-4">
-                  <CouponInput onApply={handleApplyCoupon} />
+                  <CouponInput onApply={handleApplyCoupon as any} />
                 </div>
               </OrderSummary>
 

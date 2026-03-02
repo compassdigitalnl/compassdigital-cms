@@ -8,10 +8,10 @@ import { Item } from './Item'
 async function List() {
   const payload = await getPayload({ config: configPromise })
   const categoriesData = await payload.find({
-    collection: 'categories',
-    sort: 'title',
+    collection: 'product-categories',
+    sort: 'name',
     select: {
-      title: true,
+      name: true,
       slug: true,
     },
   })
@@ -19,7 +19,7 @@ async function List() {
   const categories = categoriesData.docs?.map((category) => {
     return {
       href: `/shop/${category.slug}`,
-      title: category.title,
+      title: category.name,
     }
   })
 

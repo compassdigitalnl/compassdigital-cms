@@ -4,7 +4,7 @@ import { CMSLink } from '@/branches/shared/components/common/Link'
 import React from 'react'
 
 interface Props {
-  menu: Footer['navItems']
+  menu: Footer['columns']
 }
 
 export function FooterMenu({ menu }: Props) {

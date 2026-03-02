@@ -9,6 +9,7 @@ import React from 'react'
 import type { CollectionConfig } from 'payload'
 import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
 import { CampaignDashboard } from './components/CampaignDashboard'
+import { isAdmin, checkRole, isUser, isSuperAdmin, isAdminOrEditor, getUserClient } from '@/access/utilities'
 
 const isPlatformMode = isFeatureEnabled('platform')
 
@@ -25,24 +26,28 @@ export const EmailCampaigns: CollectionConfig = {
     // Tenant isolation
     read: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'super-admin') return true
-      return {
-        tenant: {
-          equals: user.tenant,
-        },
+      if (isSuperAdmin(user)) return true
+      const clientId = getUserClient(user)
+      if (clientId) {
+        return {
+          tenant: {
+            equals: clientId,
+          },
+        }
       }
+      return false
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
+      return isSuperAdmin(user) || isAdminOrEditor(user)
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
+      return isSuperAdmin(user) || isAdminOrEditor(user)
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
   },
   fields: [
@@ -54,7 +59,7 @@ export const EmailCampaigns: CollectionConfig = {
       type: 'ui',
       admin: {
         components: {
-          Field: CampaignDashboard,
+          Field: CampaignDashboard as any,
         },
         condition: (data) => !!data?.id, // Only show on existing campaigns
       },
@@ -386,24 +391,27 @@ export const EmailCampaigns: CollectionConfig = {
       ? [
           {
             name: 'tenant',
-            type: 'relationship',
-            relationTo: 'clients',
+            type: 'relationship' as const,
+            relationTo: 'clients' as const,
             required: true,
             admin: {
-              position: 'sidebar',
+              position: 'sidebar' as const,
               condition: () => false,
             },
             hooks: {
               beforeValidate: [
-                async ({ req, data }) => {
+                async ({ req, data }: any) => {
                   if (req.user && !data?.tenant) {
-                    return req.user.tenant
+                    const clientId = getUserClient(req.user)
+                    if (clientId) {
+                      return clientId
+                  }
                   }
                   return data?.tenant
                 },
               ],
             },
-          } as const,
+          },
         ]
       : []),
 
@@ -565,10 +573,9 @@ export const EmailCampaigns: CollectionConfig = {
         // Queue sync job
         try {
           const { Queue } = await import('bullmq')
-          const { getRedisClient } = await import('@/lib/queue/redis')
+          const { redisConfig } = await import('@/lib/queue/redis')
 
-          const redis = getRedisClient()
-          const queue = new Queue('email-marketing', { connection: redis })
+          const queue = new Queue('email-marketing', { connection: redisConfig })
 
           await queue.add('sync-campaign', {
             campaignId: doc.id,
@@ -603,10 +610,9 @@ export const EmailCampaigns: CollectionConfig = {
         // Queue delete job
         try {
           const { Queue } = await import('bullmq')
-          const { getRedisClient } = await import('@/lib/queue/redis')
+          const { redisConfig } = await import('@/lib/queue/redis')
 
-          const redis = getRedisClient()
-          const queue = new Queue('email-marketing', { connection: redis })
+          const queue = new Queue('email-marketing', { connection: redisConfig })
 
           await queue.add('delete-campaign', {
             listmonkId: doc.listmonkCampaignId,

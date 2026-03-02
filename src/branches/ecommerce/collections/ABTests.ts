@@ -29,19 +29,19 @@ export const ABTests: CollectionConfig = {
     group: 'Marketing',
     defaultColumns: ['name', 'targetPage', 'status', 'startDate', 'winner'],
     description: 'A/B testing experiments voor multi-variant testing',
-    hidden: shouldHideCollection('ab-tests'),
+    hidden: shouldHideCollection('ab-tests' as any),
   },
   access: {
     read: ({ req: { user } }) => {
       // Admins can read all tests
       if (checkRole(['admin'], user)) return true
-      // Platform users can read all tests
-      if (checkRole(['platform'], user)) return true
+      // Super-admins (platform users) can read all tests
+      if (checkRole(['super-admin'], user)) return true
       return false
     },
-    create: ({ req: { user } }) => checkRole(['admin', 'platform'], user),
-    update: ({ req: { user } }) => checkRole(['admin', 'platform'], user),
-    delete: ({ req: { user } }) => checkRole(['admin', 'platform'], user),
+    create: ({ req: { user } }) => checkRole(['admin', 'super-admin'], user),
+    update: ({ req: { user } }) => checkRole(['admin', 'super-admin'], user),
+    delete: ({ req: { user } }) => checkRole(['admin', 'super-admin'], user),
   },
   fields: [
     // Basic Info
@@ -259,12 +259,12 @@ export const ABTests: CollectionConfig = {
             admin: {
               description: 'Limit test to specific client (optional, for multi-tenant)',
               condition: (data: any, siblingData: any, { user }: any) => {
-                return checkRole(['platform'], user)
+                return checkRole(['super-admin'], user)
               },
             },
           },
         ]
-      : []),
+      : [] as any),
 
     // Notes
     {

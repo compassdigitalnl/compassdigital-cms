@@ -123,7 +123,7 @@ const docCategories = [
   },
 ]
 
-const colorClasses = {
+const colorClasses: Record<string, { bg: string; border: string; icon: string; hover: string; badge: string }> = {
   blue: {
     bg: 'bg-blue-50',
     border: 'border-blue-200',

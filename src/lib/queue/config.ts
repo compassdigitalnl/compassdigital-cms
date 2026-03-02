@@ -3,8 +3,8 @@
  * Centralized queue setup with priority levels and retry strategies
  */
 
-import { Queue, Worker, Job, QueueOptions, WorkerOptions } from 'bullmq'
-import { redis } from './redis'
+import { Queue, Worker, Job, QueueOptions, WorkerOptions, QueueEvents } from 'bullmq'
+import { redisConfig } from './redis'
 
 // Queue names
 export const QUEUE_NAMES = {
@@ -26,7 +26,7 @@ export enum Priority {
 
 // Base queue configuration
 const baseQueueConfig: QueueOptions = {
-  connection: redis,
+  connection: redisConfig,
   defaultJobOptions: {
     attempts: 3,
     backoff: {
@@ -45,7 +45,7 @@ const baseQueueConfig: QueueOptions = {
 
 // Base worker configuration
 export const baseWorkerConfig: Partial<WorkerOptions> = {
-  connection: redis,
+  connection: redisConfig,
   concurrency: 5, // Process 5 jobs at once per worker
   limiter: {
     max: 50,      // Max 50 jobs
@@ -139,36 +139,44 @@ export async function getAllQueueStats() {
   return stats.filter(Boolean)
 }
 
-// Graceful shutdown
-export async function closeQueues() {
-  console.log('Closing queues...')
-  await Promise.all(Object.values(queues).map(q => q.close()))
-  await redis.quit()
-  console.log('✅ Queues closed')
-}
+// Monitor queue events using QueueEvents (BullMQ v4+)
+const queueEvents: QueueEvents[] = []
 
-// Monitor queue events
 Object.values(queues).forEach(queue => {
+  const qe = new QueueEvents(queue.name, { connection: redisConfig })
+  queueEvents.push(qe)
+
   queue.on('error', (err) => {
     console.error(`[QUEUE ERROR] ${queue.name}:`, err)
   })
 
-  queue.on('waiting', (job: any) => {
-    console.log(`[QUEUE] ${queue.name}: Job ${job.id} waiting`)
+  qe.on('waiting', ({ jobId }) => {
+    console.log(`[QUEUE] ${queue.name}: Job ${jobId} waiting`)
   })
 
-  queue.on('active', (job: any) => {
-    console.log(`[QUEUE] ${queue.name}: Job ${job.id} started`)
+  qe.on('active', ({ jobId }) => {
+    console.log(`[QUEUE] ${queue.name}: Job ${jobId} started`)
   })
 
-  queue.on('completed', (job: any) => {
-    console.log(`[QUEUE] ${queue.name}: Job ${job.id} completed`)
+  qe.on('completed', ({ jobId }) => {
+    console.log(`[QUEUE] ${queue.name}: Job ${jobId} completed`)
   })
 
-  queue.on('failed', (job: any, err: any) => {
-    console.error(`[QUEUE] ${queue.name}: Job ${job?.id} failed:`, err)
+  qe.on('failed', ({ jobId, failedReason }) => {
+    console.error(`[QUEUE] ${queue.name}: Job ${jobId} failed:`, failedReason)
   })
 })
+
+// Graceful shutdown
+export async function closeQueues() {
+  console.log('Closing queues...')
+  await Promise.all([
+    ...Object.values(queues).map(q => q.close()),
+    ...queueEvents.map(qe => qe.close())
+  ])
+  // Note: redis client managed elsewhere, don't quit here
+  console.log('✅ Queues closed')
+}
 
 // Handle process termination
 process.on('SIGTERM', closeQueues)

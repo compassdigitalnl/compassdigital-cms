@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP06: Grouped Product Grid — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+/* ============================================
+   GP06: GROUPED PRODUCT GRID
+   Responsive grid container for product cards
+   ============================================ */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.product-grid.hidden {
+  display: none;
+}
+
+/* Placeholder card for demo */
+.product-card-placeholder {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 20px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #94A3B8;
+  transition: all var(--transition);
+}
+
+.product-card-placeholder:hover {
+  border-color: var(--teal);
+  box-shadow: 0 8px 24px rgba(10,22,40,0.08);
+  transform: translateY(-2px);
+}
+
+.product-card-placeholder i {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1200px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Grid View (Default)</h2>
+
+<!-- Grid with 6 placeholder cards -->
+<div class="product-grid">
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">GP01: GroupedProductCard</div>
+    <div style="font-size: 12px; margin-top: 4px;">Product 1</div>
+  </div>
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">GP01: GroupedProductCard</div>
+    <div style="font-size: 12px; margin-top: 4px;">Product 2</div>
+  </div>
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">GP01: GroupedProductCard</div>
+    <div style="font-size: 12px; margin-top: 4px;">Product 3</div>
+  </div>
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">GP01: GroupedProductCard</div>
+    <div style="font-size: 12px; margin-top: 4px;">Product 4</div>
+  </div>
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">GP01: GroupedProductCard</div>
+    <div style="font-size: 12px; margin-top: 4px;">Product 5</div>
+  </div>
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">GP01: GroupedProductCard</div>
+    <div style="font-size: 12px; margin-top: 4px;">Product 6</div>
+  </div>
+</div>
+
+<div style="height: 64px;"></div>
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Grid - 3 Column Variant</h2>
+
+<div class="product-grid" style="grid-template-columns: repeat(3, 1fr);">
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">Product Card</div>
+  </div>
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">Product Card</div>
+  </div>
+  <div class="product-card-placeholder">
+    <i data-lucide="package"></i>
+    <div style="font-size: 14px;">Product Card</div>
+  </div>
+</div>
+
+<div style="height: 64px;"></div>
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Grid - 4 Column Variant</h2>
+
+<div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
+  <div class="product-card-placeholder" style="min-height: 280px;">
+    <i data-lucide="package"></i>
+    <div style="font-size: 13px;">Small Card</div>
+  </div>
+  <div class="product-card-placeholder" style="min-height: 280px;">
+    <i data-lucide="package"></i>
+    <div style="font-size: 13px;">Small Card</div>
+  </div>
+  <div class="product-card-placeholder" style="min-height: 280px;">
+    <i data-lucide="package"></i>
+    <div style="font-size: 13px;">Small Card</div>
+  </div>
+  <div class="product-card-placeholder" style="min-height: 280px;">
+    <i data-lucide="package"></i>
+    <div style="font-size: 13px;">Small Card</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>

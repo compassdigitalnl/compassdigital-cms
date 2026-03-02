@@ -43,8 +43,16 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   Users,
 }
 
+type TopBarData = {
+  enabled?: boolean | null
+  backgroundColor?: string | null
+  textColor?: string | null
+  leftMessages?: any[]
+  rightLinks?: any[]
+}
+
 type Props = {
-  topBar: NonNullable<Header['topBar']>
+  topBar: TopBarData
   theme: Theme1 | null
   header?: Header
 }
@@ -52,10 +60,10 @@ type Props = {
 export function TopBar({ topBar, theme, header }: Props) {
   if (!topBar.enabled) return null
 
-  const bgColor = topBar.backgroundColor || theme?.secondaryColor || '#0A1628'
+  const bgColor = topBar.backgroundColor || theme?.navy || '#0A1628'
   const textColor = topBar.textColor || '#FFFFFF'
-  const containerClass = getContainerMaxWidth(theme?.containerWidth)
-  const primaryColor = theme?.primaryColor || '#26A69A'
+  const containerClass = getContainerMaxWidth('default' as any) // Use default container width
+  const primaryColor = theme?.teal || '#26A69A'
 
   // B2B/B2C and language config from header global
   const enablePriceToggle = (header as any)?.enablePriceToggle === true
@@ -114,7 +122,7 @@ export function TopBar({ topBar, theme, header }: Props) {
           ))}
 
           {/* Separator before toggles */}
-          {(enablePriceToggle || enableLanguageSwitcher) && topBar.rightLinks?.length > 0 && (
+          {(enablePriceToggle || enableLanguageSwitcher) && (topBar.rightLinks?.length ?? 0) > 0 && (
             <div className="w-px h-3.5 mx-1.5" style={{ backgroundColor: textColor + '2A' }} />
           )}
 

@@ -188,7 +188,7 @@ export async function validateApiKey(
     }
 
     // Check required scope
-    if (requiredScope && !keyDoc.scopes.includes(requiredScope)) {
+    if (requiredScope && !keyDoc.scopes.includes(requiredScope as any)) {
       return {
         valid: false,
         error: `API key does not have required scope: ${requiredScope}`,
@@ -197,7 +197,7 @@ export async function validateApiKey(
     }
 
     // Check rate limits (using Redis would be better for production)
-    const rateLimitCheck = await checkRateLimit(payload, keyDoc.id, keyDoc.rateLimit)
+    const rateLimitCheck = await checkRateLimit(payload, String(keyDoc.id), keyDoc.rateLimit)
     if (!rateLimitCheck.allowed) {
       return {
         valid: false,
@@ -208,7 +208,7 @@ export async function validateApiKey(
 
     // Update usage stats (non-blocking)
     const endpoint = new URL(req.url).pathname
-    updateApiKeyUsage(payload, keyDoc.id, clientIp, endpoint).catch((error) => {
+    updateApiKeyUsage(payload, String(keyDoc.id), clientIp, endpoint).catch((error) => {
       console.error('[API Key] Failed to update usage:', error)
     })
 
@@ -216,9 +216,9 @@ export async function validateApiKey(
     return {
       valid: true,
       apiKey: {
-        id: keyDoc.id,
+        id: String(keyDoc.id),
         name: keyDoc.name,
-        tenant: typeof keyDoc.tenant === 'string' ? keyDoc.tenant : keyDoc.tenant.id,
+        tenant: typeof keyDoc.tenant === 'object' && keyDoc.tenant ? String((keyDoc.tenant as any).id) : String(keyDoc.tenant),
         scopes: keyDoc.scopes,
         environment: keyDoc.environment,
       },

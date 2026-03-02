@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC03: Color Selector — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --grey: #E8ECF1;
+  --grey-dark: #64748B;
+  --grey-mid: #94A3B8;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+/* ============================================
+   PC03: COLOR SELECTOR
+   Color swatch grid with visual selection
+   ============================================ */
+
+.cfg-section {
+  margin-bottom: 24px;
+}
+
+.cfg-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cfg-desc {
+  font-size: 13px;
+  color: var(--grey-mid);
+  margin-bottom: 14px;
+}
+
+.color-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.color-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+
+.color-opt:hover {
+  transform: scale(1.08);
+}
+
+.co-swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  border: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+
+.color-opt.selected .co-swatch {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}
+
+.color-opt.selected .co-swatch::after {
+  content: '✓';
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.co-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grey-dark);
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 600px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Color Selector (4 colors)</h2>
+
+<div class="cfg-section">
+  <div class="cfg-title">Kleur</div>
+  <div class="cfg-desc">Kies je favoriete kleur. Alle kleuren zijn beschikbaar.</div>
+
+  <div class="color-grid">
+    <div class="color-opt selected">
+      <div class="co-swatch" style="background: #2D3436;"></div>
+      <div class="co-label">Space Grey</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #C0C0C0;"></div>
+      <div class="co-label">Zilver</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #1A1A2E;"></div>
+      <div class="co-label">Midnight</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #F5E6D3;"></div>
+      <div class="co-label">Starlight</div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 32px;"></div>
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">8 Colors (Wrap Layout)</h2>
+
+<div class="cfg-section">
+  <div class="cfg-title">Kleur</div>
+  <div class="cfg-desc">Kies uit 8 verschillende kleuren.</div>
+
+  <div class="color-grid">
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #2D3436;"></div>
+      <div class="co-label">Space Grey</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #C0C0C0;"></div>
+      <div class="co-label">Zilver</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #1A1A2E;"></div>
+      <div class="co-label">Midnight</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #F5E6D3;"></div>
+      <div class="co-label">Starlight</div>
+    </div>
+
+    <div class="color-opt selected">
+      <div class="co-swatch" style="background: #DC2626;"></div>
+      <div class="co-label">Rood</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #2563EB;"></div>
+      <div class="co-label">Blauw</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #00C853;"></div>
+      <div class="co-label">Groen</div>
+    </div>
+
+    <div class="color-opt">
+      <div class="co-swatch" style="background: #7C3AED;"></div>
+      <div class="co-label">Paars</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Color selection
+document.querySelectorAll('.color-opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const grid = this.closest('.color-grid');
+    grid.querySelectorAll('.color-opt').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+</script>
+
+</body>
+</html>

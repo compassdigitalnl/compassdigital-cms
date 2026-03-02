@@ -162,7 +162,7 @@ export default function MonitoringDashboard() {
                 </span>
               </div>
 
-              {(data?.warningClients || 0) > 0 && (
+              {(data?.warningClients || 0) > 0 && data && (
                 <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🟡</span>
@@ -177,7 +177,7 @@ export default function MonitoringDashboard() {
                 </div>
               )}
 
-              {(data?.criticalClients || 0) > 0 && (
+              {(data?.criticalClients || 0) > 0 && data && (
                 <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🔴</span>

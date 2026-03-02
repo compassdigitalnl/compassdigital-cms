@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP01: Grouped Product Hero — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 0;
+}
+
+.grouped-hero {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 48px 24px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.grouped-hero::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(0, 137, 123, 0.15);
+  border: 1px solid rgba(0, 137, 123, 0.3);
+  border-radius: 100px;
+  color: var(--teal-light);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}
+
+.hero-badge i {
+  width: 14px;
+  height: 14px;
+}
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.hero-description {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin-bottom: 24px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--teal-light);
+}
+
+.hero-stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-stats {
+    gap: 20px;
+  }
+
+  .hero-stat-value {
+    font-size: 24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="grouped-hero">
+  <div class="container">
+    <div class="hero-badge">
+      <i data-lucide="package"></i>
+      Grouped Product
+    </div>
+    <h1 class="hero-title">Chirurgische Instrumentenset</h1>
+    <p class="hero-description">
+      Koop de complete set of kies individuele instrumenten. Alle items zijn ook apart verkrijgbaar. Bij aankoop van de complete set ontvang je automatisch 15% korting.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value">6</span>
+        <span class="hero-stat-label">Items in set</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">€45</span>
+        <span class="hero-stat-label">Besparing bij complete set</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- DOCUMENTATION: GP01 Grouped Product Hero -->
+<!--
+PURPOSE: Hero section for grouped product pages (sets with individual item selection)
+PATTERN: Dark gradient hero with badge, title, description, stats
+USE CASE: Product sets, bundles, instrument sets, tool kits
+
+DESIGN TOKENS:
+- Background: linear-gradient(135deg, #0A1628, #121F33)
+- Glow: radial-gradient(circle, rgba(0,137,123,0.12), transparent 60%)
+- Badge: rgba(0,137,123,0.15) bg, 1px rgba border, 100px radius
+- Title: DM Serif Display 36px (28px mobile), white
+- Description: 15px, rgba(255,255,255,0.7), max-width 600px
+- Stats: 28px (24px mobile) value, 12px label uppercase
+
+LAYOUT: Container max-width 1200px, 48px padding, glow top-right
+
+ACCESSIBILITY: WCAG 2.1 AA, ARIA labels, keyboard navigation
+-->
+
+</body>
+</html>

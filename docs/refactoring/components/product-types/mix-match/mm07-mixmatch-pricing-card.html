@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM07: MixMatchPricingCard — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --green: #00C853;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--grey-light); padding: 32px; color: var(--navy); }
+
+/* MM07: MixMatchPricingCard - Complete Sidebar */
+.box-card {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(10, 22, 40, 0.08);
+  max-width: 360px;
+}
+
+/* Box Visual Header */
+.box-visual {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.box-visual::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(0, 137, 123, 0.12), transparent 70%);
+  border-radius: 50%;
+}
+
+.bv-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 2;
+}
+
+.bv-slots {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  margin-top: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.bv-slot {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.15s;
+}
+
+.bv-slot.filled {
+  background: rgba(0, 137, 123, 0.15);
+  border-style: solid;
+  border-color: rgba(0, 137, 123, 0.3);
+}
+
+.bv-slot.empty-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { border-color: rgba(255, 255, 255, 0.08); }
+  50% { border-color: rgba(0, 137, 123, 0.3); }
+}
+
+/* Body */
+.box-body {
+  padding: 16px;
+}
+
+/* Items List (MM05 embedded) */
+.box-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.bi {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.1s;
+}
+
+.bi:hover { background: var(--grey-light); }
+
+.bi-icon { font-size: 18px; flex-shrink: 0; }
+
+.bi-info { flex: 1; min-width: 0; }
+
+.bi-name {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bi-detail {
+  font-size: 10px;
+  color: var(--grey-mid);
+}
+
+.bi-qty {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.bi-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.bi-remove {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+  flex-shrink: 0;
+}
+
+.bi-remove:hover { background: #FFF0F0; }
+
+.bi-remove i {
+  width: 12px;
+  height: 12px;
+  color: #FF6B6B;
+}
+
+/* Empty State */
+.box-empty {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: var(--grey-mid);
+}
+
+.box-empty-icon {
+  font-size: 36px;
+  margin-bottom: 6px;
+}
+
+/* Pricing Breakdown */
+.box-pricing {
+  padding: 12px;
+  background: var(--grey-light);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.bpr {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 12px;
+}
+
+.bpr.sub {
+  color: var(--grey-dark);
+}
+
+.bpr.discount {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.bpr.total {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  padding-top: 8px;
+  margin-top: 6px;
+  border-top: 2px solid var(--navy);
+}
+
+.bpr.per-item {
+  font-size: 11px;
+  color: var(--grey-mid);
+}
+
+/* CTA Button */
+.box-cta {
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition);
+}
+
+.box-cta.ready {
+  background: var(--teal);
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 137, 123, 0.3);
+}
+
+.box-cta.ready:hover {
+  background: var(--navy);
+  transform: translateY(-1px);
+}
+
+.box-cta.incomplete {
+  background: var(--grey);
+  color: var(--grey-mid);
+  cursor: not-allowed;
+}
+
+.box-cta i {
+  width: 18px;
+  height: 18px;
+}
+
+.box-note {
+  text-align: center;
+  font-size: 10px;
+  color: var(--grey-mid);
+  margin-top: 6px;
+}
+
+/* Box Options (Radio Buttons) */
+.box-options {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--grey);
+}
+
+.bo-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+
+.bo-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1.5px solid var(--grey);
+  border-radius: 8px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-size: 12px;
+}
+
+.bo-option:hover {
+  border-color: var(--teal);
+}
+
+.bo-option.selected {
+  border-color: var(--teal);
+  background: var(--teal-glow);
+}
+
+.bo-radio {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bo-option.selected .bo-radio {
+  border-color: var(--teal);
+}
+
+.bo-radio-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  display: none;
+}
+
+.bo-option.selected .bo-radio-dot {
+  display: block;
+}
+
+.bo-info {
+  flex: 1;
+  font-weight: 700;
+}
+
+.bo-detail {
+  font-weight: 400;
+  color: var(--grey-mid);
+  font-size: 10px;
+}
+
+.bo-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
+/* Trust Signals */
+.box-trust {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.bt {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.bt i {
+  width: 12px;
+  height: 12px;
+  color: var(--teal);
+}
+</style>
+</head>
+<body>
+
+<h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px;">🎯 Live Demo — MixMatchPricingCard</h2>
+
+<div class="box-card">
+  <!-- Visual Header with Box Slots -->
+  <div class="box-visual">
+    <div class="bv-title">📦 Jouw Lunch Box</div>
+    <div class="bv-slots">
+      <div class="bv-slot filled">🥗</div>
+      <div class="bv-slot filled">🌯</div>
+      <div class="bv-slot filled">🍲</div>
+      <div class="bv-slot empty-pulse"></div>
+      <div class="bv-slot empty-pulse"></div>
+      <div class="bv-slot empty-pulse"></div>
+    </div>
+  </div>
+
+  <div class="box-body">
+    <!-- Items List -->
+    <div class="box-items">
+      <div class="bi">
+        <div class="bi-icon">🥗</div>
+        <div class="bi-info">
+          <div class="bi-name">Caesar Salade Classic</div>
+          <div class="bi-detail">320 kcal · Vers</div>
+        </div>
+        <div class="bi-qty">×1</div>
+        <div class="bi-price">€4,95</div>
+        <button class="bi-remove"><i data-lucide="x"></i></button>
+      </div>
+      <div class="bi">
+        <div class="bi-icon">🌯</div>
+        <div class="bi-info">
+          <div class="bi-name">Pulled Chicken Wrap</div>
+          <div class="bi-detail">480 kcal · Vers</div>
+        </div>
+        <div class="bi-qty">×1</div>
+        <div class="bi-price">€5,50</div>
+        <button class="bi-remove"><i data-lucide="x"></i></button>
+      </div>
+      <div class="bi">
+        <div class="bi-icon">🍲</div>
+        <div class="bi-info">
+          <div class="bi-name">Tom Kha Gai Soep</div>
+          <div class="bi-detail">210 kcal · Glutenvrij</div>
+        </div>
+        <div class="bi-qty">×1</div>
+        <div class="bi-price">€4,50</div>
+        <button class="bi-remove"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+
+    <!-- Pricing Breakdown -->
+    <div class="box-pricing">
+      <div class="bpr sub"><span>3 van 6 items geselecteerd</span><span>€14,95</span></div>
+      <div class="bpr sub"><span>Nog 3 items toevoegen</span><span>—</span></div>
+      <div class="bpr discount"><span>Box korting (bij 6 items)</span><span>-20%</span></div>
+      <div class="bpr total"><span>Box prijs</span><span>€ 24,95</span></div>
+      <div class="bpr per-item"><span>Per item gemiddeld</span><span>€ 4,16</span></div>
+    </div>
+
+    <!-- CTA Button -->
+    <button class="box-cta incomplete">
+      <i data-lucide="lock"></i> Nog 3 items kiezen
+    </button>
+    <div class="box-note">Selecteer 6 items om je box te bestellen</div>
+
+    <!-- Box Size Options -->
+    <div class="box-options">
+      <div class="bo-title">Box formaat</div>
+      <div class="bo-option" onclick="selectOption(this)">
+        <div class="bo-radio"><div class="bo-radio-dot"></div></div>
+        <div class="bo-info">
+          Small (4 items)
+          <div class="bo-detail">Perfect voor 1 persoon</div>
+        </div>
+        <div class="bo-price">€ 17,95</div>
+      </div>
+      <div class="bo-option selected" onclick="selectOption(this)">
+        <div class="bo-radio"><div class="bo-radio-dot"></div></div>
+        <div class="bo-info">
+          Medium (6 items)
+          <div class="bo-detail">Ideaal voor lunch + snack</div>
+        </div>
+        <div class="bo-price">€ 24,95</div>
+      </div>
+      <div class="bo-option" onclick="selectOption(this)">
+        <div class="bo-radio"><div class="bo-radio-dot"></div></div>
+        <div class="bo-info">
+          Large (10 items)
+          <div class="bo-detail">Delen met collega's</div>
+        </div>
+        <div class="bo-price">€ 37,95</div>
+      </div>
+    </div>
+
+    <!-- Trust Signals -->
+    <div class="box-trust">
+      <div class="bt"><i data-lucide="truck"></i> Gratis bezorging</div>
+      <div class="bt"><i data-lucide="leaf"></i> 100% vers</div>
+      <div class="bt"><i data-lucide="recycle"></i> Duurzaam verpakt</div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCUMENTATION -->
+<div style="max-width: 800px; background: white; border: 1px solid var(--grey); border-radius: 12px; padding: 24px; margin-top: 32px; line-height: 1.6;">
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 12px;">📦 MM07: MixMatchPricingCard — Complete Sidebar</h3>
+
+<p><strong>Purpose:</strong> Complete sticky sidebar for Mix & Match product pages. Combines box visualization, item list, pricing breakdown, box size selector, CTA, and trust signals.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>Box Visual Header:</strong> Dark gradient bg with emoji slots (6 slots, filled/empty states, pulse animation)</li>
+  <li><strong>Items List:</strong> Scrollable (max 260px), hover states, remove buttons (MM05 embedded)</li>
+  <li><strong>Pricing Breakdown:</strong> Subtotal, discount, total (large bold), per-item average</li>
+  <li><strong>CTA Button:</strong> 2 states - incomplete (grey + lock icon) / ready (teal + cart icon)</li>
+  <li><strong>Box Size Selector:</strong> Radio options (Small/Medium/Large) with prices</li>
+  <li><strong>Trust Signals:</strong> 3 icons (truck, leaf, recycle) with labels</li>
+</ul>
+
+<p><strong>Structure (Top to Bottom):</strong></p>
+<ol style="margin-left: 20px; margin-bottom: 16px;">
+  <li>.box-visual — Dark header with title + 6 emoji slots</li>
+  <li>.box-items — Scrollable selected items list (MM05)</li>
+  <li>.box-pricing — Grey card with price breakdown</li>
+  <li>.box-cta — Primary action button</li>
+  <li>.box-note — Helper text below button</li>
+  <li>.box-options — Box size radio selector</li>
+  <li>.box-trust — Trust signals row</li>
+</ol>
+
+<p><strong>TypeScript Interface:</strong></p>
+<pre style="background: var(--grey-light); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+interface MixMatchPricingCardProps {
+  // Selected items
+  items: Array<{ id: string; emoji: string; name: string; detail: string; quantity: number; price: number }>;
+  maxItems: number;
+
+  // Pricing
+  subtotal: number;
+  discount: number;
+  totalPrice: number;
+
+  // Box options
+  boxSizes: Array<{ id: string; name: string; itemCount: number; description: string; price: number }>;
+  selectedBoxSize: string;
+  onBoxSizeChange: (sizeId: string) => void;
+
+  // Actions
+  onRemoveItem: (itemId: string) => void;
+  onCheckout: () => void;
+
+  // State
+  isComplete: boolean;
+
+  // Trust signals (optional)
+  trustSignals?: Array<{ icon: string; text: string }>;
+}
+</pre>
+
+<p><strong>Design Tokens (Key):</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+  <li>Card: white bg, 1.5px grey border, 20px radius, shadow-md</li>
+  <li>Visual header: navy gradient, 20px padding, teal radial glow (120px circle)</li>
+  <li>Slots: 6-column grid, 4px gap, 8px radius, aspect-ratio 1:1</li>
+  <li>Filled slot: teal-glow bg, solid border rgba(0,137,123,0.3)</li>
+  <li>Empty slot: transparent bg, dashed border, pulse animation</li>
+  <li>Body padding: 16px</li>
+  <li>Pricing card: grey-light bg, 12px padding, 12px radius</li>
+  <li>Total row: 18px Plus Jakarta Sans 800, 2px navy border-top</li>
+  <li>CTA: 52px height, 12px radius, 16px font</li>
+  <li>CTA ready: teal bg, shadow, hover navy + translateY(-1px)</li>
+  <li>CTA incomplete: grey bg, grey text, cursor not-allowed</li>
+  <li>Radio option: 8px padding, 1.5px border, 8px radius</li>
+  <li>Radio selected: teal border + teal-glow bg</li>
+</ul>
+
+<p><strong>Responsive:</strong> Sticky on desktop (position: sticky; top: 90px), static on mobile, full-width below 768px.</p>
+
+<p><strong>Related Components:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>MM05 (MixMatchSelectionSummary) — Embedded in .box-items</li>
+  <li>MM02 (MixMatchProgressCounter) — Alternative progress visualization</li>
+  <li>BB05 (BundleTotalCalculator) — Similar pricing breakdown pattern</li>
+  <li>EC07 (OrderSummary) — Similar sidebar pattern for cart</li>
+</ul>
+
+</div>
+
+<script>
+  lucide.createIcons();
+  function selectOption(el) {
+    document.querySelectorAll('.bo-option').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+</script>
+
+</body>
+</html>

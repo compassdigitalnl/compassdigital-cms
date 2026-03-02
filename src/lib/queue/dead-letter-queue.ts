@@ -73,13 +73,14 @@ export class DeadLetterQueueManager {
       await this.payload.create({
         collection: 'email-events',
         data: {
-          type: 'job_failed',
-          tenant: job.data.tenantId,
+          type: 'failed', // DLQ entries are failed email jobs
+          subscriber: job.data.subscriberId, // If available
+          recipientEmail: job.data.recipientEmail || 'unknown@example.com',
+          subject: job.data.subject,
           metadata: {
             dlqEntry: entry,
-          },
-          createdAt: new Date().toISOString(),
-        },
+          } as any, // Metadata is JSON field, needs type assertion
+        } as any, // Type assertion needed for flexible DLQ data structure
       })
 
       console.error('[DLQ] Job moved to dead letter queue', {
@@ -136,8 +137,11 @@ export class DeadLetterQueueManager {
     })
 
     return result.docs
-      .map((doc) => doc.metadata?.dlqEntry as DeadLetterEntry)
-      .filter((entry) => {
+      .map((doc) => {
+        const metadata = doc.metadata as { dlqEntry?: DeadLetterEntry } | undefined
+        return metadata?.dlqEntry
+      })
+      .filter((entry): entry is DeadLetterEntry => {
         if (!entry) return false
         if (filters?.queue && entry.queue !== filters.queue) return false
         if (filters?.jobName && entry.jobName !== filters.jobName) return false
@@ -170,7 +174,7 @@ export class DeadLetterQueueManager {
 
     // Create a new job in the original queue
     const redis = getRedisClient()
-    const queue = new Queue(entry.queue, { connection: redis })
+    const queue = new Queue(entry.queue, { connection: redis.options })
 
     await queue.add(
       entry.jobName,
@@ -370,12 +374,12 @@ export async function setupDeadLetterQueueMonitoring(
   const redis = getRedisClient()
 
   for (const queueName of queueNames) {
-    const events = new QueueEvents(queueName, { connection: redis })
+    const events = new QueueEvents(queueName, { connection: redis.options })
 
     events.on('failed', async ({ jobId, failedReason }) => {
       try {
         // Get the failed job
-        const queue = new Queue(queueName, { connection: redis })
+        const queue = new Queue(queueName, { connection: redis.options })
         const job = await queue.getJob(jobId)
 
         if (!job) {

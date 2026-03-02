@@ -138,14 +138,15 @@ export class AlertManager {
    * Create and send alert
    */
   async sendAlert(alert: Omit<Alert, 'id' | 'timestamp'>): Promise<void> {
+    const alertId = this.generateAlertId(alert.type)
     const fullAlert: Alert = {
       ...alert,
-      id: this.generateAlertId(alert.type),
+      id: alertId,
       timestamp: new Date(),
     }
 
     // Store alert
-    this.activeAlerts.set(fullAlert.id, fullAlert)
+    this.activeAlerts.set(alertId, fullAlert)
 
     // Log alert
     console.error(`[ALERT] [${fullAlert.severity.toUpperCase()}] ${fullAlert.title}`)
@@ -370,8 +371,10 @@ export class AlertManager {
       await payload.create({
         collection: 'email-events',
         data: {
-          type: 'system_alert',
-          status: 'pending',
+          type: 'failed', // System alerts are stored as failed events
+          recipientEmail: 'system-alert@internal',
+          subject: alert.title,
+          failureReason: alert.message,
           metadata: {
             alert: {
               id: alert.id,
@@ -383,7 +386,7 @@ export class AlertManager {
               timestamp: alert.timestamp,
             },
           },
-        },
+        } as any, // Type assertion needed - email-events requires subscriber but system alerts don't have one
       })
     } catch (error) {
       console.error('[AlertManager] Failed to store alert in database:', error)

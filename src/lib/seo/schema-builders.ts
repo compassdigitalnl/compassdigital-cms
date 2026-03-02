@@ -1,9 +1,9 @@
-import type { Page, BlogPost, Settings } from '@/payload-types'
+import type { Page, BlogPost, Setting } from '@/payload-types'
 
 // ─────────────────────────────────────────────────────────────
 // LocalBusiness Schema
 // ─────────────────────────────────────────────────────────────
-export function buildLocalBusinessSchema(settings: Settings, siteUrl: string) {
+export function buildLocalBusinessSchema(settings: Setting, siteUrl: string) {
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': settings.businessCategory || 'LocalBusiness',
@@ -84,7 +84,7 @@ export function buildLocalBusinessSchema(settings: Settings, siteUrl: string) {
 // ─────────────────────────────────────────────────────────────
 // WebSite Schema (homepage only)
 // ─────────────────────────────────────────────────────────────
-export function buildWebSiteSchema(settings: Settings, siteUrl: string) {
+export function buildWebSiteSchema(settings: Setting, siteUrl: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -165,7 +165,7 @@ export function buildFAQSchema(block: any) {
 // ─────────────────────────────────────────────────────────────
 export function buildArticleSchema(
   post: BlogPost,
-  settings: Settings,
+  settings: Setting,
   siteUrl: string
 ) {
   const schema: any = {
@@ -219,7 +219,7 @@ export function buildArticleSchema(
 // ─────────────────────────────────────────────────────────────
 // Review/Testimonial Schemas with AggregateRating
 // ─────────────────────────────────────────────────────────────
-export function buildReviewSchemas(block: any, settings: Settings, siteUrl: string) {
+export function buildReviewSchemas(block: any, settings: Setting, siteUrl: string) {
   if (!block.testimonials || !Array.isArray(block.testimonials) || block.testimonials.length === 0) {
     return []
   }
@@ -269,7 +269,7 @@ export function buildReviewSchemas(block: any, settings: Settings, siteUrl: stri
 // ─────────────────────────────────────────────────────────────
 // Service Schema
 // ─────────────────────────────────────────────────────────────
-export function buildServiceSchema(service: any, settings: Settings, siteUrl: string) {
+export function buildServiceSchema(service: any, settings: Setting, siteUrl: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',

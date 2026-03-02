@@ -167,7 +167,7 @@ export function setUserContext(user: { id: string; email?: string; tenant?: stri
     // Sentry.setUser({
     //   id: user.id,
     //   email: user.email,
-    //   tenant: user.tenant,
+    //   tenant: isUser(user) && user.client,
     // })
 
     console.log('[Sentry] User context set:', user.id)

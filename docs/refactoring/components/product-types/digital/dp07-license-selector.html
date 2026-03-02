@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP07: License Selector — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --green: #00C853;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.side-card {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 16px;
+  padding: 22px;
+  max-width: 380px;
+  box-shadow: 0 8px 24px rgba(10,22,40,0.08);
+}
+
+.side-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.side-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--teal);
+}
+
+.lic-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 2px solid var(--grey);
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.lic-option:hover {
+  border-color: var(--teal);
+}
+
+.lic-option.selected {
+  border-color: var(--teal);
+  background: var(--teal-glow);
+}
+
+.lic-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--grey);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lic-option.selected .lic-radio {
+  border-color: var(--teal);
+}
+
+.lic-option.selected .lic-radio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+.lic-body {
+  flex: 1;
+}
+
+.lic-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.lic-desc {
+  font-size: 12px;
+  color: var(--grey-mid);
+}
+
+.lic-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.lic-price span {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--grey-mid);
+  display: block;
+}
+
+.lic-popular {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  padding: 2px 8px;
+  background: var(--teal);
+  color: white;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.buy-btn {
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(0,137,123,0.3);
+  margin-bottom: 8px;
+}
+
+.buy-btn:hover {
+  background: var(--navy);
+}
+
+.buy-btn i {
+  width: 18px;
+  height: 18px;
+}
+
+.buy-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--grey-mid);
+}
+
+.buy-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--grey);
+}
+
+.bt-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--grey-mid);
+}
+
+.bt-item i {
+  width: 13px;
+  height: 13px;
+  color: var(--green);
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 400px; margin: 0 auto;">
+
+<div class="side-card">
+  <div class="side-title">
+    <i data-lucide="tag"></i> Kies je licentie
+  </div>
+
+  <div class="lic-option">
+    <div class="lic-radio"></div>
+    <div class="lic-body">
+      <div class="lic-name">Personal</div>
+      <div class="lic-desc">1 gebruiker · 3 projecten</div>
+    </div>
+    <div class="lic-price">
+      €39
+      <span>eenmalig</span>
+    </div>
+  </div>
+
+  <div class="lic-option selected">
+    <div class="lic-popular">Populairst</div>
+    <div class="lic-radio"></div>
+    <div class="lic-body">
+      <div class="lic-name">Professional</div>
+      <div class="lic-desc">1 gebruiker · Onbeperkt · Code gen</div>
+    </div>
+    <div class="lic-price">
+      €79
+      <span>eenmalig</span>
+    </div>
+  </div>
+
+  <div class="lic-option">
+    <div class="lic-radio"></div>
+    <div class="lic-body">
+      <div class="lic-name">Team</div>
+      <div class="lic-desc">Tot 10 gebruikers · Collaboration</div>
+    </div>
+    <div class="lic-price">
+      €199
+      <span>eenmalig</span>
+    </div>
+  </div>
+
+  <button class="buy-btn">
+    <i data-lucide="zap"></i> Nu kopen — €79
+  </button>
+
+  <div class="buy-note">Direct downloaden na betaling</div>
+
+  <div class="buy-trust">
+    <div class="bt-item">
+      <i data-lucide="download"></i> Instant download
+    </div>
+    <div class="bt-item">
+      <i data-lucide="refresh-cw"></i> Gratis updates v4.x
+    </div>
+    <div class="bt-item">
+      <i data-lucide="shield-check"></i> 30 dagen geld-terug
+    </div>
+    <div class="bt-item">
+      <i data-lucide="lock"></i> Veilig betalen
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+// License selection
+document.querySelectorAll('.lic-option').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const parent = this.closest('.side-card');
+    parent.querySelectorAll('.lic-option').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+
+    // Update button price
+    const price = this.querySelector('.lic-price').textContent.split('\n')[0].trim();
+    const btn = parent.querySelector('.buy-btn');
+    btn.innerHTML = `<i data-lucide="zap"></i> Nu kopen — ${price}`;
+    lucide.createIcons();
+  });
+});
+</script>
+
+<!-- Documentation: DP07 License Selector -->
+<!-- Complete 8-step protocol available in component -->
+
+</body>
+</html>

@@ -3,7 +3,7 @@
  * Processes content analysis jobs in background with caching
  */
 
-import { Worker, Job } from 'bullmq'
+import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis, getCached, generateContentHash } from '../redis'
 import { QUEUE_NAMES, ContentAnalysisJob, baseWorkerConfig } from '../config'
 import { contentAnalyzer } from '@/lib/ai'
@@ -110,7 +110,7 @@ export const contentAnalysisWorker = new Worker(
   {
     ...baseWorkerConfig,
     concurrency: 3, // Max 3 concurrent content analyses
-  }
+  } as WorkerOptions
 )
 
 // Worker event handlers

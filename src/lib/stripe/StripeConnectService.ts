@@ -191,7 +191,7 @@ export class StripeConnectService {
       feePercentage = customFee.percentage
       feeFixed = customFee.fixed * 100 // Convert EUR to cents
     } else {
-      const tier = PRICING_TIERS[pricingTier]
+      const tier = PRICING_TIERS[pricingTier as keyof typeof PRICING_TIERS]
       feePercentage = tier.percentage
       feeFixed = tier.fixed
     }
@@ -406,6 +406,6 @@ export function formatFee(tier: keyof typeof PRICING_TIERS | 'custom', customFee
     return `${customFee.percentage}% + €${customFee.fixed.toFixed(2)}`
   }
 
-  const info = PRICING_TIERS[tier]
+  const info = PRICING_TIERS[tier as keyof typeof PRICING_TIERS]
   return `${info.percentage}% + €${(info.fixed / 100).toFixed(2)}`
 }

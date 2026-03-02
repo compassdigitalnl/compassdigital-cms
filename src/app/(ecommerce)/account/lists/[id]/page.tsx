@@ -799,7 +799,7 @@ export default function OrderListDetailPage() {
 
   const renderIcon = () => {
     if (!list) return null
-    const IconComponent = iconMap[list.icon] || Repeat
+    const IconComponent = (iconMap[list.icon] || Repeat) as any
     const colorStyle = colorMap[list.color as keyof typeof colorMap] || colorMap.teal
 
     return (

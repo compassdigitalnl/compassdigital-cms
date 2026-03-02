@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { sendProgress } from '@/app/api/ai/stream/[connectionId]/route'
+import { sendProgress } from '@/app/api/ai/stream/stream-utils'
 import { WizardState } from '@/lib/siteGenerator/types'
 import { computeCMSConfig } from '@/lib/provisioning/CMSConfigService'
 import type { ProvisioningProgress } from '@/lib/provisioning/types'
@@ -96,7 +96,7 @@ async function provisionClientSite(
       } as any)
 
       clientId = String(newClient.id)
-      await sendProgressUpdate(8, `Client aangemaakt: ${newClient.name}`)
+      await sendProgressUpdate(8, `Client aangemaakt: ${(newClient as any).name}`)
     }
 
     // ===== STAP 2: Start Provisioning via Ploi =====

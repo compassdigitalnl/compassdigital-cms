@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DD04: Download Button Grid — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-dark: #00695C;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.dl-section {
+  margin-bottom: 24px;
+}
+
+.dl-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--navy);
+}
+
+.dl-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--teal);
+}
+
+.dl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.dl-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0,137,123,0.2);
+  text-align: center;
+}
+
+.dl-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,137,123,0.3);
+}
+
+.dl-btn i {
+  width: 24px;
+  height: 24px;
+}
+
+.dl-info {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+@media (max-width: 640px) {
+  .dl-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .dl-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 14px 18px;
+  }
+
+  .dl-info {
+    margin-left: auto;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 720px; margin: 0 auto;">
+
+<div class="dl-section">
+  <div class="dl-title">
+    <i data-lucide="download"></i> Download je software
+  </div>
+
+  <div class="dl-grid">
+    <button class="dl-btn" onclick="download('macos')">
+      <i data-lucide="monitor"></i>
+      <span>macOS</span>
+      <span class="dl-info">12+ (Intel/M1)</span>
+    </button>
+
+    <button class="dl-btn" onclick="download('windows')">
+      <i data-lucide="hard-drive"></i>
+      <span>Windows</span>
+      <span class="dl-info">10/11 (64-bit)</span>
+    </button>
+
+    <button class="dl-btn" onclick="download('linux')">
+      <i data-lucide="terminal"></i>
+      <span>Linux</span>
+      <span class="dl-info">Ubuntu/Debian</span>
+    </button>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+function download(platform) {
+  console.log('Downloading for:', platform);
+  alert(`Download gestart voor ${platform}`);
+  // In productie: window.location.href = downloadUrl
+}
+</script>
+
+<!-- DOCUMENTATION: DD04 Download Button Grid -->
+<!--
+COMPONENT: DD04 — Download Button Grid
+PURPOSE: Platform-specific download buttons for digital products
+PATTERN: 3-column grid (1-col mobile) with teal gradient buttons
+USE CASE: Software/app downloads, digital product delivery pages
+
+DESIGN TOKENS:
+- Grid: 3 columns (1-col @640px), 8px gap (10px mobile)
+- Button: teal gradient bg, 12px radius, 16px 12px padding
+- Icon: 24×24px, white
+- Title: 13px, 700 weight, white
+- Info text: 10px, 400 weight, 80% opacity
+- Shadow: 0 4px 12px rgba(0,137,123,0.2)
+- Hover: translateY(-2px), shadow elevation
+- Mobile: flex-row, justify-start, 14px 18px padding
+
+REACT INTERFACE:
+interface DownloadButtonGridProps {
+  downloads: Array<{
+    platform: 'macOS' | 'Windows' | 'Linux' | 'iOS' | 'Android'
+    url: string
+    version: string
+    sizeInMB: number
+    requirements?: string
+    icon?: string
+  }>
+  onDownload?: (platform: string, url: string) => void
+  showFileSize?: boolean
+  columns?: 2 | 3 | 4
+}
+
+LAYOUT RULES:
+1. Desktop: grid-template-columns repeat(3, 1fr), 8px gap
+2. Mobile @640px: 1fr, 10px gap, flex-row buttons
+3. Button: flex-column (desktop), flex-row (mobile)
+4. Icon + text + info vertical center
+
+ACCESSIBILITY:
+- Buttons: role="button", aria-label="Download for macOS"
+- Keyboard: Tab focus, Enter/Space trigger
+- Focus ring: 0 0 0 3px rgba(0,137,123,0.2)
+- Screen reader: announces platform + requirements
+- Download progress: aria-live="polite" region
+
+VARIATIONS:
+1. Default (3-column): macOS, Windows, Linux
+2. Mobile Apps (2-column): iOS, Android
+3. All Platforms (4-column): macOS, Windows, Linux, Web
+4. Single Download: Full-width button
+
+RELATED COMPONENTS:
+- DD02 (ProductDownloadCard): Parent container
+- DD03 (LicenseKeyDisplay): Sibling component above
+- DD05 (GettingStartedSteps): Sibling component below
+
+NEXT.JS IMPLEMENTATION:
+'use client'
+
+import { Monitor, HardDrive, Terminal, Download } from 'lucide-react'
+
+const PLATFORM_ICONS = {
+  macOS: Monitor,
+  Windows: HardDrive,
+  Linux: Terminal,
+}
+
+export default function DownloadButtonGrid({ downloads, onDownload }) {
+  const handleDownload = (platform: string, url: string) => {
+    onDownload?.(platform, url)
+    window.location.href = url
+  }
+
+  return (
+    <div className="dl-section">
+      <div className="dl-title">
+        <Download className="w-4 h-4" />
+        Download je software
+      </div>
+
+      <div className="dl-grid">
+        {downloads.map(({ platform, url, requirements }) => {
+          const Icon = PLATFORM_ICONS[platform]
+          return (
+            <button
+              key={platform}
+              className="dl-btn"
+              onClick={() => handleDownload(platform, url)}
+              aria-label={`Download for ${platform}`}
+            >
+              <Icon className="w-6 h-6" />
+              <span>{platform}</span>
+              {requirements && <span className="dl-info">{requirements}</span>}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+-->
+
+</body>
+</html>

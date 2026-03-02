@@ -21,9 +21,10 @@ import { TestimonialsCarousel } from './TestimonialsCarousel'
 interface Testimonial {
   quote: string
   author: string
-  role?: string
-  avatar?: Media | string
-  rating: number
+  role?: string | null
+  avatar?: Media | number | null
+  rating?: number | null
+  id?: string | null
 }
 
 export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
@@ -31,6 +32,9 @@ export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
   testimonials = [],
   variant = 'grid',
 }) => {
+  // Ensure testimonials is not null
+  const validTestimonials = testimonials || []
+
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
       <span key={i} className={`text-lg ${i < rating ? 'text-amber' : 'text-grey'}`}>
@@ -56,7 +60,7 @@ export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
         className="rounded-xl border border-grey bg-white p-6 transition-all hover:shadow-md"
       >
         {/* Rating stars */}
-        <div className="mb-3 flex gap-0.5">{renderStars(testimonial.rating)}</div>
+        <div className="mb-3 flex gap-0.5">{renderStars(testimonial.rating || 5)}</div>
 
         {/* Quote */}
         <p className="mb-4 text-sm leading-relaxed text-grey-dark">"{testimonial.quote}"</p>
@@ -90,12 +94,12 @@ export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
 
   // Carousel layout
   if (variant === 'carousel') {
-    return <TestimonialsCarousel title={title} testimonials={testimonials} />
+    return <TestimonialsCarousel title={title || undefined} testimonials={validTestimonials as any} />
   }
 
   // Featured layout
-  if (variant === 'featured' && testimonials.length > 0) {
-    const featured = testimonials[0]
+  if (variant === 'featured' && validTestimonials.length > 0) {
+    const featured = validTestimonials[0]
     const featuredAvatar = typeof featured.avatar === 'object' ? featured.avatar : null
 
     return (
@@ -107,7 +111,7 @@ export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
             </h2>
           )}
           <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-10 text-white md:p-16">
-            <div className="mb-6 flex gap-0.5 text-2xl">{renderStars(featured.rating)}</div>
+            <div className="mb-6 flex gap-0.5 text-2xl">{renderStars(featured.rating || 5)}</div>
             <blockquote className="mb-8 font-display text-2xl leading-relaxed md:text-3xl">
               "{featured.quote}"
             </blockquote>
@@ -144,7 +148,7 @@ export const TestimonialsBlockComponent: React.FC<TestimonialsBlock> = ({
           <h2 className="mb-10 text-center font-display text-3xl text-navy md:text-4xl">{title}</h2>
         )}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => renderTestimonialCard(testimonial, index))}
+          {validTestimonials.map((testimonial, index) => renderTestimonialCard(testimonial as Testimonial, index))}
         </div>
       </div>
     </section>

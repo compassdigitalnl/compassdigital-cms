@@ -26,8 +26,8 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, authorBio, classNa
   }
 
   const authorName = user.name || 'Auteur'
-  const authorRole = user.role || 'Redacteur'
-  const bio = authorBio || user.bio || 'Expert in medische supplies en zorgproducten.'
+  const authorRole = user.roles?.[0] || 'Redacteur'
+  const bio = authorBio || 'Expert in medische supplies en zorgproducten.'
 
   return (
     <div

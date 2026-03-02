@@ -3,11 +3,13 @@ export { ProductCard } from './ProductCard'
 export type {
   ProductCardProps,
   VolumePricingTier,
-  BadgeType,
-  ProductBadge,
-  StockStatus,
   Brand,
   ProductImage,
+} from './ProductCard'
+export type {
+  BadgeType as ProductCardBadgeType,
+  ProductBadge as ProductCardBadge,
+  StockStatus as ProductCardStockStatus,
 } from './ProductCard'
 
 export { ProductBadge } from './ProductBadges'
@@ -15,9 +17,11 @@ export type {
   ProductBadgeProps,
   BadgeVariant,
   BadgeSize,
-  BadgePosition,
   BadgeStyle,
   BadgeConfig,
+} from './ProductBadges'
+export type {
+  BadgePosition as ProductBadgePosition,
 } from './ProductBadges'
 
 export { StockIndicator } from './StockIndicator'
@@ -41,7 +45,9 @@ export type {
   QuickViewProduct,
   ProductVariant,
   ProductStock,
-  StockStatus,
+} from './QuickViewModal'
+export type {
+  StockStatus as QuickViewStockStatus,
 } from './QuickViewModal'
 
 export { ProductGallery } from './ProductGallery'
@@ -49,9 +55,11 @@ export type {
   ProductGalleryProps,
   GalleryImage,
   GalleryBadge,
-  BadgeType,
-  BadgePosition,
   GalleryLayout,
+} from './ProductGallery'
+export type {
+  BadgeType as GalleryBadgeType,
+  BadgePosition as GalleryBadgePosition,
 } from './ProductGallery'
 
 export { ProductMeta } from './ProductMeta'
@@ -60,8 +68,10 @@ export type {
   ProductMetaProduct,
   ProductRating,
   StockInfo,
-  StockStatus,
   TrustBadge,
+} from './ProductMeta'
+export type {
+  StockStatus as ProductMetaStockStatus,
 } from './ProductMeta'
 
 export { ProductTabs } from './ProductTabs'

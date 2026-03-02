@@ -313,7 +313,7 @@ class SecurityAuditor {
         test: 'API Key System',
         status: 'FAIL',
         severity: 'CRITICAL',
-        message: `Error auditing API keys: ${error.message}`,
+        message: `Error auditing API keys: ${error instanceof Error ? error.message : String(error)}`,
       })
     }
   }

@@ -107,7 +107,7 @@ export function OptimizedImage({
   const imgHeight = height || mediaObj.height || 800
 
   // ─── Blur Placeholder (if available) ──────────────────────
-  const blurDataURL = mediaObj.sizes?.thumbnail?.url || mediaObj.url
+  const blurDataURL = (mediaObj as any)?.sizes?.thumbnail?.url || mediaObj.url
 
   // ─── Render Next.js Image ─────────────────────────────────
   if (fill) {

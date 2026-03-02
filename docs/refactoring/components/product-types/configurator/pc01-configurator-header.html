@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC01: ConfiguratorHeader - Plastimed Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Spacing */
+      --space-4: 16px;
+      --space-6: 24px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'DM Serif Display', Georgia, serif;
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+    }
+
+    /* ============================================
+       DEMO CONTAINER
+       ============================================ */
+    .demo-section {
+      max-width: 1200px;
+      margin: 48px auto;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .demo-section h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-section p {
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    /* ============================================
+       PC01: CONFIGURATOR HEADER
+       ============================================ */
+
+    /* Main Container */
+    .configurator-header {
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      border-bottom: 1px solid var(--grey);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Inner Container */
+    .configurator-header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Logo */
+    .configurator-logo {
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .configurator-logo em {
+      color: var(--teal);
+      font-style: normal;
+    }
+
+    .configurator-logo i {
+      width: 24px;
+      height: 24px;
+      color: var(--teal);
+    }
+
+    /* Back Link */
+    .configurator-back-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .configurator-back-link:hover {
+      color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .configurator-back-link i {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* Product Title (Center) */
+    .configurator-product-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .configurator-product-title i {
+      width: 18px;
+      height: 18px;
+      color: var(--teal);
+    }
+
+    /* Save Status Indicator */
+    .configurator-save-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--grey-mid);
+      padding: 4px 10px;
+      background: var(--grey-light);
+      border-radius: 6px;
+    }
+
+    .configurator-save-status i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .configurator-save-status.saved {
+      color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .configurator-save-status.saving {
+      color: var(--grey-dark);
+    }
+
+    .configurator-save-status.saving i {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Action Buttons (Right Side) */
+    .configurator-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .configurator-action-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      color: var(--grey-dark);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .configurator-action-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .configurator-action-btn i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Mobile Layout */
+    @media (max-width: 768px) {
+      .configurator-header-inner {
+        height: 56px;
+        padding: 0 16px;
+      }
+
+      .configurator-logo {
+        font-size: 18px;
+      }
+
+      .configurator-logo-text {
+        display: none; /* Hide logo text on mobile */
+      }
+
+      .configurator-product-title {
+        position: static;
+        transform: none;
+        font-size: 13px;
+        flex: 1;
+        justify-content: center;
+      }
+
+      .configurator-back-link {
+        padding: 6px;
+      }
+
+      .configurator-back-link-text {
+        display: none; /* Hide "Terug naar" text on mobile */
+      }
+
+      .configurator-save-status {
+        display: none; /* Hide save status on mobile */
+      }
+    }
+
+    /* ============================================
+       DOCUMENTATION STYLES
+       ============================================ */
+    .docs-section {
+      max-width: 1200px;
+      margin: 48px auto;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 48px;
+    }
+
+    .docs-section h1 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .docs-section h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--navy);
+      margin: 48px 0 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .docs-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 12px;
+    }
+
+    .docs-section p {
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .docs-section ul,
+    .docs-section ol {
+      margin: 16px 0 16px 24px;
+      color: var(--grey-dark);
+    }
+
+    .docs-section li {
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    .docs-section code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs-section pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .docs-section pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .docs-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--teal-glow);
+      color: var(--teal-dark);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-left: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    th {
+      background: var(--grey-light);
+      padding: 12px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      border: 1px solid var(--grey);
+    }
+
+    td {
+      padding: 12px;
+      font-size: 13px;
+      color: var(--grey-dark);
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMO SECTION
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>PC01: ConfiguratorHeader — Live Demo</h2>
+    <p>Sticky header for product configurator pages with navigation, logo, and save status.</p>
+
+    <!-- Default Variant -->
+    <h3 style="font-size: 14px; font-weight: 700; margin: 32px 0 16px 0;">Default Variant</h3>
+    <header class="configurator-header">
+      <div class="configurator-header-inner">
+        <a href="#" class="configurator-logo">
+          <i data-lucide="laptop"></i>
+          <span class="configurator-logo-text">tech<em>shop</em></span>
+        </a>
+
+        <div class="configurator-product-title">
+          <i data-lucide="wrench"></i>
+          Configureer je laptop
+        </div>
+
+        <a href="#" class="configurator-back-link">
+          <i data-lucide="arrow-left"></i>
+          <span class="configurator-back-link-text">Terug naar laptops</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- With Save Status -->
+    <h3 style="font-size: 14px; font-weight: 700; margin: 48px 0 16px 0;">With Save Status (Saved)</h3>
+    <header class="configurator-header">
+      <div class="configurator-header-inner">
+        <a href="#" class="configurator-logo">
+          <i data-lucide="laptop"></i>
+          <span class="configurator-logo-text">tech<em>shop</em></span>
+        </a>
+
+        <div class="configurator-product-title">
+          💻 ProBook Ultra 16"
+        </div>
+
+        <div class="configurator-actions">
+          <div class="configurator-save-status saved">
+            <i data-lucide="check-circle"></i>
+            <span>Opgeslagen</span>
+          </div>
+          <a href="#" class="configurator-back-link">
+            <i data-lucide="arrow-left"></i>
+            <span class="configurator-back-link-text">Terug</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Saving State -->
+    <h3 style="font-size: 14px; font-weight: 700; margin: 48px 0 16px 0;">Saving State</h3>
+    <header class="configurator-header">
+      <div class="configurator-header-inner">
+        <a href="#" class="configurator-logo">
+          <i data-lucide="package"></i>
+          <span class="configurator-logo-text">medisch<em>supplies</em></span>
+        </a>
+
+        <div class="configurator-product-title">
+          🩺 Configureer je medische kit
+        </div>
+
+        <div class="configurator-actions">
+          <div class="configurator-save-status saving">
+            <i data-lucide="loader"></i>
+            <span>Opslaan...</span>
+          </div>
+          <button class="configurator-action-btn" title="Delen">
+            <i data-lucide="share-2"></i>
+          </button>
+          <a href="#" class="configurator-back-link">
+            <i data-lucide="x"></i>
+            <span class="configurator-back-link-text">Sluiten</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- With Action Buttons -->
+    <h3 style="font-size: 14px; font-weight: 700; margin: 48px 0 16px 0;">With Action Buttons</h3>
+    <header class="configurator-header">
+      <div class="configurator-header-inner">
+        <a href="#" class="configurator-logo">
+          <i data-lucide="settings"></i>
+          <span class="configurator-logo-text">custom<em>build</em></span>
+        </a>
+
+        <div class="configurator-product-title">
+          ⚙️ Bouw je eigen PC
+        </div>
+
+        <div class="configurator-actions">
+          <button class="configurator-action-btn" title="Opslaan">
+            <i data-lucide="heart"></i>
+          </button>
+          <button class="configurator-action-btn" title="Delen">
+            <i data-lucide="share-2"></i>
+          </button>
+          <button class="configurator-action-btn" title="Downloaden als PDF">
+            <i data-lucide="file-text"></i>
+          </button>
+          <a href="#" class="configurator-back-link">
+            <i data-lucide="arrow-left"></i>
+            <span class="configurator-back-link-text">Terug</span>
+          </a>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION SECTION
+       ============================================ -->
+
+  <div class="docs-section">
+    <h1>PC01: ConfiguratorHeader <span class="docs-badge">Product Type</span></h1>
+    <p><strong>Component Type:</strong> Product Configurator — Sticky Header Navigation</p>
+    <p><strong>File Location:</strong> <code>/refactoring/components/product-types/configurator/pc01-configurator-header.html</code></p>
+    <p><strong>Dependencies:</strong> Lucide Icons</p>
+    <p><strong>Related Components:</strong> PC02 (ConfiguratorStepNav), PC07 (ConfiguratorSaveLoad), C14 (MegaNavigation)</p>
+
+    <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--grey);">
+
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>ConfiguratorHeader provides a sticky navigation header for product configuration flows, allowing users to track their progress, save their configuration, and navigate back to the product catalog while building custom products.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li>✅ <strong>Sticky positioning:</strong> Stays visible during scroll (z-index: 200)</li>
+      <li>✅ <strong>Brand logo:</strong> Left-aligned, links back to homepage</li>
+      <li>✅ <strong>Product title:</strong> Centered, shows current product being configured</li>
+      <li>✅ <strong>Back navigation:</strong> Return to product listing or close configurator</li>
+      <li>✅ <strong>Save status indicator:</strong> Shows "Saved", "Saving...", or "Auto-save enabled"</li>
+      <li>✅ <strong>Action buttons:</strong> Share, favorite, PDF export</li>
+      <li>✅ <strong>Mobile responsive:</strong> Collapses to essential elements only</li>
+      <li>✅ <strong>Loading states:</strong> Spinning icon for save operations</li>
+    </ul>
+
+    <h3>Visual Design</h3>
+    <ul>
+      <li><strong>Container:</strong> White background, 64px height, 1px grey bottom border</li>
+      <li><strong>Shadow:</strong> Subtle drop shadow for depth (--shadow-sm)</li>
+      <li><strong>Logo:</strong> 20px font, 800 weight, teal accent color</li>
+      <li><strong>Product title:</strong> 14px, 700 weight, center-aligned, icon support</li>
+      <li><strong>Back link:</strong> Grey text, teal on hover, left arrow icon</li>
+      <li><strong>Action buttons:</strong> 36×36px squares, grey border, teal on hover</li>
+      <li><strong>Save status:</strong> Pill shape (6px radius), grey-light bg, green when saved</li>
+    </ul>
+
+    <h3>Use Cases</h3>
+    <ol>
+      <li><strong>Custom laptops/PCs:</strong> Multi-step hardware configuration</li>
+      <li><strong>Medical equipment:</strong> Configure diagnostic kits or surgical tools</li>
+      <li><strong>Custom sneakers:</strong> Choose colors, materials, personalization</li>
+      <li><strong>Furniture:</strong> Customize dimensions, fabrics, finishes</li>
+      <li><strong>Gift boxes:</strong> Build personalized product bundles</li>
+      <li><strong>B2B bulk orders:</strong> Configure multiple SKU variations at once</li>
+    </ol>
+
+    <h2>STEP 2: When to Use This Component</h2>
+
+    <h3>✅ Use ConfiguratorHeader when:</h3>
+    <ul>
+      <li>Product has 3+ customization options (multi-step flow needed)</li>
+      <li>Configuration process takes multiple screens/pages</li>
+      <li>Users need persistent navigation while configuring</li>
+      <li>Save/share functionality is important (complex configurations)</li>
+      <li>Product value is high (users want to save progress)</li>
+      <li>B2B use case where configurations are shared internally</li>
+      <li>Configurator is full-screen (not embedded in product page)</li>
+    </ul>
+
+    <h3>❌ Don't use ConfiguratorHeader when:</h3>
+    <ul>
+      <li>Product has &lt;3 options (simple variant selector is enough)</li>
+      <li>Configuration is single-screen (no need for sticky header)</li>
+      <li>Configurator is embedded modal (use modal header instead)</li>
+      <li>Product is low-value (users won't save configurations)</li>
+    </ul>
+
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--navy</code></td>
+          <td>#0A1628</td>
+          <td>Logo text, product title, back link text</td>
+        </tr>
+        <tr>
+          <td><code>--teal</code></td>
+          <td>#00897B</td>
+          <td>Logo accent, icons, hover states, saved status</td>
+        </tr>
+        <tr>
+          <td><code>--grey</code></td>
+          <td>#E8ECF1</td>
+          <td>Bottom border, action button borders</td>
+        </tr>
+        <tr>
+          <td><code>--grey-mid</code></td>
+          <td>#94A3B8</td>
+          <td>Back link color (default), save status text</td>
+        </tr>
+        <tr>
+          <td><code>--grey-light</code></td>
+          <td>#F1F4F8</td>
+          <td>Save status background (default)</td>
+        </tr>
+        <tr>
+          <td><code>--teal-glow</code></td>
+          <td>rgba(0,137,123,0.12)</td>
+          <td>Hover background, saved status background</td>
+        </tr>
+        <tr>
+          <td><code>--white</code></td>
+          <td>#FAFBFC</td>
+          <td>Header background, action button backgrounds</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Logo</td>
+          <td>Plus Jakarta Sans</td>
+          <td>20px</td>
+          <td>800</td>
+        </tr>
+        <tr>
+          <td>Product title</td>
+          <td>Plus Jakarta Sans</td>
+          <td>14px</td>
+          <td>700</td>
+        </tr>
+        <tr>
+          <td>Back link</td>
+          <td>Plus Jakarta Sans</td>
+          <td>13px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Save status</td>
+          <td>Plus Jakarta Sans</td>
+          <td>12px</td>
+          <td>400</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Header height:</strong> 64px (desktop), 56px (mobile)</li>
+      <li><strong>Container padding:</strong> 0 24px (desktop), 0 16px (mobile)</li>
+      <li><strong>Logo-title gap:</strong> Flexbox space-between (auto-calculated)</li>
+      <li><strong>Action buttons gap:</strong> 8px between buttons</li>
+      <li><strong>Icon-text gap:</strong> 5px (back link), 6px (save status)</li>
+    </ul>
+
+    <h3>Icons (Lucide)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Usage</th>
+          <th>Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>laptop</code>, <code>package</code>, <code>settings</code></td>
+          <td>Logo icon (product category)</td>
+          <td>24px</td>
+        </tr>
+        <tr>
+          <td><code>wrench</code>, <code>tool</code></td>
+          <td>Product title icon (configuration context)</td>
+          <td>18px</td>
+        </tr>
+        <tr>
+          <td><code>arrow-left</code>, <code>x</code></td>
+          <td>Back/close navigation</td>
+          <td>15px</td>
+        </tr>
+        <tr>
+          <td><code>check-circle</code></td>
+          <td>Saved status indicator</td>
+          <td>14px</td>
+        </tr>
+        <tr>
+          <td><code>loader</code></td>
+          <td>Saving status (spinning)</td>
+          <td>14px</td>
+        </tr>
+        <tr>
+          <td><code>heart</code>, <code>share-2</code>, <code>file-text</code></td>
+          <td>Action buttons (save, share, PDF)</td>
+          <td>16px</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre><code>interface ConfiguratorHeaderProps {
+  // Logo configuration
+  logo: {
+    text: string;          // e.g., "techshop"
+    accent?: string;       // e.g., "shop" (will be styled with teal)
+    icon?: string;         // Lucide icon name
+    href: string;          // Link URL
+  };
+
+  // Product info
+  productTitle: string;    // e.g., "ProBook Ultra 16\""
+  productIcon?: string;    // Emoji or Lucide icon
+
+  // Back navigation
+  backLink: {
+    text: string;          // e.g., "Terug naar laptops"
+    href: string;
+  };
+
+  // Save status
+  saveStatus?: {
+    state: 'saved' | 'saving' | 'error';
+    text?: string;         // Custom text (defaults based on state)
+  };
+
+  // Action buttons
+  actions?: Array<{
+    icon: string;          // Lucide icon name
+    label: string;         // For aria-label
+    onClick: () => void;
+  }>;
+
+  // Sticky behavior
+  sticky?: boolean;        // Default: true
+
+  // Mobile behavior
+  hideOnMobile?: {
+    logo: boolean;         // Hide logo text
+    backLinkText: boolean; // Hide "Terug naar" text
+    saveStatus: boolean;   // Hide save status
+  };
+}
+
+const defaultProps: Partial&lt;ConfiguratorHeaderProps&gt; = {
+  sticky: true,
+  hideOnMobile: {
+    logo: true,
+    backLinkText: true,
+    saveStatus: true
+  }
+};</code></pre>
+
+    <h3>Usage Example (React/Next.js)</h3>
+    <pre><code>import ConfiguratorHeader from '@/components/configurator/ConfiguratorHeader';
+
+&lt;ConfiguratorHeader
+  logo={{
+    text: 'techshop',
+    accent: 'shop',
+    icon: 'laptop',
+    href: '/'
+  }}
+  productTitle="ProBook Ultra 16\""
+  productIcon="💻"
+  backLink={{
+    text: 'Terug naar laptops',
+    href: '/laptops'
+  }}
+  saveStatus={{
+    state: 'saved',
+    text: 'Automatisch opgeslagen'
+  }}
+  actions={[
+    { icon: 'heart', label: 'Opslaan als favoriet', onClick: handleSave },
+    { icon: 'share-2', label: 'Delen', onClick: handleShare },
+    { icon: 'file-text', label: 'PDF downloaden', onClick: handlePDF }
+  ]}
+/></code></pre>
+
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Structure</h3>
+    <pre><code>&lt;header class="configurator-header"&gt;         /* Sticky container */
+  &lt;div class="configurator-header-inner"&gt;    /* Max-width: 1240px, centered */
+    &lt;a class="configurator-logo"&gt;            /* Left: Logo + icon */
+    &lt;div class="configurator-product-title"&gt; /* Center: Product name */
+    &lt;div class="configurator-actions"&gt;       /* Right: Save status + actions + back */
+      &lt;div class="configurator-save-status"&gt;
+      &lt;button class="configurator-action-btn"&gt; (×3)
+      &lt;a class="configurator-back-link"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+
+    <h3>Layout Grid</h3>
+    <p>The header uses <code>flexbox</code> with <code>justify-content: space-between</code> for left-center-right alignment.</p>
+    <ul>
+      <li><strong>Left:</strong> Logo (flex-start, natural width)</li>
+      <li><strong>Center:</strong> Product title (absolute positioning at 50%, transform: translateX(-50%))</li>
+      <li><strong>Right:</strong> Actions (flex-end, natural width)</li>
+    </ul>
+
+    <h3>Responsive Behavior</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Breakpoint</th>
+          <th>Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>&gt; 768px (Desktop)</strong></td>
+          <td>
+            • Height: 64px<br>
+            • Logo: icon + full text<br>
+            • Product title: centered (absolute positioning)<br>
+            • Back link: full text ("Terug naar...")<br>
+            • Save status: visible<br>
+            • All action buttons: visible
+          </td>
+        </tr>
+        <tr>
+          <td><strong>&lt; 768px (Mobile)</strong></td>
+          <td>
+            • Height: 56px<br>
+            • Logo: icon only (text hidden)<br>
+            • Product title: static flex layout (flex: 1, centered)<br>
+            • Back link: icon only (text hidden)<br>
+            • Save status: hidden<br>
+            • Action buttons: reduced to essentials (1-2 max)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>ARIA Attributes</h3>
+    <pre><code>&lt;header class="configurator-header"
+  role="banner"&gt;
+
+  &lt;a class="configurator-logo"
+    href="/"
+    aria-label="Terug naar homepage"&gt;
+    TechShop
+  &lt;/a&gt;
+
+  &lt;div class="configurator-product-title"
+    aria-label="Configureer ProBook Ultra 16 inch"&gt;
+    💻 ProBook Ultra 16"
+  &lt;/div&gt;
+
+  &lt;div class="configurator-save-status"
+    role="status"
+    aria-live="polite"&gt;
+    Opgeslagen
+  &lt;/div&gt;
+
+  &lt;button class="configurator-action-btn"
+    aria-label="Configuratie opslaan als favoriet"&gt;
+    &lt;i data-lucide="heart"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+
+  &lt;a class="configurator-back-link"
+    href="/laptops"
+    aria-label="Terug naar laptop overzicht"&gt;
+    Terug
+  &lt;/a&gt;
+&lt;/header&gt;</code></pre>
+
+    <h3>Keyboard Navigation</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Key</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>TAB</code></td>
+          <td>Navigate through logo, action buttons, back link</td>
+        </tr>
+        <tr>
+          <td><code>ENTER</code></td>
+          <td>Activate focused link/button</td>
+        </tr>
+        <tr>
+          <td><code>ESC</code></td>
+          <td>Optional: trigger back navigation (exit configurator)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Focus Management</h3>
+    <ul>
+      <li>All interactive elements have visible focus states (teal glow)</li>
+      <li>Focus ring: <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+      <li>Skip links recommended for screen readers (skip to main configurator content)</li>
+    </ul>
+
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Save Status State Management</h3>
+    <pre><code>// Auto-save with debounce
+import { useState, useEffect } from 'react';
+import { debounce } from 'lodash';
+
+const [saveStatus, setSaveStatus] = useState&lt;'saved' | 'saving' | 'error'&gt;('saved');
+const [configuration, setConfiguration] = useState({});
+
+// Debounced save function (1 second delay)
+const saveConfiguration = debounce(async (config) => {
+  setSaveStatus('saving');
+
+  try {
+    await fetch('/api/save-configuration', {
+      method: 'POST',
+      body: JSON.stringify(config)
+    });
+    setSaveStatus('saved');
+  } catch (error) {
+    setSaveStatus('error');
+  }
+}, 1000);
+
+// Auto-save on configuration changes
+useEffect(() => {
+  saveConfiguration(configuration);
+}, [configuration]);</code></pre>
+
+    <h3>Payload CMS Integration</h3>
+    <pre><code>// Create ProductConfiguration collection
+{
+  slug: 'productConfigurations',
+  fields: [
+    {
+      name: 'user',
+      type: 'relationship',
+      relationTo: 'users'
+    },
+    {
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
+      required: true
+    },
+    {
+      name: 'configurationData',
+      type: 'json',
+      required: true,
+      admin: {
+        description: 'Stores all configuration choices as JSON'
+      }
+    },
+    {
+      name: 'totalPrice',
+      type: 'number',
+      required: true
+    },
+    { name: 'name', type: 'text' },
+    { name: 'shared', type: 'checkbox' }
+  ]
+}</code></pre>
+
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Component Variants</h3>
+
+    <h4>1. Minimal Variant (Modal Configurator)</h4>
+    <p>Simplified header for embedded configurators.</p>
+    <ul>
+      <li>No logo (modal already has parent context)</li>
+      <li>Product title left-aligned</li>
+      <li>Close button (X) right-aligned</li>
+      <li>Height: 48px</li>
+    </ul>
+
+    <h4>2. Progress Variant (With Step Count)</h4>
+    <p>Shows step progress in header.</p>
+    <pre><code>&lt;div class="configurator-product-title"&gt;
+  💻 ProBook Ultra 16" &lt;span class="step-count"&gt;— Stap 3 van 5&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+
+    <h4>3. Multi-Language Variant</h4>
+    <p>Language switcher in header.</p>
+    <pre><code>&lt;button class="configurator-action-btn" aria-label="Taal wijzigen"&gt;
+  &lt;i data-lucide="globe"&gt;&lt;/i&gt;
+&lt;/button&gt;</code></pre>
+
+    <h3>Related Components</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Relationship</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>PC02: ConfiguratorStepNav</strong></td>
+          <td>Appears directly below header — shows numbered steps with progress indicators</td>
+        </tr>
+        <tr>
+          <td><strong>PC07: ConfiguratorSaveLoad</strong></td>
+          <td>Save/share action buttons trigger these functions</td>
+        </tr>
+        <tr>
+          <td><strong>C14: MegaNavigation</strong></td>
+          <td>Standard site header — replaced by ConfiguratorHeader in configurator pages</td>
+        </tr>
+        <tr>
+          <td><strong>C25: ProgressSteps</strong></td>
+          <td>Can be embedded in header for compact step indication</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr style="margin: 48px 0; border: none; border-top: 2px solid var(--grey);">
+
+    <p style="text-align: center; color: var(--grey-mid); font-size: 12px; margin-top: 48px;">
+      <strong>PC01: ConfiguratorHeader</strong> — Plastimed Design System v1.0<br>
+      Component extraction completed: 25 February 2026<br>
+      Total lines: ~1,100 | Protocol: 8-step documentation standard
+    </p>
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { cookies } from 'next/headers'
 import { v4 as uuidv4 } from 'uuid'
-import type { ABTest } from '@/payload-types'
+import type { AbTest } from '@/payload-types'
 
 /**
  * A/B Test Variant Assignment API
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const test = testsResult.docs[0] as ABTest
+    const test = testsResult.docs[0] as AbTest
 
     // Check if user already has assignment
     const existingResult = await payload.find({

@@ -4,7 +4,7 @@ import type { ProductCategory, Media, Product } from '@/payload-types'
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 type ProductArgs = {
-  galleryImages: NonNullable<Product['gallery']>
+  galleryImages: Media[] // Gallery field doesn't exist in Product type (variable products not implemented)
   metaImage: Media
   contentImage: Media
   variantTypes: any[] // VariantType type doesn't exist yet
@@ -14,7 +14,7 @@ type ProductArgs = {
 
 export const productTshirtData: (
   args: ProductArgs,
-) => RequiredDataFromCollectionSlug<'products'> = ({
+) => any = ({ // TODO: Change to RequiredDataFromCollectionSlug<'products'> when variable products are implemented
   galleryImages,
   relatedProducts,
   metaImage,
@@ -1177,6 +1177,8 @@ export const productTshirtData: (
   }
 }
 
+type VariantOption = any // Placeholder type (not implemented yet)
+
 type ProductVariantArgs = {
   product: Product
   variantOptions: VariantOption[]
@@ -1186,7 +1188,7 @@ type ProductVariantArgs = {
 
 export const productTshirtVariant: (
   args: ProductVariantArgs,
-) => RequiredDataFromCollectionSlug<'variants'> = ({
+) => any = ({ // TODO: Change to RequiredDataFromCollectionSlug<'variants'> when variants collection is created
   product,
   variantOptions,
   inventory = 492,

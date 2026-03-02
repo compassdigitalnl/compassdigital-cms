@@ -13,8 +13,8 @@ export function SEOScorePanel() {
   // Get form field values from Payload's form context
   const title = useFormFields(([fields]) => fields?.title?.value as string)
   const slug = useFormFields(([fields]) => fields?.slug?.value as string)
-  const metaDescription = useFormFields(([fields]) => fields?.meta?.description?.value as string)
-  const focusKeyword = useFormFields(([fields]) => fields?.meta?.focusKeyword?.value as string)
+  const metaDescription = useFormFields(([fields]) => (fields?.meta as any)?.description?.value as string)
+  const focusKeyword = useFormFields(([fields]) => (fields?.meta as any)?.focusKeyword?.value as string)
   const layout = useFormFields(([fields]) => fields?.layout?.value as any[])
 
   // Find content block for text analysis

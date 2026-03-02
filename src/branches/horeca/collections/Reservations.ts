@@ -19,7 +19,7 @@ export const Reservations: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
-    hidden: shouldHideCollection('horeca'),
+    hidden: shouldHideCollection('hospitality'),
     group: 'Horeca',
     useAsTitle: 'customerName',
     defaultColumns: ['customerName', 'date', 'time', 'guests', 'status', 'createdAt'],

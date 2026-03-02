@@ -20,14 +20,15 @@ import * as LucideIcons from 'lucide-react'
 interface Feature {
   icon: string
   title: string
-  description?: string
+  description?: string | null
+  id?: string | null
 }
 
 interface FeaturesClientProps {
   features: Feature[]
-  variant: string
-  iconStyle: string
-  alignment: string
+  variant: string | null
+  iconStyle: string | null
+  alignment: string | null
 }
 
 export function FeaturesBlockComponent({

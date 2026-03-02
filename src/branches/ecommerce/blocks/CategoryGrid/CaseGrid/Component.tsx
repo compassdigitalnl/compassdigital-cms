@@ -1,9 +1,9 @@
 import React from 'react'
-import type { CaseGridBlock, Case } from '@/payload-types'
+import type { CasesBlock, Case } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export const CaseGridBlockComponent: React.FC<CaseGridBlock> = ({ heading, intro, cases, layout }) => {
+export const CaseGridBlockComponent: React.FC<CasesBlock> = ({ heading, intro, cases, layout }) => {
   // Handle cases - it can be an array of Case objects or IDs
   const casesList = cases as Case[] | undefined
 
@@ -21,7 +21,7 @@ export const CaseGridBlockComponent: React.FC<CaseGridBlock> = ({ heading, intro
           className={`grid gap-8 ${
             layout === 'grid-2'
               ? 'md:grid-cols-2'
-              : layout === 'masonry'
+              : (layout as string) === 'masonry'
                 ? 'md:grid-cols-3'
                 : 'md:grid-cols-3'
           }`}

@@ -19,7 +19,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 interface Props {
-  menu: Header['navItems']
+  menu: any // TODO: Update to proper Header navigation type (navigationMode-based)
 }
 
 export function MobileMenu({ menu }: Props) {

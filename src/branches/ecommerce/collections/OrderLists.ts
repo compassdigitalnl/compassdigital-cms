@@ -33,7 +33,7 @@ export const OrderLists: CollectionConfig = {
             },
           },
         ],
-      }
+      } as any
     },
     create: ({ req: { user } }) => {
       // Only logged-in users can create lists
@@ -65,7 +65,7 @@ export const OrderLists: CollectionConfig = {
             ],
           },
         ],
-      }
+      } as any
     },
     delete: ({ req: { user } }) => {
       // Users can only delete their own lists, admins can delete all

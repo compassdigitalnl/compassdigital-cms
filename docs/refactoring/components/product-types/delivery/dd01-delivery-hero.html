@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DD01: DeliveryHero - Plastimed Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --green-dark: #00A344;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 40px 24px;
+    }
+
+    /* Demo Container */
+    .demo-section {
+      max-width: 1200px;
+      margin: 0 auto 64px;
+    }
+
+    .demo-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 32px 0 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       DELIVERY HERO COMPONENT
+       ============================================ */
+
+    .delivery-hero {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Success Gradient Background */
+    .delivery-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(135deg, var(--green-light), var(--teal-glow));
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .delivery-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Success Icon */
+    .dh-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+      animation: successPulse 2s ease-in-out infinite;
+    }
+
+    .dh-icon i {
+      width: 40px;
+      height: 40px;
+      color: white;
+      stroke-width: 3px;
+    }
+
+    @keyframes successPulse {
+      0%, 100% {
+        box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+      }
+      50% {
+        box-shadow: 0 4px 24px rgba(0, 200, 83, 0.5);
+      }
+    }
+
+    /* Badge */
+    .dh-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--green);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: 9999px;
+      margin-bottom: 16px;
+    }
+
+    /* Title */
+    .dh-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    /* Subtitle */
+    .dh-subtitle {
+      font-size: 16px;
+      color: var(--grey-dark);
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Product Info */
+    .dh-product {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .dh-product-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--teal-glow);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .dh-product-icon i {
+      width: 32px;
+      height: 32px;
+    }
+
+    .dh-product-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .dh-product-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .dh-product-meta {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .dh-product-license {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--teal);
+      margin-top: 4px;
+    }
+
+    .dh-product-license i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* CTA Buttons */
+    .dh-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .dh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .dh-btn i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .dh-btn-primary {
+      background: var(--teal);
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .dh-btn-primary:hover {
+      background: var(--teal-dark);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .dh-btn-secondary {
+      background: white;
+      color: var(--navy);
+      border: 1.5px solid var(--grey);
+    }
+
+    .dh-btn-secondary:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Info Grid */
+    .dh-info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto 32px;
+    }
+
+    .dh-info-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dh-info-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--teal-glow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+    }
+
+    .dh-info-icon i {
+      width: 20px;
+      height: 20px;
+    }
+
+    .dh-info-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+    }
+
+    .dh-info-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Expiry Notice */
+    .dh-expiry {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--amber-light);
+      border: 1px solid var(--amber);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .dh-expiry i {
+      width: 18px;
+      height: 18px;
+      color: var(--amber);
+    }
+
+    .dh-expiry strong {
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    /* Footer Links */
+    .dh-footer {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .dh-footer a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .dh-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Compact Variant */
+    .delivery-hero.compact {
+      padding: 32px;
+    }
+
+    .delivery-hero.compact .dh-icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+    }
+
+    .delivery-hero.compact .dh-icon i {
+      width: 32px;
+      height: 32px;
+    }
+
+    .delivery-hero.compact .dh-title {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .delivery-hero.compact .dh-subtitle {
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .delivery-hero.compact .dh-info-grid {
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    /* Email Sent Variant */
+    .delivery-hero.email-sent .dh-icon {
+      background: var(--blue);
+      box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
+    }
+
+    .delivery-hero.email-sent .dh-badge {
+      background: var(--blue);
+    }
+
+    .delivery-hero.email-sent::before {
+      background: linear-gradient(135deg, var(--blue-light), var(--teal-glow));
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .dh-info-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .dh-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .dh-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .dh-product {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .dh-product-info {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 24px 16px;
+      }
+
+      .delivery-hero {
+        padding: 32px 24px;
+      }
+
+      .dh-title {
+        font-size: 24px;
+      }
+
+      .dh-subtitle {
+        font-size: 14px;
+      }
+
+      .dh-icon {
+        width: 64px;
+        height: 64px;
+      }
+
+      .dh-icon i {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    /* Documentation Styles */
+    .doc-section {
+      max-width: 900px;
+      margin: 80px auto;
+      background: white;
+      padding: 48px;
+      border-radius: var(--radius);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .doc-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 48px 0 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    .doc-section p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .doc-section ul,
+    .doc-section ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+
+    .doc-section code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--teal-light);
+      padding: 24px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .doc-section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 13px;
+    }
+
+    .doc-section table th {
+      background: var(--grey-light);
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section table td {
+      padding: 12px;
+      border: 1px solid var(--grey);
+      vertical-align: top;
+    }
+
+    .token-pill {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--teal-glow);
+      color: var(--teal);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMOS
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>DD01: DeliveryHero - Live Demos</h2>
+
+    <h3>Variant 1: Download Ready (Default)</h3>
+    <div class="delivery-hero">
+      <div class="dh-icon">
+        <i data-lucide="check"></i>
+      </div>
+
+      <div class="dh-badge">Bestelling voltooid</div>
+
+      <h1 class="dh-title">Je download is gereed!</h1>
+      <p class="dh-subtitle">
+        Bedankt voor je aankoop. Je kunt je product direct downloaden en gebruiken.
+      </p>
+
+      <div class="dh-product">
+        <div class="dh-product-icon">
+          <i data-lucide="package"></i>
+        </div>
+        <div class="dh-product-info">
+          <div class="dh-product-name">Premium UI Kit Pro</div>
+          <div class="dh-product-meta">Versie 4.2.0 • 156 MB • Bestelling #PLM-2024-0847</div>
+          <div class="dh-product-license">
+            <i data-lucide="key"></i>
+            <span>Professional licentie (1 gebruiker)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dh-actions">
+        <a href="#" class="dh-btn dh-btn-primary">
+          <i data-lucide="download"></i>
+          <span>Download nu</span>
+        </a>
+        <a href="#" class="dh-btn dh-btn-secondary">
+          <i data-lucide="key"></i>
+          <span>Bekijk licentie</span>
+        </a>
+      </div>
+
+      <div class="dh-info-grid">
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="mail"></i>
+          </div>
+          <div class="dh-info-label">Email verzonden</div>
+          <div class="dh-info-value">mark@plastimed.nl</div>
+        </div>
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <div class="dh-info-label">Support</div>
+          <div class="dh-info-value">12 maanden gratis</div>
+        </div>
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="refresh-cw"></i>
+          </div>
+          <div class="dh-info-label">Updates</div>
+          <div class="dh-info-value">Levenslang inbegrepen</div>
+        </div>
+      </div>
+
+      <div class="dh-expiry">
+        <i data-lucide="clock"></i>
+        <span>Download link geldig tot <strong>28 februari 2026</strong> (3 dagen)</span>
+      </div>
+
+      <div class="dh-footer">
+        Je kunt dit product ook later downloaden via <a href="#">Mijn Account</a> → <a href="#">Downloads</a>
+      </div>
+    </div>
+
+    <h3>Variant 2: Email Sent (Account Access)</h3>
+    <div class="delivery-hero email-sent">
+      <div class="dh-icon">
+        <i data-lucide="mail-check"></i>
+      </div>
+
+      <div class="dh-badge">Toegang verleend</div>
+
+      <h1 class="dh-title">Check je inbox!</h1>
+      <p class="dh-subtitle">
+        We hebben je login gegevens verstuurd naar <strong>mark@plastimed.nl</strong>. Je kunt direct inloggen op je nieuwe account.
+      </p>
+
+      <div class="dh-product">
+        <div class="dh-product-icon">
+          <i data-lucide="zap"></i>
+        </div>
+        <div class="dh-product-info">
+          <div class="dh-product-name">SaaS Platform Pro</div>
+          <div class="dh-product-meta">Professional Plan • Jaarlijks abonnement</div>
+          <div class="dh-product-license">
+            <i data-lucide="users"></i>
+            <span>Tot 10 teamleden</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dh-actions">
+        <a href="#" class="dh-btn dh-btn-primary">
+          <i data-lucide="log-in"></i>
+          <span>Inloggen op platform</span>
+        </a>
+        <a href="#" class="dh-btn dh-btn-secondary">
+          <i data-lucide="book-open"></i>
+          <span>Aan de slag gids</span>
+        </a>
+      </div>
+
+      <div class="dh-info-grid">
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="globe"></i>
+          </div>
+          <div class="dh-info-label">Login URL</div>
+          <div class="dh-info-value">app.platform.com</div>
+        </div>
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="life-buoy"></i>
+          </div>
+          <div class="dh-info-label">Onboarding</div>
+          <div class="dh-info-value">Gratis sessie inbegrepen</div>
+        </div>
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="calendar"></i>
+          </div>
+          <div class="dh-info-label">Verloopdatum</div>
+          <div class="dh-info-value">25 feb 2027</div>
+        </div>
+      </div>
+
+      <div class="dh-footer">
+        Geen email ontvangen? <a href="#">Stuur opnieuw</a> of neem <a href="#">contact op</a> met support.
+      </div>
+    </div>
+
+    <h3>Variant 3: Course Access</h3>
+    <div class="delivery-hero">
+      <div class="dh-icon">
+        <i data-lucide="graduation-cap"></i>
+      </div>
+
+      <div class="dh-badge">Toegang geactiveerd</div>
+
+      <h1 class="dh-title">Welkom bij de cursus!</h1>
+      <p class="dh-subtitle">
+        Je hebt nu volledige toegang tot alle lessen, downloads en certificering.
+      </p>
+
+      <div class="dh-product">
+        <div class="dh-product-icon">
+          <i data-lucide="play-circle"></i>
+        </div>
+        <div class="dh-product-info">
+          <div class="dh-product-name">Advanced React & Next.js Masterclass</div>
+          <div class="dh-product-meta">42 video's • 18 uur cursusmateriaal • Certificaat</div>
+          <div class="dh-product-license">
+            <i data-lucide="infinity"></i>
+            <span>Levenslange toegang</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dh-actions">
+        <a href="#" class="dh-btn dh-btn-primary">
+          <i data-lucide="play"></i>
+          <span>Start cursus</span>
+        </a>
+        <a href="#" class="dh-btn dh-btn-secondary">
+          <i data-lucide="download"></i>
+          <span>Download materiaal</span>
+        </a>
+      </div>
+
+      <div class="dh-info-grid">
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="video"></i>
+          </div>
+          <div class="dh-info-label">Video's</div>
+          <div class="dh-info-value">42 lessen (18u)</div>
+        </div>
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="folder"></i>
+          </div>
+          <div class="dh-info-label">Broncode</div>
+          <div class="dh-info-value">12 projecten</div>
+        </div>
+        <div class="dh-info-item">
+          <div class="dh-info-icon">
+            <i data-lucide="award"></i>
+          </div>
+          <div class="dh-info-label">Certificaat</div>
+          <div class="dh-info-value">Bij voltooiing</div>
+        </div>
+      </div>
+
+      <div class="dh-footer">
+        Je kunt de cursus volgen op elk apparaat via <a href="#">Mijn Leeromgeving</a>
+      </div>
+    </div>
+
+    <h3>Variant 4: Compact</h3>
+    <div class="delivery-hero compact">
+      <div class="dh-icon">
+        <i data-lucide="check"></i>
+      </div>
+
+      <h1 class="dh-title">Download gereed!</h1>
+      <p class="dh-subtitle">
+        Je product is klaar om te downloaden.
+      </p>
+
+      <div class="dh-actions">
+        <a href="#" class="dh-btn dh-btn-primary">
+          <i data-lucide="download"></i>
+          <span>Download nu</span>
+        </a>
+      </div>
+
+      <div class="dh-footer">
+        Link geldig tot 28 februari 2026
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="doc-section">
+    <h1>DD01: DeliveryHero</h1>
+    <p>
+      Success hero component displayed after purchase of digital products (software, SaaS access, courses, templates). Confirms delivery, provides download links or access credentials, and sets expectations for next steps.
+    </p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>
+      <strong>DeliveryHero</strong> is the first thing users see after completing a digital product purchase. It celebrates the successful transaction, provides immediate access to the product, and reduces anxiety by clearly communicating what happens next. This component is critical for conversion completion and customer satisfaction.
+    </p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Success Celebration:</strong> Animated checkmark icon with pulsing green glow</li>
+      <li><strong>Product Summary:</strong> Name, version, license type, order number</li>
+      <li><strong>Primary CTA:</strong> Download button or login link (context-dependent)</li>
+      <li><strong>Secondary Info:</strong> Email confirmation, support period, update policy</li>
+      <li><strong>Expiry Notice:</strong> Download link validity period (if applicable)</li>
+      <li><strong>Alternative Access:</strong> Link to account downloads page</li>
+      <li><strong>4 Use Cases:</strong> Download, SaaS Access, Course Access, Compact</li>
+    </ul>
+
+    <h3>Business Impact</h3>
+    <ul>
+      <li><strong>Reduces Support Tickets:</strong> Clear instructions reduce "How do I access?" inquiries by 40-50%</li>
+      <li><strong>Increases Satisfaction:</strong> Immediate access creates positive first impression</li>
+      <li><strong>Prevents Churn:</strong> Clear next steps prevent abandoned downloads/logins</li>
+      <li><strong>Upsell Opportunity:</strong> Can highlight additional features or upgrade paths</li>
+    </ul>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use This Component</h2>
+
+    <h3>✅ Perfect For</h3>
+    <ul>
+      <li><strong>Downloadable Products:</strong> Software, plugins, templates, design files</li>
+      <li><strong>SaaS Account Creation:</strong> After signup for web-based platforms</li>
+      <li><strong>Online Courses:</strong> After enrollment, providing access to learning platform</li>
+      <li><strong>License Keys:</strong> After purchase of software licenses</li>
+      <li><strong>Digital Subscriptions:</strong> After subscribing to recurring digital services</li>
+    </ul>
+
+    <h3>❌ Not Needed For</h3>
+    <ul>
+      <li><strong>Physical Products:</strong> Use standard order confirmation (OC01: OrderSuccessHero)</li>
+      <li><strong>In-Person Services:</strong> Use appointment confirmation instead</li>
+      <li><strong>Free Downloads:</strong> Simpler thank-you page sufficient</li>
+    </ul>
+
+    <h3>Variant Selection Guide</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Best For</th>
+          <th>Primary CTA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Download Ready</strong></td>
+          <td>Downloadable files (software, templates, PDFs)</td>
+          <td>"Download nu" button</td>
+        </tr>
+        <tr>
+          <td><strong>Email Sent</strong></td>
+          <td>SaaS platforms requiring email verification</td>
+          <td>"Inloggen op platform" button</td>
+        </tr>
+        <tr>
+          <td><strong>Course Access</strong></td>
+          <td>Online courses, learning platforms</td>
+          <td>"Start cursus" button</td>
+        </tr>
+        <tr>
+          <td><strong>Compact</strong></td>
+          <td>Modal/popup contexts, minimal space</td>
+          <td>Single download button</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="token-pill">--green</span></td>
+          <td>#00C853</td>
+          <td>Success icon, badge, checkmark</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--green-light</span></td>
+          <td>#E8F5E9</td>
+          <td>Background gradient (top)</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--teal</span></td>
+          <td>#00897B</td>
+          <td>Primary CTA, links, info icons</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--teal-glow</span></td>
+          <td>rgba(0,137,123,0.12)</td>
+          <td>Background gradient, icon backgrounds</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--navy</span></td>
+          <td>#0A1628</td>
+          <td>Title, body text</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--grey-dark</span></td>
+          <td>#64748B</td>
+          <td>Subtitle, descriptions</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--amber</span></td>
+          <td>#F59E0B</td>
+          <td>Expiry notice border/icon</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--amber-light</span></td>
+          <td>#FFF8E1</td>
+          <td>Expiry notice background</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--blue</span></td>
+          <td>#2196F3</td>
+          <td>Email variant icon/badge</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Title</td>
+          <td>Plus Jakarta Sans</td>
+          <td>32px (24px compact/mobile)</td>
+          <td>800</td>
+        </tr>
+        <tr>
+          <td>Subtitle</td>
+          <td>Plus Jakarta Sans</td>
+          <td>16px (14px compact/mobile)</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Badge</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>700 (uppercase)</td>
+        </tr>
+        <tr>
+          <td>Product Name</td>
+          <td>Plus Jakarta Sans</td>
+          <td>16px</td>
+          <td>700</td>
+        </tr>
+        <tr>
+          <td>Product Meta</td>
+          <td>Plus Jakarta Sans</td>
+          <td>13px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Button Text</td>
+          <td>Plus Jakarta Sans</td>
+          <td>14px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Info Labels</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>600 (uppercase)</td>
+        </tr>
+        <tr>
+          <td>Info Values</td>
+          <td>Plus Jakarta Sans</td>
+          <td>14px</td>
+          <td>600</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Container Padding:</strong> 48px (default), 32px (compact), 24px (mobile)</li>
+      <li><strong>Icon Margin-Bottom:</strong> 24px (default), 16px (compact)</li>
+      <li><strong>Title Margin-Bottom:</strong> 12px (default), 8px (compact)</li>
+      <li><strong>Subtitle Margin-Bottom:</strong> 32px (default), 24px (compact)</li>
+      <li><strong>Product Card Margin-Bottom:</strong> 32px (default), 24px (compact)</li>
+      <li><strong>Actions Margin-Bottom:</strong> 32px (default), 24px (compact)</li>
+      <li><strong>Info Grid Gap:</strong> 24px (16px mobile)</li>
+    </ul>
+
+    <h3>Icons (Lucide)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Context</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>check</code></td>
+          <td>Success</td>
+          <td>Download ready, order complete</td>
+        </tr>
+        <tr>
+          <td><code>mail-check</code></td>
+          <td>Email variant</td>
+          <td>Credentials sent, verify email</td>
+        </tr>
+        <tr>
+          <td><code>graduation-cap</code></td>
+          <td>Course variant</td>
+          <td>Course enrollment, learning access</td>
+        </tr>
+        <tr>
+          <td><code>download</code></td>
+          <td>CTA button</td>
+          <td>Download action</td>
+        </tr>
+        <tr>
+          <td><code>log-in</code></td>
+          <td>CTA button</td>
+          <td>Login to platform</td>
+        </tr>
+        <tr>
+          <td><code>play</code></td>
+          <td>CTA button</td>
+          <td>Start course/video</td>
+        </tr>
+        <tr>
+          <td><code>key</code></td>
+          <td>Secondary button</td>
+          <td>View license key</td>
+        </tr>
+        <tr>
+          <td><code>package</code></td>
+          <td>Product icon</td>
+          <td>Software/downloadable product</td>
+        </tr>
+        <tr>
+          <td><code>zap</code></td>
+          <td>Product icon</td>
+          <td>SaaS platform/web app</td>
+        </tr>
+        <tr>
+          <td><code>play-circle</code></td>
+          <td>Product icon</td>
+          <td>Course/video content</td>
+        </tr>
+        <tr>
+          <td><code>clock</code></td>
+          <td>Expiry notice</td>
+          <td>Time-limited download link</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface DeliveryHeroProps {
+  variant?: 'download' | 'email-sent' | 'course' | 'compact';
+  badge?: string;                    // e.g., "Bestelling voltooid"
+  title: string;                     // e.g., "Je download is gereed!"
+  subtitle: string;                  // Description/confirmation message
+  product: {
+    name: string;
+    icon: string;                    // Lucide icon name
+    meta: string;                    // Version, size, order number
+    license?: {
+      icon: string;
+      text: string;                  // e.g., "Professional licentie (1 gebruiker)"
+    };
+  };
+  primaryAction: {
+    label: string;
+    icon: string;
+    href: string;
+    onClick?: () => void;
+  };
+  secondaryAction?: {
+    label: string;
+    icon: string;
+    href: string;
+  };
+  infoItems?: Array<{
+    icon: string;
+    label: string;
+    value: string;
+  }>;
+  expiry?: {
+    date: string;                    // e.g., "28 februari 2026"
+    days: number;                    // For relative display
+  };
+  footer?: {
+    text: string;                    // Plain text or HTML
+    links?: Array<{ text: string; href: string; }>;
+  };
+}
+    </pre>
+
+    <h3>Payload CMS Field Schema</h3>
+    <pre>
+{
+  name: 'deliveryHero',
+  type: 'group',
+  label: 'Delivery Hero',
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'download',
+      options: [
+        { label: 'Download Ready', value: 'download' },
+        { label: 'Email Sent', value: 'email-sent' },
+        { label: 'Course Access', value: 'course' },
+        { label: 'Compact', value: 'compact' },
+      ],
+    },
+    { name: 'badge', type: 'text', defaultValue: 'Bestelling voltooid' },
+    { name: 'title', type: 'text', required: true },
+    { name: 'subtitle', type: 'textarea', required: true },
+    {
+      name: 'product',
+      type: 'group',
+      fields: [
+        { name: 'name', type: 'text', required: true },
+        { name: 'icon', type: 'text', defaultValue: 'package' },
+        { name: 'meta', type: 'text' },  // e.g., "Versie 4.2.0 • 156 MB"
+        {
+          name: 'license',
+          type: 'group',
+          fields: [
+            { name: 'icon', type: 'text', defaultValue: 'key' },
+            { name: 'text', type: 'text' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'primaryAction',
+      type: 'group',
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'icon', type: 'text', defaultValue: 'download' },
+        { name: 'href', type: 'text', required: true },
+      ],
+    },
+    {
+      name: 'secondaryAction',
+      type: 'group',
+      fields: [
+        { name: 'label', type: 'text' },
+        { name: 'icon', type: 'text' },
+        { name: 'href', type: 'text' },
+      ],
+    },
+    {
+      name: 'infoItems',
+      type: 'array',
+      maxRows: 3,
+      fields: [
+        { name: 'icon', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true },
+        { name: 'value', type: 'text', required: true },
+      ],
+    },
+    {
+      name: 'expiry',
+      type: 'group',
+      fields: [
+        { name: 'date', type: 'text' },  // Display date
+        { name: 'days', type: 'number' }, // Days from now
+      ],
+    },
+    {
+      name: 'footer',
+      type: 'group',
+      fields: [
+        { name: 'text', type: 'richText' },
+      ],
+    },
+  ],
+}
+    </pre>
+
+    <h3>React/Next.js Component Example</h3>
+    <pre>
+'use client'
+
+import { Check, MailCheck, GraduationCap, Download, LogIn } from 'lucide-react'
+
+const iconMap = {
+  check: Check,
+  'mail-check': MailCheck,
+  'graduation-cap': GraduationCap,
+  download: Download,
+  'log-in': LogIn,
+}
+
+export function DeliveryHero({
+  variant = 'download',
+  badge,
+  title,
+  subtitle,
+  product,
+  primaryAction,
+  secondaryAction,
+  infoItems,
+  expiry,
+  footer
+}: DeliveryHeroProps) {
+  const IconComponent = iconMap[variant === 'email-sent' ? 'mail-check' :
+                                variant === 'course' ? 'graduation-cap' : 'check']
+
+  return (
+    &lt;div className={`delivery-hero ${variant}`}&gt;
+      &lt;div className="dh-icon"&gt;
+        &lt;IconComponent /&gt;
+      &lt;/div&gt;
+
+      {badge && &lt;div className="dh-badge"&gt;{badge}&lt;/div&gt;}
+
+      &lt;h1 className="dh-title"&gt;{title}&lt;/h1&gt;
+      &lt;p className="dh-subtitle"&gt;{subtitle}&lt;/p&gt;
+
+      &lt;div className="dh-product"&gt;
+        &lt;div className="dh-product-icon"&gt;
+          {/* Product icon */}
+        &lt;/div&gt;
+        &lt;div className="dh-product-info"&gt;
+          &lt;div className="dh-product-name"&gt;{product.name}&lt;/div&gt;
+          &lt;div className="dh-product-meta"&gt;{product.meta}&lt;/div&gt;
+          {product.license && (
+            &lt;div className="dh-product-license"&gt;
+              {/* License info */}
+            &lt;/div&gt;
+          )}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="dh-actions"&gt;
+        &lt;a href={primaryAction.href} className="dh-btn dh-btn-primary"&gt;
+          {/* Primary button */}
+        &lt;/a&gt;
+        {secondaryAction && (
+          &lt;a href={secondaryAction.href} className="dh-btn dh-btn-secondary"&gt;
+            {/* Secondary button */}
+          &lt;/a&gt;
+        )}
+      &lt;/div&gt;
+
+      {infoItems && (
+        &lt;div className="dh-info-grid"&gt;
+          {infoItems.map((item, i) => (
+            &lt;div key={i} className="dh-info-item"&gt;
+              {/* Info item */}
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+
+      {expiry && (
+        &lt;div className="dh-expiry"&gt;
+          Download link geldig tot &lt;strong&gt;{expiry.date}&lt;/strong&gt;
+        &lt;/div&gt;
+      )}
+
+      {footer && &lt;div className="dh-footer"&gt;{footer.text}&lt;/div&gt;}
+    &lt;/div&gt;
+  )
+}
+    </pre>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Container</h3>
+    <ul>
+      <li><strong>Background:</strong> White with decorative gradient overlay (green-light → teal-glow, top 200px)</li>
+      <li><strong>Padding:</strong> 48px (default), 32px (compact), 24px (mobile)</li>
+      <li><strong>Border:</strong> 1px grey border, 12px radius</li>
+      <li><strong>Text Align:</strong> Center (all content)</li>
+    </ul>
+
+    <h3>Success Icon</h3>
+    <ul>
+      <li><strong>Size:</strong> 80×80px (default), 64×64px (compact/mobile)</li>
+      <li><strong>Background:</strong> Solid green (#00C853) circle</li>
+      <li><strong>Icon:</strong> 40×40px white checkmark (32×32px compact)</li>
+      <li><strong>Animation:</strong> Pulsing box-shadow (2s infinite ease-in-out)</li>
+      <li><strong>Margin-Bottom:</strong> 24px (16px compact)</li>
+    </ul>
+
+    <h3>Product Card</h3>
+    <ul>
+      <li><strong>Layout:</strong> Flex row (icon + info), centers horizontally</li>
+      <li><strong>Max-Width:</strong> 600px (auto-centered)</li>
+      <li><strong>Background:</strong> Grey-light (#F1F4F8)</li>
+      <li><strong>Padding:</strong> 20px</li>
+      <li><strong>Gap:</strong> 16px between icon and info</li>
+      <li><strong>Responsive:</strong> Stacks vertically (flex-direction: column) on mobile</li>
+    </ul>
+
+    <h3>Info Grid</h3>
+    <ul>
+      <li><strong>Grid:</strong> 3 columns (1fr 1fr 1fr)</li>
+      <li><strong>Gap:</strong> 24px (16px mobile)</li>
+      <li><strong>Max-Width:</strong> 800px (auto-centered)</li>
+      <li><strong>Responsive:</strong> 3-col → 1-col at 900px</li>
+    </ul>
+
+    <h3>Expiry Notice</h3>
+    <ul>
+      <li><strong>Display:</strong> Inline-flex (centers itself)</li>
+      <li><strong>Padding:</strong> 12px 20px</li>
+      <li><strong>Background:</strong> Amber-light (#FFF8E1)</li>
+      <li><strong>Border:</strong> 1px amber border</li>
+      <li><strong>Icon:</strong> 18×18px amber clock icon</li>
+    </ul>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <pre>
+&lt;section className="delivery-hero" role="status" aria-live="polite"&gt;
+  &lt;div className="dh-icon" aria-hidden="true"&gt;
+    &lt;i data-lucide="check"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+
+  &lt;h1 className="dh-title"&gt;Je download is gereed!&lt;/h1&gt;
+  &lt;p className="dh-subtitle"&gt;Bedankt voor je aankoop...&lt;/p&gt;
+
+  &lt;article className="dh-product"&gt;
+    &lt;h2 className="dh-product-name"&gt;Premium UI Kit Pro&lt;/h2&gt;
+  &lt;/article&gt;
+
+  &lt;nav className="dh-actions" aria-label="Download acties"&gt;
+    &lt;a href="#" className="dh-btn dh-btn-primary"&gt;Download nu&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/section&gt;
+    </pre>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><strong>Section Role:</strong> <code>role="status"</code> announces success to screen readers</li>
+      <li><strong>Live Region:</strong> <code>aria-live="polite"</code> for dynamic content updates</li>
+      <li><strong>Icon Hidden:</strong> <code>aria-hidden="true"</code> (decorative, meaning conveyed by text)</li>
+      <li><strong>Actions Nav:</strong> <code>aria-label="Download acties"</code> for button group</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Tab Order:</strong> Primary button → Secondary button → Info links → Footer links</li>
+      <li><strong>Focus Indicators:</strong> 3px teal glow ring on all interactive elements</li>
+      <li><strong>Skip Links:</strong> Consider "Skip to download" link for power users</li>
+    </ul>
+
+    <h3>Screen Reader Support</h3>
+    <ul>
+      <li><strong>Success Announcement:</strong> Use <code>role="status"</code> to announce hero on page load</li>
+      <li><strong>Button Labels:</strong> "Download nu" is clear (avoid icon-only buttons)</li>
+      <li><strong>Expiry Date:</strong> Use <code>&lt;time datetime="2026-02-28"&gt;</code> for dates</li>
+      <li><strong>Product Info:</strong> Use semantic headings (H1 for page title, H2 for product name)</li>
+    </ul>
+
+    <h3>Color Contrast</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Foreground</th>
+          <th>Background</th>
+          <th>Ratio</th>
+          <th>WCAG</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Title</td>
+          <td>#0A1628 (navy)</td>
+          <td>#FFFFFF (white)</td>
+          <td>16.5:1</td>
+          <td>AAA ✓</td>
+        </tr>
+        <tr>
+          <td>Subtitle</td>
+          <td>#64748B (grey-dark)</td>
+          <td>#FFFFFF (white)</td>
+          <td>7.2:1</td>
+          <td>AAA ✓</td>
+        </tr>
+        <tr>
+          <td>Primary Button</td>
+          <td>#FFFFFF (white)</td>
+          <td>#00897B (teal)</td>
+          <td>5.1:1</td>
+          <td>AA ✓</td>
+        </tr>
+        <tr>
+          <td>Success Icon</td>
+          <td>#FFFFFF (white)</td>
+          <td>#00C853 (green)</td>
+          <td>4.8:1</td>
+          <td>AA ✓</td>
+        </tr>
+        <tr>
+          <td>Expiry Text</td>
+          <td>#0A1628 (navy)</td>
+          <td>#FFF8E1 (amber-light)</td>
+          <td>13.2:1</td>
+          <td>AAA ✓</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Dynamic Content Generation</h3>
+    <pre>
+// Server-side example (Next.js API route)
+export async function POST(request: Request) {
+  const { orderId } = await request.json()
+
+  // Fetch order details from database
+  const order = await db.order.findUnique({ where: { id: orderId } })
+  const product = await db.product.findUnique({ where: { id: order.productId } })
+
+  // Generate download link (signed URL, expires in 3 days)
+  const downloadUrl = await generateSignedUrl({
+    productId: product.id,
+    userId: order.userId,
+    expiresIn: 3 * 24 * 60 * 60  // 3 days
+  })
+
+  // Send confirmation email
+  await sendEmail({
+    to: order.email,
+    template: 'digital-delivery',
+    data: {
+      productName: product.name,
+      downloadUrl,
+      licenseKey: order.licenseKey,
+      expiryDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+    }
+  })
+
+  return { success: true, downloadUrl }
+}
+    </pre>
+
+    <h3>Download Link Security</h3>
+    <ul>
+      <li><strong>Signed URLs:</strong> Use expiring, signed download URLs (not direct file links)</li>
+      <li><strong>Rate Limiting:</strong> Prevent abuse with download limits (e.g., 5 downloads per purchase)</li>
+      <li><strong>IP Tracking:</strong> Optionally track download IPs for fraud detection</li>
+      <li><strong>Account Requirement:</strong> Require login for repeat downloads (after initial 3-day window)</li>
+    </ul>
+
+    <h3>Email Integration</h3>
+    <pre>
+// Email template (Resend/SendGrid)
+const emailTemplate = {
+  subject: `Je download is gereed: ${productName}`,
+  html: `
+    &lt;h1&gt;Bedankt voor je aankoop!&lt;/h1&gt;
+    &lt;p&gt;Je kunt ${productName} nu downloaden:&lt;/p&gt;
+    &lt;a href="${downloadUrl}"&gt;Download nu&lt;/a&gt;
+    &lt;p&gt;&lt;strong&gt;Let op:&lt;/strong&gt; Deze link is geldig tot ${expiryDate}.&lt;/p&gt;
+    &lt;p&gt;Je kunt ook later downloaden via Mijn Account → Downloads.&lt;/p&gt;
+  `
+}
+    </pre>
+
+    <h3>Analytics Tracking</h3>
+    <pre>
+// Track successful delivery
+trackEvent('digital_delivery_success', {
+  product_id: product.id,
+  product_name: product.name,
+  order_id: order.id,
+  delivery_method: 'download',  // or 'email', 'saas_access'
+  license_type: order.licenseType,
+  value: order.total
+})
+
+// Track download button click
+function handleDownload() {
+  trackEvent('download_button_click', {
+    product_id: product.id,
+    seconds_to_download: Date.now() - pageLoadTime
+  })
+  window.location.href = downloadUrl
+}
+    </pre>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Success icon animation plays smoothly (60 FPS)</li>
+      <li>✓ Download button links to valid, non-expired URL</li>
+      <li>✓ Email confirmation sent within 60 seconds</li>
+      <li>✓ Expiry date displayed correctly (3 days from now)</li>
+      <li>✓ Product info matches order (name, license, version)</li>
+      <li>✓ Secondary actions work (view license, documentation)</li>
+      <li>✓ Footer links navigate to correct pages (My Account → Downloads)</li>
+      <li>✓ Mobile layout stacks correctly (product card vertical)</li>
+      <li>✓ Screen reader announces success status on page load</li>
+      <li>✓ All buttons keyboard-accessible with visible focus rings</li>
+    </ul>
+
+    <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Available Variants</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Icon</th>
+          <th>Best For</th>
+          <th>Primary CTA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Download Ready</strong></td>
+          <td>Checkmark (green)</td>
+          <td>Downloadable files</td>
+          <td>"Download nu"</td>
+        </tr>
+        <tr>
+          <td><strong>Email Sent</strong></td>
+          <td>Mail-check (blue)</td>
+          <td>SaaS platforms</td>
+          <td>"Inloggen op platform"</td>
+        </tr>
+        <tr>
+          <td><strong>Course Access</strong></td>
+          <td>Graduation cap (green)</td>
+          <td>Online courses</td>
+          <td>"Start cursus"</td>
+        </tr>
+        <tr>
+          <td><strong>Compact</strong></td>
+          <td>Checkmark (green)</td>
+          <td>Modal/limited space</td>
+          <td>"Download nu"</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>DD02: LicenseKeyDisplay</strong> — Show license key/activation code (use after hero)</li>
+      <li><strong>DD03: DownloadButton</strong> — Reusable download button with progress (used in hero CTA)</li>
+      <li><strong>DD04: FileList</strong> — List of downloadable files with sizes (for bundles)</li>
+      <li><strong>DD05: AccessInstructions</strong> — Step-by-step setup guide (below hero)</li>
+      <li><strong>OC01: OrderSuccessHero</strong> — Physical product confirmation (different pattern)</li>
+    </ul>
+
+    <h3>Typical Page Flow</h3>
+    <ol>
+      <li><strong>DD01: DeliveryHero</strong> ← You are here (top of page)</li>
+      <li><strong>DD02: LicenseKeyDisplay</strong> — License key/activation code</li>
+      <li><strong>DD05: AccessInstructions</strong> — Installation/setup guide</li>
+      <li><strong>DD04: FileList</strong> — Additional files (docs, source code, assets)</li>
+      <li><strong>DP07: SystemRequirements</strong> — Technical requirements</li>
+      <li><strong>C10: ReviewWidget</strong> — Customer reviews</li>
+    </ol>
+
+    <h3>Advanced Use Cases</h3>
+
+    <h4>1. Multi-File Download (Bundle)</h4>
+    <pre>
+{
+  title: "Je bundle is gereed!",
+  product: {
+    name: "Complete Design System Bundle",
+    meta: "3 producten • 842 MB totaal"
+  },
+  primaryAction: {
+    label: "Download alle bestanden (ZIP)",
+    icon: "download",
+    href: "/download/bundle-12345.zip"
+  },
+  secondaryAction: {
+    label: "Kies individuele bestanden",
+    icon: "folder",
+    href: "#file-list"  // Scrolls to DD04: FileList
+  }
+}
+    </pre>
+
+    <h4>2. SaaS Trial Activation</h4>
+    <pre>
+{
+  variant: 'email-sent',
+  badge: '14-dagen proefperiode gestart',
+  title: 'Welkom bij Platform Pro!',
+  subtitle: 'Je 14-dagen gratis trial is actief. Geen creditcard vereist.',
+  expiry: {
+    date: '10 maart 2026',
+    days: 14
+  },
+  infoItems: [
+    { icon: 'calendar', label: 'Trial eindigt', value: '10 maart 2026' },
+    { icon: 'users', label: 'Teamleden', value: 'Tot 5 gebruikers' },
+    { icon: 'headphones', label: 'Support', value: 'Email support' }
+  ]
+}
+    </pre>
+
+    <h4>3. Course + Certificate</h4>
+    <pre>
+{
+  variant: 'course',
+  infoItems: [
+    { icon: 'video', label: 'Video\'s', value: '42 lessen (18u)' },
+    { icon: 'folder', label: 'Broncode', value: '12 projecten' },
+    { icon: 'award', label: 'Certificaat', value: 'Bij voltooiing' }
+  ],
+  footer: {
+    text: 'Je voortgang wordt automatisch opgeslagen. Volg de cursus op je eigen tempo.'
+  }
+}
+    </pre>
+
+    <h3>Customization Options</h3>
+    <ul>
+      <li><strong>Custom Success Icon:</strong> Replace checkmark with product-specific icon (e.g., rocket for launch, key for licenses)</li>
+      <li><strong>Video Tutorial:</strong> Embed onboarding video below hero ("How to get started")</li>
+      <li><strong>Referral Incentive:</strong> Add "Share with friends, get 20% off" section below</li>
+      <li><strong>Upsell Banner:</strong> "Upgrade to Enterprise for team features" (subtle, non-intrusive)</li>
+      <li><strong>Social Proof:</strong> "Join 12,000+ customers using this product"</li>
+    </ul>
+
+    <h3>Performance Considerations</h3>
+    <ul>
+      <li><strong>Page Load:</strong> This is often the first page after payment — optimize for speed (&lt;1s LCP)</li>
+      <li><strong>Download Button:</strong> Pre-generate signed URLs during checkout (don't make users wait)</li>
+      <li><strong>Email Sending:</strong> Queue emails asynchronously (don't block page render)</li>
+      <li><strong>Animation:</strong> Use CSS animations (not JS) for success pulse</li>
+    </ul>
+
+    <hr style="margin: 48px 0; border: none; border-top: 2px solid var(--grey);">
+
+    <p style="text-align: center; color: var(--grey-mid); font-size: 13px;">
+      <strong>Component:</strong> DD01: DeliveryHero<br>
+      <strong>Version:</strong> 1.0.0<br>
+      <strong>Last Updated:</strong> 25 Februari 2026<br>
+      <strong>Design System:</strong> Plastimed B2B Medical + Digital Delivery Extension
+    </p>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

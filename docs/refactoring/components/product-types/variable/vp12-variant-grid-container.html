@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP12: VariantGridContainer — Variant Product Components | Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  /* Primary Colors */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+
+  /* Status Colors */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+
+  /* System */
+  --radius-sm: 8px;
+  --radius: 10px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  line-height: 1.6;
+  padding: 48px 24px;
+}
+
+/* ============================================
+   COMPONENT: VP12 - VariantGridContainer
+   ============================================ */
+
+.variant-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* Force 6 columns on desktop for consistent layout */
+@media (min-width: 1024px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+
+/* Demo card styling for visual demo */
+.demo-card {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  transition: all var(--transition);
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.demo-card:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.demo-card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.demo-card-subtitle {
+  font-size: 11px;
+  color: var(--grey-dark);
+}
+
+.demo-card-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--teal);
+}
+
+/* ============================================
+   DOCUMENTATION STYLES
+   ============================================ */
+
+.doc-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 14px;
+  padding: 48px;
+  border: 1.5px solid var(--grey);
+  margin-bottom: 32px;
+}
+
+.doc-header {
+  border-bottom: 2px solid var(--grey);
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+}
+
+.doc-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.doc-subtitle {
+  font-size: 16px;
+  color: var(--grey-dark);
+  margin-bottom: 16px;
+}
+
+.doc-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.doc-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  background: var(--grey-light);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.doc-meta-item i {
+  width: 14px;
+  height: 14px;
+  color: var(--teal);
+}
+
+.doc-section {
+  margin-bottom: 48px;
+}
+
+.doc-section:last-child {
+  margin-bottom: 0;
+}
+
+.doc-section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  color: var(--navy);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doc-section-title i {
+  width: 24px;
+  height: 24px;
+  color: var(--teal);
+}
+
+.doc-text {
+  font-size: 14px;
+  color: var(--grey-dark);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.doc-list {
+  list-style: none;
+  margin-bottom: 16px;
+}
+
+.doc-list li {
+  font-size: 14px;
+  color: var(--grey-dark);
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.doc-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.code-block {
+  background: var(--navy);
+  color: var(--white);
+  padding: 20px;
+  border-radius: var(--radius);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.code-block .comment {
+  color: var(--grey-mid);
+}
+
+.code-block .tag {
+  color: #26A69A;
+}
+
+.code-block .attr {
+  color: #7C3AED;
+}
+
+.code-block .string {
+  color: #00C853;
+}
+
+.info-box {
+  background: var(--teal-glow);
+  border-left: 4px solid var(--teal);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.info-box-title {
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-box-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--teal);
+}
+
+.info-box-text {
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+}
+
+.demo-section {
+  background: var(--grey-light);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+}
+
+.demo-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+
+.variant-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.variant-table th {
+  background: var(--grey-light);
+  padding: 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--grey-dark);
+  border-bottom: 2px solid var(--grey);
+}
+
+.variant-table td {
+  padding: 12px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  border-bottom: 1px solid var(--grey);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.variant-table tr:last-child td {
+  border-bottom: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+<div class="doc-container">
+  <div class="doc-header">
+    <div class="doc-title">VP12: VariantGridContainer</div>
+    <div class="doc-subtitle">Responsive 6-column grid layout wrapper for multi-variant product selection</div>
+    <div class="doc-meta">
+      <div class="doc-meta-item">
+        <i data-lucide="package"></i>
+        Product Types
+      </div>
+      <div class="doc-meta-item">
+        <i data-lucide="grid-3x3"></i>
+        Layout Pattern (CSS)
+      </div>
+      <div class="doc-meta-item">
+        <i data-lucide="smartphone"></i>
+        Fully Responsive
+      </div>
+      <div class="doc-meta-item">
+        <i data-lucide="zap"></i>
+        Zero JavaScript
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo -->
+  <div class="demo-section">
+    <div class="demo-label">Live Demo — 6-Column Grid (Desktop)</div>
+    <div class="variant-grid-compact">
+      <div class="demo-card">
+        <div class="demo-card-title">XS</div>
+        <div class="demo-card-subtitle">Extra Small</div>
+        <div class="demo-card-price">€4,50</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">S</div>
+        <div class="demo-card-subtitle">Small</div>
+        <div class="demo-card-price">€4,50</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">M</div>
+        <div class="demo-card-subtitle">Medium</div>
+        <div class="demo-card-price">€4,50</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">L</div>
+        <div class="demo-card-subtitle">Large</div>
+        <div class="demo-card-price">€4,75</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">XL</div>
+        <div class="demo-card-subtitle">Extra Large</div>
+        <div class="demo-card-price">€4,75</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">XXL</div>
+        <div class="demo-card-subtitle">2X Large</div>
+        <div class="demo-card-price">€5,00</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">3XL</div>
+        <div class="demo-card-subtitle">3X Large</div>
+        <div class="demo-card-price">€5,00</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">4XL</div>
+        <div class="demo-card-subtitle">4X Large</div>
+        <div class="demo-card-price">€5,25</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-title">5XL</div>
+        <div class="demo-card-subtitle">5X Large</div>
+        <div class="demo-card-price">€5,50</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+<div class="doc-container">
+  <!-- STEP 1: Overview -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="book-open"></i>
+      STEP 1: Component Overview
+    </div>
+    <div class="doc-text">
+      <strong>VariantGridContainer</strong> is a pure CSS layout pattern that creates a responsive 6-column grid for displaying multiple product variants (sizes, colors, materials) simultaneously. This container enables customers to view and select multiple variants at once in a compact, scannable grid format.
+    </div>
+    <div class="doc-text">
+      <strong>Key Features:</strong>
+    </div>
+    <ul class="doc-list">
+      <li><strong>6-column desktop grid</strong> — Fixed 6 columns at 1024px+ for consistent visual rhythm</li>
+      <li><strong>Auto-fill mobile grid</strong> — Responsive minmax(120px, 1fr) for flexible column count</li>
+      <li><strong>Minimal gap spacing</strong> — 10px gap (8px on mobile) for compact, scannable layout</li>
+      <li><strong>Zero JavaScript</strong> — Pure CSS Grid, no JS required for layout</li>
+      <li><strong>Child-agnostic</strong> — Works with any variant card component (VP08, custom cards)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 2: When to Use -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="check-circle"></i>
+      STEP 2: When to Use
+    </div>
+    <div class="doc-text">
+      <strong>Use VariantGridContainer when:</strong>
+    </div>
+    <ul class="doc-list">
+      <li>Displaying <strong>6+ product variants</strong> (sizes, colors, materials) for multi-select ordering</li>
+      <li>Customers need to <strong>bulk order multiple SKUs</strong> (e.g., "6 XS + 12 M + 18 L")</li>
+      <li>You want a <strong>compact, scannable grid view</strong> (vs. list view for detailed info)</li>
+      <li>Product variants have <strong>minimal info</strong> (size/color name, price, stock status)</li>
+      <li>B2B scenarios where customers order <strong>full size runs</strong></li>
+    </ul>
+    <div class="doc-text">
+      <strong>Do NOT use when:</strong>
+    </div>
+    <ul class="doc-list">
+      <li>You have <strong>&lt;5 variants</strong> — use single-row selection (VP01-VP05) instead</li>
+      <li>Variants require <strong>detailed descriptions</strong> — use list view (VP13) instead</li>
+      <li>You need <strong>single variant selection</strong> — use radio buttons (VP02) or swatches (VP01)</li>
+      <li>Mobile experience is critical and screen space is limited — consider list view first</li>
+    </ul>
+  </div>
+
+  <!-- STEP 3: Design Tokens -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="palette"></i>
+      STEP 3: Design Tokens
+    </div>
+
+    <div class="doc-text"><strong>Layout Specifications:</strong></div>
+    <table class="variant-table">
+      <tr>
+        <th>Property</th>
+        <th>Desktop (≥1024px)</th>
+        <th>Tablet (768-1023px)</th>
+        <th>Mobile (&lt;768px)</th>
+      </tr>
+      <tr>
+        <td>Grid Columns</td>
+        <td>6 fixed (repeat(6, 1fr))</td>
+        <td>auto-fill minmax(120px, 1fr)</td>
+        <td>auto-fill minmax(100px, 1fr)</td>
+      </tr>
+      <tr>
+        <td>Gap</td>
+        <td>10px</td>
+        <td>10px</td>
+        <td>8px</td>
+      </tr>
+      <tr>
+        <td>Min Card Width</td>
+        <td>~160px (1fr of 6)</td>
+        <td>120px</td>
+        <td>100px</td>
+      </tr>
+    </table>
+
+    <div class="doc-text"><strong>Spacing Grid (4px base):</strong></div>
+    <ul class="doc-list">
+      <li><strong>Gap (desktop/tablet):</strong> 10px — slightly off-grid for tighter packing</li>
+      <li><strong>Gap (mobile):</strong> 8px — standard 4px grid increment</li>
+    </ul>
+
+    <div class="info-box">
+      <div class="info-box-title">
+        <i data-lucide="info"></i>
+        Why 10px gap?
+      </div>
+      <div class="info-box-text">
+        The 10px gap is a deliberate design decision for compact multi-variant grids. It's tight enough to show 6 columns on standard desktops (1200px container) while maintaining visual breathing room. On mobile, we reduce to 8px (4px grid) for optimal space usage.
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Props & Configuration -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="settings"></i>
+      STEP 4: Props & Configuration
+    </div>
+
+    <div class="doc-text">
+      <strong>CSS Class:</strong> <code>.variant-grid-compact</code>
+    </div>
+
+    <div class="doc-text"><strong>HTML Usage:</strong></div>
+    <div class="code-block"><span class="comment">&lt;!-- Wrap any variant cards in this container --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-grid-compact"</span><span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- Child cards auto-arrange in 6-column grid --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-card-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-card-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-card-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+  <span class="comment">&lt;!-- ... more cards ... --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+
+    <div class="doc-text"><strong>React/Next.js Component:</strong></div>
+    <div class="code-block">interface VariantGridContainerProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export function VariantGridContainer({
+  children,
+  className = ''
+}: VariantGridContainerProps) {
+  return (
+    &lt;div className={`variant-grid-compact ${className}`}&gt;
+      {children}
+    &lt;/div&gt;
+  )
+}</div>
+
+    <div class="doc-text"><strong>Tailwind CSS Alternative:</strong></div>
+    <div class="code-block"><span class="comment">&lt;!-- If you prefer Tailwind over custom CSS --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] lg:grid-cols-6 gap-2.5 lg:gap-[10px]"</span><span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- Variant cards --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+  </div>
+
+  <!-- STEP 5: Layout Rules -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="layout"></i>
+      STEP 5: Layout Rules
+    </div>
+
+    <div class="doc-text"><strong>Component Anatomy:</strong></div>
+    <ul class="doc-list">
+      <li><strong>Container:</strong> CSS Grid with auto-fill/fixed columns</li>
+      <li><strong>Responsive behavior:</strong>
+        <ul style="margin-top: 8px; margin-left: 24px;">
+          <li><strong>Desktop (≥1024px):</strong> Always 6 columns (repeat(6, 1fr))</li>
+          <li><strong>Tablet (768-1023px):</strong> Auto-fill, min 120px per card</li>
+          <li><strong>Mobile (&lt;768px):</strong> Auto-fill, min 100px per card</li>
+          <li><strong>Small mobile (&lt;480px):</strong> Fixed 2 columns</li>
+        </ul>
+      </li>
+      <li><strong>Gap spacing:</strong> 10px (desktop/tablet), 8px (mobile)</li>
+    </ul>
+
+    <div class="doc-text"><strong>Grid Behavior Examples:</strong></div>
+    <table class="variant-table">
+      <tr>
+        <th>Container Width</th>
+        <th>Columns</th>
+        <th>Card Width</th>
+        <th>Total Cards Visible</th>
+      </tr>
+      <tr>
+        <td>1200px (desktop)</td>
+        <td>6 fixed</td>
+        <td>~190px</td>
+        <td>6 per row</td>
+      </tr>
+      <tr>
+        <td>900px (tablet)</td>
+        <td>auto-fill</td>
+        <td>~140px</td>
+        <td>5-6 per row</td>
+      </tr>
+      <tr>
+        <td>640px (mobile)</td>
+        <td>auto-fill</td>
+        <td>~120px</td>
+        <td>4-5 per row</td>
+      </tr>
+      <tr>
+        <td>&lt;480px (small)</td>
+        <td>2 fixed</td>
+        <td>~160px</td>
+        <td>2 per row</td>
+      </tr>
+    </table>
+
+    <div class="info-box">
+      <div class="info-box-title">
+        <i data-lucide="info"></i>
+        Why 6 columns on desktop?
+      </div>
+      <div class="info-box-text">
+        6 columns is optimal for apparel/fashion products with standard size runs (XS, S, M, L, XL, XXL). It also works well for 12-variant grids (2 rows), 18-variant grids (3 rows), etc. The fixed 6-column layout prevents awkward 7-column or 5-column breakpoints.
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6: Accessibility -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="accessibility"></i>
+      STEP 6: Accessibility
+    </div>
+
+    <div class="doc-text"><strong>Container-Level Accessibility:</strong></div>
+    <ul class="doc-list">
+      <li><strong>Semantic HTML:</strong> Use <code>&lt;div role="group"&gt;</code> or <code>&lt;fieldset&gt;</code> for multi-select grids</li>
+      <li><strong>ARIA Label:</strong> Add <code>aria-label="Product variant selection"</code> to container</li>
+      <li><strong>Focus order:</strong> Grid maintains natural left-to-right, top-to-bottom tab order</li>
+      <li><strong>Screen reader announcements:</strong> "Grid with X variants, select one or more"</li>
+    </ul>
+
+    <div class="doc-text"><strong>Example with ARIA:</strong></div>
+    <div class="code-block"><span class="tag">&lt;div</span>
+  <span class="attr">class</span>=<span class="string">"variant-grid-compact"</span>
+  <span class="attr">role</span>=<span class="string">"group"</span>
+  <span class="attr">aria-label</span>=<span class="string">"Product variant selection - choose one or more sizes"</span>
+<span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- Variant cards with proper ARIA --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+
+    <div class="doc-text"><strong>Child Component Requirements:</strong></div>
+    <ul class="doc-list">
+      <li>Each card must be keyboard-focusable (<code>tabindex="0"</code>)</li>
+      <li>Each card must have <code>role="checkbox"</code> or <code>role="radio"</code></li>
+      <li>Each card must announce selection state (<code>aria-checked="true/false"</code>)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 7: Implementation Notes -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="code"></i>
+      STEP 7: Implementation Notes
+    </div>
+
+    <div class="doc-text"><strong>Complete CSS Pattern:</strong></div>
+    <div class="code-block">.variant-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* Desktop: always 6 columns */
+@media (min-width: 1024px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Tablet: tighter min-width */
+@media (max-width: 768px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+  }
+}
+
+/* Small mobile: force 2 columns */
+@media (max-width: 480px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}</div>
+
+    <div class="info-box">
+      <div class="info-box-title">
+        <i data-lucide="zap"></i>
+        Performance Tip
+      </div>
+      <div class="info-box-text">
+        CSS Grid is highly performant and GPU-accelerated. No JavaScript is needed for layout calculations. The browser handles all responsive behavior natively. For 100+ variant cards, consider virtualization with libraries like react-window or react-virtuoso.
+      </div>
+    </div>
+
+    <div class="doc-text"><strong>Integration with VP08 (VariantCardCompact):</strong></div>
+    <div class="code-block"><span class="comment">&lt;!-- Perfect pairing: VP12 container + VP08 cards --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-grid-compact"</span><span class="tag">&gt;</span>
+  {variants.map(variant => (
+    <span class="tag">&lt;VariantCardCompact</span>
+      <span class="attr">key</span>=<span class="string">{variant.id}</span>
+      <span class="attr">variant</span>=<span class="string">{variant}</span>
+      <span class="attr">onSelect</span>=<span class="string">{handleSelect}</span>
+    <span class="tag">/&gt;</span>
+  ))}
+<span class="tag">&lt;/div&gt;</span></div>
+
+    <div class="doc-text"><strong>Browser Support:</strong></div>
+    <ul class="doc-list">
+      <li><strong>CSS Grid:</strong> Supported in all modern browsers (Chrome 57+, Firefox 52+, Safari 10.1+, Edge 16+)</li>
+      <li><strong>auto-fill:</strong> Full support in all grid-compatible browsers</li>
+      <li><strong>minmax():</strong> Full support, no fallback needed</li>
+    </ul>
+  </div>
+
+  <!-- STEP 8: Variations & Related -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="git-branch"></i>
+      STEP 8: Variations & Related Components
+    </div>
+
+    <div class="doc-text"><strong>Layout Variants:</strong></div>
+    <ul class="doc-list">
+      <li><strong>VP12: VariantGridContainer</strong> — This component (grid view)</li>
+      <li><strong>VP13: VariantListContainer</strong> — List view alternative (vertical rows)</li>
+    </ul>
+
+    <div class="doc-text"><strong>Child Components (use inside grid):</strong></div>
+    <ul class="doc-list">
+      <li><strong>VP08: VariantCardCompact</strong> — Compact grid card with checkbox + qty stepper</li>
+      <li><strong>Custom cards</strong> — Any card component with consistent width/height</li>
+    </ul>
+
+    <div class="doc-text"><strong>Related Components:</strong></div>
+    <ul class="doc-list">
+      <li><strong>VP11: VariantToolbar</strong> — Grid/list toggle + bulk actions (used above VP12/VP13)</li>
+      <li><strong>VP10: VariantSelectionSidebar</strong> — Sticky summary of selected variants + totals</li>
+      <li><strong>VP09: VariantRowCompact</strong> — Row component for list view (use with VP13)</li>
+    </ul>
+
+    <div class="doc-text"><strong>Custom Column Count:</strong></div>
+    <div class="code-block"><span class="comment">&lt;!-- Override to 4 columns on desktop --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-grid-compact"</span> <span class="attr">style</span>=<span class="string">"--grid-cols: 4"</span><span class="tag">&gt;</span>
+  ...
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- CSS: --&gt;</span>
+@media (min-width: 1024px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(var(--grid-cols, 6), 1fr);
+  }
+}</div>
+
+    <div class="doc-text"><strong>Testing Checklist:</strong></div>
+    <ul class="doc-list">
+      <li>✅ Grid displays 6 columns on desktop (≥1024px)</li>
+      <li>✅ Grid auto-fills on tablet (768-1023px)</li>
+      <li>✅ Grid shows 2 columns on small mobile (&lt;480px)</li>
+      <li>✅ Gap spacing is 10px (desktop) and 8px (mobile)</li>
+      <li>✅ Cards maintain equal width within each row</li>
+      <li>✅ No horizontal scroll on any breakpoint</li>
+      <li>✅ Works with 1 card, 6 cards, 12 cards, 50+ cards</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP02: Set Discount Banner — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  padding: 24px;
+}
+
+.set-discount-banner {
+  background: var(--purple-light);
+  border: 2px solid var(--purple);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.set-discount-banner i {
+  width: 24px;
+  height: 24px;
+  color: var(--purple);
+  flex-shrink: 0;
+}
+
+.set-discount-text {
+  flex: 1;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.set-discount-text strong {
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.discount-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--purple);
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1200px; margin: 0 auto;">
+  <div class="set-discount-banner">
+    <i data-lucide="gift"></i>
+    <div class="set-discount-text">
+      <strong>Complete set voordeel:</strong> Selecteer alle 6 items en ontvang automatisch <span class="discount-amount">€45 korting</span> (15%)
+    </div>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- DOCUMENTATION: GP02 Set Discount Banner -->
+</body>
+</html>

@@ -17,9 +17,13 @@ export function transformProductForSearch(product: Product) {
         .filter(Boolean)
     : []
 
-  // Extract main image URL
-  const imageUrl = typeof product.featuredImage === 'object' && product.featuredImage !== null
-    ? product.featuredImage.url
+  // Extract main image URL from first image in array
+  const firstImage =
+    Array.isArray(product.images) && product.images[0] && typeof product.images[0] === 'object'
+      ? product.images[0]
+      : null
+  const imageUrl = firstImage && typeof firstImage === 'object' && 'url' in firstImage
+    ? firstImage.url
     : null
 
   return {

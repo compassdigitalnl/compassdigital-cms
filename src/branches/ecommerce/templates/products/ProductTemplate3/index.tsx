@@ -119,7 +119,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         : subscriptionPrice
 
       addItem({
-        id: product.id,
+        id: String(product.id),
         title: `${product.title} - ${selectedSubscription.label}`,
         slug: product.slug || '',
         price: product.price,
@@ -132,7 +132,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       })
 
       showToast({
-        id: product.id,
+        id: String(product.id),
         name: product.title,
         variant: selectedSubscription.label,
         image: firstImageUrl || undefined,
@@ -144,7 +144,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
 
       addItem({
-        id: product.id,
+        id: String(product.id),
         title: `${product.title} (${variantLabels})`,
         slug: product.slug || '',
         price: product.price,
@@ -157,7 +157,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       })
 
       showToast({
-        id: product.id,
+        id: String(product.id),
         name: product.title,
         variant: variantLabels,
         image: firstImageUrl || undefined,
@@ -167,7 +167,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
     } else {
       // Add simple/grouped product
       addItem({
-        id: selectedProduct.id,
+        id: String(selectedProduct.id),
         title: selectedProduct.title,
         slug: selectedProduct.slug || '',
         price: selectedProduct.price,
@@ -182,7 +182,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
       })
 
       showToast({
-        id: selectedProduct.id,
+        id: String(selectedProduct.id),
         name: selectedProduct.title,
         image: firstImageUrl || undefined,
         quantity: quantity,
@@ -967,7 +967,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   <div style={{ paddingBottom: '16px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {product.downloads.map((download, idx) => {
-                        const downloadFile = typeof download.file === 'object' && download.file !== null ? download.file : null
+                        const downloadFile = typeof (download as any).file === 'object' && (download as any).file !== null ? (download as any).file : null
                         const fileUrl = downloadFile && 'url' in downloadFile ? downloadFile.url : null
                         const fileName = downloadFile && 'filename' in downloadFile ? downloadFile.filename : 'Download'
                         const fileSize = downloadFile && 'filesize' in downloadFile ? downloadFile.filesize : null
@@ -1014,9 +1014,9 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                                     marginBottom: '4px',
                                   }}
                                 >
-                                  {download.name || fileName}
+                                  {(download as any).name || fileName}
                                 </div>
-                                {download.description && (
+                                {(download as any).description && (
                                   <div
                                     style={{
                                       fontSize: '12px',
@@ -1025,7 +1025,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                                       lineHeight: 1.4,
                                     }}
                                   >
-                                    {download.description}
+                                    {(download as any).description}
                                   </div>
                                 )}
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px' }}>
@@ -1808,7 +1808,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   }}
                 >
                   {product.downloads.map((download, idx) => {
-                    const downloadFile = typeof download.file === 'object' && download.file !== null ? download.file : null
+                    const downloadFile = typeof (download as any).file === 'object' && (download as any).file !== null ? (download as any).file : null
                     const fileUrl = downloadFile && 'url' in downloadFile ? downloadFile.url : null
                     const fileName = downloadFile && 'filename' in downloadFile ? downloadFile.filename : 'Download'
                     const fileSize = downloadFile && 'filesize' in downloadFile ? downloadFile.filesize : null
@@ -1859,9 +1859,9 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                                 whiteSpace: 'nowrap',
                               }}
                             >
-                              {download.name || fileName}
+                              {(download as any).name || fileName}
                             </div>
-                            {download.description && (
+                            {(download as any).description && (
                               <div
                                 style={{
                                   fontSize: '14px',
@@ -1870,7 +1870,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                                   lineHeight: 1.5,
                                 }}
                               >
-                                {download.description}
+                                {(download as any).description}
                               </div>
                             )}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

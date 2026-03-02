@@ -4,7 +4,7 @@
  * BullMQ worker that executes flow steps
  */
 
-import { Worker, Job } from 'bullmq'
+import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis } from '../redis'
 import { baseWorkerConfig } from '../config'
 import { executeFlowStep } from '@/lib/email/flows/executor'
@@ -87,9 +87,8 @@ export const flowWorker = new Worker(
   },
   {
     ...baseWorkerConfig,
-    connection: redis,
     concurrency: 3, // Process 3 flow steps concurrently
-  }
+  } as WorkerOptions
 )
 
 flowWorker.on('completed', (job) => {

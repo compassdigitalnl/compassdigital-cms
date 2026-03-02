@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP06: Set Completion Progress — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --green: #00C853;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  padding: 24px;
+}
+
+.set-progress {
+  margin-bottom: 20px;
+}
+
+.progress-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-mid);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--grey);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--green));
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.complete {
+  background: var(--green);
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 380px; margin: 0 auto;">
+  <div class="set-progress">
+    <div class="progress-label">
+      <span>Complete set</span>
+      <span id="progressText">3/6</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 50%"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function updateProgress(current, total) {
+  const progress = (current / total) * 100;
+  const fill = document.getElementById('progressFill');
+  fill.style.width = progress + '%';
+  fill.classList.toggle('complete', current === total);
+  document.getElementById('progressText').textContent = current + '/' + total;
+}
+
+// Demo: animate progress
+let count = 0;
+setInterval(() => {
+  count = (count + 1) % 7;
+  updateProgress(count, 6);
+}, 2000);
+</script>
+
+<!-- DOCUMENTATION: GP06 Set Completion Progress -->
+</body>
+</html>

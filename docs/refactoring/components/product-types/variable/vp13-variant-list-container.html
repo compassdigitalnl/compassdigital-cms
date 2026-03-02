@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP13: VariantListContainer — Variant Product Components | Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  /* Primary Colors */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+
+  /* Status Colors */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+
+  /* System */
+  --radius-sm: 8px;
+  --radius: 10px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  line-height: 1.6;
+  padding: 48px 24px;
+}
+
+/* ============================================
+   COMPONENT: VP13 - VariantListContainer
+   ============================================ */
+
+.variant-list-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Optional: max-width for readability */
+.variant-list-compact.constrained {
+  max-width: 900px;
+}
+
+/* Demo row styling for visual demo */
+.demo-row {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  transition: all var(--transition);
+  display: grid;
+  grid-template-columns: 24px 80px 1fr auto auto 110px;
+  align-items: center;
+  gap: 12px;
+}
+
+.demo-row:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
+}
+
+.demo-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--grey);
+  border-radius: 4px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-thumbnail {
+  width: 60px;
+  height: 60px;
+  background: var(--grey-light);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.demo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.demo-info-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.demo-info-subtitle {
+  font-size: 12px;
+  color: var(--grey-dark);
+}
+
+.demo-stock {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.demo-stock-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.demo-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  text-align: right;
+  min-width: 80px;
+}
+
+.demo-qty {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  height: 36px;
+}
+
+.demo-qty-btn {
+  width: 32px;
+  height: 100%;
+  border: none;
+  background: white;
+  color: var(--grey-dark);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all var(--transition);
+}
+
+.demo-qty-btn:hover {
+  background: var(--teal);
+  color: white;
+}
+
+.demo-qty-input {
+  width: 46px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ============================================
+   DOCUMENTATION STYLES
+   ============================================ */
+
+.doc-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 14px;
+  padding: 48px;
+  border: 1.5px solid var(--grey);
+  margin-bottom: 32px;
+}
+
+.doc-header {
+  border-bottom: 2px solid var(--grey);
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+}
+
+.doc-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.doc-subtitle {
+  font-size: 16px;
+  color: var(--grey-dark);
+  margin-bottom: 16px;
+}
+
+.doc-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.doc-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  background: var(--grey-light);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.doc-meta-item i {
+  width: 14px;
+  height: 14px;
+  color: var(--teal);
+}
+
+.doc-section {
+  margin-bottom: 48px;
+}
+
+.doc-section:last-child {
+  margin-bottom: 0;
+}
+
+.doc-section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  color: var(--navy);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doc-section-title i {
+  width: 24px;
+  height: 24px;
+  color: var(--teal);
+}
+
+.doc-text {
+  font-size: 14px;
+  color: var(--grey-dark);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.doc-list {
+  list-style: none;
+  margin-bottom: 16px;
+}
+
+.doc-list li {
+  font-size: 14px;
+  color: var(--grey-dark);
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.doc-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.code-block {
+  background: var(--navy);
+  color: var(--white);
+  padding: 20px;
+  border-radius: var(--radius);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.code-block .comment {
+  color: var(--grey-mid);
+}
+
+.code-block .tag {
+  color: #26A69A;
+}
+
+.code-block .attr {
+  color: #7C3AED;
+}
+
+.code-block .string {
+  color: #00C853;
+}
+
+.info-box {
+  background: var(--teal-glow);
+  border-left: 4px solid var(--teal);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.info-box-title {
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-box-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--teal);
+}
+
+.info-box-text {
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.6;
+}
+
+.demo-section {
+  background: var(--grey-light);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+}
+
+.demo-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+
+.variant-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.variant-table th {
+  background: var(--grey-light);
+  padding: 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--grey-dark);
+  border-bottom: 2px solid var(--grey);
+}
+
+.variant-table td {
+  padding: 12px;
+  font-size: 13px;
+  color: var(--grey-dark);
+  border-bottom: 1px solid var(--grey);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.variant-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Mobile responsive for demo rows */
+@media (max-width: 768px) {
+  .demo-row {
+    grid-template-columns: 24px 1fr auto;
+    gap: 8px;
+  }
+
+  .demo-thumbnail {
+    display: none;
+  }
+
+  .demo-stock {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .demo-price {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .demo-qty {
+    grid-column: 2 / 4;
+    grid-row: 2;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+<div class="doc-container">
+  <div class="doc-header">
+    <div class="doc-title">VP13: VariantListContainer</div>
+    <div class="doc-subtitle">Vertical list layout wrapper for detailed multi-variant product selection</div>
+    <div class="doc-meta">
+      <div class="doc-meta-item">
+        <i data-lucide="package"></i>
+        Product Types
+      </div>
+      <div class="doc-meta-item">
+        <i data-lucide="list"></i>
+        Layout Pattern (CSS)
+      </div>
+      <div class="doc-meta-item">
+        <i data-lucide="smartphone"></i>
+        Fully Responsive
+      </div>
+      <div class="doc-meta-item">
+        <i data-lucide="zap"></i>
+        Zero JavaScript
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo -->
+  <div class="demo-section">
+    <div class="demo-label">Live Demo — List View (Vertical Rows)</div>
+    <div class="variant-list-compact">
+      <div class="demo-row">
+        <div class="demo-checkbox"></div>
+        <div class="demo-thumbnail">👕</div>
+        <div class="demo-info">
+          <div class="demo-info-title">Extra Small (XS)</div>
+          <div class="demo-info-subtitle">SKU: MED-GLOVE-XS-001</div>
+        </div>
+        <div class="demo-stock">
+          <div class="demo-stock-dot"></div>
+          Op voorraad
+        </div>
+        <div class="demo-price">€4,50</div>
+        <div class="demo-qty">
+          <button class="demo-qty-btn">−</button>
+          <input type="number" class="demo-qty-input" value="0" min="0">
+          <button class="demo-qty-btn">+</button>
+        </div>
+      </div>
+
+      <div class="demo-row">
+        <div class="demo-checkbox"></div>
+        <div class="demo-thumbnail">👕</div>
+        <div class="demo-info">
+          <div class="demo-info-title">Small (S)</div>
+          <div class="demo-info-subtitle">SKU: MED-GLOVE-S-001</div>
+        </div>
+        <div class="demo-stock">
+          <div class="demo-stock-dot"></div>
+          Op voorraad
+        </div>
+        <div class="demo-price">€4,50</div>
+        <div class="demo-qty">
+          <button class="demo-qty-btn">−</button>
+          <input type="number" class="demo-qty-input" value="0" min="0">
+          <button class="demo-qty-btn">+</button>
+        </div>
+      </div>
+
+      <div class="demo-row">
+        <div class="demo-checkbox"></div>
+        <div class="demo-thumbnail">👕</div>
+        <div class="demo-info">
+          <div class="demo-info-title">Medium (M)</div>
+          <div class="demo-info-subtitle">SKU: MED-GLOVE-M-001</div>
+        </div>
+        <div class="demo-stock">
+          <div class="demo-stock-dot"></div>
+          Op voorraad
+        </div>
+        <div class="demo-price">€4,50</div>
+        <div class="demo-qty">
+          <button class="demo-qty-btn">−</button>
+          <input type="number" class="demo-qty-input" value="0" min="0">
+          <button class="demo-qty-btn">+</button>
+        </div>
+      </div>
+
+      <div class="demo-row">
+        <div class="demo-checkbox"></div>
+        <div class="demo-thumbnail">👕</div>
+        <div class="demo-info">
+          <div class="demo-info-title">Large (L)</div>
+          <div class="demo-info-subtitle">SKU: MED-GLOVE-L-001</div>
+        </div>
+        <div class="demo-stock">
+          <div class="demo-stock-dot"></div>
+          Op voorraad
+        </div>
+        <div class="demo-price">€4,75</div>
+        <div class="demo-qty">
+          <button class="demo-qty-btn">−</button>
+          <input type="number" class="demo-qty-input" value="0" min="0">
+          <button class="demo-qty-btn">+</button>
+        </div>
+      </div>
+
+      <div class="demo-row">
+        <div class="demo-checkbox"></div>
+        <div class="demo-thumbnail">👕</div>
+        <div class="demo-info">
+          <div class="demo-info-title">Extra Large (XL)</div>
+          <div class="demo-info-subtitle">SKU: MED-GLOVE-XL-001</div>
+        </div>
+        <div class="demo-stock">
+          <div class="demo-stock-dot"></div>
+          Op voorraad
+        </div>
+        <div class="demo-price">€4,75</div>
+        <div class="demo-qty">
+          <button class="demo-qty-btn">−</button>
+          <input type="number" class="demo-qty-input" value="0" min="0">
+          <button class="demo-qty-btn">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+<div class="doc-container">
+  <!-- STEP 1: Overview -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="book-open"></i>
+      STEP 1: Component Overview
+    </div>
+    <div class="doc-text">
+      <strong>VariantListContainer</strong> is a pure CSS layout pattern that creates a vertical list layout for displaying product variants in detailed rows. This container enables customers to view comprehensive variant information (SKU, stock, price, quantity) in a scannable list format optimized for data-heavy displays.
+    </div>
+    <div class="doc-text">
+      <strong>Key Features:</strong>
+    </div>
+    <ul class="doc-list">
+      <li><strong>Flexbox column layout</strong> — Vertical stacking with consistent gap spacing</li>
+      <li><strong>8px gap spacing</strong> — Tight, scannable rows without visual clutter</li>
+      <li><strong>Full-width rows</strong> — Maximizes horizontal space for detailed info columns</li>
+      <li><strong>Zero JavaScript</strong> — Pure CSS Flexbox, no JS required for layout</li>
+      <li><strong>Child-agnostic</strong> — Works with any variant row component (VP09, custom rows)</li>
+    </ul>
+  </div>
+
+  <!-- STEP 2: When to Use -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="check-circle"></i>
+      STEP 2: When to Use
+    </div>
+    <div class="doc-text">
+      <strong>Use VariantListContainer when:</strong>
+    </div>
+    <ul class="doc-list">
+      <li>Displaying <strong>detailed variant info</strong> (SKU, full names, stock counts, notes)</li>
+      <li>Customers need to <strong>compare variant attributes</strong> side-by-side in table format</li>
+      <li>You have <strong>10+ variants</strong> that benefit from vertical scrolling (vs. grid wrapping)</li>
+      <li>B2B scenarios where <strong>SKUs and stock levels</strong> are critical decision factors</li>
+      <li>Mobile users need a <strong>simplified single-column view</strong> (list is more mobile-friendly than grid)</li>
+    </ul>
+    <div class="doc-text">
+      <strong>Do NOT use when:</strong>
+    </div>
+    <ul class="doc-list">
+      <li>You have <strong>&lt;6 variants</strong> — grid view (VP12) is more visual and scannable</li>
+      <li>Variants have <strong>minimal info</strong> (just size/color + price) — use grid instead</li>
+      <li>You want a <strong>compact, space-efficient</strong> layout — grid packs better on desktop</li>
+      <li>Visual product images are the <strong>primary decision factor</strong> — grid shows more images at once</li>
+    </ul>
+  </div>
+
+  <!-- STEP 3: Design Tokens -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="palette"></i>
+      STEP 3: Design Tokens
+    </div>
+
+    <div class="doc-text"><strong>Layout Specifications:</strong></div>
+    <table class="variant-table">
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Display</td>
+        <td>flex</td>
+        <td>Flexbox column layout</td>
+      </tr>
+      <tr>
+        <td>Flex Direction</td>
+        <td>column</td>
+        <td>Vertical stacking</td>
+      </tr>
+      <tr>
+        <td>Gap</td>
+        <td>8px</td>
+        <td>4px grid spacing</td>
+      </tr>
+      <tr>
+        <td>Width</td>
+        <td>100%</td>
+        <td>Full container width</td>
+      </tr>
+      <tr>
+        <td>Max Width (optional)</td>
+        <td>900px</td>
+        <td>For readability on large screens</td>
+      </tr>
+    </table>
+
+    <div class="doc-text"><strong>Spacing Grid (4px base):</strong></div>
+    <ul class="doc-list">
+      <li><strong>Gap:</strong> 8px — standard 4px grid increment for clean vertical rhythm</li>
+      <li><strong>Consistent with grid view:</strong> VP12 uses 8px gap on mobile, ensuring seamless view switching</li>
+    </ul>
+
+    <div class="info-box">
+      <div class="info-box-title">
+        <i data-lucide="info"></i>
+        Why 8px gap?
+      </div>
+      <div class="info-box-text">
+        The 8px gap provides optimal density for list views. It's tight enough to show 8-10 rows above the fold (on 1080p screens) while maintaining visual separation. Consistent with the 4px grid system used throughout the design system.
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Props & Configuration -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="settings"></i>
+      STEP 4: Props & Configuration
+    </div>
+
+    <div class="doc-text">
+      <strong>CSS Class:</strong> <code>.variant-list-compact</code>
+    </div>
+
+    <div class="doc-text"><strong>HTML Usage:</strong></div>
+    <div class="code-block"><span class="comment">&lt;!-- Wrap any variant rows in this container --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-list-compact"</span><span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- Child rows auto-stack vertically --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-row-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-row-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-row-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+  <span class="comment">&lt;!-- ... more rows ... --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+
+    <div class="doc-text"><strong>React/Next.js Component:</strong></div>
+    <div class="code-block">interface VariantListContainerProps {
+  children: React.ReactNode
+  className?: string
+  constrained?: boolean // Adds max-width: 900px
+}
+
+export function VariantListContainer({
+  children,
+  className = '',
+  constrained = false
+}: VariantListContainerProps) {
+  return (
+    &lt;div className={`variant-list-compact ${constrained ? 'constrained' : ''} ${className}`}&gt;
+      {children}
+    &lt;/div&gt;
+  )
+}</div>
+
+    <div class="doc-text"><strong>Tailwind CSS Alternative:</strong></div>
+    <div class="code-block"><span class="comment">&lt;!-- If you prefer Tailwind over custom CSS --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"flex flex-col gap-2 max-w-[900px]"</span><span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- Variant rows --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+  </div>
+
+  <!-- STEP 5: Layout Rules -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="layout"></i>
+      STEP 5: Layout Rules
+    </div>
+
+    <div class="doc-text"><strong>Component Anatomy:</strong></div>
+    <ul class="doc-list">
+      <li><strong>Container:</strong> CSS Flexbox with column direction</li>
+      <li><strong>Responsive behavior:</strong> Always single-column (inherently responsive)</li>
+      <li><strong>Gap spacing:</strong> 8px between all rows</li>
+      <li><strong>Optional constraint:</strong> max-width: 900px for readability on large screens</li>
+    </ul>
+
+    <div class="doc-text"><strong>Row Anatomy (VP09 VariantRowCompact):</strong></div>
+    <table class="variant-table">
+      <tr>
+        <th>Column</th>
+        <th>Width</th>
+        <th>Content</th>
+      </tr>
+      <tr>
+        <td>1. Checkbox</td>
+        <td>24px</td>
+        <td>Selection checkbox</td>
+      </tr>
+      <tr>
+        <td>2. Thumbnail</td>
+        <td>80px</td>
+        <td>Product image (60×60px)</td>
+      </tr>
+      <tr>
+        <td>3. Info</td>
+        <td>1fr (flexible)</td>
+        <td>Name + SKU + attributes</td>
+      </tr>
+      <tr>
+        <td>4. Stock</td>
+        <td>auto</td>
+        <td>Stock indicator badge</td>
+      </tr>
+      <tr>
+        <td>5. Price</td>
+        <td>auto (~80px)</td>
+        <td>Price per unit</td>
+      </tr>
+      <tr>
+        <td>6. Quantity</td>
+        <td>110px</td>
+        <td>Qty stepper (−/input/+)</td>
+      </tr>
+    </table>
+
+    <div class="info-box">
+      <div class="info-box-title">
+        <i data-lucide="info"></i>
+        Mobile Responsiveness
+      </div>
+      <div class="info-box-text">
+        The list container itself is always single-column, but child rows (VP09) collapse their internal grid on mobile: checkbox + info + qty stepper (3-column), with thumbnail/stock/price repositioned or hidden. See VP09 documentation for row-level responsive behavior.
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6: Accessibility -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="accessibility"></i>
+      STEP 6: Accessibility
+    </div>
+
+    <div class="doc-text"><strong>Container-Level Accessibility:</strong></div>
+    <ul class="doc-list">
+      <li><strong>Semantic HTML:</strong> Use <code>&lt;div role="list"&gt;</code> for list semantics</li>
+      <li><strong>ARIA Label:</strong> Add <code>aria-label="Product variant list"</code> to container</li>
+      <li><strong>Focus order:</strong> Top-to-bottom natural tab order through rows</li>
+      <li><strong>Screen reader announcements:</strong> "List with X variants, use arrow keys to navigate"</li>
+    </ul>
+
+    <div class="doc-text"><strong>Example with ARIA:</strong></div>
+    <div class="code-block"><span class="tag">&lt;div</span>
+  <span class="attr">class</span>=<span class="string">"variant-list-compact"</span>
+  <span class="attr">role</span>=<span class="string">"list"</span>
+  <span class="attr">aria-label</span>=<span class="string">"Product variant list - select one or more variants"</span>
+<span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- Each row has role="listitem" --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-row-compact"</span> <span class="attr">role</span>=<span class="string">"listitem"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+
+    <div class="doc-text"><strong>Child Component Requirements:</strong></div>
+    <ul class="doc-list">
+      <li>Each row must have <code>role="listitem"</code> for screen reader context</li>
+      <li>Each row's interactive elements (checkbox, qty buttons) must be keyboard-focusable</li>
+      <li>Each row must announce variant name + price when focused</li>
+    </ul>
+  </div>
+
+  <!-- STEP 7: Implementation Notes -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="code"></i>
+      STEP 7: Implementation Notes
+    </div>
+
+    <div class="doc-text"><strong>Complete CSS Pattern:</strong></div>
+    <div class="code-block">.variant-list-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Optional: constrain width for readability */
+.variant-list-compact.constrained {
+  max-width: 900px;
+  margin: 0 auto; /* Center on large screens */
+}</div>
+
+    <div class="info-box">
+      <div class="info-box-title">
+        <i data-lucide="zap"></i>
+        Performance Tip
+      </div>
+      <div class="info-box-text">
+        CSS Flexbox is highly performant. No JavaScript is needed for layout. For 100+ variant rows, consider virtualization with react-window or react-virtuoso to render only visible rows. Virtual scrolling can reduce initial render time by 80-90%.
+      </div>
+    </div>
+
+    <div class="doc-text"><strong>Integration with VP09 (VariantRowCompact):</strong></div>
+    <div class="code-block"><span class="comment">&lt;!-- Perfect pairing: VP13 container + VP09 rows --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"variant-list-compact"</span><span class="tag">&gt;</span>
+  {variants.map(variant => (
+    <span class="tag">&lt;VariantRowCompact</span>
+      <span class="attr">key</span>=<span class="string">{variant.id}</span>
+      <span class="attr">variant</span>=<span class="string">{variant}</span>
+      <span class="attr">onSelect</span>=<span class="string">{handleSelect}</span>
+    <span class="tag">/&gt;</span>
+  ))}
+<span class="tag">&lt;/div&gt;</span></div>
+
+    <div class="doc-text"><strong>Virtualization Example (react-window):</strong></div>
+    <div class="code-block">import { FixedSizeList } from 'react-window'
+
+&lt;FixedSizeList
+  height={600}
+  itemCount={variants.length}
+  itemSize={72} // Row height (60px + 8px gap + 4px padding)
+  width="100%"
+  className="variant-list-compact"
+&gt;
+  {({ index, style }) =&gt; (
+    &lt;div style={style}&gt;
+      &lt;VariantRowCompact variant={variants[index]} /&gt;
+    &lt;/div&gt;
+  )}
+&lt;/FixedSizeList&gt;</div>
+
+    <div class="doc-text"><strong>Browser Support:</strong></div>
+    <ul class="doc-list">
+      <li><strong>CSS Flexbox:</strong> Universal support (IE10+, all modern browsers)</li>
+      <li><strong>flex-direction: column:</strong> Full support in all flex-compatible browsers</li>
+      <li><strong>gap property:</strong> Supported in Chrome 84+, Firefox 63+, Safari 14.1+, Edge 84+</li>
+    </ul>
+  </div>
+
+  <!-- STEP 8: Variations & Related -->
+  <div class="doc-section">
+    <div class="doc-section-title">
+      <i data-lucide="git-branch"></i>
+      STEP 8: Variations & Related Components
+    </div>
+
+    <div class="doc-text"><strong>Layout Variants:</strong></div>
+    <ul class="doc-list">
+      <li><strong>VP13: VariantListContainer</strong> — This component (list view)</li>
+      <li><strong>VP12: VariantGridContainer</strong> — Grid view alternative (6-column responsive)</li>
+    </ul>
+
+    <div class="doc-text"><strong>Child Components (use inside list):</strong></div>
+    <ul class="doc-list">
+      <li><strong>VP09: VariantRowCompact</strong> — Horizontal row with 6-column grid (checkbox, thumb, info, stock, price, qty)</li>
+      <li><strong>Custom rows</strong> — Any row component with consistent height</li>
+    </ul>
+
+    <div class="doc-text"><strong>Related Components:</strong></div>
+    <ul class="doc-list">
+      <li><strong>VP11: VariantToolbar</strong> — Grid/list toggle + bulk actions (used above VP12/VP13)</li>
+      <li><strong>VP10: VariantSelectionSidebar</strong> — Sticky summary of selected variants + totals</li>
+      <li><strong>VP08: VariantCardCompact</strong> — Card component for grid view (use with VP12)</li>
+    </ul>
+
+    <div class="doc-text"><strong>View Toggle Pattern:</strong></div>
+    <div class="code-block">const [viewMode, setViewMode] = useState('grid')
+
+return (
+  &lt;&gt;
+    &lt;VariantToolbar viewMode={viewMode} onViewChange={setViewMode} /&gt;
+
+    {viewMode === 'grid' ? (
+      &lt;VariantGridContainer&gt;
+        {variants.map(v =&gt; &lt;VariantCardCompact variant={v} /&gt;)}
+      &lt;/VariantGridContainer&gt;
+    ) : (
+      &lt;VariantListContainer&gt;
+        {variants.map(v =&gt; &lt;VariantRowCompact variant={v} /&gt;)}
+      &lt;/VariantListContainer&gt;
+    )}
+  &lt;/&gt;
+)</div>
+
+    <div class="doc-text"><strong>Testing Checklist:</strong></div>
+    <ul class="doc-list">
+      <li>✅ Rows stack vertically with 8px gap</li>
+      <li>✅ Container takes full width (or max 900px if constrained)</li>
+      <li>✅ Works with 1 row, 5 rows, 50+ rows</li>
+      <li>✅ No horizontal scroll on any screen size</li>
+      <li>✅ Child rows maintain consistent height</li>
+      <li>✅ Smooth scrolling for long lists (100+ rows)</li>
+      <li>✅ View toggle switches seamlessly between grid/list</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+</script>
+
+</body>
+</html>

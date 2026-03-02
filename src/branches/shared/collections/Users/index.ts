@@ -232,6 +232,10 @@ export const Users: CollectionConfig = {
       },
       options: [
         {
+          label: 'Super Admin (Platform)',
+          value: 'super-admin',
+        },
+        {
           label: 'Admin (CompassDigital)',
           value: 'admin',
         },

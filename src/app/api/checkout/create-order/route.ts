@@ -83,7 +83,11 @@ export async function POST(request: NextRequest) {
     const reservationIds: string[] = []
 
     for (const item of cart.items) {
-      const productId = typeof item.product === 'string' ? item.product : item.product?.id
+      const productId = typeof item.product === 'number'
+        ? item.product
+        : typeof item.product === 'string'
+          ? item.product
+          : item.product?.id
       if (!productId) continue
 
       const product = await payload.findByID({
@@ -98,8 +102,8 @@ export async function POST(request: NextRequest) {
         // Check stock availability (considers active reservations by others)
         const availability = await checkStockAvailability(
           payload,
-          productId,
-          item.variantId
+          String(productId),
+          item.variantId || undefined
         )
 
         // Check if enough stock (after reservations)
@@ -184,10 +188,26 @@ export async function POST(request: NextRequest) {
     // ========================================
 
     const orderItems = cart.items.map((cartItem) => {
-      const product = typeof cartItem.product === 'object' ? cartItem.product : null
+      const product = typeof cartItem.product === 'object' && cartItem.product !== null && typeof cartItem.product !== 'number'
+        ? cartItem.product
+        : null
+
+      const productId = typeof cartItem.product === 'number'
+        ? cartItem.product
+        : typeof cartItem.product === 'string'
+          ? cartItem.product
+          : cartItem.product?.id
+
+      const brandName = product?.brand
+        ? typeof product.brand === 'string'
+          ? product.brand
+          : typeof product.brand === 'object' && product.brand !== null
+            ? (product.brand as any).name
+            : undefined
+        : undefined
 
       return {
-        product: typeof cartItem.product === 'string' ? cartItem.product : cartItem.product?.id,
+        product: productId,
         variantId: cartItem.variantId || undefined,
         quantity: cartItem.quantity || 1,
         unitPrice: cartItem.unitPrice || 0,
@@ -197,7 +217,7 @@ export async function POST(request: NextRequest) {
         // Snapshot product details (for order history)
         title: product?.title || 'Unknown Product',
         sku: product?.sku || undefined,
-        brand: typeof product?.brand === 'string' ? product.brand : product?.brand?.name,
+        brand: brandName,
       }
     })
 
@@ -205,9 +225,11 @@ export async function POST(request: NextRequest) {
     // 5. CREATE ORDER
     // ========================================
 
-    const customerId = typeof cart.customer === 'string'
+    const customerId = typeof cart.customer === 'number'
       ? cart.customer
-      : cart.customer?.id
+      : typeof cart.customer === 'string'
+        ? cart.customer
+        : cart.customer?.id
 
     const orderData: any = {
       orderNumber,
@@ -277,7 +299,11 @@ export async function POST(request: NextRequest) {
     // before we return success to the user
 
     for (const item of cart.items) {
-      const productId = typeof item.product === 'string' ? item.product : item.product?.id
+      const productId = typeof item.product === 'number'
+        ? item.product
+        : typeof item.product === 'string'
+          ? item.product
+          : item.product?.id
       if (!productId) continue
 
       const product = await payload.findByID({
@@ -295,9 +321,7 @@ export async function POST(request: NextRequest) {
           data: {
             stock: Math.max(0, newStock), // Never go below 0
             // Update stock status if needed
-            stockStatus: newStock <= 0 ? 'out-of-stock' :
-                        newStock <= (product.lowStockThreshold || 5) ? 'low-stock' :
-                        'in-stock',
+            stockStatus: newStock <= 0 ? 'out-of-stock' : 'in-stock',
           },
         })
 
@@ -311,10 +335,10 @@ export async function POST(request: NextRequest) {
 
     await payload.update({
       collection: 'carts',
-      id: cartId,
+      id: cartId as any,
       data: {
         status: 'completed',
-        convertedToOrder: newOrder.id,
+        convertedToOrder: newOrder.id, // Order ID (number)
       },
     })
 
@@ -327,7 +351,7 @@ export async function POST(request: NextRequest) {
 
     for (const reservationId of reservationIds) {
       try {
-        await convertReservationToOrder(payload, reservationId, newOrder.id)
+        await convertReservationToOrder(payload, reservationId, String(newOrder.id))
         console.log(`  ✅ Reservation ${reservationId} converted to order`)
       } catch (error) {
         console.error(`  ⚠️ Failed to convert reservation ${reservationId}:`, error)

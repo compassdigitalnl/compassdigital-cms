@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DP02: LicenseSelector — Digital Product Component</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* =========================================
+       DESIGN TOKENS
+       ========================================= */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =========================================
+       DEMO STYLES
+       ========================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .demo-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .demo-header p {
+      font-size: 14px;
+      color: var(--grey-mid);
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    /* =========================================
+       COMPONENT: DP02 LICENSE SELECTOR
+       ========================================= */
+
+    /* Container */
+    .license-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .license-selector-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .license-selector-desc {
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+
+    /* License Option Card */
+    .lic-option {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 16px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .lic-option:hover {
+      border-color: var(--teal);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lic-option.selected {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+      box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.08);
+    }
+
+    .lic-option.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Radio Button */
+    .lic-radio {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--grey-mid);
+      border-radius: 50%;
+      position: relative;
+      transition: all var(--transition);
+      margin-top: 2px;
+    }
+
+    .lic-option:hover .lic-radio {
+      border-color: var(--teal);
+    }
+
+    .lic-option.selected .lic-radio {
+      border-color: var(--teal);
+      background: var(--teal);
+    }
+
+    .lic-option.selected .lic-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    /* License Body */
+    .lic-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .lic-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lic-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .lic-badge {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--amber);
+      color: white;
+    }
+
+    .lic-badge.popular {
+      background: var(--amber);
+    }
+
+    .lic-badge.new {
+      background: var(--purple);
+    }
+
+    .lic-badge.recommended {
+      background: var(--teal);
+    }
+
+    .lic-desc {
+      font-size: 12px;
+      color: var(--grey-mid);
+      line-height: 1.4;
+    }
+
+    .lic-features {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .lic-feature {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .lic-feature i {
+      width: 14px;
+      height: 14px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* Price */
+    .lic-price {
+      flex-shrink: 0;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .lic-price-amount {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-body);
+    }
+
+    .lic-price-period {
+      font-size: 11px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .lic-price-old {
+      font-size: 13px;
+      color: var(--grey-mid);
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+
+    .lic-price-save {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--green-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Compact Variant */
+    .license-selector.compact .lic-option {
+      padding: 12px;
+      gap: 10px;
+    }
+
+    .license-selector.compact .lic-name {
+      font-size: 14px;
+    }
+
+    .license-selector.compact .lic-desc {
+      font-size: 11px;
+    }
+
+    .license-selector.compact .lic-price-amount {
+      font-size: 18px;
+    }
+
+    .license-selector.compact .lic-features {
+      display: none;
+    }
+
+    /* Vertical Variant */
+    .license-selector.vertical .lic-option {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+
+    .license-selector.vertical .lic-radio {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      margin-top: 0;
+    }
+
+    .license-selector.vertical .lic-header {
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .license-selector.vertical .lic-price {
+      align-items: center;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .license-selector.vertical .lic-features {
+      align-items: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .lic-option {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .lic-price {
+        align-items: flex-start;
+        text-align: left;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 8px;
+        border-top: 1px solid var(--grey);
+        margin-top: 8px;
+      }
+
+      .lic-price-amount {
+        font-size: 18px;
+      }
+    }
+
+    /* =========================================
+       ACCESSIBILITY
+       ========================================= */
+    .lic-option:focus-within {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .lic-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* =========================================
+       DOCUMENTATION STYLES
+       ========================================= */
+    .docs {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 48px;
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--navy);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .docs h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .docs p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .docs ul {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .docs code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .docs pre code {
+      background: none;
+      padding: 0;
+      color: var(--white);
+    }
+
+    .docs table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .docs th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid var(--grey);
+    }
+
+    .docs td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       LIVE DEMO
+       ========================================= -->
+  <div class="demo-container">
+    <div class="demo-header">
+      <h1>DP02: LicenseSelector</h1>
+      <p>Digital Product Component · License/Pricing Tier Selection</p>
+    </div>
+
+    <!-- Default Variant -->
+    <div class="demo-section">
+      <h2>Default Variant</h2>
+      <div class="license-selector" id="license-selector-1">
+        <div class="license-selector-title">Kies je licentie</div>
+        <div class="license-selector-desc">Alle licenties bevatten gratis updates voor 1 jaar</div>
+
+        <label class="lic-option">
+          <input type="radio" name="license-1" value="personal">
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Personal</div>
+            </div>
+            <div class="lic-desc">Voor individuele gebruikers en hobbyisten</div>
+            <div class="lic-features">
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>1 gebruiker</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Basis features</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Email support</span>
+              </div>
+            </div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">€39</div>
+            <div class="lic-price-period">eenmalig</div>
+          </div>
+        </label>
+
+        <label class="lic-option selected">
+          <input type="radio" name="license-1" value="professional" checked>
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Professional</div>
+              <div class="lic-badge popular">Populairst</div>
+            </div>
+            <div class="lic-desc">Voor professionele gebruikers en freelancers</div>
+            <div class="lic-features">
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>1 gebruiker</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Alle features + AI tools</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Priority support</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Code generation</span>
+              </div>
+            </div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">€79</div>
+            <div class="lic-price-period">eenmalig</div>
+            <div class="lic-price-save">Bespaar €20</div>
+          </div>
+        </label>
+
+        <label class="lic-option">
+          <input type="radio" name="license-1" value="team">
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Team</div>
+            </div>
+            <div class="lic-desc">Voor teams en organisaties</div>
+            <div class="lic-features">
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Tot 10 gebruikers</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Alle features + team tools</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Dedicated support</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Centraal beheer</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>SSO integratie</span>
+              </div>
+            </div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-old">€499</div>
+            <div class="lic-price-amount">€399</div>
+            <div class="lic-price-period">per jaar</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Compact Variant -->
+    <div class="demo-section">
+      <h2>Compact Variant (No Features)</h2>
+      <div class="license-selector compact" id="license-selector-2">
+        <label class="lic-option">
+          <input type="radio" name="license-2" value="personal">
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Personal</div>
+            </div>
+            <div class="lic-desc">1 gebruiker · Basis features · Email support</div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">€39</div>
+            <div class="lic-price-period">eenmalig</div>
+          </div>
+        </label>
+
+        <label class="lic-option selected">
+          <input type="radio" name="license-2" value="professional" checked>
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Professional</div>
+              <div class="lic-badge popular">Populairst</div>
+            </div>
+            <div class="lic-desc">1 gebruiker · Onbeperkt · Code gen · Priority</div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">€79</div>
+            <div class="lic-price-period">eenmalig</div>
+          </div>
+        </label>
+
+        <label class="lic-option">
+          <input type="radio" name="license-2" value="team">
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Team</div>
+            </div>
+            <div class="lic-desc">10 gebruikers · Alles · SSO · Dedicated</div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">€399</div>
+            <div class="lic-price-period">per jaar</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Subscription Variant -->
+    <div class="demo-section">
+      <h2>Subscription Variant</h2>
+      <div class="license-selector" id="license-selector-3">
+        <div class="license-selector-title">Kies je abonnement</div>
+        <div class="license-selector-desc">Maandelijks opzegbaar · Automatische updates · Nieuwe features</div>
+
+        <label class="lic-option">
+          <input type="radio" name="license-3" value="starter">
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Starter</div>
+            </div>
+            <div class="lic-desc">Perfect om mee te beginnen</div>
+            <div class="lic-features">
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>5 projecten</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Basis templates</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Email support</span>
+              </div>
+            </div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">€9</div>
+            <div class="lic-price-period">per maand</div>
+          </div>
+        </label>
+
+        <label class="lic-option selected">
+          <input type="radio" name="license-3" value="pro" checked>
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Pro</div>
+              <div class="lic-badge recommended">Aanbevolen</div>
+            </div>
+            <div class="lic-desc">Voor serieuze gebruikers</div>
+            <div class="lic-features">
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Onbeperkt projecten</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Premium templates + AI</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Priority support</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Export to code</span>
+              </div>
+            </div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">€29</div>
+            <div class="lic-price-period">per maand</div>
+          </div>
+        </label>
+
+        <label class="lic-option">
+          <input type="radio" name="license-3" value="enterprise">
+          <div class="lic-radio"></div>
+          <div class="lic-body">
+            <div class="lic-header">
+              <div class="lic-name">Enterprise</div>
+              <div class="lic-badge new">Nieuw</div>
+            </div>
+            <div class="lic-desc">Voor grote teams</div>
+            <div class="lic-features">
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Onbeperkt alles</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Custom branding</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>Dedicated manager</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>SLA garantie</span>
+              </div>
+              <div class="lic-feature">
+                <i data-lucide="check"></i>
+                <span>On-premise optie</span>
+              </div>
+            </div>
+          </div>
+          <div class="lic-price">
+            <div class="lic-price-amount">Op aanvraag</div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       DOCUMENTATION
+       ========================================= -->
+  <div class="demo-container">
+    <div class="docs">
+      <h2>📖 DP02: LicenseSelector — Complete Documentation</h2>
+
+      <!-- STEP 1: Component Overview -->
+      <h3>STEP 1: Component Overview</h3>
+      <p><strong>Component Name:</strong> DP02: LicenseSelector</p>
+      <p><strong>Category:</strong> Digital Product Components (Product Types)</p>
+      <p><strong>Usage:</strong> License/pricing tier selection for digital products (software, SaaS, templates, courses, e-books)</p>
+
+      <p><strong>Description:</strong></p>
+      <p>LicenseSelector displays pricing tiers with radio button selection, feature lists, and pricing information. Used for digital product pages where users need to choose between different license types (Personal, Professional, Team) or subscription tiers (Starter, Pro, Enterprise).</p>
+
+      <p><strong>Key Features:</strong></p>
+      <ul>
+        <li>Radio button selection with custom styled radio circles</li>
+        <li>License name + optional badge (Popular, Recommended, New)</li>
+        <li>Description text (short benefit statement)</li>
+        <li>Feature list with checkmark icons</li>
+        <li>Price display with period (eenmalig, per maand, per jaar)</li>
+        <li>Old price + savings badge for discounts</li>
+        <li>Selected state visual feedback (teal border + glow + background)</li>
+        <li>Hover states for all options</li>
+        <li>3 variants: Default (full features), Compact (inline description), Vertical (centered layout)</li>
+        <li>Responsive mobile layout (stacks price below content)</li>
+      </ul>
+
+      <!-- STEP 2: When to Use -->
+      <h3>STEP 2: When to Use This Component</h3>
+
+      <h4>✅ Use LicenseSelector when:</h4>
+      <ul>
+        <li>Selling digital products with multiple license tiers (Personal, Pro, Team)</li>
+        <li>Offering SaaS subscription plans (Starter, Pro, Enterprise)</li>
+        <li>Displaying pricing options for templates, courses, or e-books (Basic, Premium, Bundle)</li>
+        <li>Showing upgrade paths from free to paid tiers</li>
+        <li>Comparing features across different pricing levels</li>
+        <li>User needs to select ONE pricing option before checkout</li>
+      </ul>
+
+      <h4>❌ Don't use when:</h4>
+      <ul>
+        <li>Selling physical products → use Variable Product components instead</li>
+        <li>Only one pricing option exists → just show the price, no selector needed</li>
+        <li>Comparing features without purchase → use ComparisonTable (DP05) instead</li>
+        <li>Multiple add-ons can be combined → use checkbox multi-select, not radio</li>
+      </ul>
+
+      <h4>💡 Common Use Cases:</h4>
+      <ul>
+        <li><strong>Software licenses:</strong> Personal (€39), Professional (€79), Team (€399/year)</li>
+        <li><strong>SaaS subscriptions:</strong> Free, Starter (€9/mo), Pro (€29/mo), Enterprise (custom)</li>
+        <li><strong>Course bundles:</strong> Single course (€49), Course bundle (€199), Lifetime access (€499)</li>
+        <li><strong>Template packs:</strong> Single template (€19), Template pack (€79), Unlimited (€199/year)</li>
+        <li><strong>E-book editions:</strong> PDF only (€9.99), PDF + ePub (€14.99), Complete bundle (€24.99)</li>
+      </ul>
+
+      <!-- STEP 3: Design Tokens -->
+      <h3>STEP 3: Design Tokens</h3>
+
+      <h4>Colors:</h4>
+      <ul>
+        <li><code>--teal (#00897B)</code> — Selected state border + radio fill</li>
+        <li><code>--teal-glow (rgba(0,137,123,0.12))</code> — Selected state background + focus ring</li>
+        <li><code>--navy (#0A1628)</code> — License name + price amount</li>
+        <li><code>--grey (#E8ECF1)</code> — Default border + radio outline</li>
+        <li><code>--grey-mid (#94A3B8)</code> — Description text + price period</li>
+        <li><code>--grey-dark (#64748B)</code> — Feature text</li>
+        <li><code>--amber (#F59E0B)</code> — "Popular" badge</li>
+        <li><code>--purple (#7C3AED)</code> — "New" badge</li>
+        <li><code>--green (#00C853)</code> — Checkmark icons + savings text</li>
+        <li><code>--green-light (#E8F5E9)</code> — Savings badge background</li>
+      </ul>
+
+      <h4>Typography:</h4>
+      <ul>
+        <li><strong>Title:</strong> 14px, 600 weight, navy</li>
+        <li><strong>License name:</strong> 15px, 700 weight, navy</li>
+        <li><strong>Description:</strong> 12px, grey-mid</li>
+        <li><strong>Features:</strong> 11px, grey-dark</li>
+        <li><strong>Price amount:</strong> 20px, 800 weight, navy, Plus Jakarta Sans</li>
+        <li><strong>Price period:</strong> 11px, 500 weight, grey-mid</li>
+        <li><strong>Badge:</strong> 9px, 700 weight, uppercase, letter-spacing 0.04em</li>
+      </ul>
+
+      <h4>Spacing:</h4>
+      <ul>
+        <li>Options gap: 12px (vertical spacing between license cards)</li>
+        <li>Card padding: 16px (default) / 12px (compact)</li>
+        <li>Radio ↔ body gap: 12px</li>
+        <li>Features gap: 4px (vertical list spacing)</li>
+        <li>Header gap: 8px (name ↔ badge)</li>
+      </ul>
+
+      <h4>Icons:</h4>
+      <ul>
+        <li><code>check</code> — Feature list checkmarks (14px, teal)</li>
+      </ul>
+
+      <!-- STEP 4: Props & Configuration -->
+      <h3>STEP 4: Props & Configuration</h3>
+
+      <h4>TypeScript Interface:</h4>
+      <pre><code>interface LicenseSelectorProps {
+  title?: string;                    // Section title (e.g., "Kies je licentie")
+  description?: string;               // Section description (optional)
+  options: LicenseOption[];           // Array of license tiers
+  selectedValue?: string;             // Currently selected license value
+  onChange: (value: string) => void;  // Selection change handler
+  name: string;                       // Radio group name (for form)
+  variant?: 'default' | 'compact' | 'vertical';  // Display variant
+  disabled?: boolean;                 // Disable all options
+}
+
+interface LicenseOption {
+  value: string;                      // Unique identifier (e.g., "professional")
+  name: string;                       // Display name (e.g., "Professional")
+  description: string;                // Short benefit statement
+  badge?: {
+    text: string;                     // Badge text (e.g., "Populairst")
+    variant: 'popular' | 'new' | 'recommended';  // Badge style
+  };
+  features?: string[];                // Feature list (checkmarks)
+  price: {
+    amount: string | number;          // Price (e.g., 79 or "Op aanvraag")
+    period?: string;                  // Billing period (e.g., "eenmalig", "per maand")
+    oldPrice?: number;                // Original price (for discount)
+    save?: string;                    // Savings text (e.g., "Bespaar €20")
+  };
+  disabled?: boolean;                 // Disable this option
+}</code></pre>
+
+      <h4>Example Usage (React/Next.js):</h4>
+      <pre><code>const [selectedLicense, setSelectedLicense] = useState('professional');
+
+const licenseOptions: LicenseOption[] = [
+  {
+    value: 'personal',
+    name: 'Personal',
+    description: 'Voor individuele gebruikers en hobbyisten',
+    features: ['1 gebruiker', 'Basis features', 'Email support'],
+    price: { amount: 39, period: 'eenmalig' },
+  },
+  {
+    value: 'professional',
+    name: 'Professional',
+    description: 'Voor professionele gebruikers en freelancers',
+    badge: { text: 'Populairst', variant: 'popular' },
+    features: ['1 gebruiker', 'Alle features + AI tools', 'Priority support', 'Code generation'],
+    price: { amount: 79, period: 'eenmalig', save: 'Bespaar €20' },
+  },
+  {
+    value: 'team',
+    name: 'Team',
+    description: 'Voor teams en organisaties',
+    features: ['Tot 10 gebruikers', 'Alle features + team tools', 'Dedicated support', 'Centraal beheer', 'SSO integratie'],
+    price: { amount: 399, period: 'per jaar', oldPrice: 499 },
+  },
+];
+
+&lt;LicenseSelector
+  title="Kies je licentie"
+  description="Alle licenties bevatten gratis updates voor 1 jaar"
+  options={licenseOptions}
+  selectedValue={selectedLicense}
+  onChange={setSelectedLicense}
+  name="product-license"
+  variant="default"
+/&gt;</code></pre>
+
+      <!-- STEP 5: Layout Rules -->
+      <h3>STEP 5: Layout Rules</h3>
+
+      <h4>Container Structure:</h4>
+      <ul>
+        <li><strong>Container:</strong> <code>.license-selector</code> — Flex column with 12px gap</li>
+        <li><strong>Title:</strong> Optional section heading (14px, 600 weight)</li>
+        <li><strong>Description:</strong> Optional helper text (12px, grey-mid)</li>
+        <li><strong>Options:</strong> Vertical stack of <code>.lic-option</code> cards</li>
+      </ul>
+
+      <h4>Option Card Layout:</h4>
+      <ul>
+        <li><strong>Default:</strong> <code>flex</code> row: [radio] [body] [price]</li>
+        <li><strong>Compact:</strong> Same as default, but smaller padding + no features</li>
+        <li><strong>Vertical:</strong> <code>flex-direction: column</code>, radio absolutely positioned, centered content</li>
+      </ul>
+
+      <h4>Grid Breakdown (Default):</h4>
+      <ul>
+        <li><strong>Radio:</strong> 20px circle, flex-shrink: 0, margin-top: 2px (alignment)</li>
+        <li><strong>Body:</strong> flex: 1 (expands to fill space)</li>
+        <li><strong>Price:</strong> flex-shrink: 0, text-align: right</li>
+      </ul>
+
+      <h4>Responsive Behavior:</h4>
+      <ul>
+        <li><strong>Desktop (≥641px):</strong> Horizontal layout (radio → body → price)</li>
+        <li><strong>Mobile (≤640px):</strong> Vertical layout:
+          <ul>
+            <li>Radio + body stay horizontal (top section)</li>
+            <li>Price moves below with border-top separator</li>
+            <li>Price becomes horizontal row (amount ↔ period)</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>Integration Context:</h4>
+      <ul>
+        <li><strong>Product page sidebar:</strong> Use default variant with features</li>
+        <li><strong>Modal/quick view:</strong> Use compact variant (saves space)</li>
+        <li><strong>Comparison page:</strong> Use vertical variant (side-by-side columns)</li>
+        <li><strong>Checkout flow:</strong> Use compact variant (user already knows details)</li>
+      </ul>
+
+      <!-- STEP 6: Accessibility -->
+      <h3>STEP 6: Accessibility</h3>
+
+      <h4>Semantic HTML:</h4>
+      <ul>
+        <li>Each option wrapped in <code>&lt;label&gt;</code> for clickable area</li>
+        <li>Native <code>&lt;input type="radio"&gt;</code> (hidden but functional)</li>
+        <li>Radio group with shared <code>name</code> attribute</li>
+      </ul>
+
+      <h4>ARIA Attributes:</h4>
+      <pre><code>&lt;div class="license-selector" role="radiogroup" aria-labelledby="license-title"&gt;
+  &lt;div id="license-title" class="license-selector-title"&gt;Kies je licentie&lt;/div&gt;
+
+  &lt;label class="lic-option selected"&gt;
+    &lt;input
+      type="radio"
+      name="license"
+      value="professional"
+      checked
+      aria-describedby="license-professional-desc"
+    &gt;
+    &lt;div class="lic-radio" aria-hidden="true"&gt;&lt;/div&gt;
+    &lt;div class="lic-body"&gt;
+      &lt;div class="lic-name"&gt;Professional&lt;/div&gt;
+      &lt;div class="lic-desc" id="license-professional-desc"&gt;
+        Voor professionele gebruikers
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+
+      <h4>Keyboard Navigation:</h4>
+      <ul>
+        <li><strong>Tab:</strong> Focus moves between radio options</li>
+        <li><strong>Arrow Up/Down:</strong> Native radio group navigation (browser default)</li>
+        <li><strong>Space/Enter:</strong> Select focused option</li>
+      </ul>
+
+      <h4>Focus Management:</h4>
+      <ul>
+        <li><code>:focus-within</code> on <code>.lic-option</code> shows teal glow ring</li>
+        <li>Native radio input receives focus (visually hidden)</li>
+        <li>Custom radio circle does NOT receive focus (aria-hidden)</li>
+      </ul>
+
+      <h4>Screen Reader Support:</h4>
+      <ul>
+        <li>Radio group announced with title: "Kies je licentie, radio group"</li>
+        <li>Each option announced: "Professional, radio button, checked, 1 of 3"</li>
+        <li>Description read via <code>aria-describedby</code></li>
+        <li>Badge text included in announcement</li>
+      </ul>
+
+      <h4>Color Contrast:</h4>
+      <ul>
+        <li>Navy text on white: 13.4:1 (AAA)</li>
+        <li>Grey-mid on white: 4.8:1 (AA)</li>
+        <li>Teal on white: 4.2:1 (AA for large text)</li>
+        <li>Badge text on colored backgrounds: minimum 4.5:1</li>
+      </ul>
+
+      <!-- STEP 7: Implementation Notes -->
+      <h3>STEP 7: Implementation Notes</h3>
+
+      <h4>Selection State Management (React):</h4>
+      <pre><code>const [selectedLicense, setSelectedLicense] = useState&lt;string | null&gt;(null);
+
+function handleLicenseChange(value: string) {
+  setSelectedLicense(value);
+
+  // Update parent component (e.g., add to cart data)
+  onLicenseSelect?.(value);
+
+  // Analytics tracking
+  gtag('event', 'select_license', {
+    license_type: value,
+    product_id: productId,
+  });
+}</code></pre>
+
+      <h4>Dynamic Pricing Calculation:</h4>
+      <pre><code>// Calculate total with selected license
+const selectedOption = options.find(opt => opt.value === selectedLicense);
+const licensePrice = selectedOption?.price.amount || 0;
+const totalPrice = basePrice + licensePrice;
+
+// Show savings if old price exists
+const savings = selectedOption?.price.oldPrice
+  ? selectedOption.price.oldPrice - licensePrice
+  : 0;</code></pre>
+
+      <h4>Form Integration:</h4>
+      <pre><code>// Add to cart with selected license
+function addToCart() {
+  if (!selectedLicense) {
+    toast.error('Selecteer eerst een licentie');
+    return;
+  }
+
+  const cartItem = {
+    productId,
+    productName,
+    license: selectedLicense,
+    price: selectedOption.price.amount,
+    quantity: 1,
+  };
+
+  addItemToCart(cartItem);
+}</code></pre>
+
+      <h4>Validation:</h4>
+      <pre><code>// Require license selection before checkout
+function validateCheckout() {
+  const errors: string[] = [];
+
+  if (!selectedLicense) {
+    errors.push('Selecteer een licentie om verder te gaan');
+  }
+
+  return errors;
+}</code></pre>
+
+      <h4>Payload CMS Integration:</h4>
+      <pre><code>// Digital Product Collection
+{
+  slug: 'digital-products',
+  fields: [
+    {
+      name: 'licenses',
+      type: 'array',
+      label: 'Licentie Opties',
+      minRows: 1,
+      maxRows: 5,
+      fields: [
+        { name: 'value', type: 'text', required: true, unique: true },
+        { name: 'name', type: 'text', required: true },
+        { name: 'description', type: 'textarea', maxLength: 120 },
+        {
+          name: 'badge',
+          type: 'group',
+          fields: [
+            { name: 'text', type: 'text' },
+            {
+              name: 'variant',
+              type: 'select',
+              options: ['popular', 'new', 'recommended'],
+            },
+          ],
+        },
+        {
+          name: 'features',
+          type: 'array',
+          fields: [{ name: 'feature', type: 'text' }],
+        },
+        {
+          name: 'price',
+          type: 'group',
+          fields: [
+            { name: 'amount', type: 'number', required: true },
+            { name: 'period', type: 'text' },
+            { name: 'oldPrice', type: 'number' },
+            { name: 'save', type: 'text' },
+          ],
+        },
+        { name: 'disabled', type: 'checkbox', defaultValue: false },
+      ],
+    },
+  ],
+}</code></pre>
+
+      <h4>Performance Optimization:</h4>
+      <ul>
+        <li>Render all options (typically 3-5) — no virtualization needed</li>
+        <li>Memoize price calculations if complex</li>
+        <li>Debounce analytics events (avoid spam on rapid clicks)</li>
+        <li>Preload feature icons (all use same <code>check</code> icon)</li>
+      </ul>
+
+      <!-- STEP 8: Variations & Related Components -->
+      <h3>STEP 8: Variations & Related Components</h3>
+
+      <h4>Component Variants:</h4>
+      <ul>
+        <li><strong>Default:</strong> Full feature list, vertical option cards (shown above)</li>
+        <li><strong>Compact:</strong> No feature list, inline description with bullet separators (·)</li>
+        <li><strong>Vertical:</strong> Centered layout, radio in top-left corner, good for side-by-side comparison</li>
+      </ul>
+
+      <h4>Badge Variants:</h4>
+      <ul>
+        <li><code>.lic-badge.popular</code> — Amber background (most common choice)</li>
+        <li><code>.lic-badge.new</code> — Purple background (recently added tier)</li>
+        <li><code>.lic-badge.recommended</code> — Teal background (staff pick)</li>
+      </ul>
+
+      <h4>Price Display Variants:</h4>
+      <ul>
+        <li><strong>One-time:</strong> €79 eenmalig</li>
+        <li><strong>Subscription:</strong> €29 per maand</li>
+        <li><strong>Annual:</strong> €399 per jaar</li>
+        <li><strong>Custom:</strong> "Op aanvraag" (Enterprise tier)</li>
+        <li><strong>With savings:</strong> Old price (strikethrough) + green badge</li>
+      </ul>
+
+      <h4>Related Components:</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>When to Use Instead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>DP05: ComparisonTable</strong></td>
+            <td>Show detailed feature comparison across all tiers (not selection UI)</td>
+          </tr>
+          <tr>
+            <td><strong>EC12: PaymentMethodCard</strong></td>
+            <td>Select payment method (not product license)</td>
+          </tr>
+          <tr>
+            <td><strong>VP03: VariantDropdownSelector</strong></td>
+            <td>Select product variant (size, color) for physical products</td>
+          </tr>
+          <tr>
+            <td><strong>SP04: SubscriptionProductCard</strong></td>
+            <td>Display subscription products in grid (not inline selection)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Combination Patterns:</h4>
+      <ul>
+        <li><strong>DP01 (Hero) + DP02 (LicenseSelector):</strong> 2-column product page (visual left, license selector right)</li>
+        <li><strong>DP02 + DP05 (ComparisonTable):</strong> License selector above, full comparison table below for reference</li>
+        <li><strong>DP02 + C23 (QuantityStepper):</strong> Select license tier + quantity (for team licenses)</li>
+        <li><strong>DP02 + EC11 (ShippingMethodCard):</strong> Digital product checkout (select license + optional physical media shipping)</li>
+      </ul>
+
+      <h4>Design System Integration:</h4>
+      <ul>
+        <li>Follows Plastimed design tokens (navy, teal, grey palette)</li>
+        <li>Reuses Plus Jakarta Sans typography</li>
+        <li>Consistent with radio button pattern from Variable Products (VP03)</li>
+        <li>Matches card hover/focus states from ProductCard (EC01)</li>
+      </ul>
+
+      <h4>Testing Checklist:</h4>
+      <ul>
+        <li>✅ Only ONE option can be selected at a time</li>
+        <li>✅ Clicking anywhere on card selects that option</li>
+        <li>✅ Selected state persists correctly</li>
+        <li>✅ Keyboard navigation works (arrow keys + space)</li>
+        <li>✅ Focus ring visible on keyboard focus</li>
+        <li>✅ Screen reader announces radio group correctly</li>
+        <li>✅ Badge text is readable (contrast check)</li>
+        <li>✅ Price calculations update when selection changes</li>
+        <li>✅ Mobile layout stacks price below content</li>
+        <li>✅ Disabled state prevents interaction</li>
+      </ul>
+
+      <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--grey);">
+
+      <p style="font-size: 12px; color: var(--grey-mid); text-align: center;">
+        Component: DP02: LicenseSelector · v1.0 · Last updated: 25 Feb 2026<br>
+        Part of Plastimed Design System · Digital Product Components
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Interactive demo: Handle license selection
+    document.querySelectorAll('.lic-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const input = this.querySelector('input[type="radio"]');
+        const name = input.getAttribute('name');
+
+        // Remove selected class from all options in this group
+        document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+          radio.closest('.lic-option').classList.remove('selected');
+        });
+
+        // Add selected class to clicked option
+        this.classList.add('selected');
+        input.checked = true;
+
+        // Log selection (demo purposes)
+        console.log('Selected license:', input.value);
+      });
+    });
+  </script>
+
+</body>
+</html>

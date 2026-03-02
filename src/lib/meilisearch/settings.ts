@@ -1,5 +1,5 @@
 import type { Payload } from 'payload'
-import type { MeilisearchSettings as MeilisearchSettingsType } from '@/payload-types'
+import type { MeilisearchSetting as MeilisearchSettingsType } from '@/payload-types'
 
 /**
  * Meilisearch Settings Helper
@@ -18,28 +18,28 @@ import type { MeilisearchSettings as MeilisearchSettingsType } from '@/payload-t
 export const DEFAULT_SETTINGS = {
   // Default indexed collections
   indexedCollections: [
-    { collection: 'products', enabled: true, priority: 1 },
-    { collection: 'blog-posts', enabled: true, priority: 1 },
-    { collection: 'pages', enabled: false, priority: 1 },
+    { collection: 'products' as const, enabled: true, priority: 1, indexName: 'products' },
+    { collection: 'blog-posts' as const, enabled: true, priority: 1, indexName: 'blog-posts' },
+    { collection: 'pages' as const, enabled: false, priority: 1, indexName: 'pages' },
   ],
 
   // Default searchable fields per collection
   searchableFields: {
-    products: ['title', 'brand', 'sku', 'description', 'categories', 'tags'],
-    blogPosts: ['title', 'excerpt', 'categories', 'tags', 'author'],
-    pages: ['title', 'metaDescription', 'content'],
+    products: ['title', 'brand', 'sku', 'description', 'categories', 'tags'] as string[],
+    blogPosts: ['title', 'excerpt', 'categories', 'tags', 'author'] as string[],
+    pages: ['title', 'metaDescription', 'content'] as string[],
   },
 
   // Default filterable fields per collection
   filterableFields: {
-    products: ['brand', 'categories', 'price', 'stock', 'status', 'featured'],
-    blogPosts: ['categories', 'status', 'featured', 'publishedAt'],
+    products: ['brand', 'categories', 'price', 'stock', 'status', 'featured'] as string[],
+    blogPosts: ['categories', 'status', 'featured', 'publishedAt'] as string[],
   },
 
   // Default sortable fields per collection
   sortableFields: {
-    products: ['price', 'createdAt', 'title', 'stock'],
-    blogPosts: ['publishedAt', 'title', 'viewCount'],
+    products: ['price', 'createdAt', 'title', 'stock'] as string[],
+    blogPosts: ['publishedAt', 'title', 'viewCount'] as string[],
   },
 
   // Default ranking rules
@@ -82,7 +82,7 @@ export const DEFAULT_SETTINGS = {
     { pattern: '/admin/*', type: 'url' },
     { pattern: '/api/*', type: 'url' },
   ],
-} as const
+}
 
 // ───────────────────────────────────────────────────────────────────────────
 // SETTINGS FETCHER

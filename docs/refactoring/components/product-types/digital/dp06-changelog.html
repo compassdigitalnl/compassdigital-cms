@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DP06: Changelog — Digital Product Component</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* =========================================
+       DESIGN TOKENS
+       ========================================= */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =========================================
+       DEMO STYLES
+       ========================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .demo-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .demo-header p {
+      font-size: 14px;
+      color: var(--grey-mid);
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    /* =========================================
+       COMPONENT: DP06 CHANGELOG
+       ========================================= */
+
+    /* Section Container */
+    .changelog-section {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Section Header */
+    .cl-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cl-header.left {
+      text-align: left;
+      margin: 0;
+    }
+
+    .cl-overline {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .cl-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .cl-desc {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* Changelog Timeline */
+    .changelog-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      position: relative;
+    }
+
+    /* Version Entry */
+    .cl-version {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    /* Version Header */
+    .cl-version-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cl-version-number {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    .cl-version-date {
+      font-size: 13px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .cl-version-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .cl-badge {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .cl-badge.new {
+      background: var(--purple);
+    }
+
+    .cl-badge.major {
+      background: var(--teal);
+    }
+
+    .cl-badge.security {
+      background: var(--coral);
+    }
+
+    .cl-badge.beta {
+      background: var(--amber);
+    }
+
+    /* Version Summary */
+    .cl-version-summary {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* Changes List */
+    .cl-changes {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cl-change-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cl-change-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+    }
+
+    .cl-change-label i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .cl-change-label.new {
+      color: var(--purple);
+    }
+
+    .cl-change-label.improved {
+      color: var(--teal);
+    }
+
+    .cl-change-label.fixed {
+      color: var(--green);
+    }
+
+    .cl-change-label.security {
+      color: var(--coral);
+    }
+
+    .cl-change-items {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-left: 20px;
+    }
+
+    .cl-change-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    .cl-change-item::before {
+      content: '•';
+      color: var(--grey-mid);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Collapsible Variant */
+    .cl-version.collapsible {
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: white;
+    }
+
+    .cl-version.collapsible .cl-version-header {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .cl-version.collapsible .cl-version-header:hover .cl-version-number {
+      color: var(--teal);
+    }
+
+    .cl-toggle-icon {
+      margin-left: auto;
+      width: 20px;
+      height: 20px;
+      color: var(--grey-mid);
+      transition: transform var(--transition);
+    }
+
+    .cl-version.collapsible.expanded .cl-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .cl-version-content {
+      display: none;
+      margin-top: 16px;
+      border-top: 1px solid var(--grey);
+      padding-top: 16px;
+    }
+
+    .cl-version.collapsible.expanded .cl-version-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Compact Variant */
+    .changelog-timeline.compact .cl-version {
+      gap: 12px;
+    }
+
+    .changelog-timeline.compact .cl-version-number {
+      font-size: 16px;
+    }
+
+    .changelog-timeline.compact .cl-version-summary {
+      font-size: 13px;
+    }
+
+    .changelog-timeline.compact .cl-changes {
+      gap: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .cl-version-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .cl-version-number {
+        font-size: 18px;
+      }
+
+      .cl-toggle-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+    }
+
+    /* =========================================
+       DOCUMENTATION STYLES
+       ========================================= */
+    .docs {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 48px;
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--navy);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .docs h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .docs p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .docs ul {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .docs code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .docs pre code {
+      background: none;
+      padding: 0;
+      color: var(--white);
+    }
+
+    .docs table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .docs th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid var(--grey);
+    }
+
+    .docs td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       LIVE DEMO
+       ========================================= -->
+  <div class="demo-container">
+    <div class="demo-header">
+      <h1>DP06: Changelog</h1>
+      <p>Digital Product Component · Version History & Release Notes</p>
+    </div>
+
+    <!-- Default Variant (Expanded) -->
+    <div class="demo-section">
+      <div class="changelog-section">
+        <div class="cl-header left">
+          <div class="cl-overline">Release Notes</div>
+          <h2 class="cl-title">Changelog</h2>
+          <div class="cl-desc">
+            Bekijk alle updates, nieuwe features en verbeteringen van ProDesign Suite.
+          </div>
+        </div>
+
+        <div class="changelog-timeline">
+          <!-- Version 4.2.0 -->
+          <div class="cl-version">
+            <div class="cl-version-header">
+              <div class="cl-version-number">v4.2.0</div>
+              <div class="cl-version-date">25 Februari 2026</div>
+              <div class="cl-version-badges">
+                <div class="cl-badge new">Nieuwe features</div>
+                <div class="cl-badge major">Major update</div>
+              </div>
+            </div>
+
+            <div class="cl-version-summary">
+              Grote update met AI-powered design tools, verbeterde performance en 50+ nieuwe componenten in de template library.
+            </div>
+
+            <div class="cl-changes">
+              <div class="cl-change-group">
+                <div class="cl-change-label new">
+                  <i data-lucide="sparkles"></i>
+                  <span>Nieuw</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">AI Content Generator met 12 nieuwe templates (blog posts, product beschrijvingen, SEO meta tags)</div>
+                  <div class="cl-change-item">Realtime collaboration mode voor team workspaces</div>
+                  <div class="cl-change-item">50+ nieuwe UI componenten toegevoegd aan template library</div>
+                  <div class="cl-change-item">Dark mode support in de editor</div>
+                  <div class="cl-change-item">Code export naar React, Vue en Svelte (naast HTML/CSS)</div>
+                </div>
+              </div>
+
+              <div class="cl-change-group">
+                <div class="cl-change-label improved">
+                  <i data-lucide="trending-up"></i>
+                  <span>Verbeterd</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">Editor performance 2× sneller bij grote projecten (10.000+ elements)</div>
+                  <div class="cl-change-item">Betere image optimization (tot 60% kleinere file sizes)</div>
+                  <div class="cl-change-item">Verbeterde autocomplete in de CSS editor met 500+ suggestions</div>
+                  <div class="cl-change-item">Snellere project load times (40% sneller gemiddeld)</div>
+                </div>
+              </div>
+
+              <div class="cl-change-group">
+                <div class="cl-change-label fixed">
+                  <i data-lucide="check-circle"></i>
+                  <span>Opgelost</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">Export naar PDF genereerde soms lege pagina's bij complexe layouts</div>
+                  <div class="cl-change-item">Undo/redo werkte niet correct na het kopiëren van componenten</div>
+                  <div class="cl-change-item">Mobile preview toonde verkeerde breakpoint bij bepaalde resoluties</div>
+                  <div class="cl-change-item">Font loading issues in Safari gefixt</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Version 4.1.5 -->
+          <div class="cl-version">
+            <div class="cl-version-header">
+              <div class="cl-version-number">v4.1.5</div>
+              <div class="cl-version-date">12 Januari 2026</div>
+              <div class="cl-version-badges">
+                <div class="cl-badge security">Security patch</div>
+              </div>
+            </div>
+
+            <div class="cl-version-summary">
+              Belangrijke security update en bug fixes.
+            </div>
+
+            <div class="cl-changes">
+              <div class="cl-change-group">
+                <div class="cl-change-label security">
+                  <i data-lucide="shield-alert"></i>
+                  <span>Security</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">XSS vulnerability gefixt in de custom HTML component</div>
+                  <div class="cl-change-item">Verbeterde input sanitization bij user uploads</div>
+                  <div class="cl-change-item">Updated dependencies met security patches</div>
+                </div>
+              </div>
+
+              <div class="cl-change-group">
+                <div class="cl-change-label fixed">
+                  <i data-lucide="check-circle"></i>
+                  <span>Opgelost</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">Session timeout bij lange editing sessies</div>
+                  <div class="cl-change-item">Team members werden niet correct weergegeven in sidebar</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Version 4.1.0 -->
+          <div class="cl-version">
+            <div class="cl-version-header">
+              <div class="cl-version-number">v4.1.0</div>
+              <div class="cl-version-date">8 December 2025</div>
+            </div>
+
+            <div class="cl-version-summary">
+              Feature update met verbeterde design system tools en accessibility features.
+            </div>
+
+            <div class="cl-changes">
+              <div class="cl-change-group">
+                <div class="cl-change-label new">
+                  <i data-lucide="sparkles"></i>
+                  <span>Nieuw</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">Design tokens manager voor consistent theming</div>
+                  <div class="cl-change-item">Accessibility checker met WCAG 2.1 compliance validation</div>
+                  <div class="cl-change-item">Google Fonts library met 1000+ fonts</div>
+                </div>
+              </div>
+
+              <div class="cl-change-group">
+                <div class="cl-change-label improved">
+                  <i data-lucide="trending-up"></i>
+                  <span>Verbeterd</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">Responsive preview met meer breakpoint opties</div>
+                  <div class="cl-change-item">Betere error messages in de CSS validator</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapsible Variant -->
+    <div class="demo-section">
+      <h2>Collapsible Variant</h2>
+      <div class="changelog-timeline">
+        <div class="cl-version collapsible expanded" onclick="toggleVersion(this)">
+          <div class="cl-version-header">
+            <div class="cl-version-number">v4.2.0</div>
+            <div class="cl-version-date">25 Februari 2026</div>
+            <div class="cl-version-badges">
+              <div class="cl-badge new">Nieuwe features</div>
+            </div>
+            <i class="cl-toggle-icon" data-lucide="chevron-down"></i>
+          </div>
+
+          <div class="cl-version-content">
+            <div class="cl-version-summary">
+              Grote update met AI-powered design tools en realtime collaboration.
+            </div>
+
+            <div class="cl-changes">
+              <div class="cl-change-group">
+                <div class="cl-change-label new">
+                  <i data-lucide="sparkles"></i>
+                  <span>Nieuw</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">AI Content Generator met 12 nieuwe templates</div>
+                  <div class="cl-change-item">Realtime collaboration mode</div>
+                  <div class="cl-change-item">50+ nieuwe UI componenten</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cl-version collapsible" onclick="toggleVersion(this)">
+          <div class="cl-version-header">
+            <div class="cl-version-number">v4.1.5</div>
+            <div class="cl-version-date">12 Januari 2026</div>
+            <div class="cl-version-badges">
+              <div class="cl-badge security">Security</div>
+            </div>
+            <i class="cl-toggle-icon" data-lucide="chevron-down"></i>
+          </div>
+
+          <div class="cl-version-content">
+            <div class="cl-version-summary">
+              Security update en bug fixes.
+            </div>
+
+            <div class="cl-changes">
+              <div class="cl-change-group">
+                <div class="cl-change-label security">
+                  <i data-lucide="shield-alert"></i>
+                  <span>Security</span>
+                </div>
+                <div class="cl-change-items">
+                  <div class="cl-change-item">XSS vulnerability gefixt</div>
+                  <div class="cl-change-item">Updated dependencies</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       DOCUMENTATION
+       ========================================= -->
+  <div class="demo-container">
+    <div class="docs">
+      <h2>📖 DP06: Changelog — Complete Documentation</h2>
+
+      <!-- STEP 1: Component Overview -->
+      <h3>STEP 1: Component Overview</h3>
+      <p><strong>Component Name:</strong> DP06: Changelog</p>
+      <p><strong>Category:</strong> Digital Product Components (Product Types)</p>
+      <p><strong>Usage:</strong> Display version history, release notes, and updates for digital products</p>
+
+      <p><strong>Description:</strong></p>
+      <p>Changelog displays a chronological timeline of product updates with version numbers, dates, and categorized changes (New features, Improvements, Bug fixes, Security patches). Used on product pages, documentation sites, and release notes pages to keep users informed about product evolution.</p>
+
+      <p><strong>Key Features:</strong></p>
+      <ul>
+        <li>Chronological timeline (newest first)</li>
+        <li>Version numbers with semantic versioning (v4.2.0)</li>
+        <li>Release dates in readable format</li>
+        <li>Version badges (New, Major, Security, Beta)</li>
+        <li>Categorized changes (New, Improved, Fixed, Security)</li>
+        <li>Optional version summary (one-sentence description)</li>
+        <li>Collapsible versions (hide/show details)</li>
+        <li>Color-coded change types (purple, teal, green, coral)</li>
+        <li>Compact variant for dense listings</li>
+      </ul>
+
+      <!-- STEP 2: When to Use -->
+      <h3>STEP 2: When to Use This Component</h3>
+
+      <h4>✅ Use Changelog when:</h4>
+      <ul>
+        <li>Showing version history for software, apps, or SaaS products</li>
+        <li>Documenting updates for templates, themes, or plugins</li>
+        <li>Providing transparency about product improvements</li>
+        <li>Building trust by showing active development</li>
+        <li>Highlighting new features to drive upgrades</li>
+        <li>Communicating security patches to users</li>
+      </ul>
+
+      <h4>❌ Don't use when:</h4>
+      <ul>
+        <li>Only 1-2 versions exist → just show release notes inline</li>
+        <li>Internal version tracking → use dev tools (Git, JIRA)</li>
+        <li>Non-software products (physical goods)</li>
+      </ul>
+
+      <h4>💡 Common Use Cases:</h4>
+      <ul>
+        <li><strong>Product page tab:</strong> "What's New" or "Changelog" tab on product pages</li>
+        <li><strong>Documentation site:</strong> Dedicated changelog page (/changelog)</li>
+        <li><strong>Dashboard notification:</strong> "See what's new in v4.2.0" modal after login</li>
+        <li><strong>Email campaigns:</strong> Highlight major updates to users</li>
+        <li><strong>GitHub releases:</strong> Mirrored changelog for open-source projects</li>
+      </ul>
+
+      <!-- STEP 3: Design Tokens -->
+      <h3>STEP 3: Design Tokens</h3>
+
+      <h4>Colors:</h4>
+      <ul>
+        <li><code>--navy (#0A1628)</code> — Version numbers, text</li>
+        <li><code>--grey-mid (#94A3B8)</code> — Dates, labels</li>
+        <li><code>--grey-dark (#64748B)</code> — Change item text</li>
+        <li><code>--purple (#7C3AED)</code> — "New" badge + label</li>
+        <li><code>--teal (#00897B)</code> — "Improved" label + major badge</li>
+        <li><code>--green (#00C853)</code> — "Fixed" label</li>
+        <li><code>--coral (#FF6B6B)</code> — "Security" badge + label</li>
+        <li><code>--amber (#F59E0B)</code> — "Beta" badge</li>
+      </ul>
+
+      <h4>Typography:</h4>
+      <ul>
+        <li><strong>Version number:</strong> 20px (default) / 16px (compact), 800 weight, JetBrains Mono</li>
+        <li><strong>Version date:</strong> 13px, 500 weight, grey-mid</li>
+        <li><strong>Badge:</strong> 9px, 700 weight, uppercase</li>
+        <li><strong>Summary:</strong> 14px (default) / 13px (compact), grey-dark</li>
+        <li><strong>Change label:</strong> 12px, 700 weight, uppercase</li>
+        <li><strong>Change item:</strong> 13px, grey-dark</li>
+      </ul>
+
+      <h4>Spacing:</h4>
+      <ul>
+        <li>Version gap: 32px between versions</li>
+        <li>Version internal gap: 16px between header/summary/changes</li>
+        <li>Change group gap: 12px between groups</li>
+        <li>Change item gap: 6px between items</li>
+        <li>Collapsible padding: 20px all sides</li>
+      </ul>
+
+      <h4>Icons (Lucide):</h4>
+      <ul>
+        <li><code>sparkles</code> — New features (14px, purple)</li>
+        <li><code>trending-up</code> — Improvements (14px, teal)</li>
+        <li><code>check-circle</code> — Bug fixes (14px, green)</li>
+        <li><code>shield-alert</code> — Security patches (14px, coral)</li>
+        <li><code>chevron-down</code> — Collapsible toggle (20px, grey-mid)</li>
+      </ul>
+
+      <!-- STEP 4: Props & Configuration -->
+      <h3>STEP 4: Props & Configuration</h3>
+
+      <h4>TypeScript Interface:</h4>
+      <pre><code>interface ChangelogProps {
+  header?: {
+    overline?: string;
+    title: string;
+    description?: string;
+    align?: 'center' | 'left';
+  };
+  versions: Version[];
+  variant?: 'default' | 'collapsible' | 'compact';
+  defaultExpanded?: boolean;  // For collapsible variant
+}
+
+interface Version {
+  number: string;              // e.g., "v4.2.0"
+  date: string;                // e.g., "25 Februari 2026"
+  badges?: VersionBadge[];
+  summary?: string;            // One-sentence description
+  changes: ChangeGroup[];
+}
+
+interface VersionBadge {
+  text: string;                // e.g., "Nieuwe features"
+  variant: 'new' | 'major' | 'security' | 'beta';
+}
+
+interface ChangeGroup {
+  type: 'new' | 'improved' | 'fixed' | 'security';
+  items: string[];             // List of change descriptions
+}</code></pre>
+
+      <h4>Example Usage (React/Next.js):</h4>
+      <pre><code>const versions: Version[] = [
+  {
+    number: 'v4.2.0',
+    date: '25 Februari 2026',
+    badges: [
+      { text: 'Nieuwe features', variant: 'new' },
+      { text: 'Major update', variant: 'major' },
+    ],
+    summary: 'Grote update met AI-powered design tools.',
+    changes: [
+      {
+        type: 'new',
+        items: [
+          'AI Content Generator met 12 nieuwe templates',
+          'Realtime collaboration mode',
+          '50+ nieuwe UI componenten',
+        ],
+      },
+      {
+        type: 'improved',
+        items: [
+          'Editor performance 2× sneller',
+          'Betere image optimization',
+        ],
+      },
+      {
+        type: 'fixed',
+        items: [
+          'Export naar PDF genereerde lege pagina\'s',
+          'Undo/redo bug gefixt',
+        ],
+      },
+    ],
+  },
+  // ... more versions
+];
+
+&lt;Changelog
+  header={{
+    overline: 'Release Notes',
+    title: 'Changelog',
+    description: 'Bekijk alle updates...',
+    align: 'left',
+  }}
+  versions={versions}
+  variant="default"
+/&gt;</code></pre>
+
+      <!-- STEP 5: Layout Rules -->
+      <h3>STEP 5: Layout Rules</h3>
+
+      <h4>Version Entry Structure:</h4>
+      <ul>
+        <li><strong>Header:</strong> Version number + date + badges (flex row, wrap)</li>
+        <li><strong>Summary:</strong> Optional one-sentence description</li>
+        <li><strong>Changes:</strong> Grouped by type (New, Improved, Fixed, Security)</li>
+        <li><strong>Change items:</strong> Bulleted list with colored labels</li>
+      </ul>
+
+      <h4>Variant Differences:</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Variant</th>
+            <th>Behavior</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Default</strong></td>
+            <td>All versions expanded, full details visible</td>
+            <td>Dedicated changelog page, few versions (≤10)</td>
+          </tr>
+          <tr>
+            <td><strong>Collapsible</strong></td>
+            <td>Click header to expand/collapse, bordered cards</td>
+            <td>Many versions (10+), product page tab</td>
+          </tr>
+          <tr>
+            <td><strong>Compact</strong></td>
+            <td>Smaller text/spacing, condensed layout</td>
+            <td>Sidebar widget, modal, limited space</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Responsive Behavior:</h4>
+      <ul>
+        <li><strong>Desktop (≥641px):</strong> Version header horizontal (number, date, badges inline)</li>
+        <li><strong>Mobile (≤640px):</strong> Version header stacks vertically, toggle icon absolute positioned</li>
+      </ul>
+
+      <!-- STEP 6: Accessibility -->
+      <h3>STEP 6: Accessibility</h3>
+
+      <h4>Semantic HTML:</h4>
+      <pre><code>&lt;section class="changelog-section" aria-labelledby="changelog-title"&gt;
+  &lt;header class="cl-header"&gt;
+    &lt;h2 id="changelog-title" class="cl-title"&gt;Changelog&lt;/h2&gt;
+  &lt;/header&gt;
+
+  &lt;div class="changelog-timeline"&gt;
+    &lt;article class="cl-version"&gt;
+      &lt;header class="cl-version-header"&gt;
+        &lt;h3 class="cl-version-number"&gt;v4.2.0&lt;/h3&gt;
+        &lt;time datetime="2026-02-25"&gt;25 Februari 2026&lt;/time&gt;
+      &lt;/header&gt;
+      &lt;p class="cl-version-summary"&gt;...&lt;/p&gt;
+      &lt;div class="cl-changes"&gt;
+        &lt;section&gt;
+          &lt;h4&gt;Nieuw&lt;/h4&gt;
+          &lt;ul&gt;
+            &lt;li&gt;AI Content Generator...&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/section&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+      <h4>ARIA Attributes:</h4>
+      <ul>
+        <li>Version entries: <code>&lt;article&gt;</code> for semantic grouping</li>
+        <li>Dates: <code>&lt;time datetime="2026-02-25"&gt;</code> for machine-readable dates</li>
+        <li>Collapsible: <code>aria-expanded="true/false"</code> on header</li>
+        <li>Toggle button: <code>role="button"</code>, <code>aria-label="Toggle version details"</code></li>
+      </ul>
+
+      <h4>Keyboard Navigation:</h4>
+      <ul>
+        <li><strong>Tab:</strong> Focus collapsible headers</li>
+        <li><strong>Enter/Space:</strong> Expand/collapse version</li>
+        <li>All interactive elements keyboard-accessible</li>
+      </ul>
+
+      <h4>Color Contrast:</h4>
+      <ul>
+        <li>Version number (navy) on white: 13.4:1 (AAA)</li>
+        <li>Change text (grey-dark) on white: 6.5:1 (AAA)</li>
+        <li>Badge text on colored backgrounds: minimum 4.5:1</li>
+      </ul>
+
+      <!-- STEP 7: Implementation Notes -->
+      <h3>STEP 7: Implementation Notes</h3>
+
+      <h4>Version Collapse/Expand (React):</h4>
+      <pre><code>const [expandedVersions, setExpandedVersions] = useState&lt;Set&lt;string&gt;&gt;(
+  new Set(defaultExpanded ? versions.map(v => v.number) : [])
+);
+
+function toggleVersion(versionNumber: string) {
+  setExpandedVersions(prev => {
+    const next = new Set(prev);
+    if (next.has(versionNumber)) {
+      next.delete(versionNumber);
+    } else {
+      next.add(versionNumber);
+    }
+    return next;
+  });
+}</code></pre>
+
+      <h4>Date Formatting:</h4>
+      <pre><code>function formatDate(date: Date, locale: string = 'nl-NL'): string {
+  return new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
+}
+
+// Usage
+const formattedDate = formatDate(new Date('2026-02-25')); // "25 februari 2026"</code></pre>
+
+      <h4>Payload CMS Integration:</h4>
+      <pre><code>// Changelog Collection
+{
+  slug: 'changelog',
+  fields: [
+    { name: 'version', type: 'text', required: true, unique: true },
+    { name: 'releaseDate', type: 'date', required: true },
+    {
+      name: 'badges',
+      type: 'array',
+      fields: [
+        { name: 'text', type: 'text' },
+        {
+          name: 'variant',
+          type: 'select',
+          options: ['new', 'major', 'security', 'beta'],
+        },
+      ],
+    },
+    { name: 'summary', type: 'textarea' },
+    {
+      name: 'changes',
+      type: 'array',
+      fields: [
+        {
+          name: 'type',
+          type: 'select',
+          options: ['new', 'improved', 'fixed', 'security'],
+          required: true,
+        },
+        {
+          name: 'items',
+          type: 'array',
+          fields: [{ name: 'description', type: 'textarea' }],
+        },
+      ],
+    },
+  ],
+  admin: {
+    defaultColumns: ['version', 'releaseDate'],
+    useAsTitle: 'version',
+  },
+}</code></pre>
+
+      <!-- STEP 8: Variations & Related Components -->
+      <h3>STEP 8: Variations & Related Components</h3>
+
+      <h4>Related Components:</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>When to Use Instead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>BlogPreview</strong></td>
+            <td>Blog posts/articles (not version history)</td>
+          </tr>
+          <tr>
+            <td><strong>Timeline</strong></td>
+            <td>Company milestones, project timeline (not product updates)</td>
+          </tr>
+          <tr>
+            <td><strong>Accordion</strong></td>
+            <td>Generic collapsible content (FAQ, docs)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Combination Patterns:</h4>
+      <ul>
+        <li><strong>DP01 (Hero) + DP06:</strong> "What's new" hero → Changelog below</li>
+        <li><strong>DP06 + DP03 (Screenshots):</strong> Changelog → Screenshots of new features</li>
+        <li><strong>PD03 (ProductTabs) + DP06:</strong> Product tabs with "Changelog" tab</li>
+      </ul>
+
+      <h4>Testing Checklist:</h4>
+      <ul>
+        <li>✅ Versions sorted chronologically (newest first)</li>
+        <li>✅ All badges display correctly</li>
+        <li>✅ Change types color-coded properly</li>
+        <li>✅ Collapsible toggle works smoothly</li>
+        <li>✅ Icons render correctly</li>
+        <li>✅ Dates formatted consistently</li>
+        <li>✅ Responsive layout stacks on mobile</li>
+        <li>✅ Keyboard navigation functional</li>
+        <li>✅ Screen reader announces versions correctly</li>
+        <li>✅ Color contrast meets WCAG AA</li>
+      </ul>
+
+      <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--grey);">
+
+      <p style="font-size: 12px; color: var(--grey-mid); text-align: center;">
+        Component: DP06: Changelog · v1.0 · Last updated: 25 Feb 2026<br>
+        Part of Plastimed Design System · Digital Product Components
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Toggle collapsible version
+    function toggleVersion(element) {
+      element.classList.toggle('expanded');
+      lucide.createIcons();  // Re-render icons after DOM change
+    }
+  </script>
+
+</body>
+</html>

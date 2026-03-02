@@ -399,6 +399,8 @@ export const Workshops: CollectionConfig = {
   hooks: {
     beforeValidate: [
       ({ data }) => {
+        if (!data) return data
+
         // Auto-calculate spots available
         if (data.maxParticipants && data.currentParticipants !== undefined) {
           const spotsLeft = data.maxParticipants - data.currentParticipants

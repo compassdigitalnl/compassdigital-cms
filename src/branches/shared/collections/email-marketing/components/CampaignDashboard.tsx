@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react'
-import type { FieldType } from 'payload'
+import type { Field } from 'payload'
 
 interface CampaignStats {
   sent: number
@@ -28,7 +28,7 @@ interface CampaignData {
   stats?: CampaignStats
 }
 
-export const CampaignDashboard: React.FC<{ field: FieldType; data: CampaignData }> = ({
+export const CampaignDashboard: React.FC<{ field: Field; data: CampaignData }> = ({
   field,
   data,
 }) => {

@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC03: ConfiguratorOptionSelector — Plastimed Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ================================
+       DESIGN TOKENS
+       ================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --amber: #F59E0B;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-lg: 16px;
+      --space-xl: 24px;
+
+      /* Border radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 14px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    }
+
+    /* ================================
+       BASE STYLES
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .demo-description {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 24px;
+    }
+
+    /* ================================
+       PC03: CONFIGURATOR OPTION SELECTOR
+       ================================ */
+
+    /* Section wrapper */
+    .cfg-section {
+      margin-bottom: 24px;
+    }
+
+    .cfg-title {
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--navy);
+    }
+
+    .cfg-title i {
+      width: 18px;
+      height: 18px;
+      color: var(--teal);
+    }
+
+    .cfg-desc {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 14px;
+    }
+
+    /* ================================
+       VARIANT 1: COLOR SWATCHES
+       ================================ */
+    .color-grid {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .color-opt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.12s;
+    }
+
+    .color-opt:hover {
+      transform: scale(1.08);
+    }
+
+    .co-swatch {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      border: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .color-opt.selected .co-swatch {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .color-opt.selected .co-swatch::after {
+      content: '✓';
+      color: white;
+      font-size: 16px;
+      font-weight: 800;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .co-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    /* ================================
+       VARIANT 2: OPTION CARDS (Radio)
+       ================================ */
+    .opt-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .opt-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      padding: 16px;
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      align-items: center;
+    }
+
+    .opt-card:hover {
+      border-color: var(--teal);
+    }
+
+    .opt-card.selected {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    /* Radio button */
+    .opt-radio {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--grey);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .opt-card.selected .opt-radio {
+      border-color: var(--teal);
+    }
+
+    .opt-card.selected .opt-radio::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    /* Option info */
+    .opt-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 1px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--navy);
+    }
+
+    .opt-badge {
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .opt-desc {
+      font-size: 12px;
+      color: var(--grey-mid);
+      line-height: 1.3;
+    }
+
+    .opt-spec {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .os-tag {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 8px;
+      background: var(--grey-light);
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .os-tag i {
+      width: 10px;
+      height: 10px;
+      color: var(--teal);
+    }
+
+    /* Option price */
+    .opt-price {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .op-amount {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .op-delta {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .op-delta.up {
+      color: var(--amber);
+    }
+
+    /* ================================
+       VARIANT 3: TOGGLE OPTIONS (Checkbox)
+       ================================ */
+    .toggle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .toggle-opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .toggle-opt:hover {
+      border-color: var(--teal);
+    }
+
+    .toggle-opt.selected {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    /* Checkbox */
+    .to-check {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--grey);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.12s;
+    }
+
+    .toggle-opt.selected .to-check {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .toggle-opt.selected .to-check i {
+      color: white;
+    }
+
+    .to-check i {
+      width: 14px;
+      height: 14px;
+      color: transparent;
+    }
+
+    /* Toggle info */
+    .to-info {
+      flex: 1;
+    }
+
+    .to-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .to-desc {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    /* Toggle price */
+    .to-price {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* ================================
+       RESPONSIVE
+       ================================ */
+    @media (max-width: 640px) {
+      .toggle-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .opt-card {
+        grid-template-columns: auto 1fr;
+      }
+
+      .opt-price {
+        grid-column: 2;
+        text-align: left;
+        margin-top: 8px;
+      }
+    }
+
+    /* ================================
+       DOCUMENTATION STYLES
+       ================================ */
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    .docs h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .docs h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .docs p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+    }
+
+    .docs ul, .docs ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .docs li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .docs code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .docs pre code {
+      background: none;
+      padding: 0;
+      color: var(--white);
+      font-size: 13px;
+    }
+
+    .info-box {
+      background: var(--teal-glow);
+      border-left: 3px solid var(--teal);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: var(--navy);
+    }
+
+    .warning-box {
+      background: #FFF8E1;
+      border-left: 3px solid #F59E0B;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .warning-box p {
+      margin: 0;
+      color: #92400E;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================
+       LIVE DEMO SECTION
+       ================================ */
+  <div class="demo-container">
+
+    <!-- Demo 1: Color Swatches -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 1: Color Swatches — Visuele kleur selectie</h2>
+      <p class="demo-description">Color picker met visuele swatches. Klik een kleur om te selecteren. Selected state toont checkmark overlay + teal border.</p>
+
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="palette"></i> Kleur</div>
+        <div class="cfg-desc">Kies je favoriete kleur. Alle kleuren zijn beschikbaar.</div>
+        <div class="color-grid">
+          <div class="color-opt" onclick="selectColor(this)">
+            <div class="co-swatch" style="background:#2D3436;"></div>
+            <div class="co-label">Space Grey</div>
+          </div>
+          <div class="color-opt selected" onclick="selectColor(this)">
+            <div class="co-swatch" style="background:#C0C0C0;"></div>
+            <div class="co-label">Zilver</div>
+          </div>
+          <div class="color-opt" onclick="selectColor(this)">
+            <div class="co-swatch" style="background:#1A1A2E;"></div>
+            <div class="co-label">Midnight</div>
+          </div>
+          <div class="color-opt" onclick="selectColor(this)">
+            <div class="co-swatch" style="background:#F5E6D3;"></div>
+            <div class="co-label">Starlight</div>
+          </div>
+          <div class="color-opt" onclick="selectColor(this)">
+            <div class="co-swatch" style="background:#FF6B6B;"></div>
+            <div class="co-label">Coral</div>
+          </div>
+          <div class="color-opt" onclick="selectColor(this)">
+            <div class="co-swatch" style="background:#00897B;"></div>
+            <div class="co-label">Teal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 2: Option Cards (Processor) -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 2: Option Cards — Processor selectie</h2>
+      <p class="demo-description">Radio-style option cards met specs en pricing. Klik een card om te selecteren (single selection).</p>
+
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="cpu"></i> Processor</div>
+        <div class="cfg-desc">Kies de chip die bij je werkzaamheden past.</div>
+        <div class="opt-grid">
+          <div class="opt-card" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>M4</h4>
+              <div class="opt-desc">10-core CPU, 10-core GPU — Ideaal voor dagelijks gebruik</div>
+              <div class="opt-spec">
+                <span class="os-tag"><i data-lucide="cpu"></i> 10-core</span>
+                <span class="os-tag"><i data-lucide="monitor"></i> 10-core GPU</span>
+              </div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">€1.599</div>
+              <div class="op-delta">Basis</div>
+            </div>
+          </div>
+
+          <div class="opt-card selected" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>M4 Pro <span class="opt-badge" style="background:var(--teal);">Populairst</span></h4>
+              <div class="opt-desc">14-core CPU, 20-core GPU — Voor creatieve professionals</div>
+              <div class="opt-spec">
+                <span class="os-tag"><i data-lucide="cpu"></i> 14-core</span>
+                <span class="os-tag"><i data-lucide="monitor"></i> 20-core GPU</span>
+                <span class="os-tag"><i data-lucide="zap"></i> 2x sneller</span>
+              </div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">€2.199</div>
+              <div class="op-delta up">+ €600</div>
+            </div>
+          </div>
+
+          <div class="opt-card" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>M4 Max <span class="opt-badge" style="background:var(--navy);">Pro</span></h4>
+              <div class="opt-desc">16-core CPU, 40-core GPU — Maximale performance voor video & 3D</div>
+              <div class="opt-spec">
+                <span class="os-tag"><i data-lucide="cpu"></i> 16-core</span>
+                <span class="os-tag"><i data-lucide="monitor"></i> 40-core GPU</span>
+                <span class="os-tag"><i data-lucide="zap"></i> 4x sneller</span>
+              </div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">€3.199</div>
+              <div class="op-delta up">+ €1.600</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 3: Option Cards (RAM) -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 3: Option Cards — RAM selectie met badges</h2>
+      <p class="demo-description">RAM configuratie met "Aanbevolen" badge. Eerste optie is included ("Incl."), upgrades tonen price delta.</p>
+
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="memory-stick"></i> Geheugen (RAM)</div>
+        <div class="cfg-desc">Meer geheugen voor zwaardere multitasking en grotere projecten.</div>
+        <div class="opt-grid">
+          <div class="opt-card" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>24 GB</h4>
+              <div class="opt-desc">Geschikt voor de meeste taken</div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">Incl.</div>
+              <div class="op-delta">Standaard</div>
+            </div>
+          </div>
+
+          <div class="opt-card selected" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>36 GB <span class="opt-badge" style="background:var(--teal);">Aanbevolen</span></h4>
+              <div class="opt-desc">Ideaal voor design, video-editing en development</div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">+ €200</div>
+              <div class="op-delta up">Upgrade</div>
+            </div>
+          </div>
+
+          <div class="opt-card" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>48 GB</h4>
+              <div class="opt-desc">Voor de meest veeleisende workflows</div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">+ €400</div>
+              <div class="op-delta up">Upgrade</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 4: Toggle Options (Extras) -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 4: Toggle Options — Extras/Accessories</h2>
+      <p class="demo-description">Checkbox-style toggles voor extra's. Multiple selection toegestaan. Klik om te selecteren/deselecteren.</p>
+
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="plus-circle"></i> Extra's</div>
+        <div class="cfg-desc">Optionele accessoires en services toevoegen.</div>
+        <div class="toggle-grid">
+          <div class="toggle-opt selected" onclick="toggleExtra(this)">
+            <div class="to-check"><i data-lucide="check"></i></div>
+            <div class="to-info">
+              <div class="to-name">AppleCare+ (3 jaar)</div>
+              <div class="to-desc">Uitgebreide garantie + schadeprotectie</div>
+            </div>
+            <div class="to-price">+ €299</div>
+          </div>
+
+          <div class="toggle-opt" onclick="toggleExtra(this)">
+            <div class="to-check"><i data-lucide="check"></i></div>
+            <div class="to-info">
+              <div class="to-name">USB-C Hub (7-in-1)</div>
+              <div class="to-desc">HDMI, USB-A, SD, ethernet</div>
+            </div>
+            <div class="to-price">+ €79</div>
+          </div>
+
+          <div class="toggle-opt selected" onclick="toggleExtra(this)">
+            <div class="to-check"><i data-lucide="check"></i></div>
+            <div class="to-info">
+              <div class="to-name">Gravering</div>
+              <div class="to-desc">Persoonlijke tekst op de onderkant</div>
+            </div>
+            <div class="to-price">Gratis</div>
+          </div>
+
+          <div class="toggle-opt" onclick="toggleExtra(this)">
+            <div class="to-check"><i data-lucide="check"></i></div>
+            <div class="to-info">
+              <div class="to-name">Laptop Sleeve</div>
+              <div class="to-desc">Premium leren hoes</div>
+            </div>
+            <div class="to-price">+ €129</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 5: Storage (Compact version without specs) -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 5: Storage Options — Compact layout zonder specs</h2>
+      <p class="demo-description">Eenvoudigere variant zonder spec tags. Ideaal voor opties die geen technische details nodig hebben.</p>
+
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="hard-drive"></i> Opslag (SSD)</div>
+        <div class="cfg-desc">Snelle NVMe opslag voor al je bestanden en projecten.</div>
+        <div class="opt-grid">
+          <div class="opt-card selected" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>512 GB</h4>
+              <div class="opt-desc">Voldoende voor de meeste gebruikers</div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">Incl.</div>
+              <div class="op-delta">Standaard</div>
+            </div>
+          </div>
+
+          <div class="opt-card" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>1 TB</h4>
+              <div class="opt-desc">Dubbele opslagruimte — ideaal voor foto & video</div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">+ €200</div>
+              <div class="op-delta up">Upgrade</div>
+            </div>
+          </div>
+
+          <div class="opt-card" onclick="selectOption(this)">
+            <div class="opt-radio"></div>
+            <div class="opt-info">
+              <h4>2 TB</h4>
+              <div class="opt-desc">Maximale opslag voor grote projecten en mediabestanden</div>
+            </div>
+            <div class="opt-price">
+              <div class="op-amount">+ €400</div>
+              <div class="op-delta up">Upgrade</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================================
+       DOCUMENTATION
+       ================================ -->
+  <div class="docs">
+
+    <h2>📋 PC03: ConfiguratorOptionSelector</h2>
+    <p><strong>Component Type:</strong> Product Type Component — Configurator Option Selection<br>
+    <strong>Category:</strong> Form Input / Selection Controls<br>
+    <strong>Complexity:</strong> Medium</p>
+
+    <div class="info-box">
+      <p><strong>💡 Purpose:</strong> Provides 3 visual selection patterns for product configuration: Color Swatches (visual), Option Cards (radio with details), and Toggle Options (checkbox for extras). Enables users to customize products by selecting from available options.</p>
+    </div>
+
+    <!-- STEP 1: Component Overview -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>What is ConfiguratorOptionSelector?</h3>
+    <p>ConfiguratorOptionSelector is a family of 3 related selection components designed for product configurators. Each variant is optimized for different types of options: visual choices (colors/materials), detailed specifications (processor/RAM/storage), and optional extras (accessories/services).</p>
+
+    <h3>The 3 Variants</h3>
+
+    <h4>1. Color Swatches (Visual Selection)</h4>
+    <ul>
+      <li><strong>Use case:</strong> Colors, materials, finishes, patterns</li>
+      <li><strong>Visual:</strong> 48×48px colored squares with checkmark overlay</li>
+      <li><strong>Selection:</strong> Single selection (radio behavior)</li>
+      <li><strong>Layout:</strong> Flex-wrap horizontal grid</li>
+    </ul>
+
+    <h4>2. Option Cards (Radio with Details)</h4>
+    <ul>
+      <li><strong>Use case:</strong> Processor, RAM, storage, size variants, subscription tiers</li>
+      <li><strong>Visual:</strong> Full-width cards with radio button + info section + price</li>
+      <li><strong>Selection:</strong> Single selection (radio behavior)</li>
+      <li><strong>Layout:</strong> Vertical stack</li>
+      <li><strong>Features:</strong> Title, description, spec tags, badges, price deltas</li>
+    </ul>
+
+    <h4>3. Toggle Options (Checkbox for Extras)</h4>
+    <ul>
+      <li><strong>Use case:</strong> Accessories, services, warranties, add-ons</li>
+      <li><strong>Visual:</strong> 2-column grid cards with checkbox + name/desc + price</li>
+      <li><strong>Selection:</strong> Multiple selection (checkbox behavior)</li>
+      <li><strong>Layout:</strong> 2-column grid (1-col on mobile)</li>
+    </ul>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Visual feedback:</strong> Teal border + light teal background on selected state</li>
+      <li><strong>Hover effects:</strong> Teal border on hover, scale animation on color swatches</li>
+      <li><strong>Badge support:</strong> "Populairst", "Aanbevolen", "Pro" labels</li>
+      <li><strong>Price display:</strong> Base price, included ("Incl."), or delta ("+€200")</li>
+      <li><strong>Spec tags:</strong> Icon + text tags for technical specs (CPU cores, GPU, etc.)</li>
+      <li><strong>Accessibility:</strong> Keyboard navigation, ARIA attributes, focus management</li>
+      <li><strong>Responsive design:</strong> Mobile-optimized layouts</li>
+    </ul>
+
+    <!-- STEP 2: When to Use -->
+    <h2>STEP 2: When to Use This Component</h2>
+
+    <h3>Use Color Swatches When:</h3>
+    <ul>
+      <li>Option is primarily VISUAL (color, material, texture, pattern)</li>
+      <li>You have 3-12 options to display</li>
+      <li>Users benefit from seeing the actual color/material</li>
+      <li>Labels are simple (1-2 words: "Space Grey", "Zilver")</li>
+    </ul>
+
+    <h3>Use Option Cards When:</h3>
+    <ul>
+      <li>Option has COMPLEX DETAILS (specs, features, descriptions)</li>
+      <li>You need to show pricing differences clearly</li>
+      <li>Options have technical specifications (CPU cores, RAM size, storage)</li>
+      <li>You want to guide users with badges ("Populairst", "Aanbevolen")</li>
+      <li>You have 2-6 mutually exclusive options</li>
+    </ul>
+
+    <h3>Use Toggle Options When:</h3>
+    <ul>
+      <li>Options are EXTRAS/ADD-ONS (not core configuration)</li>
+      <li>Users can select MULTIPLE items</li>
+      <li>Options are independent (selecting one doesn't affect others)</li>
+      <li>You have 2-8 optional extras</li>
+      <li>Price is the main decision factor (warranties, accessories)</li>
+    </ul>
+
+    <h3>When NOT to Use</h3>
+    <ul>
+      <li><strong>Simple text options:</strong> Use native <code>&lt;select&gt;</code> dropdown instead</li>
+      <li><strong>20+ options:</strong> Use searchable dropdown or filterable list</li>
+      <li><strong>Multi-step dependencies:</strong> Use ConfiguratorStepNav to break into separate steps</li>
+      <li><strong>Quantity selection:</strong> Use QuantityStepper (C23) instead</li>
+    </ul>
+
+    <h3>Component Pairing</h3>
+    <p>ConfiguratorOptionSelector works best when combined with:</p>
+    <ul>
+      <li><strong>PC02: ConfiguratorStepNav</strong> — Shows which step user is on</li>
+      <li><strong>PC04: ConfiguratorPreview</strong> — Live preview updates as user selects options</li>
+      <li><strong>PC05: ConfiguratorPriceBreakdown</strong> — Running total updates with each selection</li>
+      <li><strong>PC06: ConfiguratorValidation</strong> — Shows errors if required options not selected</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Selected state:</strong> <code>--teal: #00897B</code> (border), <code>--teal-glow: rgba(0,137,123,0.12)</code> (background)</li>
+      <li><strong>Default border:</strong> <code>--grey: #E8ECF1</code></li>
+      <li><strong>Hover border:</strong> <code>--teal: #00897B</code></li>
+      <li><strong>Radio/checkbox fill:</strong> <code>--teal: #00897B</code></li>
+      <li><strong>Badge backgrounds:</strong> Teal (populairst), Navy (pro), Amber (aanbevolen)</li>
+      <li><strong>Price delta:</strong> <code>--amber: #F59E0B</code> (upgrade), <code>--grey-mid: #94A3B8</code> (included)</li>
+      <li><strong>Spec tag bg:</strong> <code>--grey-light: #F1F4F8</code></li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Option title:</strong> 14px, 700 weight, Plus Jakarta Sans</li>
+      <li><strong>Option description:</strong> 12px, 400 weight, <code>--grey-mid</code> color</li>
+      <li><strong>Price amount:</strong> 16px, 800 weight, Plus Jakarta Sans</li>
+      <li><strong>Price delta:</strong> 11px, 600 weight</li>
+      <li><strong>Color label:</strong> 11px, 600 weight</li>
+      <li><strong>Toggle name:</strong> 13px, 700 weight</li>
+      <li><strong>Toggle desc:</strong> 11px, 400 weight</li>
+      <li><strong>Toggle price:</strong> 13px, 700 weight, JetBrains Mono</li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Color swatch size:</strong> 48×48px</li>
+      <li><strong>Color grid gap:</strong> 8px</li>
+      <li><strong>Option card padding:</strong> 16px</li>
+      <li><strong>Option card gap:</strong> 14px (columns), 8px (rows)</li>
+      <li><strong>Toggle padding:</strong> 14px</li>
+      <li><strong>Toggle grid gap:</strong> 8px</li>
+      <li><strong>Radio/checkbox size:</strong> 22×22px</li>
+      <li><strong>Spec tag padding:</strong> 2px 8px</li>
+    </ul>
+
+    <h3>Border Radius</h3>
+    <ul>
+      <li><strong>Color swatches:</strong> 14px</li>
+      <li><strong>Option cards:</strong> 14px</li>
+      <li><strong>Toggle cards:</strong> 12px</li>
+      <li><strong>Radio button:</strong> 50% (circle)</li>
+      <li><strong>Checkbox:</strong> 6px (rounded square)</li>
+      <li><strong>Badges:</strong> 4px</li>
+      <li><strong>Spec tags:</strong> 4px</li>
+    </ul>
+
+    <h3>Transitions</h3>
+    <ul>
+      <li><strong>All state changes:</strong> <code>0.2s cubic-bezier(0.4, 0, 0.2, 1)</code></li>
+      <li><strong>Color swatch scale:</strong> <code>transform: scale(1.08)</code> on hover, <code>0.12s</code></li>
+      <li><strong>Radio/checkbox:</strong> <code>0.15s</code> for fill animation</li>
+    </ul>
+
+    <h3>Icons (Lucide)</h3>
+    <ul>
+      <li><strong>Section icons:</strong> <code>palette</code>, <code>cpu</code>, <code>memory-stick</code>, <code>hard-drive</code>, <code>plus-circle</code></li>
+      <li><strong>Spec tag icons:</strong> <code>cpu</code>, <code>monitor</code>, <code>zap</code></li>
+      <li><strong>Checkbox checkmark:</strong> <code>check</code></li>
+    </ul>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interfaces</h3>
+    <pre><code>// Color Swatches
+interface ColorSwatchOption {
+  id: string;
+  label: string;
+  colorValue: string;  // Hex color (e.g., "#2D3436")
+  colorName?: string;  // Alternative: image URL for patterns/materials
+}
+
+interface ColorSwatchesProps {
+  options: ColorSwatchOption[];
+  selectedId: string;
+  onChange: (optionId: string) => void;
+  sectionTitle?: string;
+  sectionIcon?: string;
+  description?: string;
+}
+
+// Option Cards
+interface OptionCardSpec {
+  icon: string;        // Lucide icon name
+  label: string;       // e.g., "10-core", "2x sneller"
+}
+
+interface OptionCardOption {
+  id: string;
+  title: string;
+  description: string;
+  specs?: OptionCardSpec[];
+  badge?: {
+    label: string;     // e.g., "Populairst", "Pro"
+    color: string;     // Background color
+  };
+  price: {
+    amount: string;    // e.g., "€1.599", "Incl.", "+ €200"
+    delta?: string;    // e.g., "Basis", "Upgrade"
+    deltaType?: 'up' | 'neutral'; // Color: amber or grey
+  };
+}
+
+interface OptionCardsProps {
+  options: OptionCardOption[];
+  selectedId: string;
+  onChange: (optionId: string) => void;
+  sectionTitle: string;
+  sectionIcon: string;
+  description?: string;
+}
+
+// Toggle Options
+interface ToggleOption {
+  id: string;
+  name: string;
+  description: string;
+  price: string;       // e.g., "+ €299", "Gratis"
+}
+
+interface ToggleOptionsProps {
+  options: ToggleOption[];
+  selectedIds: string[];
+  onChange: (selectedIds: string[]) => void;
+  sectionTitle: string;
+  sectionIcon: string;
+  description?: string;
+}
+
+// Example usage
+const processorOptions: OptionCardOption[] = [
+  {
+    id: 'm4',
+    title: 'M4',
+    description: '10-core CPU, 10-core GPU — Ideaal voor dagelijks gebruik',
+    specs: [
+      { icon: 'cpu', label: '10-core' },
+      { icon: 'monitor', label: '10-core GPU' },
+    ],
+    price: { amount: '€1.599', delta: 'Basis', deltaType: 'neutral' },
+  },
+  {
+    id: 'm4-pro',
+    title: 'M4 Pro',
+    description: '14-core CPU, 20-core GPU — Voor creatieve professionals',
+    badge: { label: 'Populairst', color: '#00897B' },
+    specs: [
+      { icon: 'cpu', label: '14-core' },
+      { icon: 'monitor', label: '20-core GPU' },
+      { icon: 'zap', label: '2x sneller' },
+    ],
+    price: { amount: '€2.199', delta: '+ €600', deltaType: 'up' },
+  },
+];</code></pre>
+
+    <h3>HTML Attributes</h3>
+    <ul>
+      <li><strong>Color swatch:</strong> <code>.color-opt</code> + <code>.selected</code> (state)</li>
+      <li><strong>Option card:</strong> <code>.opt-card</code> + <code>.selected</code> (state)</li>
+      <li><strong>Toggle card:</strong> <code>.toggle-opt</code> + <code>.selected</code> (state)</li>
+      <li><strong>Price delta:</strong> <code>.op-delta</code> + optional <code>.up</code> (amber color)</li>
+      <li><strong>Badge:</strong> <code>.opt-badge</code> with inline <code>style="background: var(--teal)"</code></li>
+    </ul>
+
+    <!-- STEP 5: Layout Rules -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Color Swatches Layout</h3>
+    <pre><code>&lt;div class="cfg-section"&gt;
+  &lt;div class="cfg-title"&gt;
+    &lt;i data-lucide="palette"&gt;&lt;/i&gt; Kleur
+  &lt;/div&gt;
+  &lt;div class="cfg-desc"&gt;Kies je favoriete kleur.&lt;/div&gt;
+
+  &lt;div class="color-grid"&gt;
+    &lt;div class="color-opt selected"&gt;
+      &lt;div class="co-swatch" style="background:#2D3436;"&gt;&lt;/div&gt;
+      &lt;div class="co-label"&gt;Space Grey&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- More swatches... --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Option Cards Layout</h3>
+    <pre><code>&lt;div class="cfg-section"&gt;
+  &lt;div class="cfg-title"&gt;
+    &lt;i data-lucide="cpu"&gt;&lt;/i&gt; Processor
+  &lt;/div&gt;
+  &lt;div class="cfg-desc"&gt;Kies de chip die bij je werkzaamheden past.&lt;/div&gt;
+
+  &lt;div class="opt-grid"&gt;
+    &lt;div class="opt-card selected"&gt;
+      &lt;div class="opt-radio"&gt;&lt;/div&gt;
+
+      &lt;div class="opt-info"&gt;
+        &lt;h4&gt;M4 Pro &lt;span class="opt-badge" style="background:var(--teal);"&gt;Populairst&lt;/span&gt;&lt;/h4&gt;
+        &lt;div class="opt-desc"&gt;14-core CPU, 20-core GPU — Voor creatieve professionals&lt;/div&gt;
+        &lt;div class="opt-spec"&gt;
+          &lt;span class="os-tag"&gt;&lt;i data-lucide="cpu"&gt;&lt;/i&gt; 14-core&lt;/span&gt;
+          &lt;span class="os-tag"&gt;&lt;i data-lucide="monitor"&gt;&lt;/i&gt; 20-core GPU&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class="opt-price"&gt;
+        &lt;div class="op-amount"&gt;€2.199&lt;/div&gt;
+        &lt;div class="op-delta up"&gt;+ €600&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Toggle Options Layout</h3>
+    <pre><code>&lt;div class="cfg-section"&gt;
+  &lt;div class="cfg-title"&gt;
+    &lt;i data-lucide="plus-circle"&gt;&lt;/i&gt; Extra's
+  &lt;/div&gt;
+  &lt;div class="cfg-desc"&gt;Optionele accessoires en services toevoegen.&lt;/div&gt;
+
+  &lt;div class="toggle-grid"&gt;
+    &lt;div class="toggle-opt selected"&gt;
+      &lt;div class="to-check"&gt;&lt;i data-lucide="check"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;div class="to-info"&gt;
+        &lt;div class="to-name"&gt;AppleCare+ (3 jaar)&lt;/div&gt;
+        &lt;div class="to-desc"&gt;Uitgebreide garantie + schadeprotectie&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="to-price"&gt;+ €299&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Responsive Behavior</h3>
+    <ul>
+      <li><strong>Color swatches:</strong> Flex-wrap — always horizontal, wraps to multiple rows</li>
+      <li><strong>Option cards:</strong> Desktop = 3-column grid (radio, info, price), Mobile (≤640px) = 2-column (radio + info full-width, price below)</li>
+      <li><strong>Toggle grid:</strong> Desktop = 2 columns, Mobile = 1 column</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>ARIA Attributes</h3>
+    <pre><code>&lt;!-- Color Swatches --&gt;
+&lt;div class="cfg-section" role="radiogroup" aria-labelledby="color-label"&gt;
+  &lt;div id="color-label" class="cfg-title"&gt;
+    &lt;i data-lucide="palette" aria-hidden="true"&gt;&lt;/i&gt; Kleur
+  &lt;/div&gt;
+
+  &lt;div class="color-grid"&gt;
+    &lt;button
+      class="color-opt selected"
+      role="radio"
+      aria-checked="true"
+      aria-label="Space Grey"
+      onclick="selectColor(this)"
+    &gt;
+      &lt;div class="co-swatch" style="background:#2D3436;" aria-hidden="true"&gt;&lt;/div&gt;
+      &lt;div class="co-label"&gt;Space Grey&lt;/div&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Option Cards --&gt;
+&lt;div class="cfg-section" role="radiogroup" aria-labelledby="processor-label"&gt;
+  &lt;div id="processor-label" class="cfg-title"&gt;
+    &lt;i data-lucide="cpu" aria-hidden="true"&gt;&lt;/i&gt; Processor
+  &lt;/div&gt;
+
+  &lt;div class="opt-grid"&gt;
+    &lt;button
+      class="opt-card selected"
+      role="radio"
+      aria-checked="true"
+      aria-describedby="processor-m4-pro-desc"
+      onclick="selectOption(this)"
+    &gt;
+      &lt;div class="opt-radio" aria-hidden="true"&gt;&lt;/div&gt;
+      &lt;div class="opt-info"&gt;
+        &lt;h4&gt;M4 Pro &lt;span class="opt-badge" style="background:var(--teal);"&gt;Populairst&lt;/span&gt;&lt;/h4&gt;
+        &lt;div id="processor-m4-pro-desc" class="opt-desc"&gt;14-core CPU, 20-core GPU — Voor creatieve professionals&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="opt-price" aria-label="2199 euro, 600 euro meer dan basis"&gt;
+        &lt;div class="op-amount"&gt;€2.199&lt;/div&gt;
+        &lt;div class="op-delta up"&gt;+ €600&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Toggle Options --&gt;
+&lt;div class="cfg-section" role="group" aria-labelledby="extras-label"&gt;
+  &lt;div id="extras-label" class="cfg-title"&gt;
+    &lt;i data-lucide="plus-circle" aria-hidden="true"&gt;&lt;/i&gt; Extra's
+  &lt;/div&gt;
+
+  &lt;div class="toggle-grid"&gt;
+    &lt;button
+      class="toggle-opt selected"
+      role="checkbox"
+      aria-checked="true"
+      aria-label="AppleCare+ (3 jaar), 299 euro"
+      onclick="toggleExtra(this)"
+    &gt;
+      &lt;div class="to-check" aria-hidden="true"&gt;&lt;i data-lucide="check"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;div class="to-info"&gt;
+        &lt;div class="to-name"&gt;AppleCare+ (3 jaar)&lt;/div&gt;
+        &lt;div class="to-desc"&gt;Uitgebreide garantie + schadeprotectie&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="to-price"&gt;+ €299&lt;/div&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Tab:</strong> Move between option groups</li>
+      <li><strong>Arrow keys:</strong> Navigate within option group (Up/Down for cards, Left/Right for swatches)</li>
+      <li><strong>Space/Enter:</strong> Select focused option</li>
+      <li><strong>Escape (optional):</strong> Deselect (toggle options only)</li>
+    </ul>
+
+    <h3>Focus Management</h3>
+    <ul>
+      <li><strong>Focus ring:</strong> <code>box-shadow: 0 0 0 3px var(--teal-glow)</code></li>
+      <li><strong>Focus order:</strong> Section title → first option → last option → next section</li>
+      <li><strong>Roving tabindex:</strong> Only selected option is tabbable (tabindex="0"), others are tabindex="-1"</li>
+    </ul>
+
+    <h3>Screen Reader Announcements</h3>
+    <ul>
+      <li><strong>On selection (radio):</strong> "M4 Pro geselecteerd. €2.199, €600 meer dan basis. Populairst."</li>
+      <li><strong>On toggle:</strong> "AppleCare+ (3 jaar) aangevinkt. €299."</li>
+      <li><strong>Badge announcement:</strong> Include badge text in aria-label (e.g., "M4 Pro, populairst")</li>
+    </ul>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component (Color Swatches)</h3>
+    <pre><code>// components/ColorSwatches.tsx
+import React from 'react';
+import { Palette } from 'lucide-react';
+
+interface ColorOption {
+  id: string;
+  label: string;
+  colorValue: string;
+}
+
+interface ColorSwatchesProps {
+  options: ColorOption[];
+  selectedId: string;
+  onChange: (optionId: string) => void;
+  title?: string;
+  description?: string;
+}
+
+export function ColorSwatches({
+  options,
+  selectedId,
+  onChange,
+  title = 'Kleur',
+  description,
+}: ColorSwatchesProps) {
+
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let newIndex = index;
+
+    if (e.key === 'ArrowLeft' && index > 0) {
+      newIndex = index - 1;
+    } else if (e.key === 'ArrowRight' && index < options.length - 1) {
+      newIndex = index + 1;
+    }
+
+    if (newIndex !== index) {
+      const nextButton = document.querySelectorAll('.color-opt')[newIndex] as HTMLButtonElement;
+      nextButton?.focus();
+      e.preventDefault();
+    }
+  };
+
+  return (
+    &lt;div className="cfg-section" role="radiogroup" aria-labelledby="color-label"&gt;
+      &lt;div id="color-label" className="cfg-title"&gt;
+        &lt;Palette size={18} /&gt; {title}
+      &lt;/div&gt;
+      {description && &lt;div className="cfg-desc"&gt;{description}&lt;/div&gt;}
+
+      &lt;div className="color-grid"&gt;
+        {options.map((option, index) =&gt; (
+          &lt;button
+            key={option.id}
+            className={`color-opt ${selectedId === option.id ? 'selected' : ''}`}
+            role="radio"
+            aria-checked={selectedId === option.id}
+            aria-label={option.label}
+            tabIndex={selectedId === option.id ? 0 : -1}
+            onClick={() =&gt; onChange(option.id)}
+            onKeyDown={(e) =&gt; handleKeyDown(e, index)}
+          &gt;
+            &lt;div
+              className="co-swatch"
+              style={{ background: option.colorValue }}
+              aria-hidden="true"
+            /&gt;
+            &lt;div className="co-label"&gt;{option.label}&lt;/div&gt;
+          &lt;/button&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+    <h3>React Component (Option Cards)</h3>
+    <pre><code>// components/OptionCards.tsx
+import React from 'react';
+import * as Icons from 'lucide-react';
+
+interface OptionCardOption {
+  id: string;
+  title: string;
+  description: string;
+  specs?: Array&lt;{ icon: string; label: string }&gt;;
+  badge?: { label: string; color: string };
+  price: {
+    amount: string;
+    delta?: string;
+    deltaType?: 'up' | 'neutral';
+  };
+}
+
+interface OptionCardsProps {
+  options: OptionCardOption[];
+  selectedId: string;
+  onChange: (optionId: string) => void;
+  title: string;
+  icon: string;
+  description?: string;
+}
+
+export function OptionCards({
+  options,
+  selectedId,
+  onChange,
+  title,
+  icon,
+  description,
+}: OptionCardsProps) {
+  const IconComponent = Icons[icon as keyof typeof Icons] as React.ElementType;
+
+  return (
+    &lt;div className="cfg-section" role="radiogroup" aria-labelledby={`${icon}-label`}&gt;
+      &lt;div id={`${icon}-label`} className="cfg-title"&gt;
+        &lt;IconComponent size={18} /&gt; {title}
+      &lt;/div&gt;
+      {description && &lt;div className="cfg-desc"&gt;{description}&lt;/div&gt;}
+
+      &lt;div className="opt-grid"&gt;
+        {options.map((option) =&gt; (
+          &lt;button
+            key={option.id}
+            className={`opt-card ${selectedId === option.id ? 'selected' : ''}`}
+            role="radio"
+            aria-checked={selectedId === option.id}
+            onClick={() =&gt; onChange(option.id)}
+          &gt;
+            &lt;div className="opt-radio" aria-hidden="true" /&gt;
+
+            &lt;div className="opt-info"&gt;
+              &lt;h4&gt;
+                {option.title}
+                {option.badge && (
+                  &lt;span
+                    className="opt-badge"
+                    style={{ background: option.badge.color }}
+                  &gt;
+                    {option.badge.label}
+                  &lt;/span&gt;
+                )}
+              &lt;/h4&gt;
+              &lt;div className="opt-desc"&gt;{option.description}&lt;/div&gt;
+
+              {option.specs && option.specs.length > 0 && (
+                &lt;div className="opt-spec"&gt;
+                  {option.specs.map((spec, idx) =&gt; {
+                    const SpecIcon = Icons[spec.icon as keyof typeof Icons] as React.ElementType;
+                    return (
+                      &lt;span key={idx} className="os-tag"&gt;
+                        &lt;SpecIcon size={10} /&gt; {spec.label}
+                      &lt;/span&gt;
+                    );
+                  })}
+                &lt;/div&gt;
+              )}
+            &lt;/div&gt;
+
+            &lt;div className="opt-price"&gt;
+              &lt;div className="op-amount"&gt;{option.price.amount}&lt;/div&gt;
+              {option.price.delta && (
+                &lt;div className={`op-delta ${option.price.deltaType || ''}`}&gt;
+                  {option.price.delta}
+                &lt;/div&gt;
+              )}
+            &lt;/div&gt;
+          &lt;/button&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+    <h3>Payload CMS Integration</h3>
+    <pre><code>// collections/ProductConfigurators.ts (continuation)
+{
+  name: 'steps',
+  type: 'array',
+  fields: [
+    // ... (see PC02 docs for full step config)
+    {
+      name: 'options',
+      type: 'array',
+      label: 'Configuration Options',
+      fields: [
+        {
+          name: 'selectionType',
+          type: 'select',
+          options: [
+            { label: 'Color Swatches', value: 'color-swatches' },
+            { label: 'Option Cards (Radio)', value: 'option-cards' },
+            { label: 'Toggle Options (Checkbox)', value: 'toggle-options' },
+          ],
+          required: true,
+        },
+        {
+          name: 'options',
+          type: 'array',
+          label: 'Available Options',
+          fields: [
+            {
+              name: 'id',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'title',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+            },
+            {
+              name: 'colorValue',
+              type: 'text',
+              label: 'Color Hex Value (for swatches)',
+              admin: {
+                condition: (data, siblingData) =&gt; siblingData.selectionType === 'color-swatches',
+              },
+            },
+            {
+              name: 'specs',
+              type: 'array',
+              label: 'Specification Tags (for option cards)',
+              admin: {
+                condition: (data, siblingData) =&gt; siblingData.selectionType === 'option-cards',
+              },
+              fields: [
+                {
+                  name: 'icon',
+                  type: 'select',
+                  options: [
+                    { label: 'CPU', value: 'cpu' },
+                    { label: 'Monitor', value: 'monitor' },
+                    { label: 'Zap (Speed)', value: 'zap' },
+                    { label: 'Memory', value: 'memory-stick' },
+                    { label: 'Hard Drive', value: 'hard-drive' },
+                  ],
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                },
+              ],
+            },
+            {
+              name: 'badge',
+              type: 'group',
+              label: 'Badge (Optional)',
+              fields: [
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Badge Text (e.g., "Populairst", "Pro")',
+                },
+                {
+                  name: 'color',
+                  type: 'select',
+                  options: [
+                    { label: 'Teal (Populairst)', value: '#00897B' },
+                    { label: 'Navy (Pro)', value: '#0A1628' },
+                    { label: 'Amber (Aanbevolen)', value: '#F59E0B' },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'price',
+              type: 'group',
+              label: 'Pricing',
+              fields: [
+                {
+                  name: 'amount',
+                  type: 'text',
+                  label: 'Price (e.g., "€1.599", "Incl.", "+ €200")',
+                  required: true,
+                },
+                {
+                  name: 'delta',
+                  type: 'text',
+                  label: 'Delta Label (e.g., "Basis", "Upgrade")',
+                },
+                {
+                  name: 'deltaType',
+                  type: 'select',
+                  options: [
+                    { label: 'Neutral (grey)', value: 'neutral' },
+                    { label: 'Upgrade (amber)', value: 'up' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}</code></pre>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Variant Selection Guide</h3>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <tr style="background: var(--grey-light);">
+        <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Use Case</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Variant</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid var(--grey);">Example</th>
+      </tr>
+      <tr>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Colors, materials, patterns</td>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Color Swatches</td>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Laptop colors, fabric patterns, paint finishes</td>
+      </tr>
+      <tr>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Technical specs with details</td>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Option Cards</td>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Processor, RAM, storage, subscription tiers</td>
+      </tr>
+      <tr>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Multiple extras/add-ons</td>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Toggle Options</td>
+        <td style="padding: 12px; border: 1px solid var(--grey);">Warranties, accessories, services</td>
+      </tr>
+    </table>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>VP01: VariantColorSwatches</strong> — Similar color selector for product variants (non-configurator)</li>
+      <li><strong>VP02: VariantSizeSelector</strong> — Size buttons (S/M/L/XL) with stock indicators</li>
+      <li><strong>VP03: VariantDropdownSelector</strong> — Native select dropdown for 10+ options</li>
+      <li><strong>BB02: BundleProductCard</strong> — Product cards in bundle builder (similar to option cards)</li>
+      <li><strong>C23: QuantityStepper</strong> — Quantity input (different pattern)</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Single selection works (radio behavior) on color swatches and option cards</li>
+      <li>✓ Multiple selection works (checkbox behavior) on toggle options</li>
+      <li>✓ Selected state shows teal border + light teal background</li>
+      <li>✓ Hover effects work (scale on swatches, border on cards)</li>
+      <li>✓ Badges render correctly with proper colors</li>
+      <li>✓ Price deltas show correct color (amber for "up", grey for "neutral")</li>
+      <li>✓ Spec tags render with icons and labels</li>
+      <li>✓ Mobile: Toggle grid switches to 1 column, option cards reflow properly</li>
+      <li>✓ Keyboard navigation works (Tab, Arrow keys, Space/Enter)</li>
+      <li>✓ ARIA attributes correct (role="radio/checkbox", aria-checked)</li>
+      <li>✓ Focus ring visible on keyboard navigation</li>
+      <li>✓ Screen reader announces selections properly</li>
+      <li>✓ Icons initialize correctly (Lucide)</li>
+    </ul>
+
+    <h3>Common Pitfalls</h3>
+    <ul>
+      <li><strong>❌ Mixing selection types:</strong> Don't use radio behavior for multiple selection or checkbox for single selection</li>
+      <li><strong>❌ Too many color swatches:</strong> 12+ colors becomes overwhelming — consider grouping or dropdown</li>
+      <li><strong>❌ Missing price context:</strong> Always show "Incl." or "Standaard" for base option, not just blank</li>
+      <li><strong>❌ Unclear badges:</strong> Use "Populairst" or "Aanbevolen", not vague terms like "Best"</li>
+      <li><strong>❌ Inconsistent pricing format:</strong> Stick to "€1.599" (with dot, not comma) for consistency</li>
+      <li><strong>❌ Missing descriptions:</strong> Option cards without descriptions are harder to understand</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>💡 Best Practice:</strong> For color swatches, always provide text labels below — don't rely solely on color for accessibility (color-blind users need text confirmation).</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Color selection handler (radio behavior)
+    function selectColor(clickedElement) {
+      const parent = clickedElement.closest('.color-grid');
+      parent.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('selected'));
+      clickedElement.classList.add('selected');
+
+      const label = clickedElement.querySelector('.co-label').textContent;
+      console.log('Selected color:', label);
+    }
+
+    // Option selection handler (radio behavior)
+    function selectOption(clickedElement) {
+      const parent = clickedElement.closest('.opt-grid');
+      parent.querySelectorAll('.opt-card').forEach(card => card.classList.remove('selected'));
+      clickedElement.classList.add('selected');
+
+      const title = clickedElement.querySelector('h4').textContent;
+      console.log('Selected option:', title);
+    }
+
+    // Toggle selection handler (checkbox behavior)
+    function toggleExtra(clickedElement) {
+      clickedElement.classList.toggle('selected');
+
+      const name = clickedElement.querySelector('.to-name').textContent;
+      const isSelected = clickedElement.classList.contains('selected');
+      console.log(`${name}: ${isSelected ? 'Selected' : 'Deselected'}`);
+    }
+  </script>
+
+</body>
+</html>

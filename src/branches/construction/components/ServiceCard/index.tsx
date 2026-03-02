@@ -28,7 +28,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     slug,
     shortDescription,
     icon,
-    serviceType,
     features,
     status,
   } = service
@@ -36,7 +35,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   // Bug fix: collection uses 'published', not 'active'
   if (status !== 'published') return null
 
-  const iconUrl = typeof icon === 'object' && icon !== null ? icon.url : null
+  // icon is a string (emoji or icon name), not an image object
+  const iconUrl = null
 
   return (
     <article className={`service-card service-card--${variant} ${className}`}>
@@ -45,15 +45,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         <div className="service-card__icon">
           <img src={iconUrl} alt={title} width={64} height={64} />
         </div>
-      )}
-
-      {/* Service Type Badge */}
-      {serviceType && (
-        <span className="service-card__badge">
-          {serviceType === 'residential' && 'Particulier'}
-          {serviceType === 'commercial' && 'Zakelijk'}
-          {serviceType === 'both' && 'Particulier & Zakelijk'}
-        </span>
       )}
 
       {/* Content */}

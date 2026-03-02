@@ -198,8 +198,6 @@ export default buildConfig({
     user: Users.slug,
     meta: {
       titleSuffix: '— Contyzr CMS',
-      favicon: '/favicon.ico',
-      ogImage: '/og-image.jpg',
     },
     // Custom CSS - Contyzr Brand Styling (DISABLED - uncomment to re-enable)
     // css: path.resolve(dirname, 'styles/admin.scss'),

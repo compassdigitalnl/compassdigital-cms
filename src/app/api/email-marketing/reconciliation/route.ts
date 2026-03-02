@@ -19,6 +19,7 @@ import {
 } from '@/lib/queue/schedulers/reconciliationScheduler'
 import { getReconciler } from '@/lib/email/reconciliation/reconciler'
 import { rateLimit, RateLimitPresets } from '@/lib/security/rate-limiter'
+import { checkRole, isUser } from '@/access/utilities'
 
 // ═══════════════════════════════════════════════════════════
 // POST - Trigger Manual Reconciliation
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
 
       case 'schedule-daily': {
         // Schedule daily reconciliation
-        if (user.role !== 'super-admin') {
+        if (!checkRole(['super-admin'], user)) {
           return NextResponse.json(
             { success: false, error: 'Forbidden - super-admin only' },
             { status: 403 }
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
 
       case 'schedule-hourly': {
         // Schedule hourly reconciliation
-        if (user.role !== 'super-admin') {
+        if (!checkRole(['super-admin'], user)) {
           return NextResponse.json(
             { success: false, error: 'Forbidden - super-admin only' },
             { status: 403 }
@@ -114,7 +115,7 @@ export async function POST(request: NextRequest) {
 
       case 'clear-schedules': {
         // Clear all schedules
-        if (user.role !== 'super-admin') {
+        if (!checkRole(['super-admin'], user)) {
           return NextResponse.json(
             { success: false, error: 'Forbidden - super-admin only' },
             { status: 403 }

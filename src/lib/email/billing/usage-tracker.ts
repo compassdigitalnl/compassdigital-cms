@@ -220,7 +220,7 @@ export class UsageTracker {
       where: {
         and: [
           { tenant: { equals: tenantId } },
-          { status: { equals: 'enabled' } },
+          { status: { equals: 'enabled' as any } },
         ],
       },
     })
@@ -239,7 +239,7 @@ export class UsageTracker {
       where: {
         and: [
           { tenant: { equals: tenantId } },
-          { type: { equals: 'sent' } },
+          { type: { equals: 'sent' as any } },
           { createdAt: { greater_than: monthStart } },
         ],
       },
@@ -328,16 +328,16 @@ export class UsageTracker {
       await payload.create({
         collection: 'email-events',
         data: {
-          type: 'sent',
-          campaign: data.campaignId,
-          subscriber: data.subscriberId,
-          template: data.templateId,
+          type: 'sent' as any,
+          campaign: data.campaignId ? parseInt(data.campaignId) : null,
+          subscriber: parseInt(data.subscriberId),
+          template: data.templateId ? parseInt(data.templateId) : null,
           subject: data.subject,
           recipientEmail: data.recipientEmail,
           messageId: data.messageId,
-          source: data.source,
-          metadata: data.metadata,
-          tenant: data.tenantId,
+          source: data.source as any,
+          metadata: data.metadata as any,
+          tenant: parseInt(data.tenantId),
         },
       })
 

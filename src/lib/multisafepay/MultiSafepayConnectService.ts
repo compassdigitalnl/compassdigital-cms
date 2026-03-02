@@ -20,12 +20,8 @@ const getMultiSafepay = () => {
     throw new Error('MULTISAFEPAY_API_KEY not configured')
   }
 
-  const environment = process.env.NODE_ENV === 'production' ? 'live' : 'test'
-
-  return new MultiSafepay({
-    apiKey,
-    environment,
-  })
+  // MultiSafepay constructor expects just the API key string
+  return new MultiSafepay(apiKey)
 }
 
 export interface CreateAffiliateParams {
@@ -197,7 +193,7 @@ export class MultiSafepayConnectService {
       if (pricingTier === 'custom' && customRates?.idealFee) {
         clientCost = customRates.idealFee
       } else {
-        clientCost = PRICING_TIERS[pricingTier].ideal
+        clientCost = (PRICING_TIERS as any)[pricingTier]?.ideal || PRICING_TIERS.standard.ideal
       }
       partnerCost = PARTNER_COSTS.ideal
 
@@ -212,8 +208,8 @@ export class MultiSafepayConnectService {
         clientPercentage = customRates.cardPercentage || PRICING_TIERS.standard.cardPercentage
         clientFixed = customRates.cardFixed || PRICING_TIERS.standard.cardFixed
       } else {
-        clientPercentage = PRICING_TIERS[pricingTier].cardPercentage
-        clientFixed = PRICING_TIERS[pricingTier].cardFixed
+        clientPercentage = (PRICING_TIERS as any)[pricingTier]?.cardPercentage || PRICING_TIERS.standard.cardPercentage
+        clientFixed = (PRICING_TIERS as any)[pricingTier]?.cardFixed || PRICING_TIERS.standard.cardFixed
       }
 
       const clientCostTotal = (amount * clientPercentage / 100) + clientFixed
@@ -405,7 +401,7 @@ export function formatMultiSafepayFee(
     return `iDEAL €${customRates.idealFee?.toFixed(2)}, Cards ${customRates.cardPercentage}% + €${customRates.cardFixed?.toFixed(2)}`
   }
 
-  const info = PRICING_TIERS[tier]
+  const info = PRICING_TIERS[tier as keyof typeof PRICING_TIERS]
   return `iDEAL €${info.ideal.toFixed(2)}, Cards ${info.cardPercentage}% + €${info.cardFixed.toFixed(2)}`
 }
 

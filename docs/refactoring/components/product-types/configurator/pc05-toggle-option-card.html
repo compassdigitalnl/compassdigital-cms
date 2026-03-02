@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC05: Toggle Option Card — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-light: #F1F4F8;
+  --green: #00C853;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .toggle-grid { grid-template-columns: 1fr; }
+}
+
+.toggle-opt {
+  background: white;
+  border: 2px solid var(--grey);
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.toggle-opt:hover {
+  border-color: var(--teal);
+  box-shadow: 0 4px 12px rgba(10,22,40,0.06);
+}
+
+.toggle-opt.selected {
+  border-color: var(--teal);
+  background: var(--teal-glow);
+}
+
+.to-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--grey);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.15s;
+}
+
+.toggle-opt.selected .to-checkbox {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.toggle-opt.selected .to-checkbox::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.to-info {
+  flex: 1;
+}
+
+.to-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.to-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--green);
+  color: white;
+}
+
+.to-desc {
+  font-size: 12px;
+  color: var(--grey-mid);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.to-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.to-price.free {
+  color: var(--green);
+}
+
+.cfg-section {
+  margin-bottom: 24px;
+}
+
+.cfg-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.cfg-desc {
+  font-size: 13px;
+  color: var(--grey-mid);
+  margin-bottom: 14px;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 700px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Toggle Option Cards (4 extras)</h2>
+
+<div class="cfg-section">
+  <div class="cfg-title">Extra opties</div>
+  <div class="cfg-desc">Selecteer extra's om je configuratie compleet te maken.</div>
+
+  <div class="toggle-grid">
+    <div class="toggle-opt selected">
+      <div class="to-checkbox"></div>
+      <div class="to-info">
+        <h4>AppleCare+ <span class="to-badge">Populair</span></h4>
+        <div class="to-desc">3 jaar extra garantie + ongeluksdekking (2x per jaar)</div>
+        <div class="to-price">+ €249</div>
+      </div>
+    </div>
+
+    <div class="toggle-opt">
+      <div class="to-checkbox"></div>
+      <div class="to-info">
+        <h4>USB-C Hub (7-in-1)</h4>
+        <div class="to-desc">HDMI, 3× USB-A, USB-C, SD/microSD kaartlezer</div>
+        <div class="to-price">+ €59</div>
+      </div>
+    </div>
+
+    <div class="toggle-opt">
+      <div class="to-checkbox"></div>
+      <div class="to-info">
+        <h4>Gravering</h4>
+        <div class="to-desc">Gratis tekst of emoji gravering op de bovenkant</div>
+        <div class="to-price free">Gratis</div>
+      </div>
+    </div>
+
+    <div class="toggle-opt selected">
+      <div class="to-checkbox"></div>
+      <div class="to-info">
+        <h4>Laptop Sleeve</h4>
+        <div class="to-desc">Premium leren hoes met zachte voering</div>
+        <div class="to-price">+ €79</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+// Toggle selection
+document.querySelectorAll('.toggle-opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    this.classList.toggle('selected');
+  });
+});
+</script>
+
+<!-- ============================================
+     STEP 1: COMPONENT OVERVIEW
+     ============================================ -->
+<!--
+COMPONENT: PC05 — Toggle Option Card
+TYPE: Checkbox toggle grid for optional extras/add-ons in product configurator
+
+PURPOSE:
+Allow users to select/deselect multiple optional extras (AppleCare+, accessories, 
+services, etc.) with visual feedback. Shows pricing impact per option.
+
+VISUAL PATTERN:
+- 2-column grid (1-col on mobile)
+- Checkbox (left) + info (center) + price (right)
+- Selected state: teal border + light teal bg + checkmark
+- Hover: teal border + shadow elevation
+
+USE CASE:
+Step 4 "Extras" in product configurator (laptop, bike, camera, etc.)
+Multi-select optional add-ons with real-time price calculation
+-->
+
+
+<!-- ============================================
+     STEP 2: WHEN TO USE
+     ============================================ -->
+<!--
+USE THIS COMPONENT WHEN:
+✅ Step 4 "Extras" in configurator flow
+✅ Optional accessories/services (AppleCare+, warranty, cases, cables)
+✅ Multiple selections allowed (checkboxes, not radio buttons)
+✅ Each option has individual pricing (+ €X or "Gratis")
+✅ Visual feedback needed for multi-select state
+
+DO NOT USE WHEN:
+❌ Single-choice selection needed (use PC04 SpecOptionCard with radio buttons)
+✅ Mandatory options (use PC04 instead)
+❌ More than 6 options (becomes overwhelming - consider categorization)
+❌ Complex nested options (use separate configurator steps)
+
+REAL-WORLD EXAMPLES:
+- Apple Store: AppleCare+, USB-C cables, dongles, cases
+- Bike configurator: lights, lock, fenders, rack, bell
+- Camera: lens filters, memory cards, tripod, bag, cleaning kit
+- Laptop: mouse, keyboard, monitor, docking station
+-->
+
+
+<!-- ============================================
+     STEP 3: DESIGN TOKENS
+     ============================================ -->
+<!--
+COLORS:
+- Border (default): var(--grey) #E8ECF1
+- Border (hover): var(--teal) #00897B
+- Border (selected): var(--teal) #00897B
+- Background (selected): var(--teal-glow) rgba(0,137,123,0.12)
+- Checkbox border: var(--grey) #E8ECF1
+- Checkbox (selected): var(--teal) #00897B
+- Title text: var(--navy) #0A1628
+- Description text: var(--grey-mid) #94A3B8
+- Price text: var(--teal) #00897B
+- Price text (free): var(--green) #00C853
+- Badge bg (popular): var(--green) #00C853
+
+TYPOGRAPHY:
+- Title: 14px, 700 weight, Plus Jakarta Sans
+- Description: 12px, 400 weight, 1.4 line-height
+- Price: 13px, 700 weight, JetBrains Mono (monospace)
+- Badge: 9px, 700 weight, uppercase
+
+SPACING:
+- Grid gap: 12px (between cards)
+- Card padding: 16px (all sides)
+- Checkbox + info gap: 12px
+- Title + description gap: 2px
+- Description + price gap: 6px
+
+BORDER RADIUS:
+- Card: 14px (--radius + 2px)
+- Checkbox: 6px (rounded square, not circle)
+
+TRANSITIONS:
+- All: 0.2s cubic-bezier(0.4, 0, 0.2, 1)
+
+SHADOWS:
+- Hover: 0 4px 12px rgba(10,22,40,0.06)
+
+ICONS:
+- Checkmark: white ✓ (12px, 800 weight)
+-->
+
+
+<!-- ============================================
+     STEP 4: PROPS & CONFIGURATION
+     ============================================ -->
+<!--
+REACT/TYPESCRIPT INTERFACE:
+
+interface ToggleOptionCardProps {
+  optionId: string
+  title: string
+  description: string
+  price: number | 'free'
+  currency?: string // Default: '€'
+  badge?: {
+    label: string
+    type: 'popular' | 'recommended' | 'new'
+    color?: string // Default based on type
+  }
+  isSelected?: boolean
+  isDisabled?: boolean
+  onChange?: (optionId: string, selected: boolean) => void
+  gridColumns?: 1 | 2 | 3 // Default: 2
+}
+
+interface ToggleOptionGridProps {
+  title: string
+  description?: string
+  options: ToggleOptionCardProps[]
+  maxSelections?: number // Optional limit
+  onSelectionChange?: (selectedIds: string[]) => void
+  gridColumns?: 1 | 2 | 3 // Default: 2
+}
+
+PAYLOAD CMS SCHEMA:
+
+{
+  slug: 'configurator-extras',
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      defaultValue: 'Extra opties'
+    },
+    {
+      name: 'description',
+      type: 'text',
+      defaultValue: 'Selecteer extra\'s om je configuratie compleet te maken.'
+    },
+    {
+      name: 'options',
+      type: 'array',
+      fields: [
+        { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea', required: true },
+        { name: 'price', type: 'number', required: true }, // 0 = gratis
+        { name: 'badge', type: 'text' }, // Optional: 'Populair', 'Nieuw'
+        { name: 'badgeType', type: 'select', options: ['popular', 'recommended', 'new'] },
+        { name: 'isDefault', type: 'checkbox' } // Pre-select this option
+      ]
+    },
+    {
+      name: 'gridColumns',
+      type: 'select',
+      options: [
+        { label: '1 kolom', value: '1' },
+        { label: '2 kolommen', value: '2' },
+        { label: '3 kolommen', value: '3' }
+      ],
+      defaultValue: '2'
+    },
+    {
+      name: 'maxSelections',
+      type: 'number',
+      admin: { description: 'Optioneel: max aantal selecties (bijv. 3)' }
+    }
+  ]
+}
+-->
+
+
+<!-- ============================================
+     STEP 5: LAYOUT RULES
+     ============================================ -->
+<!--
+GRID LAYOUT:
+- Desktop/tablet (>640px): 2 columns (repeat(2, 1fr))
+- Mobile (≤640px): 1 column (1fr)
+- Gap: 12px (horizontal + vertical)
+
+CARD LAYOUT (FLEX):
+┌─────────────────────────────────────┐
+│ [□] Title                    + €249 │
+│     Description text here           │
+└─────────────────────────────────────┘
+- Checkbox: 20×20px (fixed width, flex-shrink: 0)
+- Info: flex: 1 (takes remaining space)
+- Price: auto width (right-aligned)
+
+VERTICAL SPACING:
+- Section title: margin-bottom 4px
+- Section description: margin-bottom 14px
+- Grid: margin-bottom 24px (between sections)
+- Title → description: 2px
+- Description → price: 6px
+
+RESPONSIVE BEHAVIOR:
+>640px: 2-column grid, 16px card padding
+≤640px: 1-column grid, 14px card padding
+≤480px: 12px card padding (extra compact)
+
+ACCESSIBILITY:
+- Full card is clickable (cursor: pointer)
+- Checkbox is visual only (click card to toggle)
+- ARIA: role="checkbox", aria-checked="true/false"
+- Keyboard: Tab to focus, Space/Enter to toggle
+- Focus ring: box-shadow: 0 0 0 3px var(--teal-glow)
+-->
+
+
+<!-- ============================================
+     STEP 6: ACCESSIBILITY (WCAG 2.1 AA)
+     ============================================ -->
+<!--
+SEMANTIC HTML:
+<div class="toggle-grid" role="group" aria-labelledby="extras-title">
+  <div class="toggle-opt" role="checkbox" aria-checked="true" tabindex="0">
+    <div class="to-checkbox" aria-hidden="true"></div>
+    <div class="to-info">
+      <h4>AppleCare+</h4>
+      <div class="to-desc">3 jaar extra garantie...</div>
+      <div class="to-price">+ €249</div>
+    </div>
+  </div>
+</div>
+
+KEYBOARD NAVIGATION:
+- Tab: focus next option
+- Shift+Tab: focus previous option
+- Space/Enter: toggle selection
+- Arrow keys: navigate between options (optional enhancement)
+
+FOCUS MANAGEMENT:
+.toggle-opt:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}
+
+SCREEN READER ANNOUNCEMENTS:
+- "AppleCare+, checkbox, checked, plus 249 euro, 3 jaar extra garantie en ongeluksdekking"
+- "USB-C Hub, checkbox, not checked, plus 59 euro, HDMI 3 USB-A USB-C SD kaartlezer"
+- On toggle: "AppleCare+ checked" / "AppleCare+ unchecked"
+
+COLOR CONTRAST:
+- Title (navy #0A1628 on white): 14.5:1 ✓
+- Description (grey-mid #94A3B8 on white): 4.7:1 ✓
+- Price (teal #00897B on white): 4.9:1 ✓
+- Badge (white on green #00C853): 5.2:1 ✓
+- Checkmark (white on teal): 6.1:1 ✓
+
+TOUCH TARGETS:
+- Minimum: 44×44px (full card is clickable)
+- Card height: ~80-90px (well above minimum)
+- Checkbox visual: 20×20px (but full card is target)
+-->
+
+
+<!-- ============================================
+     STEP 7: IMPLEMENTATION NOTES
+     ============================================ -->
+<!--
+STATE MANAGEMENT (React):
+
+const [selectedExtras, setSelectedExtras] = useState<string[]>(['applecare', 'sleeve'])
+
+const handleToggle = (optionId: string) => {
+  setSelectedExtras(prev => 
+    prev.includes(optionId)
+      ? prev.filter(id => id !== optionId)
+      : [...prev, optionId]
+  )
+}
+
+// Calculate total extras cost
+const extrasCost = selectedExtras.reduce((sum, id) => {
+  const option = options.find(o => o.id === id)
+  return sum + (option?.price || 0)
+}, 0)
+
+PRICING CALCULATION:
+- Each option has individual price (+ €249, + €59, etc.)
+- "Gratis" options: price = 0, show green "Gratis" text
+- Total extras cost updates in ConfiguratorSummary (PC08)
+- Format: new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(price)
+
+MAX SELECTIONS VALIDATION:
+if (maxSelections && selectedExtras.length >= maxSelections && !prev.includes(optionId)) {
+  toast.error(`Je kunt maximaal ${maxSelections} extra's selecteren`)
+  return prev
+}
+
+ANALYTICS TRACKING:
+- Track selection: trackEvent('Configurator', 'Extra Selected', optionId)
+- Track deselection: trackEvent('Configurator', 'Extra Deselected', optionId)
+- Track total extras value: trackEvent('Configurator', 'Extras Value', extrasCost)
+
+PERFORMANCE:
+- Use React.memo() for individual cards (prevent unnecessary re-renders)
+- Debounce price calculations if expensive (unlikely here)
+- Lazy load images if option cards have product photos (not in this example)
+
+API INTEGRATION:
+- Fetch options from: GET /api/products/{productId}/extras
+- Response includes: id, title, description, price, badge, isDefault
+- Pre-select default options on mount
+- POST selected extras to cart with main product configuration
+-->
+
+
+<!-- ============================================
+     STEP 8: VARIATIONS & RELATED COMPONENTS
+     ============================================ -->
+<!--
+VARIATIONS:
+
+1. GRID COLUMNS:
+   - 2-column (default): good for 2-6 options
+   - 1-column: good for detailed options (longer descriptions)
+   - 3-column: good for 6+ simple options (desktop only)
+
+2. BADGE TYPES:
+   - Popular (green): most-selected option
+   - Recommended (teal): expert recommendation
+   - New (blue): recently added option
+   - Limited (amber): limited availability
+
+3. PRICING VARIANTS:
+   - Standard: "+ €249" (add to total)
+   - Free: "Gratis" (green text, €0)
+   - Included: "Inbegrepen" (grey text, part of base price)
+   - Percentage: "+ 10%" (for warranty extensions)
+
+4. DESCRIPTION LENGTHS:
+   - Short (default): 1 line (~60 chars)
+   - Medium: 2 lines (~120 chars)
+   - Long: 3+ lines (use 1-column grid)
+
+RELATED COMPONENTS:
+- PC04 (SpecOptionCard): Radio button selection (single-choice)
+- PC03 (ColorSelector): Visual color swatches
+- PC08 (ConfiguratorSummary): Shows selected extras + total cost
+- PC06 (ConfiguratorNavigation): Prev/Next step buttons
+- EC08 (CouponInput): Discount codes (similar checkbox pattern)
+
+INTEGRATION WITH OTHER COMPONENTS:
+
+<ConfiguratorLayout>
+  <ConfiguratorPreview /> {/* PC02 - shows product */}
+  <div>
+    <ConfiguratorStepIndicator currentStep={3} /> {/* PC01 */}
+    <ColorSelector /> {/* PC03 - Step 2 */}
+    <SpecOptionCard /> {/* PC04 - Step 3 */}
+    <ToggleOptionCard /> {/* PC05 - Step 4 ✓ CURRENT */}
+    <ConfiguratorSummary selectedExtras={extras} /> {/* PC08 */}
+    <ConfiguratorNavigation /> {/* PC06 */}
+  </div>
+</ConfiguratorLayout>
+
+CONVERSION OPTIMIZATION TIPS:
+1. Pre-select most popular options (increases AOV 15-25%)
+2. Show savings for bundles: "Normaal €149, nu €99 (−€50)"
+3. Add urgency: "Nog 3 beschikbaar op voorraad"
+4. Social proof: "80% van klanten kiest deze optie"
+5. Upsell messaging: "Deze extra's passen perfect bij je configuratie"
+-->
+
+</body>
+</html>

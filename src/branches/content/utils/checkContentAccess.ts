@@ -37,12 +37,13 @@ export function checkContentAccess(post: BlogPost, user: User | null): ContentAc
   }
 
   // Check if user has any subscriptions
-  if (!user.subscriptions || user.subscriptions.length === 0) {
+  const userSubs = (user as any).subscriptions
+  if (!userSubs || userSubs.length === 0) {
     return { hasAccess: false, reason: 'no_subscription' }
   }
 
   // Check for active subscription with premium access
-  const hasValidSubscription = user.subscriptions.some((sub: any) => {
+  const hasValidSubscription = userSubs.some((sub: any) => {
     // Subscription can be string ID or populated object
     if (typeof sub === 'string') {
       // Cannot check plan details with just ID, skip
@@ -71,7 +72,7 @@ export function checkContentAccess(post: BlogPost, user: User | null): ContentAc
   }
 
   // User has subscription but it doesn't allow premium content
-  const hasActiveSubscription = user.subscriptions.some((sub: any) => {
+  const hasActiveSubscription = userSubs.some((sub: any) => {
     if (typeof sub === 'string') return false
     const subscription = sub as UserSubscription
     return subscription.status === 'active' || subscription.status === 'trialing'
@@ -107,11 +108,12 @@ export function getAccessDenialMessage(reason: ContentAccessResult['reason']): s
  * (useful for UI display without specific post context)
  */
 export function userHasPremiumAccess(user: User | null): boolean {
-  if (!user || !user.subscriptions || user.subscriptions.length === 0) {
+  const userSubs = user ? (user as any).subscriptions : null
+  if (!user || !userSubs || userSubs.length === 0) {
     return false
   }
 
-  return user.subscriptions.some((sub: any) => {
+  return userSubs.some((sub: any) => {
     if (typeof sub === 'string') return false
 
     const subscription = sub as UserSubscription

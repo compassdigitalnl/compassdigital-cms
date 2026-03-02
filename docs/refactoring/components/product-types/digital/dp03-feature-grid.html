@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP03: Feature Grid — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.feat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .feat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feat {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.feat:hover {
+  box-shadow: 0 4px 12px rgba(10,22,40,0.06);
+  transform: translateY(-1px);
+}
+
+.feat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feat-icon i {
+  width: 20px;
+  height: 20px;
+}
+
+.feat h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.feat p {
+  font-size: 12px;
+  color: var(--grey-mid);
+  line-height: 1.3;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<div class="section-title">
+  <i data-lucide="zap"></i> Functies
+</div>
+
+<div class="feat-grid">
+  <div class="feat">
+    <div class="feat-icon" style="background: var(--purple-light);">
+      <i data-lucide="cpu" style="color: var(--purple);"></i>
+    </div>
+    <div>
+      <h4>AI Design Assistant</h4>
+      <p>Genereer layouts, kleurpaletten en componenten met AI-suggesties.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-icon" style="background: var(--blue-light);">
+      <i data-lucide="smartphone" style="color: var(--blue);"></i>
+    </div>
+    <div>
+      <h4>Responsive Export</h4>
+      <p>Automatische exports voor desktop, tablet en mobiel in één klik.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-icon" style="background: var(--green-light);">
+      <i data-lucide="code" style="color: var(--green);"></i>
+    </div>
+    <div>
+      <h4>Code Generation</h4>
+      <p>Genereer schone HTML/CSS/React code direct vanuit je design.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-icon" style="background: var(--amber-light);">
+      <i data-lucide="users" style="color: var(--amber);"></i>
+    </div>
+    <div>
+      <h4>Realtime Collaboration</h4>
+      <p>Werk samen met je team in real-time. Comments, versioning en handoff.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-icon" style="background: var(--coral-light);">
+      <i data-lucide="palette" style="color: var(--coral);"></i>
+    </div>
+    <div>
+      <h4>Design Tokens</h4>
+      <p>Beheer kleuren, typografie en spacing als herbruikbare tokens.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-icon" style="background: var(--teal-glow);">
+      <i data-lucide="layers" style="color: var(--teal);"></i>
+    </div>
+    <div>
+      <h4>500+ Componenten</h4>
+      <p>Uitgebreide componentbibliotheek met drag & drop functionaliteit.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- ============================================
+     DOCUMENTATION: DP03 Feature Grid
+     Complete 8-step protocol
+     ============================================ -->
+<!--
+COMPONENT: DP03 — Feature Grid
+PURPOSE: 2-column grid showcasing digital product features with icon + title + description
+PATTERN: Responsive grid (2-col → 1-col), colored icon boxes, hover lift effect
+USE CASE: Digital product pages listing key features, capabilities, integrations
+
+DESIGN TOKENS:
+- Grid: 2 columns (>900px), 1 column (≤900px)
+- Gap: 10px
+- Card padding: 14px
+- Border: 1px solid grey
+- Border-radius: 12px
+- Icon box: 40×40px, 10px radius
+- Icon size: 20×20px
+- Title: 14px, 700 weight, 2px margin-bottom
+- Description: 12px, grey-mid, 1.3 line-height
+- Hover: translateY(-1px) + shadow
+
+REACT INTERFACE:
+interface FeatureGridProps {
+  features: Array<{
+    icon: string // Lucide icon name
+    iconColor: string // Icon + bg color pairing
+    title: string
+    description: string
+  }>
+  columns?: 2 | 3 // Default: 2
+}
+
+ICON COLOR PRESETS:
+- purple (#7C3AED): AI, automation, smart features
+- blue (#2196F3): Mobile, responsive, cloud
+- green (#00C853): Code, export, validation
+- amber (#F59E0B): Collaboration, teams, users
+- coral (#FF6B6B): Design, creative, customization
+- teal (#00897B): Components, library, assets
+
+ACCESSIBILITY:
+- Semantic: <ul> with <li> for each feature
+- Icons: aria-hidden="true" (decorative)
+- Hover: sufficient hit area (48px+ height)
+- Color contrast: All icon/bg combinations meet 3:1+
+
+RELATED COMPONENTS:
+- DP01 (DigitalProductHero): Hero above feature grid
+- DP02 (ScreenshotGallery): Screenshots before features
+- DP04 (LicenseComparisonTable): Comparison table after features
+-->
+
+</body>
+</html>

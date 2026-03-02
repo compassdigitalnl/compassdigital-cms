@@ -8,6 +8,7 @@
 import React from 'react'
 import type { CollectionConfig } from 'payload'
 import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+import { isAdmin, checkRole, isUser, isSuperAdmin, getUserClient, isAdminOrEditor } from '@/access/utilities'
 
 const isPlatformMode = isFeatureEnabled('platform')
 
@@ -24,24 +25,28 @@ export const EmailTemplates: CollectionConfig = {
     // Tenant isolation
     read: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'super-admin') return true
-      return {
-        tenant: {
-          equals: user.tenant,
-        },
+      if (isSuperAdmin(user)) return true
+      const clientId = getUserClient(user)
+      if (clientId) {
+        return {
+          tenant: {
+            equals: clientId,
+          },
+        }
       }
+      return false
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
+      return isSuperAdmin(user) || isAdminOrEditor(user)
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin' || user.role === 'editor')
+      return isSuperAdmin(user) || isAdminOrEditor(user)
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
   },
   fields: [
@@ -248,24 +253,27 @@ export const EmailTemplates: CollectionConfig = {
       ? [
           {
             name: 'tenant',
-            type: 'relationship',
-            relationTo: 'clients',
+            type: 'relationship' as const,
+            relationTo: 'clients' as const,
             required: true,
             admin: {
-              position: 'sidebar',
+              position: 'sidebar' as const,
               condition: () => false,
             },
             hooks: {
               beforeValidate: [
-                async ({ req, data }) => {
+                async ({ req, data }: any) => {
                   if (req.user && !data?.tenant) {
-                    return req.user.tenant
+                    const clientId = getUserClient(req.user)
+                    if (clientId) {
+                      return clientId
+                    }
                   }
                   return data?.tenant
                 },
               ],
             },
-          } as const,
+          },
         ]
       : []),
 
@@ -424,10 +432,9 @@ export const EmailTemplates: CollectionConfig = {
         // Queue sync job
         try {
           const { Queue } = await import('bullmq')
-          const { getRedisClient } = await import('@/lib/queue/redis')
+          const { redisConfig } = await import('@/lib/queue/redis')
 
-          const redis = getRedisClient()
-          const queue = new Queue('email-marketing', { connection: redis })
+          const queue = new Queue('email-marketing', { connection: redisConfig })
 
           await queue.add('sync-template', {
             templateId: doc.id,
@@ -462,10 +469,9 @@ export const EmailTemplates: CollectionConfig = {
         // Queue delete job
         try {
           const { Queue } = await import('bullmq')
-          const { getRedisClient } = await import('@/lib/queue/redis')
+          const { redisConfig } = await import('@/lib/queue/redis')
 
-          const redis = getRedisClient()
-          const queue = new Queue('email-marketing', { connection: redis })
+          const queue = new Queue('email-marketing', { connection: redisConfig })
 
           await queue.add('delete-template', {
             listmonkId: doc.listmonkId,

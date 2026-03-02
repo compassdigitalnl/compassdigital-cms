@@ -5,6 +5,7 @@
  */
 
 export { EmailSubscribers } from './EmailSubscribers'
+import { isUser } from '@/access/utilities'
 export { EmailLists } from './EmailLists'
 export { EmailTemplates } from './EmailTemplates'
 export { EmailCampaigns } from './EmailCampaigns'

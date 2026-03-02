@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP01: VariantColorSwatches — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    /* Colors */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+    --white: #FAFBFC;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+    --green: #00C853;
+    --coral: #FF6B6B;
+    --amber: #F59E0B;
+    --bg: #F5F7FA;
+
+    /* Spacing */
+    --space-4: 4px;
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-10: 10px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-24: 24px;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius: 10px;
+    --radius-lg: 12px;
+
+    /* Transitions */
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    padding: 40px 24px;
+    line-height: 1.6;
+  }
+
+  .demo-container {
+    max-width: 800px;
+    margin: 0 auto 64px;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
+  }
+
+  .demo-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .demo-subtitle {
+    font-size: 14px;
+    color: var(--grey-mid);
+    margin-bottom: 32px;
+  }
+
+  /* === COMPONENT: VariantColorSwatches === */
+
+  .variant-section {
+    margin-bottom: var(--space-24);
+  }
+
+  .var-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-12);
+  }
+
+  .var-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .var-label i {
+    width: 16px;
+    height: 16px;
+    color: var(--teal);
+  }
+
+  .var-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .var-type-badge {
+    font-size: 10px;
+    color: var(--grey-mid);
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--grey-light);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .var-selected {
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 700;
+    background: var(--teal-glow);
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  /* Color Swatches */
+  .color-swatches {
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .swatch {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2.5px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .swatch:hover {
+    transform: scale(1.08);
+  }
+
+  .swatch.selected {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px var(--teal-glow);
+  }
+
+  .swatch-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .swatch-check i {
+    width: 12px;
+    height: 12px;
+    color: var(--navy);
+  }
+
+  .swatch.selected .swatch-check {
+    display: flex;
+  }
+
+  .swatch-tooltip {
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.1s;
+    pointer-events: none;
+    background: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(10, 22, 40, 0.1);
+  }
+
+  .swatch:hover .swatch-tooltip,
+  .swatch.selected .swatch-tooltip {
+    opacity: 1;
+  }
+
+  /* Disabled state */
+  .swatch.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    position: relative;
+  }
+
+  .swatch.disabled::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: var(--coral);
+    transform: rotate(-45deg);
+  }
+
+  .swatch.disabled:hover {
+    transform: none;
+  }
+
+  /* === END COMPONENT === */
+
+  /* Documentation styles */
+  .docs-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 48px;
+    margin-bottom: 24px;
+  }
+
+  .docs-section h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .docs-section h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  .docs-section h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+
+  .docs-section p {
+    margin-bottom: 12px;
+    color: var(--grey-dark);
+  }
+
+  .docs-section ul, .docs-section ol {
+    margin-left: 24px;
+    margin-bottom: 16px;
+    color: var(--grey-dark);
+  }
+
+  .docs-section li {
+    margin-bottom: 8px;
+  }
+
+  .docs-section code {
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--navy);
+  }
+
+  .docs-section pre {
+    background: var(--navy);
+    color: white;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+
+  .token-table th,
+  .token-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--grey);
+  }
+
+  .token-table th {
+    font-weight: 700;
+    color: var(--navy);
+    background: var(--grey-light);
+  }
+
+  .token-table td {
+    font-size: 14px;
+    color: var(--grey-dark);
+  }
+
+  .token-table code {
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO SECTION
+     ============================================ -->
+
+<div class="demo-container">
+  <h1 class="demo-title">VP01: VariantColorSwatches</h1>
+  <p class="demo-subtitle">Product Type Component — Variable Product Color Selector</p>
+
+  <!-- DEMO 1: Standard Color Swatches -->
+  <div class="variant-section">
+    <div class="var-header">
+      <div class="var-label">
+        <i data-lucide="palette"></i>
+        Kleur
+      </div>
+      <div class="var-meta">
+        <span class="var-type-badge">Swatches</span>
+        <span class="var-selected" id="colorSelected1">Midnight Black</span>
+      </div>
+    </div>
+    <div class="color-swatches">
+      <div class="swatch selected" style="background: #1a1a2e;" onclick="selectSwatch(this, 'colorSelected1', 'Midnight Black')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Midnight Black</span>
+      </div>
+      <div class="swatch" style="background: #FAFAFA; border-color: var(--grey);" onclick="selectSwatch(this, 'colorSelected1', 'Arctic White')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Arctic White</span>
+      </div>
+      <div class="swatch" style="background: #c0392b;" onclick="selectSwatch(this, 'colorSelected1', 'Ruby Red')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Ruby Red</span>
+      </div>
+      <div class="swatch" style="background: var(--teal);" onclick="selectSwatch(this, 'colorSelected1', 'Ocean Teal')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Ocean Teal</span>
+      </div>
+      <div class="swatch" style="background: #f39c12;" onclick="selectSwatch(this, 'colorSelected1', 'Sunset Gold')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Sunset Gold</span>
+      </div>
+      <div class="swatch" style="background: linear-gradient(135deg, #667eea, #764ba2);" onclick="selectSwatch(this, 'colorSelected1', 'Galaxy Purple')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Galaxy Purple</span>
+      </div>
+      <div class="swatch" style="background: linear-gradient(135deg, #11998e, #38ef7d);" onclick="selectSwatch(this, 'colorSelected1', 'Neon Mint')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Neon Mint</span>
+      </div>
+      <div class="swatch" style="background: linear-gradient(135deg, #e1e1e1, #f5f5f5); border-color: var(--grey);" onclick="selectSwatch(this, 'colorSelected1', 'Silver Chrome +€10')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Silver Chrome +€10</span>
+      </div>
+    </div>
+  </div>
+
+  <hr style="border: none; border-top: 1px solid var(--grey); margin: 32px 0;">
+
+  <!-- DEMO 2: With Disabled State -->
+  <div class="variant-section">
+    <div class="var-header">
+      <div class="var-label">
+        <i data-lucide="palette"></i>
+        Kleur (met disabled state)
+      </div>
+      <div class="var-meta">
+        <span class="var-type-badge">Swatches</span>
+        <span class="var-selected" id="colorSelected2">Ocean Teal</span>
+      </div>
+    </div>
+    <div class="color-swatches">
+      <div class="swatch" style="background: #1a1a2e;" onclick="selectSwatch(this, 'colorSelected2', 'Midnight Black')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Midnight Black</span>
+      </div>
+      <div class="swatch disabled" style="background: #FAFAFA; border-color: var(--grey);">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Arctic White (Uitverkocht)</span>
+      </div>
+      <div class="swatch" style="background: #c0392b;" onclick="selectSwatch(this, 'colorSelected2', 'Ruby Red')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Ruby Red</span>
+      </div>
+      <div class="swatch selected" style="background: var(--teal);" onclick="selectSwatch(this, 'colorSelected2', 'Ocean Teal')">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Ocean Teal</span>
+      </div>
+      <div class="swatch disabled" style="background: #f39c12;">
+        <div class="swatch-check"><i data-lucide="check"></i></div>
+        <span class="swatch-tooltip">Sunset Gold (Binnenkort terug)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+
+<div class="docs-section">
+  <h2>📋 STEP 1: Component Overview</h2>
+
+  <p><strong>Component Name:</strong> VariantColorSwatches (VP01)</p>
+  <p><strong>Category:</strong> Product Types → Variable Product</p>
+  <p><strong>Purpose:</strong> Visual color selector for product variants, allowing customers to choose from multiple color options with immediate visual feedback.</p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li>✅ <strong>Visual Color Swatches</strong> — 44×44px circular color chips with exact product colors</li>
+    <li>✅ <strong>Selected State</strong> — Navy border + teal glow ring + white checkmark icon</li>
+    <li>✅ <strong>Hover Tooltips</strong> — Color name appears below swatch on hover (with price suffix if applicable)</li>
+    <li>✅ <strong>Gradient Support</strong> — Supports solid colors AND CSS gradients for premium finishes</li>
+    <li>✅ <strong>Disabled State</strong> — Out-of-stock colors shown with reduced opacity + diagonal line</li>
+    <li>✅ <strong>Selection Indicator</strong> — Selected color name displayed in teal badge at top right</li>
+    <li>✅ <strong>Price Variants</strong> — Optional "+€X" suffix for premium colors (shown in tooltip)</li>
+    <li>✅ <strong>Responsive</strong> — Flex-wrap layout adapts to container width</li>
+  </ul>
+
+  <h3>Visual Description</h3>
+  <p>The component consists of a header row with label (palette icon + "Kleur" text) and meta information (type badge + selected color name), followed by a horizontal row of color swatches. Each swatch is a 44×44px rounded square with the exact product color. On hover, the swatch scales up (1.08×) and shows a tooltip with the color name. When selected, the swatch gets a 2.5px navy border and a 3px teal glow shadow, with a white circular checkmark icon appearing in the center.</p>
+
+  <h3>Usage Context</h3>
+  <p>Use this component on variable product pages where color is a key differentiator (clothing, shoes, accessories, tech products). Ideal for 5-12 color options. For more than 15 colors, consider using a dropdown selector (VP03) instead.</p>
+</div>
+
+<div class="docs-section">
+  <h2>🎯 STEP 2: When to Use</h2>
+
+  <h3>Primary Use Cases</h3>
+  <ol>
+    <li><strong>Apparel & Footwear</strong> — T-shirts, sneakers, jackets with multiple colorways</li>
+    <li><strong>Accessories</strong> — Bags, wallets, phone cases with color options</li>
+    <li><strong>Tech Products</strong> — Headphones, laptops, phone covers in different finishes</li>
+    <li><strong>Home Goods</strong> — Cushions, curtains, tableware with color variants</li>
+    <li><strong>Custom Products</strong> — Made-to-order items where color is configurable</li>
+  </ol>
+
+  <h3>When NOT to Use</h3>
+  <ul>
+    <li>❌ <strong>More than 15 colors</strong> — Use dropdown selector (VP03) for better UX</li>
+    <li>❌ <strong>Subtle color differences</strong> — If colors are too similar to distinguish visually, use text labels instead</li>
+    <li>❌ <strong>Complex patterns/prints</strong> — Use image-based selector (VP04) for patterns</li>
+    <li>❌ <strong>Non-visual variants</strong> — For variants like "material" or "scent", use dropdown or radio buttons</li>
+    <li>❌ <strong>Mobile-only products</strong> — 44px swatches may be too small; consider larger touch targets</li>
+  </ul>
+
+  <h3>Guidelines</h3>
+  <ul>
+    <li>Always display selected color name in the header (helps screen readers and confirms selection)</li>
+    <li>Use exact brand colors (not approximations) to match physical products</li>
+    <li>For premium finishes (metallic, chrome, gradient), use CSS gradients to indicate special treatment</li>
+    <li>Include price suffix (+€X) in tooltip if color affects price</li>
+    <li>Disable out-of-stock colors but keep them visible (don't hide) to show full range</li>
+    <li>Order swatches logically: neutrals first, then colors by rainbow spectrum, premiums last</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>🎨 STEP 3: Design Tokens</h2>
+
+  <h3>Colors</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>Selected swatch border color</td>
+      </tr>
+      <tr>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Selected color name badge background, label icon</td>
+      </tr>
+      <tr>
+        <td><code>--teal-glow</code></td>
+        <td>rgba(0, 137, 123, 0.12)</td>
+        <td>Selected swatch glow shadow (box-shadow: 0 0 0 3px)</td>
+      </tr>
+      <tr>
+        <td><code>--grey</code></td>
+        <td>#E8ECF1</td>
+        <td>Border for light-colored swatches (white/silver)</td>
+      </tr>
+      <tr>
+        <td><code>--grey-mid</code></td>
+        <td>#94A3B8</td>
+        <td>Type badge text color</td>
+      </tr>
+      <tr>
+        <td><code>--grey-light</code></td>
+        <td>#F1F4F8</td>
+        <td>Type badge background</td>
+      </tr>
+      <tr>
+        <td><code>--white</code></td>
+        <td>#FAFBFC</td>
+        <td>Checkmark circle background, tooltip background</td>
+      </tr>
+      <tr>
+        <td><code>--coral</code></td>
+        <td>#FF6B6B</td>
+        <td>Disabled state diagonal line</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Typography</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Font Family</th>
+        <th>Size</th>
+        <th>Weight</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Label ("Kleur")</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Selected badge</td>
+        <td>DM Sans</td>
+        <td>12px</td>
+        <td>700</td>
+      </tr>
+      <tr>
+        <td>Type badge</td>
+        <td>DM Sans</td>
+        <td>10px</td>
+        <td>700 (uppercase)</td>
+      </tr>
+      <tr>
+        <td>Tooltip</td>
+        <td>DM Sans</td>
+        <td>10px</td>
+        <td>700</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Spacing</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Swatch size</td>
+        <td>44×44px</td>
+        <td>Fixed square dimensions</td>
+      </tr>
+      <tr>
+        <td>Swatch gap</td>
+        <td>6px (<code>--space-6</code>)</td>
+        <td>Horizontal spacing between swatches</td>
+      </tr>
+      <tr>
+        <td>Swatch border</td>
+        <td>2.5px</td>
+        <td>Border width when selected</td>
+      </tr>
+      <tr>
+        <td>Checkmark circle</td>
+        <td>18×18px</td>
+        <td>White circle with checkmark icon</td>
+      </tr>
+      <tr>
+        <td>Checkmark icon</td>
+        <td>12×12px</td>
+        <td>Lucide "check" icon size</td>
+      </tr>
+      <tr>
+        <td>Header margin-bottom</td>
+        <td>12px (<code>--space-12</code>)</td>
+        <td>Space between header and swatches</td>
+      </tr>
+      <tr>
+        <td>Section margin-bottom</td>
+        <td>24px (<code>--space-24</code>)</td>
+        <td>Space below entire variant section</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Border Radius</h3>
+  <ul>
+    <li><strong>Swatch:</strong> <code>--radius-lg</code> (12px) — rounded corners for visual softness</li>
+    <li><strong>Checkmark circle:</strong> 50% (perfect circle)</li>
+    <li><strong>Selected badge:</strong> 6px — subtle rounding</li>
+    <li><strong>Type badge:</strong> 4px — minimal rounding</li>
+    <li><strong>Tooltip:</strong> 6px — matches selected badge</li>
+  </ul>
+
+  <h3>Icons</h3>
+  <ul>
+    <li><strong>Label icon:</strong> <code>palette</code> (Lucide) at 16×16px, teal color</li>
+    <li><strong>Checkmark:</strong> <code>check</code> (Lucide) at 12×12px, navy color</li>
+  </ul>
+
+  <h3>Transitions</h3>
+  <ul>
+    <li><strong>Swatch hover scale:</strong> <code>all 0.12s cubic-bezier(0.4, 0, 0.2, 1)</code> — quick scale to 1.08×</li>
+    <li><strong>Tooltip fade:</strong> <code>opacity 0.1s</code> — instant appearance feel</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>⚙️ STEP 4: Props & Configuration</h2>
+
+  <h3>TypeScript Interface</h3>
+  <pre>
+interface ColorSwatch {
+  id: string
+  name: string              // Display name (e.g., "Midnight Black")
+  value: string             // CSS color value (hex, rgb, gradient)
+  price?: number            // Additional price (e.g., 10 for "+€10")
+  available: boolean        // Stock availability
+  image?: string            // Optional: change main product image on select
+  sku?: string              // Variant SKU for inventory tracking
+}
+
+interface VariantColorSwatchesProps {
+  label?: string                    // Default: "Kleur"
+  icon?: string                     // Lucide icon name, default: "palette"
+  swatches: ColorSwatch[]           // Array of color options
+  selected: string                  // ID of selected swatch
+  onSelect: (swatch: ColorSwatch) => void  // Selection handler
+  showTypeBadge?: boolean           // Show "Swatches" badge, default: true
+  compact?: boolean                 // Smaller 36×36px swatches, default: false
+  required?: boolean                // Show required indicator (*), default: false
+  disabled?: boolean                // Disable all swatches, default: false
+}</pre>
+
+  <h3>Payload CMS Field Schema</h3>
+  <pre>
+{
+  name: 'colorVariants',
+  type: 'array',
+  label: 'Kleur Varianten',
+  required: true,
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      label: 'Kleurnaam',
+      required: true,
+      // Examples: "Midnight Black", "Ocean Teal", "Silver Chrome"
+    },
+    {
+      name: 'colorValue',
+      type: 'text',
+      label: 'CSS Kleurwaarde',
+      required: true,
+      admin: {
+        description: 'Hex (#1a1a2e), RGB, of CSS gradient',
+      },
+    },
+    {
+      name: 'priceAdjustment',
+      type: 'number',
+      label: 'Prijsopslag (€)',
+      admin: {
+        description: 'Laat leeg voor €0 (incl. in basisprijs)',
+      },
+    },
+    {
+      name: 'stockStatus',
+      type: 'select',
+      label: 'Voorraadstatus',
+      options: [
+        { label: 'Op voorraad', value: 'available' },
+        { label: 'Uitverkocht', value: 'out_of_stock' },
+        { label: 'Binnenkort terug', value: 'backorder' },
+      ],
+      defaultValue: 'available',
+    },
+    {
+      name: 'variantImage',
+      type: 'upload',
+      label: 'Product afbeelding (variant-specifiek)',
+      relationTo: 'media',
+      admin: {
+        description: 'Optioneel: toon deze afbeelding wanneer kleur geselecteerd is',
+      },
+    },
+    {
+      name: 'sku',
+      type: 'text',
+      label: 'SKU / Artikelnummer',
+      admin: {
+        description: 'Voor voorraadkoppeling',
+      },
+    },
+  ],
+}</pre>
+
+  <h3>Default Values</h3>
+  <ul>
+    <li><code>label</code>: "Kleur"</li>
+    <li><code>icon</code>: "palette"</li>
+    <li><code>showTypeBadge</code>: true</li>
+    <li><code>compact</code>: false (44×44px swatches)</li>
+    <li><code>required</code>: false</li>
+    <li><code>disabled</code>: false</li>
+  </ul>
+
+  <h3>Validation Rules</h3>
+  <ul>
+    <li>Minimum 2 swatches required (no single-color products)</li>
+    <li>Maximum 20 swatches recommended (UX degradation beyond that)</li>
+    <li>At least one swatch must be <code>available: true</code></li>
+    <li>Color values must be valid CSS (hex, rgb, rgba, hsl, or gradient)</li>
+    <li>Swatch names must be unique within a product</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>📐 STEP 5: Layout Rules</h2>
+
+  <h3>Component Anatomy</h3>
+  <pre>
+┌─────────────────────────────────────────────────────────┐
+│ [Icon] Label          [Type Badge] [Selected Badge]     │  ← Header (var-header)
+├─────────────────────────────────────────────────────────┤
+│ [●] [●] [✓] [●] [●] [●] [●] [●]                         │  ← Swatches (color-swatches)
+│  ↑   ↑   ↑   ↑                                          │
+│ S1  S2  S3  S4  (Selected = S3)                         │
+└─────────────────────────────────────────────────────────┘
+
+Header elements:
+- Icon (16×16px) + Label (14px bold) — left side
+- Type Badge (10px uppercase) + Selected Badge (12px) — right side
+
+Swatch:
+┌──────────┐
+│  44×44px │  ← Border: 2.5px (when selected)
+│    [✓]   │  ← Checkmark: 18×18px white circle (only when selected)
+│          │
+└──────────┘
+   Tooltip   ← Appears below on hover (-26px from bottom)</pre>
+
+  <h3>Grid Specifications</h3>
+  <ul>
+    <li><strong>Container:</strong> <code>.variant-section</code> — full width, margin-bottom 24px</li>
+    <li><strong>Header:</strong> <code>display: flex; justify-content: space-between</code></li>
+    <li><strong>Swatches row:</strong> <code>display: flex; gap: 6px; flex-wrap: wrap</code></li>
+    <li><strong>Each swatch:</strong> Fixed 44×44px, border-radius 12px</li>
+  </ul>
+
+  <h3>Spacing Hierarchy</h3>
+  <ol>
+    <li><strong>Outer margin:</strong> 24px below section (separation from next variant)</li>
+    <li><strong>Header → Swatches:</strong> 12px gap (visual grouping)</li>
+    <li><strong>Swatch → Swatch:</strong> 6px gap (horizontal spacing)</li>
+    <li><strong>Row → Row:</strong> 6px gap (vertical spacing when wrapping)</li>
+    <li><strong>Swatch → Tooltip:</strong> 26px below swatch center (prevents overlap)</li>
+  </ol>
+
+  <h3>Responsive Breakpoints</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Behavior</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&gt;768px (Desktop)</td>
+        <td>All swatches in single row (or wrap to 2 rows if >15 colors)</td>
+      </tr>
+      <tr>
+        <td>640-768px (Tablet)</td>
+        <td>Swatches wrap to multiple rows as needed</td>
+      </tr>
+      <tr>
+        <td>&lt;640px (Mobile)</td>
+        <td>Same flex-wrap behavior. Consider <code>compact</code> mode (36×36px swatches) for very small screens</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Z-index Layering</h3>
+  <ul>
+    <li><strong>Swatch:</strong> z-index: 1 (base layer)</li>
+    <li><strong>Checkmark circle:</strong> z-index: 2 (above swatch background)</li>
+    <li><strong>Tooltip:</strong> z-index: 10 (above all swatches to prevent overlap)</li>
+  </ul>
+
+  <h3>Compact Mode</h3>
+  <p>When <code>compact: true</code>, reduce swatch size to 36×36px for space-constrained layouts:</p>
+  <ul>
+    <li>Swatch: 36×36px (instead of 44×44px)</li>
+    <li>Checkmark circle: 16×16px (instead of 18×18px)</li>
+    <li>Checkmark icon: 10×10px (instead of 12×12px)</li>
+    <li>Tooltip font-size: 9px (instead of 10px)</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>♿ STEP 6: Accessibility</h2>
+
+  <h3>Semantic HTML</h3>
+  <pre>
+&lt;div class="variant-section" role="radiogroup" aria-labelledby="color-label"&gt;
+  &lt;div class="var-header"&gt;
+    &lt;div class="var-label" id="color-label"&gt;
+      &lt;i data-lucide="palette" aria-hidden="true"&gt;&lt;/i&gt;
+      Kleur
+    &lt;/div&gt;
+    &lt;div class="var-meta"&gt;
+      &lt;span class="var-selected" aria-live="polite"&gt;Midnight Black&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="color-swatches"&gt;
+    &lt;button
+      type="button"
+      role="radio"
+      aria-checked="true"
+      aria-label="Midnight Black"
+      class="swatch selected"
+      style="background: #1a1a2e;"
+    &gt;
+      &lt;div class="swatch-check" aria-hidden="true"&gt;
+        &lt;i data-lucide="check"&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;span class="swatch-tooltip" aria-hidden="true"&gt;Midnight Black&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;!-- More swatches... --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+  <h3>ARIA Attributes</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Attribute</th>
+        <th>Value</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>.variant-section</td>
+        <td>role</td>
+        <td>"radiogroup"</td>
+        <td>Identifies as a group of radio buttons</td>
+      </tr>
+      <tr>
+        <td>.variant-section</td>
+        <td>aria-labelledby</td>
+        <td>"color-label"</td>
+        <td>Links to label for context</td>
+      </tr>
+      <tr>
+        <td>.swatch (button)</td>
+        <td>role</td>
+        <td>"radio"</td>
+        <td>Identifies as a radio button</td>
+      </tr>
+      <tr>
+        <td>.swatch</td>
+        <td>aria-checked</td>
+        <td>"true" / "false"</td>
+        <td>Indicates selected state</td>
+      </tr>
+      <tr>
+        <td>.swatch</td>
+        <td>aria-label</td>
+        <td>Color name + price</td>
+        <td>Announces color name (e.g., "Midnight Black" or "Silver Chrome, plus ten euros")</td>
+      </tr>
+      <tr>
+        <td>.swatch (disabled)</td>
+        <td>aria-disabled</td>
+        <td>"true"</td>
+        <td>Marks out-of-stock colors</td>
+      </tr>
+      <tr>
+        <td>.var-selected</td>
+        <td>aria-live</td>
+        <td>"polite"</td>
+        <td>Announces selection changes</td>
+      </tr>
+      <tr>
+        <td>Icons, tooltips</td>
+        <td>aria-hidden</td>
+        <td>"true"</td>
+        <td>Hides decorative elements from screen readers</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Keyboard Navigation</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Tab</code></td>
+        <td>Focus enters/exits the swatch group (only selected swatch is tabbable)</td>
+      </tr>
+      <tr>
+        <td><code>Arrow Right/Down</code></td>
+        <td>Move to next swatch (skip disabled), wrap to first</td>
+      </tr>
+      <tr>
+        <td><code>Arrow Left/Up</code></td>
+        <td>Move to previous swatch (skip disabled), wrap to last</td>
+      </tr>
+      <tr>
+        <td><code>Space</code> / <code>Enter</code></td>
+        <td>Select focused swatch</td>
+      </tr>
+      <tr>
+        <td><code>Home</code></td>
+        <td>Jump to first available swatch</td>
+      </tr>
+      <tr>
+        <td><code>End</code></td>
+        <td>Jump to last available swatch</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Focus Management</h3>
+  <ul>
+    <li><strong>Focus ring:</strong> <code>box-shadow: 0 0 0 3px var(--teal-glow)</code> — same as selected state for consistency</li>
+    <li><strong>Roving tabindex:</strong> Only the selected (or first available) swatch has <code>tabindex="0"</code>, others have <code>tabindex="-1"</code></li>
+    <li><strong>Focus visible:</strong> Use <code>:focus-visible</code> to show focus ring only for keyboard navigation (not mouse clicks)</li>
+  </ul>
+
+  <h3>Screen Reader Announcements</h3>
+  <ul>
+    <li>On focus: "Midnight Black, radio button, checked, 1 of 8"</li>
+    <li>On select: "Midnight Black selected" (via <code>aria-live="polite"</code> on selected badge)</li>
+    <li>Disabled: "Arctic White, radio button, disabled, unavailable"</li>
+    <li>Price suffix: "Silver Chrome, plus ten euros, radio button, 8 of 8"</li>
+  </ul>
+
+  <h3>Color Contrast</h3>
+  <ul>
+    <li><strong>Label text (14px):</strong> Navy (#0A1628) on white — 12.5:1 contrast (WCAG AAA ✓)</li>
+    <li><strong>Selected badge (12px):</strong> Teal text (#00897B) on teal-glow bg — needs dark text; use navy instead for small text</li>
+    <li><strong>Tooltip (10px):</strong> Navy on white — 12.5:1 (WCAG AAA ✓)</li>
+    <li><strong>Checkmark:</strong> Navy icon on white circle — high contrast regardless of swatch color</li>
+  </ul>
+
+  <h3>Touch Targets (Mobile)</h3>
+  <ul>
+    <li>Minimum touch target: 44×44px (default swatch size) — meets WCAG 2.5.5 (AAA) ✓</li>
+    <li>Spacing between targets: 6px gap — sufficient for fat-finger avoidance</li>
+    <li>Compact mode (36×36px): Falls short of AAA (44px minimum), use only when necessary</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>💻 STEP 7: Implementation Notes</h2>
+
+  <h3>React/Next.js Component Example</h3>
+  <pre>
+'use client'
+
+import { useState } from 'react'
+import { Palette, Check } from 'lucide-react'
+
+interface ColorSwatch {
+  id: string
+  name: string
+  value: string
+  price?: number
+  available: boolean
+  image?: string
+}
+
+export function VariantColorSwatches({
+  swatches,
+  selected,
+  onSelect,
+  label = 'Kleur',
+  showTypeBadge = true,
+}: VariantColorSwatchesProps) {
+  const [focusedIndex, setFocusedIndex] = useState(0)
+
+  const selectedSwatch = swatches.find(s => s.id === selected)
+
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let newIndex = index
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        e.preventDefault()
+        newIndex = (index + 1) % swatches.length
+        // Skip disabled swatches
+        while (!swatches[newIndex].available && newIndex !== index) {
+          newIndex = (newIndex + 1) % swatches.length
+        }
+        break
+
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault()
+        newIndex = (index - 1 + swatches.length) % swatches.length
+        while (!swatches[newIndex].available && newIndex !== index) {
+          newIndex = (newIndex - 1 + swatches.length) % swatches.length
+        }
+        break
+
+      case 'Home':
+        e.preventDefault()
+        newIndex = 0
+        while (!swatches[newIndex].available) newIndex++
+        break
+
+      case 'End':
+        e.preventDefault()
+        newIndex = swatches.length - 1
+        while (!swatches[newIndex].available) newIndex--
+        break
+
+      case ' ':
+      case 'Enter':
+        e.preventDefault()
+        if (swatches[index].available) {
+          onSelect(swatches[index])
+        }
+        return
+
+      default:
+        return
+    }
+
+    setFocusedIndex(newIndex)
+    // Focus the new swatch
+    document.getElementById(`swatch-${swatches[newIndex].id}`)?.focus()
+  }
+
+  return (
+    <div className="variant-section" role="radiogroup" aria-labelledby="color-label">
+      <div className="var-header">
+        <div className="var-label" id="color-label">
+          <Palette size={16} />
+          {label}
+        </div>
+        <div className="var-meta">
+          {showTypeBadge && <span className="var-type-badge">Swatches</span>}
+          <span className="var-selected" aria-live="polite">
+            {selectedSwatch?.name}
+            {selectedSwatch?.price && selectedSwatch.price > 0 && ` +€${selectedSwatch.price}`}
+          </span>
+        </div>
+      </div>
+
+      <div className="color-swatches">
+        {swatches.map((swatch, index) => {
+          const isSelected = swatch.id === selected
+          const tooltipText = swatch.name + (swatch.price && swatch.price > 0 ? ` +€${swatch.price}` : '')
+
+          return (
+            <button
+              key={swatch.id}
+              id={`swatch-${swatch.id}`}
+              type="button"
+              role="radio"
+              aria-checked={isSelected}
+              aria-label={tooltipText}
+              aria-disabled={!swatch.available}
+              className={`swatch ${isSelected ? 'selected' : ''} ${!swatch.available ? 'disabled' : ''}`}
+              style={{ background: swatch.value }}
+              onClick={() => swatch.available && onSelect(swatch)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              tabIndex={isSelected ? 0 : -1}
+              disabled={!swatch.available}
+            >
+              <div className="swatch-check" aria-hidden="true">
+                <Check size={12} />
+              </div>
+              <span className="swatch-tooltip" aria-hidden="true">
+                {tooltipText}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}</pre>
+
+  <h3>State Management</h3>
+  <ul>
+    <li><strong>Parent component</strong> manages selected color ID (controlled component pattern)</li>
+    <li><strong>onSelect callback</strong> receives full swatch object (not just ID) for price/image updates</li>
+    <li><strong>Roving tabindex</strong> managed via React state (<code>focusedIndex</code>)</li>
+    <li><strong>Image switching</strong> handled by parent: when <code>onSelect</code> fires, update main product image to <code>swatch.image</code></li>
+  </ul>
+
+  <h3>API Integration (Payload CMS)</h3>
+  <pre>
+// Fetch product with color variants
+const product = await payload.findByID({
+  collection: 'products',
+  id: productId,
+  depth: 2, // Populate variant images
+})
+
+// Transform to component props
+const swatches = product.colorVariants.map(variant => ({
+  id: variant.id,
+  name: variant.name,
+  value: variant.colorValue,
+  price: variant.priceAdjustment || 0,
+  available: variant.stockStatus === 'available',
+  image: variant.variantImage?.url,
+  sku: variant.sku,
+}))
+
+// Default selection: first available color
+const defaultSelected = swatches.find(s => s.available)?.id || swatches[0].id</pre>
+
+  <h3>Performance Optimization</h3>
+  <ul>
+    <li><strong>Lazy load variant images:</strong> Use Next.js <code>&lt;Image priority={false} /&gt;</code> for non-default colors</li>
+    <li><strong>Memoize swatch rendering:</strong> Wrap swatch buttons in <code>React.memo</code> to prevent re-renders</li>
+    <li><strong>Debounce image switching:</strong> If user rapidly clicks swatches, debounce main image update (150ms)</li>
+    <li><strong>Preload next color:</strong> On hover, preload that color's image for instant switching</li>
+  </ul>
+
+  <h3>Edge Cases & Error Handling</h3>
+  <ol>
+    <li><strong>All colors out of stock:</strong> Show "Tijdelijk niet beschikbaar" message, disable add-to-cart</li>
+    <li><strong>Selected color becomes unavailable:</strong> Auto-select first available color, show notification</li>
+    <li><strong>Invalid CSS color:</strong> Fallback to grey swatch with warning icon</li>
+    <li><strong>Missing color name:</strong> Use "Kleur {index}" as fallback</li>
+    <li><strong>Duplicate color names:</strong> Append SKU to disambiguate (e.g., "Black (SKU-001)", "Black (SKU-002)")</li>
+  </ol>
+
+  <h3>Browser Compatibility</h3>
+  <ul>
+    <li><strong>CSS Gradients:</strong> Supported in all modern browsers (IE11 needs <code>-ms-</code> prefix)</li>
+    <li><strong>Flexbox:</strong> Full support (IE11+)</li>
+    <li><strong>:focus-visible:</strong> Polyfill required for Safari &lt;15.4</li>
+    <li><strong>CSS Custom Properties:</strong> IE11 needs PostCSS fallback</li>
+  </ul>
+</div>
+
+<div class="docs-section">
+  <h2>🔀 STEP 8: Variations & Related Components</h2>
+
+  <h3>Component Variants</h3>
+
+  <h4>1. Compact Mode</h4>
+  <p><strong>Use case:</strong> Mobile layouts, sidebar filters, or products with 15+ colors</p>
+  <ul>
+    <li>Swatch size: 36×36px (instead of 44×44px)</li>
+    <li>Checkmark circle: 16×16px</li>
+    <li>Tooltip font-size: 9px</li>
+    <li>Gap: 4px (instead of 6px)</li>
+  </ul>
+
+  <h4>2. No Header Mode</h4>
+  <p><strong>Use case:</strong> Minimalist product cards, quick-add modals</p>
+  <ul>
+    <li>Hide label and badges entirely</li>
+    <li>Swatches only, with tooltips for identification</li>
+    <li>Useful when color is the ONLY variant (no size/material to distinguish)</li>
+  </ul>
+
+  <h4>3. Swatch + Text Mode</h4>
+  <p><strong>Use case:</strong> Accessibility enhancement, complex color names</p>
+  <ul>
+    <li>Show color name text NEXT to each swatch (not just in tooltip)</li>
+    <li>Layout: <code>[● Midnight Black] [● Arctic White] ...</code></li>
+    <li>Better for users who can't distinguish colors visually</li>
+  </ul>
+
+  <h4>4. Grid Layout (3-4 columns)</h4>
+  <p><strong>Use case:</strong> Many colors (15+), better organization</p>
+  <ul>
+    <li>Use CSS Grid instead of Flexbox: <code>grid-template-columns: repeat(auto-fill, 44px)</code></li>
+    <li>Align swatches in neat columns instead of flowing wrap</li>
+  </ul>
+
+  <h3>Related Components</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>When to Use Instead</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>VP02: VariantSizeSelector</strong></td>
+        <td>For size variants (text labels like "S, M, L, XL")</td>
+      </tr>
+      <tr>
+        <td><strong>VP03: VariantDropdownSelector</strong></td>
+        <td>For 15+ colors or variants with complex names/descriptions</td>
+      </tr>
+      <tr>
+        <td><strong>VP04: VariantImageRadio</strong></td>
+        <td>For pattern/print selection (requires images, not solid colors)</td>
+      </tr>
+      <tr>
+        <td><strong>C21: FilterSidebar</strong></td>
+        <td>Color filter in archive/category pages (checkbox, not radio)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Component Composition Examples</h3>
+
+  <h4>Example 1: Color + Size + Material</h4>
+  <pre>
+&lt;VariantColorSwatches
+  swatches={colorOptions}
+  selected={selectedColor}
+  onSelect={handleColorChange}
+/&gt;
+
+&lt;VariantSizeSelector
+  sizes={sizeOptions}
+  selected={selectedSize}
+  onSelect={handleSizeChange}
+/&gt;
+
+&lt;VariantDropdownSelector
+  label="Materiaal"
+  options={materialOptions}
+  selected={selectedMaterial}
+  onSelect={handleMaterialChange}
+/&gt;</pre>
+
+  <h4>Example 2: Quick-Add Modal (Minimal)</h4>
+  <pre>
+&lt;VariantColorSwatches
+  swatches={colorOptions}
+  selected={selectedColor}
+  onSelect={handleColorChange}
+  showTypeBadge={false}
+  label="" // No label in modal
+  compact={true}
+/&gt;</pre>
+
+  <h3>Testing Checklist</h3>
+  <ul>
+    <li>☐ All swatches render with correct colors (visual QA)</li>
+    <li>☐ Selected state: navy border + teal glow + checkmark visible</li>
+    <li>☐ Hover: swatch scales to 1.08×, tooltip appears below</li>
+    <li>☐ Click: selects swatch, updates selected badge at top</li>
+    <li>☐ Disabled swatches: reduced opacity, diagonal line, not clickable</li>
+    <li>☐ Keyboard navigation: arrow keys move focus, Enter/Space selects</li>
+    <li>☐ Screen reader: announces "Color name, radio button, checked/unchecked, X of Y"</li>
+    <li>☐ Focus ring: teal glow appears on keyboard focus (not mouse click)</li>
+    <li>☐ Price suffix: "+€X" shown in tooltip and selected badge</li>
+    <li>☐ Image switching: main product image changes when color selected</li>
+    <li>☐ Responsive: swatches wrap to multiple rows on mobile</li>
+    <li>☐ Gradient swatches: CSS gradients render correctly</li>
+    <li>☐ Touch targets: minimum 44×44px (or 36×36px in compact mode)</li>
+  </ul>
+
+  <h3>Migration Notes</h3>
+  <p>If replacing an old dropdown-based color selector:</p>
+  <ol>
+    <li>Map dropdown options to swatches array (value = color code, label = name)</li>
+    <li>Replace <code>&lt;select&gt;</code> with <code>&lt;VariantColorSwatches /&gt;</code></li>
+    <li>Update <code>onSelect</code> handler to accept swatch object (not just string value)</li>
+    <li>Add color values to database (if not already stored) — use Figma/brand guidelines for exact codes</li>
+    <li>Test gradient colors (old system may not have supported them)</li>
+    <li>Update analytics events: change from "dropdown_select" to "color_swatch_select"</li>
+  </ol>
+</div>
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+
+<script>
+lucide.createIcons()
+
+function selectSwatch(element, selectedId, colorName) {
+  // Remove selected class from all swatches in this group
+  const swatchGroup = element.closest('.color-swatches')
+  swatchGroup.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'))
+
+  // Add selected class to clicked swatch
+  element.classList.add('selected')
+
+  // Update selected badge text
+  const badge = document.getElementById(selectedId)
+  if (badge) {
+    badge.textContent = colorName
+  }
+
+  // Re-initialize Lucide icons (for checkmark)
+  lucide.createIcons()
+}
+</script>
+
+</body>
+</html>

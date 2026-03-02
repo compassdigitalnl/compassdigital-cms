@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP02: Screenshot Gallery — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.ss-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  .ss-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ss-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ss-item {
+  background: var(--grey-light);
+  border-radius: 12px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+  overflow: hidden;
+  position: relative;
+}
+
+.ss-item:hover {
+  border-color: var(--teal);
+  transform: scale(1.02);
+}
+
+.ss-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ss-item::after {
+  content: '🔍';
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.ss-item:hover::after {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<div class="section-title">
+  <i data-lucide="image"></i> Screenshots & preview
+</div>
+
+<div class="ss-grid">
+  <div class="ss-item" style="background: linear-gradient(135deg, #E8EAF6, #C5CAE9);">📐</div>
+  <div class="ss-item" style="background: linear-gradient(135deg, #E0F2F1, #B2DFDB);">🎨</div>
+  <div class="ss-item" style="background: linear-gradient(135deg, #FFF3E0, #FFE0B2);">📱</div>
+  <div class="ss-item" style="background: linear-gradient(135deg, #F3E5F5, #CE93D8);">🖥️</div>
+  <div class="ss-item" style="background: linear-gradient(135deg, #E3F2FD, #90CAF9);">⚡</div>
+  <div class="ss-item" style="background: linear-gradient(135deg, #FCE4EC, #F48FB1);">🤖</div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+// Lightbox handler
+document.querySelectorAll('.ss-item').forEach((item, index) => {
+  item.addEventListener('click', function() {
+    console.log('Open lightbox for screenshot', index + 1);
+    // Implement lightbox here (e.g., Photoswipe, GLightbox, custom modal)
+  });
+});
+</script>
+
+<!-- ============================================
+     DOCUMENTATION: DP02 Screenshot Gallery
+     Complete 8-step protocol
+     ============================================ -->
+<!--
+COMPONENT: DP02 — Screenshot Gallery
+PURPOSE: 3-column grid of product screenshots with lightbox preview
+PATTERN: Responsive grid (3-col → 2-col → 1-col), hover effect, click opens lightbox
+USE CASE: Digital product pages showing UI previews, feature screenshots, demo screens
+
+DESIGN TOKENS:
+- Grid: 3 columns (>900px), 2 columns (640-900px), 1 column (<640px)
+- Gap: 8px
+- Item height: 140px (fixed)
+- Border-radius: 12px
+- Hover border: teal 2px
+- Hover transform: scale(1.02)
+- Zoom icon: 🔍 bottom-right corner (opacity 0 → 1 on hover)
+
+REACT INTERFACE:
+interface ScreenshotGalleryProps {
+  screenshots: Array<{
+    id: string
+    image: string
+    alt: string
+    thumbnail?: string
+  }>
+  columns?: 2 | 3 | 4 // Default: 3
+  lightbox?: boolean // Default: true
+}
+
+ACCESSIBILITY:
+- role="img" on each item
+- alt text for screenshots
+- Keyboard: Tab to focus, Enter to open lightbox
+- Screen reader: "Screenshot 1 van 6, click to enlarge"
+
+RELATED COMPONENTS:
+- DP01 (DigitalProductHero): Product hero above gallery
+- DP03 (FeatureGrid): Feature grid below screenshots
+-->
+
+</body>
+</html>

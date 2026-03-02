@@ -145,15 +145,14 @@ export const Spacing: Tab = {
       type: 'row',
       fields: [
         {
-          name: 'spacingSystemInfo',
           type: 'ui',
           admin: {
             components: {
-              Field: () => null, // Invisible field, just for info
+              Field: (() => null) as any, // Invisible field, just for info
             },
             description: '⚠️ CRITICAL: These spacing values are locked to maintain consistency across all 156+ components. Changing them would break layouts across the entire platform. Only modify if creating a completely new vertical with different spacing requirements.',
           },
-        },
+        } as any,
       ],
     },
   ],

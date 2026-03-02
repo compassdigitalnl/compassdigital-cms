@@ -489,9 +489,16 @@ Houd antwoorden kort en to-the-point (max 3-4 zinnen).`
         temperature: settings.temperature ?? 0.7,
         maxTokens: settings.maxTokens ?? 500,
         contextWindow: settings.contextWindow ?? 5,
-        systemPrompt: settings.systemPrompt,
-        trainingContext: settings.trainingContext,
-        knowledgeBaseIntegration: settings.knowledgeBaseIntegration,
+        systemPrompt: settings.systemPrompt ?? undefined,
+        trainingContext: settings.trainingContext ?? undefined,
+        knowledgeBaseIntegration: settings.knowledgeBaseIntegration
+          ? {
+              enabled: settings.knowledgeBaseIntegration.enabled ?? false,
+              maxResults: settings.knowledgeBaseIntegration.maxResults ?? 5,
+              includeSourceLinks: settings.knowledgeBaseIntegration.includeSourceLinks ?? true,
+              searchCollections: settings.knowledgeBaseIntegration.searchCollections ?? [],
+            }
+          : undefined,
       }
     } catch (error) {
       console.error('[RAG] Error loading settings:', error)

@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         collection: 'email-subscribers',
         id: subscriber.id,
         data: {
-          status: 'bounced',
+          status: 'disabled', // Hard bounces are disabled
           syncStatus: 'synced',
         },
       })

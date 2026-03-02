@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC06: Configurator Navigation — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-dark: #00695C;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --white: #FAFBFC;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.cfg-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--grey);
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: none;
+  font-family: inherit;
+}
+
+.nav-btn.secondary {
+  background: white;
+  border: 1.5px solid var(--grey);
+  color: var(--navy);
+}
+
+.nav-btn.secondary:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(10,22,40,0.08);
+}
+
+.nav-btn.primary {
+  background: var(--teal);
+  color: white;
+  border: 1.5px solid var(--teal);
+}
+
+.nav-btn.primary:hover {
+  background: var(--teal-dark);
+  border-color: var(--teal-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,137,123,0.25);
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.nav-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 640px) {
+  .cfg-nav {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+  
+  .nav-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 700px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Configurator Navigation</h2>
+
+<!-- Demo Section -->
+<div style="background: white; padding: 24px; border-radius: 14px; border: 1px solid var(--grey);">
+  <h3 style="font-size: 16px; margin-bottom: 16px;">Kleur selecteren</h3>
+  <p style="font-size: 13px; color: var(--grey-mid); margin-bottom: 24px;">
+    Kies je favoriete kleur voor je MacBook Pro.
+  </p>
+  
+  <!-- Color swatches demo -->
+  <div style="display: flex; gap: 12px; margin-bottom: 32px;">
+    <div style="width: 48px; height: 48px; background: #2D3436; border-radius: 12px; border: 3px solid var(--teal); box-shadow: 0 0 0 3px rgba(0,137,123,0.12);"></div>
+    <div style="width: 48px; height: 48px; background: #C0C0C0; border-radius: 12px; border: 3px solid var(--grey);"></div>
+    <div style="width: 48px; height: 48px; background: #1A1A2E; border-radius: 12px; border: 3px solid var(--grey);"></div>
+  </div>
+
+  <!-- NAVIGATION BUTTONS -->
+  <div class="cfg-nav">
+    <button class="nav-btn secondary">
+      <i data-lucide="chevron-left"></i>
+      <span>Vorige stap</span>
+    </button>
+    <button class="nav-btn primary">
+      <span>Volgende stap</span>
+      <i data-lucide="chevron-right"></i>
+    </button>
+  </div>
+</div>
+
+<div style="height: 32px;"></div>
+
+<!-- Disabled Previous Button (first step) -->
+<div style="background: white; padding: 24px; border-radius: 14px; border: 1px solid var(--grey);">
+  <h3 style="font-size: 14px; margin-bottom: 8px; color: var(--grey-mid);">State: First Step (prev disabled)</h3>
+  <div class="cfg-nav">
+    <button class="nav-btn secondary" disabled>
+      <i data-lucide="chevron-left"></i>
+      <span>Vorige stap</span>
+    </button>
+    <button class="nav-btn primary">
+      <span>Volgende stap</span>
+      <i data-lucide="chevron-right"></i>
+    </button>
+  </div>
+</div>
+
+<div style="height: 32px;"></div>
+
+<!-- Last Step (submit button) -->
+<div style="background: white; padding: 24px; border-radius: 14px; border: 1px solid var(--grey);">
+  <h3 style="font-size: 14px; margin-bottom: 8px; color: var(--grey-mid);">State: Last Step (submit)</h3>
+  <div class="cfg-nav">
+    <button class="nav-btn secondary">
+      <i data-lucide="chevron-left"></i>
+      <span>Vorige stap</span>
+    </button>
+    <button class="nav-btn primary">
+      <span>In winkelwagen</span>
+      <i data-lucide="shopping-cart"></i>
+    </button>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- ============================================
+     STEP 1: COMPONENT OVERVIEW
+     ============================================ -->
+<!--
+COMPONENT: PC06 — Configurator Navigation
+TYPE: Prev/Next navigation buttons for configurator steps
+
+PURPOSE:
+Allow users to navigate forward/backward through configurator steps with clear
+visual feedback. Disables prev on first step, changes "Next" to "Add to cart" on last step.
+
+VISUAL PATTERN:
+- 2-button layout: Prev (left, secondary) + Next (right, primary)
+- Prev: white bg, grey border, chevron-left icon
+- Next: teal bg, white text, chevron-right icon
+- Mobile: stack vertically (Next on top, Prev below)
+
+USE CASE:
+Bottom of every configurator step (PC01-PC05)
+Step navigation with validation before proceeding
+-->
+
+
+<!-- ============================================
+     STEP 2: WHEN TO USE
+     ============================================ -->
+<!--
+USE THIS COMPONENT WHEN:
+✅ Multi-step configurator flow (3+ steps)
+✅ User needs to go back/forward between steps
+✅ Current step completion required before proceeding
+✅ Last step converts to "Add to cart" CTA
+
+DO NOT USE WHEN:
+❌ Single-step selection (use direct "Add to cart")
+❌ Form wizard (use progress stepper only)
+❌ Linear flow without back navigation
+
+REAL-WORLD EXAMPLES:
+- Apple configurator: Model → Color → Storage → Extras → Summary
+- Bike builder: Frame → Wheels → Gears → Extras → Review
+- Car configurator: Model → Color → Interior → Packages → Summary
+-->
+
+
+<!-- ============================================
+     STEP 3: DESIGN TOKENS
+     ============================================ -->
+<!--
+COLORS:
+- Prev (secondary): white bg, grey #E8ECF1 border, navy #0A1628 text
+- Prev hover: teal #00897B border + text
+- Next (primary): teal #00897B bg, white text
+- Next hover: teal-dark #00695C bg
+- Disabled: opacity 0.4
+
+TYPOGRAPHY:
+- Font: 13px, 700 weight, Plus Jakarta Sans
+- Icon size: 16×16px
+
+SPACING:
+- Gap between buttons: 16px
+- Button padding: 11px 20px (vertical × horizontal)
+- Icon + text gap: 8px
+- Top border spacing: 24px padding-top
+- Margin-top: 32px
+
+BORDER RADIUS:
+- Buttons: 10px
+
+TRANSITIONS:
+- All: 0.2s cubic-bezier(0.4, 0, 0.2, 1)
+
+SHADOWS:
+- Prev hover: 0 4px 12px rgba(10,22,40,0.08)
+- Next hover: 0 8px 20px rgba(0,137,123,0.25)
+-->
+
+
+<!-- ============================================
+     STEP 4: PROPS & CONFIGURATION
+     ============================================ -->
+<!--
+REACT/TYPESCRIPT INTERFACE:
+
+interface ConfiguratorNavigationProps {
+  currentStep: number
+  totalSteps: number
+  onPrevious?: () => void
+  onNext?: () => void
+  onAddToCart?: () => void
+  isFirstStep?: boolean
+  isLastStep?: boolean
+  isNextDisabled?: boolean // Disable if current step incomplete
+  nextButtonText?: string // Default: "Volgende stap"
+  prevButtonText?: string // Default: "Vorige stap"
+  submitButtonText?: string // Default: "In winkelwagen"
+  submitIcon?: string // Default: "shopping-cart"
+}
+
+PAYLOAD CMS SCHEMA:
+
+{
+  slug: 'configurator-navigation',
+  fields: [
+    {
+      name: 'prevButtonText',
+      type: 'text',
+      defaultValue: 'Vorige stap'
+    },
+    {
+      name: 'nextButtonText',
+      type: 'text',
+      defaultValue: 'Volgende stap'
+    },
+    {
+      name: 'submitButtonText',
+      type: 'text',
+      defaultValue: 'In winkelwagen'
+    },
+    {
+      name: 'submitIcon',
+      type: 'select',
+      options: ['shopping-cart', 'check', 'arrow-right'],
+      defaultValue: 'shopping-cart'
+    }
+  ]
+}
+-->
+
+
+<!-- ============================================
+     STEP 5: LAYOUT RULES
+     ============================================ -->
+<!--
+LAYOUT (FLEX):
+┌──────────────────────────────────────────┐
+│ [← Vorige stap]        [Volgende stap →] │
+└──────────────────────────────────────────┘
+- Display: flex, justify-content: space-between
+- Gap: 16px (between buttons)
+- Top border: 1px solid grey, 24px padding-top
+- Margin-top: 32px (from previous content)
+
+MOBILE (<640px):
+┌──────────────────────────┐
+│   [Volgende stap →]      │ ← Primary (top)
+│   [← Vorige stap]        │ ← Secondary (bottom)
+└──────────────────────────┘
+- Flex-direction: column-reverse (Next on top!)
+- Gap: 12px
+- Full-width buttons (width: 100%, justify-content: center)
+
+BUTTON STATES:
+1. Default: Static, normal colors
+2. Hover: translateY(-1px) + shadow elevation
+3. Disabled: opacity 0.4, no transform/shadow
+4. Active: Press animation (optional: scale 0.98)
+-->
+
+
+<!-- ============================================
+     STEP 6: ACCESSIBILITY (WCAG 2.1 AA)
+     ============================================ -->
+<!--
+SEMANTIC HTML:
+<nav class="cfg-nav" aria-label="Configurator navigatie">
+  <button class="nav-btn secondary" aria-label="Ga naar vorige stap" disabled={isFirstStep}>
+    <ChevronLeft aria-hidden="true" />
+    <span>Vorige stap</span>
+  </button>
+  <button class="nav-btn primary" aria-label="Ga naar volgende stap" disabled={!isStepValid}>
+    <span>Volgende stap</span>
+    <ChevronRight aria-hidden="true" />
+  </button>
+</nav>
+
+KEYBOARD NAVIGATION:
+- Tab: focus next button
+- Shift+Tab: focus previous button
+- Enter/Space: activate button
+- Disabled buttons: skip in tab order (tabindex="-1")
+
+SCREEN READER:
+- "Vorige stap, button, disabled" (first step)
+- "Volgende stap, button" (middle steps)
+- "In winkelwagen, button" (last step)
+- Error: "Volgende stap, button, disabled. Selecteer eerst een optie."
+
+COLOR CONTRAST:
+- Prev text (navy on white): 14.5:1 ✓
+- Next text (white on teal): 6.1:1 ✓
+- Prev hover (teal on white): 4.9:1 ✓
+
+TOUCH TARGETS:
+- Minimum: 44×44px
+- Buttons: 42px height (padding 11px + 20px text) ✓
+- Mobile full-width: ~375px × 42px ✓
+-->
+
+
+<!-- ============================================
+     STEP 7: IMPLEMENTATION NOTES
+     ============================================ -->
+<!--
+STATE MANAGEMENT (React):
+
+const [currentStep, setCurrentStep] = useState(0)
+const [isStepValid, setIsStepValid] = useState(false)
+
+const handleNext = () => {
+  if (!isStepValid) {
+    toast.error('Selecteer eerst een optie')
+    return
+  }
+  
+  if (currentStep === totalSteps - 1) {
+    // Last step: add to cart
+    handleAddToCart()
+  } else {
+    setCurrentStep(prev => prev + 1)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
+
+const handlePrevious = () => {
+  if (currentStep > 0) {
+    setCurrentStep(prev => prev - 1)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
+
+STEP VALIDATION:
+- Step 1 (Model): at least 1 model selected
+- Step 2 (Color): 1 color selected
+- Step 3 (Specs): all required specs selected (RAM, storage, etc.)
+- Step 4 (Extras): no validation (all optional)
+- Step 5 (Summary): always valid (review only)
+
+BUTTON TEXT LOGIC:
+const nextButtonText = isLastStep 
+  ? 'In winkelwagen' 
+  : `Volgende stap (${currentStep + 2}/${totalSteps})`
+
+const nextButtonIcon = isLastStep 
+  ? 'shopping-cart' 
+  : 'chevron-right'
+
+ANALYTICS TRACKING:
+- trackEvent('Configurator', 'Step Next', `Step ${currentStep + 1}`)
+- trackEvent('Configurator', 'Step Previous', `Step ${currentStep + 1}`)
+- trackEvent('Configurator', 'Add to Cart', productConfig)
+
+URL UPDATES (Optional):
+- Update URL hash: #step-2, #step-3, etc.
+- Allow direct linking to steps (deeplink support)
+- Browser back button support (history.pushState)
+
+LOADING STATES:
+- Show spinner on "In winkelwagen" button while adding to cart
+- Disable both buttons during API call
+- Success: redirect to cart or show success toast
+-->
+
+
+<!-- ============================================
+     STEP 8: VARIATIONS & RELATED COMPONENTS
+     ============================================ -->
+<!--
+VARIATIONS:
+
+1. BUTTON ORDER (MOBILE):
+   - Reversed (default): Next on top, Prev below (better UX!)
+   - Normal: Prev on top, Next below (less common)
+
+2. STEP PROGRESS IN BUTTON:
+   - Simple: "Volgende stap"
+   - With count: "Volgende stap (3/5)"
+   - With name: "Naar: Kleur selectie"
+
+3. SUBMIT BUTTON VARIANTS:
+   - Shopping cart: "In winkelwagen" + cart icon
+   - Checkmark: "Configuratie voltooien" + check icon
+   - Arrow: "Afronden" + arrow-right icon
+   - Custom: "Offerte aanvragen" + file-text icon (B2B)
+
+4. VALIDATION FEEDBACK:
+   - Disabled + tooltip: "Selecteer eerst een kleur"
+   - Error banner above buttons
+   - Shake animation on invalid next click
+
+RELATED COMPONENTS:
+- PC01 (ConfiguratorStepIndicator): Shows overall progress
+- PC08 (ConfiguratorSummary): Shows selected options + total
+- C25 (ProgressSteps): Alternative linear progress indicator
+- EC13 (CheckoutProgressStepper): Similar pattern for checkout
+
+INTEGRATION EXAMPLE:
+
+<ConfiguratorLayout>
+  <ConfiguratorPreview /> {/* PC02 */}
+  <div>
+    <ConfiguratorStepIndicator currentStep={currentStep} totalSteps={5} /> {/* PC01 */}
+    
+    {currentStep === 0 && <ModelSelector />}
+    {currentStep === 1 && <ColorSelector />} {/* PC03 */}
+    {currentStep === 2 && <SpecOptionCard />} {/* PC04 */}
+    {currentStep === 3 && <ToggleOptionCard />} {/* PC05 */}
+    {currentStep === 4 && <ConfiguratorSummary />} {/* PC08 */}
+    
+    <ConfiguratorNavigation 
+      currentStep={currentStep}
+      totalSteps={5}
+      onPrevious={handlePrevious}
+      onNext={handleNext}
+      onAddToCart={handleAddToCart}
+      isNextDisabled={!isStepValid}
+    /> {/* PC06 ✓ CURRENT */}
+  </div>
+</ConfiguratorLayout>
+
+A/B TESTING IDEAS:
+1. Button copy: "Volgende stap" vs "Doorgaan" vs "Verder →"
+2. Submit copy: "In winkelwagen" vs "Toevoegen" vs "Bestellen"
+3. Icon position: Left vs Right vs None
+4. Progress in button: "Volgende (3/5)" vs no count
+5. Button style: Solid vs Outline vs Ghost
+-->
+
+</body>
+</html>

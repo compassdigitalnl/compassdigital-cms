@@ -55,18 +55,40 @@ export async function ChatbotProvider() {
       welcomeMessage: settingsDoc.welcomeMessage || 'Hallo! Hoe kan ik je helpen?',
       placeholder: settingsDoc.placeholder || 'Typ je vraag...',
       suggestedQuestions: settingsDoc.suggestedQuestions || [],
-      systemPrompt: settingsDoc.systemPrompt,
-      trainingContext: settingsDoc.trainingContext,
-      knowledgeBaseIntegration: settingsDoc.knowledgeBaseIntegration || {
+      systemPrompt: settingsDoc.systemPrompt || undefined,
+      trainingContext: settingsDoc.trainingContext || undefined,
+      knowledgeBaseIntegration: settingsDoc.knowledgeBaseIntegration ? {
+        enabled: settingsDoc.knowledgeBaseIntegration.enabled ?? true,
+        maxResults: settingsDoc.knowledgeBaseIntegration.maxResults ?? 3,
+        includeSourceLinks: settingsDoc.knowledgeBaseIntegration.includeSourceLinks ?? true,
+        searchCollections: (settingsDoc.knowledgeBaseIntegration.searchCollections || ['blog-posts', 'pages']) as string[],
+      } : {
         enabled: true,
         maxResults: 3,
         includeSourceLinks: true,
         searchCollections: ['blog-posts', 'pages'],
       },
-      rateLimiting: settingsDoc.rateLimiting,
-      moderation: settingsDoc.moderation,
-      fallback: settingsDoc.fallback,
-      analytics: settingsDoc.analytics,
+      rateLimiting: settingsDoc.rateLimiting ? {
+        enabled: settingsDoc.rateLimiting.enabled ?? false,
+        maxMessagesPerHour: settingsDoc.rateLimiting.maxMessagesPerHour ?? 20,
+        maxMessagesPerDay: settingsDoc.rateLimiting.maxMessagesPerDay ?? 100,
+        cooldownSeconds: settingsDoc.rateLimiting.cooldownSeconds ?? 3,
+        blockedIPs: settingsDoc.rateLimiting.blockedIPs,
+      } as any : undefined,
+      moderation: settingsDoc.moderation ? {
+        enabled: settingsDoc.moderation.enabled ?? false,
+        blockedKeywords: settingsDoc.moderation.blockedKeywords,
+      } as any : undefined,
+      fallback: settingsDoc.fallback ? {
+        enableFallback: settingsDoc.fallback.enableFallback ?? true,
+        fallbackMessage: settingsDoc.fallback.fallbackMessage ?? 'Sorry, ik kan je vraag niet beantwoorden.',
+        contactEmail: settingsDoc.fallback.contactEmail,
+      } as any : undefined,
+      analytics: settingsDoc.analytics ? {
+        enableLogging: settingsDoc.analytics.enableLogging ?? true,
+        enableAnalytics: settingsDoc.analytics.enableAnalytics ?? true,
+        retentionDays: settingsDoc.analytics.retentionDays ?? 30,
+      } as any : undefined,
     }
 
     // Don't render if disabled in settings

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DD05: AccessInstructions — Plastimed Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-body: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      padding: 48px 24px;
+    }
+
+    .demo-section {
+      max-width: 800px;
+      margin: 0 auto 48px;
+    }
+
+    .demo-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-desc {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 24px;
+    }
+
+    /* Access Instructions Container */
+    .ai-container {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .ai-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .ai-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--teal-glow);
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+
+    .ai-header-badge i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .ai-header-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .ai-header-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* Platform Tabs */
+    .ai-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 16px 24px;
+      background: var(--grey-light);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .ai-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .ai-tab i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .ai-tab:hover {
+      background: var(--white);
+      color: var(--navy);
+    }
+
+    .ai-tab.active {
+      background: var(--white);
+      border-color: var(--teal);
+      color: var(--teal);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Steps Container */
+    .ai-steps {
+      padding: 24px;
+    }
+
+    .ai-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .ai-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .ai-step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 48px;
+      width: 2px;
+      height: calc(100% - 32px);
+      background: var(--grey);
+    }
+
+    .ai-step-number {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--teal);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(0, 137, 123, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .ai-step-content {
+      flex: 1;
+    }
+
+    .ai-step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .ai-step-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    /* Code Block */
+    .ai-code {
+      background: var(--navy);
+      color: #E8F5E9;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .ai-code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .ai-code-lang {
+      font-size: 11px;
+      color: var(--teal-light);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .ai-code-copy {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 6px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .ai-code-copy i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .ai-code-copy:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .ai-code-copy.copied {
+      background: var(--green);
+    }
+
+    .ai-code pre {
+      margin: 0;
+      white-space: pre;
+    }
+
+    .ai-code .comment {
+      color: var(--grey-mid);
+    }
+
+    .ai-code .keyword {
+      color: var(--teal-light);
+    }
+
+    .ai-code .string {
+      color: #FFD700;
+    }
+
+    /* Screenshot Placeholder */
+    .ai-screenshot {
+      background: var(--grey-light);
+      border: 2px dashed var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 48px 24px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .ai-screenshot i {
+      width: 48px;
+      height: 48px;
+      color: var(--grey-mid);
+      margin-bottom: 12px;
+    }
+
+    .ai-screenshot-text {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    /* Info Box */
+    .ai-info {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+    }
+
+    .ai-info i {
+      width: 16px;
+      height: 16px;
+      color: var(--blue);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ai-info-text {
+      font-size: 12px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    .ai-info-text strong {
+      font-weight: 700;
+    }
+
+    /* Warning Box */
+    .ai-warning {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--amber-light);
+      border-left: 3px solid var(--amber);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+    }
+
+    .ai-warning i {
+      width: 16px;
+      height: 16px;
+      color: var(--amber);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ai-warning-text {
+      font-size: 12px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    /* Troubleshooting */
+    .ai-troubleshooting {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .ai-troubleshooting-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ai-troubleshooting-title i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .ai-troubleshooting-item {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    .ai-troubleshooting-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .ai-troubleshooting-q {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .ai-troubleshooting-a {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .ai-footer {
+      padding: 24px;
+      background: var(--grey-light);
+      border-top: 1px solid var(--grey);
+      text-align: center;
+    }
+
+    .ai-footer-text {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .ai-footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all var(--transition);
+    }
+
+    .ai-footer-link i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .ai-footer-link:hover {
+      color: var(--teal-dark);
+      text-decoration: underline;
+    }
+
+    /* Accordion Variant */
+    .ai-accordion .ai-step {
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 0;
+      margin-bottom: 12px;
+    }
+
+    .ai-accordion .ai-step::before {
+      display: none;
+    }
+
+    .ai-accordion .ai-step-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .ai-accordion .ai-step-header:hover {
+      background: var(--grey-light);
+    }
+
+    .ai-accordion .ai-step-number {
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+    }
+
+    .ai-accordion .ai-step-title {
+      flex: 1;
+      margin: 0;
+    }
+
+    .ai-accordion .ai-step-chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--grey-mid);
+      transition: transform var(--transition);
+    }
+
+    .ai-accordion .ai-step.expanded .ai-step-chevron {
+      transform: rotate(180deg);
+    }
+
+    .ai-accordion .ai-step-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .ai-accordion .ai-step.expanded .ai-step-body {
+      max-height: 1000px;
+    }
+
+    .ai-accordion .ai-step-content {
+      padding: 0 16px 16px 64px;
+    }
+
+    /* Compact Variant */
+    .ai-compact .ai-header {
+      padding: 16px;
+    }
+
+    .ai-compact .ai-header-title {
+      font-size: 16px;
+    }
+
+    .ai-compact .ai-steps {
+      padding: 16px;
+    }
+
+    .ai-compact .ai-step {
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .ai-compact .ai-step-number {
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+    }
+
+    .ai-compact .ai-step-title {
+      font-size: 14px;
+    }
+
+    .ai-compact .ai-step-desc {
+      font-size: 12px;
+    }
+
+    .ai-compact .ai-footer {
+      padding: 16px;
+    }
+
+    /* Tab Panel */
+    .ai-tab-panel {
+      display: none;
+    }
+
+    .ai-tab-panel.active {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .ai-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .ai-step {
+        gap: 12px;
+      }
+
+      .ai-step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+      }
+
+      .ai-code {
+        font-size: 11px;
+      }
+
+      .ai-accordion .ai-step-content {
+        padding-left: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Demo 1: Default Numbered Steps -->
+  <div class="demo-section">
+    <h2 class="demo-title">DD05: AccessInstructions — Default (Numbered Steps)</h2>
+    <p class="demo-desc">Step-by-step setup instructies voor digitale producten met code voorbeelden</p>
+
+    <div class="ai-container">
+      <div class="ai-header">
+        <div class="ai-header-badge">
+          <i data-lucide="book-open"></i>
+          <span>Installatie Handleiding</span>
+        </div>
+        <h2 class="ai-header-title">Premium UI Kit — Setup & Installatie</h2>
+        <p class="ai-header-desc">Volg deze stappen om het Premium UI Kit in je project te installeren. Gemiddelde setup tijd: 10-15 minuten.</p>
+      </div>
+
+      <div class="ai-steps">
+        <div class="ai-step">
+          <div class="ai-step-number">1</div>
+          <div class="ai-step-content">
+            <h3 class="ai-step-title">Download en pak het ZIP bestand uit</h3>
+            <p class="ai-step-desc">Download het volledige pakket en pak alle bestanden uit naar een werkdirectory op je computer.</p>
+
+            <div class="ai-code">
+              <div class="ai-code-header">
+                <span class="ai-code-lang">Terminal</span>
+                <button class="ai-code-copy" onclick="copyCode('code1', this)">
+                  <i data-lucide="copy"></i>
+                  <span>Kopieer</span>
+                </button>
+              </div>
+              <pre id="code1"><span class="comment"># Unzip het gedownloade bestand</span>
+unzip premium-ui-kit-v4.2.0.zip -d ~/Desktop/premium-ui-kit
+
+<span class="comment"># Navigeer naar de directory</span>
+cd ~/Desktop/premium-ui-kit</pre>
+            </div>
+
+            <div class="ai-info">
+              <i data-lucide="info"></i>
+              <div class="ai-info-text">
+                <strong>Tip:</strong> Bewaar het originele ZIP bestand voor backup doeleinden.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-step">
+          <div class="ai-step-number">2</div>
+          <div class="ai-step-content">
+            <h3 class="ai-step-title">Installeer de vereiste dependencies</h3>
+            <p class="ai-step-desc">Het UI Kit vereist Node.js 18+ en NPM 9+. Installeer alle benodigde packages met NPM.</p>
+
+            <div class="ai-code">
+              <div class="ai-code-header">
+                <span class="ai-code-lang">Terminal</span>
+                <button class="ai-code-copy" onclick="copyCode('code2', this)">
+                  <i data-lucide="copy"></i>
+                  <span>Kopieer</span>
+                </button>
+              </div>
+              <pre id="code2"><span class="comment"># Controleer Node.js versie (moet 18+ zijn)</span>
+node --version
+
+<span class="comment"># Installeer dependencies</span>
+npm install
+
+<span class="comment"># Of met Yarn</span>
+yarn install</pre>
+            </div>
+
+            <div class="ai-warning">
+              <i data-lucide="alert-triangle"></i>
+              <div class="ai-warning-text">
+                Node.js versie 18 of hoger is vereist. Download de laatste versie op <strong>nodejs.org</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-step">
+          <div class="ai-step-number">3</div>
+          <div class="ai-step-content">
+            <h3 class="ai-step-title">Configureer je project</h3>
+            <p class="ai-step-desc">Kopieer het voorbeeld configuratiebestand en pas de instellingen aan voor jouw project.</p>
+
+            <div class="ai-code">
+              <div class="ai-code-header">
+                <span class="ai-code-lang">Terminal</span>
+                <button class="ai-code-copy" onclick="copyCode('code3', this)">
+                  <i data-lucide="copy"></i>
+                  <span>Kopieer</span>
+                </button>
+              </div>
+              <pre id="code3"><span class="comment"># Kopieer voorbeeld config</span>
+cp .env.example .env
+
+<span class="comment"># Open config bestand</span>
+nano .env  <span class="comment"># Of gebruik je favoriete editor</span></pre>
+            </div>
+
+            <div class="ai-code">
+              <div class="ai-code-header">
+                <span class="ai-code-lang">.env</span>
+                <button class="ai-code-copy" onclick="copyCode('code4', this)">
+                  <i data-lucide="copy"></i>
+                  <span>Kopieer</span>
+                </button>
+              </div>
+              <pre id="code4"><span class="comment"># Project configuratie</span>
+<span class="keyword">PROJECT_NAME</span>=<span class="string">"Mijn Project"</span>
+<span class="keyword">API_URL</span>=<span class="string">"https://api.example.com"</span>
+<span class="keyword">THEME_COLOR</span>=<span class="string">"#00897B"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-step">
+          <div class="ai-step-number">4</div>
+          <div class="ai-step-content">
+            <h3 class="ai-step-title">Start de development server</h3>
+            <p class="ai-step-desc">Start de lokale development server en open je browser op localhost:3000.</p>
+
+            <div class="ai-code">
+              <div class="ai-code-header">
+                <span class="ai-code-lang">Terminal</span>
+                <button class="ai-code-copy" onclick="copyCode('code5', this)">
+                  <i data-lucide="copy"></i>
+                  <span>Kopieer</span>
+                </button>
+              </div>
+              <pre id="code5"><span class="comment"># Start development server</span>
+npm run dev
+
+<span class="comment"># Server start op http://localhost:3000</span></pre>
+            </div>
+
+            <div class="ai-screenshot">
+              <i data-lucide="image"></i>
+              <p class="ai-screenshot-text">Screenshot: Development server draait op localhost:3000</p>
+            </div>
+
+            <div class="ai-info">
+              <i data-lucide="check-circle"></i>
+              <div class="ai-info-text">
+                <strong>Gelukt!</strong> Je UI Kit is nu geïnstalleerd. Bekijk de documentatie voor component voorbeelden.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-troubleshooting">
+          <h3 class="ai-troubleshooting-title">
+            <i data-lucide="help-circle"></i>
+            Veel Voorkomende Problemen
+          </h3>
+
+          <div class="ai-troubleshooting-item">
+            <p class="ai-troubleshooting-q">❌ Error: "Node version too old"</p>
+            <p class="ai-troubleshooting-a">Update Node.js naar versie 18 of hoger via nodejs.org. Controleer je versie met <code>node --version</code>.</p>
+          </div>
+
+          <div class="ai-troubleshooting-item">
+            <p class="ai-troubleshooting-q">❌ Error: "Port 3000 already in use"</p>
+            <p class="ai-troubleshooting-a">Een andere service gebruikt al poort 3000. Stop die service of gebruik een andere poort: <code>PORT=3001 npm run dev</code>.</p>
+          </div>
+
+          <div class="ai-troubleshooting-item">
+            <p class="ai-troubleshooting-q">❌ Components worden niet correct weergegeven</p>
+            <p class="ai-troubleshooting-a">Clear je browser cache en NPM cache: <code>npm cache clean --force</code>, verwijder <code>node_modules</code> en draai <code>npm install</code> opnieuw.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-footer">
+        <p class="ai-footer-text">Heb je meer hulp nodig? Bekijk de volledige documentatie.</p>
+        <a href="#" class="ai-footer-link">
+          <i data-lucide="book-open"></i>
+          <span>Volledige Documentatie</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo 2: Tabbed Platform-Specific -->
+  <div class="demo-section">
+    <h2 class="demo-title">Variant: Tabbed (Platform-Specific)</h2>
+    <p class="demo-desc">Verschillende instructies per platform (Windows/Mac/Linux)</p>
+
+    <div class="ai-container">
+      <div class="ai-header">
+        <div class="ai-header-badge">
+          <i data-lucide="download"></i>
+          <span>Platform Setup</span>
+        </div>
+        <h2 class="ai-header-title">Installatie per Platform</h2>
+        <p class="ai-header-desc">Kies je besturingssysteem voor platform-specifieke installatie instructies.</p>
+      </div>
+
+      <div class="ai-tabs">
+        <button class="ai-tab active" onclick="switchPlatform('windows', this)">
+          <i data-lucide="monitor"></i>
+          <span>Windows</span>
+        </button>
+        <button class="ai-tab" onclick="switchPlatform('mac', this)">
+          <i data-lucide="laptop"></i>
+          <span>macOS</span>
+        </button>
+        <button class="ai-tab" onclick="switchPlatform('linux', this)">
+          <i data-lucide="server"></i>
+          <span>Linux</span>
+        </button>
+      </div>
+
+      <div id="tab-windows" class="ai-tab-panel active">
+        <div class="ai-steps">
+          <div class="ai-step">
+            <div class="ai-step-number">1</div>
+            <div class="ai-step-content">
+              <h3 class="ai-step-title">Download het Windows installatieprogramma</h3>
+              <p class="ai-step-desc">Download het .exe installatieprogramma en voer het uit als administrator.</p>
+
+              <div class="ai-code">
+                <div class="ai-code-header">
+                  <span class="ai-code-lang">PowerShell</span>
+                  <button class="ai-code-copy" onclick="copyCode('code-win1', this)">
+                    <i data-lucide="copy"></i>
+                    <span>Kopieer</span>
+                  </button>
+                </div>
+                <pre id="code-win1"><span class="comment"># Download via PowerShell</span>
+Invoke-WebRequest -Uri "https://example.com/installer.exe" -OutFile "installer.exe"
+
+<span class="comment"># Voer installer uit</span>
+.\installer.exe</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-step">
+            <div class="ai-step-number">2</div>
+            <div class="ai-step-content">
+              <h3 class="ai-step-title">Voeg toe aan Windows PATH</h3>
+              <p class="ai-step-desc">Voeg de installatie directory toe aan je systeem PATH variabele.</p>
+
+              <div class="ai-info">
+                <i data-lucide="info"></i>
+                <div class="ai-info-text">
+                  Ga naar <strong>Systeem → Geavanceerde systeeminstellingen → Omgevingsvariabelen</strong> en voeg <code>C:\Program Files\UIKit</code> toe aan PATH.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-mac" class="ai-tab-panel">
+        <div class="ai-steps">
+          <div class="ai-step">
+            <div class="ai-step-number">1</div>
+            <div class="ai-step-content">
+              <h3 class="ai-step-title">Installeer via Homebrew</h3>
+              <p class="ai-step-desc">De makkelijkste manier om te installeren op macOS is via Homebrew.</p>
+
+              <div class="ai-code">
+                <div class="ai-code-header">
+                  <span class="ai-code-lang">Terminal</span>
+                  <button class="ai-code-copy" onclick="copyCode('code-mac1', this)">
+                    <i data-lucide="copy"></i>
+                    <span>Kopieer</span>
+                  </button>
+                </div>
+                <pre id="code-mac1"><span class="comment"># Installeer via Homebrew</span>
+brew tap company/uikit
+brew install premium-ui-kit
+
+<span class="comment"># Verifieer installatie</span>
+uikit --version</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-step">
+            <div class="ai-step-number">2</div>
+            <div class="ai-step-content">
+              <h3 class="ai-step-title">Configureer macOS permissions</h3>
+              <p class="ai-step-desc">Geef de applicatie toegang tot je bestanden via System Preferences.</p>
+
+              <div class="ai-info">
+                <i data-lucide="info"></i>
+                <div class="ai-info-text">
+                  Ga naar <strong>System Preferences → Security & Privacy → Files and Folders</strong> en geef UIKit toegang.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-linux" class="ai-tab-panel">
+        <div class="ai-steps">
+          <div class="ai-step">
+            <div class="ai-step-number">1</div>
+            <div class="ai-step-content">
+              <h3 class="ai-step-title">Installeer via Package Manager</h3>
+              <p class="ai-step-desc">Gebruik je distributie's package manager (apt, yum, pacman).</p>
+
+              <div class="ai-code">
+                <div class="ai-code-header">
+                  <span class="ai-code-lang">Bash</span>
+                  <button class="ai-code-copy" onclick="copyCode('code-linux1', this)">
+                    <i data-lucide="copy"></i>
+                    <span>Kopieer</span>
+                  </button>
+                </div>
+                <pre id="code-linux1"><span class="comment"># Ubuntu/Debian</span>
+sudo apt-get update
+sudo apt-get install premium-ui-kit
+
+<span class="comment"># Fedora/RHEL</span>
+sudo yum install premium-ui-kit
+
+<span class="comment"># Arch Linux</span>
+sudo pacman -S premium-ui-kit</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-footer">
+        <p class="ai-footer-text">Lukt het niet? Neem contact op met support.</p>
+        <a href="#" class="ai-footer-link">
+          <i data-lucide="mail"></i>
+          <span>Contact Support</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo 3: Accordion Variant -->
+  <div class="demo-section">
+    <h2 class="demo-title">Variant: Accordion (Collapsible Steps)</h2>
+    <p class="demo-desc">Compacte weergave met uitklapbare stappen</p>
+
+    <div class="ai-container ai-accordion">
+      <div class="ai-header">
+        <div class="ai-header-badge">
+          <i data-lucide="layers"></i>
+          <span>Quick Start</span>
+        </div>
+        <h2 class="ai-header-title">Snelle Installatie</h2>
+        <p class="ai-header-desc">Klik op een stap om de details te bekijken.</p>
+      </div>
+
+      <div class="ai-steps">
+        <div class="ai-step expanded">
+          <div class="ai-step-header" onclick="toggleAccordion(this)">
+            <div class="ai-step-number">1</div>
+            <h3 class="ai-step-title">Download het pakket</h3>
+            <i class="ai-step-chevron" data-lucide="chevron-down"></i>
+          </div>
+          <div class="ai-step-body">
+            <div class="ai-step-content">
+              <p class="ai-step-desc">Download het volledige UI Kit pakket van je account dashboard.</p>
+              <div class="ai-code">
+                <pre>wget https://downloads.example.com/uikit-v4.2.0.zip</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-step">
+          <div class="ai-step-header" onclick="toggleAccordion(this)">
+            <div class="ai-step-number">2</div>
+            <h3 class="ai-step-title">Installeer dependencies</h3>
+            <i class="ai-step-chevron" data-lucide="chevron-down"></i>
+          </div>
+          <div class="ai-step-body">
+            <div class="ai-step-content">
+              <p class="ai-step-desc">Installeer Node.js packages met NPM of Yarn.</p>
+              <div class="ai-code">
+                <pre>npm install</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-step">
+          <div class="ai-step-header" onclick="toggleAccordion(this)">
+            <div class="ai-step-number">3</div>
+            <h3 class="ai-step-title">Start development server</h3>
+            <i class="ai-step-chevron" data-lucide="chevron-down"></i>
+          </div>
+          <div class="ai-step-body">
+            <div class="ai-step-content">
+              <p class="ai-step-desc">Start de lokale server en open localhost:3000.</p>
+              <div class="ai-code">
+                <pre>npm run dev</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-footer">
+        <a href="#" class="ai-footer-link">
+          <i data-lucide="external-link"></i>
+          <span>Bekijk Volledige Gids</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo 4: Compact Variant -->
+  <div class="demo-section">
+    <h2 class="demo-title">Variant: Compact</h2>
+    <p class="demo-desc">Kleinere padding en font sizes voor compacte weergave</p>
+
+    <div class="ai-container ai-compact">
+      <div class="ai-header">
+        <h2 class="ai-header-title">Snelle Setup — 3 stappen</h2>
+      </div>
+
+      <div class="ai-steps">
+        <div class="ai-step">
+          <div class="ai-step-number">1</div>
+          <div class="ai-step-content">
+            <h3 class="ai-step-title">Clone repository</h3>
+            <p class="ai-step-desc">Clone het project naar je lokale machine.</p>
+            <div class="ai-code">
+              <pre>git clone https://github.com/company/uikit.git</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-step">
+          <div class="ai-step-number">2</div>
+          <div class="ai-step-content">
+            <h3 class="ai-step-title">Install & configure</h3>
+            <p class="ai-step-desc">Installeer dependencies en configureer settings.</p>
+            <div class="ai-code">
+              <pre>npm install && cp .env.example .env</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-step">
+          <div class="ai-step-number">3</div>
+          <div class="ai-step-content">
+            <h3 class="ai-step-title">Start server</h3>
+            <p class="ai-step-desc">Start de development server.</p>
+            <div class="ai-code">
+              <pre>npm run dev</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-footer">
+        <a href="#" class="ai-footer-link">
+          <i data-lucide="book-open"></i>
+          <span>Documentatie</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function copyCode(codeId, button) {
+      const codeElement = document.getElementById(codeId);
+      const codeText = codeElement.textContent.trim();
+
+      navigator.clipboard.writeText(codeText).then(() => {
+        button.classList.add('copied');
+        const icon = button.querySelector('i');
+        const text = button.querySelector('span');
+        icon.setAttribute('data-lucide', 'check');
+        text.textContent = 'Gekopieerd!';
+        lucide.createIcons();
+
+        setTimeout(() => {
+          button.classList.remove('copied');
+          icon.setAttribute('data-lucide', 'copy');
+          text.textContent = 'Kopieer';
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    function switchPlatform(platform, button) {
+      // Hide all panels
+      document.querySelectorAll('.ai-tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+      });
+
+      // Remove active from all tabs
+      document.querySelectorAll('.ai-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Show selected panel
+      document.getElementById('tab-' + platform).classList.add('active');
+
+      // Set active tab
+      button.classList.add('active');
+    }
+
+    function toggleAccordion(header) {
+      const step = header.closest('.ai-step');
+      step.classList.toggle('expanded');
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP04: Grouped Product Toolbar — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-dark: #64748B;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+/* ============================================
+   GP04: GROUPED PRODUCT TOOLBAR
+   View toggle + bulk action buttons
+   ============================================ */
+
+.product-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.view-toggle-btn {
+  padding: 8px 12px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.view-toggle-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.view-toggle-btn.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+
+.view-toggle-btn:hover:not(.active) {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bulk-action-btn {
+  padding: 8px 16px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.bulk-action-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+.bulk-action-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bulk-actions {
+    flex-wrap: wrap;
+  }
+
+  .view-toggle-btn,
+  .bulk-action-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1200px; margin: 0 auto;">
+
+<!-- Default Toolbar -->
+<div class="product-toolbar">
+  <div class="view-toggle">
+    <button class="view-toggle-btn active">
+      <i data-lucide="grid-2x2"></i>
+      Grid
+    </button>
+    <button class="view-toggle-btn">
+      <i data-lucide="list"></i>
+      Lijst
+    </button>
+  </div>
+
+  <div class="bulk-actions">
+    <button class="bulk-action-btn">
+      <i data-lucide="check-square"></i>
+      Selecteer alles
+    </button>
+    <button class="bulk-action-btn">
+      <i data-lucide="square"></i>
+      Deselecteer alles
+    </button>
+  </div>
+</div>
+
+<div style="height: 32px;"></div>
+
+<!-- Alternative: List view active -->
+<div class="product-toolbar">
+  <div class="view-toggle">
+    <button class="view-toggle-btn">
+      <i data-lucide="grid-2x2"></i>
+      Grid
+    </button>
+    <button class="view-toggle-btn active">
+      <i data-lucide="list"></i>
+      Lijst
+    </button>
+  </div>
+
+  <div class="bulk-actions">
+    <button class="bulk-action-btn">
+      <i data-lucide="check-square"></i>
+      Selecteer alles
+    </button>
+    <button class="bulk-action-btn">
+      <i data-lucide="square"></i>
+      Deselecteer alles
+    </button>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+// View toggle simulation
+document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const toolbar = btn.closest('.product-toolbar');
+    toolbar.querySelectorAll('.view-toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>

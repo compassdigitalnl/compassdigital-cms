@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC01: Configurator Step Indicator — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+/* ============================================
+   PC01: CONFIGURATOR STEP INDICATOR
+   Progress bar showing configuration steps
+   ============================================ */
+
+.step-bar {
+  padding: 20px 0;
+}
+
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.stp {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.stp-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px;
+  font-size: 13px;
+  font-weight: 800;
+  border: 2px solid var(--grey);
+  background: white;
+  color: var(--grey-mid);
+  position: relative;
+  z-index: 2;
+  transition: all var(--transition);
+}
+
+/* Step states */
+.stp.done .stp-dot {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+
+.stp.active .stp-dot {
+  border-color: var(--teal);
+  color: var(--teal);
+  box-shadow: 0 0 0 4px var(--teal-glow);
+}
+
+.stp-dot i {
+  width: 15px;
+  height: 15px;
+}
+
+/* Connecting lines */
+.stp-line {
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  right: -50%;
+  height: 2px;
+  background: var(--grey);
+  z-index: 1;
+  transition: background var(--transition);
+}
+
+.stp.done .stp-line {
+  background: var(--teal);
+}
+
+.stp:last-child .stp-line {
+  display: none;
+}
+
+/* Step labels */
+.stp-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-mid);
+  transition: all var(--transition);
+}
+
+.stp.active .stp-label {
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.stp.done .stp-label {
+  color: var(--navy);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .step-row {
+    max-width: 100%;
+  }
+
+  .stp-dot {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .stp-line {
+    top: 15px;
+  }
+
+  .stp-label {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stp-label {
+    display: none;
+  }
+
+  .stp-dot {
+    width: 28px;
+    height: 28px;
+  }
+
+  .stp-line {
+    top: 13px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 900px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Step 3 Active (Default)</h2>
+
+<!-- 5-step configuration flow -->
+<div class="step-bar">
+  <div class="step-row">
+    <div class="stp done">
+      <div class="stp-line"></div>
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Model</div>
+    </div>
+
+    <div class="stp done">
+      <div class="stp-line"></div>
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Kleur</div>
+    </div>
+
+    <div class="stp active">
+      <div class="stp-line"></div>
+      <div class="stp-dot">3</div>
+      <div class="stp-label">Specs</div>
+    </div>
+
+    <div class="stp">
+      <div class="stp-line"></div>
+      <div class="stp-dot">4</div>
+      <div class="stp-label">Extra's</div>
+    </div>
+
+    <div class="stp">
+      <div class="stp-dot">5</div>
+      <div class="stp-label">Overzicht</div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 48px;"></div>
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Step 1 Active</h2>
+
+<div class="step-bar">
+  <div class="step-row">
+    <div class="stp active">
+      <div class="stp-line"></div>
+      <div class="stp-dot">1</div>
+      <div class="stp-label">Model</div>
+    </div>
+
+    <div class="stp">
+      <div class="stp-line"></div>
+      <div class="stp-dot">2</div>
+      <div class="stp-label">Kleur</div>
+    </div>
+
+    <div class="stp">
+      <div class="stp-line"></div>
+      <div class="stp-dot">3</div>
+      <div class="stp-label">Specs</div>
+    </div>
+
+    <div class="stp">
+      <div class="stp-line"></div>
+      <div class="stp-dot">4</div>
+      <div class="stp-label">Extra's</div>
+    </div>
+
+    <div class="stp">
+      <div class="stp-dot">5</div>
+      <div class="stp-label">Overzicht</div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 48px;"></div>
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">All Steps Complete</h2>
+
+<div class="step-bar">
+  <div class="step-row">
+    <div class="stp done">
+      <div class="stp-line"></div>
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Model</div>
+    </div>
+
+    <div class="stp done">
+      <div class="stp-line"></div>
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Kleur</div>
+    </div>
+
+    <div class="stp done">
+      <div class="stp-line"></div>
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Specs</div>
+    </div>
+
+    <div class="stp done">
+      <div class="stp-line"></div>
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Extra's</div>
+    </div>
+
+    <div class="stp done">
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Overzicht</div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 48px;"></div>
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">3-Step Variant (Simplified)</h2>
+
+<div class="step-bar">
+  <div class="step-row">
+    <div class="stp done">
+      <div class="stp-line"></div>
+      <div class="stp-dot">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="stp-label">Configure</div>
+    </div>
+
+    <div class="stp active">
+      <div class="stp-line"></div>
+      <div class="stp-dot">2</div>
+      <div class="stp-label">Review</div>
+    </div>
+
+    <div class="stp">
+      <div class="stp-dot">3</div>
+      <div class="stp-label">Checkout</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<div style="height: 80px;"></div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+
+<div style="max-width: 900px; margin: 0 auto; padding: 40px 24px; background: white; border-radius: 16px;">
+
+<h1 style="font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 12px;">
+  PC01: Configurator Step Indicator
+</h1>
+<p style="font-size: 15px; color: var(--grey-mid); margin-bottom: 32px;">
+  Progress bar showing completed, active, and pending configuration steps
+</p>
+
+<!-- STEP 1: Overview -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 1: Component Overview
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    What is PC01?
+  </h2>
+
+  <p style="font-size: 14px; line-height: 1.7; color: var(--grey-dark); margin-bottom: 16px;">
+    <strong>PC01 (Configurator Step Indicator)</strong> is a horizontal progress bar that visualizes the user's position in a multi-step product configuration flow. It shows which steps are completed (checkmarks), which step is currently active (highlighted), and which steps are still pending (greyed out).
+  </p>
+
+  <div style="background: var(--grey-light); padding: 20px; border-radius: 12px; border-left: 3px solid var(--teal);">
+    <p style="font-size: 13px; line-height: 1.6; color: var(--grey-dark); margin: 0;">
+      <strong style="color: var(--navy);">UX Pattern:</strong> This component follows the "stepped progression" pattern seen in e-commerce configurators (Apple, Dell, Coolblue) where users build complex products option-by-option across multiple screens.
+    </p>
+  </div>
+</div>
+
+<!-- STEP 2: When to Use -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 2: When to Use
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    Use PC01 when:
+  </h2>
+
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li style="margin-bottom: 8px;">Building <strong>product configurators</strong> (laptops, bikes, furniture, etc.)</li>
+    <li style="margin-bottom: 8px;">Multi-step forms with <strong>3-7 distinct stages</strong> (optimal: 5 steps)</li>
+    <li style="margin-bottom: 8px;">Users need to <strong>see their progress</strong> through a sequential workflow</li>
+    <li style="margin-bottom: 8px;"><strong>Linear navigation</strong> (can't skip ahead without completing previous steps)</li>
+    <li style="margin-bottom: 8px;">Each step takes <strong>30+ seconds</strong> to complete (worthwhile to show progress)</li>
+  </ul>
+
+  <h3 style="font-size: 16px; font-weight: 700; color: var(--navy); margin-top: 24px; margin-bottom: 12px;">
+    Don't use when:
+  </h3>
+
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li style="margin-bottom: 8px;">Single-page configuration (all options visible at once)</li>
+    <li style="margin-bottom: 8px;">Non-linear workflows (users can skip around freely)</li>
+    <li style="margin-bottom: 8px;">Fewer than 3 steps (overkill for simple flows)</li>
+    <li style="margin-bottom: 8px;">More than 7 steps (consider grouping steps into phases)</li>
+  </ul>
+</div>
+
+<!-- STEP 3: Design Tokens -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 3: Design Tokens
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    Visual Specifications
+  </h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+    <div style="background: var(--grey-light); padding: 16px; border-radius: 8px;">
+      <div style="font-size: 11px; font-weight: 600; color: var(--grey-mid); margin-bottom: 4px;">STEP DOT SIZE</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--navy); font-weight: 600;">36×36px</div>
+      <div style="font-size: 11px; color: var(--grey-mid); margin-top: 4px;">Border 2px, radius 50%</div>
+    </div>
+
+    <div style="background: var(--grey-light); padding: 16px; border-radius: 8px;">
+      <div style="font-size: 11px; font-weight: 600; color: var(--grey-mid); margin-bottom: 4px;">CONNECTING LINE</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--navy); font-weight: 600;">2px height</div>
+      <div style="font-size: 11px; color: var(--grey-mid); margin-top: 4px;">Position: top 17px</div>
+    </div>
+
+    <div style="background: var(--grey-light); padding: 16px; border-radius: 8px;">
+      <div style="font-size: 11px; font-weight: 600; color: var(--grey-mid); margin-bottom: 4px;">MAX WIDTH</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--navy); font-weight: 600;">700px</div>
+      <div style="font-size: 11px; color: var(--grey-mid); margin-top: 4px;">Centered with margin auto</div>
+    </div>
+
+    <div style="background: var(--grey-light); padding: 16px; border-radius: 8px;">
+      <div style="font-size: 11px; font-weight: 600; color: var(--grey-mid); margin-bottom: 4px;">PADDING</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--navy); font-weight: 600;">20px 0</div>
+      <div style="font-size: 11px; color: var(--grey-mid); margin-top: 4px;">Top + bottom spacing</div>
+    </div>
+  </div>
+
+  <h3 style="font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 12px;">
+    State Colors
+  </h3>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+    <thead>
+      <tr style="background: var(--grey-light);">
+        <th style="padding: 10px; text-align: left; font-weight: 700; color: var(--navy);">State</th>
+        <th style="padding: 10px; text-align: left; font-weight: 700; color: var(--navy);">Dot Background</th>
+        <th style="padding: 10px; text-align: left; font-weight: 700; color: var(--navy);">Dot Border</th>
+        <th style="padding: 10px; text-align: left; font-weight: 700; color: var(--navy);">Line Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--grey);">
+        <td style="padding: 10px;"><strong>Pending</strong></td>
+        <td style="padding: 10px;">White (#FAFBFC)</td>
+        <td style="padding: 10px;">Grey (#E8ECF1)</td>
+        <td style="padding: 10px;">Grey (#E8ECF1)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid var(--grey);">
+        <td style="padding: 10px;"><strong>Active</strong></td>
+        <td style="padding: 10px;">White (#FAFBFC)</td>
+        <td style="padding: 10px;">Teal (#00897B)</td>
+        <td style="padding: 10px;">Grey (#E8ECF1)</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px;"><strong>Done</strong></td>
+        <td style="padding: 10px;">Teal (#00897B)</td>
+        <td style="padding: 10px;">Teal (#00897B)</td>
+        <td style="padding: 10px;">Teal (#00897B)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP 4: Props -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 4: Props & Configuration
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    React/TypeScript Interface
+  </h2>
+
+  <pre style="background: #0A1628; color: #E8ECF1; padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>interface ConfiguratorStepIndicatorProps {
+  steps: Array<{
+    id: string
+    label: string
+    status: 'pending' | 'active' | 'done'
+  }>
+  currentStepIndex: number
+  onStepClick?: (stepIndex: number) => void  // Optional: allow clicking completed steps
+  allowBackwardNavigation?: boolean           // Default: true
+}
+
+// Example usage
+const steps = [
+  { id: 'model', label: 'Model', status: 'done' },
+  { id: 'color', label: 'Kleur', status: 'done' },
+  { id: 'specs', label: 'Specs', status: 'active' },
+  { id: 'extras', label: 'Extra\\'s', status: 'pending' },
+  { id: 'summary', label: 'Overzicht', status: 'pending' },
+]</code></pre>
+</div>
+
+<!-- STEP 5: Layout Rules -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 5: Layout Rules
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    Positioning & Spacing
+  </h2>
+
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; margin-bottom: 20px;">
+    <li style="margin-bottom: 8px;">Always placed at <strong>top of page</strong> (below header, above content)</li>
+    <li style="margin-bottom: 8px;"><strong>Sticky positioning optional</strong> (top: 64px if header is 64px tall)</li>
+    <li style="margin-bottom: 8px;">Max-width <strong>700px centered</strong> for optimal readability</li>
+    <li style="margin-bottom: 8px;">20px vertical padding (creates breathing room)</li>
+    <li style="margin-bottom: 8px;">Steps use <strong>flex: 1</strong> (equal width distribution)</li>
+  </ul>
+
+  <h3 style="font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 12px;">
+    Responsive Behavior
+  </h3>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+    <thead>
+      <tr style="background: var(--grey-light);">
+        <th style="padding: 10px; text-align: left; font-weight: 700; color: var(--navy);">Breakpoint</th>
+        <th style="padding: 10px; text-align: left; font-weight: 700; color: var(--navy);">Changes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--grey);">
+        <td style="padding: 10px;">>640px</td>
+        <td style="padding: 10px;">Full layout — dots 36px, labels visible</td>
+      </tr>
+      <tr style="border-bottom: 1px solid var(--grey);">
+        <td style="padding: 10px;">≤640px</td>
+        <td style="padding: 10px;">Dots shrink to 32px, labels 11px, max-width 100%</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px;">≤480px</td>
+        <td style="padding: 10px;">Labels hidden (dots only), dots 28px, rely on numbers/icons</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP 6: Accessibility -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 6: Accessibility
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    WCAG 2.1 AA Compliance
+  </h2>
+
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li style="margin-bottom: 8px;">Use <code style="background: var(--grey-light); padding: 2px 6px; border-radius: 4px;">role="progressbar"</code> on container</li>
+    <li style="margin-bottom: 8px;"><code style="background: var(--grey-light); padding: 2px 6px; border-radius: 4px;">aria-valuenow="3"</code> (current step index)</li>
+    <li style="margin-bottom: 8px;"><code style="background: var(--grey-light); padding: 2px 6px; border-radius: 4px;">aria-valuemin="1"</code> and <code style="background: var(--grey-light); padding: 2px 6px; border-radius: 4px;">aria-valuemax="5"</code></li>
+    <li style="margin-bottom: 8px;"><code style="background: var(--grey-light); padding: 2px 6px; border-radius: 4px;">aria-label="Step 3 of 5: Specs"</code></li>
+    <li style="margin-bottom: 8px;">Each step has <code style="background: var(--grey-light); padding: 2px 6px; border-radius: 4px;">aria-current="step"</code> for active step</li>
+  </ul>
+</div>
+
+<!-- STEP 7: Implementation -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 7: Implementation Notes
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    React Component Example
+  </h2>
+
+  <pre style="background: #0A1628; color: #E8ECF1; padding: 20px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>import { Check } from 'lucide-react'
+
+export function ConfiguratorStepIndicator({
+  steps,
+  currentStepIndex,
+  onStepClick,
+  allowBackwardNavigation = true,
+}: ConfiguratorStepIndicatorProps) {
+  return (
+    &lt;div className="step-bar"&gt;
+      &lt;div
+        className="step-row"
+        role="progressbar"
+        aria-valuenow={currentStepIndex + 1}
+        aria-valuemin={1}
+        aria-valuemax={steps.length}
+        aria-label={`Step ${currentStepIndex + 1} of ${steps.length}: ${steps[currentStepIndex].label}`}
+      &gt;
+        {steps.map((step, index) =&gt; {
+          const isDone = index < currentStepIndex
+          const isActive = index === currentStepIndex
+          const isPending = index > currentStepIndex
+
+          const canClick = allowBackwardNavigation && isDone
+
+          return (
+            &lt;div
+              key={step.id}
+              className={cn(
+                'stp',
+                isDone && 'done',
+                isActive && 'active'
+              )}
+              onClick={() =&gt; canClick && onStepClick?.(index)}
+              style={{ cursor: canClick ? 'pointer' : 'default' }}
+              aria-current={isActive ? 'step' : undefined}
+            &gt;
+              <div className="stp-line" /&gt;
+              &lt;div className="stp-dot"&gt;
+                {isDone ? (
+                  &lt;Check size={15} /&gt;
+                ) : (
+                  index + 1
+                )}
+              &lt;/div&gt;
+              &lt;div className="stp-label"&gt;{step.label}&lt;/div&gt;
+            &lt;/div&gt;
+          )
+        })}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+</div>
+
+<!-- STEP 8: Variations -->
+<div style="margin-bottom: 40px;">
+  <div style="display: inline-block; background: var(--teal-glow); color: var(--teal); padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+    Step 8: Variations & Related
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px;">
+    Common Step Counts
+  </h2>
+
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li style="margin-bottom: 8px;"><strong>3 steps:</strong> Configure → Review → Checkout</li>
+    <li style="margin-bottom: 8px;"><strong>4 steps:</strong> Select Model → Choose Options → Add Accessories → Summary</li>
+    <li style="margin-bottom: 8px;"><strong>5 steps:</strong> Model → Color → Specs → Extras → Overview (default pattern)</li>
+    <li style="margin-bottom: 8px;"><strong>6+ steps:</strong> Consider grouping into phases (e.g., "Configuration" phase = 3 steps)</li>
+  </ul>
+
+  <h3 style="font-size: 16px; font-weight: 700; color: var(--navy); margin-top: 24px; margin-bottom: 12px;">
+    Related Components
+  </h3>
+
+  <div style="display: grid; gap: 16px;">
+    <div style="background: var(--grey-light); padding: 20px; border-radius: 12px; border-left: 3px solid var(--teal);">
+      <div style="font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 8px;">PC06: ConfiguratorNavigation</div>
+      <p style="font-size: 13px; color: var(--grey-dark); margin: 0;">Prev/Next buttons that sync with PC01 step state — navigate between configuration steps.</p>
+    </div>
+
+    <div style="background: var(--grey-light); padding: 20px; border-radius: 12px; border-left: 3px solid var(--teal);">
+      <div style="font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 8px;">C25: ProgressSteps (Checkout)</div>
+      <p style="font-size: 13px; color: var(--grey-dark); margin: 0;">Similar pattern for checkout flows — 4 steps (Cart → Gegevens → Betaling → Bevestiging).</p>
+    </div>
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, #0A1628, #121F33); padding: 32px; border-radius: 16px; text-align: center; margin-top: 48px;">
+  <div style="color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Compass Design System</div>
+  <div style="color: white; font-size: 20px; font-weight: 800; margin-bottom: 8px;">PC01: Configurator Step Indicator</div>
+  <div style="color: rgba(255,255,255,0.35); font-size: 13px;">Component extraction complete — Ready for React/Next.js integration</div>
+</div>
+
+</div>
+
+</body>
+</html>

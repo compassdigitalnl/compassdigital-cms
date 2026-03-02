@@ -9,7 +9,7 @@ export interface FormInputProps {
   type?: 'text' | 'email' | 'password' | 'tel' | 'number'
   label?: string
   placeholder?: string
-  value: string
+  value: string | undefined
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
   error?: string
@@ -17,6 +17,7 @@ export interface FormInputProps {
   required?: boolean
   disabled?: boolean
   icon?: string // Lucide icon name
+  leftIcon?: React.ReactNode // Alternative: pass icon element directly
   showPasswordToggle?: boolean // Auto-enabled for type="password"
   autoComplete?: string
   minLength?: number
@@ -39,6 +40,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   required = false,
   disabled = false,
   icon,
+  leftIcon,
   showPasswordToggle,
   autoComplete,
   minLength,
@@ -57,9 +59,9 @@ export const FormInput: React.FC<FormInputProps> = ({
   // Determine actual input type (toggle between password/text for password fields)
   const inputType = enablePasswordToggle && showPassword ? 'text' : type
 
-  // Get Lucide icon component
+  // Get Lucide icon component (support both icon string and leftIcon element)
   const IconComponent = icon
-    ? LucideIcons[icon as keyof typeof LucideIcons] || null
+    ? (LucideIcons[icon as keyof typeof LucideIcons] as React.ComponentType<{ size?: number }>) || null
     : null
 
   const inputId = id || `input-${name || label?.toLowerCase().replace(/\s+/g, '-')}`
@@ -79,9 +81,9 @@ export const FormInput: React.FC<FormInputProps> = ({
         className={`${styles.inputWrapper} ${error ? styles.hasError : ''} ${isFocused ? styles.isFocused : ''} ${disabled ? styles.isDisabled : ''}`}
       >
         {/* Left icon */}
-        {IconComponent && (
+        {(IconComponent || leftIcon) && (
           <div className={styles.iconLeft}>
-            <IconComponent size={18} />
+            {leftIcon ? leftIcon : IconComponent && <IconComponent size={18} />}
           </div>
         )}
 

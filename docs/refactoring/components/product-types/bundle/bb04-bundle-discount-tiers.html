@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BB04: BundleDiscountTiers — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ========================================
+     DESIGN TOKENS
+     ======================================== */
+  :root {
+    /* Colors - Primary */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+
+    /* Colors - Neutrals */
+    --white: #FAFBFC;
+    --bg: #F5F7FA;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+
+    /* Colors - Status */
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --coral: #FF6B6B;
+    --coral-light: #FFF0F0;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E1;
+
+    /* Typography */
+    --font-body: 'DM Sans', sans-serif;
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Spacing (4px grid) */
+    --space-4: 4px;
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-10: 10px;
+    --space-12: 12px;
+    --space-14: 14px;
+    --space-16: 16px;
+    --space-18: 18px;
+    --space-20: 20px;
+    --space-24: 24px;
+
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+
+    /* Transitions */
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ========================================
+     BASE STYLES
+     ======================================== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    padding: 24px;
+    line-height: 1.5;
+  }
+
+  /* ========================================
+     BB04: BUNDLE DISCOUNT TIERS — COMPONENT STYLES
+     ======================================== */
+
+  /* Container */
+  .bdt-container {
+    background: var(--grey-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-10) var(--space-14);
+    margin-bottom: var(--space-14);
+  }
+
+  /* Header section */
+  .bdt-header {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--navy);
+  }
+
+  .bdt-header i {
+    width: 13px;
+    height: 13px;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  /* Tiers grid */
+  .bdt-tiers {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  /* Individual tier box */
+  .bdt-tier {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-4);
+    background: white;
+    border-radius: var(--radius-sm);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--grey-mid);
+    line-height: 1.3;
+    border: 1px solid transparent;
+    transition: all var(--transition);
+  }
+
+  .bdt-tier-label {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .bdt-tier-value {
+    display: block;
+    color: var(--grey-dark);
+    font-size: 11px;
+  }
+
+  /* Active tier state */
+  .bdt-tier.active {
+    background: var(--teal-glow);
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .bdt-tier.active .bdt-tier-value {
+    color: var(--teal);
+  }
+
+  /* Checkmark for active tier */
+  .bdt-tier.active .bdt-tier-value::after {
+    content: ' ✓';
+    font-size: 10px;
+  }
+
+  /* Max tier (highest discount) */
+  .bdt-tier.max .bdt-tier-value {
+    color: var(--green);
+    font-weight: 800;
+  }
+
+  /* Hover effect (clickable variant) */
+  .bdt-tier.clickable {
+    cursor: pointer;
+  }
+
+  .bdt-tier.clickable:hover {
+    background: var(--grey);
+    transform: translateY(-1px);
+  }
+
+  .bdt-tier.clickable.active:hover {
+    background: var(--teal-glow);
+  }
+
+  /* ========================================
+     VARIANT: COMPACT
+     ======================================== */
+  .bdt-container.compact {
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .bdt-container.compact .bdt-header {
+    font-size: 11px;
+    margin-bottom: var(--space-4);
+  }
+
+  .bdt-container.compact .bdt-header i {
+    width: 12px;
+    height: 12px;
+  }
+
+  .bdt-container.compact .bdt-tier {
+    font-size: 9px;
+    padding: 3px;
+  }
+
+  .bdt-container.compact .bdt-tier-value {
+    font-size: 10px;
+  }
+
+  /* ========================================
+     VARIANT: HORIZONTAL (MOBILE)
+     ======================================== */
+  .bdt-container.horizontal .bdt-tiers {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .bdt-container.horizontal .bdt-tiers::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .bdt-container.horizontal .bdt-tier {
+    min-width: 70px;
+    flex-shrink: 0;
+  }
+
+  /* ========================================
+     DEMO SECTION STYLES
+     ======================================== */
+  .demo-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--grey);
+  }
+
+  .demo-title {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-title i {
+    width: 20px;
+    height: 20px;
+    color: var(--teal);
+  }
+
+  .demo-subtitle {
+    font-size: 13px;
+    color: var(--grey-mid);
+    margin-bottom: 20px;
+  }
+
+  .demo-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  /* Documentation styles */
+  .doc-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--grey);
+  }
+
+  .doc-section h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .doc-section h2 i {
+    width: 20px;
+    height: 20px;
+    color: var(--teal);
+  }
+
+  .doc-section h3 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 20px 0 12px;
+    color: var(--navy);
+  }
+
+  .doc-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--grey-dark);
+    margin-bottom: 12px;
+  }
+
+  .doc-section ul,
+  .doc-section ol {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .doc-section li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--grey-dark);
+    margin-bottom: 6px;
+  }
+
+  .doc-section code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--teal-dark);
+  }
+
+  .doc-section pre {
+    background: var(--navy);
+    color: var(--white);
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .doc-section pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .token-table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: var(--grey-light);
+    font-weight: 700;
+    color: var(--navy);
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .token-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--grey);
+    color: var(--grey-dark);
+  }
+
+  .token-table td code {
+    font-size: 11px;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .bdt-container {
+      padding: var(--space-8) var(--space-10);
+    }
+
+    .bdt-header {
+      font-size: 11px;
+    }
+
+    .bdt-tier {
+      font-size: 9px;
+      padding: 3px;
+    }
+
+    .bdt-tier-value {
+      font-size: 10px;
+    }
+
+    .demo-section,
+    .doc-section {
+      padding: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========================================
+     LIVE DEMO SECTION
+     ======================================== -->
+<div class="demo-section">
+  <div class="demo-title">
+    <i data-lucide="trending-up"></i>
+    BB04: BundleDiscountTiers — Live Demo
+  </div>
+  <div class="demo-subtitle">
+    Interactive discount tier visualization showing savings based on bundle size
+  </div>
+
+  <div class="demo-grid">
+    <!-- Default variant (3 items active) -->
+    <div>
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">Default Variant (3 items selected)</h3>
+      <div class="bdt-container">
+        <div class="bdt-header">
+          <i data-lucide="trending-up"></i>
+          Meer toevoegen = meer korting
+        </div>
+        <div class="bdt-tiers">
+          <div class="bdt-tier">
+            <span class="bdt-tier-label">2 items</span>
+            <span class="bdt-tier-value">10%</span>
+          </div>
+          <div class="bdt-tier active">
+            <span class="bdt-tier-label">3 items</span>
+            <span class="bdt-tier-value">20%</span>
+          </div>
+          <div class="bdt-tier">
+            <span class="bdt-tier-label">4 items</span>
+            <span class="bdt-tier-value">28%</span>
+          </div>
+          <div class="bdt-tier max">
+            <span class="bdt-tier-label">5+</span>
+            <span class="bdt-tier-value">35%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5+ items active (max tier) -->
+    <div>
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">Max Tier Active (5 items)</h3>
+      <div class="bdt-container">
+        <div class="bdt-header">
+          <i data-lucide="trending-up"></i>
+          Maximale korting bereikt!
+        </div>
+        <div class="bdt-tiers">
+          <div class="bdt-tier">
+            <span class="bdt-tier-label">2 items</span>
+            <span class="bdt-tier-value">10%</span>
+          </div>
+          <div class="bdt-tier">
+            <span class="bdt-tier-label">3 items</span>
+            <span class="bdt-tier-value">20%</span>
+          </div>
+          <div class="bdt-tier">
+            <span class="bdt-tier-label">4 items</span>
+            <span class="bdt-tier-value">28%</span>
+          </div>
+          <div class="bdt-tier max active">
+            <span class="bdt-tier-label">5+</span>
+            <span class="bdt-tier-value">35%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compact variant -->
+    <div>
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">Compact Variant</h3>
+      <div class="bdt-container compact">
+        <div class="bdt-header">
+          <i data-lucide="trending-up"></i>
+          Meer = meer korting
+        </div>
+        <div class="bdt-tiers">
+          <div class="bdt-tier">
+            <span class="bdt-tier-label">2</span>
+            <span class="bdt-tier-value">10%</span>
+          </div>
+          <div class="bdt-tier active">
+            <span class="bdt-tier-label">3</span>
+            <span class="bdt-tier-value">20%</span>
+          </div>
+          <div class="bdt-tier">
+            <span class="bdt-tier-label">4</span>
+            <span class="bdt-tier-value">28%</span>
+          </div>
+          <div class="bdt-tier max">
+            <span class="bdt-tier-label">5+</span>
+            <span class="bdt-tier-value">35%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clickable variant (interactive demo) -->
+    <div>
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">Clickable Variant (Click to preview)</h3>
+      <div class="bdt-container" id="interactive-tiers">
+        <div class="bdt-header">
+          <i data-lucide="trending-up"></i>
+          Klik om voorbeelden te zien
+        </div>
+        <div class="bdt-tiers">
+          <div class="bdt-tier clickable" data-items="2">
+            <span class="bdt-tier-label">2 items</span>
+            <span class="bdt-tier-value">10%</span>
+          </div>
+          <div class="bdt-tier clickable active" data-items="3">
+            <span class="bdt-tier-label">3 items</span>
+            <span class="bdt-tier-value">20%</span>
+          </div>
+          <div class="bdt-tier clickable" data-items="4">
+            <span class="bdt-tier-label">4 items</span>
+            <span class="bdt-tier-value">28%</span>
+          </div>
+          <div class="bdt-tier clickable max" data-items="5">
+            <span class="bdt-tier-label">5+</span>
+            <span class="bdt-tier-value">35%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================
+     DOCUMENTATION
+     ======================================== -->
+
+<!-- STEP 1: Component Overview -->
+<div class="doc-section">
+  <h2><i data-lucide="info"></i> STEP 1: Component Overview</h2>
+
+  <p><strong>Component Name:</strong> BB04: BundleDiscountTiers</p>
+  <p><strong>Category:</strong> Product Types › Bundle Builder</p>
+  <p><strong>Version:</strong> 1.0.0</p>
+  <p><strong>Last Updated:</strong> 25 Februari 2026</p>
+
+  <h3>Purpose</h3>
+  <p>
+    The BundleDiscountTiers component displays a visual representation of volume-based discount tiers
+    for bundle purchases. It motivates users to add more items to their bundle by clearly showing
+    the savings they can unlock at different quantity thresholds.
+  </p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li><strong>Visual Discount Ladder:</strong> 4-tier horizontal grid showing increasing discounts</li>
+    <li><strong>Active State Highlighting:</strong> Current tier highlighted with teal border and background</li>
+    <li><strong>Progress Indicator:</strong> Checkmark (✓) on active tier for visual confirmation</li>
+    <li><strong>Max Tier Emphasis:</strong> Highest discount shown in green for maximum motivation</li>
+    <li><strong>Compact Design:</strong> Fits within bundle sidebar without overwhelming the interface</li>
+    <li><strong>Motivational Header:</strong> "Meer toevoegen = meer korting" encourages action</li>
+    <li><strong>Real-time Updates:</strong> Active tier changes as bundle size changes</li>
+  </ul>
+
+  <h3>Visual Hierarchy</h3>
+  <ol>
+    <li><strong>Header Text:</strong> 12px bold with teal icon (primary message)</li>
+    <li><strong>Active Tier:</strong> Teal background + border (most prominent)</li>
+    <li><strong>Max Tier:</strong> Green discount percentage (second most prominent)</li>
+    <li><strong>Inactive Tiers:</strong> Grey text on white (tertiary, future goals)</li>
+  </ol>
+
+  <h3>Psychological Design</h3>
+  <p>
+    This component leverages the <strong>Goal Gradient Effect</strong> — users are more motivated to
+    complete a goal as they get closer to it. By visualizing tiers, users can see:
+  </p>
+  <ul>
+    <li>Their current progress (active tier)</li>
+    <li>How close they are to the next tier (motivation)</li>
+    <li>The maximum possible savings (aspirational goal)</li>
+  </ul>
+</div>
+
+<!-- STEP 2: When to Use -->
+<div class="doc-section">
+  <h2><i data-lucide="check-circle"></i> STEP 2: When to Use</h2>
+
+  <h3>Primary Use Cases</h3>
+  <ul>
+    <li><strong>Bundle Builder Sidebar:</strong> Main use case — shows discount tiers between bundle items list and total calculator</li>
+    <li><strong>Product Configurator:</strong> Displays tiered pricing for component packages</li>
+    <li><strong>Subscription Upsells:</strong> Shows discount tiers for multi-month subscriptions</li>
+    <li><strong>Volume Pricing:</strong> Motivates bulk purchases with visual tier representation</li>
+    <li><strong>Gift Card Bundles:</strong> Shows bonus percentages at different purchase amounts</li>
+  </ul>
+
+  <h3>When NOT to Use</h3>
+  <ul>
+    <li><strong>Single-Tier Discounts:</strong> Use simple badge/banner for flat discounts (no tiers needed)</li>
+    <li><strong>Complex Pricing Tables:</strong> Use StaffelCalculator (C4) for detailed volume pricing with calculations</li>
+    <li><strong>Simple Progress Bars:</strong> Use BB06 (BundleProgressBar) for linear progress without discount tiers</li>
+    <li><strong>Non-Bundle Contexts:</strong> Don't force tier display if pricing isn't tiered</li>
+  </ul>
+
+  <h3>Recommended Pairings</h3>
+  <ul>
+    <li><strong>BB03: BundleItemRow</strong> — Shows selected products (appears above this component)</li>
+    <li><strong>BB05: BundleTotalCalculator</strong> — Price breakdown showing applied discount (appears below)</li>
+    <li><strong>BB06: BundleProgressBar</strong> — Alternative/additional progress indicator (appears at top of sidebar)</li>
+    <li><strong>BB02: BundleProductCard</strong> — Selectable products that add to bundle (drives tier progression)</li>
+  </ul>
+
+  <h3>Placement Guidelines</h3>
+  <ul>
+    <li><strong>Bundle Sidebar:</strong> Between item list and total calculator (optimal position)</li>
+    <li><strong>Sticky Footer:</strong> Fixed at bottom on mobile during product selection</li>
+    <li><strong>Cart Summary:</strong> Below line items, above checkout button</li>
+    <li><strong>Product Page:</strong> Near add-to-cart for bundle products</li>
+  </ul>
+</div>
+
+<!-- STEP 3: Design Tokens -->
+<div class="doc-section">
+  <h2><i data-lucide="palette"></i> STEP 3: Design Tokens</h2>
+
+  <h3>Colors</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Container Background</td>
+        <td><code>--grey-light</code></td>
+        <td>#F1F4F8</td>
+        <td>Overall component background</td>
+      </tr>
+      <tr>
+        <td>Header Text</td>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>Header message text</td>
+      </tr>
+      <tr>
+        <td>Header Icon</td>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Trending-up icon</td>
+      </tr>
+      <tr>
+        <td>Inactive Tier BG</td>
+        <td><code>white</code></td>
+        <td>#FAFBFC</td>
+        <td>Inactive tier box background</td>
+      </tr>
+      <tr>
+        <td>Inactive Tier Text</td>
+        <td><code>--grey-mid</code></td>
+        <td>#94A3B8</td>
+        <td>Tier label (inactive)</td>
+      </tr>
+      <tr>
+        <td>Inactive Tier Value</td>
+        <td><code>--grey-dark</code></td>
+        <td>#64748B</td>
+        <td>Discount percentage (inactive)</td>
+      </tr>
+      <tr>
+        <td>Active Tier BG</td>
+        <td><code>--teal-glow</code></td>
+        <td>rgba(0,137,123,0.12)</td>
+        <td>Active tier box background</td>
+      </tr>
+      <tr>
+        <td>Active Tier Border</td>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>Active tier box border</td>
+      </tr>
+      <tr>
+        <td>Active Tier Text</td>
+        <td><code>--teal</code></td>
+        <td>#00897B</td>
+        <td>All text in active tier</td>
+      </tr>
+      <tr>
+        <td>Max Tier Value</td>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>Highest discount percentage</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Typography</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Font Family</th>
+        <th>Size</th>
+        <th>Weight</th>
+        <th>Line Height</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Header</td>
+        <td>DM Sans</td>
+        <td>12px</td>
+        <td>700</td>
+        <td>1.3</td>
+      </tr>
+      <tr>
+        <td>Tier Label</td>
+        <td>DM Sans</td>
+        <td>10px</td>
+        <td>700</td>
+        <td>1.3</td>
+      </tr>
+      <tr>
+        <td>Tier Value</td>
+        <td>DM Sans</td>
+        <td>11px</td>
+        <td>700 (800 for max tier)</td>
+        <td>1.3</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Spacing (4px Grid)</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Token</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Container Padding (vertical)</td>
+        <td><code>--space-10</code></td>
+        <td>10px</td>
+      </tr>
+      <tr>
+        <td>Container Padding (horizontal)</td>
+        <td><code>--space-14</code></td>
+        <td>14px</td>
+      </tr>
+      <tr>
+        <td>Header → Tiers Gap</td>
+        <td><code>--space-6</code></td>
+        <td>6px</td>
+      </tr>
+      <tr>
+        <td>Tier Box Padding</td>
+        <td><code>--space-4</code></td>
+        <td>4px</td>
+      </tr>
+      <tr>
+        <td>Tiers Grid Gap</td>
+        <td><code>--space-4</code></td>
+        <td>4px</td>
+      </tr>
+      <tr>
+        <td>Container Margin Bottom</td>
+        <td><code>--space-14</code></td>
+        <td>14px</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Border Radius</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Token</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Container</td>
+        <td><code>--radius-md</code></td>
+        <td>10px</td>
+      </tr>
+      <tr>
+        <td>Tier Boxes</td>
+        <td><code>--radius-sm</code></td>
+        <td>6px</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Icons</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>Library</th>
+        <th>Size</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>trending-up</code></td>
+        <td>Lucide</td>
+        <td>13px</td>
+        <td>Header icon (upward trend = more savings)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP 4: Props & Configuration -->
+<div class="doc-section">
+  <h2><i data-lucide="settings"></i> STEP 4: Props & Configuration</h2>
+
+  <h3>TypeScript Interface</h3>
+  <pre><code>interface DiscountTier {
+  itemCount: number; // Min items to unlock this tier (e.g., 2, 3, 4, 5)
+  label: string;     // Display label (e.g., "2 items", "5+")
+  discount: number;  // Discount percentage (e.g., 10, 20, 28, 35)
+}
+
+interface BundleDiscountTiersProps {
+  tiers: DiscountTier[];
+  currentItemCount: number;
+  headerText?: string;
+  showIcon?: boolean;
+  size?: 'compact' | 'default';
+  clickable?: boolean;
+  onTierClick?: (tier: DiscountTier) => void;
+  className?: string;
+}</code></pre>
+
+  <h3>Prop Details</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Prop</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>tiers</code></td>
+        <td><code>DiscountTier[]</code></td>
+        <td>Required</td>
+        <td>Array of discount tier configurations (typically 3-5 tiers)</td>
+      </tr>
+      <tr>
+        <td><code>currentItemCount</code></td>
+        <td><code>number</code></td>
+        <td>Required</td>
+        <td>Current number of items in bundle (determines active tier)</td>
+      </tr>
+      <tr>
+        <td><code>headerText</code></td>
+        <td><code>string</code></td>
+        <td><code>'Meer toevoegen = meer korting'</code></td>
+        <td>Header message text</td>
+      </tr>
+      <tr>
+        <td><code>showIcon</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Show/hide trending-up icon in header</td>
+      </tr>
+      <tr>
+        <td><code>size</code></td>
+        <td><code>'compact' | 'default'</code></td>
+        <td><code>'default'</code></td>
+        <td>Size variant</td>
+      </tr>
+      <tr>
+        <td><code>clickable</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Make tiers clickable (preview tier benefits)</td>
+      </tr>
+      <tr>
+        <td><code>onTierClick</code></td>
+        <td><code>Function</code></td>
+        <td><code>undefined</code></td>
+        <td>Callback when tier clicked (if clickable=true)</td>
+      </tr>
+      <tr>
+        <td><code>className</code></td>
+        <td><code>string</code></td>
+        <td><code>undefined</code></td>
+        <td>Additional CSS classes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Default Tier Configuration</h3>
+  <pre><code>const DEFAULT_TIERS: DiscountTier[] = [
+  { itemCount: 2, label: '2 items', discount: 10 },
+  { itemCount: 3, label: '3 items', discount: 20 },
+  { itemCount: 4, label: '4 items', discount: 28 },
+  { itemCount: 5, label: '5+', discount: 35 },
+];</code></pre>
+
+  <h3>Payload CMS Schema</h3>
+  <pre><code>// Add to Bundle collection or global settings
+{
+  name: 'discountTiers',
+  type: 'array',
+  label: 'Bundle Discount Tiers',
+  admin: {
+    description: 'Configure volume-based discount tiers for bundles',
+  },
+  fields: [
+    {
+      name: 'itemCount',
+      type: 'number',
+      label: 'Min Items',
+      required: true,
+      admin: {
+        description: 'Minimum items to unlock this tier',
+      },
+    },
+    {
+      name: 'label',
+      type: 'text',
+      label: 'Display Label',
+      required: true,
+      admin: {
+        description: 'e.g., "2 items", "5+"',
+      },
+    },
+    {
+      name: 'discount',
+      type: 'number',
+      label: 'Discount %',
+      required: true,
+      min: 0,
+      max: 100,
+      admin: {
+        description: 'Discount percentage (0-100)',
+      },
+    },
+  ],
+  defaultValue: [
+    { itemCount: 2, label: '2 items', discount: 10 },
+    { itemCount: 3, label: '3 items', discount: 20 },
+    { itemCount: 4, label: '4 items', discount: 28 },
+    { itemCount: 5, label: '5+', discount: 35 },
+  ],
+}</code></pre>
+</div>
+
+<!-- STEP 5: Layout Rules -->
+<div class="doc-section">
+  <h2><i data-lucide="layout"></i> STEP 5: Layout Rules</h2>
+
+  <h3>Container Structure</h3>
+  <pre><code>&lt;div class="bdt-container"&gt;
+  &lt;!-- Header --&gt;
+  &lt;div class="bdt-header"&gt;
+    &lt;i data-lucide="trending-up"&gt;&lt;/i&gt;
+    Meer toevoegen = meer korting
+  &lt;/div&gt;
+
+  &lt;!-- Tiers grid --&gt;
+  &lt;div class="bdt-tiers"&gt;
+    &lt;div class="bdt-tier"&gt;
+      &lt;span class="bdt-tier-label"&gt;2 items&lt;/span&gt;
+      &lt;span class="bdt-tier-value"&gt;10%&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="bdt-tier active"&gt;
+      &lt;span class="bdt-tier-label"&gt;3 items&lt;/span&gt;
+      &lt;span class="bdt-tier-value"&gt;20%&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;!-- ... more tiers ... --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Flexbox Layout Pattern</h3>
+  <ul>
+    <li><strong>Container:</strong> <code>background: var(--grey-light); border-radius: 10px;</code></li>
+    <li><strong>Header:</strong> <code>display: flex; align-items: center; gap: 4px;</code></li>
+    <li><strong>Tiers:</strong> <code>display: flex; gap: 4px;</code></li>
+    <li><strong>Individual Tier:</strong> <code>flex: 1;</code> (equal width distribution)</li>
+  </ul>
+
+  <h3>Active Tier Logic</h3>
+  <pre><code>function getActiveTier(currentItemCount: number, tiers: DiscountTier[]) {
+  // Find the highest tier the user has unlocked
+  const sortedTiers = [...tiers].sort((a, b) => b.itemCount - a.itemCount);
+  return sortedTiers.find(tier => currentItemCount >= tier.itemCount);
+}</code></pre>
+
+  <h3>Responsive Behavior</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Changes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&lt;640px (Mobile)</td>
+        <td>
+          • Padding: 8px 10px<br>
+          • Header font: 11px<br>
+          • Tier label: 9px<br>
+          • Tier value: 10px<br>
+          • Optional: Horizontal scroll for overflow
+        </td>
+      </tr>
+      <tr>
+        <td>≥640px (Desktop)</td>
+        <td>Default size (12px header, 10-11px tiers)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Tier Count Guidelines</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Tier Count</th>
+        <th>Recommended Width</th>
+        <th>Use Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>3 tiers</td>
+        <td>280-320px</td>
+        <td>Simple bundles (2, 3, 4+ items)</td>
+      </tr>
+      <tr>
+        <td>4 tiers</td>
+        <td>320-380px</td>
+        <td>Standard bundles (2, 3, 4, 5+ items) ← Default</td>
+      </tr>
+      <tr>
+        <td>5 tiers</td>
+        <td>380-420px</td>
+        <td>Complex bundles (multiple discount levels)</td>
+      </tr>
+      <tr>
+        <td>6+ tiers</td>
+        <td>420px+ (scroll)</td>
+        <td>Use horizontal scroll or compact variant</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP 6: Accessibility -->
+<div class="doc-section">
+  <h2><i data-lucide="accessibility"></i> STEP 6: Accessibility</h2>
+
+  <h3>ARIA Implementation</h3>
+  <pre><code>&lt;div
+  class="bdt-container"
+  role="region"
+  aria-label="Bundle discount tiers"
+&gt;
+  &lt;div class="bdt-header" id="bdt-header"&gt;
+    &lt;i data-lucide="trending-up" aria-hidden="true"&gt;&lt;/i&gt;
+    Meer toevoegen = meer korting
+  &lt;/div&gt;
+
+  &lt;div
+    class="bdt-tiers"
+    role="list"
+    aria-labelledby="bdt-header"
+    aria-describedby="bdt-current-tier"
+  &gt;
+    &lt;div
+      class="bdt-tier active"
+      role="listitem"
+      aria-label="3 items: 20% discount. Currently active."
+      aria-current="true"
+    &gt;
+      &lt;span class="bdt-tier-label"&gt;3 items&lt;/span&gt;
+      &lt;span class="bdt-tier-value"&gt;20%&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div id="bdt-current-tier" class="sr-only"&gt;
+    You have 3 items in your bundle and unlocked 20% discount.
+    Add 1 more item to unlock 28% discount.
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Screen Reader Announcements</h3>
+  <ul>
+    <li><strong>On Tier Change:</strong> "Unlocked 20% discount tier. Add 1 more item for 28% discount."</li>
+    <li><strong>On Max Tier:</strong> "Maximum discount tier unlocked: 35% off!"</li>
+    <li><strong>On Load:</strong> "Bundle discount tiers. Currently at 3 items with 20% discount."</li>
+  </ul>
+
+  <h3>Keyboard Navigation (Clickable Variant)</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><kbd>Tab</kbd></td>
+        <td>Focus next tier box</td>
+      </tr>
+      <tr>
+        <td><kbd>Shift + Tab</kbd></td>
+        <td>Focus previous tier box</td>
+      </tr>
+      <tr>
+        <td><kbd>Enter</kbd> or <kbd>Space</kbd></td>
+        <td>Click focused tier (preview benefits)</td>
+      </tr>
+      <tr>
+        <td><kbd>Arrow Left/Right</kbd></td>
+        <td>Navigate between tiers (optional)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Focus Management (Clickable)</h3>
+  <pre><code>.bdt-tier.clickable {
+  cursor: pointer;
+}
+
+.bdt-tier.clickable:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}</code></pre>
+
+  <h3>Color Contrast Compliance</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Foreground</th>
+        <th>Background</th>
+        <th>Ratio</th>
+        <th>WCAG Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Header Text</td>
+        <td>#0A1628 (navy)</td>
+        <td>#F1F4F8 (grey-light)</td>
+        <td>12.5:1</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>Inactive Tier Label</td>
+        <td>#94A3B8 (grey-mid)</td>
+        <td>#FAFBFC (white)</td>
+        <td>4.9:1</td>
+        <td>AA</td>
+      </tr>
+      <tr>
+        <td>Inactive Tier Value</td>
+        <td>#64748B (grey-dark)</td>
+        <td>#FAFBFC (white)</td>
+        <td>7.2:1</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>Active Tier Text</td>
+        <td>#00897B (teal)</td>
+        <td>rgba(0,137,123,0.12)</td>
+        <td>5.1:1</td>
+        <td>AA+</td>
+      </tr>
+      <tr>
+        <td>Max Tier Value</td>
+        <td>#00C853 (green)</td>
+        <td>#FAFBFC (white)</td>
+        <td>4.5:1</td>
+        <td>AA</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Reduced Motion</h3>
+  <pre><code>@media (prefers-reduced-motion: reduce) {
+  .bdt-tier {
+    transition: none;
+  }
+}</code></pre>
+</div>
+
+<!-- STEP 7: Implementation Notes -->
+<div class="doc-section">
+  <h2><i data-lucide="code"></i> STEP 7: Implementation Notes</h2>
+
+  <h3>React/Next.js Component Example</h3>
+  <pre><code>'use client';
+
+import { TrendingUp } from 'lucide-react';
+
+interface DiscountTier {
+  itemCount: number;
+  label: string;
+  discount: number;
+}
+
+interface BundleDiscountTiersProps {
+  tiers: DiscountTier[];
+  currentItemCount: number;
+  headerText?: string;
+  showIcon?: boolean;
+  size?: 'compact' | 'default';
+}
+
+export function BundleDiscountTiers({
+  tiers,
+  currentItemCount,
+  headerText = 'Meer toevoegen = meer korting',
+  showIcon = true,
+  size = 'default',
+}: BundleDiscountTiersProps) {
+  // Find active tier
+  const activeTier = getActiveTier(currentItemCount, tiers);
+  const maxTier = tiers[tiers.length - 1];
+
+  // Determine next tier for screen reader
+  const nextTier = tiers.find(t => t.itemCount > currentItemCount);
+
+  return (
+    &lt;div
+      className={`bdt-container ${size !== 'default' ? size : ''}`}
+      role="region"
+      aria-label="Bundle discount tiers"
+    &gt;
+      &lt;div className="bdt-header" id="bdt-header"&gt;
+        {showIcon && (
+          &lt;TrendingUp size={13} aria-hidden="true" /&gt;
+        )}
+        {headerText}
+      &lt;/div&gt;
+
+      &lt;div
+        className="bdt-tiers"
+        role="list"
+        aria-labelledby="bdt-header"
+      &gt;
+        {tiers.map((tier) => {
+          const isActive = activeTier?.itemCount === tier.itemCount;
+          const isMax = tier.itemCount === maxTier.itemCount;
+
+          return (
+            &lt;div
+              key={tier.itemCount}
+              className={`bdt-tier ${isActive ? 'active' : ''} ${isMax ? 'max' : ''}`}
+              role="listitem"
+              aria-label={`${tier.label}: ${tier.discount}% discount${isActive ? '. Currently active.' : ''}`}
+              aria-current={isActive ? 'true' : undefined}
+            &gt;
+              &lt;span className="bdt-tier-label"&gt;{tier.label}&lt;/span&gt;
+              &lt;span className="bdt-tier-value"&gt;{tier.discount}%&lt;/span&gt;
+            &lt;/div&gt;
+          );
+        })}
+      &lt;/div&gt;
+
+      {/* Screen reader announcement */}
+      &lt;div className="sr-only" aria-live="polite"&gt;
+        {activeTier && (
+          `You have ${currentItemCount} items in your bundle and unlocked ${activeTier.discount}% discount.`
+        )}
+        {nextTier && (
+          ` Add ${nextTier.itemCount - currentItemCount} more item${nextTier.itemCount - currentItemCount > 1 ? 's' : ''} to unlock ${nextTier.discount}% discount.`
+        )}
+        {!nextTier && currentItemCount >= maxTier.itemCount && (
+          ' Maximum discount tier unlocked!'
+        )}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+function getActiveTier(currentItemCount: number, tiers: DiscountTier[]) {
+  const sortedTiers = [...tiers].sort((a, b) => b.itemCount - a.itemCount);
+  return sortedTiers.find(tier => currentItemCount >= tier.itemCount);
+}</code></pre>
+
+  <h3>State Management with React</h3>
+  <pre><code>// Parent component managing bundle
+function BundleBuilder() {
+  const [bundleItems, setBundleItems] = useState&lt;BundleItem[]&gt;([]);
+
+  const tiers: DiscountTier[] = [
+    { itemCount: 2, label: '2 items', discount: 10 },
+    { itemCount: 3, label: '3 items', discount: 20 },
+    { itemCount: 4, label: '4 items', discount: 28 },
+    { itemCount: 5, label: '5+', discount: 35 },
+  ];
+
+  return (
+    &lt;aside className="bundle-sidebar"&gt;
+      {/* ... Bundle items list ... */}
+
+      &lt;BundleDiscountTiers
+        tiers={tiers}
+        currentItemCount={bundleItems.length}
+      /&gt;
+
+      {/* ... Total calculator ... */}
+    &lt;/aside&gt;
+  );
+}</code></pre>
+
+  <h3>Integration with Payload CMS</h3>
+  <pre><code>// Fetch discount tiers from Payload CMS
+async function getDiscountTiers(bundleConfigId: string) {
+  const config = await payload.findByID({
+    collection: 'bundleConfigurations',
+    id: bundleConfigId,
+  });
+
+  return config.discountTiers.map(tier => ({
+    itemCount: tier.itemCount,
+    label: tier.label,
+    discount: tier.discount,
+  }));
+}</code></pre>
+
+  <h3>Dynamic Header Text</h3>
+  <pre><code>function getDynamicHeaderText(currentItemCount: number, nextTier?: DiscountTier) {
+  if (!nextTier) {
+    return 'Maximale korting bereikt!';
+  }
+
+  const itemsNeeded = nextTier.itemCount - currentItemCount;
+  return `Voeg ${itemsNeeded} item${itemsNeeded > 1 ? 's' : ''} toe voor ${nextTier.discount}% korting`;
+}</code></pre>
+
+  <h3>Clickable Variant (Preview)</h3>
+  <pre><code>interface ClickableTiersProps extends BundleDiscountTiersProps {
+  clickable: true;
+  onTierClick: (tier: DiscountTier) => void;
+}
+
+// Usage: Show estimated savings when tier clicked
+const handleTierClick = (tier: DiscountTier) => {
+  const estimatedSavings = calculateSavings(tier);
+  showToast({
+    message: `Met ${tier.label} bespaar je €${estimatedSavings.toFixed(2)}`,
+    icon: 'trending-up',
+  });
+};</code></pre>
+
+  <h3>Testing Checklist</h3>
+  <ul>
+    <li>✓ Active tier highlights correctly based on item count</li>
+    <li>✓ Active tier updates in real-time as items added/removed</li>
+    <li>✓ Max tier (5+) displays green discount percentage</li>
+    <li>✓ Checkmark (✓) appears after active tier discount</li>
+    <li>✓ Header text matches configured message</li>
+    <li>✓ Trending-up icon displays (if showIcon=true)</li>
+    <li>✓ Tier boxes have equal width (flex: 1)</li>
+    <li>✓ Screen reader announces current tier and next goal</li>
+    <li>✓ Responsive scaling works on mobile (&lt;640px)</li>
+    <li>✓ Compact variant renders correctly</li>
+  </ul>
+</div>
+
+<!-- STEP 8: Variations & Related Components -->
+<div class="doc-section">
+  <h2><i data-lucide="layers"></i> STEP 8: Variations & Related Components</h2>
+
+  <h3>Component Variants</h3>
+
+  <h4>1. Size Variants</h4>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Variant</th>
+        <th>Use Case</th>
+        <th>Key Differences</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>compact</code></td>
+        <td>Mobile views, modals with limited space</td>
+        <td>8px/10px padding, 11px header, 9-10px tier text</td>
+      </tr>
+      <tr>
+        <td><code>default</code></td>
+        <td>Standard bundle sidebar</td>
+        <td>10px/14px padding, 12px header, 10-11px tier text</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>2. Dynamic Header Variant</h4>
+  <pre><code>&lt;!-- Show progress to next tier --&gt;
+&lt;BundleDiscountTiers
+  tiers={tiers}
+  currentItemCount={3}
+  headerText="Voeg 1 item toe voor 28% korting"
+/&gt;</code></pre>
+
+  <h4>3. With Animation (Tier Unlock)</h4>
+  <pre><code>// Animate tier unlock with confetti or pulse
+useEffect(() => {
+  if (activeTier && prevActiveTier && activeTier.discount > prevActiveTier.discount) {
+    // Tier unlocked!
+    showConfetti();
+    announceToScreenReader(`Unlocked ${activeTier.discount}% discount tier!`);
+  }
+}, [activeTier]);</code></pre>
+
+  <h4>4. Horizontal Scroll (6+ Tiers)</h4>
+  <pre><code>&lt;div class="bdt-container horizontal"&gt;
+  &lt;div class="bdt-tiers"&gt;
+    &lt;!-- 6+ tier boxes with min-width --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Related Components</h3>
+
+  <h4>Bundle Builder Components</h4>
+  <ul>
+    <li><strong>BB01: BundleOverviewCard</strong> — Pre-made bundles (shows total discount as badge)</li>
+    <li><strong>BB02: BundleProductCard</strong> — Selectable products (drives tier progression)</li>
+    <li><strong>BB03: BundleItemRow</strong> — Selected products list (item count determines active tier)</li>
+    <li><strong>BB05: BundleTotalCalculator</strong> — Price breakdown (applies discount from active tier)</li>
+    <li><strong>BB06: BundleProgressBar</strong> — Alternative progress indicator (linear vs tiered)</li>
+  </ul>
+
+  <h4>E-commerce Components</h4>
+  <ul>
+    <li><strong>C4: StaffelCalculator</strong> — Detailed volume pricing table (more granular)</li>
+    <li><strong>EC10: StaffelHintBanner</strong> — Upsell banner for next tier (appears in cart)</li>
+    <li><strong>C25: ProgressSteps</strong> — Linear progress indicator (checkout steps)</li>
+  </ul>
+
+  <h3>Usage in Different Contexts</h3>
+
+  <h4>1. Bundle Builder Sidebar (Primary)</h4>
+  <pre><code>&lt;aside class="bundle-sidebar"&gt;
+  &lt;BundleItemList items={items} onRemove={handleRemove} /&gt;
+
+  &lt;BundleDiscountTiers
+    tiers={DISCOUNT_TIERS}
+    currentItemCount={items.length}
+  /&gt;
+
+  &lt;BundleTotalCalculator items={items} activeTier={activeTier} /&gt;
+&lt;/aside&gt;</code></pre>
+
+  <h4>2. Product Page (Bundle Product)</h4>
+  <pre><code>&lt;div class="product-sidebar"&gt;
+  &lt;h3&gt;Bundelvoordeel&lt;/h3&gt;
+  &lt;BundleDiscountTiers
+    tiers={product.bundleTiers}
+    currentItemCount={1}
+    headerText="Combineer voor extra korting"
+    size="compact"
+  /&gt;
+&lt;/div&gt;</code></pre>
+
+  <h4>3. Cart Summary (Motivational)</h4>
+  <pre><code>&lt;div class="cart-summary"&gt;
+  &lt;BundleDiscountTiers
+    tiers={BUNDLE_TIERS}
+    currentItemCount={cart.bundleItemCount}
+    headerText={`Voeg ${itemsNeeded} item toe voor ${nextDiscount}% korting`}
+  /&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Common Patterns</h3>
+
+  <h4>Pattern 1: Tier Unlock Celebration</h4>
+  <pre><code>// Show toast when user unlocks new tier
+useEffect(() => {
+  const newTier = getActiveTier(bundleItems.length, tiers);
+  const oldTier = getActiveTier(bundleItems.length - 1, tiers);
+
+  if (newTier && newTier.discount > (oldTier?.discount || 0)) {
+    showToast({
+      message: `🎉 ${newTier.discount}% korting ontgrendeld!`,
+      type: 'success',
+    });
+  }
+}, [bundleItems.length]);</code></pre>
+
+  <h4>Pattern 2: Next Tier Hint</h4>
+  <pre><code>// Show hint when 1 item away from next tier
+const nextTier = tiers.find(t => t.itemCount > bundleItems.length);
+const itemsNeeded = nextTier ? nextTier.itemCount - bundleItems.length : 0;
+
+{itemsNeeded === 1 && (
+  &lt;div class="next-tier-hint"&gt;
+    💡 Voeg nog 1 item toe en bespaar {nextTier.discount}%!
+  &lt;/div&gt;
+)}</code></pre>
+
+  <h4>Pattern 3: Persistent Tier Reminder (Sticky)</h4>
+  <pre><code>&lt;!-- Mobile: Show tiers as sticky footer during product selection --&gt;
+&lt;div class="sticky-tier-footer"&gt;
+  &lt;BundleDiscountTiers
+    tiers={tiers}
+    currentItemCount={items.length}
+    size="compact"
+  /&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Design System References</h3>
+  <ul>
+    <li><strong>Component ID:</strong> BB04</li>
+    <li><strong>Figma:</strong> Bundle Builder › Discount Tiers</li>
+    <li><strong>Storybook:</strong> <code>BundleDiscountTiers</code></li>
+    <li><strong>Source File:</strong> <code>bundle-builder.html</code> (lines 199-208)</li>
+    <li><strong>Design Tokens:</strong> Compass Design System v2.0</li>
+  </ul>
+</div>
+
+<!-- ========================================
+     JAVASCRIPT (DEMO INTERACTIVITY)
+     ======================================== -->
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Demo: Make tiers clickable in interactive example
+  document.addEventListener('DOMContentLoaded', () => {
+    const interactiveTiers = document.getElementById('interactive-tiers');
+
+    if (interactiveTiers) {
+      const tierBoxes = interactiveTiers.querySelectorAll('.bdt-tier');
+
+      tierBoxes.forEach(box => {
+        box.addEventListener('click', () => {
+          // Remove active from all
+          tierBoxes.forEach(t => t.classList.remove('active'));
+
+          // Add active to clicked
+          box.classList.add('active');
+
+          // Update header text
+          const itemCount = box.dataset.items;
+          const tierValue = box.querySelector('.bdt-tier-value').textContent;
+          const header = interactiveTiers.querySelector('.bdt-header');
+
+          if (parseInt(itemCount) >= 5) {
+            header.innerHTML = `
+              <i data-lucide="trending-up"></i>
+              Maximale korting bereikt! (${tierValue})
+            `;
+          } else {
+            header.innerHTML = `
+              <i data-lucide="trending-up"></i>
+              ${itemCount} items geselecteerd · ${tierValue} korting actief
+            `;
+          }
+
+          // Re-initialize icons
+          lucide.createIcons();
+        });
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

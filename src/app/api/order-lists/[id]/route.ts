@@ -30,13 +30,14 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     // Check access: user must be owner or in shareWith
-    const isOwner = typeof doc.owner === 'string' ? doc.owner === user.id : doc.owner?.id === user.id
+    const ownerId = typeof doc.owner === 'object' && doc.owner ? (doc.owner as any).id : doc.owner
+    const isOwner = ownerId === user.id
     const isShared = doc.shareWith?.some((share: any) => {
       const shareUserId = typeof share.user === 'string' ? share.user : share.user?.id
       return shareUserId === user.id
     })
 
-    if (!isOwner && !isShared && !user.roles?.includes('admin')) {
+    if (!isOwner && !isShared && !(user as any).roles?.includes('admin')) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
@@ -86,16 +87,14 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
 
     // Check access: user must be owner or in shareWith with canEdit
-    const isOwner =
-      typeof existingDoc.owner === 'string'
-        ? existingDoc.owner === user.id
-        : existingDoc.owner?.id === user.id
+    const ownerId = typeof existingDoc.owner === 'object' && existingDoc.owner ? (existingDoc.owner as any).id : existingDoc.owner
+    const isOwner = ownerId === user.id
     const canEdit = existingDoc.shareWith?.some((share: any) => {
       const shareUserId = typeof share.user === 'string' ? share.user : share.user?.id
       return shareUserId === user.id && share.canEdit === true
     })
 
-    if (!isOwner && !canEdit && !user.roles?.includes('admin')) {
+    if (!isOwner && !canEdit && !(user as any).roles?.includes('admin')) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
@@ -150,12 +149,10 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     }
 
     // Check access: only owner can delete
-    const isOwner =
-      typeof existingDoc.owner === 'string'
-        ? existingDoc.owner === user.id
-        : existingDoc.owner?.id === user.id
+    const ownerId = typeof existingDoc.owner === 'object' && existingDoc.owner ? (existingDoc.owner as any).id : existingDoc.owner
+    const isOwner = ownerId === user.id
 
-    if (!isOwner && !user.roles?.includes('admin')) {
+    if (!isOwner && !(user as any).roles?.includes('admin')) {
       return NextResponse.json({ error: 'Forbidden - only owner can delete' }, { status: 403 })
     }
 

@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC07: ConfiguratorSaveLoad — Plastimed Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  /* Colors */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+
+  /* Fonts */
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* System */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--navy);
+  line-height: 1.6;
+  padding: 40px 24px;
+}
+
+.demo-section {
+  max-width: 1000px;
+  margin: 0 auto 48px;
+}
+
+.demo-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.demo-desc {
+  font-size: 15px;
+  color: var(--grey-dark);
+  margin-bottom: 24px;
+}
+
+.demo-grid {
+  display: grid;
+  gap: 24px;
+}
+
+/* =====================================================
+   PC07: CONFIGURATOR SAVE/LOAD
+   ===================================================== */
+
+/* 1. Save Configuration Modal */
+.save-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+  padding: 24px;
+}
+
+.save-modal {
+  background: white;
+  border-radius: 20px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(10, 22, 40, 0.2);
+  overflow: hidden;
+}
+
+.save-modal-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sm-h-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sm-h-title i {
+  width: 22px;
+  height: 22px;
+  color: var(--teal);
+}
+
+.sm-close {
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.sm-close:hover {
+  background: var(--grey-light);
+}
+
+.sm-close i {
+  width: 20px;
+  height: 20px;
+  color: var(--grey-dark);
+}
+
+.save-modal-body {
+  padding: 28px;
+}
+
+.save-form-group {
+  margin-bottom: 20px;
+}
+
+.save-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.save-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 2px solid var(--grey);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--grey-light);
+  transition: all var(--transition);
+  outline: none;
+}
+
+.save-input:focus {
+  border-color: var(--teal);
+  background: white;
+  box-shadow: 0 0 0 4px var(--teal-glow);
+}
+
+.save-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px 16px;
+  border: 2px solid var(--grey);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--navy);
+  background: var(--grey-light);
+  transition: all var(--transition);
+  outline: none;
+  resize: vertical;
+}
+
+.save-textarea:focus {
+  border-color: var(--teal);
+  background: white;
+  box-shadow: 0 0 0 4px var(--teal-glow);
+}
+
+.save-hint {
+  font-size: 12px;
+  color: var(--grey-mid);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.save-hint i {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.save-config-preview {
+  background: var(--grey-light);
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.scp-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grey-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.scp-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scp-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.scp-key {
+  color: var(--grey-dark);
+}
+
+.scp-value {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.save-modal-footer {
+  padding: 20px 28px;
+  border-top: 1px solid var(--grey);
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.save-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.save-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.save-btn.primary {
+  background: var(--teal);
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 137, 123, 0.3);
+}
+
+.save-btn.primary:hover {
+  background: var(--teal-dark);
+  transform: translateY(-1px);
+}
+
+.save-btn.secondary {
+  background: white;
+  color: var(--navy);
+  border: 1.5px solid var(--grey);
+}
+
+.save-btn.secondary:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* 2. Saved Configurations List */
+.saved-configs-panel {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.scp-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scp-h-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.scp-h-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.scp-count {
+  font-size: 12px;
+  color: var(--grey-mid);
+  background: var(--grey-light);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+.scp-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.config-card {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--grey);
+  transition: background var(--transition);
+  cursor: pointer;
+}
+
+.config-card:last-child {
+  border-bottom: none;
+}
+
+.config-card:hover {
+  background: var(--grey-light);
+}
+
+.cc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.cc-info {
+  flex: 1;
+}
+
+.cc-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.cc-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--grey-mid);
+}
+
+.cc-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cc-meta-item i {
+  width: 14px;
+  height: 14px;
+}
+
+.cc-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.cc-action-btn {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.cc-action-btn:hover {
+  background: white;
+}
+
+.cc-action-btn i {
+  width: 16px;
+  height: 16px;
+  color: var(--grey-dark);
+}
+
+.cc-action-btn.delete:hover {
+  background: var(--coral-light);
+}
+
+.cc-action-btn.delete:hover i {
+  color: var(--coral);
+}
+
+.cc-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cc-spec-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 6px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cc-spec-tag i {
+  width: 12px;
+  height: 12px;
+}
+
+.cc-footer {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cc-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.cc-load-btn {
+  padding: 8px 16px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cc-load-btn:hover {
+  background: var(--teal-dark);
+  transform: translateY(-1px);
+}
+
+.cc-load-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+/* Empty state */
+.scp-empty {
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.scp-empty-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: var(--grey-light);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scp-empty-icon i {
+  width: 32px;
+  height: 32px;
+  color: var(--grey-mid);
+}
+
+.scp-empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.scp-empty-desc {
+  font-size: 14px;
+  color: var(--grey-mid);
+}
+
+/* 3. Auto-save Status Indicator */
+.autosave-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.autosave-status.saving {
+  border-color: var(--amber);
+  background: var(--amber-light);
+  color: var(--amber);
+}
+
+.autosave-status.saved {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.autosave-status.error {
+  border-color: var(--coral);
+  background: var(--coral-light);
+  color: var(--coral);
+}
+
+.autosave-status i {
+  width: 14px;
+  height: 14px;
+}
+
+.autosave-status.saving i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 4. Share Link Generator */
+.share-panel {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.share-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.share-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.share-desc {
+  font-size: 13px;
+  color: var(--grey-dark);
+  margin-bottom: 20px;
+}
+
+.share-link-group {
+  display: flex;
+  gap: 8px;
+}
+
+.share-link-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border: 2px solid var(--grey);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--navy);
+  background: var(--grey-light);
+  outline: none;
+}
+
+.share-copy-btn {
+  padding: 0 20px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.share-copy-btn:hover {
+  background: var(--teal-dark);
+}
+
+.share-copy-btn.copied {
+  background: var(--green);
+}
+
+.share-copy-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.share-social {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--grey);
+}
+
+.share-social-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grey-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.share-social-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.share-social-btn {
+  flex: 1;
+  padding: 10px;
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.share-social-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+  transform: translateY(-1px);
+}
+
+.share-social-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+/* 5. Export Options */
+.export-panel {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.export-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.export-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.export-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.export-option {
+  padding: 16px;
+  background: var(--grey-light);
+  border: 1.5px solid var(--grey);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.export-option:hover {
+  border-color: var(--teal);
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.eo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eo-icon {
+  width: 36px;
+  height: 36px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.eo-icon i {
+  width: 18px;
+  height: 18px;
+  color: var(--teal);
+}
+
+.eo-info {
+  flex: 1;
+}
+
+.eo-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.eo-desc {
+  font-size: 11px;
+  color: var(--grey-mid);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .save-modal-overlay {
+    padding: 16px;
+  }
+
+  .save-modal-header,
+  .save-modal-body,
+  .save-modal-footer {
+    padding: 20px;
+  }
+
+  .export-options {
+    grid-template-columns: 1fr;
+  }
+
+  .share-link-group {
+    flex-direction: column;
+  }
+
+  .share-copy-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .share-social-btns {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .cc-specs {
+    display: none;
+  }
+
+  .cc-meta {
+    flex-wrap: wrap;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     LIVE DEMO SECTION
+     ===================================================== -->
+
+<div class="demo-section">
+  <h1 class="demo-title">PC07: ConfiguratorSaveLoad</h1>
+  <p class="demo-desc">
+    Opslaan en laden van configuraties met auto-save, share links, en export opties.
+    Gebruikers kunnen hun werk bewaren en later voortzetten.
+  </p>
+
+  <div class="demo-grid">
+
+    <!-- Demo 1: Auto-save Status Indicators -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        1. Auto-save Status Indicators
+      </h3>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <div class="autosave-status saved">
+          <i data-lucide="check-circle"></i>
+          <span>Opgeslagen</span>
+        </div>
+        <div class="autosave-status saving">
+          <i data-lucide="loader-2"></i>
+          <span>Opslaan...</span>
+        </div>
+        <div class="autosave-status error">
+          <i data-lucide="alert-circle"></i>
+          <span>Niet opgeslagen</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 2: Save Configuration Modal -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        2. Save Configuration Modal
+      </h3>
+      <button
+        onclick="document.getElementById('saveModal').style.display='flex'"
+        style="padding: 10px 20px; background: var(--teal); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;"
+      >
+        <span style="display: inline-flex; align-items: center; gap: 8px;">
+          <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+          Configuratie opslaan
+        </span>
+      </button>
+    </div>
+
+    <!-- Demo 3: Saved Configurations List -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        3. Saved Configurations List
+      </h3>
+      <div class="saved-configs-panel">
+        <div class="scp-header">
+          <div class="scp-h-title">
+            <i data-lucide="bookmark"></i>
+            Mijn configuraties
+          </div>
+          <div class="scp-count">3</div>
+        </div>
+        <div class="scp-list">
+          <div class="config-card">
+            <div class="cc-header">
+              <div class="cc-info">
+                <div class="cc-name">Werkstation Jan</div>
+                <div class="cc-meta">
+                  <div class="cc-meta-item">
+                    <i data-lucide="calendar"></i>
+                    Vandaag om 14:23
+                  </div>
+                  <div class="cc-meta-item">
+                    <i data-lucide="laptop"></i>
+                    ProBook Ultra 16"
+                  </div>
+                </div>
+              </div>
+              <div class="cc-actions">
+                <button class="cc-action-btn" title="Delen">
+                  <i data-lucide="share-2"></i>
+                </button>
+                <button class="cc-action-btn" title="Dupliceren">
+                  <i data-lucide="copy"></i>
+                </button>
+                <button class="cc-action-btn delete" title="Verwijderen">
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+            </div>
+            <div class="cc-specs">
+              <div class="cc-spec-tag">
+                <i data-lucide="palette"></i>
+                Space Grey
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="cpu"></i>
+                M4 Pro
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="memory-stick"></i>
+                36GB
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="hard-drive"></i>
+                1TB SSD
+              </div>
+            </div>
+            <div class="cc-footer">
+              <div class="cc-price">€2.998,00</div>
+              <button class="cc-load-btn">
+                <i data-lucide="upload"></i>
+                Laden
+              </button>
+            </div>
+          </div>
+
+          <div class="config-card">
+            <div class="cc-header">
+              <div class="cc-info">
+                <div class="cc-name">Budget Optie</div>
+                <div class="cc-meta">
+                  <div class="cc-meta-item">
+                    <i data-lucide="calendar"></i>
+                    23 feb om 10:15
+                  </div>
+                  <div class="cc-meta-item">
+                    <i data-lucide="laptop"></i>
+                    ProBook Air 14"
+                  </div>
+                </div>
+              </div>
+              <div class="cc-actions">
+                <button class="cc-action-btn">
+                  <i data-lucide="share-2"></i>
+                </button>
+                <button class="cc-action-btn">
+                  <i data-lucide="copy"></i>
+                </button>
+                <button class="cc-action-btn delete">
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+            </div>
+            <div class="cc-specs">
+              <div class="cc-spec-tag">
+                <i data-lucide="palette"></i>
+                Silver
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="cpu"></i>
+                M4
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="memory-stick"></i>
+                16GB
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="hard-drive"></i>
+                256GB SSD
+              </div>
+            </div>
+            <div class="cc-footer">
+              <div class="cc-price">€1.599,00</div>
+              <button class="cc-load-btn">
+                <i data-lucide="upload"></i>
+                Laden
+              </button>
+            </div>
+          </div>
+
+          <div class="config-card">
+            <div class="cc-header">
+              <div class="cc-info">
+                <div class="cc-name">Gaming Setup</div>
+                <div class="cc-meta">
+                  <div class="cc-meta-item">
+                    <i data-lucide="calendar"></i>
+                    20 feb om 16:45
+                  </div>
+                  <div class="cc-meta-item">
+                    <i data-lucide="laptop"></i>
+                    ProBook Max 16"
+                  </div>
+                </div>
+              </div>
+              <div class="cc-actions">
+                <button class="cc-action-btn">
+                  <i data-lucide="share-2"></i>
+                </button>
+                <button class="cc-action-btn">
+                  <i data-lucide="copy"></i>
+                </button>
+                <button class="cc-action-btn delete">
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+            </div>
+            <div class="cc-specs">
+              <div class="cc-spec-tag">
+                <i data-lucide="palette"></i>
+                Midnight Black
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="cpu"></i>
+                M4 Max
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="memory-stick"></i>
+                64GB
+              </div>
+              <div class="cc-spec-tag">
+                <i data-lucide="hard-drive"></i>
+                2TB SSD
+              </div>
+            </div>
+            <div class="cc-footer">
+              <div class="cc-price">€4.299,00</div>
+              <button class="cc-load-btn">
+                <i data-lucide="upload"></i>
+                Laden
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 4: Empty State -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        4. Empty State (Geen opgeslagen configuraties)
+      </h3>
+      <div class="saved-configs-panel">
+        <div class="scp-header">
+          <div class="scp-h-title">
+            <i data-lucide="bookmark"></i>
+            Mijn configuraties
+          </div>
+          <div class="scp-count">0</div>
+        </div>
+        <div class="scp-empty">
+          <div class="scp-empty-icon">
+            <i data-lucide="bookmark"></i>
+          </div>
+          <div class="scp-empty-title">Nog geen opgeslagen configuraties</div>
+          <div class="scp-empty-desc">
+            Sla je eerste configuratie op om later verder te gaan
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 5: Share Link Panel -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        5. Share Link Generator
+      </h3>
+      <div class="share-panel">
+        <div class="share-title">
+          <i data-lucide="share-2"></i>
+          Configuratie delen
+        </div>
+        <div class="share-desc">
+          Kopieer deze link om je configuratie te delen met collega's of vrienden
+        </div>
+        <div class="share-link-group">
+          <input
+            type="text"
+            class="share-link-input"
+            value="https://shop.nl/config/abc123xyz"
+            readonly
+            id="shareLink"
+          >
+          <button class="share-copy-btn" id="copyBtn" onclick="copyShareLink()">
+            <i data-lucide="copy"></i>
+            <span id="copyText">Kopiëren</span>
+          </button>
+        </div>
+        <div class="share-social">
+          <div class="share-social-title">Delen via</div>
+          <div class="share-social-btns">
+            <button class="share-social-btn">
+              <i data-lucide="mail"></i>
+              E-mail
+            </button>
+            <button class="share-social-btn">
+              <i data-lucide="message-circle"></i>
+              WhatsApp
+            </button>
+            <button class="share-social-btn">
+              <i data-lucide="link"></i>
+              Teams
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 6: Export Options -->
+    <div>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+        6. Export Options
+      </h3>
+      <div class="export-panel">
+        <div class="export-title">
+          <i data-lucide="download"></i>
+          Exporteren
+        </div>
+        <div class="export-options">
+          <div class="export-option">
+            <div class="eo-header">
+              <div class="eo-icon">
+                <i data-lucide="file-text"></i>
+              </div>
+              <div class="eo-info">
+                <div class="eo-name">PDF</div>
+                <div class="eo-desc">Print-ready document</div>
+              </div>
+            </div>
+          </div>
+          <div class="export-option">
+            <div class="eo-header">
+              <div class="eo-icon">
+                <i data-lucide="printer"></i>
+              </div>
+              <div class="eo-info">
+                <div class="eo-name">Print</div>
+                <div class="eo-desc">Direct afdrukken</div>
+              </div>
+            </div>
+          </div>
+          <div class="export-option">
+            <div class="eo-header">
+              <div class="eo-icon">
+                <i data-lucide="mail"></i>
+              </div>
+              <div class="eo-info">
+                <div class="eo-name">E-mail</div>
+                <div class="eo-desc">Verstuur naar jezelf</div>
+              </div>
+            </div>
+          </div>
+          <div class="export-option">
+            <div class="eo-header">
+              <div class="eo-icon">
+                <i data-lucide="download-cloud"></i>
+              </div>
+              <div class="eo-info">
+                <div class="eo-name">JSON</div>
+                <div class="eo-desc">Data export</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Save Configuration Modal -->
+<div class="save-modal-overlay" id="saveModal" style="display: none;">
+  <div class="save-modal" onclick="event.stopPropagation()">
+    <div class="save-modal-header">
+      <div class="sm-h-title">
+        <i data-lucide="save"></i>
+        Configuratie opslaan
+      </div>
+      <button class="sm-close" onclick="document.getElementById('saveModal').style.display='none'">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="save-modal-body">
+      <div class="save-form-group">
+        <label class="save-label">Configuratienaam</label>
+        <input
+          type="text"
+          class="save-input"
+          placeholder="bijv. Werkstation Jan"
+          value="Werkstation Jan"
+        >
+        <div class="save-hint">
+          <i data-lucide="info"></i>
+          Geef je configuratie een herkenbare naam
+        </div>
+      </div>
+      <div class="save-form-group">
+        <label class="save-label">Notities (optioneel)</label>
+        <textarea
+          class="save-textarea"
+          placeholder="bijv. Voor designwerk en video editing"
+        >Voor designwerk, video editing, en lichte gaming. Geschikt voor langdurig gebruik.</textarea>
+        <div class="save-hint">
+          <i data-lucide="info"></i>
+          Voeg eventuele opmerkingen toe
+        </div>
+      </div>
+      <div class="save-config-preview">
+        <div class="scp-title">Configuratie overzicht</div>
+        <div class="scp-items">
+          <div class="scp-item">
+            <span class="scp-key">Model</span>
+            <span class="scp-value">ProBook Ultra 16"</span>
+          </div>
+          <div class="scp-item">
+            <span class="scp-key">Kleur</span>
+            <span class="scp-value">Space Grey</span>
+          </div>
+          <div class="scp-item">
+            <span class="scp-key">Processor</span>
+            <span class="scp-value">M4 Pro (14-core)</span>
+          </div>
+          <div class="scp-item">
+            <span class="scp-key">Werkgeheugen</span>
+            <span class="scp-value">36GB</span>
+          </div>
+          <div class="scp-item">
+            <span class="scp-key">Opslag</span>
+            <span class="scp-value">1TB SSD</span>
+          </div>
+          <div class="scp-item">
+            <span class="scp-key">Totaalprijs</span>
+            <span class="scp-value">€2.998,00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="save-modal-footer">
+      <button class="save-btn secondary" onclick="document.getElementById('saveModal').style.display='none'">
+        Annuleren
+      </button>
+      <button class="save-btn primary" onclick="saveConfig()">
+        <i data-lucide="save"></i>
+        Opslaan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     DOCUMENTATION
+     ===================================================== -->
+
+<div class="demo-section" style="background: white; padding: 32px; border-radius: 16px; border: 1px solid var(--grey); max-width: 1200px;">
+
+<h2 style="font-size: 24px; font-weight: 800; margin-bottom: 24px; color: var(--navy);">
+  📋 Component Documentation
+</h2>
+
+<!-- STEP 1 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 1: Component Overview
+  </h3>
+  <p style="font-size: 14px; line-height: 1.6; color: var(--grey-dark); margin-bottom: 12px;">
+    <strong>PC07: ConfiguratorSaveLoad</strong> enables users to save, load, share,
+    and export product configurations. Supports auto-save, manual save with naming,
+    saved configurations list, share links, and multiple export formats.
+  </p>
+  <p style="font-size: 14px; line-height: 1.6; color: var(--grey-dark);">
+    <strong>Purpose:</strong> Prevent configuration loss, enable collaboration via sharing,
+    allow users to compare multiple options, and facilitate purchase workflows by
+    saving configurations for later checkout.
+  </p>
+</div>
+
+<!-- STEP 2 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 2: When to Use This Component
+  </h3>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Multi-step configurators:</strong> Laptop builders, vehicle configurators, custom product designers</li>
+    <li><strong>Long configuration sessions:</strong> Prevent data loss if user navigates away</li>
+    <li><strong>Comparison shopping:</strong> Allow users to save multiple configurations to compare</li>
+    <li><strong>B2B workflows:</strong> Share configurations with managers/procurement teams for approval</li>
+    <li><strong>Consultation scenarios:</strong> Save configs for sales team follow-up</li>
+    <li><strong>Quote requests:</strong> Attach saved configuration to quote/offerte form</li>
+    <li><strong>Print/PDF export:</strong> Generate product specs for offline review</li>
+  </ul>
+</div>
+
+<!-- STEP 3 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 3: Design Tokens
+  </h3>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Colors</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Saving status:</strong> --amber (#F59E0B), --amber-light (#FFF8E1)</li>
+    <li><strong>Saved status:</strong> --green (#00C853), --green-light (#E8F5E9)</li>
+    <li><strong>Error status:</strong> --coral (#FF6B6B), --coral-light (#FFF0F0)</li>
+    <li><strong>Primary CTA:</strong> --teal (#00897B)</li>
+    <li><strong>Modal overlay:</strong> rgba(10,22,40,0.6) with 4px blur</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Typography</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Modal title:</strong> 18px, 800 weight</li>
+    <li><strong>Panel title:</strong> 16px, 800 weight</li>
+    <li><strong>Config card name:</strong> 15px, 700 weight</li>
+    <li><strong>Price:</strong> 18px, 800 weight, navy</li>
+    <li><strong>Meta text:</strong> 12px, grey-mid</li>
+    <li><strong>Share link:</strong> 12px, JetBrains Mono (monospace)</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Spacing</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Modal padding:</strong> 24-28px</li>
+    <li><strong>Config card padding:</strong> 20px 24px</li>
+    <li><strong>Panel padding:</strong> 24px</li>
+    <li><strong>Button gap:</strong> 8-12px</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Icons (Lucide)</h4>
+  <ul style="font-size: 13px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px; font-family: var(--font-mono);">
+    <li><strong>Save:</strong> save, bookmark</li>
+    <li><strong>Status:</strong> check-circle (saved), loader-2 (saving), alert-circle (error)</li>
+    <li><strong>Actions:</strong> upload (load), share-2, copy, trash-2, download</li>
+    <li><strong>Export:</strong> file-text (PDF), printer, mail, download-cloud</li>
+    <li><strong>Specs:</strong> palette, cpu, memory-stick, hard-drive, laptop</li>
+  </ul>
+</div>
+
+<!-- STEP 4 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 4: Props & Configuration
+  </h3>
+
+  <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+    <pre style="font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--navy); overflow-x: auto;"><code>interface SavedConfiguration {
+  id: string;
+  name: string;
+  notes?: string;
+  config: ConfigurationData;
+  createdAt: Date;
+  updatedAt: Date;
+  price: number;  // in cents
+  productName: string;
+  productModel: string;
+  specs: ConfigSpec[];
+}
+
+interface ConfigSpec {
+  icon: string;  // Lucide icon name
+  label: string;
+  value: string;
+  priceImpact?: number;  // in cents (can be negative for discounts)
+}
+
+interface ConfigurationData {
+  model: string;
+  color: string;
+  processor: string;
+  ram: string;
+  storage: string;
+  extras: string[];
+  // ... other config fields
+}
+
+interface AutoSaveStatus {
+  state: 'idle' | 'saving' | 'saved' | 'error';
+  lastSaved?: Date;
+  error?: string;
+}
+
+interface ShareLinkProps {
+  configId: string;
+  baseUrl: string;
+  onCopy?: () => void;
+  onShare?: (method: 'email' | 'whatsapp' | 'teams') => void;
+}
+
+interface ExportOption {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;  // Lucide icon name
+  onExport: () => Promise&lt;void&gt;;
+}</code></pre>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 5: Layout Rules
+  </h3>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Auto-save indicator:</strong> Top-right of header (next to action buttons)</li>
+    <li><strong>Save modal:</strong> Centered overlay with backdrop blur, max-width 520px</li>
+    <li><strong>Saved configs list:</strong> Full-width panel, border-bottom separators between cards</li>
+    <li><strong>Config card layout:</strong> Header (name + meta + actions) → Specs tags → Footer (price + load button)</li>
+    <li><strong>Share panel:</strong> Link input + copy button → Social share buttons below divider</li>
+    <li><strong>Export options:</strong> 2-column grid (1-col on mobile), equal height cards</li>
+    <li><strong>Empty state:</strong> Centered icon + text, 60px vertical padding</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Responsive Behavior</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Mobile (&lt;640px):</strong> Hide spec tags, wrap meta items, stack share buttons</li>
+    <li><strong>Tablet (640-900px):</strong> Full layout, reduce padding</li>
+    <li><strong>Desktop (>900px):</strong> Optimal spacing, 2-col export grid</li>
+  </ul>
+</div>
+
+<!-- STEP 6 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 6: Accessibility (WCAG AA/AAA)
+  </h3>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Modal focus trap:</strong> Keep focus within modal when open, restore focus on close</li>
+    <li><strong>ESC to close:</strong> Modal dismissible via ESC key</li>
+    <li><strong>Save status announcements:</strong> Use <code>aria-live="polite"</code> for save status changes</li>
+    <li><strong>Button labels:</strong> All icon buttons have <code>title</code> or <code>aria-label</code></li>
+    <li><strong>Link copying:</strong> Announce "Link gekopieerd" to screen readers</li>
+    <li><strong>Keyboard navigation:</strong> All interactive elements keyboard accessible (TAB, ENTER, SPACE)</li>
+    <li><strong>Color contrast:</strong> All text meets WCAG AA (4.5:1 for small text, 3:1 for large)</li>
+  </ul>
+</div>
+
+<!-- STEP 7 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 7: Implementation Notes
+  </h3>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">React Component</h4>
+  <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+    <pre style="font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--navy); overflow-x: auto;"><code>'use client';
+
+import { useState, useEffect } from 'react';
+import { Save, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+
+export function ConfiguratorSaveLoad({ config }: { config: ConfigurationData }) {
+  const [saveStatus, setSaveStatus] = useState&lt;AutoSaveStatus&gt;({
+    state: 'idle',
+  });
+  const [savedConfigs, setSavedConfigs] = useState&lt;SavedConfiguration[]&gt;([]);
+
+  // Auto-save with debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      autoSaveConfig();
+    }, 2000);  // 2 seconds after last change
+
+    return () => clearTimeout(timer);
+  }, [config]);
+
+  async function autoSaveConfig() {
+    setSaveStatus({ state: 'saving' });
+
+    try {
+      // Save to localStorage or API
+      const saved = {
+        id: crypto.randomUUID(),
+        config,
+        updatedAt: new Date(),
+      };
+
+      localStorage.setItem('autosave', JSON.stringify(saved));
+
+      setSaveStatus({
+        state: 'saved',
+        lastSaved: new Date(),
+      });
+
+      // Reset to idle after 3 seconds
+      setTimeout(() => {
+        setSaveStatus({ state: 'idle' });
+      }, 3000);
+    } catch (error) {
+      setSaveStatus({
+        state: 'error',
+        error: error.message,
+      });
+    }
+  }
+
+  async function saveConfigWithName(name: string, notes?: string) {
+    const newConfig: SavedConfiguration = {
+      id: crypto.randomUUID(),
+      name,
+      notes,
+      config,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      price: calculateTotal(config),
+      productName: config.model,
+      productModel: config.model,
+      specs: buildSpecsList(config),
+    };
+
+    // Save to API
+    await fetch('/api/configurations', {
+      method: 'POST',
+      body: JSON.stringify(newConfig),
+    });
+
+    // Update local state
+    setSavedConfigs([newConfig, ...savedConfigs]);
+  }
+
+  function generateShareLink(configId: string): string {
+    return `${window.location.origin}/config/${configId}`;
+  }
+
+  async function copyShareLink(link: string) {
+    await navigator.clipboard.writeText(link);
+    // Show toast notification
+  }
+
+  return (
+    &lt;div&gt;
+      {/* Auto-save status */}
+      {saveStatus.state !== 'idle' && (
+        &lt;div
+          className={`autosave-status ${saveStatus.state}`}
+          role="status"
+          aria-live="polite"
+        &gt;
+          {saveStatus.state === 'saving' && (
+            &lt;&gt;
+              &lt;Loader2 /&gt;
+              &lt;span&gt;Opslaan...&lt;/span&gt;
+            &lt;/&gt;
+          )}
+          {saveStatus.state === 'saved' && (
+            &lt;&gt;
+              &lt;CheckCircle /&gt;
+              &lt;span&gt;Opgeslagen&lt;/span&gt;
+            &lt;/&gt;
+          )}
+          {saveStatus.state === 'error' && (
+            &lt;&gt;
+              &lt;AlertCircle /&gt;
+              &lt;span&gt;Niet opgeslagen&lt;/span&gt;
+            &lt;/&gt;
+          )}
+        &lt;/div&gt;
+      )}
+
+      {/* Saved configurations list */}
+      {/* ... */}
+    &lt;/div&gt;
+  );
+}</code></pre>
+  </div>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Payload CMS Integration</h4>
+  <div style="background: var(--grey-light); padding: 16px; border-radius: 8px;">
+    <pre style="font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--navy); overflow-x: auto;"><code>// Saved Configurations Collection
+export const SavedConfigurations: CollectionConfig = {
+  slug: 'savedConfigurations',
+  admin: {
+    useAsTitle: 'name',
+  },
+  access: {
+    read: ({ req: { user } }) => {
+      // Users can only read their own configurations
+      if (user) {
+        return {
+          user: {
+            equals: user.id,
+          },
+        };
+      }
+      return false;
+    },
+  },
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'notes',
+      type: 'textarea',
+    },
+    {
+      name: 'config',
+      type: 'json',
+      required: true,
+    },
+    {
+      name: 'user',
+      type: 'relationship',
+      relationTo: 'users',
+      required: true,
+      hasMany: false,
+    },
+    {
+      name: 'productModel',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'price',
+      type: 'number',
+      required: true,
+      admin: {
+        description: 'Price in cents',
+      },
+    },
+    {
+      name: 'specs',
+      type: 'array',
+      fields: [
+        {
+          name: 'icon',
+          type: 'text',
+        },
+        {
+          name: 'label',
+          type: 'text',
+        },
+        {
+          name: 'value',
+          type: 'text',
+        },
+      ],
+    },
+  ],
+};</code></pre>
+  </div>
+</div>
+
+<!-- STEP 8 -->
+<div style="margin-bottom: 32px;">
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">
+    STEP 8: Variations & Related Components
+  </h3>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Auto-save Variants</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Idle:</strong> No indicator shown</li>
+    <li><strong>Saving:</strong> Amber pill with loader-2 spinner + "Opslaan..." text</li>
+    <li><strong>Saved:</strong> Green pill with check-circle icon + "Opgeslagen" text (auto-hides after 3s)</li>
+    <li><strong>Error:</strong> Coral pill with alert-circle icon + "Niet opgeslagen" text (persists until retry)</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Export Formats</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>PDF:</strong> Branded document with product specs, pricing breakdown, company logo</li>
+    <li><strong>Print:</strong> Browser print dialog with optimized layout</li>
+    <li><strong>E-mail:</strong> Send configuration summary to user's email</li>
+    <li><strong>JSON:</strong> Raw data export for API integration</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Related Components</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>PC01: ConfiguratorHeader</strong> — Contains save button that triggers PC07 modal</li>
+    <li><strong>PC05: ConfiguratorPriceBreakdown</strong> — Price/spec data used in saved configs</li>
+    <li><strong>C17: ToastSystem</strong> — Show success/error notifications for save/load actions</li>
+    <li><strong>QR01-QR05: Quote Request</strong> — Attach saved configuration to quote form</li>
+  </ul>
+
+  <h4 style="font-size: 14px; font-weight: 700; margin: 16px 0 8px; color: var(--navy);">Best Practices</h4>
+  <ul style="font-size: 14px; line-height: 1.8; color: var(--grey-dark); margin-left: 20px;">
+    <li><strong>Auto-save frequency:</strong> 2 seconds after last change (debounce)</li>
+    <li><strong>Conflict resolution:</strong> If auto-save fails, prompt user to save manually with name</li>
+    <li><strong>Storage limits:</strong> Limit to 10 saved configs per user (free tier), unlimited for Pro</li>
+    <li><strong>Share link expiry:</strong> Share links expire after 30 days</li>
+    <li><strong>Version history:</strong> Store config snapshots for "undo" functionality</li>
+    <li><strong>Duplicate prevention:</strong> Check for identical configs before saving</li>
+    <li><strong>Cross-device sync:</strong> Save to database (not localStorage) for multi-device access</li>
+    <li><strong>Guest users:</strong> Store in localStorage + prompt to create account to save permanently</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Close modal on overlay click
+  document.getElementById('saveModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'saveModal') {
+      e.target.style.display = 'none';
+    }
+  });
+
+  // Close modal on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('saveModal').style.display = 'none';
+    }
+  });
+
+  // Copy share link
+  function copyShareLink() {
+    const input = document.getElementById('shareLink');
+    const btn = document.getElementById('copyBtn');
+    const text = document.getElementById('copyText');
+
+    navigator.clipboard.writeText(input.value).then(() => {
+      // Change button state
+      btn.classList.add('copied');
+      text.textContent = 'Gekopieerd!';
+
+      // Reset after 2 seconds
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        text.textContent = 'Kopiëren';
+        lucide.createIcons();
+      }, 2000);
+    });
+  }
+
+  // Save configuration
+  function saveConfig() {
+    // Show success toast (would be C17: ToastSystem in production)
+    alert('Configuratie opgeslagen! ✓');
+    document.getElementById('saveModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

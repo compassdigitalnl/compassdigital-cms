@@ -7,7 +7,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Queue } from 'bullmq'
-import { redis } from '@/lib/queue/redis'
+import { redisConfig } from '@/lib/queue/redis'
 import { evaluateCondition } from '../automation/conditions'
 import type { EventPayload } from '../automation/types'
 import { delayToMilliseconds } from '../automation/types'
@@ -22,7 +22,7 @@ import { getListmonkClient } from '../listmonk/client'
  */
 export async function enterFlow(
   flowId: string,
-  subscriberId: string,
+  subscriber_id: string,
   eventPayload: EventPayload,
   tenantId: string
 ): Promise<{ success: boolean; instanceId?: string; error?: string }> {
@@ -57,7 +57,7 @@ export async function enterFlow(
       where: {
         and: [
           { flow: { equals: flowId } },
-          { subscriber: { equals: subscriberId } },
+          { subscriber: { equals: subscriber_id } },
           { status: { equals: 'active' } },
         ],
       },
@@ -73,15 +73,15 @@ export async function enterFlow(
       collection: 'flow-instances',
       data: {
         flow: flowId,
-        subscriber: subscriberId,
-        status: 'active',
+        subscriber: subscriber_id,
+        status: 'active' as const,
         currentStep: 0,
         currentStepName: flow.steps[0]?.name || 'Step 1',
         startedAt: new Date().toISOString(),
-        entryEventData: eventPayload,
+        entryEventData: eventPayload as any,
         stepHistory: [],
         tenant: tenantId,
-      },
+      } as any,
     })
 
     // Update flow stats
@@ -93,17 +93,17 @@ export async function enterFlow(
           ...flow.stats,
           totalEntries: (flow.stats?.totalEntries || 0) + 1,
           activeInstances: (flow.stats?.activeInstances || 0) + 1,
-          lastEntry: new Date(),
+          lastEntry: new Date().toISOString(),
         },
-      },
+      } as any,
     })
 
     // Queue first step execution
-    await queueStepExecution(instance.id, 0)
+    await queueStepExecution(String(instance.id), 0)
 
     console.log(`[Flow Executor] User entered flow: ${flow.name}, instance: ${instance.id}`)
 
-    return { success: true, instanceId: instance.id }
+    return { success: true, instanceId: String(instance.id) }
   } catch (error: any) {
     console.error('[Flow Executor] Error entering flow:', error)
     return { success: false, error: error.message }
@@ -135,9 +135,10 @@ export async function executeFlowStep(
     }
 
     // Get flow
+    const flowId = typeof instance.flow === 'object' ? instance.flow.id : instance.flow
     const flow = await payload.findByID({
       collection: 'automation-flows',
-      id: instance.flow,
+      id: flowId,
     })
 
     if (!flow) {
@@ -215,12 +216,12 @@ export async function executeFlowStep(
             stepIndex,
             stepName: step.name,
             stepType: step.type,
-            executedAt: new Date(),
+            executedAt: new Date().toISOString(),
             success: !error,
             error,
           },
         ],
-      },
+      } as any,
     })
 
     if (error) {
@@ -272,10 +273,12 @@ async function executeSendEmail(instance: any, step: any) {
   })
 
   if (!subscriber) throw new Error('Subscriber not found')
+  if (!subscriber.listmonkId) throw new Error('Subscriber not synced to Listmonk')
+  if (!template.listmonkId) throw new Error('Template not synced to Listmonk')
 
-  await getListmonkClient().sendTransactionalEmail({
-    subscriberId: subscriber.listmonkId,
-    templateId: template.listmonkId,
+  await getListmonkClient().sendTransactional({
+    subscriber_id: subscriber.listmonkId,
+    template_id: template.listmonkId,
     data: instance.entryEventData?.metadata || {},
   })
 
@@ -284,7 +287,7 @@ async function executeSendEmail(instance: any, step: any) {
 
 async function executeWait(instance: any, step: any, currentStepIndex: number) {
   const delayMs = delayToMilliseconds(step.waitDuration.value, step.waitDuration.unit)
-  const scheduledAt = new Date(Date.now() + delayMs)
+  const scheduledAt = new Date(Date.now() + delayMs).toISOString()
 
   const payload = await getPayload({ config })
   await payload.update({
@@ -292,7 +295,7 @@ async function executeWait(instance: any, step: any, currentStepIndex: number) {
     id: instance.id,
     data: {
       nextStepScheduledAt: scheduledAt,
-    },
+    } as any,
   })
 
   console.log(`[Flow Executor] Wait scheduled for ${delayMs}ms (${step.waitDuration.value} ${step.waitDuration.unit})`)
@@ -311,7 +314,10 @@ async function executeAddToList(instance: any, step: any) {
     id: instance.subscriber,
   })
 
-  await getListmonkClient().addSubscriberToList(subscriber.listmonkId, list.listmonkId)
+  if (!subscriber.listmonkId) throw new Error('Subscriber not synced to Listmonk')
+  if (!list.listmonkId) throw new Error('List not synced to Listmonk')
+
+  await getListmonkClient().addSubscriberToLists(subscriber.listmonkId, [list.listmonkId])
 
   console.log(`[Flow Executor] Added to list: ${list.name}`)
 }
@@ -329,7 +335,10 @@ async function executeRemoveFromList(instance: any, step: any) {
     id: instance.subscriber,
   })
 
-  await getListmonkClient().removeSubscriberFromList(subscriber.listmonkId, list.listmonkId)
+  if (!subscriber.listmonkId) throw new Error('Subscriber not synced to Listmonk')
+  if (!list.listmonkId) throw new Error('List not synced to Listmonk')
+
+  await getListmonkClient().removeSubscriberFromLists(subscriber.listmonkId, [list.listmonkId])
 
   console.log(`[Flow Executor] Removed from list: ${list.name}`)
 }
@@ -342,12 +351,14 @@ async function executeAddTag(instance: any, step: any) {
     id: instance.subscriber,
   })
 
-  const currentTags = subscriber.attributes?.tags || []
+  if (!subscriber.listmonkId) throw new Error('Subscriber not synced to Listmonk')
+
+  const currentTags = (subscriber as any).attributes?.tags || []
   const updatedTags = [...new Set([...currentTags, step.tagName])]
 
   await getListmonkClient().updateSubscriber(subscriber.listmonkId, {
     attribs: {
-      ...subscriber.attributes,
+      ...(subscriber as any).attributes,
       tags: updatedTags,
     },
   })
@@ -363,12 +374,14 @@ async function executeRemoveTag(instance: any, step: any) {
     id: instance.subscriber,
   })
 
-  const currentTags = subscriber.attributes?.tags || []
+  if (!subscriber.listmonkId) throw new Error('Subscriber not synced to Listmonk')
+
+  const currentTags = (subscriber as any).attributes?.tags || []
   const updatedTags = currentTags.filter((tag: string) => tag !== step.tagName)
 
   await getListmonkClient().updateSubscriber(subscriber.listmonkId, {
     attribs: {
-      ...subscriber.attributes,
+      ...(subscriber as any).attributes,
       tags: updatedTags,
     },
   })
@@ -435,27 +448,28 @@ async function completeFlow(instanceId: string) {
     collection: 'flow-instances',
     id: instanceId,
     data: {
-      status: 'completed',
-      completedAt: new Date(),
-    },
+      status: 'completed' as const,
+      completedAt: new Date().toISOString(),
+    } as any,
   })
 
   // Update flow stats
+  const flowId = typeof instance.flow === 'object' ? instance.flow.id : instance.flow
   const flow = await payload.findByID({
     collection: 'automation-flows',
-    id: instance.flow,
+    id: flowId,
   })
 
   await payload.update({
     collection: 'automation-flows',
-    id: instance.flow,
+    id: flowId,
     data: {
       stats: {
         ...flow.stats,
         activeInstances: Math.max(0, (flow.stats?.activeInstances || 0) - 1),
         completedInstances: (flow.stats?.completedInstances || 0) + 1,
       },
-    },
+    } as any,
   })
 
   console.log(`[Flow Executor] Flow completed: ${instanceId}`)
@@ -473,28 +487,29 @@ async function exitFlow(instanceId: string, reason: string) {
     collection: 'flow-instances',
     id: instanceId,
     data: {
-      status: 'exited',
-      completedAt: new Date(),
+      status: 'exited' as const,
+      completedAt: new Date().toISOString(),
       exitReason: reason,
-    },
+    } as any,
   })
 
   // Update flow stats
+  const flowId = typeof instance.flow === 'object' ? instance.flow.id : instance.flow
   const flow = await payload.findByID({
     collection: 'automation-flows',
-    id: instance.flow,
+    id: flowId,
   })
 
   await payload.update({
     collection: 'automation-flows',
-    id: instance.flow,
+    id: flowId,
     data: {
       stats: {
         ...flow.stats,
         activeInstances: Math.max(0, (flow.stats?.activeInstances || 0) - 1),
         exitedInstances: (flow.stats?.exitedInstances || 0) + 1,
       },
-    },
+    } as any,
   })
 
   console.log(`[Flow Executor] Flow exited: ${instanceId}, reason: ${reason}`)
@@ -505,7 +520,7 @@ async function exitFlow(instanceId: string, reason: string) {
 // ═══════════════════════════════════════════════════════════
 
 async function queueStepExecution(instanceId: string, stepIndex: number, delayMs: number = 0) {
-  const queue = new Queue('email-flows', { connection: redis })
+  const queue = new Queue('email-flows', { connection: redisConfig })
 
   await queue.add(
     'execute-flow-step',

@@ -188,7 +188,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                 <textarea
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder={placeholderText}
+                  placeholder={placeholderText || undefined}
                   rows={8}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-mono text-sm"
                 />
@@ -218,7 +218,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                     hover:file:bg-primary-light hover:file:text-white
                     cursor-pointer"
                 />
-                {uploadHelpText && <p className="text-sm text-gray-500 mt-2">{uploadHelpText}</p>}
+                {uploadHelpText && <p className="text-sm text-gray-500 mt-2">{uploadHelpText || undefined}</p>}
               </div>
             )}
 

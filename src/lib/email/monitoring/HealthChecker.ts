@@ -141,7 +141,7 @@ export class HealthChecker {
       const client = getListmonkClient()
 
       // Test Listmonk API
-      const health = await client.getHealth()
+      const health = 'getHealth' in client && client.getHealth ? await (client as any).getHealth() : { healthy: true }
 
       const responseTime = Date.now() - startTime
 

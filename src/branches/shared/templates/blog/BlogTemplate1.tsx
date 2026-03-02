@@ -162,7 +162,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
           </div>
 
           {/* Author Box */}
-          {post.author && <AuthorBox author={post.author} authorBio={post.authorBio} className="mt-7" />}
+          {post.author && <AuthorBox author={post.author as any} authorBio={post.authorBio} className="mt-7" />}
 
           {/* Related Articles */}
           {relatedPosts && relatedPosts.length > 0 && (

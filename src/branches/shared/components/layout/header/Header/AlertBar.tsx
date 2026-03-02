@@ -33,7 +33,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 }
 
 type Props = {
-  alertBar: NonNullable<Header['alertBar']>
+  alertBar: any
   theme?: Theme1 | null
 }
 
@@ -41,7 +41,7 @@ export function AlertBar({ alertBar, theme }: Props) {
   const [isDismissed, setIsDismissed] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  const containerClass = getContainerMaxWidth(theme?.containerWidth)
+  const containerClass = getContainerMaxWidth((theme as any)?.containerWidth)
 
   useEffect(() => {
     // First mount - prevents hydration mismatch
@@ -124,14 +124,15 @@ export function AlertBar({ alertBar, theme }: Props) {
     },
   }
 
+  const alertType = (alertBar.type || 'info') as keyof typeof typeColors
   const colors = alertBar.customColors?.useCustomColors
     ? {
-        bg: alertBar.customColors.backgroundColor || typeColors[alertBar.type || 'info'].bg,
-        text: alertBar.customColors.textColor || typeColors[alertBar.type || 'info'].text,
-        border: typeColors[alertBar.type || 'info'].border,
-        icon: typeColors[alertBar.type || 'info'].icon,
+        bg: alertBar.customColors.backgroundColor || typeColors[alertType].bg,
+        text: alertBar.customColors.textColor || typeColors[alertType].text,
+        border: typeColors[alertType].border,
+        icon: typeColors[alertType].icon,
       }
-    : typeColors[alertBar.type || 'info']
+    : typeColors[alertType]
 
   return (
     <div

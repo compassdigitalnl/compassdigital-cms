@@ -5,7 +5,7 @@
  * to maintain data consistency between Payload and Listmonk
  */
 
-import { Worker, Job } from 'bullmq'
+import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis } from '../redis'
 import { baseWorkerConfig } from '../config'
 import { getReconciler } from '@/lib/email/reconciliation/reconciler'
@@ -117,9 +117,8 @@ export const reconciliationWorker = new Worker(
   },
   {
     ...baseWorkerConfig,
-    connection: redis,
     concurrency: 1, // Run one reconciliation at a time to avoid conflicts
-  }
+  } as WorkerOptions
 )
 
 // Worker event handlers

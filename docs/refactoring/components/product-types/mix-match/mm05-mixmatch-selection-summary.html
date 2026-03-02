@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM05: MixMatchSelectionSummary — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--grey-light); padding: 32px; color: var(--navy); }
+
+/* MM05: MixMatchSelectionSummary */
+.box-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.bi {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.1s;
+}
+
+.bi:hover {
+  background: var(--grey-light);
+}
+
+.bi-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.bi-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bi-name {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bi-detail {
+  font-size: 10px;
+  color: var(--grey-mid);
+}
+
+.bi-qty {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--grey-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.bi-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.bi-remove {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+  flex-shrink: 0;
+}
+
+.bi-remove:hover {
+  background: var(--coral-light);
+}
+
+.bi-remove i {
+  width: 12px;
+  height: 12px;
+  color: var(--coral);
+}
+
+.demo-container {
+  max-width: 360px;
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 32px;
+}
+</style>
+</head>
+<body>
+
+<h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 16px;">🎯 Live Demo — MixMatchSelectionSummary</h2>
+
+<div class="demo-container">
+  <div class="box-items">
+    <div class="bi">
+      <div class="bi-icon">🥗</div>
+      <div class="bi-info">
+        <div class="bi-name">Caesar Salade Classic</div>
+        <div class="bi-detail">320 kcal · Vers</div>
+      </div>
+      <div class="bi-qty">×1</div>
+      <div class="bi-price">€4,95</div>
+      <button class="bi-remove" onclick="this.closest('.bi').remove();">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="bi">
+      <div class="bi-icon">🌯</div>
+      <div class="bi-info">
+        <div class="bi-name">Pulled Chicken Wrap</div>
+        <div class="bi-detail">480 kcal · Vers</div>
+      </div>
+      <div class="bi-qty">×1</div>
+      <div class="bi-price">€5,50</div>
+      <button class="bi-remove" onclick="this.closest('.bi').remove();">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="bi">
+      <div class="bi-icon">🍲</div>
+      <div class="bi-info">
+        <div class="bi-name">Tom Kha Gai Soep</div>
+        <div class="bi-detail">210 kcal · Glutenvrij</div>
+      </div>
+      <div class="bi-qty">×1</div>
+      <div class="bi-price">€4,50</div>
+      <button class="bi-remove" onclick="this.closest('.bi').remove();">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div style="background: white; border: 1px solid var(--grey); border-radius: 12px; padding: 24px; line-height: 1.6;">
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 12px;">📦 MM05: MixMatchSelectionSummary</h3>
+
+<p><strong>Purpose:</strong> Vertical list of selected items in Mix & Match box sidebar. Shows emoji, name, details, quantity, price, and remove button per item.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Scrollable list (max-height: 260px)</li>
+  <li>Hover background on each row</li>
+  <li>Remove button (coral X icon on hover)</li>
+  <li>Emoji/icon + name (ellipsis overflow)</li>
+  <li>Meta details (calories, dietary info)</li>
+  <li>Quantity badge (×1, ×2, etc.)</li>
+  <li>Price per item (JetBrains Mono)</li>
+</ul>
+
+<p><strong>Design Tokens:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+  <li>Row padding: 6px 8px, gap: 8px, border-radius: 8px</li>
+  <li>Hover bg: #F1F4F8 (grey-light)</li>
+  <li>Icon: 18px emoji</li>
+  <li>Name: 12px 700 DM Sans, ellipsis overflow</li>
+  <li>Detail: 10px grey-mid</li>
+  <li>Qty badge: 11px JetBrains Mono 700, grey-light bg, 2/6px padding, 4px radius</li>
+  <li>Price: 11px JetBrains Mono 700</li>
+  <li>Remove button: 20×20px, transparent → coral-light bg on hover, coral icon</li>
+</ul>
+
+<p><strong>TypeScript Interface:</strong></p>
+<pre style="background: var(--grey-light); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+interface MixMatchSelectionSummaryProps {
+  items: Array<{
+    id: string;
+    emoji: string;
+    name: string;
+    detail: string;
+    quantity: number;
+    price: number;
+  }>;
+  onRemove: (id: string) => void;
+  maxHeight?: number; // Default: 260px
+}
+</pre>
+
+<p><strong>React Example:</strong></p>
+<pre style="background: var(--grey-light); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+export const MixMatchSelectionSummary = ({ items, onRemove }) => (
+  &lt;div className="box-items"&gt;
+    {items.map((item) => (
+      &lt;div key={item.id} className="bi"&gt;
+        &lt;div className="bi-icon"&gt;{item.emoji}&lt;/div&gt;
+        &lt;div className="bi-info"&gt;
+          &lt;div className="bi-name"&gt;{item.name}&lt;/div&gt;
+          &lt;div className="bi-detail"&gt;{item.detail}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div className="bi-qty"&gt;×{item.quantity}&lt;/div&gt;
+        &lt;div className="bi-price"&gt;€{item.price.toFixed(2)}&lt;/div&gt;
+        &lt;button className="bi-remove" onClick={() => onRemove(item.id)}&gt;
+          &lt;X size={12} /&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    ))}
+  &lt;/div&gt;
+);
+</pre>
+
+<p><strong>Related Components:</strong> MM07 (MixMatchPricingCard - parent container), MM04 (MixMatchProductCard - adds items to this list)</p>
+
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

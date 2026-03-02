@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DD06: ActivationFlow — Plastimed Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-body: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      padding: 48px 24px;
+    }
+
+    .demo-section {
+      max-width: 720px;
+      margin: 0 auto 48px;
+    }
+
+    .demo-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .demo-desc {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 24px;
+    }
+
+    /* Activation Flow Container */
+    .af-container {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .af-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--grey);
+      text-align: center;
+    }
+
+    .af-header-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--teal-glow);
+      color: var(--teal);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .af-header-icon i {
+      width: 32px;
+      height: 32px;
+    }
+
+    .af-header-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .af-header-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* Progress Steps */
+    .af-progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+      background: var(--grey-light);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .af-progress-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .af-progress-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all var(--transition);
+    }
+
+    .af-progress-circle.done {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .af-progress-circle.active {
+      background: var(--teal);
+      color: var(--white);
+      box-shadow: 0 0 0 4px var(--teal-glow);
+    }
+
+    .af-progress-circle.pending {
+      background: var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .af-progress-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .af-progress-step.active .af-progress-label {
+      color: var(--teal);
+    }
+
+    .af-progress-step.done .af-progress-label {
+      color: var(--green);
+    }
+
+    .af-progress-connector {
+      width: 40px;
+      height: 2px;
+      background: var(--grey);
+    }
+
+    .af-progress-connector.done {
+      background: var(--green);
+    }
+
+    /* Step Content */
+    .af-step {
+      padding: 32px 24px;
+      display: none;
+    }
+
+    .af-step.active {
+      display: block;
+      animation: fadeSlideIn 0.3s ease;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .af-step-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .af-step-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    /* Product Selection */
+    .af-product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .af-product-card {
+      border: 2px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .af-product-card:hover {
+      border-color: var(--teal-light);
+      background: var(--teal-glow);
+    }
+
+    .af-product-card.selected {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .af-product-card.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 24px;
+      height: 24px;
+      background: var(--teal);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .af-product-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--purple-light);
+      color: var(--purple);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .af-product-icon i {
+      width: 24px;
+      height: 24px;
+    }
+
+    .af-product-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .af-product-license {
+      font-size: 11px;
+      color: var(--grey-mid);
+      font-family: var(--font-mono);
+    }
+
+    /* Form Group */
+    .af-form-group {
+      margin-bottom: 20px;
+    }
+
+    .af-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .af-label-required {
+      color: var(--coral);
+      margin-left: 4px;
+    }
+
+    .af-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--navy);
+      transition: all var(--transition);
+    }
+
+    .af-input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .af-input.error {
+      border-color: var(--coral);
+    }
+
+    .af-input.success {
+      border-color: var(--green);
+    }
+
+    .af-input-code {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .af-helper {
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-top: 6px;
+    }
+
+    .af-error {
+      font-size: 12px;
+      color: var(--coral);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .af-error i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .af-success {
+      font-size: 12px;
+      color: var(--green);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .af-success i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Device Info Card */
+    .af-device-card {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .af-device-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .af-device-title i {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+    }
+
+    .af-device-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .af-device-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .af-device-label {
+      font-size: 11px;
+      color: var(--grey-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .af-device-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      font-family: var(--font-mono);
+    }
+
+    /* Success State */
+    .af-success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--green);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+      animation: successPulse 2s ease-in-out infinite;
+    }
+
+    .af-success-icon i {
+      width: 40px;
+      height: 40px;
+    }
+
+    @keyframes successPulse {
+      0%, 100% {
+        box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+      }
+      50% {
+        box-shadow: 0 4px 24px rgba(0, 200, 83, 0.5);
+      }
+    }
+
+    .af-success-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .af-success-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .af-activation-details {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .af-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .af-detail-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .af-detail-row:first-child {
+      padding-top: 0;
+    }
+
+    .af-detail-label {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .af-detail-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      font-family: var(--font-mono);
+      text-align: right;
+    }
+
+    /* Actions */
+    .af-actions {
+      display: flex;
+      gap: 12px;
+      padding: 24px;
+      background: var(--grey-light);
+      border-top: 1px solid var(--grey);
+    }
+
+    .af-btn {
+      flex: 1;
+      padding: 12px 24px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .af-btn i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .af-btn-primary {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .af-btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .af-btn-primary:disabled {
+      background: var(--grey);
+      color: var(--grey-mid);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .af-btn-secondary {
+      background: var(--white);
+      color: var(--grey-dark);
+      border: 1.5px solid var(--grey);
+    }
+
+    .af-btn-secondary:hover {
+      background: var(--grey-light);
+      border-color: var(--grey-mid);
+    }
+
+    /* Loading State */
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Info Banner */
+    .af-info-banner {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      border-radius: var(--radius-sm);
+      margin-bottom: 24px;
+    }
+
+    .af-info-banner i {
+      width: 16px;
+      height: 16px;
+      color: var(--blue);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .af-info-text {
+      font-size: 12px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .af-progress {
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+
+      .af-progress-label {
+        display: none;
+      }
+
+      .af-product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .af-device-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .af-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Demo 1: Software License Activation -->
+  <div class="demo-section">
+    <h2 class="demo-title">DD06: ActivationFlow — Software License</h2>
+    <p class="demo-desc">Multi-step wizard voor software licentie activatie</p>
+
+    <div class="af-container">
+      <div class="af-header">
+        <div class="af-header-icon">
+          <i data-lucide="key"></i>
+        </div>
+        <h2 class="af-header-title">Activeer je Licentie</h2>
+        <p class="af-header-desc">Volg deze stappen om je software licentie te activeren op dit apparaat.</p>
+      </div>
+
+      <div class="af-progress">
+        <div class="af-progress-step active">
+          <div class="af-progress-circle active">1</div>
+          <span class="af-progress-label">Product</span>
+        </div>
+        <div class="af-progress-connector"></div>
+        <div class="af-progress-step">
+          <div class="af-progress-circle pending">2</div>
+          <span class="af-progress-label">Licentie</span>
+        </div>
+        <div class="af-progress-connector"></div>
+        <div class="af-progress-step">
+          <div class="af-progress-circle pending">3</div>
+          <span class="af-progress-label">Apparaat</span>
+        </div>
+        <div class="af-progress-connector"></div>
+        <div class="af-progress-step">
+          <div class="af-progress-circle pending">4</div>
+          <span class="af-progress-label">Bevestiging</span>
+        </div>
+      </div>
+
+      <div class="af-step active">
+        <h3 class="af-step-title">Selecteer een Product</h3>
+        <p class="af-step-desc">Kies het product dat je wilt activeren op dit apparaat.</p>
+
+        <div class="af-product-grid">
+          <div class="af-product-card selected">
+            <div class="af-product-icon">
+              <i data-lucide="code"></i>
+            </div>
+            <div class="af-product-name">Premium UI Kit Pro</div>
+            <div class="af-product-license">PRO-2024-XXXX-XXXX</div>
+          </div>
+
+          <div class="af-product-card">
+            <div class="af-product-icon">
+              <i data-lucide="layers"></i>
+            </div>
+            <div class="af-product-name">Design System Bundle</div>
+            <div class="af-product-license">BUN-2024-XXXX-XXXX</div>
+          </div>
+
+          <div class="af-product-card">
+            <div class="af-product-icon">
+              <i data-lucide="palette"></i>
+            </div>
+            <div class="af-product-name">Icon Library Plus</div>
+            <div class="af-product-license">ICO-2024-XXXX-XXXX</div>
+          </div>
+        </div>
+
+        <div class="af-info-banner">
+          <i data-lucide="info"></i>
+          <div class="af-info-text">
+            Je kunt maximaal <strong>3 apparaten</strong> activeren per licentie. Momenteel heb je <strong>1 van 3</strong> activaties gebruikt.
+          </div>
+        </div>
+      </div>
+
+      <div class="af-actions">
+        <button class="af-btn af-btn-secondary" disabled>
+          <i data-lucide="arrow-left"></i>
+          <span>Vorige</span>
+        </button>
+        <button class="af-btn af-btn-primary">
+          <span>Volgende</span>
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo 2: License Code Entry -->
+  <div class="demo-section">
+    <h2 class="demo-title">Step 2: License Code Entry</h2>
+    <p class="demo-desc">Voer licentie code in met real-time validatie</p>
+
+    <div class="af-container">
+      <div class="af-header">
+        <div class="af-header-icon">
+          <i data-lucide="key"></i>
+        </div>
+        <h2 class="af-header-title">Activeer je Licentie</h2>
+        <p class="af-header-desc">Volg deze stappen om je software licentie te activeren op dit apparaat.</p>
+      </div>
+
+      <div class="af-progress">
+        <div class="af-progress-step done">
+          <div class="af-progress-circle done">✓</div>
+          <span class="af-progress-label">Product</span>
+        </div>
+        <div class="af-progress-connector done"></div>
+        <div class="af-progress-step active">
+          <div class="af-progress-circle active">2</div>
+          <span class="af-progress-label">Licentie</span>
+        </div>
+        <div class="af-progress-connector"></div>
+        <div class="af-progress-step">
+          <div class="af-progress-circle pending">3</div>
+          <span class="af-progress-label">Apparaat</span>
+        </div>
+        <div class="af-progress-connector"></div>
+        <div class="af-progress-step">
+          <div class="af-progress-circle pending">4</div>
+          <span class="af-progress-label">Bevestiging</span>
+        </div>
+      </div>
+
+      <div class="af-step active">
+        <h3 class="af-step-title">Voer je Licentie Code in</h3>
+        <p class="af-step-desc">Je kunt de licentie code vinden in je bevestigingsmail of op je account dashboard.</p>
+
+        <div class="af-form-group">
+          <label class="af-label">
+            Licentie Code
+            <span class="af-label-required">*</span>
+          </label>
+          <input
+            type="text"
+            class="af-input af-input-code success"
+            placeholder="XXXX-XXXX-XXXX-XXXX"
+            value="PRO-2024-ABC123-XYZ789"
+            maxlength="30"
+          >
+          <div class="af-success">
+            <i data-lucide="check-circle"></i>
+            <span>Geldige licentie code — Premium UI Kit Pro (3 activaties beschikbaar)</span>
+          </div>
+        </div>
+
+        <div class="af-form-group">
+          <label class="af-label">E-mailadres (optioneel)</label>
+          <input
+            type="email"
+            class="af-input"
+            placeholder="naam@voorbeeld.nl"
+          >
+          <div class="af-helper">
+            We gebruiken dit om je licentie te koppelen aan je account.
+          </div>
+        </div>
+
+        <div class="af-info-banner">
+          <i data-lucide="shield-check"></i>
+          <div class="af-info-text">
+            <strong>Veilig:</strong> Je licentie code wordt versleuteld opgeslagen en nooit gedeeld met derden.
+          </div>
+        </div>
+      </div>
+
+      <div class="af-actions">
+        <button class="af-btn af-btn-secondary">
+          <i data-lucide="arrow-left"></i>
+          <span>Vorige</span>
+        </button>
+        <button class="af-btn af-btn-primary">
+          <span>Volgende</span>
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo 3: Device Registration -->
+  <div class="demo-section">
+    <h2 class="demo-title">Step 3: Device Registration</h2>
+    <p class="demo-desc">Registreer apparaat met automatische detectie</p>
+
+    <div class="af-container">
+      <div class="af-header">
+        <div class="af-header-icon">
+          <i data-lucide="key"></i>
+        </div>
+        <h2 class="af-header-title">Activeer je Licentie</h2>
+        <p class="af-header-desc">Volg deze stappen om je software licentie te activeren op dit apparaat.</p>
+      </div>
+
+      <div class="af-progress">
+        <div class="af-progress-step done">
+          <div class="af-progress-circle done">✓</div>
+          <span class="af-progress-label">Product</span>
+        </div>
+        <div class="af-progress-connector done"></div>
+        <div class="af-progress-step done">
+          <div class="af-progress-circle done">✓</div>
+          <span class="af-progress-label">Licentie</span>
+        </div>
+        <div class="af-progress-connector done"></div>
+        <div class="af-progress-step active">
+          <div class="af-progress-circle active">3</div>
+          <span class="af-progress-label">Apparaat</span>
+        </div>
+        <div class="af-progress-connector"></div>
+        <div class="af-progress-step">
+          <div class="af-progress-circle pending">4</div>
+          <span class="af-progress-label">Bevestiging</span>
+        </div>
+      </div>
+
+      <div class="af-step active">
+        <h3 class="af-step-title">Registreer dit Apparaat</h3>
+        <p class="af-step-desc">We hebben automatisch je apparaat informatie gedetecteerd. Geef je apparaat een naam om het te herkennen.</p>
+
+        <div class="af-device-card">
+          <div class="af-device-title">
+            <i data-lucide="monitor"></i>
+            <span>Apparaat Informatie</span>
+          </div>
+          <div class="af-device-grid">
+            <div class="af-device-item">
+              <span class="af-device-label">Besturingssysteem</span>
+              <span class="af-device-value">macOS 14.2.1</span>
+            </div>
+            <div class="af-device-item">
+              <span class="af-device-label">Browser</span>
+              <span class="af-device-value">Chrome 120.0</span>
+            </div>
+            <div class="af-device-item">
+              <span class="af-device-label">Hardware ID</span>
+              <span class="af-device-value">A1B2C3D4E5F6</span>
+            </div>
+            <div class="af-device-item">
+              <span class="af-device-label">IP Adres</span>
+              <span class="af-device-value">192.168.1.100</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="af-form-group">
+          <label class="af-label">
+            Apparaat Naam
+            <span class="af-label-required">*</span>
+          </label>
+          <input
+            type="text"
+            class="af-input"
+            placeholder="bijv. MacBook Pro Werk"
+            value="MacBook Pro Werk"
+          >
+          <div class="af-helper">
+            Gebruik een herkenbare naam zodat je je apparaten kunt onderscheiden.
+          </div>
+        </div>
+
+        <div class="af-info-banner">
+          <i data-lucide="info"></i>
+          <div class="af-info-text">
+            Na activatie kun je dit apparaat beheren via je <strong>account dashboard</strong>. Je kunt apparaten deactiveren om ruimte te maken voor nieuwe activaties.
+          </div>
+        </div>
+      </div>
+
+      <div class="af-actions">
+        <button class="af-btn af-btn-secondary">
+          <i data-lucide="arrow-left"></i>
+          <span>Vorige</span>
+        </button>
+        <button class="af-btn af-btn-primary">
+          <div class="spinner"></div>
+          <span>Activeren...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo 4: Success Confirmation -->
+  <div class="demo-section">
+    <h2 class="demo-title">Step 4: Success Confirmation</h2>
+    <p class="demo-desc">Activatie succesvol met alle details</p>
+
+    <div class="af-container">
+      <div class="af-header">
+        <div class="af-header-icon">
+          <i data-lucide="key"></i>
+        </div>
+        <h2 class="af-header-title">Activeer je Licentie</h2>
+        <p class="af-header-desc">Volg deze stappen om je software licentie te activeren op dit apparaat.</p>
+      </div>
+
+      <div class="af-progress">
+        <div class="af-progress-step done">
+          <div class="af-progress-circle done">✓</div>
+          <span class="af-progress-label">Product</span>
+        </div>
+        <div class="af-progress-connector done"></div>
+        <div class="af-progress-step done">
+          <div class="af-progress-circle done">✓</div>
+          <span class="af-progress-label">Licentie</span>
+        </div>
+        <div class="af-progress-connector done"></div>
+        <div class="af-progress-step done">
+          <div class="af-progress-circle done">✓</div>
+          <span class="af-progress-label">Apparaat</span>
+        </div>
+        <div class="af-progress-connector done"></div>
+        <div class="af-progress-step active">
+          <div class="af-progress-circle active">✓</div>
+          <span class="af-progress-label">Bevestiging</span>
+        </div>
+      </div>
+
+      <div class="af-step active">
+        <div class="af-success-icon">
+          <i data-lucide="check"></i>
+        </div>
+
+        <h3 class="af-success-title">Licentie Succesvol Geactiveerd!</h3>
+        <p class="af-success-desc">Je Premium UI Kit Pro licentie is geactiveerd op dit apparaat. Je kunt nu alle features gebruiken.</p>
+
+        <div class="af-activation-details">
+          <div class="af-detail-row">
+            <span class="af-detail-label">Product</span>
+            <span class="af-detail-value">Premium UI Kit Pro</span>
+          </div>
+          <div class="af-detail-row">
+            <span class="af-detail-label">Licentie Code</span>
+            <span class="af-detail-value">PRO-2024-ABC123-XYZ789</span>
+          </div>
+          <div class="af-detail-row">
+            <span class="af-detail-label">Apparaat</span>
+            <span class="af-detail-value">MacBook Pro Werk</span>
+          </div>
+          <div class="af-detail-row">
+            <span class="af-detail-label">Activatie Datum</span>
+            <span class="af-detail-value">25 Februari 2026, 14:32</span>
+          </div>
+          <div class="af-detail-row">
+            <span class="af-detail-label">Geldig Tot</span>
+            <span class="af-detail-value">25 Februari 2027</span>
+          </div>
+          <div class="af-detail-row">
+            <span class="af-detail-label">Activaties Gebruikt</span>
+            <span class="af-detail-value">2 / 3</span>
+          </div>
+        </div>
+
+        <div class="af-info-banner">
+          <i data-lucide="mail"></i>
+          <div class="af-info-text">
+            Een bevestigingsmail is verzonden naar <strong>naam@voorbeeld.nl</strong> met je activatie details en download links.
+          </div>
+        </div>
+      </div>
+
+      <div class="af-actions">
+        <button class="af-btn af-btn-secondary">
+          <i data-lucide="download"></i>
+          <span>Download Product</span>
+        </button>
+        <button class="af-btn af-btn-primary">
+          <span>Ga naar Dashboard</span>
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

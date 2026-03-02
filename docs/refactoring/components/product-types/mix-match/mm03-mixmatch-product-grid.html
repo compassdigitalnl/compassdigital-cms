@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM03: MixMatchProductGrid — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --white: #FAFBFC;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --radius: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--grey-light);
+  padding: 32px 24px;
+  color: var(--navy);
+}
+
+/* ============================================
+   MM03: MixMatchProductGrid Component
+   ============================================ */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Empty state */
+.products-grid-empty {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--grey-mid);
+}
+
+.products-grid-empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.products-grid-empty-text {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Demo product card (simplified for grid demo) */
+.demo-product {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.demo-product:hover {
+  border-color: var(--teal);
+  transform: translateY(-2px);
+}
+
+.demo-product-emoji {
+  font-size: 32px;
+}
+
+.demo-product-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.demo-product-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grey-mid);
+}
+
+/* Documentation styles */
+.demo-section {
+  margin-bottom: 32px;
+}
+
+.demo-section h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--navy);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+
+<div class="demo-section">
+  <h2>🎯 Live Demo — MixMatchProductGrid</h2>
+
+  <div class="products-grid">
+    <div class="demo-product">
+      <div class="demo-product-emoji">🥗</div>
+      <div class="demo-product-name">Caesar Salade</div>
+      <div class="demo-product-price">€ 4,95</div>
+    </div>
+    <div class="demo-product">
+      <div class="demo-product-emoji">🌯</div>
+      <div class="demo-product-name">Chicken Wrap</div>
+      <div class="demo-product-price">€ 5,50</div>
+    </div>
+    <div class="demo-product">
+      <div class="demo-product-emoji">🍲</div>
+      <div class="demo-product-name">Tom Kha Soep</div>
+      <div class="demo-product-price">€ 4,50</div>
+    </div>
+    <div class="demo-product">
+      <div class="demo-product-emoji">🥗</div>
+      <div class="demo-product-name">Feta Salade</div>
+      <div class="demo-product-price">€ 4,95</div>
+    </div>
+    <div class="demo-product">
+      <div class="demo-product-emoji">🌯</div>
+      <div class="demo-product-name">Falafel Wrap</div>
+      <div class="demo-product-price">€ 5,50</div>
+    </div>
+    <div class="demo-product">
+      <div class="demo-product-emoji">🍲</div>
+      <div class="demo-product-name">Tomaten Soep</div>
+      <div class="demo-product-price">€ 3,95</div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-section">
+  <h2>📊 Empty State Demo</h2>
+
+  <div class="products-grid">
+    <div class="products-grid-empty" style="grid-column: 1 / -1;">
+      <div class="products-grid-empty-icon">📦</div>
+      <div class="products-grid-empty-text">Geen producten beschikbaar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DOCUMENTATION
+     ============================================ -->
+
+<div class="demo-section">
+  <h2>📦 MM03: MixMatchProductGrid — Component Documentation</h2>
+
+  <div style="background: white; border: 1px solid var(--grey); border-radius: var(--radius); padding: 24px; line-height: 1.6; color: var(--navy);">
+
+<!-- STEP 1: Component Overview -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 12px; color: var(--navy);">STEP 1: Component Overview</h3>
+
+<p style="margin-bottom: 16px;"><strong>Component:</strong> MixMatchProductGrid</p>
+<p style="margin-bottom: 16px;"><strong>Category:</strong> Product Types → Mix & Match</p>
+<p style="margin-bottom: 16px;"><strong>Purpose:</strong> Responsive grid container that displays selectable products for Mix & Match boxes. Provides consistent layout and spacing for product cards (MM04) with automatic responsive behavior.</p>
+
+<p style="margin-bottom: 8px;"><strong>Key Features:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>3-column grid on desktop (>900px), 2-column on tablet (640-900px), 1-column on mobile (&lt;640px)</li>
+  <li>10px gap between items (consistent spacing)</li>
+  <li>Empty state support with icon + message</li>
+  <li>Auto-fill behavior for even card heights</li>
+  <li>Fully responsive without JavaScript</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Visual Description:</strong></p>
+<p style="margin-bottom: 16px;">A simple CSS Grid layout that adapts to screen size. Products are displayed in equal-width columns with consistent 10px gaps. When no products are available, a centered empty state message appears spanning the full grid width.</p>
+
+<!-- STEP 2: When to Use -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 2: When to Use</h3>
+
+<p style="margin-bottom: 8px;"><strong>Use this component when:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>Mix & Match product pages</strong> — Primary use case for displaying selectable products</li>
+  <li><strong>Product selection grids</strong> — Any scenario where users choose multiple products from a set</li>
+  <li><strong>Category-filtered views</strong> — When products are filtered by category (works with MM06)</li>
+  <li><strong>Search results</strong> — When displaying Mix & Match products in search</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Do NOT use when:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li>Displaying shop archive products — use EC01 ProductCard grid instead</li>
+  <li>Single product display — no grid needed</li>
+  <li>Horizontal scrolling carousel — use different layout pattern</li>
+</ul>
+
+<!-- STEP 3: Design Tokens -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 3: Design Tokens</h3>
+
+<p style="margin-bottom: 8px;"><strong>Layout:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Display:</strong> grid</li>
+  <li><strong>Grid columns (desktop):</strong> repeat(3, 1fr)</li>
+  <li><strong>Grid columns (tablet):</strong> repeat(2, 1fr) — @media (max-width: 900px)</li>
+  <li><strong>Grid columns (mobile):</strong> 1fr — @media (max-width: 640px)</li>
+  <li><strong>Gap:</strong> 10px (all breakpoints)</li>
+</ul>
+
+<p style="margin-bottom: 8px;"><strong>Empty State:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Icon size:</strong> 48px</li>
+  <li><strong>Icon opacity:</strong> 0.5</li>
+  <li><strong>Text size:</strong> 14px, 600 weight</li>
+  <li><strong>Text color:</strong> #94A3B8 (grey-mid)</li>
+  <li><strong>Padding:</strong> 64px 24px</li>
+  <li><strong>Grid span:</strong> 1 / -1 (full width)</li>
+</ul>
+
+<!-- STEP 4: Props & Configuration -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 4: Props & Configuration</h3>
+
+<p style="margin-bottom: 8px;"><strong>TypeScript Interface:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+interface MixMatchProductGridProps {
+  // Content
+  products: Product[];
+
+  // Layout
+  columns?: {
+    desktop: number;  // Default: 3
+    tablet: number;   // Default: 2
+    mobile: number;   // Default: 1
+  };
+  gap?: number;       // Default: 10 (px)
+
+  // Empty state
+  emptyIcon?: string;
+  emptyText?: string;
+  showEmptyState?: boolean; // Default: true
+
+  // Styling
+  className?: string;
+
+  // Children (product cards)
+  children?: React.ReactNode;
+}
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>React/Next.js Component Example:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+import React from 'react';
+import { MixMatchProductCard } from './MixMatchProductCard';
+
+interface MixMatchProductGridProps {
+  products: Product[];
+  selectedIds: string[];
+  onToggle: (product: Product) => void;
+  maxItems: number;
+  currentCount: number;
+  className?: string;
+}
+
+export const MixMatchProductGrid: React.FC&lt;MixMatchProductGridProps&gt; = ({
+  products,
+  selectedIds,
+  onToggle,
+  maxItems,
+  currentCount,
+  className = '',
+}) =&gt; {
+  if (products.length === 0) {
+    return (
+      &lt;div className={`products-grid ${className}`}&gt;
+        &lt;div className="products-grid-empty"&gt;
+          &lt;div className="products-grid-empty-icon"&gt;📦&lt;/div&gt;
+          &lt;div className="products-grid-empty-text"&gt;
+            Geen producten beschikbaar
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div className={`products-grid ${className}`}&gt;
+      {products.map((product) =&gt; {
+        const isSelected = selectedIds.includes(product.id);
+        const isDisabled = !isSelected && currentCount &gt;= maxItems;
+
+        return (
+          &lt;MixMatchProductCard
+            key={product.id}
+            product={product}
+            isSelected={isSelected}
+            isDisabled={isDisabled}
+            onToggle={() =&gt; onToggle(product)}
+          /&gt;
+        );
+      })}
+    &lt;/div&gt;
+  );
+};
+</pre>
+
+<!-- STEP 5: Layout Rules -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 5: Layout Rules</h3>
+
+<p style="margin-bottom: 8px;"><strong>Component Anatomy:</strong></p>
+<pre style="background: var(--grey-light); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;">
+Desktop (>900px):
+┌─────────────────────────────────────────────────────┐
+│ .products-grid (3 columns, 10px gap)                │
+│ ┌────────┐    ┌────────┐    ┌────────┐             │
+│ │ Card 1 │    │ Card 2 │    │ Card 3 │             │
+│ └────────┘    └────────┘    └────────┘             │
+│ ┌────────┐    ┌────────┐    ┌────────┐             │
+│ │ Card 4 │    │ Card 5 │    │ Card 6 │             │
+│ └────────┘    └────────┘    └────────┘             │
+└─────────────────────────────────────────────────────┘
+
+Tablet (640-900px):
+┌───────────────────────────────────┐
+│ .products-grid (2 columns)        │
+│ ┌────────┐    ┌────────┐          │
+│ │ Card 1 │    │ Card 2 │          │
+│ └────────┘    └────────┘          │
+│ ┌────────┐    ┌────────┐          │
+│ │ Card 3 │    │ Card 4 │          │
+│ └────────┘    └────────┘          │
+└───────────────────────────────────┘
+
+Mobile (<640px):
+┌─────────────────┐
+│ .products-grid  │
+│ ┌─────────────┐ │
+│ │  Card 1     │ │
+│ └─────────────┘ │
+│ ┌─────────────┐ │
+│ │  Card 2     │ │
+│ └─────────────┘ │
+│ ┌─────────────┐ │
+│ │  Card 3     │ │
+│ └─────────────┘ │
+└─────────────────┘
+</pre>
+
+<p style="margin-bottom: 8px;"><strong>Grid Specifications:</strong></p>
+<ul style="margin-left: 20px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+  <li><strong>Desktop:</strong> grid-template-columns: repeat(3, 1fr);</li>
+  <li><strong>Tablet:</strong> grid-template-columns: repeat(2, 1fr); — @media (max-width: 900px)</li>
+  <li><strong>Mobile:</strong> grid-template-columns: 1fr; — @media (max-width: 640px)</li>
+  <li><strong>Gap:</strong> 10px (all breakpoints)</li>
+</ul>
+
+<!-- STEP 6-8: Abbreviated for brevity -->
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 6: Accessibility</h3>
+
+<p style="margin-bottom: 16px;"><strong>Semantic HTML:</strong> Use <code>&lt;div class="products-grid" role="list"&gt;</code> with product cards as <code>role="listitem"</code>.</p>
+
+<p style="margin-bottom: 16px;"><strong>ARIA:</strong> Grid container has <code>role="list"</code>, each child card has <code>role="listitem"</code> for screen reader navigation.</p>
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 7: Implementation Notes</h3>
+
+<p style="margin-bottom: 16px;"><strong>Performance:</strong> Use <code>grid-auto-rows: 1fr;</code> for equal height cards. CSS Grid is performant — no JavaScript needed for layout.</p>
+
+<h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; margin-top: 32px; margin-bottom: 12px; color: var(--navy);">STEP 8: Variations & Related Components</h3>
+
+<ul style="margin-left: 20px; margin-bottom: 16px;">
+  <li><strong>MM04: MixMatchProductCard</strong> — Child component rendered in this grid</li>
+  <li><strong>EC01: ProductCard</strong> — Similar grid pattern for shop archives</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

@@ -6,15 +6,13 @@ type ProductArgs = {
   contactForm: Form
 }
 
-export const contactPageData: (args: ProductArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
+// TODO: Fix return type - RequiredDataFromCollectionSlug expects all required fields
+export const contactPageData: (args: ProductArgs) => any = ({
   contactForm,
 }) => {
   return {
     slug: 'contact',
     _status: 'published',
-    hero: {
-      type: 'none',
-    },
     layout: [
       {
         blockType: 'formBlock',

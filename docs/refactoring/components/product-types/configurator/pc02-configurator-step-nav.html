@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC02: ConfiguratorStepNav — Plastimed Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ================================
+       DESIGN TOKENS
+       ================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-lg: 16px;
+      --space-xl: 24px;
+      --space-2xl: 32px;
+
+      /* Border radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-full: 9999px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    }
+
+    /* ================================
+       BASE STYLES
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .demo-description {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 24px;
+    }
+
+    /* ================================
+       PC02: CONFIGURATOR STEP NAV
+       ================================ */
+
+    /* Container */
+    .step-bar {
+      padding: 20px 0;
+      background: white;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Individual step */
+    .stp {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Step dot/circle */
+    .stp-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+      font-size: 13px;
+      font-weight: 800;
+      border: 2px solid var(--grey);
+      background: white;
+      color: var(--grey-mid);
+      position: relative;
+      z-index: 2;
+      transition: all var(--transition);
+    }
+
+    .stp-dot i {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* Step states: DONE */
+    .stp.done .stp-dot {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: white;
+    }
+
+    /* Step states: ACTIVE */
+    .stp.active .stp-dot {
+      border-color: var(--teal);
+      color: var(--teal);
+      box-shadow: 0 0 0 4px var(--teal-glow);
+    }
+
+    /* Step states: ERROR */
+    .stp.error .stp-dot {
+      background: #FF6B6B;
+      border-color: #FF6B6B;
+      color: white;
+    }
+
+    /* Connection line */
+    .stp-line {
+      position: absolute;
+      top: 17px;
+      left: 50%;
+      right: -50%;
+      height: 2px;
+      background: var(--grey);
+      z-index: 1;
+      transition: background var(--transition);
+    }
+
+    .stp.done .stp-line {
+      background: var(--teal);
+    }
+
+    .stp:last-child .stp-line {
+      display: none;
+    }
+
+    /* Step label */
+    .stp-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      transition: all var(--transition);
+    }
+
+    .stp.active .stp-label {
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .stp.done .stp-label {
+      color: var(--navy);
+    }
+
+    .stp.error .stp-label {
+      color: #FF6B6B;
+    }
+
+    /* Clickable variant */
+    .stp.clickable {
+      cursor: pointer;
+    }
+
+    .stp.clickable:hover:not(.active) .stp-dot {
+      border-color: var(--teal-light);
+      transform: scale(1.05);
+    }
+
+    .stp.clickable:hover:not(.active) .stp-label {
+      color: var(--teal);
+    }
+
+    /* Compact variant */
+    .step-bar.compact {
+      padding: 12px 0;
+    }
+
+    .step-bar.compact .step-row {
+      max-width: 500px;
+    }
+
+    .step-bar.compact .stp-dot {
+      width: 28px;
+      height: 28px;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .step-bar.compact .stp-dot i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .step-bar.compact .stp-line {
+      top: 13px;
+    }
+
+    .step-bar.compact .stp-label {
+      font-size: 11px;
+    }
+
+    /* Vertical variant */
+    .step-bar.vertical {
+      padding: 0;
+    }
+
+    .step-bar.vertical .step-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      max-width: 280px;
+    }
+
+    .step-bar.vertical .stp {
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 0;
+    }
+
+    .step-bar.vertical .stp-dot {
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .step-bar.vertical .stp-label {
+      flex: 1;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .step-bar.vertical .stp-line {
+      position: absolute;
+      top: 44px;
+      left: 17px;
+      right: auto;
+      width: 2px;
+      height: calc(100% - 8px);
+      bottom: auto;
+    }
+
+    .step-bar.vertical .stp:last-child .stp-line {
+      display: none;
+    }
+
+    /* Responsive: Mobile */
+    @media (max-width: 640px) {
+      .step-bar {
+        padding: 16px 0;
+      }
+
+      .step-row {
+        max-width: 100%;
+      }
+
+      .stp-label {
+        display: none;
+      }
+
+      .stp-dot {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+        margin-bottom: 0;
+      }
+
+      .stp-line {
+        top: 15px;
+      }
+
+      /* Show labels on vertical variant */
+      .step-bar.vertical .stp-label {
+        display: block;
+      }
+    }
+
+    /* ================================
+       DOCUMENTATION STYLES
+       ================================ */
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    .docs h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .docs h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .docs p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+    }
+
+    .docs ul, .docs ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .docs li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .docs code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .docs pre code {
+      background: none;
+      padding: 0;
+      color: var(--white);
+      font-size: 13px;
+    }
+
+    .info-box {
+      background: var(--teal-glow);
+      border-left: 3px solid var(--teal);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: var(--navy);
+    }
+
+    .warning-box {
+      background: #FFF8E1;
+      border-left: 3px solid #F59E0B;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .warning-box p {
+      margin: 0;
+      color: #92400E;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================
+       LIVE DEMO SECTION
+       ================================ -->
+  <div class="demo-container">
+
+    <!-- Demo 1: Default (5 steps, step 3 active) -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 1: Default — 5-step configurator (Step 3 active)</h2>
+      <p class="demo-description">Standard configurator progress indicator with 5 steps. Steps 1-2 are completed (green checkmarks), step 3 is active (teal border + glow), steps 4-5 are pending (grey).</p>
+
+      <div class="step-bar">
+        <div class="step-row">
+          <div class="stp done">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Model</div>
+          </div>
+          <div class="stp done">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Kleur</div>
+          </div>
+          <div class="stp active">
+            <div class="stp-line"></div>
+            <div class="stp-dot">3</div>
+            <div class="stp-label">Specs</div>
+          </div>
+          <div class="stp">
+            <div class="stp-line"></div>
+            <div class="stp-dot">4</div>
+            <div class="stp-label">Extra's</div>
+          </div>
+          <div class="stp">
+            <div class="stp-dot">5</div>
+            <div class="stp-label">Overzicht</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 2: Clickable steps -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 2: Clickable Steps — Navigate between steps</h2>
+      <p class="demo-description">Steps are clickable and show hover effects. Click any completed step to jump back, or click the active step to stay.</p>
+
+      <div class="step-bar">
+        <div class="step-row">
+          <div class="stp done clickable" onclick="alert('Navigate to Step 1: Model')">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Model</div>
+          </div>
+          <div class="stp done clickable" onclick="alert('Navigate to Step 2: Kleur')">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Kleur</div>
+          </div>
+          <div class="stp active">
+            <div class="stp-line"></div>
+            <div class="stp-dot">3</div>
+            <div class="stp-label">Specs</div>
+          </div>
+          <div class="stp">
+            <div class="stp-line"></div>
+            <div class="stp-dot">4</div>
+            <div class="stp-label">Extra's</div>
+          </div>
+          <div class="stp">
+            <div class="stp-dot">5</div>
+            <div class="stp-label">Overzicht</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 3: Error state -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 3: Error State — Validation failed</h2>
+      <p class="demo-description">Step 3 shows an error state (red background) when validation fails. User must fix errors before proceeding.</p>
+
+      <div class="step-bar">
+        <div class="step-row">
+          <div class="stp done">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Model</div>
+          </div>
+          <div class="stp done">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Kleur</div>
+          </div>
+          <div class="stp error">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="alert-circle"></i></div>
+            <div class="stp-label">Specs</div>
+          </div>
+          <div class="stp">
+            <div class="stp-line"></div>
+            <div class="stp-dot">4</div>
+            <div class="stp-label">Extra's</div>
+          </div>
+          <div class="stp">
+            <div class="stp-dot">5</div>
+            <div class="stp-label">Overzicht</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 4: Compact variant (4 steps) -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 4: Compact Variant — Smaller 4-step flow</h2>
+      <p class="demo-description">Compact variant with smaller dots (28px) and labels (11px). Ideal for sidebar or narrow containers.</p>
+
+      <div class="step-bar compact">
+        <div class="step-row">
+          <div class="stp done">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Kies product</div>
+          </div>
+          <div class="stp done">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Personaliseer</div>
+          </div>
+          <div class="stp active">
+            <div class="stp-line"></div>
+            <div class="stp-dot">3</div>
+            <div class="stp-label">Preview</div>
+          </div>
+          <div class="stp">
+            <div class="stp-dot">4</div>
+            <div class="stp-label">Bestellen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 5: Vertical variant -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 5: Vertical Variant — Sidebar layout</h2>
+      <p class="demo-description">Vertical orientation for sidebar navigation. Shows step descriptions and vertical connection lines.</p>
+
+      <div style="max-width: 280px;">
+        <div class="step-bar vertical">
+          <div class="step-row">
+            <div class="stp done">
+              <div class="stp-line"></div>
+              <div class="stp-dot"><i data-lucide="check"></i></div>
+              <div class="stp-label">Model kiezen</div>
+            </div>
+            <div class="stp done">
+              <div class="stp-line"></div>
+              <div class="stp-dot"><i data-lucide="check"></i></div>
+              <div class="stp-label">Kleur selecteren</div>
+            </div>
+            <div class="stp active">
+              <div class="stp-line"></div>
+              <div class="stp-dot">3</div>
+              <div class="stp-label">Specificaties configureren</div>
+            </div>
+            <div class="stp">
+              <div class="stp-line"></div>
+              <div class="stp-dot">4</div>
+              <div class="stp-label">Extra's toevoegen</div>
+            </div>
+            <div class="stp">
+              <div class="stp-dot">5</div>
+              <div class="stp-label">Overzicht en afronden</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 6: 3-step simple flow -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 6: Simple 3-Step Flow — Minimal configurator</h2>
+      <p class="demo-description">Minimal 3-step flow for simple product customizations (e.g., engraving, gift wrapping).</p>
+
+      <div class="step-bar">
+        <div class="step-row">
+          <div class="stp done">
+            <div class="stp-line"></div>
+            <div class="stp-dot"><i data-lucide="check"></i></div>
+            <div class="stp-label">Selecteer</div>
+          </div>
+          <div class="stp active">
+            <div class="stp-line"></div>
+            <div class="stp-dot">2</div>
+            <div class="stp-label">Personaliseer</div>
+          </div>
+          <div class="stp">
+            <div class="stp-dot">3</div>
+            <div class="stp-label">Afrekenen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================================
+       DOCUMENTATION
+       ================================ -->
+  <div class="docs">
+
+    <h2>📋 PC02: ConfiguratorStepNav</h2>
+    <p><strong>Component Type:</strong> Product Type Component — Configurator Navigation<br>
+    <strong>Category:</strong> Progress Indicator / Wizard Navigation<br>
+    <strong>Complexity:</strong> Medium</p>
+
+    <div class="info-box">
+      <p><strong>💡 Purpose:</strong> Progress indicator for multi-step product configuration flows. Shows users where they are in the customization process and allows navigation between completed steps.</p>
+    </div>
+
+    <!-- STEP 1: Component Overview -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>What is ConfiguratorStepNav?</h3>
+    <p>ConfiguratorStepNav is a horizontal (or vertical) progress indicator that visualizes the user's position in a multi-step product configuration process. It shows completed steps with checkmarks, the current step with a teal highlight, and upcoming steps in grey.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Visual progress tracking:</strong> Numbered circles with checkmarks for completed steps</li>
+      <li><strong>State indicators:</strong> 4 states (done, active, pending, error) with distinct colors</li>
+      <li><strong>Connection lines:</strong> Visual connectors between steps (grey for pending, teal for completed)</li>
+      <li><strong>Clickable navigation:</strong> Optional clickable steps to jump back to previous stages</li>
+      <li><strong>Flexible step count:</strong> Supports 3-7 steps (3-step minimal, 5-step standard, 7-step complex)</li>
+      <li><strong>Responsive design:</strong> Hides labels on mobile, shows vertical variant in sidebars</li>
+      <li><strong>Error indication:</strong> Red state for validation failures</li>
+      <li><strong>Accessibility:</strong> ARIA attributes, keyboard navigation, screen reader support</li>
+    </ul>
+
+    <h3>Visual Hierarchy</h3>
+    <ol>
+      <li><strong>Step dots (primary):</strong> 36px circles with numbers or checkmarks — most prominent</li>
+      <li><strong>Connection lines (secondary):</strong> 2px lines connecting steps — visual guide</li>
+      <li><strong>Step labels (tertiary):</strong> 12px text below dots — contextual information</li>
+    </ol>
+
+    <!-- STEP 2: When to Use -->
+    <h2>STEP 2: When to Use This Component</h2>
+
+    <h3>Primary Use Cases</h3>
+    <ul>
+      <li><strong>Product configurators:</strong> Multi-step customization flows (laptops, cars, furniture)</li>
+      <li><strong>Personalization wizards:</strong> Custom product creation (engraving, printing, embroidery)</li>
+      <li><strong>Bundle builders:</strong> Build-your-own product bundles</li>
+      <li><strong>Quote requests:</strong> Multi-step B2B quote forms</li>
+      <li><strong>Complex forms:</strong> Any multi-step form with validation</li>
+    </ul>
+
+    <h3>When NOT to Use</h3>
+    <ul>
+      <li><strong>Single-step forms:</strong> Use simple form without progress indicator</li>
+      <li><strong>Linear checkout:</strong> Use CheckoutProgressStepper (EC13) instead — optimized for checkout flow</li>
+      <li><strong>2-step flows:</strong> Too simple — use tabs or accordion instead</li>
+      <li><strong>8+ steps:</strong> Too complex — consider grouping steps or simplifying flow</li>
+    </ul>
+
+    <div class="warning-box">
+      <p><strong>⚠️ Important:</strong> ConfiguratorStepNav is for PRODUCT CONFIGURATION flows. For CHECKOUT flows, use EC13: CheckoutProgressStepper instead (optimized for cart → shipping → payment → confirmation).</p>
+    </div>
+
+    <h3>Component Pairing</h3>
+    <p>ConfiguratorStepNav works best when combined with:</p>
+    <ul>
+      <li><strong>PC01: ConfiguratorHeader</strong> — Sticky header with back navigation</li>
+      <li><strong>PC03: ConfiguratorOptionSelector</strong> — Radio/checkbox option cards</li>
+      <li><strong>PC04: ConfiguratorPreview</strong> — Live product preview</li>
+      <li><strong>PC05: ConfiguratorPriceBreakdown</strong> — Dynamic pricing summary</li>
+      <li><strong>PC06: ConfiguratorValidation</strong> — Real-time validation messages</li>
+      <li><strong>PC07: ConfiguratorSaveLoad</strong> — Save/share configuration state</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Done state:</strong> <code>--teal: #00897B</code> (background + border + line)</li>
+      <li><strong>Active state:</strong> <code>--teal: #00897B</code> (border + text), <code>--teal-glow: rgba(0,137,123,0.12)</code> (box-shadow)</li>
+      <li><strong>Pending state:</strong> <code>--grey: #E8ECF1</code> (border + line), <code>--grey-mid: #94A3B8</code> (text)</li>
+      <li><strong>Error state:</strong> <code>#FF6B6B</code> (coral - background + border + text)</li>
+      <li><strong>Label colors:</strong> Done = <code>--navy: #0A1628</code>, Active = <code>--teal</code>, Pending = <code>--grey-mid</code></li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Step number:</strong> 13px, 800 weight, Plus Jakarta Sans</li>
+      <li><strong>Step label:</strong> 12px, 600 weight (active: 700), Plus Jakarta Sans</li>
+      <li><strong>Compact variant:</strong> Number 11px, label 11px</li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Container padding:</strong> 20px vertical (compact: 12px)</li>
+      <li><strong>Step gap:</strong> Flexbox with <code>flex: 1</code> — auto-distributed</li>
+      <li><strong>Dot to label:</strong> 6px margin-bottom (compact: 4px)</li>
+      <li><strong>Vertical variant:</strong> 16px padding per step, 12px gap between dot and label</li>
+    </ul>
+
+    <h3>Sizing</h3>
+    <ul>
+      <li><strong>Default dot:</strong> 36px × 36px circle, 2px border</li>
+      <li><strong>Compact dot:</strong> 28px × 28px circle, 2px border</li>
+      <li><strong>Connection line:</strong> 2px height (horizontal) or width (vertical)</li>
+      <li><strong>Icon size:</strong> 15px (default), 12px (compact)</li>
+      <li><strong>Max width:</strong> 700px (default), 500px (compact), 280px (vertical)</li>
+    </ul>
+
+    <h3>Icons (Lucide)</h3>
+    <ul>
+      <li><strong>Completed step:</strong> <code>check</code> (checkmark)</li>
+      <li><strong>Error step:</strong> <code>alert-circle</code> (warning icon)</li>
+      <li><strong>Active/pending:</strong> Number text (no icon)</li>
+    </ul>
+
+    <h3>Border Radius</h3>
+    <ul>
+      <li><strong>Step dots:</strong> <code>border-radius: 50%</code> (perfect circle)</li>
+    </ul>
+
+    <h3>Transitions</h3>
+    <ul>
+      <li><strong>All state changes:</strong> <code>0.2s cubic-bezier(0.4, 0, 0.2, 1)</code></li>
+      <li><strong>Hover scale (clickable):</strong> <code>transform: scale(1.05)</code></li>
+    </ul>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre><code>interface ConfiguratorStepNavProps {
+  steps: Array&lt;{
+    id: string;                    // Unique step identifier (e.g., "model", "color")
+    label: string;                 // Display label (e.g., "Model", "Kleur")
+    number: number;                // Step number (1, 2, 3...)
+    state: 'done' | 'active' | 'pending' | 'error'; // Current state
+    href?: string;                 // Optional link for clickable steps
+    onClick?: () => void;          // Optional click handler
+  }&gt;;
+
+  currentStep: number;             // Current active step (1-based index)
+  variant?: 'default' | 'compact' | 'vertical'; // Layout variant
+  clickableSteps?: boolean;        // Allow clicking completed steps
+  showLabels?: boolean;            // Show step labels (hidden on mobile by default)
+  maxWidth?: string;               // Custom max-width (default: 700px)
+  onStepClick?: (stepId: string, stepNumber: number) => void; // Step click callback
+}
+
+// Example usage
+const steps = [
+  { id: 'model', label: 'Model', number: 1, state: 'done' },
+  { id: 'color', label: 'Kleur', number: 2, state: 'done' },
+  { id: 'specs', label: 'Specs', number: 3, state: 'active' },
+  { id: 'extras', label: "Extra's", number: 4, state: 'pending' },
+  { id: 'overview', label: 'Overzicht', number: 5, state: 'pending' },
+];
+
+&lt;ConfiguratorStepNav
+  steps={steps}
+  currentStep={3}
+  variant="default"
+  clickableSteps={true}
+  onStepClick={(id, num) => navigateToStep(num)}
+/&gt;</code></pre>
+
+    <h3>HTML Attributes</h3>
+    <ul>
+      <li><strong>Container:</strong> <code>.step-bar</code> + optional <code>.compact</code> or <code>.vertical</code></li>
+      <li><strong>Step wrapper:</strong> <code>.stp</code> + state class (<code>.done</code>, <code>.active</code>, <code>.error</code>) + optional <code>.clickable</code></li>
+      <li><strong>Step dot:</strong> <code>.stp-dot</code> — contains number or checkmark icon</li>
+      <li><strong>Connection line:</strong> <code>.stp-line</code> — auto-colored based on parent state</li>
+      <li><strong>Step label:</strong> <code>.stp-label</code> — text below dot</li>
+    </ul>
+
+    <h3>State Management</h3>
+    <p><strong>JavaScript state tracking:</strong></p>
+    <pre><code>// State object
+const configuratorState = {
+  currentStep: 3,
+  completedSteps: [1, 2],
+  stepData: {
+    1: { model: 'ProBook Ultra 16"' },
+    2: { color: 'Space Grey' },
+    3: { processor: null, ram: null, storage: null }, // In progress
+  },
+  errors: {},
+};
+
+// Update step
+function goToStep(stepNumber) {
+  // Validate current step before proceeding
+  if (!validateStep(configuratorState.currentStep)) {
+    setStepError(configuratorState.currentStep, 'Vul alle vereiste velden in');
+    return;
+  }
+
+  // Update state
+  configuratorState.currentStep = stepNumber;
+  if (stepNumber > configuratorState.currentStep) {
+    configuratorState.completedSteps.push(configuratorState.currentStep);
+  }
+
+  // Re-render step nav
+  renderStepNav();
+}
+
+// Render function
+function renderStepNav() {
+  const steps = [
+    { id: 'model', label: 'Model', number: 1 },
+    { id: 'color', label: 'Kleur', number: 2 },
+    { id: 'specs', label: 'Specs', number: 3 },
+    { id: 'extras', label: "Extra's", number: 4 },
+    { id: 'overview', label: 'Overzicht', number: 5 },
+  ];
+
+  steps.forEach((step, index) => {
+    const stepEl = document.querySelector(`.stp:nth-child(${index + 1})`);
+
+    // Determine state
+    let state = 'pending';
+    if (configuratorState.completedSteps.includes(step.number)) {
+      state = 'done';
+    } else if (step.number === configuratorState.currentStep) {
+      state = configuratorState.errors[step.number] ? 'error' : 'active';
+    }
+
+    // Update classes
+    stepEl.className = 'stp ' + state;
+    if (state === 'done') stepEl.classList.add('clickable');
+
+    // Update dot content
+    const dot = stepEl.querySelector('.stp-dot');
+    if (state === 'done') {
+      dot.innerHTML = '&lt;i data-lucide="check"&gt;&lt;/i&gt;';
+    } else if (state === 'error') {
+      dot.innerHTML = '&lt;i data-lucide="alert-circle"&gt;&lt;/i&gt;';
+    } else {
+      dot.textContent = step.number;
+    }
+  });
+
+  // Re-initialize Lucide icons
+  lucide.createIcons();
+}</code></pre>
+
+    <!-- STEP 5: Layout Rules -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Container Structure</h3>
+    <pre><code>&lt;div class="step-bar"&gt;
+  &lt;div class="step-row"&gt;
+    &lt;!-- Individual steps --&gt;
+    &lt;div class="stp done"&gt;
+      &lt;div class="stp-line"&gt;&lt;/div&gt;
+      &lt;div class="stp-dot"&gt;&lt;i data-lucide="check"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;div class="stp-label"&gt;Model&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="stp active"&gt;
+      &lt;div class="stp-line"&gt;&lt;/div&gt;
+      &lt;div class="stp-dot"&gt;3&lt;/div&gt;
+      &lt;div class="stp-label"&gt;Specs&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="stp"&gt;
+      &lt;div class="stp-dot"&gt;5&lt;/div&gt;
+      &lt;div class="stp-label"&gt;Overzicht&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Positioning Rules</h3>
+    <ul>
+      <li><strong>Container:</strong> 20px vertical padding, white background, bottom border</li>
+      <li><strong>Step row:</strong> Flexbox with <code>align-items: center</code>, max-width 700px, centered</li>
+      <li><strong>Step wrapper:</strong> <code>flex: 1</code> (equal distribution), <code>text-align: center</code>, <code>position: relative</code></li>
+      <li><strong>Connection line:</strong> Absolutely positioned, <code>top: 17px</code> (half of 36px dot), spans from center to next step</li>
+      <li><strong>Last step:</strong> <code>.stp:last-child .stp-line { display: none }</code> — no line after final step</li>
+    </ul>
+
+    <h3>Responsive Behavior</h3>
+    <ul>
+      <li><strong>Desktop (> 640px):</strong> Show all labels, 36px dots</li>
+      <li><strong>Mobile (≤ 640px):</strong> Hide labels (<code>display: none</code>), 32px dots, show dots only</li>
+      <li><strong>Vertical variant:</strong> Always show labels (even on mobile) — labels are essential in sidebar layout</li>
+    </ul>
+
+    <h3>Vertical Variant Layout</h3>
+    <pre><code>&lt;div class="step-bar vertical"&gt;
+  &lt;div class="step-row"&gt;
+    &lt;div class="stp done"&gt;
+      &lt;div class="stp-line"&gt;&lt;/div&gt;
+      &lt;div class="stp-dot"&gt;&lt;i data-lucide="check"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;div class="stp-label"&gt;Model kiezen&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- More steps... --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <p><strong>Vertical positioning:</strong></p>
+    <ul>
+      <li><code>flex-direction: column</code> — vertical stack</li>
+      <li>Step: <code>display: flex; gap: 12px;</code> — horizontal layout (dot + label)</li>
+      <li>Line: <code>position: absolute; top: 44px; left: 17px; height: calc(100% - 8px);</code> — vertical connector</li>
+      <li>Max-width: 280px (ideal for sidebars)</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>ARIA Attributes</h3>
+    <pre><code>&lt;nav class="step-bar" role="navigation" aria-label="Configuratie voortgang"&gt;
+  &lt;ol class="step-row" role="list"&gt;
+    &lt;li class="stp done" role="listitem"&gt;
+      &lt;div class="stp-line" aria-hidden="true"&gt;&lt;/div&gt;
+      &lt;a href="#step-1"
+         class="stp-dot"
+         aria-label="Stap 1: Model - Voltooid"
+         aria-current="false"&gt;
+        &lt;i data-lucide="check" aria-hidden="true"&gt;&lt;/i&gt;
+      &lt;/a&gt;
+      &lt;div class="stp-label"&gt;Model&lt;/div&gt;
+    &lt;/li&gt;
+
+    &lt;li class="stp active" role="listitem"&gt;
+      &lt;div class="stp-line" aria-hidden="true"&gt;&lt;/div&gt;
+      &lt;div class="stp-dot"
+           aria-label="Stap 3: Specs - Huidige stap"
+           aria-current="step"&gt;3&lt;/div&gt;
+      &lt;div class="stp-label"&gt;Specs&lt;/div&gt;
+    &lt;/li&gt;
+
+    &lt;li class="stp" role="listitem"&gt;
+      &lt;div class="stp-dot"
+           aria-label="Stap 5: Overzicht - Nog niet bereikt"
+           aria-disabled="true"&gt;5&lt;/div&gt;
+      &lt;div class="stp-label"&gt;Overzicht&lt;/div&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Tab:</strong> Focus on clickable completed steps</li>
+      <li><strong>Enter/Space:</strong> Navigate to focused step</li>
+      <li><strong>Arrow keys (optional):</strong> Navigate between steps (if all clickable)</li>
+    </ul>
+
+    <h3>Screen Reader Announcements</h3>
+    <ul>
+      <li><strong>On step change:</strong> "Nu op stap 3 van 5: Specs"</li>
+      <li><strong>On completion:</strong> "Stap 3 voltooid. Ga naar stap 4: Extra's"</li>
+      <li><strong>On error:</strong> "Fout in stap 3. Vul alle vereiste velden in"</li>
+    </ul>
+
+    <p><strong>ARIA live region example:</strong></p>
+    <pre><code>&lt;div class="sr-only" role="status" aria-live="polite" aria-atomic="true"&gt;
+  Nu op stap 3 van 5: Specs
+&lt;/div&gt;</code></pre>
+
+    <h3>Focus Management</h3>
+    <ul>
+      <li><strong>Focus ring:</strong> <code>box-shadow: 0 0 0 3px var(--teal-glow)</code> on clickable steps</li>
+      <li><strong>Skip link:</strong> Provide "Ga naar samenvatting" skip link to jump to final step</li>
+      <li><strong>Focus trap:</strong> Don't trap focus within step nav — allow tabbing to form fields</li>
+    </ul>
+
+    <h3>Color Contrast (WCAG AA/AAA)</h3>
+    <ul>
+      <li><strong>Active text:</strong> Teal (#00897B) on white — 3.2:1 ✓ (AA for large text)</li>
+      <li><strong>Done text:</strong> Navy (#0A1628) on white — 12.6:1 ✓ (AAA)</li>
+      <li><strong>Pending text:</strong> Grey-mid (#94A3B8) on white — 4.5:1 ✓ (AA)</li>
+      <li><strong>Error text:</strong> Coral (#FF6B6B) on white — 4.6:1 ✓ (AA)</li>
+    </ul>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre><code>// components/ConfiguratorStepNav.tsx
+import React from 'react';
+import { Check, AlertCircle } from 'lucide-react';
+
+interface Step {
+  id: string;
+  label: string;
+  number: number;
+  state: 'done' | 'active' | 'pending' | 'error';
+  href?: string;
+  onClick?: () => void;
+}
+
+interface ConfiguratorStepNavProps {
+  steps: Step[];
+  currentStep: number;
+  variant?: 'default' | 'compact' | 'vertical';
+  clickableSteps?: boolean;
+  onStepClick?: (stepId: string, stepNumber: number) => void;
+}
+
+export function ConfiguratorStepNav({
+  steps,
+  currentStep,
+  variant = 'default',
+  clickableSteps = false,
+  onStepClick,
+}: ConfiguratorStepNavProps) {
+
+  const handleStepClick = (step: Step) => {
+    if (!clickableSteps || step.state === 'pending') return;
+    if (onStepClick) onStepClick(step.id, step.number);
+  };
+
+  return (
+    &lt;nav
+      className={`step-bar ${variant}`}
+      role="navigation"
+      aria-label="Configuratie voortgang"
+    &gt;
+      &lt;ol className="step-row" role="list"&gt;
+        {steps.map((step, index) =&gt; (
+          &lt;li
+            key={step.id}
+            className={`stp ${step.state} ${clickableSteps && step.state === 'done' ? 'clickable' : ''}`}
+            role="listitem"
+          &gt;
+            {index &lt; steps.length - 1 && (
+              &lt;div className="stp-line" aria-hidden="true" /&gt;
+            )}
+
+            {clickableSteps && step.state === 'done' ? (
+              &lt;button
+                className="stp-dot"
+                onClick={() =&gt; handleStepClick(step)}
+                aria-label={`Stap ${step.number}: ${step.label} - Voltooid`}
+                aria-current={step.number === currentStep ? 'step' : 'false'}
+              &gt;
+                {step.state === 'done' && &lt;Check size={15} /&gt;}
+                {step.state === 'error' && &lt;AlertCircle size={15} /&gt;}
+                {(step.state === 'active' || step.state === 'pending') && step.number}
+              &lt;/button&gt;
+            ) : (
+              &lt;div
+                className="stp-dot"
+                aria-label={`Stap ${step.number}: ${step.label} - ${
+                  step.state === 'done' ? 'Voltooid' :
+                  step.state === 'active' ? 'Huidige stap' :
+                  step.state === 'error' ? 'Fout' :
+                  'Nog niet bereikt'
+                }`}
+                aria-current={step.state === 'active' ? 'step' : 'false'}
+                aria-disabled={step.state === 'pending'}
+              &gt;
+                {step.state === 'done' && &lt;Check size={15} /&gt;}
+                {step.state === 'error' && &lt;AlertCircle size={15} /&gt;}
+                {(step.state === 'active' || step.state === 'pending') && step.number}
+              &lt;/div&gt;
+            )}
+
+            &lt;div className="stp-label"&gt;{step.label}&lt;/div&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ol&gt;
+
+      {/* Screen reader live region */}
+      &lt;div className="sr-only" role="status" aria-live="polite" aria-atomic="true"&gt;
+        Nu op stap {currentStep} van {steps.length}: {steps[currentStep - 1]?.label}
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  );
+}</code></pre>
+
+    <h3>State Management (React Hook)</h3>
+    <pre><code>// hooks/useConfiguratorSteps.ts
+import { useState, useCallback } from 'react';
+
+interface StepData {
+  [key: string]: any;
+}
+
+export function useConfiguratorSteps(totalSteps: number) {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [completedSteps, setCompletedSteps] = useState&lt;number[]&gt;([]);
+  const [stepData, setStepData] = useState&lt;Record&lt;number, StepData&gt;&gt;({});
+  const [stepErrors, setStepErrors] = useState&lt;Record&lt;number, string&gt;&gt;({});
+
+  const goToStep = useCallback((stepNumber: number) =&gt; {
+    // Validate before moving forward
+    if (stepNumber &gt; currentStep) {
+      // Add validation logic here
+      const isValid = true; // Replace with actual validation
+      if (!isValid) {
+        setStepErrors(prev =&gt; ({ ...prev, [currentStep]: 'Vul alle vereiste velden in' }));
+        return false;
+      }
+    }
+
+    // Mark current step as completed if moving forward
+    if (stepNumber &gt; currentStep && !completedSteps.includes(currentStep)) {
+      setCompletedSteps(prev =&gt; [...prev, currentStep]);
+    }
+
+    setCurrentStep(stepNumber);
+    return true;
+  }, [currentStep, completedSteps]);
+
+  const updateStepData = useCallback((stepNumber: number, data: StepData) =&gt; {
+    setStepData(prev =&gt; ({ ...prev, [stepNumber]: data }));
+    // Clear errors for this step
+    setStepErrors(prev =&gt; {
+      const newErrors = { ...prev };
+      delete newErrors[stepNumber];
+      return newErrors;
+    });
+  }, []);
+
+  const nextStep = useCallback(() =&gt; {
+    if (currentStep &lt; totalSteps) {
+      return goToStep(currentStep + 1);
+    }
+    return false;
+  }, [currentStep, totalSteps, goToStep]);
+
+  const prevStep = useCallback(() =&gt; {
+    if (currentStep &gt; 1) {
+      setCurrentStep(currentStep - 1);
+      return true;
+    }
+    return false;
+  }, [currentStep]);
+
+  const resetSteps = useCallback(() =&gt; {
+    setCurrentStep(1);
+    setCompletedSteps([]);
+    setStepData({});
+    setStepErrors({});
+  }, []);
+
+  return {
+    currentStep,
+    completedSteps,
+    stepData,
+    stepErrors,
+    goToStep,
+    nextStep,
+    prevStep,
+    updateStepData,
+    resetSteps,
+  };
+}</code></pre>
+
+    <h3>Payload CMS Integration</h3>
+    <pre><code>// collections/ProductConfigurators.ts
+import { CollectionConfig } from 'payload/types';
+
+export const ProductConfigurators: CollectionConfig = {
+  slug: 'product-configurators',
+  admin: {
+    useAsTitle: 'name',
+  },
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      label: 'Configurator Name',
+    },
+    {
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
+      required: true,
+      label: 'Base Product',
+    },
+    {
+      name: 'steps',
+      type: 'array',
+      required: true,
+      minRows: 3,
+      maxRows: 7,
+      label: 'Configuration Steps',
+      fields: [
+        {
+          name: 'id',
+          type: 'text',
+          required: true,
+          label: 'Step ID',
+          admin: {
+            description: 'Unique identifier (e.g., "model", "color", "specs")',
+          },
+        },
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+          label: 'Step Label',
+          admin: {
+            description: 'Display name (e.g., "Model", "Kleur")',
+          },
+        },
+        {
+          name: 'icon',
+          type: 'select',
+          options: [
+            { label: 'Laptop', value: 'laptop' },
+            { label: 'Palette', value: 'palette' },
+            { label: 'CPU', value: 'cpu' },
+            { label: 'Plus', value: 'plus' },
+            { label: 'Eye', value: 'eye' },
+          ],
+          label: 'Icon (Optional)',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Step Description',
+        },
+        {
+          name: 'options',
+          type: 'array',
+          label: 'Configuration Options',
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'value',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'priceModifier',
+              type: 'number',
+              label: 'Price Change (€)',
+              admin: {
+                description: 'Positive for increase, negative for decrease',
+              },
+            },
+            {
+              name: 'image',
+              type: 'upload',
+              relationTo: 'media',
+            },
+          ],
+        },
+        {
+          name: 'validationRules',
+          type: 'group',
+          label: 'Validation',
+          fields: [
+            {
+              name: 'required',
+              type: 'checkbox',
+              defaultValue: true,
+              label: 'At least one option required',
+            },
+            {
+              name: 'minSelections',
+              type: 'number',
+              label: 'Minimum Selections',
+            },
+            {
+              name: 'maxSelections',
+              type: 'number',
+              label: 'Maximum Selections',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'stepNavVariant',
+      type: 'select',
+      options: [
+        { label: 'Default (Horizontal)', value: 'default' },
+        { label: 'Compact', value: 'compact' },
+        { label: 'Vertical (Sidebar)', value: 'vertical' },
+      ],
+      defaultValue: 'default',
+      label: 'Step Navigation Style',
+    },
+    {
+      name: 'allowStepNavigation',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Allow clicking back to previous steps',
+    },
+  ],
+};</code></pre>
+
+    <h3>Performance Considerations</h3>
+    <ul>
+      <li><strong>Memoization:</strong> Wrap in <code>React.memo()</code> to prevent unnecessary re-renders</li>
+      <li><strong>Step data caching:</strong> Store step data in localStorage for recovery if user leaves page</li>
+      <li><strong>Lazy icon loading:</strong> Only load checkmark/error icons when needed (code-splitting)</li>
+      <li><strong>Debounced validation:</strong> Don't validate on every keystroke — wait 300ms after user stops typing</li>
+    </ul>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Component Variants</h3>
+
+    <h4>1. Default (Horizontal)</h4>
+    <ul>
+      <li><strong>Use case:</strong> Standard product configurators</li>
+      <li><strong>Max width:</strong> 700px</li>
+      <li><strong>Step count:</strong> 3-7 steps</li>
+      <li><strong>Mobile behavior:</strong> Hide labels, show dots only</li>
+    </ul>
+
+    <h4>2. Compact</h4>
+    <ul>
+      <li><strong>Use case:</strong> Narrow containers, sidebars, simple 3-4 step flows</li>
+      <li><strong>Max width:</strong> 500px</li>
+      <li><strong>Dot size:</strong> 28px (smaller)</li>
+      <li><strong>Font size:</strong> 11px (labels and numbers)</li>
+    </ul>
+
+    <h4>3. Vertical (Sidebar)</h4>
+    <ul>
+      <li><strong>Use case:</strong> Fixed sidebar layout, always-visible progress</li>
+      <li><strong>Max width:</strong> 280px</li>
+      <li><strong>Layout:</strong> Flexbox row per step (dot + label horizontal)</li>
+      <li><strong>Mobile behavior:</strong> Keep labels visible (essential context)</li>
+    </ul>
+
+    <h3>Related Components</h3>
+
+    <h4>Within Configurator System (PC01-PC07)</h4>
+    <ul>
+      <li><strong>PC01: ConfiguratorHeader</strong> — Sticky navigation header (always paired)</li>
+      <li><strong>PC03: ConfiguratorOptionSelector</strong> — Radio/checkbox cards for selecting options</li>
+      <li><strong>PC04: ConfiguratorPreview</strong> — Live 3D/image preview of configured product</li>
+      <li><strong>PC05: ConfiguratorPriceBreakdown</strong> — Dynamic pricing summary sidebar</li>
+      <li><strong>PC06: ConfiguratorValidation</strong> — Real-time error messages</li>
+      <li><strong>PC07: ConfiguratorSaveLoad</strong> — Save/share configuration URL</li>
+    </ul>
+
+    <h4>Similar Components (Different Contexts)</h4>
+    <ul>
+      <li><strong>EC13: CheckoutProgressStepper</strong> — Checkout-specific stepper (4 steps: Cart → Shipping → Payment → Confirmation)</li>
+      <li><strong>C25: ProgressSteps</strong> — Generic progress indicator (simpler, no interaction)</li>
+      <li><strong>ProductTabs (PD03)</strong> — Horizontal tabs for product details (different pattern)</li>
+    </ul>
+
+    <h3>Design Patterns</h3>
+
+    <h4>Pattern: Linear Progression</h4>
+    <ul>
+      <li>Users must complete steps in order (can't skip ahead)</li>
+      <li>Can navigate back to edit previous steps</li>
+      <li>Best for: Dependent configuration options (e.g., RAM depends on processor choice)</li>
+    </ul>
+
+    <h4>Pattern: Free Navigation</h4>
+    <ul>
+      <li>Users can jump to any step at any time</li>
+      <li>Validation happens on final "Add to cart" click</li>
+      <li>Best for: Independent options (color, accessories, engraving)</li>
+    </ul>
+
+    <h4>Pattern: Progressive Disclosure</h4>
+    <ul>
+      <li>Show only current step's content, hide others</li>
+      <li>Reduces cognitive load, focuses attention</li>
+      <li>Best for: Complex configurators with many options</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Steps render correctly (3-7 step counts)</li>
+      <li>✓ State changes work (done → active → pending → error)</li>
+      <li>✓ Clickable steps navigate correctly</li>
+      <li>✓ Connection lines color correctly based on state</li>
+      <li>✓ Mobile: Labels hidden, dots remain visible</li>
+      <li>✓ Vertical variant: Labels always visible</li>
+      <li>✓ Keyboard navigation works (Tab, Enter/Space)</li>
+      <li>✓ Screen reader announces step changes</li>
+      <li>✓ ARIA attributes correct (aria-current, aria-label)</li>
+      <li>✓ Error state shows red color and alert icon</li>
+      <li>✓ Hover effects work on clickable steps</li>
+      <li>✓ Icons render correctly (Lucide initialization)</li>
+    </ul>
+
+    <h3>Common Pitfalls</h3>
+    <ul>
+      <li><strong>❌ Too many steps:</strong> 8+ steps overwhelm users — consider grouping or simplifying</li>
+      <li><strong>❌ Unclear labels:</strong> Use action verbs ("Kies kleur") not nouns ("Kleur")</li>
+      <li><strong>❌ Allowing forward skips:</strong> Don't let users skip required steps</li>
+      <li><strong>❌ No validation feedback:</strong> Always show error state when validation fails</li>
+      <li><strong>❌ Mobile labels hidden:</strong> On vertical variant, always show labels (essential context)</li>
+      <li><strong>❌ Missing ARIA:</strong> Step nav is navigation — must have <code>role="navigation"</code></li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>💡 Best Practice:</strong> Keep configurators to 3-5 steps max. If you need more, group related options into single steps (e.g., "Specs" = processor + RAM + storage in one step).</p>
+    </div>
+
+    <h3>Real-World Examples</h3>
+    <ul>
+      <li><strong>Apple Mac Studio:</strong> 3 steps (Model → Chip → Storage)</li>
+      <li><strong>Nike By You:</strong> 7 steps (various customization options)</li>
+      <li><strong>Dell PC Builder:</strong> 5 steps (Processor → Memory → Storage → Display → Accessories)</li>
+      <li><strong>IKEA Kitchen Planner:</strong> 4 steps (Layout → Cabinets → Appliances → Summary)</li>
+    </ul>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

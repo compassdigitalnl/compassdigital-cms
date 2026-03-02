@@ -52,12 +52,12 @@ import { MobileDrawer } from './MobileDrawer'
 import { NavigationBar } from './NavigationBar'
 import { useSearch } from '@/branches/shared/components/features/search/search/SearchProvider'
 import { useMiniCart } from '@/branches/ecommerce/components/ui/MiniCart'
-import type { Settings } from '@/payload-types'
+import type { Setting } from '@/payload-types'
 
 type Props = {
-  header: HeaderType
+  header: HeaderType | null
   theme?: Theme1 | null
-  settings?: Settings | null
+  settings?: Setting | null
 }
 
 // Icon mapping helper
@@ -108,6 +108,11 @@ export function HeaderClient({ header, theme, settings }: Props) {
     setMobileOpen(false)
   }, [pathname])
 
+  // Return null if no header data
+  if (!header) {
+    return null
+  }
+
   // Extract settings from header
   const {
     topBar,
@@ -125,7 +130,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
     navigation,
     stickyHeader = true,
     showShadow = true,
-  } = header
+  } = header as any
 
   // Build class names based on settings
   const headerClasses = cn(
@@ -143,10 +148,10 @@ export function HeaderClient({ header, theme, settings }: Props) {
   return (
     <>
       {/* Alert Bar */}
-      {alertBar?.enabled && <AlertBar alertBar={alertBar} theme={theme} />}
+      {alertBar?.enabled && <AlertBar alertBar={alertBar} theme={theme || null} />}
 
       {/* Top Bar */}
-      {topBar?.enabled && <TopBar topBar={topBar} theme={theme} header={header} />}
+      {topBar?.enabled && <TopBar topBar={topBar} theme={theme || null} header={header} />}
 
       {/* Main Header */}
       <header className={headerClasses} style={headerStyle}>
@@ -319,14 +324,14 @@ export function HeaderClient({ header, theme, settings }: Props) {
       </header>
 
       {/* Navigation Bar */}
-      {navigation && <NavigationBar navigation={navigation} theme={theme} settings={settings} />}
+      {navigation && <NavigationBar navigation={navigation} theme={theme || null} settings={settings} />}
 
       {/* Mobile Drawer */}
       <MobileDrawer
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
         header={header}
-        theme={theme}
+        theme={theme || null}
         settings={settings}
       />
     </>

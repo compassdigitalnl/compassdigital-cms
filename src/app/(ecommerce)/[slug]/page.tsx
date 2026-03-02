@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   })
 
   if (pages.docs[0]) {
-    return generateMeta({ doc: pages.docs[0] })
+    return generateMeta({ doc: pages.docs[0] as any })
   }
 
   return { title: 'Niet gevonden' }
@@ -206,7 +206,13 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       <div className="min-h-screen">
         <ShopArchiveTemplate1
           products={categoryProducts as Product[]}
-          category={category}
+          category={{
+            id: String(category.id),
+            name: category.name,
+            slug: category.slug,
+            description: category.description || undefined,
+            icon: category.icon || undefined,
+          }}
           subcategories={subcategories}
           totalProducts={totalDocs}
           currentPage={categoryPage}
@@ -231,7 +237,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
     return (
       <article className="pt-16 pb-24">
         <JsonLdSchema page={page} />
-        <RenderBlocks blocks={page.layout} />
+        <RenderBlocks blocks={page.layout || []} />
       </article>
     )
   }

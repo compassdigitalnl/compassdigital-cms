@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme1, Settings } from '@/payload-types'
+import type { Header, Theme1, Setting } from '@/payload-types'
 import { X, ChevronRight, Phone, Mail, Globe } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
@@ -12,12 +12,12 @@ type Props = {
   onClose: () => void
   header: Header
   theme: Theme1 | null
-  settings?: Settings | null
+  settings?: Setting | null
 }
 
 export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props) {
-  const primaryColor = theme?.primaryColor || '#00897B'
-  const secondaryColor = theme?.secondaryColor || '#0A1628'
+  const primaryColor = (theme as any)?.primaryColor || '#00897B'
+  const secondaryColor = (theme as any)?.secondaryColor || '#0A1628'
 
   // B2B/Language config from header
   const enablePriceToggle = (header as any)?.enablePriceToggle === true
@@ -62,8 +62,8 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
     }
   }, [isOpen])
 
-  const navItems = header.navigation?.items || []
-  const specialItems = header.navigation?.specialItems || []
+  const navItems = (header as any).navigation?.items || []
+  const specialItems = (header as any).navigation?.specialItems || []
 
   return (
     <>
@@ -85,21 +85,21 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
-          {header.logoOverride && typeof header.logoOverride === 'object' && header.logoOverride.url ? (
+          {(header as any).logoOverride && typeof (header as any).logoOverride === 'object' && (header as any).logoOverride.url ? (
             <img
-              src={header.logoOverride.url}
-              alt={header.siteNameOverride || 'Logo'}
+              src={(header as any).logoOverride.url}
+              alt={(header as any).siteNameOverride || 'Logo'}
               className="h-7 w-auto"
             />
-          ) : header.siteNameOverride ? (
+          ) : (header as any).siteNameOverride ? (
             <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
               {header.siteNameAccent ? (
                 <>
-                  {header.siteNameOverride.replace(header.siteNameAccent, '')}
+                  {(header as any).siteNameOverride.replace(header.siteNameAccent, '')}
                   <span style={{ color: primaryColor }}>{header.siteNameAccent}</span>
                 </>
               ) : (
-                header.siteNameOverride
+                (header as any).siteNameOverride
               )}
             </span>
           ) : (
@@ -154,6 +154,7 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
               {navItems.map((item: any) => (
                 <div key={item.id}>
                   <CMSLink
+                    {...({} as any)}
                     {...(item.type === 'page' ? { reference: item.page } : { url: item.url })}
                     onClick={onClose}
                     className="flex items-center gap-3 px-5 py-3 text-base font-semibold hover:bg-gray-50 transition-colors"
@@ -166,6 +167,7 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
                     <div className="bg-gray-50">
                       {item.children.map((child: any) => (
                         <CMSLink
+                          {...({} as any)}
                           key={child.id}
                           {...(typeof child.page === 'object' && 'slug' in child.page ? { reference: child.page } : {})}
                           onClick={onClose}

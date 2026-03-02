@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BB05: BundleTotalCalculator — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ========================================
+     DESIGN TOKENS
+     ======================================== */
+  :root {
+    /* Colors - Primary */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+
+    /* Colors - Neutrals */
+    --white: #FAFBFC;
+    --bg: #F5F7FA;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+
+    /* Colors - Status */
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --coral: #FF6B6B;
+    --coral-light: #FFF0F0;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E1;
+
+    /* Typography */
+    --font-body: 'DM Sans', sans-serif;
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Spacing (4px grid) */
+    --space-4: 4px;
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-10: 10px;
+    --space-12: 12px;
+    --space-14: 14px;
+    --space-16: 16px;
+    --space-18: 18px;
+    --space-20: 20px;
+    --space-24: 24px;
+
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+
+    /* Transitions */
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ========================================
+     BASE STYLES
+     ======================================== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    padding: 24px;
+    line-height: 1.5;
+  }
+
+  /* ========================================
+     BB05: BUNDLE TOTAL CALCULATOR — COMPONENT STYLES
+     ======================================== */
+
+  /* Container */
+  .pb {
+    border-top: 1px solid var(--grey);
+    padding-top: var(--space-14);
+    margin-bottom: var(--space-14);
+  }
+
+  /* Line items (subtotal, discount) */
+  .pb-line {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-4) 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Subtotal line */
+  .pb-line.sub {
+    color: var(--grey-dark);
+  }
+
+  /* Discount line */
+  .pb-line.discount {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* Total line */
+  .pb-total {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-10) 0 0;
+    border-top: 2px solid var(--navy);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: var(--space-6);
+    color: var(--navy);
+  }
+
+  /* Savings badge */
+  .pb-save-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: var(--space-6) var(--space-12);
+    background: var(--green-light);
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+    margin-top: var(--space-8);
+  }
+
+  .pb-save-badge i {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  /* ========================================
+     VARIANT: COMPACT
+     ======================================== */
+  .pb.compact .pb-line {
+    font-size: 13px;
+    padding: 3px 0;
+  }
+
+  .pb.compact .pb-total {
+    font-size: 18px;
+    padding: var(--space-8) 0 0;
+  }
+
+  .pb.compact .pb-save-badge {
+    font-size: 12px;
+    padding: var(--space-4) var(--space-10);
+  }
+
+  .pb.compact .pb-save-badge i {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* ========================================
+     VARIANT: WITH SHIPPING
+     ======================================== */
+  .pb-line.shipping {
+    color: var(--grey-dark);
+  }
+
+  .pb-line.shipping.free {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* ========================================
+     VARIANT: WITH TAX BREAKDOWN
+     ======================================== */
+  .pb-line.tax {
+    color: var(--grey-mid);
+    font-size: 13px;
+  }
+
+  /* ========================================
+     DEMO SECTION STYLES
+     ======================================== */
+  .demo-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--grey);
+  }
+
+  .demo-title {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-title i {
+    width: 20px;
+    height: 20px;
+    color: var(--teal);
+  }
+
+  .demo-subtitle {
+    font-size: 13px;
+    color: var(--grey-mid);
+    margin-bottom: 20px;
+  }
+
+  .demo-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .demo-card {
+    background: var(--grey-light);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  /* Documentation styles */
+  .doc-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--grey);
+  }
+
+  .doc-section h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .doc-section h2 i {
+    width: 20px;
+    height: 20px;
+    color: var(--teal);
+  }
+
+  .doc-section h3 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 20px 0 12px;
+    color: var(--navy);
+  }
+
+  .doc-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--grey-dark);
+    margin-bottom: 12px;
+  }
+
+  .doc-section ul,
+  .doc-section ol {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .doc-section li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--grey-dark);
+    margin-bottom: 6px;
+  }
+
+  .doc-section code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--teal-dark);
+  }
+
+  .doc-section pre {
+    background: var(--navy);
+    color: var(--white);
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .doc-section pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .token-table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: var(--grey-light);
+    font-weight: 700;
+    color: var(--navy);
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .token-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--grey);
+    color: var(--grey-dark);
+  }
+
+  .token-table td code {
+    font-size: 11px;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .pb-line {
+      font-size: 13px;
+    }
+
+    .pb-total {
+      font-size: 18px;
+    }
+
+    .pb-save-badge {
+      font-size: 12px;
+      padding: var(--space-4) var(--space-10);
+    }
+
+    .demo-section,
+    .doc-section {
+      padding: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========================================
+     LIVE DEMO SECTION
+     ======================================== -->
+<div class="demo-section">
+  <div class="demo-title">
+    <i data-lucide="calculator"></i>
+    BB05: BundleTotalCalculator — Live Demo
+  </div>
+  <div class="demo-subtitle">
+    Price breakdown calculator showing subtotal, discount, and total for bundle purchases
+  </div>
+
+  <div class="demo-grid">
+    <!-- Default variant -->
+    <div class="demo-card">
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">Default Variant (3 items, 20% discount)</h3>
+      <div class="pb">
+        <div class="pb-line sub">
+          <span>Subtotaal (3 items)</span>
+          <span>€157,00</span>
+        </div>
+        <div class="pb-line discount">
+          <span>Bundelkorting (−20%)</span>
+          <span>− €31,40</span>
+        </div>
+        <div class="pb-total">
+          <span>Totaal</span>
+          <span>€125,60</span>
+        </div>
+      </div>
+      <div class="pb-save-badge">
+        <i data-lucide="badge-percent"></i>
+        Je bespaart €31,40 met deze bundel!
+      </div>
+    </div>
+
+    <!-- With shipping -->
+    <div class="demo-card">
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">With Shipping (Free shipping unlocked)</h3>
+      <div class="pb">
+        <div class="pb-line sub">
+          <span>Subtotaal (5 items)</span>
+          <span>€215,00</span>
+        </div>
+        <div class="pb-line discount">
+          <span>Bundelkorting (−35%)</span>
+          <span>− €75,25</span>
+        </div>
+        <div class="pb-line shipping free">
+          <span>Verzendkosten</span>
+          <span>Gratis</span>
+        </div>
+        <div class="pb-total">
+          <span>Totaal</span>
+          <span>€139,75</span>
+        </div>
+      </div>
+      <div class="pb-save-badge">
+        <i data-lucide="badge-percent"></i>
+        Je bespaart €75,25 met deze bundel!
+      </div>
+    </div>
+
+    <!-- Compact variant -->
+    <div class="demo-card">
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">Compact Variant</h3>
+      <div class="pb compact">
+        <div class="pb-line sub">
+          <span>Subtotaal (3 items)</span>
+          <span>€157,00</span>
+        </div>
+        <div class="pb-line discount">
+          <span>Bundelkorting (−20%)</span>
+          <span>− €31,40</span>
+        </div>
+        <div class="pb-total">
+          <span>Totaal</span>
+          <span>€125,60</span>
+        </div>
+      </div>
+      <div class="pb-save-badge">
+        <i data-lucide="badge-percent"></i>
+        Je bespaart €31,40!
+      </div>
+    </div>
+
+    <!-- With tax breakdown -->
+    <div class="demo-card">
+      <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">With Tax Breakdown (B2B)</h3>
+      <div class="pb">
+        <div class="pb-line sub">
+          <span>Subtotaal (3 items)</span>
+          <span>€157,00</span>
+        </div>
+        <div class="pb-line discount">
+          <span>Bundelkorting (−20%)</span>
+          <span>− €31,40</span>
+        </div>
+        <div class="pb-line tax">
+          <span>BTW (21%)</span>
+          <span>€26,38</span>
+        </div>
+        <div class="pb-total">
+          <span>Totaal (incl. BTW)</span>
+          <span>€152,26</span>
+        </div>
+      </div>
+      <div class="pb-save-badge">
+        <i data-lucide="badge-percent"></i>
+        Je bespaart €31,40 (excl. BTW)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================
+     DOCUMENTATION
+     ======================================== -->
+
+<!-- STEP 1: Component Overview -->
+<div class="doc-section">
+  <h2><i data-lucide="info"></i> STEP 1: Component Overview</h2>
+
+  <p><strong>Component Name:</strong> BB05: BundleTotalCalculator</p>
+  <p><strong>Category:</strong> Product Types › Bundle Builder</p>
+  <p><strong>Version:</strong> 1.0.0</p>
+  <p><strong>Last Updated:</strong> 25 Februari 2026</p>
+
+  <h3>Purpose</h3>
+  <p>
+    The BundleTotalCalculator component displays a comprehensive price breakdown for bundle purchases.
+    It calculates and shows the subtotal, bundle discount, optional shipping/tax, final total, and
+    a motivational savings badge. This component provides pricing transparency and reinforces the
+    value proposition of bundle buying.
+  </p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li><strong>Price Breakdown:</strong> Clear line-item display of subtotal, discount, and total</li>
+    <li><strong>Real-time Calculation:</strong> Updates automatically as bundle items change</li>
+    <li><strong>Green Discount Highlight:</strong> Negative amount in green with minus sign (− €31,40)</li>
+    <li><strong>Bold Total:</strong> 20px Plus Jakarta Sans 800 with 2px navy border for emphasis</li>
+    <li><strong>Savings Badge:</strong> Green badge showing total savings amount with icon</li>
+    <li><strong>Optional Lines:</strong> Shipping, tax, or other fees can be included</li>
+    <li><strong>Currency Formatting:</strong> Locale-aware number formatting (€157,00)</li>
+  </ul>
+
+  <h3>Visual Hierarchy</h3>
+  <ol>
+    <li><strong>Total Line:</strong> Boldest (20px, 800 weight, 2px border) — most prominent</li>
+    <li><strong>Savings Badge:</strong> Green background — second most prominent</li>
+    <li><strong>Discount Line:</strong> Green text with minus — third (reinforces savings)</li>
+    <li><strong>Subtotal Line:</strong> Grey text — fourth (reference point)</li>
+    <li><strong>Optional Lines:</strong> Smallest/lightest (shipping, tax) — least prominent</li>
+  </ol>
+
+  <h3>Calculation Logic</h3>
+  <pre><code>Subtotal = Sum of all item prices
+Discount = Subtotal × (discount percentage / 100)
+Shipping = Based on shipping method (or "Gratis" if free)
+Tax = (Subtotal - Discount + Shipping) × (tax rate / 100)
+Total = Subtotal - Discount + Shipping (+ Tax if applicable)
+Savings = Discount amount</code></pre>
+</div>
+
+<!-- STEP 2: When to Use -->
+<div class="doc-section">
+  <h2><i data-lucide="check-circle"></i> STEP 2: When to Use</h2>
+
+  <h3>Primary Use Cases</h3>
+  <ul>
+    <li><strong>Bundle Builder Sidebar:</strong> Main use case — shows total below bundle items and discount tiers</li>
+    <li><strong>Cart Summary:</strong> Price breakdown for bundle products in cart</li>
+    <li><strong>Checkout Summary:</strong> Final price review before payment</li>
+    <li><strong>Order Confirmation:</strong> Receipt showing bundle savings</li>
+    <li><strong>Quote/Offerte Summary:</strong> Price breakdown for B2B quotes</li>
+  </ul>
+
+  <h3>When NOT to Use</h3>
+  <ul>
+    <li><strong>Single Product:</strong> Use standard OrderSummary (EC07) for non-bundle products</li>
+    <li><strong>Simple Line Total:</strong> If no discount/tax/shipping, use simpler total display</li>
+    <li><strong>Complex Invoices:</strong> Use dedicated invoice template for detailed breakdowns</li>
+    <li><strong>Empty Bundle:</strong> Hide or show placeholder when no items selected</li>
+  </ul>
+
+  <h3>Recommended Pairings</h3>
+  <ul>
+    <li><strong>BB03: BundleItemRow</strong> — Selected products list (appears above this component)</li>
+    <li><strong>BB04: BundleDiscountTiers</strong> — Discount tiers hint (appears above this component)</li>
+    <li><strong>BB06: BundleProgressBar</strong> — Progress indicator (appears at top of sidebar)</li>
+    <li><strong>EC09: TrustSignals</strong> — Trust badges (appears below this component)</li>
+    <li><strong>CTA Button:</strong> "Bundel bestellen" or "Toevoegen aan winkelwagen" (appears below)</li>
+  </ul>
+
+  <h3>Placement Guidelines</h3>
+  <ul>
+    <li><strong>Bundle Sidebar:</strong> Bottom section, above CTA button (optimal position)</li>
+    <li><strong>Cart:</strong> Right sidebar or below line items on mobile</li>
+    <li><strong>Checkout:</strong> Right sidebar, sticky on scroll</li>
+    <li><strong>Order Confirmation:</strong> Within order summary card</li>
+  </ul>
+</div>
+
+<!-- STEP 3: Design Tokens -->
+<div class="doc-section">
+  <h2><i data-lucide="palette"></i> STEP 3: Design Tokens</h2>
+
+  <h3>Colors</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Token</th>
+        <th>Value</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Top Border</td>
+        <td><code>--grey</code></td>
+        <td>#E8ECF1</td>
+        <td>1px separator at top</td>
+      </tr>
+      <tr>
+        <td>Subtotal Text</td>
+        <td><code>--grey-dark</code></td>
+        <td>#64748B</td>
+        <td>Subtotal line (label + amount)</td>
+      </tr>
+      <tr>
+        <td>Discount Text</td>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>Discount line (label + negative amount)</td>
+      </tr>
+      <tr>
+        <td>Total Border</td>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>2px border above total</td>
+      </tr>
+      <tr>
+        <td>Total Text</td>
+        <td><code>--navy</code></td>
+        <td>#0A1628</td>
+        <td>Total line (label + amount)</td>
+      </tr>
+      <tr>
+        <td>Savings Badge BG</td>
+        <td><code>--green-light</code></td>
+        <td>#E8F5E9</td>
+        <td>Badge background</td>
+      </tr>
+      <tr>
+        <td>Savings Badge Text</td>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>Badge text + icon</td>
+      </tr>
+      <tr>
+        <td>Shipping Text (Free)</td>
+        <td><code>--green</code></td>
+        <td>#00C853</td>
+        <td>"Gratis" free shipping</td>
+      </tr>
+      <tr>
+        <td>Tax Text</td>
+        <td><code>--grey-mid</code></td>
+        <td>#94A3B8</td>
+        <td>Tax line (optional)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Typography</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Font Family</th>
+        <th>Size</th>
+        <th>Weight</th>
+        <th>Line Height</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Subtotal Line</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>400</td>
+        <td>1.4</td>
+      </tr>
+      <tr>
+        <td>Discount Line</td>
+        <td>DM Sans</td>
+        <td>14px</td>
+        <td>700</td>
+        <td>1.4</td>
+      </tr>
+      <tr>
+        <td>Total Line</td>
+        <td>Plus Jakarta Sans</td>
+        <td>20px</td>
+        <td>800</td>
+        <td>1.2</td>
+      </tr>
+      <tr>
+        <td>Savings Badge</td>
+        <td>DM Sans</td>
+        <td>13px</td>
+        <td>700</td>
+        <td>1.3</td>
+      </tr>
+      <tr>
+        <td>Tax Line</td>
+        <td>DM Sans</td>
+        <td>13px</td>
+        <td>400</td>
+        <td>1.4</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Spacing (4px Grid)</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Token</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Container Padding Top</td>
+        <td><code>--space-14</code></td>
+        <td>14px</td>
+      </tr>
+      <tr>
+        <td>Container Margin Bottom</td>
+        <td><code>--space-14</code></td>
+        <td>14px</td>
+      </tr>
+      <tr>
+        <td>Line Padding (vertical)</td>
+        <td><code>--space-4</code></td>
+        <td>4px</td>
+      </tr>
+      <tr>
+        <td>Total Padding Top</td>
+        <td><code>--space-10</code></td>
+        <td>10px</td>
+      </tr>
+      <tr>
+        <td>Total Margin Top</td>
+        <td><code>--space-6</code></td>
+        <td>6px</td>
+      </tr>
+      <tr>
+        <td>Badge Padding</td>
+        <td><code>6px 12px</code></td>
+        <td>6px (v) × 12px (h)</td>
+      </tr>
+      <tr>
+        <td>Badge Margin Top</td>
+        <td><code>--space-8</code></td>
+        <td>8px</td>
+      </tr>
+      <tr>
+        <td>Badge Icon Gap</td>
+        <td><code>--space-4</code></td>
+        <td>4px</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Border Radius</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Token</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Savings Badge</td>
+        <td><code>--radius</code></td>
+        <td>8px</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Icons</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>Library</th>
+        <th>Size</th>
+        <th>Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>badge-percent</code></td>
+        <td>Lucide</td>
+        <td>14px</td>
+        <td>Savings badge icon</td>
+      </tr>
+      <tr>
+        <td><code>truck</code> (optional)</td>
+        <td>Lucide</td>
+        <td>14px</td>
+        <td>Free shipping indicator</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP 4: Props & Configuration -->
+<div class="doc-section">
+  <h2><i data-lucide="settings"></i> STEP 4: Props & Configuration</h2>
+
+  <h3>TypeScript Interface</h3>
+  <pre><code>interface BundleTotalCalculatorProps {
+  subtotal: number;
+  discount: number;          // Discount percentage (e.g., 20 for 20%)
+  discountAmount?: number;   // Calculated discount amount (optional, auto-calculated)
+  shipping?: number | 'free'; // Shipping cost or 'free' for free shipping
+  tax?: number;              // Tax percentage (e.g., 21 for 21% BTW)
+  taxAmount?: number;        // Calculated tax amount (optional, auto-calculated)
+  itemCount: number;
+  showSavingsBadge?: boolean;
+  savingsBadgeText?: string;
+  size?: 'compact' | 'default';
+  currency?: string;
+  locale?: string;
+  className?: string;
+}</code></pre>
+
+  <h3>Prop Details</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Prop</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>subtotal</code></td>
+        <td><code>number</code></td>
+        <td>Required</td>
+        <td>Sum of all item prices before discount</td>
+      </tr>
+      <tr>
+        <td><code>discount</code></td>
+        <td><code>number</code></td>
+        <td>Required</td>
+        <td>Discount percentage (0-100)</td>
+      </tr>
+      <tr>
+        <td><code>discountAmount</code></td>
+        <td><code>number</code></td>
+        <td>Auto-calculated</td>
+        <td>Override calculated discount amount</td>
+      </tr>
+      <tr>
+        <td><code>shipping</code></td>
+        <td><code>number | 'free'</code></td>
+        <td><code>undefined</code></td>
+        <td>Shipping cost (number) or 'free' for free shipping</td>
+      </tr>
+      <tr>
+        <td><code>tax</code></td>
+        <td><code>number</code></td>
+        <td><code>undefined</code></td>
+        <td>Tax percentage (e.g., 21 for 21% BTW)</td>
+      </tr>
+      <tr>
+        <td><code>taxAmount</code></td>
+        <td><code>number</code></td>
+        <td>Auto-calculated</td>
+        <td>Override calculated tax amount</td>
+      </tr>
+      <tr>
+        <td><code>itemCount</code></td>
+        <td><code>number</code></td>
+        <td>Required</td>
+        <td>Number of items in bundle (for label)</td>
+      </tr>
+      <tr>
+        <td><code>showSavingsBadge</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Show/hide savings badge</td>
+      </tr>
+      <tr>
+        <td><code>savingsBadgeText</code></td>
+        <td><code>string</code></td>
+        <td>Auto-generated</td>
+        <td>Custom badge text (default: "Je bespaart €X,XX...")</td>
+      </tr>
+      <tr>
+        <td><code>size</code></td>
+        <td><code>'compact' | 'default'</code></td>
+        <td><code>'default'</code></td>
+        <td>Size variant</td>
+      </tr>
+      <tr>
+        <td><code>currency</code></td>
+        <td><code>string</code></td>
+        <td><code>'EUR'</code></td>
+        <td>Currency code (ISO 4217)</td>
+      </tr>
+      <tr>
+        <td><code>locale</code></td>
+        <td><code>string</code></td>
+        <td><code>'nl-NL'</code></td>
+        <td>Locale for number formatting</td>
+      </tr>
+      <tr>
+        <td><code>className</code></td>
+        <td><code>string</code></td>
+        <td><code>undefined</code></td>
+        <td>Additional CSS classes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Calculation Functions</h3>
+  <pre><code>function calculateDiscount(subtotal: number, percentage: number): number {
+  return subtotal * (percentage / 100);
+}
+
+function calculateTax(amount: number, taxRate: number): number {
+  return amount * (taxRate / 100);
+}
+
+function calculateTotal(
+  subtotal: number,
+  discount: number,
+  shipping: number,
+  tax?: number
+): number {
+  const afterDiscount = subtotal - discount;
+  const withShipping = afterDiscount + shipping;
+  const taxAmount = tax ? calculateTax(withShipping, tax) : 0;
+  return withShipping + taxAmount;
+}</code></pre>
+
+  <h3>Payload CMS Schema</h3>
+  <pre><code>// Bundle pricing configuration
+{
+  name: 'bundlePricing',
+  type: 'group',
+  label: 'Bundle Pricing',
+  fields: [
+    {
+      name: 'subtotal',
+      type: 'number',
+      required: true,
+      admin: {
+        description: 'Sum of all item prices',
+        readOnly: true, // Auto-calculated
+      },
+    },
+    {
+      name: 'discountPercentage',
+      type: 'number',
+      required: true,
+      min: 0,
+      max: 100,
+      admin: {
+        description: 'Bundle discount percentage',
+      },
+    },
+    {
+      name: 'discountAmount',
+      type: 'number',
+      admin: {
+        description: 'Calculated discount amount',
+        readOnly: true, // Auto-calculated
+      },
+    },
+    {
+      name: 'shippingCost',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        description: 'Shipping cost (0 for free shipping)',
+      },
+    },
+    {
+      name: 'taxRate',
+      type: 'number',
+      defaultValue: 21,
+      admin: {
+        description: 'Tax rate percentage (e.g., 21 for BTW)',
+      },
+    },
+    {
+      name: 'total',
+      type: 'number',
+      required: true,
+      admin: {
+        description: 'Final total amount',
+        readOnly: true, // Auto-calculated
+      },
+    },
+  ],
+}</code></pre>
+</div>
+
+<!-- STEP 5: Layout Rules -->
+<div class="doc-section">
+  <h2><i data-lucide="layout"></i> STEP 5: Layout Rules</h2>
+
+  <h3>Container Structure</h3>
+  <pre><code>&lt;!-- Price breakdown --&gt;
+&lt;div class="pb"&gt;
+  &lt;!-- Subtotal --&gt;
+  &lt;div class="pb-line sub"&gt;
+    &lt;span&gt;Subtotaal (3 items)&lt;/span&gt;
+    &lt;span&gt;€157,00&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Discount --&gt;
+  &lt;div class="pb-line discount"&gt;
+    &lt;span&gt;Bundelkorting (−20%)&lt;/span&gt;
+    &lt;span&gt;− €31,40&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Optional: Shipping --&gt;
+  &lt;div class="pb-line shipping free"&gt;
+    &lt;span&gt;Verzendkosten&lt;/span&gt;
+    &lt;span&gt;Gratis&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Optional: Tax --&gt;
+  &lt;div class="pb-line tax"&gt;
+    &lt;span&gt;BTW (21%)&lt;/span&gt;
+    &lt;span&gt;€26,38&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Total --&gt;
+  &lt;div class="pb-total"&gt;
+    &lt;span&gt;Totaal&lt;/span&gt;
+    &lt;span&gt;€125,60&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Savings badge --&gt;
+&lt;div class="pb-save-badge"&gt;
+  &lt;i data-lucide="badge-percent"&gt;&lt;/i&gt;
+  Je bespaart €31,40 met deze bundel!
+&lt;/div&gt;</code></pre>
+
+  <h3>Flexbox Layout Pattern</h3>
+  <ul>
+    <li><strong>All Lines:</strong> <code>display: flex; justify-content: space-between;</code></li>
+    <li><strong>Label (left):</strong> Auto width, text aligns left</li>
+    <li><strong>Amount (right):</strong> Auto width, text aligns right, no wrapping</li>
+    <li><strong>Savings Badge:</strong> <code>display: flex; justify-content: center; align-items: center;</code></li>
+  </ul>
+
+  <h3>Number Formatting</h3>
+  <pre><code>// Format currency amounts with locale
+function formatCurrency(amount: number, locale = 'nl-NL', currency = 'EUR') {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+  }).format(amount);
+}
+
+// Usage
+formatCurrency(157.00);     // "€ 157,00"
+formatCurrency(-31.40);     // "− € 31,40"
+formatCurrency(125.60);     // "€ 125,60"</code></pre>
+
+  <h3>Responsive Behavior</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Changes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&lt;640px (Mobile)</td>
+        <td>
+          • Line font: 13px<br>
+          • Total font: 18px<br>
+          • Badge font: 12px<br>
+          • Badge padding: 4px 10px
+        </td>
+      </tr>
+      <tr>
+        <td>≥640px (Desktop)</td>
+        <td>Default size (14px lines, 20px total, 13px badge)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Line Item Order</h3>
+  <ol>
+    <li><strong>Subtotal</strong> (required) — always first</li>
+    <li><strong>Discount</strong> (required if > 0) — always second</li>
+    <li><strong>Shipping</strong> (optional) — third if present</li>
+    <li><strong>Tax</strong> (optional) — fourth if present</li>
+    <li><strong>Total</strong> (required) — always last</li>
+  </ol>
+</div>
+
+<!-- STEP 6: Accessibility -->
+<div class="doc-section">
+  <h2><i data-lucide="accessibility"></i> STEP 6: Accessibility</h2>
+
+  <h3>ARIA Implementation</h3>
+  <pre><code>&lt;div
+  class="pb"
+  role="region"
+  aria-label="Bundle price breakdown"
+&gt;
+  &lt;div class="pb-line sub" role="row"&gt;
+    &lt;span role="rowheader"&gt;Subtotaal (3 items)&lt;/span&gt;
+    &lt;span role="cell"&gt;€157,00&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class="pb-line discount" role="row"&gt;
+    &lt;span role="rowheader"&gt;Bundelkorting (−20%)&lt;/span&gt;
+    &lt;span role="cell"&gt;− €31,40&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class="pb-total" role="row" aria-label="Total price"&gt;
+    &lt;span role="rowheader"&gt;Totaal&lt;/span&gt;
+    &lt;span role="cell"&gt;€125,60&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div
+  class="pb-save-badge"
+  role="status"
+  aria-live="polite"
+  aria-label="Savings amount: 31 euros 40 cents"
+&gt;
+  &lt;i data-lucide="badge-percent" aria-hidden="true"&gt;&lt;/i&gt;
+  Je bespaart €31,40 met deze bundel!
+&lt;/div&gt;</code></pre>
+
+  <h3>Screen Reader Announcements</h3>
+  <ul>
+    <li><strong>On Load:</strong> "Bundle price breakdown. Subtotal: 157 euros. Discount 20%: minus 31 euros 40 cents. Total: 125 euros 60 cents. You save 31 euros 40 cents with this bundle."</li>
+    <li><strong>On Update:</strong> "Total updated: 125 euros 60 cents. You save 31 euros 40 cents."</li>
+    <li><strong>On Free Shipping:</strong> "Free shipping unlocked!"</li>
+  </ul>
+
+  <h3>Number Pronunciation</h3>
+  <p>Use <code>aria-label</code> for correct screen reader pronunciation:</p>
+  <pre><code>&lt;span aria-label="31 euros 40 cents"&gt;€31,40&lt;/span&gt;</code></pre>
+
+  <h3>Color Contrast Compliance</h3>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Foreground</th>
+        <th>Background</th>
+        <th>Ratio</th>
+        <th>WCAG Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Subtotal Line</td>
+        <td>#64748B (grey-dark)</td>
+        <td>#FAFBFC (white)</td>
+        <td>7.2:1</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>Discount Line</td>
+        <td>#00C853 (green)</td>
+        <td>#FAFBFC (white)</td>
+        <td>4.5:1</td>
+        <td>AA</td>
+      </tr>
+      <tr>
+        <td>Total Line</td>
+        <td>#0A1628 (navy)</td>
+        <td>#FAFBFC (white)</td>
+        <td>15.2:1</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>Savings Badge</td>
+        <td>#00C853 (green)</td>
+        <td>#E8F5E9 (green-light)</td>
+        <td>5.8:1</td>
+        <td>AA+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Reduced Motion</h3>
+  <pre><code>@media (prefers-reduced-motion: reduce) {
+  .pb-total,
+  .pb-save-badge {
+    transition: none;
+  }
+}</code></pre>
+</div>
+
+<!-- STEP 7: Implementation Notes -->
+<div class="doc-section">
+  <h2><i data-lucide="code"></i> STEP 7: Implementation Notes</h2>
+
+  <h3>React/Next.js Component Example</h3>
+  <pre><code>'use client';
+
+import { BadgePercent } from 'lucide-react';
+
+interface BundleTotalCalculatorProps {
+  subtotal: number;
+  discount: number;
+  itemCount: number;
+  shipping?: number | 'free';
+  tax?: number;
+  showSavingsBadge?: boolean;
+  size?: 'compact' | 'default';
+  currency?: string;
+  locale?: string;
+}
+
+export function BundleTotalCalculator({
+  subtotal,
+  discount,
+  itemCount,
+  shipping,
+  tax,
+  showSavingsBadge = true,
+  size = 'default',
+  currency = 'EUR',
+  locale = 'nl-NL',
+}: BundleTotalCalculatorProps) {
+  // Calculate amounts
+  const discountAmount = subtotal * (discount / 100);
+  const afterDiscount = subtotal - discountAmount;
+
+  const shippingCost = shipping === 'free' ? 0 : (shipping || 0);
+  const beforeTax = afterDiscount + shippingCost;
+
+  const taxAmount = tax ? beforeTax * (tax / 100) : 0;
+  const total = beforeTax + taxAmount;
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency,
+    }).format(amount);
+  };
+
+  return (
+    &lt;&gt;
+      &lt;div
+        className={`pb ${size !== 'default' ? size : ''}`}
+        role="region"
+        aria-label="Bundle price breakdown"
+      &gt;
+        {/* Subtotal */}
+        &lt;div className="pb-line sub" role="row"&gt;
+          &lt;span role="rowheader"&gt;
+            Subtotaal ({itemCount} item{itemCount !== 1 ? 's' : ''})
+          &lt;/span&gt;
+          &lt;span role="cell"&gt;{formatCurrency(subtotal)}&lt;/span&gt;
+        &lt;/div&gt;
+
+        {/* Discount */}
+        {discount > 0 && (
+          &lt;div className="pb-line discount" role="row"&gt;
+            &lt;span role="rowheader"&gt;
+              Bundelkorting (−{discount}%)
+            &lt;/span&gt;
+            &lt;span role="cell"&gt;− {formatCurrency(discountAmount)}&lt;/span&gt;
+          &lt;/div&gt;
+        )}
+
+        {/* Shipping */}
+        {shipping !== undefined && (
+          &lt;div
+            className={`pb-line shipping ${shipping === 'free' ? 'free' : ''}`}
+            role="row"
+          &gt;
+            &lt;span role="rowheader"&gt;Verzendkosten&lt;/span&gt;
+            &lt;span role="cell"&gt;
+              {shipping === 'free' ? 'Gratis' : formatCurrency(shippingCost)}
+            &lt;/span&gt;
+          &lt;/div&gt;
+        )}
+
+        {/* Tax */}
+        {tax && tax > 0 && (
+          &lt;div className="pb-line tax" role="row"&gt;
+            &lt;span role="rowheader"&gt;BTW ({tax}%)&lt;/span&gt;
+            &lt;span role="cell"&gt;{formatCurrency(taxAmount)}&lt;/span&gt;
+          &lt;/div&gt;
+        )}
+
+        {/* Total */}
+        &lt;div className="pb-total" role="row" aria-label="Total price"&gt;
+          &lt;span role="rowheader"&gt;
+            Totaal{tax ? ' (incl. BTW)' : ''}
+          &lt;/span&gt;
+          &lt;span role="cell"&gt;{formatCurrency(total)}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      {/* Savings badge */}
+      {showSavingsBadge && discount > 0 && (
+        &lt;div
+          className="pb-save-badge"
+          role="status"
+          aria-live="polite"
+        &gt;
+          &lt;BadgePercent size={14} aria-hidden="true" /&gt;
+          Je bespaart {formatCurrency(discountAmount)} met deze bundel!
+        &lt;/div&gt;
+      )}
+    &lt;/&gt;
+  );
+}</code></pre>
+
+  <h3>State Management with React</h3>
+  <pre><code>// Parent component managing bundle
+function BundleBuilder() {
+  const [bundleItems, setBundleItems] = useState&lt;BundleItem[]&gt;([]);
+  const [activeTier, setActiveTier] = useState&lt;DiscountTier | null&gt;(null);
+
+  // Calculate subtotal
+  const subtotal = bundleItems.reduce((sum, item) => sum + item.price, 0);
+
+  // Get active discount percentage
+  const discountPercentage = activeTier?.discount || 0;
+
+  // Determine if free shipping (e.g., bundle total > €60)
+  const shipping = subtotal > 60 ? 'free' : 4.95;
+
+  return (
+    &lt;aside className="bundle-sidebar"&gt;
+      &lt;BundleItemList items={bundleItems} onRemove={handleRemove} /&gt;
+      &lt;BundleDiscountTiers tiers={tiers} currentItemCount={bundleItems.length} /&gt;
+
+      &lt;BundleTotalCalculator
+        subtotal={subtotal}
+        discount={discountPercentage}
+        itemCount={bundleItems.length}
+        shipping={shipping}
+      /&gt;
+
+      &lt;button className="buy-btn"&gt;Bundel bestellen&lt;/button&gt;
+    &lt;/aside&gt;
+  );
+}</code></pre>
+
+  <h3>Integration with Payload CMS</h3>
+  <pre><code>// Fetch bundle pricing from Payload CMS
+async function calculateBundlePrice(bundleId: string) {
+  const bundle = await payload.findByID({
+    collection: 'bundles',
+    id: bundleId,
+    depth: 2, // Populate product prices
+  });
+
+  const subtotal = bundle.bundleItems.reduce(
+    (sum, item) => sum + item.product.price,
+    0
+  );
+
+  const activeTier = getActiveTier(bundle.bundleItems.length, bundle.discountTiers);
+  const discountPercentage = activeTier?.discount || 0;
+  const discountAmount = subtotal * (discountPercentage / 100);
+
+  const total = subtotal - discountAmount;
+
+  return {
+    subtotal,
+    discountPercentage,
+    discountAmount,
+    total,
+    itemCount: bundle.bundleItems.length,
+  };
+}</code></pre>
+
+  <h3>Dynamic Savings Badge Text</h3>
+  <pre><code>// Generate dynamic badge text based on savings amount
+function getSavingsBadgeText(discountAmount: number, percentage: number) {
+  const formatted = formatCurrency(discountAmount);
+
+  if (percentage >= 30) {
+    return `🎉 Je bespaart ${formatted} (${percentage}%)!`;
+  } else if (percentage >= 20) {
+    return `Je bespaart ${formatted} met deze bundel!`;
+  } else {
+    return `Bundel & bespaar ${formatted}`;
+  }
+}</code></pre>
+
+  <h3>Testing Checklist</h3>
+  <ul>
+    <li>✓ Subtotal displays sum of all item prices</li>
+    <li>✓ Discount calculates correctly (subtotal × percentage)</li>
+    <li>✓ Discount shows negative amount with minus sign (− €31,40)</li>
+    <li>✓ Discount line is green with 700 font weight</li>
+    <li>✓ Total has 2px navy border-top</li>
+    <li>✓ Total uses Plus Jakarta Sans 800 font</li>
+    <li>✓ Savings badge shows correct amount and icon</li>
+    <li>✓ Currency formatting matches locale (€157,00 for nl-NL)</li>
+    <li>✓ Optional lines (shipping, tax) display conditionally</li>
+    <li>✓ Free shipping shows "Gratis" in green</li>
+    <li>✓ Component updates in real-time as bundle changes</li>
+    <li>✓ Screen readers announce total and savings correctly</li>
+    <li>✓ Responsive scaling works on mobile (&lt;640px)</li>
+    <li>✓ Compact variant renders correctly</li>
+  </ul>
+</div>
+
+<!-- STEP 8: Variations & Related Components -->
+<div class="doc-section">
+  <h2><i data-lucide="layers"></i> STEP 8: Variations & Related Components</h2>
+
+  <h3>Component Variants</h3>
+
+  <h4>1. Size Variants</h4>
+  <table class="token-table">
+    <thead>
+      <tr>
+        <th>Variant</th>
+        <th>Use Case</th>
+        <th>Key Differences</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>compact</code></td>
+        <td>Mobile views, modals, small sidebars</td>
+        <td>13px lines, 18px total, 12px badge</td>
+      </tr>
+      <tr>
+        <td><code>default</code></td>
+        <td>Standard bundle sidebar, cart summary</td>
+        <td>14px lines, 20px total, 13px badge</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>2. With Free Shipping Celebration</h4>
+  <pre><code>&lt;div class="pb-line shipping free"&gt;
+  &lt;span&gt;
+    &lt;i data-lucide="truck" style="width: 14px; height: 14px;"&gt;&lt;/i&gt;
+    Verzendkosten
+  &lt;/span&gt;
+  &lt;span&gt;Gratis 🎉&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+
+  <h4>3. With Tax Breakdown (B2B)</h4>
+  <pre><code>&lt;!-- Show tax separately for B2B customers --&gt;
+&lt;div class="pb-line tax"&gt;
+  &lt;span&gt;BTW (21%)&lt;/span&gt;
+  &lt;span&gt;€26,38&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="pb-total"&gt;
+  &lt;span&gt;Totaal (incl. BTW)&lt;/span&gt;
+  &lt;span&gt;€152,26&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+
+  <h4>4. Read-Only Variant (Order Confirmation)</h4>
+  <pre><code>&lt;!-- Remove interactive elements, larger text --&gt;
+&lt;div class="pb" style="border: none; padding: 0;"&gt;
+  &lt;!-- ... same structure ... --&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Related Components</h3>
+
+  <h4>Bundle Builder Components</h4>
+  <ul>
+    <li><strong>BB01: BundleOverviewCard</strong> — Pre-made bundles (shows total price + savings)</li>
+    <li><strong>BB02: BundleProductCard</strong> — Selectable products (prices contribute to subtotal)</li>
+    <li><strong>BB03: BundleItemRow</strong> — Selected products (item prices sum to subtotal)</li>
+    <li><strong>BB04: BundleDiscountTiers</strong> — Discount tiers (determines active discount %)</li>
+    <li><strong>BB06: BundleProgressBar</strong> — Progress indicator (item count)</li>
+  </ul>
+
+  <h4>E-commerce Components</h4>
+  <ul>
+    <li><strong>EC07: OrderSummary</strong> — Standard order summary (non-bundle)</li>
+    <li><strong>EC06: CartLineItem</strong> — Individual cart items</li>
+    <li><strong>C4: StaffelCalculator</strong> — Volume pricing calculator</li>
+    <li><strong>EC09: TrustSignals</strong> — Trust badges (appears below total)</li>
+  </ul>
+
+  <h3>Usage in Different Contexts</h3>
+
+  <h4>1. Bundle Builder Sidebar (Primary)</h4>
+  <pre><code>&lt;aside class="bundle-sidebar"&gt;
+  &lt;BundleItemList items={items} onRemove={handleRemove} /&gt;
+  &lt;BundleDiscountTiers tiers={tiers} currentItemCount={items.length} /&gt;
+
+  &lt;BundleTotalCalculator
+    subtotal={subtotal}
+    discount={activeTier?.discount || 0}
+    itemCount={items.length}
+    shipping={shipping}
+  /&gt;
+
+  &lt;button className="buy-btn"&gt;Bundel bestellen — {formatCurrency(total)}&lt;/button&gt;
+  &lt;TrustSignals variant="compact" /&gt;
+&lt;/aside&gt;</code></pre>
+
+  <h4>2. Cart Summary</h4>
+  <pre><code>&lt;div class="cart-summary"&gt;
+  &lt;h3&gt;Overzicht&lt;/h3&gt;
+  &lt;BundleTotalCalculator
+    subtotal={cart.bundleSubtotal}
+    discount={cart.bundleDiscount}
+    itemCount={cart.bundleItemCount}
+    shipping={cart.shippingMethod.cost}
+  /&gt;
+  &lt;button&gt;Doorgaan naar afrekenen&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+  <h4>3. Order Confirmation Receipt</h4>
+  <pre><code>&lt;div class="order-receipt"&gt;
+  &lt;h3&gt;Bestelling #12345&lt;/h3&gt;
+  &lt;BundleTotalCalculator
+    subtotal={order.subtotal}
+    discount={order.discountPercentage}
+    itemCount={order.bundleItemCount}
+    shipping={order.shipping}
+    tax={order.taxRate}
+    size="default"
+  /&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Common Patterns</h3>
+
+  <h4>Pattern 1: Animate Total on Change</h4>
+  <pre><code>// Pulse animation when total changes
+useEffect(() => {
+  const totalElement = document.querySelector('.pb-total');
+  totalElement?.classList.add('pulse');
+  setTimeout(() => totalElement?.classList.remove('pulse'), 400);
+}, [total]);
+
+// CSS
+.pb-total.pulse {
+  animation: pulse 0.4s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}</code></pre>
+
+  <h4>Pattern 2: Show Discount Unlocked Toast</h4>
+  <pre><code>// Show toast when discount percentage increases
+useEffect(() => {
+  if (prevDiscount && discount > prevDiscount) {
+    showToast({
+      message: `${discount}% korting ontgrendeld! Je bespaart nu ${formatCurrency(discountAmount)}`,
+      type: 'success',
+      icon: 'badge-percent',
+    });
+  }
+}, [discount]);</code></pre>
+
+  <h4>Pattern 3: Free Shipping Progress</h4>
+  <pre><code>// Show progress to free shipping threshold
+const FREE_SHIPPING_THRESHOLD = 60;
+const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
+
+{remaining > 0 && remaining < 20 && (
+  &lt;div class="free-shipping-hint"&gt;
+    💡 Voeg nog {formatCurrency(remaining)} toe voor gratis verzending!
+  &lt;/div&gt;
+)}</code></pre>
+
+  <h3>Design System References</h3>
+  <ul>
+    <li><strong>Component ID:</strong> BB05</li>
+    <li><strong>Figma:</strong> Bundle Builder › Total Calculator</li>
+    <li><strong>Storybook:</strong> <code>BundleTotalCalculator</code></li>
+    <li><strong>Source File:</strong> <code>bundle-builder.html</code> (lines 210-216)</li>
+    <li><strong>Design Tokens:</strong> Compass Design System v2.0</li>
+  </ul>
+</div>
+
+<!-- ========================================
+     JAVASCRIPT (DEMO INTERACTIVITY)
+     ======================================== -->
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

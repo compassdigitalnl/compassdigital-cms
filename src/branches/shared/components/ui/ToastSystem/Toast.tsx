@@ -47,7 +47,7 @@ interface ToastProps {
 export function Toast({ toast, onClose }: ToastProps) {
   const [isShowing, setIsShowing] = React.useState(false)
   const [isRemoving, setIsRemoving] = React.useState(false)
-  const timeoutRef = React.useRef<NodeJS.Timeout>()
+  const timeoutRef = React.useRef<NodeJS.Timeout | undefined>(undefined)
   const progressRef = React.useRef<HTMLDivElement>(null)
 
   const config = TOAST_ICONS[toast.type]

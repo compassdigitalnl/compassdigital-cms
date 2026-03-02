@@ -143,7 +143,7 @@ export class SEOOptimizerService {
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      aiLogger.log('info', 'Analyzing content for SEO', 'SEOOptimizer', {
+      aiLogger.info('SEOOptimizer', 'Analyzing content for SEO', {
         contentLength: options.content.length
       })
 
@@ -254,7 +254,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
 
       const duration = Date.now() - startTime
 
-      aiLogger.log('info', `SEO analysis completed in ${duration}ms`, 'SEOOptimizer', {
+      aiLogger.info('SEOOptimizer', `SEO analysis completed in ${duration}ms`, {
         score: analysis.score,
         issueCount: analysis.issues.length,
       })
@@ -268,10 +268,10 @@ Antwoord ALLEEN met valide JSON in dit formaat:
     } catch (error) {
       const duration = Date.now() - startTime
 
-      aiLogger.log('error', 'SEO analysis failed', 'SEOOptimizer', {
-        error: error instanceof Error ? error.message : 'Unknown error',
+      aiLogger.error('SEOOptimizer', 'SEO analysis failed', {
+        errorMessage: error instanceof Error ? error.message : 'Unknown error',
         duration,
-      })
+      } as any)
 
       return {
         success: false,
@@ -289,7 +289,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      aiLogger.log('info', 'Generating meta tags', 'SEOOptimizer')
+      aiLogger.info('SEOOptimizer', 'Generating meta tags')
 
       const completion = await openai.chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
@@ -367,7 +367,7 @@ Antwoord ALLEEN met valide JSON:
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      aiLogger.log('info', 'Researching keywords', 'SEOOptimizer', { topic: options.topic })
+      aiLogger.info('SEOOptimizer', 'Researching keywords', { topic: options.topic })
 
       const completion = await openai.chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
@@ -456,7 +456,7 @@ Antwoord ALLEEN met valide JSON:
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      aiLogger.log('info', 'Generating schema markup', 'SEOOptimizer', { type: options.type })
+      aiLogger.info('SEOOptimizer', 'Generating schema markup', { type: options.type })
 
       const completion = await openai.chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',

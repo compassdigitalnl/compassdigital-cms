@@ -104,7 +104,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
     ;(async () => {
       try {
         // Dynamic imports - only load when this component is rendered
-        const grapesjs = (await import('grapesjs')) as GrapesJSModule
+        const grapesjs = (await import('grapesjs')) as unknown as GrapesJSModule
         const gjsPresetNewsletter = (await import(
           'grapesjs-preset-newsletter'
         )) as GrapesJSNewsletterModule
@@ -118,7 +118,8 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         })
 
         // Initialize editor
-        editor = grapesjs.default(config)
+        const editorFn = grapesjs.default || grapesjs
+        editor = editorFn(config)
         editorRef.current = editor
 
         // Load newsletter preset

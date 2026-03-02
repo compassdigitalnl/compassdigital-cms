@@ -46,8 +46,10 @@ export const CheckoutForm: React.FC<Props> = ({
                   email: customerEmail,
                   phone: billingAddress?.phone,
                   address: {
-                    line1: billingAddress?.addressLine1,
-                    line2: billingAddress?.addressLine2,
+                    line1: billingAddress?.street && billingAddress?.houseNumber
+                      ? `${billingAddress.street} ${billingAddress.houseNumber}${billingAddress.addition ? ` ${billingAddress.addition}` : ''}`
+                      : undefined,
+                    line2: undefined,
                     city: billingAddress?.city,
                     state: billingAddress?.state,
                     postal_code: billingAddress?.postalCode,
@@ -108,8 +110,9 @@ export const CheckoutForm: React.FC<Props> = ({
       elements,
       customerEmail,
       billingAddress?.phone,
-      billingAddress?.addressLine1,
-      billingAddress?.addressLine2,
+      billingAddress?.street,
+      billingAddress?.houseNumber,
+      billingAddress?.addition,
       billingAddress?.city,
       billingAddress?.state,
       billingAddress?.postalCode,

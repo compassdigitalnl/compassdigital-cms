@@ -177,7 +177,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
       // Build multi-language content object
       const multiLangContent: MultiLanguageContent = {
         original: content,
-        translations: {},
+        translations: {} as Record<ContentLanguage, { text: string; confidence: number }>,
       }
 
       targetLanguages.forEach((lang, index) => {

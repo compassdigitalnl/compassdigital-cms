@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Stock Reservations Collection
@@ -27,13 +28,13 @@ export const StockReservations: CollectionConfig = {
     defaultColumns: ['product', 'quantity', 'status', 'expiresAt', 'createdAt'],
     group: 'E-commerce',
     description: 'Temporary stock reservations to prevent overselling',
-    hidden: ({ user }) => !user || !('role' in user) || user.role !== 'admin', // Hidden from non-admins
+    hidden: ({ user }) => !isAdmin(user as any), // Hidden from non-admins
   },
   access: {
-    read: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
+    read: ({ req: { user } }) => (user ? isAdmin(user) : false),
     create: () => true, // System can create reservations
-    update: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
-    delete: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
+    update: ({ req: { user } }) => (user ? isAdmin(user) : false),
+    delete: ({ req: { user } }) => (user ? isAdmin(user) : false),
   },
   fields: [
     {

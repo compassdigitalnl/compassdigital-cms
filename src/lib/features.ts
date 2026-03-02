@@ -128,7 +128,15 @@ export async function getClientFeatures(
       id: clientId,
     })
 
-    return client.features || {}
+    // Convert null values to undefined to match ClientFeatures type
+    const features = client.features || {}
+    const cleanedFeatures: ClientFeatures = {}
+    for (const [key, value] of Object.entries(features)) {
+      if (value !== null) {
+        cleanedFeatures[key as keyof ClientFeatures] = value as any
+      }
+    }
+    return cleanedFeatures
   } catch (error) {
     console.error('[Features] Failed to get client features:', error)
     return {}

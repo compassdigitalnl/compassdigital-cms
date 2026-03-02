@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VP09: VariantRowCompact — Compass Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ============================================
+   VP09: VARIANT ROW COMPACT
+   Horizontal list row for multi-variant selection
+   Alternative to VP08 grid card layout
+   ============================================ */
+
+/* CSS CUSTOM PROPERTIES (Design Tokens) */
+:root {
+  /* Colors */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+
+  /* System */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* DEMO STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  padding: 48px 24px;
+  color: var(--navy);
+}
+
+.demo-section {
+  max-width: 1200px;
+  margin: 0 auto 64px;
+}
+
+.demo-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+
+.demo-desc {
+  font-size: 14px;
+  color: var(--grey-dark);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+.demo-container {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1.5px solid var(--grey);
+}
+
+/* ============================================
+   VP09 COMPONENT STYLES
+   ============================================ */
+
+/* List Container */
+.variant-list-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Row Layout - 6 Column Grid */
+.variant-row-compact {
+  display: grid;
+  grid-template-columns: 24px 80px 1fr auto auto 110px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  transition: all var(--transition);
+}
+
+.variant-row-compact:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-sm);
+}
+
+.variant-row-compact.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+/* Column 1: Checkbox */
+.variant-row-compact .variant-checkbox-compact {
+  position: static;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--grey);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+
+.variant-row-compact .variant-checkbox-compact:hover {
+  border-color: var(--teal);
+  background: var(--teal-glow);
+}
+
+.variant-row-compact .variant-checkbox-compact.checked {
+  border-color: var(--teal);
+  background: var(--teal);
+}
+
+.variant-row-compact .variant-checkbox-compact i {
+  width: 14px;
+  height: 14px;
+  color: white;
+  display: none;
+}
+
+.variant-row-compact .variant-checkbox-compact.checked i {
+  display: block;
+}
+
+/* Column 2: Image (optional, can be hidden) */
+.variant-image-row {
+  width: 80px;
+  height: 80px;
+  background: var(--grey-light);
+  border-radius: 8px;
+  border: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.variant-image-row.hidden {
+  display: none;
+}
+
+/* Column 3: Info Section */
+.variant-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.variant-name-row {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.variant-fullname-row {
+  font-size: 13px;
+  color: var(--grey-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.variant-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.variant-price-row {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* Stock Badge Inline */
+.stock-badge-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stock-badge-inline.in-stock {
+  background: var(--green-light);
+  color: #166534;
+}
+
+.stock-badge-inline.low-stock {
+  background: var(--amber-light);
+  color: #92400E;
+}
+
+.stock-badge-inline.pre-order {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+.stock-badge-inline.out-of-stock {
+  background: var(--coral-light);
+  color: #DC2626;
+}
+
+.stock-dot-inline {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Column 4: Total Price */
+.variant-total-row {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  white-space: nowrap;
+  min-width: 80px;
+  text-align: right;
+}
+
+.variant-total-row .unit-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Column 5: Quantity Stepper Inline */
+.qty-stepper-inline {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.qty-btn-inline {
+  width: 40px;
+  height: 44px;
+  border: none;
+  background: white;
+  color: var(--grey-dark);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+
+.qty-btn-inline:hover:not(:disabled) {
+  background: var(--teal);
+  color: white;
+}
+
+.qty-btn-inline:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.qty-input-inline {
+  width: 60px;
+  height: 44px;
+  border: none;
+  border-left: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--navy);
+}
+
+.qty-input-inline:focus {
+  outline: none;
+  background: var(--grey-light);
+}
+
+/* Column 6: Reserved (actions like favorite/compare) */
+.variant-actions-row {
+  width: 110px;
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.action-btn-row {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--grey);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.action-btn-row:hover {
+  border-color: var(--teal);
+  background: var(--teal-glow);
+}
+
+.action-btn-row i {
+  width: 16px;
+  height: 16px;
+  color: var(--grey-dark);
+}
+
+.action-btn-row:hover i {
+  color: var(--teal);
+}
+
+.action-btn-row.active {
+  border-color: var(--coral);
+  background: var(--coral-light);
+}
+
+.action-btn-row.active i {
+  color: var(--coral);
+}
+
+/* Responsive: Mobile */
+@media (max-width: 768px) {
+  .variant-row-compact {
+    grid-template-columns: 24px 1fr;
+    gap: 8px;
+  }
+
+  .variant-row-compact > *:nth-child(n+3) {
+    grid-column: 2;
+    margin-top: 8px;
+  }
+
+  .variant-image-row {
+    display: none;
+  }
+
+  .variant-actions-row {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .qty-stepper-inline {
+    width: 100%;
+  }
+
+  .variant-total-row {
+    text-align: left;
+  }
+}
+
+/* Accessibility */
+.variant-row-compact:focus-within {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.variant-checkbox-compact:focus {
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}
+
+/* Helper: Hidden class */
+.hidden {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+<div class="demo-section">
+  <h1 class="demo-title">VP09: VariantRowCompact</h1>
+  <p class="demo-desc">
+    Horizontal list row layout for multi-variant selection. Alternative to VP08 grid cards.
+    Features: 6-column grid (checkbox, image, info, total, qty stepper, actions), hover states,
+    responsive collapse to 2-column on mobile.
+  </p>
+
+  <div class="demo-container">
+    <div class="variant-list-compact">
+      <!-- Row 1: In Stock -->
+      <div class="variant-row-compact" data-variant-id="row-xs" data-price="4.50">
+        <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+          <i data-lucide="check"></i>
+        </div>
+        <div class="variant-image-row">🧤</div>
+        <div class="variant-info-row">
+          <div class="variant-name-row">XS</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - Extra Small</div>
+          <div class="variant-meta-row">
+            <span class="variant-price-row">€4,50 p/st</span>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+          </div>
+        </div>
+        <div class="variant-total-row">
+          <span class="total-value">€0,00</span>
+          <span class="unit-label">totaal</span>
+        </div>
+        <div class="qty-stepper-inline">
+          <button class="qty-btn-inline minus" disabled>−</button>
+          <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+          <button class="qty-btn-inline plus">+</button>
+        </div>
+        <div class="variant-actions-row">
+          <button class="action-btn-row" aria-label="Toevoegen aan favorieten">
+            <i data-lucide="heart"></i>
+          </button>
+          <button class="action-btn-row" aria-label="Vergelijken">
+            <i data-lucide="bar-chart"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 2: In Stock, Selected -->
+      <div class="variant-row-compact selected" data-variant-id="row-s" data-price="4.50">
+        <div class="variant-checkbox-compact checked" role="checkbox" aria-checked="true" tabindex="0">
+          <i data-lucide="check"></i>
+        </div>
+        <div class="variant-image-row">🧤</div>
+        <div class="variant-info-row">
+          <div class="variant-name-row">S</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - Small</div>
+          <div class="variant-meta-row">
+            <span class="variant-price-row">€4,50 p/st</span>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+          </div>
+        </div>
+        <div class="variant-total-row">
+          <span class="total-value">€22,50</span>
+          <span class="unit-label">totaal</span>
+        </div>
+        <div class="qty-stepper-inline">
+          <button class="qty-btn-inline minus">−</button>
+          <input type="number" class="qty-input-inline" value="5" min="0" max="999">
+          <button class="qty-btn-inline plus">+</button>
+        </div>
+        <div class="variant-actions-row">
+          <button class="action-btn-row active" aria-label="Verwijderen uit favorieten">
+            <i data-lucide="heart"></i>
+          </button>
+          <button class="action-btn-row" aria-label="Vergelijken">
+            <i data-lucide="bar-chart"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 3: Low Stock -->
+      <div class="variant-row-compact" data-variant-id="row-m" data-price="4.50">
+        <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+          <i data-lucide="check"></i>
+        </div>
+        <div class="variant-image-row">🧤</div>
+        <div class="variant-info-row">
+          <div class="variant-name-row">M</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - Medium</div>
+          <div class="variant-meta-row">
+            <span class="variant-price-row">€4,50 p/st</span>
+            <div class="stock-badge-inline low-stock">
+              <span class="stock-dot-inline"></span>
+              Nog 8 stuks
+            </div>
+          </div>
+        </div>
+        <div class="variant-total-row">
+          <span class="total-value">€0,00</span>
+          <span class="unit-label">totaal</span>
+        </div>
+        <div class="qty-stepper-inline">
+          <button class="qty-btn-inline minus" disabled>−</button>
+          <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+          <button class="qty-btn-inline plus">+</button>
+        </div>
+        <div class="variant-actions-row">
+          <button class="action-btn-row" aria-label="Toevoegen aan favorieten">
+            <i data-lucide="heart"></i>
+          </button>
+          <button class="action-btn-row" aria-label="Vergelijken">
+            <i data-lucide="bar-chart"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 4: Pre-order -->
+      <div class="variant-row-compact" data-variant-id="row-l" data-price="4.50">
+        <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+          <i data-lucide="check"></i>
+        </div>
+        <div class="variant-image-row">🧤</div>
+        <div class="variant-info-row">
+          <div class="variant-name-row">L</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - Large</div>
+          <div class="variant-meta-row">
+            <span class="variant-price-row">€4,50 p/st</span>
+            <div class="stock-badge-inline pre-order">
+              <span class="stock-dot-inline"></span>
+              Pre-order (15 mrt)
+            </div>
+          </div>
+        </div>
+        <div class="variant-total-row">
+          <span class="total-value">€0,00</span>
+          <span class="unit-label">totaal</span>
+        </div>
+        <div class="qty-stepper-inline">
+          <button class="qty-btn-inline minus" disabled>−</button>
+          <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+          <button class="qty-btn-inline plus">+</button>
+        </div>
+        <div class="variant-actions-row">
+          <button class="action-btn-row" aria-label="Toevoegen aan favorieten">
+            <i data-lucide="heart"></i>
+          </button>
+          <button class="action-btn-row" aria-label="Vergelijken">
+            <i data-lucide="bar-chart"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 5: Without Image -->
+      <div class="variant-row-compact" data-variant-id="row-xl" data-price="4.50">
+        <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+          <i data-lucide="check"></i>
+        </div>
+        <div class="variant-image-row hidden">🧤</div>
+        <div class="variant-info-row">
+          <div class="variant-name-row">XL</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - Extra Large</div>
+          <div class="variant-meta-row">
+            <span class="variant-price-row">€4,50 p/st</span>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+          </div>
+        </div>
+        <div class="variant-total-row">
+          <span class="total-value">€0,00</span>
+          <span class="unit-label">totaal</span>
+        </div>
+        <div class="qty-stepper-inline">
+          <button class="qty-btn-inline minus" disabled>−</button>
+          <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+          <button class="qty-btn-inline plus">+</button>
+        </div>
+        <div class="variant-actions-row">
+          <button class="action-btn-row" aria-label="Toevoegen aan favorieten">
+            <i data-lucide="heart"></i>
+          </button>
+          <button class="action-btn-row" aria-label="Vergelijken">
+            <i data-lucide="bar-chart"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 6: Different Price -->
+      <div class="variant-row-compact" data-variant-id="row-xxl" data-price="4.75">
+        <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+          <i data-lucide="check"></i>
+        </div>
+        <div class="variant-image-row hidden">🧤</div>
+        <div class="variant-info-row">
+          <div class="variant-name-row">XXL</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - 2X Large</div>
+          <div class="variant-meta-row">
+            <span class="variant-price-row">€4,75 p/st</span>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+          </div>
+        </div>
+        <div class="variant-total-row">
+          <span class="total-value">€0,00</span>
+          <span class="unit-label">totaal</span>
+        </div>
+        <div class="qty-stepper-inline">
+          <button class="qty-btn-inline minus" disabled>−</button>
+          <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+          <button class="qty-btn-inline plus">+</button>
+        </div>
+        <div class="variant-actions-row">
+          <button class="action-btn-row" aria-label="Toevoegen aan favorieten">
+            <i data-lucide="heart"></i>
+          </button>
+          <button class="action-btn-row" aria-label="Vergelijken">
+            <i data-lucide="bar-chart"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     COMPONENT DOCUMENTATION
+     ============================================ -->
+<div class="demo-section">
+  <h2 style="font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 32px; color: var(--navy);">
+    Component Documentation
+  </h2>
+
+  <div style="background: white; padding: 32px; border-radius: 16px; border: 1.5px solid var(--grey);">
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 1: Component Overview
+      </h3>
+      <p style="font-size: 14px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 16px;">
+        <strong>VP09: VariantRowCompact</strong> is a horizontal list row layout for multi-variant
+        selection. It provides an alternative to VP08's vertical grid cards, optimized for displaying
+        many variants in a scannable list format.
+      </p>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: var(--navy); margin-bottom: 8px;"><strong>Key Features:</strong></p>
+        <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+          <li>6-column grid layout (checkbox, image, info, total, qty stepper, actions)</li>
+          <li>Larger 24×24px checkbox vs VP08's 18×18px</li>
+          <li>Optional image thumbnail (80×80px, can be hidden)</li>
+          <li>Combined info section (name + description + stock + price)</li>
+          <li>Total price calculation display (qty × unit price)</li>
+          <li>Reserved column for future actions (favorite, compare)</li>
+          <li>Compact vertical padding (10px vs VP08's 12px)</li>
+          <li>Mobile responsive: collapses to 2-column layout</li>
+        </ul>
+      </div>
+      <div style="background: var(--teal-glow); padding: 16px; border-radius: 8px; border-left: 3px solid var(--teal);">
+        <p style="font-size: 13px; color: var(--navy);"><strong>File Size:</strong> ~940 lines</p>
+        <p style="font-size: 13px; color: var(--navy);"><strong>Component ID:</strong> VP09</p>
+        <p style="font-size: 13px; color: var(--navy);"><strong>Related:</strong> VP08 (grid card), VP10 (sidebar), VP11 (toolbar), VP13 (list container CSS)</p>
+      </div>
+    </section>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 2: When to Use
+      </h3>
+      <div style="background: var(--green-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; border-left: 3px solid var(--green);">
+        <p style="font-size: 13px; color: #166534; margin-bottom: 8px;"><strong>✅ Use VP09 (List Row) When:</strong></p>
+        <ul style="font-size: 13px; color: #166534; line-height: 1.8; margin-left: 20px;">
+          <li>Displaying 10+ variants in a scannable format</li>
+          <li>User preference is set to "List View" (toggle with VP08)</li>
+          <li>Variants have long descriptive names (more horizontal space)</li>
+          <li>Need to display variant images alongside details</li>
+          <li>Comparing prices across variants side-by-side</li>
+          <li>B2B context where users scan SKUs/specs quickly</li>
+          <li>Desktop-first experience (rows work better on wide screens)</li>
+        </ul>
+      </div>
+      <div style="background: var(--coral-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--coral);">
+        <p style="font-size: 13px; color: #DC2626; margin-bottom: 8px;"><strong>❌ Don't Use VP09 When:</strong></p>
+        <ul style="font-size: 13px; color: #DC2626; line-height: 1.8; margin-left: 20px;">
+          <li>Fewer than 6 variants (VP08 grid is better for small sets)</li>
+          <li>Mobile-first experience (VP08 grid cards stack better)</li>
+          <li>Variants are visual (colors, patterns) — VP08 shows images larger</li>
+          <li>Single-variant selection (use VP01-VP05 instead)</li>
+          <li>No need for image thumbnails (use simplified list without column 2)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 3: Design Tokens
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Colors</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Token</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Value</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--navy</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#0A1628</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Variant name, price text</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00897B</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Selected border, hover border, checkbox bg</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--teal-glow</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">rgba(0,137,123,0.12)</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Focus ring, checkbox hover bg</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--grey</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#E8ECF1</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Default border, checkbox border</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--grey-dark</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#64748B</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Description text, button icons</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--green</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#00C853</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">In-stock badge text/dot</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--amber</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#F59E0B</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Low-stock badge text/dot</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>--purple</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">#7C3AED</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Pre-order badge text/dot</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Typography</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Font</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Size</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Variant name</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">16px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">800</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Full name</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">13px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">400</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Price</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">JetBrains Mono</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">14px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">700</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Total price</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">JetBrains Mono</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">16px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">800</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Stock badge</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">10px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">600</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Qty input</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Plus Jakarta Sans</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">15px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">700</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Spacing</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px; margin-bottom: 24px;">
+        <li><strong>Row padding:</strong> 10px 12px (vertical, horizontal)</li>
+        <li><strong>Column gap:</strong> 12px between columns</li>
+        <li><strong>Row gap:</strong> 8px between rows (in .variant-list-compact)</li>
+        <li><strong>Info section gap:</strong> 4px between name/description/meta</li>
+        <li><strong>Meta row gap:</strong> 12px between price and stock badge</li>
+      </ul>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Icons</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li><strong>Checkbox check:</strong> 14×14px (Lucide "check")</li>
+        <li><strong>Action buttons:</strong> 16×16px (heart, bar-chart)</li>
+        <li><strong>Qty buttons:</strong> Font-based ± symbols (18px)</li>
+      </ul>
+    </section>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 4: Props & Configuration
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">HTML Attributes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Attribute</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Type</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Required</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>data-variant-id</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">string</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Yes</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Unique ID for variant (e.g., "row-xs")</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>data-price</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">number</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Yes</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Unit price (e.g., "4.50")</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">CSS Classes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Class</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-list-compact</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Container for list of rows (flex column, 8px gap)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-row-compact</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Individual row (6-column grid)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-row-compact.selected</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Selected state (teal border + light bg)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-checkbox-compact</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Checkbox (24×24px)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-checkbox-compact.checked</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Checked state (teal bg, show checkmark)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-image-row</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Image thumbnail (80×80px, optional)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-image-row.hidden</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Hide image column</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-info-row</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Info section (name, description, price, stock)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.stock-badge-inline</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Stock badge (4 variants: in-stock, low-stock, pre-order, out-of-stock)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.qty-stepper-inline</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Quantity stepper (40×44px buttons, 60px input)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>.variant-actions-row</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Action buttons container (110px width)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Stock Badge Variants</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li><strong>.in-stock:</strong> Green bg (#E8F5E9), green text (#166534), "Op voorraad"</li>
+        <li><strong>.low-stock:</strong> Amber bg (#FFF8E1), amber text (#92400E), "Nog X stuks"</li>
+        <li><strong>.pre-order:</strong> Purple bg (#EDE9FE), purple text (#7C3AED), "Pre-order (date)"</li>
+        <li><strong>.out-of-stock:</strong> Coral bg (#FFF0F0), coral text (#DC2626), "Tijdelijk uitverkocht"</li>
+      </ul>
+    </section>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 5: Layout Rules
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">6-Column Grid System</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+        grid-template-columns: 24px 80px 1fr auto auto 110px;
+      </div>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Column</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Width</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Content</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">1</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">24px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Checkbox (24×24px, static position)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">2</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">80px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Image thumbnail (optional, can hide with .hidden)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">3</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">1fr</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Info (name, description, price, stock badge)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">4</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">auto</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Total price (calculated: qty × unit price)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">5</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">auto</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Quantity stepper (140px total: 40+60+40)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">6</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">110px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Reserved (action buttons: favorite, compare)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Mobile Responsive (≤768px)</h4>
+      <div style="background: var(--amber-light); padding: 16px; border-radius: 8px; border-left: 3px solid var(--amber); margin-bottom: 16px;">
+        <p style="font-size: 13px; color: #92400E; margin-bottom: 8px;"><strong>Behavior:</strong></p>
+        <ul style="font-size: 13px; color: #92400E; line-height: 1.8; margin-left: 20px;">
+          <li>Collapse to 2-column grid: <code>24px 1fr</code></li>
+          <li>All elements after checkbox wrap to column 2</li>
+          <li>Image thumbnail hidden (<code>display: none</code>)</li>
+          <li>Quantity stepper expands to full width</li>
+          <li>Action buttons left-aligned (full width available)</li>
+        </ul>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Key Differences from VP08</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Aspect</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">VP08 (Grid Card)</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">VP09 (List Row)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Layout</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Vertical stack</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Horizontal row</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Checkbox size</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">18×18px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">24×24px</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Image</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Large (full width)</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Small thumbnail (80px) or hidden</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Info section</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Separate rows</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Combined (name + desc + stock)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Price display</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Single unit price</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Unit price (info) + total price (end)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Padding</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">12px</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">10px (more compact)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Best for</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Visual selection (colors, patterns)</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Quick scanning (specs, SKUs)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 6: Accessibility
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">ARIA Attributes</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Element</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Attribute</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Checkbox</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>role</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"checkbox"</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Checkbox</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>aria-checked</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"true" / "false"</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Checkbox</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>tabindex</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"0" (keyboard focusable)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Action buttons</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><code>aria-label</code></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">"Toevoegen aan favorieten", "Vergelijken"</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Keyboard Navigation</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Key</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><kbd>Tab</kbd></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Move focus between checkbox, qty buttons, action buttons</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><kbd>Space</kbd> / <kbd>Enter</kbd></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Toggle checkbox on/off</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><kbd>↑</kbd> / <kbd>↓</kbd></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Increment/decrement quantity input</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Focus Management</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px; margin-bottom: 16px;">
+        <li>Row receives outline when any child element is focused (<code>:focus-within</code>)</li>
+        <li>Checkbox shows teal glow ring on focus (<code>box-shadow: 0 0 0 3px var(--teal-glow)</code>)</li>
+        <li>All interactive elements keyboard-accessible (buttons, inputs, checkbox)</li>
+      </ul>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Screen Reader Announcements</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li>Checkbox announces state changes: "Variant XS, checkbox, checked" / "unchecked"</li>
+        <li>Stock badge text read aloud: "In stock" / "Low stock, 8 items remaining"</li>
+        <li>Price announced with unit: "4 euros 50 cents per item"</li>
+        <li>Action buttons have descriptive labels: "Add to favorites", "Compare"</li>
+      </ul>
+    </section>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <section style="margin-bottom: 48px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 7: Implementation Notes
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">JavaScript Behavior</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">// 1. Checkbox Toggle
+checkbox.addEventListener('click', () =&gt; {
+  const isChecked = checkbox.getAttribute('aria-checked') === 'true';
+
+  if (!isChecked) {
+    checkbox.classList.add('checked');
+    checkbox.setAttribute('aria-checked', 'true');
+    row.classList.add('selected');
+
+    // Auto-set qty to 1 if 0
+    if (parseInt(qtyInput.value) === 0) {
+      qtyInput.value = 1;
+      updateTotal();
+    }
+  } else {
+    checkbox.classList.remove('checked');
+    checkbox.setAttribute('aria-checked', 'false');
+    row.classList.remove('selected');
+    qtyInput.value = 0;
+    updateTotal();
+  }
+});
+
+// 2. Quantity Change
+qtyInput.addEventListener('change', () =&gt; {
+  const qty = parseInt(qtyInput.value) || 0;
+
+  if (qty &gt; 0) {
+    // Auto-check checkbox
+    checkbox.classList.add('checked');
+    checkbox.setAttribute('aria-checked', 'true');
+    row.classList.add('selected');
+  } else {
+    // Auto-uncheck checkbox
+    checkbox.classList.remove('checked');
+    checkbox.setAttribute('aria-checked', 'false');
+    row.classList.remove('selected');
+  }
+
+  updateTotal();
+});
+
+// 3. Update Total Price
+function updateTotal() {
+  const qty = parseInt(qtyInput.value) || 0;
+  const unitPrice = parseFloat(row.dataset.price);
+  const total = (qty * unitPrice).toFixed(2);
+
+  totalDisplay.textContent = `€${total.replace('.', ',')}`;
+
+  // Enable/disable minus button
+  minusBtn.disabled = qty === 0;
+}
+
+// 4. Favorite Button Toggle
+favoriteBtn.addEventListener('click', () =&gt; {
+  favoriteBtn.classList.toggle('active');
+  // Save to localStorage or API
+});</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">React/Next.js Example</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">import { useState } from 'react';
+import { Check, Heart, BarChart } from 'lucide-react';
+
+interface VariantRowProps {
+  id: string;
+  name: string;
+  fullName: string;
+  price: number;
+  stockStatus: 'in-stock' | 'low-stock' | 'pre-order' | 'out-of-stock';
+  stockText: string;
+  image?: string;
+  showImage?: boolean;
+}
+
+export function VariantRowCompact({
+  id, name, fullName, price, stockStatus, stockText,
+  image, showImage = false
+}: VariantRowProps) {
+  const [selected, setSelected] = useState(false);
+  const [qty, setQty] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const total = (qty * price).toFixed(2);
+
+  const handleCheckbox = () =&gt; {
+    const newSelected = !selected;
+    setSelected(newSelected);
+    if (newSelected && qty === 0) setQty(1);
+    if (!newSelected) setQty(0);
+  };
+
+  const handleQtyChange = (newQty: number) =&gt; {
+    setQty(Math.max(0, newQty));
+    setSelected(newQty &gt; 0);
+  };
+
+  return (
+    &lt;div
+      className={`variant-row-compact ${selected ? 'selected' : ''}`}
+      data-variant-id={id}
+      data-price={price}
+    &gt;
+      &lt;!-- Column 1: Checkbox --&gt;
+      &lt;div
+        className={`variant-checkbox-compact ${selected ? 'checked' : ''}`}
+        role="checkbox"
+        aria-checked={selected}
+        tabIndex={0}
+        onClick={handleCheckbox}
+      &gt;
+        {selected && &lt;Check className="w-3.5 h-3.5" /&gt;}
+      &lt;/div&gt;
+
+      &lt;!-- Column 2: Image (optional) --&gt;
+      {showImage && (
+        &lt;div className="variant-image-row"&gt;
+          {image || '🧤'}
+        &lt;/div&gt;
+      )}
+      {!showImage && &lt;div className="variant-image-row hidden" /&gt;}
+
+      &lt;!-- Column 3: Info --&gt;
+      &lt;div className="variant-info-row"&gt;
+        &lt;div className="variant-name-row"&gt;{name}&lt;/div&gt;
+        &lt;div className="variant-fullname-row"&gt;{fullName}&lt;/div&gt;
+        &lt;div className="variant-meta-row"&gt;
+          &lt;span className="variant-price-row"&gt;€{price.toFixed(2).replace('.', ',')} p/st&lt;/span&gt;
+          &lt;div className={`stock-badge-inline ${stockStatus}`}&gt;
+            &lt;span className="stock-dot-inline" /&gt;
+            {stockText}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Column 4: Total --&gt;
+      &lt;div className="variant-total-row"&gt;
+        &lt;span className="total-value"&gt;€{total.replace('.', ',')}&lt;/span&gt;
+        &lt;span className="unit-label"&gt;totaal&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Column 5: Qty Stepper --&gt;
+      &lt;div className="qty-stepper-inline"&gt;
+        &lt;button
+          className="qty-btn-inline minus"
+          onClick={() =&gt; handleQtyChange(qty - 1)}
+          disabled={qty === 0}
+        &gt;
+          −
+        &lt;/button&gt;
+        &lt;input
+          type="number"
+          className="qty-input-inline"
+          value={qty}
+          onChange={(e) =&gt; handleQtyChange(parseInt(e.target.value) || 0)}
+          min={0}
+          max={999}
+        /&gt;
+        &lt;button
+          className="qty-btn-inline plus"
+          onClick={() =&gt; handleQtyChange(qty + 1)}
+        &gt;
+          +
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Column 6: Actions --&gt;
+      &lt;div className="variant-actions-row"&gt;
+        &lt;button
+          className={`action-btn-row ${isFavorite ? 'active' : ''}`}
+          onClick={() =&gt; setIsFavorite(!isFavorite)}
+          aria-label="Toevoegen aan favorieten"
+        &gt;
+          &lt;Heart className="w-4 h-4" /&gt;
+        &lt;/button&gt;
+        &lt;button
+          className="action-btn-row"
+          aria-label="Vergelijken"
+        &gt;
+          &lt;BarChart className="w-4 h-4" /&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Payload CMS Block Schema</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">{
+  slug: 'variantRowCompact',
+  labels: {
+    singular: 'Variant Row Compact',
+    plural: 'Variant Rows'
+  },
+  fields: [
+    {
+      name: 'showImage',
+      type: 'checkbox',
+      label: 'Show image thumbnails',
+      defaultValue: false
+    },
+    {
+      name: 'showActions',
+      type: 'checkbox',
+      label: 'Show action buttons (favorite, compare)',
+      defaultValue: true
+    },
+    {
+      name: 'enableBulkSelection',
+      type: 'checkbox',
+      label: 'Enable bulk selection (requires VP11 toolbar)',
+      defaultValue: true
+    }
+  ]
+}</pre>
+      </div>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Performance Considerations</h4>
+      <ul style="font-size: 13px; color: var(--grey-dark); line-height: 1.8; margin-left: 20px;">
+        <li><strong>Virtualization:</strong> For 50+ variants, use react-window or react-virtual to render only visible rows</li>
+        <li><strong>Debounce qty input:</strong> Update totals/state after 300ms typing pause to avoid excessive re-renders</li>
+        <li><strong>Image lazy loading:</strong> Use <code>loading="lazy"</code> on thumbnails to defer off-screen images</li>
+        <li><strong>Memoization:</strong> Memoize total price calculation to avoid recalculating on every render</li>
+      </ul>
+    </section>
+
+    <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+    <section style="margin-bottom: 0;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--navy);">
+        STEP 8: Variations & Related Components
+      </h3>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Variations</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Variation</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>With images</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Show 80×80px thumbnails in column 2</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Without images</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Hide column 2 (<code>.variant-image-row.hidden</code>)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>With actions</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Show favorite/compare buttons in column 6</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Without actions</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Hide column 6 (adjust grid: <code>24px 80px 1fr auto auto</code>)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>Compact mode</strong></td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Reduce padding to 6px 10px, smaller fonts (14px → 13px, 16px → 14px)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Related Components</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+        <thead>
+          <tr style="background: var(--grey-light);">
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Component</th>
+            <th style="padding: 8px; text-align: left; border: 1px solid var(--grey);">Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP08:</strong> VariantCardCompact</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Grid card alternative (use view toggle to switch)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP10:</strong> VariantSelectionSidebar</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Sticky sidebar showing selected variants + price summary</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP11:</strong> VariantToolbar</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Toolbar with grid/list toggle + bulk select/deselect</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP12:</strong> VariantGridContainer</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">6-column responsive grid wrapper (for VP08)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>VP13:</strong> VariantListContainer</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Vertical flex column wrapper (for VP09) — <code>.variant-list-compact</code></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>C23:</strong> QuantityStepper</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Reusable quantity stepper (40×44px buttons, 60px input)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid var(--grey);"><strong>EC04:</strong> StockIndicator</td>
+            <td style="padding: 8px; border: 1px solid var(--grey);">Stock badge variants (in-stock, low-stock, pre-order, out-of-stock)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--navy);">Usage Example: Archive Page</h4>
+      <div style="background: var(--grey-light); padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; overflow-x: auto;">
+<pre style="margin: 0; white-space: pre;">&lt;!-- VP11 Toolbar: view toggle + bulk actions --&gt;
+&lt;div class="variant-toolbar"&gt;
+  &lt;div class="toolbar-count"&gt;24 varianten beschikbaar&lt;/div&gt;
+  &lt;div class="toolbar-actions"&gt;
+    &lt;div class="view-toggle"&gt;
+      &lt;button class="view-btn" data-view="grid"&gt;Grid&lt;/button&gt;
+      &lt;button class="view-btn active" data-view="list"&gt;Lijst&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;button class="bulk-btn"&gt;Selecteer alle&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- VP13 List Container: vertical flex column --&gt;
+&lt;div class="variant-list-compact"&gt;
+  &lt;!-- VP09 Rows --&gt;
+  &lt;div class="variant-row-compact" ...&gt;...&lt;/div&gt;
+  &lt;div class="variant-row-compact" ...&gt;...&lt;/div&gt;
+  &lt;!-- ...24 rows total --&gt;
+&lt;/div&gt;
+
+&lt;!-- VP10 Sidebar: sticky, shows selected items --&gt;
+&lt;aside class="variant-sidebar"&gt;
+  &lt;h3&gt;Geselecteerd (3 items)&lt;/h3&gt;
+  &lt;!-- Selected items list --&gt;
+  &lt;!-- Price summary --&gt;
+  &lt;button&gt;3 items toevoegen&lt;/button&gt;
+&lt;/aside&gt;</pre>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+// State management
+const variants = [
+  { id: 'row-xs', name: 'XS', price: 4.50 },
+  { id: 'row-s', name: 'S', price: 4.50 },
+  { id: 'row-m', name: 'M', price: 4.50 },
+  { id: 'row-l', name: 'L', price: 4.50 },
+  { id: 'row-xl', name: 'XL', price: 4.50 },
+  { id: 'row-xxl', name: 'XXL', price: 4.75 }
+];
+
+// Setup all rows
+document.querySelectorAll('.variant-row-compact').forEach(row => {
+  const variantId = row.dataset.variantId;
+  const unitPrice = parseFloat(row.dataset.price);
+
+  const checkbox = row.querySelector('.variant-checkbox-compact');
+  const qtyInput = row.querySelector('.qty-input-inline');
+  const minusBtn = row.querySelector('.qty-btn-inline.minus');
+  const plusBtn = row.querySelector('.qty-btn-inline.plus');
+  const totalDisplay = row.querySelector('.total-value');
+  const favoriteBtn = row.querySelector('.action-btn-row:nth-child(1)');
+
+  // Update total price
+  const updateTotal = () => {
+    const qty = parseInt(qtyInput.value) || 0;
+    const total = (qty * unitPrice).toFixed(2);
+    totalDisplay.textContent = `€${total.replace('.', ',')}`;
+    minusBtn.disabled = qty === 0;
+  };
+
+  // Checkbox toggle
+  checkbox.addEventListener('click', () => {
+    const isChecked = checkbox.getAttribute('aria-checked') === 'true';
+
+    if (!isChecked) {
+      checkbox.classList.add('checked');
+      checkbox.setAttribute('aria-checked', 'true');
+      row.classList.add('selected');
+
+      if (parseInt(qtyInput.value) === 0) {
+        qtyInput.value = 1;
+        updateTotal();
+      }
+    } else {
+      checkbox.classList.remove('checked');
+      checkbox.setAttribute('aria-checked', 'false');
+      row.classList.remove('selected');
+      qtyInput.value = 0;
+      updateTotal();
+    }
+
+    lucide.createIcons();
+  });
+
+  // Keyboard support for checkbox
+  checkbox.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      checkbox.click();
+    }
+  });
+
+  // Quantity buttons
+  minusBtn.addEventListener('click', () => {
+    const val = parseInt(qtyInput.value) || 0;
+    if (val > 0) {
+      qtyInput.value = val - 1;
+      if (val - 1 === 0) {
+        checkbox.classList.remove('checked');
+        checkbox.setAttribute('aria-checked', 'false');
+        row.classList.remove('selected');
+        lucide.createIcons();
+      }
+      updateTotal();
+    }
+  });
+
+  plusBtn.addEventListener('click', () => {
+    const val = parseInt(qtyInput.value) || 0;
+    qtyInput.value = val + 1;
+
+    if (val === 0) {
+      checkbox.classList.add('checked');
+      checkbox.setAttribute('aria-checked', 'true');
+      row.classList.add('selected');
+      lucide.createIcons();
+    }
+
+    updateTotal();
+  });
+
+  // Quantity input change
+  qtyInput.addEventListener('change', () => {
+    const val = Math.max(0, parseInt(qtyInput.value) || 0);
+    qtyInput.value = val;
+
+    if (val > 0) {
+      checkbox.classList.add('checked');
+      checkbox.setAttribute('aria-checked', 'true');
+      row.classList.add('selected');
+    } else {
+      checkbox.classList.remove('checked');
+      checkbox.setAttribute('aria-checked', 'false');
+      row.classList.remove('selected');
+    }
+
+    updateTotal();
+    lucide.createIcons();
+  });
+
+  // Favorite button toggle
+  if (favoriteBtn) {
+    favoriteBtn.addEventListener('click', () => {
+      favoriteBtn.classList.toggle('active');
+      lucide.createIcons();
+    });
+  }
+
+  // Initialize total
+  updateTotal();
+});
+</script>
+
+</body>
+</html>

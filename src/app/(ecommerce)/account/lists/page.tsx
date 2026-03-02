@@ -177,7 +177,7 @@ export default function OrderListsPage() {
 
   // Render list icon
   const renderIcon = (iconName: string, color: string) => {
-    const IconComponent = iconMap[iconName] || ClipboardList
+    const IconComponent = (iconMap[iconName] || ClipboardList) as any
     const colorStyle = colorMap[color as keyof typeof colorMap] || colorMap.teal
 
     return (

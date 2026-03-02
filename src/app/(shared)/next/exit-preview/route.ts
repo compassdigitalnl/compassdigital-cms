@@ -10,7 +10,7 @@ import { NextRequest } from 'next/server'
  */
 
 export async function GET(request: NextRequest): Promise<Response> {
-  const draft = draftMode()
+  const draft = await draftMode()
   draft.disable()
 
   // Get the redirect URL from query params, or default to home

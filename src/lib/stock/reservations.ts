@@ -82,24 +82,24 @@ export async function reserveStock(
         },
       })
 
-      return { success: true, reservationId: updated.id }
+      return { success: true, reservationId: String(updated.id) }
     }
 
     // Create new reservation
     const reservation = await payload.create({
       collection: 'stock-reservations',
       data: {
-        product: productId,
-        variant: variantId,
+        product: productId as any,
+        variant: variantId as any,
         quantity,
-        cart: cartId,
+        cartId: cartId,
         session: sessionId,
         status: 'active',
         expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString(), // 15 minutes
-      },
+      } as any,
     })
 
-    return { success: true, reservationId: reservation.id }
+    return { success: true, reservationId: String(reservation.id) }
   } catch (error: any) {
     console.error('Failed to reserve stock:', error)
     return { success: false, error: error.message || 'Failed to reserve stock' }
@@ -206,10 +206,10 @@ export async function convertReservationToOrder(
   try {
     await payload.update({
       collection: 'stock-reservations',
-      id: reservationId,
+      id: reservationId as any,
       data: {
         status: 'converted',
-        convertedToOrder: orderId,
+        convertedToOrder: orderId as any,
       },
     })
 

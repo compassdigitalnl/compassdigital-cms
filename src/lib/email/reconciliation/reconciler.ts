@@ -100,15 +100,15 @@ export class EmailReconciler {
    */
   private getListmonk(): ListmonkClient {
     if (!this.listmonk) {
-      const baseUrl = process.env.LISTMONK_API_URL
-      const username = process.env.LISTMONK_USERNAME
-      const password = process.env.LISTMONK_PASSWORD
+      const baseUrl = process.env.LISTMONK_API_URL || process.env.LISTMONK_URL
+      const username = process.env.LISTMONK_USERNAME || process.env.LISTMONK_API_USER
+      const password = process.env.LISTMONK_PASSWORD || process.env.LISTMONK_API_PASS
 
-      if (!baseUrl || !username || !password) {
-        throw new Error('Listmonk credentials not configured')
-      }
-
-      this.listmonk = new ListmonkClient(baseUrl, username, password)
+      this.listmonk = new ListmonkClient({
+        baseUrl,
+        username,
+        password,
+      })
     }
     return this.listmonk
   }
@@ -129,18 +129,27 @@ export class EmailReconciler {
     try {
       // Step 1: Reconcile subscribers
       console.log('[Reconciliation] Step 1/3: Reconciling subscribers...')
-      subscriberResult = await this.reconcileSubscribers(tenantId)
-      errors.push(...subscriberResult.errors.map((e: any) => ({ type: 'subscriber' as const, operation: 'sync', id: 'unknown', error: e })))
+      const subscriberDetails = await this.reconcileSubscribers(tenantId)
+      subscriberResult = subscriberDetails
+      if (subscriberDetails.errorMessages) {
+        errors.push(...subscriberDetails.errorMessages.map((e: string) => ({ type: 'subscriber' as const, operation: 'sync', id: 'unknown', error: e })))
+      }
 
       // Step 2: Reconcile lists
       console.log('[Reconciliation] Step 2/3: Reconciling lists...')
-      listResult = await this.reconcileLists(tenantId)
-      errors.push(...listResult.errors.map((e: any) => ({ type: 'list' as const, operation: 'sync', id: 'unknown', error: e })))
+      const listDetails = await this.reconcileLists(tenantId)
+      listResult = listDetails
+      if (listDetails.errorMessages) {
+        errors.push(...listDetails.errorMessages.map((e: string) => ({ type: 'list' as const, operation: 'sync', id: 'unknown', error: e })))
+      }
 
       // Step 3: Reconcile campaigns
       console.log('[Reconciliation] Step 3/3: Reconciling campaigns...')
-      campaignResult = await this.reconcileCampaigns(tenantId)
-      errors.push(...campaignResult.errors.map((e: any) => ({ type: 'campaign' as const, operation: 'sync', id: 'unknown', error: e })))
+      const campaignDetails = await this.reconcileCampaigns(tenantId)
+      campaignResult = campaignDetails
+      if (campaignDetails.errorMessages) {
+        errors.push(...campaignDetails.errorMessages.map((e: string) => ({ type: 'campaign' as const, operation: 'sync', id: 'unknown', error: e })))
+      }
 
       const endTime = new Date()
       const duration = endTime.getTime() - startTime.getTime()
@@ -194,7 +203,7 @@ export class EmailReconciler {
   /**
    * Reconcile subscribers between Payload and Listmonk
    */
-  private async reconcileSubscribers(tenantId?: string): Promise<SubscriberReconciliation & { errors: string[] }> {
+  private async reconcileSubscribers(tenantId?: string): Promise<SubscriberReconciliation & { errorMessages?: string[] }> {
     const payload = await this.getPayload()
     const listmonk = this.getListmonk()
     const errors: string[] = []
@@ -265,13 +274,15 @@ export class EmailReconciler {
 
           if (needsUpdate) {
             // Update Listmonk to match Payload
-            await listmonk.updateSubscriber(payloadSub.listmonkId, {
-              email: payloadSub.email,
-              name: payloadSub.name || '',
-              status: payloadSub.status,
-            })
-            updated++
-            console.log(`[Reconciliation] Updated subscriber: ${payloadSub.email}`)
+            if (payloadSub.listmonkId) {
+              await listmonk.updateSubscriber(payloadSub.listmonkId, {
+                email: payloadSub.email,
+                name: payloadSub.name || '',
+                status: payloadSub.status,
+              })
+              updated++
+              console.log(`[Reconciliation] Updated subscriber: ${payloadSub.email}`)
+            }
           } else {
             synced++
           }
@@ -300,7 +311,8 @@ export class EmailReconciler {
         orphanedPayload,
         orphanedListmonk,
         errors: errors.length,
-      } as SubscriberReconciliation & { errors: string[] }
+        errorMessages: errors,
+      }
     } catch (error: any) {
       errors.push(`Fatal error in subscriber reconciliation: ${error.message}`)
       throw error
@@ -310,7 +322,7 @@ export class EmailReconciler {
   /**
    * Reconcile lists between Payload and Listmonk
    */
-  private async reconcileLists(tenantId?: string): Promise<ListReconciliation & { errors: string[] }> {
+  private async reconcileLists(tenantId?: string): Promise<ListReconciliation & { errorMessages?: string[] }> {
     const payload = await this.getPayload()
     const listmonk = this.getListmonk()
     const errors: string[] = []
@@ -323,7 +335,7 @@ export class EmailReconciler {
 
     try {
       // Get all lists from Payload
-      const where: any = { listmonkListId: { exists: true } }
+      const where: any = { listmonkId: { exists: true } }
       if (tenantId) {
         where.tenant = { equals: tenantId }
       }
@@ -350,19 +362,19 @@ export class EmailReconciler {
       // Reconcile each Payload list
       for (const payloadList of payloadLists.docs) {
         try {
-          const listmonkList = listmonkMap.get(payloadList.listmonkListId)
+          const listmonkList = listmonkMap.get(payloadList.listmonkId)
 
           if (!listmonkList) {
             // Orphaned in Payload
             orphanedPayload++
-            console.warn(`[Reconciliation] Orphaned list in Payload: ${payloadList.name} (Listmonk ID: ${payloadList.listmonkListId})`)
+            console.warn(`[Reconciliation] Orphaned list in Payload: ${payloadList.name} (Listmonk ID: ${payloadList.listmonkId})`)
 
             // Clear Listmonk ID
             await payload.update({
               collection: 'email-lists',
               id: payloadList.id,
               data: {
-                listmonkListId: null as any,
+                listmonkId: null as any,
                 syncStatus: 'pending',
               },
             })
@@ -376,19 +388,23 @@ export class EmailReconciler {
 
           if (needsUpdate) {
             // Update Listmonk to match Payload
-            await listmonk.updateList(payloadList.listmonkListId, {
-              name: payloadList.name,
-              type: 'public',
-              optin: 'double',
-              description: payloadList.description || '',
-            })
-            updated++
-            console.log(`[Reconciliation] Updated list: ${payloadList.name}`)
+            if (payloadList.listmonkId) {
+              await listmonk.updateList(payloadList.listmonkId, {
+                name: payloadList.name,
+                type: 'public',
+                optin: 'double',
+                description: payloadList.description || '',
+              })
+              updated++
+              console.log(`[Reconciliation] Updated list: ${payloadList.name}`)
+            }
           } else {
             synced++
           }
 
-          listmonkMap.delete(payloadList.listmonkListId)
+          if (payloadList.listmonkId) {
+            listmonkMap.delete(payloadList.listmonkId)
+          }
         } catch (error: any) {
           errors.push(`Failed to reconcile list ${payloadList.name}: ${error.message}`)
           console.error(`[Reconciliation] Error reconciling ${payloadList.name}:`, error)
@@ -409,7 +425,8 @@ export class EmailReconciler {
         orphanedPayload,
         orphanedListmonk,
         errors: errors.length,
-      } as ListReconciliation & { errors: string[] }
+        errorMessages: errors,
+      }
     } catch (error: any) {
       errors.push(`Fatal error in list reconciliation: ${error.message}`)
       throw error
@@ -419,7 +436,7 @@ export class EmailReconciler {
   /**
    * Reconcile campaigns between Payload and Listmonk
    */
-  private async reconcileCampaigns(tenantId?: string): Promise<CampaignReconciliation & { errors: string[] }> {
+  private async reconcileCampaigns(tenantId?: string): Promise<CampaignReconciliation & { errorMessages?: string[] }> {
     const payload = await this.getPayload()
     const listmonk = this.getListmonk()
     const errors: string[] = []
@@ -447,7 +464,12 @@ export class EmailReconciler {
       let listmonkCampaigns: any[] = []
       try {
         const listmonkResponse = await listmonk.getCampaigns()
-        listmonkCampaigns = listmonkResponse.data || []
+        // Handle both array response and object with results property
+        if (Array.isArray(listmonkResponse.data)) {
+          listmonkCampaigns = listmonkResponse.data
+        } else if (listmonkResponse.data && Array.isArray(listmonkResponse.data.results)) {
+          listmonkCampaigns = listmonkResponse.data.results
+        }
         console.log(`[Reconciliation] Found ${listmonkCampaigns.length} campaigns in Listmonk`)
       } catch (error: any) {
         console.warn(`[Reconciliation] Failed to fetch campaigns from Listmonk: ${error.message}`)
@@ -538,7 +560,8 @@ export class EmailReconciler {
         statsUpdated,
         orphanedPayload,
         errors: errors.length,
-      } as CampaignReconciliation & { errors: string[] }
+        errorMessages: errors,
+      }
     } catch (error: any) {
       errors.push(`Fatal error in campaign reconciliation: ${error.message}`)
       throw error

@@ -3,7 +3,7 @@
  * Background worker that processes complete site generation jobs
  */
 
-import { Worker, Job } from 'bullmq'
+import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis } from '../redis'
 import { QUEUE_NAMES, baseWorkerConfig } from '../config'
 import { sendSSEUpdate } from '../sse'
@@ -85,7 +85,7 @@ export const siteGeneratorWorker = new Worker(
   {
     ...baseWorkerConfig,
     concurrency: 1, // Only 1 site generation at a time (resource intensive)
-  },
+  } as WorkerOptions,
 )
 
 // Worker event handlers

@@ -67,7 +67,7 @@ export async function sendSSEUpdate(connectionId: string, update: SSEUpdate) {
 export function subscribeToSSEUpdates() {
   const subscriber = redis.duplicate()
 
-  subscriber.psubscribe('sse:*', (err, count) => {
+  subscriber.psubscribe('sse:*', (err: any, count: any) => {
     if (err) {
       console.error('[SSE] Redis subscription error:', err)
       return
@@ -75,7 +75,7 @@ export function subscribeToSSEUpdates() {
     console.log(`[SSE] Subscribed to ${count} Redis channels`)
   })
 
-  subscriber.on('pmessage', (pattern, channel, message) => {
+  subscriber.on('pmessage', (pattern: any, channel: any, message: any) => {
     const connectionId = channel.split(':')[1]
     const update: SSEUpdate = JSON.parse(message)
 

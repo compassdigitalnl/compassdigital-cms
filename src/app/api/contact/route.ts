@@ -73,8 +73,7 @@ export async function POST(request: NextRequest) {
     const submission = await payload.create({
       collection: 'form-submissions',
       data: {
-        form: 'contact',
-        submittedAt: new Date().toISOString(),
+        form: 'contact' as any,
         data: [
           { field: 'name', value: body.name },
           { field: 'email', value: body.email },
@@ -82,7 +81,7 @@ export async function POST(request: NextRequest) {
           ...(body.subject ? [{ field: 'subject', value: body.subject }] : []),
           { field: 'message', value: body.message },
         ],
-      },
+      } as any,
     })
 
     console.log('[Contact Form] New submission received:', {

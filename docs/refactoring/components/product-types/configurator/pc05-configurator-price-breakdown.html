@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC05: ConfiguratorPriceBreakdown — Plastimed Design System</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ================================
+       DESIGN TOKENS
+       ================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.3);
+      --green: #00C853;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-lg: 16px;
+      --space-xl: 24px;
+
+      /* Border radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 18px;
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    }
+
+    /* ================================
+       BASE STYLES
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .demo-description {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: 24px;
+    }
+
+    /* ================================
+       PC05: CONFIGURATOR PRICE BREAKDOWN
+       ================================ */
+
+    /* Summary card container */
+    .summary-card {
+      position: sticky;
+      top: 88px;
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      max-width: 400px;
+    }
+
+    /* Header (dark gradient) */
+    .sum-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      padding: 18px 22px;
+      color: white;
+    }
+
+    .sum-h-title {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .sum-h-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Body section */
+    .sum-body {
+      padding: 18px 22px;
+    }
+
+    /* Configuration summary rows */
+    .sum-config {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .sc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--grey-light);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .sc-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--grey-dark);
+    }
+
+    .sc-label i {
+      width: 14px;
+      height: 14px;
+      color: var(--teal);
+    }
+
+    .sc-value {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--navy);
+    }
+
+    .sc-price {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--grey-mid);
+      font-weight: 400;
+    }
+
+    .sc-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid var(--grey);
+      flex-shrink: 0;
+    }
+
+    /* Pricing breakdown */
+    .sum-pricing {
+      border-top: 1px solid var(--grey);
+      padding-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    .sp-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 3px 0;
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    .sp-line.extra {
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* Total line */
+    .sp-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0 0;
+      border-top: 2px solid var(--navy);
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 6px;
+      color: var(--navy);
+    }
+
+    .sp-monthly {
+      text-align: right;
+      font-size: 12px;
+      color: var(--grey-mid);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* Primary CTA button */
+    .sum-btn {
+      width: 100%;
+      height: 52px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--transition);
+      box-shadow: 0 4px 16px var(--teal-glow);
+      margin-top: 14px;
+    }
+
+    .sum-btn:hover {
+      background: var(--navy);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(10, 22, 40, 0.2);
+    }
+
+    .sum-btn:active {
+      transform: translateY(0);
+    }
+
+    .sum-btn i {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Alternative action buttons */
+    .sum-alt {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .sum-alt-btn {
+      flex: 1;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--grey);
+      background: white;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.12s;
+      color: var(--navy);
+    }
+
+    .sum-alt-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-1px);
+    }
+
+    .sum-alt-btn:active {
+      transform: translateY(0);
+    }
+
+    .sum-alt-btn i {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* Trust signals */
+    .sum-trust {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .str {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .str i {
+      width: 13px;
+      height: 13px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .summary-card {
+        position: static;
+        max-width: none;
+        margin-bottom: 32px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sum-alt {
+        flex-wrap: wrap;
+      }
+
+      .sum-alt-btn {
+        flex-basis: calc(50% - 3px);
+      }
+
+      .sp-total {
+        font-size: 20px;
+      }
+    }
+
+    /* ================================
+       DOCUMENTATION STYLES
+       ================================ */
+    .docs {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .docs h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    .docs h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .docs h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .docs p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 16px;
+    }
+
+    .docs ul, .docs ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    .docs li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .docs code {
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .docs pre code {
+      background: none;
+      padding: 0;
+      color: var(--white);
+      font-size: 13px;
+    }
+
+    .info-box {
+      background: rgba(0, 137, 123, 0.06);
+      border-left: 3px solid var(--teal);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: var(--navy);
+    }
+
+    .warning-box {
+      background: #FFF8E1;
+      border-left: 3px solid #F59E0B;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .warning-box p {
+      margin: 0;
+      color: #92400E;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================
+       LIVE DEMO SECTION
+       ================================ -->
+  <div class="demo-container">
+
+    <!-- Demo 1: Complete Price Breakdown -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 1: Complete Configurator — All sections</h2>
+      <p class="demo-description">Full price breakdown with config summary, pricing details, CTA button, alternative actions, and trust signals.</p>
+
+      <div class="summary-card">
+        <div class="sum-header">
+          <div class="sum-h-title">💻 ProBook Ultra 16"</div>
+          <div class="sum-h-sub">Je huidige configuratie</div>
+        </div>
+
+        <div class="sum-body">
+          <!-- Configuration summary -->
+          <div class="sum-config">
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="palette"></i> Kleur
+              </div>
+              <div class="sc-value">
+                <div class="sc-dot" style="background:#2D3436;"></div>
+                Space Grey
+              </div>
+            </div>
+
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="cpu"></i> Processor
+              </div>
+              <div class="sc-value">
+                M4 Pro <span class="sc-price">+ €600</span>
+              </div>
+            </div>
+
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="memory-stick"></i> RAM
+              </div>
+              <div class="sc-value">
+                36 GB <span class="sc-price">+ €200</span>
+              </div>
+            </div>
+
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="hard-drive"></i> SSD
+              </div>
+              <div class="sc-value">
+                512 GB <span class="sc-price">incl.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing breakdown -->
+          <div class="sum-pricing">
+            <div class="sp-line">
+              <span>Basisprijs ProBook Ultra 16"</span>
+              <span>€1.599,00</span>
+            </div>
+            <div class="sp-line">
+              <span>M4 Pro upgrade</span>
+              <span>+ €600,00</span>
+            </div>
+            <div class="sp-line">
+              <span>36 GB RAM upgrade</span>
+              <span>+ €200,00</span>
+            </div>
+            <div class="sp-line extra">
+              <span>AppleCare+ (3 jaar)</span>
+              <span>+ €299,00</span>
+            </div>
+            <div class="sp-line extra">
+              <span>Gravering</span>
+              <span>Gratis</span>
+            </div>
+
+            <div class="sp-total">
+              <span>Totaal</span>
+              <div>
+                <div>€2.698,00</div>
+                <div class="sp-monthly">of €112,42/mnd (24×)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Primary CTA -->
+          <button class="sum-btn">
+            <i data-lucide="shopping-cart"></i>
+            Toevoegen aan winkelwagen
+          </button>
+
+          <!-- Alternative actions -->
+          <div class="sum-alt">
+            <button class="sum-alt-btn">
+              <i data-lucide="heart"></i> Opslaan
+            </button>
+            <button class="sum-alt-btn">
+              <i data-lucide="share-2"></i> Delen
+            </button>
+            <button class="sum-alt-btn">
+              <i data-lucide="file-text"></i> PDF
+            </button>
+          </div>
+
+          <!-- Trust signals -->
+          <div class="sum-trust">
+            <div class="str">
+              <i data-lucide="truck"></i>
+              Gratis levering (3–5 werkdagen)
+            </div>
+            <div class="str">
+              <i data-lucide="rotate-ccw"></i>
+              14 dagen retourrecht
+            </div>
+            <div class="str">
+              <i data-lucide="shield-check"></i>
+              2 jaar fabrieksgarantie
+            </div>
+            <div class="str">
+              <i data-lucide="credit-card"></i>
+              Betaal achteraf of in termijnen
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 2: Minimal Configuration -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 2: Minimal — Base configuration only</h2>
+      <p class="demo-description">Simplified breakdown with base price, no upgrades or extras. Shows €0 monthly financing.</p>
+
+      <div class="summary-card">
+        <div class="sum-header">
+          <div class="sum-h-title">📱 iPhone 16 Pro</div>
+          <div class="sum-h-sub">Je huidige configuratie</div>
+        </div>
+
+        <div class="sum-body">
+          <div class="sum-config">
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="palette"></i> Kleur
+              </div>
+              <div class="sc-value">
+                <div class="sc-dot" style="background:#C0C0C0;"></div>
+                Zilver
+              </div>
+            </div>
+
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="hard-drive"></i> Opslag
+              </div>
+              <div class="sc-value">
+                256 GB <span class="sc-price">incl.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sum-pricing">
+            <div class="sp-line">
+              <span>Basisprijs iPhone 16 Pro</span>
+              <span>€1.199,00</span>
+            </div>
+
+            <div class="sp-total">
+              <span>Totaal</span>
+              <div>
+                <div>€1.199,00</div>
+                <div class="sp-monthly">of €49,96/mnd (24×)</div>
+              </div>
+            </div>
+          </div>
+
+          <button class="sum-btn">
+            <i data-lucide="shopping-cart"></i>
+            Toevoegen aan winkelwagen
+          </button>
+
+          <div class="sum-alt">
+            <button class="sum-alt-btn">
+              <i data-lucide="heart"></i> Opslaan
+            </button>
+            <button class="sum-alt-btn">
+              <i data-lucide="share-2"></i> Delen
+            </button>
+          </div>
+
+          <div class="sum-trust">
+            <div class="str">
+              <i data-lucide="truck"></i>
+              Gratis levering (3–5 werkdagen)
+            </div>
+            <div class="str">
+              <i data-lucide="rotate-ccw"></i>
+              14 dagen retourrecht
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 3: With Discount -->
+    <div class="demo-section">
+      <h2 class="demo-title">Demo 3: With Discount — Promotional pricing</h2>
+      <p class="demo-description">Shows discount line in green, adjusted total, and promotional message.</p>
+
+      <div class="summary-card">
+        <div class="sum-header">
+          <div class="sum-h-title">⌚ Smart Watch Ultra</div>
+          <div class="sum-h-sub">Je huidige configuratie</div>
+        </div>
+
+        <div class="sum-body">
+          <div class="sum-config">
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="palette"></i> Kleur
+              </div>
+              <div class="sc-value">
+                <div class="sc-dot" style="background:#00897B;"></div>
+                Teal
+              </div>
+            </div>
+
+            <div class="sc-row">
+              <div class="sc-label">
+                <i data-lucide="ruler"></i> Maat
+              </div>
+              <div class="sc-value">
+                45mm <span class="sc-price">incl.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sum-pricing">
+            <div class="sp-line">
+              <span>Basisprijs Smart Watch Ultra 45mm</span>
+              <span>€799,00</span>
+            </div>
+            <div class="sp-line extra" style="color: var(--green);">
+              <span>🎉 Lanceringsdeal</span>
+              <span>− €100,00</span>
+            </div>
+
+            <div class="sp-total">
+              <span>Totaal</span>
+              <div>
+                <div>€699,00</div>
+                <div class="sp-monthly">of €29,13/mnd (24×)</div>
+              </div>
+            </div>
+          </div>
+
+          <button class="sum-btn">
+            <i data-lucide="shopping-cart"></i>
+            Toevoegen aan winkelwagen
+          </button>
+
+          <div class="sum-alt">
+            <button class="sum-alt-btn">
+              <i data-lucide="heart"></i> Opslaan
+            </button>
+            <button class="sum-alt-btn">
+              <i data-lucide="share-2"></i> Delen
+            </button>
+          </div>
+
+          <div class="sum-trust">
+            <div class="str">
+              <i data-lucide="zap"></i>
+              Gratis verzending vandaag besteld
+            </div>
+            <div class="str">
+              <i data-lucide="gift"></i>
+              Gratis gravering bij aankoop
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================================
+       DOCUMENTATION
+       ================================ -->
+  <div class="docs">
+
+    <h2>📋 PC05: ConfiguratorPriceBreakdown</h2>
+    <p><strong>Component Type:</strong> Product Type Component — Configurator Pricing Summary<br>
+    <strong>Category:</strong> Pricing Display / Call-to-Action<br>
+    <strong>Complexity:</strong> High</p>
+
+    <div class="info-box">
+      <p><strong>💡 Purpose:</strong> Sticky pricing sidebar that shows a real-time breakdown of the configured product's price. Updates dynamically as users select options, displays financing info, and provides primary CTA to add to cart. Critical for transparency and conversion in high-value configurators.</p>
+    </div>
+
+    <!-- STEP 1: Component Overview -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>What is ConfiguratorPriceBreakdown?</h3>
+    <p>ConfiguratorPriceBreakdown is a sticky sidebar component that displays the current configuration's pricing in real-time. It shows a summary of selected options, itemized pricing breakdown, total cost with financing options, primary "Add to Cart" CTA, alternative actions (save/share/PDF), and trust signals to reduce purchase anxiety.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Sticky positioning:</strong> Stays visible while scrolling (desktop only, top: 88px)</li>
+      <li><strong>Configuration summary:</strong> Visual display of selected options with icons + price deltas</li>
+      <li><strong>Itemized pricing:</strong> Base price + upgrades + extras → total</li>
+      <li><strong>Financing calculator:</strong> Monthly payment option (e.g., €112/mnd for 24 months)</li>
+      <li><strong>Primary CTA:</strong> Teal gradient "Add to Cart" button with shopping cart icon</li>
+      <li><strong>Alternative actions:</strong> Save configuration, share with others, download PDF</li>
+      <li><strong>Trust signals:</strong> Free shipping, returns, warranty, payment options</li>
+      <li><strong>Dynamic updates:</strong> Real-time recalculation as user selects options</li>
+      <li><strong>Color indicator:</strong> Visual color dot for selected color option</li>
+    </ul>
+
+    <h3>Component Anatomy</h3>
+    <ol>
+      <li><strong>Header:</strong> Dark gradient bg, product name (emoji + title), subtitle</li>
+      <li><strong>Configuration Summary:</strong> Rows of selected options (icon + label + value + price)</li>
+      <li><strong>Pricing Breakdown:</strong> Line items (base + upgrades + extras)</li>
+      <li><strong>Total:</strong> Large bold total with optional monthly financing</li>
+      <li><strong>Primary CTA:</strong> Teal gradient button (52px height, full-width)</li>
+      <li><strong>Alternative Actions:</strong> 3 outline buttons (save, share, PDF)</li>
+      <li><strong>Trust Signals:</strong> 4 green-checkmark badges (shipping, returns, warranty, payment)</li>
+    </ol>
+
+    <!-- STEP 2: When to Use -->
+    <h2>STEP 2: When to Use This Component</h2>
+
+    <h3>Primary Use Cases</h3>
+    <ul>
+      <li><strong>Product configurators:</strong> Multi-step customization with pricing impact</li>
+      <li><strong>High-value products:</strong> €500+ where transparency builds trust</li>
+      <li><strong>Complex pricing:</strong> Base price + multiple upgrades + optional extras</li>
+      <li><strong>Financing offers:</strong> Products with monthly payment options</li>
+      <li><strong>B2B configurators:</strong> Quote generation, save/share functionality</li>
+    </ul>
+
+    <h3>When NOT to Use</h3>
+    <ul>
+      <li><strong>Simple products:</strong> Single price, no options (use basic product page)</li>
+      <li><strong>Low-value items:</strong> < €50 where itemized breakdown is overkill</li>
+      <li><strong>Mobile-first flows:</strong> Limited screen space (use simplified version)</li>
+      <li><strong>Services:</strong> Non-physical products without clear pricing tiers</li>
+    </ul>
+
+    <h3>Component Pairing</h3>
+    <p>ConfiguratorPriceBreakdown works best when combined with:</p>
+    <ul>
+      <li><strong>PC03: ConfiguratorOptionSelector</strong> — User selects options → pricing updates</li>
+      <li><strong>PC04: ConfiguratorPreview</strong> — Visual preview (left) + pricing (right) sticky layout</li>
+      <li><strong>PC02: ConfiguratorStepNav</strong> — Shows progress, pricing shows cumulative cost</li>
+    </ul>
+
+    <!-- STEP 3: Design Tokens -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <ul>
+      <li><strong>Header gradient:</strong> <code>linear-gradient(135deg, #0A1628, #121F33)</code></li>
+      <li><strong>Config row bg:</strong> <code>--grey-light: #F1F4F8</code></li>
+      <li><strong>Extra line color:</strong> <code>--teal: #00897B</code> (extras like warranties)</li>
+      <li><strong>Discount line:</strong> <code>--green: #00C853</code> (for promotional pricing)</li>
+      <li><strong>Total border:</strong> <code>2px solid --navy</code></li>
+      <li><strong>Primary CTA:</strong> <code>linear-gradient(135deg, #00897B, #00695C)</code> + <code>box-shadow: 0 4px 16px rgba(0,137,123,0.3)</code></li>
+      <li><strong>Hover CTA:</strong> <code>--navy</code> solid background</li>
+      <li><strong>Trust icon color:</strong> <code>--green: #00C853</code></li>
+    </ul>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>Product title:</strong> 16px, 800 weight, Plus Jakarta Sans</li>
+      <li><strong>Subtitle:</strong> 12px, 40% opacity white</li>
+      <li><strong>Config label:</strong> 13px, 400 weight, <code>--grey-dark</code></li>
+      <li><strong>Config value:</strong> 13px, 700 weight, <code>--navy</code></li>
+      <li><strong>Price delta:</strong> 11px, JetBrains Mono, <code>--grey-mid</code></li>
+      <li><strong>Pricing line:</strong> 14px, 400 weight</li>
+      <li><strong>Total:</strong> 22px, 800 weight, Plus Jakarta Sans</li>
+      <li><strong>Monthly:</strong> 12px, 400 weight, <code>--grey-mid</code></li>
+      <li><strong>CTA button:</strong> 16px, 800 weight</li>
+      <li><strong>Alt buttons:</strong> 12px, 700 weight</li>
+      <li><strong>Trust text:</strong> 12px, 400 weight, <code>--grey-mid</code></li>
+    </ul>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Card max-width:</strong> 400px</li>
+      <li><strong>Border-radius:</strong> 18px (card), 8px (config rows, buttons)</li>
+      <li><strong>Header padding:</strong> 18px 22px</li>
+      <li><strong>Body padding:</strong> 18px 22px</li>
+      <li><strong>Config row padding:</strong> 8px 12px</li>
+      <li><strong>Config gap:</strong> 6px between rows</li>
+      <li><strong>Pricing gap:</strong> 3px between line items</li>
+      <li><strong>Total padding-top:</strong> 12px</li>
+      <li><strong>Button height:</strong> 52px (primary), 40px (alternative)</li>
+      <li><strong>Button margin-top:</strong> 14px (primary), 8px (alternative)</li>
+      <li><strong>Trust gap:</strong> 3px between signals</li>
+    </ul>
+
+    <h3>Icons (Lucide)</h3>
+    <ul>
+      <li><strong>Config options:</strong> <code>palette</code>, <code>cpu</code>, <code>memory-stick</code>, <code>hard-drive</code>, <code>ruler</code></li>
+      <li><strong>Primary CTA:</strong> <code>shopping-cart</code></li>
+      <li><strong>Alternative actions:</strong> <code>heart</code> (save), <code>share-2</code> (share), <code>file-text</code> (PDF)</li>
+      <li><strong>Trust signals:</strong> <code>truck</code>, <code>rotate-ccw</code>, <code>shield-check</code>, <code>credit-card</code>, <code>zap</code>, <code>gift</code></li>
+    </ul>
+
+    <!-- STEP 4: Props & Configuration -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre><code>interface ConfigOption {
+  id: string;
+  label: string;
+  icon: string;        // Lucide icon name
+  value: string;       // Display value (e.g., "Space Grey", "M4 Pro")
+  price?: string;      // Price delta (e.g., "+ €600", "incl.")
+  colorValue?: string; // For color options: hex value (#2D3436)
+}
+
+interface PriceLine {
+  id: string;
+  label: string;
+  amount: string;      // e.g., "€1.599,00", "+ €600,00", "Gratis"
+  type?: 'base' | 'upgrade' | 'extra' | 'discount';
+}
+
+interface TrustSignal {
+  icon: string;        // Lucide icon name
+  text: string;
+}
+
+interface ConfiguratorPriceBreakdownProps {
+  productName: string;
+  productEmoji?: string;
+  subtitle?: string;   // Default: "Je huidige configuratie"
+
+  // Configuration summary
+  selectedOptions: ConfigOption[];
+
+  // Pricing breakdown
+  priceLines: PriceLine[];
+  total: number;       // Total price in cents (e.g., 269800 = €2.698,00)
+  monthlyPayment?: {
+    amount: number;    // Monthly amount in cents
+    months: number;    // Number of months (e.g., 24)
+  };
+
+  // Actions
+  onAddToCart: () => void;
+  onSave?: () => void;
+  onShare?: () => void;
+  onDownloadPDF?: () => void;
+
+  // Trust signals
+  trustSignals?: TrustSignal[];
+
+  // Display options
+  sticky?: boolean;           // Enable sticky positioning (default: true)
+  stickyTop?: string;         // Top offset (default: "88px")
+  showAlternativeActions?: boolean;  // Show save/share/PDF buttons (default: true)
+  showTrustSignals?: boolean; // Show trust badges (default: true)
+  showMonthlyPayment?: boolean; // Show financing option (default: true)
+}
+
+// Example usage
+&lt;ConfiguratorPriceBreakdown
+  productName="ProBook Ultra 16\""
+  productEmoji="💻"
+  subtitle="Je huidige configuratie"
+  selectedOptions={[
+    { id: 'color', label: 'Kleur', icon: 'palette', value: 'Space Grey', colorValue: '#2D3436' },
+    { id: 'cpu', label: 'Processor', icon: 'cpu', value: 'M4 Pro', price: '+ €600' },
+    { id: 'ram', label: 'RAM', icon: 'memory-stick', value: '36 GB', price: '+ €200' },
+    { id: 'storage', label: 'SSD', icon: 'hard-drive', value: '512 GB', price: 'incl.' },
+  ]}
+  priceLines={[
+    { id: 'base', label: 'Basisprijs ProBook Ultra 16\"', amount: '€1.599,00', type: 'base' },
+    { id: 'cpu-upgrade', label: 'M4 Pro upgrade', amount: '+ €600,00', type: 'upgrade' },
+    { id: 'ram-upgrade', label: '36 GB RAM upgrade', amount: '+ €200,00', type: 'upgrade' },
+    { id: 'applecare', label: 'AppleCare+ (3 jaar)', amount: '+ €299,00', type: 'extra' },
+  ]}
+  total={269800}  // €2.698,00
+  monthlyPayment={{ amount: 11242, months: 24 }}  // €112,42/mnd
+  onAddToCart={handleAddToCart}
+  onSave={handleSave}
+  onShare={handleShare}
+  onDownloadPDF={handleDownloadPDF}
+  trustSignals={[
+    { icon: 'truck', text: 'Gratis levering (3–5 werkdagen)' },
+    { icon: 'rotate-ccw', text: '14 dagen retourrecht' },
+    { icon: 'shield-check', text: '2 jaar fabrieksgarantie' },
+    { icon: 'credit-card', text: 'Betaal achteraf of in termijnen' },
+  ]}
+/&gt;</code></pre>
+
+    <h3>Price Formatting Utility</h3>
+    <pre><code>// utils/formatPrice.ts
+export function formatPrice(cents: number): string {
+  const euros = cents / 100;
+  return new Intl.NumberFormat('nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(euros);
+}
+
+// Usage
+formatPrice(269800);  // "€ 2.698,00"
+formatPrice(60000);   // "€ 600,00"</code></pre>
+
+    <!-- STEP 5: Layout Rules -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>HTML Structure</h3>
+    <pre><code>&lt;div class="summary-card"&gt;
+  &lt;!-- Header --&gt;
+  &lt;div class="sum-header"&gt;
+    &lt;div class="sum-h-title"&gt;💻 ProBook Ultra 16"&lt;/div&gt;
+    &lt;div class="sum-h-sub"&gt;Je huidige configuratie&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="sum-body"&gt;
+    &lt;!-- Configuration summary --&gt;
+    &lt;div class="sum-config"&gt;
+      &lt;div class="sc-row"&gt;
+        &lt;div class="sc-label"&gt;
+          &lt;i data-lucide="palette"&gt;&lt;/i&gt; Kleur
+        &lt;/div&gt;
+        &lt;div class="sc-value"&gt;
+          &lt;div class="sc-dot" style="background:#2D3436;"&gt;&lt;/div&gt;
+          Space Grey
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- More options... --&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Pricing breakdown --&gt;
+    &lt;div class="sum-pricing"&gt;
+      &lt;div class="sp-line"&gt;
+        &lt;span&gt;Basisprijs ProBook Ultra 16"&lt;/span&gt;
+        &lt;span&gt;€1.599,00&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;!-- Upgrades + extras... --&gt;
+
+      &lt;div class="sp-total"&gt;
+        &lt;span&gt;Totaal&lt;/span&gt;
+        &lt;div&gt;
+          &lt;div&gt;€2.698,00&lt;/div&gt;
+          &lt;div class="sp-monthly"&gt;of €112,42/mnd (24×)&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- CTA buttons --&gt;
+    &lt;button class="sum-btn"&gt;
+      &lt;i data-lucide="shopping-cart"&gt;&lt;/i&gt;
+      Toevoegen aan winkelwagen
+    &lt;/button&gt;
+
+    &lt;div class="sum-alt"&gt;
+      &lt;button class="sum-alt-btn"&gt;&lt;i data-lucide="heart"&gt;&lt;/i&gt; Opslaan&lt;/button&gt;
+      &lt;button class="sum-alt-btn"&gt;&lt;i data-lucide="share-2"&gt;&lt;/i&gt; Delen&lt;/button&gt;
+      &lt;button class="sum-alt-btn"&gt;&lt;i data-lucide="file-text"&gt;&lt;/i&gt; PDF&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Trust signals --&gt;
+    &lt;div class="sum-trust"&gt;
+      &lt;div class="str"&gt;
+        &lt;i data-lucide="truck"&gt;&lt;/i&gt;
+        Gratis levering (3–5 werkdagen)
+      &lt;/div&gt;
+      &lt;!-- More trust signals... --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Positioning Rules</h3>
+    <ul>
+      <li><strong>Desktop (>900px):</strong> Sticky positioning (<code>top: 88px</code>), max-width 400px</li>
+      <li><strong>Mobile (≤900px):</strong> Static positioning, full-width, appears at bottom of configurator</li>
+      <li><strong>Sticky offset:</strong> 88px accounts for header (56px) + step nav (32px)</li>
+    </ul>
+
+    <h3>Responsive Behavior</h3>
+    <ul>
+      <li><strong>Desktop:</strong> Sticky sidebar on right, max-width 400px</li>
+      <li><strong>Tablet (641-900px):</strong> Static, full-width, after configurator options</li>
+      <li><strong>Mobile (≤640px):</strong> Alt buttons wrap (2 per row), smaller total font (20px)</li>
+    </ul>
+
+    <!-- STEP 6: Accessibility -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>ARIA Attributes</h3>
+    <pre><code>&lt;aside class="summary-card" role="complementary" aria-label="Prijs en configuratie samenvatting"&gt;
+  &lt;div class="sum-header"&gt;
+    &lt;div class="sum-h-title"&gt;💻 ProBook Ultra 16"&lt;/div&gt;
+    &lt;div class="sum-h-sub"&gt;Je huidige configuratie&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="sum-body"&gt;
+    &lt;div class="sum-config" aria-label="Geselecteerde opties"&gt;
+      &lt;div class="sc-row"&gt;
+        &lt;div class="sc-label"&gt;
+          &lt;i data-lucide="palette" aria-hidden="true"&gt;&lt;/i&gt; Kleur
+        &lt;/div&gt;
+        &lt;div class="sc-value"&gt;
+          &lt;div class="sc-dot" style="background:#2D3436;" aria-hidden="true"&gt;&lt;/div&gt;
+          &lt;span aria-label="Kleur: Space Grey"&gt;Space Grey&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="sum-pricing" role="region" aria-label="Prijsoverzicht" aria-live="polite"&gt;
+      &lt;!-- Line items... --&gt;
+
+      &lt;div class="sp-total" aria-label="Totaal: 2698 euro, of 112 euro 42 cent per maand voor 24 maanden"&gt;
+        &lt;span&gt;Totaal&lt;/span&gt;
+        &lt;div&gt;
+          &lt;div&gt;€2.698,00&lt;/div&gt;
+          &lt;div class="sp-monthly" aria-label="Financiering beschikbaar"&gt;of €112,42/mnd (24×)&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button
+      class="sum-btn"
+      aria-label="Toevoegen aan winkelwagen voor 2698 euro"
+      onclick="handleAddToCart()"
+    &gt;
+      &lt;i data-lucide="shopping-cart" aria-hidden="true"&gt;&lt;/i&gt;
+      Toevoegen aan winkelwagen
+    &lt;/button&gt;
+
+    &lt;div class="sum-alt" role="toolbar" aria-label="Configuratie acties"&gt;
+      &lt;button class="sum-alt-btn" aria-label="Configuratie opslaan"&gt;
+        &lt;i data-lucide="heart" aria-hidden="true"&gt;&lt;/i&gt; Opslaan
+      &lt;/button&gt;
+      &lt;button class="sum-alt-btn" aria-label="Configuratie delen"&gt;
+        &lt;i data-lucide="share-2" aria-hidden="true"&gt;&lt;/i&gt; Delen
+      &lt;/button&gt;
+      &lt;button class="sum-alt-btn" aria-label="Configuratie downloaden als PDF"&gt;
+        &lt;i data-lucide="file-text" aria-hidden="true"&gt;&lt;/i&gt; PDF
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class="sum-trust" role="list" aria-label="Voordelen"&gt;
+      &lt;div class="str" role="listitem"&gt;
+        &lt;i data-lucide="truck" aria-hidden="true"&gt;&lt;/i&gt;
+        Gratis levering (3–5 werkdagen)
+      &lt;/div&gt;
+      &lt;!-- More trust signals... --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;</code></pre>
+
+    <h3>Screen Reader Announcements</h3>
+    <ul>
+      <li><strong>On option change:</strong> "Processor bijgewerkt naar M4 Pro. Prijs verhoogd met €600. Nieuw totaal: €2.698"</li>
+      <li><strong>On discount applied:</strong> "Korting toegepast: €100. Nieuw totaal: €699"</li>
+      <li><strong>On save:</strong> "Configuratie opgeslagen. Je kunt dit later terugvinden in je account."</li>
+      <li><strong>On add to cart:</strong> "Product toegevoegd aan winkelwagen. Je hebt nu 1 item in je winkelwagen."</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Tab:</strong> Focus on primary CTA → alt buttons (save, share, PDF)</li>
+      <li><strong>Enter/Space:</strong> Activate focused button</li>
+      <li><strong>Shift+Tab:</strong> Navigate backwards</li>
+    </ul>
+
+    <!-- STEP 7: Implementation Notes -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>React/Next.js Component</h3>
+    <pre><code>// components/ConfiguratorPriceBreakdown.tsx
+import React, { useMemo } from 'react';
+import * as Icons from 'lucide-react';
+import { formatPrice } from '@/utils/formatPrice';
+
+interface ConfigOption {
+  id: string;
+  label: string;
+  icon: string;
+  value: string;
+  price?: string;
+  colorValue?: string;
+}
+
+interface PriceLine {
+  id: string;
+  label: string;
+  amount: string;
+  type?: 'base' | 'upgrade' | 'extra' | 'discount';
+}
+
+interface TrustSignal {
+  icon: string;
+  text: string;
+}
+
+interface ConfiguratorPriceBreakdownProps {
+  productName: string;
+  productEmoji?: string;
+  subtitle?: string;
+  selectedOptions: ConfigOption[];
+  priceLines: PriceLine[];
+  total: number;
+  monthlyPayment?: { amount: number; months: number };
+  onAddToCart: () => void;
+  onSave?: () => void;
+  onShare?: () => void;
+  onDownloadPDF?: () => void;
+  trustSignals?: TrustSignal[];
+  sticky?: boolean;
+  stickyTop?: string;
+  showAlternativeActions?: boolean;
+  showTrustSignals?: boolean;
+  showMonthlyPayment?: boolean;
+}
+
+export function ConfiguratorPriceBreakdown({
+  productName,
+  productEmoji,
+  subtitle = 'Je huidige configuratie',
+  selectedOptions,
+  priceLines,
+  total,
+  monthlyPayment,
+  onAddToCart,
+  onSave,
+  onShare,
+  onDownloadPDF,
+  trustSignals = [],
+  sticky = true,
+  stickyTop = '88px',
+  showAlternativeActions = true,
+  showTrustSignals = true,
+  showMonthlyPayment = true,
+}: ConfiguratorPriceBreakdownProps) {
+
+  const formattedTotal = useMemo(() => formatPrice(total), [total]);
+  const formattedMonthly = useMemo(() => {
+    if (!monthlyPayment) return null;
+    return {
+      amount: formatPrice(monthlyPayment.amount),
+      months: monthlyPayment.months,
+    };
+  }, [monthlyPayment]);
+
+  return (
+    &lt;aside
+      className="summary-card"
+      style={{ position: sticky ? 'sticky' : 'static', top: stickyTop }}
+      role="complementary"
+      aria-label="Prijs en configuratie samenvatting"
+    &gt;
+      &lt;div className="sum-header"&gt;
+        &lt;div className="sum-h-title"&gt;
+          {productEmoji && &lt;span&gt;{productEmoji} &lt;/span&gt;}
+          {productName}
+        &lt;/div&gt;
+        &lt;div className="sum-h-sub"&gt;{subtitle}&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="sum-body"&gt;
+        {/* Configuration summary */}
+        &lt;div className="sum-config" aria-label="Geselecteerde opties"&gt;
+          {selectedOptions.map((option) =&gt; {
+            const IconComponent = Icons[option.icon as keyof typeof Icons] as React.ElementType;
+
+            return (
+              &lt;div key={option.id} className="sc-row"&gt;
+                &lt;div className="sc-label"&gt;
+                  &lt;IconComponent size={14} aria-hidden="true" /&gt; {option.label}
+                &lt;/div&gt;
+                &lt;div className="sc-value"&gt;
+                  {option.colorValue && (
+                    &lt;div
+                      className="sc-dot"
+                      style={{ background: option.colorValue }}
+                      aria-hidden="true"
+                    /&gt;
+                  )}
+                  &lt;span&gt;{option.value}&lt;/span&gt;
+                  {option.price && &lt;span className="sc-price"&gt;{option.price}&lt;/span&gt;}
+                &lt;/div&gt;
+              &lt;/div&gt;
+            );
+          })}
+        &lt;/div&gt;
+
+        {/* Pricing breakdown */}
+        &lt;div className="sum-pricing" role="region" aria-label="Prijsoverzicht" aria-live="polite"&gt;
+          {priceLines.map((line) =&gt; (
+            &lt;div
+              key={line.id}
+              className={`sp-line ${line.type === 'extra' || line.type === 'discount' ? 'extra' : ''}`}
+              style={line.type === 'discount' ? { color: 'var(--green)' } : {}}
+            &gt;
+              &lt;span&gt;{line.label}&lt;/span&gt;
+              &lt;span&gt;{line.amount}&lt;/span&gt;
+            &lt;/div&gt;
+          ))}
+
+          &lt;div className="sp-total"&gt;
+            &lt;span&gt;Totaal&lt;/span&gt;
+            &lt;div&gt;
+              &lt;div&gt;{formattedTotal}&lt;/div&gt;
+              {showMonthlyPayment && formattedMonthly && (
+                &lt;div className="sp-monthly"&gt;
+                  of {formattedMonthly.amount}/mnd ({formattedMonthly.months}×)
+                &lt;/div&gt;
+              )}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        {/* Primary CTA */}
+        &lt;button className="sum-btn" onClick={onAddToCart}&gt;
+          &lt;Icons.ShoppingCart size={18} /&gt;
+          Toevoegen aan winkelwagen
+        &lt;/button&gt;
+
+        {/* Alternative actions */}
+        {showAlternativeActions && (
+          &lt;div className="sum-alt" role="toolbar" aria-label="Configuratie acties"&gt;
+            {onSave && (
+              &lt;button className="sum-alt-btn" onClick={onSave}&gt;
+                &lt;Icons.Heart size={13} /&gt; Opslaan
+              &lt;/button&gt;
+            )}
+            {onShare && (
+              &lt;button className="sum-alt-btn" onClick={onShare}&gt;
+                &lt;Icons.Share2 size={13} /&gt; Delen
+              &lt;/button&gt;
+            )}
+            {onDownloadPDF && (
+              &lt;button className="sum-alt-btn" onClick={onDownloadPDF}&gt;
+                &lt;Icons.FileText size={13} /&gt; PDF
+              &lt;/button&gt;
+            )}
+          &lt;/div&gt;
+        )}
+
+        {/* Trust signals */}
+        {showTrustSignals && trustSignals.length > 0 && (
+          &lt;div className="sum-trust" role="list" aria-label="Voordelen"&gt;
+            {trustSignals.map((signal, index) =&gt; {
+              const IconComponent = Icons[signal.icon as keyof typeof Icons] as React.ElementType;
+
+              return (
+                &lt;div key={index} className="str" role="listitem"&gt;
+                  &lt;IconComponent size={13} aria-hidden="true" /&gt;
+                  {signal.text}
+                &lt;/div&gt;
+              );
+            })}
+          &lt;/div&gt;
+        )}
+      &lt;/div&gt;
+    &lt;/aside&gt;
+  );
+}</code></pre>
+
+    <h3>Dynamic Price Calculation</h3>
+    <pre><code>// Parent component managing configurator state
+function ProductConfigurator() {
+  const [config, setConfig] = useState({
+    model: { id: 'probook-16', basePrice: 159900 },
+    color: 'space-grey',
+    processor: { id: 'm4-pro', price: 60000 },
+    ram: { id: '36gb', price: 20000 },
+    storage: { id: '512gb', price: 0 },
+    extras: [
+      { id: 'applecare', label: 'AppleCare+ (3 jaar)', price: 29900 },
+    ],
+  });
+
+  const total = useMemo(() => {
+    return (
+      config.model.basePrice +
+      config.processor.price +
+      config.ram.price +
+      config.storage.price +
+      config.extras.reduce((sum, extra) =&gt; sum + extra.price, 0)
+    );
+  }, [config]);
+
+  const monthlyPayment = useMemo(() => {
+    const monthlyAmount = Math.round(total / 24);
+    return { amount: monthlyAmount, months: 24 };
+  }, [total]);
+
+  const priceLines: PriceLine[] = [
+    { id: 'base', label: `Basisprijs ${config.model.id}`, amount: formatPrice(config.model.basePrice), type: 'base' },
+    { id: 'cpu', label: 'M4 Pro upgrade', amount: formatPrice(config.processor.price), type: 'upgrade' },
+    { id: 'ram', label: '36 GB RAM upgrade', amount: formatPrice(config.ram.price), type: 'upgrade' },
+    ...config.extras.map(extra =&gt; ({
+      id: extra.id,
+      label: extra.label,
+      amount: formatPrice(extra.price),
+      type: 'extra' as const,
+    })),
+  ];
+
+  return (
+    &lt;ConfiguratorPriceBreakdown
+      productName="ProBook Ultra 16\""
+      productEmoji="💻"
+      selectedOptions={[...]}
+      priceLines={priceLines}
+      total={total}
+      monthlyPayment={monthlyPayment}
+      onAddToCart={handleAddToCart}
+    /&gt;
+  );
+}</code></pre>
+
+    <!-- STEP 8: Variations & Related Components -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>EC07: OrderSummary</strong> — Cart/checkout summary (similar pattern, different context)</li>
+      <li><strong>PC03: ConfiguratorOptionSelector</strong> — User selects options → pricing updates</li>
+      <li><strong>PC04: ConfiguratorPreview</strong> — Visual preview (left) + pricing (right)</li>
+    </ul>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ Sticky positioning works on desktop (stays visible during scroll)</li>
+      <li>✓ Static positioning on mobile (full-width, after configurator)</li>
+      <li>✓ Total updates when options change</li>
+      <li>✓ Monthly payment recalculates correctly (total ÷ months)</li>
+      <li>✓ Color dot displays for color options</li>
+      <li>✓ Extras display in teal color</li>
+      <li>✓ Discounts display in green color</li>
+      <li>✓ Primary CTA button has hover effect (navy bg + translateY)</li>
+      <li>✓ Alt buttons wrap on mobile (2 per row)</li>
+      <li>✓ Trust signals render with green icons</li>
+      <li>✓ Keyboard navigation works (Tab through buttons)</li>
+      <li>✓ ARIA live region announces price changes</li>
+      <li>✓ Icons render correctly (Lucide)</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>💡 Best Practice:</strong> Always show monthly financing for products > €500. Studies show financing options increase conversion by 15-25% for high-value items, even if customers don't use it.</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

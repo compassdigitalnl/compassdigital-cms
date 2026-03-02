@@ -1,4 +1,4 @@
-import type { ABTest, ABTestResult } from '@/payload-types'
+import type { AbTest, AbTestResult } from '@/payload-types'
 
 /**
  * A/B Test Types
@@ -46,5 +46,5 @@ export interface UseABTestReturn {
   isConverted: boolean
 }
 
-export type ABTestDoc = ABTest
-export type ABTestResultDoc = ABTestResult
+export type ABTestDoc = AbTest
+export type ABTestResultDoc = AbTestResult

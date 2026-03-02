@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Customers Collection - B2B/B2C customer accounts
@@ -16,7 +17,7 @@ export const Customers: CollectionConfig = {
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'admin') return true
+      if (isAdmin(user)) return true
       // Customers can only read themselves
       return {
         id: {
@@ -27,14 +28,14 @@ export const Customers: CollectionConfig = {
     create: () => true, // Open registration (can be controlled via module config)
     update: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'admin') return true
+      if (isAdmin(user)) return true
       return {
         id: {
           equals: user.id,
         },
       }
     },
-    delete: ({ req: { user } }) => user && 'role' in user && user.role === 'admin',
+    delete: ({ req: { user } }) => isAdmin(user),
   },
   fields: [
     {

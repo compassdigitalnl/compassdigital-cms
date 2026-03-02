@@ -38,9 +38,10 @@ export const CTABannerComponent: React.FC<CTABannerBlock> = ({
     outlined: 'bg-white border-2 border-primary',
     image: bgImageUrl ? `bg-cover bg-center relative` : 'bg-primary',
   }
-  const styleClass = styleClasses[style] || styleClasses.gradient
+  const currentStyle = style || 'gradient'
+  const styleClass = styleClasses[currentStyle] || styleClasses.gradient
 
-  const isDark = style === 'gradient' || style === 'solid' || (style === 'image' && bgImageUrl)
+  const isDark = currentStyle === 'gradient' || currentStyle === 'solid' || (currentStyle === 'image' && bgImageUrl)
   const textColor = isDark ? 'text-white' : 'text-secondary-color'
 
   // Size classes
@@ -49,14 +50,16 @@ export const CTABannerComponent: React.FC<CTABannerBlock> = ({
     medium: 'py-12 md:py-16',
     large: 'py-16 md:py-20 lg:py-24',
   }
-  const sizeClass = sizeClasses[size] || sizeClasses.medium
+  const currentSize = size || 'medium'
+  const sizeClass = sizeClasses[currentSize] || sizeClasses.medium
 
   // Alignment classes
   const alignmentClasses = {
     left: 'text-left',
     center: 'text-center',
   }
-  const alignmentClass = alignmentClasses[alignment] || alignmentClasses.center
+  const currentAlignment = alignment || 'center'
+  const alignmentClass = alignmentClasses[currentAlignment] || alignmentClasses.center
 
   // Trust icon map
   const trustIconMap: Record<string, any> = {
@@ -120,7 +123,8 @@ export const CTABannerComponent: React.FC<CTABannerBlock> = ({
                     : 'bg-transparent text-primary border-2 border-primary hover:bg-primary-glow',
                   white: 'bg-white text-secondary-color hover:bg-white/90',
                 }
-                const buttonClass = buttonVariants[button.variant] || buttonVariants.primary
+                const currentVariant = button.variant || 'primary'
+                const buttonClass = buttonVariants[currentVariant] || buttonVariants.primary
 
                 return (
                   <Link
@@ -139,7 +143,8 @@ export const CTABannerComponent: React.FC<CTABannerBlock> = ({
           {trustElements?.enabled && trustElements.items && trustElements.items.length > 0 && (
             <div className={`flex flex-wrap gap-6 ${alignment === 'center' ? 'justify-center' : ''} mt-8`}>
               {trustElements.items.map((item, index) => {
-                const iconName = trustIconMap[item.icon] || 'CheckCircle'
+                const currentIcon = item.icon || 'check'
+                const iconName = trustIconMap[currentIcon] || 'CheckCircle'
                 return (
                   <div key={index} className="flex items-center gap-2">
                     <Icon

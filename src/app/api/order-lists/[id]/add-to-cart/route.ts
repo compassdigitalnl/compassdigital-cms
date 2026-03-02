@@ -31,13 +31,16 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     }
 
     // Check access: user must be owner or in shareWith
-    const isOwner = typeof doc.owner === 'string' ? doc.owner === user.id : doc.owner?.id === user.id
+    const userId = typeof user === 'object' && user !== null && 'id' in user ? user.id : (typeof user === 'number' ? user : null)
+    const isOwner = typeof doc.owner === 'string' ? doc.owner === userId : (typeof doc.owner === 'object' && doc.owner !== null && 'id' in doc.owner ? doc.owner.id === userId : false)
     const isShared = doc.shareWith?.some((share: any) => {
       const shareUserId = typeof share.user === 'string' ? share.user : share.user?.id
-      return shareUserId === user.id
+      return shareUserId === userId
     })
 
-    if (!isOwner && !isShared && !user.roles?.includes('admin')) {
+    const userRoles = typeof user === 'object' && user !== null && 'roles' in user ? user.roles : []
+
+    if (!isOwner && !isShared && !userRoles?.includes('admin')) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
@@ -116,9 +119,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       cart = await payload.create({
         collection: 'carts',
         data: {
-          user: user.id,
+          customer: user.id,
           items: newCartItems,
-        },
+        } as any,
       })
     }
 

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DD04: FileList - Plastimed Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 40px 24px;
+    }
+
+    .demo-section {
+      max-width: 1200px;
+      margin: 0 auto 64px;
+    }
+
+    .demo-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 32px 0 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       FILE LIST COMPONENT
+       ============================================ */
+
+    .file-list {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      max-width: 800px;
+    }
+
+    .fl-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .fl-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .fl-meta {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .fl-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fl-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+    }
+
+    .fl-item:hover {
+      border-color: var(--teal);
+      background: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .fl-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--teal-glow);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .fl-icon i {
+      width: 24px;
+      height: 24px;
+      color: var(--teal);
+    }
+
+    /* File type colors */
+    .fl-icon.zip { background: var(--purple-light); }
+    .fl-icon.zip i { color: var(--purple); }
+    .fl-icon.pdf { background: var(--coral-light); }
+    .fl-icon.pdf i { color: var(--coral); }
+    .fl-icon.code { background: var(--blue-light); }
+    .fl-icon.code i { color: var(--blue); }
+    .fl-icon.image { background: var(--green-light); }
+    .fl-icon.image i { color: var(--green); }
+    .fl-icon.doc { background: var(--amber-light); }
+    .fl-icon.doc i { color: var(--amber); }
+
+    .fl-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .fl-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fl-desc {
+      font-size: 12px;
+      color: var(--grey-dark);
+      margin-bottom: 6px;
+    }
+
+    .fl-details {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .fl-size {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .fl-type {
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .fl-badge {
+      padding: 2px 8px;
+      background: var(--teal-glow);
+      color: var(--teal);
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .fl-action {
+      flex-shrink: 0;
+    }
+
+    .fl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .fl-btn i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .fl-btn:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+
+    .fl-btn-secondary {
+      background: white;
+      color: var(--teal);
+      border: 1.5px solid var(--grey);
+    }
+
+    .fl-btn-secondary:hover {
+      border-color: var(--teal);
+    }
+
+    /* Footer */
+    .fl-footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .fl-total {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .fl-total-size {
+      font-family: var(--font-mono);
+      color: var(--teal);
+    }
+
+    .fl-download-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .fl-download-all i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .fl-download-all:hover {
+      background: var(--teal-dark);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    /* Compact variant */
+    .file-list.compact {
+      padding: 24px;
+    }
+
+    .file-list.compact .fl-header {
+      margin-bottom: 16px;
+    }
+
+    .file-list.compact .fl-item {
+      padding: 12px;
+    }
+
+    .file-list.compact .fl-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .file-list.compact .fl-icon i {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Grouped variant */
+    .fl-group {
+      margin-bottom: 24px;
+    }
+
+    .fl-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .fl-group-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      body {
+        padding: 24px 16px;
+      }
+
+      .file-list {
+        padding: 24px 16px;
+      }
+
+      .fl-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .fl-item {
+        flex-wrap: wrap;
+      }
+
+      .fl-action {
+        width: 100%;
+      }
+
+      .fl-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .fl-footer {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .fl-download-all {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Documentation styles omitted for brevity */
+  </style>
+</head>
+<body>
+
+  <div class="demo-section">
+    <h2>DD04: FileList - Live Demos</h2>
+
+    <h3>Default Variant</h3>
+    <div class="file-list">
+      <div class="fl-header">
+        <div class="fl-title">Downloadbare bestanden</div>
+        <div class="fl-meta">5 bestanden • 842 MB totaal</div>
+      </div>
+
+      <div class="fl-items">
+        <div class="fl-item">
+          <div class="fl-icon zip">
+            <i data-lucide="file-archive"></i>
+          </div>
+          <div class="fl-info">
+            <div class="fl-name">premium-ui-kit-components-v4.2.0.zip</div>
+            <div class="fl-desc">Alle UI componenten met Figma en Sketch bestanden</div>
+            <div class="fl-details">
+              <span class="fl-size">456 MB</span>
+              <span>•</span>
+              <span class="fl-type">ZIP</span>
+              <span>•</span>
+              <span class="fl-badge">Nieuw</span>
+            </div>
+          </div>
+          <div class="fl-action">
+            <button class="fl-btn">
+              <i data-lucide="download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="fl-item">
+          <div class="fl-icon code">
+            <i data-lucide="file-code"></i>
+          </div>
+          <div class="fl-info">
+            <div class="fl-name">source-code.zip</div>
+            <div class="fl-desc">React/Next.js broncode met TypeScript</div>
+            <div class="fl-details">
+              <span class="fl-size">234 MB</span>
+              <span>•</span>
+              <span class="fl-type">ZIP</span>
+            </div>
+          </div>
+          <div class="fl-action">
+            <button class="fl-btn">
+              <i data-lucide="download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="fl-item">
+          <div class="fl-icon pdf">
+            <i data-lucide="file-text"></i>
+          </div>
+          <div class="fl-info">
+            <div class="fl-name">documentation-complete.pdf</div>
+            <div class="fl-desc">Volledige documentatie met voorbeelden</div>
+            <div class="fl-details">
+              <span class="fl-size">89 MB</span>
+              <span>•</span>
+              <span class="fl-type">PDF</span>
+              <span>•</span>
+              <span>342 pagina's</span>
+            </div>
+          </div>
+          <div class="fl-action">
+            <button class="fl-btn">
+              <i data-lucide="download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="fl-item">
+          <div class="fl-icon image">
+            <i data-lucide="image"></i>
+          </div>
+          <div class="fl-info">
+            <div class="fl-name">brand-assets.zip</div>
+            <div class="fl-desc">Logo's, iconen en brand guidelines</div>
+            <div class="fl-details">
+              <span class="fl-size">45 MB</span>
+              <span>•</span>
+              <span class="fl-type">ZIP</span>
+            </div>
+          </div>
+          <div class="fl-action">
+            <button class="fl-btn">
+              <i data-lucide="download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="fl-item">
+          <div class="fl-icon doc">
+            <i data-lucide="book-open"></i>
+          </div>
+          <div class="fl-info">
+            <div class="fl-name">getting-started-guide.pdf</div>
+            <div class="fl-desc">Aan de slag handleiding voor beginners</div>
+            <div class="fl-details">
+              <span class="fl-size">18 MB</span>
+              <span>•</span>
+              <span class="fl-type">PDF</span>
+            </div>
+          </div>
+          <div class="fl-action">
+            <button class="fl-btn">
+              <i data-lucide="download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fl-footer">
+        <div class="fl-total">
+          Totaal: <span class="fl-total-size">842 MB</span>
+        </div>
+        <button class="fl-download-all">
+          <i data-lucide="package"></i>
+          <span>Download alles (ZIP)</span>
+        </button>
+      </div>
+    </div>
+
+    <h3>Grouped by Category</h3>
+    <div class="file-list">
+      <div class="fl-header">
+        <div class="fl-title">Premium UI Kit Pro v4.2.0</div>
+        <div class="fl-meta">8 bestanden • 1.2 GB</div>
+      </div>
+
+      <div class="fl-group">
+        <div class="fl-group-title">Design Bestanden</div>
+        <div class="fl-items">
+          <div class="fl-item">
+            <div class="fl-icon zip">
+              <i data-lucide="file-archive"></i>
+            </div>
+            <div class="fl-info">
+              <div class="fl-name">figma-components.fig</div>
+              <div class="fl-desc">Figma design library met alle componenten</div>
+              <div class="fl-details">
+                <span class="fl-size">234 MB</span>
+                <span>•</span>
+                <span class="fl-type">Figma</span>
+              </div>
+            </div>
+            <div class="fl-action">
+              <button class="fl-btn">
+                <i data-lucide="download"></i>
+                <span>Download</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="fl-item">
+            <div class="fl-icon zip">
+              <i data-lucide="file-archive"></i>
+            </div>
+            <div class="fl-info">
+              <div class="fl-name">sketch-library.sketch</div>
+              <div class="fl-desc">Sketch library voor macOS</div>
+              <div class="fl-details">
+                <span class="fl-size">198 MB</span>
+                <span>•</span>
+                <span class="fl-type">Sketch</span>
+              </div>
+            </div>
+            <div class="fl-action">
+              <button class="fl-btn">
+                <i data-lucide="download"></i>
+                <span>Download</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fl-group">
+        <div class="fl-group-title">Code & Documentatie</div>
+        <div class="fl-items">
+          <div class="fl-item">
+            <div class="fl-icon code">
+              <i data-lucide="file-code"></i>
+            </div>
+            <div class="fl-info">
+              <div class="fl-name">react-components.zip</div>
+              <div class="fl-desc">React/TypeScript componenten</div>
+              <div class="fl-details">
+                <span class="fl-size">456 MB</span>
+                <span>•</span>
+                <span class="fl-type">ZIP</span>
+              </div>
+            </div>
+            <div class="fl-action">
+              <button class="fl-btn">
+                <i data-lucide="download"></i>
+                <span>Download</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="fl-item">
+            <div class="fl-icon pdf">
+              <i data-lucide="file-text"></i>
+            </div>
+            <div class="fl-info">
+              <div class="fl-name">api-documentation.pdf</div>
+              <div class="fl-desc">Complete API referentie</div>
+              <div class="fl-details">
+                <span class="fl-size">67 MB</span>
+                <span>•</span>
+                <span class="fl-type">PDF</span>
+              </div>
+            </div>
+            <div class="fl-action">
+              <button class="fl-btn">
+                <i data-lucide="download"></i>
+                <span>Download</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fl-footer">
+        <div class="fl-total">
+          Totaal: <span class="fl-total-size">1.2 GB</span>
+        </div>
+        <button class="fl-download-all">
+          <i data-lucide="package"></i>
+          <span>Download alles (ZIP)</span>
+        </button>
+      </div>
+    </div>
+
+    <h3>Compact Variant</h3>
+    <div class="file-list compact">
+      <div class="fl-header">
+        <div class="fl-title">Extra downloads</div>
+        <div class="fl-meta">3 bestanden</div>
+      </div>
+
+      <div class="fl-items">
+        <div class="fl-item">
+          <div class="fl-icon pdf">
+            <i data-lucide="file-text"></i>
+          </div>
+          <div class="fl-info">
+            <div class="fl-name">license-certificate.pdf</div>
+            <div class="fl-details">
+              <span class="fl-size">2.4 MB</span>
+              <span>•</span>
+              <span class="fl-type">PDF</span>
+            </div>
+          </div>
+          <div class="fl-action">
+            <button class="fl-btn">
+              <i data-lucide="download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="fl-item">
+          <div class="fl-icon doc">
+            <i data-lucide="book-open"></i>
+          </div>
+          <div class="fl-info">
+            <div class="fl-name">changelog.pdf</div>
+            <div class="fl-details">
+              <span class="fl-size">8.1 MB</span>
+              <span>•</span>
+              <span class="fl-type">PDF</span>
+            </div>
+          </div>
+          <div class="fl-action">
+            <button class="fl-btn">
+              <i data-lucide="download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

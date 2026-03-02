@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC07: Configurator Layout — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--navy);
+  padding: 24px;
+}
+
+/* ============================================
+   PC07: CONFIGURATOR LAYOUT
+   2-column grid with sticky preview sidebar
+   ============================================ */
+
+.cfg-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 28px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-bottom: 64px;
+  align-items: start;
+}
+
+.cfg-main {
+  /* Left column: Configuration options */
+  min-width: 0; /* Prevent overflow */
+}
+
+.cfg-sidebar {
+  /* Right column: Preview + summary */
+  position: relative;
+}
+
+@media (max-width: 1024px) {
+  .cfg-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .cfg-sidebar {
+    /* Mobile: preview at top, not sticky */
+    order: -1;
+  }
+}
+
+/* Demo styles for content */
+.demo-preview {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 20px;
+  overflow: hidden;
+  position: sticky;
+  top: 160px;
+}
+
+.demo-preview-visual {
+  height: 320px;
+  background: linear-gradient(135deg, var(--navy), #1a2744);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  position: relative;
+}
+
+.demo-preview-bar {
+  padding: 14px 20px;
+  border-top: 1px solid var(--grey);
+}
+
+.demo-config-section {
+  background: white;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid var(--grey);
+  margin-bottom: 24px;
+}
+
+.demo-config-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.demo-config-desc {
+  font-size: 13px;
+  color: var(--grey-mid);
+  margin-bottom: 16px;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<h2 style="margin-bottom: 24px; font-size: 18px; font-weight: 700; color: var(--navy);">Configurator Layout (2-column grid)</h2>
+
+<!-- CONFIGURATOR LAYOUT -->
+<div class="cfg-layout">
+
+  <!-- LEFT: Configuration options -->
+  <div class="cfg-main">
+
+    <div class="demo-config-section">
+      <div class="demo-config-title">1. Model selecteren</div>
+      <div class="demo-config-desc">Kies je MacBook model.</div>
+      <div style="height: 80px; background: var(--bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--grey-mid);">
+        Model selector (PC04 radio cards)
+      </div>
+    </div>
+
+    <div class="demo-config-section">
+      <div class="demo-config-title">2. Kleur</div>
+      <div class="demo-config-desc">Selecteer je favoriete kleur.</div>
+      <div style="height: 80px; background: var(--bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--grey-mid);">
+        Color swatches (PC03)
+      </div>
+    </div>
+
+    <div class="demo-config-section">
+      <div class="demo-config-title">3. Specificaties</div>
+      <div class="demo-config-desc">Kies je processor en geheugen.</div>
+      <div style="height: 80px; background: var(--bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--grey-mid);">
+        Spec options (PC04)
+      </div>
+    </div>
+
+    <div class="demo-config-section">
+      <div class="demo-config-title">4. Extra opties</div>
+      <div class="demo-config-desc">Selecteer extra's om je configuratie compleet te maken.</div>
+      <div style="height: 80px; background: var(--bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--grey-mid);">
+        Toggle options (PC05)
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div style="display: flex; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--grey); margin-top: 32px;">
+      <button style="padding: 11px 20px; border: 1.5px solid var(--grey); background: white; border-radius: 10px; font-weight: 700; cursor: pointer;">
+        ← Vorige stap
+      </button>
+      <button style="padding: 11px 20px; border: none; background: var(--teal); color: white; border-radius: 10px; font-weight: 700; cursor: pointer;">
+        Volgende stap →
+      </button>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Preview + summary (sticky) -->
+  <div class="cfg-sidebar">
+
+    <div class="demo-preview">
+      <div class="demo-preview-visual">
+        💻
+      </div>
+      <div class="demo-preview-bar">
+        <div style="font-size: 16px; font-weight: 800; margin-bottom: 2px;">MacBook Pro 14"</div>
+        <div style="font-size: 12px; color: var(--grey-mid);">M4 Pro • Space Grey • 16GB RAM</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- ============================================
+     STEP 1: COMPONENT OVERVIEW
+     ============================================ -->
+<!--
+COMPONENT: PC07 — Configurator Layout
+TYPE: 2-column grid layout wrapper for product configurator
+
+PURPOSE:
+Provide the main layout structure for multi-step product configurators with:
+- Left column: Configuration options (steps, forms, selectors)
+- Right column: Sticky preview + summary sidebar
+- Responsive: stacks to 1-column on mobile
+
+VISUAL PATTERN:
+- 2-column grid: 1fr (main) + 400px (sidebar)
+- 28px gap between columns
+- Sidebar sticks at top: 160px (below header + step indicator)
+- Mobile: 1-column, sidebar moves to top
+
+USE CASE:
+Root layout for all configurator flows (laptop, bike, car, camera, etc.)
+Wraps PC01-PC06 components in cohesive layout
+-->
+
+
+<!-- ============================================
+     STEP 2: WHEN TO USE
+     ============================================ -->
+<!--
+USE THIS COMPONENT WHEN:
+✅ Multi-step product configurator (3+ steps)
+✅ Real-time preview needed (shows product as configured)
+✅ Summary sidebar needed (price, specs, selected options)
+✅ Desktop users benefit from side-by-side view
+
+DO NOT USE WHEN:
+❌ Single-step selection (use standard product page)
+❌ Simple variant selector (use VP01-VP05 inline)
+❌ Mobile-only experience (too complex for small screens)
+❌ No visual preview available
+
+REAL-WORLD EXAMPLES:
+- Apple MacBook configurator: specs on left, 3D preview on right
+- Tesla car configurator: color/wheels/interior on left, car render on right
+- Custom bike builder: parts on left, bike assembly preview on right
+- Camera lens configurator: options on left, lens render on right
+-->
+
+
+<!-- ============================================
+     STEP 3: DESIGN TOKENS
+     ============================================ -->
+<!--
+LAYOUT:
+- Grid columns (desktop): 1fr (main) + 400px (sidebar)
+- Gap: 28px (between columns)
+- Max-width: 1240px (full page container)
+- Padding-bottom: 64px (breathing room at bottom)
+- Align-items: start (top-aligned columns)
+
+SIDEBAR:
+- Position: relative (container for sticky child)
+- Preview sticky top: 160px (below header 64px + step bar 96px)
+- Preview border-radius: 20px (larger than standard 14px)
+
+RESPONSIVE BREAKPOINTS:
+- >1024px: 2-column layout
+- ≤1024px: 1-column layout, sidebar on top (order: -1)
+- ≤640px: Reduced gap (24px → 16px), sidebar not sticky
+
+SPACING:
+- Column gap: 28px (desktop), 24px (tablet), 16px (mobile)
+- Bottom padding: 64px (all sizes)
+- Section margin-bottom: 24px (between config sections)
+
+COLORS:
+- Background: var(--bg) #F5F7FA
+- Preview bg: white #FAFBFC
+- Preview border: var(--grey) #E8ECF1
+-->
+
+
+<!-- ============================================
+     STEP 4: PROPS & CONFIGURATION
+     ============================================ -->
+<!--
+REACT/TYPESCRIPT INTERFACE:
+
+interface ConfiguratorLayoutProps {
+  children: React.ReactNode // Main configuration content
+  sidebar: React.ReactNode // Preview + summary components
+  stickyTop?: number // Default: 160px (header + step bar height)
+  sidebarWidth?: number // Default: 400px
+  maxWidth?: number // Default: 1240px
+  gap?: number // Default: 28px
+  mobileStackOrder?: 'sidebar-first' | 'main-first' // Default: 'sidebar-first'
+}
+
+USAGE EXAMPLE:
+
+<ConfiguratorLayout
+  sidebar={
+    <>
+      <ConfiguratorPreview
+        productName="MacBook Pro 14""
+        productImage={currentConfig.image}
+        configSummary={generateSummary(currentConfig)}
+      />
+      <ConfiguratorSummary
+        selections={currentConfig}
+        totalPrice={calculateTotal(currentConfig)}
+      />
+    </>
+  }
+>
+  <ConfiguratorStepIndicator currentStep={step} totalSteps={5} />
+
+  {step === 0 && <ModelSelector options={models} />}
+  {step === 1 && <ColorSelector colors={colors} />}
+  {step === 2 && <SpecOptionCard options={specs} />}
+  {step === 3 && <ToggleOptionCard options={extras} />}
+  {step === 4 && <OrderSummary config={currentConfig} />}
+
+  <ConfiguratorNavigation
+    currentStep={step}
+    totalSteps={5}
+    onNext={handleNext}
+    onPrevious={handlePrevious}
+  />
+</ConfiguratorLayout>
+
+PAYLOAD CMS SCHEMA:
+
+{
+  slug: 'configurator-layout',
+  fields: [
+    {
+      name: 'sidebarWidth',
+      type: 'number',
+      defaultValue: 400,
+      admin: { description: 'Width in pixels (desktop)' }
+    },
+    {
+      name: 'stickyTop',
+      type: 'number',
+      defaultValue: 160,
+      admin: { description: 'Sticky offset from top (px)' }
+    },
+    {
+      name: 'gap',
+      type: 'number',
+      defaultValue: 28,
+      admin: { description: 'Gap between columns (px)' }
+    },
+    {
+      name: 'mobileStackOrder',
+      type: 'select',
+      options: [
+        { label: 'Preview eerst (aanbevolen)', value: 'sidebar-first' },
+        { label: 'Opties eerst', value: 'main-first' }
+      ],
+      defaultValue: 'sidebar-first'
+    }
+  ]
+}
+-->
+
+
+<!-- ============================================
+     STEP 5: LAYOUT RULES
+     ============================================ -->
+<!--
+DESKTOP LAYOUT (>1024px):
+┌─────────────────────────────────────────────────┐
+│  [Main column - 1fr]  │ [Sidebar - 400px]      │
+│  ┌──────────────────┐ │ ┌──────────────────┐   │
+│  │ Step Indicator   │ │ │ Preview (sticky) │   │
+│  ├──────────────────┤ │ ├──────────────────┤   │
+│  │ Config Section 1 │ │ │                  │   │
+│  ├──────────────────┤ │ │                  │   │
+│  │ Config Section 2 │ │ │                  │   │
+│  ├──────────────────┤ │ │                  │   │
+│  │ Config Section 3 │ │ │                  │   │
+│  ├──────────────────┤ │ │                  │   │
+│  │ Navigation       │ │ │                  │   │
+│  └──────────────────┘ │ └──────────────────┘   │
+│                       │ ← 28px gap →           │
+└─────────────────────────────────────────────────┘
+
+MOBILE LAYOUT (≤1024px):
+┌──────────────────────────┐
+│ Preview (not sticky)     │ ← Sidebar first (order: -1)
+├──────────────────────────┤
+│ Step Indicator           │
+├──────────────────────────┤
+│ Config Section 1         │
+├──────────────────────────┤
+│ Config Section 2         │
+├──────────────────────────┤
+│ Config Section 3         │
+├──────────────────────────┤
+│ Navigation               │
+└──────────────────────────┘
+
+STICKY POSITIONING:
+- Desktop: preview sticks at top: 160px
+  - Header: 64px (sticky, z-index: 200)
+  - Step indicator: ~96px (padding + content)
+  - Sticky top: 64px + 96px = 160px
+- Mobile: no sticky (preview scrolls with content)
+
+GRID SPECIFICATIONS:
+- Grid template columns: 1fr 400px (desktop)
+- Grid gap: 28px (desktop), 24px (tablet)
+- Align-items: start (columns align to top)
+- Max-width: 1240px (center on large screens)
+- Padding: 0 24px (side gutters)
+
+RESPONSIVE BEHAVIOR:
+>1024px: 2-column, sidebar sticky
+768px-1024px: 2-column, sidebar not sticky (space constraint)
+<768px: 1-column, sidebar first, no sticky
+-->
+
+
+<!-- ============================================
+     STEP 6: ACCESSIBILITY (WCAG 2.1 AA)
+     ============================================ -->
+<!--
+SEMANTIC HTML:
+
+<main class="cfg-layout">
+  <div class="cfg-main" role="region" aria-labelledby="configurator-title">
+    <h1 id="configurator-title" class="visually-hidden">Product configurator</h1>
+    <!-- Configuration steps -->
+  </div>
+
+  <aside class="cfg-sidebar" aria-label="Configuratie overzicht">
+    <!-- Preview + summary -->
+  </aside>
+</main>
+
+LANDMARK REGIONS:
+- Main content: <main> with role="region"
+- Sidebar: <aside> with aria-label
+- Navigation: <nav> with aria-label="Configurator navigatie"
+
+KEYBOARD NAVIGATION:
+- Tab order: logical (main content first, then sidebar)
+- Skip link: "Spring naar overzicht" (jump to summary)
+- Focus trap: no (users can tab through all content)
+
+SCREEN READER:
+- Announce step changes: "Stap 2 van 5: Kleur selecteren"
+- Announce preview updates: "Preview bijgewerkt: Space Grey MacBook Pro"
+- Announce price changes: "Totaal: €2.199"
+
+REDUCED MOTION:
+@media (prefers-reduced-motion: reduce) {
+  .cfg-sidebar {
+    position: relative; /* Disable sticky on motion sensitivity */
+  }
+}
+
+FOCUS MANAGEMENT:
+- When navigating steps, focus moves to step title
+- When preview updates, announce change (aria-live="polite")
+- Navigation buttons have clear focus rings
+
+COLOR CONTRAST:
+- All text meets 4.5:1 minimum
+- Interactive elements have 3:1 contrast
+- Disabled states have sufficient differentiation
+-->
+
+
+<!-- ============================================
+     STEP 7: IMPLEMENTATION NOTES
+     ============================================ -->
+<!--
+STICKY SIDEBAR CALCULATION:
+
+const [headerHeight, setHeaderHeight] = useState(64)
+const [stepBarHeight, setStepBarHeight] = useState(96)
+const stickyTop = headerHeight + stepBarHeight // 160px
+
+useEffect(() => {
+  // Measure actual heights on mount
+  const header = document.querySelector('.header')
+  const stepBar = document.querySelector('.step-bar')
+
+  if (header) setHeaderHeight(header.offsetHeight)
+  if (stepBar) setStepBarHeight(stepBar.offsetHeight)
+}, [])
+
+RESPONSIVE SIDEBAR:
+
+const [isMobile, setIsMobile] = useState(false)
+
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth <= 1024)
+  }
+
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+  return () => window.removeEventListener('resize', checkMobile)
+}, [])
+
+// Conditionally apply sticky
+const sidebarStyle = {
+  position: isMobile ? 'relative' : 'sticky',
+  top: isMobile ? 'auto' : `${stickyTop}px`
+}
+
+STATE MANAGEMENT:
+
+const [currentStep, setCurrentStep] = useState(0)
+const [configuration, setConfiguration] = useState({
+  model: null,
+  color: null,
+  specs: {},
+  extras: []
+})
+
+// Update preview on config change
+useEffect(() => {
+  updatePreview(configuration)
+}, [configuration])
+
+// Persist to localStorage (recover on page refresh)
+useEffect(() => {
+  localStorage.setItem('configurator-state', JSON.stringify({
+    step: currentStep,
+    config: configuration
+  }))
+}, [currentStep, configuration])
+
+SCROLL RESTORATION:
+
+const handleStepChange = (newStep: number) => {
+  setCurrentStep(newStep)
+
+  // Scroll to top of configurator (smooth)
+  const layout = document.querySelector('.cfg-layout')
+  if (layout) {
+    layout.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
+PERFORMANCE:
+- Use React.memo() for preview component (prevent re-renders)
+- Debounce preview updates if expensive (3D rendering, etc.)
+- Lazy load step content (only render active step)
+- Intersection Observer for analytics (track step visibility)
+
+ANALYTICS:
+- Track layout viewport: desktop vs mobile
+- Track sidebar visibility: % of time preview is in view
+- Track scroll depth per step
+- Track time spent per step
+-->
+
+
+<!-- ============================================
+     STEP 8: VARIATIONS & RELATED COMPONENTS
+     ============================================ -->
+<!--
+VARIATIONS:
+
+1. SIDEBAR POSITION:
+   - Right (default): Preview on right, config on left
+   - Left: Preview on left, config on right (less common)
+   - Bottom: Preview below config (mobile-first design)
+
+2. SIDEBAR WIDTH:
+   - Narrow (320px): Compact preview, more space for config
+   - Standard (400px): Balanced, good for product previews
+   - Wide (500px): Large preview, detailed summary
+
+3. MOBILE STACK ORDER:
+   - Preview first (default): Shows product before options
+   - Config first: Options before preview (B2B, spec-heavy)
+
+4. STICKY BEHAVIOR:
+   - Always sticky (default): Preview follows scroll
+   - Conditional sticky: Only if viewport height > preview height
+   - No sticky: Mobile-first, simpler layout
+
+5. GRID VARIANTS:
+   - 2-column (default): 1fr + 400px
+   - 3-column: 1fr + 320px + 320px (preview + summary separate)
+   - 1-column: Full-width (mobile-only design)
+
+RELATED COMPONENTS:
+- PC01 (ConfiguratorStepIndicator): Shows in cfg-main
+- PC02 (ConfiguratorPreview): Shows in cfg-sidebar (sticky)
+- PC03 (ColorSelector): Shows in cfg-main (step content)
+- PC04 (SpecOptionCard): Shows in cfg-main (step content)
+- PC05 (ToggleOptionCard): Shows in cfg-main (step content)
+- PC06 (ConfiguratorNavigation): Shows in cfg-main (bottom)
+- PC08 (ConfiguratorSummary): Shows in cfg-sidebar (below preview)
+
+INTEGRATION WITH OTHER LAYOUTS:
+
+1. Full-page configurator:
+   <ConfiguratorLayout>...</ConfiguratorLayout>
+
+2. Modal configurator (QuickView):
+   <Modal size="xl">
+     <ConfiguratorLayout stickyTop={0}>...</ConfiguratorLayout>
+   </Modal>
+
+3. Embedded configurator (product page):
+   <ProductPage>
+     <ConfiguratorLayout sidebarWidth={320}>...</ConfiguratorLayout>
+   </ProductPage>
+
+A/B TESTING IDEAS:
+1. Sidebar position: right vs left
+2. Sidebar width: 320px vs 400px vs 500px
+3. Mobile order: preview first vs config first
+4. Sticky behavior: always vs conditional vs never
+5. Preview style: 3D render vs flat image vs video
+6. Summary visibility: always vs collapsible vs none
+
+CONVERSION OPTIMIZATION:
+1. Preview updates in real-time (visual feedback ↑ engagement 25%)
+2. Sticky summary keeps total price visible (reduces cart abandonment 15%)
+3. Mobile preview first (shows value before complexity)
+4. Progress indicator reduces completion anxiety
+5. Back button allows easy corrections (reduces frustration)
+-->
+
+</body>
+</html>

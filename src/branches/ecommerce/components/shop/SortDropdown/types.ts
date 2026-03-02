@@ -43,4 +43,5 @@ export interface ShopToolbarProps {
   activeFilters?: ActiveFilterDisplay[]
   onRemoveFilter?: (groupId: string) => void
   onResetFilters?: () => void
+  onOpenMobileFilters?: () => void
 }

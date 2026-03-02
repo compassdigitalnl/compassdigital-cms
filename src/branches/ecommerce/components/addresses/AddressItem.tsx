@@ -8,6 +8,7 @@ interface AddressItemProps {
   isSelected?: boolean
   onClick?: () => void
   className?: string
+  beforeActions?: React.ReactNode
 }
 
 export const AddressItem: React.FC<AddressItemProps> = ({
@@ -15,6 +16,7 @@ export const AddressItem: React.FC<AddressItemProps> = ({
   isSelected,
   onClick,
   className,
+  beforeActions,
 }) => {
   return (
     <div
@@ -49,6 +51,7 @@ export const AddressItem: React.FC<AddressItemProps> = ({
             </svg>
           </div>
         )}
+        {beforeActions}
       </div>
     </div>
   )

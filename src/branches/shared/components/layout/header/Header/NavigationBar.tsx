@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { Header, Theme1, Settings } from '@/payload-types'
+import type { Header, Theme1, Setting } from '@/payload-types'
 import {
   Menu,
   ChevronDown,
@@ -42,10 +42,21 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   Menu,
 }
 
+type NavigationData = {
+  mode: 'manual' | 'categories' | 'hybrid'
+  items?: any[]
+  specialItems?: any[]
+  ctaButton?: {
+    show?: boolean | null
+    text?: string | null
+    link?: string | null
+  }
+}
+
 type Props = {
-  navigation: NonNullable<Header['navigation']>
+  navigation: NavigationData
   theme: Theme1 | null
-  settings?: Settings | null
+  settings?: Setting | null
 }
 
 type Category = {
@@ -69,8 +80,8 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
   const navRef = useRef<HTMLElement>(null)
   const [navTop, setNavTop] = useState(0)
 
-  const primaryColor = theme?.primaryColor || '#00897B'
-  const secondaryColor = theme?.secondaryColor || '#0A1628'
+  const primaryColor = theme?.teal || '#00897B'
+  const secondaryColor = theme?.navy || '#0A1628'
 
   // Build navigation items based on mode
   const navItems = navigation.mode === 'manual' || navigation.mode === 'hybrid'
@@ -278,9 +289,9 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
             {/* Manual/Hybrid Navigation Items */}
             {navItems.map((item: any) => {
               const hasChildren = item.children && item.children.length > 0
-              const Icon = item.icon ? iconMap[item.icon] : null
+              const Icon = item.icon ? iconMap[item.icon as string] : null
               const isActive = item.type === 'page' && item.page
-                ? typeof item.page === 'object' && 'slug' in item.page && pathname.includes(item.page.slug as string)
+                ? typeof item.page === 'object' && 'slug' in item.page && pathname.includes((item.page as any).slug as string)
                 : item.url && item.url !== '/' && pathname.includes(item.url)
 
               return (
@@ -314,7 +325,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
                   {/* Simple Dropdown for children */}
                   {hasChildren && (
                     <div className="absolute top-full left-0 bg-white border rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[195]" style={{ borderColor: 'var(--color-border)' }}>
-                      {item.children!.map((child: any) => (
+                      {(item.children as any[])!.map((child: any) => (
                         <CMSLink
                           key={child.id}
                           {...(typeof child.page === 'object' && 'slug' in child.page ? { reference: child.page } : {})}

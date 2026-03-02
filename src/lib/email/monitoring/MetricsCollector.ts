@@ -308,14 +308,14 @@ export class MetricsCollector {
         where: {
           and: [
             { createdAt: { greater_than: yesterday.toISOString() } },
-            { type: { in: ['sent', 'failed'] } },
+            { type: { in: ['sent', 'failed'] as any[] } },
           ],
         },
         limit: 10000,
       })
 
-      const emailsSent24h = emailEvents24h.docs.filter((e) => e.type === 'sent').length
-      const emailsFailed24h = emailEvents24h.docs.filter((e) => e.type === 'failed').length
+      const emailsSent24h = emailEvents24h.docs.filter((e: any) => e.type === 'sent').length
+      const emailsFailed24h = emailEvents24h.docs.filter((e: any) => e.type === 'failed').length
 
       // Campaign metrics
       const campaigns = await payload.find({
@@ -323,9 +323,9 @@ export class MetricsCollector {
         limit: 10000,
       })
 
-      const activeCampaigns = campaigns.docs.filter((c) => c.status === 'active').length
-      const scheduledCampaigns = campaigns.docs.filter((c) => c.status === 'scheduled').length
-      const draftCampaigns = campaigns.docs.filter((c) => c.status === 'draft').length
+      const activeCampaigns = campaigns.docs.filter((c: any) => c.status === 'active').length
+      const scheduledCampaigns = campaigns.docs.filter((c: any) => c.status === 'scheduled').length
+      const draftCampaigns = campaigns.docs.filter((c: any) => c.status === 'draft').length
 
       // Subscriber metrics
       const subscribers = await payload.find({
@@ -333,7 +333,7 @@ export class MetricsCollector {
         limit: 10000,
       })
 
-      const activeSubscribers = subscribers.docs.filter((s) => s.status === 'subscribed').length
+      const activeSubscribers = subscribers.docs.filter((s: any) => s.status === 'subscribed').length
 
       const subscribersAdded24h = await payload.find({
         collection: 'email-subscribers',
@@ -356,11 +356,11 @@ export class MetricsCollector {
 
       // Automation metrics
       const automationRules = await payload.find({
-        collection: 'email-automation-rules',
+        collection: 'automation-rules',
         limit: 10000,
       })
 
-      const activeAutomationRules = automationRules.docs.filter((r) => r.status === 'active').length
+      const activeAutomationRules = automationRules.docs.filter((r: any) => r.status === 'active').length
 
       const automationEvents24h = await payload.find({
         collection: 'email-events',

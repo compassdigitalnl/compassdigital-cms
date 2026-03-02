@@ -29,13 +29,11 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
 
   // Get product image or emoji
   const productEmoji = '🧤' // Default fallback
-  const productImage =
-    typeof prod.featuredImage === 'object' && prod.featuredImage?.url
-      ? prod.featuredImage.url
-      : null
+  const firstImage = Array.isArray(prod.images) && prod.images[0] && typeof prod.images[0] === 'object' ? prod.images[0] : null
+  const productImage = firstImage?.url || null
 
-  // Description: use custom or fallback to product excerpt/description
-  const description = customDescription || prod.excerpt || prod.description || ''
+  // Description: use custom or fallback to product shortDescription
+  const description = customDescription || prod.shortDescription || ''
 
   // Price formatting
   const formatPrice = (price: number | null | undefined) => {

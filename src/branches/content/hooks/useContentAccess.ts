@@ -41,10 +41,10 @@ export function useContentAccess(post: BlogPost | null): UseContentAccessResult 
   const { user, status } = useAuth()
 
   // Loading state
-  const isLoading = status === 'loading'
+  const isLoading = (status as string) === 'loading'
 
   // Check if user has any premium subscription
-  const isPremiumUser = userHasPremiumAccess(user)
+  const isPremiumUser = userHasPremiumAccess(user as any)
 
   // Check access to this specific post
   if (!post) {
@@ -56,7 +56,7 @@ export function useContentAccess(post: BlogPost | null): UseContentAccessResult 
     }
   }
 
-  const accessResult = checkContentAccess(post, user)
+  const accessResult = checkContentAccess(post, user as any)
 
   return {
     ...accessResult,
@@ -86,8 +86,8 @@ export function useContentAccess(post: BlogPost | null): UseContentAccessResult 
 export function usePremiumAccess() {
   const { user, status } = useAuth()
 
-  const isLoading = status === 'loading'
-  const isPremiumUser = userHasPremiumAccess(user)
+  const isLoading = (status as string) === 'loading'
+  const isPremiumUser = userHasPremiumAccess(user as any)
 
   return {
     isPremiumUser,

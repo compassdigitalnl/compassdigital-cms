@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP04: License Comparison Table — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --green: #00C853;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 16px;
+  padding: 0;
+  overflow-x: auto;
+}
+
+.comp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.comp-table thead th {
+  background: var(--grey-light);
+  padding: 10px 14px;
+  text-align: left;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--grey-dark);
+}
+
+.comp-table thead th:first-child {
+  border-radius: 10px 0 0 0;
+}
+
+.comp-table thead th:last-child {
+  border-radius: 0 10px 0 0;
+}
+
+.comp-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.comp-table tr:last-child td {
+  border-bottom: none;
+}
+
+.comp-table .feat-name {
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.comp-table .check {
+  color: var(--green);
+  text-align: center;
+}
+
+.comp-table .dash {
+  color: var(--grey);
+  text-align: center;
+}
+
+.comp-table .highlight {
+  background: var(--teal-glow);
+}
+
+.comp-table .highlight th,
+.comp-table .highlight td {
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<div class="section-title">
+  <i data-lucide="git-compare"></i> Vergelijk licenties
+</div>
+
+<div class="card">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Functie</th>
+        <th>Personal</th>
+        <th class="highlight">Professional</th>
+        <th>Team</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="feat-name">AI Design Assistant</td>
+        <td class="check">✓</td>
+        <td class="highlight check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td class="feat-name">Responsive Export</td>
+        <td class="check">✓</td>
+        <td class="highlight check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td class="feat-name">Code Generation</td>
+        <td class="dash">—</td>
+        <td class="highlight check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td class="feat-name">Realtime Collaboration</td>
+        <td class="dash">—</td>
+        <td class="highlight dash">—</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td class="feat-name">Aantal projecten</td>
+        <td>3</td>
+        <td class="highlight" style="font-weight: 700;">Onbeperkt</td>
+        <td>Onbeperkt</td>
+      </tr>
+      <tr>
+        <td class="feat-name">Componenten</td>
+        <td>100</td>
+        <td class="highlight" style="font-weight: 700;">500+</td>
+        <td>500+</td>
+      </tr>
+      <tr>
+        <td class="feat-name">Support</td>
+        <td>Community</td>
+        <td class="highlight" style="font-weight: 700;">Priority email</td>
+        <td>Dedicated</td>
+      </tr>
+      <tr>
+        <td class="feat-name">Gebruikers</td>
+        <td>1</td>
+        <td class="highlight" style="font-weight: 700;">1</td>
+        <td>Tot 10</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- Documentation: DP04 License Comparison Table -->
+<!-- Complete 8-step protocol available in component -->
+
+</body>
+</html>

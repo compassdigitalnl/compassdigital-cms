@@ -102,7 +102,7 @@ export async function createApiKey(data: {
 
   // Store in database
   const result = await payload.create({
-    collection: 'api-keys',
+    collection: 'api-keys' as any,
     data: {
       name: data.name,
       description: data.description,
@@ -161,7 +161,7 @@ export async function validateApiKey(
 
     // Find key in database
     const results = await payload.find({
-      collection: 'api-keys',
+      collection: 'api-keys' as any,
       where: {
         keyHash: {
           equals: keyHash,
@@ -193,11 +193,11 @@ export async function validateApiKey(
       if (expiryDate < new Date()) {
         // Auto-update status to expired
         await payload.update({
-          collection: 'api-keys',
+          collection: 'api-keys' as any,
           id: keyData.id,
           data: {
             status: 'expired',
-          },
+          } as any,
         })
 
         return {
@@ -282,7 +282,7 @@ export async function trackApiKeyUsage(
 
     // Get current usage
     const keyData = await payload.findByID({
-      collection: 'api-keys',
+      collection: 'api-keys' as any,
       id: keyId,
     })
 
@@ -290,7 +290,7 @@ export async function trackApiKeyUsage(
 
     // Update usage
     await payload.update({
-      collection: 'api-keys',
+      collection: 'api-keys' as any,
       id: keyId,
       data: {
         usage: {
@@ -298,7 +298,7 @@ export async function trackApiKeyUsage(
           lastUsedAt: new Date().toISOString(),
           lastUsedIp: clientIp,
         },
-      },
+      } as any,
     })
   } catch (error: any) {
     console.error('[API Keys] Failed to track usage:', error)
@@ -316,13 +316,13 @@ export async function revokeApiKey(
   const payload = await getPayload({ config })
 
   await payload.update({
-    collection: 'api-keys',
+    collection: 'api-keys' as any,
     id: keyId,
     data: {
       status: 'revoked',
       revokedAt: new Date().toISOString(),
       revokedBy,
-    },
+    } as any,
   })
 
   console.log(`[API Keys] Revoked key: ${keyId}`)
@@ -343,7 +343,7 @@ export async function rotateApiKey(
 
   // Get old key data
   const oldKey = await payload.findByID({
-    collection: 'api-keys',
+    collection: 'api-keys' as any,
     id: keyId,
   })
 

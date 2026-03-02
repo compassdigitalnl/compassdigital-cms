@@ -8,6 +8,7 @@
 import type { CollectionConfig } from 'payload'
 import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
 import crypto from 'crypto'
+import { isAdmin, checkRole, isUser, isSuperAdmin, getUserClient } from '@/access/utilities'
 
 /**
  * Generate a secure API key
@@ -41,24 +42,28 @@ export const EmailApiKeys: CollectionConfig = {
     // Tenant isolation: users can only access their tenant's API keys
     read: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'super-admin') return true
-      return {
-        tenant: {
-          equals: user.tenant,
-        },
+      if (isSuperAdmin(user)) return true
+      const clientId = getUserClient(user)
+      if (clientId) {
+        return {
+          tenant: {
+            equals: clientId,
+          },
+        }
       }
+      return false
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return isSuperAdmin(user) || isAdmin(user)
     },
   },
   fields: [
@@ -341,38 +346,41 @@ export const EmailApiKeys: CollectionConfig = {
       ? [
           {
             name: 'tenant',
-            type: 'relationship',
-            relationTo: 'clients',
+            type: 'relationship' as const,
+            relationTo: 'clients' as const,
             required: true,
             admin: {
-              position: 'sidebar',
+              position: 'sidebar' as const,
               condition: () => false,
             },
             hooks: {
               beforeValidate: [
-                async ({ req, data }) => {
+                async ({ req, data }: any) => {
                   if (req.user && !data?.tenant) {
-                    return req.user.tenant
+                    const clientId = getUserClient(req.user)
+                    if (clientId) {
+                      return clientId
+                    }
                   }
                   return data?.tenant
                 },
               ],
             },
-          } as const,
+          },
         ]
       : []),
     {
       name: 'createdBy',
-      type: 'relationship',
-      relationTo: 'users',
+      type: 'relationship' as const,
+      relationTo: 'users' as const,
       admin: {
         description: 'User who created this API key',
         readOnly: true,
-        position: 'sidebar',
+        position: 'sidebar' as const,
       },
       hooks: {
         beforeChange: [
-          ({ req, value, operation }) => {
+          ({ req, value, operation }: any) => {
             if (operation === 'create' && req.user) {
               return req.user.id
             }

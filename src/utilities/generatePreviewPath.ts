@@ -3,12 +3,15 @@ import { PayloadRequest, CollectionSlug } from 'payload'
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
   products: '/products',
   pages: '',
+  beautyServices: '/beauty',
+  events: '/events',
+  treatments: '/treatments',
 }
 
 type Props = {
   collection: keyof typeof collectionPrefixMap
   slug: string
-  req: PayloadRequest
+  req?: PayloadRequest
 }
 
 export const generatePreviewPath = ({ collection, slug }: Props) => {

@@ -119,7 +119,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
 
         {/* Free shipping progress */}
         <div className="mb-6">
-          <FreeShippingProgress currentAmount={subtotal} threshold={freeShippingThreshold} />
+          <FreeShippingProgress {...({ currentAmount: subtotal, threshold: freeShippingThreshold } as any)} />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
@@ -139,10 +139,12 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
             <div className="space-y-4">
               {items.map((item) => (
                 <CartLineItem
-                  key={item.id}
-                  item={item}
-                  onQuantityChange={(newQty) => updateQuantity(item.id, newQty)}
-                  onRemove={() => removeItem(item.id)}
+                  {...({
+                    key: item.id,
+                    item: item,
+                    onQuantityChange: (newQty: number) => updateQuantity(item.id, newQty),
+                    onRemove: () => removeItem(item.id),
+                  } as any)}
                 />
               ))}
             </div>
@@ -172,7 +174,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
                     label: 'Klantenservice',
                     description: 'Ma-vr 9-17u',
                   },
-                ]}
+                ] as any}
               />
             </div>
           </div>
@@ -182,43 +184,48 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
             <div className="sticky top-8">
               {/* Order summary */}
               <OrderSummary
-                variant="default"
-                subtotal={subtotal}
-                shipping={shipping}
-                tax={tax}
-                total={grandTotal}
-                discount={discount}
-                itemCount={itemCount}
-                freeShippingThreshold={freeShippingThreshold}
-                currency="€"
-              >
-                {/* Coupon input slot */}
-                <div className="mb-4">
-                  <CouponInput onApply={handleApplyCoupon} />
-                </div>
+                {...({
+                  variant: "default",
+                  subtotal: subtotal,
+                  shipping: shipping,
+                  tax: tax,
+                  total: grandTotal,
+                  discount: discount,
+                  itemCount: itemCount,
+                  freeShippingThreshold: freeShippingThreshold,
+                  currency: "€",
+                  children: (
+                    <>
+                      {/* Coupon input slot */}
+                      <div className="mb-4">
+                        <CouponInput onApply={handleApplyCoupon as any} />
+                      </div>
 
-                {/* Checkout button */}
-                <button
-                  onClick={handleCheckout}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 text-white rounded-xl font-bold transition-all hover:opacity-90"
-                  style={{
-                    background: 'var(--color-primary)',
-                    boxShadow: 'var(--shadow)',
-                  }}
-                >
-                  Naar checkout
-                  <ArrowRight className="w-5 h-5" />
-                </button>
+                      {/* Checkout button */}
+                      <button
+                        onClick={handleCheckout}
+                        className="w-full flex items-center justify-center gap-2 px-6 py-4 text-white rounded-xl font-bold transition-all hover:opacity-90"
+                        style={{
+                          background: 'var(--color-primary)',
+                          boxShadow: 'var(--shadow)',
+                        }}
+                      >
+                        Naar checkout
+                        <ArrowRight className="w-5 h-5" />
+                      </button>
 
-                {/* Secure checkout badge */}
-                <div
-                  className="mt-4 flex items-center justify-center gap-2 text-xs"
-                  style={{ color: 'var(--color-text-muted)' }}
-                >
-                  <ShieldCheck className="w-4 h-4" style={{ color: 'var(--color-success)' }} />
-                  <span>Veilig afrekenen met SSL-beveiliging</span>
-                </div>
-              </OrderSummary>
+                      {/* Secure checkout badge */}
+                      <div
+                        className="mt-4 flex items-center justify-center gap-2 text-xs"
+                        style={{ color: 'var(--color-text-muted)' }}
+                      >
+                        <ShieldCheck className="w-4 h-4" style={{ color: 'var(--color-success)' }} />
+                        <span>Veilig afrekenen met SSL-beveiliging</span>
+                      </div>
+                    </>
+                  ),
+                } as any)}
+              />
 
               {/* Trust signals (mobile) */}
               <div className="lg:hidden mt-6">

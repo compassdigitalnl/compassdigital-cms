@@ -23,7 +23,7 @@ export const Events: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
-    hidden: shouldHideCollection('horeca'),
+    hidden: shouldHideCollection('hospitality'),
     group: 'Horeca',
     useAsTitle: 'title',
     defaultColumns: ['title', 'eventType', 'date', 'featured', 'updatedAt'],

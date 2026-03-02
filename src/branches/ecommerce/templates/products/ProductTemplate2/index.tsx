@@ -132,7 +132,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
       })
 
       showToast({
-        id: product.id,
+        id: String(product.id),
         name: product.title,
         variant: selectedSubscription.label,
         image: firstImageUrl || undefined,
@@ -157,7 +157,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
       })
 
       showToast({
-        id: product.id,
+        id: String(product.id),
         name: product.title,
         variant: variantLabels,
         image: firstImageUrl || undefined,
@@ -182,7 +182,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
       })
 
       showToast({
-        id: selectedProduct.id,
+        id: String(selectedProduct.id),
         name: selectedProduct.title,
         image: firstImageUrl || undefined,
         quantity: quantity,
@@ -417,7 +417,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {product.volumePricing.map((tier, idx) => {
-                  const tierPrice = tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100)
+                  const tierPrice =  product.price * (1 - (tier.discountPercentage || 0) / 100)
                   return (
                     <div
                       key={idx}
@@ -960,7 +960,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   <div style={{ paddingBottom: '16px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {product.downloads.map((download, idx) => {
-                        const downloadFile = typeof download.file === 'object' && download.file !== null ? download.file : null
+                        const downloadFile = typeof (download as any).file === 'object' && (download as any).file !== null ? (download as any).file : null
                         const fileUrl = downloadFile && 'url' in downloadFile ? downloadFile.url : null
                         const fileName = downloadFile && 'filename' in downloadFile ? downloadFile.filename : 'Download'
                         const fileSize = downloadFile && 'filesize' in downloadFile ? downloadFile.filesize : null
@@ -1005,9 +1005,9 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                                     marginBottom: '4px',
                                   }}
                                 >
-                                  {download.name || fileName}
+                                  {(download as any).name || fileName}
                                 </div>
-                                {download.description && (
+                                {(download as any).description && (
                                   <div
                                     style={{
                                       fontSize: '12px',
@@ -1016,7 +1016,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                                       lineHeight: 1.4,
                                     }}
                                   >
-                                    {download.description}
+                                    {(download as any).description}
                                   </div>
                                 )}
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px' }}>
@@ -1287,7 +1287,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {product.volumePricing.map((tier, idx) => {
-                    const tierPrice = tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100)
+                    const tierPrice =  product.price * (1 - (tier.discountPercentage || 0) / 100)
                     return (
                       <div
                         key={idx}
@@ -1802,7 +1802,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 }}
               >
                 {product.downloads.map((download, idx) => {
-                  const downloadFile = typeof download.file === 'object' && download.file !== null ? download.file : null
+                  const downloadFile = typeof (download as any).file === 'object' && (download as any).file !== null ? (download as any).file : null
                   const fileUrl = downloadFile && 'url' in downloadFile ? downloadFile.url : null
                   const fileName = downloadFile && 'filename' in downloadFile ? downloadFile.filename : 'Download'
                   const fileSize = downloadFile && 'filesize' in downloadFile ? downloadFile.filesize : null
@@ -1852,9 +1852,9 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                               whiteSpace: 'nowrap',
                             }}
                           >
-                            {download.name || fileName}
+                            {(download as any).name || fileName}
                           </div>
-                          {download.description && (
+                          {(download as any).description && (
                             <div
                               style={{
                                 fontSize: '13px',
@@ -1863,7 +1863,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                                 lineHeight: 1.4,
                               }}
                             >
-                              {download.description}
+                              {(download as any).description}
                             </div>
                           )}
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

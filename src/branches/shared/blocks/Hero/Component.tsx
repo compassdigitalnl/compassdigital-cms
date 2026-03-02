@@ -65,7 +65,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
   }
 
   return (
-    <section className={`hero-block ${variantClasses[variant]} ${backgroundClass} rounded-2xl`}>
+    <section className={`hero-block ${variantClasses[variant || 'default']} ${backgroundClass} rounded-2xl`}>
       {/* Gradient glow effect */}
       {backgroundStyle === 'gradient' && (
         <div className="absolute top-[-40px] right-[-40px] w-[200px] h-[200px] bg-[radial-gradient(circle,_rgba(0,137,123,0.12),_transparent_70%)] rounded-full pointer-events-none" />

@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DP05: ComparisonTable — Digital Product Component</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* =========================================
+       DESIGN TOKENS
+       ========================================= */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =========================================
+       DEMO STYLES
+       ========================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .demo-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .demo-header p {
+      font-size: 14px;
+      color: var(--grey-mid);
+    }
+
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    /* =========================================
+       COMPONENT: DP05 COMPARISON TABLE
+       ========================================= */
+
+    /* Section Container */
+    .comparison-section {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Section Header */
+    .ct-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .ct-overline {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .ct-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .ct-desc {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* Table Container */
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--grey);
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    /* Table Header (Tier Names) */
+    .ct-thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .ct-thead th {
+      background: var(--bg);
+      padding: 24px 16px;
+      text-align: center;
+      border-bottom: 1px solid var(--grey);
+      vertical-align: top;
+    }
+
+    .ct-thead th:first-child {
+      background: white;
+      text-align: left;
+      width: 35%;
+    }
+
+    /* Column Highlight */
+    .ct-thead th.highlight {
+      background: var(--teal);
+      color: white;
+      position: relative;
+    }
+
+    .ct-thead th.highlight::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      z-index: -1;
+    }
+
+    /* Tier Card */
+    .tier-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tier-badge {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: var(--amber);
+      color: white;
+      align-self: center;
+      margin-bottom: 4px;
+    }
+
+    .highlight .tier-badge {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .tier-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .highlight .tier-name {
+      color: white;
+    }
+
+    .tier-price {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: var(--font-body);
+    }
+
+    .highlight .tier-price {
+      color: white;
+    }
+
+    .tier-period {
+      font-size: 12px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .highlight .tier-period {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .tier-desc {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.4;
+    }
+
+    .highlight .tier-desc {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Table Body (Features) */
+    .ct-tbody tr {
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .ct-tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .ct-tbody td {
+      padding: 16px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .ct-tbody td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: var(--navy);
+      font-size: 14px;
+    }
+
+    .ct-tbody td.highlight {
+      background: var(--teal-glow);
+    }
+
+    /* Category Row */
+    .ct-category-row td {
+      background: var(--grey-light);
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      padding: 12px 16px;
+    }
+
+    /* Feature Icons */
+    .ct-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .ct-check i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .ct-cross {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--grey-light);
+      color: var(--grey-mid);
+    }
+
+    .ct-cross i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Feature Value (Text) */
+    .ct-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Table Footer (CTAs) */
+    .ct-tfoot td {
+      padding: 24px 16px;
+      text-align: center;
+      background: white;
+    }
+
+    .ct-tfoot td:first-child {
+      background: transparent;
+    }
+
+    .ct-tfoot button {
+      width: 100%;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .ct-btn-primary {
+      background: var(--teal);
+      color: white;
+    }
+
+    .ct-btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .ct-btn-outline {
+      background: white;
+      color: var(--teal);
+      border: 2px solid var(--teal);
+    }
+
+    .ct-btn-outline:hover {
+      background: var(--teal-glow);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .comparison-table-wrapper {
+        overflow-x: scroll;
+      }
+
+      .comparison-table {
+        min-width: 700px;
+      }
+
+      .ct-thead th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 11;
+        background: white;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .ct-tbody td:first-child {
+        position: sticky;
+        left: 0;
+        background: white;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+        z-index: 1;
+      }
+
+      .ct-tfoot td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    /* =========================================
+       DOCUMENTATION STYLES
+       ========================================= */
+    .docs {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 48px;
+    }
+
+    .docs h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--navy);
+    }
+
+    .docs h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .docs h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .docs p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .docs ul {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .docs code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .docs pre {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .docs pre code {
+      background: none;
+      padding: 0;
+      color: var(--white);
+    }
+
+    .docs table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .docs th {
+      background: var(--grey-light);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid var(--grey);
+    }
+
+    .docs td {
+      padding: 8px 12px;
+      border: 1px solid var(--grey);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       LIVE DEMO
+       ========================================= -->
+  <div class="demo-container">
+    <div class="demo-header">
+      <h1>DP05: ComparisonTable</h1>
+      <p>Digital Product Component · License/Pricing Tier Comparison Table</p>
+    </div>
+
+    <!-- Full Comparison Table -->
+    <div class="demo-section">
+      <div class="comparison-section">
+        <div class="ct-header">
+          <div class="ct-overline">Kies het juiste plan</div>
+          <h2 class="ct-title">Vergelijk alle features</h2>
+          <div class="ct-desc">
+            Bekijk precies wat er inbegrepen is in elk plan. Alle prijzen zijn exclusief BTW.
+          </div>
+        </div>
+
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead class="ct-thead">
+              <tr>
+                <th></th>
+                <th>
+                  <div class="tier-card">
+                    <div class="tier-name">Personal</div>
+                    <div>
+                      <div class="tier-price">€39</div>
+                      <div class="tier-period">eenmalig</div>
+                    </div>
+                    <div class="tier-desc">Voor individuele gebruikers</div>
+                  </div>
+                </th>
+                <th class="highlight">
+                  <div class="tier-card">
+                    <div class="tier-badge">Populairst</div>
+                    <div class="tier-name">Professional</div>
+                    <div>
+                      <div class="tier-price">€79</div>
+                      <div class="tier-period">eenmalig</div>
+                    </div>
+                    <div class="tier-desc">Voor professionals</div>
+                  </div>
+                </th>
+                <th>
+                  <div class="tier-card">
+                    <div class="tier-name">Team</div>
+                    <div>
+                      <div class="tier-price">€399</div>
+                      <div class="tier-period">per jaar</div>
+                    </div>
+                    <div class="tier-desc">Voor organisaties</div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="ct-tbody">
+              <!-- Core Features -->
+              <tr class="ct-category-row">
+                <td colspan="4">Core Features</td>
+              </tr>
+              <tr>
+                <td>Aantal gebruikers</td>
+                <td><span class="ct-value">1</span></td>
+                <td class="highlight"><span class="ct-value">1</span></td>
+                <td><span class="ct-value">Tot 10</span></td>
+              </tr>
+              <tr>
+                <td>Aantal projecten</td>
+                <td><span class="ct-value">5</span></td>
+                <td class="highlight"><span class="ct-value">Onbeperkt</span></td>
+                <td><span class="ct-value">Onbeperkt</span></td>
+              </tr>
+              <tr>
+                <td>Cloud opslag</td>
+                <td><span class="ct-value">10 GB</span></td>
+                <td class="highlight"><span class="ct-value">100 GB</span></td>
+                <td><span class="ct-value">1 TB</span></td>
+              </tr>
+              <tr>
+                <td>Component library</td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Premium templates</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- AI Features -->
+              <tr class="ct-category-row">
+                <td colspan="4">AI Features</td>
+              </tr>
+              <tr>
+                <td>AI content generation</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Code generation</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Image optimization</td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Collaboration -->
+              <tr class="ct-category-row">
+                <td colspan="4">Collaboration</td>
+              </tr>
+              <tr>
+                <td>Realtime samenwerking</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Team workspace</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Version control</td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Commenting & feedback</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Support -->
+              <tr class="ct-category-row">
+                <td colspan="4">Support & Services</td>
+              </tr>
+              <tr>
+                <td>Support type</td>
+                <td><span class="ct-value">Email</span></td>
+                <td class="highlight"><span class="ct-value">Priority</span></td>
+                <td><span class="ct-value">Dedicated</span></td>
+              </tr>
+              <tr>
+                <td>Response tijd</td>
+                <td><span class="ct-value">48 uur</span></td>
+                <td class="highlight"><span class="ct-value">24 uur</span></td>
+                <td><span class="ct-value">4 uur</span></td>
+              </tr>
+              <tr>
+                <td>Onboarding call</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Training sessies</td>
+                <td>
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td class="highlight">
+                  <div class="ct-cross">
+                    <i data-lucide="x"></i>
+                  </div>
+                </td>
+                <td>
+                  <div class="ct-check">
+                    <i data-lucide="check"></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="ct-tfoot">
+              <tr>
+                <td></td>
+                <td>
+                  <button class="ct-btn-outline">Kies Personal</button>
+                </td>
+                <td class="highlight">
+                  <button class="ct-btn-primary">Kies Professional</button>
+                </td>
+                <td>
+                  <button class="ct-btn-outline">Kies Team</button>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       DOCUMENTATION
+       ========================================= -->
+  <div class="demo-container">
+    <div class="docs">
+      <h2>📖 DP05: ComparisonTable — Complete Documentation</h2>
+
+      <!-- STEP 1: Component Overview -->
+      <h3>STEP 1: Component Overview</h3>
+      <p><strong>Component Name:</strong> DP05: ComparisonTable</p>
+      <p><strong>Category:</strong> Digital Product Components (Product Types)</p>
+      <p><strong>Usage:</strong> Side-by-side comparison of pricing tiers/license types with detailed feature breakdown</p>
+
+      <p><strong>Description:</strong></p>
+      <p>ComparisonTable displays a comprehensive feature comparison across multiple pricing tiers in a tabular format. Used on pricing pages and product pages to help users choose the right plan by showing exactly what's included in each tier.</p>
+
+      <p><strong>Key Features:</strong></p>
+      <ul>
+        <li>Multi-column comparison (typically 3-4 tiers)</li>
+        <li>Tier header cards (name, price, description, badge)</li>
+        <li>Highlighted "Popular" or "Recommended" column (teal background)</li>
+        <li>Categorized feature rows (Core, AI, Collaboration, Support)</li>
+        <li>Feature availability indicators (checkmarks, crosses, text values)</li>
+        <li>Sticky column headers on scroll</li>
+        <li>Sticky first column (feature names) on horizontal scroll</li>
+        <li>CTA buttons in footer row</li>
+        <li>Responsive horizontal scroll on mobile</li>
+      </ul>
+
+      <!-- STEP 2: When to Use -->
+      <h3>STEP 2: When to Use This Component</h3>
+
+      <h4>✅ Use ComparisonTable when:</h4>
+      <ul>
+        <li>Comparing 3-4 pricing tiers with 10+ features</li>
+        <li>Users need to see exact differences between plans</li>
+        <li>Feature availability varies significantly across tiers</li>
+        <li>Showing quantitative differences (storage, users, projects)</li>
+        <li>Highlighting "most popular" or "recommended" tier</li>
+        <li>Providing detailed feature transparency for informed decisions</li>
+      </ul>
+
+      <h4>❌ Don't use when:</h4>
+      <ul>
+        <li>Only 1-2 pricing options → use DP02 (LicenseSelector) instead</li>
+        <li>Features are simple/few (≤5) → use DP04 (FeatureGrid) or DP02 (LicenseSelector) with feature lists</li>
+        <li>Comparing non-pricing items → use generic comparison table</li>
+        <li>Mobile-first audience (tables are hard on small screens) → consider alternative layouts</li>
+      </ul>
+
+      <h4>💡 Common Use Cases:</h4>
+      <ul>
+        <li><strong>SaaS pricing page:</strong> Free vs Starter vs Pro vs Enterprise comparison</li>
+        <li><strong>Software product page:</strong> Personal vs Professional vs Team license comparison</li>
+        <li><strong>Subscription plans:</strong> Monthly vs Annual vs Lifetime feature differences</li>
+        <li><strong>API tiers:</strong> Rate limits, endpoints, support levels across tiers</li>
+        <li><strong>Hosting plans:</strong> Storage, bandwidth, features comparison</li>
+      </ul>
+
+      <!-- STEP 3: Design Tokens -->
+      <h3>STEP 3: Design Tokens</h3>
+
+      <h4>Colors:</h4>
+      <ul>
+        <li><code>--teal (#00897B)</code> — Highlighted column background gradient</li>
+        <li><code>--teal-glow (rgba(0,137,123,0.12))</code> — Highlighted column cells</li>
+        <li><code>--navy (#0A1628)</code> — Text, tier names, feature names</li>
+        <li><code>--grey (#E8ECF1)</code> — Table borders, default header background</li>
+        <li><code>--grey-light (#F1F4F8)</code> — Category row backgrounds</li>
+        <li><code>--grey-mid (#94A3B8)</code> — Tier period text, cross icons</li>
+        <li><code>--green (#00C853)</code> — Checkmark icon</li>
+        <li><code>--green-light (#E8F5E9)</code> — Checkmark background</li>
+        <li><code>--amber (#F59E0B)</code> — Badge backgrounds</li>
+        <li><code>white</code> — Cell backgrounds, highlighted tier text</li>
+      </ul>
+
+      <h4>Typography:</h4>
+      <ul>
+        <li><strong>Section overline:</strong> 11px, 700 weight, uppercase, teal</li>
+        <li><strong>Section title:</strong> 28px, 800 weight, navy</li>
+        <li><strong>Section description:</strong> 15px, grey-dark</li>
+        <li><strong>Tier name:</strong> 18px, 700 weight, navy (white on highlight)</li>
+        <li><strong>Tier price:</strong> 24px, 800 weight, navy (white on highlight)</li>
+        <li><strong>Tier period:</strong> 12px, 500 weight, grey-mid</li>
+        <li><strong>Tier description:</strong> 12px, grey-dark</li>
+        <li><strong>Badge:</strong> 9px, 700 weight, uppercase</li>
+        <li><strong>Feature name:</strong> 14px, 600 weight, navy</li>
+        <li><strong>Feature value:</strong> 13px, 600 weight, navy</li>
+        <li><strong>Category label:</strong> 13px, 700 weight, uppercase</li>
+      </ul>
+
+      <h4>Spacing:</h4>
+      <ul>
+        <li>Header cell padding: 24px vertical, 16px horizontal</li>
+        <li>Body cell padding: 16px all sides</li>
+        <li>Category row padding: 12px vertical, 16px horizontal</li>
+        <li>Footer cell padding: 24px vertical, 16px horizontal</li>
+        <li>Tier card gap: 8px between elements</li>
+        <li>Badge margin: 4px bottom</li>
+      </ul>
+
+      <h4>Icons:</h4>
+      <ul>
+        <li><code>check</code> — Feature included (16px, green)</li>
+        <li><code>x</code> — Feature not included (16px, grey-mid)</li>
+      </ul>
+
+      <!-- STEP 4: Props & Configuration -->
+      <h3>STEP 4: Props & Configuration</h3>
+
+      <h4>TypeScript Interface:</h4>
+      <pre><code>interface ComparisonTableProps {
+  header?: {
+    overline?: string;
+    title: string;
+    description?: string;
+  };
+  tiers: PricingTier[];
+  features: FeatureCategory[];
+  highlightedTier?: string;  // Tier ID to highlight
+}
+
+interface PricingTier {
+  id: string;
+  name: string;
+  price: string | number;
+  period?: string;  // e.g., "eenmalig", "per maand"
+  description: string;
+  badge?: string;  // e.g., "Populairst"
+  cta: {
+    text: string;
+    variant: 'primary' | 'outline';
+    onClick: () => void;
+  };
+}
+
+interface FeatureCategory {
+  name: string;  // Category label (e.g., "Core Features")
+  features: Feature[];
+}
+
+interface Feature {
+  name: string;  // Feature name (e.g., "Aantal gebruikers")
+  values: {
+    [tierId: string]: boolean | string | number;
+    // boolean → checkmark/cross
+    // string/number → display as text
+  };
+}</code></pre>
+
+      <h4>Example Usage (React/Next.js):</h4>
+      <pre><code>const tiers: PricingTier[] = [
+  {
+    id: 'personal',
+    name: 'Personal',
+    price: 39,
+    period: 'eenmalig',
+    description: 'Voor individuele gebruikers',
+    cta: { text: 'Kies Personal', variant: 'outline', onClick: () => {} },
+  },
+  {
+    id: 'pro',
+    name: 'Professional',
+    price: 79,
+    period: 'eenmalig',
+    description: 'Voor professionals',
+    badge: 'Populairst',
+    cta: { text: 'Kies Professional', variant: 'primary', onClick: () => {} },
+  },
+  {
+    id: 'team',
+    name: 'Team',
+    price: 399,
+    period: 'per jaar',
+    description: 'Voor organisaties',
+    cta: { text: 'Kies Team', variant: 'outline', onClick: () => {} },
+  },
+];
+
+const features: FeatureCategory[] = [
+  {
+    name: 'Core Features',
+    features: [
+      { name: 'Aantal gebruikers', values: { personal: '1', pro: '1', team: 'Tot 10' } },
+      { name: 'Aantal projecten', values: { personal: '5', pro: 'Onbeperkt', team: 'Onbeperkt' } },
+      { name: 'Cloud opslag', values: { personal: '10 GB', pro: '100 GB', team: '1 TB' } },
+      { name: 'Component library', values: { personal: true, pro: true, team: true } },
+      { name: 'Premium templates', values: { personal: false, pro: true, team: true } },
+    ],
+  },
+  // ... more categories
+];
+
+&lt;ComparisonTable
+  header={{
+    overline: 'Kies het juiste plan',
+    title: 'Vergelijk alle features',
+    description: 'Bekijk precies wat er inbegrepen is in elk plan.',
+  }}
+  tiers={tiers}
+  features={features}
+  highlightedTier="pro"
+/&gt;</code></pre>
+
+      <!-- STEP 5: Layout Rules -->
+      <h3>STEP 5: Layout Rules</h3>
+
+      <h4>Table Structure:</h4>
+      <ul>
+        <li><strong>Column 1:</strong> Feature names (35% width, sticky left on mobile scroll)</li>
+        <li><strong>Columns 2-4:</strong> Tier values (equal width, auto-distribute remaining space)</li>
+        <li><strong>Header row:</strong> Sticky top on vertical scroll</li>
+        <li><strong>Category rows:</strong> Full-width colspan, grey background</li>
+        <li><strong>Footer row:</strong> CTA buttons, sticky bottom optional</li>
+      </ul>
+
+      <h4>Responsive Behavior:</h4>
+      <ul>
+        <li><strong>Desktop (≥901px):</strong> Full table visible, no scroll</li>
+        <li><strong>Tablet/Mobile (≤900px):</strong> Horizontal scroll enabled:
+          <ul>
+            <li>Table min-width: 700px</li>
+            <li>First column sticky left (feature names always visible)</li>
+            <li>Header sticky top</li>
+            <li>Shadow on sticky column edge</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>Highlight Column:</h4>
+      <ul>
+        <li>Header cell: Teal gradient background, white text</li>
+        <li>Body cells: Light teal background (teal-glow)</li>
+        <li>Visual prominence guides user to recommended tier</li>
+      </ul>
+
+      <!-- STEP 6: Accessibility -->
+      <h3>STEP 6: Accessibility</h3>
+
+      <h4>Semantic HTML:</h4>
+      <pre><code>&lt;section class="comparison-section" aria-labelledby="comparison-title"&gt;
+  &lt;header class="ct-header"&gt;
+    &lt;h2 id="comparison-title" class="ct-title"&gt;Vergelijk alle features&lt;/h2&gt;
+  &lt;/header&gt;
+
+  &lt;table class="comparison-table" role="table"&gt;
+    &lt;thead role="rowgroup"&gt;
+      &lt;tr role="row"&gt;
+        &lt;th scope="col"&gt;&lt;/th&gt;
+        &lt;th scope="col"&gt;Personal&lt;/th&gt;
+        &lt;th scope="col" class="highlight"&gt;Professional&lt;/th&gt;
+        &lt;th scope="col"&gt;Team&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody role="rowgroup"&gt;
+      &lt;tr role="row"&gt;
+        &lt;th scope="row"&gt;Aantal gebruikers&lt;/th&gt;
+        &lt;td&gt;1&lt;/td&gt;
+        &lt;td class="highlight"&gt;1&lt;/td&gt;
+        &lt;td&gt;Tot 10&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/section&gt;</code></pre>
+
+      <h4>ARIA Attributes:</h4>
+      <ul>
+        <li><code>&lt;th scope="col"&gt;</code> for column headers (tier names)</li>
+        <li><code>&lt;th scope="row"&gt;</code> for row headers (feature names)</li>
+        <li>Checkmark/cross icons: <code>aria-label="Inbegrepen"</code> or <code>aria-label="Niet inbegrepen"</code></li>
+        <li>Screen readers announce: "Aantal gebruikers, Personal: 1, Professional: 1, Team: Tot 10"</li>
+      </ul>
+
+      <h4>Keyboard Navigation:</h4>
+      <ul>
+        <li>Table is keyboard-navigable (Tab through CTA buttons)</li>
+        <li>Scrollable area accessible via keyboard (Arrow keys or Tab + Enter)</li>
+        <li>CTA buttons focusable with visible focus ring</li>
+      </ul>
+
+      <h4>Color Contrast:</h4>
+      <ul>
+        <li>Navy text on white: 13.4:1 (AAA)</li>
+        <li>White text on teal highlight: 4.7:1 (AA)</li>
+        <li>Grey-mid on white: 4.8:1 (AA)</li>
+        <li>Checkmark green on white: sufficient for icons (non-text)</li>
+      </ul>
+
+      <!-- STEP 7: Implementation Notes -->
+      <h3>STEP 7: Implementation Notes</h3>
+
+      <h4>Dynamic Table Rendering (React):</h4>
+      <pre><code>function ComparisonTable({ tiers, features, highlightedTier }: Props) {
+  return (
+    &lt;table className="comparison-table"&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;&lt;/th&gt;
+          {tiers.map(tier => (
+            &lt;th
+              key={tier.id}
+              className={tier.id === highlightedTier ? 'highlight' : ''}
+            &gt;
+              &lt;TierCard tier={tier} /&gt;
+            &lt;/th&gt;
+          ))}
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        {features.map(category => (
+          &lt;&gt;
+            &lt;tr className="ct-category-row"&gt;
+              &lt;td colSpan={tiers.length + 1}&gt;{category.name}&lt;/td&gt;
+            &lt;/tr&gt;
+            {category.features.map(feature => (
+              &lt;tr key={feature.name}&gt;
+                &lt;td&gt;{feature.name}&lt;/td&gt;
+                {tiers.map(tier => (
+                  &lt;td
+                    key={tier.id}
+                    className={tier.id === highlightedTier ? 'highlight' : ''}
+                  &gt;
+                    &lt;FeatureValue value={feature.values[tier.id]} /&gt;
+                  &lt;/td&gt;
+                ))}
+              &lt;/tr&gt;
+            ))}
+          &lt;/&gt;
+        ))}
+      &lt;/tbody&gt;
+      &lt;tfoot&gt;
+        &lt;tr&gt;
+          &lt;td&gt;&lt;/td&gt;
+          {tiers.map(tier => (
+            &lt;td key={tier.id}&gt;
+              &lt;button
+                className={`ct-btn-${tier.cta.variant}`}
+                onClick={tier.cta.onClick}
+              &gt;
+                {tier.cta.text}
+              &lt;/button&gt;
+            &lt;/td&gt;
+          ))}
+        &lt;/tr&gt;
+      &lt;/tfoot&gt;
+    &lt;/table&gt;
+  );
+}</code></pre>
+
+      <h4>Feature Value Component:</h4>
+      <pre><code>function FeatureValue({ value }: { value: boolean | string | number }) {
+  if (typeof value === 'boolean') {
+    return value ? (
+      &lt;div className="ct-check" aria-label="Inbegrepen"&gt;
+        &lt;Check size={16} /&gt;
+      &lt;/div&gt;
+    ) : (
+      &lt;div className="ct-cross" aria-label="Niet inbegrepen"&gt;
+        &lt;X size={16} /&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return &lt;span className="ct-value"&gt;{value}&lt;/span&gt;;
+}</code></pre>
+
+      <h4>Payload CMS Integration:</h4>
+      <pre><code>// Comparison Table Block
+{
+  slug: 'comparison-table',
+  fields: [
+    {
+      name: 'header',
+      type: 'group',
+      fields: [
+        { name: 'overline', type: 'text' },
+        { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea' },
+      ],
+    },
+    {
+      name: 'tiers',
+      type: 'array',
+      minRows: 2,
+      maxRows: 4,
+      fields: [
+        { name: 'id', type: 'text', required: true, unique: true },
+        { name: 'name', type: 'text', required: true },
+        { name: 'price', type: 'number', required: true },
+        { name: 'period', type: 'text' },
+        { name: 'description', type: 'text' },
+        { name: 'badge', type: 'text' },
+        {
+          name: 'cta',
+          type: 'group',
+          fields: [
+            { name: 'text', type: 'text', required: true },
+            {
+              name: 'variant',
+              type: 'select',
+              options: ['primary', 'outline'],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'features',
+      type: 'array',
+      fields: [
+        { name: 'category', type: 'text', required: true },
+        {
+          name: 'items',
+          type: 'array',
+          fields: [
+            { name: 'name', type: 'text', required: true },
+            {
+              name: 'values',
+              type: 'json',
+              // JSON object: { tierId: boolean | string | number }
+            },
+          ],
+        },
+      ],
+    },
+    { name: 'highlightedTier', type: 'text' },
+  ],
+}</code></pre>
+
+      <!-- STEP 8: Variations & Related Components -->
+      <h3>STEP 8: Variations & Related Components</h3>
+
+      <h4>Related Components:</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>When to Use Instead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>DP02: LicenseSelector</strong></td>
+            <td>Simple tier selection without detailed feature comparison (2-4 tiers, ≤5 key features)</td>
+          </tr>
+          <tr>
+            <td><strong>DP04: FeatureGrid</strong></td>
+            <td>Showcase features without pricing comparison (educational, not decisional)</td>
+          </tr>
+          <tr>
+            <td><strong>Pricing (CMS Block)</strong></td>
+            <td>Pricing cards without detailed feature breakdown (high-level comparison)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Combination Patterns:</h4>
+      <ul>
+        <li><strong>DP02 + DP05:</strong> License selector (quick choice) → Comparison table link ("See full comparison")</li>
+        <li><strong>DP05 + FAQ:</strong> Comparison table → FAQ addressing common tier questions</li>
+        <li><strong>Hero + DP05:</strong> Pricing hero intro → Full comparison below</li>
+        <li><strong>DP05 + Testimonials:</strong> Comparison table → Social proof per tier</li>
+      </ul>
+
+      <h4>Testing Checklist:</h4>
+      <ul>
+        <li>✅ Highlighted column visually prominent</li>
+        <li>✅ Sticky headers work on scroll</li>
+        <li>✅ Sticky first column works on horizontal scroll (mobile)</li>
+        <li>✅ Checkmarks/crosses render correctly</li>
+        <li>✅ Text values display properly</li>
+        <li>✅ Category rows span full width</li>
+        <li>✅ CTA buttons clickable</li>
+        <li>✅ Responsive horizontal scroll smooth</li>
+        <li>✅ Table accessible via keyboard</li>
+        <li>✅ Screen readers announce rows correctly</li>
+        <li>✅ Color contrast meets WCAG AA</li>
+        <li>✅ Mobile UX acceptable (scroll hint if needed)</li>
+      </ul>
+
+      <hr style="margin: 32px 0; border: none; border-top: 1px solid var(--grey);">
+
+      <p style="font-size: 12px; color: var(--grey-mid); text-align: center;">
+        Component: DP05: ComparisonTable · v1.0 · Last updated: 25 Feb 2026<br>
+        Part of Plastimed Design System · Digital Product Components
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

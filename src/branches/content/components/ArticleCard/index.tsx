@@ -118,7 +118,7 @@ export function ArticleCard({
 
   // Build URL
   const slug = post.slug || ''
-  const categorySlug = category?.slug || 'algemeen'
+  const categorySlug = (typeof category === 'object' && category !== null && 'slug' in category ? category.slug : null) || 'algemeen'
   const url = `/blog/${categorySlug}/${slug}`
 
   if (variant === 'compact') {
@@ -223,9 +223,9 @@ export function ArticleCard({
         {/* Content */}
         <div className="p-8">
           {/* Category */}
-          {category && (
+          {category && typeof category === 'object' && 'title' in category && (
             <div className="text-sm font-semibold text-primary uppercase tracking-wide mb-3">
-              {category.title}
+              {category.title as React.ReactNode}
             </div>
           )}
 
@@ -294,12 +294,12 @@ export function ArticleCard({
       <div className="p-6">
         {/* Category & Content Type */}
         <div className="flex items-center gap-2 mb-3">
-          {category && (
+          {category && typeof category === 'object' && 'title' in category && (
             <span className="text-xs font-semibold text-primary uppercase tracking-wide">
-              {category.title}
+              {category.title as React.ReactNode}
             </span>
           )}
-          {category && <span className="text-gray-400">•</span>}
+          {category && typeof category === 'object' && <span className="text-gray-400">•</span>}
           <span className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
             <contentType.icon className="w-3.5 h-3.5" />
             {contentType.label}

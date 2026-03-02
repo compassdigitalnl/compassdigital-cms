@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DD02: Product Download Card — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.product-card {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 720px;
+  margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(10,22,40,0.08);
+}
+
+.pc-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--grey);
+  margin-bottom: 24px;
+}
+
+.pc-thumb {
+  width: 80px;
+  height: 80px;
+  background: var(--grey-light);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--grey);
+}
+
+.pc-thumb i {
+  width: 36px;
+  height: 36px;
+  color: var(--teal);
+}
+
+.pc-info {
+  flex: 1;
+}
+
+.pc-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: var(--navy);
+}
+
+.pc-version {
+  display: inline-flex;
+  padding: 3px 8px;
+  background: var(--grey-light);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pc-body {
+  /* Child components (DD03-DD06) rendered here */
+}
+
+@media (max-width: 640px) {
+  .product-card {
+    padding: 20px;
+  }
+
+  .pc-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pc-thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .pc-thumb i {
+    width: 28px;
+    height: 28px;
+  }
+
+  .pc-title {
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+
+<div class="product-card">
+  <div class="pc-header">
+    <div class="pc-thumb">
+      <i data-lucide="package"></i>
+    </div>
+
+    <div class="pc-info">
+      <h2 class="pc-title">Compass Design System v4.2</h2>
+      <span class="pc-version">Professional licentie</span>
+    </div>
+  </div>
+
+  <div class="pc-body">
+    <!-- DD03: License Key Display -->
+    <!-- DD04: Download Button Grid -->
+    <!-- DD05: Getting Started Steps -->
+    <!-- DD06: Order Summary Card -->
+    <p style="font-size: 13px; color: var(--grey-mid); text-align: center; padding: 24px;">
+      Child components (DD03-DD06) worden hier gerenderd
+    </p>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- ============================================
+     DOCUMENTATION: DD02 Product Download Card
+     Complete 8-step protocol
+     ============================================ -->
+<!--
+COMPONENT: DD02 — Product Download Card
+PURPOSE: Container card for digital product download information
+PATTERN: White card with product header + body for child components
+USE CASE: Digital product delivery page wrapper containing license, downloads, getting started
+
+DESIGN TOKENS:
+- Card: white bg, 1px grey border, 20px radius, 28px padding
+- Shadow: 0 8px 24px rgba(10,22,40,0.08)
+- Max-width: 720px, centered
+- Thumbnail: 80×80px (64px mobile), grey-light bg, 14px radius
+- Title: 18px (16px mobile), 800 weight
+- Version badge: 11px, grey-light bg, uppercase, 0.04em letter-spacing
+- Header border-bottom: 1px grey, 24px padding-bottom
+- Gap: 18px (header), 12px (mobile)
+
+REACT INTERFACE:
+interface ProductDownloadCardProps {
+  product: {
+    name: string
+    version: string
+    icon?: string
+    thumbnail?: string
+    licenseType: 'Personal' | 'Professional' | 'Team'
+  }
+  children: React.ReactNode // DD03-DD06 components
+  className?: string
+}
+
+LAYOUT RULES:
+1. **Header Layout**:
+   - Flex row: thumbnail (80px fixed) + info (flex: 1)
+   - Gap: 18px
+   - Mobile: flex-column, gap 12px
+
+2. **Body Layout**:
+   - Stack child components vertically
+   - Default gap: 24px between children
+   - No padding (children handle their own spacing)
+
+3. **Responsive**:
+   - @640px: padding 28px → 20px
+   - @640px: thumbnail 80px → 64px
+   - @640px: title 18px → 16px
+   - @640px: header flex-column
+
+ACCESSIBILITY:
+- Semantic: <div> card, <h2> for product title
+- Product icon: aria-hidden="true" (decorative)
+- Version badge: aria-label="Professional license"
+- Keyboard: no interactive elements in container
+- Focus: children handle their own focus
+- Color contrast: grey text on white = 4.5:1+ (AA)
+
+IMPLEMENTATION NOTES:
+1. **Container Pattern**:
+   - This is a layout container component
+   - Does not contain business logic
+   - Children (DD03-DD06) handle their own state
+
+2. **Child Components**:
+   - DD03: LicenseKeyDisplay (license key + copy button)
+   - DD04: DownloadButtonGrid (platform downloads)
+   - DD05: GettingStartedSteps (onboarding guide)
+   - DD06: OrderSummaryCard (purchase receipt)
+   - Render in this order for logical flow
+
+3. **Product Icon**:
+   - Default: Lucide package icon
+   - Custom: product.thumbnail image (80×80px)
+   - Fallback: product name initials
+
+4. **Version Badge**:
+   - Format: "{licenseType} licentie"
+   - Color-coding optional:
+     - Personal: grey
+     - Professional: teal
+     - Team: purple
+
+VARIATIONS:
+1. **Default** (shown above):
+   - White card with shadow
+   - Product icon placeholder
+   - Version badge grey
+
+2. **With Thumbnail**:
+   - Replace icon with product image
+   - 80×80px, object-fit: cover
+   - Border-radius: 14px
+
+3. **Compact**:
+   - Reduce padding: 20px
+   - Smaller thumbnail: 64px
+   - No shadow
+   - Title 16px
+
+4. **No Header**:
+   - Hide header section entirely
+   - Body only (for simple downloads)
+   - Used when product info shown elsewhere
+
+RELATED COMPONENTS:
+- DD01 (DeliverySuccessHero): Hero above this card
+- DD03 (LicenseKeyDisplay): Child component
+- DD04 (DownloadButtonGrid): Child component
+- DD05 (GettingStartedSteps): Child component
+- DD06 (OrderSummaryCard): Child component
+
+PAYLOAD CMS INTEGRATION:
+Server-side rendering with order data:
+
+export default async function DeliveryPage({ orderId }) {
+  const order = await payload.find({
+    collection: 'orders',
+    where: { id: { equals: orderId } },
+  })
+
+  const product = order.items[0].product
+
+  return (
+    <ProductDownloadCard
+      product={{
+        name: product.name,
+        version: product.version,
+        icon: product.icon?.url,
+        licenseType: order.license,
+      }}
+    >
+      <LicenseKeyDisplay licenseKey={order.licenseKey} />
+      <DownloadButtonGrid downloads={product.downloads} />
+      <GettingStartedSteps steps={product.gettingStarted} />
+      <OrderSummaryCard order={order} />
+    </ProductDownloadCard>
+  )
+}
+
+NEXT.JS IMPLEMENTATION:
+import { Package } from 'lucide-react'
+import Image from 'next/image'
+
+export default function ProductDownloadCard({
+  product,
+  children,
+  className = '',
+}: ProductDownloadCardProps) {
+  return (
+    <div className={`product-card ${className}`}>
+      <div className="pc-header">
+        <div className="pc-thumb">
+          {product.thumbnail ? (
+            <Image
+              src={product.thumbnail}
+              alt={product.name}
+              width={80}
+              height={80}
+              className="rounded-xl"
+            />
+          ) : (
+            <Package className="w-9 h-9 text-teal" />
+          )}
+        </div>
+
+        <div className="pc-info">
+          <h2 className="pc-title">
+            {product.name} v{product.version}
+          </h2>
+          <span
+            className="pc-version"
+            aria-label={`${product.licenseType} license`}
+          >
+            {product.licenseType} licentie
+          </span>
+        </div>
+      </div>
+
+      <div className="pc-body">{children}</div>
+    </div>
+  )
+}
+
+TESTING CHECKLIST:
+□ Card renders with correct max-width (720px)
+□ Product thumbnail displays (image or icon fallback)
+□ Product title and version render correctly
+□ License type badge shows correct text
+□ Children components render in body
+□ Mobile responsive (flex-column header)
+□ Shadow visible on white background
+□ Border radius consistent (20px)
+-->
+
+</body>
+</html>

@@ -3,7 +3,7 @@ export { QuickOrderHeader } from './QuickOrderHeader'
 export type { QuickOrderHeaderProps, QuickOrderHeaderAction, QuickOrderActionVariant } from './QuickOrderHeader'
 
 export { QuickOrderTable } from './QuickOrderTable'
-export type { QuickOrderTableProps, QuickOrderRow, StaffelHint } from './QuickOrderTable'
+export type { QuickOrderTableProps, QuickOrderRow as QuickOrderRowType, StaffelHint } from './QuickOrderTable'
 
 export { QuickOrderRow } from './QuickOrderRow'
 export type { QuickOrderRowProps, QuickOrderRowData, Product } from './QuickOrderRow'

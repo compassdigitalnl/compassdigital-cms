@@ -47,7 +47,7 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts, classNa
           const categoryName =
             typeof category === 'object' && category !== null ? category.name : 'Algemeen'
           const categoryColor =
-            typeof category === 'object' && category !== null ? category.color : 'teal'
+            typeof category === 'object' && category !== null ? (category.color as string) : 'teal'
 
           return (
             <Link

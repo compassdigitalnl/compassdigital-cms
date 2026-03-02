@@ -7,6 +7,7 @@
 
 import type { CollectionConfig } from 'payload'
 import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+import { isAdmin, checkRole, isUser, getUserClient } from '@/access/utilities'
 
 const isPlatformMode = isFeatureEnabled('platform')
 
@@ -23,24 +24,28 @@ export const EmailEvents: CollectionConfig = {
     // Tenant isolation
     read: ({ req: { user } }) => {
       if (!user) return false
-      if ('role' in user && user.role === 'super-admin') return true
-      return {
-        tenant: {
-          equals: user.tenant,
-        },
+      if (checkRole(['super-admin'], user)) return true
+      const clientId = getUserClient(user)
+      if (clientId) {
+        return {
+          tenant: {
+            equals: clientId,
+          },
+        }
       }
+      return false
     },
     create: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && (user.role === 'super-admin' || user.role === 'admin')
+      return checkRole(['super-admin'], user) || isAdmin(user)
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && user.role === 'super-admin'
+      return checkRole(['super-admin'], user)
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return 'role' in user && user.role === 'super-admin'
+      return checkRole(['super-admin'], user)
     },
   },
   fields: [
@@ -194,7 +199,7 @@ export const EmailEvents: CollectionConfig = {
           {
             name: 'tenant',
             type: 'relationship',
-            relationTo: 'clients',
+            relationTo: 'clients' as const,
             required: true,
             admin: {
               position: 'sidebar',
@@ -202,15 +207,18 @@ export const EmailEvents: CollectionConfig = {
             },
             hooks: {
               beforeValidate: [
-                async ({ req, data }) => {
+                async ({ req, data }: any) => {
                   if (req.user && !data?.tenant) {
-                    return req.user.tenant
+                    const clientId = getUserClient(req.user)
+                    if (clientId) {
+                      return clientId
+                  }
                   }
                   return data?.tenant
                 },
               ],
             },
-          } as const,
+          } as any,
         ]
       : []),
   ],

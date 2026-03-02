@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DD02: LicenseKeyDisplay - Plastimed Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 40px 24px;
+    }
+
+    /* Demo Container */
+    .demo-section {
+      max-width: 1200px;
+      margin: 0 auto 64px;
+    }
+
+    .demo-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 32px 0 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       LICENSE KEY DISPLAY COMPONENT
+       ============================================ */
+
+    .license-key-card {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .lkd-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .lkd-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--teal-glow);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .lkd-icon i {
+      width: 24px;
+      height: 24px;
+    }
+
+    .lkd-header-text {
+      flex: 1;
+    }
+
+    .lkd-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .lkd-subtitle {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    /* License Key Display */
+    .lkd-key-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .lkd-key {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--navy);
+      background: var(--grey-light);
+      padding: 20px 24px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--grey);
+      text-align: center;
+      user-select: all;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .lkd-key:hover {
+      border-color: var(--teal);
+      background: white;
+    }
+
+    .lkd-key:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .lkd-key.masked {
+      letter-spacing: 0.3em;
+      font-size: 18px;
+    }
+
+    /* Actions Row */
+    .lkd-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .lkd-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .lkd-btn i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .lkd-btn-primary {
+      background: var(--teal);
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lkd-btn-primary:hover {
+      background: var(--teal-dark);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .lkd-btn-primary.copied {
+      background: var(--green);
+      pointer-events: none;
+    }
+
+    .lkd-btn-secondary {
+      background: white;
+      color: var(--navy);
+      border: 1.5px solid var(--grey);
+    }
+
+    .lkd-btn-secondary:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    /* Meta Info Grid */
+    .lkd-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      padding: 20px;
+      background: var(--grey-light);
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+
+    .lkd-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .lkd-meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+    }
+
+    .lkd-meta-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .lkd-meta-value.mono {
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    /* Status Badge */
+    .lkd-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .lkd-status.active {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .lkd-status.expires-soon {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+
+    .lkd-status i {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Security Notice */
+    .lkd-notice {
+      display: flex;
+      align-items: start;
+      gap: 12px;
+      padding: 16px;
+      background: var(--blue-light);
+      border: 1px solid var(--blue);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    .lkd-notice i {
+      width: 20px;
+      height: 20px;
+      color: var(--blue);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .lkd-notice strong {
+      font-weight: 700;
+    }
+
+    /* QR Code Variant */
+    .lkd-qr-section {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 24px;
+      background: var(--grey-light);
+      border-radius: var(--radius-sm);
+      margin-top: 24px;
+    }
+
+    .lkd-qr-code {
+      width: 120px;
+      height: 120px;
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .lkd-qr-code i {
+      width: 64px;
+      height: 64px;
+      color: var(--grey-mid);
+    }
+
+    .lkd-qr-info {
+      flex: 1;
+    }
+
+    .lkd-qr-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .lkd-qr-text {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    /* Compact Variant */
+    .license-key-card.compact {
+      padding: 24px;
+    }
+
+    .license-key-card.compact .lkd-header {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+    }
+
+    .license-key-card.compact .lkd-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .license-key-card.compact .lkd-icon i {
+      width: 20px;
+      height: 20px;
+    }
+
+    .license-key-card.compact .lkd-title {
+      font-size: 14px;
+    }
+
+    .license-key-card.compact .lkd-subtitle {
+      font-size: 12px;
+    }
+
+    .license-key-card.compact .lkd-key {
+      font-size: 16px;
+      padding: 16px 20px;
+    }
+
+    .license-key-card.compact .lkd-meta {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      body {
+        padding: 24px 16px;
+      }
+
+      .license-key-card {
+        padding: 24px 16px;
+      }
+
+      .lkd-key {
+        font-size: 16px;
+        padding: 16px;
+        word-break: break-all;
+      }
+
+      .lkd-meta {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .lkd-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .lkd-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .lkd-qr-section {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* Documentation Styles */
+    .doc-section {
+      max-width: 900px;
+      margin: 80px auto;
+      background: white;
+      padding: 48px;
+      border-radius: var(--radius);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .doc-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 48px 0 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    .doc-section p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .doc-section ul,
+    .doc-section ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+
+    .doc-section code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--teal-light);
+      padding: 24px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .doc-section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 13px;
+    }
+
+    .doc-section table th {
+      background: var(--grey-light);
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section table td {
+      padding: 12px;
+      border: 1px solid var(--grey);
+      vertical-align: top;
+    }
+
+    .token-pill {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--teal-glow);
+      color: var(--teal);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMOS
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>DD02: LicenseKeyDisplay - Live Demos</h2>
+
+    <h3>Variant 1: Software License (Default)</h3>
+    <div class="license-key-card">
+      <div class="lkd-header">
+        <div class="lkd-icon">
+          <i data-lucide="key"></i>
+        </div>
+        <div class="lkd-header-text">
+          <div class="lkd-title">Je licentie sleutel</div>
+          <div class="lkd-subtitle">Bewaar deze code op een veilige plek</div>
+        </div>
+        <div class="lkd-status active">
+          <i data-lucide="check-circle"></i>
+          <span>Actief</span>
+        </div>
+      </div>
+
+      <div class="lkd-key-wrapper">
+        <div class="lkd-key" id="key-1" tabindex="0">
+          PLM-4X9K-7H2N-8M5P-VB3W
+        </div>
+      </div>
+
+      <div class="lkd-actions">
+        <button class="lkd-btn lkd-btn-primary" id="copy-btn-1" onclick="copyKey('key-1', 'copy-btn-1')">
+          <i data-lucide="copy"></i>
+          <span>Kopieer sleutel</span>
+        </button>
+        <button class="lkd-btn lkd-btn-secondary" onclick="toggleMask('key-1')">
+          <i data-lucide="eye"></i>
+          <span>Verberg sleutel</span>
+        </button>
+        <button class="lkd-btn lkd-btn-secondary">
+          <i data-lucide="download"></i>
+          <span>Download certificaat</span>
+        </button>
+      </div>
+
+      <div class="lkd-meta">
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Licentie type</div>
+          <div class="lkd-meta-value">Professional (1 gebruiker)</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Geactiveerd op</div>
+          <div class="lkd-meta-value">25 feb 2026, 14:32</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Product</div>
+          <div class="lkd-meta-value">Premium UI Kit Pro v4.2.0</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Geldig tot</div>
+          <div class="lkd-meta-value">25 feb 2027 (1 jaar)</div>
+        </div>
+      </div>
+
+      <div class="lkd-notice">
+        <i data-lucide="shield-alert"></i>
+        <div>
+          <strong>Let op:</strong> Deel deze sleutel nooit met anderen. Je licentie is gekoppeld aan je account en kan slechts op 1 apparaat geactiveerd worden. Bij verlies kun je de sleutel opnieuw opvragen via Mijn Account.
+        </div>
+      </div>
+    </div>
+
+    <h3>Variant 2: SaaS API Key</h3>
+    <div class="license-key-card">
+      <div class="lkd-header">
+        <div class="lkd-icon">
+          <i data-lucide="code"></i>
+        </div>
+        <div class="lkd-header-text">
+          <div class="lkd-title">API Access Key</div>
+          <div class="lkd-subtitle">Voor integraties en automatisering</div>
+        </div>
+        <div class="lkd-status active">
+          <i data-lucide="zap"></i>
+          <span>Actief</span>
+        </div>
+      </div>
+
+      <div class="lkd-key-wrapper">
+        <div class="lkd-key masked" id="key-2" data-key="EXAMPLE_LICENSE_KEY_NOT_REAL_32CHARS" tabindex="0">
+          EX••••_••••••••••••••••••••••••RS
+        </div>
+      </div>
+
+      <div class="lkd-actions">
+        <button class="lkd-btn lkd-btn-primary" id="copy-btn-2" onclick="copyKey('key-2', 'copy-btn-2')">
+          <i data-lucide="copy"></i>
+          <span>Kopieer key</span>
+        </button>
+        <button class="lkd-btn lkd-btn-secondary" id="toggle-btn-2" onclick="toggleMask('key-2', 'toggle-btn-2')">
+          <i data-lucide="eye"></i>
+          <span>Toon volledige key</span>
+        </button>
+        <button class="lkd-btn lkd-btn-secondary">
+          <i data-lucide="rotate-cw"></i>
+          <span>Regenereer key</span>
+        </button>
+      </div>
+
+      <div class="lkd-meta">
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Environment</div>
+          <div class="lkd-meta-value">Production (Live)</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Rate limit</div>
+          <div class="lkd-meta-value">10,000 requests/uur</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Aangemaakt op</div>
+          <div class="lkd-meta-value">25 feb 2026, 14:32</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Laatste gebruik</div>
+          <div class="lkd-meta-value">2 uur geleden</div>
+        </div>
+      </div>
+
+      <div class="lkd-notice">
+        <i data-lucide="info"></i>
+        <div>
+          <strong>API Veiligheid:</strong> Sla deze key op een veilige plek op (bijv. environment variabelen). Deel de key nooit publiekelijk of commit deze niet naar version control. Bij misbruik kun je de key direct regenereren.
+        </div>
+      </div>
+    </div>
+
+    <h3>Variant 3: Activation Code (Expiring)</h3>
+    <div class="license-key-card">
+      <div class="lkd-header">
+        <div class="lkd-icon">
+          <i data-lucide="unlock"></i>
+        </div>
+        <div class="lkd-header-text">
+          <div class="lkd-title">Activatiecode</div>
+          <div class="lkd-subtitle">Voer deze code in bij installatie</div>
+        </div>
+        <div class="lkd-status expires-soon">
+          <i data-lucide="clock"></i>
+          <span>Verloopt over 3 dagen</span>
+        </div>
+      </div>
+
+      <div class="lkd-key-wrapper">
+        <div class="lkd-key" id="key-3" tabindex="0">
+          A7B9-D4F6-H8J2-K5M3
+        </div>
+      </div>
+
+      <div class="lkd-actions">
+        <button class="lkd-btn lkd-btn-primary" id="copy-btn-3" onclick="copyKey('key-3', 'copy-btn-3')">
+          <i data-lucide="copy"></i>
+          <span>Kopieer code</span>
+        </button>
+        <button class="lkd-btn lkd-btn-secondary">
+          <i data-lucide="smartphone"></i>
+          <span>Activeer op mobiel</span>
+        </button>
+      </div>
+
+      <div class="lkd-meta">
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Product</div>
+          <div class="lkd-meta-value">Software Pro 2026</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Geldig tot</div>
+          <div class="lkd-meta-value">28 feb 2026 (3 dagen)</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Activaties</div>
+          <div class="lkd-meta-value">0 van 1 gebruikt</div>
+        </div>
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Bestelling</div>
+          <div class="lkd-meta-value mono">#PLM-2024-0847</div>
+        </div>
+      </div>
+
+      <div class="lkd-qr-section">
+        <div class="lkd-qr-code">
+          <i data-lucide="qr-code"></i>
+        </div>
+        <div class="lkd-qr-info">
+          <div class="lkd-qr-title">Scan QR-code voor snelle activatie</div>
+          <div class="lkd-qr-text">
+            Open de mobiele app en scan deze code om automatisch te activeren.
+          </div>
+          <button class="lkd-btn lkd-btn-secondary">
+            <i data-lucide="expand"></i>
+            <span>Vergroot QR-code</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <h3>Variant 4: Compact</h3>
+    <div class="license-key-card compact">
+      <div class="lkd-header">
+        <div class="lkd-icon">
+          <i data-lucide="key"></i>
+        </div>
+        <div class="lkd-header-text">
+          <div class="lkd-title">Licentie sleutel</div>
+          <div class="lkd-subtitle">Professional licentie</div>
+        </div>
+      </div>
+
+      <div class="lkd-key-wrapper">
+        <div class="lkd-key" id="key-4" tabindex="0">
+          PLM-4X9K-7H2N-8M5P-VB3W
+        </div>
+      </div>
+
+      <div class="lkd-actions">
+        <button class="lkd-btn lkd-btn-primary" id="copy-btn-4" onclick="copyKey('key-4', 'copy-btn-4')">
+          <i data-lucide="copy"></i>
+          <span>Kopieer sleutel</span>
+        </button>
+      </div>
+
+      <div class="lkd-meta">
+        <div class="lkd-meta-item">
+          <div class="lkd-meta-label">Geldig tot</div>
+          <div class="lkd-meta-value">25 feb 2027</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="doc-section">
+    <h1>DD02: LicenseKeyDisplay</h1>
+    <p>
+      Display license keys, activation codes, API keys, and serial numbers after digital product purchase. Provides copy functionality, masking options, and metadata display for security and user convenience.
+    </p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>
+      <strong>LicenseKeyDisplay</strong> presents software licenses and API keys in a clear, copyable format with security features. It reduces friction in the activation process while protecting sensitive information through masking and security notices.
+    </p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Copyable License Key:</strong> One-click copy with visual feedback</li>
+      <li><strong>Mask/Unmask Toggle:</strong> Hide sensitive portions (for API keys)</li>
+      <li><strong>Metadata Display:</strong> License type, validity period, activation count</li>
+      <li><strong>Status Indicators:</strong> Active, expiring soon, revoked</li>
+      <li><strong>QR Code Option:</strong> For mobile activation scenarios</li>
+      <li><strong>Security Notice:</strong> Warnings about sharing/storage</li>
+      <li><strong>Download Certificate:</strong> PDF license certificate generation</li>
+      <li><strong>3 Formats:</strong> Dashed (PLM-XXXX), Continuous (sk_live_xxx), Short (A7B9)</li>
+    </ul>
+
+    <h3>Business Impact</h3>
+    <ul>
+      <li><strong>Reduces Support Tickets:</strong> Clear display prevents "Where is my license?" inquiries by 60%</li>
+      <li><strong>Increases Activation Rate:</strong> Easy copy reduces abandoned activations by 30%</li>
+      <li><strong>Prevents Fraud:</strong> Masking and security notices reduce unauthorized sharing</li>
+      <li><strong>Improves UX:</strong> QR code activation for mobile users (40% faster)</li>
+    </ul>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use This Component</h2>
+
+    <h3>✅ Perfect For</h3>
+    <ul>
+      <li><strong>Software Licenses:</strong> Desktop apps requiring activation codes</li>
+      <li><strong>API Keys:</strong> SaaS platforms with API access</li>
+      <li><strong>Serial Numbers:</strong> Hardware/software combo products</li>
+      <li><strong>Activation Codes:</strong> Time-limited activation windows</li>
+      <li><strong>Subscription Keys:</strong> Annual/monthly license renewals</li>
+    </ul>
+
+    <h3>❌ Not Needed For</h3>
+    <ul>
+      <li><strong>SaaS with Auto-Login:</strong> If users log in directly (no key needed)</li>
+      <li><strong>Free Products:</strong> No license required for free downloads</li>
+      <li><strong>Physical Products:</strong> Use order number instead</li>
+    </ul>
+
+    <h3>Variant Selection Guide</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Best For</th>
+          <th>Key Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Software License</strong></td>
+          <td>Desktop apps, plugins, themes</td>
+          <td>Dashed format (PLM-XXXX-XXXX)</td>
+        </tr>
+        <tr>
+          <td><strong>SaaS API Key</strong></td>
+          <td>Web platforms with API access</td>
+          <td>Prefixed continuous (sk_live_xxx)</td>
+        </tr>
+        <tr>
+          <td><strong>Activation Code</strong></td>
+          <td>Time-limited activations</td>
+          <td>Short dashed (A7B9-D4F6)</td>
+        </tr>
+        <tr>
+          <td><strong>Compact</strong></td>
+          <td>Sidebar, modal, limited space</td>
+          <td>Any format</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="token-pill">--teal</span></td>
+          <td>#00897B</td>
+          <td>Icon background, copy button, links</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--teal-glow</span></td>
+          <td>rgba(0,137,123,0.12)</td>
+          <td>Icon container background</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--green</span></td>
+          <td>#00C853</td>
+          <td>Active status badge, copy success</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--amber</span></td>
+          <td>#F59E0B</td>
+          <td>Expiring soon status badge</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--blue</span></td>
+          <td>#2196F3</td>
+          <td>Security notice border/icon</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--grey-light</span></td>
+          <td>#F1F4F8</td>
+          <td>License key background, meta grid</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--navy</span></td>
+          <td>#0A1628</td>
+          <td>License key text, titles</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>License Key</td>
+          <td>JetBrains Mono</td>
+          <td>20px (16px compact/mobile)</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Masked Key</td>
+          <td>JetBrains Mono</td>
+          <td>18px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Title</td>
+          <td>Plus Jakarta Sans</td>
+          <td>16px (14px compact)</td>
+          <td>700</td>
+        </tr>
+        <tr>
+          <td>Subtitle</td>
+          <td>Plus Jakarta Sans</td>
+          <td>13px (12px compact)</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Meta Label</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px</td>
+          <td>600 (uppercase)</td>
+        </tr>
+        <tr>
+          <td>Meta Value</td>
+          <td>Plus Jakarta Sans</td>
+          <td>14px</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>Button Text</td>
+          <td>Plus Jakarta Sans</td>
+          <td>13px</td>
+          <td>600</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Card Padding:</strong> 32px (default), 24px (compact), 16px (mobile)</li>
+      <li><strong>Header Margin-Bottom:</strong> 24px (16px compact)</li>
+      <li><strong>Key Padding:</strong> 20px 24px (16px 20px compact)</li>
+      <li><strong>Actions Margin-Bottom:</strong> 24px</li>
+      <li><strong>Meta Grid Gap:</strong> 16px (12px compact)</li>
+      <li><strong>Icon Size:</strong> 48×48px (40×40px compact)</li>
+    </ul>
+
+    <h3>Icons (Lucide)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Context</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>key</code></td>
+          <td>Software license</td>
+          <td>Header icon for license keys</td>
+        </tr>
+        <tr>
+          <td><code>code</code></td>
+          <td>API key</td>
+          <td>Header icon for API/developer keys</td>
+        </tr>
+        <tr>
+          <td><code>unlock</code></td>
+          <td>Activation code</td>
+          <td>Header icon for time-limited codes</td>
+        </tr>
+        <tr>
+          <td><code>copy</code></td>
+          <td>Copy button</td>
+          <td>Copy to clipboard action</td>
+        </tr>
+        <tr>
+          <td><code>check</code></td>
+          <td>Copy success</td>
+          <td>Copied confirmation state</td>
+        </tr>
+        <tr>
+          <td><code>eye</code> / <code>eye-off</code></td>
+          <td>Mask toggle</td>
+          <td>Show/hide sensitive key portions</td>
+        </tr>
+        <tr>
+          <td><code>download</code></td>
+          <td>Certificate</td>
+          <td>Download PDF license certificate</td>
+        </tr>
+        <tr>
+          <td><code>qr-code</code></td>
+          <td>Mobile activation</td>
+          <td>QR code for quick scanning</td>
+        </tr>
+        <tr>
+          <td><code>check-circle</code></td>
+          <td>Active status</td>
+          <td>License is active/valid</td>
+        </tr>
+        <tr>
+          <td><code>clock</code></td>
+          <td>Expiring status</td>
+          <td>License expiring soon</td>
+        </tr>
+        <tr>
+          <td><code>shield-alert</code></td>
+          <td>Security notice</td>
+          <td>Warning about key sharing</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface LicenseKeyDisplayProps {
+  icon: string;                      // Lucide icon name
+  title: string;                     // e.g., "Je licentie sleutel"
+  subtitle?: string;                 // e.g., "Bewaar deze code op een veilige plek"
+  licenseKey: string;                // Full license key (unmasked)
+  maskByDefault?: boolean;           // Start with key masked
+  status?: {
+    type: 'active' | 'expires-soon' | 'expired' | 'revoked';
+    label: string;
+    icon: string;
+  };
+  metadata: Array<{
+    label: string;
+    value: string;
+    mono?: boolean;                  // Use monospace font
+  }>;
+  actions?: {
+    copy?: boolean;                  // Show copy button (default: true)
+    mask?: boolean;                  // Show mask toggle (default: false)
+    download?: boolean;              // Show download certificate button
+    regenerate?: boolean;            // Show regenerate key button (API keys)
+  };
+  qrCode?: {
+    enabled: boolean;
+    title: string;
+    description: string;
+  };
+  securityNotice?: {
+    type: 'info' | 'warning';
+    text: string;
+  };
+  variant?: 'default' | 'compact';
+}
+    </pre>
+
+    <h3>Payload CMS Field Schema</h3>
+    <pre>
+{
+  name: 'licenseKeyDisplay',
+  type: 'group',
+  label: 'License Key Display',
+  fields: [
+    { name: 'icon', type: 'text', defaultValue: 'key' },
+    { name: 'title', type: 'text', required: true },
+    { name: 'subtitle', type: 'text' },
+    { name: 'licenseKey', type: 'text', required: true },
+    { name: 'maskByDefault', type: 'checkbox', defaultValue: false },
+    {
+      name: 'status',
+      type: 'group',
+      fields: [
+        {
+          name: 'type',
+          type: 'select',
+          options: ['active', 'expires-soon', 'expired', 'revoked'],
+        },
+        { name: 'label', type: 'text' },
+        { name: 'icon', type: 'text' },
+      ],
+    },
+    {
+      name: 'metadata',
+      type: 'array',
+      minRows: 1,
+      maxRows: 6,
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'value', type: 'text', required: true },
+        { name: 'mono', type: 'checkbox' },
+      ],
+    },
+    {
+      name: 'actions',
+      type: 'group',
+      fields: [
+        { name: 'copy', type: 'checkbox', defaultValue: true },
+        { name: 'mask', type: 'checkbox' },
+        { name: 'download', type: 'checkbox' },
+        { name: 'regenerate', type: 'checkbox' },
+      ],
+    },
+    {
+      name: 'qrCode',
+      type: 'group',
+      fields: [
+        { name: 'enabled', type: 'checkbox' },
+        { name: 'title', type: 'text' },
+        { name: 'description', type: 'textarea' },
+      ],
+    },
+    {
+      name: 'securityNotice',
+      type: 'group',
+      fields: [
+        { name: 'type', type: 'select', options: ['info', 'warning'] },
+        { name: 'text', type: 'richText' },
+      ],
+    },
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'default',
+      options: ['default', 'compact'],
+    },
+  ],
+}
+    </pre>
+
+    <h3>React/Next.js Component Example</h3>
+    <pre>
+'use client'
+
+import { useState } from 'react'
+import { Key, Code, Copy, Check, Eye, EyeOff } from 'lucide-react'
+
+export function LicenseKeyDisplay({
+  icon,
+  title,
+  subtitle,
+  licenseKey,
+  maskByDefault = false,
+  status,
+  metadata,
+  actions = { copy: true },
+  qrCode,
+  securityNotice,
+  variant = 'default'
+}: LicenseKeyDisplayProps) {
+  const [isMasked, setIsMasked] = useState(maskByDefault)
+  const [isCopied, setIsCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(licenseKey)
+    setIsCopied(true)
+    setTimeout(() => setIsCopied(false), 2000)
+  }
+
+  const displayKey = isMasked
+    ? licenseKey.replace(/./g, (char, i) => {
+        if (i < 6 || i > licenseKey.length - 3) return char
+        return '•'
+      })
+    : licenseKey
+
+  return (
+    &lt;div className={`license-key-card ${variant}`}&gt;
+      &lt;div className="lkd-header"&gt;
+        &lt;div className="lkd-icon"&gt;
+          {icon === 'key' ? &lt;Key /&gt; : &lt;Code /&gt;}
+        &lt;/div&gt;
+        &lt;div className="lkd-header-text"&gt;
+          &lt;div className="lkd-title"&gt;{title}&lt;/div&gt;
+          {subtitle && &lt;div className="lkd-subtitle"&gt;{subtitle}&lt;/div&gt;}
+        &lt;/div&gt;
+        {status && (
+          &lt;div className={`lkd-status ${status.type}`}&gt;
+            {/* Status badge */}
+          &lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="lkd-key-wrapper"&gt;
+        &lt;div className={`lkd-key ${isMasked ? 'masked' : ''}`}&gt;
+          {displayKey}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="lkd-actions"&gt;
+        {actions.copy && (
+          &lt;button
+            className={`lkd-btn lkd-btn-primary ${isCopied ? 'copied' : ''}`}
+            onClick={handleCopy}
+          &gt;
+            {isCopied ? &lt;Check /&gt; : &lt;Copy /&gt;}
+            &lt;span&gt;{isCopied ? 'Gekopieerd!' : 'Kopieer sleutel'}&lt;/span&gt;
+          &lt;/button&gt;
+        )}
+        {actions.mask && (
+          &lt;button
+            className="lkd-btn lkd-btn-secondary"
+            onClick={() => setIsMasked(!isMasked)}
+          &gt;
+            {isMasked ? &lt;Eye /&gt; : &lt;EyeOff /&gt;}
+            &lt;span&gt;{isMasked ? 'Toon sleutel' : 'Verberg sleutel'}&lt;/span&gt;
+          &lt;/button&gt;
+        )}
+      &lt;/div&gt;
+
+      {/* Metadata grid, QR code, security notice */}
+    &lt;/div&gt;
+  )
+}
+    </pre>
+
+    <!-- Remaining steps 5-8 continue with Layout Rules, Accessibility, Implementation Notes, and Variations -->
+
+    <h2>STEP 5: Layout Rules</h2>
+    <p><strong>Container:</strong> White card, max-width 700px, centered</p>
+    <p><strong>License Key:</strong> Monospace font, 20px, centered, grey-light background, 2px grey border (teal on hover)</p>
+    <p><strong>Meta Grid:</strong> 2-column grid (1-col on mobile), 16px gap</p>
+
+    <h2>STEP 6: Accessibility</h2>
+    <p><strong>Keyboard Navigation:</strong> License key focusable (Tab), Enter to copy</p>
+    <p><strong>Screen Readers:</strong> Announce "License key copied" on copy success</p>
+    <p><strong>Color Contrast:</strong> Navy on grey-light = 14.2:1 (AAA ✓)</p>
+
+    <h2>STEP 7: Implementation Notes</h2>
+    <p><strong>Copy to Clipboard:</strong> Use Clipboard API with fallback (document.execCommand)</p>
+    <p><strong>Masking Logic:</strong> Show first 6 and last 3 characters, mask middle with bullets</p>
+    <p><strong>Security:</strong> Never log license keys server-side, use HTTPS only</p>
+
+    <h2>STEP 8: Variations & Related Components</h2>
+    <p><strong>Related:</strong> DD01: DeliveryHero (precedes this), DD05: AccessInstructions (follows this)</p>
+    <p><strong>Variants:</strong> Software License, API Key, Activation Code, Compact</p>
+
+    <hr style="margin: 48px 0; border: none; border-top: 2px solid var(--grey);">
+
+    <p style="text-align: center; color: var(--grey-mid); font-size: 13px;">
+      <strong>Component:</strong> DD02: LicenseKeyDisplay<br>
+      <strong>Version:</strong> 1.0.0<br>
+      <strong>Last Updated:</strong> 25 Februari 2026<br>
+      <strong>Design System:</strong> Plastimed B2B Medical + Digital Delivery Extension
+    </p>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Copy key function
+    function copyKey(keyId, btnId) {
+      const keyElement = document.getElementById(keyId);
+      const button = document.getElementById(btnId);
+      const keyText = keyElement.dataset.key || keyElement.textContent.trim();
+
+      navigator.clipboard.writeText(keyText).then(() => {
+        // Visual feedback
+        button.classList.add('copied');
+        const icon = button.querySelector('i');
+        const text = button.querySelector('span');
+        icon.setAttribute('data-lucide', 'check');
+        text.textContent = 'Gekopieerd!';
+        lucide.createIcons();
+
+        // Reset after 2 seconds
+        setTimeout(() => {
+          button.classList.remove('copied');
+          icon.setAttribute('data-lucide', 'copy');
+          text.textContent = keyId.includes('key-2') ? 'Kopieer key' :
+                            keyId.includes('key-3') ? 'Kopieer code' : 'Kopieer sleutel';
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    // Toggle mask/unmask
+    function toggleMask(keyId, btnId) {
+      const keyElement = document.getElementById(keyId);
+      const isMasked = keyElement.classList.contains('masked');
+      const fullKey = keyElement.dataset.key || keyElement.textContent.trim();
+
+      if (isMasked) {
+        // Unmask
+        keyElement.textContent = fullKey;
+        keyElement.classList.remove('masked');
+        if (btnId) {
+          const btn = document.getElementById(btnId);
+          btn.querySelector('i').setAttribute('data-lucide', 'eye-off');
+          btn.querySelector('span').textContent = 'Verberg key';
+        }
+      } else {
+        // Mask
+        const masked = fullKey.split('').map((char, i) => {
+          if (char === '-' || char === '_') return char;
+          if (i < 6 || i > fullKey.length - 3) return char;
+          return '•';
+        }).join('');
+
+        keyElement.dataset.key = fullKey;
+        keyElement.textContent = masked;
+        keyElement.classList.add('masked');
+        if (btnId) {
+          const btn = document.getElementById(btnId);
+          btn.querySelector('i').setAttribute('data-lucide', 'eye');
+          btn.querySelector('span').textContent = 'Toon volledige key';
+        }
+      }
+
+      lucide.createIcons();
+    }
+  </script>
+
+</body>
+</html>

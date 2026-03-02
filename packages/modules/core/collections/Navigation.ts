@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Navigation Collection - Menu structures
@@ -18,9 +19,9 @@ export const Navigation: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: ({ req: { user } }) => user?.role === 'admin',
-    update: ({ req: { user } }) => user?.role === 'admin',
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    create: ({ req: { user } }) => isAdmin(user),
+    update: ({ req: { user } }) => isAdmin(user),
+    delete: ({ req: { user } }) => isAdmin(user),
   },
   fields: [
     {

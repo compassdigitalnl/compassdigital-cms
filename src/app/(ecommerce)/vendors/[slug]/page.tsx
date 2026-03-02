@@ -46,17 +46,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: v.meta?.title || `${v.name} — Leverancier`,
-    description: v.meta?.description || v.tagline || `Ontdek ${v.name}, een van onze partners.`,
+    description: v.meta?.description || v.tagline || `Ontdek ${v.name}, een van onze partners.` || undefined,
     openGraph: {
       title: v.meta?.title || v.name,
-      description: v.meta?.description || v.tagline,
+      description: v.meta?.description || v.tagline || undefined,
       images: v.meta?.image
         ? [
             {
               url:
                 typeof v.meta.image === 'string'
                   ? v.meta.image
-                  : v.meta.image.url || '/og-image.jpg',
+                  : (typeof v.meta.image === 'object' && v.meta.image !== null && 'url' in v.meta.image ? v.meta.image.url : null) || '/og-image.jpg',
             },
           ]
         : undefined,
@@ -331,7 +331,7 @@ export default async function VendorDetailPage({ params }: Props) {
                 style={{ color: 'var(--color-text-secondary)' }}
                 dangerouslySetInnerHTML={{
                   __html:
-                    vendor.description ||
+                    (typeof vendor.description === 'string' ? vendor.description : '') ||
                     'Premium leverancier van hoogwaardige producten en diensten.',
                 }}
               />

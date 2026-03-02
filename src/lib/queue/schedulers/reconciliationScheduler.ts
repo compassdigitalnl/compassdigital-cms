@@ -9,14 +9,14 @@
  */
 
 import { Queue } from 'bullmq'
-import { redis } from '../redis'
+import { redisConfig } from '../redis'
 
 // ═══════════════════════════════════════════════════════════
 // QUEUE
 // ═══════════════════════════════════════════════════════════
 
 const reconciliationQueue = new Queue('email-reconciliation', {
-  connection: redis,
+  connection: redisConfig,
 })
 
 // ═══════════════════════════════════════════════════════════
@@ -227,7 +227,7 @@ export async function initializeReconciliationSchedules(): Promise<void> {
     await clearAllSchedules()
 
     // Schedule based on environment
-    const env = process.env.NODE_ENV || 'development'
+    const env = (process.env.NODE_ENV || 'development') as string
 
     if (env === 'production') {
       // Production: Daily at 2 AM

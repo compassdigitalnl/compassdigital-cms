@@ -88,7 +88,7 @@ export class PageGeneratorService {
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      aiLogger.log('info', 'Generating page structure', 'PageGenerator', { options })
+      aiLogger.info('PageGenerator', 'Generating page structure', { options })
 
       // Step 1: Determine page structure (which blocks to include)
       const blockTypes = await this.determinePageStructure(options)
@@ -106,7 +106,7 @@ export class PageGeneratorService {
 
       const duration = Date.now() - startTime
 
-      aiLogger.log('info', `Page generated successfully in ${duration}ms`, 'PageGenerator', {
+      aiLogger.info('PageGenerator', `Page generated successfully in ${duration}ms`, {
         blockCount: blocks.length,
         duration,
       })
@@ -118,7 +118,7 @@ export class PageGeneratorService {
     } catch (error) {
       const duration = Date.now() - startTime
 
-      aiLogger.log('error', 'Page generation failed', 'PageGenerator', {
+      aiLogger.error('PageGenerator', 'Page generation failed', undefined, {
         error: error instanceof Error ? error.message : 'Unknown error',
         duration,
       })
@@ -159,7 +159,7 @@ export class PageGeneratorService {
     options: PageGenerationOptions,
   ): Promise<string[]> {
     // If pageType is specified, use template
-    if (options.pageType && PAGE_TEMPLATES[options.pageType]) {
+    if (options.pageType && options.pageType !== 'custom' && PAGE_TEMPLATES[options.pageType]) {
       const template = PAGE_TEMPLATES[options.pageType]
       let blocks = [...template.defaultBlocks]
 
@@ -303,12 +303,12 @@ Antwoord met JSON:
             data: result.data,
           })
         } else {
-          aiLogger.log('warn', `Failed to generate block: ${blockType}`, 'PageGenerator', {
+          aiLogger.warn('PageGenerator', `Failed to generate block: ${blockType}`, {
             error: result.error,
           })
         }
       } catch (error) {
-        aiLogger.log('error', `Error generating block: ${blockType}`, 'PageGenerator', {
+        aiLogger.error('PageGenerator', `Error generating block: ${blockType}`, undefined, {
           error: error instanceof Error ? error.message : 'Unknown error',
         })
       }

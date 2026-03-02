@@ -19,7 +19,7 @@ export default async function TenantPage({
   params: Promise<{ path?: string[] }>
 }) {
   const { path: pathArray } = await params
-  const headersList = headers()
+  const headersList = await headers()
 
   // Get tenant context from middleware
   const tenantId = headersList.get('x-tenant-id')

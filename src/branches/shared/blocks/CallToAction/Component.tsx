@@ -21,21 +21,21 @@ export const CallToActionComponent: React.FC<CallToActionBlock> = ({
     white: 'bg-white',
     grey: 'bg-grey-light',
     teal: 'bg-teal-glow',
-  }[backgroundColor]
+  }[backgroundColor || 'grey']
 
   // Text color for different backgrounds
   const textClasses = {
     white: 'text-navy',
     grey: 'text-navy',
     teal: 'text-navy',
-  }[backgroundColor]
+  }[backgroundColor || 'grey']
 
   // Button styling for different backgrounds
   const buttonClasses = {
     white: 'bg-teal hover:bg-teal-dark text-white',
     grey: 'bg-teal hover:bg-teal-dark text-white',
     teal: 'bg-navy hover:bg-navy-light text-white',
-  }[backgroundColor]
+  }[backgroundColor || 'grey']
 
   // Determine if link is internal or external
   const isExternal = buttonLink?.startsWith('http')

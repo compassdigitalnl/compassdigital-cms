@@ -228,6 +228,9 @@ export class ProvisioningService {
       let adminEmail: string | undefined
       let initialAdminPassword: string | undefined
 
+      // Define fullDomain early as it's used in multiple places
+      const fullDomain = `${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`
+
       try {
         // Determine clientType from environment variables built earlier
         const isWebshop = environmentVariables.ECOMMERCE_ENABLED === 'true'
@@ -255,8 +258,6 @@ export class ProvisioningService {
       // DNS propagation takes 1-5 minutes after record creation.
       // We do this AFTER deployment finishes so time has passed already.
       await reportProgress('configuring_domains', 'Waiting for DNS propagation before requesting SSL...', 82)
-
-      const fullDomain = `${input.domain}.${process.env.PLATFORM_BASE_URL || 'compassdigital.nl'}`
       await this.waitForDNSAndRequestSSL(projectId, fullDomain, serverIp, logs, reportProgress)
 
       // ── Step 9: Save port + URLs to client record ─────────────────────────

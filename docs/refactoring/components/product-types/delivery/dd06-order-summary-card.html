@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DD06: Order Summary Card — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.order-summary {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.os-title {
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--navy);
+}
+
+.os-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--teal);
+}
+
+.os-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--grey);
+  font-size: 12px;
+}
+
+.os-row:last-child {
+  border-bottom: none;
+  padding-top: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.os-label {
+  color: var(--grey-mid);
+}
+
+.os-value {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.os-row:last-child .os-label,
+.os-row:last-child .os-value {
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.payment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--grey-light);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.payment-badge i {
+  width: 12px;
+  height: 12px;
+  color: var(--teal);
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 720px; margin: 0 auto;">
+
+<div class="order-summary">
+  <div class="os-title">
+    <i data-lucide="receipt"></i> Bestelling overzicht
+  </div>
+
+  <div class="os-row">
+    <span class="os-label">Bestelnummer</span>
+    <span class="os-value">#12847</span>
+  </div>
+
+  <div class="os-row">
+    <span class="os-label">Datum</span>
+    <span class="os-value">25 februari 2026</span>
+  </div>
+
+  <div class="os-row">
+    <span class="os-label">Licentie</span>
+    <span class="os-value">Professional</span>
+  </div>
+
+  <div class="os-row">
+    <span class="os-label">Betaalmethode</span>
+    <span class="payment-badge">
+      <i data-lucide="credit-card"></i> iDEAL
+    </span>
+  </div>
+
+  <div class="os-row">
+    <span class="os-label">Totaal</span>
+    <span class="os-value">€79,00</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- DOCUMENTATION: DD06 Order Summary Card -->
+<!--
+COMPONENT: DD06 — Order Summary Card
+PURPOSE: Purchase receipt with order details
+PATTERN: White card with key-value rows
+USE CASE: Digital product delivery pages, order confirmation
+
+DESIGN TOKENS:
+- Card: white bg, 1px grey border, 12px radius, 18px padding
+- Title: 13px, 800 weight, receipt icon (16px teal)
+- Row: flex space-between, 8px padding, 1px grey border-bottom
+- Label: 12px, grey-mid
+- Value: 12px, navy, 600 weight
+- Total row: 14px, 800 weight, 12px padding-top, no border
+- Payment badge: grey-light bg, 11px, 6px radius
+
+REACT INTERFACE:
+interface OrderSummaryCardProps {
+  order: {
+    id: string
+    date: string | Date
+    licenseType: string
+    paymentMethod: string
+    total: number
+    currency?: string
+  }
+  showPaymentMethod?: boolean
+  showDate?: boolean
+  compact?: boolean
+}
+
+LAYOUT RULES:
+1. Card: white bg, 18px padding
+2. Rows: flex space-between, 8px padding
+3. Total row: 12px top padding, larger font
+4. Border-bottom: all rows except last
+
+ACCESSIBILITY:
+- Semantic: <dl> with <dt>/<dd> for key-value pairs
+- ARIA: role="region", aria-label="Order summary"
+- Payment badge: aria-label="Paid with iDEAL"
+- Color contrast: grey-mid on white = 4.5:1+ (AA)
+
+VARIATIONS:
+1. Default: Full order details
+2. Compact: Smaller padding (12px), smaller font (11px)
+3. Minimal: Order ID + Total only
+4. With Actions: Add "Download factuur" link
+
+RELATED COMPONENTS:
+- DD02 (ProductDownloadCard): Parent container
+- DD05 (GettingStartedSteps): Sibling above
+- OC03 (OrderSummaryReceipt): Similar for physical products
+
+NEXT.JS IMPLEMENTATION:
+'use client'
+
+import { Receipt, CreditCard } from 'lucide-react'
+
+export default function OrderSummaryCard({ order, showPaymentMethod = true }) {
+  return (
+    <div className="order-summary" role="region" aria-label="Order summary">
+      <div className="os-title">
+        <Receipt className="w-4 h-4" />
+        Bestelling overzicht
+      </div>
+
+      <dl>
+        <div className="os-row">
+          <dt className="os-label">Bestelnummer</dt>
+          <dd className="os-value">#{order.id}</dd>
+        </div>
+
+        <div className="os-row">
+          <dt className="os-label">Datum</dt>
+          <dd className="os-value">
+            {new Date(order.date).toLocaleDateString('nl-NL', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
+          </dd>
+        </div>
+
+        <div className="os-row">
+          <dt className="os-label">Licentie</dt>
+          <dd className="os-value">{order.licenseType}</dd>
+        </div>
+
+        {showPaymentMethod && (
+          <div className="os-row">
+            <dt className="os-label">Betaalmethode</dt>
+            <dd className="payment-badge">
+              <CreditCard className="w-3 h-3" />
+              {order.paymentMethod}
+            </dd>
+          </div>
+        )}
+
+        <div className="os-row">
+          <dt className="os-label">Totaal</dt>
+          <dd className="os-value">
+            €{order.total.toFixed(2).replace('.', ',')}
+          </dd>
+        </div>
+      </dl>
+    </div>
+  )
+}
+-->
+
+</body>
+</html>

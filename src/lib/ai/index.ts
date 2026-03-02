@@ -11,5 +11,5 @@ export { imageGenerator, ImageGeneratorService } from './services/imageGenerator
 export { blockGenerator, BlockGeneratorService } from './services/blockGenerator'
 export { pageGenerator, PageGeneratorService } from './services/pageGenerator'
 export { seoOptimizer, SEOOptimizerService } from './services/seoOptimizer'
-export { contentAnalyzer, ContentAnalyzerService } from './services/contentAnalyzer'
-export { translationService, TranslationService } from './services/translationService'
+export { contentAnalyzer } from './services/contentAnalyzer'
+export { translationService } from './services/translationService'

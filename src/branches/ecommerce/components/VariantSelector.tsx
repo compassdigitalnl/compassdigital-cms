@@ -225,7 +225,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             )}
 
             {/* Stock indicator */}
-            {currentSelection && currentSelection.stockLevel !== undefined && (
+            {currentSelection && currentSelection.stockLevel !== undefined && currentSelection.stockLevel !== null && (
               <p className="text-sm text-gray-600">
                 {currentSelection.stockLevel > 0 ? (
                   <span className="text-green-600">

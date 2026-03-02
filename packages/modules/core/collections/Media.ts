@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { autoGenerateAltText } from '@/utilities/slugify'
+import { isAdmin } from '@/access/utilities'
 
 /**
  * Media Collection - Extended with metadata and organization
@@ -19,11 +20,10 @@ export const Media: CollectionConfig = {
     read: () => true,
     create: ({ req: { user } }) => !!user,
     update: ({ req: { user } }) => !!user,
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => isAdmin(user),
   },
   upload: {
     staticDir: 'media',
-    staticURL: '/media',
     imageSizes: [
       {
         name: 'thumbnail',

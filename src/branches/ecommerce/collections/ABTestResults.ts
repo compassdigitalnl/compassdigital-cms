@@ -31,17 +31,17 @@ export const ABTestResults: CollectionConfig = {
     group: 'Marketing',
     defaultColumns: ['test', 'variant', 'converted', 'conversionValue', 'createdAt'],
     description: 'A/B test variant assignments en conversie tracking',
-    hidden: shouldHideCollection('ab-test-results'),
+    hidden: shouldHideCollection('shop'),
   },
   access: {
     read: ({ req: { user } }) => {
-      // Admins and platform users can read all results
-      if (checkRole(['admin', 'platform'], user)) return true
+      // Admins can read all results
+      if (checkRole(['admin'], user)) return true
       return false
     },
     create: () => true, // System can create (frontend assignment)
     update: () => true, // System can update (conversion tracking)
-    delete: ({ req: { user } }) => checkRole(['admin', 'platform'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     // Test Reference

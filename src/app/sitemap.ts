@@ -116,7 +116,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
 
     const serviceEntries: MetadataRoute.Sitemap = services.docs
-      .filter((s) => s.slug) // Only if they have slugs
+      .filter((s): s is { id: number; slug: string; updatedAt: string } =>
+        typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
+      )
       .map((s) => ({
         url: `${siteUrl}/diensten/${s.slug}`,
         lastModified: new Date(s.updatedAt),

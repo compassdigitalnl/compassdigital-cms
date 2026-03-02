@@ -20,7 +20,7 @@ import { Button } from '@/branches/shared/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
 import { Progress } from '@/branches/shared/components/ui/progress'
 import { Badge } from '@/branches/shared/components/ui/badge'
-import { Rocket, Check, X, Loader2, ExternalLink } from 'lucide-react'
+import { Rocket, Check, X, Loader2, ExternalLink, Globe } from 'lucide-react'
 
 interface ProvisioningButtonProps {
   clientId: string

@@ -346,7 +346,7 @@ export interface User {
         id?: string | null;
       }[]
     | null;
-  roles?: ('admin' | 'editor')[] | null;
+  roles?: ('super-admin' | 'admin' | 'editor')[] | null;
   /**
    * Bepaalt welke functies en collecties zichtbaar zijn voor deze klant
    */
@@ -5139,7 +5139,7 @@ export interface Client {
   /**
    * Automatisch ingevuld
    */
-  deploymentProvider?: ('ploi' | 'custom') | null;
+  deploymentProvider?: ('vercel' | 'ploi' | 'custom') | null;
   lastDeployedAt?: string | null;
   /**
    * Ploi site ID
@@ -6599,7 +6599,7 @@ export interface EmailTemplate {
   /**
    * Campaign templates are for bulk emails, transactional are for automated emails
    */
-  type: 0 | 1;
+  type: 'campaign' | 'transactional';
   /**
    * Use this as the default template for this type
    */
@@ -11886,6 +11886,20 @@ export interface Setting {
    */
   defaultMyAccountTemplate?: 'myaccounttemplate1' | null;
   /**
+   * Configureer de volgorde en zichtbaarheid van filters op de shop pagina. Sleep items om de volgorde te wijzigen.
+   */
+  shopFilterOrder?:
+    | {
+        filterId: 'brands' | 'materials' | 'sizes' | 'colors' | 'stock' | 'price';
+        enabled?: boolean | null;
+        /**
+         * Laat leeg om de standaard naam te gebruiken
+         */
+        displayName?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Bestellingen boven dit bedrag krijgen gratis verzending
    */
   freeShippingThreshold: number;
@@ -12240,6 +12254,10 @@ export interface Theme1 {
    * Optional gradient for special promotions, badges, or campaigns
    */
   accentGradient?: string | null;
+  /**
+   * Maximum width of the page content container. Applied to .container and .max-w-* classes.
+   */
+  containerWidth: 'lg' | 'xl' | '2xl' | '7xl';
   /**
    * 8px — buttons, inputs, small cards
    */
@@ -13310,6 +13328,14 @@ export interface SettingsSelect<T extends boolean = true> {
   defaultCartTemplate?: T;
   defaultCheckoutTemplate?: T;
   defaultMyAccountTemplate?: T;
+  shopFilterOrder?:
+    | T
+    | {
+        filterId?: T;
+        enabled?: T;
+        displayName?: T;
+        id?: T;
+      };
   freeShippingThreshold?: T;
   shippingCost?: T;
   deliveryTime?: T;
@@ -13435,6 +13461,7 @@ export interface ThemeSelect<T extends boolean = true> {
   secondaryGradient?: T;
   heroGradient?: T;
   accentGradient?: T;
+  containerWidth?: T;
   radiusSm?: T;
   radiusMd?: T;
   radiusLg?: T;

@@ -5,18 +5,21 @@
 
 import { Redis } from 'ioredis'
 
-// Redis connection for BullMQ (local or Upstash)
-export const redis = new Redis({
+// Redis connection configuration
+export const redisConfig = {
   host: process.env.REDIS_HOST || 'localhost',
   port: Number(process.env.REDIS_PORT) || 6379,
   password: process.env.REDIS_PASSWORD,
   maxRetriesPerRequest: null, // Required for BullMQ
   enableReadyCheck: false,
-  retryStrategy(times) {
+  retryStrategy(times: number) {
     const delay = Math.min(times * 50, 2000)
     return delay
   },
-})
+}
+
+// Redis connection for BullMQ (local or Upstash)
+export const redis = new Redis(redisConfig)
 
 // Upstash Redis (for edge caching - optional)
 // Uncomment when you have Upstash credentials

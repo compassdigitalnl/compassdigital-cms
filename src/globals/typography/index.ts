@@ -145,15 +145,14 @@ export const Typography: Tab = {
       type: 'row',
       fields: [
         {
-          name: 'typographyInfo',
           type: 'ui',
           admin: {
             components: {
-              Field: () => null,
+              Field: (() => null) as any,
             },
             description: '💡 TIP: Font families should include fallbacks. Type scale values are in pixels and will be converted to CSS variables (--text-hero, etc.).',
           },
-        },
+        } as any,
       ],
     },
   ],

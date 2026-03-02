@@ -32,7 +32,7 @@ export const GiftVouchers: CollectionConfig = {
             },
           },
         ],
-      }
+      } as any
     },
     create: () => true, // Anyone can purchase vouchers
     update: ({ req: { user } }) => checkRole(['admin'], user),
@@ -94,7 +94,7 @@ export const GiftVouchers: CollectionConfig = {
         { label: 'Thank You', value: 'thanks', emoji: '🙏' },
         { label: 'New Home', value: 'newhome', emoji: '🏠' },
         { label: 'Universal', value: 'universal', emoji: '✨' },
-      ],
+      ] as any,
       defaultValue: 'universal',
     },
     {

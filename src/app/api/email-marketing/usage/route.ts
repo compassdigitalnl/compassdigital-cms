@@ -10,6 +10,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getUsageTracker, TIER_CONFIG } from '@/lib/email/billing/usage-tracker'
 import { rateLimit, RateLimitPresets } from '@/lib/security/rate-limiter'
+import { checkRole } from '@/access/utilities'
+import { isUser } from '@/access/utilities'
 
 /**
  * GET - Get usage stats for current tenant
@@ -34,7 +36,7 @@ export async function GET(request: NextRequest) {
     const usageTracker = getUsageTracker()
 
     // Super-admin can get all tenants
-    if (all && user.role === 'super-admin') {
+    if (all && checkRole(['super-admin'], user)) {
       const allUsage = await usageTracker.getAllTenantUsage()
 
       return NextResponse.json({
@@ -47,14 +49,22 @@ export async function GET(request: NextRequest) {
     }
 
     // Regular users get their tenant usage
-    if (!user.tenant) {
+    // Note: In this system, only super-admins and tenant users can access usage data
+    // Regular customers don't have direct access to tenant usage stats
+    let tenantId: string | number | undefined
+
+    // Try to get tenant ID from user (if user has tenant field)
+    if (isUser(user) && (user as any).tenant) {
+      const tenant = (user as any).tenant
+      tenantId = typeof tenant === 'string' || typeof tenant === 'number' ? tenant : tenant?.id
+    }
+
+    if (!tenantId) {
       return NextResponse.json({ error: 'No tenant associated with user' }, { status: 400 })
     }
 
-    const tenantId = typeof user.tenant === 'string' ? user.tenant : user.tenant.id
-
     // Get usage stats
-    const usage = await usageTracker.getMonthlyUsage(tenantId)
+    const usage = await usageTracker.getMonthlyUsage(String(tenantId))
 
     // Get tier config for feature limits
     const tierConfig = usageTracker.getTierConfig(usage.currentTier)

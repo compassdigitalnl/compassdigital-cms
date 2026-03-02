@@ -22,7 +22,8 @@ type SerializedRoot = {
 export function serializeLexical({ nodes }: { nodes: SerializedNode | SerializedRoot }): React.ReactNode {
   // Handle root object
   if (nodes && typeof nodes === 'object' && 'root' in nodes) {
-    return serializeChildren(nodes.root.children)
+    const root = nodes.root as SerializedNode
+    return serializeChildren(root.children)
   }
 
   // Handle direct children array
@@ -115,7 +116,8 @@ function serializeNode(node: SerializedNode): React.ReactNode {
 
   // Links
   if (type === 'link' || type === 'autolink') {
-    const url = (node.url || node.fields?.url) as string
+    const fields = node.fields as Record<string, unknown> | undefined
+    const url = (node.url || fields?.url) as string
     const newTab = node.newTab as boolean
 
     if (!url) return serializeChildren(node.children)

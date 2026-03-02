@@ -1,2 +1,2 @@
 export { SiteFooter } from './SiteFooter'
-export { Footer } from './index.tsx'
+export { SiteFooter as Footer } from './SiteFooter'

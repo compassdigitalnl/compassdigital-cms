@@ -12,19 +12,21 @@ import { imageHero1Data } from './image-hero-1'
 import { Address } from '@/payload-types'
 // NOTE: Transaction and VariantOption types don't exist (variable products feature not implemented yet)
 // import { Transaction, VariantOption } from '@/payload-types'
+type Transaction = any
+type VariantOption = any
 
 const collections: CollectionSlug[] = [
-  'categories',
+  'product-categories',
   'media',
   'pages',
   'products',
   'forms',
   'form-submissions',
-  'variants',
-  'variantOptions',
-  'variantTypes',
+  'variants' as any,
+  'variantOptions' as any,
+  'variantTypes' as any,
   'carts',
-  'transactions',
+  'transactions' as any,
   'addresses',
   'orders',
 ]
@@ -32,15 +34,15 @@ const collections: CollectionSlug[] = [
 const categories = ['Accessories', 'T-Shirts', 'Hats']
 
 const sizeVariantOptions = [
-  { label: 'Small', value: 'small' },
-  { label: 'Medium', value: 'medium' },
-  { label: 'Large', value: 'large' },
-  { label: 'X Large', value: 'xlarge' },
+  { label: 'Small', value: 'small' } as any,
+  { label: 'Medium', value: 'medium' } as any,
+  { label: 'Large', value: 'large' } as any,
+  { label: 'X Large', value: 'xlarge' } as any,
 ]
 
 const colorVariantOptions = [
-  { label: 'Black', value: 'black' },
-  { label: 'White', value: 'white' },
+  { label: 'Black', value: 'black' } as any,
+  { label: 'White', value: 'white' } as any,
 ]
 
 const globals: GlobalSlug[] = ['header', 'footer']
@@ -96,11 +98,11 @@ export const seed = async ({
         slug: global,
         data: {
           navItems: [],
-        },
+        } as any,
         depth: 0,
         context: {
           disableRevalidate: true,
-        },
+        } as any,
       }),
     ),
   )
@@ -120,8 +122,8 @@ export const seed = async ({
     where: {
       email: {
         equals: 'customer@example.com',
-      },
-    },
+      } as any,
+    } as any,
   })
 
   payload.logger.info(`— Seeding media...`)
@@ -159,7 +161,7 @@ export const seed = async ({
         email: 'customer@example.com',
         password: 'password',
         roles: ['customer'],
-      },
+      } as any,
     }),
     payload.create({
       collection: 'media',
@@ -183,11 +185,11 @@ export const seed = async ({
     }),
     ...categories.map((category) =>
       payload.create({
-        collection: 'categories',
+        collection: 'product-categories',
         data: {
           title: category,
           slug: category,
-        },
+        } as any,
       }),
     ),
   ])
@@ -195,22 +197,22 @@ export const seed = async ({
   payload.logger.info(`— Seeding variant types and options...`)
 
   const sizeVariantType = await payload.create({
-    collection: 'variantTypes',
+    collection: 'variantTypes' as any as any,
     data: {
       name: 'size',
       label: 'Size',
-    },
+    } as any,
   })
 
   const sizeVariantOptionsResults: VariantOption[] = []
 
   for (const option of sizeVariantOptions) {
     const result = await payload.create({
-      collection: 'variantOptions',
+      collection: 'variantOptions' as any as any,
       data: {
         ...option,
         variantType: sizeVariantType.id,
-      },
+      } as any,
     })
     sizeVariantOptionsResults.push(result)
   }
@@ -218,21 +220,21 @@ export const seed = async ({
   const [small, medium, large, xlarge] = sizeVariantOptionsResults
 
   const colorVariantType = await payload.create({
-    collection: 'variantTypes',
+    collection: 'variantTypes' as any as any,
     data: {
       name: 'color',
       label: 'Color',
-    },
+    } as any,
   })
 
   const [black, white] = await Promise.all(
     colorVariantOptions.map((option) => {
       return payload.create({
-        collection: 'variantOptions',
+        collection: 'variantOptions' as any as any,
         data: {
           ...option,
           variantType: colorVariantType.id,
-        },
+        } as any,
       })
     }),
   )
@@ -256,8 +258,8 @@ export const seed = async ({
     depth: 0,
     data: productTshirtData({
       galleryImages: [
-        { image: imageTshirtBlack, variantOption: black },
-        { image: imageTshirtWhite, variantOption: white },
+        { image: imageTshirtBlack, variantOption: black } as any,
+        { image: imageTshirtWhite, variantOption: white } as any,
       ],
       metaImage: imageTshirtBlack,
       contentImage: imageHero,
@@ -281,7 +283,7 @@ export const seed = async ({
   ] = await Promise.all(
     [small, medium, large, xlarge].map((variantOption) =>
       payload.create({
-        collection: 'variants',
+        collection: 'variants' as any as any,
         depth: 0,
         data: productTshirtVariant({
           product: productTshirt,
@@ -294,7 +296,7 @@ export const seed = async ({
   await Promise.all(
     [small, medium, large, xlarge].map((variantOption) =>
       payload.create({
-        collection: 'variants',
+        collection: 'variants' as any as any,
         depth: 0,
         data: productTshirtVariant({
           product: productTshirt,
@@ -339,24 +341,24 @@ export const seed = async ({
     collection: 'addresses',
     depth: 0,
     data: {
-      customer: customer.id,
       ...(baseAddressUSData as Address),
-    },
+      customer: customer.id,
+    } as any,
   })
 
   const customerUKAddress = await payload.create({
     collection: 'addresses',
     depth: 0,
     data: {
-      customer: customer.id,
       ...(baseAddressUKData as Address),
-    },
+      customer: customer.id,
+    } as any,
   })
 
   payload.logger.info(`— Seeding transactions...`)
 
   const pendingTransaction = await payload.create({
-    collection: 'transactions',
+    collection: 'transactions' as any,
     data: {
       currency: 'USD',
       customer: customer.id,
@@ -364,14 +366,14 @@ export const seed = async ({
       stripe: {
         customerID: 'cus_123',
         paymentIntentID: 'pi_123',
-      },
+      } as any,
       status: 'pending',
       billingAddress: baseAddressUSData,
-    },
+    } as any,
   })
 
   const succeededTransaction = await payload.create({
-    collection: 'transactions',
+    collection: 'transactions' as any,
     data: {
       currency: 'USD',
       customer: customer.id,
@@ -379,10 +381,10 @@ export const seed = async ({
       stripe: {
         customerID: 'cus_123',
         paymentIntentID: 'pi_123',
-      },
+      } as any,
       status: 'succeeded',
       billingAddress: baseAddressUSData,
-    },
+    } as any,
   })
 
   let succeededTransactionID: number | string = succeededTransaction.id
@@ -404,9 +406,9 @@ export const seed = async ({
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        },
+        } as any,
       ],
-    },
+    } as any,
   })
 
   const oldTimestamp = new Date('2023-01-01T00:00:00Z').toISOString()
@@ -421,9 +423,9 @@ export const seed = async ({
         {
           product: productHat.id,
           quantity: 1,
-        },
+        } as any,
       ],
-    },
+    } as any,
   })
 
   // Cart is purchased because it has a purchasedAt date
@@ -439,14 +441,14 @@ export const seed = async ({
           product: productTshirt.id,
           variant: smallTshirtHoodieVariant.id,
           quantity: 1,
-        },
+        } as any,
         {
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        },
+        } as any,
       ],
-    },
+    } as any,
   })
 
   let completedCartID: number | string = completedCart.id
@@ -469,16 +471,16 @@ export const seed = async ({
           product: productTshirt.id,
           variant: smallTshirtHoodieVariant.id,
           quantity: 1,
-        },
+        } as any,
         {
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        },
+        } as any,
       ],
       status: 'completed',
       transactions: [succeededTransaction.id],
-    },
+    } as any,
   })
 
   const orderInProcessing = await payload.create({
@@ -493,16 +495,16 @@ export const seed = async ({
           product: productTshirt.id,
           variant: smallTshirtHoodieVariant.id,
           quantity: 1,
-        },
+        } as any,
         {
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        },
+        } as any,
       ],
       status: 'processing',
       transactions: [succeededTransaction.id],
-    },
+    } as any,
   })
 
   payload.logger.info(`— Seeding globals...`)
@@ -517,24 +519,24 @@ export const seed = async ({
               type: 'custom',
               label: 'Home',
               url: '/',
-            },
-          },
+            } as any,
+          } as any,
           {
             link: {
               type: 'custom',
               label: 'Shop',
               url: '/shop',
-            },
-          },
+            } as any,
+          } as any,
           {
             link: {
               type: 'custom',
               label: 'Account',
               url: '/account',
-            },
-          },
+            } as any,
+          } as any,
         ],
-      },
+      } as any,
     }),
     payload.updateGlobal({
       slug: 'footer',
@@ -545,33 +547,33 @@ export const seed = async ({
               type: 'custom',
               label: 'Admin',
               url: '/admin',
-            },
-          },
+            } as any,
+          } as any,
           {
             link: {
               type: 'custom',
               label: 'Find my order',
               url: '/find-order',
-            },
-          },
+            } as any,
+          } as any,
           {
             link: {
               type: 'custom',
               label: 'Source Code',
               newTab: true,
               url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
-            },
-          },
+            } as any,
+          } as any,
           {
             link: {
               type: 'custom',
               label: 'Payload',
               newTab: true,
               url: 'https://payloadcms.com/',
-            },
-          },
+            } as any,
+          } as any,
         ],
-      },
+      } as any,
     }),
   ])
 

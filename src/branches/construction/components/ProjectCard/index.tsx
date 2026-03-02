@@ -36,7 +36,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     featuredImage,
     testimonial,
     status,
-  } = project
+  } = project as any
 
   if (status !== 'published') return null
 
@@ -126,9 +126,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           {showTestimonial && testimonial && typeof testimonial === 'object' && (
             <div className="project-card__testimonial">
               <blockquote>
-                "{testimonial.review && testimonial.review.length > 100
-                  ? testimonial.review.substring(0, 100) + '...'
-                  : testimonial.review}"
+                "{testimonial.quote && testimonial.quote.length > 100
+                  ? testimonial.quote.substring(0, 100) + '...'
+                  : testimonial.quote}"
               </blockquote>
               {testimonial.clientName && (
                 <cite>— {testimonial.clientName}</cite>

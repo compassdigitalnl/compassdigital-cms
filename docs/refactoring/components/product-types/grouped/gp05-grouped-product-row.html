@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP05: Grouped Product Row — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --green: #00C853;
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  padding: 24px;
+}
+
+.product-row {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 16px 20px;
+  transition: all var(--transition);
+  display: grid;
+  grid-template-columns: 40px 60px 1fr auto auto auto;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.product-row:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+}
+
+.product-row.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.product-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--grey);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.product-checkbox.checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.product-checkbox.checked i {
+  width: 14px;
+  height: 14px;
+  color: white;
+}
+
+.product-icon {
+  width: 60px;
+  height: 60px;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F1F4F8;
+  border-radius: 12px;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.product-sku {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--grey-mid);
+}
+
+.price-current {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.product-stock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.product-cta {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  color: var(--grey-mid);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-cta:hover {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+
+.product-cta i {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 768px) {
+  .product-row {
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+  }
+
+  .product-icon {
+    display: none;
+  }
+
+  .product-row .product-stock,
+  .product-row .product-price,
+  .product-row .product-cta {
+    grid-column: 2;
+  }
+
+  .product-row .product-cta {
+    margin-top: 12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1200px; margin: 0 auto;">
+  <div class="product-row">
+    <div class="product-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+      <i data-lucide="check" style="display: none;"></i>
+    </div>
+
+    <div class="product-icon">🔪</div>
+
+    <div class="product-info">
+      <h3 class="product-name">Scalpel met houder</h3>
+      <p class="product-sku">SKU: SCP-001</p>
+    </div>
+
+    <div class="product-price">
+      <span class="price-current">€45.00</span>
+    </div>
+
+    <div class="product-stock">
+      <span class="stock-dot"></span>
+      Op voorraad
+    </div>
+
+    <button class="product-cta">
+      <i data-lucide="shopping-cart"></i>
+      Voeg toe
+    </button>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+const checkbox = document.querySelector('.product-checkbox');
+const row = document.querySelector('.product-row');
+const checkIcon = checkbox.querySelector('i');
+
+checkbox.addEventListener('click', () => {
+  const isChecked = checkbox.classList.toggle('checked');
+  checkbox.setAttribute('aria-checked', isChecked);
+  checkIcon.style.display = isChecked ? 'block' : 'none';
+  row.classList.toggle('selected', isChecked);
+  lucide.createIcons();
+});
+</script>
+
+<!-- DOCUMENTATION: GP05 Grouped Product Row -->
+</body>
+</html>

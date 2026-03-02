@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP07: Selection Summary Sidebar — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #F5F7FA;
+  padding: 24px;
+}
+
+.selection-summary {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 24px;
+  position: sticky;
+  top: 24px;
+  max-width: 380px;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.summary-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-title i {
+  width: 18px;
+  height: 18px;
+  color: var(--teal);
+}
+
+.summary-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+  background: var(--teal-glow);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
+.selected-items {
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.selected-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--grey-light);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.selected-item-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.selected-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.selected-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected-item-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grey-mid);
+}
+
+.selected-item-remove {
+  padding: 6px;
+  border: none;
+  background: none;
+  color: var(--coral);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-item-remove i {
+  width: 16px;
+  height: 16px;
+}
+
+.selected-item-remove:hover {
+  background: var(--coral-light);
+}
+
+.price-breakdown {
+  padding: 16px 0;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  margin-bottom: 20px;
+}
+
+.price-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.price-line:last-child {
+  margin-bottom: 0;
+}
+
+.price-line-label {
+  color: var(--grey-mid);
+}
+
+.price-line-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.discount .price-line-label {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.price-line.discount .price-line-value {
+  color: var(--green);
+}
+
+.price-line.discount .price-line-label i {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.price-line.total {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--grey);
+}
+
+.price-line.total .price-line-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.total .price-line-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.summary-cta {
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 8px;
+  border: none;
+  background: var(--teal);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.summary-cta i {
+  width: 18px;
+  height: 18px;
+}
+
+.summary-cta:hover:not(:disabled) {
+  background: var(--navy);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.summary-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.summary-note {
+  font-size: 11px;
+  color: var(--grey-mid);
+  text-align: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--grey-mid);
+}
+
+.empty-state i {
+  width: 48px;
+  height: 48px;
+  color: var(--grey);
+  margin-bottom: 16px;
+}
+
+.empty-state p {
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 380px; margin: 0 auto;">
+  <div class="selection-summary">
+    <div class="summary-header">
+      <div class="summary-title">
+        <i data-lucide="shopping-bag"></i>
+        Selectie
+      </div>
+      <span class="summary-count" id="summaryCount">2 items</span>
+    </div>
+
+    <div class="selected-items" id="selectedItemsList">
+      <div class="selected-item">
+        <div class="selected-item-icon">🔪</div>
+        <div class="selected-item-info">
+          <div class="selected-item-name">Scalpel met houder</div>
+          <div class="selected-item-price">€45.00</div>
+        </div>
+        <button class="selected-item-remove">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="selected-item">
+        <div class="selected-item-icon">✂️</div>
+        <div class="selected-item-info">
+          <div class="selected-item-name">Chirurgische schaar</div>
+          <div class="selected-item-price">€32.50</div>
+        </div>
+        <button class="selected-item-remove">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="price-breakdown">
+      <div class="price-line">
+        <span class="price-line-label">Subtotaal</span>
+        <span class="price-line-value" id="subtotal">€77.50</span>
+      </div>
+      <div class="price-line discount" id="discountLine" style="display: none;">
+        <span class="price-line-label">
+          <i data-lucide="gift"></i>
+          Complete set korting (15%)
+        </span>
+        <span class="price-line-value" id="discount">-€0.00</span>
+      </div>
+      <div class="price-line total">
+        <span class="price-line-label">Totaal</span>
+        <span class="price-line-value" id="total">€77.50</span>
+      </div>
+    </div>
+
+    <button class="summary-cta" id="addSelectedBtn">
+      <i data-lucide="shopping-cart"></i>
+      Voeg selectie toe
+    </button>
+    <p class="summary-note">Gratis verzending vanaf €60</p>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- DOCUMENTATION: GP07 Selection Summary Sidebar -->
+</body>
+</html>

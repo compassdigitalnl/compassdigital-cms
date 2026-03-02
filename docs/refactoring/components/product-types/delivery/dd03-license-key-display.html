@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DD03: License Key Display — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background: #F5F7FA;
+  color: #fff;
+  padding: 24px;
+}
+
+.key-card {
+  background: var(--navy);
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.key-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+}
+
+.key-label i {
+  width: 14px;
+  height: 14px;
+}
+
+.key-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  letter-spacing: 0.06em;
+}
+
+.copy-btn {
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: white;
+}
+
+.copy-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+.copy-btn.copied {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .key-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .copy-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .key-value {
+    font-size: 14px;
+    word-break: break-all;
+  }
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 720px; margin: 0 auto;">
+
+<!-- ============================================
+     LIVE DEMO
+     ============================================ -->
+
+<div class="key-card">
+  <div style="flex: 1;">
+    <div class="key-label">
+      <i data-lucide="key"></i> Licentiekey
+    </div>
+    <div class="key-value" id="licenseKey">
+      COMP-4X2K-7M9N-8QW5-3RTY
+    </div>
+  </div>
+
+  <button class="copy-btn" id="copyBtn" onclick="copyKey()">
+    <i data-lucide="copy" id="copyIcon"></i>
+    <span id="copyText">Kopieer</span>
+  </button>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+function copyKey() {
+  const keyValue = document.getElementById('licenseKey').textContent;
+  const btn = document.getElementById('copyBtn');
+  const text = document.getElementById('copyText');
+  const icon = document.getElementById('copyIcon');
+
+  // Copy to clipboard
+  navigator.clipboard.writeText(keyValue).then(() => {
+    // Success feedback
+    btn.classList.add('copied');
+    text.textContent = 'Gekopieerd!';
+    icon.setAttribute('data-lucide', 'check');
+    lucide.createIcons();
+
+    // Reset after 2 seconds
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      text.textContent = 'Kopieer';
+      icon.setAttribute('data-lucide', 'copy');
+      lucide.createIcons();
+    }, 2000);
+  });
+}
+</script>
+
+<!-- ============================================
+     DOCUMENTATION: DD03 License Key Display
+     Complete 8-step protocol
+     ============================================ -->
+<!--
+COMPONENT: DD03 — License Key Display
+PURPOSE: Display software license key with copy-to-clipboard functionality
+PATTERN: Dark card with monospace key + copy button, success feedback
+USE CASE: Digital product delivery pages, account license management
+
+DESIGN TOKENS:
+- Card: navy bg (#0A1628), 14px radius, 18px 22px padding
+- Label: 11px, uppercase, rgba(255,255,255,0.5), 0.04em spacing
+- Key: JetBrains Mono 16px (14px mobile), 500 weight, white, 0.06em spacing
+- Copy button: 8px 14px padding, rgba(255,255,255,0.08) bg, 8px radius
+- Copy button hover: rgba(255,255,255,0.12) bg, white text
+- Success state: teal bg (#00897B), white text, check icon
+- Gap: 12px (14px mobile vertical)
+- Margin-bottom: 20px
+
+KEY FORMAT:
+- Pattern: XXXX-XXXX-XXXX-XXXX-XXXX (5 groups of 4 characters)
+- Separators: hyphens (-)
+- Characters: uppercase alphanumeric (no O, I, 0, 1 for clarity)
+- Length: 24 characters + 4 hyphens = 29 total
+
+REACT INTERFACE:
+interface LicenseKeyDisplayProps {
+  licenseKey: string
+  label?: string // Default: "Licentiekey"
+  showIcon?: boolean // Default: true
+  autoHide?: boolean // Mask key (show last 4 only)
+  successDuration?: number // Default: 2000ms
+  onCopy?: (key: string) => void // Analytics callback
+}
+
+LAYOUT RULES:
+1. **Desktop Layout**:
+   - Flex row: key (flex: 1) + button (fixed width)
+   - Justify: space-between
+   - Align: center
+   - Gap: 12px
+
+2. **Mobile Layout** (@640px):
+   - Flex column, align-start
+   - Button: width 100%, justify-center
+   - Gap: 14px
+   - Key: word-break all (prevent overflow)
+
+3. **Spacing**:
+   - Label to key: 6px
+   - Card margin-bottom: 20px
+
+ACCESSIBILITY:
+- Label: aria-label="License key"
+- Key value: role="text", aria-live="polite"
+- Copy button: aria-label="Copy license key to clipboard"
+- Success state: aria-label="License key copied"
+- Keyboard: button focusable, Enter/Space triggers copy
+- Screen reader: announces "Copied" on success
+- Color contrast: white on navy = 12.6:1 (AAA)
+
+IMPLEMENTATION NOTES:
+1. **Clipboard API**:
+   ```javascript
+   navigator.clipboard.writeText(key)
+     .then(() => {
+       // Success feedback
+       setIsCopied(true)
+       setTimeout(() => setIsCopied(false), 2000)
+     })
+     .catch(() => {
+       // Fallback for older browsers
+       const input = document.createElement('input')
+       input.value = key
+       document.body.appendChild(input)
+       input.select()
+       document.execCommand('copy')
+       document.body.removeChild(input)
+     })
+   ```
+
+2. **Success Feedback**:
+   - Button bg: rgba → teal
+   - Icon: copy → check
+   - Text: "Kopieer" → "Gekopieerd!"
+   - Duration: 2 seconds
+   - Auto-reset after timeout
+
+3. **Auto-Hide Variant**:
+   - Mask key: `COMP-****-****-****-3RTY`
+   - Show last 4 characters only
+   - "Toon" toggle button to reveal
+   - Useful for public screenshots
+
+4. **Key Validation**:
+   - Server-side validation on activation
+   - Client-side format check (regex)
+   - Pattern: `/^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/`
+
+VARIATIONS:
+1. **Default** (shown above):
+   - Full key visible
+   - Copy button on right
+   - Navy background
+
+2. **Auto-Hide**:
+   - Masked key: COMP-****-****-****-3RTY
+   - "Toon" button to reveal
+   - Prevents shoulder surfing
+
+3. **Compact**:
+   - Smaller padding: 12px 16px
+   - Smaller font: 14px
+   - No label (key only)
+   - Inline copy icon
+
+4. **Light Theme**:
+   - White/grey-light bg
+   - Navy text
+   - Grey border
+   - Teal copy button
+
+RELATED COMPONENTS:
+- DD02 (ProductDownloadCard): Parent container
+- DD04 (DownloadButtonGrid): Sibling component below
+- Account License Card: Similar pattern in account section
+- Order Confirmation: License key shown in email
+
+PAYLOAD CMS INTEGRATION:
+Generate license key on order creation:
+
+export async function generateLicenseKey(productId: string): Promise<string> {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789' // Exclude O, I, 0, 1
+  const segments = 5
+  const segmentLength = 4
+
+  let key = ''
+  for (let i = 0; i < segments; i++) {
+    for (let j = 0; j < segmentLength; j++) {
+      key += chars[Math.floor(Math.random() * chars.length)]
+    }
+    if (i < segments - 1) key += '-'
+  }
+
+  // Store in database
+  await payload.create({
+    collection: 'licenses',
+    data: {
+      key,
+      product: productId,
+      status: 'active',
+      activatedAt: null,
+    },
+  })
+
+  return key
+}
+
+NEXT.JS IMPLEMENTATION:
+'use client'
+
+import { Copy, Check, Key } from 'lucide-react'
+import { useState } from 'react'
+
+export default function LicenseKeyDisplay({
+  licenseKey,
+  label = 'Licentiekey',
+  showIcon = true,
+  onCopy,
+}: LicenseKeyDisplayProps) {
+  const [isCopied, setIsCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(licenseKey)
+      setIsCopied(true)
+      onCopy?.(licenseKey)
+
+      setTimeout(() => setIsCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
+
+  return (
+    <div className="key-card">
+      <div className="flex-1">
+        <div className="key-label">
+          {showIcon && <Key className="w-3.5 h-3.5" />}
+          {label}
+        </div>
+        <div className="key-value" role="text" aria-live="polite">
+          {licenseKey}
+        </div>
+      </div>
+
+      <button
+        className={`copy-btn ${isCopied ? 'copied' : ''}`}
+        onClick={handleCopy}
+        aria-label={isCopied ? 'License key copied' : 'Copy license key'}
+      >
+        {isCopied ? (
+          <>
+            <Check className="w-3.5 h-3.5" />
+            <span>Gekopieerd!</span>
+          </>
+        ) : (
+          <>
+            <Copy className="w-3.5 h-3.5" />
+            <span>Kopieer</span>
+          </>
+        )}
+      </button>
+    </div>
+  )
+}
+
+TESTING CHECKLIST:
+□ License key renders in monospace font
+□ Copy button copies key to clipboard
+□ Success feedback shows (teal bg, check icon)
+□ Auto-resets after 2 seconds
+□ Mobile responsive (stacks vertically)
+□ Keyboard accessible (Tab + Enter)
+□ Screen reader announces copy success
+□ Works on older browsers (fallback method)
+□ Key format validates (regex pattern)
+-->
+
+</body>
+</html>

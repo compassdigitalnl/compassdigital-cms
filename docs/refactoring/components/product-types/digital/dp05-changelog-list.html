@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP05: Changelog List — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --teal: #00897B;
+  --grey: #E8ECF1;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F5F7FA;
+  color: var(--navy);
+  padding: 24px;
+}
+
+.section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.cl-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--grey);
+}
+
+.cl-item:last-child {
+  border-bottom: none;
+}
+
+.cl-ver {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--teal);
+  min-width: 50px;
+}
+
+.cl-date {
+  font-size: 12px;
+  color: var(--grey-mid);
+  min-width: 80px;
+}
+
+.cl-changes {
+  flex: 1;
+  font-size: 13px;
+  color: var(--grey-dark);
+  line-height: 1.4;
+}
+
+.cl-tag {
+  display: inline-flex;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-right: 4px;
+}
+</style>
+</head>
+<body>
+
+<div style="max-width: 1240px; margin: 0 auto;">
+
+<div class="section-title">
+  <i data-lucide="git-branch"></i> Changelog
+</div>
+
+<div class="card">
+  <div class="cl-item">
+    <div class="cl-ver">v4.2</div>
+    <div class="cl-date">14 feb 2026</div>
+    <div class="cl-changes">
+      <span class="cl-tag" style="background: var(--green-light); color: var(--green);">Nieuw</span>
+      AI Design Assistant, verbeterde export engine, 50 nieuwe componenten.
+      <span class="cl-tag" style="background: var(--blue-light); color: var(--blue);">Fix</span>
+      SVG rendering bugs opgelost.
+    </div>
+  </div>
+
+  <div class="cl-item">
+    <div class="cl-ver">v4.1</div>
+    <div class="cl-date">8 jan 2026</div>
+    <div class="cl-changes">
+      <span class="cl-tag" style="background: var(--green-light); color: var(--green);">Nieuw</span>
+      Dark mode, keyboard shortcuts.
+      <span class="cl-tag" style="background: var(--amber-light); color: var(--amber);">Verbeterd</span>
+      Performance 40% sneller.
+    </div>
+  </div>
+
+  <div class="cl-item">
+    <div class="cl-ver">v4.0</div>
+    <div class="cl-date">15 nov 2025</div>
+    <div class="cl-changes">
+      <span class="cl-tag" style="background: var(--purple-light); color: var(--purple);">Major</span>
+      Volledig nieuwe UI, responsive preview, code generation, Figma import.
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+<!-- Documentation: DP05 Changelog List -->
+<!-- Complete 8-step protocol available in component -->
+
+</body>
+</html>

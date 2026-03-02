@@ -219,7 +219,7 @@ export default function CheckoutTemplate2() {
               >
                 2. Adres
               </h2>
-              <AddressForm
+              <AddressForm {...{} as any}
                 onSubmit={setAddress}
                 initialData={address}
                 submitLabel="Adres opslaan"
@@ -243,7 +243,7 @@ export default function CheckoutTemplate2() {
                 3. Verzending
               </h2>
               <div className="space-y-3">
-                <ShippingMethodCard
+                <ShippingMethodCard {...{} as any}
                   id="standard"
                   name="Standaard"
                   description="2-3 werkdagen"
@@ -253,7 +253,7 @@ export default function CheckoutTemplate2() {
                   onSelect={() => setShippingMethod('standard')}
                   variant="compact"
                 />
-                <ShippingMethodCard
+                <ShippingMethodCard {...{} as any}
                   id="express"
                   name="Express"
                   description="Volgende werkdag"
@@ -282,7 +282,7 @@ export default function CheckoutTemplate2() {
                 4. Betaling
               </h2>
               <div className="space-y-3">
-                <PaymentMethodCard
+                <PaymentMethodCard {...{} as any}
                   id="ideal"
                   name="iDEAL"
                   description="Direct via uw bank"
@@ -292,7 +292,7 @@ export default function CheckoutTemplate2() {
                   variant="compact"
                   popular
                 />
-                <PaymentMethodCard
+                <PaymentMethodCard {...{} as any}
                   id="creditcard"
                   name="Credit Card"
                   description="Visa, Mastercard, Amex"
@@ -301,7 +301,7 @@ export default function CheckoutTemplate2() {
                   onSelect={() => setPaymentMethod('creditcard')}
                   variant="compact"
                 />
-                <PaymentMethodCard
+                <PaymentMethodCard {...{} as any}
                   id="invoice"
                   name="Op rekening"
                   description="Betaal binnen 14 dagen"
@@ -352,7 +352,7 @@ export default function CheckoutTemplate2() {
           {/* Sidebar: Order Summary (1/3) */}
           <div className="lg:col-span-1">
             <div className="sticky top-8">
-              <OrderSummary
+              <OrderSummary {...{} as any}
                 variant="compact"
                 subtotal={subtotal}
                 shipping={shippingCost}
@@ -364,7 +364,7 @@ export default function CheckoutTemplate2() {
                 currency="€"
               >
                 <div className="mb-3">
-                  <CouponInput variant="compact" onApply={handleApplyCoupon} />
+                  <CouponInput {...{} as any} variant="compact" onApply={handleApplyCoupon} />
                 </div>
               </OrderSummary>
 
@@ -375,7 +375,7 @@ export default function CheckoutTemplate2() {
                     { icon: 'ShieldCheck', label: 'Veilig betalen' },
                     { icon: 'Truck', label: 'Gratis vanaf €150' },
                     { icon: 'RotateCcw', label: '30 dagen retour' },
-                  ]}
+                  ] as any}
                 />
               </div>
             </div>

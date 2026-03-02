@@ -51,7 +51,7 @@ class AILogger {
   /**
    * Internal log method
    */
-  private log(
+  public log(
     level: LogLevel,
     service: string,
     message: string,

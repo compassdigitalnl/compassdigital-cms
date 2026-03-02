@@ -198,9 +198,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       // Show toast for grouped products
       if (addedCount > 0) {
         showToast({
-          id: product.id,
+          id: String(product.id),
           name: product.title,
-          image: firstImageUrl,
+          image: firstImageUrl || undefined,
           quantity: addedCount,
           price: getTierPrice(totalQty),
         })
@@ -213,7 +213,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         : subscriptionPrice
 
       addItem({
-        id: product.id,
+        id: String(product.id),
         title: `${product.title} - ${selectedSubscription.label}`,
         slug: product.slug || '',
         price: product.price,
@@ -229,10 +229,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       })
 
       showToast({
-        id: product.id,
+        id: String(product.id),
         name: product.title,
         variant: selectedSubscription.label,
-        image: firstImageUrl,
+        image: firstImageUrl || undefined,
         quantity: 1,
         price: discountedPrice,
       })
@@ -241,7 +241,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
 
       addItem({
-        id: product.id,
+        id: String(product.id),
         title: `${product.title} (${variantLabels})`,
         slug: product.slug || '',
         price: product.price,
@@ -257,10 +257,10 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       })
 
       showToast({
-        id: product.id,
+        id: String(product.id),
         name: product.title,
         variant: variantLabels,
-        image: firstImageUrl,
+        image: firstImageUrl || undefined,
         quantity: quantity,
         price: variantPrice,
       })
@@ -268,7 +268,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       // Add simple product
       const unitPrice = product.salePrice || product.price
       addItem({
-        id: product.id,
+        id: String(product.id),
         title: product.title,
         slug: product.slug || '',
         price: product.price,
@@ -285,9 +285,9 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
       // Show toast for simple product
       showToast({
-        id: product.id,
+        id: String(product.id),
         name: product.title,
-        image: firstImageUrl,
+        image: firstImageUrl || undefined,
         quantity: quantity,
         price: unitPrice,
       })
@@ -580,7 +580,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     }))}
                     initialQuantity={quantity}
                     unit="stuks"
-                    onQuantityChange={(newQty: any, price: any, total: any) => {
+                    onQuantityChange={(newQty: number) => {
                       setQuantity(newQty)
                     }}
                   />
@@ -842,7 +842,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                   }))}
                   initialQuantity={quantity}
                   unit="stuks"
-                  onQuantityChange={(newQty: any, price: any, total: any) => {
+                  onQuantityChange={(newQty: number) => {
                     setQuantity(newQty)
                   }}
                 />

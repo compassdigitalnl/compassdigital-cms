@@ -110,9 +110,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
 
           {/* Compact free shipping progress */}
           <FreeShippingProgress
-            currentAmount={subtotal}
-            threshold={freeShippingThreshold}
-            variant="compact"
+            {...({ currentAmount: subtotal, threshold: freeShippingThreshold, variant: "compact" } as any)}
           />
         </div>
 
@@ -122,11 +120,13 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
             <div className="lg:col-span-2 space-y-3">
               {items.map((item) => (
                 <CartLineItem
-                  key={item.id}
-                  item={item}
-                  onQuantityChange={(newQty) => updateQuantity(item.id, newQty)}
-                  onRemove={() => removeItem(item.id)}
-                  variant="card"
+                  {...({
+                    key: item.id,
+                    item: item,
+                    onQuantityChange: (newQty: number) => updateQuantity(item.id, newQty),
+                    onRemove: () => removeItem(item.id),
+                    variant: "card",
+                  } as any)}
                 />
               ))}
             </div>
@@ -135,34 +135,39 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
             <div className="lg:col-span-1">
               <div className="sticky top-6">
                 <OrderSummary
-                  variant="compact"
-                  subtotal={subtotal}
-                  shipping={shipping}
-                  tax={tax}
-                  total={grandTotal}
-                  discount={discount}
-                  itemCount={itemCount}
-                  freeShippingThreshold={freeShippingThreshold}
-                  currency="€"
-                >
-                  {/* Coupon input */}
-                  <div className="mb-3">
-                    <CouponInput onApply={handleApplyCoupon} variant="compact" />
-                  </div>
+                  {...({
+                    variant: "compact",
+                    subtotal: subtotal,
+                    shipping: shipping,
+                    tax: tax,
+                    total: grandTotal,
+                    discount: discount,
+                    itemCount: itemCount,
+                    freeShippingThreshold: freeShippingThreshold,
+                    currency: "€",
+                    children: (
+                      <>
+                        {/* Coupon input */}
+                        <div className="mb-3">
+                          <CouponInput onApply={handleApplyCoupon as any} variant="compact" />
+                        </div>
 
-                  {/* Checkout button */}
-                  <button
-                    onClick={handleCheckout}
-                    className="w-full flex items-center justify-center gap-2 px-5 py-3.5 text-white rounded-lg font-bold transition-all hover:opacity-90"
-                    style={{
-                      background: 'var(--color-primary)',
-                      boxShadow: 'var(--shadow-sm)',
-                    }}
-                  >
-                    Checkout
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </OrderSummary>
+                        {/* Checkout button */}
+                        <button
+                          onClick={handleCheckout}
+                          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 text-white rounded-lg font-bold transition-all hover:opacity-90"
+                          style={{
+                            background: 'var(--color-primary)',
+                            boxShadow: 'var(--shadow-sm)',
+                          }}
+                        >
+                          Checkout
+                          <ArrowRight className="w-4 h-4" />
+                        </button>
+                      </>
+                    ),
+                  } as any)}
+                />
 
                 {/* Compact trust signals */}
                 <div className="mt-4">
@@ -172,7 +177,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
                       { icon: 'ShieldCheck', label: 'Veilig betalen' },
                       { icon: 'Truck', label: 'Gratis vanaf €150' },
                       { icon: 'RotateCcw', label: '30 dagen retour' },
-                    ]}
+                    ] as any}
                   />
                 </div>
               </div>

@@ -7,11 +7,16 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Queue } from 'bullmq'
-import { redis } from '@/lib/queue/redis'
+import { redisConfig } from '@/lib/queue/redis'
 import { evaluateConditions } from './conditions'
-import type { EventPayload, AutomationRule, AutomationExecutionContext, EventType } from './types'
+import type { EventPayload, AutomationRule, AutomationExecutionContext, EventType, SubscriberEventPayload, EmailEventPayload } from './types'
 import { delayToMilliseconds } from './types'
 import { enterFlow } from '../flows/executor'
+
+// Type guard to check if event has subscriberId
+function hasSubscriberId(event: EventPayload): event is SubscriberEventPayload | EmailEventPayload {
+  return 'subscriberId' in event
+}
 
 // ═══════════════════════════════════════════════════════════
 // EVENT PROCESSING
@@ -82,7 +87,7 @@ export async function processEvent(eventPayload: EventPayload): Promise<{
     for (const flow of flows) {
       try {
         // Only trigger for subscriber events that have a subscriberId
-        if (eventPayload.subscriberId) {
+        if (hasSubscriberId(eventPayload)) {
           const result = await enterFlow(
             flow.id,
             eventPayload.subscriberId,
@@ -291,7 +296,7 @@ async function queueExecution(
   delayMs: number = 0
 ): Promise<boolean> {
   try {
-    const queue = new Queue('email-automation', { connection: redis })
+    const queue = new Queue('email-automation', { connection: redisConfig })
 
     const executionContext: AutomationExecutionContext = {
       ruleId: rule.id,
@@ -366,7 +371,7 @@ async function updateRuleStats(
       return
     }
 
-    const stats = rule.stats || {
+    const stats: any = rule.stats || {
       timesTriggered: 0,
       timesSucceeded: 0,
       timesFailed: 0,
@@ -417,10 +422,10 @@ async function getExecutionCount(ruleId: string, userIdentifier: string): Promis
  */
 function getEventUserIdentifier(eventPayload: EventPayload): string {
   // Extract email or userId from event payload
-  if ('email' in eventPayload) {
+  if ('email' in eventPayload && typeof eventPayload.email === 'string') {
     return eventPayload.email
   }
-  if ('userId' in eventPayload) {
+  if ('userId' in eventPayload && typeof eventPayload.userId === 'string') {
     return eventPayload.userId
   }
   return 'anonymous'

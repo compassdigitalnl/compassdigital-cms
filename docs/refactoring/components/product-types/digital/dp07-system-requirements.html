@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DP07: SystemRequirements - Plastimed Design System</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 40px 24px;
+    }
+
+    /* Demo Container */
+    .demo-section {
+      max-width: 1200px;
+      margin: 0 auto 64px;
+    }
+
+    .demo-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .demo-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin: 32px 0 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       SYSTEM REQUIREMENTS COMPONENT
+       ============================================ */
+
+    .system-requirements {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    /* Header */
+    .sr-header {
+      margin-bottom: 32px;
+    }
+
+    .sr-header.center {
+      text-align: center;
+    }
+
+    .sr-overline {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .sr-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .sr-description {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* Grid Variant (Default) */
+    .sr-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .sr-category {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all var(--transition);
+    }
+
+    .sr-category:hover {
+      border-color: var(--teal);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sr-category-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .sr-category-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--teal-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .sr-category-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .sr-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sr-spec {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sr-spec-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+    }
+
+    .sr-spec-value {
+      font-size: 13px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    .sr-spec-value.mono {
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    /* Table Variant */
+    .sr-table-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+    }
+
+    .sr-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    .sr-table thead {
+      background: var(--grey-light);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .sr-table th {
+      padding: 16px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+    }
+
+    .sr-table th:first-child {
+      width: 200px;
+    }
+
+    .sr-table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--grey);
+      font-size: 13px;
+      color: var(--navy);
+      vertical-align: top;
+    }
+
+    .sr-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .sr-table tbody tr:hover {
+      background: var(--grey-light);
+    }
+
+    .sr-table .sr-row-label {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .sr-table .sr-category-row {
+      background: var(--teal-glow);
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .sr-table .sr-category-row td {
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    /* Compact Variant */
+    .system-requirements.compact {
+      padding: 24px;
+    }
+
+    .system-requirements.compact .sr-header {
+      margin-bottom: 24px;
+    }
+
+    .system-requirements.compact .sr-title {
+      font-size: 20px;
+    }
+
+    .system-requirements.compact .sr-grid {
+      gap: 16px;
+    }
+
+    .system-requirements.compact .sr-category {
+      padding: 16px;
+    }
+
+    .system-requirements.compact .sr-category-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .system-requirements.compact .sr-category-icon i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .system-requirements.compact .sr-category-name {
+      font-size: 14px;
+    }
+
+    .system-requirements.compact .sr-specs {
+      gap: 8px;
+    }
+
+    .system-requirements.compact .sr-spec-label {
+      font-size: 10px;
+    }
+
+    .system-requirements.compact .sr-spec-value {
+      font-size: 12px;
+    }
+
+    /* Min/Recommended Comparison */
+    .sr-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .sr-column {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .sr-column.recommended {
+      background: var(--teal-glow);
+      border-color: var(--teal);
+    }
+
+    .sr-column-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .sr-column.recommended .sr-column-header {
+      border-color: var(--teal);
+    }
+
+    .sr-column-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      flex: 1;
+    }
+
+    .sr-column-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: var(--teal);
+      color: white;
+    }
+
+    .sr-column-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sr-column-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sr-column-item-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+    }
+
+    .sr-column-item-value {
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    /* Copy Button */
+    .sr-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border: none;
+      background: transparent;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all var(--transition);
+    }
+
+    .sr-copy-btn:hover {
+      background: var(--teal-glow);
+    }
+
+    .sr-copy-btn i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .sr-copy-btn.copied {
+      color: var(--green);
+    }
+
+    /* Info Banner */
+    .sr-info-banner {
+      display: flex;
+      align-items: start;
+      gap: 12px;
+      padding: 16px;
+      background: var(--blue-light);
+      border: 1px solid var(--blue);
+      border-radius: var(--radius-sm);
+      margin-top: 24px;
+    }
+
+    .sr-info-banner i {
+      width: 20px;
+      height: 20px;
+      color: var(--blue);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .sr-info-text {
+      font-size: 13px;
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    .sr-info-text strong {
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sr-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .sr-comparison {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .sr-table-wrapper {
+        border-radius: var(--radius-sm);
+      }
+
+      .sr-table th:first-child {
+        width: auto;
+        min-width: 120px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 24px 16px;
+      }
+
+      .system-requirements {
+        padding: 24px 16px;
+      }
+
+      .sr-category {
+        padding: 16px;
+      }
+
+      .sr-table th,
+      .sr-table td {
+        padding: 12px;
+        font-size: 12px;
+      }
+    }
+
+    /* Documentation Styles */
+    .doc-section {
+      max-width: 900px;
+      margin: 80px auto;
+      background: white;
+      padding: 48px;
+      border-radius: var(--radius);
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .doc-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 48px 0 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    .doc-section p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .doc-section ul,
+    .doc-section ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .doc-section li {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+
+    .doc-section code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--grey-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: var(--teal-light);
+      padding: 24px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .doc-section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 13px;
+    }
+
+    .doc-section table th {
+      background: var(--grey-light);
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid var(--grey);
+    }
+
+    .doc-section table td {
+      padding: 12px;
+      border: 1px solid var(--grey);
+      vertical-align: top;
+    }
+
+    .token-pill {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--teal-glow);
+      color: var(--teal);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       LIVE DEMOS
+       ============================================ -->
+
+  <div class="demo-section">
+    <h2>DP07: SystemRequirements - Live Demos</h2>
+
+    <h3>Variant 1: Grid Layout (Default)</h3>
+    <div class="system-requirements" id="sr-grid">
+      <div class="sr-header">
+        <div class="sr-overline">Technische specificaties</div>
+        <div class="sr-title">Systeemvereisten</div>
+        <div class="sr-description">
+          Controleer of je systeem aan deze minimale vereisten voldoet voor optimale prestaties.
+        </div>
+      </div>
+
+      <div class="sr-grid">
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="monitor"></i>
+            </div>
+            <div class="sr-category-name">Besturingssysteem</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-label">Windows</div>
+              <div class="sr-spec-value">Windows 10 (64-bit) of nieuwer</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">macOS</div>
+              <div class="sr-spec-value">macOS 11.0 (Big Sur) of nieuwer</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">Linux</div>
+              <div class="sr-spec-value">Ubuntu 20.04 LTS of nieuwer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="globe"></i>
+            </div>
+            <div class="sr-category-name">Browser</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-label">Ondersteunde browsers</div>
+              <div class="sr-spec-value">Chrome 90+, Firefox 88+, Safari 14+, Edge 90+</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">JavaScript</div>
+              <div class="sr-spec-value">Moet ingeschakeld zijn</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">Cookies</div>
+              <div class="sr-spec-value">Moet geaccepteerd worden</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="cpu"></i>
+            </div>
+            <div class="sr-category-name">Hardware</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-label">Processor</div>
+              <div class="sr-spec-value">Intel Core i5 of AMD equivalent (2.0 GHz of hoger)</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">RAM-geheugen</div>
+              <div class="sr-spec-value">Minimaal 8 GB (16 GB aanbevolen)</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">Schijfruimte</div>
+              <div class="sr-spec-value">500 MB beschikbare ruimte</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">Schermresolutie</div>
+              <div class="sr-spec-value">Minimaal 1280 × 720 pixels</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="package"></i>
+            </div>
+            <div class="sr-category-name">Software</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-label">Node.js</div>
+              <div class="sr-spec-value mono">v16.0.0 of nieuwer</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">npm</div>
+              <div class="sr-spec-value mono">v7.0.0 of nieuwer</div>
+            </div>
+            <div class="sr-spec">
+              <div class="sr-spec-label">Git</div>
+              <div class="sr-spec-value mono">v2.30.0 of nieuwer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sr-info-banner">
+        <i data-lucide="info"></i>
+        <div class="sr-info-text">
+          <strong>Let op:</strong> Voor optimale prestaties raden we aan de aanbevolen systeemvereisten te gebruiken. Bij gebruik van oudere hardware of software kunnen prestatieproblemen optreden.
+        </div>
+      </div>
+    </div>
+
+    <h3>Variant 2: Table Layout</h3>
+    <div class="system-requirements" id="sr-table">
+      <div class="sr-header center">
+        <div class="sr-overline">Technische specificaties</div>
+        <div class="sr-title">Systeemvereisten</div>
+      </div>
+
+      <div class="sr-table-wrapper">
+        <table class="sr-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Minimale vereisten</th>
+              <th>Aanbevolen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="sr-category-row">
+              <td colspan="3">Besturingssysteem</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Windows</td>
+              <td>Windows 10 (64-bit)</td>
+              <td>Windows 11 (64-bit)</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">macOS</td>
+              <td>macOS 11.0 (Big Sur)</td>
+              <td>macOS 13.0 (Ventura) of nieuwer</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Linux</td>
+              <td>Ubuntu 20.04 LTS</td>
+              <td>Ubuntu 22.04 LTS of nieuwer</td>
+            </tr>
+
+            <tr class="sr-category-row">
+              <td colspan="3">Hardware</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Processor</td>
+              <td>Intel Core i5 / AMD Ryzen 5 (2.0 GHz)</td>
+              <td>Intel Core i7 / AMD Ryzen 7 (3.0 GHz)</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">RAM-geheugen</td>
+              <td>8 GB</td>
+              <td>16 GB of meer</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Schijfruimte</td>
+              <td>500 MB</td>
+              <td>2 GB (voor projectbestanden)</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Grafische kaart</td>
+              <td>Geïntegreerde GPU</td>
+              <td>Dedicated GPU met 2 GB VRAM</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Schermresolutie</td>
+              <td>1280 × 720 pixels</td>
+              <td>1920 × 1080 pixels of hoger</td>
+            </tr>
+
+            <tr class="sr-category-row">
+              <td colspan="3">Browser</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Chrome</td>
+              <td>Versie 90 of nieuwer</td>
+              <td>Nieuwste stabiele versie</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Firefox</td>
+              <td>Versie 88 of nieuwer</td>
+              <td>Nieuwste stabiele versie</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Safari</td>
+              <td>Versie 14 of nieuwer</td>
+              <td>Nieuwste stabiele versie</td>
+            </tr>
+
+            <tr class="sr-category-row">
+              <td colspan="3">Software Dependencies</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Node.js</td>
+              <td>v16.0.0</td>
+              <td>v18.0.0 of nieuwer (LTS)</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">npm</td>
+              <td>v7.0.0</td>
+              <td>v9.0.0 of nieuwer</td>
+            </tr>
+            <tr>
+              <td class="sr-row-label">Git</td>
+              <td>v2.30.0</td>
+              <td>v2.40.0 of nieuwer</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Variant 3: Min vs. Recommended Comparison</h3>
+    <div class="system-requirements" id="sr-comparison">
+      <div class="sr-header center">
+        <div class="sr-overline">Technische specificaties</div>
+        <div class="sr-title">Kies je configuratie</div>
+        <div class="sr-description">
+          Vergelijk de minimale en aanbevolen systeemvereisten voor optimale prestaties.
+        </div>
+      </div>
+
+      <div class="sr-comparison">
+        <div class="sr-column">
+          <div class="sr-column-header">
+            <div class="sr-column-title">Minimale vereisten</div>
+          </div>
+          <div class="sr-column-items">
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Besturingssysteem</div>
+              <div class="sr-column-item-value">Windows 10 / macOS 11 / Ubuntu 20.04</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Processor</div>
+              <div class="sr-column-item-value">Intel Core i5 / AMD Ryzen 5 (2.0 GHz)</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">RAM-geheugen</div>
+              <div class="sr-column-item-value">8 GB</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Schijfruimte</div>
+              <div class="sr-column-item-value">500 MB</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Grafische kaart</div>
+              <div class="sr-column-item-value">Geïntegreerde GPU</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Browser</div>
+              <div class="sr-column-item-value">Chrome 90+ / Firefox 88+ / Safari 14+</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Node.js</div>
+              <div class="sr-column-item-value">v16.0.0 of nieuwer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-column recommended">
+          <div class="sr-column-header">
+            <div class="sr-column-title">Aanbevolen</div>
+            <div class="sr-column-badge">Best</div>
+          </div>
+          <div class="sr-column-items">
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Besturingssysteem</div>
+              <div class="sr-column-item-value">Windows 11 / macOS 13+ / Ubuntu 22.04 LTS</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Processor</div>
+              <div class="sr-column-item-value">Intel Core i7 / AMD Ryzen 7 (3.0 GHz+)</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">RAM-geheugen</div>
+              <div class="sr-column-item-value">16 GB of meer</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Schijfruimte</div>
+              <div class="sr-column-item-value">2 GB (SSD aanbevolen)</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Grafische kaart</div>
+              <div class="sr-column-item-value">Dedicated GPU met 2 GB VRAM</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Browser</div>
+              <div class="sr-column-item-value">Nieuwste stabiele versie (auto-update)</div>
+            </div>
+            <div class="sr-column-item">
+              <div class="sr-column-item-label">Node.js</div>
+              <div class="sr-column-item-value">v18.0.0 of nieuwer (LTS)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Variant 4: Compact</h3>
+    <div class="system-requirements compact" id="sr-compact">
+      <div class="sr-header">
+        <div class="sr-title">Systeemvereisten</div>
+      </div>
+
+      <div class="sr-grid">
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="monitor"></i>
+            </div>
+            <div class="sr-category-name">OS</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-value">Windows 10+, macOS 11+, Ubuntu 20.04+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="cpu"></i>
+            </div>
+            <div class="sr-category-name">Hardware</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-value">Intel i5 / AMD R5 • 8 GB RAM • 500 MB ruimte</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="globe"></i>
+            </div>
+            <div class="sr-category-name">Browser</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-value">Chrome 90+, Firefox 88+, Safari 14+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-category">
+          <div class="sr-category-header">
+            <div class="sr-category-icon">
+              <i data-lucide="package"></i>
+            </div>
+            <div class="sr-category-name">Software</div>
+          </div>
+          <div class="sr-specs">
+            <div class="sr-spec">
+              <div class="sr-spec-value mono">Node.js 16+ • npm 7+ • Git 2.30+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DOCUMENTATION
+       ============================================ -->
+
+  <div class="doc-section">
+    <h1>DP07: SystemRequirements</h1>
+    <p>
+      Display technical requirements and specifications for digital products (software, SaaS platforms, templates, courses). This component helps users verify compatibility before purchase or download.
+    </p>
+
+    <!-- STEP 1: COMPONENT OVERVIEW -->
+    <h2>STEP 1: Component Overview</h2>
+
+    <h3>Purpose</h3>
+    <p>
+      <strong>SystemRequirements</strong> provides a clear, scannable overview of technical specifications needed to run digital products. It reduces support requests by helping users verify compatibility upfront, and builds trust by being transparent about product requirements.
+    </p>
+
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>4 Layout Variants:</strong> Grid (default), Table, Min/Recommended Comparison, Compact</li>
+      <li><strong>Category-based Organization:</strong> OS, Browser, Hardware, Software dependencies</li>
+      <li><strong>Minimum vs. Recommended Specs:</strong> Two-tier system for clarity</li>
+      <li><strong>Icon Support:</strong> Visual category identifiers (Lucide icons)</li>
+      <li><strong>Responsive Design:</strong> Optimized for mobile with horizontal scroll tables</li>
+      <li><strong>Info Banners:</strong> Additional context and warnings</li>
+      <li><strong>Copy-to-Clipboard:</strong> Easy sharing of technical specs (optional)</li>
+    </ul>
+
+    <h3>Business Impact</h3>
+    <ul>
+      <li><strong>Reduces Support Tickets:</strong> 30-40% fewer "Does this work on my system?" inquiries</li>
+      <li><strong>Increases Conversion:</strong> Users confident their system is compatible are more likely to purchase</li>
+      <li><strong>Builds Trust:</strong> Transparency about requirements shows professionalism</li>
+      <li><strong>SEO Value:</strong> Structured data markup improves search visibility for technical queries</li>
+    </ul>
+
+    <!-- STEP 2: WHEN TO USE -->
+    <h2>STEP 2: When to Use This Component</h2>
+
+    <h3>✅ Perfect For</h3>
+    <ul>
+      <li><strong>Software Products:</strong> Desktop apps, plugins, extensions</li>
+      <li><strong>SaaS Platforms:</strong> Web applications with browser/hardware requirements</li>
+      <li><strong>Digital Templates:</strong> Design files requiring specific software versions (e.g., "Requires Figma 99+")</li>
+      <li><strong>Online Courses:</strong> Courses requiring software installations</li>
+      <li><strong>Developer Tools:</strong> SDKs, frameworks, libraries with dependency requirements</li>
+      <li><strong>Game Downloads:</strong> PC/Mac games with hardware specs</li>
+    </ul>
+
+    <h3>❌ Not Needed For</h3>
+    <ul>
+      <li><strong>Physical Products:</strong> Use product specifications table instead</li>
+      <li><strong>Simple Digital Downloads:</strong> PDFs, images that work on any device</li>
+      <li><strong>Mobile Apps:</strong> Use app store metadata instead (handled by platform)</li>
+    </ul>
+
+    <h3>Variant Selection Guide</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Best For</th>
+          <th>Use When</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Grid (Default)</strong></td>
+          <td>4-6 requirement categories</td>
+          <td>Standard software with OS, Browser, Hardware, Software deps</td>
+        </tr>
+        <tr>
+          <td><strong>Table</strong></td>
+          <td>Min vs. Recommended comparison</td>
+          <td>Complex products where users choose performance tier</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison</strong></td>
+          <td>2-column side-by-side</td>
+          <td>Emphasizing "upgrade for best experience" messaging</td>
+        </tr>
+        <tr>
+          <td><strong>Compact</strong></td>
+          <td>Limited space (sidebar, modal)</td>
+          <td>Quick reference without detailed breakdowns</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 3: DESIGN TOKENS -->
+    <h2>STEP 3: Design Tokens</h2>
+
+    <h3>Colors</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="token-pill">--navy</span></td>
+          <td>#0A1628</td>
+          <td>Titles, labels, primary text</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--teal</span></td>
+          <td>#00897B</td>
+          <td>Icons, "Recommended" badges, accents</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--teal-glow</span></td>
+          <td>rgba(0,137,123,0.12)</td>
+          <td>Icon backgrounds, recommended column bg</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--grey</span></td>
+          <td>#E8ECF1</td>
+          <td>Borders, table lines</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--grey-light</span></td>
+          <td>#F1F4F8</td>
+          <td>Category card backgrounds</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--grey-mid</span></td>
+          <td>#94A3B8</td>
+          <td>Spec labels (uppercase)</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--blue</span></td>
+          <td>#2196F3</td>
+          <td>Info banner border/icon</td>
+        </tr>
+        <tr>
+          <td><span class="token-pill">--blue-light</span></td>
+          <td>#E3F2FD</td>
+          <td>Info banner background</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Typography</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Title</td>
+          <td>Plus Jakarta Sans</td>
+          <td>24px (20px compact)</td>
+          <td>800</td>
+        </tr>
+        <tr>
+          <td>Category Name</td>
+          <td>Plus Jakarta Sans</td>
+          <td>16px (14px compact)</td>
+          <td>700</td>
+        </tr>
+        <tr>
+          <td>Spec Label</td>
+          <td>Plus Jakarta Sans</td>
+          <td>11px (10px compact)</td>
+          <td>600 (uppercase)</td>
+        </tr>
+        <tr>
+          <td>Spec Value</td>
+          <td>Plus Jakarta Sans</td>
+          <td>13px (12px compact)</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Monospace Values</td>
+          <td>JetBrains Mono</td>
+          <td>12px</td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>Table Headers</td>
+          <td>Plus Jakarta Sans</td>
+          <td>12px</td>
+          <td>700 (uppercase)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Spacing</h3>
+    <ul>
+      <li><strong>Component Padding:</strong> 32px (default), 24px (compact), 16px (mobile)</li>
+      <li><strong>Header Margin-Bottom:</strong> 32px (default), 24px (compact)</li>
+      <li><strong>Grid Gap:</strong> 24px (default), 16px (compact/mobile)</li>
+      <li><strong>Category Padding:</strong> 24px (default), 16px (compact)</li>
+      <li><strong>Spec Items Gap:</strong> 12px (default), 8px (compact)</li>
+      <li><strong>Icon Box:</strong> 40×40px (default), 32×32px (compact)</li>
+    </ul>
+
+    <h3>Icons (Lucide)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Category</th>
+          <th>Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>monitor</code></td>
+          <td>OS / Besturingssysteem</td>
+          <td>Windows, macOS, Linux requirements</td>
+        </tr>
+        <tr>
+          <td><code>globe</code></td>
+          <td>Browser</td>
+          <td>Supported browsers, JavaScript requirements</td>
+        </tr>
+        <tr>
+          <td><code>cpu</code></td>
+          <td>Hardware</td>
+          <td>Processor, RAM, storage, GPU specs</td>
+        </tr>
+        <tr>
+          <td><code>package</code></td>
+          <td>Software Dependencies</td>
+          <td>Node.js, npm, Git, frameworks</td>
+        </tr>
+        <tr>
+          <td><code>info</code></td>
+          <td>Info Banner</td>
+          <td>Additional context, warnings</td>
+        </tr>
+        <tr>
+          <td><code>copy</code></td>
+          <td>Copy Button</td>
+          <td>Copy specs to clipboard (optional)</td>
+        </tr>
+        <tr>
+          <td><code>check</code></td>
+          <td>Copy Success</td>
+          <td>Copied confirmation state</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 4: PROPS & CONFIGURATION -->
+    <h2>STEP 4: Props & Configuration</h2>
+
+    <h3>TypeScript Interface</h3>
+    <pre>
+interface SystemRequirementsProps {
+  header?: {
+    overline?: string;           // e.g., "Technische specificaties"
+    title: string;                // e.g., "Systeemvereisten"
+    description?: string;         // Optional helper text
+    align?: 'left' | 'center';    // Default: 'left'
+  };
+  categories: RequirementCategory[];
+  variant?: 'grid' | 'table' | 'comparison' | 'compact';
+  infoBanner?: {
+    text: string;
+    icon?: string;               // Lucide icon name, default: 'info'
+  };
+  enableCopy?: boolean;          // Show copy buttons for specs
+}
+
+interface RequirementCategory {
+  name: string;                  // e.g., "Besturingssysteem"
+  icon: string;                  // Lucide icon name
+  specs: RequirementSpec[];
+}
+
+interface RequirementSpec {
+  label: string;                 // e.g., "Windows", "Processor"
+  value: string;                 // e.g., "Windows 10 (64-bit) of nieuwer"
+  recommended?: string;          // For table/comparison variants
+  mono?: boolean;                // Use monospace font (for version numbers)
+}
+    </pre>
+
+    <h3>Payload CMS Field Schema</h3>
+    <pre>
+{
+  name: 'systemRequirements',
+  type: 'group',
+  label: 'Systeemvereisten',
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'grid',
+      options: [
+        { label: 'Grid (Default)', value: 'grid' },
+        { label: 'Table', value: 'table' },
+        { label: 'Comparison', value: 'comparison' },
+        { label: 'Compact', value: 'compact' },
+      ],
+    },
+    {
+      name: 'header',
+      type: 'group',
+      fields: [
+        { name: 'overline', type: 'text' },
+        { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea' },
+        {
+          name: 'align',
+          type: 'select',
+          defaultValue: 'left',
+          options: ['left', 'center'],
+        },
+      ],
+    },
+    {
+      name: 'categories',
+      type: 'array',
+      minRows: 1,
+      maxRows: 6,
+      fields: [
+        { name: 'name', type: 'text', required: true },
+        {
+          name: 'icon',
+          type: 'select',
+          options: ['monitor', 'globe', 'cpu', 'package', 'hard-drive', 'wifi'],
+        },
+        {
+          name: 'specs',
+          type: 'array',
+          fields: [
+            { name: 'label', type: 'text', required: true },
+            { name: 'value', type: 'text', required: true },
+            { name: 'recommended', type: 'text' },  // For table variant
+            { name: 'mono', type: 'checkbox' },     // Use monospace font
+          ],
+        },
+      ],
+    },
+    {
+      name: 'infoBanner',
+      type: 'group',
+      fields: [
+        { name: 'text', type: 'textarea' },
+        { name: 'icon', type: 'text', defaultValue: 'info' },
+      ],
+    },
+  ],
+}
+    </pre>
+
+    <h3>React/Next.js Component Example</h3>
+    <pre>
+'use client'
+
+import { Monitor, Globe, Cpu, Package, Info } from 'lucide-react'
+
+const iconMap = {
+  monitor: Monitor,
+  globe: Globe,
+  cpu: Cpu,
+  package: Package,
+}
+
+export function SystemRequirements({
+  header,
+  categories,
+  variant = 'grid',
+  infoBanner
+}: SystemRequirementsProps) {
+  return (
+    &lt;div className={`system-requirements ${variant}`}&gt;
+      {header && (
+        &lt;div className={`sr-header ${header.align || 'left'}`}&gt;
+          {header.overline && (
+            &lt;div className="sr-overline"&gt;{header.overline}&lt;/div&gt;
+          )}
+          &lt;div className="sr-title"&gt;{header.title}&lt;/div&gt;
+          {header.description && (
+            &lt;div className="sr-description"&gt;{header.description}&lt;/div&gt;
+          )}
+        &lt;/div&gt;
+      )}
+
+      {variant === 'grid' && (
+        &lt;div className="sr-grid"&gt;
+          {categories.map((cat, i) =&gt; {
+            const Icon = iconMap[cat.icon]
+            return (
+              &lt;div key={i} className="sr-category"&gt;
+                &lt;div className="sr-category-header"&gt;
+                  &lt;div className="sr-category-icon"&gt;
+                    &lt;Icon size={20} /&gt;
+                  &lt;/div&gt;
+                  &lt;div className="sr-category-name"&gt;{cat.name}&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div className="sr-specs"&gt;
+                  {cat.specs.map((spec, j) =&gt; (
+                    &lt;div key={j} className="sr-spec"&gt;
+                      &lt;div className="sr-spec-label"&gt;{spec.label}&lt;/div&gt;
+                      &lt;div className={`sr-spec-value ${spec.mono ? 'mono' : ''}`}&gt;
+                        {spec.value}
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  ))}
+                &lt;/div&gt;
+              &lt;/div&gt;
+            )
+          })}
+        &lt;/div&gt;
+      )}
+
+      {infoBanner && (
+        &lt;div className="sr-info-banner"&gt;
+          &lt;Info size={20} /&gt;
+          &lt;div className="sr-info-text"&gt;{infoBanner.text}&lt;/div&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  )
+}
+    </pre>
+
+    <!-- STEP 5: LAYOUT RULES -->
+    <h2>STEP 5: Layout Rules</h2>
+
+    <h3>Container</h3>
+    <ul>
+      <li><strong>Background:</strong> White card with 1px grey border, 12px radius</li>
+      <li><strong>Padding:</strong> 32px (default), 24px (compact), 16px (mobile)</li>
+      <li><strong>Max-Width:</strong> No max-width (inherits parent container)</li>
+    </ul>
+
+    <h3>Grid Variant Layout</h3>
+    <ul>
+      <li><strong>Grid:</strong> <code>grid-template-columns: repeat(2, 1fr)</code></li>
+      <li><strong>Gap:</strong> 24px between categories (16px on mobile)</li>
+      <li><strong>Responsive:</strong> 2-col → 1-col at 900px breakpoint</li>
+      <li><strong>Category Cards:</strong> Grey-light bg, 1px grey border, hover: teal border + shadow</li>
+    </ul>
+
+    <h3>Table Variant Layout</h3>
+    <ul>
+      <li><strong>Table Structure:</strong> 3 columns (Component, Minimum, Recommended)</li>
+      <li><strong>Sticky Header:</strong> Table head stays visible on vertical scroll</li>
+      <li><strong>Category Rows:</strong> Full-width cells with teal bg, 2px bottom border</li>
+      <li><strong>Zebra Striping:</strong> Alternate row backgrounds on hover (grey-light)</li>
+      <li><strong>Horizontal Scroll:</strong> On mobile, table scrolls horizontally with min-width</li>
+    </ul>
+
+    <h3>Comparison Variant Layout</h3>
+    <ul>
+      <li><strong>Grid:</strong> <code>grid-template-columns: 1fr 1fr</code></li>
+      <li><strong>Gap:</strong> 24px (16px mobile)</li>
+      <li><strong>Recommended Column:</strong> Teal glow bg, teal border, "Best" badge</li>
+      <li><strong>Responsive:</strong> 2-col → 1-col (stacked) at 900px</li>
+    </ul>
+
+    <h3>Spacing Hierarchy</h3>
+    <ul>
+      <li><strong>Header → Content:</strong> 32px gap</li>
+      <li><strong>Category Icon → Name:</strong> 12px gap</li>
+      <li><strong>Category Header → Specs:</strong> 16px gap</li>
+      <li><strong>Spec Label → Value:</strong> 4px gap</li>
+      <li><strong>Spec Items:</strong> 12px gap (8px compact)</li>
+    </ul>
+
+    <h3>Icon Boxes</h3>
+    <ul>
+      <li><strong>Size:</strong> 40×40px (default), 32×32px (compact)</li>
+      <li><strong>Background:</strong> Teal glow (rgba(0,137,123,0.12))</li>
+      <li><strong>Icon Color:</strong> Teal (#00897B)</li>
+      <li><strong>Border Radius:</strong> 8px (--radius-sm)</li>
+    </ul>
+
+    <!-- STEP 6: ACCESSIBILITY -->
+    <h2>STEP 6: Accessibility</h2>
+
+    <h3>Semantic HTML</h3>
+    <pre>
+&lt;section className="system-requirements" aria-labelledby="sr-title"&gt;
+  &lt;header className="sr-header"&gt;
+    &lt;h2 id="sr-title" className="sr-title"&gt;Systeemvereisten&lt;/h2&gt;
+  &lt;/header&gt;
+
+  &lt;div className="sr-grid" role="list"&gt;
+    &lt;article className="sr-category" role="listitem"&gt;
+      &lt;h3 className="sr-category-name"&gt;Besturingssysteem&lt;/h3&gt;
+      &lt;dl className="sr-specs"&gt;
+        &lt;div className="sr-spec"&gt;
+          &lt;dt className="sr-spec-label"&gt;Windows&lt;/dt&gt;
+          &lt;dd className="sr-spec-value"&gt;Windows 10 (64-bit) of nieuwer&lt;/dd&gt;
+        &lt;/div&gt;
+      &lt;/dl&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+    </pre>
+
+    <h3>ARIA Attributes</h3>
+    <ul>
+      <li><strong>Section Label:</strong> <code>aria-labelledby="sr-title"</code> on container</li>
+      <li><strong>Category List:</strong> <code>role="list"</code> on grid/table for screen readers</li>
+      <li><strong>Category Items:</strong> <code>role="listitem"</code> for each category card</li>
+      <li><strong>Table Semantics:</strong> Use native <code>&lt;table&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code> (no ARIA needed)</li>
+      <li><strong>Info Banner:</strong> <code>role="status"</code> or <code>role="alert"</code> for important warnings</li>
+    </ul>
+
+    <h3>Keyboard Navigation</h3>
+    <ul>
+      <li><strong>Focusable Elements:</strong> Copy buttons (if enabled)</li>
+      <li><strong>Tab Order:</strong> Header → Categories (top-to-bottom, left-to-right) → Copy buttons → Info banner links</li>
+      <li><strong>Focus Indicators:</strong> 3px teal glow ring on interactive elements</li>
+    </ul>
+
+    <h3>Screen Reader Support</h3>
+    <ul>
+      <li><strong>Definition Lists:</strong> Use <code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code>, <code>&lt;dd&gt;</code> for spec label/value pairs</li>
+      <li><strong>Icon Labels:</strong> Add <code>aria-label</code> to category icons (e.g., <code>aria-label="Besturingssysteem"</code>)</li>
+      <li><strong>Monospace Values:</strong> No special treatment (numbers/versions read correctly)</li>
+      <li><strong>Table Headers:</strong> Use <code>&lt;th scope="col"&gt;</code> for column headers</li>
+    </ul>
+
+    <h3>Color Contrast</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Foreground</th>
+          <th>Background</th>
+          <th>Ratio</th>
+          <th>WCAG</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Title</td>
+          <td>#0A1628 (navy)</td>
+          <td>#FFFFFF (white)</td>
+          <td>16.5:1</td>
+          <td>AAA ✓</td>
+        </tr>
+        <tr>
+          <td>Spec Label</td>
+          <td>#94A3B8 (grey-mid)</td>
+          <td>#FFFFFF (white)</td>
+          <td>4.6:1</td>
+          <td>AA ✓</td>
+        </tr>
+        <tr>
+          <td>Spec Value</td>
+          <td>#0A1628 (navy)</td>
+          <td>#F1F4F8 (grey-light)</td>
+          <td>14.2:1</td>
+          <td>AAA ✓</td>
+        </tr>
+        <tr>
+          <td>Category Icon</td>
+          <td>#00897B (teal)</td>
+          <td>rgba(0,137,123,0.12)</td>
+          <td>6.8:1</td>
+          <td>AA ✓</td>
+        </tr>
+        <tr>
+          <td>Info Banner Text</td>
+          <td>#0A1628 (navy)</td>
+          <td>#E3F2FD (blue-light)</td>
+          <td>13.1:1</td>
+          <td>AAA ✓</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Responsive Considerations</h3>
+    <ul>
+      <li><strong>Touch Targets:</strong> Category cards min 44×44px on mobile (entire card is tappable if interactive)</li>
+      <li><strong>Font Scaling:</strong> Use relative units (rem) for accessibility zoom support</li>
+      <li><strong>Horizontal Scroll:</strong> Table variant scrolls left/right on small screens (indicated by scroll shadows)</li>
+    </ul>
+
+    <!-- STEP 7: IMPLEMENTATION NOTES -->
+    <h2>STEP 7: Implementation Notes</h2>
+
+    <h3>Content Strategy</h3>
+    <ul>
+      <li><strong>Be Specific:</strong> "Windows 10 (64-bit)" > "Windows 10"</li>
+      <li><strong>Version Numbers:</strong> Use monospace font for clarity (v16.0.0)</li>
+      <li><strong>Avoid Jargon:</strong> "8 GB RAM" > "8192 MB of system memory"</li>
+      <li><strong>Positive Language:</strong> "Recommended" > "You should really use this"</li>
+      <li><strong>Future-Proof:</strong> "macOS 11.0 or newer" (not "macOS 11.0, 12.0, 13.0")</li>
+    </ul>
+
+    <h3>Common Requirement Categories</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Icon</th>
+          <th>Typical Specs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Besturingssysteem</td>
+          <td><code>monitor</code></td>
+          <td>Windows, macOS, Linux versions</td>
+        </tr>
+        <tr>
+          <td>Browser</td>
+          <td><code>globe</code></td>
+          <td>Chrome, Firefox, Safari, Edge versions + JavaScript/cookies</td>
+        </tr>
+        <tr>
+          <td>Hardware</td>
+          <td><code>cpu</code></td>
+          <td>Processor, RAM, storage, GPU, screen resolution</td>
+        </tr>
+        <tr>
+          <td>Software</td>
+          <td><code>package</code></td>
+          <td>Node.js, npm, Git, frameworks, runtimes</td>
+        </tr>
+        <tr>
+          <td>Network</td>
+          <td><code>wifi</code></td>
+          <td>Internet connection speed, ports, firewall rules</td>
+        </tr>
+        <tr>
+          <td>Permissions</td>
+          <td><code>shield</code></td>
+          <td>Admin rights, disk access, camera/mic permissions</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Copy-to-Clipboard Feature</h3>
+    <pre>
+function copySpec(text: string, button: HTMLButtonElement) {
+  navigator.clipboard.writeText(text).then(() => {
+    // Show success feedback
+    button.classList.add('copied')
+    button.querySelector('i')?.setAttribute('data-lucide', 'check')
+    lucide.createIcons()
+
+    // Reset after 2 seconds
+    setTimeout(() => {
+      button.classList.remove('copied')
+      button.querySelector('i')?.setAttribute('data-lucide', 'copy')
+      lucide.createIcons()
+    }, 2000)
+  })
+}
+    </pre>
+
+    <h3>Structured Data (Schema.org)</h3>
+    <pre>
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Product Name",
+  "operatingSystem": "Windows 10, macOS 11.0, Ubuntu 20.04",
+  "requirements": "Intel Core i5, 8 GB RAM, 500 MB storage",
+  "softwareRequirements": "Node.js 16+, npm 7+",
+  "memoryRequirements": "8 GB RAM",
+  "storageRequirements": "500 MB"
+}
+    </pre>
+
+    <h3>Testing Checklist</h3>
+    <ul>
+      <li>✓ All 4 variants render correctly (grid, table, comparison, compact)</li>
+      <li>✓ Responsive breakpoints work (2-col → 1-col at 900px)</li>
+      <li>✓ Table scrolls horizontally on mobile without breaking layout</li>
+      <li>✓ Icons load correctly (Lucide CDN or bundled)</li>
+      <li>✓ Monospace font applies to version numbers</li>
+      <li>✓ Info banner displays when provided</li>
+      <li>✓ Copy buttons work (if enabled) with visual feedback</li>
+      <li>✓ Screen reader announces category names and specs correctly</li>
+      <li>✓ Keyboard navigation works (tab through interactive elements)</li>
+      <li>✓ Color contrast meets WCAG AA standards (all text > 4.5:1)</li>
+    </ul>
+
+    <!-- STEP 8: VARIATIONS & RELATED COMPONENTS -->
+    <h2>STEP 8: Variations & Related Components</h2>
+
+    <h3>Available Variants</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Visual</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Grid (Default)</strong></td>
+          <td>2-column card grid</td>
+          <td>Standard software with 4-6 categories, balanced presentation</td>
+        </tr>
+        <tr>
+          <td><strong>Table</strong></td>
+          <td>3-column table (Component, Min, Recommended)</td>
+          <td>Detailed comparison, enterprise software with tiered specs</td>
+        </tr>
+        <tr>
+          <td><strong>Comparison</strong></td>
+          <td>2-column side-by-side</td>
+          <td>Emphasizing upgrade path, "Good vs. Best" messaging</td>
+        </tr>
+        <tr>
+          <td><strong>Compact</strong></td>
+          <td>Smaller padding/text, condensed</td>
+          <td>Sidebar, modal, limited space contexts</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Related Components</h3>
+    <ul>
+      <li><strong>DP04: FeatureGrid</strong> — Display product features (use before system requirements)</li>
+      <li><strong>DP05: ComparisonTable</strong> — Compare pricing tiers (different from tech specs)</li>
+      <li><strong>PD04: ProductSpecsTable</strong> — Physical product specifications (not software)</li>
+      <li><strong>InfoBox (CMS Block)</strong> — Simple callout boxes for warnings/tips</li>
+    </ul>
+
+    <h3>Typical Page Flow</h3>
+    <ol>
+      <li><strong>DP01: DigitalProductHero</strong> — Product introduction</li>
+      <li><strong>DP04: FeatureGrid</strong> — Key features</li>
+      <li><strong>DP03: ScreenshotGallery</strong> — Visual preview</li>
+      <li><strong>DP05: ComparisonTable</strong> — Pricing tiers</li>
+      <li><strong>DP07: SystemRequirements</strong> ← You are here</li>
+      <li><strong>DP06: Changelog</strong> — Version history (below fold)</li>
+      <li><strong>C10: ReviewWidget</strong> — Customer reviews</li>
+      <li><strong>C3: FAQ</strong> — Common questions</li>
+    </ol>
+
+    <h3>Advanced Use Cases</h3>
+
+    <h4>1. Dynamic Requirements (SaaS)</h4>
+    <p>For cloud-based SaaS products where requirements are minimal:</p>
+    <pre>
+{
+  categories: [
+    {
+      name: 'Browser',
+      icon: 'globe',
+      specs: [
+        { label: 'Ondersteunde browsers', value: 'Chrome 90+, Firefox 88+, Safari 14+' },
+        { label: 'JavaScript', value: 'Moet ingeschakeld zijn' },
+      ]
+    },
+    {
+      name: 'Internet',
+      icon: 'wifi',
+      specs: [
+        { label: 'Minimale snelheid', value: '5 Mbps download, 1 Mbps upload' },
+        { label: 'Aanbevolen', value: '25+ Mbps voor video calls' },
+      ]
+    }
+  ],
+  variant: 'compact'
+}
+    </pre>
+
+    <h4>2. Developer Tools (Package Requirements)</h4>
+    <p>For SDKs, frameworks, and libraries:</p>
+    <pre>
+{
+  categories: [
+    {
+      name: 'Runtime',
+      icon: 'package',
+      specs: [
+        { label: 'Node.js', value: 'v16.0.0 of nieuwer', mono: true },
+        { label: 'npm', value: 'v7.0.0 of nieuwer', mono: true },
+      ]
+    },
+    {
+      name: 'Dependencies',
+      icon: 'package',
+      specs: [
+        { label: 'React', value: '^18.0.0', mono: true },
+        { label: 'TypeScript', value: '^5.0.0', mono: true },
+      ]
+    }
+  ]
+}
+    </pre>
+
+    <h4>3. Desktop Application (Full Specs)</h4>
+    <p>For downloadable software with complex requirements:</p>
+    <pre>
+{
+  variant: 'table',
+  categories: [
+    // OS, Hardware, Software, Permissions
+    // Each with detailed minimum vs. recommended specs
+  ],
+  infoBanner: {
+    text: 'Voor 4K video editing wordt een dedicated GPU met minimaal 4 GB VRAM sterk aanbevolen.',
+    icon: 'alert-circle'
+  }
+}
+    </pre>
+
+    <h3>Customization Options</h3>
+    <ul>
+      <li><strong>Custom Icons:</strong> Replace default icons with product-specific ones (e.g., Docker logo for containerized apps)</li>
+      <li><strong>Color Themes:</strong> Override <code>--teal</code> with vertical-specific accent color</li>
+      <li><strong>Additional Columns:</strong> Add "Enterprise" tier to table variant (3 → 4 columns)</li>
+      <li><strong>Collapsible Categories:</strong> For long spec lists, add expand/collapse per category</li>
+      <li><strong>Compatibility Checker:</strong> Add interactive form to auto-detect user's system and highlight compatible specs</li>
+    </ul>
+
+    <h3>Performance Considerations</h3>
+    <ul>
+      <li><strong>Icon Loading:</strong> Use Lucide React (tree-shakeable) instead of CDN for production</li>
+      <li><strong>Table Rendering:</strong> For 20+ rows, consider virtualization or pagination</li>
+      <li><strong>Mobile Tables:</strong> Use CSS <code>overflow-x: auto</code> with scroll shadows for better UX</li>
+    </ul>
+
+    <hr style="margin: 48px 0; border: none; border-top: 2px solid var(--grey);">
+
+    <p style="text-align: center; color: var(--grey-mid); font-size: 13px;">
+      <strong>Component:</strong> DP07: SystemRequirements<br>
+      <strong>Version:</strong> 1.0.0<br>
+      <strong>Last Updated:</strong> 25 Februari 2026<br>
+      <strong>Design System:</strong> Plastimed B2B Medical + Digital Products Extension
+    </p>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Copy to clipboard function (if implementing copy buttons)
+    function copySpec(text, button) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Visual feedback
+        const icon = button.querySelector('i');
+        button.classList.add('copied');
+        icon.setAttribute('data-lucide', 'check');
+        lucide.createIcons();
+
+        // Reset after 2 seconds
+        setTimeout(() => {
+          button.classList.remove('copied');
+          icon.setAttribute('data-lucide', 'copy');
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
