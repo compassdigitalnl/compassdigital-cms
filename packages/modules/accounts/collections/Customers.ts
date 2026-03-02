@@ -11,7 +11,7 @@ export const Customers: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'company', 'customerGroup', 'status', 'createdAt'],
-    group: 'Accounts',
+    group: 'Klanten',
     description: 'Klant accounts met B2B/B2C support',
   },
   access: {

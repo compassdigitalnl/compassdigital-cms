@@ -14,7 +14,7 @@ export const Carts: CollectionConfig = {
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['customer', 'status', 'itemCount', 'total', 'updatedAt'],
-    group: 'Cart',
+    group: 'Bestellingen',
   },
   access: {
     read: ({ req: { user } }) => {
