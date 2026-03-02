@@ -14,7 +14,7 @@ export const Orders: CollectionConfig = {
   admin: {
     useAsTitle: 'orderNumber',
     defaultColumns: ['orderNumber', 'customer', 'status', 'total', 'createdAt'],
-    group: 'Checkout',
+    group: 'Bestellingen',
     description: 'Klantbestellingen met volledige workflow',
   },
   access: {

@@ -26,7 +26,7 @@ export const StockReservations: CollectionConfig = {
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['product', 'quantity', 'status', 'expiresAt', 'createdAt'],
-    group: 'E-commerce',
+    group: 'Bestellingen',
     description: 'Temporary stock reservations to prevent overselling',
     hidden: ({ user }) => !isAdmin(user as any), // Hidden from non-admins
   },
