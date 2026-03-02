@@ -3,6 +3,7 @@
 import { useABTest } from '@/branches/shared/components/features/ABTest'
 import CartTemplate1 from '@/branches/ecommerce/templates/cart/CartTemplate1'
 import CartTemplate2 from '@/branches/ecommerce/templates/cart/CartTemplate2'
+import CartTemplate4 from '@/branches/ecommerce/templates/cart/CartTemplate4'
 import { ShoppingCart } from 'lucide-react'
 
 interface CartPageClientProps {
@@ -26,6 +27,10 @@ export default function CartPageClient({ defaultTemplate }: CartPageClientProps)
   const templateToUse = variant || defaultTemplate
 
   // Render appropriate template
+  if (templateToUse === 'template4') {
+    return <CartTemplate4 onCheckout={handleCheckout} />
+  }
+
   if (templateToUse === 'template2') {
     return <CartTemplate2 onCheckout={handleCheckout} />
   }

@@ -322,6 +322,7 @@ export const Settings: GlobalConfig = {
               options: [
                 { label: 'Template 1 - Compact Table (Classic, detailed)', value: 'template1' },
                 { label: 'Template 2 - Visual Cards (Modern, large images)', value: 'template2' },
+                { label: 'Template 4 - Ultimate (7 componenten, sticky summary, mobile-first)', value: 'template4' },
               ],
               admin: {
                 description: 'Template voor winkelwagen pagina (A/B testing beschikbaar)',
@@ -334,6 +335,7 @@ export const Settings: GlobalConfig = {
               defaultValue: 'checkouttemplate1',
               options: [
                 { label: 'Checkout Template 1 - Enterprise (Multi-step, volledig)', value: 'checkouttemplate1' },
+                { label: 'Checkout Template 4 - Ultimate (5 componenten, 4-step wizard, B2B support)', value: 'template4' },
                 // Template 2 will be one-page checkout
               ],
               admin: {

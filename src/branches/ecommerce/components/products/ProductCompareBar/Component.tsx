@@ -76,10 +76,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
           {products.map((product) => (
             <div
               key={product.id}
-              className="
-                compare-item flex items-center gap-2 p-2 px-3 bg-white/[0.08] border border-white/10
-                rounded-[10px] flex-shrink-0
-              "
+              className="compare-item flex items-center gap-2 p-2 px-3 bg-white/[0.08] border border-white/10 rounded-[10px] flex-shrink-0"
             >
               {/* Thumbnail */}
               <div className="ci-img w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center text-lg overflow-hidden">
@@ -104,10 +101,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
               {/* Remove Button */}
               <button
                 onClick={() => onRemove(product.id)}
-                className="
-                  ci-remove w-6 h-6 rounded-md bg-white/10 hover:bg-red-500/20
-                  transition-colors flex items-center justify-center cursor-pointer border-none
-                "
+                className="ci-remove w-6 h-6 rounded-md bg-white/10 hover:bg-red-500/20 transition-colors flex items-center justify-center cursor-pointer border-none"
                 aria-label={`Verwijder ${product.name} uit vergelijking`}
               >
                 <X className="w-3 h-3 text-white/50" aria-hidden="true" />
@@ -119,10 +113,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
           {Array.from({ length: emptySlots }).map((_, index) => (
             <div
               key={`empty-${index}`}
-              className="
-                compare-slot-empty w-[120px] h-[52px] border-2 border-dashed border-white/10
-                rounded-[10px] flex items-center justify-center text-xs text-white/20 flex-shrink-0
-              "
+              className="compare-slot-empty w-[120px] h-[52px] border-2 border-dashed border-white/10 rounded-[10px] flex items-center justify-center text-xs text-white/20 flex-shrink-0"
               aria-hidden="true"
             >
               Leeg
@@ -151,10 +142,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="
-            compare-close w-[42px] h-[42px] rounded-[10px] bg-white/[0.08] hover:bg-white/15
-            cursor-pointer flex items-center justify-center flex-shrink-0 border-none transition-colors
-          "
+          className="compare-close w-[42px] h-[42px] rounded-[10px] bg-white/[0.08] hover:bg-white/15 cursor-pointer flex items-center justify-center flex-shrink-0 border-none transition-colors"
           aria-label="Sluit vergelijkingsbalk"
         >
           <X className="w-4.5 h-4.5 text-white/50" aria-hidden="true" />
