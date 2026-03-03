@@ -292,7 +292,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
         .tab-panel {
           padding: 20px 0;
           font-size: 14px;
-          color: var(--color-text-secondary, #64748B);
+          color: var(--color-text-primary, #0A1628);
           line-height: 1.7;
           display: none;
         }
@@ -455,9 +455,13 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
       <style jsx global>{`
         .tabs-section .tab-panel p {
           margin-bottom: 12px;
+          color: var(--color-text-primary, #0A1628);
         }
         .tabs-section .tab-panel p:last-child {
           margin-bottom: 0;
+        }
+        .tabs-section .tab-panel .prose {
+          --tw-prose-body: var(--color-text-primary, #0A1628);
         }
         .tabs-section .tab-panel h3 {
           font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);

@@ -1175,36 +1175,71 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 label: 'Beschrijving',
                 content: (
                   <div>
-                    {product.description && (
-                      <>
-                        <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 flex items-center gap-2">
-                          <Info className="w-5 h-5 text-[var(--color-primary)]" />
-                          Over dit product
-                        </h3>
-                        <div className="text-[15px] text-[var(--color-text-primary)] leading-[1.7] mb-4">
-                          <RichText data={product.description} enableProse={true} />
+                    <div
+                      className="grid gap-10"
+                      style={{ gridTemplateColumns: product.specifications ? '2fr 1fr' : '1fr' }}
+                    >
+                      <div>
+                        {product.description && (
+                          <>
+                            <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 flex items-center gap-2">
+                              <Info className="w-5 h-5 text-[var(--color-primary)]" />
+                              Over dit product
+                            </h3>
+                            <div className="text-[15px] text-[var(--color-text-primary)] leading-[1.7] mb-4">
+                              <RichText data={product.description} enableProse={true} />
+                            </div>
+                          </>
+                        )}
+                        {(product as any).features && (product as any).features.length > 0 && (
+                          <>
+                            <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
+                              <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
+                              Kenmerken
+                            </h3>
+                            <ul className="list-none mb-5">
+                              {(product as any).features.map((feature: any, idx: number) => (
+                                <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
+                                  <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        )}
+                        {!product.description && !(product as any).features?.length && (
+                          <p className="text-[var(--color-text-muted)]">Geen beschrijving beschikbaar.</p>
+                        )}
+                      </div>
+                      {product.specifications && (
+                        <div>
+                          <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] overflow-hidden">
+                            <h3 className="py-4 px-5 font-heading text-base font-bold bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
+                              Productspecificaties
+                            </h3>
+                            {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
+                              <div key={groupIdx}>
+                                {specGroup.group && (
+                                  <h4 className="py-3 px-5 font-bold text-sm bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
+                                    {specGroup.group}
+                                  </h4>
+                                )}
+                                {specGroup.attributes?.map((attr: any, attrIdx: number) => (
+                                  <div key={attrIdx} className="flex py-3 px-5 border-b border-b-[var(--color-border)] text-sm">
+                                    <span className="w-40 text-[var(--color-text-muted)] font-medium shrink-0">
+                                      {attr.name}
+                                    </span>
+                                    <span className="text-[var(--color-text-primary)] font-semibold">
+                                      {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </>
-                    )}
-                    {(product as any).features && (product as any).features.length > 0 && (
-                      <>
-                        <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
-                          <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
-                          Kenmerken
-                        </h3>
-                        <ul className="list-none mb-5">
-                          {(product as any).features.map((feature: any, idx: number) => (
-                            <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
-                              <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-                    {!product.description && !(product as any).features?.length && (
-                      <p className="text-[var(--color-text-muted)]">Geen beschrijving beschikbaar.</p>
-                    )}
+                      )}
+                    </div>
                   </div>
                 ),
               },
