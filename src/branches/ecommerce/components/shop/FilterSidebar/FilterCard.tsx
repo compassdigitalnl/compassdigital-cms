@@ -81,10 +81,10 @@ export const FilterCard: React.FC<FilterCardProps> = ({
         aria-expanded={isOpen}
         aria-controls={`filter-${filter.id}`}
       >
-        <h3 className="flex items-center gap-2 text-[14px] font-bold text-[var(--color-text-primary)]">
+        <span className="flex items-center gap-2 text-[14px] font-bold text-[var(--color-text-primary)]">
           {IconComponent && <IconComponent className="w-4 h-4 text-[var(--color-primary)]" />}
           {filter.label}
-        </h3>
+        </span>
         <ChevronDown
           className={`w-4 h-4 text-[var(--color-text-muted)] transition-transform duration-300 ${
             isOpen ? 'rotate-180' : ''
@@ -96,7 +96,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
       <div
         id={`filter-${filter.id}`}
         className={`transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-[2000px] overflow-visible' : 'max-h-0 overflow-hidden'
+          isOpen ? 'max-h-[9999px] overflow-visible' : 'max-h-0 overflow-hidden'
         }`}
       >
         <div className="px-4 pb-4">
@@ -150,7 +150,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                   onClick={() => setShowAll(!showAll)}
                   className="mt-1.5 text-[12px] font-semibold text-[var(--color-primary)] hover:underline transition-colors"
                 >
-                  {showAll ? 'Toon minder' : `Bekijk alle ${filter.label} (${hiddenCount}+)`}
+                  {showAll ? 'Toon minder' : `Toon meer (${hiddenCount}+)`}
                 </button>
               )}
             </div>

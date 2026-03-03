@@ -489,7 +489,11 @@ export default function ShopArchiveTemplate1({
                       const stockStatus = hitStockStatus(hit)
                       const effectivePrice = hit.effectivePrice ?? hit.price
                       const hasDiscount = hit.compareAtPrice != null && effectivePrice != null && hit.compareAtPrice > effectivePrice
-                      const priceLabel = hit.productType === 'grouped' && effectivePrice != null ? 'Vanaf' : undefined
+                      const isGrouped = hit.productType === 'grouped'
+                      const priceLabel = isGrouped && effectivePrice != null ? 'Vanaf' : undefined
+
+                      // Grouped products can't be added to cart directly — user must pick variant on product page
+                      const canAddToCart = !isGrouped && stockStatus !== 'out'
 
                       return (
                         <ProductCard
@@ -507,7 +511,7 @@ export default function ShopArchiveTemplate1({
                           stockStatus={stockStatus}
                           stockText={stockStatus === 'on-backorder' ? 'Op bestelling' : undefined}
                           variant={viewMode}
-                          onAddToCart={stockStatus !== 'out' ? handleAddToCart : undefined}
+                          onAddToCart={canAddToCart ? handleAddToCart : undefined}
                         />
                       )
                     })}

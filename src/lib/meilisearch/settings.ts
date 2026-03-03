@@ -54,7 +54,7 @@ export const DEFAULT_SETTINGS = {
 
   // Default pagination
   pagination: {
-    maxTotalHits: 1000,
+    maxTotalHits: 10000,
     defaultLimit: 20,
     maxLimit: 100,
   },

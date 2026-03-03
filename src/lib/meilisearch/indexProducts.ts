@@ -73,9 +73,20 @@ export function transformProductForSearch(product: Product, brandMap?: BrandMap)
     Array.isArray(product.images) && product.images[0] && typeof product.images[0] === 'object'
       ? product.images[0]
       : null
-  const imageUrl = firstImage && typeof firstImage === 'object' && 'url' in firstImage
+  let imageUrl = firstImage && typeof firstImage === 'object' && 'url' in firstImage
     ? firstImage.url
     : null
+
+  // Fallback: extract image URL from tags (WooCommerce import stores images as "img:URL" tags)
+  if (!imageUrl && product.tags && Array.isArray(product.tags)) {
+    for (const tagEntry of product.tags) {
+      const tag = typeof tagEntry === 'object' && tagEntry !== null ? (tagEntry as any).tag : tagEntry
+      if (typeof tag === 'string' && tag.startsWith('img:')) {
+        imageUrl = tag.slice(4) // Remove "img:" prefix
+        break
+      }
+    }
+  }
 
   // Extract specifications as flat facets (split comma-separated values)
   const specs: Record<string, string[]> = {}
@@ -97,25 +108,38 @@ export function transformProductForSearch(product: Product, brandMap?: BrandMap)
   }
 
   // Effective price for sorting/filtering (sale price takes priority)
-  // For grouped products: calculate min price from child products
+  // For grouped products: calculate min price + aggregate stock status from child products
   let effectivePrice = product.salePrice || product.price || null
+  let groupedStockStatus: string | null = null
 
-  if (product.productType === 'grouped' && effectivePrice == null) {
+  if (product.productType === 'grouped') {
     const children = (product as any).childProducts
     if (Array.isArray(children)) {
       let minPrice: number | null = null
+      let hasInStock = false
+      let hasBackorder = false
+
       for (const child of children) {
         const childProduct = typeof child === 'object' && child !== null
           ? (child.product && typeof child.product === 'object' ? child.product : child)
           : null
         if (childProduct) {
+          // Price: find minimum
           const cp = childProduct.salePrice || childProduct.price
           if (cp != null && (minPrice == null || cp < minPrice)) {
             minPrice = cp
           }
+          // Stock status: aggregate (in-stock > on-backorder > out)
+          const childStock = childProduct.stock ?? 0
+          const childStatus = childProduct.stockStatus || (childStock > 0 ? 'in-stock' : 'out')
+          if (childStatus === 'in-stock' || childStock > 0) hasInStock = true
+          if (childStatus === 'on-backorder' || childProduct.backordersAllowed) hasBackorder = true
         }
       }
-      effectivePrice = minPrice
+
+      if (effectivePrice == null) effectivePrice = minPrice
+      // Best available status: in-stock > on-backorder > out
+      groupedStockStatus = hasInStock ? 'in-stock' : hasBackorder ? 'on-backorder' : 'out'
     }
   }
 
@@ -143,7 +167,7 @@ export function transformProductForSearch(product: Product, brandMap?: BrandMap)
     effectivePrice,
     compareAtPrice: product.compareAtPrice ?? null,
     stock: product.stock ?? 0,
-    stockStatus: product.stockStatus || (product.stock && product.stock > 0 ? 'in-stock' : 'out'),
+    stockStatus: groupedStockStatus || product.stockStatus || (product.stock && product.stock > 0 ? 'in-stock' : 'out'),
     backordersAllowed: product.backordersAllowed || false,
     trackStock: product.trackStock || false,
     image: imageUrl,

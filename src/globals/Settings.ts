@@ -360,17 +360,13 @@ export const Settings: GlobalConfig = {
               fields: [
                 {
                   name: 'filterId',
-                  type: 'select',
-                  label: 'Filter Type',
+                  type: 'text',
+                  label: 'Filter ID',
                   required: true,
-                  options: [
-                    { label: 'Merken', value: 'brands' },
-                    { label: 'Materialen', value: 'materials' },
-                    { label: 'Maten', value: 'sizes' },
-                    { label: 'Kleuren', value: 'colors' },
-                    { label: 'Voorraad', value: 'stock' },
-                    { label: 'Prijs', value: 'price' },
-                  ],
+                  admin: {
+                    description: 'Vaste filters: manufacturers (Merk), productLines (Productlijn), stock (Beschikbaarheid), price (Prijs). Specificatie-filters: spec_kleur, spec_maat, spec_materiaal, spec_merk, etc.',
+                    placeholder: 'Bijv: manufacturers, spec_kleur, price',
+                  },
                 },
                 {
                   name: 'enabled',
@@ -389,10 +385,8 @@ export const Settings: GlobalConfig = {
                 },
               ],
               defaultValue: [
-                { filterId: 'brands', enabled: true },
-                { filterId: 'materials', enabled: true },
-                { filterId: 'sizes', enabled: true },
-                { filterId: 'colors', enabled: true },
+                { filterId: 'manufacturers', enabled: true },
+                { filterId: 'productLines', enabled: true },
                 { filterId: 'stock', enabled: true },
                 { filterId: 'price', enabled: true },
               ],
