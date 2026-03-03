@@ -25,7 +25,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { ShoppingBag, ArrowLeft, Mail, ChevronDown, ChevronUp, CreditCard, Package, CheckCircle } from 'lucide-react'
+import { ShoppingBag, ArrowLeft, ChevronDown, ChevronUp, CreditCard, Package, CheckCircle } from 'lucide-react'
 
 // Checkout Components
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
@@ -34,10 +34,11 @@ import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressFor
 import { ShippingMethodCard } from '@/branches/ecommerce/components/checkout/ShippingMethodCard'
 import { PaymentMethodCard } from '@/branches/ecommerce/components/checkout/PaymentMethodCard'
 import { PONumberInput } from '@/branches/ecommerce/components/checkout/PONumberInput'
+import { CheckoutAuthPanel } from '@/branches/ecommerce/components/checkout/CheckoutAuthPanel'
+import type { GuestCheckoutFormData } from '@/branches/ecommerce/components/auth/GuestCheckoutForm'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
 import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
-import { OAuthButtons } from '@/branches/ecommerce/components/auth/OAuthButtons'
 import { Button } from '@/branches/shared/components/ui/button'
 
 interface Address {
@@ -64,6 +65,7 @@ export default function CheckoutTemplate4() {
   // Contact
   const [email, setEmail] = useState(user?.email || '')
   const [isGuest, setIsGuest] = useState(!user)
+  const [guestData, setGuestData] = useState<GuestCheckoutFormData | null>(null)
 
   // Addresses
   const [billingAddress, setBillingAddress] = useState<Address | null>(null)
@@ -112,8 +114,6 @@ export default function CheckoutTemplate4() {
   }
 
   // Step validation
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-  const canProceedToAddress = user || (isGuest && isEmailValid)
   const canProceedToShipping = billingAddress && (sameAsBilling || shippingAddress)
   const canProceedToPayment = !!shippingMethod
   const canPlaceOrder = paymentMethod && (paymentMethod !== 'invoice' || poNumber)
@@ -177,7 +177,13 @@ export default function CheckoutTemplate4() {
           paymentMethod,
           shippingMethod,
           guestEmail: !user ? email : undefined,
-          guestName: !user && billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : undefined,
+          guestName: !user
+            ? guestData
+              ? `${guestData.firstName} ${guestData.lastName}`
+              : billingAddress
+                ? `${billingAddress.firstName} ${billingAddress.lastName}`
+                : undefined
+            : undefined,
         }),
       })
 
@@ -259,50 +265,18 @@ export default function CheckoutTemplate4() {
                     </Button>
                   </div>
                 ) : (
-                  /* Guest user: OAuth + email */
-                  <div className="space-y-4">
-                    <OAuthButtons
-                      providers={['google']}
-                      onProviderClick={(provider) => {
-                        console.log('OAuth login:', provider)
-                        // TODO: Implement OAuth callback
-                      }}
-                      showDivider
-                      dividerText="of met e-mail"
-                    />
-
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-                        E-mailadres
-                      </label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <input
-                          id="email"
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="jouw@email.nl"
-                          className="w-full pl-11 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <p className="text-sm text-gray-500">
-                      Heb je al een account?{' '}
-                      <Link href="/login" className="text-teal-600 hover:text-teal-700 font-semibold">
-                        Log in
-                      </Link>
-                    </p>
-
-                    <Button
-                      onClick={() => canProceedToAddress && setCurrentStep(2)}
-                      disabled={!canProceedToAddress}
-                      className="w-full"
-                    >
-                      Ga door naar adres
-                    </Button>
-                  </div>
+                  /* Guest / Login / Register tabs */
+                  <CheckoutAuthPanel
+                    defaultTab="guest"
+                    onAuthenticated={({ email: authEmail, isGuest: authIsGuest, guestData: authGuestData }) => {
+                      setEmail(authEmail)
+                      setIsGuest(authIsGuest)
+                      if (authGuestData) {
+                        setGuestData(authGuestData)
+                      }
+                      setCurrentStep(2)
+                    }}
+                  />
                 )}
               </div>
             )}

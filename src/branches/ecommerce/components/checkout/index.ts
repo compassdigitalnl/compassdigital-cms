@@ -18,3 +18,6 @@ export type { AddressFormProps, Address, SavedAddress, ValidationErrors } from '
 
 export { PONumberInput } from './PONumberInput'
 export type { PONumberInputProps, PONumberVariant, IconPosition } from './PONumberInput'
+
+export { CheckoutAuthPanel } from './CheckoutAuthPanel'
+export type { CheckoutAuthPanelProps } from './CheckoutAuthPanel'
