@@ -57,6 +57,8 @@ import { Products } from '@/branches/ecommerce/collections/Products'
 import { RecentlyViewed } from '@/branches/ecommerce/collections/RecentlyViewed'
 import { RecurringOrders } from '@/branches/ecommerce/collections/RecurringOrders'
 import { Returns } from '@/branches/ecommerce/collections/Returns'
+import { ShippingMethods } from '@/branches/ecommerce/collections/ShippingMethods'
+import { CheckoutPaymentOptions } from '@/branches/ecommerce/collections/CheckoutPaymentOptions'
 import { StockReservations } from '@/branches/ecommerce/collections/StockReservations'
 import { SubscriptionPlans } from '@/branches/ecommerce/collections/SubscriptionPlans'
 import { UserSubscriptions } from '@/branches/ecommerce/collections/UserSubscriptions'
@@ -296,6 +298,8 @@ export default buildConfig({
 
     // Cart & Checkout
     _col(Carts),
+    _col(ShippingMethods),
+    _col(CheckoutPaymentOptions),
 
     // Order Management
     _col(Orders),

@@ -17,6 +17,8 @@ import * as migration_20260303_130000_checkout_flow_field from './20260303_13000
 import * as migration_20260303_140000_add_category_content from './20260303_140000_add_category_content';
 import * as migration_20260303_160000_add_template4_enum from './20260303_160000_add_template4_enum';
 import * as migration_20260303_190000_add_guest_checkout_fields from './20260303_190000_add_guest_checkout_fields';
+import * as migration_20260304_100000_add_shipping_methods from './20260304_100000_add_shipping_methods';
+import * as migration_20260304_110000_add_checkout_payment_options from './20260304_110000_add_checkout_payment_options';
 
 export const migrations = [
   {
@@ -113,5 +115,15 @@ export const migrations = [
     up: migration_20260303_190000_add_guest_checkout_fields.up,
     down: migration_20260303_190000_add_guest_checkout_fields.down,
     name: '20260303_190000_add_guest_checkout_fields',
+  },
+  {
+    up: migration_20260304_100000_add_shipping_methods.up,
+    down: migration_20260304_100000_add_shipping_methods.down,
+    name: '20260304_100000_add_shipping_methods',
+  },
+  {
+    up: migration_20260304_110000_add_checkout_payment_options.up,
+    down: migration_20260304_110000_add_checkout_payment_options.down,
+    name: '20260304_110000_add_checkout_payment_options',
   },
 ];

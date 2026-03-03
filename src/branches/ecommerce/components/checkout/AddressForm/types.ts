@@ -98,9 +98,9 @@ export interface AddressFormProps {
   enableAutocomplete?: boolean
 
   /**
-   * Form submission handler
+   * Form submission handler (optional when submitLabel is false)
    */
-  onSubmit: (address: Address) => void
+  onSubmit?: (address: Address) => void
 
   /**
    * Validation handler (optional)

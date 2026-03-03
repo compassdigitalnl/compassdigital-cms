@@ -5,7 +5,7 @@
 /**
  * Payment method slug types
  */
-export type PaymentMethodSlug = 'ideal' | 'creditcard' | 'paypal' | 'invoice' | 'banktransfer'
+export type PaymentMethodSlug = 'ideal' | 'creditcard' | 'paypal' | 'invoice' | 'banktransfer' | (string & {})
 
 /**
  * Payment method data

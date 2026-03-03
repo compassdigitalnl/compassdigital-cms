@@ -69,8 +69,14 @@ export function AddressForm({
     }
   }, [initialValues])
 
-  // Postcode validation pattern for NL
-  const POSTCODE_PATTERN_NL = /^\d{4}\s?[A-Z]{2}$/i
+  // Postcode validation patterns per country
+  const POSTCODE_PATTERNS: Record<string, { regex: RegExp; example: string }> = {
+    NL: { regex: /^\d{4}\s?[A-Z]{2}$/i, example: '1234 AB' },
+    BE: { regex: /^\d{4}$/, example: '1000' },
+    DE: { regex: /^\d{5}$/, example: '10115' },
+    FR: { regex: /^\d{5}$/, example: '75001' },
+    UK: { regex: /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i, example: 'SW1A 1AA' },
+  }
 
   // Validate a single field
   const validateField = (name: keyof Address, value: string): string => {
@@ -87,10 +93,11 @@ export function AddressForm({
       return `${fieldLabels[name]} is verplicht`
     }
 
-    // Postcode-specific validation (NL)
-    if (name === 'postalCode' && value && formData.country === 'NL') {
-      if (!POSTCODE_PATTERN_NL.test(value)) {
-        return 'Voer een geldige postcode in (bijv. 1234 AB)'
+    // Postcode-specific validation (multi-country)
+    if (name === 'postalCode' && value) {
+      const pattern = POSTCODE_PATTERNS[formData.country]
+      if (pattern && !pattern.regex.test(value)) {
+        return `Voer een geldige postcode in (bijv. ${pattern.example})`
       }
     }
 
@@ -164,7 +171,8 @@ export function AddressForm({
     handleChange('postalCode', value)
 
     // Only autocomplete for NL postcodes
-    if (enableAutocomplete && formData.country === 'NL' && POSTCODE_PATTERN_NL.test(value)) {
+    const nlPattern = POSTCODE_PATTERNS.NL
+    if (enableAutocomplete && formData.country === 'NL' && nlPattern && nlPattern.regex.test(value)) {
       setAutocompleteLoading(true)
       setAutocompleteSuccess(false)
 
@@ -228,7 +236,7 @@ export function AddressForm({
     setTouched(allTouched)
 
     // Validate and submit
-    if (validateForm()) {
+    if (validateForm() && onSubmit) {
       onSubmit(formData)
     }
   }
@@ -265,6 +273,36 @@ export function AddressForm({
 
       {/* Address form */}
       <form onSubmit={handleSubmit} className="form-grid" noValidate>
+        {/* Country (first — determines postcode format) */}
+        <div className={`form-group span-2 ${hasError('country') ? 'error' : ''}`}>
+          <label className="form-label" htmlFor="country">
+            Land
+          </label>
+          <select
+            id="country"
+            className="form-input"
+            name="country"
+            value={formData.country}
+            onChange={(e) => handleChange('country', e.target.value)}
+            onBlur={() => handleBlur('country')}
+            required={requiredFields.includes('country')}
+            aria-required={requiredFields.includes('country')}
+            aria-invalid={hasError('country') ? 'true' : 'false'}
+          >
+            <option value="NL">Nederland</option>
+            <option value="BE">België</option>
+            <option value="DE">Duitsland</option>
+            <option value="FR">Frankrijk</option>
+            <option value="UK">Verenigd Koninkrijk</option>
+          </select>
+          {hasError('country') && (
+            <div className="error-message" id="country-error" role="alert">
+              <AlertCircle size={14} />
+              {errors.country}
+            </div>
+          )}
+        </div>
+
         {/* First Name */}
         <div className={`form-group ${hasError('firstName') ? 'error' : ''}`}>
           <label className="form-label" htmlFor="firstName">
@@ -430,36 +468,6 @@ export function AddressForm({
             <div className="error-message" id="city-error" role="alert">
               <AlertCircle size={14} />
               {errors.city}
-            </div>
-          )}
-        </div>
-
-        {/* Country (full width) */}
-        <div className={`form-group span-2 ${hasError('country') ? 'error' : ''}`}>
-          <label className="form-label" htmlFor="country">
-            Land
-          </label>
-          <select
-            id="country"
-            className="form-input"
-            name="country"
-            value={formData.country}
-            onChange={(e) => handleChange('country', e.target.value)}
-            onBlur={() => handleBlur('country')}
-            required={requiredFields.includes('country')}
-            aria-required={requiredFields.includes('country')}
-            aria-invalid={hasError('country') ? 'true' : 'false'}
-          >
-            <option value="NL">Nederland</option>
-            <option value="BE">België</option>
-            <option value="DE">Duitsland</option>
-            <option value="FR">Frankrijk</option>
-            <option value="UK">Verenigd Koninkrijk</option>
-          </select>
-          {hasError('country') && (
-            <div className="error-message" id="country-error" role="alert">
-              <AlertCircle size={14} />
-              {errors.country}
             </div>
           )}
         </div>

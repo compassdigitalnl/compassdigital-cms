@@ -24,7 +24,7 @@ import { useAuth } from '@/providers/Auth'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ShoppingBag, ArrowLeft, ChevronDown, ChevronUp, CreditCard, Package, CheckCircle } from 'lucide-react'
 
 // Checkout Components
@@ -88,12 +88,39 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
   const [showMobileCart, setShowMobileCart] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
+  // CMS data for shipping & payment
+  const [cmsShippingMethods, setCmsShippingMethods] = useState<any[]>([])
+  const [cmsPaymentOptions, setCmsPaymentOptions] = useState<any[]>([])
+
+  // Fetch shipping methods from CMS
+  useEffect(() => {
+    fetch('/api/shipping-methods?where[isActive][equals]=true&sort=sortOrder&limit=20')
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data?.docs?.length) setCmsShippingMethods(data.docs)
+      })
+      .catch(() => {})
+  }, [])
+
+  // Fetch payment options from CMS
+  useEffect(() => {
+    fetch('/api/checkout-payment-options?where[isActive][equals]=true&sort=sortOrder&depth=1&limit=20')
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data?.docs?.length) setCmsPaymentOptions(data.docs)
+      })
+      .catch(() => {})
+  }, [])
+
   // Pricing (from CMS settings with sensible defaults)
   const subtotal = total
-  const freeShippingThreshold = settings?.freeShippingThreshold ?? 150
-  const standardShippingCost = settings?.shippingCost ?? 6.95
   const vatPercentage = (settings?.vatPercentage ?? 21) / 100
-  const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : standardShippingCost
+
+  // Compute shipping cost from selected CMS method
+  const selectedShipping = cmsShippingMethods.find((m) => m.slug === shippingMethod)
+  const shippingCost = selectedShipping
+    ? (selectedShipping.freeThreshold && subtotal >= selectedShipping.freeThreshold ? 0 : selectedShipping.price)
+    : 0
   const discount = appliedCoupon?.discountAmount || 0
   const tax = (subtotal + shippingCost - discount) * vatPercentage
   const grandTotal = subtotal + shippingCost + tax - discount
@@ -317,43 +344,140 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
               <div className="space-y-6">
                 <AddressForm
                   title="Factuuradres"
-                  onSubmit={(address) => {
-                    setBillingAddress(address as Address)
-                    setCurrentStep(3)
-                  }}
+                  submitLabel={false}
+                  onChange={(address) => setBillingAddress(address as Address)}
                 />
+
+                {/* Shipping address toggle */}
+                <label
+                  className="flex items-center gap-3 p-4 bg-white rounded-lg border border-gray-200 cursor-pointer select-none hover:border-gray-300 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    checked={!sameAsBilling}
+                    onChange={(e) => {
+                      setSameAsBilling(!e.target.checked)
+                      if (!e.target.checked) setShippingAddress(null)
+                    }}
+                    className="w-4 h-4 rounded"
+                    style={{ accentColor: 'var(--color-primary, #0A1628)' }}
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Afleveradres wijkt af van factuuradres
+                  </span>
+                </label>
+
+                {!sameAsBilling && (
+                  <AddressForm
+                    title="Afleveradres"
+                    submitLabel={false}
+                    onChange={(address) => setShippingAddress(address as Address)}
+                  />
+                )}
+
+                {/* Navigation buttons */}
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(1)}
+                    className="flex-1 py-3.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200"
+                    style={{
+                      background: 'transparent',
+                      border: '1.5px solid var(--color-primary, #0A1628)',
+                      color: 'var(--color-primary, #0A1628)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'var(--color-primary-glow, rgba(10,22,40,0.05))'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                    }}
+                  >
+                    Vorige stap
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => canProceedToShipping && setCurrentStep(3)}
+                    disabled={!canProceedToShipping}
+                    className="flex-1 py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    style={{
+                      background: 'var(--color-primary, #0A1628)',
+                      boxShadow: '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
+                      }
+                    }}
+                  >
+                    Ga door naar verzending
+                  </button>
+                </div>
               </div>
             )}
 
             {/* Step 3: Shipping */}
             {currentStep === 3 && (
               <div className="space-y-4">
-                <ShippingMethodCard
-                  method={{
-                    id: 'standard',
-                    name: 'Standaard verzending',
-                    slug: 'standard',
-                    icon: 'truck',
-                    deliveryTime: '2-3 werkdagen',
-                    price: shippingCost,
-                    estimatedDays: 3,
-                  }}
-                  selected={shippingMethod === 'standard'}
-                  onSelect={() => setShippingMethod('standard')}
-                />
-                <ShippingMethodCard
-                  method={{
-                    id: 'express',
-                    name: 'Express verzending',
-                    slug: 'express',
-                    icon: 'zap',
-                    deliveryTime: 'Volgende werkdag',
-                    price: 9.95,
-                    estimatedDays: 1,
-                  }}
-                  selected={shippingMethod === 'express'}
-                  onSelect={() => setShippingMethod('express')}
-                />
+                {cmsShippingMethods.length > 0 ? (
+                  cmsShippingMethods.map((method) => {
+                    const effectivePrice = method.freeThreshold && subtotal >= method.freeThreshold
+                      ? 0
+                      : method.price
+                    return (
+                      <ShippingMethodCard
+                        key={method.id}
+                        method={{
+                          id: String(method.id),
+                          name: method.name,
+                          slug: method.slug,
+                          icon: method.icon || 'truck',
+                          deliveryTime: method.deliveryTime || '',
+                          price: effectivePrice,
+                          isFree: effectivePrice === 0,
+                          estimatedDays: method.estimatedDays,
+                          freeThreshold: method.freeThreshold,
+                        }}
+                        selected={shippingMethod === method.slug}
+                        onSelect={() => setShippingMethod(method.slug)}
+                      />
+                    )
+                  })
+                ) : (
+                  <>
+                    <ShippingMethodCard
+                      method={{
+                        id: 'standard',
+                        name: 'Standaard verzending',
+                        slug: 'standard',
+                        icon: 'truck',
+                        deliveryTime: '2-3 werkdagen',
+                        price: shippingCost,
+                        estimatedDays: 3,
+                      }}
+                      selected={shippingMethod === 'standard'}
+                      onSelect={() => setShippingMethod('standard')}
+                    />
+                    <ShippingMethodCard
+                      method={{
+                        id: 'express',
+                        name: 'Express verzending',
+                        slug: 'express',
+                        icon: 'zap',
+                        deliveryTime: 'Volgende werkdag',
+                        price: 9.95,
+                        estimatedDays: 1,
+                      }}
+                      selected={shippingMethod === 'express'}
+                      onSelect={() => setShippingMethod('express')}
+                    />
+                  </>
+                )}
 
                 <div className="flex gap-4">
                   <button
@@ -404,40 +528,73 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
             {currentStep === 4 && (
               <div className="space-y-6">
                 <div className="space-y-4">
-                  <PaymentMethodCard
-                    method={{
-                      id: 'ideal',
-                      name: 'iDEAL',
-                      slug: 'ideal',
-                      description: 'Betaal direct via je bank',
-                      logo: '🏦',
-                    }}
-                    selected={paymentMethod === 'ideal'}
-                    onSelect={() => setPaymentMethod('ideal')}
-                  />
-                  <PaymentMethodCard
-                    method={{
-                      id: 'card',
-                      name: 'Creditcard',
-                      slug: 'creditcard',
-                      description: 'Visa, Mastercard, Amex',
-                      logo: <CreditCard className="w-6 h-6" />,
-                    }}
-                    selected={paymentMethod === 'card'}
-                    onSelect={() => setPaymentMethod('card')}
-                  />
-                  <PaymentMethodCard
-                    method={{
-                      id: 'invoice',
-                      name: 'Op rekening',
-                      slug: 'invoice',
-                      description: 'Betaal binnen 14 dagen',
-                      logo: '📄',
-                      isB2B: true,
-                    }}
-                    selected={paymentMethod === 'invoice'}
-                    onSelect={() => setPaymentMethod('invoice')}
-                  />
+                  {cmsPaymentOptions.length > 0 ? (
+                    cmsPaymentOptions.map((option) => {
+                      const logoUrl = typeof option.icon === 'object' && option.icon?.url
+                        ? option.icon.url
+                        : null
+                      return (
+                        <PaymentMethodCard
+                          key={option.id}
+                          method={{
+                            id: String(option.id),
+                            name: option.name,
+                            slug: option.slug,
+                            description: option.description || '',
+                            logo: logoUrl
+                              ? <img src={logoUrl} alt={option.name} style={{ width: 24, height: 24, objectFit: 'contain' }} />
+                              : option.slug === 'creditcard'
+                                ? <CreditCard className="w-6 h-6" />
+                                : option.slug === 'ideal'
+                                  ? '🏦'
+                                  : '💳',
+                            isB2B: option.isB2B,
+                            fee: option.fee,
+                            badge: option.badge,
+                          }}
+                          selected={paymentMethod === option.slug}
+                          onSelect={() => setPaymentMethod(option.slug)}
+                        />
+                      )
+                    })
+                  ) : (
+                    <>
+                      <PaymentMethodCard
+                        method={{
+                          id: 'ideal',
+                          name: 'iDEAL',
+                          slug: 'ideal',
+                          description: 'Betaal direct via je bank',
+                          logo: '🏦',
+                        }}
+                        selected={paymentMethod === 'ideal'}
+                        onSelect={() => setPaymentMethod('ideal')}
+                      />
+                      <PaymentMethodCard
+                        method={{
+                          id: 'card',
+                          name: 'Creditcard',
+                          slug: 'creditcard',
+                          description: 'Visa, Mastercard, Amex',
+                          logo: <CreditCard className="w-6 h-6" />,
+                        }}
+                        selected={paymentMethod === 'card'}
+                        onSelect={() => setPaymentMethod('card')}
+                      />
+                      <PaymentMethodCard
+                        method={{
+                          id: 'invoice',
+                          name: 'Op rekening',
+                          slug: 'invoice',
+                          description: 'Betaal binnen 14 dagen',
+                          logo: '📄',
+                          isB2B: true,
+                        }}
+                        selected={paymentMethod === 'invoice'}
+                        onSelect={() => setPaymentMethod('invoice')}
+                      />
+                    </>
+                  )}
                 </div>
 
                 {paymentMethod === 'invoice' && (

@@ -5,7 +5,7 @@
 /**
  * Shipping method slug types
  */
-export type ShippingMethodSlug = 'standard' | 'express' | 'pickup' | 'same-day'
+export type ShippingMethodSlug = 'standard' | 'express' | 'pickup' | 'same-day' | (string & {})
 
 /**
  * Shipping method icon types
