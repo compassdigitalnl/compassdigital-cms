@@ -109,7 +109,8 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
           </h1>
           <Link
             href="/shop/"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-lg font-semibold transition-all duration-200"
+            style={{ background: 'var(--color-primary, #0A1628)' }}
           >
             <ArrowLeft className="w-4 h-4" />
             Naar shop
@@ -279,7 +280,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5"
                       style={{
                         background: 'var(--color-primary, #0A1628)',
-                        boxShadow: '0 4px 16px rgba(10,22,40,0.25)',
+                        boxShadow: '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
@@ -365,7 +366,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       color: 'var(--color-primary, #0A1628)',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(10,22,40,0.05)'
+                      e.currentTarget.style.background = 'var(--color-primary-glow, rgba(10,22,40,0.05))'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'transparent'
@@ -380,7 +381,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     className="flex-1 py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     style={{
                       background: 'var(--color-primary, #0A1628)',
-                      boxShadow: '0 4px 16px rgba(10,22,40,0.25)',
+                      boxShadow: '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
                     }}
                     onMouseEnter={(e) => {
                       if (!e.currentTarget.disabled) {
@@ -458,7 +459,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       color: 'var(--color-primary, #0A1628)',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(10,22,40,0.05)'
+                      e.currentTarget.style.background = 'var(--color-primary-glow, rgba(10,22,40,0.05))'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'transparent'
@@ -475,7 +476,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       background: isProcessing
                         ? 'var(--color-text-secondary, #94A3B8)'
                         : 'var(--color-primary, #0A1628)',
-                      boxShadow: isProcessing ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
+                      boxShadow: isProcessing ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
                     }}
                     onMouseEnter={(e) => {
                       if (!isProcessing) {
@@ -754,12 +755,13 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
         }
         .t4-order-items__footer :global(.t4-order-items__edit) {
           font-size: var(--text-small);
-          color: var(--teal);
+          color: var(--color-primary, #0A1628);
           font-weight: 600;
           text-decoration: none;
         }
         .t4-order-items__footer :global(.t4-order-items__edit:hover) {
-          color: var(--teal-dark);
+          color: var(--color-primary-dark, #121F33);
+          text-decoration: underline;
         }
 
         /* Coupon bar */

@@ -265,7 +265,7 @@ export function CheckoutAuthPanel({
                     background: b2cLoading
                       ? 'var(--color-text-secondary, #94A3B8)'
                       : 'var(--color-primary, #0A1628)',
-                    boxShadow: b2cLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
+                    boxShadow: b2cLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
                   }}
                 >
                   {b2cLoading ? 'Account wordt aangemaakt...' : 'Account aanmaken'}
@@ -431,7 +431,7 @@ export function CheckoutAuthPanel({
                     background: b2bLoading
                       ? 'var(--color-text-secondary, #94A3B8)'
                       : 'var(--color-primary, #0A1628)',
-                    boxShadow: b2bLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
+                    boxShadow: b2bLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
                   }}
                 >
                   {b2bLoading ? 'Account wordt aangemaakt...' : 'Account aanvragen'}

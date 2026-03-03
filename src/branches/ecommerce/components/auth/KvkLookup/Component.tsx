@@ -129,7 +129,7 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
             cursor: isLoading ? 'wait' : 'pointer',
           }}
           onMouseEnter={(e) => {
-            if (!isLoading) e.currentTarget.style.background = 'var(--color-primary-dark, #00897B)'
+            if (!isLoading) e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
           }}
           onMouseLeave={(e) => {
             if (!isLoading) e.currentTarget.style.background = 'var(--color-primary, #0A1628)'

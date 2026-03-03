@@ -190,7 +190,7 @@ export function LoginForm({
             background: isLoading
               ? 'var(--color-text-secondary, #94A3B8)'
               : 'var(--color-primary, #0A1628)',
-            boxShadow: isLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
+            boxShadow: isLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
           }}
           onMouseEnter={(e) => {
             if (!isLoading) {

@@ -261,7 +261,7 @@ export function GuestCheckoutForm({
             background: isLoading
               ? 'var(--color-text-secondary, #94A3B8)'
               : 'var(--color-primary, #0A1628)',
-            boxShadow: isLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
+            boxShadow: isLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
           }}
           onMouseEnter={(e) => {
             if (!isLoading) {
@@ -289,7 +289,7 @@ export function GuestCheckoutForm({
               color: 'var(--color-primary, #0A1628)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(0,137,123,0.06)'
+              e.currentTarget.style.background = 'var(--color-primary-glow, rgba(10,22,40,0.05))'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'transparent'
