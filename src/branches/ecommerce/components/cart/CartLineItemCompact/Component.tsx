@@ -123,20 +123,20 @@ export default function CartLineItemCompact({
         .compact-row {
           display: grid;
           grid-template-columns: 50px 1fr 120px 120px 100px 40px;
-          gap: 12px;
-          padding: 16px 20px;
+          gap: var(--sp-3);
+          padding: var(--sp-4) var(--sp-6);
           align-items: center;
-          border-bottom: 1px solid var(--grey, #f1f5f9);
-          transition: background 0.15s;
+          border-bottom: 1px solid var(--grey);
+          transition: background var(--transition, 0.15s);
         }
         .compact-row:hover {
-          background: var(--bg, #f8fafc);
+          background: var(--bg);
         }
         .compact-row__img {
           width: 50px;
           height: 50px;
-          background: var(--bg, #f1f5f9);
-          border-radius: 8px;
+          background: var(--bg);
+          border-radius: var(--r-sm);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -146,8 +146,8 @@ export default function CartLineItemCompact({
         .compact-row__img-placeholder {
           width: 24px;
           height: 24px;
-          background: var(--grey, #E8ECF1);
-          border-radius: 4px;
+          background: var(--grey);
+          border-radius: var(--sp-1);
         }
         .compact-row__info {
           min-width: 0;
@@ -156,14 +156,14 @@ export default function CartLineItemCompact({
           gap: 1px;
         }
         .compact-row__brand {
-          font-size: 10px;
+          font-size: var(--text-label);
           font-weight: 700;
           color: var(--teal);
           text-transform: uppercase;
           letter-spacing: 0.06em;
         }
         .compact-row__name {
-          font-size: 14px;
+          font-size: var(--text-body);
           font-weight: 600;
           color: var(--navy);
           white-space: nowrap;
@@ -171,27 +171,27 @@ export default function CartLineItemCompact({
           text-overflow: ellipsis;
         }
         .compact-row__sku {
-          font-size: 11px;
-          color: var(--grey-mid, #94A3B8);
+          font-size: var(--text-small);
+          color: var(--grey-mid);
         }
         .compact-row__stock {
-          font-size: 11px;
-          color: var(--green, #16a34a);
+          font-size: var(--text-small);
+          color: var(--green);
           font-weight: 600;
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: var(--sp-1);
           margin-top: 2px;
         }
         .compact-row__stock-dot {
           width: 6px;
           height: 6px;
-          border-radius: 50%;
-          background: var(--green, #16a34a);
+          border-radius: var(--r-full);
+          background: var(--green);
           display: inline-block;
         }
         .compact-row__price {
-          font-size: 14px;
+          font-size: var(--text-body);
           font-weight: 700;
           color: var(--navy);
           text-align: right;
@@ -203,26 +203,26 @@ export default function CartLineItemCompact({
         .compact-row__qty {
           display: flex;
           align-items: center;
-          border: 1.5px solid var(--grey, #e2e8f0);
-          border-radius: 8px;
+          border: 1.5px solid var(--grey);
+          border-radius: var(--r-sm);
           overflow: hidden;
           width: fit-content;
         }
         .compact-row__qty-btn {
           width: 32px;
           height: 32px;
-          background: var(--bg, #f8fafc);
+          background: var(--bg);
           border: none;
           font-size: 16px;
-          color: var(--grey-dark, #475569);
+          color: var(--grey-dark);
           cursor: pointer;
-          transition: all 0.15s;
+          transition: all var(--transition, 0.15s);
           display: flex;
           align-items: center;
           justify-content: center;
         }
         .compact-row__qty-btn:hover {
-          background: var(--grey, #e2e8f0);
+          background: var(--grey);
           color: var(--navy);
         }
         .compact-row__qty-input {
@@ -230,10 +230,10 @@ export default function CartLineItemCompact({
           height: 32px;
           text-align: center;
           border: none;
-          border-left: 1px solid var(--grey, #e2e8f0);
-          border-right: 1px solid var(--grey, #e2e8f0);
-          font-family: inherit;
-          font-size: 13px;
+          border-left: 1px solid var(--grey);
+          border-right: 1px solid var(--grey);
+          font-family: var(--font);
+          font-size: var(--text-body);
           font-weight: 700;
           color: var(--navy);
           outline: none;
@@ -245,7 +245,7 @@ export default function CartLineItemCompact({
           margin: 0;
         }
         .compact-row__subtotal {
-          font-size: 14px;
+          font-size: var(--text-body);
           font-weight: 700;
           color: var(--navy);
           text-align: right;
@@ -255,16 +255,16 @@ export default function CartLineItemCompact({
           height: 32px;
           background: none;
           border: none;
-          color: var(--grey-mid, #cbd5e1);
+          color: var(--grey-mid);
           cursor: pointer;
-          border-radius: 6px;
-          transition: all 0.15s;
+          border-radius: var(--sp-2);
+          transition: all var(--transition, 0.15s);
           display: flex;
           align-items: center;
           justify-content: center;
         }
         .compact-row__remove:hover {
-          color: var(--coral, #e94560);
+          color: var(--coral);
           background: rgba(233, 69, 96, 0.06);
         }
         .compact-row__remove-icon {
@@ -276,8 +276,8 @@ export default function CartLineItemCompact({
           .compact-row {
             grid-template-columns: 50px 1fr;
             grid-template-rows: auto auto;
-            gap: 8px;
-            padding: 12px 16px;
+            gap: var(--sp-2);
+            padding: var(--sp-3) var(--sp-4);
           }
           .compact-row__price,
           .compact-row__qty-wrap,
@@ -286,8 +286,8 @@ export default function CartLineItemCompact({
           }
           .compact-row__remove {
             position: absolute;
-            right: 8px;
-            top: 8px;
+            right: var(--sp-2);
+            top: var(--sp-2);
           }
         }
       `}</style>

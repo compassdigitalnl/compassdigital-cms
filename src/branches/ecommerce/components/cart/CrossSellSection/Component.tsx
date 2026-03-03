@@ -65,14 +65,14 @@ export default function CrossSellSection({
 
       <style jsx>{`
         .cross-sell__title {
-          font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
-          font-size: 20px;
+          font-family: var(--font-display);
+          font-size: var(--text-card-title);
           font-weight: 800;
           color: var(--navy);
-          margin-bottom: 16px;
+          margin-bottom: var(--sp-4);
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: var(--sp-2);
         }
         .cross-sell__title-icon {
           width: 20px;
@@ -81,9 +81,9 @@ export default function CrossSellSection({
         }
         .cross-sell__grid {
           display: flex;
-          gap: 16px;
+          gap: var(--sp-4);
           overflow-x: auto;
-          padding-bottom: 8px;
+          padding-bottom: var(--sp-2);
           scroll-snap-type: x mandatory;
           -webkit-overflow-scrolling: touch;
         }
@@ -91,26 +91,26 @@ export default function CrossSellSection({
           height: 4px;
         }
         .cross-sell__grid::-webkit-scrollbar-track {
-          background: var(--grey, #E8ECF1);
+          background: var(--grey);
           border-radius: 2px;
         }
         .cross-sell__grid::-webkit-scrollbar-thumb {
-          background: var(--grey-mid, #94A3B8);
+          background: var(--grey-mid);
           border-radius: 2px;
         }
         .cross-sell__card {
           flex-shrink: 0;
           width: 200px;
-          background: var(--white, #FAFBFC);
-          border: 1px solid var(--grey, #E8ECF1);
-          border-radius: 14px;
+          background: var(--white);
+          border: 1px solid var(--grey);
+          border-radius: var(--r-lg);
           overflow: hidden;
-          transition: all 0.3s;
+          transition: all var(--transition, 0.3s);
           scroll-snap-align: start;
         }
         .cross-sell__card:hover {
           transform: translateY(-3px);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+          box-shadow: var(--sh-md);
           border-color: transparent;
         }
         .cross-sell__img-link {
@@ -119,7 +119,7 @@ export default function CrossSellSection({
         }
         .cross-sell__img {
           height: 120px;
-          background: var(--bg, #F5F7FA);
+          background: var(--bg);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -128,14 +128,14 @@ export default function CrossSellSection({
         .cross-sell__img-placeholder {
           width: 48px;
           height: 48px;
-          background: var(--grey, #E8ECF1);
-          border-radius: 8px;
+          background: var(--grey);
+          border-radius: var(--r-sm);
         }
         .cross-sell__body {
-          padding: 14px;
+          padding: var(--sp-3);
         }
         .cross-sell__brand {
-          font-size: 10px;
+          font-size: var(--text-label);
           font-weight: 700;
           text-transform: uppercase;
           color: var(--teal);
@@ -143,11 +143,11 @@ export default function CrossSellSection({
           display: block;
         }
         .cross-sell__name {
-          font-size: 13px;
+          font-size: var(--text-body);
           font-weight: 600;
           color: var(--navy);
           line-height: 1.3;
-          margin: 4px 0 8px;
+          margin: var(--sp-1) 0 var(--sp-2);
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
@@ -163,8 +163,8 @@ export default function CrossSellSection({
           justify-content: space-between;
         }
         .cross-sell__price {
-          font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
-          font-size: 16px;
+          font-family: var(--font-display);
+          font-size: var(--text-body-lg);
           font-weight: 800;
           color: var(--navy);
         }
@@ -174,12 +174,12 @@ export default function CrossSellSection({
           background: var(--teal);
           color: white;
           border: none;
-          border-radius: 8px;
+          border-radius: var(--r-sm);
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s;
+          transition: all var(--transition, 0.2s);
           flex-shrink: 0;
         }
         .cross-sell__add:hover {

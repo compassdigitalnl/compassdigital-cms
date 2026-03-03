@@ -24,24 +24,24 @@ export default function PaymentMethodBadges({
         .payment-badges {
           display: flex;
           justify-content: center;
-          gap: ${size === 'sm' ? '6px' : '8px'};
+          gap: ${size === 'sm' ? 'var(--sp-2)' : 'var(--sp-2)'};
           flex-wrap: wrap;
         }
         .payment-badges__badge {
           border-radius: 4px;
-          background: var(--grey, #E8ECF1);
+          background: var(--grey);
           font-weight: ${size === 'sm' ? '700' : '600'};
-          color: var(--grey-dark, #64748B);
+          color: var(--grey-dark);
           letter-spacing: 0.02em;
           white-space: nowrap;
         }
         .payment-badges__badge--sm {
-          padding: 3px 8px;
-          font-size: 10px;
+          padding: 3px var(--sp-2);
+          font-size: var(--text-label);
         }
         .payment-badges__badge--md {
-          padding: 4px 10px;
-          font-size: 11px;
+          padding: var(--sp-1) var(--sp-2);
+          font-size: var(--text-small);
         }
       `}</style>
     </div>

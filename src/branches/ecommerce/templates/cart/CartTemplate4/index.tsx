@@ -6,13 +6,7 @@
  * Design: plastimed-cart-variant-b.html
  * Concept: Large product cards, checkout progress steps, recently viewed
  *
- * Features:
- * - CheckoutProgressStepper (step 1 = active)
- * - Serif title + "Laatst bijgewerkt" + Quick-order / Verder winkelen links
- * - Premium CartLineItem cards (large images, hover effects)
- * - Separate coupon bar between items and sidebar
- * - Sidebar: FreeShippingProgress, OrderSummary (navy header), PaymentMethodBadges, TrustSignals (2-col grid)
- * - RecentlyViewed section at bottom
+ * All visual values use CSS custom properties from the theme system.
  */
 
 import { useState } from 'react'
@@ -100,39 +94,39 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
         </div>
 
         <style jsx>{`
-          .t4-page { min-height: 100vh; background: var(--bg, #f8f9fb); }
+          .t4-page { min-height: 100vh; background: var(--bg); }
           .t4-step-bar {
-            background: var(--white, #fff);
-            border-bottom: 1px solid var(--grey, #e2e8f0);
-            padding: 20px 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--grey);
+            padding: var(--sp-6) 0;
           }
-          .t4-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-          .t4-empty { padding: 80px 0; }
+          .t4-container { max-width: var(--container-width, 1536px); margin: 0 auto; padding: 0 var(--sp-6); }
+          .t4-empty { padding: var(--sp-20) 0; }
           .t4-empty__inner { max-width: 420px; margin: 0 auto; text-align: center; }
           .t4-empty__icon {
-            width: 48px; height: 48px; color: var(--grey-mid, #94A3B8); opacity: 0.4;
-            margin: 0 auto 16px; display: block;
+            width: 48px; height: 48px; color: var(--grey-mid); opacity: 0.4;
+            margin: 0 auto var(--sp-4); display: block;
           }
           .t4-empty__title {
-            font-family: var(--font-serif, 'DM Serif Display', Georgia, serif);
-            font-size: 36px; color: var(--navy); margin-bottom: 8px;
+            font-family: var(--font-display);
+            font-size: var(--text-hero); color: var(--navy); margin-bottom: var(--sp-2);
           }
-          .t4-empty__text { color: var(--grey-mid, #94A3B8); margin-bottom: 24px; }
+          .t4-empty__text { color: var(--grey-mid); margin-bottom: var(--sp-6); }
           .t4-empty__cta {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 14px 28px; background: var(--teal);
-            color: white; border-radius: 10px;
+            display: inline-flex; align-items: center; gap: var(--sp-2);
+            padding: var(--sp-3) var(--sp-8); background: var(--teal);
+            color: white; border-radius: var(--r-sm);
             font-weight: 700; text-decoration: none;
-            transition: all 0.25s;
-            box-shadow: 0 4px 16px rgba(0,137,123,0.3);
+            transition: all var(--transition, 0.25s);
+            box-shadow: var(--sh-md);
           }
           .t4-empty__cta:hover {
-            background: var(--teal-dark, #00695C);
+            background: var(--teal-dark);
             transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(0,137,123,0.4);
+            box-shadow: var(--sh-lg);
           }
           .t4-empty__cta-icon { width: 18px; height: 18px; }
-          .t4-empty__trust { margin-top: 48px; }
+          .t4-empty__trust { margin-top: var(--sp-12); }
         `}</style>
       </div>
     )
@@ -268,21 +262,21 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
       <style jsx>{`
         .t4-page {
           min-height: 100vh;
-          background: var(--bg, #f8f9fb);
+          background: var(--bg);
         }
         .t4-step-bar {
-          background: var(--white, #fff);
-          border-bottom: 1px solid var(--grey, #e2e8f0);
-          padding: 20px 0;
+          background: var(--white);
+          border-bottom: 1px solid var(--grey);
+          padding: var(--sp-6) 0;
         }
         .t4-container {
-          max-width: 1200px;
+          max-width: var(--container-width, 1536px);
           margin: 0 auto;
-          padding: 0 24px;
+          padding: 0 var(--sp-6);
         }
         .t4-section {
-          padding-top: 32px;
-          padding-bottom: 60px;
+          padding-top: var(--sp-8);
+          padding-bottom: var(--sp-16);
         }
 
         /* Header */
@@ -290,37 +284,37 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
-          margin-bottom: 28px;
+          margin-bottom: var(--sp-8);
         }
         .t4-header__title {
-          font-family: var(--font-serif, 'DM Serif Display', Georgia, serif);
-          font-size: 36px;
+          font-family: var(--font-display);
+          font-size: var(--text-hero);
           color: var(--navy);
           line-height: 1.1;
         }
         .t4-header__sub {
-          font-size: 14px;
-          color: var(--grey-mid, #64748b);
-          margin-top: 6px;
+          font-size: var(--text-body);
+          color: var(--grey-mid);
+          margin-top: var(--sp-2);
         }
         .t4-header__links {
           display: flex;
-          gap: 16px;
+          gap: var(--sp-4);
         }
         .t4-header__link {
-          font-size: 13px;
+          font-size: var(--text-body);
           font-weight: 600;
           text-decoration: none;
-          padding: 8px 16px;
-          border-radius: 10px;
-          transition: all 0.2s;
+          padding: var(--sp-2) var(--sp-4);
+          border-radius: var(--r-sm);
+          transition: all var(--transition, 0.2s);
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: var(--sp-2);
         }
         .t4-header__link--ghost {
-          border: 1.5px solid var(--grey, #cbd5e1);
-          color: var(--grey-dark, #475569);
+          border: 1.5px solid var(--grey);
+          color: var(--grey-dark);
         }
         .t4-header__link--ghost:hover {
           border-color: var(--navy);
@@ -335,7 +329,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
         .t4-layout {
           display: grid;
           grid-template-columns: 1fr 380px;
-          gap: 32px;
+          gap: var(--sp-8);
           align-items: start;
         }
 
@@ -343,72 +337,70 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
         .t4-cards {
           display: flex;
           flex-direction: column;
-          gap: 16px;
+          gap: var(--sp-4);
         }
         .t4-card-wrap {
-          transition: all 0.2s;
+          transition: all var(--transition, 0.2s);
         }
 
         /* Coupon bar */
         .t4-coupon-bar {
-          margin-top: 12px;
-          background: var(--white, #fff);
-          border-radius: 14px;
-          border: 1px solid var(--grey, #e2e8f0);
-          padding: 16px 24px;
-          box-shadow: 0 1px 3px rgba(10,38,71,0.06);
+          margin-top: var(--sp-3);
+          background: var(--white);
+          border-radius: var(--r-lg);
+          border: 1px solid var(--grey);
+          padding: var(--sp-4) var(--sp-6);
+          box-shadow: var(--sh-sm);
         }
 
         /* Sidebar */
         .t4-sidebar {
           position: sticky;
           top: 90px;
+          z-index: var(--z-sticky, 200);
           display: flex;
           flex-direction: column;
-          gap: 16px;
-        }
-        .t4-sidebar__shipping {
-          /* FreeShippingProgress renders its own card */
+          gap: var(--sp-4);
         }
 
         /* Summary card */
         .t4-summary-card {
-          background: var(--white, #fff);
-          border-radius: 14px;
-          border: 1px solid var(--grey, #e2e8f0);
-          box-shadow: 0 4px 20px rgba(10,38,71,0.08);
+          background: var(--white);
+          border-radius: var(--r-lg);
+          border: 1px solid var(--grey);
+          box-shadow: var(--sh-md);
           overflow: hidden;
         }
         .t4-summary-card__head {
           background: var(--navy);
-          padding: 18px 24px;
+          padding: var(--sp-4) var(--sp-6);
         }
         .t4-summary-card__title {
-          font-family: var(--font-serif, 'DM Serif Display', Georgia, serif);
-          font-size: 20px;
+          font-family: var(--font-display);
+          font-size: var(--text-card-title);
           color: white;
         }
         .t4-summary-card__body {
           padding: 0;
         }
         .t4-summary-card__badges {
-          padding: 16px 24px 20px;
-          border-top: 1px solid var(--grey, #e2e8f0);
+          padding: var(--sp-4) var(--sp-6) var(--sp-6);
+          border-top: 1px solid var(--grey);
         }
 
         /* Trust card */
         .t4-trust-card {
-          background: var(--white, #fff);
-          border-radius: 14px;
-          border: 1px solid var(--grey, #e2e8f0);
-          padding: 18px 20px;
+          background: var(--white);
+          border-radius: var(--r-lg);
+          border: 1px solid var(--grey);
+          padding: var(--sp-4) var(--sp-6);
         }
 
         /* Recently viewed */
         .t4-recently {
-          margin-top: 48px;
-          padding-top: 32px;
-          border-top: 1px solid var(--grey, #e2e8f0);
+          margin-top: var(--sp-12);
+          padding-top: var(--sp-8);
+          border-top: 1px solid var(--grey);
         }
 
         @media (max-width: 900px) {
@@ -421,13 +413,13 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           .t4-header {
             flex-direction: column;
             align-items: flex-start;
-            gap: 16px;
+            gap: var(--sp-4);
           }
           .t4-header__title {
-            font-size: 28px;
+            font-size: var(--text-section);
           }
           .t4-header__links {
-            gap: 8px;
+            gap: var(--sp-2);
           }
         }
       `}</style>

@@ -6,12 +6,7 @@
  * Design: plastimed-cart.html (main design)
  * Concept: Card-style cart items, staffel hints, cross-sell carousel
  *
- * Features:
- * - FreeShippingProgress (full-width top)
- * - Page title + item count + "Verder winkelen" link
- * - 2/3 column: CartLineItem cards with StaffelHintBanner
- * - 1/3 sidebar (sticky): OrderSummary + CouponInput + TrustSignals
- * - CrossSellSection bottom: "Vaak samen besteld" carousel
+ * All visual values use CSS custom properties from the theme system.
  */
 
 import { useState } from 'react'
@@ -86,35 +81,35 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
         </div>
 
         <style jsx>{`
-          .t1-page { min-height: 100vh; background: var(--bg, #F5F7FA); }
-          .t1-container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
-          .t1-empty { padding: 80px 0; }
+          .t1-page { min-height: 100vh; background: var(--bg); }
+          .t1-container { max-width: var(--container-width, 1536px); margin: 0 auto; padding: 0 var(--sp-6); }
+          .t1-empty { padding: var(--sp-20) 0; }
           .t1-empty__inner { max-width: 420px; margin: 0 auto; text-align: center; }
           .t1-empty__icon {
-            width: 80px; height: 80px; background: var(--grey, #E8ECF1);
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px;
+            width: 80px; height: 80px; background: var(--grey);
+            border-radius: var(--r-xl); display: flex; align-items: center; justify-content: center;
+            margin: 0 auto var(--sp-6);
           }
-          .t1-empty__icon-svg { width: 36px; height: 36px; color: var(--grey-mid, #94A3B8); }
+          .t1-empty__icon-svg { width: 36px; height: 36px; color: var(--grey-mid); }
           .t1-empty__title {
-            font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
-            font-size: 24px; font-weight: 800; color: var(--navy); margin-bottom: 8px;
+            font-family: var(--font-display);
+            font-size: var(--text-section); font-weight: 800; color: var(--navy); margin-bottom: var(--sp-2);
           }
-          .t1-empty__text { font-size: 15px; color: var(--grey-mid, #94A3B8); margin-bottom: 24px; }
+          .t1-empty__text { font-size: var(--text-body-lg); color: var(--grey-mid); margin-bottom: var(--sp-6); }
           .t1-empty__cta {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 14px 28px; background: linear-gradient(135deg, var(--teal), var(--teal-light));
-            color: white; border: none; border-radius: 12px;
-            font-size: 15px; font-weight: 700; text-decoration: none;
-            box-shadow: 0 4px 20px rgba(0,137,123,0.4);
-            transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: var(--sp-2);
+            padding: var(--sp-3) var(--sp-8); background: var(--gradient-primary);
+            color: white; border: none; border-radius: var(--r-md);
+            font-size: var(--text-body-lg); font-weight: 700; text-decoration: none;
+            box-shadow: var(--sh-md);
+            transition: all var(--transition, 0.3s);
           }
           .t1-empty__cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0,137,123,0.5);
+            box-shadow: var(--sh-lg);
           }
           .t1-empty__cta-icon { width: 18px; height: 18px; }
-          .t1-empty__trust { margin-top: 48px; }
+          .t1-empty__trust { margin-top: var(--sp-12); }
         `}</style>
       </div>
     )
@@ -219,31 +214,31 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
       <style jsx>{`
         .t1-page {
           min-height: 100vh;
-          background: var(--bg, #F5F7FA);
+          background: var(--bg);
         }
         .t1-container {
-          max-width: 1240px;
+          max-width: var(--container-width, 1536px);
           margin: 0 auto;
-          padding: 0 24px 80px;
+          padding: 0 var(--sp-6) var(--sp-20);
         }
         .t1-shipping {
-          padding-top: 24px;
-          margin-bottom: 24px;
+          padding-top: var(--sp-6);
+          margin-bottom: var(--sp-6);
         }
         .t1-title-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 28px;
+          margin-bottom: var(--sp-8);
         }
         .t1-title {
-          font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
-          font-size: 28px;
+          font-family: var(--font-display);
+          font-size: var(--text-section);
           font-weight: 800;
           color: var(--navy);
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: var(--sp-3);
         }
         .t1-title__icon {
           width: 28px;
@@ -251,19 +246,19 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           color: var(--teal);
         }
         .t1-title__count {
-          font-size: 16px;
-          color: var(--grey-mid, #94A3B8);
+          font-size: var(--text-body-lg);
+          color: var(--grey-mid);
           font-weight: 500;
         }
         .t1-continue {
           color: var(--teal);
           font-weight: 600;
-          font-size: 14px;
+          font-size: var(--text-body);
           text-decoration: none;
           display: flex;
           align-items: center;
-          gap: 6px;
-          transition: gap 0.2s;
+          gap: var(--sp-2);
+          transition: gap var(--transition, 0.2s);
         }
         .t1-continue:hover {
           gap: 10px;
@@ -275,7 +270,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
         .t1-layout {
           display: grid;
           grid-template-columns: 1fr 380px;
-          gap: 28px;
+          gap: var(--sp-8);
           align-items: start;
         }
         .t1-items {
@@ -284,20 +279,21 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           gap: 0;
         }
         .t1-card {
-          margin-bottom: 12px;
+          margin-bottom: var(--sp-3);
         }
         .t1-cross-sell {
-          margin-top: 32px;
+          margin-top: var(--sp-8);
         }
         .t1-sidebar {
           position: sticky;
           top: 90px;
+          z-index: var(--z-sticky, 200);
         }
         .t1-sidebar__coupon {
-          margin-bottom: 16px;
+          margin-bottom: var(--sp-4);
         }
         .t1-sidebar__trust {
-          margin-top: 20px;
+          margin-top: var(--sp-6);
         }
 
         @media (max-width: 900px) {
@@ -310,10 +306,10 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           .t1-title-row {
             flex-direction: column;
             align-items: flex-start;
-            gap: 12px;
+            gap: var(--sp-3);
           }
           .t1-title {
-            font-size: 22px;
+            font-size: var(--text-card-title);
           }
         }
       `}</style>
