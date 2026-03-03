@@ -5,7 +5,7 @@
 /**
  * Stock status types
  */
-export type StockStatus = 'in-stock' | 'low' | 'out'
+export type StockStatus = 'in-stock' | 'low' | 'out' | 'on-backorder'
 
 /**
  * Stock indicator size variants

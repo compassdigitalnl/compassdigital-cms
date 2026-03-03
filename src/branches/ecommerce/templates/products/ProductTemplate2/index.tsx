@@ -93,10 +93,11 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
     ? childProducts.find((p) => String(p.id) === selectedVariant) || childProducts[0]
     : product
 
-  const currentPrice = selectedProduct.salePrice || selectedProduct.price
+  const currentPrice = selectedProduct.salePrice || selectedProduct.price || 0
   const oldPrice = selectedProduct.compareAtPrice || (selectedProduct.salePrice ? selectedProduct.price : null)
-  const savings = oldPrice ? oldPrice - currentPrice : 0
+  const savings = oldPrice && currentPrice ? oldPrice - currentPrice : 0
   const savingsPercent = oldPrice ? Math.round((savings / oldPrice) * 100) : 0
+  const hasPrice = selectedProduct.price != null || selectedProduct.salePrice != null
 
   const allImages = selectedProduct.images || []
   const imageUrl =
@@ -122,7 +123,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         id: product.id,
         title: `${product.title} - ${selectedSubscription.label}`,
         slug: product.slug || '',
-        price: product.price,
+        price: product.price ?? 0,
         quantity: 1,
         unitPrice: discountedPrice,
         image: firstImageUrl || undefined,
@@ -147,7 +148,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         id: product.id,
         title: `${product.title} (${variantLabels})`,
         slug: product.slug || '',
-        price: product.price,
+        price: product.price ?? 0,
         quantity: quantity,
         unitPrice: variantPrice,
         image: firstImageUrl || undefined,
@@ -170,7 +171,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
         id: selectedProduct.id,
         title: selectedProduct.title,
         slug: selectedProduct.slug || '',
-        price: selectedProduct.price,
+        price: selectedProduct.price ?? 0,
         quantity: quantity,
         unitPrice: unitPrice,
         image: firstImageUrl || undefined,
@@ -357,7 +358,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   color: 'var(--color-text-primary)',
                 }}
               >
-                €{currentPrice.toFixed(2)}
+                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
               </span>
               {oldPrice && (
                 <>
@@ -417,7 +418,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {product.volumePricing.map((tier, idx) => {
-                  const tierPrice =  product.price * (1 - (tier.discountPercentage || 0) / 100)
+                  const tierPrice = (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100)
                   return (
                     <div
                       key={idx}
@@ -502,7 +503,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 >
                   {childProducts.map((child) => (
                     <option key={child.id} value={child.id}>
-                      {child.title} - €{child.price.toFixed(2)}
+                      {child.title} - {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
                       {child.stock !== undefined && ` (${child.stock} in stock)`}
                     </option>
                   ))}
@@ -604,7 +605,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 <Plus className="w-5 h-5" />
               </button>
             </div>
-            {quantity > 1 && (
+            {quantity > 1 && hasPrice && (
               <div className="mt-2 text-sm" style={{ color: 'var(--color-text-muted)' }}>
                 {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
               </div>
@@ -1227,7 +1228,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     color: 'var(--color-text-primary)',
                   }}
                 >
-                  €{currentPrice.toFixed(2)}
+                  {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
                 </span>
                 {oldPrice && (
                   <>
@@ -1287,7 +1288,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {product.volumePricing.map((tier, idx) => {
-                    const tierPrice =  product.price * (1 - (tier.discountPercentage || 0) / 100)
+                    const tierPrice = (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100)
                     return (
                       <div
                         key={idx}
@@ -1372,7 +1373,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   >
                     {childProducts.map((child) => (
                       <option key={child.id} value={child.id}>
-                        {child.title} - €{child.price.toFixed(2)}
+                        {child.title} - {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
                         {child.stock !== undefined && ` (${child.stock} in stock)`}
                       </option>
                     ))}
@@ -1954,7 +1955,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   color: 'var(--color-primary)',
                 }}
               >
-                €{currentPrice.toFixed(2)}
+                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
               </div>
             </div>
 

@@ -59,11 +59,11 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
       })
   })
 
-  // Calculate subtotal for selected items
+  // Calculate subtotal for selected items (null-safe)
   const subtotal = useMemo(() => {
     return selections
       .filter((s) => s.selected)
-      .reduce((sum, s) => sum + s.product.price * s.quantity, 0)
+      .reduce((sum, s) => sum + (s.product.price ?? 0) * s.quantity, 0)
   }, [selections])
 
   const selectedCount = selections.filter((s) => s.selected).length
@@ -82,7 +82,8 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
         let newQty = s.quantity + delta
         const minQty = s.product.minOrderQuantity || 1
         const multiple = s.product.orderMultiple || 1
-        const maxQty = s.product.maxOrderQuantity || s.product.stock || 9999
+        const isBackorderAllowed = s.product.backordersAllowed === true || s.product.stockStatus === 'on-backorder'
+        const maxQty = s.product.maxOrderQuantity || (isBackorderAllowed ? 9999 : (s.product.stock || 9999))
 
         // Ensure minimum
         newQty = Math.max(newQty, minQty)
@@ -95,8 +96,10 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
           }
         }
 
-        // Ensure max and stock
-        newQty = Math.min(newQty, maxQty, s.product.stock || 9999)
+        // Ensure max and stock (skip stock limit if backorder allowed)
+        newQty = isBackorderAllowed
+          ? Math.min(newQty, maxQty)
+          : Math.min(newQty, maxQty, s.product.stock || 9999)
 
         return { ...s, quantity: newQty }
       }),
@@ -116,7 +119,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
           id: s.product.id,
           slug: s.product.slug!,
           title: s.product.title,
-          price: s.product.price,
+          price: s.product.price ?? 0,
           stock: s.product.stock || 0,
           sku: s.product.sku || undefined,
           ean: s.product.ean || undefined,
@@ -191,7 +194,9 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                   ? selection.product.images[0].url
                   : null
 
+              const isBackorder = selection.product.backordersAllowed === true || selection.product.stockStatus === 'on-backorder'
               const isInStock =
+                isBackorder ||
                 !selection.product.trackStock ||
                 selection.product.stockStatus === 'in-stock' ||
                 (selection.product.stock !== undefined && (selection.product.stock ?? 0) > 0)
@@ -253,12 +258,19 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                   </td>
                   <td className="px-6 py-4 text-right">
                     <span className="font-semibold text-gray-900">
-                      €{selection.product.price.toFixed(2)}
+                      {selection.product.price != null
+                        ? `€${selection.product.price.toFixed(2)}`
+                        : 'Op aanvraag'}
                     </span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-2">
-                      {isInStock ? (
+                      {isBackorder && (selection.product.stock ?? 0) <= 0 ? (
+                        <>
+                          <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                          <span className="text-sm text-amber-700">Op bestelling</span>
+                        </>
+                      ) : isInStock ? (
                         <>
                           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                           <span className="text-sm text-green-700">
@@ -315,9 +327,9 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                     )}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    {selection.selected && (
+                    {selection.selected && selection.product.price != null && (
                       <span className="font-semibold text-gray-900">
-                        €{(selection.product.price * selection.quantity).toFixed(2)}
+                        €{((selection.product.price ?? 0) * selection.quantity).toFixed(2)}
                       </span>
                     )}
                   </td>

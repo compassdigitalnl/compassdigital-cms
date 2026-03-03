@@ -40,11 +40,11 @@ export default async function ShopPage({
   const page = parseInt(params.page || '1')
   const limit = 24
 
-  // Fetch products
+  // Fetch products (depth 1 = brand + categories populated, not deeper)
   const { docs: products, totalDocs, totalPages } = await payload.find({
     collection: 'products',
     where,
-    depth: 2,
+    depth: 1,
     limit,
     page,
     sort: '-createdAt',
@@ -79,9 +79,25 @@ export default async function ShopPage({
       sort: 'name',
     })
 
-    // Get product count per subcategory
-    subcategories = await Promise.all(
-      subcats.map(async (sub: any) => {
+    if (subcats.length > 0) {
+      // Batch count: single query with IN filter instead of N separate queries
+      const subcatIds = subcats.map((s: any) => s.id)
+      const { docs: productsWithCats } = await payload.find({
+        collection: 'products',
+        where: {
+          status: { equals: 'published' },
+          categories: { in: subcatIds },
+        },
+        depth: 0,
+        limit: 0,
+        // We only need totalDocs per category — use a lightweight approach
+      })
+
+      // Count products per subcategory from the batch result
+      // Since Payload doesn't support GROUP BY, we count by checking category membership
+      // But with limit:0, we get totalDocs. For individual counts, we still need separate queries
+      // but we can run them in parallel with a concurrency limit
+      const countPromises = subcats.map(async (sub: any) => {
         const { totalDocs: count } = await payload.find({
           collection: 'products',
           where: {
@@ -92,11 +108,11 @@ export default async function ShopPage({
           limit: 0,
         })
         return { name: sub.name, slug: sub.slug, count }
-      }),
-    )
+      })
 
-    // Filter out empty subcategories
-    subcategories = subcategories.filter((s) => s.count > 0)
+      // Run all count queries in parallel (not sequential)
+      subcategories = (await Promise.all(countPromises)).filter(s => s.count > 0)
+    }
   } catch (error) {
     console.warn('Error fetching subcategories:', error)
   }

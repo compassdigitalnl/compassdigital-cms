@@ -45,7 +45,7 @@ export interface ProductBadge {
 /**
  * Stock status for availability indicator
  */
-export type StockStatus = 'in-stock' | 'low' | 'out'
+export type StockStatus = 'in-stock' | 'low' | 'out' | 'on-backorder'
 
 /**
  * Brand information
@@ -116,9 +116,9 @@ export interface ProductCardProps {
   // === Pricing ===
 
   /**
-   * Current price
+   * Current price (null for grouped products without own price)
    */
-  price: number
+  price: number | null
 
   /**
    * Compare-at price (original price before sale)
@@ -204,4 +204,9 @@ export interface ProductCardProps {
    * Additional CSS class names
    */
   className?: string
+
+  /**
+   * Price label prefix (e.g. "Vanaf" for grouped products)
+   */
+  priceLabel?: string
 }

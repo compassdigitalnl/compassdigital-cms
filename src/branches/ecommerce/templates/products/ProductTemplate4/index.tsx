@@ -56,8 +56,10 @@ export default function ProductTemplate4({ product, relatedProducts }: ProductTe
   const [quantity, setQuantity] = useState(1)
 
   const productType = product.productType || 'simple'
-  const isOutOfStock = (product.stock ?? 0) <= 0
-  const currentPrice = product.salePrice || product.price
+  const isBackorder = product.backordersAllowed === true || product.stockStatus === 'on-backorder'
+  const isOutOfStock = !isBackorder && (product.stock ?? 0) <= 0
+  const currentPrice = product.salePrice || product.price || 0
+  const hasPrice = product.price != null || product.salePrice != null
 
   // Quantity controls
   const minQty = product.minOrderQuantity || 1
@@ -80,7 +82,7 @@ export default function ProductTemplate4({ product, relatedProducts }: ProductTe
       id: String(product.id),
       title: product.title,
       slug: product.slug || '',
-      price: product.price,
+      price: product.price ?? 0,
       quantity,
       unitPrice: currentPrice,
       image: firstImageUrl || undefined,
@@ -314,7 +316,7 @@ export default function ProductTemplate4({ product, relatedProducts }: ProductTe
             <div ref={mainATCRef} className="flex gap-3">
               <Button onClick={handleAddToCart} size="lg" className="flex-1 h-14 text-base font-bold">
                 <ShoppingCart className="w-5 h-5 mr-2" />
-                In winkelwagen - €{currentPrice.toFixed(2)}
+                In winkelwagen{hasPrice ? ` - €${currentPrice.toFixed(2)}` : ''}
               </Button>
             </div>
           )}

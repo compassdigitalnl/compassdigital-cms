@@ -41,6 +41,8 @@ export function StockIndicator({
         return quantity
           ? `Laag op voorraad (${quantity.toLocaleString('nl-NL')} stuks)`
           : 'Laag op voorraad'
+      case 'on-backorder':
+        return 'Op bestelling — levertijd op aanvraag'
       case 'out':
         return 'Tijdelijk uitverkocht'
       default:
@@ -61,6 +63,8 @@ export function StockIndicator({
         return quantity
           ? `Laag op voorraad, nog ${quantity} stuks beschikbaar`
           : 'Laag op voorraad'
+      case 'on-backorder':
+        return 'Op bestelling, levertijd op aanvraag'
       case 'out':
         return 'Tijdelijk uitverkocht'
       default:
@@ -85,6 +89,8 @@ export function StockIndicator({
         return 'var(--green)'
       case 'low':
         return 'var(--amber)'
+      case 'on-backorder':
+        return 'var(--amber, #F59E0B)'
       case 'out':
         return 'var(--coral)'
       default:

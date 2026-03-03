@@ -124,11 +124,20 @@ export function hasAttributeValue(
 // ============================================
 
 /**
- * Determine stock status category
+ * Determine stock status category (backorder-aware)
  */
-export function getStockStatus(stock: number | null | undefined): 'in-stock' | 'low' | 'out' {
-  const stockNum = stock ?? 0
+export type FullStockStatus = 'in-stock' | 'low' | 'out' | 'on-backorder'
 
+export function getStockStatus(
+  stock: number | null | undefined,
+  options?: { backordersAllowed?: boolean | null; stockStatus?: string | null },
+): FullStockStatus {
+  // Explicit backorder state
+  if (options?.stockStatus === 'on-backorder' || (options?.backordersAllowed && (stock ?? 0) <= 0)) {
+    return 'on-backorder'
+  }
+
+  const stockNum = stock ?? 0
   if (stockNum === 0) return 'out'
   if (stockNum < 10) return 'low'
   return 'in-stock'
@@ -139,28 +148,70 @@ export function getStockStatus(stock: number | null | undefined): 'in-stock' | '
 // ============================================
 
 /**
- * Get effective price (considering sale price)
+ * Get effective price (considering sale price). Returns null if no price available.
  */
-export function getEffectivePrice(product: Product | ExtendedProduct): number {
-  return product.salePrice || product.price
+export function getEffectivePrice(product: Product | ExtendedProduct): number | null {
+  return product.salePrice || product.price || null
 }
 
 /**
  * Get compare at price (original price if on sale)
  */
-export function getCompareAtPrice(product: Product | ExtendedProduct): number | undefined {
-  return product.salePrice ? product.price : undefined
+export function getCompareAtPrice(product: Product | ExtendedProduct): number | null {
+  return product.salePrice ? (product.price || null) : null
 }
 
 /**
- * Calculate price range from products
+ * Null-safe price formatter: returns "€12,34" or fallback string
+ */
+export function formatPrice(price: number | null | undefined, fallback = 'Prijs op aanvraag'): string {
+  if (price == null) return fallback
+  return `€${price.toFixed(2).replace('.', ',')}`
+}
+
+/**
+ * Get the minimum child-product price for a grouped product.
+ * Returns null if no children have prices.
+ */
+export function getGroupedMinPrice(product: Product | ExtendedProduct): number | null {
+  if (product.productType !== 'grouped' || !product.childProducts) return null
+
+  const prices: number[] = []
+  for (const child of product.childProducts) {
+    const p = typeof child.product === 'object' ? child.product : null
+    if (p && p.price != null && p.status === 'published') {
+      prices.push(p.salePrice || p.price)
+    }
+  }
+
+  return prices.length > 0 ? Math.min(...prices) : null
+}
+
+/**
+ * Get display price info for any product type.
+ * Returns { label, price } where label may be "Vanaf" for grouped products.
+ */
+export function getDisplayPrice(product: Product | ExtendedProduct): {
+  price: number | null
+  label: string | null
+} {
+  if (product.productType === 'grouped') {
+    const minPrice = getGroupedMinPrice(product)
+    return { price: minPrice, label: minPrice != null ? 'Vanaf' : null }
+  }
+  return { price: getEffectivePrice(product), label: null }
+}
+
+/**
+ * Calculate price range from products (null-safe)
  */
 export function getPriceRange(products: (Product | ExtendedProduct)[]): { min: number; max: number } {
   if (products.length === 0) {
     return { min: 0, max: 1000 }
   }
 
-  const prices = products.map(p => p.price)
+  const prices = products.map(p => p.price).filter((p): p is number => p != null)
+  if (prices.length === 0) return { min: 0, max: 1000 }
   return {
     min: Math.min(...prices),
     max: Math.max(...prices),

@@ -167,7 +167,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
         status: { equals: 'published' },
         categories: { contains: category.id },
       },
-      depth: 2,
+      depth: 1,
       limit: 24,
       page: categoryPage,
       sort: '-createdAt',

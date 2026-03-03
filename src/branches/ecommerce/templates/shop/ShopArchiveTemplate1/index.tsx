@@ -1,30 +1,26 @@
 'use client'
 
-import { useState, useMemo, useCallback, useEffect } from 'react'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { useState, useMemo, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
 import type { Product } from '@/payload-types'
 
-// Types & Utils
-import type { ExtendedProduct, AttributeFieldNames } from '@/branches/ecommerce/lib/shop/types'
-import { SHOP_CONSTANTS, DEFAULT_ATTRIBUTE_NAMES } from '@/branches/ecommerce/lib/shop/types'
+// Meilisearch-powered search
+import { useShopSearch, type ShopSearchHit } from '@/branches/ecommerce/hooks/useShopSearch'
 import {
-  getBrandName,
-  extractProductImage,
-  getEffectivePrice,
-  getCompareAtPrice,
-  getPriceRange,
-  buildUrlWithParams,
-  parseFilterFromUrl,
-  getStockStatus,
-} from '@/branches/ecommerce/lib/shop/utils'
-import { useProductFilters } from '@/branches/ecommerce/hooks/useProductFilters'
+  facetsToFilterGroups,
+  searchStateToActiveFilters,
+  activeFiltersToSearchUpdates,
+} from '@/branches/ecommerce/lib/shop/facetsToFilters'
+
+// Types & Utils
+import type { BreadcrumbItem } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
 
 // Modern Components
 import { CategoryHero } from '@/branches/ecommerce/components/shop/CategoryHero/CategoryHero'
-import { Breadcrumbs, type BreadcrumbItem } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
 import { SubcategoryChips, type SubcategoryChip } from '@/branches/ecommerce/components/shop/SubcategoryChips/Component'
 import { FilterSidebar } from '@/branches/ecommerce/components/shop/FilterSidebar/FilterSidebar'
 import { MobileFilterDrawer } from '@/branches/ecommerce/components/shop/FilterSidebar/MobileFilterDrawer'
@@ -68,9 +64,20 @@ interface ShopArchiveTemplate1Props {
   currentPage?: number
   totalPages?: number
   breadcrumbs?: BreadcrumbItem[]
-  attributeNames?: AttributeFieldNames
   loading?: boolean
   shopFilterOrder?: FilterOrderConfig[]
+}
+
+// ============================================
+// HELPERS
+// ============================================
+
+/** Map a Meilisearch hit to ProductCard-compatible stock status */
+function hitStockStatus(hit: ShopSearchHit): 'in-stock' | 'low' | 'out' | 'on-backorder' {
+  if (hit.stockStatus === 'on-backorder') return 'on-backorder'
+  if (hit.stockStatus === 'out' || (!hit.backordersAllowed && hit.stock <= 0)) return 'out'
+  if (hit.stock > 0 && hit.stock <= 5) return 'low'
+  return 'in-stock'
 }
 
 // ============================================
@@ -81,281 +88,81 @@ export default function ShopArchiveTemplate1({
   products,
   category,
   subcategories,
-  totalProducts,
-  currentPage = 1,
-  totalPages = 1,
+  totalProducts: serverTotalProducts,
   breadcrumbs = [],
-  attributeNames = DEFAULT_ATTRIBUTE_NAMES,
-  loading = false,
   shopFilterOrder = [],
 }: ShopArchiveTemplate1Props) {
-  const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
   const { addItem } = useCart()
   const { showToast } = useAddToCartToast()
 
   // ========================================
-  // URL STATE SYNC
+  // MEILISEARCH SEARCH HOOK
   // ========================================
 
-  // Initialize state from URL params
-  const initialViewMode = (searchParams.get('view') as ViewMode) || 'grid'
-  const initialSortBy = searchParams.get('sort') || 'relevance'
-
-  const [viewMode, setViewMode] = useState<ViewMode>(initialViewMode)
-  const [sortBy, setSortBy] = useState(initialSortBy)
-  const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([])
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [isFiltering, setIsFiltering] = useState(false)
-
-  // Parse filters from URL on mount
-  useEffect(() => {
-    const urlFilters: ActiveFilter[] = []
-
-    // Parse brand filters
-    const brands = parseFilterFromUrl(searchParams, 'brand')
-    if (brands.length > 0) {
-      urlFilters.push({ groupId: 'brands', label: 'Merk', values: brands })
-    }
-
-    // Parse material filters
-    const materials = parseFilterFromUrl(searchParams, 'material')
-    if (materials.length > 0) {
-      urlFilters.push({ groupId: 'materials', label: 'Materiaal', values: materials })
-    }
-
-    // Parse size filters
-    const sizes = parseFilterFromUrl(searchParams, 'size')
-    if (sizes.length > 0) {
-      urlFilters.push({ groupId: 'sizes', label: 'Maat', values: sizes })
-    }
-
-    // Parse stock filter
-    const stock = parseFilterFromUrl(searchParams, 'stock')
-    if (stock.length > 0) {
-      urlFilters.push({ groupId: 'stock', label: 'Beschikbaarheid', values: stock })
-    }
-
-    // Parse price range
-    const minPrice = searchParams.get('minPrice')
-    const maxPrice = searchParams.get('maxPrice')
-    if (minPrice && maxPrice) {
-      urlFilters.push({ groupId: 'price', label: 'Prijs', values: [minPrice, maxPrice] })
-    }
-
-    setActiveFilters(urlFilters)
-  }, [searchParams])
-
-  // Update URL when filters/sort change
-  const updateUrl = useCallback(
-    (newFilters: ActiveFilter[], newSortBy: string, newViewMode: ViewMode) => {
-      const params: Record<string, string | string[]> = {}
-
-      // Add filters to params
-      newFilters.forEach(filter => {
-        switch (filter.groupId) {
-          case 'brands':
-            params.brand = filter.values
-            break
-          case 'materials':
-            params.material = filter.values
-            break
-          case 'sizes':
-            params.size = filter.values
-            break
-          case 'stock':
-            params.stock = filter.values
-            break
-          case 'price':
-            if (filter.values.length === 2) {
-              params.minPrice = filter.values[0]
-              params.maxPrice = filter.values[1]
-            }
-            break
-        }
-      })
-
-      // Add sort and view
-      if (newSortBy !== 'relevance') {
-        params.sort = newSortBy
-      }
-      if (newViewMode !== 'grid') {
-        params.view = newViewMode
-      }
-
-      // Preserve current page if applicable
-      if (currentPage > 1) {
-        params.page = String(currentPage)
-      }
-
-      const newUrl = buildUrlWithParams(pathname, params)
-      router.push(newUrl, { scroll: false })
-    },
-    [router, pathname, currentPage],
-  )
-
-  // ========================================
-  // PRODUCT FILTERING & SORTING
-  // ========================================
-
-  const { filteredProducts, extractedAttributes, filterCounts } = useProductFilters({
-    products: products as ExtendedProduct[],
-    activeFilters,
-    sortBy,
-    attributeNames,
+  const {
+    hits,
+    total,
+    totalPages,
+    page: currentPage,
+    facets,
+    loading: searchLoading,
+    error: searchError,
+    setSort,
+    setPage,
+    resetFilters,
+    searchState,
+    setBrandNames,
+    setStockStatus,
+    setPriceRange,
+    setSpecFilter,
+    setQuery,
+  } = useShopSearch({
+    limit: 24,
+    initialCategoryIds: category?.id ? [Number(category.id)] : undefined,
   })
 
   // ========================================
-  // FILTER CONFIGURATION
+  // LOCAL UI STATE
+  // ========================================
+
+  const [viewMode, setViewMode] = useState<ViewMode>('grid')
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  // Use Meilisearch results when available, fall back to server products
+  const useMeilisearch = !searchError && hits.length > 0 || (!searchError && !searchLoading)
+  const displayProducts = useMeilisearch ? hits : []
+  const displayTotal = useMeilisearch ? total : serverTotalProducts
+  const displayTotalPages = useMeilisearch ? totalPages : 1
+
+  // ========================================
+  // FILTER GROUPS (from Meilisearch facets)
   // ========================================
 
   const filterGroups = useMemo<FilterGroup[]>(() => {
-    const groups: FilterGroup[] = []
-
-    // Brand Filter
-    if (extractedAttributes.brands.length > 0) {
-      groups.push({
-        id: 'brands',
-        label: 'Merk',
-        icon: 'award',
-        type: 'checkbox' as const,
-        defaultOpen: true,
-        options: extractedAttributes.brands.map(brand => ({
-          value: brand,
-          label: brand,
-          count: products.filter(p => getBrandName(p.brand) === brand).length,
-        })),
-      })
-    }
-
-    // Material Filter
-    if (extractedAttributes.materials.length > 0) {
-      groups.push({
-        id: 'materials',
-        label: 'Materiaal',
-        icon: 'layers',
-        type: 'checkbox' as const,
-        defaultOpen: false,
-        options: extractedAttributes.materials.map(material => ({
-          value: material,
-          label: material,
-          count: products.filter(p => {
-            const ext = p as ExtendedProduct
-            return (
-              ext.specifications?.some(group =>
-                (group.attributes || []).some(
-                  attr =>
-                    attributeNames.material
-                      .map(n => n.toLowerCase())
-                      .includes(attr.name?.toLowerCase()) && attr.value === material,
-                ),
-              ) || false
-            )
-          }).length,
-        })),
-      })
-    }
-
-    // Size Filter
-    if (extractedAttributes.sizes.length > 0) {
-      groups.push({
-        id: 'sizes',
-        label: 'Maat',
-        icon: 'ruler',
-        type: 'checkbox' as const,
-        defaultOpen: false,
-        options: extractedAttributes.sizes.map(size => ({
-          value: size,
-          label: size,
-          count: products.filter(p => {
-            const ext = p as ExtendedProduct
-            return (
-              ext.specifications?.some(group =>
-                (group.attributes || []).some(
-                  attr =>
-                    attributeNames.size
-                      .map(n => n.toLowerCase())
-                      .includes(attr.name?.toLowerCase()) && attr.value === size,
-                ),
-              ) || false
-            )
-          }).length,
-        })),
-      })
-    }
-
-    // Stock Filter
-    groups.push({
-      id: 'stock',
-      label: 'Beschikbaarheid',
-      icon: 'package-check',
-      type: 'checkbox' as const,
-      defaultOpen: false,
-      options: [
-        {
-          value: 'in-stock',
-          label: 'Op voorraad',
-          count: filterCounts.inStock,
-        },
-        {
-          value: 'low',
-          label: 'Beperkte voorraad',
-          count: filterCounts.lowStock,
-        },
-        {
-          value: 'out',
-          label: 'Niet op voorraad',
-          count: filterCounts.outOfStock,
-        },
-      ],
-    })
-
-    // Price Range Filter
-    const priceRange = getPriceRange(products)
-    groups.push({
-      id: 'price',
-      label: 'Prijs',
-      icon: 'euro',
-      type: 'range' as const,
-      defaultOpen: false,
-      range: {
-        min: priceRange.min,
-        max: priceRange.max,
-        step: 10,
-      },
-    })
-
-    return groups
-  }, [products, extractedAttributes, filterCounts, attributeNames])
+    return facetsToFilterGroups(facets, searchState)
+  }, [facets, searchState])
 
   // Apply admin-configured filter ordering and visibility
   const orderedFilterGroups = useMemo<FilterGroup[]>(() => {
-    // If no configuration, return all filters in default order
     if (!shopFilterOrder || shopFilterOrder.length === 0) {
       return filterGroups
     }
 
-    // Create a map for quick lookup
     const filterMap = new Map(filterGroups.map(group => [group.id, group]))
     const orderedGroups: FilterGroup[] = []
 
-    // Apply ordering based on configuration
     for (const config of shopFilterOrder) {
       const filter = filterMap.get(config.filterId)
-
-      // Only include if filter exists and is enabled
       if (filter && config.enabled !== false) {
-        // Apply custom display name if provided
         const customizedFilter = config.displayName
           ? { ...filter, label: config.displayName }
           : filter
-
         orderedGroups.push(customizedFilter)
       }
     }
 
-    // Add any filters not in configuration (fallback for new filters)
+    // Add any filters not in configuration (fallback for new/dynamic filters)
     for (const filter of filterGroups) {
       const isConfigured = shopFilterOrder.some(config => config.filterId === filter.id)
       if (!isConfigured) {
@@ -366,6 +173,11 @@ export default function ShopArchiveTemplate1({
     return orderedGroups
   }, [filterGroups, shopFilterOrder])
 
+  // Active filters derived from search state
+  const activeFilters = useMemo(() => {
+    return searchStateToActiveFilters(searchState)
+  }, [searchState])
+
   // Sort Options
   const sortOptions: SortOption[] = [
     { value: 'relevance', label: 'Relevantie' },
@@ -374,10 +186,6 @@ export default function ShopArchiveTemplate1({
     { value: 'newest', label: 'Nieuwste' },
     { value: 'name-asc', label: 'Naam: A → Z' },
     { value: 'name-desc', label: 'Naam: Z → A' },
-    // Only show rating sort if products have ratings
-    ...(products.some(p => (p as ExtendedProduct).rating)
-      ? [{ value: 'rating', label: 'Best beoordeeld' }]
-      : []),
   ]
 
   // Default open state - all filters expanded
@@ -390,40 +198,39 @@ export default function ShopArchiveTemplate1({
   const currentSlug = pathname.split('/').filter(Boolean).pop()
 
   const subcategoryChips: SubcategoryChip[] = useMemo(() => {
-    if (!subcategories) return []
-
-    const basePath = category?.slug ? `/${category.slug}` : '/shop'
+    if (!subcategories || subcategories.length === 0) return []
 
     return [
-      // "All" chip
+      // "All" chip — link back to current category (or /shop root)
       {
         label: `Alle ${category?.name || 'producten'}`,
-        href: basePath,
+        href: category?.slug ? `/${category.slug}` : '/shop',
         active: currentSlug === category?.slug || currentSlug === 'shop',
-        count: totalProducts,
+        count: serverTotalProducts,
       },
-      // Subcategory chips
+      // Subcategory chips — each links to /{sub.slug} (caught by [slug] route)
       ...subcategories.map(sub => ({
         label: sub.name,
-        href: `${basePath}/${sub.slug}`,
+        href: `/${sub.slug}`,
         active: currentSlug === sub.slug,
         count: sub.count,
       })),
     ]
-  }, [subcategories, category, totalProducts, currentSlug])
+  }, [subcategories, category, serverTotalProducts, currentSlug])
 
   // ========================================
   // STATS FOR HERO
   // ========================================
 
-  const stats = useMemo(
-    () => ({
-      totalProducts,
-      brands: extractedAttributes.brands.length,
-      inStock: filterCounts.inStock,
-    }),
-    [totalProducts, extractedAttributes.brands.length, filterCounts.inStock],
-  )
+  const stats = useMemo(() => {
+    const brandCount = facets ? Object.keys(facets.brands || {}).length : 0
+    const inStockCount = facets?.stockStatus?.['in-stock'] || 0
+    return {
+      totalProducts: displayTotal,
+      brands: brandCount,
+      inStock: inStockCount,
+    }
+  }, [displayTotal, facets])
 
   // ========================================
   // HANDLERS
@@ -431,67 +238,98 @@ export default function ShopArchiveTemplate1({
 
   const handleFilterChange = useCallback(
     (filters: ActiveFilter[]) => {
-      setIsFiltering(true)
-      setActiveFilters(filters)
-      updateUrl(filters, sortBy, viewMode)
-      setTimeout(() => setIsFiltering(false), 300)
+      // Convert ActiveFilter[] back to search state updates
+      const updates = activeFiltersToSearchUpdates(filters, facets)
+
+      // Apply each update to the search hook
+      if (updates.brandNames !== undefined) setBrandNames(updates.brandNames)
+      if (updates.stockStatus !== undefined) setStockStatus(updates.stockStatus)
+      if (updates.minPrice !== undefined || updates.maxPrice !== undefined) {
+        setPriceRange(updates.minPrice ?? null, updates.maxPrice ?? null)
+      }
+      // Apply spec filters
+      if (updates.specs) {
+        // Get all current spec keys from search state + new spec keys
+        const allSpecKeys = new Set([
+          ...Object.keys(searchState.specs),
+          ...Object.keys(updates.specs),
+        ])
+        for (const key of allSpecKeys) {
+          const newValues = updates.specs[key] || []
+          const oldValues = searchState.specs[key] || []
+          if (JSON.stringify(newValues) !== JSON.stringify(oldValues)) {
+            setSpecFilter(key, newValues)
+          }
+        }
+      }
     },
-    [sortBy, viewMode, updateUrl],
+    [facets, searchState.specs, setBrandNames, setStockStatus, setPriceRange, setSpecFilter],
   )
 
   const handleResetFilters = useCallback(() => {
-    setIsFiltering(true)
-    setActiveFilters([])
-    updateUrl([], sortBy, viewMode)
-    setTimeout(() => setIsFiltering(false), 300)
-  }, [sortBy, viewMode, updateUrl])
+    resetFilters()
+  }, [resetFilters])
 
   const handleSortChange = useCallback(
     (value: string) => {
-      setSortBy(value)
-      updateUrl(activeFilters, value, viewMode)
+      setSort(value)
     },
-    [activeFilters, viewMode, updateUrl],
+    [setSort],
   )
 
-  const handleViewChange = useCallback(
-    (value: ViewMode) => {
-      setViewMode(value)
-      updateUrl(activeFilters, sortBy, value)
+  const handleViewChange = useCallback((value: ViewMode) => {
+    setViewMode(value)
+  }, [])
+
+  const handleRemoveFilter = useCallback(
+    (groupId: string) => {
+      const newFilters = activeFilters.filter(f => f.groupId !== groupId)
+      handleFilterChange(newFilters)
     },
-    [activeFilters, sortBy, updateUrl],
+    [activeFilters, handleFilterChange],
   )
 
   const handleAddToCart = useCallback(
     (productId: string, quantity: number = 1) => {
-      const product = products.find(p => String(p.id) === productId)
-      if (!product) return
+      const hit = hits.find(h => String(h.id) === productId)
+      if (!hit) return
 
-      const productImage = extractProductImage(product)
-      const unitPrice = getEffectivePrice(product)
+      const price = hit.effectivePrice ?? hit.price ?? 0
 
       addItem({
-        id: product.id,
-        title: product.title,
-        slug: product.slug || '',
-        price: product.price,
-        unitPrice: unitPrice,
+        id: hit.id,
+        title: hit.title,
+        slug: hit.slug || '',
+        price,
+        unitPrice: price,
         quantity,
-        stock: product.stock ?? 0,
-        sku: product.sku || undefined,
-        image: productImage?.url,
+        stock: hit.stock ?? 0,
+        sku: hit.sku || undefined,
+        image: hit.image || undefined,
+        backordersAllowed: hit.backordersAllowed ?? false,
       })
 
-      // Show toast notification
       showToast({
-        id: String(product.id),
-        name: product.title,
-        image: productImage?.url,
+        id: String(hit.id),
+        name: hit.title,
+        image: hit.image || undefined,
         quantity,
-        price: unitPrice,
+        price,
       })
     },
-    [products, addItem, showToast],
+    [hits, addItem, showToast],
+  )
+
+  // ========================================
+  // PAGINATION HANDLER
+  // ========================================
+
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setPage(newPage)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    [setPage],
   )
 
   // ========================================
@@ -526,7 +364,7 @@ export default function ShopArchiveTemplate1({
           }}
           productCount={stats.totalProducts}
           brandCount={stats.brands}
-          inStockPercent={totalProducts > 0 ? Math.round((stats.inStock / totalProducts) * 100) : 0}
+          inStockPercent={displayTotal > 0 ? Math.round((stats.inStock / displayTotal) * 100) : 0}
         />
       </section>
 
@@ -566,19 +404,17 @@ export default function ShopArchiveTemplate1({
                 SHOP TOOLBAR (Sort + View Toggle)
                 ======================================== */}
             <ShopToolbar
-              sortValue={sortBy}
+              sortValue={searchState.sort}
               sortOptions={sortOptions}
               onSortChange={handleSortChange}
               viewMode={viewMode}
               onViewChange={handleViewChange}
-              resultCount={filteredProducts.length}
-              totalCount={totalProducts}
+              resultCount={displayTotal}
+              totalCount={serverTotalProducts}
               showViewToggle={true}
               className="mb-6"
               activeFilters={activeFilters.map(f => ({ groupId: f.groupId, label: f.label }))}
-              onRemoveFilter={groupId => {
-                setActiveFilters(prev => prev.filter(f => f.groupId !== groupId))
-              }}
+              onRemoveFilter={handleRemoveFilter}
               onResetFilters={handleResetFilters}
               onOpenMobileFilters={() => setMobileFiltersOpen(true)}
             />
@@ -586,19 +422,33 @@ export default function ShopArchiveTemplate1({
             {/* ========================================
                 LOADING STATE
                 ======================================== */}
-            {(loading || isFiltering) && (
+            {searchLoading && (
               <div className="flex items-center justify-center py-16" data-testid="loading-state">
                 <Loader2 className="w-8 h-8 text-theme-teal animate-spin" />
               </div>
             )}
 
             {/* ========================================
+                ERROR STATE
+                ======================================== */}
+            {searchError && !searchLoading && (
+              <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                <PackageX className="w-16 h-16 text-theme-grey-mid mb-4" />
+                <h3 className="text-xl font-bold text-theme-navy mb-2">
+                  Zoeken tijdelijk niet beschikbaar
+                </h3>
+                <p className="text-theme-grey-mid mb-6 max-w-md">
+                  De zoekservice is even niet bereikbaar. Probeer het later opnieuw.
+                </p>
+              </div>
+            )}
+
+            {/* ========================================
                 PRODUCT GRID
                 ======================================== */}
-            {!loading && !isFiltering && (
+            {!searchLoading && !searchError && (
               <>
-                {filteredProducts.length === 0 ? (
-                  /* No Results State */
+                {displayProducts.length === 0 ? (
                   <div
                     className="flex flex-col items-center justify-center py-16 px-6 text-center"
                     data-testid="no-results"
@@ -631,39 +481,29 @@ export default function ShopArchiveTemplate1({
                     }`}
                     data-testid="product-grid"
                   >
-                    {filteredProducts.map(product => {
-                      const extProduct = product as ExtendedProduct
-                      const productImage = extractProductImage(product)
-                      const stockStatus = getStockStatus(product.stock)
-                      const effectivePrice = getEffectivePrice(product)
-                      const compareAtPrice = getCompareAtPrice(product)
+                    {displayProducts.map((hit: ShopSearchHit) => {
+                      const stockStatus = hitStockStatus(hit)
+                      const effectivePrice = hit.effectivePrice ?? hit.price
+                      const hasDiscount = hit.compareAtPrice != null && effectivePrice != null && hit.compareAtPrice > effectivePrice
+                      const priceLabel = hit.productType === 'grouped' && effectivePrice != null ? 'Vanaf' : undefined
 
                       return (
                         <ProductCard
-                          key={product.id}
-                          id={String(product.id)}
-                          name={product.title}
-                          slug={product.slug || ''}
-                          sku={product.sku || ''}
-                          brand={{ name: getBrandName(product.brand) || '', slug: '' }}
-                          image={productImage}
+                          key={hit.id}
+                          id={String(hit.id)}
+                          name={hit.title}
+                          slug={hit.slug || ''}
+                          sku={hit.sku || ''}
+                          brand={{ name: hit.brand || '', slug: '' }}
+                          image={hit.image ? { url: hit.image, alt: hit.title } : undefined}
                           price={effectivePrice}
-                          compareAtPrice={compareAtPrice}
-                          volumePricing={
-                            extProduct.volumePricing
-                              ? extProduct.volumePricing.map(tier => ({
-                                  minQty: tier.minQuantity,
-                                  price: tier.price,
-                                  discountPercent: tier.discount || 0,
-                                }))
-                              : undefined
-                          }
-                          rating={extProduct.rating?.average}
-                          reviewCount={extProduct.rating?.count || 0}
-                          stock={product.stock ?? 0}
+                          priceLabel={priceLabel}
+                          compareAtPrice={hasDiscount ? hit.compareAtPrice! : undefined}
+                          stock={hit.stock ?? 0}
                           stockStatus={stockStatus}
+                          stockText={stockStatus === 'on-backorder' ? 'Op bestelling' : undefined}
                           variant={viewMode}
-                          onAddToCart={handleAddToCart}
+                          onAddToCart={stockStatus !== 'out' ? handleAddToCart : undefined}
                         />
                       )
                     })}
@@ -675,33 +515,28 @@ export default function ShopArchiveTemplate1({
             {/* ========================================
                 PAGINATION
                 ======================================== */}
-            {!loading && totalPages > 1 && (
+            {!searchLoading && displayTotalPages > 1 && (
               <div className="flex items-center justify-center gap-2 pt-10" data-testid="pagination">
-                <Link
-                  href={buildUrlWithParams(pathname, {
-                    page: String(Math.max(1, currentPage - 1)),
-                    sort: sortBy !== 'relevance' ? sortBy : undefined,
-                    view: viewMode !== 'grid' ? viewMode : undefined,
-                  })}
+                <button
+                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
                   className={`w-11 h-11 rounded-xl border-[1.5px] border-[var(--color-border)] bg-white flex items-center justify-center text-sm font-semibold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-primary)] ${
                     currentPage === 1 ? 'opacity-30 pointer-events-none' : ''
                   }`}
-                  aria-label="Previous page"
+                  aria-label="Vorige pagina"
                   data-testid="pagination-prev"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                </Link>
+                </button>
 
                 {/* Page Numbers */}
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => {
-                  // Show first, last, current, and adjacent pages
+                {Array.from({ length: displayTotalPages }, (_, i) => i + 1).map(page => {
                   const isVisible =
                     page === 1 ||
-                    page === totalPages ||
+                    page === displayTotalPages ||
                     (page >= currentPage - 1 && page <= currentPage + 1)
 
                   if (!isVisible) {
-                    // Show ellipsis
                     if (page === currentPage - 2 || page === currentPage + 2) {
                       return (
                         <span
@@ -716,13 +551,9 @@ export default function ShopArchiveTemplate1({
                   }
 
                   return (
-                    <Link
+                    <button
                       key={page}
-                      href={buildUrlWithParams(pathname, {
-                        page: String(page),
-                        sort: sortBy !== 'relevance' ? sortBy : undefined,
-                        view: viewMode !== 'grid' ? viewMode : undefined,
-                      })}
+                      onClick={() => handlePageChange(page)}
                       className={`w-11 h-11 rounded-xl flex items-center justify-center text-sm font-semibold transition-all ${
                         page === currentPage
                           ? 'bg-[var(--color-primary)] border-[1.5px] border-[var(--color-primary)] text-white'
@@ -731,24 +562,21 @@ export default function ShopArchiveTemplate1({
                       data-testid={`pagination-page-${page}`}
                     >
                       {page}
-                    </Link>
+                    </button>
                   )
                 })}
 
-                <Link
-                  href={buildUrlWithParams(pathname, {
-                    page: String(Math.min(totalPages, currentPage + 1)),
-                    sort: sortBy !== 'relevance' ? sortBy : undefined,
-                    view: viewMode !== 'grid' ? viewMode : undefined,
-                  })}
+                <button
+                  onClick={() => handlePageChange(Math.min(displayTotalPages, currentPage + 1))}
+                  disabled={currentPage === displayTotalPages}
                   className={`w-11 h-11 rounded-xl border-[1.5px] border-[var(--color-border)] bg-white flex items-center justify-center text-sm font-semibold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-primary)] ${
-                    currentPage === totalPages ? 'opacity-30 pointer-events-none' : ''
+                    currentPage === displayTotalPages ? 'opacity-30 pointer-events-none' : ''
                   }`}
-                  aria-label="Next page"
+                  aria-label="Volgende pagina"
                   data-testid="pagination-next"
                 >
                   <ChevronRight className="w-4 h-4" />
-                </Link>
+                </button>
               </div>
             )}
           </main>
@@ -771,7 +599,7 @@ export default function ShopArchiveTemplate1({
         onFilterChange={handleFilterChange}
         onResetAll={handleResetFilters}
         defaultOpen={allFilterIds}
-        resultCount={filteredProducts.length}
+        resultCount={displayTotal}
       />
     </div>
   )

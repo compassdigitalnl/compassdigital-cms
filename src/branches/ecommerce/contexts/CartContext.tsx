@@ -18,6 +18,7 @@ export interface CartItem {
   minOrderQuantity?: number // NEW: B2B MOQ
   orderMultiple?: number // NEW: B2B order multiple
   maxOrderQuantity?: number // NEW: B2B max quantity
+  backordersAllowed?: boolean // Backorder support
 }
 
 interface CartContextType {
@@ -84,8 +85,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
           newQuantity = Math.ceil(newQuantity / multiple) * multiple
         }
 
-        // Ensure max and stock
-        newQuantity = Math.min(newQuantity, maxQty, item.stock)
+        // Ensure max and stock (skip stock limit if backorder allowed)
+        if (item.backordersAllowed) {
+          newQuantity = Math.min(newQuantity, maxQty)
+        } else {
+          newQuantity = Math.min(newQuantity, maxQty, item.stock)
+        }
 
         return prev.map((i) => (String(i.id) === String(item.id) ? { ...i, quantity: newQuantity } : i))
       }
@@ -118,7 +123,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           // Respect MOQ and order multiples
           const minQty = item.minOrderQuantity || 1
           const multiple = item.orderMultiple || 1
-          const maxQty = item.maxOrderQuantity || item.stock
+          const maxQty = item.maxOrderQuantity || (item.backordersAllowed ? 9999 : item.stock)
 
           newQuantity = Math.max(newQuantity, minQty)
 
@@ -126,7 +131,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
             newQuantity = Math.ceil(newQuantity / multiple) * multiple
           }
 
-          newQuantity = Math.min(newQuantity, maxQty, item.stock)
+          // Skip stock limit if backorder allowed
+          if (item.backordersAllowed) {
+            newQuantity = Math.min(newQuantity, maxQty)
+          } else {
+            newQuantity = Math.min(newQuantity, maxQty, item.stock)
+          }
 
           updated = updated.map((i) => (String(i.id) === String(item.id) ? { ...i, quantity: newQuantity } : i))
         } else {

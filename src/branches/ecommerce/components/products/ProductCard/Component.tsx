@@ -52,6 +52,7 @@ export function ProductCard({
   currencySymbol = '€',
   locale = 'nl-NL',
   className = '',
+  priceLabel,
 }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1)
 
@@ -79,6 +80,8 @@ export function ProductCard({
         return 'product-card__stock--in-stock'
       case 'low':
         return 'product-card__stock--low'
+      case 'on-backorder':
+        return 'product-card__stock--backorder'
       case 'out':
         return 'product-card__stock--out'
       default:
@@ -95,6 +98,8 @@ export function ProductCard({
         return 'Op voorraad — morgen geleverd'
       case 'low':
         return `Nog ${stock} op voorraad — bestel snel`
+      case 'on-backorder':
+        return 'Op bestelling'
       case 'out':
         return 'Tijdelijk uitverkocht'
       default:
@@ -207,15 +212,22 @@ export function ProductCard({
   // Price component
   const renderPrice = () => (
     <div className="product-card__price-wrapper">
-      <div className="product-card__price">
-        {currencySymbol} {currentPriceFormatted.euros}
-        <small>,{currentPriceFormatted.cents}</small>
-        {compareAtPrice && (
-          <span className="product-card__price--old">
-            {currencySymbol} {formatOldPrice(compareAtPrice)}
-          </span>
-        )}
-      </div>
+      {price != null ? (
+        <div className="product-card__price">
+          {priceLabel && <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', marginRight: '4px' }}>{priceLabel}</span>}
+          {currencySymbol} {currentPriceFormatted.euros}
+          <small>,{currentPriceFormatted.cents}</small>
+          {compareAtPrice && (
+            <span className="product-card__price--old">
+              {currencySymbol} {formatOldPrice(compareAtPrice)}
+            </span>
+          )}
+        </div>
+      ) : (
+        <div className="product-card__price" style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
+          Prijs op aanvraag
+        </div>
+      )}
       {unit && <div className="product-card__unit">excl. BTW · {unit}</div>}
       {bestVolumeTier && (
         <div className="product-card__staffel-hint">
@@ -247,7 +259,7 @@ export function ProductCard({
         className="product-card__add-to-cart"
         onClick={handleAddToCart}
         aria-label={`Voeg ${name} toe aan winkelwagen`}
-        disabled={stockStatus === 'out'}
+        disabled={stockStatus === 'out' && price != null}
       >
         <ShoppingCart size={18} />
       </button>

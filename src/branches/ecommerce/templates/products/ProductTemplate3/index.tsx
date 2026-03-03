@@ -93,10 +93,11 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
     ? childProducts.find((p) => String(p.id) === selectedVariant) || childProducts[0]
     : product
 
-  const currentPrice = selectedProduct.salePrice || selectedProduct.price
+  const currentPrice = selectedProduct.salePrice || selectedProduct.price || 0
   const oldPrice = selectedProduct.compareAtPrice || (selectedProduct.salePrice ? selectedProduct.price : null)
-  const savings = oldPrice ? oldPrice - currentPrice : 0
+  const savings = oldPrice && currentPrice ? oldPrice - currentPrice : 0
   const savingsPercent = oldPrice ? Math.round((savings / oldPrice) * 100) : 0
+  const hasPrice = selectedProduct.price != null || selectedProduct.salePrice != null
 
   const allImages = selectedProduct.images || []
   const imageUrl =
@@ -122,7 +123,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         id: String(product.id),
         title: `${product.title} - ${selectedSubscription.label}`,
         slug: product.slug || '',
-        price: product.price,
+        price: product.price ?? 0,
         quantity: 1,
         unitPrice: discountedPrice,
         image: firstImageUrl || undefined,
@@ -147,7 +148,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         id: String(product.id),
         title: `${product.title} (${variantLabels})`,
         slug: product.slug || '',
-        price: product.price,
+        price: product.price ?? 0,
         quantity: quantity,
         unitPrice: variantPrice,
         image: firstImageUrl || undefined,
@@ -170,7 +171,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
         id: String(selectedProduct.id),
         title: selectedProduct.title,
         slug: selectedProduct.slug || '',
-        price: selectedProduct.price,
+        price: selectedProduct.price ?? 0,
         quantity: quantity,
         unitPrice: unitPrice,
         image: firstImageUrl || undefined,
@@ -398,7 +399,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   fontFamily: 'var(--font-heading)',
                 }}
               >
-                €{currentPrice.toFixed(2)}
+                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
               </span>
               {oldPrice && (
                 <span
@@ -490,7 +491,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                         {child.title}
                       </div>
                       <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
-                        €{child.price.toFixed(2)}
+                        {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
                         {child.stock !== undefined && ` · ${child.stock} in stock`}
                       </div>
                     </div>
@@ -609,7 +610,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              {quantity > 1 && (
+              {quantity > 1 && hasPrice && (
                 <div style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '6px' }}>
                   {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
                 </div>
@@ -647,7 +648,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
             }}
           >
             <ShoppingCart className="w-5 h-5" />
-            Add to Cart · €{(currentPrice * quantity).toFixed(2)}
+            Add to Cart{hasPrice ? ` · €${(currentPrice * quantity).toFixed(2)}` : ''}
           </button>
 
           {/* Premium Features */}
@@ -1282,7 +1283,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     fontFamily: 'var(--font-heading)',
                   }}
                 >
-                  €{currentPrice.toFixed(2)}
+                  {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
                 </span>
                 {oldPrice && (
                   <span
@@ -1374,7 +1375,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                           {child.title}
                         </div>
                         <div style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-                          €{child.price.toFixed(2)}
+                          {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
                           {child.stock !== undefined && ` · ${child.stock} in stock`}
                         </div>
                       </div>
@@ -1486,7 +1487,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     +
                   </button>
                 </div>
-                {quantity > 1 && (
+                {quantity > 1 && hasPrice && (
                   <div style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
                     {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
                   </div>
@@ -1524,7 +1525,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
               }}
             >
               <ShoppingCart className="w-5 h-5" />
-              Add to Cart · €{(currentPrice * quantity).toFixed(2)}
+              Add to Cart{hasPrice ? ` · €${(currentPrice * quantity).toFixed(2)}` : ''}
             </button>
 
             {/* Premium Features */}
@@ -1963,7 +1964,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   color: 'var(--color-primary)',
                 }}
               >
-                €{currentPrice.toFixed(2)}
+                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
               </div>
             </div>
 

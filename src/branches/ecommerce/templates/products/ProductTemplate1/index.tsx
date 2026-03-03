@@ -10,6 +10,7 @@ import { SubscriptionPricingTable } from '@/branches/ecommerce/components/Subscr
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
 import { RichText } from '@/branches/shared/components/common/RichText'
 import { features } from '@/lib/features'
+import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
 import type { Product } from '@/payload-types'
 import {
   Heart,
@@ -104,18 +105,18 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
   // Calculate volume pricing tier
   const volumeTiers = product.volumePricing || []
-  const getTierPrice = (qty: number) => {
-    if (volumeTiers.length === 0) return product.price
+  const getTierPrice = (qty: number): number => {
+    const basePrice = product.price ?? 0
+    if (volumeTiers.length === 0) return basePrice
 
     for (let i = volumeTiers.length - 1; i >= 0; i--) {
       if (qty >= volumeTiers[i].minQuantity) {
-        // discountPrice doesn't exist, calculate from discountPercentage
         if (volumeTiers[i].discountPercentage) {
-          return product.price * (1 - (volumeTiers[i].discountPercentage ?? 0) / 100)
+          return basePrice * (1 - (volumeTiers[i].discountPercentage ?? 0) / 100)
         }
       }
     }
-    return product.price
+    return basePrice
   }
 
   // Update total when size quantities change
@@ -174,7 +175,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               id: childProd.id,
               title: childProd.title,
               slug: childProd.slug || '',
-              price: childProd.price,
+              price: childProd.price ?? 0,
               quantity: qty,
               unitPrice: unitPrice,
               image:
@@ -216,7 +217,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         id: String(product.id),
         title: `${product.title} - ${selectedSubscription.label}`,
         slug: product.slug || '',
-        price: product.price,
+        price: product.price ?? 0,
         quantity: 1,
         unitPrice: discountedPrice,
         image:
@@ -244,7 +245,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         id: String(product.id),
         title: `${product.title} (${variantLabels})`,
         slug: product.slug || '',
-        price: product.price,
+        price: product.price ?? 0,
         quantity: quantity,
         unitPrice: variantPrice,
         image:
@@ -266,12 +267,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
       })
     } else {
       // Add simple product
-      const unitPrice = product.salePrice || product.price
+      const unitPrice = product.salePrice || product.price || 0
       addItem({
         id: String(product.id),
         title: product.title,
         slug: product.slug || '',
-        price: product.price,
+        price: product.price ?? 0,
         quantity: quantity,
         unitPrice: unitPrice,
         image:
@@ -303,11 +304,18 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const avgRating = 4.8 // TODO: Calculate from reviews
   const reviewCount = 47 // TODO: Get from reviews collection
 
-  // Calculate savings
-  const currentPrice = product.salePrice || product.price
+  // Calculate savings (null-safe)
+  const groupedMinPrice = isGrouped ? getGroupedMinPrice(product) : null
+  const currentPrice = product.salePrice || product.price || (isGrouped ? groupedMinPrice : null) || 0
   const oldPrice = product.compareAtPrice || (product.salePrice ? product.price : null)
-  const savings = oldPrice ? oldPrice - currentPrice : 0
+  const savings = oldPrice && currentPrice ? oldPrice - currentPrice : 0
   const savingsPercent = oldPrice ? Math.round((savings / oldPrice) * 100) : 0
+  const hasPrice = product.price != null || product.salePrice != null || groupedMinPrice != null
+  const showVanaf = isGrouped && product.price == null && groupedMinPrice != null
+
+  // Backorder detection
+  const isBackorder = product.backordersAllowed === true || product.stockStatus === 'on-backorder'
+  const isOutOfStock = !isBackorder && !isGrouped && product.trackStock && (product.stock ?? 0) <= 0
 
   const allImages = product.images || []
   const currentImage =
@@ -542,23 +550,42 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] p-6 mb-5">
               {/* Current Price */}
               <div className="flex items-baseline gap-3 mb-1">
-                <span
-                  className="font-heading text-[32px] font-extrabold"
-                  style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
-                >
-                  €{currentPrice.toFixed(2)}
-                </span>
-                {oldPrice && (
+                {hasPrice ? (
                   <>
-                    <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
-                      €{oldPrice.toFixed(2)}
+                    {showVanaf && (
+                      <span className="text-sm font-medium text-[var(--color-text-muted)]">Vanaf</span>
+                    )}
+                    <span
+                      className="font-heading text-[32px] font-extrabold"
+                      style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
+                    >
+                      €{currentPrice.toFixed(2)}
                     </span>
-                    <span className="text-[13px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2.5 py-[3px] rounded-md">
-                      Bespaar {savingsPercent}%
-                    </span>
+                    {oldPrice && (
+                      <>
+                        <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
+                          €{oldPrice.toFixed(2)}
+                        </span>
+                        <span className="text-[13px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2.5 py-[3px] rounded-md">
+                          Bespaar {savingsPercent}%
+                        </span>
+                      </>
+                    )}
                   </>
+                ) : (
+                  <span className="font-heading text-[24px] font-bold text-[var(--color-text-muted)]">
+                    Prijs op aanvraag
+                  </span>
                 )}
               </div>
+
+              {/* Backorder notice */}
+              {isBackorder && (
+                <div className="flex items-center gap-2 text-sm text-amber-600 font-medium mb-2">
+                  <span className="w-2 h-2 bg-amber-500 rounded-full shrink-0" />
+                  Op bestelling — levertijd op aanvraag
+                </div>
+              )}
 
               {/* Price Meta */}
               {(product as any).packaging && (
@@ -568,14 +595,14 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               )}
 
               {/* Volume Pricing - StaffelCalculator Component */}
-              {volumeTiers.length > 0 && !isGrouped && (
+              {volumeTiers.length > 0 && !isGrouped && hasPrice && (
                 <div className="mt-4">
                   <StaffelCalculator
                     productName={product.title}
                     tiers={volumeTiers.map((tier: any) => ({
                       minQty: tier.minQuantity,
                       maxQty: tier.maxQuantity || undefined,
-                      price: tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100),
+                      price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
                       savePercentage: tier.discountPercentage || undefined,
                     }))}
                     initialQuantity={quantity}
@@ -740,7 +767,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
-                {quantity > 1 && (
+                {quantity > 1 && hasPrice && (
                   <div className="mt-2 text-sm text-[var(--color-text-muted)]">
                     {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
                   </div>
@@ -750,20 +777,30 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {/* ACTION BUTTONS */}
             <div className="flex flex-col gap-2.5 mb-5">
+              {/* Out-of-stock notice */}
+              {isOutOfStock && (
+                <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm">
+                  <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+                  Tijdelijk uitverkocht
+                </div>
+              )}
+
               {/* Add to Cart */}
-              <button
-                onClick={handleAddToCart}
-                disabled={isGrouped && totalQty === 0}
-                className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold"
-                style={{
-                  background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                  cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-                  boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-                }}
-              >
-                <ShoppingCart className="w-5 h-5" />
-                Toevoegen aan winkelwagen
-              </button>
+              {!isOutOfStock && (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={isGrouped && totalQty === 0}
+                  className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold"
+                  style={{
+                    background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
+                    cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
+                    boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
+                  }}
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
+                </button>
+              )}
 
               {/* Secondary Buttons */}
               <div className="flex gap-2.5">
@@ -805,23 +842,42 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           {/* PRICE BLOCK */}
           <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-xl p-4 mb-4">
             <div className="flex items-baseline gap-2 mb-1 flex-wrap">
-              <span
-                className="font-heading text-[26px] font-extrabold"
-                style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
-              >
-                €{currentPrice.toFixed(2)}
-              </span>
-              {oldPrice && (
+              {hasPrice ? (
                 <>
-                  <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
-                    €{oldPrice.toFixed(2)}
+                  {showVanaf && (
+                    <span className="text-xs font-medium text-[var(--color-text-muted)]">Vanaf</span>
+                  )}
+                  <span
+                    className="font-heading text-[26px] font-extrabold"
+                    style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
+                  >
+                    €{currentPrice.toFixed(2)}
                   </span>
-                  <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2 py-[3px] rounded">
-                    -{savingsPercent}%
-                  </span>
+                  {oldPrice && (
+                    <>
+                      <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
+                        €{oldPrice.toFixed(2)}
+                      </span>
+                      <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2 py-[3px] rounded">
+                        -{savingsPercent}%
+                      </span>
+                    </>
+                  )}
                 </>
+              ) : (
+                <span className="font-heading text-[20px] font-bold text-[var(--color-text-muted)]">
+                  Prijs op aanvraag
+                </span>
               )}
             </div>
+
+            {/* Backorder notice - mobile */}
+            {isBackorder && (
+              <div className="flex items-center gap-2 text-xs text-amber-600 font-medium mb-2">
+                <span className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0" />
+                Op bestelling — levertijd op aanvraag
+              </div>
+            )}
 
             {(product as any).packaging && (
               <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
@@ -830,14 +886,14 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             )}
 
             {/* Volume Pricing - Mobile - StaffelCalculator */}
-            {volumeTiers.length > 0 && !isGrouped && (
+            {volumeTiers.length > 0 && !isGrouped && hasPrice && (
               <div className="mt-3">
                 <StaffelCalculator
                   productName={product.title}
                   tiers={volumeTiers.map((tier: any) => ({
                     minQty: tier.minQuantity,
                     maxQty: tier.maxQuantity || undefined,
-                    price: tier.discountPrice || product.price * (1 - (tier.discountPercentage || 0) / 100),
+                    price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
                     savePercentage: tier.discountPercentage || undefined,
                   }))}
                   initialQuantity={quantity}
@@ -995,19 +1051,26 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
           )}
 
           {/* Main CTA - Mobile */}
-          <button
-            onClick={handleAddToCart}
-            disabled={isGrouped && totalQty === 0}
-            className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold mb-3"
-            style={{
-              background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-              cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-              boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-            }}
-          >
-            <ShoppingCart className="w-5 h-5" />
-            Toevoegen aan winkelwagen
-          </button>
+          {isOutOfStock ? (
+            <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm mb-3">
+              <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+              Tijdelijk uitverkocht
+            </div>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              disabled={isGrouped && totalQty === 0}
+              className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold mb-3"
+              style={{
+                background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
+                cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
+                boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
+              }}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
+            </button>
+          )}
 
           {/* Secondary Buttons - Mobile */}
           <div className="flex gap-2 mb-4">
@@ -1478,7 +1541,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
-                          €{rp.price.toFixed(2)}
+                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
@@ -1539,7 +1602,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                          €{rp.price.toFixed(2)}
+                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
@@ -1573,7 +1636,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               {product.title}
             </div>
             <div className="text-base font-extrabold text-[var(--color-primary)] font-heading">
-              €{currentPrice.toFixed(2)}
+              {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
             </div>
           </div>
 

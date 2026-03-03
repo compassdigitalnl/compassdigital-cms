@@ -334,6 +334,14 @@
   background: var(--amber, #F59E0B);
 }
 
+.product-card__stock--backorder {
+  color: var(--amber, #F59E0B);
+}
+
+.product-card__stock--backorder .product-card__stock-dot {
+  background: var(--amber, #F59E0B);
+}
+
 .product-card__stock--out {
   color: var(--coral, #FF6B6B);
 }

@@ -2,22 +2,39 @@ import type { Product } from '@/payload-types'
 import { getOrCreateIndex, INDEXES } from './client'
 
 /**
+ * Split comma-separated spec values into individual values
+ * e.g. "L, M, S, XL" → ["L", "M", "S", "XL"]
+ */
+function splitSpecValues(value: string): string[] {
+  return value.split(/[,;]+/).map(v => v.trim()).filter(Boolean)
+}
+
+/**
  * Transform Payload Product to Meilisearch document
+ * Includes full data for faceted search in shop filters
  */
 export function transformProductForSearch(product: Product) {
-  // Extract brand name
-  const brandName = typeof product.brand === 'object' && product.brand !== null
-    ? product.brand.name
-    : null
+  // Extract brand info
+  const brandObj = typeof product.brand === 'object' && product.brand !== null ? product.brand : null
+  const brandName = brandObj?.name || null
+  const brandId = brandObj?.id || (typeof product.brand === 'number' ? product.brand : null)
+  const brandLevel = (brandObj as any)?.level ?? 0
 
-  // Extract category names
-  const categoryNames = product.categories && Array.isArray(product.categories)
-    ? product.categories
-        .map((cat) => (typeof cat === 'object' && cat !== null ? cat.name : null))
-        .filter(Boolean)
-    : []
+  // Extract category names and IDs
+  const categories: string[] = []
+  const categoryIds: number[] = []
+  if (product.categories && Array.isArray(product.categories)) {
+    for (const cat of product.categories) {
+      if (typeof cat === 'object' && cat !== null) {
+        if (cat.name) categories.push(cat.name)
+        if (cat.id) categoryIds.push(cat.id)
+      } else if (typeof cat === 'number') {
+        categoryIds.push(cat)
+      }
+    }
+  }
 
-  // Extract main image URL from first image in array
+  // Extract main image URL
   const firstImage =
     Array.isArray(product.images) && product.images[0] && typeof product.images[0] === 'object'
       ? product.images[0]
@@ -26,20 +43,57 @@ export function transformProductForSearch(product: Product) {
     ? firstImage.url
     : null
 
+  // Extract specifications as flat facets (split comma-separated values)
+  const specs: Record<string, string[]> = {}
+  const specsFlatSearch: string[] = []
+  if ((product as any).specifications && Array.isArray((product as any).specifications)) {
+    for (const group of (product as any).specifications) {
+      if (group.attributes && Array.isArray(group.attributes)) {
+        for (const attr of group.attributes) {
+          if (attr.name && attr.value) {
+            const key = attr.name.toLowerCase().replace(/\s+/g, '_')
+            const values = splitSpecValues(attr.value)
+            if (!specs[key]) specs[key] = []
+            specs[key].push(...values)
+            specsFlatSearch.push(...values)
+          }
+        }
+      }
+    }
+  }
+
+  // Effective price for sorting/filtering (sale price takes priority)
+  const effectivePrice = product.salePrice || product.price || null
+
   return {
     id: product.id,
     title: product.title,
     slug: product.slug,
     brand: brandName,
+    brandId,
+    brandLevel,
     sku: product.sku || '',
+    ean: product.ean || '',
     description: product.description || '',
-    price: product.price || 0,
-    stock: product.stock || 0,
+    shortDescription: (product as any).shortDescription || '',
+    price: product.price ?? null,
+    salePrice: product.salePrice ?? null,
+    effectivePrice,
+    compareAtPrice: product.compareAtPrice ?? null,
+    stock: product.stock ?? 0,
+    stockStatus: product.stockStatus || (product.stock && product.stock > 0 ? 'in-stock' : 'out'),
+    backordersAllowed: product.backordersAllowed || false,
+    trackStock: product.trackStock || false,
     image: imageUrl,
-    categories: categoryNames,
+    categories,
+    categoryIds,
+    productType: product.productType || 'simple',
+    badge: product.badge || null,
     tags: product.tags || [],
     status: product.status || 'draft',
     featured: product.featured || false,
+    specs,
+    specsFlatSearch,
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,
   }
