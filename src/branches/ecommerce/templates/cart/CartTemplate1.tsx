@@ -12,7 +12,7 @@
 import { useState } from 'react'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import Link from 'next/link'
-import { ShoppingCart, ArrowLeft } from 'lucide-react'
+import { ShoppingCart, ArrowLeft, ChevronRight } from 'lucide-react'
 
 import { CartLineItem } from '@/branches/ecommerce/components/ui/CartLineItem'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
@@ -64,14 +64,14 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
         <div className="t1-container t1-empty">
           <div className="t1-empty__inner">
             <div className="t1-empty__icon">
-              <ShoppingCart className="t1-empty__icon-svg" />
+              <ShoppingCart className="w-9 h-9" />
             </div>
             <h1 className="t1-empty__title">Je winkelwagen is leeg</h1>
             <p className="t1-empty__text">
               Voeg producten toe aan je winkelwagen om te beginnen met winkelen.
             </p>
             <Link href="/shop/" className="t1-empty__cta">
-              <ArrowLeft className="t1-empty__cta-icon" />
+              <ArrowLeft className="w-[18px] h-[18px] shrink-0" />
               Ga naar shop
             </Link>
             <div className="t1-empty__trust">
@@ -88,9 +88,8 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           .t1-empty__icon {
             width: 80px; height: 80px; background: var(--grey);
             border-radius: var(--r-xl); display: flex; align-items: center; justify-content: center;
-            margin: 0 auto var(--sp-6);
+            margin: 0 auto var(--sp-6); color: var(--grey-mid);
           }
-          .t1-empty__icon-svg { width: 36px; height: 36px; color: var(--grey-mid); }
           .t1-empty__title {
             font-family: var(--font-display);
             font-size: var(--text-section); font-weight: 800; color: var(--navy); margin-bottom: var(--sp-2);
@@ -108,7 +107,6 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
             transform: translateY(-2px);
             box-shadow: var(--sh-lg);
           }
-          .t1-empty__cta-icon { width: 18px; height: 18px; }
           .t1-empty__trust { margin-top: var(--sp-12); }
         `}</style>
       </div>
@@ -119,6 +117,15 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
   return (
     <div className="t1-page">
       <div className="t1-container">
+        {/* Breadcrumb */}
+        <nav className="t1-breadcrumb" aria-label="Breadcrumb">
+          <Link href="/" className="t1-breadcrumb__link">Home</Link>
+          <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+          <Link href="/shop/" className="t1-breadcrumb__link">Shop</Link>
+          <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+          <span className="t1-breadcrumb__current">Winkelwagen</span>
+        </nav>
+
         {/* Free shipping progress — full width */}
         <div className="t1-shipping">
           <FreeShippingProgress currentTotal={subtotal} threshold={freeShippingThreshold} />
@@ -127,14 +134,14 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
         {/* Page title row */}
         <div className="t1-title-row">
           <h1 className="t1-title">
-            <ShoppingCart className="t1-title__icon" />
+            <ShoppingCart className="w-7 h-7 shrink-0" />
             Winkelwagen
             <span className="t1-title__count">
               ({itemCount} {itemCount === 1 ? 'artikel' : 'artikelen'})
             </span>
           </h1>
           <Link href="/shop/" className="t1-continue">
-            <ArrowLeft className="t1-continue__icon" />
+            <ArrowLeft className="w-4 h-4 shrink-0" />
             Verder winkelen
           </Link>
         </div>
@@ -221,8 +228,26 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           margin: 0 auto;
           padding: 0 var(--sp-6) var(--sp-20);
         }
+        .t1-breadcrumb {
+          display: flex;
+          align-items: center;
+          gap: var(--sp-2);
+          padding: var(--sp-4) 0;
+          font-size: var(--text-small);
+          color: var(--grey-mid);
+        }
+        .t1-breadcrumb__link {
+          color: var(--grey-mid);
+          text-decoration: none;
+        }
+        .t1-breadcrumb__link:hover {
+          color: var(--teal);
+        }
+        .t1-breadcrumb__current {
+          color: var(--navy);
+          font-weight: 600;
+        }
         .t1-shipping {
-          padding-top: var(--sp-6);
           margin-bottom: var(--sp-6);
         }
         .t1-title-row {
@@ -240,11 +265,6 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           align-items: center;
           gap: var(--sp-3);
         }
-        .t1-title__icon {
-          width: 28px;
-          height: 28px;
-          color: var(--teal);
-        }
         .t1-title__count {
           font-size: var(--text-body-lg);
           color: var(--grey-mid);
@@ -255,17 +275,13 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           font-weight: 600;
           font-size: var(--text-body);
           text-decoration: none;
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: var(--sp-2);
           transition: gap var(--transition, 0.2s);
         }
         .t1-continue:hover {
           gap: 10px;
-        }
-        .t1-continue__icon {
-          width: 16px;
-          height: 16px;
         }
         .t1-layout {
           display: grid;

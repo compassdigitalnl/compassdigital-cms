@@ -12,7 +12,15 @@
 import { useState } from 'react'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import Link from 'next/link'
-import { ShoppingCart, ArrowLeft, ClipboardList } from 'lucide-react'
+import {
+  ShoppingCart,
+  ArrowLeft,
+  ClipboardList,
+  ShieldCheck,
+  Truck,
+  RotateCcw,
+  Headphones,
+} from 'lucide-react'
 
 import { CartLineItem } from '@/branches/ecommerce/components/ui/CartLineItem'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
@@ -78,13 +86,13 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
 
         <div className="t4-container t4-empty">
           <div className="t4-empty__inner">
-            <ShoppingCart className="t4-empty__icon" />
+            <ShoppingCart className="w-12 h-12 mx-auto mb-4 opacity-40" style={{ color: 'var(--grey-mid)' }} />
             <h1 className="t4-empty__title">Uw winkelwagen is leeg</h1>
             <p className="t4-empty__text">
               Ontdek onze producten en vul je winkelwagen.
             </p>
             <Link href="/shop/" className="t4-empty__cta">
-              <ArrowLeft className="t4-empty__cta-icon" />
+              <ArrowLeft className="w-[18px] h-[18px] shrink-0" />
               Ontdek producten
             </Link>
             <div className="t4-empty__trust">
@@ -103,10 +111,6 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           .t4-container { max-width: var(--container-width, 1536px); margin: 0 auto; padding: 0 var(--sp-6); }
           .t4-empty { padding: var(--sp-20) 0; }
           .t4-empty__inner { max-width: 420px; margin: 0 auto; text-align: center; }
-          .t4-empty__icon {
-            width: 48px; height: 48px; color: var(--grey-mid); opacity: 0.4;
-            margin: 0 auto var(--sp-4); display: block;
-          }
           .t4-empty__title {
             font-family: var(--font-display);
             font-size: var(--text-hero); color: var(--navy); margin-bottom: var(--sp-2);
@@ -125,7 +129,6 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
             transform: translateY(-1px);
             box-shadow: var(--sh-lg);
           }
-          .t4-empty__cta-icon { width: 18px; height: 18px; }
           .t4-empty__trust { margin-top: var(--sp-12); }
         `}</style>
       </div>
@@ -154,16 +157,16 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           <div>
             <h1 className="t4-header__title">Uw winkelwagen</h1>
             <p className="t4-header__sub">
-              {itemCount} {itemCount === 1 ? 'artikel' : 'artikelen'}
+              {itemCount} {itemCount === 1 ? 'artikel' : 'artikelen'} &mdash; Laatst bijgewerkt zojuist
             </p>
           </div>
           <div className="t4-header__links">
             <Link href="/shop/quick-order" className="t4-header__link t4-header__link--ghost">
-              <ClipboardList className="t4-header__link-icon" />
+              <ClipboardList className="w-3.5 h-3.5 shrink-0" />
               Quick-order
             </Link>
             <Link href="/shop/" className="t4-header__link t4-header__link--ghost">
-              <ArrowLeft className="t4-header__link-icon" />
+              <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
               Verder winkelen
             </Link>
           </div>
@@ -238,17 +241,34 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
               </div>
             </div>
 
-            {/* Trust card — 2-column grid */}
+            {/* Trust card — 2x2 grid */}
             <div className="t4-trust-card">
-              <TrustSignals
-                variant="compact"
-                signals={[
-                  { icon: 'ShieldCheck', text: 'SSL beveiligd' },
-                  { icon: 'Truck', text: 'Morgen in huis' },
-                  { icon: 'RotateCcw', text: '30 dagen retour' },
-                  { icon: 'Headphones', text: 'Persoonlijk advies' },
-                ]}
-              />
+              <div className="t4-trust-grid">
+                <div className="t4-trust-item">
+                  <div className="t4-trust-icon">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                  </div>
+                  <span>SSL beveiligd</span>
+                </div>
+                <div className="t4-trust-item">
+                  <div className="t4-trust-icon">
+                    <Truck className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Morgen in huis</span>
+                </div>
+                <div className="t4-trust-item">
+                  <div className="t4-trust-icon">
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </div>
+                  <span>30 dagen retour</span>
+                </div>
+                <div className="t4-trust-item">
+                  <div className="t4-trust-icon">
+                    <Headphones className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Persoonlijk advies</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -308,7 +328,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           padding: var(--sp-2) var(--sp-4);
           border-radius: var(--r-sm);
           transition: all var(--transition, 0.2s);
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: var(--sp-2);
         }
@@ -319,10 +339,6 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
         .t4-header__link--ghost:hover {
           border-color: var(--navy);
           color: var(--navy);
-        }
-        .t4-header__link-icon {
-          width: 14px;
-          height: 14px;
         }
 
         /* Layout */
@@ -388,12 +404,36 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           border-top: 1px solid var(--grey);
         }
 
-        /* Trust card */
+        /* Trust card — 2x2 grid */
         .t4-trust-card {
           background: var(--white);
           border-radius: var(--r-lg);
           border: 1px solid var(--grey);
           padding: var(--sp-4) var(--sp-6);
+        }
+        .t4-trust-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--sp-3);
+        }
+        .t4-trust-item {
+          display: flex;
+          align-items: center;
+          gap: var(--sp-2);
+          font-size: var(--text-small);
+          color: var(--grey-dark);
+          font-weight: 600;
+        }
+        .t4-trust-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: var(--r-sm);
+          background: rgba(0, 137, 123, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--teal);
+          flex-shrink: 0;
         }
 
         /* Recently viewed */
@@ -420,6 +460,9 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           }
           .t4-header__links {
             gap: var(--sp-2);
+          }
+          .t4-trust-grid {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>

@@ -62,11 +62,11 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
       <div className="t2-page">
         <div className="t2-container t2-empty">
           <div className="t2-empty__inner">
-            <ShoppingCart className="t2-empty__icon" />
+            <ShoppingCart className="w-12 h-12 mx-auto mb-4 opacity-40" style={{ color: 'var(--grey-mid)' }} />
             <h1 className="t2-empty__title">Winkelwagen is leeg</h1>
             <p className="t2-empty__text">Begin met winkelen</p>
             <Link href="/shop/" className="t2-empty__cta">
-              <ArrowLeft className="t2-empty__cta-icon" />
+              <ArrowLeft className="w-4 h-4 shrink-0" />
               Naar shop
             </Link>
           </div>
@@ -77,7 +77,6 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           .t2-container { max-width: var(--container-width, 1536px); margin: 0 auto; padding: 0 var(--sp-6); }
           .t2-empty { padding: 100px 0; }
           .t2-empty__inner { max-width: 400px; margin: 0 auto; text-align: center; }
-          .t2-empty__icon { width: 48px; height: 48px; color: var(--grey-mid); opacity: 0.4; margin: 0 auto var(--sp-4); display: block; }
           .t2-empty__title {
             font-family: var(--font-display);
             font-size: var(--text-hero); color: var(--navy); margin-bottom: var(--sp-2);
@@ -88,7 +87,6 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
             color: var(--teal); font-weight: 600; font-size: var(--text-body); text-decoration: none;
           }
           .t2-empty__cta:hover { text-decoration: underline; }
-          .t2-empty__cta-icon { width: 16px; height: 16px; }
         `}</style>
       </div>
     )
@@ -98,6 +96,13 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
   return (
     <div className="t2-page">
       <div className="t2-container">
+        {/* Breadcrumb */}
+        <nav className="t2-breadcrumb" aria-label="Breadcrumb">
+          <Link href="/" className="t2-breadcrumb__link">Home</Link>
+          <span className="t2-breadcrumb__sep">&rsaquo;</span>
+          <span className="t2-breadcrumb__current">Winkelwagen</span>
+        </nav>
+
         {/* Page header */}
         <div className="t2-header">
           <h1 className="t2-header__title">
@@ -107,7 +112,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
             </span>
           </h1>
           <Link href="/shop/quick-order" className="t2-header__quick">
-            <ClipboardList className="t2-header__quick-icon" />
+            <ClipboardList className="w-3.5 h-3.5 shrink-0" />
             Quick-order
           </Link>
         </div>
@@ -164,7 +169,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
                   />
                 </div>
                 <Link href="/shop/" className="t2-table__continue">
-                  <ArrowLeft className="t2-table__continue-icon" />
+                  <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
                   Verder winkelen
                 </Link>
               </div>
@@ -208,11 +213,33 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           margin: 0 auto;
           padding: 0 var(--sp-6) var(--sp-16);
         }
+        .t2-breadcrumb {
+          display: flex;
+          align-items: center;
+          gap: var(--sp-2);
+          padding: var(--sp-4) 0;
+          font-size: var(--text-small);
+          color: var(--grey-mid);
+        }
+        .t2-breadcrumb__link {
+          color: var(--grey-mid);
+          text-decoration: none;
+        }
+        .t2-breadcrumb__link:hover {
+          color: var(--teal);
+        }
+        .t2-breadcrumb__sep {
+          margin: 0 var(--sp-2);
+        }
+        .t2-breadcrumb__current {
+          color: var(--navy);
+          font-weight: 600;
+        }
         .t2-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: var(--sp-8) 0 var(--sp-6);
+          margin-bottom: var(--sp-6);
         }
         .t2-header__title {
           font-family: var(--font-display);
@@ -227,7 +254,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           margin-left: var(--sp-2);
         }
         .t2-header__quick {
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: var(--sp-2);
           font-size: var(--text-body);
@@ -242,10 +269,6 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
         .t2-header__quick:hover {
           background: var(--teal);
           color: white;
-        }
-        .t2-header__quick-icon {
-          width: 14px;
-          height: 14px;
         }
         .t2-shipping {
           margin-bottom: var(--sp-6);
@@ -292,17 +315,13 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           color: var(--teal);
           font-weight: 600;
           text-decoration: none;
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: var(--sp-1);
           flex-shrink: 0;
         }
         .t2-table__continue:hover {
           text-decoration: underline;
-        }
-        .t2-table__continue-icon {
-          width: 14px;
-          height: 14px;
         }
 
         /* Sidebar */
