@@ -368,7 +368,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
         .t4-sidebar {
           position: sticky;
           top: 90px;
-          z-index: var(--z-sticky, 200);
+          z-index: 10;
           display: flex;
           flex-direction: column;
           gap: var(--sp-4);

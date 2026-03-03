@@ -21,14 +21,15 @@ export default async function CheckoutPageWrapper() {
   const payload = await getPayload({ config })
 
   let template = 'checkouttemplate1'
+  let settings: any = null
 
   try {
-    const settings = await payload.findGlobal({
+    settings = await payload.findGlobal({
       slug: 'settings',
       depth: 0,
     })
 
-    const s = settings as any
+    const s = settings
 
     // New: resolve via checkoutFlow
     if (s?.checkoutFlow && CHECKOUT_FLOWS[s.checkoutFlow]) {
@@ -45,7 +46,7 @@ export default async function CheckoutPageWrapper() {
 
   // Template switcher based on resolved flow
   if (template === 'template4') {
-    return <CheckoutTemplate4 />
+    return <CheckoutTemplate4 settings={settings} />
   }
 
   if (template === 'checkouttemplate2') {

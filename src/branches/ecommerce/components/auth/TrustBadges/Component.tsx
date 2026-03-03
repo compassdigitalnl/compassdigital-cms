@@ -37,9 +37,9 @@ export interface TrustBadgesProps {
 }
 
 const defaultBadges: TrustBadge[] = [
-  { icon: '🔒', label: 'SSL beveiligd' },
-  { icon: '🛡️', label: 'AVG compliant' },
-  { icon: '✓', label: 'ISO gecertificeerd' },
+  { icon: <Lock className="w-3.5 h-3.5" />, label: 'SSL beveiligd' },
+  { icon: <Shield className="w-3.5 h-3.5" />, label: 'AVG compliant' },
+  { icon: <CheckCircle className="w-3.5 h-3.5" />, label: 'ISO gecertificeerd' },
 ]
 
 export function TrustBadges({

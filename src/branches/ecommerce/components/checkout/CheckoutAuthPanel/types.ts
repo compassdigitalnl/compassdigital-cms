@@ -8,5 +8,6 @@ export interface CheckoutAuthPanelProps {
     guestData?: GuestCheckoutFormData
   }) => void
   defaultTab?: TabId
+  enableGuestCheckout?: boolean
   className?: string
 }

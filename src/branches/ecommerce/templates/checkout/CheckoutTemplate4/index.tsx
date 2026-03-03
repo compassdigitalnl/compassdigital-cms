@@ -35,6 +35,7 @@ import { ShippingMethodCard } from '@/branches/ecommerce/components/checkout/Shi
 import { PaymentMethodCard } from '@/branches/ecommerce/components/checkout/PaymentMethodCard'
 import { PONumberInput } from '@/branches/ecommerce/components/checkout/PONumberInput'
 import { CheckoutAuthPanel } from '@/branches/ecommerce/components/checkout/CheckoutAuthPanel'
+import { TrustBadges } from '@/branches/ecommerce/components/auth/TrustBadges'
 import type { GuestCheckoutFormData } from '@/branches/ecommerce/components/auth/GuestCheckoutForm'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
@@ -54,7 +55,11 @@ interface Address {
   email?: string
 }
 
-export default function CheckoutTemplate4() {
+interface CheckoutTemplate4Props {
+  settings?: any
+}
+
+export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) {
   const { user } = useAuth()
   const router = useRouter()
   const { items, total, itemCount, clearCart } = useCart()
@@ -84,12 +89,14 @@ export default function CheckoutTemplate4() {
   const [showMobileCart, setShowMobileCart] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
-  // Pricing
+  // Pricing (from CMS settings with sensible defaults)
   const subtotal = total
-  const freeShippingThreshold = 150
-  const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : 6.95
+  const freeShippingThreshold = settings?.freeShippingThreshold ?? 150
+  const standardShippingCost = settings?.shippingCost ?? 6.95
+  const vatPercentage = (settings?.vatPercentage ?? 21) / 100
+  const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : standardShippingCost
   const discount = appliedCoupon?.discountAmount || 0
-  const tax = (subtotal + shippingCost - discount) * 0.21
+  const tax = (subtotal + shippingCost - discount) * vatPercentage
   const grandTotal = subtotal + shippingCost + tax - discount
 
   // Empty cart redirect
@@ -184,6 +191,7 @@ export default function CheckoutTemplate4() {
                 ? `${billingAddress.firstName} ${billingAddress.lastName}`
                 : undefined
             : undefined,
+          guestPhone: !user && guestData?.phone ? guestData.phone : undefined,
         }),
       })
 
@@ -247,8 +255,17 @@ export default function CheckoutTemplate4() {
                 <h2 className="text-xl font-bold text-gray-900 mb-4">Contact informatie</h2>
 
                 {user ? (
-                  /* Logged-in user: confirmation box */
+                  /* Logged-in user: welkom terug + trust badges */
                   <div className="space-y-4">
+                    <h2
+                      className="text-2xl mb-1"
+                      style={{
+                        fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
+                        color: 'var(--color-primary, #0A1628)',
+                      }}
+                    >
+                      Welkom terug{(user as any).firstName ? `, ${(user as any).firstName}` : ''}
+                    </h2>
                     <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                       <div>
@@ -263,11 +280,14 @@ export default function CheckoutTemplate4() {
                     >
                       Ga door naar adres
                     </Button>
+
+                    <TrustBadges />
                   </div>
                 ) : (
                   /* Guest / Login / Register tabs */
                   <CheckoutAuthPanel
                     defaultTab="guest"
+                    enableGuestCheckout={settings?.enableGuestCheckout !== false}
                     onAuthenticated={({ email: authEmail, isGuest: authIsGuest, guestData: authGuestData }) => {
                       setEmail(authEmail)
                       setIsGuest(authIsGuest)
@@ -580,7 +600,7 @@ export default function CheckoutTemplate4() {
         .t4-sidebar {
           position: sticky;
           top: 90px;
-          z-index: var(--z-sticky, 200);
+          z-index: 10;
           display: flex;
           flex-direction: column;
           gap: var(--sp-4);

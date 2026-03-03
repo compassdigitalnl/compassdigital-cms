@@ -70,10 +70,39 @@ export const Orders: CollectionConfig = {
       name: 'customer',
       type: 'relationship',
       relationTo: 'users',
-      required: true,
+      required: false,
       label: 'Klant',
       admin: {
         position: 'sidebar',
+        description: 'Leeg bij gastbestellingen',
+      },
+    },
+    // Guest checkout fields
+    {
+      name: 'guestEmail',
+      type: 'email',
+      label: 'Gast e-mail',
+      admin: {
+        condition: (data) => !data?.customer,
+        description: 'E-mailadres van gast (alleen bij gastbestellingen)',
+      },
+    },
+    {
+      name: 'guestName',
+      type: 'text',
+      label: 'Gast naam',
+      admin: {
+        condition: (data) => !data?.customer,
+        description: 'Volledige naam van gast',
+      },
+    },
+    {
+      name: 'guestPhone',
+      type: 'text',
+      label: 'Gast telefoon',
+      admin: {
+        condition: (data) => !data?.customer,
+        description: 'Telefoonnummer van gast',
       },
     },
     // Order Items
