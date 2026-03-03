@@ -1,5 +1,7 @@
 /* Theme Utilities - CMS-driven design system */
 @import '../styles/theme-utilities.css';
+/* Central form styling - single source of truth */
+@import '../styles/forms.css';
 
 @tailwind base;
 @tailwind components;
@@ -121,6 +123,7 @@
   --teal-dark: var(--color-primary-hover);
   --white: #FAFBFC;
   --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
   --grey-mid: #94A3B8;
   --grey-dark: #64748B;
   --green: #00C853;
@@ -130,6 +133,16 @@
   --amber: #F59E0B;
   --bg: #F5F7FA;
   --transition: 0.35s ease;
+
+  /* Spacing aliases (4px grid — gebruikt door form components) */
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
 
   /* Missing --color-* variants referenced by Tailwind config */
   --color-primary-light: #26A69A;

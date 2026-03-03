@@ -4,6 +4,9 @@ import MyAccountTemplate1 from '@/branches/ecommerce/templates/account/MyAccount
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'Mijn Account | Dashboard',
   description: 'Beheer uw account en bestellingen',
@@ -32,8 +35,6 @@ export default async function MyAccountPage() {
 
   return (
     <div className="min-h-screen">
-      {/* My Account Template Switcher */}
-      {/* Template 2 will be added here later */}
       <MyAccountTemplate1 />
     </div>
   )

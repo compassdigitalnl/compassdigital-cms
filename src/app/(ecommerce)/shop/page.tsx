@@ -5,6 +5,9 @@ import ShopArchiveTemplate1 from '@/branches/ecommerce/templates/shop/ShopArchiv
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'Shop - Professional Equipment',
   description: 'Browse our complete equipment catalog',

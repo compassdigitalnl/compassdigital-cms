@@ -6,6 +6,9 @@ import CheckoutTemplate4 from '@/branches/ecommerce/templates/checkout/CheckoutT
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'Afrekenen | Shop',
   description: 'Veilig afrekenen',

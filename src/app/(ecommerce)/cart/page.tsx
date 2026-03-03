@@ -4,6 +4,9 @@ import CartPageClient from './CartPageClient'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'Winkelwagen | Shop',
   description: 'Bekijk uw winkelwagen',
@@ -23,9 +26,8 @@ export default async function CartPage() {
       depth: 0,
     })
 
-    // Get ecommerce settings with proper typing
-    const ecommerceSettings = (settings as any)?.ecommerce
-    defaultTemplate = ecommerceSettings?.defaultCartTemplate || 'template1'
+    // Template field is at top level in Settings global (not nested under ecommerce)
+    defaultTemplate = (settings as any)?.defaultCartTemplate || 'template1'
   } catch (error) {
     console.error('⚠️ Error fetching cart template setting, using default:', error)
   }
