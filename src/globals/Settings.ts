@@ -320,9 +320,9 @@ export const Settings: GlobalConfig = {
               label: 'Standaard Cart Template',
               defaultValue: 'template1',
               options: [
-                { label: 'Template 1 - Compact Table (Classic, detailed)', value: 'template1' },
-                { label: 'Template 2 - Visual Cards (Modern, large images)', value: 'template2' },
-                { label: 'Template 4 - Ultimate (7 componenten, sticky summary, mobile-first)', value: 'template4' },
+                { label: 'Card Layout — Staffel hints + cross-sell carousel', value: 'template1' },
+                { label: 'Compact Tabel — B2B, quick-order, payment badges', value: 'template2' },
+                { label: 'Premium Visueel — Checkout steps, recently viewed', value: 'template4' },
               ],
               admin: {
                 description: 'Template voor winkelwagen pagina (A/B testing beschikbaar)',
