@@ -14,6 +14,8 @@ import * as migration_20260224_233259_email_api_keys_collection from './old/2026
 import * as migration_20260302_170000_add_module_tables from './20260302_170000_add_module_tables';
 import * as migration_20260303_120000_brands_hierarchy from './20260303_120000_brands_hierarchy';
 import * as migration_20260303_130000_checkout_flow_field from './20260303_130000_checkout_flow_field';
+import * as migration_20260303_140000_add_category_content from './20260303_140000_add_category_content';
+import * as migration_20260303_160000_add_template4_enum from './20260303_160000_add_template4_enum';
 
 export const migrations = [
   {
@@ -95,5 +97,15 @@ export const migrations = [
     up: migration_20260303_130000_checkout_flow_field.up,
     down: migration_20260303_130000_checkout_flow_field.down,
     name: '20260303_130000_checkout_flow_field',
+  },
+  {
+    up: migration_20260303_140000_add_category_content.up,
+    down: migration_20260303_140000_add_category_content.down,
+    name: '20260303_140000_add_category_content',
+  },
+  {
+    up: migration_20260303_160000_add_template4_enum.up,
+    down: migration_20260303_160000_add_template4_enum.down,
+    name: '20260303_160000_add_template4_enum',
   },
 ];
