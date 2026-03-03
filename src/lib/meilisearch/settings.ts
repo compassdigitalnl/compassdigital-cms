@@ -120,6 +120,12 @@ export function mergeSettings(cmsSettings: MeilisearchSettingsType | null) {
     return DEFAULT_SETTINGS
   }
 
+  // Helper: extract field values from CMS array, fall back to defaults if empty
+  const extractFields = (cmsArray: any[] | undefined | null, defaults: string[]): string[] => {
+    const fields = cmsArray?.map((f: any) => f.field).filter(Boolean)
+    return fields && fields.length > 0 ? fields : defaults
+  }
+
   return {
     // Indexed Collections
     indexedCollections:
@@ -129,35 +135,21 @@ export function mergeSettings(cmsSettings: MeilisearchSettingsType | null) {
 
     // Searchable Fields
     searchableFields: {
-      products:
-        cmsSettings.searchableFields?.products?.map((f: any) => f.field) ||
-        DEFAULT_SETTINGS.searchableFields.products,
-      blogPosts:
-        cmsSettings.searchableFields?.blogPosts?.map((f: any) => f.field) ||
-        DEFAULT_SETTINGS.searchableFields.blogPosts,
-      pages:
-        cmsSettings.searchableFields?.pages?.map((f: any) => f.field) ||
-        DEFAULT_SETTINGS.searchableFields.pages,
+      products: extractFields(cmsSettings.searchableFields?.products, DEFAULT_SETTINGS.searchableFields.products),
+      blogPosts: extractFields(cmsSettings.searchableFields?.blogPosts, DEFAULT_SETTINGS.searchableFields.blogPosts),
+      pages: extractFields(cmsSettings.searchableFields?.pages, DEFAULT_SETTINGS.searchableFields.pages),
     },
 
     // Filterable Fields
     filterableFields: {
-      products:
-        cmsSettings.filterableFields?.products?.map((f: any) => f.field) ||
-        DEFAULT_SETTINGS.filterableFields.products,
-      blogPosts:
-        cmsSettings.filterableFields?.blogPosts?.map((f: any) => f.field) ||
-        DEFAULT_SETTINGS.filterableFields.blogPosts,
+      products: extractFields(cmsSettings.filterableFields?.products, DEFAULT_SETTINGS.filterableFields.products),
+      blogPosts: extractFields(cmsSettings.filterableFields?.blogPosts, DEFAULT_SETTINGS.filterableFields.blogPosts),
     },
 
     // Sortable Fields
     sortableFields: {
-      products:
-        cmsSettings.sortableFields?.products?.map((f: any) => f.field) ||
-        DEFAULT_SETTINGS.sortableFields.products,
-      blogPosts:
-        cmsSettings.sortableFields?.blogPosts?.map((f: any) => f.field) ||
-        DEFAULT_SETTINGS.sortableFields.blogPosts,
+      products: extractFields(cmsSettings.sortableFields?.products, DEFAULT_SETTINGS.sortableFields.products),
+      blogPosts: extractFields(cmsSettings.sortableFields?.blogPosts, DEFAULT_SETTINGS.sortableFields.blogPosts),
     },
 
     // Ranking Rules
