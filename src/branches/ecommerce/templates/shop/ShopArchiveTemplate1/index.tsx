@@ -359,9 +359,7 @@ export default function ShopArchiveTemplate1({
       {/* ========================================
           BREADCRUMBS
           ======================================== */}
-      <div className="px-4">
-        <Breadcrumbs items={breadcrumbs} currentPage={category?.name || 'Shop'} />
-      </div>
+      <Breadcrumbs items={breadcrumbs} currentPage={category?.name || 'Shop'} />
 
       {/* ========================================
           CATEGORY HERO
@@ -394,7 +392,7 @@ export default function ShopArchiveTemplate1({
       {/* ========================================
           SHOP LAYOUT (FILTERS + PRODUCTS)
           ======================================== */}
-      <div className="mx-auto px-6 pb-24">
+      <div className="mx-auto pt-6 pb-24">
         <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-7">
           {/* ========================================
               DESKTOP SIDEBAR FILTERS

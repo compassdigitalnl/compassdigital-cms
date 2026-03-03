@@ -431,7 +431,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
           className="fixed left-0 right-0 z-[60]"
           style={{ top: `${navTop}px` }}
         >
-          <div className="mx-auto px-8" style={{ maxWidth: 'var(--container-width)' }}>
+          <div className="mx-auto px-4" style={{ maxWidth: 'var(--container-width)' }}>
             <div className="flex bg-white rounded-b-2xl shadow-2xl overflow-hidden min-h-[520px] border-t-2" style={{ borderColor: primaryColor }}>
 
               {/* L1: Root Categories */}
