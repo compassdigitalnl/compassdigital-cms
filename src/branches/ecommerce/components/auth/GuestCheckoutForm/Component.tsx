@@ -214,7 +214,7 @@ export function GuestCheckoutForm({
               className="w-4 h-4 mt-0.5 rounded border-2 cursor-pointer flex-shrink-0"
               style={{
                 borderColor: 'var(--color-border, #E8ECF1)',
-                accentColor: 'var(--color-accent, #00897B)',
+                accentColor: 'var(--color-primary, #0A1628)',
               }}
             />
             <span>
@@ -224,12 +224,12 @@ export function GuestCheckoutForm({
                   type="button"
                   onClick={onTermsClick}
                   className="font-semibold hover:underline"
-                  style={{ color: 'var(--color-accent, #00897B)' }}
+                  style={{ color: 'var(--color-primary, #0A1628)' }}
                 >
                   algemene voorwaarden
                 </button>
               ) : (
-                <span className="font-semibold" style={{ color: 'var(--color-accent, #00897B)' }}>
+                <span className="font-semibold" style={{ color: 'var(--color-primary, #0A1628)' }}>
                   algemene voorwaarden
                 </span>
               )}{' '}
@@ -239,12 +239,12 @@ export function GuestCheckoutForm({
                   type="button"
                   onClick={onPrivacyClick}
                   className="font-semibold hover:underline"
-                  style={{ color: 'var(--color-accent, #00897B)' }}
+                  style={{ color: 'var(--color-primary, #0A1628)' }}
                 >
                   privacybeleid
                 </button>
               ) : (
-                <span className="font-semibold" style={{ color: 'var(--color-accent, #00897B)' }}>
+                <span className="font-semibold" style={{ color: 'var(--color-primary, #0A1628)' }}>
                   privacybeleid
                 </span>
               )}
@@ -260,17 +260,17 @@ export function GuestCheckoutForm({
           style={{
             background: isLoading
               ? 'var(--color-text-secondary, #94A3B8)'
-              : 'var(--color-accent, #00897B)',
-            boxShadow: isLoading ? 'none' : '0 4px 16px rgba(0,137,123,0.3)',
+              : 'var(--color-primary, #0A1628)',
+            boxShadow: isLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
           }}
           onMouseEnter={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-accent-dark, #00695C)'
+              e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
             }
           }}
           onMouseLeave={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-accent, #00897B)'
+              e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
             }
           }}
         >
@@ -285,8 +285,8 @@ export function GuestCheckoutForm({
             className="w-full py-3.5 px-4 mt-3 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-opacity-100"
             style={{
               background: 'transparent',
-              border: '1.5px solid var(--color-accent, #00897B)',
-              color: 'var(--color-accent, #00897B)',
+              border: '1.5px solid var(--color-primary, #0A1628)',
+              color: 'var(--color-primary, #0A1628)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(0,137,123,0.06)'

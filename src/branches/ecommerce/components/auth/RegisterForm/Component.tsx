@@ -285,7 +285,7 @@ export function RegisterForm({
               className="w-4 h-4 mt-0.5 rounded border-2 cursor-pointer flex-shrink-0"
               style={{
                 borderColor: 'var(--color-border, #E8ECF1)',
-                accentColor: 'var(--color-accent, #00897B)',
+                accentColor: 'var(--color-primary, #0A1628)',
               }}
             />
             <span>
@@ -295,12 +295,12 @@ export function RegisterForm({
                   type="button"
                   onClick={onTermsClick}
                   className="font-semibold hover:underline"
-                  style={{ color: 'var(--color-accent, #00897B)' }}
+                  style={{ color: 'var(--color-primary, #0A1628)' }}
                 >
                   algemene voorwaarden
                 </button>
               ) : (
-                <span className="font-semibold" style={{ color: 'var(--color-accent, #00897B)' }}>
+                <span className="font-semibold" style={{ color: 'var(--color-primary, #0A1628)' }}>
                   algemene voorwaarden
                 </span>
               )}
@@ -345,7 +345,7 @@ export function RegisterForm({
             type="button"
             onClick={onLoginClick}
             className="font-semibold hover:underline"
-            style={{ color: 'var(--color-accent, #00897B)' }}
+            style={{ color: 'var(--color-primary, #0A1628)' }}
           >
             {loginLinkText}
           </button>

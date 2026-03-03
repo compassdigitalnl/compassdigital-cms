@@ -162,7 +162,7 @@ export function LoginForm({
               className="w-4 h-4 rounded border-2 cursor-pointer"
               style={{
                 borderColor: 'var(--color-border, #E8ECF1)',
-                accentColor: 'var(--color-accent, #00897B)',
+                accentColor: 'var(--color-primary, #0A1628)',
               }}
             />
             Onthoud mij
@@ -174,7 +174,7 @@ export function LoginForm({
               type="button"
               onClick={onForgotPassword}
               className="text-sm font-semibold hover:underline"
-              style={{ color: 'var(--color-accent, #00897B)' }}
+              style={{ color: 'var(--color-primary, #0A1628)' }}
             >
               Wachtwoord vergeten?
             </button>
@@ -189,17 +189,17 @@ export function LoginForm({
           style={{
             background: isLoading
               ? 'var(--color-text-secondary, #94A3B8)'
-              : 'var(--color-accent, #00897B)',
-            boxShadow: isLoading ? 'none' : '0 4px 16px rgba(0,137,123,0.3)',
+              : 'var(--color-primary, #0A1628)',
+            boxShadow: isLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
           }}
           onMouseEnter={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-accent-dark, #00695C)'
+              e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
             }
           }}
           onMouseLeave={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-accent, #00897B)'
+              e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
             }
           }}
         >
@@ -218,7 +218,7 @@ export function LoginForm({
             type="button"
             onClick={onRegisterClick}
             className="font-semibold hover:underline"
-            style={{ color: 'var(--color-accent, #00897B)' }}
+            style={{ color: 'var(--color-primary, #0A1628)' }}
           >
             {registerLinkText}
           </button>
