@@ -1,6 +1,5 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Product } from '@/payload-types'
 import ShopArchiveTemplate1 from '@/branches/ecommerce/templates/shop/ShopArchiveTemplate1'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
@@ -23,31 +22,15 @@ export default async function ShopPage({
   const params = await searchParams
   const payload = await getPayload({ config })
 
-  // Build query
-  const where: any = { status: { equals: 'published' } }
-  if (params.category) {
-    where.categories = { contains: params.category }
-  }
-  if (params.search) {
-    where.or = [
-      { title: { contains: params.search } },
-      { shortDescription: { contains: params.search } },
-      { sku: { contains: params.search } },
-    ]
-  }
+  // Product search is handled client-side via Meilisearch — no need to fetch products here.
+  // We only need: category info + subcategories + total count.
 
-  // Pagination
-  const page = parseInt(params.page || '1')
-  const limit = 24
-
-  // Fetch products (depth 1 = brand + categories populated, not deeper)
-  const { docs: products, totalDocs, totalPages } = await payload.find({
+  // Get total product count (lightweight, no data fetched)
+  const { totalDocs } = await payload.find({
     collection: 'products',
-    where,
-    depth: 1,
-    limit,
-    page,
-    sort: '-createdAt',
+    where: { status: { equals: 'published' } },
+    depth: 0,
+    limit: 0,
   })
 
   // Fetch category if filtered
@@ -57,7 +40,7 @@ export default async function ShopPage({
       category = await payload.findByID({
         collection: 'product-categories',
         id: params.category,
-        depth: 1,
+        depth: 0,
       })
     } catch (error) {
       console.log('Category not found:', params.category)
@@ -80,23 +63,7 @@ export default async function ShopPage({
     })
 
     if (subcats.length > 0) {
-      // Batch count: single query with IN filter instead of N separate queries
-      const subcatIds = subcats.map((s: any) => s.id)
-      const { docs: productsWithCats } = await payload.find({
-        collection: 'products',
-        where: {
-          status: { equals: 'published' },
-          categories: { in: subcatIds },
-        },
-        depth: 0,
-        limit: 0,
-        // We only need totalDocs per category — use a lightweight approach
-      })
-
-      // Count products per subcategory from the batch result
-      // Since Payload doesn't support GROUP BY, we count by checking category membership
-      // But with limit:0, we get totalDocs. For individual counts, we still need separate queries
-      // but we can run them in parallel with a concurrency limit
+      // Count products per subcategory in parallel
       const countPromises = subcats.map(async (sub: any) => {
         const { totalDocs: count } = await payload.find({
           collection: 'products',
@@ -110,7 +77,6 @@ export default async function ShopPage({
         return { name: sub.name, slug: sub.slug, count }
       })
 
-      // Run all count queries in parallel (not sequential)
       subcategories = (await Promise.all(countPromises)).filter(s => s.count > 0)
     }
   } catch (error) {
@@ -134,7 +100,7 @@ export default async function ShopPage({
   return (
     <div className="min-h-screen bg-gray-50">
       <ShopArchiveTemplate1
-        products={products as Product[]}
+        products={[]}
         category={category ? {
           id: String(category.id),
           name: category.name,
@@ -144,8 +110,6 @@ export default async function ShopPage({
         } : undefined}
         subcategories={subcategories}
         totalProducts={totalDocs}
-        currentPage={page}
-        totalPages={totalPages}
         breadcrumbs={breadcrumbs}
         shopFilterOrder={shopFilterOrder}
       />

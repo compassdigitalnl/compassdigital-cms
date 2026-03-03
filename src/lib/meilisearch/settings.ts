@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS = {
 
   // Default filterable fields per collection
   filterableFields: {
-    products: ['brand', 'brandId', 'brandLevel', 'categories', 'categoryIds', 'price', 'effectivePrice', 'stock', 'stockStatus', 'status', 'featured', 'badge', 'productType', 'backordersAllowed', 'specs'] as string[],
+    products: ['brand', 'brandId', 'brandLevel', 'manufacturer', 'productLine', 'categories', 'categoryIds', 'price', 'effectivePrice', 'stock', 'stockStatus', 'status', 'featured', 'badge', 'productType', 'backordersAllowed', 'specs'] as string[],
     blogPosts: ['categories', 'status', 'featured', 'publishedAt'] as string[],
   },
 

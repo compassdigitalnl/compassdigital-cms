@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { XCircle } from 'lucide-react'
 import { FilterCard } from './FilterCard'
 import { ActiveFilterChips } from './ActiveFilterChips'
@@ -17,19 +17,26 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   className = '',
 }) => {
   const [openSections, setOpenSections] = useState<string[]>([])
-  const [initialized, setInitialized] = useState(false)
+  const seenFilterIds = useRef<Set<string>>(new Set())
 
-  // Initialize open sections from defaultOpen or filter.defaultOpen
-  // Only run once on mount to prevent resetting state on every render
+  // Open new filter sections when they first appear (handles async Meilisearch loading)
   useEffect(() => {
-    if (!initialized) {
-      const initialOpen = filters
-        .filter((f) => defaultOpen.includes(f.id) || f.defaultOpen)
-        .map((f) => f.id)
-      setOpenSections(initialOpen)
-      setInitialized(true)
+    if (filters.length === 0) return
+
+    const newIds: string[] = []
+    for (const f of filters) {
+      if (!seenFilterIds.current.has(f.id)) {
+        seenFilterIds.current.add(f.id)
+        if (defaultOpen.includes(f.id) || f.defaultOpen) {
+          newIds.push(f.id)
+        }
+      }
     }
-  }, [filters, defaultOpen, initialized])
+
+    if (newIds.length > 0) {
+      setOpenSections(prev => [...prev, ...newIds])
+    }
+  }, [filters, defaultOpen])
 
   const toggleSection = (filterId: string) => {
     setOpenSections((prev) =>
@@ -100,8 +107,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <aside
         className={`${
           sticky ? 'sticky' : ''
-        } md:block`}
-        style={sticky ? { top: `${stickyTop}px` } : undefined}
+        } md:block overflow-y-auto overflow-x-hidden scrollbar-thin`}
+        style={sticky ? { top: `${stickyTop}px`, maxHeight: `calc(100vh - ${stickyTop + 20}px)` } : undefined}
         role="complementary"
         aria-label="Product filters"
       >

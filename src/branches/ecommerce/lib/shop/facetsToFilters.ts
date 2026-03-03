@@ -15,16 +15,35 @@ export function facetsToFilterGroups(facets: ShopFacets | null, state: ShopSearc
 
   const groups: FilterGroup[] = []
 
-  // ── Brand (Manufacturers, level 0) ──────────────────────
-  const brandEntries = Object.entries(facets.brands || {}).filter(([, count]) => count > 0)
-  if (brandEntries.length > 0) {
+  // ── Manufacturer (level-0 brands) ──────────────────────
+  const mfrEntries = Object.entries(facets.manufacturers || {}).filter(([, count]) => count > 0)
+  if (mfrEntries.length > 0) {
     groups.push({
-      id: 'brands',
+      id: 'manufacturers',
       label: 'Merk',
       icon: 'award',
       type: 'checkbox',
       defaultOpen: true,
-      options: brandEntries
+      options: mfrEntries
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, count]) => ({
+          value: name,
+          label: name,
+          count,
+        })),
+    })
+  }
+
+  // ── Product Line (level-1 brands) ──────────────────────
+  const plEntries = Object.entries(facets.productLines || {}).filter(([, count]) => count > 0)
+  if (plEntries.length > 0) {
+    groups.push({
+      id: 'productLines',
+      label: 'Productlijn',
+      icon: 'layers',
+      type: 'checkbox',
+      defaultOpen: false,
+      options: plEntries
         .sort((a, b) => b[1] - a[1])
         .map(([name, count]) => ({
           value: name,
@@ -113,9 +132,14 @@ export function facetsToFilterGroups(facets: ShopFacets | null, state: ShopSearc
 export function searchStateToActiveFilters(state: ShopSearchState): ActiveFilter[] {
   const filters: ActiveFilter[] = []
 
-  // Brand names are the primary brand filter (from sidebar)
-  if (state.brandNames.length > 0) {
-    filters.push({ groupId: 'brands', label: 'Merk', values: state.brandNames })
+  // Manufacturers (level-0 brands)
+  if (state.manufacturers.length > 0) {
+    filters.push({ groupId: 'manufacturers', label: 'Merk', values: state.manufacturers })
+  }
+
+  // Product lines (level-1 brands)
+  if (state.productLines.length > 0) {
+    filters.push({ groupId: 'productLines', label: 'Productlijn', values: state.productLines })
   }
 
   if (state.stockStatus.length > 0) {
@@ -147,6 +171,8 @@ export function activeFiltersToSearchUpdates(
   const updates: Partial<ShopSearchState> = {
     brandNames: [],
     brandIds: [],
+    manufacturers: [],
+    productLines: [],
     stockStatus: [],
     minPrice: null,
     maxPrice: null,
@@ -154,9 +180,10 @@ export function activeFiltersToSearchUpdates(
   }
 
   for (const filter of filters) {
-    if (filter.groupId === 'brands') {
-      // Brand filter uses names as values (from Meilisearch facets)
-      updates.brandNames = filter.values
+    if (filter.groupId === 'manufacturers') {
+      updates.manufacturers = filter.values
+    } else if (filter.groupId === 'productLines') {
+      updates.productLines = filter.values
     } else if (filter.groupId === 'stock') {
       updates.stockStatus = filter.values
     } else if (filter.groupId === 'price') {

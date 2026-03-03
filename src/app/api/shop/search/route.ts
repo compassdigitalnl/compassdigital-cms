@@ -14,6 +14,8 @@ interface ShopSearchParams {
   categoryIds: number[]
   brandIds: number[]
   brandNames: string[]
+  manufacturers: string[]
+  productLines: string[]
   minPrice: number | null
   maxPrice: number | null
   specs: Record<string, string[]>
@@ -35,6 +37,8 @@ function parseSearchParams(searchParams: URLSearchParams): ShopSearchParams {
   const brandRaw = searchParams.getAll('brand')
   const brandIds = brandRaw.map(Number).filter(n => !isNaN(n))
   const brandNames = searchParams.getAll('brandName')
+  const manufacturers = searchParams.getAll('manufacturer')
+  const productLines = searchParams.getAll('productLine')
 
   // Price range
   const minPriceStr = searchParams.get('minPrice')
@@ -69,7 +73,7 @@ function parseSearchParams(searchParams: URLSearchParams): ShopSearchParams {
   // Sort: price:asc, price:desc, createdAt:desc, title:asc
   const sort = searchParams.get('sort')
 
-  return { q, categoryIds, brandIds, brandNames, minPrice, maxPrice, specs, stockStatus, badge, productType, page, limit, sort }
+  return { q, categoryIds, brandIds, brandNames, manufacturers, productLines, minPrice, maxPrice, specs, stockStatus, badge, productType, page, limit, sort }
 }
 
 function buildMeilisearchFilter(params: ShopSearchParams): string[] {
@@ -94,6 +98,18 @@ function buildMeilisearchFilter(params: ShopSearchParams): string[] {
   }
   if (brandClauses.length > 0) {
     filters.push(`(${brandClauses.join(' OR ')})`)
+  }
+
+  // Manufacturer filter (level-0 brands)
+  if (params.manufacturers.length > 0) {
+    const mfrClauses = params.manufacturers.map(name => `manufacturer = "${name.replace(/"/g, '\\"')}"`)
+    filters.push(`(${mfrClauses.join(' OR ')})`)
+  }
+
+  // Product line filter (level-1 brands)
+  if (params.productLines.length > 0) {
+    const plClauses = params.productLines.map(name => `productLine = "${name.replace(/"/g, '\\"')}"`)
+    filters.push(`(${plClauses.join(' OR ')})`)
   }
 
   // Price range
@@ -188,6 +204,8 @@ export async function GET(request: NextRequest) {
       brands: result.facetDistribution?.brand || {},
       brandIds: result.facetDistribution?.brandId || {},
       brandLevels: result.facetDistribution?.brandLevel || {},
+      manufacturers: result.facetDistribution?.manufacturer || {},
+      productLines: result.facetDistribution?.productLine || {},
       categories: result.facetDistribution?.categories || {},
       categoryIds: result.facetDistribution?.categoryIds || {},
       stockStatus: result.facetDistribution?.stockStatus || {},

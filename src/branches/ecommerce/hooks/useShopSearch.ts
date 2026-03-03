@@ -40,6 +40,8 @@ export interface ShopFacets {
   brands: Record<string, number>
   brandIds: Record<string, number>
   brandLevels: Record<string, number>
+  manufacturers: Record<string, number>
+  productLines: Record<string, number>
   categories: Record<string, number>
   categoryIds: Record<string, number>
   stockStatus: Record<string, number>
@@ -57,6 +59,8 @@ export interface ShopSearchState {
   categoryIds: number[]
   brandIds: number[]
   brandNames: string[]
+  manufacturers: string[]
+  productLines: string[]
   minPrice: number | null
   maxPrice: number | null
   specs: Record<string, string[]>
@@ -80,6 +84,8 @@ interface UseShopSearchResult {
   setCategoryIds: (ids: number[]) => void
   setBrandIds: (ids: number[]) => void
   setBrandNames: (names: string[]) => void
+  setManufacturers: (names: string[]) => void
+  setProductLines: (names: string[]) => void
   setPriceRange: (min: number | null, max: number | null) => void
   setSpecFilter: (specKey: string, values: string[]) => void
   setStockStatus: (statuses: string[]) => void
@@ -94,6 +100,8 @@ const INITIAL_STATE: ShopSearchState = {
   categoryIds: [],
   brandIds: [],
   brandNames: [],
+  manufacturers: [],
+  productLines: [],
   minPrice: null,
   maxPrice: null,
   specs: {},
@@ -122,6 +130,8 @@ export function useShopSearch(options?: {
     const categoryIds = options?.initialCategoryIds || searchParams.getAll('category').map(Number).filter(n => !isNaN(n))
     const brandIds = searchParams.getAll('brand').map(Number).filter(n => !isNaN(n))
     const brandNames = searchParams.getAll('brandName')
+    const manufacturers = searchParams.getAll('manufacturer')
+    const productLines = searchParams.getAll('productLine')
     const minPrice = searchParams.get('minPrice') ? parseFloat(searchParams.get('minPrice')!) : null
     const maxPrice = searchParams.get('maxPrice') ? parseFloat(searchParams.get('maxPrice')!) : null
     const stockStatus = searchParams.getAll('stock')
@@ -139,7 +149,7 @@ export function useShopSearch(options?: {
       }
     })
 
-    return { q, categoryIds, brandIds, brandNames, minPrice, maxPrice, specs, stockStatus, sort, page }
+    return { q, categoryIds, brandIds, brandNames, manufacturers, productLines, minPrice, maxPrice, specs, stockStatus, sort, page }
   })
 
   const [hits, setHits] = useState<ShopSearchHit[]>([])
@@ -157,6 +167,8 @@ export function useShopSearch(options?: {
     s.categoryIds.forEach(id => params.append('category', String(id)))
     s.brandIds.forEach(id => params.append('brand', String(id)))
     s.brandNames.forEach(name => params.append('brandName', name))
+    s.manufacturers.forEach(name => params.append('manufacturer', name))
+    s.productLines.forEach(name => params.append('productLine', name))
     if (s.minPrice !== null) params.set('minPrice', String(s.minPrice))
     if (s.maxPrice !== null) params.set('maxPrice', String(s.maxPrice))
     s.stockStatus.forEach(st => params.append('stock', st))
@@ -229,6 +241,8 @@ export function useShopSearch(options?: {
   const setCategoryIds = useCallback((ids: number[]) => updateState({ categoryIds: ids }), [updateState])
   const setBrandIds = useCallback((ids: number[]) => updateState({ brandIds: ids }), [updateState])
   const setBrandNames = useCallback((names: string[]) => updateState({ brandNames: names }), [updateState])
+  const setManufacturers = useCallback((names: string[]) => updateState({ manufacturers: names }), [updateState])
+  const setProductLines = useCallback((names: string[]) => updateState({ productLines: names }), [updateState])
   const setPriceRange = useCallback((min: number | null, max: number | null) => updateState({ minPrice: min, maxPrice: max }), [updateState])
   const setStockStatus = useCallback((statuses: string[]) => updateState({ stockStatus: statuses }), [updateState])
   const setSort = useCallback((sort: string) => updateState({ sort }), [updateState])
@@ -266,6 +280,8 @@ export function useShopSearch(options?: {
     setCategoryIds,
     setBrandIds,
     setBrandNames,
+    setManufacturers,
+    setProductLines,
     setPriceRange,
     setSpecFilter,
     setStockStatus,

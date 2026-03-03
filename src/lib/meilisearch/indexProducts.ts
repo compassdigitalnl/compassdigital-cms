@@ -10,15 +10,49 @@ function splitSpecValues(value: string): string[] {
 }
 
 /**
+ * Brand lookup map for manufacturer/productLine resolution
+ */
+export type BrandMap = Map<number, { name: string; level: number; parentName: string | null }>
+
+/**
  * Transform Payload Product to Meilisearch document
  * Includes full data for faceted search in shop filters
+ *
+ * @param product - Payload product
+ * @param brandMap - Optional pre-built brand hierarchy map (used during batch reindex)
  */
-export function transformProductForSearch(product: Product) {
+export function transformProductForSearch(product: Product, brandMap?: BrandMap) {
   // Extract brand info
   const brandObj = typeof product.brand === 'object' && product.brand !== null ? product.brand : null
   const brandName = brandObj?.name || null
   const brandId = brandObj?.id || (typeof product.brand === 'number' ? product.brand : null)
   const brandLevel = (brandObj as any)?.level ?? 0
+
+  // Resolve manufacturer (level-0 parent) and productLine (level-1 brand)
+  let manufacturer: string | null = null
+  let productLine: string | null = null
+
+  if (brandMap && brandId) {
+    const brandInfo = brandMap.get(brandId)
+    if (brandInfo) {
+      if (brandInfo.level === 0) {
+        manufacturer = brandInfo.name
+      } else {
+        manufacturer = brandInfo.parentName
+        productLine = brandInfo.name
+      }
+    }
+  } else if (brandObj) {
+    if (brandLevel === 0) {
+      manufacturer = brandName
+    } else {
+      const parentBrand = (brandObj as any)?.parent
+      if (typeof parentBrand === 'object' && parentBrand?.name) {
+        manufacturer = parentBrand.name
+      }
+      productLine = brandName
+    }
+  }
 
   // Extract category names and IDs
   const categories: string[] = []
@@ -78,6 +112,8 @@ export function transformProductForSearch(product: Product) {
     brand: brandName,
     brandId,
     brandLevel,
+    manufacturer,
+    productLine,
     sku: product.sku || '',
     ean: product.ean || '',
     description: product.description || '',
@@ -130,7 +166,7 @@ export async function indexProduct(product: Product) {
 export async function indexProducts(products: Product[]) {
   try {
     const index = await getOrCreateIndex(INDEXES.PRODUCTS)
-    const documents = products.map(transformProductForSearch)
+    const documents = products.map(p => transformProductForSearch(p))
 
     const task = await index.addDocuments(documents)
 
@@ -166,6 +202,26 @@ export async function reindexAllProducts(payload: any) {
   try {
     console.log('🔄 Starting full product reindex...')
 
+    // Fetch all brands to build manufacturer hierarchy map
+    const { docs: allBrands } = await payload.find({
+      collection: 'brands',
+      limit: 10000,
+      depth: 1, // populate parent relationship
+    })
+
+    const brandMap: BrandMap = new Map()
+    for (const brand of allBrands) {
+      const parentBrand = typeof (brand as any).parent === 'object' && (brand as any).parent !== null
+        ? (brand as any).parent
+        : null
+      brandMap.set(brand.id, {
+        name: brand.name,
+        level: (brand as any).level ?? 0,
+        parentName: parentBrand?.name || null,
+      })
+    }
+    console.log(`🏷️ Built brand map: ${brandMap.size} brands (${allBrands.filter((b: any) => b.level === 0).length} manufacturers, ${allBrands.filter((b: any) => b.level === 1).length} product lines)`)
+
     // Fetch all published products
     const { docs: products } = await payload.find({
       collection: 'products',
@@ -178,7 +234,7 @@ export async function reindexAllProducts(payload: any) {
     // Transform and collect all spec keys (prefixed with spec_ for flat faceting)
     const allSpecKeys = new Set<string>()
     const allDocuments = products.map((p: Product) => {
-      const doc = transformProductForSearch(p)
+      const doc = transformProductForSearch(p, brandMap)
       Object.keys(doc.specs).forEach(key => allSpecKeys.add(`spec_${key}`))
       return doc
     })

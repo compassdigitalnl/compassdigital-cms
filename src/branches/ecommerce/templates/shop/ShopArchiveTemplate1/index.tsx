@@ -113,6 +113,8 @@ export default function ShopArchiveTemplate1({
     resetFilters,
     searchState,
     setBrandNames,
+    setManufacturers,
+    setProductLines,
     setStockStatus,
     setPriceRange,
     setSpecFilter,
@@ -242,6 +244,8 @@ export default function ShopArchiveTemplate1({
       const updates = activeFiltersToSearchUpdates(filters, facets)
 
       // Apply each update to the search hook
+      if (updates.manufacturers !== undefined) setManufacturers(updates.manufacturers)
+      if (updates.productLines !== undefined) setProductLines(updates.productLines)
       if (updates.brandNames !== undefined) setBrandNames(updates.brandNames)
       if (updates.stockStatus !== undefined) setStockStatus(updates.stockStatus)
       if (updates.minPrice !== undefined || updates.maxPrice !== undefined) {
@@ -263,7 +267,7 @@ export default function ShopArchiveTemplate1({
         }
       }
     },
-    [facets, searchState.specs, setBrandNames, setStockStatus, setPriceRange, setSpecFilter],
+    [facets, searchState.specs, setManufacturers, setProductLines, setBrandNames, setStockStatus, setPriceRange, setSpecFilter],
   )
 
   const handleResetFilters = useCallback(() => {
@@ -409,8 +413,8 @@ export default function ShopArchiveTemplate1({
               onSortChange={handleSortChange}
               viewMode={viewMode}
               onViewChange={handleViewChange}
-              resultCount={displayTotal}
-              totalCount={serverTotalProducts}
+              resultCount={displayProducts.length}
+              totalCount={displayTotal}
               showViewToggle={true}
               className="mb-6"
               activeFilters={activeFilters.map(f => ({ groupId: f.groupId, label: f.label }))}
