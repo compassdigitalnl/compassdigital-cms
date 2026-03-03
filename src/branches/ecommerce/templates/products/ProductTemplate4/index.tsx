@@ -81,6 +81,9 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
           .filter((p: any) => p !== null)
       : []
 
+  // For grouped products: check if ANY child has stock
+  const groupedHasStock = isGrouped && childProducts.some((child: any) => child.stock && child.stock > 0)
+
   // Calculate variant price
   useEffect(() => {
     if (isVariable && !isSubscription) {
@@ -356,6 +359,13 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
             <button
               className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
               aria-label="Share product"
+              onClick={() => {
+                if (typeof navigator !== 'undefined' && navigator.share) {
+                  navigator.share({ title: product.title, url: window.location.href })
+                } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                  navigator.clipboard.writeText(window.location.href)
+                }
+              }}
             >
               <Share2 className="w-4 h-4 text-[var(--color-text-primary)]" />
             </button>
@@ -431,6 +441,13 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 <button
                   className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
                   aria-label="Share product"
+                  onClick={() => {
+                    if (typeof navigator !== 'undefined' && navigator.share) {
+                      navigator.share({ title: product.title, url: window.location.href })
+                    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                      navigator.clipboard.writeText(window.location.href)
+                    }
+                  }}
                 >
                   <Share2 className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
                 </button>
@@ -452,6 +469,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 <button
                   className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
                   aria-label="Zoom image"
+                  onClick={() => currentImage && window.open(currentImage, '_blank')}
                 >
                   <ZoomIn className="w-[18px] h-[18px] text-[var(--color-text-muted)]" />
                 </button>
@@ -573,8 +591,15 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 )}
               </div>
 
-              {/* Backorder notice */}
-              {isBackorder && (
+              {/* Stock status - grouped products */}
+              {isGrouped && groupedHasStock && (
+                <div className="flex items-center gap-2 text-sm text-[#2E7D32] font-medium mb-2">
+                  <span className="w-2 h-2 bg-[var(--color-success)] rounded-full shrink-0" />
+                  Op voorraad
+                </div>
+              )}
+              {/* Backorder notice — only when no child has stock (grouped) or simple on backorder */}
+              {isBackorder && (!isGrouped || !groupedHasStock) && (
                 <div className="flex items-center gap-2 text-sm text-amber-600 font-medium mb-2">
                   <span className="w-2 h-2 bg-amber-500 rounded-full shrink-0" />
                   Op bestelling — levertijd op aanvraag
@@ -723,10 +748,20 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                           </div>
 
                           {/* Stock */}
-                          {child.stock && child.stock > 0 && (
+                          {child.stock && child.stock > 0 ? (
                             <div className="text-[11px] text-[var(--color-success)] font-medium flex items-center gap-[3px]">
                               <CheckCircle className="w-[11px] h-[11px]" />
                               {child.stock} op voorraad
+                            </div>
+                          ) : child.backordersAllowed ? (
+                            <div className="text-[11px] text-amber-600 font-medium flex items-center gap-[3px]">
+                              <Info className="w-[11px] h-[11px]" />
+                              Op bestelling
+                            </div>
+                          ) : (
+                            <div className="text-[11px] text-red-500 font-medium flex items-center gap-[3px]">
+                              <Info className="w-[11px] h-[11px]" />
+                              Uitverkocht
                             </div>
                           )}
                         </div>
@@ -739,7 +774,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 {/* Total */}
                 <div className="flex items-center justify-between px-4 py-3 bg-[var(--color-background,var(--color-surface))] rounded-[10px] mt-3 border-[1.5px] border-[var(--color-border)]">
                   <div className="text-[13px] text-[var(--color-text-muted)]">
-                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> dozen totaal
+                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> artikelen totaal
                     {volumeTiers.length > 0 && totalQty > 0 && ' · staffelprijs van toepassing'}
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
@@ -871,8 +906,15 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               )}
             </div>
 
+            {/* Stock status - grouped products mobile */}
+            {isGrouped && groupedHasStock && (
+              <div className="flex items-center gap-2 text-xs text-[#2E7D32] font-medium mb-2">
+                <span className="w-1.5 h-1.5 bg-[var(--color-success)] rounded-full shrink-0" />
+                Op voorraad
+              </div>
+            )}
             {/* Backorder notice - mobile */}
-            {isBackorder && (
+            {isBackorder && (!isGrouped || !groupedHasStock) && (
               <div className="flex items-center gap-2 text-xs text-amber-600 font-medium mb-2">
                 <span className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0" />
                 Op bestelling — levertijd op aanvraag
@@ -978,9 +1020,17 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                           <div className="text-[13px] font-bold text-[var(--color-text-primary)]">
                             {child.title}
                           </div>
-                          {child.stock && child.stock > 0 && (
+                          {child.stock && child.stock > 0 ? (
                             <div className="text-[11px] text-[var(--color-success)] font-medium mt-0.5">
                               {child.stock} op voorraad
+                            </div>
+                          ) : child.backordersAllowed ? (
+                            <div className="text-[11px] text-amber-600 font-medium mt-0.5">
+                              Op bestelling
+                            </div>
+                          ) : (
+                            <div className="text-[11px] text-red-500 font-medium mt-0.5">
+                              Uitverkocht
                             </div>
                           )}
                         </div>
@@ -1020,7 +1070,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               {totalQty > 0 && (
                 <div className="flex items-center justify-between p-3 bg-[var(--color-background,var(--color-surface))] rounded-[10px] mt-3 border-[1.5px] border-[var(--color-border)]">
                   <div className="text-xs text-[var(--color-text-muted)]">
-                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> dozen totaal
+                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> artikelen totaal
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
                     €{totalPrice.toFixed(2)}
@@ -1125,71 +1175,36 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 label: 'Beschrijving',
                 content: (
                   <div>
-                    <div
-                      className="grid gap-10"
-                      style={{ gridTemplateColumns: product.specifications ? '2fr 1fr' : '1fr' }}
-                    >
-                      <div>
-                        {product.description && (
-                          <>
-                            <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 flex items-center gap-2">
-                              <Info className="w-5 h-5 text-[var(--color-primary)]" />
-                              Over dit product
-                            </h3>
-                            <div className="text-[15px] text-[var(--color-text-secondary)] leading-[1.7] mb-4">
-                              <RichText data={product.description} enableProse={true} />
-                            </div>
-                          </>
-                        )}
-                        {(product as any).features && (product as any).features.length > 0 && (
-                          <>
-                            <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
-                              <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
-                              Kenmerken
-                            </h3>
-                            <ul className="list-none mb-5">
-                              {(product as any).features.map((feature: any, idx: number) => (
-                                <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
-                                  <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
-                                  {feature}
-                                </li>
-                              ))}
-                            </ul>
-                          </>
-                        )}
-                        {!product.description && !(product as any).features?.length && (
-                          <p className="text-[var(--color-text-muted)]">Geen beschrijving beschikbaar.</p>
-                        )}
-                      </div>
-                      {product.specifications && (
-                        <div>
-                          <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] overflow-hidden">
-                            <h3 className="py-4 px-5 font-heading text-base font-bold bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
-                              Productspecificaties
-                            </h3>
-                            {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
-                              <div key={groupIdx}>
-                                {specGroup.group && (
-                                  <h4 className="py-3 px-5 font-bold text-sm bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
-                                    {specGroup.group}
-                                  </h4>
-                                )}
-                                {specGroup.attributes?.map((attr: any, attrIdx: number) => (
-                                  <div key={attrIdx} className="flex py-3 px-5 border-b border-b-[var(--color-border)] text-sm">
-                                    <span className="w-40 text-[var(--color-text-muted)] font-medium shrink-0">
-                                      {attr.name}
-                                    </span>
-                                    <span className="text-[var(--color-text-primary)] font-semibold">
-                                      {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
+                    {product.description && (
+                      <>
+                        <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 flex items-center gap-2">
+                          <Info className="w-5 h-5 text-[var(--color-primary)]" />
+                          Over dit product
+                        </h3>
+                        <div className="text-[15px] text-[var(--color-text-primary)] leading-[1.7] mb-4">
+                          <RichText data={product.description} enableProse={true} />
                         </div>
-                      )}
-                    </div>
+                      </>
+                    )}
+                    {(product as any).features && (product as any).features.length > 0 && (
+                      <>
+                        <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
+                          <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
+                          Kenmerken
+                        </h3>
+                        <ul className="list-none mb-5">
+                          {(product as any).features.map((feature: any, idx: number) => (
+                            <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
+                              <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                    {!product.description && !(product as any).features?.length && (
+                      <p className="text-[var(--color-text-muted)]">Geen beschrijving beschikbaar.</p>
+                    )}
                   </div>
                 ),
               },
@@ -1228,7 +1243,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               {
                 id: 'reviews',
                 label: 'Reviews',
-                badge: reviewCount,
+                badge: reviewCount > 0 ? reviewCount : undefined,
                 content: (
                   <ReviewWidget
                     productId={String(product.id)}

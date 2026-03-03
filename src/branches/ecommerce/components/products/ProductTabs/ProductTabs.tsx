@@ -160,7 +160,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
             onClick={() => handleTabChange(tab.id)}
           >
             {tab.label}
-            {tab.badge && <span className="tab-badge">{tab.badge}</span>}
+            {tab.badge != null && tab.badge !== 0 && <span className="tab-badge">{tab.badge}</span>}
           </button>
         ))}
       </div>
@@ -176,7 +176,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
               >
                 <span>
                   {tab.label}
-                  {tab.badge && <span className="tab-badge ml-2">{tab.badge}</span>}
+                  {tab.badge != null && tab.badge !== 0 && <span className="tab-badge ml-2">{tab.badge}</span>}
                 </span>
                 <ChevronDown className="accordion-icon h-5 w-5" />
               </button>
