@@ -1,496 +1,941 @@
 'use client'
 
-import { useState, useRef, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
-import type { Product } from '@/payload-types'
-
-// Product components
-import { ProductGallery } from '@/branches/ecommerce/components/products/ProductGallery'
-import { ProductTabs } from '@/branches/ecommerce/components/products/ProductTabs'
-import { ProductSpecsTable } from '@/branches/ecommerce/components/products/ProductSpecsTable'
-import { BackInStockNotifier } from '@/branches/ecommerce/components/products/BackInStockNotifier'
-import { StickyAddToCartBar } from '@/branches/ecommerce/components/products/StickyAddToCartBar'
-import { ReviewWidget } from '@/branches/ecommerce/components/products/ReviewWidget'
-import { StaffelHintBanner } from '@/branches/ecommerce/components/products/StaffelHintBanner'
-
-// Product-type specific
+import { StaffelCalculator } from '@/branches/ecommerce/components/ui/StaffelCalculator'
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
-import { GroupedProductTable } from '@/branches/ecommerce/templates/products/ProductTemplate1/GroupedProductTable'
-
-// Shared
 import { RichText } from '@/branches/shared/components/common/RichText'
+import { ReviewWidget } from '@/branches/ecommerce/components/products/ReviewWidget'
+import { BackInStockNotifier } from '@/branches/ecommerce/components/products/BackInStockNotifier'
+import { ProductTabs } from '@/branches/ecommerce/components/products/ProductTabs'
 import { features } from '@/lib/features'
-import { getBrandName, getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
-
+import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
+import type { Product } from '@/payload-types'
 import {
-  Award, Hash, Barcode, Package, Star, Truck, ShoppingCart,
-  Undo2, CreditCard, ShieldCheck, Heart, Share2, Minus, Plus,
-  ClipboardList, Repeat, Layers, Info, Download,
+  Heart,
+  Share2,
+  ZoomIn,
+  Award,
+  Hash,
+  Barcode,
+  Package,
+  Star,
+  Truck,
+  ShoppingCart,
+  ClipboardList,
+  Repeat,
+  Undo2,
+  CreditCard,
+  ShieldCheck,
+  Download,
+  Ruler,
+  CheckCircle,
+  Sparkles,
+  ArrowRight,
+  Plus,
+  Check,
+  Info,
+  Minus,
 } from 'lucide-react'
 
-export interface ProductTemplate4Props {
+interface ProductTemplate4Props {
   product: Product
-  relatedProducts?: Product[]
 }
 
 export default function ProductTemplate4({ product }: ProductTemplate4Props) {
   const { addItem } = useCart()
   const { showToast } = useAddToCartToast()
-  const mainATCRef = useRef<HTMLDivElement>(null)
-  const tabsSectionRef = useRef<HTMLDivElement>(null)
-  const [wishlistActive, setWishlistActive] = useState(false)
+  const [showStickyATC, setShowStickyATC] = useState(false)
+  const [imageIndex, setImageIndex] = useState(0)
 
-  // ── Product type detection ──
-  const isGrouped = product.productType === 'grouped'
-  const isVariable = product.productType === 'variable'
-  const isSubscription = isVariable && product.isSubscription === true
-  const isMixMatch = product.productType === 'mixAndMatch'
-  const isSimple = !isGrouped && !isVariable && !isMixMatch
+  // For grouped products - size quantities
+  const [sizeQuantities, setSizeQuantities] = useState<Record<string, number>>({})
+  const [totalQty, setTotalQty] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [activeTier, setActiveTier] = useState(0)
 
-  // ── Quantity ──
-  const minQty = product.minOrderQuantity || 1
-  const maxQty = product.maxOrderQuantity || (product.stock ?? 999)
-  const [quantity, setQuantity] = useState(minQty)
+  // Simple product quantity
+  const [quantity, setQuantity] = useState(1)
+
+  // Variable products - variant selections
   const [variantSelections, setVariantSelections] = useState<Record<string, any>>({})
+  const [variantPrice, setVariantPrice] = useState(0)
+
+  // Subscription products - selected variant
   const [selectedSubscription, setSelectedSubscription] = useState<any>(null)
 
-  // ── Price calculation ──
+  // Product type detection
+  const isGrouped = product.productType === 'grouped'
+  const isVariable = product.productType === 'variable'
+  const isSubscription = product.isSubscription === true && isVariable
+  const isMixMatch = product.productType === 'mixAndMatch'
+
+  const childProducts =
+    isGrouped && product.childProducts
+      ? product.childProducts
+          .map((child: any) => (typeof child.product === 'object' ? child.product : null))
+          .filter((p: any) => p !== null)
+      : []
+
+  // Calculate variant price
+  useEffect(() => {
+    if (isVariable && !isSubscription) {
+      let total = product.price || 0
+      Object.values(variantSelections).forEach((selection: any) => {
+        if (selection.priceModifier) {
+          total += selection.priceModifier
+        }
+      })
+      setVariantPrice(total)
+    }
+  }, [variantSelections, isVariable, isSubscription, product.price])
+
+  // Calculate volume pricing tier
+  const volumeTiers = product.volumePricing || []
+  const getTierPrice = (qty: number): number => {
+    const basePrice = product.price ?? 0
+    if (volumeTiers.length === 0) return basePrice
+
+    for (let i = volumeTiers.length - 1; i >= 0; i--) {
+      if (qty >= volumeTiers[i].minQuantity) {
+        if (volumeTiers[i].discountPercentage) {
+          return basePrice * (1 - (volumeTiers[i].discountPercentage ?? 0) / 100)
+        }
+      }
+    }
+    return basePrice
+  }
+
+  // Update total when size quantities change
+  useEffect(() => {
+    const total = Object.values(sizeQuantities).reduce((sum: any, qty: any) => sum + qty, 0)
+    setTotalQty(total)
+
+    const price = getTierPrice(total)
+    setTotalPrice(total * price)
+
+    // Find active tier
+    if (volumeTiers.length > 0) {
+      for (let i = volumeTiers.length - 1; i >= 0; i--) {
+        if (total >= volumeTiers[i].minQuantity) {
+          setActiveTier(i)
+          break
+        }
+      }
+    }
+  }, [sizeQuantities, volumeTiers])
+
+  // Show sticky ATC after scrolling past main ATC button
+  useEffect(() => {
+    const handleScroll = () => {
+      const shouldShow = window.scrollY > 600
+      setShowStickyATC(shouldShow)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const stepQty = (productId: string, delta: number) => {
+    setSizeQuantities((prev) => {
+      const current = prev[productId] || 0
+      const newQty = Math.max(0, current + delta)
+      return { ...prev, [productId]: newQty }
+    })
+  }
+
+  const handleAddToCart = () => {
+    const firstImageUrl = imageUrl || undefined
+
+    if (isGrouped) {
+      // Add all selected sizes to cart
+      let addedCount = 0
+      Object.entries(sizeQuantities).forEach(([productId, qty]: any) => {
+        if (qty > 0) {
+          const childProd = childProducts.find((p: any) => p.id === productId)
+          if (childProd) {
+            const unitPrice = getTierPrice(totalQty)
+            addItem({
+              id: childProd.id,
+              title: childProd.title,
+              slug: childProd.slug || '',
+              price: childProd.price ?? 0,
+              quantity: qty,
+              unitPrice: unitPrice,
+              image:
+                typeof childProd.images?.[0] === 'object' && childProd.images[0] !== null
+                  ? (childProd.images[0] as any)?.url || undefined
+                  : undefined,
+              sku: childProd.sku || undefined,
+              ean: childProd.ean || undefined,
+              stock: childProd.stock || 0,
+              minOrderQuantity: childProd.minOrderQuantity || undefined,
+              orderMultiple: childProd.orderMultiple || undefined,
+              maxOrderQuantity: childProd.maxOrderQuantity || undefined,
+              parentProductId: product.id,
+              parentProductTitle: product.title,
+            })
+            addedCount += qty
+          }
+        }
+      })
+
+      // Show toast for grouped products
+      if (addedCount > 0) {
+        showToast({
+          id: String(product.id),
+          name: product.title,
+          image: firstImageUrl || undefined,
+          quantity: addedCount,
+          price: getTierPrice(totalQty),
+        })
+      }
+    } else if (isSubscription && selectedSubscription) {
+      // Add subscription product
+      const subscriptionPrice = (product.price || 0) + (selectedSubscription.priceModifier || 0)
+      const discountedPrice = selectedSubscription.discountPercentage
+        ? subscriptionPrice * (1 - selectedSubscription.discountPercentage / 100)
+        : subscriptionPrice
+
+      addItem({
+        id: String(product.id),
+        title: `${product.title} - ${selectedSubscription.label}`,
+        slug: product.slug || '',
+        price: product.price ?? 0,
+        quantity: 1,
+        unitPrice: discountedPrice,
+        image: firstImageUrl,
+        sku: product.sku || undefined,
+        ean: product.ean || undefined,
+        stock: selectedSubscription.stockLevel || 999,
+      })
+
+      showToast({
+        id: String(product.id),
+        name: product.title,
+        variant: selectedSubscription.label,
+        image: firstImageUrl || undefined,
+        quantity: 1,
+        price: discountedPrice,
+      })
+    } else if (isVariable && Object.keys(variantSelections).length > 0) {
+      // Add variable product with selected variants
+      const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
+
+      addItem({
+        id: String(product.id),
+        title: `${product.title} (${variantLabels})`,
+        slug: product.slug || '',
+        price: product.price ?? 0,
+        quantity: quantity,
+        unitPrice: variantPrice,
+        image: firstImageUrl,
+        sku: product.sku || undefined,
+        ean: product.ean || undefined,
+        stock: (product.stock ?? 0) || 0,
+      })
+
+      showToast({
+        id: String(product.id),
+        name: product.title,
+        variant: variantLabels,
+        image: firstImageUrl || undefined,
+        quantity: quantity,
+        price: variantPrice,
+      })
+    } else {
+      // Add simple product
+      const unitPrice = product.salePrice || product.price || 0
+      addItem({
+        id: String(product.id),
+        title: product.title,
+        slug: product.slug || '',
+        price: product.price ?? 0,
+        quantity: quantity,
+        unitPrice: unitPrice,
+        image: firstImageUrl,
+        sku: product.sku || undefined,
+        ean: product.ean || undefined,
+        stock: (product.stock ?? 0) || 0,
+      })
+
+      // Show toast for simple product
+      showToast({
+        id: String(product.id),
+        name: product.title,
+        image: firstImageUrl || undefined,
+        quantity: quantity,
+        price: unitPrice,
+      })
+    }
+  }
+
+  // Extract primary image URL from media upload
+  let imageUrl: string | null =
+    typeof product.images?.[0] === 'object' && product.images[0] !== null
+      ? (product.images[0] as any)?.url || null
+      : null
+
+  // Fallback: extract image URL from tags (WooCommerce import stores images as "img:URL" tags)
+  if (!imageUrl && Array.isArray(product.tags)) {
+    for (const tagEntry of product.tags) {
+      const tag = typeof tagEntry === 'object' && tagEntry !== null ? (tagEntry as any).tag : tagEntry
+      if (typeof tag === 'string' && tag.startsWith('img:')) {
+        imageUrl = tag.slice(4)
+        break
+      }
+    }
+  }
+
+  // Review data — no mock data, empty state
+  const avgRating = 0
+  const reviewCount = 0
+  const reviewSummary = {
+    average: 0,
+    total: 0,
+    distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<1 | 2 | 3 | 4 | 5, number>,
+  }
+
+  // Calculate savings (null-safe)
   const groupedMinPrice = isGrouped ? getGroupedMinPrice(product) : null
-  const basePrice = product.salePrice || product.price || 0
-  const variantModifier = Object.values(variantSelections).reduce(
-    (sum: number, v: any) => sum + (v?.priceModifier || 0), 0,
-  )
-  const currentPrice = isVariable && !isSubscription ? (product.price || 0) + variantModifier : basePrice
+  const currentPrice = product.salePrice || product.price || (isGrouped ? groupedMinPrice : null) || 0
   const oldPrice = product.compareAtPrice || (product.salePrice ? product.price : null)
   const savings = oldPrice && currentPrice ? oldPrice - currentPrice : 0
   const savingsPercent = oldPrice ? Math.round((savings / oldPrice) * 100) : 0
   const hasPrice = product.price != null || product.salePrice != null || groupedMinPrice != null
   const showVanaf = isGrouped && product.price == null && groupedMinPrice != null
-  const displayPrice = showVanaf ? groupedMinPrice! : currentPrice
 
-  // ── Stock ──
+  // Backorder detection
   const isBackorder = product.backordersAllowed === true || product.stockStatus === 'on-backorder'
-  const isOutOfStock = !isGrouped && !isBackorder && product.trackStock && (product.stock ?? 0) <= 0
+  const isOutOfStock = !isBackorder && !isGrouped && product.trackStock && (product.stock ?? 0) <= 0
 
-  // ── Image handling (multi-tenant safe) ──
-  let imageUrl: string | null =
-    typeof product.images?.[0] === 'object' && product.images[0] !== null
-      ? ((product.images[0] as any)?.url as string) || null
-      : null
-  if (!imageUrl && Array.isArray(product.tags)) {
-    for (const tagEntry of product.tags as any[]) {
-      const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
-      if (typeof tag === 'string' && tag.startsWith('img:')) { imageUrl = tag.slice(4); break }
-    }
-  }
-
-  let galleryImages =
-    product.images
-      ?.map((img, idx) => {
-        if (typeof img === 'object' && img !== null) {
-          const url = (img as any)?.url || ''
-          return { id: String((img as any)?.id || idx), url, alt: (img as any)?.alt || product.title, thumbnail: url }
-        }
-        return null
-      })
-      .filter((img): img is NonNullable<typeof img> => img !== null && img.url !== '') || []
-  if (galleryImages.length === 0 && imageUrl) {
-    galleryImages = [{ id: '0', url: imageUrl, alt: product.title, thumbnail: imageUrl }]
-  }
-
-  // ── Gallery badges ──
-  const galleryBadges: Array<{ type: 'sale' | 'new' | 'pro' | 'config'; label: string; position?: 'top-left' | 'top-right' }> = []
-  if (savingsPercent > 0) galleryBadges.push({ type: 'sale', label: `-${savingsPercent}%`, position: 'top-left' })
-  const createdDate = new Date(product.createdAt)
-  const thirtyDaysAgo = new Date()
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-  if (createdDate > thirtyDaysAgo) galleryBadges.push({ type: 'new', label: 'Nieuw', position: 'top-right' })
-
-  // ── Brand / Category ──
-  const brandName = getBrandName(product.brand as any)
-  const firstCategory = product.categories?.length ? product.categories[0] : null
-  const categoryName = typeof firstCategory === 'object' && firstCategory ? firstCategory.name : null
-
-  // ── Volume pricing tiers ──
-  const volumeTiers = product.volumePricing || []
-  const staffelTiers = useMemo(() => {
-    if (volumeTiers.length === 0) return []
-    const sorted = [...volumeTiers].sort((a: any, b: any) => (a.minQuantity || 0) - (b.minQuantity || 0))
-    return sorted.map((tier: any, idx: number) => {
-      const minQ = tier.minQuantity || 1
-      const nextMin = idx < sorted.length - 1 ? (sorted[idx + 1] as any).minQuantity - 1 : Infinity
-      const tierPrice = tier.discountPrice || (product.price || 0) * (1 - (tier.discountPercentage || 0) / 100)
-      return {
-        min: minQ,
-        max: nextMin,
-        price: tierPrice,
-        discount: tier.discountPercentage || (product.price ? Math.round((1 - tierPrice / product.price) * 100) : 0),
-      }
-    })
-  }, [volumeTiers, product.price])
-
-  const activeTierIndex = staffelTiers.findIndex(t => quantity >= t.min && quantity <= t.max)
-  const bestTierIndex = staffelTiers.length > 0 ? staffelTiers.length - 1 : -1
-
-  const nextStaffelTier = useMemo(() => {
-    if (staffelTiers.length === 0) return null
-    const next = staffelTiers.find(t => t.min > quantity)
-    if (!next) return null
-    return { quantity: next.min, discount: next.discount }
-  }, [staffelTiers, quantity])
-
-  const isInStaffelTier = staffelTiers.some(t => quantity >= t.min && quantity <= t.max && t.discount > 0)
-
-  // ── Handlers ──
-  const scrollToReviews = () => {
-    tabsSectionRef.current?.scrollIntoView({ behavior: 'smooth' })
-    setTimeout(() => {
-      const reviewsTab = document.querySelector('[data-tab-id="reviews"]') as HTMLElement
-      reviewsTab?.click()
-    }, 500)
-  }
-
-  const handleAddToCart = () => {
-    const firstImageUrl = imageUrl || undefined
-    if (isSubscription && selectedSubscription) {
-      const subscriptionPrice = (product.price || 0) + (selectedSubscription.priceModifier || 0)
-      const discountedPrice = selectedSubscription.discountPercentage
-        ? subscriptionPrice * (1 - selectedSubscription.discountPercentage / 100)
-        : subscriptionPrice
-      addItem({
-        id: String(product.id), title: `${product.title} - ${selectedSubscription.label}`,
-        slug: product.slug || '', price: product.price ?? 0, quantity: 1,
-        unitPrice: discountedPrice, image: firstImageUrl,
-        sku: product.sku || undefined, ean: product.ean || undefined,
-        stock: selectedSubscription.stockLevel || 999,
-      })
-      showToast({ id: String(product.id), name: product.title, variant: selectedSubscription.label, image: firstImageUrl, quantity: 1, price: discountedPrice })
-    } else if (isVariable && Object.keys(variantSelections).length > 0) {
-      const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
-      addItem({
-        id: String(product.id), title: `${product.title} (${variantLabels})`,
-        slug: product.slug || '', price: product.price ?? 0, quantity,
-        unitPrice: currentPrice, image: firstImageUrl,
-        sku: product.sku || undefined, ean: product.ean || undefined,
-        stock: product.stock ?? 0,
-      })
-      showToast({ id: String(product.id), name: product.title, variant: variantLabels, image: firstImageUrl, quantity, price: currentPrice })
-    } else {
-      const unitPrice = product.salePrice || product.price || 0
-      addItem({
-        id: String(product.id), title: product.title,
-        slug: product.slug || '', price: product.price ?? 0, quantity,
-        unitPrice, image: firstImageUrl,
-        sku: product.sku || undefined, ean: product.ean || undefined,
-        stock: product.stock ?? 0,
-      })
-      showToast({ id: String(product.id), name: product.title, image: firstImageUrl, quantity, price: unitPrice })
-    }
-  }
-
-  // ── Format helpers ──
-  const fmt = (price: number) => price.toFixed(2).replace('.', ',')
-  const fmtSplit = (price: number) => {
-    const [whole, cents] = price.toFixed(2).split('.')
-    return <>{whole},<small>{cents}</small></>
-  }
-
-  // ── Specs groups ──
-  const specsGroups = [
-    ...(Array.isArray(product.specifications)
-      ? product.specifications.map((group: any) => ({
-          title: group.groupName || group.group || 'Specificaties',
-          specs: (group.items || group.attributes || []).map((item: any) => ({
-            label: item.label || item.name || '',
-            value: item.value ? `${item.value}${item.unit ? ` ${item.unit}` : ''}` : '',
-          })),
-        }))
-      : []),
-    {
-      title: 'Productinformatie',
-      specs: [
-        ...(product.sku ? [{ label: 'Artikelnummer', value: product.sku, mono: true, copyable: true }] : []),
-        ...(product.ean ? [{ label: 'EAN', value: product.ean, mono: true, copyable: true }] : []),
-        { label: 'Voorraad', value: product.trackStock ? `${product.stock ?? 0} stuks` : 'Niet bijgehouden' },
-      ],
-    },
-  ]
-
-  // ── Review summary (empty — no mock data) ──
-  const reviewSummary = {
-    average: 0, total: 0,
-    distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<1 | 2 | 3 | 4 | 5, number>,
-  }
-
-  const showAddToCart = !isOutOfStock && !isGrouped && !isMixMatch
-
-  // ── Tabs ──
-  const tabsContent = [
-    {
-      id: 'description',
-      label: 'Beschrijving',
-      content: (
-        <div className="t4-desc-grid">
-          <div className="t4-desc-text">
-            {product.shortDescription && (
-              <div className="t4-desc-highlight">
-                <Info size={18} />
-                <p>{product.shortDescription}</p>
-              </div>
-            )}
-            {product.description ? (
-              <RichText data={product.description} enableProse />
-            ) : (
-              <p className="t4-desc-empty">Geen beschrijving beschikbaar.</p>
-            )}
-          </div>
-          {specsGroups.length > 0 && (
-            <div className="t4-desc-sidebar">
-              <ProductSpecsTable groups={specsGroups} variant="compact" />
-            </div>
-          )}
-        </div>
-      ),
-    },
-    ...(Array.isArray(product.specifications) && product.specifications.length > 0
-      ? [{
-          id: 'specs',
-          label: 'Specificaties',
-          content: <ProductSpecsTable groups={specsGroups} />,
-        }]
-      : []),
-    {
-      id: 'reviews',
-      label: 'Reviews',
-      badge: '0',
-      content: (
-        <ReviewWidget
-          productId={String(product.id)}
-          productName={product.title}
-          summary={reviewSummary}
-          reviews={[]}
-          showWriteButton
-          onWriteReview={() => {}}
-        />
-      ),
-    },
-    ...(product.downloads && (product.downloads as any[]).length > 0
-      ? [{
-          id: 'downloads',
-          label: 'Downloads',
-          content: (
-            <div className="t4-downloads-grid">
-              {(product.downloads as any[]).map((dl: any, idx: number) => {
-                const file = typeof dl === 'object' && dl !== null ? dl : null
-                if (!file || !file.url) return null
-                return (
-                  <a key={idx} href={file.url} download className="t4-download-item">
-                    <div className="t4-download-icon"><Download size={20} /></div>
-                    <div>
-                      <div className="t4-download-name">{file.filename || 'Download'}</div>
-                      {file.filesize && (
-                        <div className="t4-download-size">{(file.filesize / 1024 / 1024).toFixed(2)} MB</div>
-                      )}
-                    </div>
-                  </a>
-                )
-              })}
-            </div>
-          ),
-        }]
-      : []),
-  ]
+  const allImages = product.images || []
+  const currentImage =
+    allImages[imageIndex] && typeof allImages[imageIndex] === 'object' && allImages[imageIndex] !== null
+      ? (allImages[imageIndex] as any)?.url || imageUrl
+      : imageUrl
 
   return (
-    <div className="t4-root">
-      {/* ═══ MAIN LAYOUT: Gallery + Info ═══ */}
-      <div className="t4-layout">
-
-        {/* LEFT: Gallery with heart/share overlay */}
-        <div className="t4-gallery-wrapper">
-          <div className="t4-gallery-actions">
-            <button
-              className={`t4-g-action ${wishlistActive ? 't4-g-action-active' : ''}`}
-              onClick={() => setWishlistActive(!wishlistActive)}
-            >
-              <Heart size={18} fill={wishlistActive ? '#FF6B6B' : 'none'} stroke={wishlistActive ? '#FF6B6B' : 'currentColor'} />
-            </button>
-            <button
-              className="t4-g-action"
-              onClick={() => {
-                if (typeof navigator !== 'undefined' && navigator.share) {
-                  navigator.share({ title: product.title, url: window.location.href })
-                } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                  navigator.clipboard.writeText(window.location.href)
-                }
-              }}
-            >
-              <Share2 size={18} />
-            </button>
-          </div>
-          <ProductGallery
-            images={galleryImages}
-            badges={galleryBadges}
-            enableZoom
-            enableLightbox
-            enableSticky
-            stickyOffset={100}
-            borderRadius={20}
-            aspectRatio={1}
-            layout="horizontal"
-          />
-        </div>
-
-        {/* RIGHT: Product Info */}
-        <div className="t4-info">
-
-          {/* Brand */}
-          {brandName && (
-            <div className="t4-brand">
-              <Award size={14} />
-              {brandName}
+    <>
+      <div className="product-template-4 overflow-x-hidden pb-20" style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}>
+        {/* MOBILE: Image Gallery - Swipeable */}
+        <div className="relative w-full h-[280px] md:h-96 lg:hidden bg-[var(--color-background,var(--color-surface))]">
+          {/* Badges */}
+          {(product.badge || product.salePrice) && (
+            <div className="absolute top-3 left-3 flex gap-1.5 z-10">
+              {savingsPercent > 0 && (
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#FF6B6B] text-white">
+                  -{savingsPercent}%
+                </span>
+              )}
+              {product.badge === 'popular' && (
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[var(--color-primary)] text-white">
+                  Bestseller
+                </span>
+              )}
+              {product.badge === 'new' && (
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[var(--color-primary)] text-white">
+                  NIEUW
+                </span>
+              )}
             </div>
           )}
 
-          {/* Title */}
-          <h1 className="t4-title">{product.title}</h1>
-
-          {/* SKU / EAN / Packaging */}
-          <div className="t4-sku">
-            {product.sku && <span><Hash size={13} /> Art. {product.sku}</span>}
-            {product.ean && <span><Barcode size={13} /> EAN {product.ean}</span>}
-            {(product as any).packagingUnit && <span><Package size={13} /> {(product as any).packagingUnit}</span>}
+          {/* Actions */}
+          <div className="absolute top-3 right-3 flex gap-1.5 z-10">
+            <button
+              className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
+              aria-label="Add to favorites"
+            >
+              <Heart className="w-4 h-4 text-[var(--color-text-primary)]" />
+            </button>
+            <button
+              className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
+              aria-label="Share product"
+            >
+              <Share2 className="w-4 h-4 text-[var(--color-text-primary)]" />
+            </button>
           </div>
 
-          {/* Rating → scroll to reviews */}
-          <div className="t4-rating" onClick={scrollToReviews} role="button" tabIndex={0}>
-            <div className="t4-stars">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} size={16} fill="none" stroke="#E8ECF1" />
+          {/* Image */}
+          <div className="w-full h-full flex items-center justify-center p-5">
+            {currentImage ? (
+              <img
+                src={currentImage}
+                alt={product.title}
+                className="max-w-full max-h-full object-contain drop-shadow-md"
+              />
+            ) : (
+              <div className="text-[80px]">📦</div>
+            )}
+          </div>
+
+          {/* Image Dots */}
+          {allImages.length > 1 && (
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-2 bg-black/50 rounded-full">
+              {allImages.slice(0, 5).map((_: any, idx: number) => (
+                <button
+                  key={idx}
+                  onClick={() => setImageIndex(idx)}
+                  className="h-2 rounded-full border-0 cursor-pointer transition-all duration-300"
+                  style={{
+                    width: imageIndex === idx ? '20px' : '8px',
+                    background: imageIndex === idx ? 'white' : 'rgba(255,255,255,0.5)',
+                  }}
+                  aria-label={`View image ${idx + 1}`}
+                />
               ))}
             </div>
-            <span className="t4-rating-text">
-              <strong>0</strong> / 5 — 0 beoordelingen
-            </span>
+          )}
+        </div>
+
+        {/* DESKTOP: 2-Column Layout (50/50) */}
+        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start lg:mb-12 lg:px-6">
+          {/* LEFT: Gallery */}
+          <div className="gallery">
+            {/* Main Image */}
+            <div className="w-full h-[480px] bg-[var(--color-surface,white)] rounded-[var(--border-radius,20px)] border border-[var(--color-border,var(--color-border))] flex items-center justify-center relative overflow-hidden">
+              {/* Badges */}
+              {(product.badge || product.salePrice) && (
+                <div className="absolute top-4 left-4 flex gap-2 z-10">
+                  {savingsPercent > 0 && (
+                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#FF6B6B] text-white">
+                      -{savingsPercent}%
+                    </span>
+                  )}
+                  {product.badge === 'popular' && (
+                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--color-primary)] text-white">
+                      Bestseller
+                    </span>
+                  )}
+                  {product.badge === 'new' && (
+                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--color-primary)] text-white">
+                      NIEUW
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="absolute top-4 right-4 flex gap-2 z-10">
+                <button
+                  className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
+                  aria-label="Add to favorites"
+                >
+                  <Heart className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
+                </button>
+                <button
+                  className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
+                  aria-label="Share product"
+                >
+                  <Share2 className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
+                </button>
+              </div>
+
+              {/* Image */}
+              {imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt={product.title}
+                  className="max-w-full max-h-full object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
+                />
+              ) : (
+                <div className="text-[120px]">📦</div>
+              )}
+
+              {/* Zoom */}
+              <div className="absolute bottom-4 right-4">
+                <button
+                  className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
+                  aria-label="Zoom image"
+                >
+                  <ZoomIn className="w-[18px] h-[18px] text-[var(--color-text-muted)]" />
+                </button>
+              </div>
+            </div>
+
+            {/* Thumbnails */}
+            {product.images && product.images.length > 1 && (
+              <div className="flex gap-2.5 mt-3">
+                {product.images.slice(0, 5).map((img: any, idx: number) => {
+                  const imgUrl = typeof img === 'object' && img !== null ? (img as any)?.url : null
+                  return (
+                    <div
+                      key={idx}
+                      className="w-20 h-20 rounded-xl bg-[var(--color-surface,white)] cursor-pointer flex items-center justify-center"
+                      style={{
+                        border: idx === 0 ? '2px solid var(--color-primary)' : '2px solid var(--color-border)',
+                        boxShadow: idx === 0 ? '0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent)' : 'none',
+                      }}
+                    >
+                      {imgUrl && (
+                        <img
+                          src={imgUrl}
+                          alt={`${product.title} thumbnail ${idx + 1}`}
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
 
-          {/* ═══ PRICE BLOCK (card) ═══ */}
-          <div className="t4-price-block">
-            <div className="t4-price-row">
+          {/* RIGHT: Product Info - Desktop Only Content */}
+          <div className="product-info">
+            {/* Brand */}
+            {product.brand && (
+              <div className="text-xs font-bold uppercase text-[var(--color-primary)] tracking-wider mb-2 flex items-center gap-1.5">
+                <Award className="w-[14px] h-[14px]" />
+                {typeof product.brand === 'object' ? (product.brand as any).name : product.brand}
+              </div>
+            )}
+
+            {/* Title */}
+            <h1 className="font-heading text-[28px] font-extrabold text-[var(--color-text-primary)] leading-tight tracking-tight mb-2">
+              {product.title}
+            </h1>
+
+            {/* SKU / EAN / Packaging */}
+            <div className="font-mono text-xs text-[var(--color-text-muted)] mb-4 flex items-center gap-3 flex-wrap">
+              {product.sku && (
+                <span className="flex items-center gap-1">
+                  <Hash className="w-[13px] h-[13px]" />
+                  Art. {product.sku}
+                </span>
+              )}
+              {product.ean && (
+                <span className="flex items-center gap-1">
+                  <Barcode className="w-[13px] h-[13px]" />
+                  EAN {product.ean}
+                </span>
+              )}
+              {(product as any).packaging && (
+                <span className="flex items-center gap-1">
+                  <Package className="w-[13px] h-[13px]" />
+                  {(product as any).packaging}
+                </span>
+              )}
+            </div>
+
+            {/* Rating — always visible, links to reviews tab */}
+            <div className="flex items-center gap-2 mb-5 pb-5 border-b border-b-[var(--color-border)]">
+              <div className="flex gap-0.5">
+                {[1, 2, 3, 4, 5].map((i: any) => (
+                  <Star
+                    key={i}
+                    className="w-4 h-4 text-[var(--color-warning)]"
+                    fill={i <= Math.floor(avgRating) ? 'var(--color-warning)' : 'none'}
+                  />
+                ))}
+              </div>
+              <span className="text-[13px] text-[var(--color-text-muted)]">
+                <strong className="text-[var(--color-text-primary)]">{avgRating.toFixed(1)}</strong> / 5 —{' '}
+                {reviewCount} beoordelingen
+              </span>
+            </div>
+
+            {/* PRICE BLOCK - Will be duplicated for mobile */}
+            <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] p-6 mb-5">
+              {/* Current Price */}
+              <div className="flex items-baseline gap-3 mb-1">
+                {hasPrice ? (
+                  <>
+                    {showVanaf && (
+                      <span className="text-sm font-medium text-[var(--color-text-muted)]">Vanaf</span>
+                    )}
+                    <span
+                      className="font-heading text-[32px] font-extrabold"
+                      style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
+                    >
+                      €{currentPrice.toFixed(2)}
+                    </span>
+                    {oldPrice && (
+                      <>
+                        <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
+                          €{oldPrice.toFixed(2)}
+                        </span>
+                        <span className="text-[13px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2.5 py-[3px] rounded-md">
+                          Bespaar {savingsPercent}%
+                        </span>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <span className="font-heading text-[24px] font-bold text-[var(--color-text-muted)]">
+                    Prijs op aanvraag
+                  </span>
+                )}
+              </div>
+
+              {/* Backorder notice */}
+              {isBackorder && (
+                <div className="flex items-center gap-2 text-sm text-amber-600 font-medium mb-2">
+                  <span className="w-2 h-2 bg-amber-500 rounded-full shrink-0" />
+                  Op bestelling — levertijd op aanvraag
+                </div>
+              )}
+
+              {/* Price Meta */}
+              {(product as any).packaging && (
+                <div className="text-xs text-[var(--color-text-muted)] mb-4">
+                  {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
+                </div>
+              )}
+
+              {/* Volume Pricing - StaffelCalculator Component */}
+              {volumeTiers.length > 0 && !isGrouped && hasPrice && (
+                <div className="mt-4">
+                  <StaffelCalculator
+                    productName={product.title}
+                    tiers={volumeTiers.map((tier: any) => ({
+                      minQty: tier.minQuantity,
+                      maxQty: tier.maxQuantity || undefined,
+                      price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
+                      savePercentage: tier.discountPercentage || undefined,
+                    }))}
+                    initialQuantity={quantity}
+                    unit="stuks"
+                    onQuantityChange={(newQty: number) => {
+                      setQuantity(newQty)
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* STOCK */}
+            {product.trackStock && (product.stock ?? 0) !== undefined && (product.stock ?? 0) > 0 && !isVariable && (
+              <div className="flex items-center gap-2 px-4 py-3 bg-[var(--color-success-bg)] rounded-[10px] mb-5">
+                <span className="w-2 h-2 bg-[var(--color-success)] rounded-full shrink-0" />
+                <div>
+                  <div className="text-[13px] font-semibold text-[#2E7D32]">
+                    Op voorraad — {(product.stock ?? 0)} stuks beschikbaar
+                  </div>
+                  {product.leadTime && (
+                    <div className="text-xs text-[#558B2F] font-normal">
+                      Levertijd: {product.leadTime}
+                    </div>
+                  )}
+                </div>
+                <Truck className="w-4 h-4 ml-auto text-[#2E7D32]" />
+              </div>
+            )}
+
+            {/* OUT OF STOCK + BackInStockNotifier — Desktop */}
+            {isOutOfStock && (
+              <div className="mb-5">
+                <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm mb-3">
+                  <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+                  Tijdelijk uitverkocht
+                </div>
+                <BackInStockNotifier
+                  product={{ id: String(product.id), name: product.title }}
+                  onSubmit={async (email) => { console.log('Back in stock notification requested:', { email, productId: product.id }) }}
+                />
+              </div>
+            )}
+
+            {/* SUBSCRIPTION PRODUCTS - Pricing Table */}
+            {isSubscription && features.subscriptions && (
+              <div className="mb-6">
+                <SubscriptionPricingTable
+                  product={product}
+                  onSelectionChange={(selection) => setSelectedSubscription(selection)}
+                />
+              </div>
+            )}
+
+            {/* VARIABLE PRODUCTS - Variant Selector (non-subscription) */}
+            {isVariable && !isSubscription && features.variableProducts && (
+              <div className="mb-6">
+                <VariantSelector
+                  product={product}
+                  onSelectionChange={(selections) => setVariantSelections(selections)}
+                />
+              </div>
+            )}
+
+            {/* SIZE SELECTOR (Grouped Products) */}
+            {isGrouped && childProducts.length > 0 && (
+              <div className="mb-6">
+                <div className="text-sm font-bold text-[var(--color-text-primary)] mb-2.5 flex items-center gap-1.5">
+                  <Ruler className="w-4 h-4 text-[var(--color-primary)]" />
+                  Selecteer maten en aantallen
+                </div>
+
+                {/* Size Grid */}
+                <div className="overflow-x-auto">
+                  <div
+                    className="grid gap-0 border-[1.5px] border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface,white)] min-w-min"
+                    style={{ gridTemplateColumns: `repeat(${childProducts.length}, 1fr)` }}
+                  >
+                  {childProducts.map((child: any, idx: number) => {
+                    const qty = sizeQuantities[child.id] || 0
+                    return (
+                      <div
+                        key={child.id}
+                        className="flex flex-col"
+                        style={{ borderRight: idx < childProducts.length - 1 ? '1.5px solid var(--color-border)' : 'none' }}
+                      >
+                        {/* Header */}
+                        <div className="p-2.5 text-center bg-[var(--color-background,var(--color-surface))] border-b-[1.5px] border-b-[var(--color-border)] text-[13px] font-bold text-[var(--color-text-primary)]">
+                          {child.title}
+                        </div>
+
+                        {/* Body */}
+                        <div className="p-3 flex flex-col gap-2 items-center">
+                          {/* Quantity Input */}
+                          <div
+                            className="flex items-center rounded-lg overflow-hidden bg-white"
+                            style={{ border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}` }}
+                          >
+                            <button
+                              onClick={() => stepQty(child.id, -1)}
+                              className="w-8 h-9 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
+                            >
+                              −
+                            </button>
+                            <input
+                              type="number"
+                              value={qty}
+                              onChange={(e: any) => {
+                                const val = Math.max(0, parseInt(e.target.value) || 0)
+                                setSizeQuantities((prev) => ({ ...prev, [child.id]: val }))
+                              }}
+                              className="w-10 h-9 border-0 text-center font-mono text-sm outline-none"
+                              style={{
+                                fontWeight: qty > 0 ? 700 : 500,
+                                color: qty > 0 ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                              }}
+                            />
+                            <button
+                              onClick={() => stepQty(child.id, 1)}
+                              className="w-8 h-9 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          {/* Stock */}
+                          {child.stock && child.stock > 0 && (
+                            <div className="text-[11px] text-[var(--color-success)] font-medium flex items-center gap-[3px]">
+                              <CheckCircle className="w-[11px] h-[11px]" />
+                              {child.stock} op voorraad
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                  </div>
+                </div>
+
+                {/* Total */}
+                <div className="flex items-center justify-between px-4 py-3 bg-[var(--color-background,var(--color-surface))] rounded-[10px] mt-3 border-[1.5px] border-[var(--color-border)]">
+                  <div className="text-[13px] text-[var(--color-text-muted)]">
+                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> dozen totaal
+                    {volumeTiers.length > 0 && totalQty > 0 && ' · staffelprijs van toepassing'}
+                  </div>
+                  <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
+                    €{totalPrice.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Simple Product Quantity */}
+            {!isGrouped && !isOutOfStock && (
+              <div className="mb-5">
+                <div className="text-sm font-bold text-[var(--color-text-primary)] mb-2">
+                  Aantal
+                </div>
+                <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <input
+                    type="number"
+                    value={quantity}
+                    onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
+                  />
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+                {quantity > 1 && hasPrice && (
+                  <div className="mt-2 text-sm text-[var(--color-text-muted)]">
+                    {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ACTION BUTTONS */}
+            <div className="flex flex-col gap-2.5 mb-5">
+              {/* Add to Cart */}
+              {!isOutOfStock && (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={isGrouped && totalQty === 0}
+                  className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold"
+                  style={{
+                    background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
+                    cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
+                    boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
+                  }}
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
+                </button>
+              )}
+
+              {/* Secondary Buttons */}
+              <div className="flex gap-2.5">
+                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
+                  <ClipboardList className="w-[18px] h-[18px]" />
+                  Op bestellijst
+                </button>
+                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
+                  <Repeat className="w-[18px] h-[18px]" />
+                  Herhaalbestelling
+                </button>
+              </div>
+            </div>
+
+            {/* TRUST SIGNALS */}
+            <div className="grid grid-cols-2 gap-2.5 pt-5 border-t border-t-[var(--color-border)]">
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <Truck className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
+                Gratis verzending vanaf €150
+              </div>
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <Undo2 className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
+                30 dagen retourrecht
+              </div>
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <CreditCard className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
+                Op rekening bestellen
+              </div>
+              <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
+                <ShieldCheck className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
+                CE & ISO gecertificeerd
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* MOBILE: Price + Stock + Actions */}
+        <div className="p-4 lg:hidden">
+          {/* PRICE BLOCK */}
+          <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-xl p-4 mb-4">
+            <div className="flex items-baseline gap-2 mb-1 flex-wrap">
               {hasPrice ? (
                 <>
-                  {showVanaf && <span className="t4-price-vanaf">Vanaf</span>}
-                  <span className={`t4-price-current ${oldPrice ? 't4-price-sale' : ''}`}>
-                    €{fmtSplit(displayPrice)}
+                  {showVanaf && (
+                    <span className="text-xs font-medium text-[var(--color-text-muted)]">Vanaf</span>
+                  )}
+                  <span
+                    className="font-heading text-[26px] font-extrabold"
+                    style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
+                  >
+                    €{currentPrice.toFixed(2)}
                   </span>
                   {oldPrice && (
                     <>
-                      <span className="t4-price-old">€{fmt(oldPrice)}</span>
-                      <span className="t4-price-save">Bespaar {savingsPercent}%</span>
+                      <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
+                        €{oldPrice.toFixed(2)}
+                      </span>
+                      <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2 py-[3px] rounded">
+                        -{savingsPercent}%
+                      </span>
                     </>
                   )}
                 </>
               ) : (
-                <span className="t4-price-request">Prijs op aanvraag</span>
+                <span className="font-heading text-[20px] font-bold text-[var(--color-text-muted)]">
+                  Prijs op aanvraag
+                </span>
               )}
             </div>
-            <div className="t4-price-meta">
-              {(product as any).packagingUnit ? `${(product as any).packagingUnit} · ` : ''}excl. BTW
-            </div>
 
-            {/* Staffelprijzen — 4-column clickable grid */}
-            {staffelTiers.length > 0 && !isGrouped && hasPrice && (
-              <div className="t4-volume-pricing">
-                <div className="t4-volume-label">
-                  <Layers size={16} />
-                  Staffelprijzen — meer bestellen = meer besparen
-                </div>
-                <div className="t4-volume-table">
-                  {staffelTiers.map((tier, i) => (
-                    <div
-                      key={i}
-                      className={`t4-volume-tier${activeTierIndex === i ? ' active' : ''}${bestTierIndex === i ? ' best' : ''}`}
-                      onClick={() => setQuantity(tier.min)}
-                    >
-                      <div className="t4-volume-qty">
-                        {tier.min}–{tier.max === Infinity ? '∞' : tier.max}
-                      </div>
-                      <div className="t4-volume-price">€{fmt(tier.price)}</div>
-                      <div className="t4-volume-discount">
-                        {tier.discount > 0 ? `-${tier.discount}%` : 'standaard'}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            {/* Backorder notice - mobile */}
+            {isBackorder && (
+              <div className="flex items-center gap-2 text-xs text-amber-600 font-medium mb-2">
+                <span className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0" />
+                Op bestelling — levertijd op aanvraag
+              </div>
+            )}
+
+            {(product as any).packaging && (
+              <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
+                {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
+              </div>
+            )}
+
+            {/* Volume Pricing - Mobile - StaffelCalculator */}
+            {volumeTiers.length > 0 && !isGrouped && hasPrice && (
+              <div className="mt-3">
+                <StaffelCalculator
+                  productName={product.title}
+                  tiers={volumeTiers.map((tier: any) => ({
+                    minQty: tier.minQuantity,
+                    maxQty: tier.maxQuantity || undefined,
+                    price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
+                    savePercentage: tier.discountPercentage || undefined,
+                  }))}
+                  initialQuantity={quantity}
+                  unit="stuks"
+                  onQuantityChange={(newQty: number) => {
+                    setQuantity(newQty)
+                  }}
+                />
               </div>
             )}
           </div>
 
-          {/* StaffelHintBanner */}
-          {nextStaffelTier && showAddToCart && (
-            <div className="t4-staffel-hint">
-              <StaffelHintBanner
-                currentQuantity={quantity}
-                nextTier={nextStaffelTier}
-                variant={isInStaffelTier ? 'success' : 'default'}
-              />
-            </div>
-          )}
-          {!nextStaffelTier && isInStaffelTier && showAddToCart && (
-            <div className="t4-staffel-hint">
-              <StaffelHintBanner
-                currentQuantity={quantity}
-                nextTier={{ quantity, discount: staffelTiers[staffelTiers.length - 1]?.discount || 0 }}
-                achieved
-              />
-            </div>
-          )}
-
-          {/* ═══ STOCK ROW (pulsing dot + truck) ═══ */}
-          {!isGrouped && !isOutOfStock && !isBackorder && product.trackStock && (product.stock ?? 0) > 0 && (
-            <div className="t4-stock-row">
-              <span className="t4-stock-dot" />
-              <div>
-                <div className="t4-stock-text">Op voorraad — morgen geleverd</div>
-                <div className="t4-stock-sub">
-                  {product.leadTime || 'Besteld voor 16:00 uur, morgen bij u afgeleverd'}
+          {/* STOCK - Mobile */}
+          {product.trackStock && (product.stock ?? 0) !== undefined && (product.stock ?? 0) > 0 && !isVariable && (
+            <div className="flex items-center gap-2 p-3 bg-[var(--color-success-bg)] rounded-[10px] mb-4 text-[13px]">
+              <span className="w-1.5 h-1.5 bg-[var(--color-success)] rounded-full shrink-0" />
+              <div className="flex-1">
+                <div className="font-semibold text-[#2E7D32]">
+                  Op voorraad — {(product.stock ?? 0)} stuks
                 </div>
               </div>
-              <Truck size={16} style={{ marginLeft: 'auto', color: '#2E7D32' }} />
+              <Truck className="w-4 h-4 text-[#2E7D32]" />
             </div>
           )}
 
-          {isBackorder && !isOutOfStock && (
-            <div className="t4-stock-row t4-stock-backorder">
-              <span className="t4-stock-dot t4-stock-dot-amber" />
-              <div>
-                <div className="t4-stock-text" style={{ color: '#B45309' }}>
-                  Op bestelling — levertijd op aanvraag
-                </div>
-              </div>
-            </div>
-          )}
-
+          {/* OUT OF STOCK + BackInStockNotifier — Mobile */}
           {isOutOfStock && (
-            <div className="t4-oos-section">
-              <div className="t4-stock-row t4-stock-oos">
-                <span className="t4-stock-dot t4-stock-dot-red" />
-                <div className="t4-stock-text" style={{ color: '#B91C1C' }}>Tijdelijk uitverkocht</div>
+            <div className="mb-4">
+              <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm mb-3">
+                <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+                Tijdelijk uitverkocht
               </div>
               <BackInStockNotifier
                 product={{ id: String(product.id), name: product.title }}
-                onSubmit={async (email) => { console.log('Back in stock:', email) }}
+                onSubmit={async (email) => { console.log('Back in stock notification requested:', { email, productId: product.id }) }}
               />
             </div>
           )}
 
-          {/* ═══ PRODUCT TYPE SECTIONS ═══ */}
+          {/* SUBSCRIPTION PRODUCTS - Pricing Table (Mobile) */}
           {isSubscription && features.subscriptions && (
-            <div className="t4-type-section">
+            <div className="mb-5">
               <SubscriptionPricingTable
                 product={product}
                 onSelectionChange={(selection) => setSelectedSubscription(selection)}
@@ -498,8 +943,9 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
             </div>
           )}
 
+          {/* VARIABLE PRODUCTS - Variant Selector (Mobile, non-subscription) */}
           {isVariable && !isSubscription && features.variableProducts && (
-            <div className="t4-type-section">
+            <div className="mb-5">
               <VariantSelector
                 product={product}
                 onSelectionChange={(selections) => setVariantSelections(selections)}
@@ -507,435 +953,534 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
             </div>
           )}
 
-          {isGrouped && product.childProducts && (
-            <div className="t4-type-section">
-              <GroupedProductTable
-                parentProduct={{ id: product.id, title: product.title }}
-                childProducts={
-                  product.childProducts as Array<{
-                    product: string | Product
-                    sortOrder?: number | null
-                    isDefault?: boolean | null
-                  }>
-                }
-              />
-            </div>
-          )}
-
-          {isMixMatch && (
-            <div className="t4-mix-match">
-              <Package size={20} />
-              <p>Dit product is beschikbaar als samengesteld pakket.</p>
-              <p>Neem contact op voor meer informatie.</p>
-            </div>
-          )}
-
-          {/* ═══ QUANTITY STEPPER ═══ */}
-          {showAddToCart && (isSimple || isVariable) && (
-            <div className="t4-qty-section">
-              <div className="t4-qty-label">Aantal</div>
-              <div className="t4-qty-stepper">
-                <button onClick={() => setQuantity(Math.max(minQty, quantity - (product.orderMultiple || 1)))}>
-                  <Minus size={16} />
-                </button>
-                <input
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => setQuantity(Math.max(minQty, Math.min(maxQty, parseInt(e.target.value) || minQty)))}
-                />
-                <button onClick={() => setQuantity(Math.min(maxQty, quantity + (product.orderMultiple || 1)))}>
-                  <Plus size={16} />
-                </button>
+          {/* SIZE SELECTOR - Mobile (Grouped Products) */}
+          {isGrouped && childProducts.length > 0 && (
+            <div className="mb-5">
+              <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-2.5 flex items-center gap-1.5">
+                <Ruler className="w-4 h-4 text-[var(--color-primary)]" />
+                Selecteer maten
               </div>
-              {quantity > 1 && hasPrice && (
-                <div className="t4-qty-total">
-                  {quantity}× €{fmt(currentPrice)} ={' '}
-                  <strong>€{fmt(currentPrice * quantity)}</strong>
+
+              <div className="space-y-2">
+                {childProducts.map((child: any) => {
+                  const qty = sizeQuantities[child.id] || 0
+                  return (
+                    <div
+                      key={child.id}
+                      className="rounded-[10px] p-3"
+                      style={{
+                        border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                        background: qty > 0 ? 'color-mix(in srgb, var(--color-primary) 5%, white)' : 'var(--color-surface, white)',
+                      }}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <div className="text-[13px] font-bold text-[var(--color-text-primary)]">
+                            {child.title}
+                          </div>
+                          {child.stock && child.stock > 0 && (
+                            <div className="text-[11px] text-[var(--color-success)] font-medium mt-0.5">
+                              {child.stock} op voorraad
+                            </div>
+                          )}
+                        </div>
+                        <div
+                          className="flex items-center rounded-lg overflow-hidden bg-white"
+                          style={{ border: `1.5px solid ${qty > 0 ? 'var(--color-primary)' : 'var(--color-border)'}` }}
+                        >
+                          <button
+                            onClick={() => stepQty(child.id, -1)}
+                            className="w-9 h-9 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
+                          >
+                            −
+                          </button>
+                          <div
+                            className="w-10 text-center font-mono text-sm"
+                            style={{
+                              fontWeight: qty > 0 ? 700 : 500,
+                              color: qty > 0 ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                            }}
+                          >
+                            {qty}
+                          </div>
+                          <button
+                            onClick={() => stepQty(child.id, 1)}
+                            className="w-9 h-9 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-sm text-[var(--color-text-primary)]"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Total - Mobile */}
+              {totalQty > 0 && (
+                <div className="flex items-center justify-between p-3 bg-[var(--color-background,var(--color-surface))] rounded-[10px] mt-3 border-[1.5px] border-[var(--color-border)]">
+                  <div className="text-xs text-[var(--color-text-muted)]">
+                    <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> dozen totaal
+                  </div>
+                  <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
+                    €{totalPrice.toFixed(2)}
+                  </div>
                 </div>
               )}
             </div>
           )}
 
-          {/* ═══ ACTION BUTTONS ═══ */}
-          <div ref={mainATCRef} className="t4-action-buttons">
-            {showAddToCart && (
-              <button className="t4-btn-atc" onClick={handleAddToCart}>
-                <ShoppingCart size={20} />
-                {isBackorder
-                  ? 'Bestellen'
-                  : hasPrice
-                    ? `Toevoegen — €${fmt(currentPrice * quantity)}`
-                    : 'Toevoegen aan winkelwagen'}
-              </button>
-            )}
-            <div className="t4-btn-row">
-              <button className="t4-btn-secondary">
-                <ClipboardList size={18} /> Op bestellijst
-              </button>
-              <button className="t4-btn-secondary">
-                <Repeat size={18} /> Herhaalbestelling
-              </button>
+          {/* Simple Product Quantity - Mobile */}
+          {!isGrouped && !isOutOfStock && (
+            <div className="mb-4">
+              <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-2">
+                Aantal
+              </div>
+              <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-base text-[var(--color-text-primary)]"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
+                />
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-base text-[var(--color-text-primary)]"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+              {quantity > 1 && (
+                <div className="mt-2 text-sm text-[var(--color-text-muted)]">
+                  {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Main CTA - Mobile */}
+          {!isOutOfStock && (
+            <button
+              onClick={handleAddToCart}
+              disabled={isGrouped && totalQty === 0}
+              className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold mb-3"
+              style={{
+                background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
+                cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
+                boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
+              }}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
+            </button>
+          )}
+
+          {/* Secondary Buttons - Mobile */}
+          <div className="flex gap-2 mb-4">
+            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
+              <ClipboardList className="w-4 h-4" />
+              Bestellijst
+            </button>
+            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
+              <Repeat className="w-4 h-4" />
+              Herhalen
+            </button>
+          </div>
+
+          {/* Trust Signals - Mobile */}
+          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-t-[var(--color-border)]">
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <Truck className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+              <span>Gratis vanaf €150</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <Undo2 className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+              <span>30 dagen retour</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <CreditCard className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+              <span>Op rekening</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+              <span>CE & ISO</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══ TABS (Description, Specs, Reviews, Downloads) — ProductTabs component ═══ */}
+        <div className="px-4 lg:px-6 pt-8 lg:pt-12">
+          <ProductTabs
+            enableMobileAccordion
+            enableKeyboardNav
+            tabs={[
+              {
+                id: 'description',
+                label: 'Beschrijving',
+                content: (
+                  <div>
+                    <div
+                      className="grid gap-10"
+                      style={{ gridTemplateColumns: product.specifications ? '2fr 1fr' : '1fr' }}
+                    >
+                      <div>
+                        {product.description && (
+                          <>
+                            <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 flex items-center gap-2">
+                              <Info className="w-5 h-5 text-[var(--color-primary)]" />
+                              Over dit product
+                            </h3>
+                            <div className="text-[15px] text-[var(--color-text-secondary)] leading-[1.7] mb-4">
+                              <RichText data={product.description} enableProse={true} />
+                            </div>
+                          </>
+                        )}
+                        {(product as any).features && (product as any).features.length > 0 && (
+                          <>
+                            <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
+                              <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
+                              Kenmerken
+                            </h3>
+                            <ul className="list-none mb-5">
+                              {(product as any).features.map((feature: any, idx: number) => (
+                                <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
+                                  <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        )}
+                        {!product.description && !(product as any).features?.length && (
+                          <p className="text-[var(--color-text-muted)]">Geen beschrijving beschikbaar.</p>
+                        )}
+                      </div>
+                      {product.specifications && (
+                        <div>
+                          <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] overflow-hidden">
+                            <h3 className="py-4 px-5 font-heading text-base font-bold bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
+                              Productspecificaties
+                            </h3>
+                            {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
+                              <div key={groupIdx}>
+                                {specGroup.group && (
+                                  <h4 className="py-3 px-5 font-bold text-sm bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
+                                    {specGroup.group}
+                                  </h4>
+                                )}
+                                {specGroup.attributes?.map((attr: any, attrIdx: number) => (
+                                  <div key={attrIdx} className="flex py-3 px-5 border-b border-b-[var(--color-border)] text-sm">
+                                    <span className="w-40 text-[var(--color-text-muted)] font-medium shrink-0">
+                                      {attr.name}
+                                    </span>
+                                    <span className="text-[var(--color-text-primary)] font-semibold">
+                                      {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ),
+              },
+              ...(Array.isArray(product.specifications) && product.specifications.length > 0
+                ? [{
+                    id: 'specs',
+                    label: 'Specificaties',
+                    content: (
+                      <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] overflow-hidden max-w-[600px]">
+                        <h3 className="py-4 px-5 font-heading text-base font-bold bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
+                          Technische specificaties
+                        </h3>
+                        {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
+                          <div key={groupIdx}>
+                            {specGroup.group && (
+                              <h4 className="py-3 px-5 font-bold text-sm bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
+                                {specGroup.group}
+                              </h4>
+                            )}
+                            {specGroup.attributes?.map((attr: any, attrIdx: number) => (
+                              <div key={attrIdx} className="flex py-3 px-5 border-b border-b-[var(--color-border)] text-sm">
+                                <span className="w-[200px] text-[var(--color-text-muted)] font-medium shrink-0">
+                                  {attr.name}
+                                </span>
+                                <span className="text-[var(--color-text-primary)] font-semibold">
+                                  {attr.value}{attr.unit ? ` ${attr.unit}` : ''}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    ),
+                  }]
+                : []),
+              {
+                id: 'reviews',
+                label: 'Reviews',
+                badge: reviewCount,
+                content: (
+                  <ReviewWidget
+                    productId={String(product.id)}
+                    productName={product.title}
+                    summary={reviewSummary}
+                    reviews={[]}
+                    showWriteButton
+                    onWriteReview={() => {}}
+                  />
+                ),
+              },
+              ...(product.downloads && (product.downloads as any[]).length > 0
+                ? [{
+                    id: 'downloads',
+                    label: 'Downloads',
+                    content: (
+                      <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
+                        {(product.downloads as any[]).map((download: any, idx: number) => {
+                          const file = typeof download === 'object' && download !== null ? download : null
+                          if (!file || !file.url) return null
+                          return (
+                            <a
+                              key={idx}
+                              href={file.url}
+                              download
+                              className="flex items-center gap-3 p-4 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,12px)] no-underline text-[var(--color-text-primary)]"
+                            >
+                              <Download className="w-5 h-5 text-[var(--color-primary)]" />
+                              <div>
+                                <div className="font-semibold text-sm">{file.filename || 'Download'}</div>
+                                {file.filesize && (
+                                  <div className="text-xs text-[var(--color-text-muted)]">
+                                    {(file.filesize / 1024 / 1024).toFixed(2)} MB
+                                  </div>
+                                )}
+                              </div>
+                            </a>
+                          )
+                        })}
+                      </div>
+                    ),
+                  }]
+                : []),
+            ]}
+          />
+        </div>
+
+        {/* UP-SELLS - Show above ATC in feature release, for now show after related */}
+
+        {/* CROSS-SELLS, UP-SELLS, ACCESSORIES */}
+        {features.shop && (
+          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4 lg:px-6">
+            <RelatedProductsSection
+              upSells={product.upSells as any}
+              crossSells={product.crossSells as any}
+              accessories={product.accessories as any}
+            />
+          </div>
+        )}
+
+        {/* RELATED PRODUCTS */}
+        {product.relatedProducts && product.relatedProducts.length > 0 && (
+          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4 lg:px-6">
+            <div className="flex justify-between items-center mb-7 flex-wrap gap-4">
+              <h2 className="font-heading text-xl md:text-2xl font-extrabold text-[var(--color-text-primary)] flex items-center gap-2.5">
+                <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-[var(--color-primary)]" />
+                Klanten bekeken ook
+              </h2>
+              <Link
+                href="/shop/"
+                className="text-[var(--color-primary)] font-semibold text-[13px] md:text-sm no-underline flex items-center gap-1.5"
+              >
+                Bekijk alle producten
+                <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+              </Link>
+            </div>
+
+            {/* Mobile: Horizontal Scroll */}
+            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory lg:hidden -mx-4 px-4">
+              {product.relatedProducts.slice(0, 4).map((relProd: any, idx: number) => {
+                const rp = typeof relProd === 'object' ? relProd : null
+                if (!rp) return null
+
+                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? (rp.images[0] as any)?.url : null
+
+                return (
+                  <Link
+                    key={idx}
+                    href={`/shop/${rp.slug}`}
+                    className="min-w-[200px] bg-[var(--color-surface,white)] rounded-2xl overflow-hidden border border-[var(--color-border)] no-underline text-inherit snap-start shrink-0"
+                  >
+                    <div className="w-full h-40 bg-[var(--color-background)] flex items-center justify-center">
+                      {rpImg ? (
+                        <img src={rpImg} alt={rp.title} className="max-w-full max-h-full object-contain" />
+                      ) : (
+                        <div className="text-5xl">📦</div>
+                      )}
+                    </div>
+
+                    <div className="p-3.5">
+                      {rp.brand && (
+                        <div className="text-[10px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1">
+                          {rp.brand}
+                        </div>
+                      )}
+                      <div className="font-semibold text-[13px] text-[var(--color-text-primary)] mb-1 leading-[1.4] line-clamp-2">
+                        {rp.title}
+                      </div>
+                      {rp.sku && (
+                        <div className="font-mono text-[10px] text-[var(--color-text-muted)] mb-2.5">
+                          Art. {rp.sku}
+                        </div>
+                      )}
+
+                      <div className="flex justify-between items-center">
+                        <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
+                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                        </div>
+                        <button
+                          className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
+                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {rp.trackStock && rp.stock && rp.stock > 0 && (
+                        <div className="flex items-center gap-1 text-[11px] text-[var(--color-success)] font-medium mt-2.5 pt-2.5 border-t border-t-[var(--color-border)]">
+                          <CheckCircle className="w-3 h-3" />
+                          Op voorraad
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+
+            {/* Desktop: Grid */}
+            <div className="hidden lg:grid lg:grid-cols-4 lg:gap-5">
+              {product.relatedProducts.slice(0, 4).map((relProd: any, idx: number) => {
+                const rp = typeof relProd === 'object' ? relProd : null
+                if (!rp) return null
+
+                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? (rp.images[0] as any)?.url : null
+
+                return (
+                  <Link
+                    key={idx}
+                    href={`/shop/${rp.slug}`}
+                    className="bg-[var(--color-surface,white)] rounded-[var(--border-radius,16px)] overflow-hidden border border-[var(--color-border)] transition-all duration-[350ms] no-underline text-inherit block"
+                  >
+                    <div className="w-full h-40 bg-[var(--color-background)] flex items-center justify-center">
+                      {rpImg ? (
+                        <img src={rpImg} alt={rp.title} className="max-w-full max-h-full object-contain" />
+                      ) : (
+                        <div className="text-5xl">📦</div>
+                      )}
+                    </div>
+
+                    <div className="p-4">
+                      {rp.brand && (
+                        <div className="text-[11px] font-bold uppercase text-[var(--color-primary)] tracking-wider mb-1">
+                          {rp.brand}
+                        </div>
+                      )}
+                      <div className="font-semibold text-sm text-[var(--color-text-primary)] mb-1 leading-[1.4] line-clamp-2">
+                        {rp.title}
+                      </div>
+                      {rp.sku && (
+                        <div className="font-mono text-[11px] text-[var(--color-text-muted)] mb-2.5">
+                          Art. {rp.sku}
+                        </div>
+                      )}
+
+                      <div className="flex justify-between items-center">
+                        <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
+                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                        </div>
+                        <button
+                          className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
+                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                        >
+                          <Plus className="w-[18px] h-[18px]" />
+                        </button>
+                      </div>
+
+                      {rp.trackStock && rp.stock && rp.stock > 0 && (
+                        <div className="flex items-center gap-1 text-xs text-[var(--color-success)] font-medium mt-2.5 pt-2.5 border-t border-t-[var(--color-border)]">
+                          <CheckCircle className="w-3 h-3" />
+                          Op voorraad
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* STICKY ADD TO CART BAR - Mobile & Tablet */}
+      {showStickyATC && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-t-[var(--color-border)] p-3 px-4 z-[1000] shadow-[0_-4px_20px_rgba(0,0,0,0.08)] flex items-center gap-3 lg:hidden">
+          {/* Product Info */}
+          <div className="flex-1 min-w-0">
+            <div className="text-[13px] font-bold text-[var(--color-text-primary)] mb-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+              {product.title}
+            </div>
+            <div className="text-base font-extrabold text-[var(--color-primary)] font-heading">
+              {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
             </div>
           </div>
 
-          {/* ═══ TRUST SIGNALS (2×2 grid) ═══ */}
-          <div className="t4-trust">
-            <div className="t4-trust-item"><Truck size={16} /> Gratis verzending vanaf €150</div>
-            <div className="t4-trust-item"><Undo2 size={16} /> 30 dagen retourrecht</div>
-            <div className="t4-trust-item"><CreditCard size={16} /> Op rekening bestellen</div>
-            <div className="t4-trust-item"><ShieldCheck size={16} /> CE & ISO gecertificeerd</div>
-          </div>
+          {/* Quantity - Simple Product */}
+          {!isGrouped && (
+            <div className="flex items-center border-[1.5px] border-[var(--color-border)] rounded-lg overflow-hidden bg-white">
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="w-9 h-9 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center"
+              >
+                <Minus className="w-3.5 h-3.5" />
+              </button>
+              <div className="w-8 text-center font-mono text-sm font-bold text-[var(--color-text-primary)]">
+                {quantity}
+              </div>
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                className="w-9 h-9 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center"
+              >
+                <Plus className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
+
+          {/* Add to Cart Button */}
+          <button
+            onClick={handleAddToCart}
+            disabled={isGrouped && totalQty === 0}
+            className="flex items-center justify-center gap-2 py-3 px-5 text-white border-0 rounded-[10px] font-body text-sm font-bold whitespace-nowrap"
+            style={{
+              background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
+              cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
+              boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent)',
+            }}
+          >
+            <ShoppingCart className="w-4 h-4" />
+            {isGrouped ? `${totalQty} toevoegen` : 'Toevoegen'}
+          </button>
         </div>
-      </div>
-
-      {/* ═══ TABS (Description, Specs, Reviews, Downloads) ═══ */}
-      <div ref={tabsSectionRef} className="t4-tabs-section">
-        <ProductTabs tabs={tabsContent} enableMobileAccordion enableKeyboardNav />
-      </div>
-
-      {/* ═══ RELATED PRODUCTS ═══ */}
-      {(product.upSells?.length || product.crossSells?.length || product.accessories?.length) ? (
-        <div className="t4-related-section">
-          <RelatedProductsSection
-            upSells={product.upSells as (string | Product)[] | undefined}
-            crossSells={product.crossSells as (string | Product)[] | undefined}
-            accessories={product.accessories as (string | Product)[] | undefined}
-          />
-        </div>
-      ) : null}
-
-      {/* ═══ STICKY ADD-TO-CART BAR ═══ */}
-      {showAddToCart && (
-        <StickyAddToCartBar
-          product={{
-            id: String(product.id),
-            name: product.title,
-            price: currentPrice,
-            image: imageUrl || undefined,
-          }}
-          onAddToCart={() => handleAddToCart()}
-          triggerElementRef={mainATCRef as React.RefObject<HTMLElement>}
-        />
       )}
-
-      {/* ═══ SCOPED STYLES — Design Spec ═══ */}
-      <style jsx>{`
-        .t4-root {
-          max-width: 1240px;
-          margin: 0 auto;
-          padding: 0 24px 80px;
-        }
-
-        .t4-layout {
-          display: grid;
-          grid-template-columns: 1fr 480px;
-          gap: 48px;
-          align-items: start;
-        }
-
-        /* ── Gallery ── */
-        .t4-gallery-wrapper { position: relative; }
-        .t4-gallery-actions {
-          position: absolute; top: 16px; right: 16px; z-index: 10;
-          display: flex; gap: 8px;
-        }
-        .t4-g-action {
-          width: 40px; height: 40px; background: white;
-          border: 1px solid #E8ECF1; border-radius: 10px;
-          display: flex; align-items: center; justify-content: center;
-          cursor: pointer; transition: all 0.2s; color: #0A1628;
-        }
-        .t4-g-action:hover {
-          border-color: var(--color-primary, #00897B);
-          background: rgba(0,137,123,0.15);
-        }
-        .t4-g-action-active {
-          border-color: #FF6B6B; background: #FFF0F0;
-        }
-
-        /* ── Product Info ── */
-        .t4-brand {
-          font-size: 12px; font-weight: 700; text-transform: uppercase;
-          color: var(--color-primary, #00897B); letter-spacing: 0.05em;
-          margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-        }
-        .t4-title {
-          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
-          font-size: 28px; font-weight: 800; color: var(--color-text-primary, #0A1628);
-          line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 8px;
-        }
-        .t4-sku {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 12px; color: #94A3B8; margin-bottom: 16px;
-          display: flex; align-items: center; gap: 12px;
-        }
-        .t4-sku span { display: flex; align-items: center; gap: 4px; }
-        .t4-rating {
-          display: flex; align-items: center; gap: 8px;
-          margin-bottom: 20px; padding-bottom: 20px;
-          border-bottom: 1px solid #E8ECF1; cursor: pointer;
-        }
-        .t4-stars { display: flex; gap: 2px; }
-        .t4-rating-text { font-size: 13px; color: #94A3B8; }
-        .t4-rating-text :global(strong) { color: var(--color-text-primary, #0A1628); }
-
-        /* ── Price Block ── */
-        .t4-price-block {
-          background: white; border: 1px solid #E8ECF1;
-          border-radius: 16px; padding: 24px; margin-bottom: 20px;
-        }
-        .t4-price-row {
-          display: flex; align-items: baseline; gap: 12px;
-          margin-bottom: 4px; flex-wrap: wrap;
-        }
-        .t4-price-current {
-          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
-          font-size: 32px; font-weight: 800;
-          color: var(--color-text-primary, #0A1628);
-        }
-        .t4-price-current :global(small) { font-size: 20px; }
-        .t4-price-sale { color: #FF6B6B; }
-        .t4-price-vanaf { font-size: 14px; font-weight: 500; color: #94A3B8; }
-        .t4-price-old {
-          font-size: 18px; color: #94A3B8;
-          text-decoration: line-through; font-weight: 400;
-        }
-        .t4-price-save {
-          font-size: 13px; font-weight: 700; color: #FF6B6B;
-          background: #FFF0F0; padding: 3px 10px; border-radius: 6px;
-        }
-        .t4-price-request {
-          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
-          font-size: 24px; font-weight: 700; color: #94A3B8;
-        }
-        .t4-price-meta { font-size: 12px; color: #94A3B8; margin-bottom: 16px; }
-
-        /* Volume pricing 4-column grid */
-        .t4-volume-pricing { margin-top: 16px; }
-        .t4-volume-label {
-          font-size: 13px; font-weight: 700;
-          color: var(--color-text-primary, #0A1628);
-          margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-        }
-        .t4-volume-label :global(svg) { color: var(--color-primary, #00897B); }
-        .t4-volume-table {
-          display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-        }
-        .t4-volume-tier {
-          background: #F5F7FA; border: 1.5px solid #E8ECF1;
-          border-radius: 10px; padding: 12px; text-align: center;
-          cursor: pointer; transition: all 0.2s; position: relative;
-        }
-        .t4-volume-tier:hover,
-        .t4-volume-tier.active {
-          border-color: var(--color-primary, #00897B);
-          background: rgba(0,137,123,0.15);
-        }
-        .t4-volume-tier.best::after {
-          content: 'Beste prijs';
-          position: absolute; top: -10px; left: 50%;
-          transform: translateX(-50%);
-          background: var(--color-primary, #00897B); color: white;
-          font-size: 10px; font-weight: 700;
-          padding: 2px 8px; border-radius: 4px; white-space: nowrap;
-        }
-        .t4-volume-qty { font-size: 12px; color: #94A3B8; font-weight: 500; margin-bottom: 4px; }
-        .t4-volume-price {
-          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
-          font-size: 16px; font-weight: 800;
-          color: var(--color-text-primary, #0A1628);
-        }
-        .t4-volume-discount {
-          font-size: 11px; color: var(--color-primary, #00897B);
-          font-weight: 600; margin-top: 2px;
-        }
-
-        .t4-staffel-hint { margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
-
-        /* ── Stock ── */
-        .t4-stock-row {
-          display: flex; align-items: center; gap: 8px;
-          padding: 12px 16px; background: #E8F5E9;
-          border-radius: 10px; margin-bottom: 20px;
-        }
-        .t4-stock-backorder { background: #FFF8E1; }
-        .t4-stock-oos { background: #FEF2F2; margin-bottom: 12px; }
-        .t4-stock-dot {
-          width: 8px; height: 8px; background: #00C853;
-          border-radius: 50%; flex-shrink: 0;
-          animation: t4pulse 2s infinite;
-        }
-        .t4-stock-dot-amber { background: #F59E0B; }
-        .t4-stock-dot-red { background: #EF4444; animation: none; }
-        @keyframes t4pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.3); }
-        }
-        .t4-stock-text { font-size: 13px; font-weight: 600; color: #2E7D32; }
-        .t4-stock-sub { font-size: 12px; color: #558B2F; }
-        .t4-oos-section { margin-bottom: 20px; }
-
-        /* ── Product Type Sections ── */
-        .t4-type-section { margin-bottom: 24px; }
-        .t4-mix-match {
-          padding: 24px; border-radius: 12px;
-          background: white; border: 1px solid #E8ECF1;
-          margin-bottom: 24px; text-align: center; color: #64748B;
-        }
-        .t4-mix-match p { margin-top: 8px; font-size: 14px; }
-
-        /* ── Qty Stepper ── */
-        .t4-qty-section { margin-bottom: 16px; }
-        .t4-qty-label {
-          font-size: 14px; font-weight: 700;
-          color: var(--color-text-primary, #0A1628); margin-bottom: 8px;
-        }
-        .t4-qty-stepper {
-          display: inline-flex; align-items: center;
-          border: 1.5px solid #E8ECF1; border-radius: 10px;
-          overflow: hidden; background: white;
-        }
-        .t4-qty-stepper button {
-          width: 44px; height: 44px; border: 0; cursor: pointer;
-          display: flex; align-items: center; justify-content: center;
-          background: #F5F7FA; color: var(--color-text-primary, #0A1628);
-          transition: all 0.15s;
-        }
-        .t4-qty-stepper button:hover {
-          background: rgba(0,137,123,0.15);
-          color: var(--color-primary, #00897B);
-        }
-        .t4-qty-stepper input {
-          width: 60px; height: 44px; border: 0; text-align: center;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 16px; font-weight: 700;
-          color: var(--color-text-primary, #0A1628); outline: none;
-          -moz-appearance: textfield;
-        }
-        .t4-qty-stepper input::-webkit-inner-spin-button,
-        .t4-qty-stepper input::-webkit-outer-spin-button {
-          -webkit-appearance: none;
-        }
-        .t4-qty-total { margin-top: 8px; font-size: 13px; color: #94A3B8; }
-        .t4-qty-total :global(strong) { color: var(--color-text-primary, #0A1628); }
-
-        /* ── Action Buttons ── */
-        .t4-action-buttons {
-          display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;
-        }
-        .t4-btn-atc {
-          display: flex; align-items: center; justify-content: center; gap: 10px;
-          width: 100%; padding: 16px;
-          background: linear-gradient(135deg, var(--color-primary, #00897B), var(--color-primary-light, #26A69A));
-          color: white; border: none; border-radius: 12px;
-          font-family: 'DM Sans', var(--font-body), sans-serif;
-          font-size: 16px; font-weight: 700; cursor: pointer;
-          transition: all 0.3s;
-          box-shadow: 0 4px 20px rgba(0,137,123,0.4);
-        }
-        .t4-btn-atc:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(0,137,123,0.5);
-        }
-        .t4-btn-atc:active { transform: scale(0.98); }
-        .t4-btn-row { display: flex; gap: 10px; }
-        .t4-btn-secondary {
-          flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-          padding: 13px; background: white;
-          color: var(--color-text-primary, #0A1628);
-          border: 1.5px solid #E8ECF1; border-radius: 12px;
-          font-family: 'DM Sans', var(--font-body), sans-serif;
-          font-size: 14px; font-weight: 600; cursor: pointer;
-          transition: all 0.2s;
-        }
-        .t4-btn-secondary:hover {
-          border-color: var(--color-primary, #00897B);
-          color: var(--color-primary, #00897B);
-          background: rgba(0,137,123,0.15);
-        }
-
-        /* ── Trust Signals ── */
-        .t4-trust {
-          display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-          padding-top: 20px; border-top: 1px solid #E8ECF1;
-        }
-        .t4-trust-item {
-          display: flex; align-items: center; gap: 8px;
-          font-size: 13px; color: #64748B;
-        }
-        .t4-trust-item :global(svg) {
-          color: var(--color-primary, #00897B); flex-shrink: 0;
-        }
-
-        /* ── Tabs Section ── */
-        .t4-tabs-section { padding-top: 48px; }
-
-        /* Description 2-column grid */
-        .t4-desc-grid {
-          display: grid; grid-template-columns: 2fr 1fr; gap: 40px;
-        }
-        .t4-desc-text { font-size: 15px; color: #64748B; line-height: 1.7; }
-        .t4-desc-highlight {
-          display: flex; gap: 12px; padding: 16px 20px;
-          background: rgba(0,137,123,0.05);
-          border: 1px solid rgba(0,137,123,0.12);
-          border-radius: 12px; margin-bottom: 20px;
-          align-items: flex-start;
-        }
-        .t4-desc-highlight :global(svg) {
-          color: var(--color-primary, #00897B); flex-shrink: 0; margin-top: 2px;
-        }
-        .t4-desc-highlight p {
-          font-size: 14px; font-weight: 500;
-          color: var(--color-text-primary, #0A1628);
-          margin: 0; line-height: 1.6;
-        }
-        .t4-desc-empty { text-align: center; padding: 32px; color: #94A3B8; }
-        .t4-desc-sidebar { position: sticky; top: 100px; }
-
-        /* Downloads */
-        .t4-downloads-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-          gap: 12px;
-        }
-        .t4-download-item {
-          display: flex; align-items: center; gap: 12px;
-          padding: 16px; border-radius: 12px;
-          background: white; border: 1px solid #E8ECF1;
-          text-decoration: none; color: var(--color-text-primary, #0A1628);
-          transition: all 0.2s;
-        }
-        .t4-download-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-        .t4-download-icon {
-          width: 40px; height: 40px; border-radius: 8px;
-          background: rgba(0,137,123,0.08);
-          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
-        .t4-download-icon :global(svg) { color: var(--color-primary, #00897B); }
-        .t4-download-name { font-size: 14px; font-weight: 600; }
-        .t4-download-size { font-size: 12px; color: #94A3B8; }
-
-        /* ── Related Products ── */
-        .t4-related-section {
-          padding-top: 64px; margin-top: 48px;
-          border-top: 1px solid #E8ECF1;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 900px) {
-          .t4-root { padding: 0 16px 60px; }
-          .t4-layout { grid-template-columns: 1fr; gap: 24px; }
-          .t4-title { font-size: 22px; }
-          .t4-price-block { padding: 16px; }
-          .t4-price-current { font-size: 26px; }
-          .t4-price-current :global(small) { font-size: 16px; }
-          .t4-volume-table { grid-template-columns: repeat(2, 1fr); }
-          .t4-desc-grid { grid-template-columns: 1fr; }
-          .t4-desc-sidebar { position: static; }
-          .t4-btn-secondary { font-size: 13px; padding: 11px 8px; }
-        }
-      `}</style>
-    </div>
+    </>
   )
 }
