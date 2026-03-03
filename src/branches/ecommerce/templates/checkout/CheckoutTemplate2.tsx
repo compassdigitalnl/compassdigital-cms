@@ -30,19 +30,6 @@ import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
 import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
 
-interface Address {
-  firstName: string
-  lastName: string
-  company?: string
-  street: string
-  houseNumber: string
-  postalCode: string
-  city: string
-  country: string
-  phone: string
-  email?: string
-}
-
 export default function CheckoutTemplate2() {
   const { user } = useAuth()
   const router = useRouter()
@@ -50,7 +37,7 @@ export default function CheckoutTemplate2() {
 
   // Form state
   const [email, setEmail] = useState('')
-  const [address, setAddress] = useState<Partial<Address> | null>(null)
+  const [address, setAddress] = useState<Record<string, string> | null>(null)
   const [shippingMethod, setShippingMethod] = useState<string>('standard')
   const [paymentMethod, setPaymentMethod] = useState<string>('ideal')
   const [poNumber, setPoNumber] = useState('')
@@ -102,9 +89,7 @@ export default function CheckoutTemplate2() {
     // TODO: Implement real coupon validation
     if (code === 'WELCOME10') {
       setDiscount(subtotal * 0.1)
-      return { valid: true, message: '10% korting toegepast!' }
     }
-    return { valid: false, message: 'Kortingscode niet gevonden' }
   }
 
   const handlePlaceOrder = async () => {
@@ -219,11 +204,9 @@ export default function CheckoutTemplate2() {
               >
                 2. Adres
               </h2>
-              <AddressForm {...{} as any}
-                onSubmit={setAddress}
-                initialData={address}
+              <AddressForm
+                onSubmit={(data) => setAddress(data as any)}
                 submitLabel="Adres opslaan"
-                variant="compact"
               />
             </div>
 
@@ -243,25 +226,29 @@ export default function CheckoutTemplate2() {
                 3. Verzending
               </h2>
               <div className="space-y-3">
-                <ShippingMethodCard {...{} as any}
-                  id="standard"
-                  name="Standaard"
-                  description="2-3 werkdagen"
-                  price={subtotal >= freeShippingThreshold ? 0 : 6.95}
-                  estimatedDays="2-3 werkdagen"
+                <ShippingMethodCard
+                  method={{
+                    id: 'standard',
+                    name: 'Standaard',
+                    slug: 'standard',
+                    icon: 'truck',
+                    deliveryTime: '2-3 werkdagen',
+                    price: subtotal >= freeShippingThreshold ? 0 : 6.95,
+                  }}
                   selected={shippingMethod === 'standard'}
                   onSelect={() => setShippingMethod('standard')}
-                  variant="compact"
                 />
-                <ShippingMethodCard {...{} as any}
-                  id="express"
-                  name="Express"
-                  description="Volgende werkdag"
-                  price={9.95}
-                  estimatedDays="1 werkdag"
+                <ShippingMethodCard
+                  method={{
+                    id: 'express',
+                    name: 'Express',
+                    slug: 'express',
+                    icon: 'zap',
+                    deliveryTime: 'Volgende werkdag',
+                    price: 9.95,
+                  }}
                   selected={shippingMethod === 'express'}
                   onSelect={() => setShippingMethod('express')}
-                  variant="compact"
                 />
               </div>
             </div>
@@ -282,34 +269,40 @@ export default function CheckoutTemplate2() {
                 4. Betaling
               </h2>
               <div className="space-y-3">
-                <PaymentMethodCard {...{} as any}
-                  id="ideal"
-                  name="iDEAL"
-                  description="Direct via uw bank"
-                  icon="🏦"
+                <PaymentMethodCard
+                  method={{
+                    id: 'ideal',
+                    name: 'iDEAL',
+                    slug: 'ideal',
+                    description: 'Direct via uw bank',
+                    logo: '\uD83C\uDFE6',
+                    badge: 'Populair',
+                  }}
                   selected={paymentMethod === 'ideal'}
                   onSelect={() => setPaymentMethod('ideal')}
-                  variant="compact"
-                  popular
                 />
-                <PaymentMethodCard {...{} as any}
-                  id="creditcard"
-                  name="Credit Card"
-                  description="Visa, Mastercard, Amex"
-                  icon="💳"
+                <PaymentMethodCard
+                  method={{
+                    id: 'creditcard',
+                    name: 'Credit Card',
+                    slug: 'creditcard',
+                    description: 'Visa, Mastercard, Amex',
+                    logo: '\uD83D\uDCB3',
+                  }}
                   selected={paymentMethod === 'creditcard'}
                   onSelect={() => setPaymentMethod('creditcard')}
-                  variant="compact"
                 />
-                <PaymentMethodCard {...{} as any}
-                  id="invoice"
-                  name="Op rekening"
-                  description="Betaal binnen 14 dagen"
-                  icon="📋"
+                <PaymentMethodCard
+                  method={{
+                    id: 'invoice',
+                    name: 'Op rekening',
+                    slug: 'invoice',
+                    description: 'Betaal binnen 14 dagen',
+                    logo: '\uD83D\uDCCB',
+                    isB2B: true,
+                  }}
                   selected={paymentMethod === 'invoice'}
                   onSelect={() => setPaymentMethod('invoice')}
-                  variant="compact"
-                  b2bOnly
                 />
               </div>
 
@@ -335,7 +328,7 @@ export default function CheckoutTemplate2() {
               ) : (
                 <>
                   <CheckCircle className="w-5 h-5" />
-                  Bestelling plaatsen (€ {grandTotal.toFixed(2)})
+                  Bestelling plaatsen ({'\u20AC'} {grandTotal.toFixed(2)})
                 </>
               )}
             </button>
@@ -352,30 +345,27 @@ export default function CheckoutTemplate2() {
           {/* Sidebar: Order Summary (1/3) */}
           <div className="lg:col-span-1">
             <div className="sticky top-8">
-              <OrderSummary {...{} as any}
-                variant="compact"
+              <OrderSummary
                 subtotal={subtotal}
                 shipping={shippingCost}
                 tax={tax}
                 total={grandTotal}
                 discount={discount}
-                itemCount={itemCount}
-                freeShippingThreshold={freeShippingThreshold}
-                currency="€"
-              >
-                <div className="mb-3">
-                  <CouponInput {...{} as any} variant="compact" onApply={handleApplyCoupon} />
-                </div>
-              </OrderSummary>
+                readonly
+              />
+
+              <div className="mt-4">
+                <CouponInput onApply={handleApplyCoupon} />
+              </div>
 
               <div className="mt-4">
                 <TrustSignals
                   variant="compact"
                   signals={[
-                    { icon: 'ShieldCheck', label: 'Veilig betalen' },
-                    { icon: 'Truck', label: 'Gratis vanaf €150' },
-                    { icon: 'RotateCcw', label: '30 dagen retour' },
-                  ] as any}
+                    { icon: 'ShieldCheck', text: 'Veilig betalen' },
+                    { icon: 'Truck', text: 'Gratis vanaf \u20AC150' },
+                    { icon: 'RotateCcw', text: '30 dagen retour' },
+                  ]}
                 />
               </div>
             </div>
