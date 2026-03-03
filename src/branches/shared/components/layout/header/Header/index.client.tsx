@@ -155,7 +155,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
 
       {/* Main Header */}
       <header className={headerClasses} style={headerStyle}>
-        <div className="mx-auto px-4 lg:px-0" style={{ maxWidth: 'var(--container-width)' }}>
+        <div className="mx-auto px-4" style={{ maxWidth: 'var(--container-width)' }}>
           <div className="h-[72px] grid grid-cols-[auto_1fr_auto] items-center gap-8">
             {/* Mobile Toggle */}
             <button

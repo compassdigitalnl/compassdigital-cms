@@ -73,7 +73,7 @@ export function TopBar({ topBar, theme, header }: Props) {
 
   return (
     <div className="topbar" style={{ backgroundColor: bgColor }}>
-      <div className={`${containerClass} mx-auto px-4 lg:px-0 h-9 flex items-center justify-between text-xs font-medium`}>
+      <div className={`${containerClass} mx-auto px-4 h-9 flex items-center justify-between text-xs font-medium`}>
         {/* Left Messages */}
         <div className="flex items-center gap-6">
           {topBar.leftMessages?.map((message: any, index: number) => {

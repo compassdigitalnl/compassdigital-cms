@@ -352,7 +352,7 @@ export default function ShopArchiveTemplate1({
 
   return (
     <div
-      className="font-body overflow-x-hidden px-4 lg:px-0"
+      className="font-body overflow-x-hidden px-4"
       style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}
       data-testid="shop-archive-template"
     >
