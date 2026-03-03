@@ -7,6 +7,10 @@
  * Concept: Compact table rows, serif title, quick-order, payment badges
  *
  * All visual values use CSS custom properties from the theme system.
+ *
+ * NOTE: styled-jsx scoped CSS only applies to native HTML elements rendered
+ * directly in this component. For React components like <Link> and Lucide icons,
+ * we use :global() selectors (scoped within a native parent) or Tailwind classes.
  */
 
 import { useState } from 'react'
@@ -82,11 +86,11 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
             font-size: var(--text-hero); color: var(--navy); margin-bottom: var(--sp-2);
           }
           .t2-empty__text { color: var(--grey-mid); margin-bottom: var(--sp-6); }
-          .t2-empty__cta {
+          .t2-empty__inner :global(.t2-empty__cta) {
             display: inline-flex; align-items: center; gap: var(--sp-2);
             color: var(--teal); font-weight: 600; font-size: var(--text-body); text-decoration: none;
           }
-          .t2-empty__cta:hover { text-decoration: underline; }
+          .t2-empty__inner :global(.t2-empty__cta:hover) { text-decoration: underline; }
         `}</style>
       </div>
     )
@@ -213,6 +217,8 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           margin: 0 auto;
           padding: 0 var(--sp-6) var(--sp-16);
         }
+
+        /* Breadcrumb */
         .t2-breadcrumb {
           display: flex;
           align-items: center;
@@ -221,11 +227,11 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           font-size: var(--text-small);
           color: var(--grey-mid);
         }
-        .t2-breadcrumb__link {
+        .t2-breadcrumb :global(.t2-breadcrumb__link) {
           color: var(--grey-mid);
           text-decoration: none;
         }
-        .t2-breadcrumb__link:hover {
+        .t2-breadcrumb :global(.t2-breadcrumb__link:hover) {
           color: var(--teal);
         }
         .t2-breadcrumb__sep {
@@ -235,6 +241,8 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           color: var(--navy);
           font-weight: 600;
         }
+
+        /* Header */
         .t2-header {
           display: flex;
           justify-content: space-between;
@@ -253,7 +261,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           font-weight: 500;
           margin-left: var(--sp-2);
         }
-        .t2-header__quick {
+        .t2-header :global(.t2-header__quick) {
           display: inline-flex;
           align-items: center;
           gap: var(--sp-2);
@@ -266,19 +274,24 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           border-radius: var(--r-sm);
           transition: all var(--transition, 0.2s);
         }
-        .t2-header__quick:hover {
+        .t2-header :global(.t2-header__quick:hover) {
           background: var(--teal);
           color: white;
         }
+
         .t2-shipping {
           margin-bottom: var(--sp-6);
         }
+
+        /* Layout */
         .t2-layout {
           display: grid;
           grid-template-columns: 1fr 360px;
           gap: var(--sp-8);
           align-items: start;
         }
+
+        /* Table */
         .t2-table {
           background: var(--white);
           border-radius: var(--r-md);
@@ -310,7 +323,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
         .t2-table__coupon {
           flex: 0 1 auto;
         }
-        .t2-table__continue {
+        .t2-table__actions :global(.t2-table__continue) {
           font-size: var(--text-body);
           color: var(--teal);
           font-weight: 600;
@@ -320,7 +333,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           gap: var(--sp-1);
           flex-shrink: 0;
         }
-        .t2-table__continue:hover {
+        .t2-table__actions :global(.t2-table__continue:hover) {
           text-decoration: underline;
         }
 

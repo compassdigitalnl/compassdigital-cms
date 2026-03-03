@@ -7,6 +7,10 @@
  * Concept: Large product cards, checkout progress steps, recently viewed
  *
  * All visual values use CSS custom properties from the theme system.
+ *
+ * NOTE: styled-jsx scoped CSS only applies to native HTML elements rendered
+ * directly in this component. For React components like <Link> and Lucide icons,
+ * we use :global() selectors (scoped within a native parent) or Tailwind classes.
  */
 
 import { useState } from 'react'
@@ -116,7 +120,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
             font-size: var(--text-hero); color: var(--navy); margin-bottom: var(--sp-2);
           }
           .t4-empty__text { color: var(--grey-mid); margin-bottom: var(--sp-6); }
-          .t4-empty__cta {
+          .t4-empty__inner :global(.t4-empty__cta) {
             display: inline-flex; align-items: center; gap: var(--sp-2);
             padding: var(--sp-3) var(--sp-8); background: var(--teal);
             color: white; border-radius: var(--r-sm);
@@ -124,7 +128,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
             transition: all var(--transition, 0.25s);
             box-shadow: var(--sh-md);
           }
-          .t4-empty__cta:hover {
+          .t4-empty__inner :global(.t4-empty__cta:hover) {
             background: var(--teal-dark);
             transform: translateY(-1px);
             box-shadow: var(--sh-lg);
@@ -321,7 +325,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           display: flex;
           gap: var(--sp-4);
         }
-        .t4-header__link {
+        .t4-header__links :global(.t4-header__link) {
           font-size: var(--text-body);
           font-weight: 600;
           text-decoration: none;
@@ -332,11 +336,11 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           align-items: center;
           gap: var(--sp-2);
         }
-        .t4-header__link--ghost {
+        .t4-header__links :global(.t4-header__link--ghost) {
           border: 1.5px solid var(--grey);
           color: var(--grey-dark);
         }
-        .t4-header__link--ghost:hover {
+        .t4-header__links :global(.t4-header__link--ghost:hover) {
           border-color: var(--navy);
           color: var(--navy);
         }

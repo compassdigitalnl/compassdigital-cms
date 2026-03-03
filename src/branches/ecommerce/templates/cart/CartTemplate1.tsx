@@ -7,6 +7,10 @@
  * Concept: Card-style cart items, staffel hints, cross-sell carousel
  *
  * All visual values use CSS custom properties from the theme system.
+ *
+ * NOTE: styled-jsx scoped CSS only applies to native HTML elements rendered
+ * directly in this component. For React components like <Link> and Lucide icons,
+ * we use :global() selectors (scoped within a native parent) or Tailwind classes.
  */
 
 import { useState } from 'react'
@@ -95,7 +99,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
             font-size: var(--text-section); font-weight: 800; color: var(--navy); margin-bottom: var(--sp-2);
           }
           .t1-empty__text { font-size: var(--text-body-lg); color: var(--grey-mid); margin-bottom: var(--sp-6); }
-          .t1-empty__cta {
+          .t1-empty__inner :global(.t1-empty__cta) {
             display: inline-flex; align-items: center; gap: var(--sp-2);
             padding: var(--sp-3) var(--sp-8); background: var(--gradient-primary);
             color: white; border: none; border-radius: var(--r-md);
@@ -103,7 +107,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
             box-shadow: var(--sh-md);
             transition: all var(--transition, 0.3s);
           }
-          .t1-empty__cta:hover {
+          .t1-empty__inner :global(.t1-empty__cta:hover) {
             transform: translateY(-2px);
             box-shadow: var(--sh-lg);
           }
@@ -134,7 +138,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
         {/* Page title row */}
         <div className="t1-title-row">
           <h1 className="t1-title">
-            <ShoppingCart className="w-7 h-7 shrink-0" />
+            <ShoppingCart className="w-7 h-7 shrink-0" style={{ color: 'var(--teal)' }} />
             Winkelwagen
             <span className="t1-title__count">
               ({itemCount} {itemCount === 1 ? 'artikel' : 'artikelen'})
@@ -228,6 +232,8 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           margin: 0 auto;
           padding: 0 var(--sp-6) var(--sp-20);
         }
+
+        /* Breadcrumb */
         .t1-breadcrumb {
           display: flex;
           align-items: center;
@@ -236,20 +242,23 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           font-size: var(--text-small);
           color: var(--grey-mid);
         }
-        .t1-breadcrumb__link {
+        .t1-breadcrumb :global(.t1-breadcrumb__link) {
           color: var(--grey-mid);
           text-decoration: none;
         }
-        .t1-breadcrumb__link:hover {
+        .t1-breadcrumb :global(.t1-breadcrumb__link:hover) {
           color: var(--teal);
         }
         .t1-breadcrumb__current {
           color: var(--navy);
           font-weight: 600;
         }
+
         .t1-shipping {
           margin-bottom: var(--sp-6);
         }
+
+        /* Title row */
         .t1-title-row {
           display: flex;
           align-items: center;
@@ -270,7 +279,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           color: var(--grey-mid);
           font-weight: 500;
         }
-        .t1-continue {
+        .t1-title-row :global(.t1-continue) {
           color: var(--teal);
           font-weight: 600;
           font-size: var(--text-body);
@@ -280,9 +289,11 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           gap: var(--sp-2);
           transition: gap var(--transition, 0.2s);
         }
-        .t1-continue:hover {
+        .t1-title-row :global(.t1-continue:hover) {
           gap: 10px;
         }
+
+        /* Layout */
         .t1-layout {
           display: grid;
           grid-template-columns: 1fr 380px;
@@ -297,9 +308,8 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
         .t1-card {
           margin-bottom: var(--sp-3);
         }
-        .t1-cross-sell {
-          margin-top: var(--sp-8);
-        }
+
+        /* Sidebar */
         .t1-sidebar {
           position: sticky;
           top: 90px;
