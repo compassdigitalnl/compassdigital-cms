@@ -15,6 +15,7 @@
  * Built with Phase 1 components - 100% component reuse
  */
 
+import { useState } from 'react'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import Link from 'next/link'
 import { ShoppingCart, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react'
@@ -33,13 +34,17 @@ interface CartTemplate1Props {
 export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart()
 
+  // Coupon state
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | undefined>()
+  const [couponError, setCouponError] = useState('')
+
   // Pricing calculations
   const subtotal = total
   const freeShippingThreshold = 150
   const shipping = subtotal >= freeShippingThreshold ? 0 : 6.95
-  const tax = (subtotal + shipping) * 0.21
-  const grandTotal = subtotal + shipping + tax
-  const discount = 0 // TODO: Implement discount logic
+  const discount = appliedCoupon?.discountAmount || 0
+  const tax = (subtotal + shipping - discount) * 0.21
+  const grandTotal = subtotal + shipping + tax - discount
 
   const handleCheckout = () => {
     if (onCheckout) onCheckout()
@@ -47,9 +52,17 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
   }
 
   const handleApplyCoupon = async (code: string) => {
-    // TODO: Implement coupon validation
-    console.log('Applying coupon:', code)
-    return { valid: false, message: 'Kortingscode niet gevonden' }
+    setCouponError('')
+    if (code.toUpperCase() === 'WELCOME10') {
+      setAppliedCoupon({ code: code.toUpperCase(), discountAmount: subtotal * 0.1 })
+    } else {
+      setCouponError('Kortingscode niet gevonden')
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(undefined)
+    setCouponError('')
   }
 
   // Empty cart state
@@ -119,7 +132,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
 
         {/* Free shipping progress */}
         <div className="mb-6">
-          <FreeShippingProgress {...({ currentAmount: subtotal, threshold: freeShippingThreshold } as any)} />
+          <FreeShippingProgress currentTotal={subtotal} threshold={freeShippingThreshold} />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
@@ -139,12 +152,19 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
             <div className="space-y-4">
               {items.map((item) => (
                 <CartLineItem
-                  {...({
-                    key: item.id,
-                    item: item,
-                    onQuantityChange: (newQty: number) => updateQuantity(item.id, newQty),
-                    onRemove: () => removeItem(item.id),
-                  } as any)}
+                  key={item.id}
+                  product={{
+                    id: String(item.id),
+                    title: item.title,
+                    price: item.price,
+                    image: item.image,
+                    sku: item.sku,
+                    stockStatus: item.stock > 10 ? 'in-stock' : item.stock > 0 ? 'low-stock' : 'out-of-stock',
+                    stockQuantity: item.stock,
+                  }}
+                  quantity={item.quantity}
+                  onQuantityChange={(newQty: number) => updateQuantity(item.id, newQty)}
+                  onRemove={() => removeItem(item.id)}
                 />
               ))}
             </div>
@@ -154,27 +174,11 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
               <TrustSignals
                 variant="horizontal"
                 signals={[
-                  {
-                    icon: 'ShieldCheck',
-                    label: 'Veilig betalen',
-                    description: 'SSL beveiligd',
-                  },
-                  {
-                    icon: 'Truck',
-                    label: 'Gratis verzending',
-                    description: 'Vanaf €150',
-                  },
-                  {
-                    icon: 'RotateCcw',
-                    label: '30 dagen retour',
-                    description: 'Geen vragen',
-                  },
-                  {
-                    icon: 'Headphones',
-                    label: 'Klantenservice',
-                    description: 'Ma-vr 9-17u',
-                  },
-                ] as any}
+                  { icon: 'ShieldCheck', text: 'Veilig betalen — SSL beveiligd' },
+                  { icon: 'Truck', text: 'Gratis verzending — Vanaf €150' },
+                  { icon: 'RotateCcw', text: '30 dagen retour — Geen vragen' },
+                  { icon: 'Headphones', text: 'Klantenservice — Ma-vr 9-17u' },
+                ]}
               />
             </div>
           </div>
@@ -182,50 +186,35 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
           {/* Right column - Order summary (1/3 width) */}
           <div className="lg:col-span-1">
             <div className="sticky top-8">
+              {/* Coupon input */}
+              <div className="mb-4">
+                <CouponInput
+                  onApply={handleApplyCoupon}
+                  onRemove={handleRemoveCoupon}
+                  appliedCoupon={appliedCoupon}
+                  errorMessage={couponError}
+                />
+              </div>
+
               {/* Order summary */}
               <OrderSummary
-                {...({
-                  variant: "default",
-                  subtotal: subtotal,
-                  shipping: shipping,
-                  tax: tax,
-                  total: grandTotal,
-                  discount: discount,
-                  itemCount: itemCount,
-                  freeShippingThreshold: freeShippingThreshold,
-                  currency: "€",
-                  children: (
-                    <>
-                      {/* Coupon input slot */}
-                      <div className="mb-4">
-                        <CouponInput onApply={handleApplyCoupon as any} />
-                      </div>
-
-                      {/* Checkout button */}
-                      <button
-                        onClick={handleCheckout}
-                        className="w-full flex items-center justify-center gap-2 px-6 py-4 text-white rounded-xl font-bold transition-all hover:opacity-90"
-                        style={{
-                          background: 'var(--color-primary)',
-                          boxShadow: 'var(--shadow)',
-                        }}
-                      >
-                        Naar checkout
-                        <ArrowRight className="w-5 h-5" />
-                      </button>
-
-                      {/* Secure checkout badge */}
-                      <div
-                        className="mt-4 flex items-center justify-center gap-2 text-xs"
-                        style={{ color: 'var(--color-text-muted)' }}
-                      >
-                        <ShieldCheck className="w-4 h-4" style={{ color: 'var(--color-success)' }} />
-                        <span>Veilig afrekenen met SSL-beveiliging</span>
-                      </div>
-                    </>
-                  ),
-                } as any)}
+                subtotal={subtotal}
+                shipping={shipping}
+                tax={tax}
+                total={grandTotal}
+                discount={discount}
+                discountCode={appliedCoupon?.code}
+                onCheckout={handleCheckout}
               />
+
+              {/* Secure checkout badge */}
+              <div
+                className="mt-4 flex items-center justify-center gap-2 text-xs"
+                style={{ color: 'var(--color-text-muted)' }}
+              >
+                <ShieldCheck className="w-4 h-4" style={{ color: 'var(--color-success)' }} />
+                <span>Veilig afrekenen met SSL-beveiliging</span>
+              </div>
 
               {/* Trust signals (mobile) */}
               <div className="lg:hidden mt-6">

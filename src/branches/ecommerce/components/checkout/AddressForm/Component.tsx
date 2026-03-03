@@ -48,6 +48,7 @@ export function AddressForm({
   isSubmitting = false,
   requiredFields = DEFAULT_REQUIRED_FIELDS,
   title = 'Afleveradres',
+  submitLabel = 'Opslaan en doorgaan',
   className = '',
 }: AddressFormProps) {
   // Form state
@@ -462,6 +463,19 @@ export function AddressForm({
             </div>
           )}
         </div>
+
+        {/* Submit button */}
+        {submitLabel !== false && (
+          <div className="form-group span-2">
+            <button
+              type="submit"
+              className="submit-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Bezig...' : submitLabel}
+            </button>
+          </div>
+        )}
       </form>
 
       <style jsx>{`
@@ -628,6 +642,31 @@ export function AddressForm({
 
         .autocomplete-hint :global(svg) {
           flex-shrink: 0;
+        }
+
+        /* Submit button */
+        .submit-button {
+          width: 100%;
+          padding: 12px 24px;
+          font-family: var(--font-body);
+          font-size: 14px;
+          font-weight: 700;
+          color: white;
+          background: var(--teal);
+          border: none;
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          transition: all var(--transition);
+          margin-top: var(--space-8);
+        }
+
+        .submit-button:hover:not(:disabled) {
+          opacity: 0.9;
+        }
+
+        .submit-button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
         }
 
         /* Responsive: Mobile */

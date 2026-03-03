@@ -13,6 +13,7 @@
  * Built with Phase 1 components - 100% component reuse
  */
 
+import { useState } from 'react'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import Link from 'next/link'
 import { ShoppingCart, ArrowLeft, ArrowRight } from 'lucide-react'
@@ -31,13 +32,17 @@ interface CartTemplate2Props {
 export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart()
 
+  // Coupon state
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | undefined>()
+  const [couponError, setCouponError] = useState('')
+
   // Pricing calculations
   const subtotal = total
   const freeShippingThreshold = 150
   const shipping = subtotal >= freeShippingThreshold ? 0 : 6.95
-  const tax = (subtotal + shipping) * 0.21
-  const grandTotal = subtotal + shipping + tax
-  const discount = 0 // TODO: Implement discount logic
+  const discount = appliedCoupon?.discountAmount || 0
+  const tax = (subtotal + shipping - discount) * 0.21
+  const grandTotal = subtotal + shipping + tax - discount
 
   const handleCheckout = () => {
     if (onCheckout) onCheckout()
@@ -45,9 +50,17 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
   }
 
   const handleApplyCoupon = async (code: string) => {
-    // TODO: Implement coupon validation
-    console.log('Applying coupon:', code)
-    return { valid: false, message: 'Kortingscode niet gevonden' }
+    setCouponError('')
+    if (code.toUpperCase() === 'WELCOME10') {
+      setAppliedCoupon({ code: code.toUpperCase(), discountAmount: subtotal * 0.1 })
+    } else {
+      setCouponError('Kortingscode niet gevonden')
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(undefined)
+    setCouponError('')
   }
 
   // Empty cart state
@@ -109,9 +122,7 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
           </div>
 
           {/* Compact free shipping progress */}
-          <FreeShippingProgress
-            {...({ currentAmount: subtotal, threshold: freeShippingThreshold, variant: "compact" } as any)}
-          />
+          <FreeShippingProgress currentTotal={subtotal} threshold={freeShippingThreshold} />
         </div>
 
         <div className="max-w-5xl mx-auto">
@@ -120,13 +131,19 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
             <div className="lg:col-span-2 space-y-3">
               {items.map((item) => (
                 <CartLineItem
-                  {...({
-                    key: item.id,
-                    item: item,
-                    onQuantityChange: (newQty: number) => updateQuantity(item.id, newQty),
-                    onRemove: () => removeItem(item.id),
-                    variant: "card",
-                  } as any)}
+                  key={item.id}
+                  product={{
+                    id: String(item.id),
+                    title: item.title,
+                    price: item.price,
+                    image: item.image,
+                    sku: item.sku,
+                    stockStatus: item.stock > 10 ? 'in-stock' : item.stock > 0 ? 'low-stock' : 'out-of-stock',
+                    stockQuantity: item.stock,
+                  }}
+                  quantity={item.quantity}
+                  onQuantityChange={(newQty: number) => updateQuantity(item.id, newQty)}
+                  onRemove={() => removeItem(item.id)}
                 />
               ))}
             </div>
@@ -134,39 +151,26 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
             {/* Compact order summary */}
             <div className="lg:col-span-1">
               <div className="sticky top-6">
-                <OrderSummary
-                  {...({
-                    variant: "compact",
-                    subtotal: subtotal,
-                    shipping: shipping,
-                    tax: tax,
-                    total: grandTotal,
-                    discount: discount,
-                    itemCount: itemCount,
-                    freeShippingThreshold: freeShippingThreshold,
-                    currency: "€",
-                    children: (
-                      <>
-                        {/* Coupon input */}
-                        <div className="mb-3">
-                          <CouponInput onApply={handleApplyCoupon as any} variant="compact" />
-                        </div>
+                {/* Coupon input */}
+                <div className="mb-3">
+                  <CouponInput
+                    onApply={handleApplyCoupon}
+                    onRemove={handleRemoveCoupon}
+                    appliedCoupon={appliedCoupon}
+                    errorMessage={couponError}
+                    variant="compact"
+                  />
+                </div>
 
-                        {/* Checkout button */}
-                        <button
-                          onClick={handleCheckout}
-                          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 text-white rounded-lg font-bold transition-all hover:opacity-90"
-                          style={{
-                            background: 'var(--color-primary)',
-                            boxShadow: 'var(--shadow-sm)',
-                          }}
-                        >
-                          Checkout
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
-                      </>
-                    ),
-                  } as any)}
+                {/* Order summary */}
+                <OrderSummary
+                  subtotal={subtotal}
+                  shipping={shipping}
+                  tax={tax}
+                  total={grandTotal}
+                  discount={discount}
+                  discountCode={appliedCoupon?.code}
+                  onCheckout={handleCheckout}
                 />
 
                 {/* Compact trust signals */}
@@ -174,10 +178,10 @@ export default function CartTemplate2({ onCheckout }: CartTemplate2Props) {
                   <TrustSignals
                     variant="compact"
                     signals={[
-                      { icon: 'ShieldCheck', label: 'Veilig betalen' },
-                      { icon: 'Truck', label: 'Gratis vanaf €150' },
-                      { icon: 'RotateCcw', label: '30 dagen retour' },
-                    ] as any}
+                      { icon: 'ShieldCheck', text: 'Veilig betalen' },
+                      { icon: 'Truck', text: 'Gratis vanaf €150' },
+                      { icon: 'RotateCcw', text: '30 dagen retour' },
+                    ]}
                   />
                 </div>
               </div>

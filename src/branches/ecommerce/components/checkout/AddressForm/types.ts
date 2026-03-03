@@ -130,6 +130,12 @@ export interface AddressFormProps {
   title?: string
 
   /**
+   * Submit button label. Set to false to hide button.
+   * @default "Opslaan en doorgaan"
+   */
+  submitLabel?: string | false
+
+  /**
    * Additional CSS class names
    */
   className?: string

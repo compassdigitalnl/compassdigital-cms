@@ -5,18 +5,16 @@
  * modern UX patterns, and complete type safety.
  *
  * Features:
- * - 🔄 4-step checkout flow (Contact → Address → Shipping → Payment)
- * - 👤 Guest + logged-in user support
- * - 📦 All 5 checkout components integrated
- * - 🏢 B2B support (PO numbers, invoice payment)
- * - 📱 Fully responsive (mobile-first)
- * - ♿ Full accessibility (ARIA, keyboard nav)
- * - 🎯 Zero inline styles (Tailwind only)
- * - 🔧 100% type-safe
- * - ⚡ Performance optimized
+ * - 4-step checkout flow (Contact → Address → Shipping → Payment)
+ * - Guest + logged-in user support with OAuth
+ * - Compact product sidebar (no full CartLineItem)
+ * - Real order API integration
+ * - B2B support (PO numbers, invoice payment)
+ * - Fully responsive (mobile-first)
+ * - Full accessibility (ARIA, keyboard nav)
  *
- * @version 4.0
- * @date 2 Maart 2026
+ * @version 4.1
+ * @date 3 Maart 2026
  */
 
 'use client'
@@ -24,11 +22,12 @@
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { useAuth } from '@/providers/Auth'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { ShoppingBag, ArrowLeft, Mail, ChevronDown, ChevronUp, CreditCard, Truck } from 'lucide-react'
+import { ShoppingBag, ArrowLeft, Mail, ChevronDown, ChevronUp, CreditCard, Package, CheckCircle } from 'lucide-react'
 
-// Checkout Components (5/5 integrated)
+// Checkout Components
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
 import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressForm'
 import { ShippingMethodCard } from '@/branches/ecommerce/components/checkout/ShippingMethodCard'
@@ -36,8 +35,8 @@ import { PaymentMethodCard } from '@/branches/ecommerce/components/checkout/Paym
 import { PONumberInput } from '@/branches/ecommerce/components/checkout/PONumberInput'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
-import { CartLineItem } from '@/branches/ecommerce/components/ui/CartLineItem'
 import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
+import { OAuthButtons } from '@/branches/ecommerce/components/auth/OAuthButtons'
 import { Button } from '@/branches/shared/components/ui/button'
 
 interface Address {
@@ -56,7 +55,7 @@ interface Address {
 export default function CheckoutTemplate4() {
   const { user } = useAuth()
   const router = useRouter()
-  const { items, total, itemCount, updateQuantity, removeItem } = useCart()
+  const { items, total, itemCount, clearCart } = useCart()
 
   // Step management (1-4)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1)
@@ -134,25 +133,68 @@ export default function CheckoutTemplate4() {
 
     setIsProcessing(true)
     try {
-      // TODO: Implement order API
-      console.log('Creating order:', {
-        email: user?.email || email,
-        billingAddress,
-        shippingAddress: sameAsBilling ? billingAddress : shippingAddress,
-        shippingMethod,
-        paymentMethod,
-        poNumber,
-        items,
-        total: grandTotal,
+      // 1. Create server-side cart from localStorage items
+      const cartResponse = await fetch('/api/carts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: 'active',
+          items: items.map((item) => ({
+            product: Number(item.id),
+            quantity: item.quantity,
+            unitPrice: item.price,
+            totalPrice: item.price * item.quantity,
+          })),
+          itemCount,
+          subtotal,
+          total: grandTotal,
+          currency: 'EUR',
+        }),
       })
 
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      if (!cartResponse.ok) {
+        const cartError = await cartResponse.json()
+        throw new Error(cartError.message || 'Kon winkelwagen niet aanmaken')
+      }
 
-      // Success redirect
-      router.push(`/orders/success?orderId=12345`)
-    } catch (error) {
+      const cartData = await cartResponse.json()
+      const cartId = cartData.doc?.id
+
+      if (!cartId) {
+        throw new Error('Geen cart ID ontvangen')
+      }
+
+      // 2. Create order via checkout API
+      const effectiveShipping = sameAsBilling ? billingAddress : shippingAddress
+      const orderResponse = await fetch('/api/checkout/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cartId,
+          shippingAddress: effectiveShipping,
+          billingAddress,
+          paymentMethod,
+          shippingMethod,
+          guestEmail: !user ? email : undefined,
+          guestName: !user && billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : undefined,
+        }),
+      })
+
+      if (!orderResponse.ok) {
+        const orderError = await orderResponse.json()
+        throw new Error(orderError.message || 'Bestelling kon niet worden geplaatst')
+      }
+
+      const orderResult = await orderResponse.json()
+
+      // 3. Clear localStorage cart
+      clearCart()
+
+      // 4. Redirect to order confirmation
+      router.push(`/order/${orderResult.order.id}`)
+    } catch (error: any) {
       console.error('Order failed:', error)
-      alert('Er ging iets mis. Probeer het opnieuw.')
+      alert(error.message || 'Er ging iets mis bij het plaatsen van je bestelling. Probeer het opnieuw.')
     } finally {
       setIsProcessing(false)
     }
@@ -186,32 +228,70 @@ export default function CheckoutTemplate4() {
               <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">Contact informatie</h2>
 
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-                      E-mailadres
-                    </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                      <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="jouw@email.nl"
-                        className="w-full pl-11 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-colors"
-                      />
+                {user ? (
+                  /* Logged-in user: confirmation box */
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold text-green-900">Ingelogd als</p>
+                        <p className="text-sm text-green-700">{user.email}</p>
+                      </div>
                     </div>
-                  </div>
 
-                  <Button
-                    onClick={() => canProceedToAddress && setCurrentStep(2)}
-                    disabled={!canProceedToAddress}
-                    className="w-full"
-                  >
-                    Ga door naar adres
-                  </Button>
-                </div>
+                    <Button
+                      onClick={() => setCurrentStep(2)}
+                      className="w-full"
+                    >
+                      Ga door naar adres
+                    </Button>
+                  </div>
+                ) : (
+                  /* Guest user: OAuth + email */
+                  <div className="space-y-4">
+                    <OAuthButtons
+                      providers={['google']}
+                      onProviderClick={(provider) => {
+                        console.log('OAuth login:', provider)
+                        // TODO: Implement OAuth callback
+                      }}
+                      showDivider
+                      dividerText="of met e-mail"
+                    />
+
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+                        E-mailadres
+                      </label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <input
+                          id="email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="jouw@email.nl"
+                          className="w-full pl-11 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-gray-500">
+                      Heb je al een account?{' '}
+                      <Link href="/login" className="text-teal-600 hover:text-teal-700 font-semibold">
+                        Log in
+                      </Link>
+                    </p>
+
+                    <Button
+                      onClick={() => canProceedToAddress && setCurrentStep(2)}
+                      disabled={!canProceedToAddress}
+                      className="w-full"
+                    >
+                      Ga door naar adres
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
 
@@ -362,27 +442,47 @@ export default function CheckoutTemplate4() {
 
             {/* Desktop: Always visible, Mobile: Collapsible */}
             <div className={`space-y-6 ${showMobileCart ? 'block' : 'hidden lg:block'}`}>
-              {/* Cart Items */}
+              {/* Compact Cart Items */}
               <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
                 <h3 className="font-bold text-gray-900 mb-4">Je bestelling</h3>
                 <div className="space-y-3 max-h-96 overflow-y-auto">
                   {items.map((item) => (
-                    <CartLineItem
-                      key={item.id}
-                      product={{
-                        id: String(item.id),
-                        title: item.title,
-                        price: item.price,
-                        image: item.image,
-                        sku: item.sku,
-                        stockStatus: item.stock > 10 ? 'in-stock' : item.stock > 0 ? 'low-stock' : 'out-of-stock',
-                        stockQuantity: item.stock,
-                      }}
-                      quantity={item.quantity}
-                      onQuantityChange={(newQty: number) => updateQuantity(item.id, newQty)}
-                      onRemove={() => removeItem(item.id)}
-                    />
+                    <div key={item.id} className="flex items-center gap-3">
+                      {/* 48x48 thumbnail */}
+                      <div className="w-12 h-12 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden relative">
+                        {item.image ? (
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            sizes="48px"
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Package className="w-5 h-5 text-gray-400" />
+                          </div>
+                        )}
+                      </div>
+                      {/* Title + quantity */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
+                        <p className="text-xs text-gray-500">{item.quantity}x €{item.price.toFixed(2)}</p>
+                      </div>
+                      {/* Line total */}
+                      <span className="text-sm font-semibold text-gray-900 flex-shrink-0">
+                        €{(item.price * item.quantity).toFixed(2)}
+                      </span>
+                    </div>
                   ))}
+                </div>
+                <div className="mt-4 pt-3 border-t border-gray-100">
+                  <Link
+                    href="/cart"
+                    className="text-sm text-teal-600 hover:text-teal-700 font-semibold"
+                  >
+                    Winkelwagen bewerken
+                  </Link>
                 </div>
               </div>
 
