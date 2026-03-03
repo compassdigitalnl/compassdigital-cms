@@ -189,14 +189,21 @@ export default async function Page({
         }
       }
 
-      // Build breadcrumbs from product's first category hierarchy
+      // Build breadcrumbs from product's DEEPEST category hierarchy
       let productBreadcrumbs: Array<{ label: string; href: string }> = []
       if (product.categories && Array.isArray(product.categories)) {
-        const firstCat = product.categories[0]
-        const catId = typeof firstCat === 'object' && firstCat !== null ? firstCat.id : firstCat
-        if (catId) {
-          const ancestors = await getCategoryAncestors(payload, catId)
-          productBreadcrumbs = buildCategoryBreadcrumbs(ancestors)
+        let deepestChain: Array<{ id: number; name: string; slug: string }> = []
+        for (const catRef of product.categories) {
+          const catId = typeof catRef === 'object' && catRef !== null ? (catRef as any).id : catRef
+          if (catId) {
+            const ancestors = await getCategoryAncestors(payload, catId)
+            if (ancestors.length > deepestChain.length) {
+              deepestChain = ancestors
+            }
+          }
+        }
+        if (deepestChain.length > 0) {
+          productBreadcrumbs = buildCategoryBreadcrumbs(deepestChain)
         }
       }
 
