@@ -286,8 +286,8 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                 ) : (
                   /* Guest / Login / Register tabs */
                   <CheckoutAuthPanel
-                    defaultTab="guest"
-                    enableGuestCheckout={settings?.enableGuestCheckout !== false}
+                    defaultTab="login"
+                    enableGuestCheckout={settings?.enableGuestCheckout ?? true}
                     onAuthenticated={({ email: authEmail, isGuest: authIsGuest, guestData: authGuestData }) => {
                       setEmail(authEmail)
                       setIsGuest(authIsGuest)

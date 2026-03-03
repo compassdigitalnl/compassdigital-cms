@@ -5,24 +5,25 @@ import { useAuth } from '@/providers/Auth'
 import { AuthTabSwitcher } from '@/branches/ecommerce/components/auth/AuthTabSwitcher'
 import type { TabId } from '@/branches/ecommerce/components/auth/AuthTabSwitcher'
 import { LoginForm } from '@/branches/ecommerce/components/auth/LoginForm'
-import { RegisterForm } from '@/branches/ecommerce/components/auth/RegisterForm'
 import { GuestCheckoutForm } from '@/branches/ecommerce/components/auth/GuestCheckoutForm'
 import { OAuthButtons } from '@/branches/ecommerce/components/auth/OAuthButtons'
 import { TrustBadges } from '@/branches/ecommerce/components/auth/TrustBadges'
 import { FormInput } from '@/branches/ecommerce/components/auth/FormInput'
+import { KvkLookup } from '@/branches/ecommerce/components/auth/KvkLookup'
+import type { KvkResult } from '@/branches/ecommerce/components/auth/KvkLookup'
+import { PasswordStrengthMeter } from '@/branches/ecommerce/components/auth/PasswordStrengthMeter'
 import { Building2, User } from 'lucide-react'
 import type { CheckoutAuthPanelProps } from './types'
 
 /**
  * CheckoutAuthPanel - Inline auth panel for checkout step 1
  *
- * Composes existing auth components with AuthTabSwitcher and TrustBadges.
- * Default tab is 'guest' for lowest friction in checkout.
- * Includes OAuth (Google), B2B/B2C register toggle, and trust badges.
+ * Default tab is 'login'. Includes OAuth (Google), B2B/B2C register toggle,
+ * KvK lookup for B2B, guest checkout tab, and trust badges.
  */
 export function CheckoutAuthPanel({
   onAuthenticated,
-  defaultTab = 'guest',
+  defaultTab = 'login',
   enableGuestCheckout = true,
   className = '',
 }: CheckoutAuthPanelProps) {
@@ -38,8 +39,19 @@ export function CheckoutAuthPanel({
   const [b2cLoading, setB2cLoading] = useState(false)
   const [b2cError, setB2cError] = useState('')
 
+  // B2B register state
+  const [b2bFirstName, setB2bFirstName] = useState('')
+  const [b2bLastName, setB2bLastName] = useState('')
+  const [b2bOrganization, setB2bOrganization] = useState('')
+  const [b2bKvkNumber, setB2bKvkNumber] = useState('')
+  const [b2bEmail, setB2bEmail] = useState('')
+  const [b2bPhone, setB2bPhone] = useState('')
+  const [b2bPassword, setB2bPassword] = useState('')
+  const [b2bAcceptTerms, setB2bAcceptTerms] = useState(false)
+  const [b2bLoading, setB2bLoading] = useState(false)
+  const [b2bError, setB2bError] = useState('')
+
   const handleOAuthLogin = (provider: string) => {
-    // Redirect to OAuth provider login
     window.location.href = `/api/users/oauth/${provider}`
   }
 
@@ -68,6 +80,36 @@ export function CheckoutAuthPanel({
     } finally {
       setB2cLoading(false)
     }
+  }
+
+  const handleB2bSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setB2bError('')
+
+    if (!b2bAcceptTerms) {
+      setB2bError('U moet akkoord gaan met de algemene voorwaarden')
+      return
+    }
+
+    setB2bLoading(true)
+
+    try {
+      await create({
+        email: b2bEmail,
+        password: b2bPassword,
+        passwordConfirm: b2bPassword,
+      })
+      onAuthenticated({ email: b2bEmail, isGuest: false })
+    } catch (err) {
+      setB2bError(err instanceof Error ? err.message : 'Er is een fout opgetreden bij het aanmaken van uw account.')
+    } finally {
+      setB2bLoading(false)
+    }
+  }
+
+  const handleKvkResult = (result: KvkResult) => {
+    setB2bOrganization(result.companyName)
+    setB2bKvkNumber(result.kvkNumber)
   }
 
   return (
@@ -116,7 +158,7 @@ export function CheckoutAuthPanel({
                 flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold
                 transition-all duration-200 border-2
                 ${registerMode === 'b2c'
-                  ? 'border-[var(--color-accent,#00897B)] bg-[rgba(0,137,123,0.06)] text-[var(--color-accent,#00897B)]'
+                  ? 'border-[var(--color-primary,#0A1628)] bg-[rgba(10,22,40,0.05)] text-[var(--color-primary,#0A1628)]'
                   : 'border-[var(--color-border,#E8ECF1)] text-[var(--color-text-secondary,#94A3B8)] hover:border-[var(--color-text-secondary,#94A3B8)]'
                 }
               `}
@@ -131,7 +173,7 @@ export function CheckoutAuthPanel({
                 flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold
                 transition-all duration-200 border-2
                 ${registerMode === 'b2b'
-                  ? 'border-[var(--color-accent,#00897B)] bg-[rgba(0,137,123,0.06)] text-[var(--color-accent,#00897B)]'
+                  ? 'border-[var(--color-primary,#0A1628)] bg-[rgba(10,22,40,0.05)] text-[var(--color-primary,#0A1628)]'
                   : 'border-[var(--color-border,#E8ECF1)] text-[var(--color-text-secondary,#94A3B8)] hover:border-[var(--color-text-secondary,#94A3B8)]'
                 }
               `}
@@ -222,8 +264,8 @@ export function CheckoutAuthPanel({
                   style={{
                     background: b2cLoading
                       ? 'var(--color-text-secondary, #94A3B8)'
-                      : 'var(--color-accent, #00897B)',
-                    boxShadow: b2cLoading ? 'none' : '0 4px 16px rgba(0,137,123,0.3)',
+                      : 'var(--color-primary, #0A1628)',
+                    boxShadow: b2cLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
                   }}
                 >
                   {b2cLoading ? 'Account wordt aangemaakt...' : 'Account aanmaken'}
@@ -239,29 +281,178 @@ export function CheckoutAuthPanel({
                   type="button"
                   onClick={() => setActiveTab('login')}
                   className="font-semibold hover:underline"
-                  style={{ color: 'var(--color-accent, #00897B)' }}
+                  style={{ color: 'var(--color-primary, #0A1628)' }}
                 >
                   Log hier in
                 </button>
               </p>
             </div>
           ) : (
-            /* B2B: Full registration with org/kvk */
-            <RegisterForm
-              title="Zakelijk account aanmaken"
-              subtitle="Maak een zakelijk account aan voor persoonlijke prijzen en snelle nabestellingen."
-              showOAuth={false}
-              showB2BNotice={true}
-              onSubmit={async (data) => {
-                await create({
-                  email: data.email,
-                  password: data.password,
-                  passwordConfirm: data.password,
-                })
-                onAuthenticated({ email: data.email, isGuest: false })
-              }}
-              onLoginClick={() => setActiveTab('login')}
-            />
+            /* B2B: Full registration with KvK lookup */
+            <div>
+              <h2
+                className="text-3xl mb-2"
+                style={{
+                  fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
+                  color: 'var(--color-primary, #0A1628)',
+                }}
+              >
+                Zakelijk account aanmaken
+              </h2>
+              <p
+                className="text-sm mb-7 leading-relaxed"
+                style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+              >
+                Vul uw KVK-nummer in voor automatische bedrijfsgegevens, of voer de gegevens handmatig in.
+              </p>
+
+              {b2bError && (
+                <div
+                  className="p-3 mb-4 rounded-lg text-sm"
+                  style={{
+                    background: 'rgba(233,69,96,0.1)',
+                    border: '1px solid rgba(233,69,96,0.3)',
+                    color: '#C62828',
+                  }}
+                >
+                  {b2bError}
+                </div>
+              )}
+
+              <form onSubmit={handleB2bSubmit}>
+                {/* KvK Lookup */}
+                <KvkLookup
+                  onResult={handleKvkResult}
+                  onClear={() => {
+                    setB2bOrganization('')
+                    setB2bKvkNumber('')
+                  }}
+                  className="mb-4"
+                />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                  <FormInput
+                    type="text"
+                    label="Voornaam"
+                    placeholder="Jan"
+                    value={b2bFirstName}
+                    onChange={(e) => setB2bFirstName(e.target.value)}
+                    required
+                  />
+                  <FormInput
+                    type="text"
+                    label="Achternaam"
+                    placeholder="de Vries"
+                    value={b2bLastName}
+                    onChange={(e) => setB2bLastName(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <FormInput
+                    type="text"
+                    label="Organisatie / Praktijk"
+                    placeholder="Huisartsenpraktijk De Vries"
+                    value={b2bOrganization}
+                    onChange={(e) => setB2bOrganization(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <FormInput
+                    type="email"
+                    label="Zakelijk e-mailadres"
+                    placeholder="info@uwpraktijk.nl"
+                    value={b2bEmail}
+                    onChange={(e) => setB2bEmail(e.target.value)}
+                    icon="Mail"
+                    required
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <FormInput
+                    type="tel"
+                    label="Telefoonnummer"
+                    placeholder="06 12345678"
+                    value={b2bPhone}
+                    onChange={(e) => setB2bPhone(e.target.value)}
+                    icon="Phone"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <FormInput
+                    type="password"
+                    label="Wachtwoord"
+                    placeholder="Min. 8 tekens"
+                    value={b2bPassword}
+                    onChange={(e) => setB2bPassword(e.target.value)}
+                    icon="Lock"
+                    showPasswordToggle
+                    required
+                  />
+                  <PasswordStrengthMeter password={b2bPassword} minLength={8} showRequirements={false} />
+                </div>
+
+                {/* Terms */}
+                <div className="mb-6">
+                  <label
+                    className="flex items-start gap-2 text-sm cursor-pointer"
+                    style={{ color: 'var(--color-text, #64748B)' }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={b2bAcceptTerms}
+                      onChange={(e) => setB2bAcceptTerms(e.target.checked)}
+                      required
+                      className="w-4 h-4 mt-0.5 rounded border-2 cursor-pointer flex-shrink-0"
+                      style={{
+                        borderColor: 'var(--color-border, #E8ECF1)',
+                        accentColor: 'var(--color-primary, #0A1628)',
+                      }}
+                    />
+                    <span>
+                      Ik ga akkoord met de{' '}
+                      <span className="font-semibold" style={{ color: 'var(--color-primary, #0A1628)' }}>
+                        algemene voorwaarden
+                      </span>
+                    </span>
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={b2bLoading}
+                  className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  style={{
+                    background: b2bLoading
+                      ? 'var(--color-text-secondary, #94A3B8)'
+                      : 'var(--color-primary, #0A1628)',
+                    boxShadow: b2bLoading ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
+                  }}
+                >
+                  {b2bLoading ? 'Account wordt aangemaakt...' : 'Account aanvragen'}
+                </button>
+              </form>
+
+              <p
+                className="text-center mt-4 text-sm"
+                style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+              >
+                Al een account?{' '}
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('login')}
+                  className="font-semibold hover:underline"
+                  style={{ color: 'var(--color-primary, #0A1628)' }}
+                >
+                  Log hier in
+                </button>
+              </p>
+            </div>
           )}
         </div>
       )}
