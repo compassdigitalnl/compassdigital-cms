@@ -14,6 +14,7 @@ import ShopArchiveTemplate1 from '@/branches/ecommerce/templates/shop/ShopArchiv
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { TrackRecentlyViewed } from '@/branches/ecommerce/components/shop/RecentlyViewed/TrackRecentlyViewed'
+import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -139,15 +140,19 @@ export default async function Page({ params, searchParams }: { params: Promise<{
           }}
         />
         <div className="bg-white border-b">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <Link
-              href="/shop/"
-              className="inline-flex items-center gap-2 transition-colors hover:opacity-70"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Terug naar Shop
-            </Link>
+          <div className="max-w-7xl mx-auto px-4">
+            <Breadcrumbs
+              items={[
+                { label: 'Shop', href: '/shop' },
+                ...((product.categories && Array.isArray(product.categories))
+                  ? product.categories.slice(0, 1).flatMap((cat: any) => {
+                      const category = typeof cat === 'object' ? cat : null
+                      return category ? [{ label: category.name, href: `/${category.slug}` }] : []
+                    })
+                  : []),
+              ]}
+              currentPage={product.title}
+            />
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -231,6 +236,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
           currentPage={categoryPage}
           totalPages={totalPages}
           breadcrumbs={breadcrumbs}
+          categoryContent={(category as any).content || undefined}
         />
       </div>
     )
