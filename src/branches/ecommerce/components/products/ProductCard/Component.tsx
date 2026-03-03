@@ -95,7 +95,7 @@ export function ProductCard({
 
     switch (stockStatus) {
       case 'in-stock':
-        return 'Op voorraad — morgen geleverd'
+        return 'Op voorraad'
       case 'low':
         return `Nog ${stock} op voorraad — bestel snel`
       case 'on-backorder':

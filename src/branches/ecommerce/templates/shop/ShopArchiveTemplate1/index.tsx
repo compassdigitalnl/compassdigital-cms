@@ -74,6 +74,13 @@ interface ShopArchiveTemplate1Props {
 
 /** Map a Meilisearch hit to ProductCard-compatible stock status */
 function hitStockStatus(hit: ShopSearchHit): 'in-stock' | 'low' | 'out' | 'on-backorder' {
+  // Grouped products: trust Meilisearch stockStatus directly (calculated from children during indexing)
+  if (hit.productType === 'grouped') {
+    if (hit.stockStatus === 'in-stock') return 'in-stock'
+    if (hit.stockStatus === 'on-backorder') return 'on-backorder'
+    return 'out'
+  }
+  // Simple products: check stock + backorder fields
   if (hit.stockStatus === 'on-backorder') return 'on-backorder'
   if (hit.stockStatus === 'out' || (!hit.backordersAllowed && hit.stock <= 0)) return 'out'
   if (hit.stock > 0 && hit.stock <= 5) return 'low'
