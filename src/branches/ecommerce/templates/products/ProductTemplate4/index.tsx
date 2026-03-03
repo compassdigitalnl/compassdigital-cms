@@ -47,10 +47,13 @@ interface ProductTemplate4Props {
 }
 
 export default function ProductTemplate4({ product }: ProductTemplate4Props) {
-  const { addItem } = useCart()
+  const { addItem, addGroupedItems } = useCart()
   const { showToast } = useAddToCartToast()
   const [showStickyATC, setShowStickyATC] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
+  const [isWishlisted, setIsWishlisted] = useState(false)
+  const [shareMsg, setShareMsg] = useState<string | null>(null)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
 
   // For grouped products - size quantities
   const [sizeQuantities, setSizeQuantities] = useState<Record<string, number>>({})
@@ -162,18 +165,57 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     })
   }
 
+  // Wishlist toggle (localStorage-based)
+  useEffect(() => {
+    const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
+    setIsWishlisted(wishlist.includes(String(product.id)))
+  }, [product.id])
+
+  const toggleWishlist = () => {
+    const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
+    const pid = String(product.id)
+    const updated = wishlist.includes(pid) ? wishlist.filter((id) => id !== pid) : [...wishlist, pid]
+    localStorage.setItem('wishlist', JSON.stringify(updated))
+    setIsWishlisted(!isWishlisted)
+  }
+
+  // Share with feedback
+  const handleShare = async () => {
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      await navigator.share({ title: product.title, url: window.location.href })
+    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      await navigator.clipboard.writeText(window.location.href)
+      setShareMsg('Link gekopieerd!')
+      setTimeout(() => setShareMsg(null), 2000)
+    }
+  }
+
+  // Mobile swipe handlers
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX)
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return
+    const diff = touchStart - e.changedTouches[0].clientX
+    const imgCount = allImages.length || 1
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) setImageIndex((prev) => Math.min(prev + 1, imgCount - 1))
+      else setImageIndex((prev) => Math.max(prev - 1, 0))
+    }
+    setTouchStart(null)
+  }
+
   const handleAddToCart = () => {
     const firstImageUrl = imageUrl || undefined
 
     if (isGrouped) {
-      // Add all selected sizes to cart
+      // Collect all selected items and add in one batch
+      const groupedItems: Array<any> = []
       let addedCount = 0
       Object.entries(sizeQuantities).forEach(([productId, qty]: any) => {
         if (qty > 0) {
           const childProd = childProducts.find((p: any) => p.id === productId)
           if (childProd) {
             const unitPrice = getTierPrice(totalQty)
-            addItem({
+            groupedItems.push({
               id: childProd.id,
               title: childProd.title,
               slug: childProd.slug || '',
@@ -198,6 +240,10 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         }
       })
 
+      if (groupedItems.length > 0) {
+        addGroupedItems(groupedItems)
+      }
+
       // Show toast for grouped products
       if (addedCount > 0) {
         showToast({
@@ -216,7 +262,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         : subscriptionPrice
 
       addItem({
-        id: String(product.id),
+        id: `${product.id}-sub-${selectedSubscription.value || selectedSubscription.label}`,
         title: `${product.title} - ${selectedSubscription.label}`,
         slug: product.slug || '',
         price: product.price ?? 0,
@@ -237,11 +283,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         price: discountedPrice,
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
-      // Add variable product with selected variants
+      // Add variable product with selected variants — unique ID per combination
       const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
+      const variantKey = Object.values(variantSelections).map((v: any) => v.value || v.label).sort().join('-')
 
       addItem({
-        id: String(product.id),
+        id: `${product.id}-${variantKey}`,
         title: `${product.title} (${variantLabels})`,
         slug: product.slug || '',
         price: product.price ?? 0,
@@ -337,7 +384,11 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     <>
       <div className="product-template-4 overflow-x-hidden pb-20" style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}>
         {/* MOBILE: Image Gallery - Swipeable */}
-        <div className="relative w-full h-[280px] md:h-96 lg:hidden bg-[var(--color-background,var(--color-surface))]">
+        <div
+          className="relative w-full h-[280px] md:h-96 lg:hidden bg-[var(--color-background,var(--color-surface))]"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Badges */}
           {(product.badge || product.salePrice) && (
             <div className="absolute top-3 left-3 flex gap-1.5 z-10">
@@ -363,22 +414,21 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
           <div className="absolute top-3 right-3 flex gap-1.5 z-10">
             <button
               className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
-              aria-label="Add to favorites"
+              aria-label={isWishlisted ? 'Verwijder uit favorieten' : 'Toevoegen aan favorieten'}
+              onClick={toggleWishlist}
             >
-              <Heart className="w-4 h-4 text-[var(--color-text-primary)]" />
+              <Heart className="w-4 h-4" style={{ color: isWishlisted ? '#FF6B6B' : 'var(--color-text-primary)', fill: isWishlisted ? '#FF6B6B' : 'none' }} />
             </button>
             <button
               className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
-              aria-label="Share product"
-              onClick={() => {
-                if (typeof navigator !== 'undefined' && navigator.share) {
-                  navigator.share({ title: product.title, url: window.location.href })
-                } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                  navigator.clipboard.writeText(window.location.href)
-                }
-              }}
+              aria-label="Deel product"
+              onClick={handleShare}
             >
-              <Share2 className="w-4 h-4 text-[var(--color-text-primary)]" />
+              {shareMsg ? (
+                <Check className="w-4 h-4 text-[var(--color-success)]" />
+              ) : (
+                <Share2 className="w-4 h-4 text-[var(--color-text-primary)]" />
+              )}
             </button>
           </div>
 
@@ -445,29 +495,28 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               <div className="absolute top-4 right-4 flex gap-2 z-10">
                 <button
                   className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
-                  aria-label="Add to favorites"
+                  aria-label={isWishlisted ? 'Verwijder uit favorieten' : 'Toevoegen aan favorieten'}
+                  onClick={toggleWishlist}
                 >
-                  <Heart className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
+                  <Heart className="w-[18px] h-[18px]" style={{ color: isWishlisted ? '#FF6B6B' : 'var(--color-text-primary)', fill: isWishlisted ? '#FF6B6B' : 'none' }} />
                 </button>
                 <button
                   className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
-                  aria-label="Share product"
-                  onClick={() => {
-                    if (typeof navigator !== 'undefined' && navigator.share) {
-                      navigator.share({ title: product.title, url: window.location.href })
-                    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                      navigator.clipboard.writeText(window.location.href)
-                    }
-                  }}
+                  aria-label="Deel product"
+                  onClick={handleShare}
                 >
-                  <Share2 className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
+                  {shareMsg ? (
+                    <Check className="w-[18px] h-[18px] text-[var(--color-success)]" />
+                  ) : (
+                    <Share2 className="w-[18px] h-[18px] text-[var(--color-text-primary)]" />
+                  )}
                 </button>
               </div>
 
               {/* Image */}
-              {imageUrl ? (
+              {currentImage ? (
                 <img
-                  src={imageUrl}
+                  src={currentImage}
                   alt={product.title}
                   className="max-w-full max-h-full object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
                 />
@@ -492,13 +541,15 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               <div className="flex gap-2.5 mt-3">
                 {product.images.slice(0, 5).map((img: any, idx: number) => {
                   const imgUrl = typeof img === 'object' && img !== null ? (img as any)?.url : null
+                  const isSelected = idx === imageIndex
                   return (
-                    <div
+                    <button
                       key={idx}
-                      className="w-20 h-20 rounded-xl bg-[var(--color-surface,white)] cursor-pointer flex items-center justify-center"
+                      onClick={() => setImageIndex(idx)}
+                      className="w-20 h-20 rounded-xl bg-[var(--color-surface,white)] cursor-pointer flex items-center justify-center p-0 transition-all"
                       style={{
-                        border: idx === 0 ? '2px solid var(--color-primary)' : '2px solid var(--color-border)',
-                        boxShadow: idx === 0 ? '0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent)' : 'none',
+                        border: isSelected ? '2px solid var(--color-primary)' : '2px solid var(--color-border)',
+                        boxShadow: isSelected ? '0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent)' : 'none',
                       }}
                     >
                       {imgUrl && (
@@ -508,7 +559,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                           className="max-w-full max-h-full object-contain"
                         />
                       )}
-                    </div>
+                    </button>
                   )
                 })}
               </div>
@@ -803,7 +854,11 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 </div>
                 <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white">
                   <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    onClick={() => {
+                      const minQty = product.minOrderQuantity || 1
+                      const step = product.orderMultiple || 1
+                      setQuantity(Math.max(minQty, quantity - step))
+                    }}
                     className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
                   >
                     <Minus className="w-4 h-4" />
@@ -811,11 +866,19 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                   <input
                     type="number"
                     value={quantity}
-                    onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                    onChange={(e: any) => {
+                      const minQty = product.minOrderQuantity || 1
+                      const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                      setQuantity(Math.min(maxQty, Math.max(minQty, parseInt(e.target.value) || minQty)))
+                    }}
                     className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                   />
                   <button
-                    onClick={() => setQuantity(quantity + 1)}
+                    onClick={() => {
+                      const step = product.orderMultiple || 1
+                      const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                      setQuantity(Math.min(maxQty, quantity + step))
+                    }}
                     className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
                   >
                     <Plus className="w-4 h-4" />
@@ -844,17 +907,23 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                   }}
                 >
                   <ShoppingCart className="w-5 h-5" />
-                  {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
+                  In winkelwagen
                 </button>
               )}
 
               {/* Secondary Buttons */}
               <div className="flex gap-2.5">
-                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
+                <button
+                  onClick={() => alert('Bestellijst functie komt binnenkort beschikbaar.')}
+                  className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer hover:border-[var(--color-primary)] transition-colors"
+                >
                   <ClipboardList className="w-[18px] h-[18px]" />
                   Op bestellijst
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
+                <button
+                  onClick={() => alert('Herhaalbestelling functie komt binnenkort beschikbaar.')}
+                  className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer hover:border-[var(--color-primary)] transition-colors"
+                >
                   <Repeat className="w-[18px] h-[18px]" />
                   Herhaalbestelling
                 </button>
@@ -1099,7 +1168,11 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               </div>
               <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white">
                 <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  onClick={() => {
+                    const minQty = product.minOrderQuantity || 1
+                    const step = product.orderMultiple || 1
+                    setQuantity(Math.max(minQty, quantity - step))
+                  }}
                   className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-base text-[var(--color-text-primary)]"
                 >
                   <Minus className="w-4 h-4" />
@@ -1107,11 +1180,19 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  onChange={(e: any) => {
+                    const minQty = product.minOrderQuantity || 1
+                    const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                    setQuantity(Math.min(maxQty, Math.max(minQty, parseInt(e.target.value) || minQty)))
+                  }}
                   className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                 />
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() => {
+                    const step = product.orderMultiple || 1
+                    const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                    setQuantity(Math.min(maxQty, quantity + step))
+                  }}
                   className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-base text-[var(--color-text-primary)]"
                 >
                   <Plus className="w-4 h-4" />
@@ -1138,17 +1219,23 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               }}
             >
               <ShoppingCart className="w-5 h-5" />
-              {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
+              In winkelwagen
             </button>
           )}
 
           {/* Secondary Buttons - Mobile */}
           <div className="flex gap-2 mb-4">
-            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
+            <button
+              onClick={() => alert('Bestellijst functie komt binnenkort beschikbaar.')}
+              className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer"
+            >
               <ClipboardList className="w-4 h-4" />
               Bestellijst
             </button>
-            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
+            <button
+              onClick={() => alert('Herhaalbestelling functie komt binnenkort beschikbaar.')}
+              className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer"
+            >
               <Repeat className="w-4 h-4" />
               Herhalen
             </button>
@@ -1411,6 +1498,14 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                         <button
                           className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
                           style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            if (rp.price != null) {
+                              addItem({ id: rp.id, title: rp.title, slug: rp.slug || '', price: rp.price, unitPrice: rp.salePrice || rp.price, stock: rp.stock || 0, quantity: 1 })
+                              showToast({ id: String(rp.id), name: rp.title, quantity: 1, price: rp.salePrice || rp.price })
+                            }
+                          }}
                         >
                           <Plus className="w-4 h-4" />
                         </button>
@@ -1472,6 +1567,14 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                         <button
                           className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
                           style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            if (rp.price != null) {
+                              addItem({ id: rp.id, title: rp.title, slug: rp.slug || '', price: rp.price, unitPrice: rp.salePrice || rp.price, stock: rp.stock || 0, quantity: 1 })
+                              showToast({ id: String(rp.id), name: rp.title, quantity: 1, price: rp.salePrice || rp.price })
+                            }
+                          }}
                         >
                           <Plus className="w-[18px] h-[18px]" />
                         </button>
@@ -1493,7 +1596,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
       </div>
 
       {/* STICKY ADD TO CART BAR - Mobile & Tablet */}
-      {showStickyATC && (
+      {showStickyATC && !isOutOfStock && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-t-[var(--color-border)] p-3 px-4 z-[1000] shadow-[0_-4px_20px_rgba(0,0,0,0.08)] flex items-center gap-3 lg:hidden">
           {/* Product Info */}
           <div className="flex-1 min-w-0">
