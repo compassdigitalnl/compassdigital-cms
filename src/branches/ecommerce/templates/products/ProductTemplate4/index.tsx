@@ -404,7 +404,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         </div>
 
         {/* DESKTOP: 2-Column Layout (50/50) */}
-        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start lg:mb-12 lg:px-6">
+        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start lg:mb-12 px-4">
           {/* LEFT: Gallery */}
           <div className="gallery">
             {/* Main Image */}
@@ -1165,7 +1165,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         </div>
 
         {/* ═══ TABS (Description, Specs, Reviews, Downloads) — ProductTabs component ═══ */}
-        <div className="px-4 lg:px-6 pt-8 lg:pt-12">
+        <div className="px-4 pt-8">
           <ProductTabs
             enableMobileAccordion
             enableKeyboardNav
@@ -1330,7 +1330,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
         {/* CROSS-SELLS, UP-SELLS, ACCESSORIES */}
         {features.shop && (
-          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4 lg:px-6">
+          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4">
             <RelatedProductsSection
               upSells={product.upSells as any}
               crossSells={product.crossSells as any}
@@ -1341,7 +1341,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
         {/* RELATED PRODUCTS */}
         {product.relatedProducts && product.relatedProducts.length > 0 && (
-          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4 lg:px-6">
+          <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4">
             <div className="flex justify-between items-center mb-7 flex-wrap gap-4">
               <h2 className="font-heading text-xl md:text-2xl font-extrabold text-[var(--color-text-primary)] flex items-center gap-2.5">
                 <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-[var(--color-primary)]" />

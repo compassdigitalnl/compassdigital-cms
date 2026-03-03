@@ -229,7 +229,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
              Override hardcoded max-width utilities to use Theme containerWidth
              =================================================================== */
           .max-w-7xl, .max-w-6xl, .max-w-5xl {
-            max-width: var(--container-width) !important;
+            max-width: var(--container-width);
           }
 
           /* Keep smaller max-widths for specific use cases */
