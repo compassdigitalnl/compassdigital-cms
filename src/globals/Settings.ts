@@ -315,31 +315,17 @@ export const Settings: GlobalConfig = {
               },
             }),
             ...featureField('checkout', {
-              name: 'defaultCartTemplate',
+              name: 'checkoutFlow',
               type: 'select',
-              label: 'Standaard Cart Template',
-              defaultValue: 'template1',
+              label: 'Checkout Flow',
+              defaultValue: 'premium',
               options: [
-                { label: 'Card Layout — Staffel hints + cross-sell carousel', value: 'template1' },
-                { label: 'Compact Tabel — B2B, quick-order, payment badges', value: 'template2' },
-                { label: 'Premium Visueel — Checkout steps, recently viewed', value: 'template4' },
+                { label: 'Premium — Visuele stepper, multi-step checkout', value: 'premium' },
+                { label: 'Efficiënt — Compact B2B, one-step checkout', value: 'efficient' },
+                { label: 'Klassiek — Card layout, one-step checkout', value: 'classic' },
               ],
               admin: {
-                description: 'Template voor winkelwagen pagina (A/B testing beschikbaar)',
-              },
-            }),
-            ...featureField('checkout', {
-              name: 'defaultCheckoutTemplate',
-              type: 'select',
-              label: 'Standaard Checkout Template',
-              defaultValue: 'template4',
-              options: [
-                { label: 'Template 2 - One-Step Checkout (Alle velden op 1 pagina, snel)', value: 'checkouttemplate2' },
-                { label: 'Template 4 - Multi-Step Checkout (4 stappen wizard, B2B support)', value: 'template4' },
-                { label: 'Template 1 - Legacy Multi-Step (Niet aanbevolen)', value: 'checkouttemplate1' },
-              ],
-              admin: {
-                description: 'Kies tussen one-step (snel, simpel) of multi-step (overzichtelijk, B2B)',
+                description: 'Bepaalt welke cart- en checkout templates samen worden gebruikt. Elke flow biedt een consistente ervaring van winkelwagen tot bevestiging.',
               },
             }),
             {

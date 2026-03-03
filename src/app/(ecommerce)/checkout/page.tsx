@@ -5,6 +5,7 @@ import CheckoutTemplate2 from '@/branches/ecommerce/templates/checkout/CheckoutT
 import CheckoutTemplate4 from '@/branches/ecommerce/templates/checkout/CheckoutTemplate4'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
+import { CHECKOUT_FLOWS, resolveFlowFromLegacy } from '@/branches/ecommerce/lib/checkoutFlows'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -19,23 +20,30 @@ export default async function CheckoutPageWrapper() {
 
   const payload = await getPayload({ config })
 
-  // Get global template setting from Settings
-  let settings
-  let template = 'checkouttemplate1' // Default fallback
+  let template = 'checkouttemplate1'
 
   try {
-    settings = await payload.findGlobal({
+    const settings = await payload.findGlobal({
       slug: 'settings',
       depth: 0,
     })
-    // Safely get template setting with fallback
-    template = (settings as any)?.defaultCheckoutTemplate || 'checkouttemplate1'
+
+    const s = settings as any
+
+    // New: resolve via checkoutFlow
+    if (s?.checkoutFlow && CHECKOUT_FLOWS[s.checkoutFlow]) {
+      template = CHECKOUT_FLOWS[s.checkoutFlow].checkoutTemplate
+    } else {
+      // Backward compat: resolve from old separate fields
+      const flow = resolveFlowFromLegacy(s?.defaultCartTemplate, s?.defaultCheckoutTemplate)
+      template = CHECKOUT_FLOWS[flow].checkoutTemplate
+    }
   } catch (error) {
     console.error('⚠️ Error fetching settings, using default template:', error)
     template = 'checkouttemplate1'
   }
 
-  // Template switcher based on settings
+  // Template switcher based on resolved flow
   if (template === 'template4') {
     return <CheckoutTemplate4 />
   }

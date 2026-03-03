@@ -29,7 +29,7 @@ export interface CheckoutProgressStepperProps {
   /**
    * Current active step (1-4)
    */
-  currentStep: 1 | 2 | 3 | 4
+  currentStep: 1 | 2 | 3 | 4 | 5
 
   /**
    * Step labels (optional override)

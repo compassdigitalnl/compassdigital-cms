@@ -88,7 +88,7 @@ export function CheckoutProgressStepper({
           display: flex;
           align-items: center;
           justify-content: space-between;
-          max-width: 600px;
+          max-width: 700px;
           margin: 0 auto;
           position: relative;
           padding: 0 8px;

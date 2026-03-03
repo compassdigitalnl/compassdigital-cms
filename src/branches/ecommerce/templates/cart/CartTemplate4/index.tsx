@@ -32,6 +32,7 @@ import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
 import { FreeShippingProgress } from '@/branches/ecommerce/components/ui/FreeShippingProgress'
 import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
+import { UNIFIED_STEPS } from '@/branches/ecommerce/lib/checkoutFlows'
 import { RecentlyViewed } from '@/branches/ecommerce/components/shop/RecentlyViewed/RecentlyViewed'
 import { PaymentMethodBadges } from '@/branches/ecommerce/components/cart/PaymentMethodBadges'
 
@@ -79,12 +80,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
         <div className="t4-step-bar">
           <CheckoutProgressStepper
             currentStep={1}
-            steps={[
-              { id: 1, label: 'Winkelwagen' },
-              { id: 2, label: 'Gegevens' },
-              { id: 3, label: 'Betaling' },
-              { id: 4, label: 'Bevestiging' },
-            ]}
+            steps={UNIFIED_STEPS}
           />
         </div>
 

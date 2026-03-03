@@ -29,6 +29,7 @@ import { ShoppingBag, ArrowLeft, Mail, ChevronDown, ChevronUp, CreditCard, Packa
 
 // Checkout Components
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
+import { UNIFIED_STEPS, internalStepToStepperStep } from '@/branches/ecommerce/lib/checkoutFlows'
 import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressForm'
 import { ShippingMethodCard } from '@/branches/ecommerce/components/checkout/ShippingMethodCard'
 import { PaymentMethodCard } from '@/branches/ecommerce/components/checkout/PaymentMethodCard'
@@ -215,8 +216,14 @@ export default function CheckoutTemplate4() {
 
           <h1 className="text-3xl font-bold text-gray-900 mb-6">Afrekenen</h1>
 
-          {/* Progress Stepper */}
-          <CheckoutProgressStepper currentStep={currentStep} />
+          {/* Progress Stepper — 5 unified steps */}
+          <CheckoutProgressStepper
+            currentStep={internalStepToStepperStep(currentStep)}
+            steps={UNIFIED_STEPS}
+            onStepClick={(stepId) => {
+              if (stepId === 1) router.push('/cart')
+            }}
+          />
         </div>
 
         {/* Main Grid */}

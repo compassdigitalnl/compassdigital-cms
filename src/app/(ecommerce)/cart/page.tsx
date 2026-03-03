@@ -3,6 +3,7 @@ import config from '@payload-config'
 import CartPageClient from './CartPageClient'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
+import { CHECKOUT_FLOWS, resolveFlowFromLegacy } from '@/branches/ecommerce/lib/checkoutFlows'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -17,8 +18,7 @@ export default async function CartPage() {
 
   const payload = await getPayload({ config })
 
-  // Get global template setting from Settings (fallback for when no A/B test is running)
-  let defaultTemplate = 'template1' // Default fallback
+  let defaultTemplate = 'template1'
 
   try {
     const settings = await payload.findGlobal({
@@ -26,8 +26,16 @@ export default async function CartPage() {
       depth: 0,
     })
 
-    // Template field is at top level in Settings global (not nested under ecommerce)
-    defaultTemplate = (settings as any)?.defaultCartTemplate || 'template1'
+    const s = settings as any
+
+    // New: resolve via checkoutFlow
+    if (s?.checkoutFlow && CHECKOUT_FLOWS[s.checkoutFlow]) {
+      defaultTemplate = CHECKOUT_FLOWS[s.checkoutFlow].cartTemplate
+    } else {
+      // Backward compat: resolve from old separate fields
+      const flow = resolveFlowFromLegacy(s?.defaultCartTemplate, s?.defaultCheckoutTemplate)
+      defaultTemplate = CHECKOUT_FLOWS[flow].cartTemplate
+    }
   } catch (error) {
     console.error('⚠️ Error fetching cart template setting, using default:', error)
   }
