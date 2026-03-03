@@ -142,7 +142,7 @@ export function AlertBar({ alertBar, theme }: Props) {
         borderBottom: `1px solid ${colors.border}`,
       }}
     >
-      <div className={`${containerClass} mx-auto px-4 py-2.5 flex items-center justify-center gap-3`}>
+      <div className={`${containerClass} mx-auto py-2.5 flex items-center justify-center gap-3`}>
         {Icon && <Icon className="w-4 h-4" style={{ color: colors.icon }} />}
         <p className="text-sm font-medium" style={{ color: colors.text }}>
           {alertBar.message}

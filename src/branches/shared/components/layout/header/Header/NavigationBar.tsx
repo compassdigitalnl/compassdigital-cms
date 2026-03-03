@@ -220,7 +220,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
   return (
     <>
       <nav ref={navRef} className="hidden lg:block bg-white border-b sticky top-[72px] z-[40]" style={{ borderColor: 'var(--color-border)' }}>
-        <div className="mx-auto px-8" style={{ maxWidth: 'var(--container-width)' }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--container-width)' }}>
           <div className="flex items-stretch h-12">
             {/* Menu Trigger Button — alleen tonen bij category/hybrid navigatie */}
             {(navigation.mode === 'categories' || navigation.mode === 'hybrid') && (
@@ -431,7 +431,7 @@ export function NavigationBar({ navigation, theme, settings }: Props) {
           className="fixed left-0 right-0 z-[60]"
           style={{ top: `${navTop}px` }}
         >
-          <div className="mx-auto px-4" style={{ maxWidth: 'var(--container-width)' }}>
+          <div className="mx-auto" style={{ maxWidth: 'var(--container-width)' }}>
             <div className="flex bg-white rounded-b-2xl shadow-2xl overflow-hidden min-h-[520px] border-t-2" style={{ borderColor: primaryColor }}>
 
               {/* L1: Root Categories */}
