@@ -100,17 +100,26 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
   const hasPrice = selectedProduct.price != null || selectedProduct.salePrice != null
 
   const allImages = selectedProduct.images || []
-  const imageUrl =
+
+  // Extract image URL with fallback to img: tags
+  let imageUrl: string | null =
     typeof allImages[activeImageIndex] === 'object' && allImages[activeImageIndex] !== null
-      ? allImages[activeImageIndex].url
+      ? (allImages[activeImageIndex] as any)?.url || null
       : null
+
+  if (!imageUrl && Array.isArray(selectedProduct.tags)) {
+    for (const tagEntry of selectedProduct.tags as any[]) {
+      const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
+      if (typeof tag === 'string' && tag.startsWith('img:')) {
+        imageUrl = tag.slice(4)
+        break
+      }
+    }
+  }
 
   const handleAddToCart = () => {
     const unitPrice = currentPrice
-    const firstImageUrl =
-      typeof selectedProduct.images?.[0] === 'object' && selectedProduct.images[0] !== null
-        ? selectedProduct.images[0].url
-        : null
+    const firstImageUrl = imageUrl
 
     if (isSubscription && selectedSubscription) {
       // Add subscription product
@@ -1132,7 +1141,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
             {allImages.length > 1 && (
               <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
                 {allImages.slice(0, 4).map((img, idx) => {
-                  const imgUrl = typeof img === 'object' && img !== null ? img.url : null
+                  const imgUrl = typeof img === 'object' && img !== null ? (img as any)?.url : null
                   return (
                     <button
                       key={idx}

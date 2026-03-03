@@ -158,10 +158,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   }
 
   const handleAddToCart = () => {
-    const firstImageUrl =
-      typeof product.images?.[0] === 'object' && product.images[0] !== null
-        ? product.images[0].url
-        : undefined
+    const firstImageUrl = imageUrl || undefined
 
     if (isGrouped) {
       // Add all selected sizes to cart
@@ -180,7 +177,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               unitPrice: unitPrice,
               image:
                 typeof childProd.images?.[0] === 'object' && childProd.images[0] !== null
-                  ? childProd.images[0].url || undefined
+                  ? (childProd.images[0] as any)?.url || undefined
                   : undefined,
               sku: childProd.sku || undefined,
               ean: childProd.ean || undefined,
@@ -220,10 +217,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         price: product.price ?? 0,
         quantity: 1,
         unitPrice: discountedPrice,
-        image:
-          typeof product.images?.[0] === 'object' && product.images[0] !== null
-            ? product.images[0].url || undefined
-            : undefined,
+        image: firstImageUrl,
         sku: product.sku || undefined,
         ean: product.ean || undefined,
         stock: selectedSubscription.stockLevel || 999,
@@ -248,10 +242,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         price: product.price ?? 0,
         quantity: quantity,
         unitPrice: variantPrice,
-        image:
-          typeof product.images?.[0] === 'object' && product.images[0] !== null
-            ? product.images[0].url || undefined
-            : undefined,
+        image: firstImageUrl,
         sku: product.sku || undefined,
         ean: product.ean || undefined,
         stock: (product.stock ?? 0) || 0,
@@ -275,10 +266,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
         price: product.price ?? 0,
         quantity: quantity,
         unitPrice: unitPrice,
-        image:
-          typeof product.images?.[0] === 'object' && product.images[0] !== null
-            ? product.images[0].url || undefined
-            : undefined,
+        image: firstImageUrl,
         sku: product.sku || undefined,
         ean: product.ean || undefined,
         stock: (product.stock ?? 0) || 0,
@@ -295,10 +283,22 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
     }
   }
 
-  const imageUrl =
+  // Extract primary image URL from media upload
+  let imageUrl: string | null =
     typeof product.images?.[0] === 'object' && product.images[0] !== null
-      ? product.images[0].url
+      ? (product.images[0] as any)?.url || null
       : null
+
+  // Fallback: extract image URL from tags (WooCommerce import stores images as "img:URL" tags)
+  if (!imageUrl && Array.isArray(product.tags)) {
+    for (const tagEntry of product.tags) {
+      const tag = typeof tagEntry === 'object' && tagEntry !== null ? (tagEntry as any).tag : tagEntry
+      if (typeof tag === 'string' && tag.startsWith('img:')) {
+        imageUrl = tag.slice(4)
+        break
+      }
+    }
+  }
 
   // Calculate ratings
   const avgRating = 4.8 // TODO: Calculate from reviews
@@ -320,7 +320,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const allImages = product.images || []
   const currentImage =
     allImages[imageIndex] && typeof allImages[imageIndex] === 'object' && allImages[imageIndex] !== null
-      ? allImages[imageIndex].url
+      ? (allImages[imageIndex] as any)?.url || imageUrl
       : imageUrl
 
   return (
@@ -466,7 +466,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
             {product.images && product.images.length > 1 && (
               <div className="flex gap-2.5 mt-3">
                 {product.images.slice(0, 5).map((img: any, idx: number) => {
-                  const imgUrl = typeof img === 'object' && img !== null ? img.url : null
+                  const imgUrl = typeof img === 'object' && img !== null ? (img as any)?.url : null
                   return (
                     <div
                       key={idx}
@@ -1508,7 +1508,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
 
-                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? rp.images[0].url : null
+                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? (rp.images[0] as any)?.url : null
 
                 return (
                   <Link
@@ -1569,7 +1569,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
 
-                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? rp.images[0].url : null
+                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? (rp.images[0] as any)?.url : null
 
                 return (
                   <Link

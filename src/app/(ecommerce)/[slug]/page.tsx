@@ -109,13 +109,23 @@ export default async function Page({ params, searchParams }: { params: Promise<{
           ? ProductTemplate2
           : ProductTemplate1
 
+    // Extract image URL: upload field with hasMany=true → images are media objects directly
     const firstImage = product.images?.[0]
-    const productImageObj = typeof firstImage === 'object' && firstImage !== null
-      ? (typeof (firstImage as any).image === 'object' && (firstImage as any).image !== null
-          ? (firstImage as any).image
-          : null)
-      : null
-    const productImageUrl = productImageObj?.url || undefined
+    let productImageUrl: string | undefined =
+      typeof firstImage === 'object' && firstImage !== null
+        ? (firstImage as any)?.url || undefined
+        : undefined
+
+    // Fallback: extract image URL from tags (WooCommerce import stores images as "img:URL" tags)
+    if (!productImageUrl && Array.isArray(product.tags)) {
+      for (const tagEntry of product.tags) {
+        const tag = typeof tagEntry === 'object' && tagEntry !== null ? (tagEntry as any).tag : tagEntry
+        if (typeof tag === 'string' && tag.startsWith('img:')) {
+          productImageUrl = tag.slice(4)
+          break
+        }
+      }
+    }
 
     return (
       <div className="min-h-screen">

@@ -71,12 +71,24 @@ export default function ProductTemplate4({ product, relatedProducts }: ProductTe
     setQuantity(newQty)
   }
 
+  // Extract first image URL with fallback to img: tags
+  let firstImageUrl: string | null =
+    typeof product.images?.[0] === 'object' && product.images[0] !== null
+      ? (product.images[0] as any)?.url || null
+      : null
+
+  if (!firstImageUrl && Array.isArray(product.tags)) {
+    for (const tagEntry of product.tags as any[]) {
+      const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
+      if (typeof tag === 'string' && tag.startsWith('img:')) {
+        firstImageUrl = tag.slice(4)
+        break
+      }
+    }
+  }
+
   // Add to cart handler
   const handleAddToCart = () => {
-    const firstImageUrl =
-      typeof product.images?.[0] === 'object' && product.images[0] !== null
-        ? product.images[0].url
-        : null
 
     addItem({
       id: String(product.id),
@@ -100,21 +112,27 @@ export default function ProductTemplate4({ product, relatedProducts }: ProductTe
     })
   }
 
-  // Gallery images
-  const galleryImages =
+  // Gallery images (with fallback to img: tag)
+  let galleryImages =
     product.images
       ?.map((img, idx) => {
         if (typeof img === 'object' && img !== null) {
+          const url = (img as any)?.url || ''
           return {
-            id: String(img.id || idx),
-            url: img.url || '',
-            alt: img.alt || product.title,
-            thumbnail: img.url || '',
+            id: String((img as any)?.id || idx),
+            url,
+            alt: (img as any)?.alt || product.title,
+            thumbnail: url,
           }
         }
         return null
       })
-      .filter((img): img is NonNullable<typeof img> => img !== null) || []
+      .filter((img): img is NonNullable<typeof img> => img !== null && img.url !== '') || []
+
+  // Fallback: use img: tag if no gallery images
+  if (galleryImages.length === 0 && firstImageUrl) {
+    galleryImages = [{ id: '0', url: firstImageUrl, alt: product.title, thumbnail: firstImageUrl }]
+  }
 
   // Product meta data
   const firstCategory =
@@ -344,7 +362,7 @@ export default function ProductTemplate4({ product, relatedProducts }: ProductTe
             {relatedProducts.slice(0, 3).map((relatedProduct) => {
               const relatedImageUrl =
                 typeof relatedProduct.images?.[0] === 'object' && relatedProduct.images[0] !== null
-                  ? relatedProduct.images[0].url
+                  ? (relatedProduct.images[0] as any)?.url
                   : undefined
 
               return (
@@ -373,10 +391,7 @@ export default function ProductTemplate4({ product, relatedProducts }: ProductTe
             id: String(product.id),
             name: product.title,
             price: currentPrice,
-            image:
-              typeof product.images?.[0] === 'object' && product.images[0] !== null
-                ? product.images[0].url || undefined
-                : undefined,
+            image: firstImageUrl || undefined,
           }}
           onAddToCart={handleAddToCart}
           triggerElementRef={mainATCRef as React.RefObject<HTMLElement>}

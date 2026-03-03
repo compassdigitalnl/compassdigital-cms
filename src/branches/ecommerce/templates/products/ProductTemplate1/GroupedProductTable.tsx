@@ -110,10 +110,21 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
     const selectedItems = selections
       .filter((s) => s.selected)
       .map((s) => {
-        const imageUrl =
+        let imageUrl: string | undefined =
           typeof s.product.images?.[0] === 'object' && s.product.images[0] !== null
-            ? s.product.images[0].url
+            ? (s.product.images[0] as any)?.url || undefined
             : undefined
+
+        // Fallback: extract from img: tags
+        if (!imageUrl && Array.isArray(s.product.tags)) {
+          for (const tagEntry of s.product.tags as any[]) {
+            const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
+            if (typeof tag === 'string' && tag.startsWith('img:')) {
+              imageUrl = tag.slice(4)
+              break
+            }
+          }
+        }
 
         return {
           id: s.product.id,
@@ -188,11 +199,22 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
           </thead>
           <tbody className="divide-y divide-gray-200">
             {selections.map((selection) => {
-              const imageUrl =
+              let imageUrl: string | null =
                 typeof selection.product.images?.[0] === 'object' &&
                 selection.product.images[0] !== null
-                  ? selection.product.images[0].url
+                  ? (selection.product.images[0] as any)?.url || null
                   : null
+
+              // Fallback: extract from img: tags
+              if (!imageUrl && Array.isArray(selection.product.tags)) {
+                for (const tagEntry of selection.product.tags as any[]) {
+                  const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
+                  if (typeof tag === 'string' && tag.startsWith('img:')) {
+                    imageUrl = tag.slice(4)
+                    break
+                  }
+                }
+              }
 
               const isBackorder = selection.product.backordersAllowed === true || selection.product.stockStatus === 'on-backorder'
               const isInStock =
