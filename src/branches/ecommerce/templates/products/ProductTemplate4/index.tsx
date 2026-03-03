@@ -116,24 +116,31 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     return basePrice
   }
 
-  // Update total when size quantities change
+  // Update total when size quantities change — use each child's OWN price
   useEffect(() => {
-    const total = Object.values(sizeQuantities).reduce((sum: any, qty: any) => sum + qty, 0)
-    setTotalQty(total)
-
-    const price = getTierPrice(total)
-    setTotalPrice(total * price)
+    let totalItems = 0
+    let totalCost = 0
+    Object.entries(sizeQuantities).forEach(([productId, qty]: any) => {
+      if (qty > 0) {
+        const child = childProducts.find((p: any) => String(p.id) === String(productId))
+        const childPrice = child?.salePrice || child?.price || 0
+        totalItems += qty
+        totalCost += qty * childPrice
+      }
+    })
+    setTotalQty(totalItems)
+    setTotalPrice(totalCost)
 
     // Find active tier
     if (volumeTiers.length > 0) {
       for (let i = volumeTiers.length - 1; i >= 0; i--) {
-        if (total >= volumeTiers[i].minQuantity) {
+        if (totalItems >= volumeTiers[i].minQuantity) {
           setActiveTier(i)
           break
         }
       }
     }
-  }, [sizeQuantities, volumeTiers])
+  }, [sizeQuantities, volumeTiers, childProducts])
 
   // Show sticky ATC after scrolling past main ATC button
   useEffect(() => {
@@ -212,16 +219,16 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
       let addedCount = 0
       Object.entries(sizeQuantities).forEach(([productId, qty]: any) => {
         if (qty > 0) {
-          const childProd = childProducts.find((p: any) => p.id === productId)
+          const childProd = childProducts.find((p: any) => String(p.id) === String(productId))
           if (childProd) {
-            const unitPrice = getTierPrice(totalQty)
+            const childUnitPrice = childProd.salePrice || childProd.price || 0
             groupedItems.push({
               id: childProd.id,
               title: childProd.title,
               slug: childProd.slug || '',
               price: childProd.price ?? 0,
               quantity: qty,
-              unitPrice: unitPrice,
+              unitPrice: childUnitPrice,
               image:
                 typeof childProd.images?.[0] === 'object' && childProd.images[0] !== null
                   ? (childProd.images[0] as any)?.url || undefined
@@ -251,7 +258,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
           name: product.title,
           image: firstImageUrl || undefined,
           quantity: addedCount,
-          price: getTierPrice(totalQty),
+          price: totalQty > 0 ? totalPrice / totalQty : 0,
         })
       }
     } else if (isSubscription && selectedSubscription) {
@@ -771,8 +778,22 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                         style={{ borderRight: idx < childProducts.length - 1 ? '1.5px solid var(--color-border)' : 'none' }}
                       >
                         {/* Header */}
-                        <div className="p-2.5 text-center bg-[var(--color-background,var(--color-surface))] border-b-[1.5px] border-b-[var(--color-border)] text-[13px] font-bold text-[var(--color-text-primary)]">
-                          {childDisplayName(child.title)}
+                        <div className="p-2.5 text-center bg-[var(--color-background,var(--color-surface))] border-b-[1.5px] border-b-[var(--color-border)]">
+                          <div className="text-[13px] font-bold text-[var(--color-text-primary)]">
+                            {childDisplayName(child.title)}
+                          </div>
+                          {(child.salePrice || child.price) != null && (
+                            <div className="mt-1 flex items-center justify-center gap-1.5">
+                              <span className="text-[13px] font-extrabold text-[var(--color-primary)]">
+                                €{(child.salePrice || child.price).toFixed(2)}
+                              </span>
+                              {child.salePrice && child.price && child.salePrice < child.price && (
+                                <span className="text-[11px] text-[var(--color-text-muted)] line-through">
+                                  €{child.price.toFixed(2)}
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
 
                         {/* Body */}
@@ -1099,6 +1120,18 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                         <div>
                           <div className="text-[13px] font-bold text-[var(--color-text-primary)]">
                             {childDisplayName(child.title)}
+                          </div>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            {(child.salePrice || child.price) != null && (
+                              <span className="text-[13px] font-extrabold text-[var(--color-primary)]">
+                                €{(child.salePrice || child.price).toFixed(2)}
+                              </span>
+                            )}
+                            {child.salePrice && child.price && child.salePrice < child.price && (
+                              <span className="text-[11px] text-[var(--color-text-muted)] line-through">
+                                €{child.price.toFixed(2)}
+                              </span>
+                            )}
                           </div>
                           {child.stock && child.stock > 0 ? (
                             <div className="text-[11px] text-[var(--color-success)] font-medium mt-0.5">
