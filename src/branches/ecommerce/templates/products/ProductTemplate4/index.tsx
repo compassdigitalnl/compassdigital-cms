@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
@@ -13,9 +13,7 @@ import { ProductSpecsTable } from '@/branches/ecommerce/components/products/Prod
 import { BackInStockNotifier } from '@/branches/ecommerce/components/products/BackInStockNotifier'
 import { StickyAddToCartBar } from '@/branches/ecommerce/components/products/StickyAddToCartBar'
 import { ReviewWidget } from '@/branches/ecommerce/components/products/ReviewWidget'
-import { StaffelCalculator } from '@/branches/ecommerce/components/products/StaffelCalculator'
 import { StaffelHintBanner } from '@/branches/ecommerce/components/products/StaffelHintBanner'
-import { ProductBadge } from '@/branches/ecommerce/components/products/ProductBadges'
 
 // Product-type specific
 import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector'
@@ -26,12 +24,12 @@ import { GroupedProductTable } from '@/branches/ecommerce/templates/products/Pro
 // Shared
 import { RichText } from '@/branches/shared/components/common/RichText'
 import { features } from '@/lib/features'
-import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
+import { getBrandName, getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
 
 import {
   Award, Hash, Barcode, Package, Star, Truck, ShoppingCart,
   Undo2, CreditCard, ShieldCheck, Heart, Share2, Minus, Plus,
-  Download, Info,
+  ClipboardList, Repeat, Layers, Info, Download,
 } from 'lucide-react'
 
 export interface ProductTemplate4Props {
@@ -49,10 +47,11 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
   // ── Product type detection ──
   const isGrouped = product.productType === 'grouped'
   const isVariable = product.productType === 'variable'
-  const isSubscription = product.isSubscription === true && isVariable
+  const isSubscription = isVariable && product.isSubscription === true
   const isMixMatch = product.productType === 'mixAndMatch'
+  const isSimple = !isGrouped && !isVariable && !isMixMatch
 
-  // ── Quantity controls ──
+  // ── Quantity ──
   const minQty = product.minOrderQuantity || 1
   const maxQty = product.maxOrderQuantity || (product.stock ?? 999)
   const [quantity, setQuantity] = useState(minQty)
@@ -82,18 +81,13 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     typeof product.images?.[0] === 'object' && product.images[0] !== null
       ? ((product.images[0] as any)?.url as string) || null
       : null
-
   if (!imageUrl && Array.isArray(product.tags)) {
     for (const tagEntry of product.tags as any[]) {
       const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
-      if (typeof tag === 'string' && tag.startsWith('img:')) {
-        imageUrl = tag.slice(4)
-        break
-      }
+      if (typeof tag === 'string' && tag.startsWith('img:')) { imageUrl = tag.slice(4); break }
     }
   }
 
-  // Gallery images
   let galleryImages =
     product.images
       ?.map((img, idx) => {
@@ -104,7 +98,6 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         return null
       })
       .filter((img): img is NonNullable<typeof img> => img !== null && img.url !== '') || []
-
   if (galleryImages.length === 0 && imageUrl) {
     galleryImages = [{ id: '0', url: imageUrl, alt: product.title, thumbnail: imageUrl }]
   }
@@ -117,29 +110,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
   if (createdDate > thirtyDaysAgo) galleryBadges.push({ type: 'new', label: 'Nieuw', position: 'top-right' })
 
-  // ── Semantic badges (ProductBadge pills) ──
-  const semanticBadges: Array<{ variant: 'bestseller' | 'nieuw' | 'uitverkocht' | 'staffel' | 'eco' | 'aanbieding' | 'exclusief' | 'b2b'; label?: string }> = []
-  if (savingsPercent > 0) semanticBadges.push({ variant: 'aanbieding', label: `-${savingsPercent}% Korting` })
-  if (createdDate > thirtyDaysAgo) semanticBadges.push({ variant: 'nieuw' })
-  if ((product.volumePricing || []).length > 0) semanticBadges.push({ variant: 'staffel' })
-  if (isOutOfStock) semanticBadges.push({ variant: 'uitverkocht' })
-  if (Array.isArray(product.tags)) {
-    for (const tagEntry of product.tags as any[]) {
-      const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
-      if (typeof tag === 'string') {
-        if (tag.toLowerCase().includes('bestseller')) semanticBadges.push({ variant: 'bestseller' })
-        if (tag.toLowerCase().includes('eco') || tag.toLowerCase().includes('duurzaam')) semanticBadges.push({ variant: 'eco' })
-        if (tag.toLowerCase().includes('b2b')) semanticBadges.push({ variant: 'b2b' })
-      }
-    }
-  }
-
-  // ── Category ──
+  // ── Brand / Category ──
+  const brandName = getBrandName(product.brand as any)
   const firstCategory = product.categories?.length ? product.categories[0] : null
   const categoryName = typeof firstCategory === 'object' && firstCategory ? firstCategory.name : null
-  const categorySlug = typeof firstCategory === 'object' && firstCategory ? firstCategory.slug : null
 
-  // ── Volume pricing → StaffelCalculator format ──
+  // ── Volume pricing tiers ──
   const volumeTiers = product.volumePricing || []
   const staffelTiers = useMemo(() => {
     if (volumeTiers.length === 0) return []
@@ -157,7 +133,9 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     })
   }, [volumeTiers, product.price])
 
-  // ── StaffelHintBanner: find next tier ──
+  const activeTierIndex = staffelTiers.findIndex(t => quantity >= t.min && quantity <= t.max)
+  const bestTierIndex = staffelTiers.length > 0 ? staffelTiers.length - 1 : -1
+
   const nextStaffelTier = useMemo(() => {
     if (staffelTiers.length === 0) return null
     const next = staffelTiers.find(t => t.min > quantity)
@@ -167,7 +145,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
   const isInStaffelTier = staffelTiers.some(t => quantity >= t.min && quantity <= t.max && t.discount > 0)
 
-  // ── Scroll to reviews handler ──
+  // ── Handlers ──
   const scrollToReviews = () => {
     tabsSectionRef.current?.scrollIntoView({ behavior: 'smooth' })
     setTimeout(() => {
@@ -176,10 +154,8 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     }, 500)
   }
 
-  // ── Add to cart handler ──
   const handleAddToCart = () => {
     const firstImageUrl = imageUrl || undefined
-
     if (isSubscription && selectedSubscription) {
       const subscriptionPrice = (product.price || 0) + (selectedSubscription.priceModifier || 0)
       const discountedPrice = selectedSubscription.discountPercentage
@@ -216,6 +192,13 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     }
   }
 
+  // ── Format helpers ──
+  const fmt = (price: number) => price.toFixed(2).replace('.', ',')
+  const fmtSplit = (price: number) => {
+    const [whole, cents] = price.toFixed(2).split('.')
+    return <>{whole},<small>{cents}</small></>
+  }
+
   // ── Specs groups ──
   const specsGroups = [
     ...(Array.isArray(product.specifications)
@@ -237,119 +220,48 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     },
   ]
 
-  // ── ReviewWidget data (empty — no mock data) ──
+  // ── Review summary (empty — no mock data) ──
   const reviewSummary = {
-    average: 0,
-    total: 0,
+    average: 0, total: 0,
     distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<1 | 2 | 3 | 4 | 5, number>,
   }
 
-  // ── Tabs content ──
+  const showAddToCart = !isOutOfStock && !isGrouped && !isMixMatch
+
+  // ── Tabs ──
   const tabsContent = [
     {
       id: 'description',
       label: 'Beschrijving',
       content: (
-        <div className="product-description-content">
-          {product.shortDescription && (
-            <div
-              className="p-5 rounded-xl mb-6"
-              style={{
-                background: 'color-mix(in srgb, var(--color-primary) 5%, white)',
-                border: '1px solid color-mix(in srgb, var(--color-primary) 12%, transparent)',
-              }}
-            >
-              <div className="flex items-start gap-3">
-                <Info className="w-5 h-5 mt-0.5 shrink-0" style={{ color: 'var(--color-primary)' }} />
-                <p className="text-sm font-medium leading-relaxed m-0" style={{ color: 'var(--color-text-primary)' }}>
-                  {product.shortDescription}
-                </p>
+        <div className="t4-desc-grid">
+          <div className="t4-desc-text">
+            {product.shortDescription && (
+              <div className="t4-desc-highlight">
+                <Info size={18} />
+                <p>{product.shortDescription}</p>
               </div>
-            </div>
-          )}
-          {product.description ? (
-            <div className="prose-content" style={{ color: 'var(--color-text-secondary)' }}>
+            )}
+            {product.description ? (
               <RichText data={product.description} enableProse />
+            ) : (
+              <p className="t4-desc-empty">Geen beschrijving beschikbaar.</p>
+            )}
+          </div>
+          {specsGroups.length > 0 && (
+            <div className="t4-desc-sidebar">
+              <ProductSpecsTable groups={specsGroups} variant="compact" />
             </div>
-          ) : (
-            <p className="text-center py-8" style={{ color: 'var(--color-text-muted)' }}>
-              Geen beschrijving beschikbaar.
-            </p>
           )}
-          <style jsx>{`
-            .product-description-content :global(.prose-content) {
-              font-size: 15px;
-              line-height: 1.8;
-            }
-            .product-description-content :global(h2),
-            .product-description-content :global(h3),
-            .product-description-content :global(h4) {
-              color: var(--color-text-primary);
-              font-weight: 700;
-              margin-top: 1.5em;
-              margin-bottom: 0.75em;
-            }
-            .product-description-content :global(h2) { font-size: 1.35em; }
-            .product-description-content :global(h3) { font-size: 1.15em; }
-            .product-description-content :global(ul),
-            .product-description-content :global(ol) {
-              padding-left: 1.5em;
-              margin: 1em 0;
-            }
-            .product-description-content :global(li) {
-              margin-bottom: 0.5em;
-              line-height: 1.7;
-            }
-            .product-description-content :global(ul li::marker) {
-              color: var(--color-primary);
-            }
-            .product-description-content :global(table) {
-              width: 100%;
-              border-collapse: collapse;
-              margin: 1.5em 0;
-            }
-            .product-description-content :global(th),
-            .product-description-content :global(td) {
-              padding: 10px 14px;
-              border: 1px solid var(--color-border);
-              text-align: left;
-              font-size: 14px;
-            }
-            .product-description-content :global(th) {
-              background: var(--color-background, #f9fafb);
-              font-weight: 700;
-              color: var(--color-text-primary);
-            }
-            .product-description-content :global(a) {
-              color: var(--color-primary);
-              text-decoration: underline;
-            }
-            .product-description-content :global(blockquote) {
-              border-left: 3px solid var(--color-primary);
-              padding: 12px 20px;
-              margin: 1.5em 0;
-              background: var(--color-background, #f9fafb);
-              border-radius: 0 8px 8px 0;
-              font-style: italic;
-            }
-            .product-description-content :global(img) {
-              max-width: 100%;
-              height: auto;
-              border-radius: 12px;
-              margin: 1.5em 0;
-            }
-          `}</style>
         </div>
       ),
     },
     ...(Array.isArray(product.specifications) && product.specifications.length > 0
-      ? [
-          {
-            id: 'specs',
-            label: 'Specificaties',
-            content: <ProductSpecsTable groups={specsGroups} />,
-          },
-        ]
+      ? [{
+          id: 'specs',
+          label: 'Specificaties',
+          content: <ProductSpecsTable groups={specsGroups} />,
+        }]
       : []),
     {
       id: 'reviews',
@@ -367,263 +279,218 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
       ),
     },
     ...(product.downloads && (product.downloads as any[]).length > 0
-      ? [
-          {
-            id: 'downloads',
-            label: 'Downloads',
-            content: (
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-3">
-                {(product.downloads as any[]).map((download: any, idx: number) => {
-                  const file = typeof download === 'object' && download !== null ? download : null
-                  if (!file || !file.url) return null
-                  return (
-                    <a
-                      key={idx}
-                      href={file.url}
-                      download
-                      className="flex items-center gap-3 p-4 rounded-xl no-underline transition-all hover:shadow-md"
-                      style={{
-                        background: 'var(--color-surface, white)',
-                        border: '1px solid var(--color-border)',
-                        color: 'var(--color-text-primary)',
-                      }}
-                    >
-                      <div
-                        className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                        style={{ background: 'color-mix(in srgb, var(--color-primary) 8%, white)' }}
-                      >
-                        <Download className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-sm">{file.filename || 'Download'}</div>
-                        {file.filesize && (
-                          <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                            {(file.filesize / 1024 / 1024).toFixed(2)} MB
-                          </div>
-                        )}
-                      </div>
-                    </a>
-                  )
-                })}
-              </div>
-            ),
-          },
-        ]
+      ? [{
+          id: 'downloads',
+          label: 'Downloads',
+          content: (
+            <div className="t4-downloads-grid">
+              {(product.downloads as any[]).map((dl: any, idx: number) => {
+                const file = typeof dl === 'object' && dl !== null ? dl : null
+                if (!file || !file.url) return null
+                return (
+                  <a key={idx} href={file.url} download className="t4-download-item">
+                    <div className="t4-download-icon"><Download size={20} /></div>
+                    <div>
+                      <div className="t4-download-name">{file.filename || 'Download'}</div>
+                      {file.filesize && (
+                        <div className="t4-download-size">{(file.filesize / 1024 / 1024).toFixed(2)} MB</div>
+                      )}
+                    </div>
+                  </a>
+                )
+              })}
+            </div>
+          ),
+        }]
       : []),
   ]
 
-  // Show qty + ATC for simple and variable (not grouped, not mixmatch)
-  const showAddToCart = !isOutOfStock && !isGrouped && !isMixMatch
-
   return (
-    <div
-      className="product-template-4 overflow-x-hidden pb-20"
-      style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}
-    >
-      {/* ═══ MAIN LAYOUT: Gallery + Product Info ═══ */}
-      <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start lg:px-6 lg:mb-4">
-        {/* LEFT: Product Gallery */}
-        <div>
-          <ProductGallery images={galleryImages} badges={galleryBadges} enableSticky layout="horizontal" />
+    <div className="t4-root">
+      {/* ═══ MAIN LAYOUT: Gallery + Info ═══ */}
+      <div className="t4-layout">
+
+        {/* LEFT: Gallery with heart/share overlay */}
+        <div className="t4-gallery-wrapper">
+          <div className="t4-gallery-actions">
+            <button
+              className={`t4-g-action ${wishlistActive ? 't4-g-action-active' : ''}`}
+              onClick={() => setWishlistActive(!wishlistActive)}
+            >
+              <Heart size={18} fill={wishlistActive ? '#FF6B6B' : 'none'} stroke={wishlistActive ? '#FF6B6B' : 'currentColor'} />
+            </button>
+            <button
+              className="t4-g-action"
+              onClick={() => {
+                if (typeof navigator !== 'undefined' && navigator.share) {
+                  navigator.share({ title: product.title, url: window.location.href })
+                } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                  navigator.clipboard.writeText(window.location.href)
+                }
+              }}
+            >
+              <Share2 size={18} />
+            </button>
+          </div>
+          <ProductGallery
+            images={galleryImages}
+            badges={galleryBadges}
+            enableZoom
+            enableLightbox
+            enableSticky
+            stickyOffset={100}
+            borderRadius={20}
+            aspectRatio={1}
+            layout="horizontal"
+          />
         </div>
 
         {/* RIGHT: Product Info */}
-        <div className="px-4 pt-2 lg:px-0 lg:pt-0">
-          {/* Semantic Badges */}
-          {semanticBadges.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-3">
-              {semanticBadges.map((badge, idx) => (
-                <ProductBadge key={idx} variant={badge.variant} label={badge.label} size="sm" />
-              ))}
-            </div>
-          )}
+        <div className="t4-info">
 
           {/* Brand */}
-          {product.brand && (
-            <div
-              className="text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5"
-              style={{ color: 'var(--color-primary)' }}
-            >
-              <Award className="w-[14px] h-[14px]" />
-              {typeof product.brand === 'object' ? (product.brand as any).name : product.brand}
+          {brandName && (
+            <div className="t4-brand">
+              <Award size={14} />
+              {brandName}
             </div>
           )}
 
           {/* Title */}
-          <h1
-            className="font-heading text-xl lg:text-[28px] font-extrabold leading-tight tracking-tight mb-2"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
-            {product.title}
-          </h1>
+          <h1 className="t4-title">{product.title}</h1>
 
-          {/* SKU / EAN / Category */}
-          <div
-            className="font-mono text-[11px] lg:text-xs mb-3 lg:mb-4 flex items-center gap-2 lg:gap-3 flex-wrap"
-            style={{ color: 'var(--color-text-muted)' }}
-          >
-            {product.sku && (
-              <span className="flex items-center gap-1">
-                <Hash className="w-3 h-3 lg:w-[13px] lg:h-[13px]" /> Art. {product.sku}
-              </span>
-            )}
-            {product.ean && (
-              <span className="flex items-center gap-1">
-                <Barcode className="w-3 h-3 lg:w-[13px] lg:h-[13px]" /> EAN {product.ean}
-              </span>
-            )}
-            {categoryName && (
-              <span className="flex items-center gap-1">
-                <Package className="w-3 h-3 lg:w-[13px] lg:h-[13px]" />
-                {categorySlug ? (
-                  <Link href={`/${categorySlug}`} className="hover:underline" style={{ color: 'var(--color-text-muted)' }}>
-                    {categoryName}
-                  </Link>
-                ) : (
-                  categoryName
-                )}
-              </span>
-            )}
+          {/* SKU / EAN / Packaging */}
+          <div className="t4-sku">
+            {product.sku && <span><Hash size={13} /> Art. {product.sku}</span>}
+            {product.ean && <span><Barcode size={13} /> EAN {product.ean}</span>}
+            {(product as any).packagingUnit && <span><Package size={13} /> {(product as any).packagingUnit}</span>}
           </div>
 
-          {/* Short description */}
-          {product.shortDescription && (
-            <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--color-text-secondary)' }}>
-              {product.shortDescription}
-            </p>
-          )}
-
-          {/* Rating summary → scroll to reviews */}
-          <div
-            className="flex items-center gap-2 mb-4 lg:mb-5 pb-4 lg:pb-5"
-            style={{ borderBottom: '1px solid var(--color-border)' }}
-          >
-            <div className="flex gap-0.5">
+          {/* Rating → scroll to reviews */}
+          <div className="t4-rating" onClick={scrollToReviews} role="button" tabIndex={0}>
+            <div className="t4-stars">
               {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-4 h-4" style={{ color: 'var(--color-border)' }} fill="none" />
+                <Star key={i} size={16} fill="none" stroke="#E8ECF1" />
               ))}
             </div>
-            <button
-              onClick={scrollToReviews}
-              className="text-[13px] bg-transparent border-0 p-0 cursor-pointer underline"
-              style={{ color: 'var(--color-primary)' }}
-            >
-              0 reviews — Schrijf als eerste een review
-            </button>
+            <span className="t4-rating-text">
+              <strong>0</strong> / 5 — 0 beoordelingen
+            </span>
           </div>
 
-          {/* ═══ PRICE CARD ═══ */}
-          <div
-            className="rounded-[var(--border-radius,16px)] p-4 lg:p-6 mb-4 lg:mb-5"
-            style={{ background: 'var(--color-surface, white)', border: '1px solid var(--color-border)' }}
-          >
-            <div className="flex items-baseline gap-2 lg:gap-3 mb-1 flex-wrap">
+          {/* ═══ PRICE BLOCK (card) ═══ */}
+          <div className="t4-price-block">
+            <div className="t4-price-row">
               {hasPrice ? (
                 <>
-                  {showVanaf && (
-                    <span className="text-xs lg:text-sm font-medium" style={{ color: 'var(--color-text-muted)' }}>
-                      Vanaf
-                    </span>
-                  )}
-                  <span
-                    className="font-heading text-[26px] lg:text-[32px] font-extrabold"
-                    style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
-                  >
-                    €{displayPrice.toFixed(2)}
+                  {showVanaf && <span className="t4-price-vanaf">Vanaf</span>}
+                  <span className={`t4-price-current ${oldPrice ? 't4-price-sale' : ''}`}>
+                    €{fmtSplit(displayPrice)}
                   </span>
                   {oldPrice && (
                     <>
-                      <span
-                        className="text-base lg:text-lg line-through font-normal"
-                        style={{ color: 'var(--color-text-muted)' }}
-                      >
-                        €{oldPrice.toFixed(2)}
-                      </span>
-                      <span
-                        className="text-[11px] lg:text-[13px] font-bold px-2 lg:px-2.5 py-[3px] rounded-md"
-                        style={{ color: '#FF6B6B', background: '#FFF0F0' }}
-                      >
-                        Bespaar {savingsPercent}%
-                      </span>
+                      <span className="t4-price-old">€{fmt(oldPrice)}</span>
+                      <span className="t4-price-save">Bespaar {savingsPercent}%</span>
                     </>
                   )}
                 </>
               ) : (
-                <span
-                  className="font-heading text-[20px] lg:text-[24px] font-bold"
-                  style={{ color: 'var(--color-text-muted)' }}
-                >
-                  Prijs op aanvraag
-                </span>
+                <span className="t4-price-request">Prijs op aanvraag</span>
               )}
             </div>
+            <div className="t4-price-meta">
+              {(product as any).packagingUnit ? `${(product as any).packagingUnit} · ` : ''}excl. BTW
+            </div>
 
-            {isBackorder && (
-              <div className="flex items-center gap-2 text-xs lg:text-sm font-medium text-amber-600 mt-2">
-                <span className="w-2 h-2 bg-amber-500 rounded-full shrink-0" />
-                Op bestelling — levertijd op aanvraag
-              </div>
-            )}
-
-            {(product as any).packaging && (
-              <div className="text-xs mt-2" style={{ color: 'var(--color-text-muted)' }}>
-                {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
+            {/* Staffelprijzen — 4-column clickable grid */}
+            {staffelTiers.length > 0 && !isGrouped && hasPrice && (
+              <div className="t4-volume-pricing">
+                <div className="t4-volume-label">
+                  <Layers size={16} />
+                  Staffelprijzen — meer bestellen = meer besparen
+                </div>
+                <div className="t4-volume-table">
+                  {staffelTiers.map((tier, i) => (
+                    <div
+                      key={i}
+                      className={`t4-volume-tier${activeTierIndex === i ? ' active' : ''}${bestTierIndex === i ? ' best' : ''}`}
+                      onClick={() => setQuantity(tier.min)}
+                    >
+                      <div className="t4-volume-qty">
+                        {tier.min}–{tier.max === Infinity ? '∞' : tier.max}
+                      </div>
+                      <div className="t4-volume-price">€{fmt(tier.price)}</div>
+                      <div className="t4-volume-discount">
+                        {tier.discount > 0 ? `-${tier.discount}%` : 'standaard'}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* ═══ STAFFEL CALCULATOR (full interactive volume pricing) ═══ */}
-          {staffelTiers.length > 0 && !isGrouped && hasPrice && (
-            <div className="mb-4 lg:mb-5">
-              <StaffelCalculator
-                productName={product.title}
-                basePrice={product.price || 0}
-                tiers={staffelTiers}
-                initialQty={quantity}
-                onQtyChange={(qty) => setQuantity(qty)}
+          {/* StaffelHintBanner */}
+          {nextStaffelTier && showAddToCart && (
+            <div className="t4-staffel-hint">
+              <StaffelHintBanner
+                currentQuantity={quantity}
+                nextTier={nextStaffelTier}
+                variant={isInStaffelTier ? 'success' : 'default'}
+              />
+            </div>
+          )}
+          {!nextStaffelTier && isInStaffelTier && showAddToCart && (
+            <div className="t4-staffel-hint">
+              <StaffelHintBanner
+                currentQuantity={quantity}
+                nextTier={{ quantity, discount: staffelTiers[staffelTiers.length - 1]?.discount || 0 }}
+                achieved
               />
             </div>
           )}
 
-          {/* ═══ STOCK INDICATOR ═══ */}
-          {!isGrouped && !isVariable && product.trackStock && (product.stock ?? 0) > 0 && (
-            <div
-              className="flex items-center gap-2 px-3 lg:px-4 py-2.5 lg:py-3 rounded-[10px] mb-4 lg:mb-5"
-              style={{ background: 'var(--color-success-bg, #f0fdf4)' }}
-            >
-              <span className="w-2 h-2 rounded-full shrink-0" style={{ background: 'var(--color-success, #22c55e)' }} />
-              <div className="flex-1">
-                <div className="text-[13px] font-semibold text-[#2E7D32]">
-                  Op voorraad — {product.stock} stuks beschikbaar
+          {/* ═══ STOCK ROW (pulsing dot + truck) ═══ */}
+          {!isGrouped && !isOutOfStock && !isBackorder && product.trackStock && (product.stock ?? 0) > 0 && (
+            <div className="t4-stock-row">
+              <span className="t4-stock-dot" />
+              <div>
+                <div className="t4-stock-text">Op voorraad — morgen geleverd</div>
+                <div className="t4-stock-sub">
+                  {product.leadTime || 'Besteld voor 16:00 uur, morgen bij u afgeleverd'}
                 </div>
-                {product.leadTime && (
-                  <div className="text-xs text-[#558B2F] font-normal">Levertijd: {product.leadTime}</div>
-                )}
               </div>
-              <Truck className="w-4 h-4 text-[#2E7D32] ml-auto" />
+              <Truck size={16} style={{ marginLeft: 'auto', color: '#2E7D32' }} />
             </div>
           )}
 
-          {/* Out of stock */}
+          {isBackorder && !isOutOfStock && (
+            <div className="t4-stock-row t4-stock-backorder">
+              <span className="t4-stock-dot t4-stock-dot-amber" />
+              <div>
+                <div className="t4-stock-text" style={{ color: '#B45309' }}>
+                  Op bestelling — levertijd op aanvraag
+                </div>
+              </div>
+            </div>
+          )}
+
           {isOutOfStock && (
-            <div className="mb-4 lg:mb-5">
-              <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm mb-3">
-                <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
-                Tijdelijk uitverkocht
+            <div className="t4-oos-section">
+              <div className="t4-stock-row t4-stock-oos">
+                <span className="t4-stock-dot t4-stock-dot-red" />
+                <div className="t4-stock-text" style={{ color: '#B91C1C' }}>Tijdelijk uitverkocht</div>
               </div>
               <BackInStockNotifier
                 product={{ id: String(product.id), name: product.title }}
-                onSubmit={async (email) => {
-                  console.log('Back in stock:', email)
-                }}
+                onSubmit={async (email) => { console.log('Back in stock:', email) }}
               />
             </div>
           )}
 
           {/* ═══ PRODUCT TYPE SECTIONS ═══ */}
-
           {isSubscription && features.subscriptions && (
-            <div className="mb-5 lg:mb-6">
+            <div className="t4-type-section">
               <SubscriptionPricingTable
                 product={product}
                 onSelectionChange={(selection) => setSelectedSubscription(selection)}
@@ -632,13 +499,16 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
           )}
 
           {isVariable && !isSubscription && features.variableProducts && (
-            <div className="mb-5 lg:mb-6">
-              <VariantSelector product={product} onSelectionChange={(selections) => setVariantSelections(selections)} />
+            <div className="t4-type-section">
+              <VariantSelector
+                product={product}
+                onSelectionChange={(selections) => setVariantSelections(selections)}
+              />
             </div>
           )}
 
           {isGrouped && product.childProducts && (
-            <div className="mb-5 lg:mb-6">
+            <div className="t4-type-section">
               <GroupedProductTable
                 parentProduct={{ id: product.id, title: product.title }}
                 childProducts={
@@ -653,203 +523,88 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
           )}
 
           {isMixMatch && (
-            <div
-              className="p-5 lg:p-6 rounded-xl mb-5 lg:mb-6"
-              style={{ background: 'var(--color-surface, white)', border: '1px solid var(--color-border)' }}
-            >
-              <p className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>
-                Dit is een samengesteld product. Neem contact met ons op voor meer informatie.
-              </p>
+            <div className="t4-mix-match">
+              <Package size={20} />
+              <p>Dit product is beschikbaar als samengesteld pakket.</p>
+              <p>Neem contact op voor meer informatie.</p>
             </div>
           )}
 
-          {/* ═══ QUANTITY + ADD TO CART ═══ */}
-          {showAddToCart && (
-            <div className="mb-4 lg:mb-5">
-              <div className="text-sm font-bold mb-2" style={{ color: 'var(--color-text-primary)' }}>
-                Aantal
-              </div>
-              <div
-                className="inline-flex items-center rounded-[10px] overflow-hidden bg-white"
-                style={{ border: '1.5px solid var(--color-border)' }}
-              >
-                <button
-                  onClick={() => setQuantity(Math.max(minQty, quantity - (product.orderMultiple || 1)))}
-                  className="w-11 h-11 border-0 cursor-pointer flex items-center justify-center"
-                  style={{
-                    background: 'var(--color-background, var(--color-surface))',
-                    color: 'var(--color-text-primary)',
-                  }}
-                >
-                  <Minus className="w-4 h-4" />
+          {/* ═══ QUANTITY STEPPER ═══ */}
+          {showAddToCart && (isSimple || isVariable) && (
+            <div className="t4-qty-section">
+              <div className="t4-qty-label">Aantal</div>
+              <div className="t4-qty-stepper">
+                <button onClick={() => setQuantity(Math.max(minQty, quantity - (product.orderMultiple || 1)))}>
+                  <Minus size={16} />
                 </button>
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) =>
-                    setQuantity(Math.max(minQty, Math.min(maxQty, parseInt(e.target.value) || minQty)))
-                  }
-                  className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold outline-none"
-                  style={{ color: 'var(--color-text-primary)' }}
+                  onChange={(e) => setQuantity(Math.max(minQty, Math.min(maxQty, parseInt(e.target.value) || minQty)))}
                 />
-                <button
-                  onClick={() => setQuantity(Math.min(maxQty, quantity + (product.orderMultiple || 1)))}
-                  className="w-11 h-11 border-0 cursor-pointer flex items-center justify-center"
-                  style={{
-                    background: 'var(--color-background, var(--color-surface))',
-                    color: 'var(--color-text-primary)',
-                  }}
-                >
-                  <Plus className="w-4 h-4" />
+                <button onClick={() => setQuantity(Math.min(maxQty, quantity + (product.orderMultiple || 1)))}>
+                  <Plus size={16} />
                 </button>
               </div>
               {quantity > 1 && hasPrice && (
-                <div className="mt-2 text-sm" style={{ color: 'var(--color-text-muted)' }}>
-                  {quantity}× €{currentPrice.toFixed(2)} ={' '}
-                  <strong style={{ color: 'var(--color-text-primary)' }}>
-                    €{(currentPrice * quantity).toFixed(2)}
-                  </strong>
+                <div className="t4-qty-total">
+                  {quantity}× €{fmt(currentPrice)} ={' '}
+                  <strong>€{fmt(currentPrice * quantity)}</strong>
                 </div>
               )}
             </div>
           )}
 
-          {/* ═══ STAFFEL HINT BANNER ═══ */}
-          {nextStaffelTier && showAddToCart && (
-            <div className="mb-4 lg:mb-5 rounded-lg overflow-hidden">
-              <StaffelHintBanner
-                currentQuantity={quantity}
-                nextTier={nextStaffelTier}
-                variant={isInStaffelTier ? 'success' : 'default'}
-              />
-            </div>
-          )}
-          {!nextStaffelTier && isInStaffelTier && showAddToCart && (
-            <div className="mb-4 lg:mb-5 rounded-lg overflow-hidden">
-              <StaffelHintBanner
-                currentQuantity={quantity}
-                nextTier={{ quantity: quantity, discount: staffelTiers[staffelTiers.length - 1]?.discount || 0 }}
-                achieved
-              />
-            </div>
-          )}
-
-          {/* ATC Button */}
-          <div ref={mainATCRef} className="flex flex-col gap-2.5 mb-4 lg:mb-5">
+          {/* ═══ ACTION BUTTONS ═══ */}
+          <div ref={mainATCRef} className="t4-action-buttons">
             {showAddToCart && (
-              <button
-                onClick={handleAddToCart}
-                className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold cursor-pointer transition-transform active:scale-[0.98]"
-                style={{
-                  background:
-                    'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                  boxShadow: '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-                }}
-              >
-                <ShoppingCart className="w-5 h-5" />
+              <button className="t4-btn-atc" onClick={handleAddToCart}>
+                <ShoppingCart size={20} />
                 {isBackorder
                   ? 'Bestellen'
                   : hasPrice
-                    ? `Toevoegen — €${(currentPrice * quantity).toFixed(2)}`
+                    ? `Toevoegen — €${fmt(currentPrice * quantity)}`
                     : 'Toevoegen aan winkelwagen'}
               </button>
             )}
-
-            {/* Secondary buttons */}
-            <div className="flex gap-2 lg:gap-2.5">
-              <button
-                onClick={() => setWishlistActive(!wishlistActive)}
-                className="flex-1 flex items-center justify-center gap-1.5 lg:gap-2 p-3 lg:p-[13px] rounded-[10px] lg:rounded-xl font-body text-[13px] lg:text-sm font-semibold cursor-pointer transition-colors"
-                style={{
-                  background: wishlistActive ? 'color-mix(in srgb, #FF6B6B 8%, white)' : 'var(--color-surface, white)',
-                  color: wishlistActive ? '#FF6B6B' : 'var(--color-text-primary)',
-                  border: `1.5px solid ${wishlistActive ? '#FF6B6B' : 'var(--color-border)'}`,
-                }}
-              >
-                <Heart className="w-4 h-4 lg:w-[18px] lg:h-[18px]" fill={wishlistActive ? '#FF6B6B' : 'none'} />
-                Verlanglijst
+            <div className="t4-btn-row">
+              <button className="t4-btn-secondary">
+                <ClipboardList size={18} /> Op bestellijst
               </button>
-              <button
-                onClick={() => {
-                  if (typeof navigator !== 'undefined' && navigator.share) {
-                    navigator.share({ title: product.title, url: window.location.href })
-                  } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                    navigator.clipboard.writeText(window.location.href)
-                  }
-                }}
-                className="flex-1 flex items-center justify-center gap-1.5 lg:gap-2 p-3 lg:p-[13px] rounded-[10px] lg:rounded-xl font-body text-[13px] lg:text-sm font-semibold cursor-pointer transition-colors"
-                style={{
-                  background: 'var(--color-surface, white)',
-                  color: 'var(--color-text-primary)',
-                  border: '1.5px solid var(--color-border)',
-                }}
-              >
-                <Share2 className="w-4 h-4 lg:w-[18px] lg:h-[18px]" />
-                Delen
+              <button className="t4-btn-secondary">
+                <Repeat size={18} /> Herhaalbestelling
               </button>
             </div>
           </div>
 
-          {/* ═══ TRUST SIGNALS ═══ */}
-          <div
-            className="grid grid-cols-2 gap-2 lg:gap-2.5 pt-4 lg:pt-5"
-            style={{ borderTop: '1px solid var(--color-border)' }}
-          >
-            <div
-              className="flex items-center gap-1.5 lg:gap-2 text-[11px] lg:text-[13px]"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <Truck className="w-3.5 h-3.5 lg:w-4 lg:h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
-              Gratis verzending vanaf €150
-            </div>
-            <div
-              className="flex items-center gap-1.5 lg:gap-2 text-[11px] lg:text-[13px]"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <Undo2 className="w-3.5 h-3.5 lg:w-4 lg:h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
-              30 dagen retourrecht
-            </div>
-            <div
-              className="flex items-center gap-1.5 lg:gap-2 text-[11px] lg:text-[13px]"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <CreditCard className="w-3.5 h-3.5 lg:w-4 lg:h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
-              Op rekening bestellen
-            </div>
-            <div
-              className="flex items-center gap-1.5 lg:gap-2 text-[11px] lg:text-[13px]"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <ShieldCheck
-                className="w-3.5 h-3.5 lg:w-4 lg:h-4 shrink-0"
-                style={{ color: 'var(--color-primary)' }}
-              />
-              CE & ISO gecertificeerd
-            </div>
+          {/* ═══ TRUST SIGNALS (2×2 grid) ═══ */}
+          <div className="t4-trust">
+            <div className="t4-trust-item"><Truck size={16} /> Gratis verzending vanaf €150</div>
+            <div className="t4-trust-item"><Undo2 size={16} /> 30 dagen retourrecht</div>
+            <div className="t4-trust-item"><CreditCard size={16} /> Op rekening bestellen</div>
+            <div className="t4-trust-item"><ShieldCheck size={16} /> CE & ISO gecertificeerd</div>
           </div>
         </div>
       </div>
 
-      {/* ═══ TABS SECTION (Description, Specs, Reviews, Downloads) ═══ */}
-      <div ref={tabsSectionRef} className="px-4 lg:px-6 pt-8 lg:pt-12">
+      {/* ═══ TABS (Description, Specs, Reviews, Downloads) ═══ */}
+      <div ref={tabsSectionRef} className="t4-tabs-section">
         <ProductTabs tabs={tabsContent} enableMobileAccordion enableKeyboardNav />
       </div>
 
       {/* ═══ RELATED PRODUCTS ═══ */}
-      {features.shop && (
-        <div
-          className="pt-12 lg:pt-16 mt-12 lg:mt-16 px-4 lg:px-6"
-          style={{ borderTop: '1px solid var(--color-border)' }}
-        >
+      {(product.upSells?.length || product.crossSells?.length || product.accessories?.length) ? (
+        <div className="t4-related-section">
           <RelatedProductsSection
             upSells={product.upSells as (string | Product)[] | undefined}
             crossSells={product.crossSells as (string | Product)[] | undefined}
             accessories={product.accessories as (string | Product)[] | undefined}
           />
         </div>
-      )}
+      ) : null}
 
-      {/* ═══ STICKY ADD TO CART BAR ═══ */}
+      {/* ═══ STICKY ADD-TO-CART BAR ═══ */}
       {showAddToCart && (
         <StickyAddToCartBar
           product={{
@@ -862,6 +617,325 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
           triggerElementRef={mainATCRef as React.RefObject<HTMLElement>}
         />
       )}
+
+      {/* ═══ SCOPED STYLES — Design Spec ═══ */}
+      <style jsx>{`
+        .t4-root {
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: 0 24px 80px;
+        }
+
+        .t4-layout {
+          display: grid;
+          grid-template-columns: 1fr 480px;
+          gap: 48px;
+          align-items: start;
+        }
+
+        /* ── Gallery ── */
+        .t4-gallery-wrapper { position: relative; }
+        .t4-gallery-actions {
+          position: absolute; top: 16px; right: 16px; z-index: 10;
+          display: flex; gap: 8px;
+        }
+        .t4-g-action {
+          width: 40px; height: 40px; background: white;
+          border: 1px solid #E8ECF1; border-radius: 10px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all 0.2s; color: #0A1628;
+        }
+        .t4-g-action:hover {
+          border-color: var(--color-primary, #00897B);
+          background: rgba(0,137,123,0.15);
+        }
+        .t4-g-action-active {
+          border-color: #FF6B6B; background: #FFF0F0;
+        }
+
+        /* ── Product Info ── */
+        .t4-brand {
+          font-size: 12px; font-weight: 700; text-transform: uppercase;
+          color: var(--color-primary, #00897B); letter-spacing: 0.05em;
+          margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+        }
+        .t4-title {
+          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
+          font-size: 28px; font-weight: 800; color: var(--color-text-primary, #0A1628);
+          line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 8px;
+        }
+        .t4-sku {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; color: #94A3B8; margin-bottom: 16px;
+          display: flex; align-items: center; gap: 12px;
+        }
+        .t4-sku span { display: flex; align-items: center; gap: 4px; }
+        .t4-rating {
+          display: flex; align-items: center; gap: 8px;
+          margin-bottom: 20px; padding-bottom: 20px;
+          border-bottom: 1px solid #E8ECF1; cursor: pointer;
+        }
+        .t4-stars { display: flex; gap: 2px; }
+        .t4-rating-text { font-size: 13px; color: #94A3B8; }
+        .t4-rating-text :global(strong) { color: var(--color-text-primary, #0A1628); }
+
+        /* ── Price Block ── */
+        .t4-price-block {
+          background: white; border: 1px solid #E8ECF1;
+          border-radius: 16px; padding: 24px; margin-bottom: 20px;
+        }
+        .t4-price-row {
+          display: flex; align-items: baseline; gap: 12px;
+          margin-bottom: 4px; flex-wrap: wrap;
+        }
+        .t4-price-current {
+          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
+          font-size: 32px; font-weight: 800;
+          color: var(--color-text-primary, #0A1628);
+        }
+        .t4-price-current :global(small) { font-size: 20px; }
+        .t4-price-sale { color: #FF6B6B; }
+        .t4-price-vanaf { font-size: 14px; font-weight: 500; color: #94A3B8; }
+        .t4-price-old {
+          font-size: 18px; color: #94A3B8;
+          text-decoration: line-through; font-weight: 400;
+        }
+        .t4-price-save {
+          font-size: 13px; font-weight: 700; color: #FF6B6B;
+          background: #FFF0F0; padding: 3px 10px; border-radius: 6px;
+        }
+        .t4-price-request {
+          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
+          font-size: 24px; font-weight: 700; color: #94A3B8;
+        }
+        .t4-price-meta { font-size: 12px; color: #94A3B8; margin-bottom: 16px; }
+
+        /* Volume pricing 4-column grid */
+        .t4-volume-pricing { margin-top: 16px; }
+        .t4-volume-label {
+          font-size: 13px; font-weight: 700;
+          color: var(--color-text-primary, #0A1628);
+          margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+        }
+        .t4-volume-label :global(svg) { color: var(--color-primary, #00897B); }
+        .t4-volume-table {
+          display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+        }
+        .t4-volume-tier {
+          background: #F5F7FA; border: 1.5px solid #E8ECF1;
+          border-radius: 10px; padding: 12px; text-align: center;
+          cursor: pointer; transition: all 0.2s; position: relative;
+        }
+        .t4-volume-tier:hover,
+        .t4-volume-tier.active {
+          border-color: var(--color-primary, #00897B);
+          background: rgba(0,137,123,0.15);
+        }
+        .t4-volume-tier.best::after {
+          content: 'Beste prijs';
+          position: absolute; top: -10px; left: 50%;
+          transform: translateX(-50%);
+          background: var(--color-primary, #00897B); color: white;
+          font-size: 10px; font-weight: 700;
+          padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+        }
+        .t4-volume-qty { font-size: 12px; color: #94A3B8; font-weight: 500; margin-bottom: 4px; }
+        .t4-volume-price {
+          font-family: 'Plus Jakarta Sans', var(--font-heading), sans-serif;
+          font-size: 16px; font-weight: 800;
+          color: var(--color-text-primary, #0A1628);
+        }
+        .t4-volume-discount {
+          font-size: 11px; color: var(--color-primary, #00897B);
+          font-weight: 600; margin-top: 2px;
+        }
+
+        .t4-staffel-hint { margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
+
+        /* ── Stock ── */
+        .t4-stock-row {
+          display: flex; align-items: center; gap: 8px;
+          padding: 12px 16px; background: #E8F5E9;
+          border-radius: 10px; margin-bottom: 20px;
+        }
+        .t4-stock-backorder { background: #FFF8E1; }
+        .t4-stock-oos { background: #FEF2F2; margin-bottom: 12px; }
+        .t4-stock-dot {
+          width: 8px; height: 8px; background: #00C853;
+          border-radius: 50%; flex-shrink: 0;
+          animation: t4pulse 2s infinite;
+        }
+        .t4-stock-dot-amber { background: #F59E0B; }
+        .t4-stock-dot-red { background: #EF4444; animation: none; }
+        @keyframes t4pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.3); }
+        }
+        .t4-stock-text { font-size: 13px; font-weight: 600; color: #2E7D32; }
+        .t4-stock-sub { font-size: 12px; color: #558B2F; }
+        .t4-oos-section { margin-bottom: 20px; }
+
+        /* ── Product Type Sections ── */
+        .t4-type-section { margin-bottom: 24px; }
+        .t4-mix-match {
+          padding: 24px; border-radius: 12px;
+          background: white; border: 1px solid #E8ECF1;
+          margin-bottom: 24px; text-align: center; color: #64748B;
+        }
+        .t4-mix-match p { margin-top: 8px; font-size: 14px; }
+
+        /* ── Qty Stepper ── */
+        .t4-qty-section { margin-bottom: 16px; }
+        .t4-qty-label {
+          font-size: 14px; font-weight: 700;
+          color: var(--color-text-primary, #0A1628); margin-bottom: 8px;
+        }
+        .t4-qty-stepper {
+          display: inline-flex; align-items: center;
+          border: 1.5px solid #E8ECF1; border-radius: 10px;
+          overflow: hidden; background: white;
+        }
+        .t4-qty-stepper button {
+          width: 44px; height: 44px; border: 0; cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          background: #F5F7FA; color: var(--color-text-primary, #0A1628);
+          transition: all 0.15s;
+        }
+        .t4-qty-stepper button:hover {
+          background: rgba(0,137,123,0.15);
+          color: var(--color-primary, #00897B);
+        }
+        .t4-qty-stepper input {
+          width: 60px; height: 44px; border: 0; text-align: center;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 16px; font-weight: 700;
+          color: var(--color-text-primary, #0A1628); outline: none;
+          -moz-appearance: textfield;
+        }
+        .t4-qty-stepper input::-webkit-inner-spin-button,
+        .t4-qty-stepper input::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+        }
+        .t4-qty-total { margin-top: 8px; font-size: 13px; color: #94A3B8; }
+        .t4-qty-total :global(strong) { color: var(--color-text-primary, #0A1628); }
+
+        /* ── Action Buttons ── */
+        .t4-action-buttons {
+          display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;
+        }
+        .t4-btn-atc {
+          display: flex; align-items: center; justify-content: center; gap: 10px;
+          width: 100%; padding: 16px;
+          background: linear-gradient(135deg, var(--color-primary, #00897B), var(--color-primary-light, #26A69A));
+          color: white; border: none; border-radius: 12px;
+          font-family: 'DM Sans', var(--font-body), sans-serif;
+          font-size: 16px; font-weight: 700; cursor: pointer;
+          transition: all 0.3s;
+          box-shadow: 0 4px 20px rgba(0,137,123,0.4);
+        }
+        .t4-btn-atc:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(0,137,123,0.5);
+        }
+        .t4-btn-atc:active { transform: scale(0.98); }
+        .t4-btn-row { display: flex; gap: 10px; }
+        .t4-btn-secondary {
+          flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+          padding: 13px; background: white;
+          color: var(--color-text-primary, #0A1628);
+          border: 1.5px solid #E8ECF1; border-radius: 12px;
+          font-family: 'DM Sans', var(--font-body), sans-serif;
+          font-size: 14px; font-weight: 600; cursor: pointer;
+          transition: all 0.2s;
+        }
+        .t4-btn-secondary:hover {
+          border-color: var(--color-primary, #00897B);
+          color: var(--color-primary, #00897B);
+          background: rgba(0,137,123,0.15);
+        }
+
+        /* ── Trust Signals ── */
+        .t4-trust {
+          display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+          padding-top: 20px; border-top: 1px solid #E8ECF1;
+        }
+        .t4-trust-item {
+          display: flex; align-items: center; gap: 8px;
+          font-size: 13px; color: #64748B;
+        }
+        .t4-trust-item :global(svg) {
+          color: var(--color-primary, #00897B); flex-shrink: 0;
+        }
+
+        /* ── Tabs Section ── */
+        .t4-tabs-section { padding-top: 48px; }
+
+        /* Description 2-column grid */
+        .t4-desc-grid {
+          display: grid; grid-template-columns: 2fr 1fr; gap: 40px;
+        }
+        .t4-desc-text { font-size: 15px; color: #64748B; line-height: 1.7; }
+        .t4-desc-highlight {
+          display: flex; gap: 12px; padding: 16px 20px;
+          background: rgba(0,137,123,0.05);
+          border: 1px solid rgba(0,137,123,0.12);
+          border-radius: 12px; margin-bottom: 20px;
+          align-items: flex-start;
+        }
+        .t4-desc-highlight :global(svg) {
+          color: var(--color-primary, #00897B); flex-shrink: 0; margin-top: 2px;
+        }
+        .t4-desc-highlight p {
+          font-size: 14px; font-weight: 500;
+          color: var(--color-text-primary, #0A1628);
+          margin: 0; line-height: 1.6;
+        }
+        .t4-desc-empty { text-align: center; padding: 32px; color: #94A3B8; }
+        .t4-desc-sidebar { position: sticky; top: 100px; }
+
+        /* Downloads */
+        .t4-downloads-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 12px;
+        }
+        .t4-download-item {
+          display: flex; align-items: center; gap: 12px;
+          padding: 16px; border-radius: 12px;
+          background: white; border: 1px solid #E8ECF1;
+          text-decoration: none; color: var(--color-text-primary, #0A1628);
+          transition: all 0.2s;
+        }
+        .t4-download-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        .t4-download-icon {
+          width: 40px; height: 40px; border-radius: 8px;
+          background: rgba(0,137,123,0.08);
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .t4-download-icon :global(svg) { color: var(--color-primary, #00897B); }
+        .t4-download-name { font-size: 14px; font-weight: 600; }
+        .t4-download-size { font-size: 12px; color: #94A3B8; }
+
+        /* ── Related Products ── */
+        .t4-related-section {
+          padding-top: 64px; margin-top: 48px;
+          border-top: 1px solid #E8ECF1;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+          .t4-root { padding: 0 16px 60px; }
+          .t4-layout { grid-template-columns: 1fr; gap: 24px; }
+          .t4-title { font-size: 22px; }
+          .t4-price-block { padding: 16px; }
+          .t4-price-current { font-size: 26px; }
+          .t4-price-current :global(small) { font-size: 16px; }
+          .t4-volume-table { grid-template-columns: repeat(2, 1fr); }
+          .t4-desc-grid { grid-template-columns: 1fr; }
+          .t4-desc-sidebar { position: static; }
+          .t4-btn-secondary { font-size: 13px; padding: 11px 8px; }
+        }
+      `}</style>
     </div>
   )
 }
