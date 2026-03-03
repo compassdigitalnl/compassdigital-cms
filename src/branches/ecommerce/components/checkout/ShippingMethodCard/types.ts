@@ -10,7 +10,7 @@ export type ShippingMethodSlug = 'standard' | 'express' | 'pickup' | 'same-day' 
 /**
  * Shipping method icon types
  */
-export type ShippingMethodIcon = 'truck' | 'zap' | 'package' | 'clock'
+export type ShippingMethodIcon = string
 
 /**
  * Shipping method data

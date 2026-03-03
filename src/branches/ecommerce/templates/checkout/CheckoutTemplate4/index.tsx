@@ -26,6 +26,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { ShoppingBag, ArrowLeft, ChevronDown, ChevronUp, CreditCard, Package, CheckCircle } from 'lucide-react'
+import { LucideIcon } from '@/branches/ecommerce/components/ui/LucideIcon'
 
 // Checkout Components
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
@@ -533,6 +534,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       const logoUrl = typeof option.icon === 'object' && option.icon?.url
                         ? option.icon.url
                         : null
+                      const lucideIconName = option.lucideIcon || null
                       return (
                         <PaymentMethodCard
                           key={option.id}
@@ -543,11 +545,9 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                             description: option.description || '',
                             logo: logoUrl
                               ? <img src={logoUrl} alt={option.name} style={{ width: 24, height: 24, objectFit: 'contain' }} />
-                              : option.slug === 'creditcard'
-                                ? <CreditCard className="w-6 h-6" />
-                                : option.slug === 'ideal'
-                                  ? '🏦'
-                                  : '💳',
+                              : lucideIconName
+                                ? <LucideIcon name={lucideIconName} size={22} color="var(--teal)" />
+                                : <CreditCard size={22} color="var(--teal)" />,
                             isB2B: option.isB2B,
                             fee: option.fee,
                             badge: option.badge,

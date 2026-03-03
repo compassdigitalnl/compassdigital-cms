@@ -56,6 +56,14 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     ON CONFLICT ("slug") DO NOTHING;
   `)
 
+  // Add column to payload_locked_documents_rels (required by Payload CMS)
+  await db.execute(sql`
+    ALTER TABLE "payload_locked_documents_rels" ADD COLUMN IF NOT EXISTS "shipping_methods_id" integer REFERENCES "shipping_methods"("id") ON DELETE CASCADE;
+  `)
+  await db.execute(sql`
+    CREATE INDEX IF NOT EXISTS "idx_payload_locked_docs_rels_shipping_methods" ON "payload_locked_documents_rels" ("shipping_methods_id");
+  `)
+
   // Seed countries for each method (NL for all)
   await db.execute(sql`
     INSERT INTO "shipping_methods_countries" ("order", "parent_id", "value")

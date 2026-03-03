@@ -1,28 +1,9 @@
 'use client'
 
 import React from 'react'
-import { Truck, Zap, Package, Clock } from 'lucide-react'
-import type { ShippingMethodCardProps, ShippingMethodIcon } from './types'
-
-/**
- * Icon mapping for shipping methods
- */
-const iconMap: Record<ShippingMethodIcon, typeof Truck> = {
-  truck: Truck,
-  zap: Zap,
-  package: Package,
-  clock: Clock,
-}
-
-/**
- * Icon color mapping (CSS class names)
- */
-const iconColorMap: Record<ShippingMethodIcon, string> = {
-  truck: 'icon-teal',
-  zap: 'icon-amber',
-  package: 'icon-teal',
-  clock: 'icon-teal',
-}
+import { getLucideIconComponent } from '@/branches/ecommerce/components/ui/LucideIcon'
+import { Truck } from 'lucide-react'
+import type { ShippingMethodCardProps } from './types'
 
 /**
  * ShippingMethodCard Component
@@ -54,8 +35,8 @@ export function ShippingMethodCard({
   currencySymbol = '€',
   className = '',
 }: ShippingMethodCardProps) {
-  const Icon = iconMap[method.icon]
-  const iconColorClass = iconColorMap[method.icon]
+  const Icon = getLucideIconComponent(method.icon) || Truck
+  const iconColorClass = method.icon === 'zap' ? 'icon-amber' : 'icon-teal'
   const isFree = method.price === 0 || method.isFree
 
   // Format price for Dutch locale (comma as decimal separator)
