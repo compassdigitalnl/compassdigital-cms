@@ -1,5 +1,5 @@
 import type { Product } from '@/payload-types'
-import { getOrCreateIndex, INDEXES } from './client'
+import { getOrCreateIndex, INDEXES, meilisearchClient } from './client'
 
 /**
  * Split comma-separated spec values into individual values
@@ -162,18 +162,41 @@ export async function reindexAllProducts(payload: any) {
     // Fetch all published products
     const { docs: products } = await payload.find({
       collection: 'products',
-      limit: 10000, // Adjust based on product count
-      depth: 1, // Include brand and categories
+      limit: 10000,
+      depth: 1,
     })
 
     console.log(`📦 Found ${products.length} products to index`)
 
+    // Transform and collect all spec keys
+    const allSpecKeys = new Set<string>()
+    const allDocuments = products.map((p: Product) => {
+      const doc = transformProductForSearch(p)
+      Object.keys(doc.specs).forEach(key => allSpecKeys.add(key))
+      return doc
+    })
+
     // Index in batches
+    const index = await getOrCreateIndex(INDEXES.PRODUCTS)
     const batchSize = 100
-    for (let i = 0; i < products.length; i += batchSize) {
-      const batch = products.slice(i, i + batchSize)
-      await indexProducts(batch)
-      console.log(`✅ Indexed batch ${i / batchSize + 1}/${Math.ceil(products.length / batchSize)}`)
+    for (let i = 0; i < allDocuments.length; i += batchSize) {
+      const batch = allDocuments.slice(i, i + batchSize)
+      await index.addDocuments(batch)
+      console.log(`✅ Indexed batch ${i / batchSize + 1}/${Math.ceil(allDocuments.length / batchSize)}`)
+    }
+
+    // Update filterableAttributes to include dynamic spec keys
+    if (allSpecKeys.size > 0) {
+      const specPaths = Array.from(allSpecKeys).map(key => `specs.${key}`)
+      console.log(`🔧 Adding ${specPaths.length} spec keys to filterableAttributes: ${specPaths.join(', ')}`)
+
+      const currentSettings = await index.getSettings()
+      const currentFilterable = currentSettings.filterableAttributes || []
+
+      // Merge: keep existing + add new spec paths
+      const merged = new Set([...currentFilterable, ...specPaths])
+      await index.updateSettings({ filterableAttributes: Array.from(merged) })
+      console.log(`✅ Updated filterableAttributes (${merged.size} total)`)
     }
 
     console.log('✅ Full product reindex complete!')
