@@ -34,6 +34,7 @@ import type { SortOption, ViewMode } from '@/branches/ecommerce/components/shop/
 
 // Icons
 import { ChevronLeft, ChevronRight, PackageX, RotateCcw, Loader2 } from 'lucide-react'
+import { RichText } from '@/branches/shared/components/common/RichText'
 
 // ============================================
 // INTERFACES
@@ -66,6 +67,7 @@ interface ShopArchiveTemplate1Props {
   breadcrumbs?: BreadcrumbItem[]
   loading?: boolean
   shopFilterOrder?: FilterOrderConfig[]
+  categoryContent?: any
 }
 
 // ============================================
@@ -98,6 +100,7 @@ export default function ShopArchiveTemplate1({
   totalProducts: serverTotalProducts,
   breadcrumbs = [],
   shopFilterOrder = [],
+  categoryContent,
 }: ShopArchiveTemplate1Props) {
   const pathname = usePathname()
   const { addItem } = useCart()
@@ -356,14 +359,14 @@ export default function ShopArchiveTemplate1({
       {/* ========================================
           BREADCRUMBS
           ======================================== */}
-      <div className="px-6 pt-6">
+      <div className="px-4">
         <Breadcrumbs items={breadcrumbs} currentPage={category?.name || 'Shop'} />
       </div>
 
       {/* ========================================
           CATEGORY HERO
           ======================================== */}
-      <section className="pt-6 pb-8">
+      <section>
         <CategoryHero
           category={{
             name: category?.name || 'Shop',
@@ -592,6 +595,15 @@ export default function ShopArchiveTemplate1({
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
+              </div>
+            )}
+
+            {/* ========================================
+                CATEGORY CONTENT (Rich Text)
+                ======================================== */}
+            {categoryContent && (
+              <div className="mt-12 pt-10 border-t border-[var(--color-border)]">
+                <RichText data={categoryContent} enableGutter={false} enableProse={true} />
               </div>
             )}
           </main>

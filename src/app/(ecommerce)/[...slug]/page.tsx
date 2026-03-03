@@ -218,10 +218,8 @@ export default async function Page({
               image: productImageUrl,
             }}
           />
-          <div className="bg-white border-b">
-            <div className="max-w-7xl mx-auto px-4">
-              <Breadcrumbs items={productBreadcrumbs} currentPage={product.title} />
-            </div>
+          <div className="px-4" style={{ maxWidth: 'var(--container-width, 1792px)', margin: '0 auto' }}>
+            <Breadcrumbs items={productBreadcrumbs} currentPage={product.title} />
           </div>
           <div className="max-w-7xl mx-auto px-4 py-8">
             <ProductComponent product={product} />
