@@ -1,13 +1,14 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { MapPin, Bookmark, Sparkles, AlertCircle } from 'lucide-react'
+import { MapPin, Bookmark, Sparkles, AlertCircle, Loader2 } from 'lucide-react'
 import type { AddressFormProps, Address, ValidationErrors } from './types'
 
 const DEFAULT_REQUIRED_FIELDS: (keyof Address)[] = [
   'firstName',
   'lastName',
   'street',
+  'houseNumber',
   'postalCode',
   'city',
   'country',
@@ -17,26 +18,13 @@ const INITIAL_ADDRESS: Address = {
   firstName: '',
   lastName: '',
   street: '',
+  houseNumber: '',
   addition: '',
   postalCode: '',
   city: '',
   country: 'NL',
 }
 
-/**
- * AddressForm Component
- *
- * Shipping address form for checkout flow with validation, postcode autocomplete,
- * and saved addresses support for B2B customers.
- *
- * @example
- * ```tsx
- * <AddressForm
- *   onSubmit={(address) => saveShippingAddress(address)}
- *   enableAutocomplete={true}
- * />
- * ```
- */
 export function AddressForm({
   initialValues,
   savedAddresses = [],
@@ -51,7 +39,6 @@ export function AddressForm({
   submitLabel = 'Opslaan en doorgaan',
   className = '',
 }: AddressFormProps) {
-  // Form state
   const [formData, setFormData] = useState<Address>({
     ...INITIAL_ADDRESS,
     ...initialValues,
@@ -61,8 +48,8 @@ export function AddressForm({
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [autocompleteLoading, setAutocompleteLoading] = useState(false)
   const [autocompleteSuccess, setAutocompleteSuccess] = useState(false)
+  const [autocompleteFilled, setAutocompleteFilled] = useState(false)
 
-  // Update form data when initialValues change
   useEffect(() => {
     if (initialValues) {
       setFormData((prev) => ({ ...prev, ...initialValues }))
@@ -78,13 +65,13 @@ export function AddressForm({
     UK: { regex: /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i, example: 'SW1A 1AA' },
   }
 
-  // Validate a single field
   const validateField = (name: keyof Address, value: string): string => {
     if (requiredFields.includes(name) && !value.trim()) {
       const fieldLabels: Record<keyof Address, string> = {
         firstName: 'Voornaam',
         lastName: 'Achternaam',
-        street: 'Straat + huisnummer',
+        street: 'Straat',
+        houseNumber: 'Huisnummer',
         addition: 'Toevoeging',
         postalCode: 'Postcode',
         city: 'Plaats',
@@ -93,7 +80,6 @@ export function AddressForm({
       return `${fieldLabels[name]} is verplicht`
     }
 
-    // Postcode-specific validation (multi-country)
     if (name === 'postalCode' && value) {
       const pattern = POSTCODE_PATTERNS[formData.country]
       if (pattern && !pattern.regex.test(value)) {
@@ -101,7 +87,6 @@ export function AddressForm({
       }
     }
 
-    // Name minimum length
     if ((name === 'firstName' || name === 'lastName') && value && value.trim().length < 2) {
       return 'Minimaal 2 tekens vereist'
     }
@@ -109,150 +94,127 @@ export function AddressForm({
     return ''
   }
 
-  // Validate entire form
   const validateForm = (): boolean => {
     const newErrors: ValidationErrors = {}
-
     Object.keys(formData).forEach((key) => {
       const fieldName = key as keyof Address
       const error = validateField(fieldName, formData[fieldName] || '')
-      if (error) {
-        newErrors[fieldName] = error
-      }
+      if (error) newErrors[fieldName] = error
     })
-
     setErrors(newErrors)
-    if (onValidate) {
-      onValidate(newErrors)
-    }
-
+    if (onValidate) onValidate(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  // Handle input change
   const handleChange = (name: keyof Address, value: string) => {
     const newFormData = { ...formData, [name]: value }
     setFormData(newFormData)
 
-    // Clear autocomplete success when postcode changes
-    if (name === 'postalCode') {
+    if (name === 'postalCode' || name === 'houseNumber') {
       setAutocompleteSuccess(false)
+      setAutocompleteFilled(false)
     }
 
-    // Validate field if it was already touched
     if (touched[name]) {
       const error = validateField(name, value)
-      setErrors((prev) => ({
-        ...prev,
-        [name]: error,
-      }))
+      setErrors((prev) => ({ ...prev, [name]: error }))
     }
 
-    // Notify parent of changes
-    if (onChange) {
-      onChange(newFormData)
-    }
+    if (onChange) onChange(newFormData)
   }
 
-  // Handle input blur (mark field as touched)
   const handleBlur = (name: keyof Address) => {
     setTouched((prev) => ({ ...prev, [name]: true }))
-
-    // Validate field on blur
     const error = validateField(name, formData[name] || '')
-    setErrors((prev) => ({
-      ...prev,
-      [name]: error,
-    }))
+    setErrors((prev) => ({ ...prev, [name]: error }))
   }
 
-  // Postcode autocomplete handler
-  const handlePostalCodeChange = async (value: string) => {
-    handleChange('postalCode', value)
-
-    // Only autocomplete for NL postcodes
+  // Trigger autocomplete when both postcode and house number are filled (NL only)
+  const tryAutocomplete = async (postalCode: string, houseNumber: string) => {
     const nlPattern = POSTCODE_PATTERNS.NL
-    if (enableAutocomplete && formData.country === 'NL' && nlPattern && nlPattern.regex.test(value)) {
-      setAutocompleteLoading(true)
-      setAutocompleteSuccess(false)
+    if (!enableAutocomplete || formData.country !== 'NL' || !nlPattern) return
+    if (!nlPattern.regex.test(postalCode) || !houseNumber.trim()) return
 
-      try {
-        const response = await fetch(`/api/postcode-lookup?postal=${encodeURIComponent(value)}`)
+    setAutocompleteLoading(true)
+    setAutocompleteSuccess(false)
 
-        if (response.ok) {
-          const data = await response.json()
+    try {
+      const params = new URLSearchParams({ postal: postalCode, number: houseNumber })
+      const response = await fetch(`/api/postcode-lookup?${params}`)
 
-          setFormData((prev) => ({
-            ...prev,
-            city: data.city || prev.city,
-            street: data.street || prev.street,
-          }))
-
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success && data.street) {
+          setFormData((prev) => {
+            const updated = {
+              ...prev,
+              street: data.street || prev.street,
+              city: data.city || prev.city,
+            }
+            if (onChange) onChange(updated)
+            return updated
+          })
+          setAutocompleteFilled(true)
           setAutocompleteSuccess(true)
-
-          // Auto-hide success message after 3 seconds
-          setTimeout(() => {
-            setAutocompleteSuccess(false)
-          }, 3000)
+          setTimeout(() => setAutocompleteSuccess(false), 3000)
         }
-      } catch (error) {
-        console.error('Postcode lookup failed:', error)
-      } finally {
-        setAutocompleteLoading(false)
       }
+    } catch (error) {
+      console.error('Postcode lookup failed:', error)
+    } finally {
+      setAutocompleteLoading(false)
     }
   }
 
-  // Load saved address
+  const handlePostalCodeChange = (value: string) => {
+    handleChange('postalCode', value)
+    tryAutocomplete(value, formData.houseNumber)
+  }
+
+  const handleHouseNumberChange = (value: string) => {
+    handleChange('houseNumber', value)
+    tryAutocomplete(formData.postalCode, value)
+  }
+
   const handleSavedAddressSelect = (addressId: string) => {
     if (addressId === 'new') {
       setFormData(INITIAL_ADDRESS)
       setErrors({})
       setTouched({})
+      setAutocompleteFilled(false)
       return
     }
-
     const saved = savedAddresses.find((a) => a.id === addressId)
     if (saved) {
       setFormData(saved.address)
       setErrors({})
       setTouched({})
-
-      if (onChange) {
-        onChange(saved.address)
-      }
+      if (onChange) onChange(saved.address)
     }
   }
 
-  // Form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Mark all fields as touched
     const allTouched = Object.keys(formData).reduce(
       (acc, key) => ({ ...acc, [key]: true }),
       {},
     )
     setTouched(allTouched)
-
-    // Validate and submit
-    if (validateForm() && onSubmit) {
-      onSubmit(formData)
-    }
+    if (validateForm() && onSubmit) onSubmit(formData)
   }
 
-  // Check if field has error and is touched
   const hasError = (name: keyof Address) => touched[name] && errors[name]
+
+  // NL layout: postcode + huisnummer → autocomplete → straat/stad readonly
+  const isNL = formData.country === 'NL'
 
   return (
     <div className={`form-section ${className}`}>
-      {/* Section title */}
       <h2 className="form-section-title">
         <MapPin size={20} />
         {title}
       </h2>
 
-      {/* Saved addresses dropdown (B2B only) */}
       {showSavedAddresses && savedAddresses.length > 0 && (
         <div className="saved-addresses">
           <Bookmark size={20} />
@@ -266,24 +228,24 @@ export function AddressForm({
                 {addr.label}
               </option>
             ))}
-            <option value="new">➕ Nieuw adres toevoegen</option>
+            <option value="new">+ Nieuw adres toevoegen</option>
           </select>
         </div>
       )}
 
-      {/* Address form */}
       <form onSubmit={handleSubmit} className="form-grid" noValidate>
-        {/* Country (first — determines postcode format) */}
+        {/* Country */}
         <div className={`form-group span-2 ${hasError('country') ? 'error' : ''}`}>
-          <label className="form-label" htmlFor="country">
-            Land
-          </label>
+          <label className="form-label" htmlFor="country">Land</label>
           <select
             id="country"
             className="form-input"
             name="country"
             value={formData.country}
-            onChange={(e) => handleChange('country', e.target.value)}
+            onChange={(e) => {
+              handleChange('country', e.target.value)
+              setAutocompleteFilled(false)
+            }}
             onBlur={() => handleBlur('country')}
             required={requiredFields.includes('country')}
             aria-required={requiredFields.includes('country')}
@@ -295,15 +257,164 @@ export function AddressForm({
             <option value="FR">Frankrijk</option>
             <option value="UK">Verenigd Koninkrijk</option>
           </select>
-          {hasError('country') && (
-            <div className="error-message" id="country-error" role="alert">
-              <AlertCircle size={14} />
-              {errors.country}
+        </div>
+
+        {/* Row: Postcode + Huisnummer + Toevoeging */}
+        <div className="form-group span-2">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 'var(--space-16, 16px)' }}>
+            {/* Postcode */}
+            <div className={`form-group ${hasError('postalCode') ? 'error' : ''}`}>
+              <label className="form-label" htmlFor="postalCode">
+                Postcode
+                {requiredFields.includes('postalCode') && <span className="req">*</span>}
+              </label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  id="postalCode"
+                  className="form-input"
+                  style={{ width: '100%' }}
+                  type="text"
+                  name="postalCode"
+                  value={formData.postalCode}
+                  onChange={(e) => handlePostalCodeChange(e.target.value.toUpperCase())}
+                  onBlur={() => handleBlur('postalCode')}
+                  placeholder={POSTCODE_PATTERNS[formData.country]?.example || '1234 AB'}
+                  required={requiredFields.includes('postalCode')}
+                  aria-required={requiredFields.includes('postalCode')}
+                  aria-invalid={hasError('postalCode') ? 'true' : 'false'}
+                />
+                {autocompleteLoading && (
+                  <Loader2
+                    size={16}
+                    className="animate-spin"
+                    style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--grey-mid)' }}
+                  />
+                )}
+              </div>
+              {hasError('postalCode') && (
+                <div className="error-message" id="postalCode-error" role="alert">
+                  <AlertCircle size={14} />
+                  {errors.postalCode}
+                </div>
+              )}
+            </div>
+
+            {/* Huisnummer */}
+            <div className={`form-group ${hasError('houseNumber') ? 'error' : ''}`}>
+              <label className="form-label" htmlFor="houseNumber">
+                Huisnr.
+                {requiredFields.includes('houseNumber') && <span className="req">*</span>}
+              </label>
+              <input
+                id="houseNumber"
+                className="form-input"
+                type="text"
+                name="houseNumber"
+                value={formData.houseNumber}
+                onChange={(e) => handleHouseNumberChange(e.target.value)}
+                onBlur={() => handleBlur('houseNumber')}
+                placeholder="42"
+                required={requiredFields.includes('houseNumber')}
+                aria-required={requiredFields.includes('houseNumber')}
+                aria-invalid={hasError('houseNumber') ? 'true' : 'false'}
+              />
+              {hasError('houseNumber') && (
+                <div className="error-message" id="houseNumber-error" role="alert">
+                  <AlertCircle size={14} />
+                  {errors.houseNumber}
+                </div>
+              )}
+            </div>
+
+            {/* Toevoeging */}
+            <div className="form-group">
+              <label className="form-label" htmlFor="addition">Toevoeging</label>
+              <input
+                id="addition"
+                className="form-input"
+                type="text"
+                name="addition"
+                value={formData.addition || ''}
+                onChange={(e) => handleChange('addition', e.target.value)}
+                placeholder="A, 2e etage"
+              />
+            </div>
+          </div>
+
+          {/* Autocomplete success message */}
+          {autocompleteSuccess && (
+            <div className="autocomplete-hint" id="postalCode-hint" style={{ marginTop: 'var(--space-8, 8px)' }}>
+              <Sparkles size={16} />
+              Adres automatisch aangevuld
             </div>
           )}
         </div>
 
-        {/* First Name */}
+        {/* Straat (auto-filled for NL, manual for other countries) */}
+        <div className={`form-group ${hasError('street') ? 'error' : ''}`}>
+          <label className="form-label" htmlFor="street">
+            Straat
+            {requiredFields.includes('street') && <span className="req">*</span>}
+          </label>
+          <input
+            id="street"
+            className="form-input"
+            type="text"
+            name="street"
+            value={formData.street}
+            onChange={(e) => {
+              handleChange('street', e.target.value)
+              if (isNL) setAutocompleteFilled(false)
+            }}
+            onBlur={() => handleBlur('street')}
+            placeholder={isNL && !autocompleteFilled ? 'Wordt automatisch ingevuld' : 'Breestraat'}
+            readOnly={isNL && autocompleteFilled}
+            style={isNL && autocompleteFilled ? { backgroundColor: 'var(--bg, #f8fafc)', color: 'var(--navy)' } : undefined}
+            required={requiredFields.includes('street')}
+            aria-required={requiredFields.includes('street')}
+            aria-invalid={hasError('street') ? 'true' : 'false'}
+          />
+          {hasError('street') && (
+            <div className="error-message" id="street-error" role="alert">
+              <AlertCircle size={14} />
+              {errors.street}
+            </div>
+          )}
+        </div>
+
+        {/* Plaats (auto-filled for NL, manual for other countries) */}
+        <div className={`form-group ${hasError('city') ? 'error' : ''}`}>
+          <label className="form-label" htmlFor="city">
+            Plaats
+            {requiredFields.includes('city') && <span className="req">*</span>}
+          </label>
+          <input
+            id="city"
+            className="form-input"
+            type="text"
+            name="city"
+            value={formData.city}
+            onChange={(e) => {
+              handleChange('city', e.target.value)
+              if (isNL) setAutocompleteFilled(false)
+            }}
+            onBlur={() => handleBlur('city')}
+            placeholder={isNL && !autocompleteFilled ? 'Wordt automatisch ingevuld' : 'Amsterdam'}
+            readOnly={isNL && autocompleteFilled}
+            style={isNL && autocompleteFilled ? { backgroundColor: 'var(--bg, #f8fafc)', color: 'var(--navy)' } : undefined}
+            required={requiredFields.includes('city')}
+            aria-required={requiredFields.includes('city')}
+            aria-invalid={hasError('city') ? 'true' : 'false'}
+          />
+          {hasError('city') && (
+            <div className="error-message" id="city-error" role="alert">
+              <AlertCircle size={14} />
+              {errors.city}
+            </div>
+          )}
+        </div>
+
+        {/* Voornaam */}
         <div className={`form-group ${hasError('firstName') ? 'error' : ''}`}>
           <label className="form-label" htmlFor="firstName">
             Voornaam
@@ -321,7 +432,6 @@ export function AddressForm({
             required={requiredFields.includes('firstName')}
             aria-required={requiredFields.includes('firstName')}
             aria-invalid={hasError('firstName') ? 'true' : 'false'}
-            aria-describedby={hasError('firstName') ? 'firstName-error' : undefined}
           />
           {hasError('firstName') && (
             <div className="error-message" id="firstName-error" role="alert">
@@ -331,7 +441,7 @@ export function AddressForm({
           )}
         </div>
 
-        {/* Last Name */}
+        {/* Achternaam */}
         <div className={`form-group ${hasError('lastName') ? 'error' : ''}`}>
           <label className="form-label" htmlFor="lastName">
             Achternaam
@@ -349,7 +459,6 @@ export function AddressForm({
             required={requiredFields.includes('lastName')}
             aria-required={requiredFields.includes('lastName')}
             aria-invalid={hasError('lastName') ? 'true' : 'false'}
-            aria-describedby={hasError('lastName') ? 'lastName-error' : undefined}
           />
           {hasError('lastName') && (
             <div className="error-message" id="lastName-error" role="alert">
@@ -359,133 +468,15 @@ export function AddressForm({
           )}
         </div>
 
-        {/* Street + Number */}
-        <div className={`form-group ${hasError('street') ? 'error' : ''}`}>
-          <label className="form-label" htmlFor="street">
-            Straat + huisnummer
-            {requiredFields.includes('street') && <span className="req">*</span>}
-          </label>
-          <input
-            id="street"
-            className="form-input"
-            type="text"
-            name="street"
-            value={formData.street}
-            onChange={(e) => handleChange('street', e.target.value)}
-            onBlur={() => handleBlur('street')}
-            placeholder="Breestraat 42"
-            required={requiredFields.includes('street')}
-            aria-required={requiredFields.includes('street')}
-            aria-invalid={hasError('street') ? 'true' : 'false'}
-            aria-describedby={hasError('street') ? 'street-error' : undefined}
-          />
-          {hasError('street') && (
-            <div className="error-message" id="street-error" role="alert">
-              <AlertCircle size={14} />
-              {errors.street}
-            </div>
-          )}
-        </div>
-
-        {/* Addition (optional) */}
-        <div className="form-group">
-          <label className="form-label" htmlFor="addition">
-            Toevoeging
-          </label>
-          <input
-            id="addition"
-            className="form-input"
-            type="text"
-            name="addition"
-            value={formData.addition || ''}
-            onChange={(e) => handleChange('addition', e.target.value)}
-            placeholder="Bijv. A, 2e etage"
-          />
-          <span className="helper-text">Appartement, verdieping, etc.</span>
-        </div>
-
-        {/* Postal Code (with autocomplete) */}
-        <div className={`form-group ${hasError('postalCode') ? 'error' : ''}`}>
-          <label className="form-label" htmlFor="postalCode">
-            Postcode
-            {requiredFields.includes('postalCode') && <span className="req">*</span>}
-          </label>
-          <input
-            id="postalCode"
-            className="form-input"
-            type="text"
-            name="postalCode"
-            value={formData.postalCode}
-            onChange={(e) => handlePostalCodeChange(e.target.value.toUpperCase())}
-            onBlur={() => handleBlur('postalCode')}
-            placeholder="1234 AB"
-            required={requiredFields.includes('postalCode')}
-            aria-required={requiredFields.includes('postalCode')}
-            aria-invalid={hasError('postalCode') ? 'true' : 'false'}
-            aria-describedby={
-              hasError('postalCode')
-                ? 'postalCode-error'
-                : autocompleteSuccess
-                  ? 'postalCode-hint'
-                  : undefined
-            }
-          />
-          {hasError('postalCode') && (
-            <div className="error-message" id="postalCode-error" role="alert">
-              <AlertCircle size={14} />
-              {errors.postalCode}
-            </div>
-          )}
-          {autocompleteSuccess && !hasError('postalCode') && (
-            <div className="autocomplete-hint" id="postalCode-hint">
-              <Sparkles size={16} />
-              Adres automatisch aangevuld
-            </div>
-          )}
-        </div>
-
-        {/* City */}
-        <div className={`form-group ${hasError('city') ? 'error' : ''}`}>
-          <label className="form-label" htmlFor="city">
-            Plaats
-            {requiredFields.includes('city') && <span className="req">*</span>}
-          </label>
-          <input
-            id="city"
-            className="form-input"
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={(e) => handleChange('city', e.target.value)}
-            onBlur={() => handleBlur('city')}
-            placeholder="Amsterdam"
-            required={requiredFields.includes('city')}
-            aria-required={requiredFields.includes('city')}
-            aria-invalid={hasError('city') ? 'true' : 'false'}
-            aria-describedby={hasError('city') ? 'city-error' : undefined}
-          />
-          {hasError('city') && (
-            <div className="error-message" id="city-error" role="alert">
-              <AlertCircle size={14} />
-              {errors.city}
-            </div>
-          )}
-        </div>
-
-        {/* Submit button */}
+        {/* Submit */}
         {submitLabel !== false && (
           <div className="form-group span-2">
-            <button
-              type="submit"
-              className="form-submit"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="form-submit" disabled={isSubmitting}>
               {isSubmitting ? 'Bezig...' : submitLabel}
             </button>
           </div>
         )}
       </form>
-
     </div>
   )
 }

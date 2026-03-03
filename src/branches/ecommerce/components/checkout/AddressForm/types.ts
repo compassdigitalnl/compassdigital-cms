@@ -17,9 +17,14 @@ export interface Address {
   lastName: string
 
   /**
-   * Street address with house number
+   * Street name (without house number)
    */
   street: string
+
+  /**
+   * House number
+   */
+  houseNumber: string
 
   /**
    * Address addition (apartment, floor, etc.) - optional
