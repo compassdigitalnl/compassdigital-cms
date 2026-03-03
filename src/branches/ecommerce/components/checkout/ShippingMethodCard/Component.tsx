@@ -5,28 +5,6 @@ import { getLucideIconComponent } from '@/branches/ecommerce/components/ui/Lucid
 import { Truck } from 'lucide-react'
 import type { ShippingMethodCardProps } from './types'
 
-/**
- * ShippingMethodCard Component
- *
- * Selectable shipping method card for checkout flow.
- * Radio button card with icon, name, delivery time, and price.
- *
- * @example
- * ```tsx
- * <ShippingMethodCard
- *   method={{
- *     id: '1',
- *     name: 'Standaard',
- *     slug: 'standard',
- *     icon: 'truck',
- *     deliveryTime: '1-2 werkdagen',
- *     price: 6.95,
- *   }}
- *   selected={selectedId === '1'}
- *   onSelect={(id) => setSelectedId(id)}
- * />
- * ```
- */
 export function ShippingMethodCard({
   method,
   selected,
@@ -36,10 +14,8 @@ export function ShippingMethodCard({
   className = '',
 }: ShippingMethodCardProps) {
   const Icon = getLucideIconComponent(method.icon) || Truck
-  const iconColorClass = method.icon === 'zap' ? 'icon-amber' : 'icon-teal'
   const isFree = method.price === 0 || method.isFree
 
-  // Format price for Dutch locale (comma as decimal separator)
   const formatPrice = (price: number): string => {
     return `${currencySymbol} ${price.toFixed(2).replace('.', ',')}`
   }
@@ -48,7 +24,7 @@ export function ShippingMethodCard({
     <label
       className={`shipping-method ${selected ? 'selected' : ''} ${disabled ? 'disabled' : ''} ${className}`}
     >
-      {/* Hidden radio input (visually replaced by card border) */}
+      {/* Radio input (left side) */}
       <input
         type="radio"
         name="shipping-method"
@@ -60,18 +36,20 @@ export function ShippingMethodCard({
         aria-label={`${method.name}, ${method.deliveryTime}, ${isFree ? 'Gratis' : formatPrice(method.price)}`}
       />
 
-      {/* Header: Icon + Name */}
-      <div className="shipping-method__header">
-        <Icon className={`shipping-method__icon ${iconColorClass}`} size={20} aria-hidden="true" />
-        <div className="shipping-method__name">{method.name}</div>
+      {/* Info (center, grows to fill space) */}
+      <div className="shipping-method__info">
+        <div className="shipping-method__name">
+          {method.name}
+          <span className={`shipping-method__price ${isFree ? 'free' : ''}`}>
+            {isFree ? 'Gratis' : formatPrice(method.price)}
+          </span>
+        </div>
+        <div className="shipping-method__time">{method.deliveryTime}</div>
       </div>
 
-      {/* Delivery Time */}
-      <div className="shipping-method__time">{method.deliveryTime}</div>
-
-      {/* Price */}
-      <div className={`shipping-method__price ${isFree ? 'free' : ''}`}>
-        {isFree ? 'Gratis' : formatPrice(method.price)}
+      {/* Icon (right side) */}
+      <div className="shipping-method__icon-box" aria-hidden="true">
+        <Icon size={20} />
       </div>
 
       <style jsx>{`
@@ -83,19 +61,19 @@ export function ShippingMethodCard({
           cursor: pointer;
           position: relative;
           display: flex;
-          flex-direction: column;
-          gap: 8px;
+          align-items: center;
+          gap: 16px;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .shipping-method:hover:not(.disabled) {
-          border-color: var(--teal);
-          box-shadow: 0 4px 12px rgba(0, 137, 123, 0.1);
+          border-color: var(--teal-light);
+          box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
         }
 
         .shipping-method.selected {
           border-color: var(--teal);
-          background: var(--white);
+          background: white;
         }
 
         .shipping-method.disabled {
@@ -104,51 +82,45 @@ export function ShippingMethodCard({
         }
 
         .shipping-method__radio {
-          position: absolute;
-          top: 16px;
-          right: 16px;
           width: 20px;
           height: 20px;
           accent-color: var(--teal);
           cursor: pointer;
+          flex-shrink: 0;
         }
 
         .shipping-method.disabled .shipping-method__radio {
           cursor: not-allowed;
         }
 
-        .shipping-method__radio:focus-visible {
-          outline: 3px solid var(--teal-glow);
+        .shipping-method:focus-within {
+          outline: 2px solid var(--teal);
           outline-offset: 2px;
-          border-radius: 50%;
         }
 
-        .shipping-method__header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 4px;
-        }
-
-        .shipping-method__icon {
-          width: 20px;
-          height: 20px;
-          flex-shrink: 0;
-        }
-
-        .shipping-method__icon.icon-teal {
-          color: var(--teal);
-        }
-
-        .shipping-method__icon.icon-amber {
-          color: var(--amber);
+        .shipping-method__info {
+          flex: 1;
         }
 
         .shipping-method__name {
           font-weight: 700;
-          font-size: 14px;
+          font-size: 15px;
           color: var(--navy);
+          margin-bottom: 4px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
           line-height: 1.4;
+        }
+
+        .shipping-method__price {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--grey-dark);
+        }
+
+        .shipping-method__price.free {
+          color: var(--green);
         }
 
         .shipping-method__time {
@@ -157,35 +129,35 @@ export function ShippingMethodCard({
           line-height: 1.4;
         }
 
-        .shipping-method__price {
-          font-family: var(--font-display);
-          font-size: 18px;
-          font-weight: 800;
-          color: var(--navy);
-          margin-top: auto;
-          line-height: 1.2;
-        }
-
-        .shipping-method__price.free {
-          color: var(--green);
+        .shipping-method__icon-box {
+          width: 48px;
+          height: 32px;
+          background: var(--grey-light);
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          color: var(--teal);
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
           .shipping-method {
-            padding: 18px;
+            padding: 16px;
           }
 
           .shipping-method__name {
-            font-size: 13px;
+            font-size: 14px;
           }
 
           .shipping-method__time {
             font-size: 12px;
           }
 
-          .shipping-method__price {
-            font-size: 16px;
+          .shipping-method__icon-box {
+            width: 40px;
+            height: 24px;
           }
         }
       `}</style>
