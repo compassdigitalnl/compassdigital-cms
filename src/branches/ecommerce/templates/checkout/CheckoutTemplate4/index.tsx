@@ -148,8 +148,22 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
     )
   }
 
+  // Address validation helper
+  const isAddressComplete = (addr: Address | null): boolean => {
+    if (!addr) return false
+    return !!(
+      addr.firstName?.trim() &&
+      addr.lastName?.trim() &&
+      addr.street?.trim() &&
+      addr.houseNumber?.trim() &&
+      addr.postalCode?.trim() &&
+      addr.city?.trim() &&
+      addr.country?.trim()
+    )
+  }
+
   // Step validation
-  const canProceedToShipping = billingAddress && (sameAsBilling || shippingAddress)
+  const canProceedToShipping = isAddressComplete(billingAddress) && (sameAsBilling || isAddressComplete(shippingAddress))
   const canProceedToPayment = !!shippingMethod
   const canPlaceOrder = paymentMethod && (paymentMethod !== 'invoice' || poNumber)
 
