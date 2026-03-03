@@ -58,19 +58,19 @@ export default function CheckoutTemplate2() {
   // Empty cart redirect
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-surface)' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="max-w-md text-center">
-          <ShoppingBag className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--color-text-muted)', opacity: 0.3 }} />
+          <ShoppingBag className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--grey-mid)', opacity: 0.3 }} />
           <h1
             className="text-2xl font-bold mb-4"
-            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
           >
             Winkelwagen is leeg
           </h1>
           <Link
             href="/shop/"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-80"
-            style={{ color: 'var(--color-primary)' }}
+            style={{ color: 'var(--teal)' }}
           >
             <ArrowLeft className="w-4 h-4" />
             Naar shop
@@ -122,20 +122,20 @@ export default function CheckoutTemplate2() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--color-surface)' }}>
-      <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
+      <div style={{ maxWidth: 'var(--container-width, 1536px)', margin: '0 auto', padding: '0 var(--sp-6)' }} className="py-8">
         {/* Header */}
         <div className="mb-8">
           <h1
             className="text-2xl font-bold mb-2"
-            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
           >
             Afrekenen
           </h1>
           <Link
             href="/cart/"
             className="text-sm font-semibold flex items-center gap-1 hover:opacity-70 transition-opacity w-fit"
-            style={{ color: 'var(--color-primary)' }}
+            style={{ color: 'var(--teal)' }}
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar winkelwagen
@@ -149,21 +149,21 @@ export default function CheckoutTemplate2() {
             <div
               className="rounded-xl p-6"
               style={{
-                background: 'var(--color-base-0)',
-                border: '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-sm)',
+                background: 'var(--white)',
+                border: '1px solid var(--grey)',
+                boxShadow: 'var(--sh-sm)',
               }}
             >
               <h2
                 className="text-lg font-bold mb-4"
-                style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
               >
                 1. Contact
               </h2>
 
               {user ? (
                 <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                  <Mail className="w-5 h-5" style={{ color: 'var(--teal)' }} />
                   <p className="font-medium">{user.email}</p>
                 </div>
               ) : (
@@ -176,12 +176,12 @@ export default function CheckoutTemplate2() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="jouw@email.nl"
                       className="w-full px-4 py-3 rounded-lg border transition-colors"
-                      style={{ borderColor: 'var(--color-border)', background: 'var(--color-base-0)' }}
+                      style={{ borderColor: 'var(--grey)', background: 'var(--white)' }}
                     />
                   </label>
-                  <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                  <p className="text-xs" style={{ color: 'var(--grey-mid)' }}>
                     Heb je een account?{' '}
-                    <Link href="/login/" className="underline font-medium" style={{ color: 'var(--color-primary)' }}>
+                    <Link href="/login/" className="underline font-medium" style={{ color: 'var(--teal)' }}>
                       Inloggen
                     </Link>
                   </p>
@@ -193,14 +193,14 @@ export default function CheckoutTemplate2() {
             <div
               className="rounded-xl p-6"
               style={{
-                background: 'var(--color-base-0)',
-                border: '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-sm)',
+                background: 'var(--white)',
+                border: '1px solid var(--grey)',
+                boxShadow: 'var(--sh-sm)',
               }}
             >
               <h2
                 className="text-lg font-bold mb-4"
-                style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
               >
                 2. Adres
               </h2>
@@ -214,14 +214,14 @@ export default function CheckoutTemplate2() {
             <div
               className="rounded-xl p-6"
               style={{
-                background: 'var(--color-base-0)',
-                border: '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-sm)',
+                background: 'var(--white)',
+                border: '1px solid var(--grey)',
+                boxShadow: 'var(--sh-sm)',
               }}
             >
               <h2
                 className="text-lg font-bold mb-4"
-                style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
               >
                 3. Verzending
               </h2>
@@ -257,14 +257,14 @@ export default function CheckoutTemplate2() {
             <div
               className="rounded-xl p-6"
               style={{
-                background: 'var(--color-base-0)',
-                border: '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-sm)',
+                background: 'var(--white)',
+                border: '1px solid var(--grey)',
+                boxShadow: 'var(--sh-sm)',
               }}
             >
               <h2
                 className="text-lg font-bold mb-4"
-                style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
               >
                 4. Betaling
               </h2>
@@ -321,7 +321,7 @@ export default function CheckoutTemplate2() {
               onClick={handlePlaceOrder}
               disabled={!canPlaceOrder || isProcessing}
               className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-lg transition-all hover:opacity-90 disabled:opacity-50"
-              style={{ background: 'var(--color-primary)', color: 'white', boxShadow: 'var(--shadow)' }}
+              style={{ background: 'var(--teal)', color: 'white', boxShadow: 'var(--sh-md)' }}
             >
               {isProcessing ? (
                 'Bezig met verwerken...'
@@ -333,9 +333,9 @@ export default function CheckoutTemplate2() {
               )}
             </button>
 
-            <p className="text-xs text-center" style={{ color: 'var(--color-text-muted)' }}>
+            <p className="text-xs text-center" style={{ color: 'var(--grey-mid)' }}>
               Door uw bestelling te plaatsen gaat u akkoord met onze{' '}
-              <Link href="/algemene-voorwaarden" className="underline" style={{ color: 'var(--color-primary)' }}>
+              <Link href="/algemene-voorwaarden" className="underline" style={{ color: 'var(--teal)' }}>
                 algemene voorwaarden
               </Link>
               .

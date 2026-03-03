@@ -202,34 +202,39 @@ export default function CheckoutTemplate4() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8 lg:py-12">
-        {/* Header */}
-        <div className="mb-8">
-          <Link
-            href="/cart"
-            className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-semibold transition-colors mb-6"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Terug naar winkelwagen
-          </Link>
+    <div className="t4-page">
+      {/* Checkout progress stepper — full-width bar, consistent with cart */}
+      <div className="t4-step-bar">
+        <CheckoutProgressStepper
+          currentStep={internalStepToStepperStep(currentStep)}
+          steps={UNIFIED_STEPS}
+          onStepClick={(stepId) => {
+            if (stepId === 1) router.push('/cart')
+          }}
+        />
+      </div>
 
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">Afrekenen</h1>
-
-          {/* Progress Stepper — 5 unified steps */}
-          <CheckoutProgressStepper
-            currentStep={internalStepToStepperStep(currentStep)}
-            steps={UNIFIED_STEPS}
-            onStepClick={(stepId) => {
-              if (stepId === 1) router.push('/cart')
-            }}
-          />
+      <div className="t4-container t4-section">
+        {/* Page header */}
+        <div className="t4-header">
+          <div>
+            <h1 className="t4-header__title">Afrekenen</h1>
+            <p className="t4-header__sub">
+              {itemCount} {itemCount === 1 ? 'artikel' : 'artikelen'}
+            </p>
+          </div>
+          <div className="t4-header__links">
+            <Link href="/cart" className="t4-header__link t4-header__link--ghost">
+              <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
+              Terug naar winkelwagen
+            </Link>
+          </div>
         </div>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="t4-layout">
           {/* Left Column: Checkout Steps */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="t4-main">
             {/* Step 1: Contact */}
             {currentStep === 1 && (
               <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
@@ -434,29 +439,28 @@ export default function CheckoutTemplate4() {
             )}
           </div>
 
-          {/* Right Column: Order Summary (Sticky) */}
-          <div className="lg:col-span-1">
+          {/* Right Column: Sidebar */}
+          <div className="t4-sidebar">
             {/* Mobile Cart Toggle */}
             <button
               onClick={() => setShowMobileCart(!showMobileCart)}
-              className="lg:hidden w-full bg-white rounded-xl p-4 shadow-sm border border-gray-200 mb-4 flex items-center justify-between"
+              className="t4-mobile-toggle"
             >
-              <span className="font-semibold text-gray-900">
+              <span>
                 Besteloverzicht ({itemCount} {itemCount === 1 ? 'product' : 'producten'})
               </span>
               {showMobileCart ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
             </button>
 
             {/* Desktop: Always visible, Mobile: Collapsible */}
-            <div className={`space-y-6 ${showMobileCart ? 'block' : 'hidden lg:block'}`}>
+            <div className={`t4-sidebar__content ${showMobileCart ? 't4-sidebar__content--open' : ''}`}>
               {/* Compact Cart Items */}
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-4">Je bestelling</h3>
-                <div className="space-y-3 max-h-96 overflow-y-auto">
+              <div className="t4-order-items">
+                <h3 className="t4-order-items__title">Je bestelling</h3>
+                <div className="t4-order-items__list">
                   {items.map((item) => (
-                    <div key={item.id} className="flex items-center gap-3">
-                      {/* 48x48 thumbnail */}
-                      <div className="w-12 h-12 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden relative">
+                    <div key={item.id} className="t4-order-item">
+                      <div className="t4-order-item__thumb">
                         {item.image ? (
                           <Image
                             src={item.image}
@@ -466,57 +470,307 @@ export default function CheckoutTemplate4() {
                             className="object-cover"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Package className="w-5 h-5 text-gray-400" />
+                          <div className="t4-order-item__placeholder">
+                            <Package className="w-5 h-5" />
                           </div>
                         )}
                       </div>
-                      {/* Title + quantity */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
-                        <p className="text-xs text-gray-500">{item.quantity}x €{item.price.toFixed(2)}</p>
+                      <div className="t4-order-item__info">
+                        <p className="t4-order-item__name">{item.title}</p>
+                        <p className="t4-order-item__qty">{item.quantity}x €{item.price.toFixed(2)}</p>
                       </div>
-                      {/* Line total */}
-                      <span className="text-sm font-semibold text-gray-900 flex-shrink-0">
+                      <span className="t4-order-item__total">
                         €{(item.price * item.quantity).toFixed(2)}
                       </span>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 pt-3 border-t border-gray-100">
-                  <Link
-                    href="/cart"
-                    className="text-sm text-teal-600 hover:text-teal-700 font-semibold"
-                  >
+                <div className="t4-order-items__footer">
+                  <Link href="/cart" className="t4-order-items__edit">
                     Winkelwagen bewerken
                   </Link>
                 </div>
               </div>
 
               {/* Coupon */}
-              <CouponInput
-                onApply={handleApplyCoupon}
-                onRemove={handleRemoveCoupon}
-                appliedCoupon={appliedCoupon}
-              />
-
-              {/* Order Summary (Sticky) */}
-              <div className="lg:sticky lg:top-8">
-                <OrderSummary
-                  subtotal={subtotal}
-                  shipping={shippingCost}
-                  tax={tax}
-                  discount={discount}
-                  discountCode={appliedCoupon?.code}
-                  total={grandTotal}
-                  onCheckout={handlePlaceOrder}
-                  readonly={!canPlaceOrder || isProcessing}
+              <div className="t4-coupon-bar">
+                <CouponInput
+                  onApply={handleApplyCoupon}
+                  onRemove={handleRemoveCoupon}
+                  appliedCoupon={appliedCoupon}
                 />
+              </div>
+
+              {/* Summary card with navy header */}
+              <div className="t4-summary-card">
+                <div className="t4-summary-card__head">
+                  <h3 className="t4-summary-card__title">Besteloverzicht</h3>
+                </div>
+                <div className="t4-summary-card__body">
+                  <OrderSummary
+                    subtotal={subtotal}
+                    shipping={shippingCost}
+                    tax={tax}
+                    discount={discount}
+                    discountCode={appliedCoupon?.code}
+                    total={grandTotal}
+                    onCheckout={handlePlaceOrder}
+                    readonly={!canPlaceOrder || isProcessing}
+                    sticky={false}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .t4-page {
+          min-height: 100vh;
+          background: var(--bg);
+        }
+        .t4-step-bar {
+          background: var(--white);
+          border-bottom: 1px solid var(--grey);
+          padding: var(--sp-6) 0;
+        }
+        .t4-container {
+          max-width: var(--container-width, 1536px);
+          margin: 0 auto;
+          padding: 0 var(--sp-6);
+        }
+        .t4-section {
+          padding-top: var(--sp-8);
+          padding-bottom: var(--sp-16);
+        }
+
+        /* Header — matches CartTemplate4 */
+        .t4-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin-bottom: var(--sp-8);
+        }
+        .t4-header__title {
+          font-family: var(--font-display);
+          font-size: var(--text-hero);
+          color: var(--navy);
+          line-height: 1.1;
+        }
+        .t4-header__sub {
+          font-size: var(--text-body);
+          color: var(--grey-mid);
+          margin-top: var(--sp-2);
+        }
+        .t4-header__links {
+          display: flex;
+          gap: var(--sp-4);
+        }
+        .t4-header__links :global(.t4-header__link) {
+          font-size: var(--text-body);
+          font-weight: 600;
+          text-decoration: none;
+          padding: var(--sp-2) var(--sp-4);
+          border-radius: var(--r-sm);
+          transition: all var(--transition, 0.2s);
+          display: inline-flex;
+          align-items: center;
+          gap: var(--sp-2);
+        }
+        .t4-header__links :global(.t4-header__link--ghost) {
+          border: 1.5px solid var(--grey);
+          color: var(--grey-dark);
+        }
+        .t4-header__links :global(.t4-header__link--ghost:hover) {
+          border-color: var(--navy);
+          color: var(--navy);
+        }
+
+        /* Layout — matches CartTemplate4 grid */
+        .t4-layout {
+          display: grid;
+          grid-template-columns: 1fr 380px;
+          gap: var(--sp-8);
+          align-items: start;
+        }
+
+        /* Main checkout steps column */
+        .t4-main {
+          display: flex;
+          flex-direction: column;
+          gap: var(--sp-6);
+        }
+
+        /* Sidebar */
+        .t4-sidebar {
+          position: sticky;
+          top: 90px;
+          z-index: var(--z-sticky, 200);
+          display: flex;
+          flex-direction: column;
+          gap: var(--sp-4);
+        }
+
+        /* Mobile cart toggle */
+        .t4-mobile-toggle {
+          display: none;
+        }
+
+        /* Sidebar content */
+        .t4-sidebar__content {
+          display: flex;
+          flex-direction: column;
+          gap: var(--sp-4);
+        }
+
+        /* Order items card */
+        .t4-order-items {
+          background: var(--white);
+          border-radius: var(--r-lg);
+          border: 1px solid var(--grey);
+          padding: var(--sp-6);
+          box-shadow: var(--sh-sm);
+        }
+        .t4-order-items__title {
+          font-family: var(--font-display);
+          font-size: var(--text-card-title);
+          color: var(--navy);
+          margin-bottom: var(--sp-4);
+        }
+        .t4-order-items__list {
+          display: flex;
+          flex-direction: column;
+          gap: var(--sp-3);
+          max-height: 384px;
+          overflow-y: auto;
+        }
+        .t4-order-item {
+          display: flex;
+          align-items: center;
+          gap: var(--sp-3);
+        }
+        .t4-order-item__thumb {
+          width: 48px;
+          height: 48px;
+          border-radius: var(--r-sm);
+          background: var(--bg);
+          flex-shrink: 0;
+          overflow: hidden;
+          position: relative;
+        }
+        .t4-order-item__placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--grey-mid);
+        }
+        .t4-order-item__info {
+          flex: 1;
+          min-width: 0;
+        }
+        .t4-order-item__name {
+          font-size: var(--text-small);
+          font-weight: 600;
+          color: var(--navy);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .t4-order-item__qty {
+          font-size: 12px;
+          color: var(--grey-mid);
+        }
+        .t4-order-item__total {
+          font-size: var(--text-small);
+          font-weight: 700;
+          color: var(--navy);
+          flex-shrink: 0;
+        }
+        .t4-order-items__footer {
+          margin-top: var(--sp-4);
+          padding-top: var(--sp-3);
+          border-top: 1px solid var(--grey);
+        }
+        .t4-order-items__footer :global(.t4-order-items__edit) {
+          font-size: var(--text-small);
+          color: var(--teal);
+          font-weight: 600;
+          text-decoration: none;
+        }
+        .t4-order-items__footer :global(.t4-order-items__edit:hover) {
+          color: var(--teal-dark);
+        }
+
+        /* Coupon bar */
+        .t4-coupon-bar {
+          background: var(--white);
+          border-radius: var(--r-lg);
+          border: 1px solid var(--grey);
+          padding: var(--sp-4) var(--sp-6);
+          box-shadow: var(--sh-sm);
+        }
+
+        /* Summary card — matches CartTemplate4 */
+        .t4-summary-card {
+          background: var(--white);
+          border-radius: var(--r-lg);
+          border: 1px solid var(--grey);
+          box-shadow: var(--sh-md);
+          overflow: hidden;
+        }
+        .t4-summary-card__head {
+          background: var(--navy);
+          padding: var(--sp-4) var(--sp-6);
+        }
+        .t4-summary-card__title {
+          font-family: var(--font-display);
+          font-size: var(--text-card-title);
+          color: white;
+        }
+        .t4-summary-card__body {
+          padding: 0;
+        }
+
+        @media (max-width: 900px) {
+          .t4-layout {
+            grid-template-columns: 1fr;
+          }
+          .t4-sidebar {
+            position: static;
+          }
+          .t4-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--sp-4);
+          }
+          .t4-header__title {
+            font-size: var(--text-section);
+          }
+          .t4-mobile-toggle {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--white);
+            border-radius: var(--r-lg);
+            border: 1px solid var(--grey);
+            padding: var(--sp-4);
+            font-weight: 700;
+            color: var(--navy);
+            box-shadow: var(--sh-sm);
+            cursor: pointer;
+          }
+          .t4-sidebar__content {
+            display: none;
+          }
+          .t4-sidebar__content--open {
+            display: flex;
+          }
+        }
+      `}</style>
     </div>
   )
 }

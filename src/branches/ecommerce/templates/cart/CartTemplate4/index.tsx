@@ -142,12 +142,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
       <div className="t4-step-bar">
         <CheckoutProgressStepper
           currentStep={1}
-          steps={[
-            { id: 1, label: 'Winkelwagen' },
-            { id: 2, label: 'Gegevens' },
-            { id: 3, label: 'Betaling' },
-            { id: 4, label: 'Bevestiging' },
-          ]}
+          steps={UNIFIED_STEPS}
         />
       </div>
 

@@ -92,19 +92,19 @@ export default function CheckoutTemplate1() {
   // Empty cart redirect
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-surface)' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
         <div className="max-w-md text-center">
-          <ShoppingBag className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--color-text-muted)', opacity: 0.3 }} />
+          <ShoppingBag className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--grey-mid)', opacity: 0.3 }} />
           <h1
             className="text-2xl font-bold mb-4"
-            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
           >
             Je winkelwagen is leeg
           </h1>
           <Link
             href="/shop/"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-80"
-            style={{ color: 'var(--color-primary)' }}
+            style={{ color: 'var(--teal)' }}
           >
             <ArrowLeft className="w-4 h-4" />
             Naar shop
@@ -159,8 +159,8 @@ export default function CheckoutTemplate1() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--color-surface)' }}>
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
+      <div style={{ maxWidth: 'var(--container-width, 1536px)', margin: '0 auto', padding: '0 var(--sp-6)' }} className="py-8">
         {/* Progress Stepper */}
         <div className="mb-8">
           <CheckoutProgressStepper
@@ -181,16 +181,16 @@ export default function CheckoutTemplate1() {
             onClick={() => setShowCartSummary(!showCartSummary)}
             className="w-full rounded-xl p-4 flex items-center justify-between transition-all"
             style={{
-              background: 'var(--color-base-0)',
-              border: '1px solid var(--color-border)',
-              boxShadow: 'var(--shadow-sm)',
+              background: 'var(--white)',
+              border: '1px solid var(--grey)',
+              boxShadow: 'var(--sh-sm)',
             }}
           >
             <div className="flex items-center gap-3">
-              <ShoppingBag className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+              <ShoppingBag className="w-5 h-5" style={{ color: 'var(--teal)' }} />
               <div className="text-left">
                 <div className="font-bold text-sm">Winkelwagen</div>
-                <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                <div className="text-xs" style={{ color: 'var(--grey-mid)' }}>
                   {itemCount} {itemCount === 1 ? 'product' : 'producten'}
                 </div>
               </div>
@@ -228,14 +228,14 @@ export default function CheckoutTemplate1() {
               <div
                 className="rounded-xl p-6"
                 style={{
-                  background: 'var(--color-base-0)',
-                  border: '1px solid var(--color-border)',
-                  boxShadow: 'var(--shadow)',
+                  background: 'var(--white)',
+                  border: '1px solid var(--grey)',
+                  boxShadow: 'var(--sh-md)',
                 }}
               >
                 <h2
                   className="text-2xl font-bold mb-6"
-                  style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                  style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
                 >
                   Contact informatie
                 </h2>
@@ -243,10 +243,10 @@ export default function CheckoutTemplate1() {
                 {user ? (
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 mb-4">
-                      <Mail className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                      <Mail className="w-5 h-5" style={{ color: 'var(--teal)' }} />
                       <p className="font-medium">{user.email}</p>
                     </div>
-                    <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                    <p className="text-sm" style={{ color: 'var(--grey-mid)' }}>
                       Niet jij?{' '}
                       <Link className="underline font-medium" href="/logout/">
                         Uitloggen
@@ -259,17 +259,17 @@ export default function CheckoutTemplate1() {
                       <Link
                         href="/login/"
                         className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
-                        style={{ background: 'var(--color-primary)', color: 'white' }}
+                        style={{ background: 'var(--teal)', color: 'white' }}
                       >
                         Inloggen
                       </Link>
-                      <span className="text-sm self-center" style={{ color: 'var(--color-text-muted)' }}>
+                      <span className="text-sm self-center" style={{ color: 'var(--grey-mid)' }}>
                         of
                       </span>
                       <Link
                         href="/register/"
                         className="text-sm underline font-medium self-center"
-                        style={{ color: 'var(--color-primary)' }}
+                        style={{ color: 'var(--teal)' }}
                       >
                         Account aanmaken
                       </Link>
@@ -285,8 +285,8 @@ export default function CheckoutTemplate1() {
                           placeholder="jouw@email.nl"
                           className="w-full px-4 py-3 rounded-lg border transition-colors"
                           style={{
-                            borderColor: 'var(--color-border)',
-                            background: 'var(--color-base-0)',
+                            borderColor: 'var(--grey)',
+                            background: 'var(--white)',
                           }}
                         />
                       </label>
@@ -298,7 +298,7 @@ export default function CheckoutTemplate1() {
                   onClick={() => setCurrentStep('shipping')}
                   disabled={!canProceedToShipping}
                   className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold transition-all hover:opacity-90 disabled:opacity-50"
-                  style={{ background: 'var(--color-primary)', color: 'white' }}
+                  style={{ background: 'var(--teal)', color: 'white' }}
                 >
                   Doorgaan naar verzending
                   <ArrowRight className="w-5 h-5" />
@@ -313,14 +313,14 @@ export default function CheckoutTemplate1() {
                 <div
                   className="rounded-xl p-6"
                   style={{
-                    background: 'var(--color-base-0)',
-                    border: '1px solid var(--color-border)',
-                    boxShadow: 'var(--shadow)',
+                    background: 'var(--white)',
+                    border: '1px solid var(--grey)',
+                    boxShadow: 'var(--sh-md)',
                   }}
                 >
                   <h2
                     className="text-2xl font-bold mb-6"
-                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                    style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
                   >
                     Factuuradres
                   </h2>
@@ -345,7 +345,7 @@ export default function CheckoutTemplate1() {
                       if (e.target.checked) setShippingAddress(billingAddress)
                     }}
                     className="w-4 h-4 rounded"
-                    style={{ accentColor: 'var(--color-primary)' }}
+                    style={{ accentColor: 'var(--teal)' }}
                   />
                   <label htmlFor="sameAsShipping" className="font-medium text-sm cursor-pointer">
                     Verzendadres is hetzelfde als factuuradres
@@ -357,14 +357,14 @@ export default function CheckoutTemplate1() {
                   <div
                     className="rounded-xl p-6"
                     style={{
-                      background: 'var(--color-base-0)',
-                      border: '1px solid var(--color-border)',
-                      boxShadow: 'var(--shadow)',
+                      background: 'var(--white)',
+                      border: '1px solid var(--grey)',
+                      boxShadow: 'var(--sh-md)',
                     }}
                   >
                     <h2
                       className="text-2xl font-bold mb-6"
-                      style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                      style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
                     >
                       Verzendadres
                     </h2>
@@ -381,7 +381,7 @@ export default function CheckoutTemplate1() {
                   <button
                     onClick={() => setCurrentStep('contact')}
                     className="px-6 py-3 rounded-lg border-2 font-semibold transition-all hover:bg-gray-50"
-                    style={{ borderColor: 'var(--color-border)' }}
+                    style={{ borderColor: 'var(--grey)' }}
                   >
                     <ArrowLeft className="w-4 h-4 inline mr-2" />
                     Terug
@@ -390,7 +390,7 @@ export default function CheckoutTemplate1() {
                     onClick={() => setCurrentStep('payment')}
                     disabled={!canProceedToPayment}
                     className="flex-1 px-6 py-3 rounded-lg font-bold transition-all hover:opacity-90 disabled:opacity-50"
-                    style={{ background: 'var(--color-primary)', color: 'white' }}
+                    style={{ background: 'var(--teal)', color: 'white' }}
                   >
                     Doorgaan naar betaling
                     <ArrowRight className="w-4 h-4 inline ml-2" />
@@ -406,14 +406,14 @@ export default function CheckoutTemplate1() {
                 <div
                   className="rounded-xl p-6"
                   style={{
-                    background: 'var(--color-base-0)',
-                    border: '1px solid var(--color-border)',
-                    boxShadow: 'var(--shadow)',
+                    background: 'var(--white)',
+                    border: '1px solid var(--grey)',
+                    boxShadow: 'var(--sh-md)',
                   }}
                 >
                   <h2
                     className="text-2xl font-bold mb-6"
-                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                    style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
                   >
                     Verzendmethode
                   </h2>
@@ -443,14 +443,14 @@ export default function CheckoutTemplate1() {
                 <div
                   className="rounded-xl p-6"
                   style={{
-                    background: 'var(--color-base-0)',
-                    border: '1px solid var(--color-border)',
-                    boxShadow: 'var(--shadow)',
+                    background: 'var(--white)',
+                    border: '1px solid var(--grey)',
+                    boxShadow: 'var(--sh-md)',
                   }}
                 >
                   <h2
                     className="text-2xl font-bold mb-6"
-                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                    style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
                   >
                     Betaalmethode
                   </h2>
@@ -496,7 +496,7 @@ export default function CheckoutTemplate1() {
                   <button
                     onClick={() => setCurrentStep('shipping')}
                     className="px-6 py-3 rounded-lg border-2 font-semibold transition-all hover:bg-gray-50"
-                    style={{ borderColor: 'var(--color-border)' }}
+                    style={{ borderColor: 'var(--grey)' }}
                   >
                     <ArrowLeft className="w-4 h-4 inline mr-2" />
                     Terug
@@ -505,7 +505,7 @@ export default function CheckoutTemplate1() {
                     onClick={() => setCurrentStep('review')}
                     disabled={!canProceedToReview}
                     className="flex-1 px-6 py-3 rounded-lg font-bold transition-all hover:opacity-90 disabled:opacity-50"
-                    style={{ background: 'var(--color-primary)', color: 'white' }}
+                    style={{ background: 'var(--teal)', color: 'white' }}
                   >
                     Doorgaan naar overzicht
                     <ArrowRight className="w-4 h-4 inline ml-2" />
@@ -521,14 +521,14 @@ export default function CheckoutTemplate1() {
                 <div
                   className="rounded-xl p-6"
                   style={{
-                    background: 'var(--color-base-0)',
-                    border: '1px solid var(--color-border)',
-                    boxShadow: 'var(--shadow)',
+                    background: 'var(--white)',
+                    border: '1px solid var(--grey)',
+                    boxShadow: 'var(--sh-md)',
                   }}
                 >
                   <h2
                     className="text-2xl font-bold mb-6"
-                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                    style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)' }}
                   >
                     Bestelling controleren
                   </h2>
@@ -553,14 +553,14 @@ export default function CheckoutTemplate1() {
                   onClick={handlePlaceOrder}
                   disabled={isProcessing}
                   className="w-full px-6 py-4 rounded-xl font-bold text-lg transition-all hover:opacity-90 disabled:opacity-50"
-                  style={{ background: 'var(--color-primary)', color: 'white', boxShadow: 'var(--shadow)' }}
+                  style={{ background: 'var(--teal)', color: 'white', boxShadow: 'var(--sh-md)' }}
                 >
                   {isProcessing ? 'Bezig met verwerken...' : `Bestelling plaatsen (€ ${grandTotal.toFixed(2)})`}
                 </button>
 
-                <p className="text-xs text-center" style={{ color: 'var(--color-text-muted)' }}>
+                <p className="text-xs text-center" style={{ color: 'var(--grey-mid)' }}>
                   Door uw bestelling te plaatsen gaat u akkoord met onze{' '}
-                  <Link href="/algemene-voorwaarden" className="underline" style={{ color: 'var(--color-primary)' }}>
+                  <Link href="/algemene-voorwaarden" className="underline" style={{ color: 'var(--teal)' }}>
                     algemene voorwaarden
                   </Link>
                   .
@@ -569,7 +569,7 @@ export default function CheckoutTemplate1() {
                 <button
                   onClick={() => setCurrentStep('payment')}
                   className="w-full px-6 py-3 rounded-lg border-2 font-semibold transition-all hover:bg-gray-50"
-                  style={{ borderColor: 'var(--color-border)' }}
+                  style={{ borderColor: 'var(--grey)' }}
                 >
                   <ArrowLeft className="w-4 h-4 inline mr-2" />
                   Terug naar betaling
