@@ -241,7 +241,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
                               </div>
                             )}
                           </div>
-                          {hit.price !== undefined && (
+                          {hit.price != null && (
                             <div className="text-right flex-shrink-0">
                               <div className="font-bold text-gray-900">
                                 €{hit.price.toFixed(2)}

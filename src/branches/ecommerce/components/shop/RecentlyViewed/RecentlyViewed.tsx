@@ -103,7 +103,7 @@ export function RecentlyViewed({ className = '' }: { className?: string }) {
                 className="text-[13px] font-bold mt-1"
                 style={{ color: 'var(--navy, #0A1628)' }}
               >
-                € {product.price.toFixed(2).replace('.', ',')}
+                € {(product.price ?? 0).toFixed(2).replace('.', ',')}
               </div>
             </div>
           </Link>

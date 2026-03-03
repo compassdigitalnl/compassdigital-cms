@@ -233,10 +233,12 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
 
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">
-                        €{price.toFixed(2)}
-                      </div>
-                      {compareAtPrice && compareAtPrice > price && (
+                      {price != null && (
+                        <div className="text-2xl font-bold text-gray-900">
+                          €{price.toFixed(2)}
+                        </div>
+                      )}
+                      {compareAtPrice != null && price != null && compareAtPrice > price && (
                         <div className="text-sm text-gray-400 line-through">
                           €{compareAtPrice.toFixed(2)}
                         </div>

@@ -56,14 +56,16 @@ export function ProductCard({
   const [quantity, setQuantity] = useState(1)
 
   // Format price with euros and cents split
-  const formatPrice = (priceValue: number) => {
+  const formatPrice = (priceValue: number | null | undefined) => {
+    if (priceValue == null) return { euros: 0, cents: '00' }
     const euros = Math.floor(priceValue)
     const cents = ((priceValue % 1) * 100).toFixed(0).padStart(2, '0')
     return { euros, cents }
   }
 
   // Format old price for strikethrough
-  const formatOldPrice = (priceValue: number) => {
+  const formatOldPrice = (priceValue: number | null | undefined) => {
+    if (priceValue == null) return '0,00'
     return priceValue.toFixed(2).replace('.', ',')
   }
 
@@ -256,7 +258,7 @@ export function ProductCard({
     <Link
       href={productHref}
       className={`product-card ${variant === 'list' ? 'product-card--list' : ''} ${className}`}
-      aria-label={`${name} door ${brand.name}, ${currencySymbol}${price.toFixed(2)}`}
+      aria-label={`${name}${brand?.name ? ` door ${brand.name}` : ''}${price != null ? `, ${currencySymbol}${price.toFixed(2)}` : ''}`}
     >
       {/* Badge */}
       {renderBadge()}
@@ -270,7 +272,7 @@ export function ProductCard({
           <>
             {/* List Variant Layout */}
             <div className="product-card__info">
-              <div className="product-card__brand">{brand.name}</div>
+              <div className="product-card__brand">{brand?.name}</div>
               <div className="product-card__title">{name}</div>
               <div className="product-card__sku">Art. {sku}</div>
               {renderRating()}
@@ -287,7 +289,7 @@ export function ProductCard({
         ) : (
           <>
             {/* Grid Variant Layout */}
-            <div className="product-card__brand">{brand.name}</div>
+            <div className="product-card__brand">{brand?.name}</div>
             <div className="product-card__title">{name}</div>
             <div className="product-card__sku">Art. {sku}</div>
             {renderRating()}
