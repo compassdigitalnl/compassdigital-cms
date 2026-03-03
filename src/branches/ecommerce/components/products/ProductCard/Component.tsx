@@ -182,10 +182,20 @@ export function ProductCard({
   }
 
   // Image component with hover actions
+  // Check if image URL is external (not from own server)
+  const isExternalImage = image?.url && (image.url.startsWith('http://') || image.url.startsWith('https://'))
+    && !image.url.includes(typeof window !== 'undefined' ? window.location.hostname : '')
+
   const renderImage = () => (
     <div className="product-card__image">
       {image ? (
-        <Image src={image.url} alt={image.alt || name} fill style={{ objectFit: 'contain' }} />
+        isExternalImage ? (
+          // External images (e.g. CDN/WooCommerce): use plain img to avoid Next.js remotePatterns requirement
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={image.url} alt={image.alt || name} style={{ objectFit: 'contain', width: '100%', height: '100%', position: 'absolute', inset: 0 }} loading="lazy" />
+        ) : (
+          <Image src={image.url} alt={image.alt || name} fill style={{ objectFit: 'contain' }} />
+        )
       ) : (
         <span style={{ fontSize: '52px' }}>🧤</span>
       )}

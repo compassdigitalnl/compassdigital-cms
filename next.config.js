@@ -39,11 +39,6 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
-      // CloudFront - WooCommerce product images
-      {
-        protocol: 'https',
-        hostname: 'd34epw5xn6aguw.cloudfront.net',
-      },
     ],
   },
   reactStrictMode: true,
